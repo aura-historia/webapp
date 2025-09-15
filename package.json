@@ -9,6 +9,7 @@
     "serve": "vite preview",
     "test": "vitest run",
     "format": "biome format",
+    "format:fix": "biome format --write",
     "lint": "biome lint",
     "check": "biome check"
   },
