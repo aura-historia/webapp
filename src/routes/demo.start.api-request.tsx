@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { createFileRoute } from "@tanstack/react-router";
+import {Key} from "react";
 
 function getNames() {
 	return fetch("/api/demo-names").then((res) => res.json());
@@ -28,9 +29,9 @@ function Home() {
 			<div className="w-full max-w-2xl p-8 rounded-xl backdrop-blur-md bg-black/50 shadow-xl border-8 border-black/10">
 				<h1 className="text-2xl mb-4">Start API Request Demo - Names List</h1>
 				<ul className="mb-4 space-y-2">
-					{names.map((name) => (
+					{names.map((name: String) => (
 						<li
-							key={name}
+							key={name as Key}
 							className="bg-white/10 border border-white/20 rounded-lg p-3 backdrop-blur-sm shadow-md"
 						>
 							<span className="text-lg text-white">{name}</span>
