@@ -56,14 +56,54 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run tests
-        run: pnpm run test
+      - name: Run type checking
+        run: pnpm exec tsc --noEmit
+
+      - name: Run tests with coverage
+        run: pnpm run test --coverage
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: coverage/
+          retention-days: 5
+
+  sonarqube:
+    name: SonarQube Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [ test ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for better analysis
+
+      - name: Download coverage reports
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-reports
+          path: coverage/
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: SonarQube Quality Gate check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   build:
     name: Build
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    needs: [ lint, test ]
+    needs: [ lint, test, sonarqube ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -84,9 +124,6 @@ jobs:
 
       - name: Build application
         run: pnpm run build
-
-      - name: Run type checking
-        run: pnpm exec tsc --noEmit
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
