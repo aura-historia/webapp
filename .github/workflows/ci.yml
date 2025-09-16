@@ -56,6 +56,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate route tree
+        run: pnpm exec tsr generate
+
       - name: Run type checking
         run: pnpm exec tsc --noEmit
 
