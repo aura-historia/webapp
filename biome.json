@@ -4,7 +4,7 @@
         "enabled": true,
         "clientKind": "git",
         "useIgnoreFile": true,
-      "defaultBranch": "develop"
+        "defaultBranch": "develop"
     },
     "files": {
         "ignoreUnknown": false,

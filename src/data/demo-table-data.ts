@@ -31,13 +31,13 @@ const newPerson = (num: number): Person => {
             "relationship",
             "complicated",
             "single",
-        ])[0]!,
+        ])[0],
     };
 };
 
 export function makeData(...lens: number[]) {
     const makeDataLevel = (depth = 0): Person[] => {
-        const len = lens[depth]!;
+        const len = lens[depth];
         return range(len).map((index): Person => {
             return {
                 ...newPerson(index),
