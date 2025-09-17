@@ -72,6 +72,11 @@ jobs:
     timeout-minutes: 10
     needs: [ test ]
     steps:
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-reports
+
       - name: Checkout code
         id: checkout
         uses: actions/checkout@v4
