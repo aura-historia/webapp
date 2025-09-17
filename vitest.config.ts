@@ -25,6 +25,8 @@ export default defineConfig({
         '**/*.test.*',
         '**/*.spec.*',
         '**/routeTree.gen.ts',
+        '.output/',
+        '.tanstack/'
       ],
     },
   },
