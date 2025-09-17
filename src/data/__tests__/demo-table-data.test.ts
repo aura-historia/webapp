@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { makeData } from "../demo-table-data";
 
 describe("makeData", () => {
@@ -21,6 +22,7 @@ describe("makeData", () => {
         expect(data).toHaveLength(3);
         for (const person of data) {
             expect(person.subRows).toHaveLength(2);
+            if (!person.subRows) continue;
             for (const subPerson of person.subRows) {
                 expect(subPerson).toHaveProperty("id");
                 expect(subPerson).toHaveProperty("firstName");
@@ -49,8 +51,10 @@ describe("makeData", () => {
         expect(data).toHaveLength(2);
         for (const person of data) {
             expect(person.subRows).toHaveLength(2);
+            if (!person.subRows) continue;
             for (const subPerson of person.subRows) {
                 expect(subPerson.subRows).toHaveLength(2);
+                if (!subPerson.subRows) continue;
                 for (const subSubPerson of subPerson.subRows) {
                     expect(subSubPerson.subRows).toBeUndefined();
                 }
