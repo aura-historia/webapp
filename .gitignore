@@ -19,3 +19,6 @@ mcp-todos.json
 # Auto generated files
 *.gen.ts
 *.gen.js
+
+# Coverage directory
+coverage
