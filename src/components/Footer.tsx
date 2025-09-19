@@ -1,4 +1,5 @@
 import { H4 } from "@/components/typography/H4.tsx";
+import {Button} from "@/components/ui/button.tsx";
 import {
     NavigationMenu,
     NavigationMenuItem,
@@ -20,12 +21,16 @@ export function Footer() {
                     <NavigationMenuList className={"gap-4"}>
                         <NavigationMenuItem>
                             <Link to="/imprint">
-                                <H4>Impressum</H4>
+                                <Button variant={"ghost"}>
+                                    <H4>Impressum</H4>
+                                </Button>
                             </Link>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
                             <Link to="/terms">
+                                <Button variant={"ghost"}>
                                 <H4>AGB</H4>
+                                </Button>
                             </Link>
                         </NavigationMenuItem>
                     </NavigationMenuList>
