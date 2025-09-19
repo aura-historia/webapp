@@ -6,8 +6,8 @@ import {
     createRoute,
     createRouter,
 } from "@tanstack/react-router";
-import { act, render } from "@testing-library/react";
-import type { React, ReactNode } from "react";
+import { render } from "@testing-library/react";
+import type { ReactNode } from "react";
 
 const rootRoute = createRootRouteWithContext()({
     component: () => <Outlet />, // entry point to render children

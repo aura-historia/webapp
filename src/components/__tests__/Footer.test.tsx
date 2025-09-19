@@ -1,10 +1,10 @@
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
-import { describe } from "vitest";
+import { describe, expect, test } from "vitest";
 import { Footer } from "../Footer";
 
 describe("Footer Component", () => {
-    it("renders all navigation links with correct text", async () => {
+    test("renders all navigation links with correct text", async () => {
         await act(() => {
             renderWithRouter(<Footer />);
         });
@@ -13,7 +13,7 @@ describe("Footer Component", () => {
         expect(screen.getByText("AGB")).toBeInTheDocument();
     });
 
-    it("renders copyright text with correct year", async () => {
+    test("renders copyright text with correct year", async () => {
         await act(() => {
             renderWithRouter(<Footer />);
         });
@@ -21,7 +21,7 @@ describe("Footer Component", () => {
         expect(screen.getByText("© 2025 Blitzfilter")).toBeInTheDocument();
     });
 
-    it("renders navigation links with correct href attributes", async () => {
+    test("renders navigation links with correct href attributes", async () => {
         await act(() => {
             renderWithRouter(<Footer />);
         });
