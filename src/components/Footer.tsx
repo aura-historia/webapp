@@ -11,7 +11,7 @@ export function Footer() {
     return (
         <footer className={"w-full flex items-start justify-center flex-col"}>
             <Separator />
-            <NavigationMenu className={"p-4 w-full"}>
+            <NavigationMenu className={"p-8 w-full"}>
                 <div
                     className={
                         "flex flex-col gap-2 sm:gap-0 sm:flex-row justify-between items-center w-full"
