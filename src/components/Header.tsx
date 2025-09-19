@@ -10,8 +10,8 @@ export function Header() {
             </Link>
 
             <div className="flex items-center gap-4">
-                <Button>Registrieren</Button>
-                <Button>Einloggen</Button>
+                <Button variant={"secondary"}>Registrieren</Button>
+                <Button variant={"secondary"}>Einloggen</Button>
             </div>
         </header>
     );
