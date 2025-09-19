@@ -1,16 +1,16 @@
-import {H4} from "@/components/typography/H4.tsx";
+import { H4 } from "@/components/typography/H4.tsx";
 import {
     NavigationMenu,
     NavigationMenuItem,
     NavigationMenuList,
 } from "@/components/ui/navigation-menu.tsx";
-import {Separator} from "@/components/ui/separator.tsx";
-import {Link} from "@tanstack/react-router";
+import { Separator } from "@/components/ui/separator.tsx";
+import { Link } from "@tanstack/react-router";
 
 export function Footer() {
     return (
         <footer className={"w-full flex items-start justify-center flex-col"}>
-            <Separator/>
+            <Separator />
             <NavigationMenu className={"p-4 w-full"}>
                 <div
                     className={

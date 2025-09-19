@@ -6,11 +6,11 @@ import {
     createRoute,
     createRouter,
 } from "@tanstack/react-router";
-import {act, render} from "@testing-library/react";
-import type {React, ReactNode} from "react";
+import { act, render } from "@testing-library/react";
+import type { React, ReactNode } from "react";
 
 const rootRoute = createRootRouteWithContext()({
-    component: () => <Outlet/>, // entry point to render children
+    component: () => <Outlet />, // entry point to render children
 });
 
 const indexRoute = createRoute({
@@ -35,18 +35,18 @@ interface TestRouterWrapperProps {
 }
 
 export function TestRouterWrapper({
-                                      children,
-                                      initialEntries = ["/test"],
-                                  }: TestRouterWrapperProps) {
+    children,
+    initialEntries = ["/test"],
+}: TestRouterWrapperProps) {
     injectedChildren = children;
 
     const router = createRouter({
         routeTree,
-        history: createMemoryHistory({initialEntries}),
+        history: createMemoryHistory({ initialEntries }),
         context: {},
     });
 
-    return <RouterProvider router={router}/>;
+    return <RouterProvider router={router} />;
 }
 
 export function renderWithRouter(

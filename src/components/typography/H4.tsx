@@ -1,7 +1,7 @@
 export function H4({
-                       children,
-                       variant = "default",
-                   }: {
+    children,
+    variant = "default",
+}: {
     children: React.ReactNode;
     variant?: "default" | "muted";
 }) {

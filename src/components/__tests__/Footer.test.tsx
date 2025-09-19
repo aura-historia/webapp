@@ -1,12 +1,12 @@
-import {renderWithRouter} from "@/test/utils.tsx";
-import {act, render, screen} from "@testing-library/react";
-import {describe} from "vitest";
-import {Footer} from "../Footer";
+import { renderWithRouter } from "@/test/utils.tsx";
+import { act, screen } from "@testing-library/react";
+import { describe } from "vitest";
+import { Footer } from "../Footer";
 
 describe("Footer Component", () => {
     it("renders all navigation links with correct text", async () => {
         await act(() => {
-            renderWithRouter(<Footer/>);
+            renderWithRouter(<Footer />);
         });
 
         expect(screen.getByText("Impressum")).toBeInTheDocument();
@@ -15,7 +15,7 @@ describe("Footer Component", () => {
 
     it("renders copyright text with correct year", async () => {
         await act(() => {
-            renderWithRouter(<Footer/>);
+            renderWithRouter(<Footer />);
         });
 
         expect(screen.getByText("© 2025 Blitzfilter")).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe("Footer Component", () => {
 
     it("renders navigation links with correct href attributes", async () => {
         await act(() => {
-            renderWithRouter(<Footer/>);
+            renderWithRouter(<Footer />);
         });
 
         expect(screen.getByText("Impressum").closest("a")).toHaveAttribute("href", "/imprint");
