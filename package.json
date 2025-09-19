@@ -11,7 +11,8 @@
     "format": "biome format",
     "format:fix": "biome format --write",
     "lint": "biome lint",
-    "check": "biome check"
+    "check": "biome check",
+    "codegen": "openapi-rq -i ./openapi.yaml"
   },
   "dependencies": {
     "@faker-js/faker": "^9.6.0",
@@ -46,6 +47,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@7nohe/openapi-react-query-codegen": "^1.6.2",
     "@biomejs/biome": "1.9.4",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.8.0",
