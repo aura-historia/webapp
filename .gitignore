@@ -16,9 +16,5 @@ mcp-todos.json
 .vscode
 .idea
 
-# Auto generated files
-*.gen.ts
-*.gen.js
-
 # Coverage directory
 coverage
