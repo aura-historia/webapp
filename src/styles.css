@@ -7,7 +7,7 @@
 body {
     @apply m-0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+        "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -25,8 +25,8 @@ code {
     --popover-foreground: oklch(0.141 0.005 285.823);
     --primary: oklch(0.21 0.006 285.885);
     --primary-foreground: oklch(0.985 0 0);
-    --secondary: #B2905F;
-    --secondary-foreground: #FFFFFF;
+    --secondary: #b2905f;
+    --secondary-foreground: #ffffff;
     --muted: oklch(0.967 0.001 286.375);
     --muted-foreground: oklch(0.552 0.016 285.938);
     --accent: oklch(0.967 0.001 286.375);
@@ -50,8 +50,7 @@ code {
     --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
     --sidebar-border: oklch(0.92 0.004 286.32);
     --sidebar-ring: oklch(0.871 0.006 286.286);
-    --linear-gradient-main: linear-gradient(180deg, white 0%, #CA9444 50%, white 100%);
-
+    --linear-gradient-main: linear-gradient(180deg, white 0%, #ca9444 50%, white 100%);
 }
 
 .dark {

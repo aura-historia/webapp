@@ -1,12 +1,11 @@
-import {Button} from "./ui/button.tsx";
-import {Link} from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
+import { Button } from "./ui/button.tsx";
 
 export function Header() {
     return (
         <header className="flex items-center justify-between sticky top-0 px-4">
-
             <Link to="/">
-                <img className="h-60 w-auto" src="/blitzfilter-logo.png" alt="Blitzfilter Logo"/>
+                <img className="h-60 w-auto" src="/blitzfilter-logo.png" alt="Blitzfilter Logo" />
             </Link>
 
             <div className="flex items-center gap-4">
