@@ -1,13 +1,12 @@
-import {act, screen} from "@testing-library/react";
-import {describe, beforeEach, expect, test} from "vitest";
-import {Header} from "../Header";
-import {renderWithRouter} from "@/test/utils.tsx";
-
+import { act, screen } from "@testing-library/react";
+import { describe, beforeEach, expect, test } from "vitest";
+import { Header } from "../Header";
+import { renderWithRouter } from "@/test/utils.tsx";
 
 describe("Header Component", () => {
     beforeEach(async () => {
         await act(() => {
-            renderWithRouter(<Header/>);
+            renderWithRouter(<Header />);
         });
     });
 
@@ -21,6 +20,4 @@ describe("Header Component", () => {
         expect(screen.getByText("Registrieren")).toBeInTheDocument();
         expect(screen.getByText("Einloggen")).toBeInTheDocument();
     });
-
-
 });
