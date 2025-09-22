@@ -1,5 +1,5 @@
-import { H4 } from "@/components/typography/H4.tsx";
-import {Button} from "@/components/ui/button.tsx";
+import { NavText } from "@/components/typography/NavText.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import {
     NavigationMenu,
     NavigationMenuItem,
@@ -20,21 +20,21 @@ export function Footer() {
                 >
                     <NavigationMenuList className={"gap-4"}>
                         <NavigationMenuItem>
-                            <Link to="/imprint">
-                                <Button variant={"ghost"}>
-                                    <H4>Impressum</H4>
-                                </Button>
-                            </Link>
+                            <Button variant={"ghost"} asChild>
+                                <Link to="/imprint">
+                                    <NavText>Impressum</NavText>
+                                </Link>
+                            </Button>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
-                            <Link to="/terms">
-                                <Button variant={"ghost"}>
-                                <H4>AGB</H4>
-                                </Button>
-                            </Link>
+                            <Button variant={"ghost"} asChild>
+                                <Link to="/terms">
+                                    <NavText>AGB</NavText>
+                                </Link>
+                            </Button>
                         </NavigationMenuItem>
                     </NavigationMenuList>
-                    <H4 variant={"muted"}>© 2025 Blitzfilter</H4>
+                    <NavText variant={"muted"}>© {new Date().getFullYear()} Blitzfilter</NavText>
                 </div>
             </NavigationMenu>
         </footer>
