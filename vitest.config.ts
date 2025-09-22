@@ -26,7 +26,8 @@ export default defineConfig({
         '**/*.spec.*',
         '**/routeTree.gen.ts',
         '.output/',
-        '.tanstack/'
+        '.tanstack/',
+        'src/client/'
       ],
     },
   },
