@@ -24,10 +24,12 @@ code {
     --card-foreground: var(--color-neutral-800);
     --popover: oklch(1 0 0);
     --popover-foreground: var(--color-neutral-800);
-    --primary: oklch(0.21 0.006 285.885);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.967 0.001 286.375);
-    --secondary-foreground: var(--color-neutral-800);
+    --primary: #b2905f;
+    --primary-foreground: #ffffff;
+    --secondary: #262626;
+    --secondary-foreground: #ffffff;
+    --tertiary: #44a597;
+    --tertiary-foreground: #ffffff;
     --muted: oklch(0.967 0.001 286.375);
     --muted-foreground: var(--color-neutral-500);
     --accent: oklch(0.967 0.001 286.375);
@@ -52,10 +54,10 @@ code {
     --sidebar-border: oklch(0.92 0.004 286.32);
     --sidebar-ring: oklch(0.871 0.006 286.286);
     --linear-gradient-main: linear-gradient(
-        180deg,
-        white 0%,
-        oklch(0.7035 0.1162 74.47 / 40%) 50%,
-        white 100%
+            180deg,
+            white 0%,
+            oklch(0.7035 0.1162 74.47 / 40%) 50%,
+            white 100%
     );
 }
 
@@ -66,10 +68,12 @@ code {
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.141 0.005 285.823);
     --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.985 0 0);
-    --primary-foreground: oklch(0.21 0.006 285.885);
+    --primary: #b2905f;
+    --primary-foreground: #ffffff;
     --secondary: oklch(0.274 0.006 286.033);
     --secondary-foreground: oklch(0.985 0 0);
+    --tertiary: #44a597;
+    --tertiary-foreground: #ffffff;
     --muted: oklch(0.274 0.006 286.033);
     --muted-foreground: oklch(0.705 0.015 286.067);
     --accent: oklch(0.274 0.006 286.033);
@@ -105,6 +109,8 @@ code {
     --color-primary-foreground: var(--primary-foreground);
     --color-secondary: var(--secondary);
     --color-secondary-foreground: var(--secondary-foreground);
+    --color-tertiary: var(--tertiary);
+    --color-tertiary-foreground: var(--tertiary-foreground);
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
     --color-accent: var(--accent);
