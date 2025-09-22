@@ -24,10 +24,11 @@ export default defineConfig({
         '**/*.config.*',
         '**/*.test.*',
         '**/*.spec.*',
-        'src/routeTree.gen.ts',
+        '**/routeTree.gen.ts',
         '.output/',
         '.tanstack/',
-        'src/components/ui/'
+        'src/components/ui/',
+        'src/client/',
       ],
     },
   },
