@@ -1,7 +1,7 @@
-import { act, screen } from "@testing-library/react";
-import { describe, beforeEach, expect, test } from "vitest";
-import { Header } from "../common/Header.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
+import { act, screen } from "@testing-library/react";
+import { beforeEach, describe, expect, test } from "vitest";
+import { Header } from "../common/Header.tsx";
 
 describe("Header Component", () => {
     beforeEach(async () => {
