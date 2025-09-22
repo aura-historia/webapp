@@ -9,36 +9,37 @@ updates:
   - package-ecosystem: "npm"
     directory: "/" # Location of package manifests
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-    # Limit the number of open pull requests for version updates
-    open-pull-requests-limit: 10
-    # Add labels to PRs
-    labels:
-      - "dependencies"
-      - "dependabot"
-    # Group related updates together
+      interval: "daily"
+      time: "06:00"
+    # Group related updates together by common prefixes
     groups:
-      # Group all production dependencies
-      production-dependencies:
+      # Group all Radix UI components
+      radix-ui:
         patterns:
-          - "*"
-        exclude-patterns:
-          - "@types/*"
-          - "@biomejs/*"
+          - "@radix-ui/*"
+      # Group all TanStack packages
+      tanstack:
+        patterns:
+          - "@tanstack/*"
+      # Group all testing library packages
+      testing-library:
+        patterns:
           - "@testing-library/*"
+      # Group all TypeScript type definitions
+      types:
+        patterns:
+          - "@types/*"
+      # Group all Biome packages
+      biome:
+        patterns:
+          - "@biomejs/*"
+      # Group all Vitest packages
+      vitest:
+        patterns:
           - "@vitest/*"
           - "vitest"
-          - "jsdom"
-          - "typescript"
-      # Group all development/type dependencies
-      development-dependencies:
+      # Group all Tailwind CSS packages
+      tailwindcss:
         patterns:
-          - "@types/*"
-          - "@biomejs/*"
-          - "@testing-library/*"
-          - "@vitest/*"
-          - "vitest"
-          - "jsdom"
-          - "typescript"
+          - "@tailwindcss/*"
+          - "tailwindcss"
