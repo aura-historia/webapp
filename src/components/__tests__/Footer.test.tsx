@@ -16,7 +16,7 @@ describe("Footer Component", () => {
     });
 
     it("should render copyright text with correct year", () => {
-        expect(screen.getByText("© 2025 Blitzfilter")).toBeInTheDocument();
+        expect(screen.getByText(`© ${new Date().getFullYear()} Blitzfilter`)).toBeInTheDocument();
     });
 
     it("should render navigation links with correct href attributes", () => {
