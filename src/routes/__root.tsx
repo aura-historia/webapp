@@ -6,7 +6,7 @@ import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 
 import appCss from "../styles.css?url";
 
-import Header from "@/components/Header.tsx";
+import Header from "@/components/common/Header.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 
 interface MyRouterContext {

@@ -1,5 +1,5 @@
 import {Link} from "@tanstack/react-router";
-import {Button} from "./ui/button.tsx";
+import {Button} from "../ui/button.tsx";
 
 export function Header() {
     return (

@@ -1,6 +1,6 @@
 import { act, screen } from "@testing-library/react";
 import { describe, beforeEach, expect, test } from "vitest";
-import { Header } from "../Header";
+import { Header } from "../common/Header.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 
 describe("Header Component", () => {
