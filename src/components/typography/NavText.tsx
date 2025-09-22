@@ -2,8 +2,8 @@ import { cn } from "@/lib/utils";
 import type React from "react";
 
 interface NavTextProps extends React.HTMLAttributes<HTMLSpanElement> {
-    variant?: "default" | "muted" | "header" | "footer";
-    children: React.ReactNode;
+    readonly variant?: "default" | "muted" | "header" | "footer";
+    readonly children: React.ReactNode;
 }
 
 export function NavText({ variant = "default", className, children, ...props }: NavTextProps) {

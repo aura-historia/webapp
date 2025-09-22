@@ -30,8 +30,8 @@ const testRoute = createRoute({
 const routeTree = rootRoute.addChildren([indexRoute, testRoute]);
 
 interface TestRouterWrapperProps {
-    children: ReactNode;
-    initialEntries?: string[];
+    readonly children: ReactNode;
+    readonly initialEntries?: string[];
 }
 
 export function TestRouterWrapper({
