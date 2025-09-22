@@ -1,0 +1,42 @@
+import { NavText } from "@/components/typography/NavText.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import {
+    NavigationMenu,
+    NavigationMenuItem,
+    NavigationMenuList,
+} from "@/components/ui/navigation-menu.tsx";
+import { Separator } from "@/components/ui/separator.tsx";
+import { Link } from "@tanstack/react-router";
+
+export function Footer() {
+    return (
+        <footer className={"w-full flex items-start justify-center flex-col"}>
+            <Separator />
+            <NavigationMenu className={"p-8 w-full"}>
+                <div
+                    className={
+                        "flex flex-col gap-2 sm:gap-0 sm:flex-row justify-between items-center w-full"
+                    }
+                >
+                    <NavigationMenuList className={"gap-4"}>
+                        <NavigationMenuItem>
+                            <Button variant={"ghost"} asChild>
+                                <Link to="/imprint">
+                                    <NavText>Impressum</NavText>
+                                </Link>
+                            </Button>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <Button variant={"ghost"} asChild>
+                                <Link to="/terms">
+                                    <NavText>AGB</NavText>
+                                </Link>
+                            </Button>
+                        </NavigationMenuItem>
+                    </NavigationMenuList>
+                    <NavText variant={"muted"}>© {new Date().getFullYear()} Blitzfilter</NavText>
+                </div>
+            </NavigationMenu>
+        </footer>
+    );
+}

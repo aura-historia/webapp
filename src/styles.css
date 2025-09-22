@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
+
 @import "tailwindcss";
 
 @import "tw-animate-css";
@@ -6,8 +8,7 @@
 
 body {
     @apply m-0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-        "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: "Geist", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -18,19 +19,19 @@ code {
 
 :root {
     --background: oklch(1 0 0);
-    --foreground: oklch(0.141 0.005 285.823);
+    --foreground: var(--color-neutral-800);
     --card: oklch(1 0 0);
-    --card-foreground: oklch(0.141 0.005 285.823);
+    --card-foreground: var(--color-neutral-800);
     --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.141 0.005 285.823);
+    --popover-foreground: var(--color-neutral-800);
     --primary: oklch(0.21 0.006 285.885);
     --primary-foreground: oklch(0.985 0 0);
-    --secondary: #b2905f;
-    --secondary-foreground: #ffffff;
+    --secondary: oklch(0.967 0.001 286.375);
+    --secondary-foreground: var(--color-neutral-800);
     --muted: oklch(0.967 0.001 286.375);
-    --muted-foreground: oklch(0.552 0.016 285.938);
+    --muted-foreground: var(--color-neutral-500);
     --accent: oklch(0.967 0.001 286.375);
-    --accent-foreground: oklch(0.21 0.006 285.885);
+    --accent-foreground: var(--color-neutral-800);
     --destructive: oklch(0.577 0.245 27.325);
     --destructive-foreground: oklch(0.577 0.245 27.325);
     --border: oklch(0.92 0.004 286.32);
@@ -43,7 +44,7 @@ code {
     --chart-5: oklch(0.769 0.188 70.08);
     --radius: 0.625rem;
     --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.141 0.005 285.823);
+    --sidebar-foreground: var(--color-neutral-800);
     --sidebar-primary: oklch(0.21 0.006 285.885);
     --sidebar-primary-foreground: oklch(0.985 0 0);
     --sidebar-accent: oklch(0.967 0.001 286.375);
@@ -136,7 +137,6 @@ code {
     * {
         @apply border-border outline-ring/50;
     }
-
     body {
         @apply text-foreground;
         background: var(--linear-gradient-main);
