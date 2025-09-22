@@ -54,10 +54,10 @@ code {
     --sidebar-border: oklch(0.92 0.004 286.32);
     --sidebar-ring: oklch(0.871 0.006 286.286);
     --linear-gradient-main: linear-gradient(
-            180deg,
-            white 0%,
-            oklch(0.7035 0.1162 74.47 / 40%) 50%,
-            white 100%
+        180deg,
+        white 0%,
+        oklch(0.7035 0.1162 74.47 / 40%) 50%,
+        white 100%
     );
 }
 
