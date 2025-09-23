@@ -2,6 +2,7 @@ import { SearchBar } from "@/components/search/SearchBar";
 import { useNavigate } from "@tanstack/react-router";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@tanstack/react-router", () => ({
     useNavigate: vi.fn(),
@@ -12,7 +13,7 @@ describe("SearchBar", () => {
     let user: ReturnType<typeof userEvent.setup>;
 
     beforeEach(() => {
-        (useNavigate as vi.Mock).mockReturnValue(mockNavigate);
+        (useNavigate as ReturnType<typeof vi.fn>).mockReturnValue(mockNavigate);
         mockNavigate.mockClear();
 
         user = userEvent.setup();
