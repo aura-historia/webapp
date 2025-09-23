@@ -6,7 +6,8 @@ import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 
 import appCss from "../styles.css?url";
 
-import { Footer } from "@/components/Footer.tsx";
+import { Footer } from "@/components/common/Footer.tsx";
+import Header from "@/components/common/Header.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 
 interface MyRouterContext {
@@ -45,8 +46,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 <HeadContent />
             </head>
             <body>
-                <div className={"min-h-screen flex flex-col justify-between"}>
-                    {children}
+                <div className={"min-h-screen flex flex-col"}>
+                    <Header />
+                    <main className="flex-1">{children}</main>
                     <Footer />
                 </div>
                 <TanstackDevtools
