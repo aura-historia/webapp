@@ -54,8 +54,8 @@ export function SearchBar() {
                             <FormLabel className="sr-only">Search</FormLabel>
                             <FormControl>
                                 <Input
-                                    className={"h-12 font-medium text-base"}
-                                    type={"search"}
+                                    className={"h-12 font-medium !text-lg bg-neutral-100"}
+                                    type={"text"}
                                     placeholder="Ich suche nach..."
                                     {...field}
                                 />
@@ -66,7 +66,7 @@ export function SearchBar() {
                 />
 
                 <Button type="submit" className="mt-0 h-12">
-                    <span>Suchen</span>
+                    <span className={"hidden sm:inline text-lg"}>Suchen</span>
                     <Search />
                 </Button>
             </form>
