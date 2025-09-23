@@ -15,12 +15,13 @@
     "openapi-ts": "openapi-ts"
   },
   "dependencies": {
+    "@aws-amplify/ui-react": "^6.12.0",
     "@faker-js/faker": "^9.6.0",
     "@modelcontextprotocol/sdk": "^1.17.0",
     "@radix-ui/react-label": "^2.1.7",
-      "@radix-ui/react-navigation-menu": "^1.2.14",
+    "@radix-ui/react-navigation-menu": "^1.2.14",
     "@radix-ui/react-select": "^2.2.6",
-      "@radix-ui/react-separator": "^1.1.7",
+    "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slider": "^1.3.6",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-switch": "^1.2.6",
@@ -37,6 +38,7 @@
     "@tanstack/react-start": "^1.131.7",
     "@tanstack/react-table": "^8.21.2",
     "@tanstack/router-plugin": "^1.121.2",
+    "aws-amplify": "^6.15.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.476.0",
