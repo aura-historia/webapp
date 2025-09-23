@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
     component: LandingPage,
 });
 
-function LandingPage() {
+export function LandingPage() {
     return (
         <>
             {/* Full screen height search container */}
