@@ -32,7 +32,7 @@ code {
     --tertiary-foreground: #ffffff;
     --muted: oklch(0.967 0.001 286.375);
     --muted-foreground: var(--color-neutral-500);
-    --accent: oklch(0.967 0.001 286.375);
+    --accent: oklch(92.2% 0 0 / 70%);
     --accent-foreground: var(--color-neutral-800);
     --destructive: oklch(0.577 0.245 27.325);
     --destructive-foreground: oklch(0.577 0.245 27.325);

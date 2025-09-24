@@ -2,7 +2,7 @@ import type { GetItemData } from "@/client";
 import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 import { formatPrice } from "@/lib/utils.ts";
 
-export type ListOverviewItem = {
+export type OverviewItem = {
     readonly itemId: string;
     readonly eventId: string;
     readonly shopId: string;
@@ -18,7 +18,7 @@ export type ListOverviewItem = {
     readonly updated: Date;
 };
 
-export function mapToInternalOverviewItem(apiData: GetItemData): ListOverviewItem {
+export function mapToInternalOverviewItem(apiData: GetItemData): OverviewItem {
     return {
         itemId: apiData.itemId,
         eventId: apiData.eventId,
@@ -27,7 +27,7 @@ export function mapToInternalOverviewItem(apiData: GetItemData): ListOverviewIte
         shopName: apiData.shopName,
         title: apiData.title.text,
         description: apiData.description?.text,
-        price: apiData.price ? formatPrice(apiData?.price) : undefined,
+        price: apiData.price ? formatPrice(apiData.price) : undefined,
         state: parseItemState(apiData.state),
         url: URL.parse(apiData.url),
         images: apiData.images.filter((url) => URL.canParse(url)).map((url): URL => new URL(url)),

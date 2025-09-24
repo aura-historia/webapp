@@ -1,6 +1,6 @@
 import type { GetItemData } from "@/client";
 import { describe, expect, it } from "vitest";
-import { mapToInternalOverviewItem } from "../ListOverviewItem";
+import { mapToInternalOverviewItem } from "../OverviewItem.ts";
 
 describe("createListOverviewItem", () => {
     it("should create ListOverviewItem with valid data", () => {

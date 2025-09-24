@@ -6,10 +6,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-export function formatPrice(
-    data: PriceData | undefined | null,
-    locale: string | undefined = undefined,
-): string {
+export function formatPrice(data: PriceData, locale: string | undefined = undefined): string {
     return new Intl.NumberFormat(locale ?? navigator.language, {
         style: "currency",
         currency: data?.currency,
