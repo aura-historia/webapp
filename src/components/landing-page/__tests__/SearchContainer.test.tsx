@@ -1,12 +1,12 @@
-import { LandingPage } from "@/routes";
-import { renderWithRouter } from "@/test/utils";
+import SearchContainer from "@/components/landing-page/SearchContainer.tsx";
+import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 import { beforeEach } from "vitest";
 
-describe("LandingPage", () => {
+describe("SearchContainer", () => {
     beforeEach(async () => {
         await act(() => {
-            renderWithRouter(<LandingPage />);
+            renderWithRouter(<SearchContainer />);
         });
     });
 
@@ -20,14 +20,5 @@ describe("LandingPage", () => {
 
     it("renders the search bar", () => {
         expect(screen.getByPlaceholderText("Ich suche nach...")).toBeInTheDocument();
-    });
-
-    it("renders the discover more content section", () => {
-        expect(screen.getByText("Discover More Content")).toBeInTheDocument();
-        expect(
-            screen.getByText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", {
-                exact: false,
-            }),
-        ).toBeInTheDocument();
     });
 });

@@ -16,8 +16,8 @@ import { useNavigate } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 
 const searchFormSchema = z.object({
-    query: z.string().min(3, {
-        message: "Bitte geben Sie mindestens 3 Zeichen ein",
+    query: z.string().trim().min(3, {
+        error: "Bitte geben Sie mindestens 3 Zeichen ein",
     }),
 });
 

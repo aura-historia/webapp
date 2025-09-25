@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils.ts";
 import type React from "react";
 
-interface H1Props extends React.HTMLAttributes<HTMLSpanElement> {
+interface H1Props extends React.HTMLAttributes<HTMLHeadingElement> {
     readonly variant?: "default" | "muted";
     readonly children: React.ReactNode;
 }

@@ -26,7 +26,7 @@ function RouteComponent() {
                     q: q,
                 },
             }),
-        enabled: q.length > 0,
+        enabled: q.length >= 3,
     });
 
     if (isLoading) return <div>Loading...</div>;
