@@ -1,0 +1,45 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  # Enable version updates for npm (works with pnpm)
+  - package-ecosystem: "npm"
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
+      time: "06:00"
+    # Group related updates together by common prefixes
+    groups:
+      # Group all Radix UI components
+      radix-ui:
+        patterns:
+          - "@radix-ui/*"
+      # Group all TanStack packages
+      tanstack:
+        patterns:
+          - "@tanstack/*"
+      # Group all testing library packages
+      testing-library:
+        patterns:
+          - "@testing-library/*"
+      # Group all TypeScript type definitions
+      types:
+        patterns:
+          - "@types/*"
+      # Group all Biome packages
+      biome:
+        patterns:
+          - "@biomejs/*"
+      # Group all Vitest packages
+      vitest:
+        patterns:
+          - "@vitest/*"
+          - "vitest"
+      # Group all Tailwind CSS packages
+      tailwindcss:
+        patterns:
+          - "@tailwindcss/*"
+          - "tailwindcss"
