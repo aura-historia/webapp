@@ -4,17 +4,17 @@ import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
-import { ArrowUpRight, HeartIcon, Image } from "lucide-react";
+import { ArrowUpRight, Eye, HeartIcon, Image } from "lucide-react";
 import type React from "react";
 import { H3 } from "../typography/H3";
 
 export function ItemCard({ item, key }: { item: OverviewItem; key: React.Key }) {
     return (
-        <Card key={key} className={"flex flex-row p-8 gap-4 shadow-md"}>
-            <div className={"flex-shrink-0"}>
+        <Card key={key} className={"flex flex-col sm:flex-row p-8 gap-4 shadow-md min-w-0"}>
+            <div className={"flex-shrink-0 flex sm:justify-start justify-center"}>
                 {item.images.length > 0 ? (
                     <img
-                        className={"size-48 object-cover rounded-lg"}
+                        className={"size-48 sm:size-48 object-cover rounded-lg"}
                         src={item.images[0].href}
                         alt=""
                     />
@@ -23,8 +23,8 @@ export function ItemCard({ item, key }: { item: OverviewItem; key: React.Key }) 
                 )}
             </div>
             <div className={"flex flex-col min-w-0 flex-1 justify-between"}>
-                <div className={"flex flex-row justify-between"}>
-                    <div className={"flex flex-col gap-2"}>
+                <div className={"flex flex-row justify-between w-full"}>
+                    <div className={"flex flex-col gap-2 min-w-0 overflow-hidden"}>
                         <H2 className={"text-ellipsis overflow-hidden line-clamp-1"}>
                             {item.title}
                         </H2>
@@ -37,17 +37,30 @@ export function ItemCard({ item, key }: { item: OverviewItem; key: React.Key }) 
                         <StatusBadge status={item.state} />
                     </div>
 
-                    <Button variant={"ghost"} size={"icon"} className={"ml-auto hover:bg-none"}>
+                    <Button
+                        variant={"ghost"}
+                        size={"icon"}
+                        className={"ml-auto flex-shrink-0 hover:bg-none"}
+                    >
                         <HeartIcon />
                     </Button>
                 </div>
 
-                <div className={"flex flex-row justify-between items-end"}>
-                    <PriceText>{item.price ?? "Preis unbekannt"}</PriceText>
+                <div
+                    className={
+                        "flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between items:start sm:items-end w-full mt-4 sm:mt-0"
+                    }
+                >
+                    <PriceText className="min-w-0 overflow-hidden text-ellipsis">
+                        {item.price ?? "Preis unbekannt"}
+                    </PriceText>
 
-                    <div className={"flex flex-col gap-2 items-end"}>
-                        <Button variant={"default"}>Details</Button>
-                        <Button variant={"secondary"}>
+                    <div className={"flex flex-col gap-2 sm:items-end flex-shrink-0 sm:ml-2"}>
+                        <Button variant={"default"}>
+                            <Eye />
+                            <span>Details</span>
+                        </Button>
+                        <Button variant={"secondary"} className="whitespace-nowrap">
                             <ArrowUpRight />
                             <span>Zur Seite des Händlers</span>
                         </Button>

@@ -1,9 +1,12 @@
 import { searchItems } from "@/client";
 import { ItemCard } from "@/components/item/ItemCard.tsx";
+import { ItemCardSkeleton } from "@/components/item/ItemCardSkeleton.tsx";
 import { H1 } from "@/components/typography/H1";
+import { H2 } from "@/components/typography/H2.tsx";
 import { mapToInternalOverviewItem } from "@/data/internal/OverviewItem.ts";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { v4 as uuidv4 } from "uuid";
 
 type SearchParams = {
     readonly q: string;
@@ -40,10 +43,6 @@ function RouteComponent() {
         },
     });
 
-    // if (isLoading) return <div>Loading...</div>;
-    // if (error) return <div>Error: {(error as Error).message}</div>;
-    // if (!q) return <div>Invalid Search!</div>;
-
     return (
         // Main Content
         <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8">
@@ -62,11 +61,19 @@ function RouteComponent() {
                 <div className={"flex-col w-[30%] min-w-0"}>4 Filter options go here</div>
                 <div className={"flex-col w-[70%] min-w-0"}>
                     {isLoading ? (
-                        <div>Lädt...</div>
+                        <div className="flex flex-col gap-4">
+                            {Array.from({ length: 4 }, () => (
+                                <ItemCardSkeleton key={uuidv4()} />
+                            ))}
+                        </div>
                     ) : error ? (
-                        <div>Error: {(error as Error).message}</div>
+                        <H2>
+                            Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später
+                            erneut!
+                        </H2>
                     ) : (
                         <div className="flex flex-col gap-4">
+                            {data?.data?.items.length === 0 && <H2>Keine Artikel gefunden!</H2>}
                             {data?.data?.items.map((item) => (
                                 <ItemCard key={item.itemId} item={item} />
                             ))}
