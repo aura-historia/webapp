@@ -46,12 +46,12 @@ function RouteComponent() {
 
     return (
         // Main Content
-        <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8">
+        <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8">
             <div className={"flex flex-row items-end gap-8"}>
-                <div className={"flex-col bg-blue-500 w-[30%] min-w-0"}>
+                <div className={"flex-col w-[30%] min-w-0"}>
                     <H1>Filter</H1>
                 </div>
-                <div className={"flex-col bg-red-500 w-[70%] min-w-0"}>
+                <div className={"flex-col w-[70%] min-w-0"}>
                     <H1>Suchergebnisse für:</H1>
                     <H1 className={"text-ellipsis overflow-hidden line-clamp-1"}>"{q}"</H1>
                 </div>
@@ -59,9 +59,7 @@ function RouteComponent() {
 
             <div className={"flex flex-row items-start gap-8"}>
                 {/*Filter*/}
-                <div className={"flex-col bg-blue-500 w-[30%] min-w-0"}>
-                    4 Filter options go here
-                </div>
+                <div className={"flex-col w-[30%] min-w-0"}>4 Filter options go here</div>
                 <div className={"flex-col w-[70%] min-w-0"}>
                     {isLoading ? (
                         <div>Lädt...</div>
