@@ -1,13 +1,16 @@
+import DiscoverSection from "@/components/landing-page/DiscoverSection.tsx";
+import SearchContainer from "@/components/landing-page/SearchContainer.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
-    component: App,
+    component: LandingPage,
 });
 
-function App() {
+function LandingPage() {
     return (
-        <div className="text-center">
-            <h1>Welcome to Blitzfilter</h1>
-        </div>
+        <>
+            <SearchContainer />
+            <DiscoverSection />
+        </>
     );
 }

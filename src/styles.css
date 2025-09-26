@@ -20,7 +20,7 @@ code {
 :root {
     --background: oklch(1 0 0);
     --foreground: var(--color-neutral-800);
-    --card: oklch(1 0 0);
+    --card: oklch(0.8853 0 0 / 20%);
     --card-foreground: var(--color-neutral-800);
     --popover: oklch(1 0 0);
     --popover-foreground: var(--color-neutral-800);
@@ -64,7 +64,7 @@ code {
 .dark {
     --background: oklch(0.141 0.005 285.823);
     --foreground: oklch(0.985 0 0);
-    --card: oklch(0.141 0.005 285.823);
+    --card: oklch(0.8853 0 0 / 20%);
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.141 0.005 285.823);
     --popover-foreground: oklch(0.985 0 0);
@@ -99,6 +99,8 @@ code {
 }
 
 @theme inline {
+    --text-foreground: var(--color-neutral-800);
+    --text-muted-foreground: var(--color-neutral-500);
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-card: var(--card);
@@ -146,6 +148,6 @@ code {
     body {
         @apply text-foreground;
         background: var(--linear-gradient-main);
-        background-attachment: fixed;
+        background-attachment: scroll;
     }
 }
