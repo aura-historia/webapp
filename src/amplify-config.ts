@@ -1,4 +1,6 @@
+import { translations } from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
+import { I18n } from "aws-amplify/utils";
 
 Amplify.configure({
     Auth: {
@@ -24,3 +26,6 @@ Amplify.configure({
         },
     },
 });
+
+I18n.putVocabularies(translations);
+I18n.setLanguage("de");
