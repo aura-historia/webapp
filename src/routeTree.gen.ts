@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as ImprintRouteImport } from './routes/imprint'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImprintRoute = ImprintRouteImport.update({
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/imprint': typeof ImprintRoute
+  '/search': typeof SearchRoute
   '/terms': typeof TermsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/imprint': typeof ImprintRoute
+  '/search': typeof SearchRoute
   '/terms': typeof TermsRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/imprint': typeof ImprintRoute
+  '/search': typeof SearchRoute
   '/terms': typeof TermsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/imprint' | '/terms'
+  fullPaths: '/' | '/auth' | '/imprint' | '/search' | '/terms'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/imprint' | '/terms'
-  id: '__root__' | '/' | '/auth' | '/imprint' | '/terms'
+  to: '/' | '/auth' | '/imprint' | '/search' | '/terms'
+  id: '__root__' | '/' | '/auth' | '/imprint' | '/search' | '/terms'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   ImprintRoute: typeof ImprintRoute
+  SearchRoute: typeof SearchRoute
   TermsRoute: typeof TermsRoute
 }
 
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/imprint': {
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   ImprintRoute: ImprintRoute,
+  SearchRoute: SearchRoute,
   TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport

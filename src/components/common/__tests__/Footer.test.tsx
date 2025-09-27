@@ -1,7 +1,7 @@
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
-import { Footer } from "../common/Footer.tsx";
+import { Footer } from "../Footer.tsx";
 
 describe("Footer Component", () => {
     beforeEach(async () => {

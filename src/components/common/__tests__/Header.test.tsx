@@ -1,7 +1,7 @@
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { Header } from "../common/Header.tsx";
+import { Header } from "../Header.tsx";
 
 const mockUseAuthenticator = vi.hoisted(() => vi.fn());
 

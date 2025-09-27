@@ -10,6 +10,7 @@ import { Footer } from "@/components/common/Footer.tsx";
 import { Header } from "@/components/common/Header.tsx";
 import { Authenticator } from "@aws-amplify/ui-react";
 import type { QueryClient } from "@tanstack/react-query";
+import type React from "react";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -40,7 +41,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     shellComponent: RootDocument,
 });
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+function RootDocument({ children }: { readonly children: React.ReactNode }) {
     return (
         <html lang="en">
             <head>
