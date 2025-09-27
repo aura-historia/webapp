@@ -145,9 +145,32 @@ code {
     * {
         @apply border-border outline-ring/50;
     }
+
     body {
         @apply text-foreground;
         background: var(--linear-gradient-main);
         background-attachment: scroll;
     }
+}
+
+
+[data-amplify-authenticator] {
+    /* Buttons (Anmelden/Registrieren) */
+    --amplify-components-button-primary-background-color: var(--primary);
+    --amplify-components-button-primary-color: var(--primary-foreground);
+
+    /* Passwort vergessen Link */
+    --amplify-components-button-link-color: var(--primary);
+
+    /* Tabs oben (Anmelden/Registrieren) */
+    --amplify-components-tabs-item-active-border-color: var(--primary);
+    --amplify-components-tabs-item-active-color: var(--primary);
+
+    /* Tabs Hover-State */
+    --amplify-components-tabs-item-hover-color: var(--tertiary);
+    --amplify-components-tabs-item-hover-border-color: var(--tertiary);
+
+    /* Focus-State der Eingabefelder */
+    --amplify-components-fieldcontrol-focus-border-color: var(--ring);
+    --amplify-components-fieldcontrol-focus-box-shadow: 0 0 0 2px var(--ring);
 }
