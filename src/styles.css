@@ -158,9 +158,12 @@ code {
     /* Buttons (Anmelden/Registrieren) */
     --amplify-components-button-primary-background-color: var(--primary);
     --amplify-components-button-primary-color: var(--primary-foreground);
+    --amplify-components-button-primary-hover-background-color: var(--tertiary);
+    --amplify-components-button-primary-hover-color: var(--primary-foreground);
 
     /* Passwort vergessen Link */
     --amplify-components-button-link-color: var(--primary);
+    --amplify-components-button-link-hover-color: var(--tertiary);
 
     /* Tabs oben (Anmelden/Registrieren) */
     --amplify-components-tabs-item-active-border-color: var(--primary);
@@ -173,4 +176,18 @@ code {
     /* Focus-State der Eingabefelder */
     --amplify-components-fieldcontrol-focus-border-color: var(--ring);
     --amplify-components-fieldcontrol-focus-box-shadow: 0 0 0 2px var(--ring);
+
+    /* Glasiger Authenticator Container */
+    --amplify-components-authenticator-router-background-color: var(--card);
+    --amplify-components-authenticator-router-border-color: var(--border);
+    --amplify-components-authenticator-router-box-shadow: var(--shadow-sm);
+
+
+}
+
+/* Glasiger Container macht Inputs automatisch mit transparent, es gibt keine Amplify CSS-Variable, um die darüber
+weiß zu machen, daher diesen Weg*/
+[data-amplify-authenticator] .amplify-input,
+[data-amplify-authenticator] .amplify-field__show-password {
+    background-color: white;
 }
