@@ -15,6 +15,18 @@ Amplify.configure({
                 email: {
                     required: true,
                 },
+                given_name: {
+                    required: true,
+                },
+                family_name: {
+                    required: true,
+                },
+                phone_number: {
+                    required: false,
+                },
+                birthdate: {
+                    required: false,
+                },
             },
             passwordFormat: {
                 minLength: 8,
