@@ -1,12 +1,22 @@
+import { cn } from "@/lib/utils.ts";
 import type React from "react";
 
-export function H4({
-    children,
-    variant = "default",
-}: {
-    readonly children: React.ReactNode;
+interface H4Props extends React.HTMLAttributes<HTMLHeadingElement> {
     readonly variant?: "default" | "muted";
-}) {
-    const colorClass = variant === "muted" ? "text-muted-foreground" : "text-foreground";
-    return <h4 className={`text-lg font-semibold ${colorClass}`}>{children}</h4>;
+    readonly children: React.ReactNode;
+}
+
+export function H4({ variant = "default", className, children, ...props }: H4Props) {
+    return (
+        <h4
+            className={cn(
+                "text-xl font-semibold",
+                variant === "muted" && "text-muted-foreground",
+                className,
+            )}
+            {...props}
+        >
+            {children}
+        </h4>
+    );
 }

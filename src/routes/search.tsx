@@ -38,7 +38,7 @@ function RouteComponent() {
                     ...result.data,
                     items: result.data?.items?.map(mapToInternalOverviewItem) ?? [],
                 },
-                enabled: q.length > 0,
+                enabled: q.length >= 3,
             };
         },
     });
