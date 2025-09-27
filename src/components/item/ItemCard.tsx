@@ -7,7 +7,7 @@ import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 import { ArrowUpRight, Eye, HeartIcon, Image } from "lucide-react";
 import { H3 } from "../typography/H3";
 
-export function ItemCard({ item }: { item: OverviewItem }) {
+export function ItemCard({ item }: { readonly item: OverviewItem }) {
     return (
         <Card className={"flex flex-col sm:flex-row p-8 gap-4 shadow-md min-w-0"}>
             <div className={"flex-shrink-0 flex sm:justify-start justify-center"}>

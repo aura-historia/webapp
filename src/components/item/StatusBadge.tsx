@@ -3,8 +3,8 @@ import type { ItemState } from "@/data/internal/ItemState";
 import { cn } from "@/lib/utils";
 
 interface StatusBadgeProps {
-    status: ItemState;
-    className?: string;
+    readonly status: ItemState;
+    readonly className?: string;
 }
 
 const statusConfig = {
