@@ -5,12 +5,11 @@ import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 import { ArrowUpRight, Eye, HeartIcon, Image } from "lucide-react";
-import type React from "react";
 import { H3 } from "../typography/H3";
 
-export function ItemCard({ item, key }: { item: OverviewItem; key: React.Key }) {
+export function ItemCard({ item }: { item: OverviewItem }) {
     return (
-        <Card key={key} className={"flex flex-col sm:flex-row p-8 gap-4 shadow-md min-w-0"}>
+        <Card className={"flex flex-col sm:flex-row p-8 gap-4 shadow-md min-w-0"}>
             <div className={"flex-shrink-0 flex sm:justify-start justify-center"}>
                 {item.images.length > 0 ? (
                     <img
@@ -19,7 +18,10 @@ export function ItemCard({ item, key }: { item: OverviewItem; key: React.Key }) 
                         alt=""
                     />
                 ) : (
-                    <Image className={"size-48 object-contain rounded-lg"} />
+                    <Image
+                        data-testid="placeholder-image"
+                        className={"size-48 object-contain rounded-lg"}
+                    />
                 )}
             </div>
             <div className={"flex flex-col min-w-0 flex-1 justify-between"}>

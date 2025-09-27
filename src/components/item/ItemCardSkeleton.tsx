@@ -1,10 +1,12 @@
 import { Card } from "@/components/ui/card.tsx";
 import { Skeleton } from "@/components/ui/skeleton";
-import type React from "react";
 
-export function ItemCardSkeleton({ key }: { key?: React.Key }) {
+export function ItemCardSkeleton() {
     return (
-        <Card key={key} className={"flex flex-col sm:flex-row p-8 gap-4 shadow-md min-w-0"}>
+        <Card
+            data-testid="item-card-skeleton"
+            className={"flex flex-col sm:flex-row p-8 gap-4 shadow-md min-w-0"}
+        >
             <div className={"flex-shrink-0 flex sm:justify-start justify-center"}>
                 <Skeleton className={"size-48 sm:size-48 rounded-lg bg-muted"} />
             </div>
