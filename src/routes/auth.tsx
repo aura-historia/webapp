@@ -17,25 +17,31 @@ function AuthPage() {
                         given_name: {
                             label: "Vorname",
                             placeholder: "Geben Sie Ihren Vornamen ein",
+                            isRequired: true,
                             order: 1,
                         },
                         family_name: {
                             label: "Nachname",
                             placeholder: "Geben Sie Ihren Nachnamen ein",
+                            isRequired: true,
                             order: 2,
                         },
                         birthdate: {
                             label: "Geburtsdatum",
                             placeholder: "tt.mm.jjjj",
+                            isRequired: true,
                             order: 3,
                         },
                         email: {
+                            isRequired: true,
                             order: 4,
                         },
                         password: {
+                            isRequired: true,
                             order: 5,
                         },
                         confirm_password: {
+                            isRequired: true,
                             order: 6,
                         },
                     },

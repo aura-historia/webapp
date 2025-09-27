@@ -25,7 +25,7 @@ Amplify.configure({
                     required: false,
                 },
                 birthdate: {
-                    required: false,
+                    required: true,
                 },
             },
             passwordFormat: {
