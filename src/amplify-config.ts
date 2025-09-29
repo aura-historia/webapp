@@ -11,30 +11,6 @@ Amplify.configure({
                 email: true,
             },
             signUpVerificationMethod: "code",
-            userAttributes: {
-                email: {
-                    required: true,
-                },
-                given_name: {
-                    required: true,
-                },
-                family_name: {
-                    required: true,
-                },
-                phone_number: {
-                    required: false,
-                },
-                birthdate: {
-                    required: true,
-                },
-            },
-            passwordFormat: {
-                minLength: 8,
-                requireLowercase: true,
-                requireUppercase: true,
-                requireNumbers: true,
-                requireSpecialCharacters: true,
-            },
         },
     },
 });
