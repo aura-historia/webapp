@@ -10,32 +10,45 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input.tsx";
+import { fetchUserAttributes } from "@aws-amplify/auth";
 import { AccountSettings } from "@aws-amplify/ui-react";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+const profileSchema = z.object({
+    given_name: z.string().min(2, {
+        error: "Vorname muss mindestens 2 Zeichen haben",
+    }),
+    family_name: z.string().min(2, {
+        error: "Nachname muss mindestens 2 Zeichen haben",
+    }),
+});
+
 export function ProfilePage() {
     const { user } = useAuthenticator();
     const navigate = useNavigate();
 
-    const profileSchema = z.object({
-        given_name: z.string().min(2, {
-            error: "Vorname muss mindestens 2 Zeichen haben",
-        }),
-        family_name: z.string().min(2, {
-            error: "Nachname muss mindestens 2 Zeichen haben",
-        }),
-    });
+    function useUserProfile() {
+        return useQuery({
+            queryKey: ["userAttributes"],
+            queryFn: async () => {
+                return await fetchUserAttributes();
+            },
+        });
+    }
 
-    const form = useForm<z.infer<typeof profileSchema>>({
+    const { data, isLoading, error } = useUserProfile();
+
+    const form = useForm({
         resolver: zodResolver(profileSchema),
-        defaultValues: {
-            given_name: "", //TODO: load data and replace this
-            family_name: "", //TODO: load data and replace this
+        values: {
+            given_name: data?.given_name ?? "",
+            family_name: data?.family_name ?? "",
         },
     });
 
@@ -50,6 +63,14 @@ export function ProfilePage() {
             });
         }
     }, [user, navigate]);
+
+    if (isLoading) {
+        return <div>Lädt...</div>;
+    }
+
+    if (error) {
+        return <div>Fehler beim Laden der Daten!</div>;
+    }
 
     return (
         <div className="flex flex-col items-center max-w-3xl mx-auto px-4 py-8 w-full">
