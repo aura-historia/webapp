@@ -10,11 +10,11 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input.tsx";
-import { fetchUserAttributes } from "@aws-amplify/auth";
+import { fetchUserAttributes, updateUserAttributes } from "@aws-amplify/auth";
 import { AccountSettings } from "@aws-amplify/ui-react";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -32,6 +32,7 @@ const profileSchema = z.object({
 export function ProfilePage() {
     const { user } = useAuthenticator();
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
     function useUserProfile() {
         return useQuery({
@@ -41,6 +42,17 @@ export function ProfilePage() {
             },
         });
     }
+
+    const { mutate: updateProfile } = useMutation({
+        mutationFn: async (attributes: { given_name: string; family_name: string }) => {
+            return await updateUserAttributes({
+                userAttributes: attributes,
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["userAttributes"] });
+        },
+    });
 
     const { data, isLoading, error } = useUserProfile();
 
@@ -53,7 +65,7 @@ export function ProfilePage() {
     });
 
     function onSubmit(values: z.infer<typeof profileSchema>) {
-        console.log(values);
+        updateProfile(values);
     }
 
     useEffect(() => {
