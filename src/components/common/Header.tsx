@@ -1,5 +1,7 @@
+import { fetchUserAttributes } from "@aws-amplify/auth";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button.tsx";
 
 export function Header() {
@@ -10,6 +12,20 @@ export function Header() {
         context.signOut,
     ]);
 
+    const [fullName, setFullName] = useState("Benutzer");
+
+    useEffect(() => {
+        async function loadAttributes() {
+            if (user) {
+                const userAttributes = await fetchUserAttributes();
+                const fullName =
+                    `${userAttributes.given_name || ""} ${userAttributes.family_name || ""}`.trim();
+                setFullName(fullName || "Benutzer");
+            }
+        }
+        loadAttributes();
+    }, [user]);
+
     return (
         <header className="flex items-center backdrop-blur-sm justify-between sticky top-0 px-4 py-4 border-b h-20">
             <Link to="/" className="hidden sm:inline text-2xl font-bold">
@@ -18,7 +34,7 @@ export function Header() {
             <div className="flex items-center gap-4">
                 {user ? (
                     <>
-                        <span>Hallo {user.username}!</span>
+                        <span>Hallo {fullName}!</span>
                         <Button onClick={signOut} variant="outline">
                             Ausloggen
                         </Button>
