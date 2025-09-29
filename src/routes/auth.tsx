@@ -1,13 +1,23 @@
-import { Authenticator } from "@aws-amplify/ui-react";
-import { createFileRoute } from "@tanstack/react-router";
+import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import "@aws-amplify/ui-react/styles.css";
-import "../amplify-config.ts";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/auth")({
     component: AuthPage,
 });
 
 function AuthPage() {
+    const { user } = useAuthenticator();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            navigate({ to: "/" }).catch((error) => {
+                console.error("Navigation fehlgeschlagen:", error);
+            });
+        }
+    }, [user, navigate]);
     return (
         <div className="flex flex-row min-h-screen justify-center items-center">
             <Authenticator
