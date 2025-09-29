@@ -11,6 +11,7 @@ import { Header } from "@/components/common/Header.tsx";
 import { Authenticator } from "@aws-amplify/ui-react";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
+import "../amplify-config.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
