@@ -1,22 +1,27 @@
-import { cn } from "@/lib/utils.ts";
+import { cn } from "@/lib/utils";
 import type React from "react";
 
-interface H3Props extends React.HTMLAttributes<HTMLHeadingElement> {
+interface SectionInfoTextProps extends React.HTMLAttributes<HTMLSpanElement> {
     readonly variant?: "default" | "muted";
     readonly children: React.ReactNode;
 }
 
-export function H3({ variant = "default", className, children, ...props }: H3Props) {
+export function SectionInfoText({
+    variant = "default",
+    className,
+    children,
+    ...props
+}: SectionInfoTextProps) {
     return (
-        <h3
+        <span
             className={cn(
-                "text-xl font-semibold",
+                "text-lg font-medium",
                 variant === "muted" && "text-muted-foreground",
                 className,
             )}
             {...props}
         >
             {children}
-        </h3>
+        </span>
     );
 }

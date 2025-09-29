@@ -13,7 +13,7 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
             <div className={"flex-shrink-0 flex sm:justify-start justify-center"}>
                 {item.images.length > 0 ? (
                     <img
-                        className={"size-48 sm:size-48 object-cover rounded-lg"}
+                        className={"size-48 object-cover rounded-lg"}
                         src={item.images[0].href}
                         alt=""
                     />
@@ -39,18 +39,14 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                         <StatusBadge status={item.state} />
                     </div>
 
-                    <Button
-                        variant={"ghost"}
-                        size={"icon"}
-                        className={"ml-auto flex-shrink-0 hover:bg-none"}
-                    >
+                    <Button variant={"ghost"} size={"icon"} className={"ml-auto flex-shrink-0"}>
                         <HeartIcon />
                     </Button>
                 </div>
 
                 <div
                     className={
-                        "flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between items:start sm:items-end w-full mt-4 sm:mt-0"
+                        "flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-end w-full mt-4 sm:mt-0"
                     }
                 >
                     <PriceText className="min-w-0 overflow-hidden text-ellipsis">
