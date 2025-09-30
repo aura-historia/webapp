@@ -26,6 +26,7 @@ code {
     --popover-foreground: var(--color-neutral-800);
     --primary: #b2905f;
     --primary-foreground: #ffffff;
+    --primary-hover: #b2905fE5;
     --secondary: #262626;
     --secondary-foreground: #ffffff;
     --tertiary: #44a597;
@@ -70,6 +71,7 @@ code {
     --popover-foreground: oklch(0.985 0 0);
     --primary: #b2905f;
     --primary-foreground: #ffffff;
+    --primary-hover: #b2905fE5;
     --secondary: oklch(0.274 0.006 286.033);
     --secondary-foreground: oklch(0.985 0 0);
     --tertiary: #44a597;
@@ -158,20 +160,21 @@ code {
     /* Buttons (Anmelden/Registrieren) */
     --amplify-components-button-primary-background-color: var(--primary);
     --amplify-components-button-primary-color: var(--primary-foreground);
-    --amplify-components-button-primary-hover-background-color: var(--tertiary);
+    --amplify-components-button-primary-hover-background-color: var(--primary-hover);
     --amplify-components-button-primary-hover-color: var(--primary-foreground);
 
     /* Passwort vergessen Link */
-    --amplify-components-button-link-color: var(--primary);
-    --amplify-components-button-link-hover-color: var(--tertiary);
+    --amplify-components-button-link-color: var(--foreground);
+    --amplify-components-button-link-hover-color: var(--color-neutral-600);
 
     /* Tabs oben (Anmelden/Registrieren) */
+    --amplify-components-button-link-hover-background-color: transparent;
     --amplify-components-tabs-item-active-border-color: var(--primary);
-    --amplify-components-tabs-item-active-color: var(--primary);
+    --amplify-components-tabs-item-active-color: var(--foreground);
 
     /* Tabs Hover-State */
-    --amplify-components-tabs-item-hover-color: var(--tertiary);
-    --amplify-components-tabs-item-hover-border-color: var(--tertiary);
+    --amplify-components-tabs-item-hover-color: var(--color-neutral-600);
+    --amplify-components-tabs-item-hover-border-color: var(--color-neutral-600);
 
     /* Focus-State der Eingabefelder */
     --amplify-components-fieldcontrol-focus-border-color: var(--ring);
