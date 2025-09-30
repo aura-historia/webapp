@@ -96,8 +96,8 @@ export function ProfilePage() {
 
             {/* Persönliche Daten*/}
 
-            <section className="bg-card w-full max-w-2xl mx-auto p-6 mt-6">
-                <H2>Persönliche Daten ändern</H2>
+            <section className="bg-card text-card-foreground w-full max-w-2xl mx-auto p-6 mt-6 rounded-xl border shadow-sm">
+                <H2 className="mb-4">Persönliche Daten ändern</H2>
 
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -136,17 +136,18 @@ export function ProfilePage() {
                                 </FormItem>
                             )}
                         />
-
-                        <Button type="submit" disabled={isPending}>
-                            {isPending ? "Speichert..." : "Speichern"}
-                        </Button>
+                        <div className="flex justify-center">
+                            <Button type="submit" disabled={isPending} className="w-1/2">
+                                {isPending ? "Speichert..." : "Speichern"}
+                            </Button>
+                        </div>
                     </form>
                 </Form>
             </section>
 
             {/* Passwort ändern */}
-            <section className={"bg-card w-full max-w-2xl mx-auto p-6 mt-6"}>
-                <H2>Passwort ändern</H2>
+            <section className="bg-card text-card-foreground w-full max-w-2xl mx-auto p-6 mt-6 rounded-xl border shadow-sm">
+                <H2 className="mb-4">Passwort ändern</H2>
                 <AccountSettings.ChangePassword
                     onSuccess={() => toast.success("Passwort erfolgreich geändert!")}
                     onError={() => toast.error("Fehler beim Ändern des Passworts.")}
@@ -160,8 +161,8 @@ export function ProfilePage() {
             </section>
 
             {/* Account löschen */}
-            <section className={"bg-card w-full max-w-2xl mx-auto p-6 mt-6"}>
-                <H2>Account löschen</H2>
+            <section className="bg-card text-card-foreground w-full max-w-2xl mx-auto p-6 mt-6 rounded-xl border shadow-sm">
+                <H2 className="mb-4">Account löschen</H2>
                 <AccountSettings.DeleteUser
                     displayText={{
                         deleteAccountButtonText: "Account löschen",

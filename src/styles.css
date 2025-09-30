@@ -188,6 +188,30 @@ code {
 /* Glasiger Container macht Inputs automatisch mit transparent, es gibt keine Amplify CSS-Variable, um die darüber
 weiß zu machen, daher diesen Weg*/
 [data-amplify-authenticator] .amplify-input,
-[data-amplify-authenticator] .amplify-field__show-password {
-    background-color: white;
+[data-amplify-authenticator] .amplify-field__show-password,
+.amplify-passwordfield .amplify-input,
+.amplify-field__show-password {
+    @apply h-12 font-medium text-lg bg-neutral-100 border-input rounded-md shadow-xs;
 }
+
+
+.amplify-passwordfield ~ button[type="submit"] {
+    @apply bg-primary text-primary-foreground rounded-md w-1/2 hover:bg-primary/90;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 16px;
+}
+
+.amplify-passwordfield ~ button[type="submit"]:disabled {
+    @apply opacity-50 cursor-not-allowed;
+}
+
+.amplify-button.amplify-button--warning {
+    @apply bg-destructive text-white rounded-md w-1/2;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 16px;
+}
+
+
+
