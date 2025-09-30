@@ -106,7 +106,7 @@ export function ProfilePage() {
                             name="given_name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Vorname</FormLabel>
+                                    <FormLabel className="text-md">Vorname</FormLabel>
                                     <FormControl>
                                         <Input
                                             className={"h-12 font-medium !text-lg bg-neutral-100"}
@@ -124,7 +124,7 @@ export function ProfilePage() {
                             name="family_name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Nachname</FormLabel>
+                                    <FormLabel className="text-md">Nachname</FormLabel>
                                     <FormControl>
                                         <Input
                                             className={"h-12 font-medium !text-lg bg-neutral-100"}

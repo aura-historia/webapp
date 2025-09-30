@@ -1,3 +1,4 @@
+import { ProfileImage } from "@/components/profile-image/profile-image.tsx";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -21,10 +22,6 @@ export function Header() {
 
     const { data: userAttributes } = useUserAttributes();
 
-    const fullName =
-        `${userAttributes?.given_name || ""} ${userAttributes?.family_name || ""}`.trim() ||
-        "Benutzer";
-
     return (
         <header className="flex items-center backdrop-blur-sm justify-between sticky top-0 px-4 py-4 border-b h-20">
             <Link to="/" className="hidden sm:inline text-2xl font-bold">
@@ -33,8 +30,11 @@ export function Header() {
             <div className="flex items-center gap-4">
                 {user ? (
                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline">Hallo {fullName}!</Button>
+                        <DropdownMenuTrigger>
+                            <ProfileImage
+                                firstName={userAttributes?.given_name || ""}
+                                lastName={userAttributes?.family_name || ""}
+                            />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Mein Account</DropdownMenuLabel>
