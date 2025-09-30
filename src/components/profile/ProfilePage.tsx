@@ -150,6 +150,12 @@ export function ProfilePage() {
                 <AccountSettings.ChangePassword
                     onSuccess={() => toast.success("Passwort erfolgreich geändert!")}
                     onError={() => toast.error("Fehler beim Ändern des Passworts.")}
+                    displayText={{
+                        currentPasswordFieldLabel: "Aktuelles Passwort",
+                        newPasswordFieldLabel: "Neues Passwort",
+                        confirmPasswordFieldLabel: "Neues Passwort bestätigen",
+                        updatePasswordButtonText: "Passwort speichern",
+                    }}
                 />
             </section>
 
@@ -157,6 +163,12 @@ export function ProfilePage() {
             <section className={"bg-card w-full max-w-2xl mx-auto p-6 mt-6"}>
                 <H2>Account löschen</H2>
                 <AccountSettings.DeleteUser
+                    displayText={{
+                        deleteAccountButtonText: "Account löschen",
+                        warningText: "Sind Sie sicher, dass Sie Ihren Account löschen möchten?",
+                        cancelButtonText: "Abbrechen",
+                        confirmDeleteButtonText: "Ja, Account löschen",
+                    }}
                     onSuccess={() => toast.success("Account wurde erfolgreich gelöscht!")}
                     onError={() => toast.error("Fehler beim Löschen des Accounts.")}
                 />
