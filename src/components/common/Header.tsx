@@ -1,3 +1,11 @@
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useUserAttributes } from "@/hooks/useUserAttributes.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Link } from "@tanstack/react-router";
@@ -24,12 +32,21 @@ export function Header() {
             </Link>
             <div className="flex items-center gap-4">
                 {user ? (
-                    <>
-                        <span>Hallo {fullName}!</span>
-                        <Button onClick={signOut} variant="outline">
-                            Ausloggen
-                        </Button>
-                    </>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline">Hallo {fullName}!</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Mein Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem asChild>
+                                <Link to="/profile">Profil bearbeiten</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => signOut()}>
+                                Ausloggen
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 ) : (
                     <>
                         <Button asChild onClick={toSignUp} variant={"default"}>
