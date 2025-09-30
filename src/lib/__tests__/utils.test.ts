@@ -28,27 +28,27 @@ describe("utils", () => {
         const locale = "de-DE";
 
         it("formats AUD currency correctly", () => {
-            expect(formatPrice({ amount: 1234.56, currency: "AUD" }, locale)).toBe("1.234,56 AU$");
+            expect(formatPrice({ amount: 123456, currency: "AUD" }, locale)).toBe("1.234,56 AU$");
         });
 
         it("formats USD currency correctly", () => {
-            expect(formatPrice({ amount: 1234.56, currency: "USD" }, locale)).toBe("1.234,56 $");
+            expect(formatPrice({ amount: 123456, currency: "USD" }, locale)).toBe("1.234,56 $");
         });
 
         it("formats EUR currency correctly", () => {
-            expect(formatPrice({ amount: 1234.56, currency: "EUR" }, locale)).toBe("1.234,56 €");
+            expect(formatPrice({ amount: 123456, currency: "EUR" }, locale)).toBe("1.234,56 €");
         });
 
         it("formats GBP currency correctly", () => {
-            expect(formatPrice({ amount: 1234.56, currency: "GBP" }, locale)).toBe("1.234,56 £");
+            expect(formatPrice({ amount: 123456, currency: "GBP" }, locale)).toBe("1.234,56 £");
         });
 
         it("formats CAD currency correctly", () => {
-            expect(formatPrice({ amount: 1234.56, currency: "CAD" }, locale)).toBe("1.234,56 CA$");
+            expect(formatPrice({ amount: 123456, currency: "CAD" }, locale)).toBe("1.234,56 CA$");
         });
 
         it("formats NZD currency correctly", () => {
-            expect(formatPrice({ amount: 1234.56, currency: "NZD" }, locale)).toBe("1.234,56 NZ$");
+            expect(formatPrice({ amount: 123456, currency: "NZD" }, locale)).toBe("1.234,56 NZ$");
         });
 
         it("handles zero amount correctly", () => {
@@ -56,7 +56,7 @@ describe("utils", () => {
         });
 
         it("handles negative amounts correctly", () => {
-            expect(formatPrice({ amount: -1234.56, currency: "EUR" }, locale)).toBe("-1.234,56 €");
+            expect(formatPrice({ amount: -123456, currency: "EUR" }, locale)).toBe("-1.234,56 €");
         });
     });
 });

@@ -10,5 +10,5 @@ export function formatPrice(data: PriceData, locale: string | undefined = undefi
     return new Intl.NumberFormat(locale ?? navigator.language, {
         style: "currency",
         currency: data?.currency,
-    }).format(data?.amount ?? 0);
+    }).format((data?.amount ?? 0) / 100);
 }
