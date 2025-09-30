@@ -1,7 +1,6 @@
-import { fetchUserAttributes } from "@aws-amplify/auth";
+import { useUserAttributes } from "@/hooks/useUserAttributes.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { Button } from "../ui/button.tsx";
 
 export function Header() {
@@ -12,19 +11,11 @@ export function Header() {
         context.signOut,
     ]);
 
-    const [fullName, setFullName] = useState("Benutzer");
+    const { data: userAttributes } = useUserAttributes();
 
-    useEffect(() => {
-        async function loadAttributes() {
-            if (user) {
-                const userAttributes = await fetchUserAttributes();
-                const fullName =
-                    `${userAttributes.given_name || ""} ${userAttributes.family_name || ""}`.trim();
-                setFullName(fullName || "Benutzer");
-            }
-        }
-        loadAttributes();
-    }, [user]);
+    const fullName =
+        `${userAttributes?.given_name || ""} ${userAttributes?.family_name || ""}`.trim() ||
+        "Benutzer";
 
     return (
         <header className="flex items-center backdrop-blur-sm justify-between sticky top-0 px-4 py-4 border-b h-20">

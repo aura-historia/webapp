@@ -10,11 +10,12 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input.tsx";
-import { fetchUserAttributes, updateUserAttributes } from "@aws-amplify/auth";
+import { useUserAttributes } from "@/hooks/useUserAttributes.ts";
+import { updateUserAttributes } from "@aws-amplify/auth";
 import { AccountSettings } from "@aws-amplify/ui-react";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -35,15 +36,6 @@ export function ProfilePage() {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
-    function useUserProfile() {
-        return useQuery({
-            queryKey: ["userAttributes"],
-            queryFn: async () => {
-                return await fetchUserAttributes();
-            },
-        });
-    }
-
     const { mutate: updateProfile, isPending } = useMutation({
         mutationFn: async (attributes: { given_name: string; family_name: string }) => {
             return await updateUserAttributes({
@@ -59,7 +51,7 @@ export function ProfilePage() {
         },
     });
 
-    const { data, isLoading, error } = useUserProfile();
+    const { data, isLoading, error } = useUserAttributes();
 
     const form = useForm<z.infer<typeof profileSchema>>({
         resolver: zodResolver(profileSchema),
