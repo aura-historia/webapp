@@ -36,13 +36,8 @@ E2E tests are powered by Playwright and test the application from a user's persp
 Run E2E tests:
 
 ```bash
-# Run all E2E tests (headless)
 pnpm run test:e2e
 
-# Run E2E tests with browser UI visible
-pnpm run test:e2e:headed
-
-# Run E2E tests in interactive UI mode
 pnpm run test:e2e:ui
 ```
 
