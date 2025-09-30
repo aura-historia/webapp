@@ -18,6 +18,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 const profileSchema = z.object({
@@ -43,7 +44,7 @@ export function ProfilePage() {
         });
     }
 
-    const { mutate: updateProfile } = useMutation({
+    const { mutate: updateProfile, isPending } = useMutation({
         mutationFn: async (attributes: { given_name: string; family_name: string }) => {
             return await updateUserAttributes({
                 userAttributes: attributes,
@@ -51,6 +52,10 @@ export function ProfilePage() {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["userAttributes"] });
+            toast.success("Dein Profil wurde erfolgreich aktualisiert!");
+        },
+        onError: (error) => {
+            toast.error(`Fehler beim Aktualisieren: ${error.message}`);
         },
     });
 
@@ -131,7 +136,9 @@ export function ProfilePage() {
                             )}
                         />
 
-                        <Button type="submit">Speichern</Button>
+                        <Button type="submit" disabled={isPending}>
+                            {isPending ? "Speichert..." : "Speichern"}
+                        </Button>
                     </form>
                 </Form>
             </section>
@@ -140,7 +147,8 @@ export function ProfilePage() {
             <section className={"bg-card w-full max-w-2xl mx-auto p-6 mt-6"}>
                 <H2>Passwort ändern</H2>
                 <AccountSettings.ChangePassword
-                    onSuccess={() => alert("Passwort erfolgreich geändert!")}
+                    onSuccess={() => toast.success("Passwort erfolgreich geändert!")}
+                    onError={() => toast.error("Fehler beim Ändern des Passworts.")}
                 />
             </section>
 
@@ -148,7 +156,8 @@ export function ProfilePage() {
             <section className={"bg-card w-full max-w-2xl mx-auto p-6 mt-6"}>
                 <H2>Account löschen</H2>
                 <AccountSettings.DeleteUser
-                    onSuccess={() => alert("Account wurde erfolgreich gelöscht!")}
+                    onSuccess={() => toast.success("Account wurde erfolgreich gelöscht!")}
+                    onError={() => toast.error("Fehler beim Löschen des Accounts.")}
                 />
             </section>
         </div>
