@@ -1,4 +1,4 @@
-import { ProfileImage } from "@/components/profile-image/profile-image.tsx";
+import { ProfileImage } from "@/components/profile-image/ProfileImage.tsx";
 import {
     DropdownMenu,
     DropdownMenuContent,

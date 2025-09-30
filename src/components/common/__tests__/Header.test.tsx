@@ -1,19 +1,25 @@
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "../Header.tsx";
 
 const mockUseAuthenticator = vi.hoisted(() => vi.fn());
+const mockUseUserAttributes = vi.hoisted(() => vi.fn());
 
 vi.mock("@aws-amplify/ui-react", () => ({
     useAuthenticator: mockUseAuthenticator,
 }));
 
-const setupAuthMock = (user: { username: string } | null = null) => {
+vi.mock("@/hooks/useUserAttributes.ts", () => ({
+    useUserAttributes: mockUseUserAttributes,
+}));
+
+const setupAuthMock = (isLoggedIn = false) => {
     mockUseAuthenticator.mockReturnValue({
         toSignUp: vi.fn(),
         toSignIn: vi.fn(),
-        user,
+        user: isLoggedIn ? {} : null,
         signOut: vi.fn(),
     });
 };
@@ -25,7 +31,8 @@ describe("Header Component", () => {
 
     describe("Not logged in user", () => {
         beforeEach(async () => {
-            setupAuthMock();
+            setupAuthMock(false);
+            mockUseUserAttributes.mockReturnValue({ data: undefined });
             await act(async () => {
                 renderWithRouter(<Header />);
             });
@@ -37,7 +44,7 @@ describe("Header Component", () => {
             expect(logoLink.closest("a")).toHaveAttribute("href", "/");
         });
 
-        it("should renders auth buttons with correct text", () => {
+        it("should render auth buttons with correct text", () => {
             expect(screen.getByText("Registrieren")).toBeInTheDocument();
             expect(screen.getByText("Einloggen")).toBeInTheDocument();
         });
@@ -45,7 +52,13 @@ describe("Header Component", () => {
 
     describe("Logged in user", () => {
         beforeEach(async () => {
-            setupAuthMock({ username: "TestUser" });
+            setupAuthMock(true);
+            mockUseUserAttributes.mockReturnValue({
+                data: {
+                    given_name: "Max",
+                    family_name: "Mustermann",
+                },
+            });
             await act(async () => {
                 renderWithRouter(<Header />);
             });
@@ -57,8 +70,19 @@ describe("Header Component", () => {
             expect(logoLink.closest("a")).toHaveAttribute("href", "/");
         });
 
-        it("should show welcome message and logout button", () => {
-            expect(screen.getByText("Hallo TestUser!")).toBeInTheDocument();
+        it("should show ProfileImage for logged in user", () => {
+            const profileContainer = screen.getByRole("button");
+            expect(profileContainer).toBeInTheDocument();
+        });
+
+        it("should show dropdown menu items when clicked", async () => {
+            const user = userEvent.setup();
+            const dropdownTrigger = screen.getByRole("button");
+
+            await user.click(dropdownTrigger);
+
+            expect(screen.getByText("Mein Account")).toBeInTheDocument();
+            expect(screen.getByText("Profil bearbeiten")).toBeInTheDocument();
             expect(screen.getByText("Ausloggen")).toBeInTheDocument();
         });
 
