@@ -61,13 +61,22 @@ export function ProfilePage() {
 
     const { data, isLoading, error } = useUserProfile();
 
-    const form = useForm({
+    const form = useForm<z.infer<typeof profileSchema>>({
         resolver: zodResolver(profileSchema),
-        values: {
-            given_name: data?.given_name ?? "",
-            family_name: data?.family_name ?? "",
+        defaultValues: {
+            given_name: "",
+            family_name: "",
         },
     });
+
+    useEffect(() => {
+        if (data) {
+            form.reset({
+                given_name: data.given_name ?? "",
+                family_name: data.family_name ?? "",
+            });
+        }
+    }, [data, form]);
 
     function onSubmit(values: z.infer<typeof profileSchema>) {
         updateProfile(values);
