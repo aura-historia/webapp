@@ -12,6 +12,7 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
 import "../amplify-config.ts";
+import { Toaster } from "sonner";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -56,6 +57,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                         <Footer />
                     </div>
                 </Authenticator.Provider>
+                <Toaster position="top-center" richColors />
 
                 <TanstackDevtools
                     config={{
