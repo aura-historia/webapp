@@ -1,3 +1,4 @@
+import { SearchFilters } from "@/components/search/SearchFilters.tsx";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
 import { H1 } from "@/components/typography/H1";
 import { createFileRoute } from "@tanstack/react-router";
@@ -32,7 +33,7 @@ function RouteComponent() {
 
             <div className={"flex flex-row items-start gap-8"}>
                 <div className={"flex-col hidden sm:block sm:w-[30%] min-w-0"}>
-                    4 Filter options go here
+                    <SearchFilters />
                 </div>
                 <div className={"flex-col sm:w-[70%] min-w-0"}>
                     <SearchResults query={q} />
