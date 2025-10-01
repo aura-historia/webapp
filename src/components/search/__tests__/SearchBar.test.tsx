@@ -20,12 +20,12 @@ describe("SearchBar", () => {
         render(<SearchBar />);
     });
 
-    it("renders the search bar with input and button", () => {
+    it("should render the search bar with input and button", () => {
         expect(screen.getByPlaceholderText("Ich suche nach...")).toBeInTheDocument();
         expect(screen.getByRole("button", { name: /suchen/i })).toBeInTheDocument();
     });
 
-    it("navigates to the search page with the correct query when input is valid", async () => {
+    it("should navigate to the search page with the correct query when input is valid", async () => {
         const input = screen.getByPlaceholderText("Ich suche nach...");
         const button = screen.getByRole("button", { name: /suchen/i });
 
@@ -38,7 +38,7 @@ describe("SearchBar", () => {
         });
     });
 
-    it("does not navigate when the input is less than 3 characters", async () => {
+    it("should not navigate when the input is less than 3 characters", async () => {
         const input = screen.getByPlaceholderText("Ich suche nach...");
         const button = screen.getByRole("button", { name: /suchen/i });
 
@@ -48,7 +48,7 @@ describe("SearchBar", () => {
         expect(mockNavigate).not.toHaveBeenCalled();
     });
 
-    it("shows an error message when the input is less than 3 characters", async () => {
+    it("should show an error message when the input is less than 3 characters", async () => {
         const input = screen.getByPlaceholderText("Ich suche nach...");
         const button = screen.getByRole("button", { name: /suchen/i });
 
@@ -60,7 +60,7 @@ describe("SearchBar", () => {
         ).toBeInTheDocument();
     });
 
-    it("clears the error message when the input becomes valid", async () => {
+    it("should clear the error message when the input becomes valid", async () => {
         const input = screen.getByPlaceholderText("Ich suche nach...");
         const button = screen.getByRole("button", { name: /suchen/i });
 
