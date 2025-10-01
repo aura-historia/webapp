@@ -1,7 +1,9 @@
+import { ItemStateFilter } from "@/components/search/filters/ItemStateFilter.tsx";
 import { PriceSpanFilter } from "@/components/search/filters/PriceSpanFilter.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import { Form } from "@/components/ui/form.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const filterSchema = z.object({
@@ -11,50 +13,43 @@ const filterSchema = z.object({
             max: z.number().min(0).optional(),
         })
         .optional(),
-    itemStatus: z
-        .array(z.enum(["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"]))
-        .optional(),
+    itemState: z.array(z.enum(["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"])),
     creationDate: z.object({
         from: z.date().optional(),
         to: z.date().optional(),
     }),
-    merchant: z.string().min(1).optional(),
+    merchant: z.string().optional(),
 });
 
 export type FilterSchema = z.infer<typeof filterSchema>;
 
 export function SearchFilters() {
-    const filterForm = useForm<z.infer<typeof filterSchema>>({
+    const form = useForm<FilterSchema>({
         resolver: zodResolver(filterSchema),
         defaultValues: {
             priceSpan: { min: undefined, max: undefined },
-            itemStatus: [],
+            itemState: ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"],
             creationDate: { from: undefined, to: undefined },
             merchant: "",
         },
         mode: "onChange",
     });
 
+    const onSubmit = (data: FilterSchema) => {
+        console.log("[SearchFilters] submit", data);
+    };
+
     return (
-        <FormProvider {...filterForm}>
-            <Form {...filterForm}>
-                <form
-                    onSubmit={filterForm.handleSubmit((data) => {
-                        console.log(data);
-                    })}
-                    className="space-y-4"
-                >
-                    <div className="">
-                        <PriceSpanFilter />
-                        {/* Add other filters similarly:
-                <ItemStatusFilter />
-                <CreationDateFilter />
-                <MerchantFilter />
-                    */}
-                    </div>
-                    {/* <Button type="submit">Apply</Button> (if you have a Button component) */}
-                </form>
-            </Form>
-        </FormProvider>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <div className={"flex flex-col gap-4"}>
+                    <PriceSpanFilter />
+                    <ItemStateFilter />
+                </div>
+                <Button className="w-full shadow-sm" type="submit">
+                    Filter anwenden
+                </Button>
+            </form>
+        </Form>
     );
 }

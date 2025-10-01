@@ -30,7 +30,7 @@ const statusConfig = {
     },
     UNKNOWN: {
         label: "Unbekannt",
-        className: "bg-gray-100 text-foreground",
+        className: "bg-gray-400 text-white",
     },
 } as const;
 
