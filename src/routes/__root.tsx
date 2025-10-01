@@ -8,7 +8,6 @@ import appCss from "../styles.css?url";
 
 import { Footer } from "@/components/common/Footer.tsx";
 import { Header } from "@/components/common/Header.tsx";
-import { Authenticator } from "@aws-amplify/ui-react";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
 import "../amplify-config.ts";
@@ -29,7 +28,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 content: "width=device-width, initial-scale=1",
             },
             {
-                title: "Blitzfilter Webapp",
+                title: "Blitzfilter",
             },
         ],
         links: [
@@ -50,13 +49,11 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                 <HeadContent />
             </head>
             <body>
-                <Authenticator.Provider>
-                    <div className={"min-h-screen flex flex-col"}>
-                        <Header />
-                        <main className="flex-1">{children}</main>
-                        <Footer />
-                    </div>
-                </Authenticator.Provider>
+                <div className={"min-h-screen flex flex-col"}>
+                    <Header />
+                    <main className="flex-1">{children}</main>
+                    <Footer />
+                </div>
                 <Toaster position="top-center" richColors />
 
                 <TanstackDevtools
