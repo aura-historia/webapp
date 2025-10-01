@@ -26,7 +26,7 @@ code {
     --popover-foreground: var(--color-neutral-800);
     --primary: #b2905f;
     --primary-foreground: #ffffff;
-    --primary-hover: #b2905fE5;
+    --primary-hover: #b2905fe5;
     --secondary: #262626;
     --secondary-foreground: #ffffff;
     --tertiary: #44a597;
@@ -71,7 +71,7 @@ code {
     --popover-foreground: oklch(0.985 0 0);
     --primary: #b2905f;
     --primary-foreground: #ffffff;
-    --primary-hover: #b2905fE5;
+    --primary-hover: #b2905fe5;
     --secondary: oklch(0.274 0.006 286.033);
     --secondary-foreground: oklch(0.985 0 0);
     --tertiary: #44a597;
@@ -155,7 +155,6 @@ code {
     }
 }
 
-
 [data-amplify-authenticator] {
     /* Buttons (Log in/Register) */
     --amplify-components-button-primary-background-color: var(--primary);
@@ -184,8 +183,6 @@ code {
     --amplify-components-authenticator-router-background-color: var(--card);
     --amplify-components-authenticator-router-border-color: var(--border);
     --amplify-components-authenticator-router-box-shadow: var(--shadow-sm);
-
-
 }
 
 /* Glass container automatically makes inputs transparent; there is no Amplify CSS variable to make them white, so this is the workaround*/
@@ -213,6 +210,3 @@ code {
     margin-right: auto;
     margin-top: 16px;
 }
-
-
-

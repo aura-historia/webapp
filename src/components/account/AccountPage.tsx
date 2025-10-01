@@ -48,7 +48,8 @@ export function AccountPage() {
             toast.success("Dein Profil wurde erfolgreich aktualisiert!");
         },
         onError: (error) => {
-            toast.error(`Fehler beim Aktualisieren: ${error.message}`);
+            console.error("Error updating profile:", error);
+            toast.error("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
         },
     });
 
