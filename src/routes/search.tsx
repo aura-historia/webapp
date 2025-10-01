@@ -1,8 +1,7 @@
 import { SearchFilters } from "@/components/search/SearchFilters.tsx";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
 import { H1 } from "@/components/typography/H1";
-import { createFileRoute } from "@tanstack/react-router";
-import type { SearchSchemaInput } from "@tanstack/router-core";
+import { createFileRoute, type SearchSchemaInput } from "@tanstack/react-router";
 import type { ItemState } from "@/data/internal/ItemState.ts";
 
 type SearchParams = {
