@@ -34,9 +34,6 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "correctness": {
-                "useUniqueElementIds": "off"
-            },
             "recommended": true,
             "suspicious": {
                 "noUnknownAtRules": "off"
