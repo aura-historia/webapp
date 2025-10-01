@@ -14,6 +14,11 @@ export const env = createEnv({
 
     client: {
         VITE_APP_TITLE: z.string().min(1).optional(),
+
+        VITE_USER_POOL_ID: z.string().min(1),
+        VITE_CLIENT_ID: z.string().min(1),
+        VITE_AWS_REGION: z.string().min(1),
+        VITE_HOSTED_UI_DOMAIN: z.string().min(1),
     },
 
     /**
