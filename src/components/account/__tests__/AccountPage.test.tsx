@@ -152,7 +152,7 @@ describe("AccountPage", () => {
 
             await waitFor(() => {
                 expect(mockToast.error).toHaveBeenCalledWith(
-                    "Fehler beim Aktualisieren: Update failed",
+                    "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
                 );
             });
         });
@@ -164,11 +164,12 @@ describe("AccountPage", () => {
             mockUseUserAttributes.mockReturnValue({
                 data: null,
                 isLoading: true,
+                error: null,
             });
 
-            renderWithQueryClient(<AccountPage />);
-
-            expect(screen.getByText("Lädt...")).toBeInTheDocument();
+            const { container } = renderWithQueryClient(<AccountPage />);
+            const spinner = container.querySelector(".animate-spin");
+            expect(spinner).toBeInTheDocument();
         });
 
         it("should show error message", () => {
