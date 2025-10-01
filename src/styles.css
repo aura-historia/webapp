@@ -211,3 +211,10 @@ code {
     margin-right: auto;
     margin-top: 16px;
 }
+
+
+label[data-slot="form-label"] {
+    color: var(--amplify-colors-font-secondary);
+    font-weight: normal;
+
+}
