@@ -94,8 +94,7 @@ export function ProfilePage() {
         <div className="flex flex-col items-center max-w-3xl mx-auto px-4 py-8 w-full">
             <H1>Mein Profil</H1>
 
-            {/* Persönliche Daten*/}
-
+            {/* Personal data*/}
             <section className="bg-card text-card-foreground w-full max-w-2xl mx-auto p-6 mt-6 rounded-xl border shadow-sm">
                 <H2 className="mb-4">Persönliche Daten ändern</H2>
 
@@ -145,7 +144,7 @@ export function ProfilePage() {
                 </Form>
             </section>
 
-            {/* Passwort ändern */}
+            {/* Change password */}
             <section className="bg-card text-card-foreground w-full max-w-2xl mx-auto p-6 mt-6 rounded-xl border shadow-sm">
                 <H2 className="mb-4">Passwort ändern</H2>
                 <AccountSettings.ChangePassword
@@ -160,7 +159,7 @@ export function ProfilePage() {
                 />
             </section>
 
-            {/* Account löschen */}
+            {/* Delete account */}
             <section className="bg-card text-card-foreground w-full max-w-2xl mx-auto p-6 mt-6 rounded-xl border shadow-sm">
                 <H2 className="mb-4">Account löschen</H2>
                 <AccountSettings.DeleteUser

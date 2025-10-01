@@ -157,30 +157,30 @@ code {
 
 
 [data-amplify-authenticator] {
-    /* Buttons (Anmelden/Registrieren) */
+    /* Buttons (Log in/Register) */
     --amplify-components-button-primary-background-color: var(--primary);
     --amplify-components-button-primary-color: var(--primary-foreground);
     --amplify-components-button-primary-hover-background-color: var(--primary-hover);
     --amplify-components-button-primary-hover-color: var(--primary-foreground);
 
-    /* Passwort vergessen Link */
+    /* Forgot password link */
     --amplify-components-button-link-color: var(--foreground);
     --amplify-components-button-link-hover-color: var(--color-neutral-600);
 
-    /* Tabs oben (Anmelden/Registrieren) */
+    /* Tabs at the top (Log in/Register) */
     --amplify-components-button-link-hover-background-color: transparent;
     --amplify-components-tabs-item-active-border-color: var(--primary);
     --amplify-components-tabs-item-active-color: var(--foreground);
 
-    /* Tabs Hover-State */
+    /* Tabs hover state */
     --amplify-components-tabs-item-hover-color: var(--color-neutral-600);
     --amplify-components-tabs-item-hover-border-color: var(--color-neutral-600);
 
-    /* Focus-State der Eingabefelder */
+    /* Focus state of input fields */
     --amplify-components-fieldcontrol-focus-border-color: var(--ring);
     --amplify-components-fieldcontrol-focus-box-shadow: 0 0 0 2px var(--ring);
 
-    /* Glasiger Authenticator Container */
+    /* Glass Authenticator Container */
     --amplify-components-authenticator-router-background-color: var(--card);
     --amplify-components-authenticator-router-border-color: var(--border);
     --amplify-components-authenticator-router-box-shadow: var(--shadow-sm);
@@ -188,15 +188,13 @@ code {
 
 }
 
-/* Glasiger Container macht Inputs automatisch mit transparent, es gibt keine Amplify CSS-Variable, um die darüber
-weiß zu machen, daher diesen Weg*/
+/* Glass container automatically makes inputs transparent; there is no Amplify CSS variable to make them white, so this is the workaround*/
 [data-amplify-authenticator] .amplify-input,
 [data-amplify-authenticator] .amplify-field__show-password,
 .amplify-passwordfield .amplify-input,
 .amplify-field__show-password {
-    @apply h-12 font-medium text-lg bg-neutral-100 border-input rounded-md shadow-xs;
+    @apply font-medium bg-neutral-100 border-input rounded-md shadow-xs;
 }
-
 
 .amplify-passwordfield ~ button[type="submit"] {
     @apply bg-primary text-primary-foreground rounded-md w-1/2 hover:bg-primary/90;
