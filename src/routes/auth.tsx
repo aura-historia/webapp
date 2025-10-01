@@ -18,41 +18,47 @@ function AuthPage() {
             });
         }
     }, [user, navigate]);
+
     return (
         <div className="flex flex-row min-h-screen justify-center items-center">
             <Authenticator
-                signUpAttributes={["email", "given_name", "family_name", "birthdate"]}
+                signUpAttributes={["email", "given_name", "family_name", "birthdate", "gender"]}
                 formFields={{
                     signUp: {
+                        gender: {
+                            label: "Geschlecht",
+                            isRequired: true,
+                            order: 1,
+                        },
                         given_name: {
                             label: "Vorname",
                             placeholder: "Geben Sie Ihren Vornamen ein",
                             isRequired: true,
-                            order: 1,
+                            order: 2,
                         },
                         family_name: {
                             label: "Nachname",
                             placeholder: "Geben Sie Ihren Nachnamen ein",
                             isRequired: true,
-                            order: 2,
+                            order: 3,
                         },
                         birthdate: {
                             label: "Geburtsdatum",
                             placeholder: "tt.mm.jjjj",
                             isRequired: true,
-                            order: 3,
+                            order: 4,
                         },
                         email: {
                             isRequired: true,
-                            order: 4,
+                            order: 5,
                         },
                         password: {
                             isRequired: true,
-                            order: 5,
+                            order: 6,
                         },
                         confirm_password: {
                             isRequired: true,
-                            order: 6,
+                            order: 7,
                         },
                     },
                 }}
