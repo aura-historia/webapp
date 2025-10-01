@@ -20,7 +20,7 @@ export function Header() {
         context.signOut,
     ]);
 
-    const { data: userAttributes } = useUserAttributes();
+    const { data: userAttributes, isLoading } = useUserAttributes();
 
     return (
         <header className="flex items-center backdrop-blur-sm justify-between sticky top-0 px-4 py-4 border-b h-20">
@@ -34,6 +34,7 @@ export function Header() {
                             <ProfileImage
                                 firstName={userAttributes?.given_name || ""}
                                 lastName={userAttributes?.family_name || ""}
+                                isLoading={isLoading}
                             />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
