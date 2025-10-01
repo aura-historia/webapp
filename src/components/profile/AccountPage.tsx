@@ -31,7 +31,7 @@ const profileSchema = z.object({
     }),
 });
 
-export function ProfilePage() {
+export function AccountPage() {
     const { user } = useAuthenticator();
     const navigate = useNavigate();
     const queryClient = useQueryClient();

@@ -13,7 +13,7 @@ interface ProfileImageProps {
  * 2. One initial: Shows single available initial (e.g., "M") / Both initials: Shows first + last initial (e.g., "MH")
  * 3. No initials: Shows user icon fallback
  */
-export function ProfileImage({ firstName, lastName, isLoading }: ProfileImageProps) {
+export function AccountImage({ firstName, lastName, isLoading }: ProfileImageProps) {
     const firstInitial = firstName ? firstName[0] : "";
     const lastInitial = lastName ? lastName[0] : "";
     const initials = `${firstInitial}${lastInitial}`;

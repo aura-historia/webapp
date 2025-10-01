@@ -70,7 +70,7 @@ describe("Header Component", () => {
             expect(logoLink.closest("a")).toHaveAttribute("href", "/");
         });
 
-        it("should show ProfileImage for logged in user", () => {
+        it("should show AccountImage for logged in user", () => {
             const profileContainer = screen.getByRole("button");
             expect(profileContainer).toBeInTheDocument();
         });

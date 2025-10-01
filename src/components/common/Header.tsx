@@ -1,4 +1,4 @@
-import { ProfileImage } from "@/components/profile-image/ProfileImage.tsx";
+import { AccountImage } from "@/components/profile-image/AccountImage.tsx";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -31,7 +31,7 @@ export function Header() {
                 {user ? (
                     <DropdownMenu>
                         <DropdownMenuTrigger>
-                            <ProfileImage
+                            <AccountImage
                                 firstName={userAttributes?.given_name || ""}
                                 lastName={userAttributes?.family_name || ""}
                                 isLoading={isLoading}

@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { ProfilePage } from "../ProfilePage.tsx";
+import { AccountPage } from "../AccountPage.tsx";
 
 const mockUseAuthenticator = vi.hoisted(() => vi.fn());
 const mockUseUserAttributes = vi.hoisted(() => vi.fn());
@@ -51,7 +51,7 @@ const renderWithQueryClient = (component: React.ReactElement) => {
     return render(<QueryClientProvider client={queryClient}>{component}</QueryClientProvider>);
 };
 
-describe("ProfilePage", () => {
+describe("AccountPage", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         mockNavigate.mockResolvedValue(undefined);
@@ -65,7 +65,7 @@ describe("ProfilePage", () => {
                 isLoading: false,
             });
 
-            renderWithQueryClient(<ProfilePage />);
+            renderWithQueryClient(<AccountPage />);
 
             await waitFor(() => {
                 expect(mockNavigate).toHaveBeenCalledWith({ to: "/auth" });
@@ -87,7 +87,7 @@ describe("ProfilePage", () => {
         });
 
         it("should render profile page with all sections", () => {
-            renderWithQueryClient(<ProfilePage />);
+            renderWithQueryClient(<AccountPage />);
 
             expect(screen.getByText("Mein Profil")).toBeInTheDocument();
             expect(screen.getByText("Persönliche Daten ändern")).toBeInTheDocument();
@@ -96,7 +96,7 @@ describe("ProfilePage", () => {
         });
 
         it("should display user data in form", () => {
-            renderWithQueryClient(<ProfilePage />);
+            renderWithQueryClient(<AccountPage />);
 
             expect(screen.getByLabelText("Vorname")).toHaveValue("Max");
             expect(screen.getByLabelText("Nachname")).toHaveValue("Mustermann");
@@ -106,7 +106,7 @@ describe("ProfilePage", () => {
             const user = userEvent.setup();
             mockUpdateUserAttributes.mockResolvedValue({});
 
-            renderWithQueryClient(<ProfilePage />);
+            renderWithQueryClient(<AccountPage />);
 
             const vornameInput = screen.getByLabelText("Vorname");
             await user.clear(vornameInput);
@@ -130,7 +130,7 @@ describe("ProfilePage", () => {
         it("should show validation error for short name", async () => {
             const user = userEvent.setup();
 
-            renderWithQueryClient(<ProfilePage />);
+            renderWithQueryClient(<AccountPage />);
 
             const vornameInput = screen.getByLabelText("Vorname");
             await user.clear(vornameInput);
@@ -146,7 +146,7 @@ describe("ProfilePage", () => {
             const user = userEvent.setup();
             mockUpdateUserAttributes.mockRejectedValue(new Error("Update failed"));
 
-            renderWithQueryClient(<ProfilePage />);
+            renderWithQueryClient(<AccountPage />);
 
             await user.click(screen.getByRole("button", { name: /speichern/i }));
 
@@ -166,7 +166,7 @@ describe("ProfilePage", () => {
                 isLoading: true,
             });
 
-            renderWithQueryClient(<ProfilePage />);
+            renderWithQueryClient(<AccountPage />);
 
             expect(screen.getByText("Lädt...")).toBeInTheDocument();
         });
@@ -179,7 +179,7 @@ describe("ProfilePage", () => {
                 error: new Error("Failed"),
             });
 
-            renderWithQueryClient(<ProfilePage />);
+            renderWithQueryClient(<AccountPage />);
 
             expect(screen.getByText("Fehler beim Laden der Daten!")).toBeInTheDocument();
         });
