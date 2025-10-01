@@ -10,8 +10,6 @@ import { CalendarIcon } from "lucide-react";
 import { Controller, useFormContext } from "react-hook-form";
 
 export function CreationDateSpanFilter() {
-    const { control } = useFormContext<FilterSchema>();
-
     return (
         <Card>
             <CardHeader>
@@ -19,71 +17,53 @@ export function CreationDateSpanFilter() {
             </CardHeader>
             <CardContent>
                 <div className={"flex flex-col lg:flex-row gap-2 items-center"}>
-                    <Controller
-                        name="creationDate.from"
-                        control={control}
-                        render={({ field }) => (
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <Button
-                                        variant="default"
-                                        data-empty={!field.value}
-                                        className="justify-start text-left font-normal bg-background text-foreground hover:bg-background"
-                                    >
-                                        <CalendarIcon />
-                                        {field.value ? (
-                                            format(field.value, "P", { locale: de })
-                                        ) : (
-                                            <span>Beliebig</span>
-                                        )}
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0">
-                                    <Calendar
-                                        locale={de}
-                                        mode="single"
-                                        captionLayout={"dropdown"}
-                                        selected={field.value}
-                                        onSelect={(date) => field.onChange(date)}
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                        )}
-                    />
+                    <DatePicker fieldName="creationDate.from" />
                     <span>-</span>
-                    <Controller
-                        name="creationDate.to"
-                        control={control}
-                        render={({ field }) => (
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <Button
-                                        variant="default"
-                                        data-empty={!field.value}
-                                        className="justify-start text-left font-normal bg-background text-foreground hover:bg-background"
-                                    >
-                                        <CalendarIcon />
-                                        {field.value ? (
-                                            format(field.value, "P", { locale: de })
-                                        ) : (
-                                            <span>Beliebig</span>
-                                        )}
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0">
-                                    <Calendar
-                                        locale={de}
-                                        mode="single"
-                                        captionLayout={"dropdown"}
-                                        selected={field.value}
-                                        onSelect={(date) => field.onChange(date)}
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                        )}
-                    />
+                    <DatePicker fieldName="creationDate.to" />
                 </div>
             </CardContent>
         </Card>
+    );
+}
+
+function DatePicker({
+    fieldName,
+}: {
+    readonly fieldName: "creationDate.from" | "creationDate.to";
+}) {
+    const { control } = useFormContext<FilterSchema>();
+
+    return (
+        <Controller
+            name={fieldName}
+            control={control}
+            render={({ field }) => (
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button
+                            variant="default"
+                            data-empty={!field.value}
+                            className="justify-start text-left font-normal bg-background text-foreground hover:bg-background"
+                        >
+                            <CalendarIcon />
+                            {field.value ? (
+                                format(field.value, "P", { locale: de })
+                            ) : (
+                                <span>Beliebig</span>
+                            )}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                        <Calendar
+                            locale={de}
+                            mode="single"
+                            captionLayout={"dropdown"}
+                            selected={field.value}
+                            onSelect={(date) => field.onChange(date)}
+                        />
+                    </PopoverContent>
+                </Popover>
+            )}
+        />
     );
 }
