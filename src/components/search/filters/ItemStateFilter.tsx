@@ -14,7 +14,7 @@ export function ItemStateFilter() {
     return (
         <Card>
             <CardHeader>
-                <H2 className={"hyphens-auto"}>An&shy;zei&shy;gen&shy;sta&shy;tus</H2>
+                <H2>Anzeigenstatus</H2>
             </CardHeader>
             <CardContent>
                 <div className={"w-full grid grid-cols-1 lg:grid-cols-2 gap-4"}>

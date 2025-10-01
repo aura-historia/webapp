@@ -1,3 +1,4 @@
+import { CreationDateSpanFilter } from "@/components/search/filters/CreationDateSpanFilter.tsx";
 import { ItemStateFilter } from "@/components/search/filters/ItemStateFilter.tsx";
 import { PriceSpanFilter } from "@/components/search/filters/PriceSpanFilter.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -45,6 +46,7 @@ export function SearchFilters() {
                 <div className={"flex flex-col gap-4"}>
                     <PriceSpanFilter />
                     <ItemStateFilter />
+                    <CreationDateSpanFilter />
                 </div>
                 <Button className="w-full shadow-sm" type="submit">
                     Filter anwenden
