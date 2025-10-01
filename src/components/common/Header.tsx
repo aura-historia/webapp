@@ -1,4 +1,4 @@
-import { AccountImage } from "@/components/profile-image/AccountImage.tsx";
+import { AccountImage } from "@/components/account-image/AccountImage.tsx";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -41,7 +41,7 @@ export function Header() {
                             <DropdownMenuLabel>Mein Account</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
-                                <Link to="/profile">Profil bearbeiten</Link>
+                                <Link to="/account">Profil bearbeiten</Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => signOut()}>
                                 Ausloggen
