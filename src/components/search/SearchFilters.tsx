@@ -6,6 +6,7 @@ import { Form } from "@/components/ui/form.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { MerchantFilter } from "@/components/search/filters/MerchantFilter.tsx";
 
 const filterSchema = z.object({
     priceSpan: z
@@ -47,6 +48,7 @@ export function SearchFilters() {
                     <PriceSpanFilter />
                     <ItemStateFilter />
                     <CreationDateSpanFilter />
+                    <MerchantFilter />
                 </div>
                 <Button className="w-full shadow-sm" type="submit">
                     Filter anwenden
