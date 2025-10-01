@@ -188,6 +188,7 @@ code {
 /* Glass container automatically makes inputs transparent; there is no Amplify CSS variable to make them white, so this is the workaround*/
 [data-amplify-authenticator] .amplify-input,
 [data-amplify-authenticator] .amplify-field__show-password,
+[data-amplify-authenticator] .amplify-select,
 .amplify-passwordfield .amplify-input,
 .amplify-field__show-password {
     @apply font-medium bg-neutral-100 border-input rounded-md shadow-xs;
