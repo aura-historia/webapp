@@ -16,3 +16,9 @@ dist-ssr
 
 # Coverage directory
 coverage
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

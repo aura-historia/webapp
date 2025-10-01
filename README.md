@@ -19,11 +19,41 @@ pnpm run build
 
 ## Testing
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+This project uses [Vitest](https://vitest.dev/) for unit testing and [Playwright](https://playwright.dev/) for E2E testing.
+
+### Unit Tests
+
+You can run the unit tests with:
 
 ```bash
 pnpm run test
 ```
+
+### E2E Tests
+
+E2E tests are powered by Playwright and test the application from a user's perspective across different browsers.
+
+Run E2E tests:
+
+```bash
+pnpm run test:e2e
+
+pnpm run test:e2e:ui
+```
+
+**Note**: E2E tests require Playwright browsers to be installed. In CI/CD, this happens automatically. For local development, run:
+
+```bash
+pnpm exec playwright install
+```
+
+The E2E tests are configured to:
+- Run against Chromium in development for faster feedback
+- Run against Chromium, Firefox, and WebKit in CI for comprehensive coverage
+- Automatically start the dev server before running tests
+- Generate HTML reports and traces for debugging failures
+
+E2E tests run automatically in the CI pipeline when pushing to or creating PRs against the main branch.
 
 ## Styling
 

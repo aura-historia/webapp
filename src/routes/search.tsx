@@ -1,5 +1,5 @@
-import { type GetItemData, searchItems } from "@/client";
-import { useQuery } from "@tanstack/react-query";
+import { SearchResults } from "@/components/search/SearchResults.tsx";
+import { H1 } from "@/components/typography/H1";
 import { createFileRoute } from "@tanstack/react-router";
 
 type SearchParams = {
@@ -18,35 +18,26 @@ export const Route = createFileRoute("/search")({
 function RouteComponent() {
     const { q } = Route.useSearch();
 
-    const { data, isLoading, error } = useQuery({
-        queryKey: ["search", q],
-        queryFn: () =>
-            searchItems({
-                query: {
-                    q: q,
-                },
-            }),
-        enabled: q.length >= 3,
-    });
-
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error: {(error as Error).message}</div>;
-
-    if (!q) return <div>Invalid Search!</div>;
-
     return (
-        <div>
-            <h1>Search Results</h1>
-            <p>Showing results for: "{q}"</p>
-            {data?.data ? (
-                <ul>
-                    {data.data.items.map((result: GetItemData) => (
-                        <li key={result.itemId}>{result.title.text}</li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No results found</p>
-            )}
+        <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8 ml-8 mr-8 sm:ml-auto sm:mr-auto">
+            <div className={"flex flex-row items-end gap-8"}>
+                <div className={"flex-col hidden sm:block sm:w-[30%] min-w-0"}>
+                    <H1>Filter</H1>
+                </div>
+                <div className={"flex-col sm:w-[70%] min-w-0"}>
+                    <H1>Suchergebnisse für:</H1>
+                    <H1 className={"text-ellipsis overflow-hidden line-clamp-1"}>"{q}"</H1>
+                </div>
+            </div>
+
+            <div className={"flex flex-row items-start gap-8"}>
+                <div className={"flex-col hidden sm:block sm:w-[30%] min-w-0"}>
+                    4 Filter options go here
+                </div>
+                <div className={"flex-col sm:w-[70%] min-w-0"}>
+                    <SearchResults query={q} />
+                </div>
+            </div>
         </div>
     );
 }
