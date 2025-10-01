@@ -27,7 +27,7 @@ const filterSchema = z.object({
 export type FilterSchema = z.infer<typeof filterSchema>;
 
 type SearchFilterProps = {
-    query: string;
+    readonly query: string;
 };
 
 export function SearchFilters({ query }: SearchFilterProps) {

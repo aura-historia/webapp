@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { Controller, useFormContext } from "react-hook-form";
+import { useState } from "react";
 
 export function CreationDateSpanFilter() {
     return (
@@ -32,13 +33,14 @@ function DatePicker({
     readonly fieldName: "creationDate.from" | "creationDate.to";
 }) {
     const { control } = useFormContext<FilterSchema>();
+    const [calendarOpen, setCalendarOpen] = useState(false);
 
     return (
         <Controller
             name={fieldName}
             control={control}
             render={({ field }) => (
-                <Popover>
+                <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                     <PopoverTrigger asChild>
                         <Button
                             variant="default"
@@ -59,7 +61,10 @@ function DatePicker({
                             mode="single"
                             captionLayout={"dropdown"}
                             selected={field.value}
-                            onSelect={(date) => field.onChange(date)}
+                            onSelect={(date) => {
+                                field.onChange(date);
+                                setCalendarOpen(false);
+                            }}
                         />
                     </PopoverContent>
                 </Popover>

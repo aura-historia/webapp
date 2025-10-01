@@ -20,7 +20,8 @@ export function MerchantFilter() {
                         <Input
                             type={"text"}
                             placeholder={"Beliebiger Händler"}
-                            onChange={(text) => field.onChange(text)}
+                            value={field.value || ""}
+                            onChange={(e) => field.onChange(e.target.value)}
                         />
                     )}
                 />
