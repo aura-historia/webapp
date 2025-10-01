@@ -21,7 +21,6 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 const profileSchema = z.object({
     given_name: z.string().min(2, {
@@ -87,7 +86,7 @@ export function AccountPage() {
     if (isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <Spinner />
+                <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
             </div>
         );
     }
