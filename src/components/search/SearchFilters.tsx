@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MerchantFilter } from "@/components/search/filters/MerchantFilter.tsx";
+import { useNavigate } from "@tanstack/react-router";
 
 const filterSchema = z.object({
     priceSpan: z
@@ -25,20 +26,41 @@ const filterSchema = z.object({
 
 export type FilterSchema = z.infer<typeof filterSchema>;
 
-export function SearchFilters() {
+type SearchFilterProps = {
+    query: string;
+};
+
+export function SearchFilters({ query }: SearchFilterProps) {
+    const navigate = useNavigate({ from: "/search" });
+
     const form = useForm<FilterSchema>({
         resolver: zodResolver(filterSchema),
         defaultValues: {
             priceSpan: { min: undefined, max: undefined },
             itemState: ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"],
             creationDate: { from: undefined, to: undefined },
-            merchant: "",
+            merchant: undefined,
         },
         mode: "onChange",
     });
 
     const onSubmit = (data: FilterSchema) => {
-        console.log("[SearchFilters] submit", data);
+        navigate({
+            to: "/search",
+            search: {
+                q: query,
+                priceFrom: data.priceSpan?.min,
+                priceTo: data.priceSpan?.max,
+                allowedStates: data.itemState.length > 0 ? data.itemState : undefined,
+                creationDateFrom: data.creationDate.from
+                    ? data.creationDate.from.toISOString().split("T")[0]
+                    : undefined,
+                creationDateTo: data.creationDate.to
+                    ? data.creationDate.to.toISOString().split("T")[0]
+                    : undefined,
+                merchant: data.merchant ? data.merchant : undefined,
+            },
+        });
     };
 
     return (

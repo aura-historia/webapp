@@ -2,15 +2,43 @@ import { SearchFilters } from "@/components/search/SearchFilters.tsx";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
 import { H1 } from "@/components/typography/H1";
 import { createFileRoute } from "@tanstack/react-router";
+import type { SearchSchemaInput } from "@tanstack/router-core";
+import type { ItemState } from "@/data/internal/ItemState.ts";
 
 type SearchParams = {
     readonly q: string;
+    readonly priceFrom: number | undefined;
+    readonly priceTo: number | undefined;
+    readonly allowedStates: string[] | undefined;
+    readonly creationDateFrom: string | undefined;
+    readonly creationDateTo: string | undefined;
+    readonly merchant: string | undefined;
 };
 
 export const Route = createFileRoute("/search")({
-    validateSearch: (search: Record<string, unknown>): SearchParams => {
+    validateSearch: (
+        search: {
+            q: string;
+            priceFrom?: number;
+            priceTo?: number;
+            allowedStates?: ItemState[];
+            creationDateFrom?: string;
+            creationDateTo?: string;
+            merchant?: string;
+        } & SearchSchemaInput,
+    ): SearchParams => {
         return {
             q: (search.q as string) || "",
+            priceFrom: search.priceFrom ? Number(search.priceFrom) : undefined,
+            priceTo: search.priceTo ? Number(search.priceTo) : undefined,
+            allowedStates: Array.isArray(search.allowedStates)
+                ? (search.allowedStates as string[])
+                : search.allowedStates
+                  ? [search.allowedStates as string]
+                  : undefined,
+            creationDateFrom: (search.creationDateFrom as string) || undefined,
+            creationDateTo: (search.creationDateTo as string) || undefined,
+            merchant: (search.merchant as string) || undefined,
         };
     },
     component: RouteComponent,
@@ -33,7 +61,7 @@ function RouteComponent() {
 
             <div className={"flex flex-row items-start gap-8"}>
                 <div className={"flex-col hidden sm:block sm:w-[30%] min-w-0"}>
-                    <SearchFilters />
+                    <SearchFilters query={q} />
                 </div>
                 <div className={"flex-col sm:w-[70%] min-w-0"}>
                     <SearchResults query={q} />
