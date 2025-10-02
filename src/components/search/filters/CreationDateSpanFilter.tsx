@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, X } from "lucide-react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useState } from "react";
 
@@ -17,10 +17,15 @@ export function CreationDateSpanFilter() {
                 <H2>Erstellungsdatum</H2>
             </CardHeader>
             <CardContent>
-                <div className={"flex flex-col lg:flex-row gap-2 items-center"}>
-                    <DatePicker fieldName="creationDate.from" />
-                    <span>-</span>
-                    <DatePicker fieldName="creationDate.to" />
+                <div className={"flex flex-col w-full gap-2 justify-start"}>
+                    <div className={"flex flex-row gap-2 items-center"}>
+                        <span>Von: </span>
+                        <DatePicker fieldName="creationDate.from" />
+                    </div>
+                    <div className={"flex flex-row gap-2 items-center"}>
+                        <span>Bis: </span>
+                        <DatePicker fieldName="creationDate.to" />
+                    </div>
                 </div>
             </CardContent>
         </Card>
@@ -32,7 +37,7 @@ function DatePicker({
 }: {
     readonly fieldName: "creationDate.from" | "creationDate.to";
 }) {
-    const { control } = useFormContext<FilterSchema>();
+    const { control, setValue } = useFormContext<FilterSchema>();
     const [calendarOpen, setCalendarOpen] = useState(false);
 
     return (
@@ -41,32 +46,46 @@ function DatePicker({
             control={control}
             render={({ field }) => (
                 <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
-                    <PopoverTrigger asChild>
+                    <div className={"flex flex-row"}>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant="default"
+                                data-empty={!field.value}
+                                className="justify-start text-left font-normal bg-background text-foreground hover:bg-background"
+                            >
+                                <CalendarIcon />
+                                {field.value ? (
+                                    format(field.value, "P", { locale: de })
+                                ) : (
+                                    <span>Beliebig</span>
+                                )}
+                            </Button>
+                        </PopoverTrigger>
                         <Button
-                            variant="default"
-                            data-empty={!field.value}
-                            className="justify-start text-left font-normal bg-background text-foreground hover:bg-background"
+                            type="button"
+                            variant={"ghost"}
+                            onClick={() =>
+                                setValue(fieldName, undefined, {
+                                    shouldDirty: false,
+                                    shouldValidate: false,
+                                })
+                            }
                         >
-                            <CalendarIcon />
-                            {field.value ? (
-                                format(field.value, "P", { locale: de })
-                            ) : (
-                                <span>Beliebig</span>
-                            )}
+                            <X />
                         </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                        <Calendar
-                            locale={de}
-                            mode="single"
-                            captionLayout={"dropdown"}
-                            selected={field.value}
-                            onSelect={(date) => {
-                                field.onChange(date);
-                                setCalendarOpen(false);
-                            }}
-                        />
-                    </PopoverContent>
+                        <PopoverContent className="w-auto p-0">
+                            <Calendar
+                                locale={de}
+                                mode="single"
+                                captionLayout={"dropdown"}
+                                selected={field.value}
+                                onSelect={(date) => {
+                                    field.onChange(date);
+                                    setCalendarOpen(false);
+                                }}
+                            />
+                        </PopoverContent>
+                    </div>
                 </Popover>
             )}
         />

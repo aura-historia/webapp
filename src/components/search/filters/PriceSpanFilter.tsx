@@ -20,16 +20,10 @@ export function PriceSpanFilter() {
 
     // Prevent unnecessary form writes when slider values haven't logically changed
     const lastSlider = useRef<[number, number]>([sliderMin, sliderMax]);
+
     useEffect(() => {
         lastSlider.current = [sliderMin, sliderMax];
     }, [sliderMin, sliderMax]);
-
-    useEffect(() => {
-        if (sliderMin > sliderMax && sliderMin !== undefined && sliderMax !== undefined) {
-            setValue("priceSpan.min", sliderMax, { shouldDirty: true, shouldValidate: true });
-            setValue("priceSpan.max", sliderMin, { shouldDirty: true, shouldValidate: true });
-        }
-    }, [sliderMin, sliderMax, setValue]);
 
     const handleNumericChange = (raw: string, fieldName: "priceSpan.min" | "priceSpan.max") => {
         if (raw === "") {
@@ -42,6 +36,13 @@ export function PriceSpanFilter() {
         if (Number.isNaN(num)) return;
         setValue(fieldName, num, { shouldDirty: true, shouldValidate: true });
     };
+
+    function sortInputFields() {
+        if (sliderMin > sliderMax && sliderMin && sliderMax) {
+            setValue("priceSpan.min", sliderMax, { shouldDirty: true, shouldValidate: true });
+            setValue("priceSpan.max", sliderMin, { shouldDirty: true, shouldValidate: true });
+        }
+    }
 
     return (
         <Card>
@@ -91,6 +92,9 @@ export function PriceSpanFilter() {
                                     onChange={(e) =>
                                         handleNumericChange(e.target.value, "priceSpan.min")
                                     }
+                                    onBlur={() => {
+                                        sortInputFields();
+                                    }}
                                 />
                             )}
                         />
@@ -114,6 +118,9 @@ export function PriceSpanFilter() {
                                     onChange={(e) =>
                                         handleNumericChange(e.target.value, "priceSpan.max")
                                     }
+                                    onBlur={() => {
+                                        sortInputFields();
+                                    }}
                                 />
                             )}
                         />

@@ -2,7 +2,7 @@ import { SearchFilters } from "@/components/search/SearchFilters.tsx";
 import { SimpleSearchResults } from "@/components/search/SimpleSearchResults.tsx";
 import { H1 } from "@/components/typography/H1";
 import { createFileRoute, type SearchSchemaInput } from "@tanstack/react-router";
-import type { ItemState } from "@/data/internal/ItemState.ts";
+import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import { FilteredSearchResults } from "@/components/search/FilteredSearchResults.tsx";
 
@@ -18,19 +18,37 @@ export const Route = createFileRoute("/search")({
             merchant?: string;
         } & SearchSchemaInput,
     ): SearchFilterArguments => {
+        const priceFrom = Number(search.priceFrom);
+        const priceTo = Number(search.priceTo);
+
+        const validPriceFrom = Number.isNaN(priceFrom) ? undefined : priceFrom;
+        const validPriceTo = Number.isNaN(priceTo) ? undefined : priceTo;
+
+        let fromDate: Date | undefined;
+        let toDate: Date | undefined;
+
+        if (search.creationDateFrom) {
+            const parsed = new Date(search.creationDateFrom);
+            fromDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
+        }
+
+        if (search.creationDateTo) {
+            const parsed = new Date(search.creationDateTo);
+            toDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
+        }
+
         return {
             q: (search.q as string) || "",
-            priceFrom: search.priceFrom ? Number(search.priceFrom) : undefined,
-            priceTo: search.priceTo ? Number(search.priceTo) : undefined,
+            priceFrom: validPriceFrom,
+            priceTo: validPriceTo,
             allowedStates: Array.isArray(search.allowedStates)
-                ? (search.allowedStates as ItemState[])
-                : search.allowedStates
-                  ? [search.allowedStates as ItemState]
-                  : undefined,
-            creationDateFrom: search.creationDateFrom
-                ? new Date(search.creationDateFrom)
+                ? search.allowedStates
+                      .map((state) => parseItemState(state))
+                      .filter((s) => s)
+                      .filter((elem, index, self) => index === self.indexOf(elem))
                 : undefined,
-            creationDateTo: search.creationDateTo ? new Date(search.creationDateTo) : undefined,
+            creationDateFrom: fromDate,
+            creationDateTo: toDate,
             merchant: (search.merchant?.trim() as string) || undefined,
         };
     },
@@ -44,7 +62,7 @@ function RouteComponent() {
         return !(
             searchArgs.priceFrom ||
             searchArgs.priceTo ||
-            (searchArgs.allowedStates && searchArgs.allowedStates.length > 0) ||
+            searchArgs.allowedStates ||
             searchArgs.creationDateFrom ||
             searchArgs.creationDateTo ||
             searchArgs.merchant
@@ -65,8 +83,12 @@ function RouteComponent() {
                 </div>
             </div>
 
-            <div className={"flex flex-row items-start gap-8"}>
-                <div className={"flex-col hidden sm:block sm:w-[30%] min-w-0"}>
+            <div className={"flex flex-col sm:flex-row items-start gap-8"}>
+                <div
+                    className={
+                        "flex-col sm:w-[30%] min-w-0 md:pb-0 pb-8 border-b sm:border-b-0 border-gray-300"
+                    }
+                >
                     <SearchFilters searchFilters={searchArgs} />
                 </div>
                 <div className={"flex-col sm:w-[70%] min-w-0"}>

@@ -18,17 +18,22 @@ export function useFilteredSearch(searchArgs: SearchFilterArguments) {
                     ...(searchArgs.priceFrom != null || searchArgs.priceTo != null
                         ? {
                               price: {
-                                  min: searchArgs.priceFrom,
-                                  max: searchArgs.priceTo,
+                                  min: searchArgs.priceFrom
+                                      ? searchArgs.priceFrom * 100
+                                      : undefined,
+                                  max: searchArgs.priceTo ? searchArgs.priceTo * 100 : undefined,
                               },
                           }
                         : {}),
-                    state: searchArgs.allowedStates?.map((state) => mapToBackendState(state)),
+                    state:
+                        searchArgs.allowedStates?.length === 0
+                            ? []
+                            : searchArgs.allowedStates?.map((state) => mapToBackendState(state)),
                     ...(searchArgs.creationDateFrom != null || searchArgs.creationDateTo != null
                         ? {
                               created: {
-                                  min: searchArgs.creationDateFrom,
-                                  max: searchArgs.creationDateTo,
+                                  min: searchArgs.creationDateFrom?.toISOString() || undefined,
+                                  max: searchArgs.creationDateTo?.toISOString() || undefined,
                               },
                           }
                         : {}),

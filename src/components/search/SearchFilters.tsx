@@ -9,12 +9,14 @@ import { z } from "zod";
 import { MerchantFilter } from "@/components/search/filters/MerchantFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
+import { useEffect } from "react";
+import { formatToDateString } from "@/lib/utils.ts";
 
 const filterSchema = z.object({
     priceSpan: z
         .object({
-            min: z.number().min(0).optional(),
-            max: z.number().min(0).optional(),
+            min: z.number().min(0).optional().or(z.undefined()),
+            max: z.number().min(0).optional().or(z.undefined()),
         })
         .optional(),
     itemState: z.array(z.enum(["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"])),
@@ -37,20 +39,50 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const form = useForm<FilterSchema>({
         resolver: zodResolver(filterSchema),
         defaultValues: {
-            priceSpan: { min: searchFilters.priceFrom, max: searchFilters.priceTo },
-            itemState: searchFilters.allowedStates,
+            priceSpan: { min: undefined, max: undefined },
+            itemState: ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"],
             creationDate: {
-                from: searchFilters.creationDateFrom
-                    ? new Date(searchFilters.creationDateFrom)
-                    : undefined,
-                to: searchFilters.creationDateTo
-                    ? new Date(searchFilters.creationDateTo)
-                    : undefined,
+                from: undefined,
+                to: undefined,
             },
-            merchant: searchFilters.merchant,
+            merchant: undefined,
         },
-        mode: "onChange",
+        mode: "onSubmit",
     });
+
+    // Set initial values from search filters after form is created
+    useEffect(() => {
+        if (searchFilters.priceFrom !== undefined) {
+            form.setValue("priceSpan.min", searchFilters.priceFrom, { shouldDirty: false });
+        }
+        if (searchFilters.priceTo !== undefined) {
+            form.setValue("priceSpan.max", searchFilters.priceTo, { shouldDirty: false });
+        }
+        if (searchFilters.creationDateFrom) {
+            form.setValue("creationDate.from", new Date(searchFilters.creationDateFrom), {
+                shouldDirty: false,
+            });
+        }
+        if (searchFilters.creationDateTo) {
+            form.setValue("creationDate.to", new Date(searchFilters.creationDateTo), {
+                shouldDirty: false,
+            });
+        }
+        if (searchFilters.merchant) {
+            form.setValue("merchant", searchFilters.merchant, { shouldDirty: false });
+        }
+        if (searchFilters.allowedStates) {
+            form.setValue("itemState", searchFilters.allowedStates, { shouldDirty: false });
+        }
+    }, [
+        searchFilters.priceFrom,
+        searchFilters.priceTo,
+        searchFilters.creationDateFrom,
+        searchFilters.creationDateTo,
+        searchFilters.merchant,
+        searchFilters.allowedStates,
+        form,
+    ]);
 
     const onSubmit = (data: FilterSchema) => {
         navigate({
@@ -61,10 +93,10 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                 priceTo: data.priceSpan?.max,
                 allowedStates: data.itemState.length > 0 ? data.itemState : undefined,
                 creationDateFrom: data.creationDate.from
-                    ? data.creationDate.from.toISOString().split("T")[0]
+                    ? formatToDateString(data.creationDate.from)
                     : undefined,
                 creationDateTo: data.creationDate.to
-                    ? data.creationDate.to.toISOString().split("T")[0]
+                    ? formatToDateString(data.creationDate.to)
                     : undefined,
                 merchant: data.merchant ? data.merchant : undefined,
             },
