@@ -5,7 +5,7 @@ export type SearchFilterArguments = {
     priceFrom: number | undefined;
     priceTo: number | undefined;
     allowedStates: ItemState[] | undefined;
-    creationDateFrom: string | undefined;
-    creationDateTo: string | undefined;
+    creationDateFrom: Date | undefined;
+    creationDateTo: Date | undefined;
     merchant: string | undefined;
 };

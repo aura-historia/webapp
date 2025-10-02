@@ -21,7 +21,7 @@ export type GetItemData = {
      */
     shopId: string;
     /**
-     * Shop's unique identifier for the item
+     * Shop's unique identifier for the item. Can be any arbitrary string.
      */
     shopsItemId: string;
     /**
@@ -129,7 +129,7 @@ export type GetItemEventData = {
      */
     shopId: string;
     /**
-     * Shop's unique identifier for the item
+     * Shop's unique identifier for the item. Can be any arbitrary string.
      */
     shopsItemId: string;
     payload: ItemEventPayloadData;
@@ -147,7 +147,7 @@ export type GetItemEventData = {
  * - es: Spanish (includes es-ES, es-MX, es-AR, es-CO, es-CL, es-PE, es-VE)
  *
  */
-export type LanguageData = "de" | "en" | "fr" | "es";
+export type LanguageData = 'de' | 'en' | 'fr' | 'es';
 
 /**
  * Supported currencies (ISO 4217 codes):
@@ -159,7 +159,7 @@ export type LanguageData = "de" | "en" | "fr" | "es";
  * - NZD: New Zealand Dollar
  *
  */
-export type CurrencyData = "EUR" | "GBP" | "USD" | "AUD" | "CAD" | "NZD";
+export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD';
 
 /**
  * Current state of the item:
@@ -168,9 +168,10 @@ export type CurrencyData = "EUR" | "GBP" | "USD" | "AUD" | "CAD" | "NZD";
  * - RESERVED: Item is reserved by a buyer
  * - SOLD: Item has been sold
  * - REMOVED: Item has been removed and can no longer be tracked
+ * - UNKNOWN: Item has an unknown state
  *
  */
-export type ItemStateData = "LISTED" | "AVAILABLE" | "RESERVED" | "SOLD" | "REMOVED";
+export type ItemStateData = 'LISTED' | 'AVAILABLE' | 'RESERVED' | 'SOLD' | 'REMOVED' | 'UNKNOWN';
 
 /**
  * Fields available for sorting:
@@ -179,18 +180,19 @@ export type ItemStateData = "LISTED" | "AVAILABLE" | "RESERVED" | "SOLD" | "REMO
  * - created: Sort by creation timestamp
  *
  */
-export type SortItemFieldData = "price" | "updated" | "created";
+export type SortItemFieldData = 'price' | 'updated' | 'created';
 
 /**
  * Types of events that can occur for an item
  */
 export type ItemEventTypeData =
-    | "STATE_AVAILABLE"
-    | "PRICE_DROPPED"
-    | "STATE_LISTED"
-    | "STATE_RESERVED"
-    | "STATE_SOLD"
-    | "STATE_REMOVED";
+    'STATE_AVAILABLE'
+    | 'PRICE_DROPPED'
+    | 'STATE_LISTED'
+    | 'STATE_RESERVED'
+    | 'STATE_SOLD'
+    | 'STATE_REMOVED'
+    | 'STATE_UNKNOWN';
 
 /**
  * Event-specific payload data
@@ -227,7 +229,7 @@ export type ApiErrorSource = {
     /**
      * Type of parameter that caused the error
      */
-    sourceType: "query" | "path" | "header" | "body";
+    sourceType: 'query' | 'path' | 'header' | 'body';
 };
 
 /**
@@ -359,7 +361,7 @@ export type RangeQueryDateTime = {
  * - created: Sort by creation timestamp
  *
  */
-export type SortSearchFilterFieldData = "created";
+export type SortSearchFilterFieldData = 'created';
 
 /**
  * Paginated collection of user search filters
@@ -372,6 +374,199 @@ export type CollectionDataUserSearchFilter = {
     pagination: PaginationData;
 };
 
+/**
+ * Collection of items to create or update
+ */
+export type PutItemsCollectionData = {
+    /**
+     * Array of items to process
+     */
+    items: Array<PutItemData>;
+};
+
+/**
+ * Data required to create or update an item
+ */
+export type PutItemData = {
+    /**
+     * Unique identifier of the shop
+     */
+    shopId: string;
+    /**
+     * Shop's unique identifier for the item. Can be any arbitrary string.
+     */
+    shopsItemId: string;
+    /**
+     * Display name of the shop
+     */
+    shopName: string;
+    title: LocalizedTextData;
+    /**
+     * Optional item description
+     */
+    description?: LocalizedTextData | null;
+    /**
+     * Optional item price
+     */
+    price?: PriceData | null;
+    state: ItemStateData;
+    /**
+     * URL to the item on the shop's website
+     */
+    url: string;
+    /**
+     * Array of image URLs for the item
+     */
+    images?: Array<string>;
+};
+
+/**
+ * Response from bulk item creation/update operation
+ */
+export type PutItemsResponse = {
+    /**
+     * Items that could not be processed
+     */
+    unprocessed?: Array<ItemKeyData>;
+    /**
+     * Number of items that were skipped during processing
+     */
+    skipped: number;
+};
+
+/**
+ * Complete shop information including metadata
+ */
+export type GetShopData = {
+    /**
+     * Unique identifier of the shop
+     */
+    shopId: string;
+    /**
+     * Display name of the shop
+     */
+    name: string;
+    /**
+     * URL to the shop's website
+     */
+    url: string;
+    /**
+     * Optional URL to the shop's logo or image
+     */
+    image?: string | null;
+    /**
+     * When the shop was first created (RFC3339 format)
+     */
+    created: string;
+    /**
+     * When the shop was last updated (RFC3339 format)
+     */
+    updated: string;
+};
+
+/**
+ * Search filter configuration for shops with query parameters and filtering options
+ */
+export type ShopSearchData = {
+    /**
+     * Optional text query for searching shops by name (minimum 3 characters)
+     */
+    shopNameQuery?: string;
+    /**
+     * Optional filter by shop creation date range
+     */
+    created?: RangeQueryDateTime | null;
+    /**
+     * Optional filter by shop last updated date range
+     */
+    updated?: RangeQueryDateTime | null;
+};
+
+/**
+ * Fields available for sorting shops:
+ * - name: Sort by shop name
+ * - updated: Sort by last updated timestamp
+ * - created: Sort by creation timestamp
+ *
+ */
+export type SortShopFieldData = 'name' | 'updated' | 'created';
+
+/**
+ * Paginated collection of shops
+ */
+export type CollectionDataShop = {
+    /**
+     * Array of shops in the current page
+     */
+    items: Array<GetShopData>;
+    pagination: PaginationData;
+};
+
+/**
+ * Identifier for an item using shop ID and shop's item ID
+ */
+export type ItemKeyData = {
+    /**
+     * Unique identifier of the shop
+     */
+    shopId: string;
+    /**
+     * Shop's unique identifier for the item. Can be any arbitrary string.
+     */
+    shopsItemId: string;
+};
+
+/**
+ * Watchlist item containing the item data and when it was added to the watchlist
+ */
+export type WatchlistItemData = {
+    item: GetItemData;
+    /**
+     * When the item was added to the watchlist (RFC3339 format)
+     */
+    created: string;
+};
+
+/**
+ * Paginated collection of watchlist items using cursor-based pagination
+ */
+export type WatchlistCollectionData = {
+    /**
+     * Array of watchlist items in the current page
+     */
+    items: Array<WatchlistItemData>;
+    pagination: PaginationDataDateTime;
+};
+
+/**
+ * Pagination metadata for cursor-based pagination using timestamps
+ */
+export type PaginationDataDateTime = {
+    /**
+     * Starting cursor timestamp (RFC3339 format)
+     */
+    from: string;
+    /**
+     * Number of items in the current page
+     */
+    size: number;
+    /**
+     * Total number of items (optional, may not be available for cursor-based pagination)
+     */
+    total?: number | null;
+    /**
+     * Cursor for the next page (RFC3339 format). Present when there are more results.
+     */
+    next?: string | null;
+};
+
+/**
+ * Fields available for sorting watchlist items:
+ * - created: Sort by when item was added to watchlist
+ *
+ */
+export type SortWatchlistItemFieldData = 'created';
+
 export type GetItemData2 = {
     body?: never;
     headers?: {
@@ -381,7 +576,7 @@ export type GetItemData2 = {
          * Supported languages: de, en, fr, es (with regional variants).
          *
          */
-        "Accept-Language"?: string;
+        'Accept-Language'?: string;
     };
     path: {
         /**
@@ -389,7 +584,7 @@ export type GetItemData2 = {
          */
         shopId: string;
         /**
-         * Shop's unique identifier for the item
+         * Shop's unique identifier for the item. Can be any arbitrary string.
          */
         shopsItemId: string;
     };
@@ -403,7 +598,7 @@ export type GetItemData2 = {
          */
         history?: boolean;
     };
-    url: "/api/v1/items/{shopId}/{shopsItemId}";
+    url: '/api/v1/items/{shopId}/{shopsItemId}';
 };
 
 export type GetItemErrors = {
@@ -455,7 +650,7 @@ export type SearchItemsData = {
         /**
          * Sort order (only valid when sort is specified)
          */
-        order?: "asc" | "desc";
+        order?: 'asc' | 'desc';
         /**
          * Pagination offset (number of items to skip)
          */
@@ -465,7 +660,7 @@ export type SearchItemsData = {
          */
         size?: number;
     };
-    url: "/api/v1/items";
+    url: '/api/v1/items';
 };
 
 export type SearchItemsErrors = {
@@ -490,6 +685,38 @@ export type SearchItemsResponses = {
 
 export type SearchItemsResponse = SearchItemsResponses[keyof SearchItemsResponses];
 
+export type PutItemsData = {
+    /**
+     * Collection of items to create or update
+     */
+    body: PutItemsCollectionData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/items';
+};
+
+export type PutItemsErrors = {
+    /**
+     * Bad request - invalid request body
+     */
+    400: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PutItemsError = PutItemsErrors[keyof PutItemsErrors];
+
+export type PutItemsResponses = {
+    /**
+     * Items processed successfully
+     */
+    200: PutItemsResponse;
+};
+
+export type PutItemsResponse2 = PutItemsResponses[keyof PutItemsResponses];
+
 export type ComplexSearchItemsData = {
     /**
      * Search filter configuration with all filtering criteria.
@@ -507,7 +734,7 @@ export type ComplexSearchItemsData = {
         /**
          * Sort order (only valid when sort is specified)
          */
-        order?: "asc" | "desc";
+        order?: 'asc' | 'desc';
         /**
          * Pagination offset (number of items to skip)
          */
@@ -517,7 +744,7 @@ export type ComplexSearchItemsData = {
          */
         size?: number;
     };
-    url: "/api/v1/items/search";
+    url: '/api/v1/items/search';
 };
 
 export type ComplexSearchItemsErrors = {
@@ -540,8 +767,7 @@ export type ComplexSearchItemsResponses = {
     200: CollectionData;
 };
 
-export type ComplexSearchItemsResponse =
-    ComplexSearchItemsResponses[keyof ComplexSearchItemsResponses];
+export type ComplexSearchItemsResponse = ComplexSearchItemsResponses[keyof ComplexSearchItemsResponses];
 
 export type GetSearchFiltersData = {
     body?: never;
@@ -560,9 +786,9 @@ export type GetSearchFiltersData = {
         /**
          * Sort order (only valid when sort is specified)
          */
-        order?: "asc" | "desc";
+        order?: 'asc' | 'desc';
     };
-    url: "/api/v1/search-filters";
+    url: '/api/v1/search-filters';
 };
 
 export type GetSearchFiltersErrors = {
@@ -604,7 +830,7 @@ export type CreateSearchFilterData = {
     };
     path?: never;
     query?: never;
-    url: "/api/v1/search-filters";
+    url: '/api/v1/search-filters';
 };
 
 export type CreateSearchFilterErrors = {
@@ -631,8 +857,7 @@ export type CreateSearchFilterResponses = {
     201: UserSearchFilterData;
 };
 
-export type CreateSearchFilterResponse =
-    CreateSearchFilterResponses[keyof CreateSearchFilterResponses];
+export type CreateSearchFilterResponse = CreateSearchFilterResponses[keyof CreateSearchFilterResponses];
 
 export type DeleteSearchFilterData = {
     body?: never;
@@ -649,7 +874,7 @@ export type DeleteSearchFilterData = {
         searchFilterId: string;
     };
     query?: never;
-    url: "/api/v1/search-filters/{searchFilterId}";
+    url: '/api/v1/search-filters/{searchFilterId}';
 };
 
 export type DeleteSearchFilterErrors = {
@@ -680,8 +905,7 @@ export type DeleteSearchFilterResponses = {
     204: void;
 };
 
-export type DeleteSearchFilterResponse =
-    DeleteSearchFilterResponses[keyof DeleteSearchFilterResponses];
+export type DeleteSearchFilterResponse = DeleteSearchFilterResponses[keyof DeleteSearchFilterResponses];
 
 export type GetSearchFilterData = {
     body?: never;
@@ -698,7 +922,7 @@ export type GetSearchFilterData = {
         searchFilterId: string;
     };
     query?: never;
-    url: "/api/v1/search-filters/{searchFilterId}";
+    url: '/api/v1/search-filters/{searchFilterId}';
 };
 
 export type GetSearchFilterErrors = {
@@ -751,7 +975,7 @@ export type UpdateSearchFilterData = {
         searchFilterId: string;
     };
     query?: never;
-    url: "/api/v1/search-filters/{searchFilterId}";
+    url: '/api/v1/search-filters/{searchFilterId}';
 };
 
 export type UpdateSearchFilterErrors = {
@@ -782,5 +1006,263 @@ export type UpdateSearchFilterResponses = {
     200: UserSearchFilterData;
 };
 
-export type UpdateSearchFilterResponse =
-    UpdateSearchFilterResponses[keyof UpdateSearchFilterResponses];
+export type UpdateSearchFilterResponse = UpdateSearchFilterResponses[keyof UpdateSearchFilterResponses];
+
+export type GetWatchlistItemsData = {
+    body?: never;
+    headers: {
+        /**
+         * Preferred language for localized content.
+         * Supports quality values and multiple languages.
+         * Supported languages: de, en, fr, es (with regional variants).
+         *
+         */
+        'Accept-Language'?: string;
+        /**
+         * Cognito JWT token for user authentication
+         */
+        Authorization: string;
+    };
+    path?: never;
+    query?: {
+        /**
+         * Currency for price display
+         */
+        currency?: CurrencyData;
+        /**
+         * Field to sort results by
+         */
+        sort?: SortWatchlistItemFieldData;
+        /**
+         * Sort order (only valid when sort is specified)
+         */
+        order?: 'asc' | 'desc';
+        /**
+         * RFC3339 timestamp for cursor-based pagination (search-after).
+         * Depending on sort-order, returns watchlist-items created, either after this timestamp for asc (oldest first) or before this timestamp for desc (latest first).
+         * In general you do not have to worry about determining this key. It's given with PaginationDataDateTime::next in the preceding response if more entries are present.
+         *
+         */
+        from?: string;
+        /**
+         * Number of items to return per page
+         */
+        size?: number;
+    };
+    url: '/api/v1/watchlist';
+};
+
+export type GetWatchlistItemsErrors = {
+    /**
+     * Bad request - invalid parameters
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetWatchlistItemsError = GetWatchlistItemsErrors[keyof GetWatchlistItemsErrors];
+
+export type GetWatchlistItemsResponses = {
+    /**
+     * Watchlist items retrieved successfully
+     */
+    200: WatchlistCollectionData;
+};
+
+export type GetWatchlistItemsResponse = GetWatchlistItemsResponses[keyof GetWatchlistItemsResponses];
+
+export type AddWatchlistItemData = {
+    /**
+     * Item identifier to add to watchlist
+     */
+    body: ItemKeyData;
+    headers: {
+        /**
+         * Cognito JWT token for user authentication
+         */
+        Authorization: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/watchlist';
+};
+
+export type AddWatchlistItemErrors = {
+    /**
+     * Bad request - invalid request body
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type AddWatchlistItemError = AddWatchlistItemErrors[keyof AddWatchlistItemErrors];
+
+export type AddWatchlistItemResponses = {
+    /**
+     * Item added to watchlist successfully
+     */
+    201: unknown;
+};
+
+export type DeleteWatchlistItemData = {
+    body?: never;
+    headers: {
+        /**
+         * Cognito JWT token for user authentication
+         */
+        Authorization: string;
+    };
+    path: {
+        /**
+         * Unique identifier of the shop
+         */
+        shopId: string;
+        /**
+         * Shop's unique identifier for the item
+         */
+        shopsItemId: string;
+    };
+    query: {
+        /**
+         * RFC3339 timestamp of when the watchlist entry was created.
+         * Required to identify the exact entry to delete.
+         *
+         */
+        created: string;
+    };
+    url: '/api/v1/watchlist/{shopId}/{shopsItemId}';
+};
+
+export type DeleteWatchlistItemErrors = {
+    /**
+     * Bad request - invalid parameters
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * Watchlist entry not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type DeleteWatchlistItemError = DeleteWatchlistItemErrors[keyof DeleteWatchlistItemErrors];
+
+export type DeleteWatchlistItemResponses = {
+    /**
+     * Item removed from watchlist successfully
+     */
+    204: void;
+};
+
+export type DeleteWatchlistItemResponse = DeleteWatchlistItemResponses[keyof DeleteWatchlistItemResponses];
+
+export type GetShopData2 = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the shop
+         */
+        shopId: string;
+    };
+    query?: never;
+    url: '/api/v1/shops/{shopId}';
+};
+
+export type GetShopErrors = {
+    /**
+     * Bad request - invalid shop ID
+     */
+    400: ApiError;
+    /**
+     * Shop not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetShopError = GetShopErrors[keyof GetShopErrors];
+
+export type GetShopResponses = {
+    /**
+     * Shop found and returned successfully
+     */
+    200: GetShopData;
+};
+
+export type GetShopResponse = GetShopResponses[keyof GetShopResponses];
+
+export type SearchShopsData = {
+    /**
+     * Shop search filter configuration with all filtering criteria.
+     * Allows filtering by shop name and creation/update date ranges.
+     * If you do not want to restrict the search, supply an empty JSON-Object '{}' as body.
+     *
+     */
+    body: ShopSearchData;
+    path?: never;
+    query?: {
+        /**
+         * Field to sort results by
+         */
+        sort?: SortShopFieldData;
+        /**
+         * Sort order (only valid when sort is specified)
+         */
+        order?: 'asc' | 'desc';
+        /**
+         * Pagination offset (number of shops to skip)
+         */
+        from?: number;
+        /**
+         * Number of shops to return per page
+         */
+        size?: number;
+    };
+    url: '/api/v1/shops/search';
+};
+
+export type SearchShopsErrors = {
+    /**
+     * Bad request - invalid parameters or body
+     */
+    400: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type SearchShopsError = SearchShopsErrors[keyof SearchShopsErrors];
+
+export type SearchShopsResponses = {
+    /**
+     * Shop search results returned successfully
+     */
+    200: CollectionDataShop;
+};
+
+export type SearchShopsResponse = SearchShopsResponses[keyof SearchShopsResponses];

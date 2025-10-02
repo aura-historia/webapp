@@ -27,8 +27,10 @@ export const Route = createFileRoute("/search")({
                 : search.allowedStates
                   ? [search.allowedStates as ItemState]
                   : undefined,
-            creationDateFrom: (search.creationDateFrom as string) || undefined,
-            creationDateTo: (search.creationDateTo as string) || undefined,
+            creationDateFrom: search.creationDateFrom
+                ? new Date(search.creationDateFrom)
+                : undefined,
+            creationDateTo: search.creationDateTo ? new Date(search.creationDateTo) : undefined,
             merchant: (search.merchant?.trim() as string) || undefined,
         };
     },
@@ -65,7 +67,7 @@ function RouteComponent() {
 
             <div className={"flex flex-row items-start gap-8"}>
                 <div className={"flex-col hidden sm:block sm:w-[30%] min-w-0"}>
-                    <SearchFilters query={searchArgs.q} />
+                    <SearchFilters searchFilters={searchArgs} />
                 </div>
                 <div className={"flex-col sm:w-[70%] min-w-0"}>
                     {isSimpleSearch(searchArgs) ? (

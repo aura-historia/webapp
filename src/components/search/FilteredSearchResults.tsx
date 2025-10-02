@@ -6,7 +6,7 @@ import { useFilteredSearch } from "@/hooks/useFilteredSearch.ts";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 
 type FilteredSearchResultsProps = {
-    searchFilters: SearchFilterArguments;
+    readonly searchFilters: SearchFilterArguments;
 };
 
 export function FilteredSearchResults({ searchFilters }: FilteredSearchResultsProps) {

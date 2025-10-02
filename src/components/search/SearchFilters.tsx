@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MerchantFilter } from "@/components/search/filters/MerchantFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
+import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 
 const filterSchema = z.object({
     priceSpan: z
@@ -27,19 +28,26 @@ const filterSchema = z.object({
 export type FilterSchema = z.infer<typeof filterSchema>;
 
 type SearchFilterProps = {
-    readonly query: string;
+    readonly searchFilters: SearchFilterArguments;
 };
 
-export function SearchFilters({ query }: SearchFilterProps) {
+export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
 
     const form = useForm<FilterSchema>({
         resolver: zodResolver(filterSchema),
         defaultValues: {
-            priceSpan: { min: undefined, max: undefined },
-            itemState: ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"],
-            creationDate: { from: undefined, to: undefined },
-            merchant: undefined,
+            priceSpan: { min: searchFilters.priceFrom, max: searchFilters.priceTo },
+            itemState: searchFilters.allowedStates,
+            creationDate: {
+                from: searchFilters.creationDateFrom
+                    ? new Date(searchFilters.creationDateFrom)
+                    : undefined,
+                to: searchFilters.creationDateTo
+                    ? new Date(searchFilters.creationDateTo)
+                    : undefined,
+            },
+            merchant: searchFilters.merchant,
         },
         mode: "onChange",
     });
@@ -48,7 +56,7 @@ export function SearchFilters({ query }: SearchFilterProps) {
         navigate({
             to: "/search",
             search: {
-                q: query,
+                q: searchFilters.q,
                 priceFrom: data.priceSpan?.min,
                 priceTo: data.priceSpan?.max,
                 allowedStates: data.itemState.length > 0 ? data.itemState : undefined,

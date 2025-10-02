@@ -2,9 +2,8 @@ openapi: 3.0.0
 info:
   title: Blitzfilter Backend API
   description: |
-    REST API for the Blitzfilter cloud-native application backend.
+      REST API for the Blitzfilter backend.
     
-    This API provides endpoints for item retrieval and search functionality.
     The backend is written in Rust and utilizes event-driven architecture with CQRS and Event-Sourcing,
     hosted entirely on AWS using services like API Gateway, OpenSearch, DynamoDB, SQS, and Lambda.
   version: 1.0.0
@@ -17,7 +16,7 @@ info:
 
 servers:
   - url: https://api.blitzfilter.com
-    description: Production server
+    description: Placeholder server
 
 paths:
   /api/v1/items/{shopId}/{shopsItemId}:
@@ -42,7 +41,7 @@ paths:
         - name: shopsItemId
           in: path
           required: true
-          description: Shop's unique identifier for the item
+          description: Shop's unique identifier for the item. Can be any arbitrary string.
           schema:
             type: string
             format: uuid
@@ -322,6 +321,103 @@ paths:
               example:
                 status: 500
                 error: "INTERNAL_SERVER_ERROR"
+    put:
+        summary: Bulk create or update items
+        description: |
+            Creates or updates multiple items in a single batch request.
+            This endpoint accepts a collection of item data and processes them asynchronously.
+            Returns information about any items that could not be processed.
+        operationId: putItems
+        tags:
+            - Items
+        requestBody:
+            required: true
+            description: Collection of items to create or update
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/PutItemsCollectionData'
+                    example:
+                        items:
+                            -   shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                shopsItemId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                                shopName: "Tech Store"
+                                title:
+                                    text: "Smartphone Case Premium"
+                                    language: "en"
+                                description:
+                                    text: "Premium quality smartphone case with wireless charging support"
+                                    language: "en"
+                                price:
+                                    currency: "EUR"
+                                    amount: 2999
+                                state: "AVAILABLE"
+                                url: "https://tech-store.com/premium-case"
+                                images:
+                                    - "https://tech-store.com/images/premium-case-1.jpg"
+                                    - "https://tech-store.com/images/premium-case-2.jpg"
+                            -   shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                shopsItemId: "7cb8c920-9dad-11d1-80b4-00c04fd430c9"
+                                shopName: "Tech Store"
+                                title:
+                                    text: "Basic Phone Case"
+                                    language: "en"
+                                state: "LISTED"
+                                url: "https://tech-store.com/basic-case"
+                                images: [ ]
+        responses:
+            '200':
+                description: Items processed successfully
+                headers:
+                    Access-Control-Allow-Origin:
+                        description: CORS header
+                        schema:
+                            type: string
+                        example: "*"
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PutItemsResponse'
+                        examples:
+                            all_processed:
+                                summary: All items processed successfully
+                                value:
+                                    skipped: 0
+                            partial_processing:
+                                summary: Some items could not be processed
+                                value:
+                                    unprocessed:
+                                        -   shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                            shopsItemId: "7cb8c920-9dad-11d1-80b4-00c04fd430c9"
+                                    skipped: 2
+            '400':
+                description: Bad request - invalid request body
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ApiError'
+                        examples:
+                            missing_body:
+                                summary: Missing request body
+                                value:
+                                    status: 400
+                                    error: "BAD_BODY_VALUE"
+                                    message: "Body cannot be empty"
+                            invalid_json:
+                                summary: Invalid JSON format
+                                value:
+                                    status: 400
+                                    error: "BAD_BODY_VALUE"
+                                    message: "Invalid JSON format"
+            '500':
+                description: Internal server error
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ApiError'
+                        example:
+                            status: 500
+                            error: "INTERNAL_SERVER_ERROR"
 
   /api/v1/items/search:
     post:
@@ -1067,6 +1163,620 @@ paths:
                 status: 500
                 error: "INTERNAL_SERVER_ERROR"
 
+  /api/v1/watchlist:
+      get:
+          summary: List user's watchlist items
+          description: |
+              Retrieves all items in the authenticated user's watchlist.
+              Results are paginated using search-after cursor-based pagination with timestamp.
+              Requires valid Cognito JWT authentication.
+          operationId: getWatchlistItems
+          tags:
+              - Watchlist
+          parameters:
+              -   name: currency
+                  in: query
+                  required: false
+                  description: Currency for price display
+                  schema:
+                      $ref: '#/components/schemas/CurrencyData'
+                  example: EUR
+              -   name: sort
+                  in: query
+                  required: false
+                  description: Field to sort results by
+                  schema:
+                      $ref: '#/components/schemas/SortWatchlistItemFieldData'
+                  example: created
+              -   name: order
+                  in: query
+                  required: false
+                  description: Sort order (only valid when sort is specified)
+                  schema:
+                      type: string
+                      enum: [ asc, desc ]
+                  example: desc
+              -   name: from
+                  in: query
+                  required: false
+                  description: |
+                      RFC3339 timestamp for cursor-based pagination (search-after).
+                      Depending on sort-order, returns watchlist-items created, either after this timestamp for asc (oldest first) or before this timestamp for desc (latest first).
+                      In general you do not have to worry about determining this key. It's given with PaginationDataDateTime::next in the preceding response if more entries are present.
+                  schema:
+                      type: string
+                      format: date-time
+                  example: "2024-01-01T10:00:00Z"
+              -   name: size
+                  in: query
+                  required: false
+                  description: Number of items to return per page
+                  schema:
+                      type: integer
+                      minimum: 1
+                      maximum: 100
+                      default: 21
+                  example: 21
+              -   name: Accept-Language
+                  in: header
+                  required: false
+                  description: |
+                      Preferred language for localized content.
+                      Supports quality values and multiple languages.
+                      Supported languages: de, en, fr, es (with regional variants).
+                  schema:
+                      type: string
+                      pattern: '^([a-z]{2}(-[A-Z]{2})?(;q=[0-9](\.[0-9])?)?)(,([a-z]{2}(-[A-Z]{2})?(;q=[0-9](\.[0-9])?)?)*)*$'
+                  examples:
+                      single:
+                          value: "de"
+                          description: "German"
+                      multiple:
+                          value: "en;q=0.9,de;q=0.8"
+                          description: "English preferred, German as fallback"
+                      regional:
+                          value: "en-US"
+                          description: "US English"
+              -   name: Authorization
+                  in: header
+                  required: true
+                  description: Cognito JWT token for user authentication
+                  schema:
+                      type: string
+                      pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
+                  example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          responses:
+              '200':
+                  description: Watchlist items retrieved successfully
+                  headers:
+                      Access-Control-Allow-Origin:
+                          description: CORS header
+                          schema:
+                              type: string
+                          example: "*"
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/WatchlistCollectionData'
+                          example:
+                              items:
+                                  -   item:
+                                          itemId: "550e8400-e29b-41d4-a716-446655440000"
+                                          eventId: "550e8400-e29b-41d4-a716-446655440001"
+                                          shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                          shopsItemId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                                          shopName: "Tech Store"
+                                          title:
+                                              text: "Smartphone Case"
+                                              language: "en"
+                                          price:
+                                              currency: "EUR"
+                                              amount: 2999
+                                          state: "AVAILABLE"
+                                          url: "https://tech-store.com/smartphone-case"
+                                          images:
+                                              - "https://tech-store.com/images/case-1.jpg"
+                                          created: "2024-01-01T10:00:00Z"
+                                          updated: "2024-01-01T12:00:00Z"
+                                      created: "2024-01-15T08:00:00Z"
+                              pagination:
+                                  from: "2024-01-01T00:00:00Z"
+                                  size: 21
+                                  next: "2024-01-15T08:00:00Z"
+              '400':
+                  description: Bad request - invalid parameters
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          examples:
+                              invalid_sort_field:
+                                  summary: Invalid sort field
+                                  value:
+                                      status: 400
+                                      error: "BAD_QUERY_PARAMETER_VALUE"
+                                      source:
+                                          field: "sort"
+                                          sourceType: "query"
+                                      message: "Expected any of: 'created'. Got: 'invalid'"
+                              invalid_order:
+                                  summary: Invalid sort order
+                                  value:
+                                      status: 400
+                                      error: "BAD_QUERY_PARAMETER_VALUE"
+                                      source:
+                                          field: "order"
+                                          sourceType: "query"
+                                      message: "Expected any of: 'asc' or 'desc'. Got: 'invalid'"
+                              invalid_from_timestamp:
+                                  summary: Invalid from timestamp
+                                  value:
+                                      status: 400
+                                      error: "INVALID_RFC3339_TIMESTAMP"
+                                      source:
+                                          field: "from"
+                                          sourceType: "query"
+                                      message: "Invalid RFC3339 timestamp format"
+              '401':
+                  description: Unauthorized - invalid or missing JWT token
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          example:
+                              status: 401
+                              error: "UNAUTHORIZED"
+              '500':
+                  description: Internal server error
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          example:
+                              status: 500
+                              error: "INTERNAL_SERVER_ERROR"
+      post:
+          summary: Add item to watchlist
+          description: |
+              Adds an item to the authenticated user's watchlist.
+              The request body must contain the shop ID and shop's item ID.
+              Returns a 201 Created response with a Location header pointing to the created resource.
+              Requires valid Cognito JWT authentication.
+          operationId: addWatchlistItem
+          tags:
+              - Watchlist
+          parameters:
+              -   name: Authorization
+                  in: header
+                  required: true
+                  description: Cognito JWT token for user authentication
+                  schema:
+                      type: string
+                      pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
+                  example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          requestBody:
+              required: true
+              description: Item identifier to add to watchlist
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/components/schemas/ItemKeyData'
+                      example:
+                          shopId: "550e8400-e29b-41d4-a716-446655440000"
+                          shopsItemId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+          responses:
+              '201':
+                  description: Item added to watchlist successfully
+                  headers:
+                      Location:
+                          description: URL of the added watchlist item
+                          schema:
+                              type: string
+                              format: uri
+                          example: "https://api.blitzfilter.com/api/v1/watchlist/550e8400-e29b-41d4-a716-446655440000/6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                      Access-Control-Allow-Origin:
+                          description: CORS header
+                          schema:
+                              type: string
+                          example: "*"
+              '400':
+                  description: Bad request - invalid request body
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          examples:
+                              missing_body:
+                                  summary: Missing request body
+                                  value:
+                                      status: 400
+                                      error: "BAD_BODY_VALUE"
+                                      message: "Body cannot be empty"
+                              invalid_json:
+                                  summary: Invalid JSON format
+                                  value:
+                                      status: 400
+                                      error: "BAD_BODY_VALUE"
+                                      message: "Invalid JSON format"
+              '401':
+                  description: Unauthorized - invalid or missing JWT token
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          example:
+                              status: 401
+                              error: "UNAUTHORIZED"
+              '500':
+                  description: Internal server error
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          example:
+                              status: 500
+                              error: "INTERNAL_SERVER_ERROR"
+
+  /api/v1/watchlist/{shopId}/{shopsItemId}:
+      delete:
+          summary: Remove item from watchlist
+          description: |
+              Removes a specific item from the authenticated user's watchlist.
+              Requires the creation timestamp as a query parameter to identify the exact watchlist entry.
+              Returns a 204 No Content response on success.
+              Requires valid Cognito JWT authentication.
+          operationId: deleteWatchlistItem
+          tags:
+              - Watchlist
+          parameters:
+              -   name: shopId
+                  in: path
+                  required: true
+                  description: Unique identifier of the shop
+                  schema:
+                      type: string
+                      format: uuid
+                  example: "550e8400-e29b-41d4-a716-446655440000"
+              -   name: shopsItemId
+                  in: path
+                  required: true
+                  description: Shop's unique identifier for the item
+                  schema:
+                      type: string
+                  example: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+              -   name: created
+                  in: query
+                  required: true
+                  description: |
+                      RFC3339 timestamp of when the watchlist entry was created.
+                      Required to identify the exact entry to delete.
+                  schema:
+                      type: string
+                      format: date-time
+                  example: "2024-01-15T08:00:00Z"
+              -   name: Authorization
+                  in: header
+                  required: true
+                  description: Cognito JWT token for user authentication
+                  schema:
+                      type: string
+                      pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
+                  example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          responses:
+              '204':
+                  description: Item removed from watchlist successfully
+                  headers:
+                      Access-Control-Allow-Origin:
+                          description: CORS header
+                          schema:
+                              type: string
+                          example: "*"
+              '400':
+                  description: Bad request - invalid parameters
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          examples:
+                              missing_shop_id:
+                                  summary: Missing shop ID
+                                  value:
+                                      status: 400
+                                      error: "BAD_PATH_PARAMETER_VALUE"
+                                      source:
+                                          field: "shopId"
+                                          sourceType: "path"
+                              missing_shops_item_id:
+                                  summary: Missing shop's item ID
+                                  value:
+                                      status: 400
+                                      error: "BAD_PATH_PARAMETER_VALUE"
+                                      source:
+                                          field: "shopsItemId"
+                                          sourceType: "path"
+                              missing_created:
+                                  summary: Missing created timestamp
+                                  value:
+                                      status: 400
+                                      error: "BAD_QUERY_PARAMETER_VALUE"
+                                      source:
+                                          field: "created"
+                                          sourceType: "query"
+                                      message: "The timestamp of when the watchlist-entry was created is required to delete it."
+                              invalid_created_timestamp:
+                                  summary: Invalid created timestamp format
+                                  value:
+                                      status: 400
+                                      error: "INVALID_RFC3339_TIMESTAMP"
+                                      source:
+                                          field: "created"
+                                          sourceType: "query"
+                                      message: "Invalid RFC3339 timestamp format"
+                              invalid_uuid:
+                                  summary: Invalid shop ID format
+                                  value:
+                                      status: 400
+                                      error: "INVALID_UUID"
+                                      source:
+                                          field: "shopId"
+                                          sourceType: "path"
+                                      message: "Invalid UUID format"
+              '401':
+                  description: Unauthorized - invalid or missing JWT token
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          example:
+                              status: 401
+                              error: "UNAUTHORIZED"
+              '404':
+                  description: Watchlist entry not found
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          example:
+                              status: 404
+                              error: "WATCHLIST_ENTRY_NOT_FOUND"
+              '500':
+                  description: Internal server error
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          example:
+                              status: 500
+                              error: "INTERNAL_SERVER_ERROR"
+
+  /api/v1/shops/{shopId}:
+      get:
+          summary: Get shop details
+          description: |
+              Retrieves detailed information about a specific shop by its unique identifier.
+              Returns complete shop metadata including name, URL, image, and timestamps.
+          operationId: getShop
+          tags:
+              - Shops
+          parameters:
+              -   name: shopId
+                  in: path
+                  required: true
+                  description: Unique identifier of the shop
+                  schema:
+                      type: string
+                      format: uuid
+                      example: "550e8400-e29b-41d4-a716-446655440000"
+          responses:
+              '200':
+                  description: Shop found and returned successfully
+                  headers:
+                      Last-Modified:
+                          description: When the shop was last updated
+                          schema:
+                              type: string
+                              format: http-date
+                          example: "Wed, 01 Jan 2024 12:00:00 GMT"
+                      Access-Control-Allow-Origin:
+                          description: CORS header
+                          schema:
+                              type: string
+                          example: "*"
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/GetShopData'
+                          example:
+                              shopId: "550e8400-e29b-41d4-a716-446655440000"
+                              name: "Tech Store Premium"
+                              url: "https://tech-store-premium.com"
+                              image: "https://tech-store-premium.com/logo.svg"
+                              created: "2024-01-01T10:00:00Z"
+                              updated: "2024-01-01T12:00:00Z"
+              '400':
+                  description: Bad request - invalid shop ID
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          examples:
+                              missing_shop_id:
+                                  summary: Missing shop ID
+                                  value:
+                                      status: 400
+                                      error: "BAD_PATH_PARAMETER_VALUE"
+                                      source:
+                                          field: "shopId"
+                                          sourceType: "path"
+                              invalid_uuid:
+                                  summary: Invalid shop ID format
+                                  value:
+                                      status: 400
+                                      error: "INVALID_UUID"
+                                      source:
+                                          field: "shopId"
+                                          sourceType: "path"
+                                      message: "Invalid UUID format"
+              '404':
+                  description: Shop not found
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          example:
+                              status: 404
+                              error: "SHOP_NOT_FOUND"
+              '500':
+                  description: Internal server error
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          example:
+                              status: 500
+                              error: "INTERNAL_SERVER_ERROR"
+
+  /api/v1/shops/search:
+      post:
+          summary: Search shops
+          description: |
+              Performs an advanced search for shops using comprehensive filtering criteria.
+              This endpoint accepts a ShopSearchData object in the request body,
+              allowing for complex filtering by shop name and date ranges.
+              Returns a paginated collection of shops matching the search criteria.
+          operationId: searchShops
+          tags:
+              - Shops
+          parameters:
+              -   name: sort
+                  in: query
+                  required: false
+                  description: Field to sort results by
+                  schema:
+                      $ref: '#/components/schemas/SortShopFieldData'
+                  example: name
+              -   name: order
+                  in: query
+                  required: false
+                  description: Sort order (only valid when sort is specified)
+                  schema:
+                      type: string
+                      enum: [ asc, desc ]
+                      default: asc
+                  example: desc
+              -   name: from
+                  in: query
+                  required: false
+                  description: Pagination offset (number of shops to skip)
+                  schema:
+                      type: integer
+                      minimum: 0
+                      default: 0
+                  example: 0
+              -   name: size
+                  in: query
+                  required: false
+                  description: Number of shops to return per page
+                  schema:
+                      type: integer
+                      minimum: 1
+                      maximum: 100
+                      default: 21
+                  example: 21
+          requestBody:
+              required: true
+              description: |
+                  Shop search filter configuration with all filtering criteria.
+                  Allows filtering by shop name and creation/update date ranges.
+                  If you do not want to restrict the search, supply an empty JSON-Object '{}' as body.
+              content:
+                  application/json:
+                      schema:
+                          $ref: '#/components/schemas/ShopSearchData'
+                      example:
+                          shopNameQuery: "tech store"
+                          created:
+                              min: "2024-01-01T00:00:00Z"
+                              max: "2024-12-31T23:59:59Z"
+                          updated:
+                              min: "2024-06-01T00:00:00Z"
+          responses:
+              '200':
+                  description: Shop search results returned successfully
+                  headers:
+                      Access-Control-Allow-Origin:
+                          description: CORS header
+                          schema:
+                              type: string
+                          example: "*"
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/CollectionDataShop'
+                          example:
+                              items:
+                                  -   shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                      name: "Tech Store Premium"
+                                      url: "https://tech-store-premium.com"
+                                      image: "https://tech-store-premium.com/logo.svg"
+                                      created: "2024-01-15T10:00:00Z"
+                                      updated: "2024-06-15T12:00:00Z"
+                                  -   shopId: "660f9500-f39c-42e5-b827-556766550001"
+                                      name: "Tech Store Basic"
+                                      url: "https://tech-store-basic.com"
+                                      created: "2024-02-01T08:30:00Z"
+                                      updated: "2024-07-01T14:20:00Z"
+                              pagination:
+                                  from: 0
+                                  size: 21
+                                  total: 2
+              '400':
+                  description: Bad request - invalid parameters or body
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          examples:
+                              missing_body:
+                                  summary: Missing request body
+                                  value:
+                                      status: 400
+                                      error: "BAD_BODY_VALUE"
+                                      message: "Body cannot be empty"
+                              invalid_json:
+                                  summary: Invalid JSON format
+                                  value:
+                                      status: 400
+                                      error: "BAD_BODY_VALUE"
+                                      message: "Invalid JSON format"
+                              invalid_sort_field:
+                                  summary: Invalid sort field
+                                  value:
+                                      status: 400
+                                      error: "BAD_QUERY_PARAMETER_VALUE"
+                                      source:
+                                          field: "sort"
+                                          sourceType: "query"
+                                      message: "Expected any of: 'name', 'updated', 'created'. Got: 'invalid'"
+                              invalid_order:
+                                  summary: Invalid sort order
+                                  value:
+                                      status: 400
+                                      error: "BAD_QUERY_PARAMETER_VALUE"
+                                      source:
+                                          field: "order"
+                                          sourceType: "query"
+                                      message: "Expected any of: 'asc' or 'desc'. Got: 'invalid'"
+              '500':
+                  description: Internal server error
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          example:
+                              status: 500
+                              error: "INTERNAL_SERVER_ERROR"
+
 components:
   schemas:
     GetItemData:
@@ -1099,8 +1809,7 @@ components:
           description: Unique identifier of the shop
         shopsItemId:
           type: string
-          format: uuid
-          description: Shop's unique identifier for the item
+          description: Shop's unique identifier for the item. Can be any arbitrary string.
         shopName:
           type: string
           description: Display name of the shop
@@ -1237,7 +1946,7 @@ components:
         shopsItemId:
           type: string
           format: uuid
-          description: Shop's unique identifier for the item
+          description: Shop's unique identifier for the item. Can be any arbitrary string.
         payload:
           $ref: '#/components/schemas/ItemEventPayloadData'
         timestamp:
@@ -1273,7 +1982,7 @@ components:
 
     ItemStateData:
       type: string
-      enum: [LISTED, AVAILABLE, RESERVED, SOLD, REMOVED]
+      enum: [ LISTED, AVAILABLE, RESERVED, SOLD, REMOVED, UNKNOWN ]
       description: |
         Current state of the item:
         - LISTED: Item has been listed
@@ -1281,6 +1990,7 @@ components:
         - RESERVED: Item is reserved by a buyer
         - SOLD: Item has been sold
         - REMOVED: Item has been removed and can no longer be tracked
+          - UNKNOWN: Item has an unknown state
       example: AVAILABLE
 
     SortItemFieldData:
@@ -1295,7 +2005,7 @@ components:
 
     ItemEventTypeData:
       type: string
-      enum: [STATE_AVAILABLE, PRICE_DROPPED, STATE_LISTED, STATE_RESERVED, STATE_SOLD, STATE_REMOVED]
+      enum: [ STATE_AVAILABLE, PRICE_DROPPED, STATE_LISTED, STATE_RESERVED, STATE_SOLD, STATE_REMOVED, STATE_UNKNOWN ]
       description: Types of events that can occur for an item
       example: STATE_AVAILABLE
 
@@ -1530,8 +2240,268 @@ components:
         pagination:
           $ref: '#/components/schemas/PaginationData'
 
+    PutItemsCollectionData:
+        type: object
+        description: Collection of items to create or update
+        required:
+            - items
+        properties:
+            items:
+                type: array
+                items:
+                    $ref: '#/components/schemas/PutItemData'
+                description: Array of items to process
+                minItems: 1
+                maxItems: 1000
+
+    PutItemData:
+        type: object
+        description: Data required to create or update an item
+        required:
+            - shopId
+            - shopsItemId
+            - shopName
+            - title
+            - state
+            - url
+        properties:
+            shopId:
+                type: string
+                format: uuid
+                description: Unique identifier of the shop
+                example: "550e8400-e29b-41d4-a716-446655440000"
+            shopsItemId:
+                type: string
+                description: Shop's unique identifier for the item. Can be any arbitrary string.
+                example: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+            shopName:
+                type: string
+                description: Display name of the shop
+                example: "Tech Store Premium"
+            title:
+                $ref: '#/components/schemas/LocalizedTextData'
+            description:
+                allOf:
+                    -   $ref: '#/components/schemas/LocalizedTextData'
+                nullable: true
+                description: Optional item description
+            price:
+                allOf:
+                    -   $ref: '#/components/schemas/PriceData'
+                nullable: true
+                description: Optional item price
+            state:
+                $ref: '#/components/schemas/ItemStateData'
+            url:
+                type: string
+                format: uri
+                description: URL to the item on the shop's website
+                example: "https://tech-store-premium.com/items/smartphone-case"
+            images:
+                type: array
+                items:
+                    type: string
+                    format: uri
+                description: Array of image URLs for the item
+                default: [ ]
+                example:
+                    - "https://tech-store-premium.com/images/case-1.jpg"
+                    - "https://tech-store-premium.com/images/case-2.jpg"
+
+    PutItemsResponse:
+        type: object
+        description: Response from bulk item creation/update operation
+        required:
+            - skipped
+        properties:
+            unprocessed:
+                type: array
+                items:
+                    $ref: '#/components/schemas/ItemKeyData'
+                description: Items that could not be processed
+            skipped:
+                type: integer
+                minimum: 0
+                description: Number of items that were skipped during processing
+                example: 2
+
+    GetShopData:
+        type: object
+        description: Complete shop information including metadata
+        required:
+            - shopId
+            - name
+            - url
+            - created
+            - updated
+        properties:
+            shopId:
+                type: string
+                format: uuid
+                description: Unique identifier of the shop
+                example: "550e8400-e29b-41d4-a716-446655440000"
+            name:
+                type: string
+                description: Display name of the shop
+                example: "Tech Store Premium"
+            url:
+                type: string
+                format: uri
+                description: URL to the shop's website
+                example: "https://tech-store-premium.com"
+            image:
+                type: string
+                format: uri
+                nullable: true
+                description: Optional URL to the shop's logo or image
+                example: "https://tech-store-premium.com/logo.svg"
+            created:
+                type: string
+                format: date-time
+                description: When the shop was first created (RFC3339 format)
+                example: "2024-01-01T10:00:00Z"
+            updated:
+                type: string
+                format: date-time
+                description: When the shop was last updated (RFC3339 format)
+                example: "2024-01-01T12:00:00Z"
+
+    ShopSearchData:
+        type: object
+        description: Search filter configuration for shops with query parameters and filtering options
+        properties:
+            shopNameQuery:
+                type: string
+                description: Optional text query for searching shops by name (minimum 3 characters)
+                minLength: 3
+                example: "tech store"
+            created:
+                allOf:
+                    -   $ref: '#/components/schemas/RangeQueryDateTime'
+                nullable: true
+                description: Optional filter by shop creation date range
+            updated:
+                allOf:
+                    -   $ref: '#/components/schemas/RangeQueryDateTime'
+                nullable: true
+                description: Optional filter by shop last updated date range
+
+    SortShopFieldData:
+        type: string
+        enum: [ name, updated, created ]
+        description: |
+            Fields available for sorting shops:
+            - name: Sort by shop name
+            - updated: Sort by last updated timestamp
+            - created: Sort by creation timestamp
+        example: name
+
+    CollectionDataShop:
+        type: object
+        description: Paginated collection of shops
+        required:
+            - items
+            - pagination
+        properties:
+            items:
+                type: array
+                items:
+                    $ref: '#/components/schemas/GetShopData'
+                description: Array of shops in the current page
+            pagination:
+                $ref: '#/components/schemas/PaginationData'
+
+    ItemKeyData:
+        type: object
+        description: Identifier for an item using shop ID and shop's item ID
+        required:
+            - shopId
+            - shopsItemId
+        properties:
+            shopId:
+                type: string
+                format: uuid
+                description: Unique identifier of the shop
+                example: "550e8400-e29b-41d4-a716-446655440000"
+            shopsItemId:
+                type: string
+                description: Shop's unique identifier for the item. Can be any arbitrary string.
+                example: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+
+    WatchlistItemData:
+        type: object
+        description: Watchlist item containing the item data and when it was added to the watchlist
+        required:
+            - item
+            - created
+        properties:
+            item:
+                $ref: '#/components/schemas/GetItemData'
+            created:
+                type: string
+                format: date-time
+                description: When the item was added to the watchlist (RFC3339 format)
+                example: "2024-01-15T08:00:00Z"
+
+    WatchlistCollectionData:
+        type: object
+        description: Paginated collection of watchlist items using cursor-based pagination
+        required:
+            - items
+            - pagination
+        properties:
+            items:
+                type: array
+                items:
+                    $ref: '#/components/schemas/WatchlistItemData'
+                description: Array of watchlist items in the current page
+            pagination:
+                $ref: '#/components/schemas/PaginationDataDateTime'
+
+    PaginationDataDateTime:
+        type: object
+        description: Pagination metadata for cursor-based pagination using timestamps
+        required:
+            - from
+            - size
+        properties:
+            from:
+                type: string
+                format: date-time
+                description: Starting cursor timestamp (RFC3339 format)
+                example: "2024-01-01T00:00:00Z"
+            size:
+                type: integer
+                minimum: 1
+                description: Number of items in the current page
+                example: 21
+            total:
+                type: integer
+                minimum: 0
+                description: Total number of items (optional, may not be available for cursor-based pagination)
+                nullable: true
+                example: 127
+            next:
+                type: string
+                format: date-time
+                description: Cursor for the next page (RFC3339 format). Present when there are more results.
+                nullable: true
+                example: "2024-01-15T08:00:00Z"
+
+    SortWatchlistItemFieldData:
+        type: string
+        enum: [ created ]
+        description: |
+            Fields available for sorting watchlist items:
+            - created: Sort by when item was added to watchlist
+        example: created
+
 tags:
   - name: Items
     description: Operations related to item retrieval and search
   - name: Search Filters
     description: Operations for managing user search filters
+  -   name: Shops
+      description: Operations related to shop retrieval and search
+  -   name: Watchlist
+      description: Operations for managing user's item watchlist
