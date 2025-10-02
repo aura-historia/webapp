@@ -2,6 +2,7 @@
 
 import { type ClientOptions, type Config, createClient, createConfig } from "./client";
 import type { ClientOptions as ClientOptions2 } from "./types.gen";
+import {env} from "@/env.ts";
 
 /**
  * The `createClientConfig()` function will be called on client initialization
@@ -17,6 +18,6 @@ export type CreateClientConfig<T extends ClientOptions = ClientOptions2> = (
 
 export const client = createClient(
     createConfig<ClientOptions2>({
-        baseUrl: "https://api.blitzfilter.com",
+        baseUrl: env.VITE_API_URL,
     }),
 );

@@ -8,8 +8,8 @@ type SearchResultsProps = {
     readonly query: string;
 };
 
-export function SearchResults({ query }: SearchResultsProps) {
-    const { data, isLoading, error } = useSimpleSearch(query);
+export function SimpleSearchResults({ query }: SearchResultsProps) {
+    const { data, isPending, error } = useSimpleSearch(query);
 
     if (query.length < 3) {
         return (
@@ -19,7 +19,7 @@ export function SearchResults({ query }: SearchResultsProps) {
         );
     }
 
-    if (isLoading) {
+    if (isPending) {
         return (
             <div className="flex flex-col gap-4">
                 {Array.from({ length: 4 }, () => (
