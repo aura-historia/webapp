@@ -3,13 +3,25 @@ import { ItemCardSkeleton } from "@/components/item/ItemCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { useSimpleSearch } from "@/hooks/useSimpleSearch.ts";
 import { v4 as uuidv4 } from "uuid";
+import { Card, CardContent } from "@/components/ui/card.tsx";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 type SearchResultsProps = {
     readonly query: string;
 };
 
 export function SimpleSearchResults({ query }: SearchResultsProps) {
-    const { data, isPending, error } = useSimpleSearch(query);
+    const { ref, inView } = useInView();
+
+    const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+        useSimpleSearch(query);
+
+    useEffect(() => {
+        if (inView && hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     if (query.length < 3) {
         return (
@@ -37,15 +49,28 @@ export function SimpleSearchResults({ query }: SearchResultsProps) {
         );
     }
 
-    if (data?.data?.items.length === 0) {
+    const allItems = data?.pages.flatMap((page) => page.data?.items ?? []) ?? [];
+
+    if (allItems.length === 0) {
         return <SectionInfoText>Keine Artikel gefunden!</SectionInfoText>;
     }
 
     return (
         <div className="flex flex-col gap-4">
-            {data?.data?.items.map((item) => (
+            {allItems.map((item) => (
                 <ItemCard key={item.itemId} item={item} />
             ))}
+            <Card className={"h-8 px-2 justify-center items-center shadow-md"} ref={ref}>
+                <CardContent>
+                    <SectionInfoText>
+                        {isFetchingNextPage
+                            ? "Lade neue Ergebnisse..."
+                            : hasNextPage
+                              ? ""
+                              : "Alle Ergebnisse geladen"}
+                    </SectionInfoText>
+                </CardContent>
+            </Card>
         </div>
     );
 }

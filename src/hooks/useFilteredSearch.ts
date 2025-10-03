@@ -1,14 +1,14 @@
 import { complexSearchItems } from "@/client";
 import { mapToInternalOverviewItem } from "@/data/internal/OverviewItem.ts";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import { mapToBackendState } from "@/data/internal/ItemState.ts";
 
 export function useFilteredSearch(searchArgs: SearchFilterArguments) {
-    return useQuery({
+    return useInfiniteQuery({
         queryKey: ["filteredSearch", searchArgs],
-        queryFn: async () => {
+        queryFn: async ({ pageParam }) => {
             const result = await complexSearchItems({
                 body: {
                     // TODO: Make language and currency configurable
@@ -39,6 +39,7 @@ export function useFilteredSearch(searchArgs: SearchFilterArguments) {
                         : {}),
                     shopNameQuery: searchArgs.merchant,
                 },
+                query: { searchAfter: pageParam, size: 2 },
             });
             return {
                 ...result,
@@ -47,6 +48,10 @@ export function useFilteredSearch(searchArgs: SearchFilterArguments) {
                     items: result.data?.items?.map(mapToInternalOverviewItem) ?? [],
                 },
             };
+        },
+        initialPageParam: undefined as Array<unknown> | undefined,
+        getNextPageParam: (lastPage) => {
+            return lastPage.data?.searchAfter ?? undefined;
         },
         enabled: searchArgs.q.length >= 3,
     });

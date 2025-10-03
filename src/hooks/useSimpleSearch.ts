@@ -1,14 +1,16 @@
 import { searchItems } from "@/client";
 import { mapToInternalOverviewItem } from "@/data/internal/OverviewItem.ts";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export function useSimpleSearch(query: string) {
-    return useQuery({
+    return useInfiniteQuery({
         queryKey: ["search", query],
-        queryFn: async () => {
+        queryFn: async ({ pageParam }) => {
             const result = await searchItems({
                 query: {
                     q: query,
+                    searchAfter: pageParam,
+                    size: 2,
                 },
             });
             return {
@@ -20,5 +22,9 @@ export function useSimpleSearch(query: string) {
             };
         },
         enabled: query.length >= 3,
+        initialPageParam: undefined as Array<unknown> | undefined,
+        getNextPageParam: (lastPage) => {
+            return lastPage.data?.searchAfter ?? undefined;
+        },
     });
 }

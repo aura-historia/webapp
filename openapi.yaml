@@ -233,15 +233,18 @@ paths:
             type: string
             enum: [asc, desc]
           example: asc
-        - name: from
+        -   name: searchAfter
           in: query
           required: false
-          description: Pagination offset (number of items to skip)
+            description: |
+                Cursor value for pagination (search-after pattern).
+                This is a JSON value returned as `searchAfter` in the previous response.
+                Use this to fetch the next page of results.
+                In general you do not have to worry about determining this key. It's given with the `searchAfter` field in the preceding response if more entries are present.
+                This can be ANY heterogeneous array.
           schema:
-            type: integer
-            minimum: 0
-            default: 0
-          example: 0
+              type: array
+            example: "[2999, \"6ba7b810-9dad-11d1-80b4-00c04fd430c8\"]"
         - name: size
           in: query
           required: false
@@ -264,7 +267,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CollectionData'
+                  $ref: '#/components/schemas/ItemSearchResultData'
               example:
                 items:
                   - itemId: "550e8400-e29b-41d4-a716-446655440000"
@@ -284,10 +287,9 @@ paths:
                       - "https://tech-store.com/images/case-1.jpg"
                     created: "2024-01-01T10:00:00Z"
                     updated: "2024-01-01T12:00:00Z"
-                pagination:
-                  from: 0
-                  size: 21
-                  total: 127
+                size: 21
+                total: 127
+                searchAfter: "[1999, \"550e8400-e29b-41d4-a716-446655440000\"]"
         '400':
           description: Bad request - invalid parameters
           content:
@@ -446,15 +448,18 @@ paths:
             type: string
             enum: [asc, desc]
           example: asc
-        - name: from
+        -   name: searchAfter
           in: query
           required: false
-          description: Pagination offset (number of items to skip)
+            description: |
+                Cursor value for pagination (search-after pattern).
+                This is a JSON value returned as `searchAfter` in the previous response.
+                Use this to fetch the next page of results.
+                In general you do not have to worry about determining this key. It's given with the `searchAfter` field in the preceding response if more entries are present.
+                This can be ANY heterogeneous array.
           schema:
-            type: integer
-            minimum: 0
-            default: 0
-          example: 0
+              type: array
+            example: "[2999, \"6ba7b810-9dad-11d1-80b4-00c04fd430c8\"]"
         - name: size
           in: query
           required: false
@@ -499,7 +504,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CollectionData'
+                  $ref: '#/components/schemas/ItemSearchResultData'
               example:
                 items:
                   - itemId: "550e8400-e29b-41d4-a716-446655440000"
@@ -519,10 +524,9 @@ paths:
                       - "https://tech-store.com/images/premium-case-1.jpg"
                     created: "2024-01-15T10:00:00Z"
                     updated: "2024-01-15T12:00:00Z"
-                pagination:
-                  from: 0
-                  size: 21
-                  total: 84
+                size: 21
+                total: 84
+                searchAfter: "[2999, \"550e8400-e29b-41d4-a716-446655440000\"]"
         '400':
           description: Bad request - invalid parameters or body
           content:
@@ -556,7 +560,7 @@ paths:
                     source:
                       field: "sort"
                       sourceType: "query"
-                    message: "Expected any of: 'price', 'updated', 'created'. Got: 'invalid'"
+                    message: "Expected any of: 'score', 'price', 'updated', 'created'. Got: 'invalid'"
                 invalid_order:
                   summary: Invalid sort order
                   value:
@@ -623,7 +627,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CollectionDataUserSearchFilter'
+                  $ref: '#/components/schemas/SearchFilterCollectionData'
               example:
                 items:
                   - userId: "550e8400-e29b-41d4-a716-446655440000"
@@ -639,10 +643,9 @@ paths:
                       state: ["AVAILABLE"]
                     created: "2024-01-01T10:00:00Z"
                     updated: "2024-01-01T12:00:00Z"
-                pagination:
-                  from: 0
-                  size: 1
-                  total: 1
+                from: 0
+                size: 1
+                total: 1
         '400':
           description: Bad request - invalid parameters
           content:
@@ -1196,13 +1199,13 @@ paths:
                       type: string
                       enum: [ asc, desc ]
                   example: desc
-              -   name: from
+              -   name: searchAfter
                   in: query
                   required: false
                   description: |
                       RFC3339 timestamp for cursor-based pagination (search-after).
                       Depending on sort-order, returns watchlist-items created, either after this timestamp for asc (oldest first) or before this timestamp for desc (latest first).
-                      In general you do not have to worry about determining this key. It's given with PaginationDataDateTime::next in the preceding response if more entries are present.
+                      In general you do not have to worry about determining this key. It's given with `searchAfter` in the preceding response if more entries are present.
                   schema:
                       type: string
                       format: date-time
@@ -1279,10 +1282,8 @@ paths:
                                           created: "2024-01-01T10:00:00Z"
                                           updated: "2024-01-01T12:00:00Z"
                                       created: "2024-01-15T08:00:00Z"
-                              pagination:
-                                  from: "2024-01-01T00:00:00Z"
-                                  size: 21
-                                  next: "2024-01-15T08:00:00Z"
+                              size: 21
+                              searchAfter: "2024-01-15T08:00:00Z"
               '400':
                   description: Bad request - invalid parameters
                   content:
@@ -1712,7 +1713,7 @@ paths:
                   content:
                       application/json:
                           schema:
-                              $ref: '#/components/schemas/CollectionDataShop'
+                              $ref: '#/components/schemas/ShopSearchResultData'
                           example:
                               items:
                                   -   shopId: "550e8400-e29b-41d4-a716-446655440000"
@@ -1726,10 +1727,9 @@ paths:
                                       url: "https://tech-store-basic.com"
                                       created: "2024-02-01T08:30:00Z"
                                       updated: "2024-07-01T14:20:00Z"
-                              pagination:
-                                  from: 0
-                                  size: 21
-                                  total: 2
+                              from: 0
+                              size: 21
+                              total: 2
               '400':
                   description: Bad request - invalid parameters or body
                   content:
@@ -1757,7 +1757,7 @@ paths:
                                       source:
                                           field: "sort"
                                           sourceType: "query"
-                                      message: "Expected any of: 'name', 'updated', 'created'. Got: 'invalid'"
+                                      message: "Expected any of: 'score', 'name', 'updated', 'created'. Got: 'invalid'"
                               invalid_order:
                                   summary: Invalid sort order
                                   value:
@@ -1853,41 +1853,37 @@ components:
           nullable: true
           description: Optional array of item history events
 
-    CollectionData:
+    ItemSearchResultData:
       type: object
-      description: Paginated collection of items
+      description: Paginated collection of items using cursor-based pagination (search-after pattern)
       required:
         - items
-        - pagination
+        - size
       properties:
         items:
           type: array
           items:
             $ref: '#/components/schemas/GetItemData'
           description: Array of items in the current page
-        pagination:
-          $ref: '#/components/schemas/PaginationData'
-
-    PaginationData:
-      type: object
-      description: Pagination metadata
-      required:
-        - from
-        - size
-        - total
-      properties:
-        from:
-          type: integer
-          minimum: 0
-          description: Number of items skipped (offset)
         size:
           type: integer
-          minimum: 1
-          description: Number of items in the current page
+          minimum: 0
+          description: Number of items returned in the current page
+          example: 21
         total:
           type: integer
           minimum: 0
-          description: Total number of items matching the query
+          description: Total number of items matching the query (optional, may not always be available)
+          nullable: true
+          example: 127
+        searchAfter:
+            type: array
+            description: |
+                Cursor for the next page (JSON value). Present when there are more results.
+                Pass this value as the `searchAfter` query parameter to get the next page.
+                This can be ANY heterogeneous array.
+            nullable: true
+            example: "[2999, \"550e8400-e29b-41d4-a716-446655440000\"]"
 
     LocalizedTextData:
       type: object
@@ -1995,12 +1991,14 @@ components:
 
     SortItemFieldData:
       type: string
-      enum: [price, updated, created]
+      enum: [ score, price, updated, created ]
       description: |
         Fields available for sorting:
+          - score: Sort by relevance score (default, only available when searching with text query)
         - price: Sort by item price
         - updated: Sort by last updated timestamp
         - created: Sort by creation timestamp
+      default: score
       example: price
 
     ItemEventTypeData:
@@ -2225,20 +2223,35 @@ components:
         - created: Sort by creation timestamp
       example: created
 
-    CollectionDataUserSearchFilter:
+    SearchFilterCollectionData:
       type: object
-      description: Paginated collection of user search filters
+      description: Paginated collection of user search filters with flattened pagination
       required:
         - items
-        - pagination
+        - from
+        - size
       properties:
         items:
           type: array
           items:
             $ref: '#/components/schemas/UserSearchFilterData'
           description: Array of search filters in the current page
-        pagination:
-          $ref: '#/components/schemas/PaginationData'
+        from:
+            type: integer
+            minimum: 0
+            description: Number of items skipped (offset)
+            example: 0
+        size:
+            type: integer
+            minimum: 0
+            description: Number of items in the current page
+            example: 21
+        total:
+            type: integer
+            minimum: 0
+            description: Total number of items matching the query
+            nullable: true
+            example: 127
 
     PutItemsCollectionData:
         type: object
@@ -2388,28 +2401,45 @@ components:
 
     SortShopFieldData:
         type: string
-        enum: [ name, updated, created ]
+        enum: [ score, name, updated, created ]
         description: |
             Fields available for sorting shops:
+            - score: Sort by relevance score (default, only available when searching with text query)
             - name: Sort by shop name
             - updated: Sort by last updated timestamp
             - created: Sort by creation timestamp
+        default: score
         example: name
 
-    CollectionDataShop:
+    ShopSearchResultData:
         type: object
-        description: Paginated collection of shops
+        description: Paginated collection of shops with flattened pagination
         required:
             - items
-            - pagination
+            - from
+            - size
         properties:
             items:
                 type: array
                 items:
                     $ref: '#/components/schemas/GetShopData'
                 description: Array of shops in the current page
-            pagination:
-                $ref: '#/components/schemas/PaginationData'
+            from:
+                type: integer
+                minimum: 0
+                description: Number of items skipped (offset)
+                example: 0
+            size:
+                type: integer
+                minimum: 0
+                description: Number of items in the current page
+                example: 21
+            total:
+                type: integer
+                minimum: 0
+                description: Total number of items matching the query
+                nullable: true
+                example: 127
 
     ItemKeyData:
         type: object
@@ -2448,45 +2478,30 @@ components:
         description: Paginated collection of watchlist items using cursor-based pagination
         required:
             - items
-            - pagination
+            - size
         properties:
             items:
                 type: array
                 items:
                     $ref: '#/components/schemas/WatchlistItemData'
                 description: Array of watchlist items in the current page
-            pagination:
-                $ref: '#/components/schemas/PaginationDataDateTime'
-
-    PaginationDataDateTime:
-        type: object
-        description: Pagination metadata for cursor-based pagination using timestamps
-        required:
-            - from
-            - size
-        properties:
-            from:
-                type: string
-                format: date-time
-                description: Starting cursor timestamp (RFC3339 format)
-                example: "2024-01-01T00:00:00Z"
             size:
                 type: integer
-                minimum: 1
+                minimum: 0
                 description: Number of items in the current page
                 example: 21
+            searchAfter:
+                type: string
+                format: date-time
+                description: Cursor for the next page (RFC3339 timestamp). Present when there are more results.
+                nullable: true
+                example: "2024-01-15T08:00:00Z"
             total:
                 type: integer
                 minimum: 0
                 description: Total number of items (optional, may not be available for cursor-based pagination)
                 nullable: true
                 example: 127
-            next:
-                type: string
-                format: date-time
-                description: Cursor for the next page (RFC3339 format). Present when there are more results.
-                nullable: true
-                example: "2024-01-15T08:00:00Z"
 
     SortWatchlistItemFieldData:
         type: string

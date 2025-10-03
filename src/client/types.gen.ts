@@ -61,32 +61,28 @@ export type GetItemData = {
 };
 
 /**
- * Paginated collection of items
+ * Paginated collection of items using cursor-based pagination (search-after pattern)
  */
-export type CollectionData = {
+export type ItemSearchResultData = {
     /**
      * Array of items in the current page
      */
     items: Array<GetItemData>;
-    pagination: PaginationData;
-};
-
-/**
- * Pagination metadata
- */
-export type PaginationData = {
     /**
-     * Number of items skipped (offset)
-     */
-    from: number;
-    /**
-     * Number of items in the current page
+     * Number of items returned in the current page
      */
     size: number;
     /**
-     * Total number of items matching the query
+     * Total number of items matching the query (optional, may not always be available)
      */
-    total: number;
+    total?: number | null;
+    /**
+     * Cursor for the next page (JSON value). Present when there are more results.
+     * Pass this value as the `searchAfter` query parameter to get the next page.
+     * This can be ANY heterogeneous array.
+     *
+     */
+    searchAfter?: Array<unknown> | null;
 };
 
 /**
@@ -175,12 +171,13 @@ export type ItemStateData = 'LISTED' | 'AVAILABLE' | 'RESERVED' | 'SOLD' | 'REMO
 
 /**
  * Fields available for sorting:
+ * - score: Sort by relevance score (default, only available when searching with text query)
  * - price: Sort by item price
  * - updated: Sort by last updated timestamp
  * - created: Sort by creation timestamp
  *
  */
-export type SortItemFieldData = 'price' | 'updated' | 'created';
+export type SortItemFieldData = 'score' | 'price' | 'updated' | 'created';
 
 /**
  * Types of events that can occur for an item
@@ -364,14 +361,25 @@ export type RangeQueryDateTime = {
 export type SortSearchFilterFieldData = 'created';
 
 /**
- * Paginated collection of user search filters
+ * Paginated collection of user search filters with flattened pagination
  */
-export type CollectionDataUserSearchFilter = {
+export type SearchFilterCollectionData = {
     /**
      * Array of search filters in the current page
      */
     items: Array<UserSearchFilterData>;
-    pagination: PaginationData;
+    /**
+     * Number of items skipped (offset)
+     */
+    from: number;
+    /**
+     * Number of items in the current page
+     */
+    size: number;
+    /**
+     * Total number of items matching the query
+     */
+    total?: number | null;
 };
 
 /**
@@ -484,22 +492,34 @@ export type ShopSearchData = {
 
 /**
  * Fields available for sorting shops:
+ * - score: Sort by relevance score (default, only available when searching with text query)
  * - name: Sort by shop name
  * - updated: Sort by last updated timestamp
  * - created: Sort by creation timestamp
  *
  */
-export type SortShopFieldData = 'name' | 'updated' | 'created';
+export type SortShopFieldData = 'score' | 'name' | 'updated' | 'created';
 
 /**
- * Paginated collection of shops
+ * Paginated collection of shops with flattened pagination
  */
-export type CollectionDataShop = {
+export type ShopSearchResultData = {
     /**
      * Array of shops in the current page
      */
     items: Array<GetShopData>;
-    pagination: PaginationData;
+    /**
+     * Number of items skipped (offset)
+     */
+    from: number;
+    /**
+     * Number of items in the current page
+     */
+    size: number;
+    /**
+     * Total number of items matching the query
+     */
+    total?: number | null;
 };
 
 /**
@@ -535,29 +555,18 @@ export type WatchlistCollectionData = {
      * Array of watchlist items in the current page
      */
     items: Array<WatchlistItemData>;
-    pagination: PaginationDataDateTime;
-};
-
-/**
- * Pagination metadata for cursor-based pagination using timestamps
- */
-export type PaginationDataDateTime = {
-    /**
-     * Starting cursor timestamp (RFC3339 format)
-     */
-    from: string;
     /**
      * Number of items in the current page
      */
     size: number;
     /**
+     * Cursor for the next page (RFC3339 timestamp). Present when there are more results.
+     */
+    searchAfter?: string | null;
+    /**
      * Total number of items (optional, may not be available for cursor-based pagination)
      */
     total?: number | null;
-    /**
-     * Cursor for the next page (RFC3339 format). Present when there are more results.
-     */
-    next?: string | null;
 };
 
 /**
@@ -652,9 +661,14 @@ export type SearchItemsData = {
          */
         order?: 'asc' | 'desc';
         /**
-         * Pagination offset (number of items to skip)
+         * Cursor value for pagination (search-after pattern).
+         * This is a JSON value returned as `searchAfter` in the previous response.
+         * Use this to fetch the next page of results.
+         * In general you do not have to worry about determining this key. It's given with the `searchAfter` field in the preceding response if more entries are present.
+         * This can be ANY heterogeneous array.
+         *
          */
-        from?: number;
+        searchAfter?: Array<unknown>;
         /**
          * Number of items to return per page
          */
@@ -680,7 +694,7 @@ export type SearchItemsResponses = {
     /**
      * Search results returned successfully
      */
-    200: CollectionData;
+    200: ItemSearchResultData;
 };
 
 export type SearchItemsResponse = SearchItemsResponses[keyof SearchItemsResponses];
@@ -736,9 +750,14 @@ export type ComplexSearchItemsData = {
          */
         order?: 'asc' | 'desc';
         /**
-         * Pagination offset (number of items to skip)
+         * Cursor value for pagination (search-after pattern).
+         * This is a JSON value returned as `searchAfter` in the previous response.
+         * Use this to fetch the next page of results.
+         * In general you do not have to worry about determining this key. It's given with the `searchAfter` field in the preceding response if more entries are present.
+         * This can be ANY heterogeneous array.
+         *
          */
-        from?: number;
+        searchAfter?: Array<unknown>;
         /**
          * Number of items to return per page
          */
@@ -764,7 +783,7 @@ export type ComplexSearchItemsResponses = {
     /**
      * Complex search results returned successfully
      */
-    200: CollectionData;
+    200: ItemSearchResultData;
 };
 
 export type ComplexSearchItemsResponse = ComplexSearchItemsResponses[keyof ComplexSearchItemsResponses];
@@ -812,7 +831,7 @@ export type GetSearchFiltersResponses = {
     /**
      * Search filters retrieved successfully
      */
-    200: CollectionDataUserSearchFilter;
+    200: SearchFilterCollectionData;
 };
 
 export type GetSearchFiltersResponse = GetSearchFiltersResponses[keyof GetSearchFiltersResponses];
@@ -1040,10 +1059,10 @@ export type GetWatchlistItemsData = {
         /**
          * RFC3339 timestamp for cursor-based pagination (search-after).
          * Depending on sort-order, returns watchlist-items created, either after this timestamp for asc (oldest first) or before this timestamp for desc (latest first).
-         * In general you do not have to worry about determining this key. It's given with PaginationDataDateTime::next in the preceding response if more entries are present.
+         * In general you do not have to worry about determining this key. It's given with `searchAfter` in the preceding response if more entries are present.
          *
          */
-        from?: string;
+        searchAfter?: string;
         /**
          * Number of items to return per page
          */
@@ -1262,7 +1281,7 @@ export type SearchShopsResponses = {
     /**
      * Shop search results returned successfully
      */
-    200: CollectionDataShop;
+    200: ShopSearchResultData;
 };
 
 export type SearchShopsResponse = SearchShopsResponses[keyof SearchShopsResponses];
