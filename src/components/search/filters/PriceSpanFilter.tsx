@@ -52,6 +52,7 @@ export function PriceSpanFilter() {
             <CardContent>
                 <div className={"flex flex-col gap-4"}>
                     <Slider
+                        className={"z-0"}
                         value={[sliderMin, sliderMax]}
                         min={PRICE_MIN}
                         max={PRICE_MAX}

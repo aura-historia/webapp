@@ -18,7 +18,7 @@ const statusConfig = {
     },
     RESERVED: {
         label: "Reserviert",
-        className: "bg-amber-600 text-white",
+        className: "bg-yellow-500 text-white",
     },
     SOLD: {
         label: "Verkauft",
