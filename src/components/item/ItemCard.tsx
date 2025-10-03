@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card.tsx";
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 import { ArrowUpRight, Eye, HeartIcon, Image } from "lucide-react";
 import { H3 } from "../typography/H3";
+import { Link } from "@tanstack/react-router";
 
 export function ItemCard({ item }: { readonly item: OverviewItem }) {
     return (
@@ -54,13 +55,23 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                     </PriceText>
 
                     <div className={"flex flex-col gap-2 sm:items-end flex-shrink-0 sm:ml-2"}>
-                        <Button variant={"default"}>
-                            <Eye />
-                            <span>Details</span>
+                        <Button variant={"default"} asChild>
+                            <Link
+                                to="/item/$shopId/$shopsItemId"
+                                params={{
+                                    shopId: item.shopId,
+                                    shopsItemId: item.shopsItemId,
+                                }}
+                            >
+                                <Eye />
+                                <span>Details</span>
+                            </Link>
                         </Button>
-                        <Button variant={"secondary"} className="whitespace-nowrap">
-                            <ArrowUpRight />
-                            <span>Zur Seite des Händlers</span>
+                        <Button variant={"secondary"} className="whitespace-nowrap" asChild>
+                            <a href={item.url?.href} target="_blank">
+                                <ArrowUpRight />
+                                <span>Zur Seite des Händlers</span>
+                            </a>
                         </Button>
                     </div>
                 </div>
