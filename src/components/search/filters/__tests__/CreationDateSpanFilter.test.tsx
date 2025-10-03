@@ -25,7 +25,7 @@ describe("CreationDateSpanFilter", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Erstellungsdatum")).toBeInTheDocument();
+        expect(screen.getByText("Hinzugefügt")).toBeInTheDocument();
         expect(screen.getAllByText("Beliebig")).toHaveLength(2);
     });
 

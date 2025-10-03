@@ -18,10 +18,10 @@ export function SimpleSearchResults({ query }: SearchResultsProps) {
         useSimpleSearch(query);
 
     useEffect(() => {
-        if (inView && hasNextPage && !isFetchingNextPage) {
+        if (inView && hasNextPage && !isFetchingNextPage && query.length > 3) {
             fetchNextPage();
         }
-    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, query.length]);
 
     if (query.length < 3) {
         return (

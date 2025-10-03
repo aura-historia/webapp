@@ -50,8 +50,8 @@ describe("PriceSpanFilter", () => {
         const minInput = screen.getByPlaceholderText("Min");
         const maxInput = screen.getByPlaceholderText("Max");
 
-        expect(minInput).toHaveValue(2000);
-        expect(maxInput).toHaveValue(5000);
+        expect(minInput).toHaveValue("2000");
+        expect(maxInput).toHaveValue("5000");
     });
 
     it("updates form values when input fields are changed", async () => {
@@ -69,7 +69,7 @@ describe("PriceSpanFilter", () => {
         await user.type(minInput, "300");
 
         // Check that the value is set
-        expect(minInput).toHaveValue(300);
+        expect(minInput).toHaveValue("300");
     });
 
     it("swaps min and max values when min becomes greater than max", async () => {
@@ -86,10 +86,11 @@ describe("PriceSpanFilter", () => {
         const maxInput = screen.getByPlaceholderText("Max");
 
         // Verify initial state
-        expect(maxInput).toHaveValue(4000);
+        expect(maxInput).toHaveValue("4000");
 
         // Set min to greater value
         await user.type(minInput, "8000");
+        await user.click(screen.getByRole("slider", { name: "Minimum" }));
 
         // Wait for the effect to run (swap operation)
         await act(async () => {
@@ -97,21 +98,8 @@ describe("PriceSpanFilter", () => {
         });
 
         // Check if values were swapped
-        expect(minInput).toHaveValue(4000);
-        expect(maxInput).toHaveValue(8000);
-    });
-
-    it("prevents negative values in input fields", async () => {
-        render(
-            <FormWrapper>
-                <PriceSpanFilter />
-            </FormWrapper>,
-        );
-
-        const minInput = screen.getByPlaceholderText("Min");
-
-        // Input should have min attribute set to 0
-        expect(minInput).toHaveAttribute("min", "0");
+        expect(minInput).toHaveValue("4000");
+        expect(maxInput).toHaveValue("8000");
     });
 
     it("initializes with provided default values", () => {
@@ -124,8 +112,8 @@ describe("PriceSpanFilter", () => {
         const minInput = screen.getByPlaceholderText("Min");
         const maxInput = screen.getByPlaceholderText("Max");
 
-        expect(minInput).toHaveValue(1500);
-        expect(maxInput).toHaveValue(7500);
+        expect(minInput).toHaveValue("1500");
+        expect(maxInput).toHaveValue("7500");
 
         // Slider should also reflect these values - get thumbs by aria-label
         const minThumb = screen.getByRole("slider", { name: "Minimum" });

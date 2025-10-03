@@ -6,12 +6,17 @@ import { SimpleSearchResults } from "../SimpleSearchResults.tsx";
 vi.mock("@/hooks/useSimpleSearch.ts", () => ({
     useSimpleSearch: vi.fn(),
 }));
+
+vi.mock("react-intersection-observer", () => ({
+    useInView: () => ({ ref: vi.fn(), inView: false }),
+}));
+
 import { useSimpleSearch } from "@/hooks/useSimpleSearch.ts";
 
 const mockUseSimpleSearch = vi.mocked(useSimpleSearch);
 
 const buildQueryPayload = (items: OverviewItem[]) => ({
-    data: { items },
+    data: { items, searchAfter: undefined },
     error: undefined,
     request: new Request("http://localhost/mock"),
     response: new Response("{}", { status: 200 }),
@@ -19,16 +24,19 @@ const buildQueryPayload = (items: OverviewItem[]) => ({
 
 type SearchMockOptions = {
     items?: OverviewItem[];
-    isLoading?: boolean;
+    isPending?: boolean;
     error?: Error | null;
 };
 
-function setSearchMock({ items = [], isLoading = false, error = null }: SearchMockOptions = {}) {
-    const data = isLoading ? undefined : buildQueryPayload(items);
+function setSearchMock({ items = [], isPending = false, error = null }: SearchMockOptions = {}) {
+    const pages = isPending ? undefined : [buildQueryPayload(items)];
     mockUseSimpleSearch.mockReturnValue({
-        data,
-        isLoading,
+        data: pages ? { pages, pageParams: [undefined] } : undefined,
+        isPending,
         error,
+        fetchNextPage: vi.fn(),
+        hasNextPage: false,
+        isFetchingNextPage: false,
     } as ReturnType<typeof useSimpleSearch>);
 }
 
@@ -46,7 +54,7 @@ describe("SearchResults", () => {
     });
 
     it("renders skeleton loaders while data is loading", () => {
-        setSearchMock({ isLoading: true });
+        setSearchMock({ isPending: true });
         render(<SimpleSearchResults query="test" />);
         expect(screen.getAllByTestId("item-card-skeleton")).toHaveLength(4);
     });
