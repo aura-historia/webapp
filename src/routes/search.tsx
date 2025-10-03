@@ -15,6 +15,8 @@ export const Route = createFileRoute("/search")({
             allowedStates?: ItemState[];
             creationDateFrom?: string;
             creationDateTo?: string;
+            updateDateFrom?: string;
+            updateDateTo?: string;
             merchant?: string;
         } & SearchSchemaInput,
     ): SearchFilterArguments => {
@@ -24,17 +26,30 @@ export const Route = createFileRoute("/search")({
         const validPriceFrom = Number.isNaN(priceFrom) ? undefined : priceFrom;
         const validPriceTo = Number.isNaN(priceTo) ? undefined : priceTo;
 
-        let fromDate: Date | undefined;
-        let toDate: Date | undefined;
+        let fromCreationDate: Date | undefined;
+        let toCreationDate: Date | undefined;
+
+        let fromUpdateDate: Date | undefined;
+        let toUpdateDate: Date | undefined;
 
         if (search.creationDateFrom) {
             const parsed = new Date(search.creationDateFrom);
-            fromDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
+            fromCreationDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
         }
 
         if (search.creationDateTo) {
             const parsed = new Date(search.creationDateTo);
-            toDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
+            toCreationDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
+        }
+
+        if (search.updateDateFrom) {
+            const parsed = new Date(search.updateDateFrom);
+            fromUpdateDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
+        }
+
+        if (search.updateDateTo) {
+            const parsed = new Date(search.updateDateTo);
+            toUpdateDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
         }
 
         return {
@@ -47,8 +62,10 @@ export const Route = createFileRoute("/search")({
                       .filter((s) => s)
                       .filter((elem, index, self) => index === self.indexOf(elem))
                 : undefined,
-            creationDateFrom: fromDate,
-            creationDateTo: toDate,
+            creationDateFrom: fromCreationDate,
+            creationDateTo: toCreationDate,
+            updateDateFrom: fromUpdateDate,
+            updateDateTo: toUpdateDate,
             merchant: (search.merchant?.trim() as string) || undefined,
         };
     },
@@ -65,6 +82,8 @@ function RouteComponent() {
             searchArgs.allowedStates ||
             searchArgs.creationDateFrom ||
             searchArgs.creationDateTo ||
+            searchArgs.updateDateFrom ||
+            searchArgs.updateDateTo ||
             searchArgs.merchant
         );
     }

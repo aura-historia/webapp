@@ -11,6 +11,7 @@ import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import { useEffect } from "react";
 import { formatToDateString } from "@/lib/utils.ts";
+import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
 
 const filterSchema = z.object({
     priceSpan: z
@@ -21,6 +22,10 @@ const filterSchema = z.object({
         .optional(),
     itemState: z.array(z.enum(["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"])),
     creationDate: z.object({
+        from: z.date().optional(),
+        to: z.date().optional(),
+    }),
+    updateDate: z.object({
         from: z.date().optional(),
         to: z.date().optional(),
     }),
@@ -42,6 +47,10 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
             priceSpan: { min: undefined, max: undefined },
             itemState: ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"],
             creationDate: {
+                from: undefined,
+                to: undefined,
+            },
+            updateDate: {
                 from: undefined,
                 to: undefined,
             },
@@ -68,6 +77,16 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                 shouldDirty: false,
             });
         }
+        if (searchFilters.updateDateFrom) {
+            form.setValue("updateDate.from", new Date(searchFilters.updateDateFrom), {
+                shouldDirty: false,
+            });
+        }
+        if (searchFilters.updateDateTo) {
+            form.setValue("updateDate.to", new Date(searchFilters.updateDateTo), {
+                shouldDirty: false,
+            });
+        }
         if (searchFilters.merchant) {
             form.setValue("merchant", searchFilters.merchant, { shouldDirty: false });
         }
@@ -79,6 +98,8 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
         searchFilters.priceTo,
         searchFilters.creationDateFrom,
         searchFilters.creationDateTo,
+        searchFilters.updateDateFrom,
+        searchFilters.updateDateTo,
         searchFilters.merchant,
         searchFilters.allowedStates,
         form,
@@ -98,6 +119,12 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                 creationDateTo: data.creationDate.to
                     ? formatToDateString(data.creationDate.to)
                     : undefined,
+                updateDateFrom: data.updateDate.from
+                    ? formatToDateString(data.updateDate.from)
+                    : undefined,
+                updateDateTo: data.updateDate.to
+                    ? formatToDateString(data.updateDate.to)
+                    : undefined,
                 merchant: data.merchant ? data.merchant : undefined,
             },
         });
@@ -110,6 +137,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                     <PriceSpanFilter />
                     <ItemStateFilter />
                     <CreationDateSpanFilter />
+                    <UpdateDateSpanFilter />
                     <MerchantFilter />
                 </div>
                 <Button className="w-full shadow-sm" type="submit">

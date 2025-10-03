@@ -37,6 +37,14 @@ export function useFilteredSearch(searchArgs: SearchFilterArguments) {
                               },
                           }
                         : {}),
+                    ...(searchArgs.updateDateFrom != null || searchArgs.updateDateTo != null
+                        ? {
+                              updated: {
+                                  min: searchArgs.updateDateFrom?.toISOString() || undefined,
+                                  max: searchArgs.updateDateTo?.toISOString() || undefined,
+                              },
+                          }
+                        : {}),
                     shopNameQuery: searchArgs.merchant,
                 },
                 query: { searchAfter: pageParam, size: 2 },
