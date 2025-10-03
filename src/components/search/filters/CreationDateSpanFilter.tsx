@@ -14,15 +14,15 @@ export function CreationDateSpanFilter() {
     return (
         <Card>
             <CardHeader>
-                <H2>Erstellungsdatum</H2>
+                <H2>Hinzugefügt</H2>
             </CardHeader>
             <CardContent>
-                <div className={"flex flex-col w-full gap-2 justify-start"}>
-                    <div className={"flex flex-row gap-2 items-center"}>
+                <div className={"flex flex-col w-full gap-2"}>
+                    <div className={"flex flex-row gap-2 items-center justify-between"}>
                         <span>Von: </span>
                         <DatePicker fieldName="creationDate.from" />
                     </div>
-                    <div className={"flex flex-row gap-2 items-center"}>
+                    <div className={"flex flex-row gap-2 items-center justify-between"}>
                         <span>Bis: </span>
                         <DatePicker fieldName="creationDate.to" />
                     </div>
