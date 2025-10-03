@@ -37,7 +37,7 @@ function setSearchMock({ items = [], isPending = false, error = null }: SearchMo
         fetchNextPage: vi.fn(),
         hasNextPage: false,
         isFetchingNextPage: false,
-    } as ReturnType<typeof useSimpleSearch>);
+    } as unknown as ReturnType<typeof useSimpleSearch>);
 }
 
 describe("SearchResults", () => {
