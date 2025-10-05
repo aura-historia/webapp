@@ -77,16 +77,77 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
      */
     const options: ApexOptions = {
         chart: {
-            type: "line",
+            type: "area",
             toolbar: { show: false },
             zoom: { enabled: true },
+            defaultLocale: "de",
+            locales: [
+                {
+                    name: "de",
+                    options: {
+                        months: [
+                            "Januar",
+                            "Februar",
+                            "März",
+                            "April",
+                            "Mai",
+                            "Juni",
+                            "Juli",
+                            "August",
+                            "September",
+                            "Oktober",
+                            "November",
+                            "Dezember",
+                        ],
+                        shortMonths: [
+                            "Jan",
+                            "Feb",
+                            "Mär",
+                            "Apr",
+                            "Mai",
+                            "Jun",
+                            "Jul",
+                            "Aug",
+                            "Sep",
+                            "Okt",
+                            "Nov",
+                            "Dez",
+                        ],
+                        days: [
+                            "Sonntag",
+                            "Montag",
+                            "Dienstag",
+                            "Mittwoch",
+                            "Donnerstag",
+                            "Freitag",
+                            "Samstag",
+                        ],
+                        shortDays: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+                    },
+                },
+            ],
+        },
+        dataLabels: {
+            enabled: false,
         },
         xaxis: {
             type: "datetime",
+            labels: {
+                style: {
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    fontFamily: "Geist, sans-serif",
+                },
+            },
         },
         yaxis: {
             labels: {
                 formatter: (val: number) => `€${val.toFixed(2)}`,
+                style: {
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    fontFamily: "Geist, sans-serif",
+                },
             },
         },
         colors: ["#b2905f"],
@@ -98,11 +159,10 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
             x: { format: "dd MMM yyyy HH:mm" },
         },
     };
-
     return (
         <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
             <H2>Preisverlauf</H2>
-            <Chart options={options} series={series} type="line" height={350} />
+            <Chart options={options} series={series} type="area" height={350} />
         </Card>
     );
 }
