@@ -54,7 +54,7 @@
         "react": "^19.0.0",
         "react-day-picker": "^9.11.0",
         "react-dom": "^19.0.0",
-        "react-hook-form": "^7.63.0",
+        "react-hook-form": "^7.64.0",
         "react-intersection-observer": "^9.16.0",
         "tailwind-merge": "^3.0.2",
         "tailwindcss": "^4.1.14",
@@ -64,8 +64,8 @@
         "zod": "^4.1.11"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.2.4",
-        "@hey-api/openapi-ts": "0.84.4",
+        "@biomejs/biome": "2.2.5",
+        "@hey-api/openapi-ts": "0.85.0",
         "@playwright/test": "^1.55.1",
         "@testing-library/dom": "^10.4.0",
         "@testing-library/jest-dom": "^6.9.1",
@@ -80,7 +80,7 @@
         "jsdom": "^27.0.0",
         "lint-staged": "^16.2.3",
         "typescript": "^5.9.3",
-        "vite": "^7.1.7",
+        "vite": "^7.1.9",
         "vitest": "^3.0.5",
         "web-vitals": "^5.1.0"
     }
