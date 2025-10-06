@@ -6,11 +6,13 @@ import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import type { UseInfiniteQueryResult } from "@tanstack/react-query";
-import type { ItemSearchResponse } from "@/client/types.gen.ts";
+import type { InfiniteData } from "@tanstack/query-core";
+import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
+import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 
 type SearchResultsProps = {
     readonly query: string;
-    readonly searchQueryHook: UseInfiniteQueryResult<ItemSearchResponse, Error>;
+    readonly searchQueryHook: UseInfiniteQueryResult<InfiniteData<SearchResultData>>;
 };
 
 export function SearchResults({ query, searchQueryHook }: SearchResultsProps) {
@@ -50,7 +52,8 @@ export function SearchResults({ query, searchQueryHook }: SearchResultsProps) {
         );
     }
 
-    const allItems = data?.pages.flatMap((page) => page.data?.items ?? []) ?? [];
+    const allItems: OverviewItem[] =
+        data?.pages.flatMap((page: SearchResultData) => page.items) ?? [];
 
     if (allItems.length === 0) {
         return <SectionInfoText>Keine Artikel gefunden!</SectionInfoText>;
@@ -58,7 +61,7 @@ export function SearchResults({ query, searchQueryHook }: SearchResultsProps) {
 
     return (
         <div className="flex flex-col gap-4">
-            {allItems.map((item) => (
+            {allItems.map((item: OverviewItem) => (
                 <ItemCard key={item.itemId} item={item} />
             ))}
             <Card className={"h-8 px-2 justify-center items-center shadow-md"} ref={ref}>

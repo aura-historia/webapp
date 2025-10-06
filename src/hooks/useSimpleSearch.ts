@@ -1,8 +1,14 @@
 import { searchItems } from "@/client";
 import { mapToInternalOverviewItem } from "@/data/internal/OverviewItem.ts";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, type UseInfiniteQueryResult } from "@tanstack/react-query";
+import type { InfiniteData } from "@tanstack/query-core";
+import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 
-export function useSimpleSearch(query: string) {
+const PAGE_SIZE = 21;
+
+export function useSimpleSearch(
+    query: string,
+): UseInfiniteQueryResult<InfiniteData<SearchResultData>> {
     return useInfiniteQuery({
         queryKey: ["search", query],
         queryFn: async ({ pageParam }) => {
@@ -10,21 +16,20 @@ export function useSimpleSearch(query: string) {
                 query: {
                     q: query,
                     searchAfter: pageParam,
-                    size: 2,
+                    size: PAGE_SIZE,
                 },
             });
             return {
-                ...result,
-                data: {
-                    ...result.data,
-                    items: result.data?.items?.map(mapToInternalOverviewItem) ?? [],
-                },
+                items: result.data?.items?.map(mapToInternalOverviewItem) ?? [],
+                size: result.data?.size,
+                total: result.data?.total,
+                searchAfter: result.data?.searchAfter,
             };
         },
         enabled: query.length >= 3,
         initialPageParam: undefined as Array<unknown> | undefined,
         getNextPageParam: (lastPage) => {
-            return lastPage.data?.searchAfter ?? undefined;
+            return lastPage.searchAfter ?? undefined;
         },
     });
 }

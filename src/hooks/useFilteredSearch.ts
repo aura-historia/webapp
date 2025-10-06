@@ -1,11 +1,16 @@
 import { complexSearchItems } from "@/client";
 import { mapToInternalOverviewItem } from "@/data/internal/OverviewItem.ts";
-import { useInfiniteQuery } from "@tanstack/react-query";
-
+import { useInfiniteQuery, type UseInfiniteQueryResult } from "@tanstack/react-query";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import { mapToBackendState } from "@/data/internal/ItemState.ts";
+import type { InfiniteData } from "@tanstack/query-core";
+import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 
-export function useFilteredSearch(searchArgs: SearchFilterArguments) {
+const PAGE_SIZE = 21;
+
+export function useFilteredSearch(
+    searchArgs: SearchFilterArguments,
+): UseInfiniteQueryResult<InfiniteData<SearchResultData>> {
     return useInfiniteQuery({
         queryKey: ["filteredSearch", searchArgs],
         queryFn: async ({ pageParam }) => {
@@ -47,19 +52,18 @@ export function useFilteredSearch(searchArgs: SearchFilterArguments) {
                         : {}),
                     shopNameQuery: searchArgs.merchant,
                 },
-                query: { searchAfter: pageParam, size: 2 },
+                query: { searchAfter: pageParam, size: PAGE_SIZE },
             });
             return {
-                ...result,
-                data: {
-                    ...result.data,
-                    items: result.data?.items?.map(mapToInternalOverviewItem) ?? [],
-                },
+                items: result.data?.items?.map(mapToInternalOverviewItem) ?? [],
+                size: result.data?.size,
+                total: result.data?.total,
+                searchAfter: result.data?.searchAfter,
             };
         },
         initialPageParam: undefined as Array<unknown> | undefined,
         getNextPageParam: (lastPage) => {
-            return lastPage.data?.searchAfter ?? undefined;
+            return lastPage.searchAfter ?? undefined;
         },
         enabled: searchArgs.q.length >= 3,
     });
