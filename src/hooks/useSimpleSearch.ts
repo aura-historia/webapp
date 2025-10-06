@@ -1,7 +1,10 @@
 import { searchItems } from "@/client";
 import { mapToInternalOverviewItem } from "@/data/internal/OverviewItem.ts";
-import { useInfiniteQuery, type UseInfiniteQueryResult } from "@tanstack/react-query";
-import type { InfiniteData } from "@tanstack/query-core";
+import {
+    useInfiniteQuery,
+    type UseInfiniteQueryResult,
+    type InfiniteData,
+} from "@tanstack/react-query";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 
 const PAGE_SIZE = 21;

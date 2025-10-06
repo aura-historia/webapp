@@ -2,6 +2,7 @@ import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 import { render, screen } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
 import { SimpleSearchResults } from "../SimpleSearchResults.tsx";
+import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 
 vi.mock("@/hooks/useSimpleSearch.ts", () => ({
     useSimpleSearch: vi.fn(),
@@ -15,11 +16,11 @@ import { useSimpleSearch } from "@/hooks/useSimpleSearch.ts";
 
 const mockUseSimpleSearch = vi.mocked(useSimpleSearch);
 
-const buildQueryPayload = (items: OverviewItem[]) => ({
-    data: { items, searchAfter: undefined },
-    error: undefined,
-    request: new Request("http://localhost/mock"),
-    response: new Response("{}", { status: 200 }),
+const buildQueryPayload = (items: OverviewItem[]): SearchResultData => ({
+    items,
+    size: items.length,
+    total: items.length,
+    searchAfter: undefined,
 });
 
 type SearchMockOptions = {

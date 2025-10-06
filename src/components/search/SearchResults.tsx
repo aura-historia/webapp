@@ -5,8 +5,7 @@ import { Card, CardContent } from "@/components/ui/card.tsx";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import type { UseInfiniteQueryResult } from "@tanstack/react-query";
-import type { InfiniteData } from "@tanstack/query-core";
+import type { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 
