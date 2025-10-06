@@ -9,20 +9,20 @@ import type { CheckedState } from "@radix-ui/react-checkbox";
 
 const itemStates = ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"] as const;
 
+function handleCheckedChange(
+    field: { value: string[]; onChange: (value: string[]) => void },
+    item: string,
+    isChecked: CheckedState,
+) {
+    if (isChecked) {
+        field.onChange([...field.value, item]);
+    } else {
+        field.onChange(field.value?.filter((value) => value !== item));
+    }
+}
+
 export function ItemStateFilter() {
     const { control } = useFormContext<FilterSchema>();
-
-    function handleCheckedChange(
-        field: { value: string[]; onChange: (value: string[]) => void },
-        item: string,
-        isChecked: CheckedState,
-    ) {
-        if (isChecked) {
-            field.onChange([...field.value, item]);
-        } else {
-            field.onChange(field.value?.filter((value) => value !== item));
-        }
-    }
 
     return (
         <Card>
