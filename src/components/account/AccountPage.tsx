@@ -21,6 +21,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 
 const profileSchema = z.object({
     given_name: z.string().min(2, {
@@ -92,7 +93,7 @@ export function AccountPage() {
     }
 
     if (error) {
-        return <div>Fehler beim Laden der Daten!</div>;
+        return <SectionInfoText>Fehler beim Laden der Daten!</SectionInfoText>;
     }
 
     return (
@@ -100,7 +101,7 @@ export function AccountPage() {
             <H1>Mein Profil</H1>
 
             {/* Personal data*/}
-            <section className="bg-card text-card-foreground w-full max-w-2xl mx-auto p-6 mt-6 rounded-xl border shadow-sm">
+            <section className="bg-card text-card-foreground w-full max-w-lg mx-auto p-6 mt-6 rounded-xl border shadow-sm">
                 <H2 className="mb-4">Persönliche Daten ändern</H2>
 
                 <Form {...form}>
@@ -150,7 +151,7 @@ export function AccountPage() {
             </section>
 
             {/* Change password */}
-            <section className="bg-card text-card-foreground w-full max-w-2xl mx-auto p-6 mt-6 rounded-xl border shadow-sm">
+            <section className="bg-card text-card-foreground w-full max-w-lg mx-auto p-6 mt-6 rounded-xl border shadow-sm">
                 <H2 className="mb-4">Passwort ändern</H2>
                 <AccountSettings.ChangePassword
                     onSuccess={() => toast.success("Passwort erfolgreich geändert!")}
@@ -165,7 +166,7 @@ export function AccountPage() {
             </section>
 
             {/* Delete account */}
-            <section className="bg-card text-card-foreground w-full max-w-2xl mx-auto p-6 mt-6 rounded-xl border shadow-sm">
+            <section className="bg-card text-card-foreground w-full max-w-lg mx-auto p-6 mt-6 rounded-xl border shadow-sm">
                 <H2 className="mb-4">Account löschen</H2>
                 <AccountSettings.DeleteUser
                     displayText={{

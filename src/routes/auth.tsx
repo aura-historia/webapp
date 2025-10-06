@@ -7,6 +7,34 @@ export const Route = createFileRoute("/auth")({
     component: AuthPage,
 });
 
+const components = {
+    SignUp: {
+        FormFields() {
+            return (
+                <>
+                    <SelectField name="gender" label="Geschlecht*" isRequired={true}>
+                        <option value="">Bitte wählen...</option>
+                        <option value="male">Männlich</option>
+                        <option value="female">Weiblich</option>
+                        <option value="other">Divers</option>
+                    </SelectField>
+
+                    <Authenticator.SignUp.FormFields />
+
+                    <SelectField
+                        name="zoneinfo"
+                        label="Zeitzone"
+                        isRequired={false}
+                        defaultValue="Europe/Berlin"
+                    >
+                        <option value="Europe/Berlin">Deutschland (Berlin)</option>
+                    </SelectField>
+                </>
+            );
+        },
+    },
+};
+
 function AuthPage() {
     const navigate = useNavigate();
 
@@ -21,38 +49,7 @@ function AuthPage() {
                     "gender",
                     "zoneinfo",
                 ]}
-                components={{
-                    SignUp: {
-                        // biome-ignore lint/correctness/noNestedComponentDefinitions: muss hier drin bleiben
-                        FormFields() {
-                            return (
-                                <>
-                                    <SelectField
-                                        name="gender"
-                                        label="Geschlecht*"
-                                        isRequired={true}
-                                    >
-                                        <option value="">Bitte wählen...</option>
-                                        <option value="male">Männlich</option>
-                                        <option value="female">Weiblich</option>
-                                        <option value="other">Divers</option>
-                                    </SelectField>
-
-                                    <Authenticator.SignUp.FormFields />
-
-                                    <SelectField
-                                        name="zoneinfo"
-                                        label="Zeitzone"
-                                        isRequired={false}
-                                        defaultValue="Europe/Berlin"
-                                    >
-                                        <option value="Europe/Berlin">Deutschland (Berlin)</option>
-                                    </SelectField>
-                                </>
-                            );
-                        },
-                    },
-                }}
+                components={components}
                 formFields={{
                     signUp: {
                         given_name: {
@@ -95,7 +92,7 @@ function AuthPage() {
                 {({ user }) => {
                     if (user) {
                         navigate({ to: "/" }).catch((error) => {
-                            console.error("Navigation fehlgeschlagen:", error);
+                            console.error("Navigation failed:", error);
                         });
                     }
                     return (
