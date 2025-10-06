@@ -5,11 +5,24 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import { StatusBadge } from "@/components/item/StatusBadge.tsx";
 import { Controller, useFormContext } from "react-hook-form";
+import type { CheckedState } from "@radix-ui/react-checkbox";
 
 const itemStates = ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"] as const;
 
 export function ItemStateFilter() {
     const { control } = useFormContext<FilterSchema>();
+
+    function handleCheckedChange(
+        field: { value: string[]; onChange: (value: string[]) => void },
+        item: string,
+        isChecked: CheckedState,
+    ) {
+        if (isChecked) {
+            field.onChange([...field.value, item]);
+        } else {
+            field.onChange(field.value?.filter((value) => value !== item));
+        }
+    }
 
     return (
         <Card>
@@ -27,15 +40,9 @@ export function ItemStateFilter() {
                                 <div className={"flex flex-row gap-4 items-center"}>
                                     <Checkbox
                                         checked={field.value?.includes(item)}
-                                        onCheckedChange={(isChecked) => {
-                                            isChecked
-                                                ? field.onChange([...field.value, item])
-                                                : field.onChange(
-                                                      field.value?.filter(
-                                                          (value) => value !== item,
-                                                      ),
-                                                  );
-                                        }}
+                                        onCheckedChange={(checked) =>
+                                            handleCheckedChange(field, item, checked)
+                                        }
                                     />
                                     {field.value?.includes(item) ? (
                                         <StatusBadge status={item} />

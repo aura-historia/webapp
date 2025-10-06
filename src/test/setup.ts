@@ -2,14 +2,20 @@ import "@testing-library/jest-dom";
 
 // Mock ResizeObserver which is not available in JSDOM
 class ResizeObserverMock {
-    observe() {}
+    observe() {
+        // No-op
+    }
 
-    unobserve() {}
+    unobserve() {
+        // No-op
+    }
 
-    disconnect() {}
+    disconnect() {
+        // No-op
+    }
 }
 
-global.ResizeObserver = ResizeObserverMock;
+globalThis.ResizeObserver = ResizeObserverMock;
 
 // Mock pointer capture methods which are not available in JSDOM but used by Radix UI
 if (!Element.prototype.hasPointerCapture) {
