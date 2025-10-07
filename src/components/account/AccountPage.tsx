@@ -146,7 +146,7 @@ export function AccountPage() {
                             )}
                         />
                         <div className="flex justify-center pt-4">
-                            <Button type="submit" disabled={isPending} className="w-1/2">
+                            <Button type="submit" disabled={isPending} className="w-1/2 font-bold">
                                 {isPending ? "Speichert..." : "Speichern"}
                             </Button>
                         </div>
