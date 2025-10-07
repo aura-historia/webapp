@@ -105,7 +105,7 @@ export function AccountPage() {
                 <H2 className="mb-4">Persönliche Daten ändern</H2>
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                         <FormField
                             control={form.control}
                             name="given_name"
@@ -114,7 +114,9 @@ export function AccountPage() {
                                     <FormLabel className="text-md">Vorname</FormLabel>
                                     <FormControl>
                                         <Input
-                                            className={"h-12 font-medium !text-lg bg-neutral-100"}
+                                            className={
+                                                "min-h-12 py-2 px-4 text-base bg-neutral-100"
+                                            }
                                             type={"text"}
                                             {...field}
                                         />
@@ -132,7 +134,9 @@ export function AccountPage() {
                                     <FormLabel className="text-md">Nachname</FormLabel>
                                     <FormControl>
                                         <Input
-                                            className={"h-12 font-medium !text-lg bg-neutral-100"}
+                                            className={
+                                                "min-h-12 py-2 px-4 text-base bg-neutral-100 font"
+                                            }
                                             type={"text"}
                                             {...field}
                                         />
@@ -141,7 +145,7 @@ export function AccountPage() {
                                 </FormItem>
                             )}
                         />
-                        <div className="flex justify-center">
+                        <div className="flex justify-center pt-4">
                             <Button type="submit" disabled={isPending} className="w-1/2">
                                 {isPending ? "Speichert..." : "Speichern"}
                             </Button>
@@ -152,7 +156,7 @@ export function AccountPage() {
 
             {/* Change password */}
             <section className="bg-card text-card-foreground w-full max-w-lg mx-auto p-6 mt-6 rounded-xl border shadow-sm">
-                <H2 className="mb-4">Passwort ändern</H2>
+                <H2 className="mb-6">Passwort ändern</H2>
                 <AccountSettings.ChangePassword
                     onSuccess={() => toast.success("Passwort erfolgreich geändert!")}
                     onError={() => toast.error("Fehler beim Ändern des Passworts.")}
@@ -167,7 +171,7 @@ export function AccountPage() {
 
             {/* Delete account */}
             <section className="bg-card text-card-foreground w-full max-w-lg mx-auto p-6 mt-6 rounded-xl border shadow-sm">
-                <H2 className="mb-4">Account löschen</H2>
+                <H2 className="mb-6">Account löschen</H2>
                 <AccountSettings.DeleteUser
                     displayText={{
                         deleteAccountButtonText: "Account löschen",

@@ -196,7 +196,15 @@ code {
 [data-amplify-authenticator] .amplify-input,
 [data-amplify-authenticator] .amplify-field__show-password,
 [data-amplify-authenticator] .amplify-select {
-    @apply font-medium bg-neutral-100 border-input rounded-md shadow-xs;
+    @apply font-medium bg-neutral-100 border-input rounded-md shadow-xs min-h-12 outline-none;
+}
+
+.amplify-passwordfield .amplify-input:focus,
+.amplify-field__show-password:focus,
+[data-amplify-authenticator] .amplify-input:focus,
+[data-amplify-authenticator] .amplify-field__show-password:focus,
+[data-amplify-authenticator] .amplify-select:focus {
+    @apply outline-none ring-2 ring-ring/50 border-ring;
 }
 
 .amplify-passwordfield ~ button[type="submit"] {
@@ -217,7 +225,29 @@ code {
     margin-top: 16px;
 }
 
+.amplify-passwordfield .amplify-label,
+.amplify-textfield .amplify-label,
+.amplify-field .amplify-label,
 label[data-slot="form-label"] {
+    @apply text-base font-medium;
     color: var(--amplify-colors-font-secondary);
-    font-weight: normal;
 }
+
+
+/* Submit Button (Passwort speichern) - Focus State */
+.amplify-button.amplify-field-group__control[type="submit"]:focus,
+.amplify-button.amplify-field-group__control[type="submit"]:focus-visible {
+    @apply outline-none ring-2 ring-ring/50 border-ring;
+}
+
+/* Show Password Button - Focus State */
+.amplify-button.amplify-field__show-password:focus,
+.amplify-button.amplify-field__show-password:focus-visible {
+    @apply outline-none ring-2 ring-primary/50 bg-primary/10;
+}
+
+/* Show Password Button - Hover State */
+.amplify-button.amplify-field__show-password:hover {
+    @apply bg-primary/20;
+}
+
