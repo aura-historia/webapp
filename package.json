@@ -62,7 +62,7 @@
     "devDependencies": {
         "@biomejs/biome": "2.2.5",
         "@hey-api/openapi-ts": "0.85.0",
-        "@playwright/test": "^1.55.1",
+        "@playwright/test": "^1.56.0",
         "@testing-library/dom": "^10.4.0",
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.2.0",
