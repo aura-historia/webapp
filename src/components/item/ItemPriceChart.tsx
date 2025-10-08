@@ -1,20 +1,24 @@
+import { useCallback, useRef, useMemo } from "react";
 import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
+import type ApexCharts from "apexcharts";
 import type { ItemEvent, PriceData } from "@/data/internal/ItemDetails.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Card } from "@/components/ui/card.tsx";
+import { Button } from "@/components/ui/button.tsx";
+
+const TIME_RANGES = [
+    { label: "1T", days: 1 },
+    { label: "5T", days: 5 },
+    { label: "1M", days: 30 },
+    { label: "3M", days: 90 },
+    { label: "6M", days: 180 },
+    { label: "1J", days: 365 },
+    { label: "Alle", days: null },
+];
 
 export function ItemPriceChart({ history }: { readonly history?: readonly ItemEvent[] }) {
-    if (!history || history.length === 0) {
-        return (
-            <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
-                <H2>Preisverlauf</H2>
-                <p className="text-sm text-muted-foreground">
-                    Keine Daten für diesen Artikel vorhanden.
-                </p>
-            </Card>
-        );
-    }
+    const chartRef = useRef<ApexCharts | null>(null);
 
     /**
      * Filters the mixed `history` list and keeps only the events
@@ -31,7 +35,7 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
      * This would mean we wouldn't have to filter by type here and would get the data we need directly. But he wanted to think about it again.
      */
 
-    const priceEvents = history.filter(
+    const priceEvents = (history ?? []).filter(
         (event): event is ItemEvent & { payload: PriceData } =>
             event.payload !== null &&
             typeof event.payload === "object" &&
@@ -50,11 +54,46 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
         y: event.payload.amount / 100,
     }));
 
-    if (priceData.length === 0) {
+    /**
+     *  Determines the earliest (`minTimestamp`) and latest (`maxTimestamp`) timestamps from the existing price data.
+     *  The `useMemo` hook optimizes performance by ensuring, that this calculation is only performed again when the
+     *  `priceData` actually changes, and not with every single re-render. */
+    const { minTimestamp, maxTimestamp } = useMemo(() => {
+        const timestamps = priceData.map((d) => d.x);
+        return {
+            minTimestamp: Math.min(...timestamps),
+            maxTimestamp: Math.max(...timestamps),
+        };
+    }, [priceData]);
+
+    /**
+     * Zooms the chart to a specific time period.
+     *
+     * @param days - Number of days from today to be displayed, or zero for the entire available data period
+     *
+     */
+    const handleZoom = useCallback(
+        (days: number | null) => {
+            if (!chartRef.current) return;
+
+            if (days === null) {
+                chartRef.current.zoomX(minTimestamp, maxTimestamp);
+            } else {
+                const now = Date.now();
+                const startDate = now - days * 24 * 60 * 60 * 1000;
+                chartRef.current.zoomX(startDate, now);
+            }
+        },
+        [minTimestamp, maxTimestamp],
+    );
+
+    if (!history || priceData.length === 0) {
         return (
             <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
                 <H2>Preisverlauf</H2>
-                <p className="text-sm text-muted-foreground">Keine Preisdaten verfügbar</p>
+                <p className="text-sm text-muted-foreground">
+                    Keine Preisdaten für diesen Artikel vorhanden.
+                </p>
             </Card>
         );
     }
@@ -77,9 +116,12 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
      */
     const options: ApexOptions = {
         chart: {
+            id: "price-chart",
             type: "area",
             toolbar: { show: false },
-            zoom: { enabled: true },
+            zoom: {
+                enabled: true,
+            },
             defaultLocale: "de",
             locales: [
                 {
@@ -126,6 +168,34 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
                     },
                 },
             ],
+            events: {
+                mounted: (chart) => {
+                    chartRef.current = chart;
+                },
+                /**
+                 * Prevents a bug in ApexCharts where the graph renders incorrectly
+                 *
+                 * If the user zooms into a time range that is completely outside of the
+                 * available data (`minTimestamp` to `maxTimestamp`), the graph disappears
+                 * and the time axis displays incorrect values.
+                 *
+                 * This function intercepts such an attempt and resets the zoom to the
+                 * entire available data range instead, ensuring the chart display remains stable.
+                 */
+                beforeZoom: (_chartContext, { xaxis }) => {
+                    const isCompletelyOutside =
+                        xaxis.max < minTimestamp || xaxis.min > maxTimestamp;
+
+                    if (isCompletelyOutside) {
+                        return {
+                            xaxis: {
+                                min: minTimestamp,
+                                max: maxTimestamp,
+                            },
+                        };
+                    }
+                },
+            },
         },
         dataLabels: {
             enabled: false,
@@ -159,9 +229,24 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
             x: { format: "dd MMM yyyy HH:mm" },
         },
     };
+
     return (
         <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
-            <H2>Preisverlauf</H2>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <H2>Preisverlauf</H2>
+                <div className="flex gap-2 flex-wrap">
+                    {TIME_RANGES.map((timeRange) => (
+                        <Button
+                            key={timeRange.label}
+                            onClick={() => handleZoom(timeRange.days)}
+                            variant={"outline"}
+                            size="sm"
+                        >
+                            {timeRange.label}
+                        </Button>
+                    ))}
+                </div>
+            </div>
             <Chart options={options} series={series} type="area" height={350} />
         </Card>
     );
