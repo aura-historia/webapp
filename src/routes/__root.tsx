@@ -1,9 +1,7 @@
-import { TanstackDevtools } from "@tanstack/react-devtools";
 import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
-
+import { TanStackDevtools } from "@tanstack/react-devtools";
 import appCss from "../styles.css?url";
 
 import { Footer } from "@/components/common/Footer.tsx";
@@ -52,18 +50,20 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                     <main className="flex-1">{children}</main>
                     <Footer />
                 </div>
-                <TanstackDevtools
-                    config={{
-                        position: "bottom-left",
-                    }}
-                    plugins={[
-                        {
-                            name: "Tanstack Router",
-                            render: <TanStackRouterDevtoolsPanel />,
-                        },
-                        TanStackQueryDevtools,
-                    ]}
-                />
+                {import.meta.env.DEV && (
+                    <TanStackDevtools
+                        config={{
+                            position: "bottom-left",
+                        }}
+                        plugins={[
+                            {
+                                name: "Tanstack Router",
+                                render: <TanStackRouterDevtoolsPanel />,
+                            },
+                            TanStackQueryDevtools,
+                        ]}
+                    />
+                )}
                 <Scripts />
             </body>
         </html>
