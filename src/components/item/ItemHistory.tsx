@@ -11,7 +11,7 @@ import {
     TimelineTime,
     TimelineHeader,
 } from "@/components/ui/timeline.tsx";
-import { formatDateTime, getStateDescription } from "@/lib/utils.ts";
+import { formatDate, formatTime, getStateDescription } from "@/lib/utils.ts";
 
 export function ItemHistory({ history }: { readonly history?: readonly ItemEvent[] }) {
     if (!history || history.length === 0) {
@@ -44,7 +44,7 @@ export function ItemHistory({ history }: { readonly history?: readonly ItemEvent
     }
 
     return (
-        <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0 h-full">
+        <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0 h-full items-start">
             <H2 className="flex-shrink-0">Historie</H2>
             <div className="flex-1 min-h-0 overflow-y-auto">
                 <Timeline>
@@ -57,7 +57,10 @@ export function ItemHistory({ history }: { readonly history?: readonly ItemEvent
                                 <TimelineItem key={event.eventId}>
                                     <TimelineHeader>
                                         <TimelineTime>
-                                            {formatDateTime(event.timestamp)}
+                                            <span>{formatDate(event.timestamp)}</span>
+                                            <span className="text-muted-foreground">
+                                                {formatTime(event.timestamp)}
+                                            </span>
                                         </TimelineTime>
                                         <TimelineTitle>
                                             <StatusBadge status={state} />

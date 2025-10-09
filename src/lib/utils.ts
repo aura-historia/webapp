@@ -17,8 +17,23 @@ export function formatPrice(data: PriceData, locale: string | undefined = undefi
 export function formatDateTime(date: Date, locale?: string): string {
     return new Intl.DateTimeFormat(locale ?? navigator.language, {
         day: "2-digit",
-        month: "short",
+        month: "2-digit",
         year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+    }).format(date);
+}
+
+export function formatDate(date: Date, locale?: string): string {
+    return new Intl.DateTimeFormat(locale ?? navigator.language, {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+    }).format(date);
+}
+
+export function formatTime(date: Date, locale?: string): string {
+    return new Intl.DateTimeFormat(locale ?? navigator.language, {
         hour: "2-digit",
         minute: "2-digit",
     }).format(date);
