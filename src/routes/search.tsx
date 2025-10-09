@@ -77,12 +77,12 @@ function RouteComponent() {
     const searchArgs = Route.useSearch();
 
     return (
-        <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8 ml-8 mr-8 sm:ml-auto sm:mr-auto">
+        <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto">
             <div className={"flex flex-row items-end gap-8"}>
-                <div className={"flex-col hidden sm:block sm:w-[30%] min-w-0"}>
+                <div className={"flex-col hidden lg:block lg:w-[30%] min-w-0"}>
                     <H1>Filter</H1>
                 </div>
-                <div className={"flex-col sm:w-[70%] min-w-0"}>
+                <div className={"flex-col lg:w-[70%] min-w-0"}>
                     <H1>Suchergebnisse für:</H1>
                     <H1 className={"text-ellipsis overflow-hidden line-clamp-1"}>
                         "{searchArgs.q}"
@@ -90,15 +90,15 @@ function RouteComponent() {
                 </div>
             </div>
 
-            <div className={"flex flex-col sm:flex-row items-start gap-8"}>
+            <div className={"flex flex-col lg:flex-row items-start gap-8"}>
                 <div
                     className={
-                        "flex-col sm:w-[30%] min-w-0 md:pb-0 pb-8 border-b sm:border-b-0 border-gray-300"
+                        "flex-col w-full lg:w-[30%] min-w-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300"
                     }
                 >
                     <SearchFilters searchFilters={searchArgs} />
                 </div>
-                <div className={"flex-col sm:w-[70%] min-w-0"}>
+                <div className={"flex-col lg:w-[70%] min-w-0"}>
                     {isSimpleSearch(searchArgs) ? (
                         <SimpleSearchResults query={searchArgs.q} />
                     ) : (

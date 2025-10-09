@@ -94,7 +94,18 @@ export const searchItems = <ThrowOnError extends boolean = false>(options: Optio
  * Bulk create or update items
  * Creates or updates multiple items in a single batch request.
  * This endpoint accepts a collection of item data and processes them asynchronously.
- * Returns information about any items that could not be processed.
+ *
+ * **Shop Enrichment**: The shop information (shopId and shopName) is automatically
+ * enriched based on the item's URL. The URL must belong to a shop that is already
+ * registered in the system. If the shop is not found, the item will fail with
+ * a SHOP_NOT_FOUND error.
+ *
+ * **Response Structure**:
+ * - `skipped`: Number of items that had no changes and were skipped
+ * - `unprocessed`: URLs of items that could not be processed due to temporary issues (can be retried)
+ * - `failed`: Map of item URLs to error codes for items that permanently failed processing
+ *
+ * Returns information about any items that could not be processed or failed during enrichment.
  *
  */
 export const putItems = <ThrowOnError extends boolean = false>(options: Options<PutItemsData, ThrowOnError>) => {

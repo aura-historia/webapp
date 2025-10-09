@@ -45,7 +45,7 @@ export type GetItemData = {
     /**
      * Array of image URLs for the item
      */
-    images: Array<string>;
+    images?: Array<string> | null;
     /**
      * When the item was first created (RFC3339 format)
      */
@@ -105,6 +105,14 @@ export type PriceData = {
      * Price amount in minor currency units (e.g., cents for EUR/USD)
      */
     amount: number;
+};
+
+/**
+ * Minimal information about an item when it was created
+ */
+export type ItemCreatedEventPayloadData = {
+    state: ItemStateData;
+    price?: PriceData;
 };
 
 /**
@@ -183,18 +191,21 @@ export type SortItemFieldData = 'score' | 'price' | 'updated' | 'created';
  * Types of events that can occur for an item
  */
 export type ItemEventTypeData =
-    'STATE_AVAILABLE'
-    | 'PRICE_DROPPED'
+    'CREATED'
     | 'STATE_LISTED'
-    | 'STATE_RESERVED'
+    | 'STATE_AVAILABLE. STATE_RESERVED'
     | 'STATE_SOLD'
     | 'STATE_REMOVED'
-    | 'STATE_UNKNOWN';
+    | 'STATE_UNKNOWN'
+    | 'PRICE_DISCOVERED'
+    | 'PRICE_DROPPED'
+    | 'PRICE_INCREASED'
+    | 'PRICE_REMOVED';
 
 /**
  * Event-specific payload data
  */
-export type ItemEventPayloadData = ItemStateData | PriceData;
+export type ItemEventPayloadData = ItemCreatedEventPayloadData | ItemStateData | PriceData;
 
 /**
  * Standard error response format
@@ -393,21 +404,15 @@ export type PutItemsCollectionData = {
 };
 
 /**
- * Data required to create or update an item
+ * Data required to create or update an item.
+ * Shop information (shopId and shopName) is automatically enriched based on the item's URL.
+ *
  */
 export type PutItemData = {
-    /**
-     * Unique identifier of the shop
-     */
-    shopId: string;
     /**
      * Shop's unique identifier for the item. Can be any arbitrary string.
      */
     shopsItemId: string;
-    /**
-     * Display name of the shop
-     */
-    shopName: string;
     title: LocalizedTextData;
     /**
      * Optional item description
@@ -419,7 +424,9 @@ export type PutItemData = {
     price?: PriceData | null;
     state: ItemStateData;
     /**
-     * URL to the item on the shop's website
+     * URL to the item on the shop's website.
+     * The shop will be automatically identified and enriched based on this URL.
+     *
      */
     url: string;
     /**
@@ -429,15 +436,25 @@ export type PutItemData = {
 };
 
 /**
- * Response from bulk item creation/update operation
+ * Response from bulk item creation/update operation with enrichment
  */
 export type PutItemsResponse = {
     /**
-     * Items that could not be processed
+     * Item URLs that could not be processed due to temporary issues.
+     * These items may succeed if retried.
+     *
      */
-    unprocessed?: Array<ItemKeyData>;
+    unprocessed?: Array<string>;
     /**
-     * Number of items that were skipped during processing
+     * Map of item URLs to error codes for items that failed processing.
+     * The key is the item URL, and the value is the error code explaining why it failed.
+     *
+     */
+    failed?: {
+        [key: string]: PutItemError;
+    };
+    /**
+     * Number of items that were skipped during processing because they had no changes
      */
     skipped: number;
 };
@@ -455,9 +472,9 @@ export type GetShopData = {
      */
     name: string;
     /**
-     * URL to the shop's website
+     * All known URLs to the shop's website
      */
-    url: string;
+    urls: Array<string>;
     /**
      * Optional URL to the shop's logo or image
      */
@@ -575,6 +592,15 @@ export type WatchlistCollectionData = {
  *
  */
 export type SortWatchlistItemFieldData = 'created';
+
+/**
+ * Error codes for items that failed during processing:
+ * - SHOP_NOT_FOUND: The shop associated with the item's URL is not registered in the system
+ * - MONETARY_AMOUNT_OVERFLOW: The price amount exceeds the maximum supported value during currency conversion
+ * - ITEM_ENRICHMENT_FAILED: Failed to enrich the item with additional shop and price information
+ *
+ */
+export type PutItemError = 'SHOP_NOT_FOUND' | 'MONETARY_AMOUNT_OVERFLOW' | 'ITEM_ENRICHMENT_FAILED';
 
 export type GetItemData2 = {
     body?: never;

@@ -328,7 +328,18 @@ paths:
         description: |
             Creates or updates multiple items in a single batch request.
             This endpoint accepts a collection of item data and processes them asynchronously.
-            Returns information about any items that could not be processed.
+            
+            **Shop Enrichment**: The shop information (shopId and shopName) is automatically 
+            enriched based on the item's URL. The URL must belong to a shop that is already 
+            registered in the system. If the shop is not found, the item will fail with 
+            a SHOP_NOT_FOUND error.
+            
+            **Response Structure**:
+            - `skipped`: Number of items that had no changes and were skipped
+            - `unprocessed`: URLs of items that could not be processed due to temporary issues (can be retried)
+            - `failed`: Map of item URLs to error codes for items that permanently failed processing
+            
+            Returns information about any items that could not be processed or failed during enrichment.
         operationId: putItems
         tags:
             - Items
@@ -341,9 +352,7 @@ paths:
                         $ref: '#/components/schemas/PutItemsCollectionData'
                     example:
                         items:
-                            -   shopId: "550e8400-e29b-41d4-a716-446655440000"
-                                shopsItemId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-                                shopName: "Tech Store"
+                            -   shopsItemId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
                                 title:
                                     text: "Smartphone Case Premium"
                                     language: "en"
@@ -358,9 +367,7 @@ paths:
                                 images:
                                     - "https://tech-store.com/images/premium-case-1.jpg"
                                     - "https://tech-store.com/images/premium-case-2.jpg"
-                            -   shopId: "550e8400-e29b-41d4-a716-446655440000"
-                                shopsItemId: "7cb8c920-9dad-11d1-80b4-00c04fd430c9"
-                                shopName: "Tech Store"
+                            -   shopsItemId: "7cb8c920-9dad-11d1-80b4-00c04fd430c9"
                                 title:
                                     text: "Basic Phone Case"
                                     language: "en"
@@ -385,12 +392,19 @@ paths:
                                 summary: All items processed successfully
                                 value:
                                     skipped: 0
-                            partial_processing:
-                                summary: Some items could not be processed
+                            partial_processing_with_failures:
+                                summary: Some items failed with errors
+                                value:
+                                    failed:
+                                        "https://unknown-shop.com/item": "SHOP_NOT_FOUND"
+                                        "https://tech-store.com/expensive-item": "MONETARY_AMOUNT_OVERFLOW"
+                                    skipped: 0
+                            partial_processing_with_unprocessed:
+                                summary: Some items could not be processed (temporary issue)
                                 value:
                                     unprocessed:
-                                        -   shopId: "550e8400-e29b-41d4-a716-446655440000"
-                                            shopsItemId: "7cb8c920-9dad-11d1-80b4-00c04fd430c9"
+                                        - "https://tech-store.com/item-1"
+                                        - "https://tech-store.com/item-2"
                                     skipped: 2
             '400':
                 description: Bad request - invalid request body
@@ -411,6 +425,24 @@ paths:
                                     status: 400
                                     error: "BAD_BODY_VALUE"
                                     message: "Invalid JSON format"
+                            shop_not_found:
+                                summary: Shop not found for item URL
+                                value:
+                                    status: 400
+                                    error: "SHOP_NOT_FOUND"
+                                    message: "No shop registered for the provided item URL"
+                            monetary_overflow:
+                                summary: Price amount overflow during enrichment
+                                value:
+                                    status: 400
+                                    error: "MONETARY_AMOUNT_OVERFLOW"
+                                    message: "Price amount exceeds maximum value during currency conversion"
+                            enrichment_failed:
+                                summary: Item enrichment failed
+                                value:
+                                    status: 400
+                                    error: "ITEM_ENRICHMENT_FAILED"
+                                    message: "Failed to enrich item with shop and price information"
             '500':
                 description: Internal server error
                 content:
@@ -1590,7 +1622,7 @@ paths:
                           example:
                               shopId: "550e8400-e29b-41d4-a716-446655440000"
                               name: "Tech Store Premium"
-                              url: "https://tech-store-premium.com"
+                              urls: [ "https://tech-store-premium.com", "https://tech-store-premium.de", "https://apple.tech-store-premium.com" ]
                               image: "https://tech-store-premium.com/logo.svg"
                               created: "2024-01-01T10:00:00Z"
                               updated: "2024-01-01T12:00:00Z"
@@ -1913,6 +1945,17 @@ components:
           minimum: 0
           example: 2999
 
+    ItemCreatedEventPayloadData:
+        type: object
+        description: Minimal information about an item when it was created
+        required:
+            - state
+        properties:
+            state:
+                $ref: '#/components/schemas/ItemStateData'
+            price:
+                $ref: '#/components/schemas/PriceData'
+
     GetItemEventData:
       type: object
       description: Historical event for an item
@@ -2003,12 +2046,13 @@ components:
 
     ItemEventTypeData:
       type: string
-      enum: [ STATE_AVAILABLE, PRICE_DROPPED, STATE_LISTED, STATE_RESERVED, STATE_SOLD, STATE_REMOVED, STATE_UNKNOWN ]
+      enum: [ CREATED, STATE_LISTED, STATE_AVAILABLE. STATE_RESERVED, STATE_SOLD, STATE_REMOVED, STATE_UNKNOWN, PRICE_DISCOVERED, PRICE_DROPPED, PRICE_INCREASED, PRICE_REMOVED ]
       description: Types of events that can occur for an item
       example: STATE_AVAILABLE
 
     ItemEventPayloadData:
       oneOf:
+          -   $ref: '#/components/schemas/ItemCreatedEventPayloadData'
         - $ref: '#/components/schemas/ItemStateData'
         - $ref: '#/components/schemas/PriceData'
       description: Event-specific payload data
@@ -2269,28 +2313,19 @@ components:
 
     PutItemData:
         type: object
-        description: Data required to create or update an item
+        description: |
+            Data required to create or update an item.
+            Shop information (shopId and shopName) is automatically enriched based on the item's URL.
         required:
-            - shopId
             - shopsItemId
-            - shopName
             - title
             - state
             - url
         properties:
-            shopId:
-                type: string
-                format: uuid
-                description: Unique identifier of the shop
-                example: "550e8400-e29b-41d4-a716-446655440000"
             shopsItemId:
                 type: string
                 description: Shop's unique identifier for the item. Can be any arbitrary string.
                 example: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-            shopName:
-                type: string
-                description: Display name of the shop
-                example: "Tech Store Premium"
             title:
                 $ref: '#/components/schemas/LocalizedTextData'
             description:
@@ -2308,7 +2343,9 @@ components:
             url:
                 type: string
                 format: uri
-                description: URL to the item on the shop's website
+                description: |
+                    URL to the item on the shop's website.
+                    The shop will be automatically identified and enriched based on this URL.
                 example: "https://tech-store-premium.com/items/smartphone-case"
             images:
                 type: array
@@ -2323,19 +2360,36 @@ components:
 
     PutItemsResponse:
         type: object
-        description: Response from bulk item creation/update operation
+        description: Response from bulk item creation/update operation with enrichment
         required:
             - skipped
         properties:
             unprocessed:
                 type: array
                 items:
-                    $ref: '#/components/schemas/ItemKeyData'
-                description: Items that could not be processed
+                    type: string
+                    format: uri
+                description: |
+                    Item URLs that could not be processed due to temporary issues.
+                    These items may succeed if retried.
+                default: [ ]
+                example:
+                    - "https://tech-store.com/items/temporary-issue"
+            failed:
+                type: object
+                additionalProperties:
+                    $ref: '#/components/schemas/PutItemError'
+                description: |
+                    Map of item URLs to error codes for items that failed processing.
+                    The key is the item URL, and the value is the error code explaining why it failed.
+                default: { }
+                example:
+                    "https://unknown-shop.com/item": "SHOP_NOT_FOUND"
+                    "https://tech-store.com/expensive-item": "MONETARY_AMOUNT_OVERFLOW"
             skipped:
                 type: integer
                 minimum: 0
-                description: Number of items that were skipped during processing
+                description: Number of items that were skipped during processing because they had no changes
                 example: 2
 
     GetShopData:
@@ -2344,7 +2398,7 @@ components:
         required:
             - shopId
             - name
-            - url
+            - urls
             - created
             - updated
         properties:
@@ -2357,11 +2411,14 @@ components:
                 type: string
                 description: Display name of the shop
                 example: "Tech Store Premium"
-            url:
-                type: string
-                format: uri
-                description: URL to the shop's website
-                example: "https://tech-store-premium.com"
+            urls:
+                type: array
+                items:
+                    type: string
+                    format: uri
+                description: All known URLs to the shop's website
+                example: [ "https://tech-store-premium.com", "https://tech-store-premium.de", "https://apple.tech-store-premium.com" ]
+
             image:
                 type: string
                 format: uri
@@ -2510,6 +2567,16 @@ components:
             Fields available for sorting watchlist items:
             - created: Sort by when item was added to watchlist
         example: created
+
+    PutItemError:
+        type: string
+        enum: [ SHOP_NOT_FOUND, MONETARY_AMOUNT_OVERFLOW, ITEM_ENRICHMENT_FAILED ]
+        description: |
+            Error codes for items that failed during processing:
+            - SHOP_NOT_FOUND: The shop associated with the item's URL is not registered in the system
+            - MONETARY_AMOUNT_OVERFLOW: The price amount exceeds the maximum supported value during currency conversion
+            - ITEM_ENRICHMENT_FAILED: Failed to enrich the item with additional shop and price information
+        example: SHOP_NOT_FOUND
 
 tags:
   - name: Items

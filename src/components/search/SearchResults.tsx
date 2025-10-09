@@ -44,6 +44,8 @@ export function SearchResults({ query, searchQueryHook }: SearchResultsProps) {
     }
 
     if (error) {
+        console.error(error);
+
         return (
             <SectionInfoText>
                 Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!

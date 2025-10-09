@@ -12,11 +12,11 @@ export function UpdateDateSpanFilter() {
                 <div className={"flex flex-col w-full gap-2"}>
                     <div className={"flex flex-row gap-2 items-center justify-between"}>
                         <span>Von: </span>
-                        <DatePicker fieldName="creationDate.from" />
+                        <DatePicker fieldName="updateDate.from" />
                     </div>
                     <div className={"flex flex-row gap-2 items-center justify-between"}>
                         <span>Bis: </span>
-                        <DatePicker fieldName="creationDate.to" />
+                        <DatePicker fieldName="updateDate.to" />
                     </div>
                 </div>
             </CardContent>
