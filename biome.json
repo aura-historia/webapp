@@ -35,6 +35,9 @@
         "enabled": true,
         "rules": {
             "recommended": true,
+            "a11y": {
+                "useSemanticElements": "off"
+            },
             "suspicious": {
                 "noUnknownAtRules": "off"
             }
@@ -46,3 +49,4 @@
         }
     }
 }
+
