@@ -44,25 +44,33 @@ export function ItemHistory({ history }: { readonly history?: readonly ItemEvent
     }
 
     return (
-        <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
-            <H2>Historie</H2>
-            <Timeline className="mt-4">
-                {stateEvents.map((event) => {
-                    const state = parseItemState(event.payload);
-
-                    return (
-                        <TimelineItem key={event.eventId}>
-                            <TimelineHeader>
-                                <TimelineTime>{formatDateTime(event.timestamp)}</TimelineTime>
-                                <TimelineTitle>
-                                    <StatusBadge status={state} />
-                                </TimelineTitle>
-                            </TimelineHeader>
-                            <TimelineDescription>{getStateDescription(state)}</TimelineDescription>
-                        </TimelineItem>
-                    );
-                })}
-            </Timeline>
+        <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0 h-full">
+            <H2 className="flex-shrink-0">Historie</H2>
+            <div className="flex-1 min-h-0 overflow-y-auto">
+                <Timeline>
+                    {stateEvents
+                        .slice()
+                        .reverse()
+                        .map((event) => {
+                            const state = parseItemState(event.payload);
+                            return (
+                                <TimelineItem key={event.eventId}>
+                                    <TimelineHeader>
+                                        <TimelineTime>
+                                            {formatDateTime(event.timestamp)}
+                                        </TimelineTime>
+                                        <TimelineTitle>
+                                            <StatusBadge status={state} />
+                                        </TimelineTitle>
+                                    </TimelineHeader>
+                                    <TimelineDescription>
+                                        {getStateDescription(state)}
+                                    </TimelineDescription>
+                                </TimelineItem>
+                            );
+                        })}
+                </Timeline>
+            </div>
         </Card>
     );
 }
