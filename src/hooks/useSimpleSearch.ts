@@ -22,6 +22,11 @@ export function useSimpleSearch(
                     size: PAGE_SIZE,
                 },
             });
+
+            if (result.error) {
+                throw new Error(result.error.message);
+            }
+
             return {
                 items: result.data?.items?.map(mapToInternalOverviewItem) ?? [],
                 size: result.data?.size,
