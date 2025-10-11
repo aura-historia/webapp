@@ -1,5 +1,5 @@
 import type { ItemEvent } from "@/data/internal/ItemDetails.ts";
-import { type ItemState, parseItemState } from "@/data/internal/ItemState";
+import type { ItemStateData } from "@/client";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { StatusBadge } from "@/components/item/StatusBadge.tsx";
@@ -30,7 +30,7 @@ export function ItemHistory({ history }: { readonly history?: readonly ItemEvent
      * This excludes price events which have payload with {amount, currency}
      */
     const stateEvents = history.filter(
-        (event): event is ItemEvent & { payload: ItemState } =>
+        (event): event is ItemEvent & { payload: ItemStateData } =>
             event.payload !== null && typeof event.payload === "string",
     );
 
@@ -52,7 +52,7 @@ export function ItemHistory({ history }: { readonly history?: readonly ItemEvent
                         .slice()
                         .reverse()
                         .map((event) => {
-                            const state = parseItemState(event.payload);
+                            const state: ItemStateData = event.payload;
                             return (
                                 <TimelineItem key={event.eventId}>
                                     <TimelineHeader>
