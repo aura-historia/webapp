@@ -42,7 +42,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { readonly children: React.ReactNode }) {
     return (
-        <html lang="en">
+        <html lang="de">
             <head>
                 <HeadContent />
             </head>

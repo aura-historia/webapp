@@ -17,7 +17,7 @@ describe("StatusBadge", () => {
     it("should render the correct label and styles for the RESERVED status", () => {
         render(<StatusBadge status="RESERVED" />);
         expect(screen.getByText("Reserviert")).toBeInTheDocument();
-        expect(screen.getByText("Reserviert")).toHaveClass("bg-amber-600 text-white");
+        expect(screen.getByText("Reserviert")).toHaveClass("bg-yellow-500 text-white");
     });
 
     it("should render the correct label and styles for the SOLD status", () => {
@@ -35,6 +35,6 @@ describe("StatusBadge", () => {
     it("should render the correct label and styles for the UNKNOWN status", () => {
         render(<StatusBadge status="UNKNOWN" />);
         expect(screen.getByText("Unbekannt")).toBeInTheDocument();
-        expect(screen.getByText("Unbekannt")).toHaveClass("bg-gray-100 text-foreground");
+        expect(screen.getByText("Unbekannt")).toHaveClass("bg-gray-400 text-white");
     });
 });
