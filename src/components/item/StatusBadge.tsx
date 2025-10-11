@@ -1,9 +1,9 @@
 import { Badge } from "@/components/ui/badge";
-import type { ItemState } from "@/data/internal/ItemState";
+import type { ItemStateData } from "@/client";
 import { cn } from "@/lib/utils";
 
 interface StatusBadgeProps {
-    readonly status: ItemState;
+    readonly status: ItemStateData;
     readonly className?: string;
 }
 
