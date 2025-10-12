@@ -7,6 +7,16 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import type { PriceData } from "@/client";
+import { formatDate, formatTimeWithSeconds } from "@/lib/utils.ts";
+
+interface ApexFormatterOpts {
+    w?: {
+        globals?: {
+            minX: number;
+            maxX: number;
+        };
+    };
+}
 
 const TIME_RANGES = [
     { label: "1T", days: 1 },
@@ -120,55 +130,6 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
             id: "price-chart",
             type: "area",
             toolbar: { show: false },
-            zoom: {
-                enabled: true,
-            },
-            defaultLocale: "de",
-            locales: [
-                {
-                    name: "de",
-                    options: {
-                        months: [
-                            "Januar",
-                            "Februar",
-                            "März",
-                            "April",
-                            "Mai",
-                            "Juni",
-                            "Juli",
-                            "August",
-                            "September",
-                            "Oktober",
-                            "November",
-                            "Dezember",
-                        ],
-                        shortMonths: [
-                            "Jan",
-                            "Feb",
-                            "Mär",
-                            "Apr",
-                            "Mai",
-                            "Jun",
-                            "Jul",
-                            "Aug",
-                            "Sep",
-                            "Okt",
-                            "Nov",
-                            "Dez",
-                        ],
-                        days: [
-                            "Sonntag",
-                            "Montag",
-                            "Dienstag",
-                            "Mittwoch",
-                            "Donnerstag",
-                            "Freitag",
-                            "Samstag",
-                        ],
-                        shortDays: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
-                    },
-                },
-            ],
             events: {
                 mounted: (chart) => {
                     chartRef.current = chart;
@@ -202,14 +163,57 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
             enabled: false,
         },
         xaxis: {
-            type: "datetime",
+            type: "numeric",
+            tickAmount: 5,
             labels: {
+                /**
+                 * Custom X-axis label formatter.
+                 *
+                 * We use type="numeric" instead of type="datetime" because:
+                 * - "datetime" ignores tickAmount → generates too many labels with dense data
+                 * - Labels overlap and become unreadable
+                 * - Date format customization is limited
+                 * - No responsive breakpoint support
+                 *
+                 * With "numeric" we get:
+                 * - Full control via tickAmount (works with responsive breakpoints)
+                 * - Custom formatting based on time range:
+                 *   - ≤ 1 day → time with seconds (14:30:45)
+                 *   - > 1 day → date (12.10.2025)
+                 * - Dynamic adjustment when zooming (via opts.w.globals)
+                 */
+                formatter: (
+                    value: string | number,
+                    _timestamp?: number,
+                    opts?: ApexFormatterOpts,
+                ): string => {
+                    const timestamp = Number(value);
+                    const date = new Date(timestamp);
+
+                    let timeRange = maxTimestamp - minTimestamp;
+
+                    if (opts?.w?.globals) {
+                        const currentMinX = opts.w.globals.minX;
+                        const currentMaxX = opts.w.globals.maxX;
+                        timeRange = currentMaxX - currentMinX;
+                    }
+
+                    const oneDayInMs = 24 * 60 * 60 * 1000;
+
+                    if (timeRange <= oneDayInMs) {
+                        return formatTimeWithSeconds(date, "de-DE");
+                    }
+
+                    return formatDate(date, "de-DE");
+                },
                 style: {
                     fontSize: "15px",
                     fontWeight: 500,
                     fontFamily: "Geist, sans-serif",
                 },
             },
+            min: minTimestamp,
+            max: maxTimestamp,
         },
         yaxis: {
             labels: {
@@ -221,6 +225,36 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
                 },
             },
         },
+        responsive: [
+            {
+                breakpoint: 640,
+                options: {
+                    xaxis: {
+                        tickAmount: 3,
+                        labels: {
+                            style: {
+                                fontSize: "12px",
+                            },
+                        },
+                    },
+                    yaxis: {
+                        labels: {
+                            style: {
+                                fontSize: "12px",
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                breakpoint: 1024,
+                options: {
+                    xaxis: {
+                        tickAmount: 3,
+                    },
+                },
+            },
+        ],
         colors: ["#b2905f"],
         stroke: {
             curve: "smooth",
@@ -230,7 +264,6 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
             x: { format: "dd MMM yyyy HH:mm" },
         },
     };
-
     return (
         <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
