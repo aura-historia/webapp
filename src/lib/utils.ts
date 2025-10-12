@@ -1,7 +1,6 @@
-import type { PriceData } from "@/client";
+import type { PriceData, ItemStateData, ItemEventTypeData } from "@/client";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { ItemState } from "@/data/internal/ItemState.ts";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -39,14 +38,34 @@ export function formatTime(date: Date, locale?: string): string {
     }).format(date);
 }
 
-export function getStateDescription(state: ItemState): string {
-    const descriptions = {
-        LISTED: "Der Artikel wurde neu gelistet.",
-        AVAILABLE: "Der Artikel ist jetzt zum Kauf verfügbar.",
-        RESERVED: "Der Artikel wurde von einem Käufer reserviert.",
-        SOLD: "Der Artikel wurde verkauft.",
-        REMOVED: "Der Artikel wurde entfernt.",
-        UNKNOWN: "Der Status des Artikels ist unbekannt.",
-    };
-    return descriptions[state];
+export function getStateDescription(state: ItemStateData): string {
+    switch (state) {
+        case "LISTED":
+            return "Der Artikel wurde neu gelistet.";
+        case "AVAILABLE":
+            return "Der Artikel ist jetzt zum Kauf verfügbar.";
+        case "RESERVED":
+            return "Der Artikel wurde von einem Käufer reserviert.";
+        case "SOLD":
+            return "Der Artikel wurde verkauft.";
+        case "REMOVED":
+            return "Der Artikel wurde entfernt.";
+        case "UNKNOWN":
+            return "Der Status des Artikels ist unbekannt.";
+    }
+}
+
+export function getPriceEventDescription(eventType: ItemEventTypeData): string {
+    switch (eventType) {
+        case "PRICE_DISCOVERED":
+            return "Preis wurde entdeckt";
+        case "PRICE_DROPPED":
+            return "Preis ist gesunken";
+        case "PRICE_INCREASED":
+            return "Preis ist gestiegen";
+        case "PRICE_REMOVED":
+            return "Preis wurde entfernt";
+        default:
+            return "Preisänderung";
+    }
 }

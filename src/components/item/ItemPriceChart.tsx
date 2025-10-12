@@ -2,10 +2,11 @@ import { useCallback, useRef, useMemo } from "react";
 import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
 import type ApexCharts from "apexcharts";
-import type { ItemEvent, PriceData } from "@/data/internal/ItemDetails.ts";
+import type { ItemEvent } from "@/data/internal/ItemDetails.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import type { PriceData } from "@/client";
 
 const TIME_RANGES = [
     { label: "1T", days: 1 },
