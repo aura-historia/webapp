@@ -38,6 +38,14 @@ export function formatTime(date: Date, locale?: string): string {
     }).format(date);
 }
 
+export function formatTimeWithSeconds(date: Date, locale?: string): string {
+    return new Intl.DateTimeFormat(locale ?? navigator.language, {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+    }).format(date);
+}
+
 export function getStateDescription(state: ItemStateData): string {
     switch (state) {
         case "LISTED":
