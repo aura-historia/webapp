@@ -1,4 +1,4 @@
-import { TanstackDevtools } from "@tanstack/react-devtools";
+import { TanStackDevtools } from "@tanstack/react-devtools";
 import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
@@ -52,7 +52,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                     <main className="flex-1">{children}</main>
                     <Footer />
                 </div>
-                <TanstackDevtools
+                <TanStackDevtools
                     config={{
                         position: "bottom-left",
                     }}
