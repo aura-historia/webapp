@@ -24,7 +24,10 @@ export function mapToInternalOverviewItem(apiData: GetItemData): OverviewItem {
         shopId: apiData.shopId,
         shopsItemId: apiData.shopsItemId,
         shopName: apiData.shopName,
-        title: apiData.title.text,
+        title:
+            apiData.title.text.length > 127
+                ? apiData.title.text.slice(0, 127).trim() + "..."
+                : apiData.title.text,
         description: apiData.description?.text,
         price: apiData.price ? formatPrice(apiData.price) : undefined,
         state: apiData.state,

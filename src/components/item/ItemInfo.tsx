@@ -63,9 +63,9 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
 
     return (
         <>
-            <Card className="flex flex-col sm:flex-row p-8 gap-4 shadow-md min-w-0">
+            <Card className="flex flex-col md:flex-row p-8 gap-4 shadow-md min-w-0">
                 <div className="flex-shrink-0 flex sm:justify-start justify-center">
-                    <div className="w-full sm:w-48 md:w-80 lg:w-96 space-y-3">
+                    <div className="w-full md:w-80 lg:w-96 space-y-3">
                         <div className="relative">
                             <button
                                 type="button"
@@ -75,7 +75,7 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                                 <img
                                     src={item.images[currentImageIndex].href}
                                     alt={`Produktbild von ${item.title}`}
-                                    className="w-full h-64 sm:h-48 md:h-80 lg:h-96 object-cover rounded-lg hover:opacity-95 transition"
+                                    className="w-full min-h-[200px] max-h-[350px] h-auto md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
                                 />
                             </button>
 
@@ -84,7 +84,8 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                                 <>
                                     <button
                                         type="button"
-                                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
+                                        className=" absolute left-2 top-1/2 -translate-y-1/2 bg-black/50
+                            hover:bg-black/70 text-white rounded-full p-2 transition-colors"
                                         onClick={() =>
                                             setCurrentImageIndex((i) =>
                                                 i === 0 ? item.images.length - 1 : i - 1,
@@ -157,16 +158,19 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                 <div className="flex flex-col min-w-0 flex-1">
                     <div className="flex flex-row justify-between w-full">
                         <div className="flex flex-col gap-2 min-w-0 overflow-hidden">
-                            <H2 className="overflow-hidden line-clamp-1">{item.title}</H2>
-                            <H3 variant="muted" className="overflow-hidden line-clamp-1">
+                            <H2 className="overflow-hidden line-clamp-3 md:line-clamp-2 lg:line-clamp-2 text-[26px]">
+                                {item.title}
+                            </H2>
+                            <H3 variant="muted" className="overflow-hidden line-clamp-1 text-lg">
                                 {item.shopName}
                             </H3>
-                            <p className="text-base text-muted-foreground overflow-hidden line-clamp-12 sm:line-clamp-2 md:line-clamp-8 lg:line-clamp-12">
+                            <p className="text-base text-muted-foreground overflow-y-auto max-h-[250px] md:max-h-[130px] lg:max-h-[200px]">
+                                {" "}
                                 {item.description ?? "Keine Beschreibung verfügbar"}
                             </p>
                             <StatusBadge status={item.state} />
                         </div>
-                        <div className="flex gap-2 ml-auto flex-shrink-0 self-start">
+                        <div className="hidden md:flex gap-2 ml-auto flex-shrink-0 self-start">
                             <Button variant="ghost" size="icon">
                                 <Share />
                             </Button>
@@ -195,7 +199,14 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                     </div>
                 </div>
             </Card>
-
+            <div className="fixed top-24 right-4 flex flex-col gap-2 md:hidden z-40">
+                <Button size="icon" className="shadow-lg rounded-full">
+                    <Share className="w-5 h-5" />
+                </Button>
+                <Button size="icon" className="shadow-lg rounded-full">
+                    <HeartIcon className="w-5 h-5" />
+                </Button>
+            </div>
             <Lightbox
                 open={isLightboxOpen}
                 close={() => setIsLightboxOpen(false)}
