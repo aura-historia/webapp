@@ -7,7 +7,12 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import type { PriceData } from "@/client";
-import { formatDate, formatTimeWithSeconds } from "@/lib/utils.ts";
+import {
+    formatCompactCurrency,
+    formatCurrency,
+    formatDate,
+    formatTimeWithSeconds,
+} from "@/lib/utils.ts";
 
 interface ApexFormatterOpts {
     w?: {
@@ -26,11 +31,10 @@ const TIME_RANGES = [
     { label: "6M", days: 180 },
     { label: "1J", days: 365 },
     { label: "Alle", days: null },
-];
+] as const;
 
 export function ItemPriceChart({ history }: { readonly history?: readonly ItemEvent[] }) {
     const chartRef = useRef<ApexCharts | null>(null);
-
     /**
      * Filters the mixed `history` list and keeps only the events
      * that actually contain a price.
@@ -217,7 +221,7 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
         },
         yaxis: {
             labels: {
-                formatter: (val: number) => `€${val.toFixed(2)}`,
+                formatter: (val: number) => formatCurrency(val),
                 style: {
                     fontSize: "15px",
                     fontWeight: 500,
@@ -233,15 +237,21 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
                         tickAmount: 3,
                         labels: {
                             style: {
-                                fontSize: "12px",
+                                fontSize: "15px",
+                                fontWeight: 500,
+                                fontFamily: "Geist, sans-serif",
                             },
                         },
                     },
                     yaxis: {
                         labels: {
+                            formatter: (val: number) => formatCompactCurrency(val),
                             style: {
-                                fontSize: "12px",
+                                fontSize: "15px",
+                                fontWeight: 500,
+                                fontFamily: "Geist, sans-serif",
                             },
+                            offsetX: -15,
                         },
                     },
                 },
@@ -251,6 +261,24 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
                 options: {
                     xaxis: {
                         tickAmount: 3,
+                        labels: {
+                            style: {
+                                fontSize: "15px",
+                                fontWeight: 500,
+                                fontFamily: "Geist, sans-serif",
+                            },
+                        },
+                    },
+                    yaxis: {
+                        labels: {
+                            formatter: (val: number) => formatCompactCurrency(val),
+                            style: {
+                                fontSize: "15px",
+                                fontWeight: 500,
+                                fontFamily: "Geist, sans-serif",
+                            },
+                            offsetX: -10,
+                        },
                     },
                 },
             },
@@ -265,8 +293,8 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
         },
     };
     return (
-        <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0 h-full">
+            <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-start sm:items-center md:items-start lg:items-center sm:justify-between lg:justify-between gap-4">
                 <H2>Preisverlauf</H2>
                 <div className="flex gap-2 flex-wrap">
                     {TIME_RANGES.map((timeRange) => (
@@ -281,7 +309,9 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
                     ))}
                 </div>
             </div>
-            <Chart options={options} series={series} type="area" height={350} />
+            <div className="flex-1 min-h-[300px]">
+                <Chart options={options} series={series} type="area" height="100%" />
+            </div>
         </Card>
     );
 }
