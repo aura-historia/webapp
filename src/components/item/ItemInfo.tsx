@@ -168,7 +168,6 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                                 {" "}
                                 {item.description ?? "Keine Beschreibung verfügbar"}
                             </p>
-                            <StatusBadge status={item.state} />
                         </div>
                         <div className="hidden md:flex gap-2 ml-auto flex-shrink-0 self-start">
                             <Button variant="ghost" size="icon">
@@ -184,9 +183,10 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                     <div className="hidden sm:block flex-1"></div>
 
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-end w-full mt-4 sm:mt-0">
-                        <PriceText className="flex-shrink-0">
-                            {item.price ?? "Preis unbekannt"}
-                        </PriceText>
+                        <div className="flex flex-col gap-2 flex-shrink-0">
+                            <StatusBadge status={item.state} />
+                            <PriceText>{item.price ?? "Preis unbekannt"}</PriceText>
+                        </div>
 
                         <div className="flex flex-col gap-2 sm:items-end flex-shrink-0 sm:ml-2">
                             <Button variant="secondary" className="whitespace-nowrap" asChild>
@@ -201,10 +201,10 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
             </Card>
             <div className="fixed top-24 right-4 flex flex-col gap-2 md:hidden z-40">
                 <Button size="icon" className="shadow-lg rounded-full">
-                    <Share className="w-5 h-5" />
+                    <Share className="w-4 h-4" />
                 </Button>
                 <Button size="icon" className="shadow-lg rounded-full">
-                    <HeartIcon className="w-5 h-5" />
+                    <HeartIcon className="w-4 h-4" />
                 </Button>
             </div>
             <Lightbox

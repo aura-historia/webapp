@@ -6,6 +6,11 @@ import { SearchResults } from "../SearchResults";
 vi.mock("@/hooks/useSimpleSearch.ts", () => ({
     useSimpleSearch: vi.fn(),
 }));
+
+vi.mock("@tanstack/react-router", () => ({
+    Link: ({ children, ...props }: { children: React.ReactNode }) => <a {...props}>{children}</a>,
+}));
+
 import { useSimpleSearch } from "@/hooks/useSimpleSearch.ts";
 
 const mockUseSimpleSearch = vi.mocked(useSimpleSearch);

@@ -54,37 +54,37 @@ export function formatCurrency(value: number): string {
 }
 
 /**
- * Formats currency values in a compact format for display on small screens (e.g., mobile/tablet charts).
- *
- * Uses custom German abbreviations ("Tsd.", "Mio.") because the native Intl.NumberFormat
- * with notation="compact" doesn't show "Tsd." for thousands in German locale.
+     * Formats currency values in a compact format for display on small screens (e.g., mobile/tablet charts).
+     *
+     * Uses custom German abbreviations ("Tsd.", "Mio.") because the native Intl.NumberFormat
+     * with notation="compact" doesn't show "Tsd." for thousands in German locale.
 
- * @example
- * formatCompactCurrency(499)      // → "499 €"
- * formatCompactCurrency(5500)     // → "5,5 Tsd. €"
- * formatCompactCurrency(25000)    // → "25 Tsd. €"
- * formatCompactCurrency(1500000)  // → "1,5 Mio. €"
- */
+     * @example
+     * formatCompactCurrency(499)      // → "499 €"
+     * formatCompactCurrency(5500)     // → "5,5 Tsd. €"
+     * formatCompactCurrency(25000)    // → "25 Tsd. €"
+     * formatCompactCurrency(1500000)  // → "1,5 Mio. €"
+     */
 
 /*
-export function formatCompactCurrency(value: number): string {
-    const absValue = Math.abs(value);
+    export function formatCompactCurrency(value: number): string {
+        const absValue = Math.abs(value);
 
-    if (absValue >= 1000000) {
-        return `${(value / 1000000).toFixed(1).replace('.', ',')} Mio. €`;
-    }
-
-    if (absValue >= 1000) {
-        const thousands = value / 1000;
-        if (absValue < 10000) {
-            return `${thousands.toFixed(1).replace('.', ',')} Tsd. €`;
+        if (absValue >= 1000000) {
+            return `${(value / 1000000).toFixed(1).replace('.', ',')} Mio. €`;
         }
-        return `${Math.round(thousands)} Tsd. €`;
-    }
 
-    return `${Math.round(value)} €`;
-}
- */
+        if (absValue >= 1000) {
+            const thousands = value / 1000;
+            if (absValue < 10000) {
+                return `${thousands.toFixed(1).replace('.', ',')} Tsd. €`;
+            }
+            return `${Math.round(thousands)} Tsd. €`;
+        }
+
+        return `${Math.round(value)} €`;
+    }
+     */
 
 export function formatCompactCurrency(value: number): string {
     return new Intl.NumberFormat("en-US", {
