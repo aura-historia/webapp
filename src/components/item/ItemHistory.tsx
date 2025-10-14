@@ -1,5 +1,5 @@
 import type { ItemEvent } from "@/data/internal/ItemDetails.ts";
-import type { ItemStateData, PriceData } from "@/client";
+import type { ItemCreatedEventPayloadData, ItemStateData, PriceData } from "@/client";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -59,6 +59,23 @@ function isPriceEvent(event: ItemEvent): event is ItemEvent & {
         typeof event.payload === "object" &&
         "amount" in event.payload &&
         "currency" in event.payload
+    );
+}
+
+/**
+ * Filter only CREATED events (where payload is an object with both state and price)
+ * This excludes regular state events (string payload) and price-only events
+ */
+function isCreatedEvent(event: ItemEvent): event is ItemEvent & {
+    payload: ItemCreatedEventPayloadData;
+    eventType: "CREATED";
+} {
+    return (
+        event.eventType === "CREATED" &&
+        event.payload !== null &&
+        typeof event.payload === "object" &&
+        "state" in event.payload &&
+        "price" in event.payload
     );
 }
 
@@ -192,7 +209,29 @@ export function ItemHistory({ history }: { readonly history?: readonly ItemEvent
                                     </TimelineItem>
                                 );
                             }
-
+                            if (isCreatedEvent(event)) {
+                                return (
+                                    <TimelineItem key={event.eventId}>
+                                        <TimelineHeader>
+                                            <TimelineTime>
+                                                <span>{formatDate(event.timestamp)}</span>
+                                                <span className="text-muted-foreground">
+                                                    {formatTime(event.timestamp)}
+                                                </span>
+                                            </TimelineTime>
+                                            <TimelineTitle>
+                                                <StatusBadge status={event.payload.state} />
+                                            </TimelineTitle>
+                                        </TimelineHeader>
+                                        <TimelineDescription>
+                                            Im System erfasst
+                                            {event.payload.price
+                                                ? ` • ${formatPrice(event.payload.price)}`
+                                                : ""}
+                                        </TimelineDescription>
+                                    </TimelineItem>
+                                );
+                            }
                             return null;
                         })}
                 </Timeline>
