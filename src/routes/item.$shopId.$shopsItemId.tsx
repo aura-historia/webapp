@@ -3,6 +3,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { getItemOptions } from "@/client/@tanstack/react-query.gen";
 import { mapToDetailItem } from "@/data/internal/ItemDetails";
 import { ItemDetailPage } from "@/components/item/ItemDetailPage.tsx";
+import { ItemDetailPageSkeleton } from "@/components/item/ItemDetailPageSkeleton.tsx";
 
 export const Route = createFileRoute("/item/$shopId/$shopsItemId")({
     loader: ({ context: { queryClient }, params: { shopId, shopsItemId } }) => {
@@ -13,6 +14,7 @@ export const Route = createFileRoute("/item/$shopId/$shopsItemId")({
             }),
         );
     },
+    pendingComponent: ItemDetailPageSkeleton,
     component: ItemDetailComponent,
 });
 
