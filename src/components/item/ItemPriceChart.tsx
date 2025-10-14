@@ -69,6 +69,14 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
         y: event.payload.amount / 100,
     }));
 
+    if (priceData.length > 0) {
+        const lastPrice = priceData[priceData.length - 1];
+        priceData.push({
+            x: Date.now(),
+            y: lastPrice.y,
+        });
+    }
+
     /**
      *  Determines the earliest (`minTimestamp`) and latest (`maxTimestamp`) timestamps from the existing price data.
      *  The `useMemo` hook optimizes performance by ensuring, that this calculation is only performed again when the
