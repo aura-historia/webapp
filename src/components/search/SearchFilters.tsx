@@ -12,6 +12,7 @@ import type { SearchFilterArguments } from "@/data/internal/SearchFilterArgument
 import { useEffect } from "react";
 import { formatToDateString } from "@/lib/utils.ts";
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
+import { useTranslation } from "react-i18next";
 
 const filterSchema = z
     .object({
@@ -71,6 +72,57 @@ type SearchFilterProps = {
 
 export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
+    const { t } = useTranslation();
+
+    const filterSchema = z
+        .object({
+            priceSpan: z
+                .object({
+                    min: z.number().min(0).optional().or(z.undefined()),
+                    max: z.number().min(0).optional().or(z.undefined()),
+                })
+                .optional(),
+            itemState: z.array(
+                z.enum(["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"]),
+            ),
+            creationDate: z.object({
+                from: z.date().optional(),
+                to: z.date().optional(),
+            }),
+            updateDate: z.object({
+                from: z.date().optional(),
+                to: z.date().optional(),
+            }),
+            merchant: z
+                .string()
+                .min(3, { error: t("search.validation.merchantMinLength") })
+                .optional()
+                .or(z.string().max(0)),
+        })
+        .superRefine((data, ctx) => {
+            if (
+                data.creationDate.from &&
+                data.creationDate.to &&
+                data.creationDate.from > data.creationDate.to
+            ) {
+                ctx.addIssue({
+                    code: "custom",
+                    message: t("search.validation.dateOrder"),
+                    path: ["creationDate", "to"],
+                });
+            }
+            if (
+                data.updateDate.from &&
+                data.updateDate.to &&
+                data.updateDate.from > data.updateDate.to
+            ) {
+                ctx.addIssue({
+                    code: "custom",
+                    message: t("search.validation.dateOrder"),
+                    path: ["updateDate", "to"],
+                });
+            }
+        });
 
     const form = useForm<FilterSchema>({
         resolver: zodResolver(filterSchema),
@@ -172,7 +224,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                     <MerchantFilter />
                 </div>
                 <Button className="w-full shadow-sm" type="submit">
-                    Filter anwenden
+                    {t("search.applyFilters")}
                 </Button>
             </form>
         </Form>

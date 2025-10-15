@@ -14,15 +14,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "@tanstack/react-router";
 import { Search } from "lucide-react";
-
-const searchFormSchema = z.object({
-    query: z.string().trim().min(3, {
-        error: "Bitte geben Sie mindestens 3 Zeichen ein",
-    }),
-});
+import { useTranslation } from "react-i18next";
 
 export function SearchBar() {
+    const { t } = useTranslation();
     const navigate = useNavigate({ from: "/" });
+
+    const searchFormSchema = z.object({
+        query: z
+            .string()
+            .trim()
+            .min(3, {
+                error: t("search.bar.validation.minLength"),
+            }),
+    });
 
     const form = useForm<z.infer<typeof searchFormSchema>>({
         resolver: zodResolver(searchFormSchema),
@@ -51,12 +56,12 @@ export function SearchBar() {
                     name="query"
                     render={({ field }) => (
                         <FormItem className="flex-grow">
-                            <FormLabel className="sr-only">Search</FormLabel>
+                            <FormLabel className="sr-only">{t("search.bar.label")}</FormLabel>
                             <FormControl>
                                 <Input
                                     className={"h-12 font-medium !text-lg"}
                                     type={"text"}
-                                    placeholder="Ich suche nach..."
+                                    placeholder={t("search.bar.placeholder")}
                                     {...field}
                                 />
                             </FormControl>
@@ -66,7 +71,7 @@ export function SearchBar() {
                 />
 
                 <Button type="submit" className="mt-0 h-12">
-                    <span className={"hidden sm:inline text-lg"}>Suchen</span>
+                    <span className={"hidden sm:inline text-lg"}>{t("search.bar.button")}</span>
                     <Search />
                 </Button>
             </form>

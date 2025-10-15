@@ -7,8 +7,10 @@ import {
 } from "@/components/ui/navigation-menu.tsx";
 import { Separator } from "@/components/ui/separator.tsx";
 import { Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 export function Footer() {
+    const { t } = useTranslation();
     return (
         <footer className={"w-full flex items-start justify-center flex-col"}>
             <Separator />
@@ -22,19 +24,21 @@ export function Footer() {
                         <NavigationMenuItem>
                             <Button variant={"ghost"} asChild>
                                 <Link to="/imprint">
-                                    <NavText>Impressum</NavText>
+                                    <NavText>{t("common.imprint")}</NavText>
                                 </Link>
                             </Button>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
                             <Button variant={"ghost"} asChild>
                                 <Link to="/terms">
-                                    <NavText>AGB</NavText>
+                                    <NavText>{t("common.terms")}</NavText>
                                 </Link>
                             </Button>
                         </NavigationMenuItem>
                     </NavigationMenuList>
-                    <NavText variant={"muted"}>© {new Date().getFullYear()} Blitzfilter</NavText>
+                    <NavText variant={"muted"}>
+                        {t("common.copyright", { year: new Date().getFullYear() })}
+                    </NavText>
                 </div>
             </NavigationMenu>
         </footer>

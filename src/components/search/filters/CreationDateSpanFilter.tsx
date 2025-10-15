@@ -3,24 +3,26 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card.tsx";
 import { DatePicker } from "@/components/search/filters/util/DatePicker.tsx";
 import { useFormContext, useFormState } from "react-hook-form";
 import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
+import { useTranslation } from "react-i18next";
 
 export function CreationDateSpanFilter() {
     const { control } = useFormContext<FilterSchema>();
     const { errors } = useFormState({ control, name: ["creationDate.to"] });
+    const { t } = useTranslation();
 
     return (
         <Card>
             <CardHeader>
-                <H2>Hinzugefügt</H2>
+                <H2>{t("search.filter.creationDate")}</H2>
             </CardHeader>
             <CardContent>
                 <div className={"flex flex-col w-full gap-2"}>
                     <div className={"flex flex-row gap-2 items-center justify-between"}>
-                        <span>Von: </span>
+                        <span>{t("search.filter.from")}</span>
                         <DatePicker fieldName="creationDate.from" />
                     </div>
                     <div className={"flex flex-row gap-2 items-center justify-between"}>
-                        <span>Bis: </span>
+                        <span>{t("search.filter.to")}</span>
                         <DatePicker fieldName="creationDate.to" />
                     </div>
                     {errors?.creationDate?.to && (

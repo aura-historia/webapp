@@ -45,6 +45,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
         <html lang="de">
             <head>
                 <HeadContent />
+                <title>Blitzfilter</title>
             </head>
             <body>
                 <div className={"min-h-screen flex flex-col"}>
