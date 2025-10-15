@@ -64,7 +64,7 @@
         "zod": "^4.1.12"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.2.5",
+        "@biomejs/biome": "2.2.6",
         "@hey-api/openapi-ts": "0.85.1",
         "@playwright/test": "^1.56.0",
         "@testing-library/dom": "^10.4.0",
