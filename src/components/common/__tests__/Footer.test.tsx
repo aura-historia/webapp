@@ -11,16 +11,16 @@ describe("Footer Component", () => {
     });
 
     it("should render all navigation links with correct text", () => {
-        expect(screen.getByText("Impressum")).toBeInTheDocument();
-        expect(screen.getByText("AGB")).toBeInTheDocument();
+        expect(screen.getByText("common.imprint")).toBeInTheDocument();
+        expect(screen.getByText("common.terms")).toBeInTheDocument();
     });
 
     it("should render copyright text with correct year", () => {
-        expect(screen.getByText(`© ${new Date().getFullYear()} Blitzfilter`)).toBeInTheDocument();
+        expect(screen.getByText(`common.copyright`)).toBeInTheDocument();
     });
 
     it("should render navigation links with correct href attributes", () => {
-        expect(screen.getByText("Impressum").closest("a")).toHaveAttribute("href", "/imprint");
-        expect(screen.getByText("AGB").closest("a")).toHaveAttribute("href", "/terms");
+        expect(screen.getByText("common.imprint").closest("a")).toHaveAttribute("href", "/imprint");
+        expect(screen.getByText("common.terms").closest("a")).toHaveAttribute("href", "/terms");
     });
 });

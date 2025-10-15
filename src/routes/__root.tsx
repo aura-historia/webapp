@@ -10,6 +10,7 @@ import { Footer } from "@/components/common/Footer.tsx";
 import Header from "@/components/common/Header.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
+import i18n from "@/i18n/i18n.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -26,7 +27,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 content: "width=device-width, initial-scale=1",
             },
             {
-                title: "TanStack Start Starter",
+                title: i18n.t("meta.title"),
             },
         ],
         links: [
@@ -45,7 +46,6 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
         <html lang="de">
             <head>
                 <HeadContent />
-                <title>Blitzfilter</title>
             </head>
             <body>
                 <div className={"min-h-screen flex flex-col"}>

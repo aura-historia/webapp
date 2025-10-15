@@ -49,9 +49,7 @@ describe("SearchResults", () => {
 
     it("renders a message when query length is less than 3 characters", () => {
         render(<SimpleSearchResults query="ab" />);
-        expect(
-            screen.getByText("Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten."),
-        ).toBeInTheDocument();
+        expect(screen.getByText("search.messages.minQueryLength")).toBeInTheDocument();
     });
 
     it("renders skeleton loaders while data is loading", () => {
@@ -63,17 +61,13 @@ describe("SearchResults", () => {
     it("renders an error message when there is an error", () => {
         setSearchMock({ error: new Error("API Error") });
         render(<SimpleSearchResults query="test" />);
-        expect(
-            screen.getByText(
-                "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
-            ),
-        ).toBeInTheDocument();
+        expect(screen.getByText("search.messages.error")).toBeInTheDocument();
     });
 
     it("renders a message when no items are found", () => {
         setSearchMock({ items: [] });
         render(<SimpleSearchResults query="test" />);
-        expect(screen.getByText("Keine Artikel gefunden!")).toBeInTheDocument();
+        expect(screen.getByText("search.messages.noResults")).toBeInTheDocument();
     });
 
     it("renders a list of item cards when items are found", () => {

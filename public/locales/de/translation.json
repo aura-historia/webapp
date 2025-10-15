@@ -1,14 +1,14 @@
 {
 	"meta": {
-		"title": "Blitzfilter"
+        "title": "Aura Historia"
 	},
 	"common": {
-		"blitzfilter": "Blitzfilter",
+        "auraHistoria": "Aura Historia",
 		"register": "Registrieren",
 		"login": "Einloggen",
 		"imprint": "Impressum",
 		"terms": "AGB",
-		"copyright": "© {{year}} Blitzfilter"
+        "copyright": "© {{year}} Aura Historia"
 	},
 	"imprint": {
 		"title": "Impressum"
@@ -45,6 +45,13 @@
 			"priceSpanAria": "Preisspanne",
 			"updateDate": "Aktualisiert",
 			"anyDate": "Beliebig"
+        },
+        "messages": {
+            "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",
+            "error": "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
+            "noResults": "Keine Artikel gefunden!",
+            "loadingMore": "Lade neue Ergebnisse...",
+            "allLoaded": "Alle Ergebnisse geladen"
 		}
 	},
 	"item": {

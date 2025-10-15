@@ -10,14 +10,14 @@ describe("Header Component", () => {
         });
     });
 
-    it("should render Blitzfilter logo link", () => {
-        const logoLink = screen.getByText("Blitzfilter");
+    it("should render Aura Historia logo link", () => {
+        const logoLink = screen.getByText("common.auraHistoria");
         expect(logoLink).toBeInTheDocument();
         expect(logoLink.closest("a")).toHaveAttribute("href", "/");
     });
 
     it("should renders auth buttons with correct text", () => {
-        expect(screen.getByText("Registrieren")).toBeInTheDocument();
-        expect(screen.getByText("Einloggen")).toBeInTheDocument();
+        expect(screen.getByText("common.register")).toBeInTheDocument();
+        expect(screen.getByText("common.login")).toBeInTheDocument();
     });
 });

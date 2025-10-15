@@ -1,5 +1,5 @@
 {
-    "name": "blitzfilter-frontend",
+    "name": "webapp",
     "private": true,
     "type": "module",
     "scripts": {

@@ -30,12 +30,12 @@ describe("PriceSpanFilter", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Preisspanne")).toBeInTheDocument();
+        expect(screen.getByText("search.filter.priceSpan")).toBeInTheDocument();
         // Find slider thumbs by their aria-labels instead of slider by name
         expect(screen.getByRole("slider", { name: "Minimum" })).toBeInTheDocument();
         expect(screen.getByRole("slider", { name: "Maximum" })).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Min")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Max")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("search.filter.min")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("search.filter.max")).toBeInTheDocument();
         expect(screen.getAllByText("€")).toHaveLength(2);
     });
 
@@ -47,8 +47,8 @@ describe("PriceSpanFilter", () => {
         );
 
         // Check if input fields reflect provided values
-        const minInput = screen.getByPlaceholderText("Min");
-        const maxInput = screen.getByPlaceholderText("Max");
+        const minInput = screen.getByPlaceholderText("search.filter.min");
+        const maxInput = screen.getByPlaceholderText("search.filter.max");
 
         expect(minInput).toHaveValue("2000");
         expect(maxInput).toHaveValue("5000");
@@ -63,7 +63,7 @@ describe("PriceSpanFilter", () => {
             </FormWrapper>,
         );
 
-        const minInput = screen.getByPlaceholderText("Min");
+        const minInput = screen.getByPlaceholderText("search.filter.min");
 
         // Type in a value
         await user.type(minInput, "300");
@@ -82,8 +82,8 @@ describe("PriceSpanFilter", () => {
             </FormWrapper>,
         );
 
-        const minInput = screen.getByPlaceholderText("Min");
-        const maxInput = screen.getByPlaceholderText("Max");
+        const minInput = screen.getByPlaceholderText("search.filter.min");
+        const maxInput = screen.getByPlaceholderText("search.filter.max");
 
         // Verify initial state
         expect(maxInput).toHaveValue("4000");
@@ -109,8 +109,8 @@ describe("PriceSpanFilter", () => {
             </FormWrapper>,
         );
 
-        const minInput = screen.getByPlaceholderText("Min");
-        const maxInput = screen.getByPlaceholderText("Max");
+        const minInput = screen.getByPlaceholderText("search.filter.min");
+        const maxInput = screen.getByPlaceholderText("search.filter.max");
 
         expect(minInput).toHaveValue("1500");
         expect(maxInput).toHaveValue("7500");

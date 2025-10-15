@@ -34,17 +34,17 @@ describe("ItemCard", () => {
     it("should render 'Preis unbekannt' when the price is not provided", () => {
         const itemWithoutPrice = { ...mockItem, price: undefined };
         render(<ItemCard item={itemWithoutPrice} />);
-        expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
+        expect(screen.getByText("item.unknownPrice")).toBeInTheDocument();
     });
 
     it("should render the status badge with the correct status", () => {
         render(<ItemCard item={mockItem} />);
-        expect(screen.getByText("Verfügbar")).toBeInTheDocument();
+        expect(screen.getByText("itemState.available")).toBeInTheDocument();
     });
 
     it("should render the buttons for details and external link", () => {
         render(<ItemCard item={mockItem} />);
-        expect(screen.getByText("Details")).toBeInTheDocument();
-        expect(screen.getByText("Zur Seite des Händlers")).toBeInTheDocument();
+        expect(screen.getByText("item.details")).toBeInTheDocument();
+        expect(screen.getByText("item.toMerchant")).toBeInTheDocument();
     });
 });

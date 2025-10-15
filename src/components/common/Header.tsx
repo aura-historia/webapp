@@ -7,7 +7,7 @@ export function Header() {
     return (
         <header className="flex items-center backdrop-blur-sm justify-between sticky top-0 px-4 py-4 border-b h-20 z-10">
             <Link to="/" className="hidden sm:inline text-2xl font-bold">
-                {t("common.blitzfilter")}
+                {t("common.auraHistoria")}
             </Link>
 
             <div className="flex items-center gap-4">

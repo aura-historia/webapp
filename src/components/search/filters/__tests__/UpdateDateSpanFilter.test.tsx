@@ -25,8 +25,8 @@ describe("UpdateDateSpanFilter", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Aktualisiert")).toBeInTheDocument();
-        expect(screen.getAllByText("Beliebig")).toHaveLength(2);
+        expect(screen.getByText("search.filter.updateDate")).toBeInTheDocument();
+        expect(screen.getAllByText("search.filter.anyDate")).toHaveLength(2);
     });
 
     it("opens calendar when from date picker is clicked", async () => {
@@ -37,7 +37,7 @@ describe("UpdateDateSpanFilter", () => {
         );
 
         const user = userEvent.setup();
-        const datePickers = screen.getAllByText("Beliebig");
+        const datePickers = screen.getAllByText("search.filter.anyDate");
 
         await user.click(datePickers[0]);
 
@@ -52,7 +52,7 @@ describe("UpdateDateSpanFilter", () => {
         );
 
         const user = userEvent.setup();
-        const datePickers = screen.getAllByText("Beliebig");
+        const datePickers = screen.getAllByText("search.filter.anyDate");
 
         await user.click(datePickers[1]);
 
@@ -67,7 +67,7 @@ describe("UpdateDateSpanFilter", () => {
         );
 
         const user = userEvent.setup();
-        const datePickers = screen.getAllByText("Beliebig");
+        const datePickers = screen.getAllByText("search.filter.anyDate");
 
         await user.click(datePickers[0]);
 
@@ -75,8 +75,8 @@ describe("UpdateDateSpanFilter", () => {
         const dayButton = screen.getByText("15");
         await user.click(dayButton);
 
-        // Verify "Beliebig" text is no longer shown for the first date picker
-        const updatedDatePickers = screen.getAllByText("Beliebig");
+        // Verify "search.filter.anyDate" text is no longer shown for the first date picker
+        const updatedDatePickers = screen.getAllByText("search.filter.anyDate");
         expect(updatedDatePickers).toHaveLength(1);
     });
 
@@ -88,7 +88,7 @@ describe("UpdateDateSpanFilter", () => {
         );
 
         const user = userEvent.setup();
-        const datePickers = screen.getAllByText("Beliebig");
+        const datePickers = screen.getAllByText("search.filter.anyDate");
 
         await user.click(datePickers[1]);
 
@@ -96,8 +96,8 @@ describe("UpdateDateSpanFilter", () => {
         const dayButton = screen.getByText("15");
         await user.click(dayButton);
 
-        // Verify "Beliebig" text is no longer shown for the second date picker
-        const updatedDatePickers = screen.getAllByText("Beliebig");
+        // Verify "search.filter.anyDate" text is no longer shown for the second date picker
+        const updatedDatePickers = screen.getAllByText("search.filter.anyDate");
         expect(updatedDatePickers).toHaveLength(1);
     });
 
@@ -109,7 +109,7 @@ describe("UpdateDateSpanFilter", () => {
         );
 
         const user = userEvent.setup();
-        const datePickers = screen.getAllByText("Beliebig");
+        const datePickers = screen.getAllByText("search.filter.anyDate");
 
         await user.click(datePickers[0]);
         const dayButton = screen.getByText("15");

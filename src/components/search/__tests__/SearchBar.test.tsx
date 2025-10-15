@@ -21,13 +21,13 @@ describe("SearchBar", () => {
     });
 
     it("should render the search bar with input and button", () => {
-        expect(screen.getByPlaceholderText("Ich suche nach...")).toBeInTheDocument();
-        expect(screen.getByRole("button", { name: /suchen/i })).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("search.bar.placeholder")).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: /search.bar.button/i })).toBeInTheDocument();
     });
 
     it("should navigate to the search page with the correct query when input is valid", async () => {
-        const input = screen.getByPlaceholderText("Ich suche nach...");
-        const button = screen.getByRole("button", { name: /suchen/i });
+        const input = screen.getByPlaceholderText("search.bar.placeholder");
+        const button = screen.getByRole("button", { name: /search.bar.button/i });
 
         await user.type(input, "test query");
         await user.click(button);
@@ -39,8 +39,8 @@ describe("SearchBar", () => {
     });
 
     it("should not navigate when the input is less than 3 characters", async () => {
-        const input = screen.getByPlaceholderText("Ich suche nach...");
-        const button = screen.getByRole("button", { name: /suchen/i });
+        const input = screen.getByPlaceholderText("search.bar.placeholder");
+        const button = screen.getByRole("button", { name: /search.bar.button/i });
 
         await user.type(input, "ab");
         await user.click(button);
@@ -49,34 +49,28 @@ describe("SearchBar", () => {
     });
 
     it("should show an error message when the input is less than 3 characters", async () => {
-        const input = screen.getByPlaceholderText("Ich suche nach...");
-        const button = screen.getByRole("button", { name: /suchen/i });
+        const input = screen.getByPlaceholderText("search.bar.placeholder");
+        const button = screen.getByRole("button", { name: /search.bar.button/i });
 
         await user.type(input, "ab");
         await user.click(button);
 
-        expect(
-            await screen.findByText("Bitte geben Sie mindestens 3 Zeichen ein"),
-        ).toBeInTheDocument();
+        expect(await screen.findByText("search.bar.validation.minLength")).toBeInTheDocument();
     });
 
     it("should clear the error message when the input becomes valid", async () => {
-        const input = screen.getByPlaceholderText("Ich suche nach...");
-        const button = screen.getByRole("button", { name: /suchen/i });
+        const input = screen.getByPlaceholderText("search.bar.placeholder");
+        const button = screen.getByRole("button", { name: /search.bar.button/i });
 
         await user.type(input, "ab");
         await user.click(button);
-        expect(
-            await screen.findByText("Bitte geben Sie mindestens 3 Zeichen ein"),
-        ).toBeInTheDocument();
+        expect(await screen.findByText("search.bar.validation.minLength")).toBeInTheDocument();
 
         await user.clear(input);
         await user.type(input, "valid query");
 
         await waitFor(() => {
-            expect(
-                screen.queryByText("Bitte geben Sie mindestens 3 Zeichen ein"),
-            ).not.toBeInTheDocument();
+            expect(screen.queryByText("search.bar.validation.minLength")).not.toBeInTheDocument();
         });
     });
 });

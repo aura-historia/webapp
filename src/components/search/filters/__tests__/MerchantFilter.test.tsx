@@ -30,8 +30,8 @@ describe("MerchantFilter", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Händler")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Beliebiger Händler")).toBeInTheDocument();
+        expect(screen.getByText("search.filter.merchant")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("search.filter.anyMerchant")).toBeInTheDocument();
     });
 
     it("allows entering merchant text", async () => {
@@ -42,7 +42,7 @@ describe("MerchantFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Beliebiger Händler");
+        const input = screen.getByPlaceholderText("search.filter.anyMerchant");
 
         await user.type(input, "Test Merchant");
 
@@ -56,7 +56,7 @@ describe("MerchantFilter", () => {
             </FormWrapper>,
         );
 
-        const input = screen.getByPlaceholderText("Beliebiger Händler");
+        const input = screen.getByPlaceholderText("search.filter.anyMerchant");
         expect(input).toHaveValue("Existing Merchant");
     });
 
@@ -68,7 +68,7 @@ describe("MerchantFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Beliebiger Händler");
+        const input = screen.getByPlaceholderText("search.filter.anyMerchant");
 
         await user.type(input, "Special & Chars #123!");
 
@@ -83,7 +83,7 @@ describe("MerchantFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Beliebiger Händler");
+        const input = screen.getByPlaceholderText("search.filter.anyMerchant");
 
         // Clear the input by selecting all and deleting
         await user.clear(input);
@@ -99,7 +99,7 @@ describe("MerchantFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Beliebiger Händler");
+        const input = screen.getByPlaceholderText("search.filter.anyMerchant");
 
         await user.type(input, "   Merchant With Spaces   ");
 

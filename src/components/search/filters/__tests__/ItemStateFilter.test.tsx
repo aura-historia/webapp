@@ -30,15 +30,15 @@ describe("ItemStateFilter", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Anzeigenstatus")).toBeInTheDocument();
+        expect(screen.getByText("search.filter.itemState")).toBeInTheDocument();
 
         // All states should be rendered
-        expect(screen.getByText("Gelistet")).toBeInTheDocument();
-        expect(screen.getByText("Verfügbar")).toBeInTheDocument();
-        expect(screen.getByText("Reserviert")).toBeInTheDocument();
-        expect(screen.getByText("Verkauft")).toBeInTheDocument();
-        expect(screen.getByText("Gelöscht")).toBeInTheDocument();
-        expect(screen.getByText("Unbekannt")).toBeInTheDocument();
+        expect(screen.getByText("itemState.listed")).toBeInTheDocument();
+        expect(screen.getByText("itemState.available")).toBeInTheDocument();
+        expect(screen.getByText("itemState.reserved")).toBeInTheDocument();
+        expect(screen.getByText("itemState.sold")).toBeInTheDocument();
+        expect(screen.getByText("itemState.removed")).toBeInTheDocument();
+        expect(screen.getByText("itemState.unknown")).toBeInTheDocument();
 
         // All checkboxes should be rendered and checked by default
         const checkboxes = screen.getAllByRole("checkbox");
@@ -103,16 +103,16 @@ describe("ItemStateFilter", () => {
 
         // Get all status badges
         const statusBadges = screen.getAllByText(
-            /Gelistet|Verfügbar|Reserviert|Verkauft|Gelöscht|Unbekannt/,
+            /itemState.listed|itemState.available|itemState.reserved|itemState.sold|itemState.removed|itemState.unknown/,
         );
         expect(statusBadges).toHaveLength(6);
 
         // First badge (LISTED) should not have opacity class
-        const listedBadge = screen.getByText("Gelistet");
+        const listedBadge = screen.getByText("itemState.listed");
         expect(listedBadge).not.toHaveClass("opacity-35");
 
         // Other badges should have opacity class
-        const availableBadge = screen.getByText("Verfügbar");
+        const availableBadge = screen.getByText("itemState.available");
         expect(availableBadge).toHaveClass("opacity-35");
     });
 
@@ -161,7 +161,7 @@ describe("ItemStateFilter", () => {
 
         // All badges should have opacity applied
         const badges = screen.getAllByText(
-            /Gelistet|Verfügbar|Reserviert|Verkauft|Gelöscht|Unbekannt/,
+            /itemState.listed|itemState.available|itemState.reserved|itemState.sold|itemState.removed|itemState.unknown/,
         );
         badges.forEach((badge) => {
             expect(badge).toHaveClass("opacity-35");
