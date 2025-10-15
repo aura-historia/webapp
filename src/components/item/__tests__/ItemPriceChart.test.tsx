@@ -88,7 +88,7 @@ describe("ItemPriceChart", () => {
         const chartSeries = screen.getByTestId("chart-series");
         const seriesData = JSON.parse(chartSeries.textContent || "[]");
 
-        expect(seriesData[0].data).toHaveLength(1);
+        expect(seriesData[0].data).toHaveLength(2);
     });
 
     it("should convert cents to euros", () => {
@@ -119,7 +119,7 @@ describe("ItemPriceChart", () => {
         const chartSeries = screen.getByTestId("chart-series");
         const seriesData = JSON.parse(chartSeries.textContent || "[]");
 
-        expect(seriesData[0].data).toHaveLength(2);
+        expect(seriesData[0].data).toHaveLength(3);
     });
 
     it("should call zoom when time range button is clicked", async () => {
