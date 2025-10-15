@@ -14,57 +14,27 @@ import { formatToDateString } from "@/lib/utils.ts";
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
 
-const filterSchema = z
-    .object({
-        priceSpan: z
-            .object({
-                min: z.number().min(0).optional().or(z.undefined()),
-                max: z.number().min(0).optional().or(z.undefined()),
-            })
-            .optional(),
-        itemState: z.array(
-            z.enum(["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"]),
-        ),
-        creationDate: z.object({
-            from: z.date().optional(),
-            to: z.date().optional(),
-        }),
-        updateDate: z.object({
-            from: z.date().optional(),
-            to: z.date().optional(),
-        }),
-        merchant: z
-            .string()
-            .min(3, { error: "Bitte geben Sie mindestens 3 Zeichen ein" })
-            .optional()
-            .or(z.string().max(0)),
-    })
-    .superRefine((data, ctx) => {
-        if (
-            data.creationDate.from &&
-            data.creationDate.to &&
-            data.creationDate.from > data.creationDate.to
-        ) {
-            ctx.addIssue({
-                code: "custom",
-                message: "Startdatum muss vor dem Enddatum liegen",
-                path: ["creationDate", "to"],
-            });
-        }
-        if (
-            data.updateDate.from &&
-            data.updateDate.to &&
-            data.updateDate.from > data.updateDate.to
-        ) {
-            ctx.addIssue({
-                code: "custom",
-                message: "Startdatum muss vor dem Enddatum liegen",
-                path: ["updateDate", "to"],
-            });
-        }
-    });
+// Base schema for type inference - no translation needed
+const baseFilterSchema = z.object({
+    priceSpan: z
+        .object({
+            min: z.number().min(0).optional().or(z.undefined()),
+            max: z.number().min(0).optional().or(z.undefined()),
+        })
+        .optional(),
+    itemState: z.array(z.enum(["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"])),
+    creationDate: z.object({
+        from: z.date().optional(),
+        to: z.date().optional(),
+    }),
+    updateDate: z.object({
+        from: z.date().optional(),
+        to: z.date().optional(),
+    }),
+    merchant: z.string().min(3).optional().or(z.string().max(0)),
+});
 
-export type FilterSchema = z.infer<typeof filterSchema>;
+export type FilterSchema = z.infer<typeof baseFilterSchema>;
 
 type SearchFilterProps = {
     readonly searchFilters: SearchFilterArguments;
@@ -74,28 +44,13 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
     const { t } = useTranslation();
 
-    const filterSchema = z
-        .object({
-            priceSpan: z
-                .object({
-                    min: z.number().min(0).optional().or(z.undefined()),
-                    max: z.number().min(0).optional().or(z.undefined()),
-                })
-                .optional(),
-            itemState: z.array(
-                z.enum(["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"]),
-            ),
-            creationDate: z.object({
-                from: z.date().optional(),
-                to: z.date().optional(),
-            }),
-            updateDate: z.object({
-                from: z.date().optional(),
-                to: z.date().optional(),
-            }),
+    // Runtime schema with translations
+    const filterSchema = baseFilterSchema
+        .omit({ merchant: true })
+        .extend({
             merchant: z
                 .string()
-                .min(3, { error: t("search.validation.merchantMinLength") })
+                .min(3, { message: t("search.validation.merchantMinLength") })
                 .optional()
                 .or(z.string().max(0)),
         })

@@ -5,38 +5,40 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 
 import appCss from "../styles.css?url";
+import "@/i18n/i18n";
 
 import { Footer } from "@/components/common/Footer.tsx";
 import Header from "@/components/common/Header.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
-import i18n from "@/i18n/i18n.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
-    head: () => ({
-        meta: [
-            {
-                charSet: "utf-8",
-            },
-            {
-                name: "viewport",
-                content: "width=device-width, initial-scale=1",
-            },
-            {
-                title: i18n.t("meta.title"),
-            },
-        ],
-        links: [
-            {
-                rel: "stylesheet",
-                href: appCss,
-            },
-        ],
-    }),
+    head: () => {
+        return {
+            meta: [
+                {
+                    charSet: "utf-8",
+                },
+                {
+                    name: "viewport",
+                    content: "width=device-width, initial-scale=1",
+                },
+                {
+                    title: "Aura Historia",
+                },
+            ],
+            links: [
+                {
+                    rel: "stylesheet",
+                    href: appCss,
+                },
+            ],
+        };
+    },
 
     shellComponent: RootDocument,
 });
