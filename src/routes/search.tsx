@@ -2,10 +2,10 @@ import { SearchFilters } from "@/components/search/SearchFilters.tsx";
 import { SimpleSearchResults } from "@/components/search/SimpleSearchResults.tsx";
 import { H1 } from "@/components/typography/H1";
 import { createFileRoute, type SearchSchemaInput } from "@tanstack/react-router";
-import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import { FilteredSearchResults } from "@/components/search/FilteredSearchResults.tsx";
 import { isSimpleSearch } from "@/lib/utils.ts";
+import type { ItemStateData } from "@/client";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/search")({
             q: string;
             priceFrom?: number;
             priceTo?: number;
-            allowedStates?: ItemState[];
+            allowedStates?: ItemStateData[];
             creationDateFrom?: string;
             creationDateTo?: string;
             updateDateFrom?: string;
@@ -58,10 +58,7 @@ export const Route = createFileRoute("/search")({
             priceFrom: validPriceFrom,
             priceTo: validPriceTo,
             allowedStates: Array.isArray(search.allowedStates)
-                ? search.allowedStates
-                      .map((state) => parseItemState(state))
-                      .filter((s) => s)
-                      .filter((elem, index, self) => index === self.indexOf(elem))
+                ? search.allowedStates.filter((elem, index, self) => index === self.indexOf(elem))
                 : undefined,
             creationDateFrom: fromCreationDate,
             creationDateTo: toCreationDate,

@@ -6,7 +6,6 @@ import {
     type InfiniteData,
 } from "@tanstack/react-query";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
-import { mapToBackendState } from "@/data/internal/ItemState.ts";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 
 const PAGE_SIZE = 21;
@@ -33,10 +32,7 @@ export function useFilteredSearch(
                               },
                           }
                         : {}),
-                    state:
-                        searchArgs.allowedStates?.length === 0
-                            ? []
-                            : searchArgs.allowedStates?.map((state) => mapToBackendState(state)),
+                    state: searchArgs.allowedStates,
                     ...(searchArgs.creationDateFrom != null || searchArgs.creationDateTo != null
                         ? {
                               created: {
