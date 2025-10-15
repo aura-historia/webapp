@@ -6,13 +6,14 @@ import type { ItemEvent } from "@/data/internal/ItemDetails.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import type { PriceData } from "@/client";
+
 import {
     formatCompactCurrency,
     formatCurrency,
     formatDate,
     formatTimeWithSeconds,
 } from "@/lib/utils.ts";
+import { isPriceEvent } from "@/lib/eventFilters.ts";
 
 interface ApexFormatterOpts {
     w?: {
@@ -50,12 +51,7 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
      * This would mean we wouldn't have to filter by type here and would get the data we need directly. But he wanted to think about it again.
      */
 
-    const priceEvents = (history ?? []).filter(
-        (event): event is ItemEvent & { payload: PriceData } =>
-            event.payload !== null &&
-            typeof event.payload === "object" &&
-            "amount" in event.payload,
-    );
+    const priceEvents = (history ?? []).filter(isPriceEvent);
 
     /**
      * Maps the cleaned `priceEvents` array to the specific `{x, y}` coordinate format
