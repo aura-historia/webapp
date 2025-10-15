@@ -22,7 +22,7 @@ const statusConfig = {
     RESERVED: {
         label: "Reserviert",
         icon: Clock,
-        className: "bg-amber-600 text-white",
+        className: "bg-yellow-500 text-white",
     },
     SOLD: {
         label: "Verkauft",
@@ -37,7 +37,7 @@ const statusConfig = {
     UNKNOWN: {
         label: "Unbekannt",
         icon: HelpCircle,
-        className: "bg-gray-100 text-foreground",
+        className: "bg-gray-400 text-white",
     },
 } as const;
 

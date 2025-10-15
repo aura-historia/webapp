@@ -18,7 +18,7 @@ code {
 }
 
 :root {
-    --background: oklch(1 0 0);
+    --background: var(--color-neutral-50);
     --foreground: var(--color-neutral-800);
     --card: oklch(0.8853 0 0 / 20%);
     --card-foreground: var(--color-neutral-800);
@@ -102,6 +102,7 @@ code {
     --text-foreground: var(--color-neutral-800);
     --text-muted-foreground: var(--color-neutral-500);
     --color-background: var(--background);
+    --color-background-accent: var(--color-neutral-200);
     --color-foreground: var(--foreground);
     --color-card: var(--card);
     --color-card-foreground: var(--card-foreground);
