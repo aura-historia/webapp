@@ -14,7 +14,7 @@
         "lint": "biome lint",
         "check": "biome check",
         "openapi-ts": "openapi-ts",
-        "prepare": "husky",
+        "prepare": "husky || true",
         "preview": "vite preview",
         "deploy": "wrangler deploy",
         "cf-typegen": "wrangler types"
