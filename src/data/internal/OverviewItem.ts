@@ -30,7 +30,10 @@ export function mapToInternalOverviewItem(apiData: GetItemData): OverviewItem {
         price: apiData.price ? formatPrice(apiData.price) : undefined,
         state: parseItemState(apiData.state),
         url: URL.parse(apiData.url),
-        images: apiData.images.filter((url) => URL.canParse(url)).map((url): URL => new URL(url)),
+        images:
+            apiData.images == null
+                ? []
+                : apiData.images.filter((url) => URL.canParse(url)).map((url): URL => new URL(url)),
         created: new Date(apiData.created),
         updated: new Date(apiData.updated),
     };
