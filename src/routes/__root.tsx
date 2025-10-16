@@ -50,20 +50,18 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                     <main className="flex-1">{children}</main>
                     <Footer />
                 </div>
-                {import.meta.env.DEV && (
-                    <TanStackDevtools
-                        config={{
-                            position: "bottom-left",
-                        }}
-                        plugins={[
-                            {
-                                name: "Tanstack Router",
-                                render: <TanStackRouterDevtoolsPanel />,
-                            },
-                            TanStackQueryDevtools,
-                        ]}
-                    />
-                )}
+                <TanStackDevtools
+                    config={{
+                        position: "bottom-left",
+                    }}
+                    plugins={[
+                        {
+                            name: "Tanstack Router",
+                            render: <TanStackRouterDevtoolsPanel />,
+                        },
+                        TanStackQueryDevtools,
+                    ]}
+                />
                 <Scripts />
             </body>
         </html>
