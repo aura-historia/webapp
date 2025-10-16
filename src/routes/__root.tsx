@@ -9,10 +9,6 @@ import { Footer } from "@/components/common/Footer.tsx";
 import Header from "@/components/common/Header.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
-import { Suspense } from "react";
-import { Spinner } from "@/components/ui/spinner.tsx";
-import { I18nextProvider } from "react-i18next";
-import i18n from "@/i18n/i18n";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -52,15 +48,11 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                 <HeadContent />
             </head>
             <body>
-                <Suspense fallback={<Spinner />}>
-                    <I18nextProvider i18n={i18n}>
-                        <div className={"min-h-screen flex flex-col"}>
-                            <Header />
-                            <main className="flex-1">{children}</main>
-                            <Footer />
-                        </div>
-                    </I18nextProvider>
-                </Suspense>
+                <div className={"min-h-screen flex flex-col"}>
+                    <Header />
+                    <main className="flex-1">{children}</main>
+                    <Footer />
+                </div>
                 <TanStackDevtools
                     config={{
                         position: "bottom-left",
