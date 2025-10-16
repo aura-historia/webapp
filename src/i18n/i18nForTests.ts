@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import translationDE from "@/../public/locales/de/translation.json";
+import translationDE from "@/i18n/locales/de/translation.json";
 
 const resources = {
     de: {
