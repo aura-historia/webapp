@@ -1,9 +1,10 @@
 import { MerchantFilter } from "@/components/search/filters/MerchantFilter";
 import { FormProvider, useForm } from "react-hook-form";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import type React from "react";
+import { renderWithTranslations } from "@/test/utils.tsx";
 
 // Wrapper component to provide form context for tests
 const FormWrapper = ({
@@ -24,25 +25,25 @@ const FormWrapper = ({
 
 describe("MerchantFilter", () => {
     it("renders with correct heading and placeholder", () => {
-        render(
+        renderWithTranslations(
             <FormWrapper>
                 <MerchantFilter />
             </FormWrapper>,
         );
 
-        expect(screen.getByText("search.filter.merchant")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("search.filter.anyMerchant")).toBeInTheDocument();
+        expect(screen.getByText("Händler")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Beliebiger Händler")).toBeInTheDocument();
     });
 
     it("allows entering merchant text", async () => {
-        render(
+        renderWithTranslations(
             <FormWrapper>
                 <MerchantFilter />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("search.filter.anyMerchant");
+        const input = screen.getByPlaceholderText("Beliebiger Händler");
 
         await user.type(input, "Test Merchant");
 
@@ -50,25 +51,25 @@ describe("MerchantFilter", () => {
     });
 
     it("shows pre-populated merchant value when provided", () => {
-        render(
+        renderWithTranslations(
             <FormWrapper defaultValues={{ merchant: "Existing Merchant" }}>
                 <MerchantFilter />
             </FormWrapper>,
         );
 
-        const input = screen.getByPlaceholderText("search.filter.anyMerchant");
+        const input = screen.getByPlaceholderText("Beliebiger Händler");
         expect(input).toHaveValue("Existing Merchant");
     });
 
     it("handles special characters in merchant name", async () => {
-        render(
+        renderWithTranslations(
             <FormWrapper>
                 <MerchantFilter />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("search.filter.anyMerchant");
+        const input = screen.getByPlaceholderText("Beliebiger Händler");
 
         await user.type(input, "Special & Chars #123!");
 
@@ -76,14 +77,14 @@ describe("MerchantFilter", () => {
     });
 
     it("clears input correctly", async () => {
-        render(
+        renderWithTranslations(
             <FormWrapper defaultValues={{ merchant: "Initial Value" }}>
                 <MerchantFilter />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("search.filter.anyMerchant");
+        const input = screen.getByPlaceholderText("Beliebiger Händler");
 
         // Clear the input by selecting all and deleting
         await user.clear(input);
@@ -92,14 +93,14 @@ describe("MerchantFilter", () => {
     });
 
     it("handles whitespace in merchant name", async () => {
-        render(
+        renderWithTranslations(
             <FormWrapper>
                 <MerchantFilter />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("search.filter.anyMerchant");
+        const input = screen.getByPlaceholderText("Beliebiger Händler");
 
         await user.type(input, "   Merchant With Spaces   ");
 

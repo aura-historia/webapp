@@ -1,9 +1,10 @@
 import { ItemStateFilter } from "@/components/search/filters/ItemStateFilter";
 import { FormProvider, useForm } from "react-hook-form";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import type React from "react";
+import { renderWithTranslations } from "@/test/utils.tsx";
 
 // Wrapper component to provide form context for tests
 const FormWrapper = ({
@@ -24,21 +25,21 @@ const FormWrapper = ({
 
 describe("ItemStateFilter", () => {
     it("renders all item state options with checkboxes", () => {
-        render(
+        renderWithTranslations(
             <FormWrapper>
                 <ItemStateFilter />
             </FormWrapper>,
         );
 
-        expect(screen.getByText("search.filter.itemState")).toBeInTheDocument();
+        expect(screen.getByText("Anzeigenstatus")).toBeInTheDocument();
 
         // All states should be rendered
-        expect(screen.getByText("itemState.listed")).toBeInTheDocument();
-        expect(screen.getByText("itemState.available")).toBeInTheDocument();
-        expect(screen.getByText("itemState.reserved")).toBeInTheDocument();
-        expect(screen.getByText("itemState.sold")).toBeInTheDocument();
-        expect(screen.getByText("itemState.removed")).toBeInTheDocument();
-        expect(screen.getByText("itemState.unknown")).toBeInTheDocument();
+        expect(screen.getByText("Gelistet")).toBeInTheDocument();
+        expect(screen.getByText("Verfügbar")).toBeInTheDocument();
+        expect(screen.getByText("Reserviert")).toBeInTheDocument();
+        expect(screen.getByText("Verkauft")).toBeInTheDocument();
+        expect(screen.getByText("Gelöscht")).toBeInTheDocument();
+        expect(screen.getByText("Unbekannt")).toBeInTheDocument();
 
         // All checkboxes should be rendered and checked by default
         const checkboxes = screen.getAllByRole("checkbox");
@@ -49,7 +50,7 @@ describe("ItemStateFilter", () => {
     });
 
     it("unchecks a status when the checkbox is clicked", async () => {
-        render(
+        renderWithTranslations(
             <FormWrapper>
                 <ItemStateFilter />
             </FormWrapper>,
@@ -71,7 +72,7 @@ describe("ItemStateFilter", () => {
     });
 
     it("checks a status when the checkbox is clicked again", async () => {
-        render(
+        renderWithTranslations(
             <FormWrapper
                 defaultValues={{
                     itemState: ["AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"],
@@ -95,7 +96,7 @@ describe("ItemStateFilter", () => {
     });
 
     it("applies different opacity to selected vs unselected status badges", () => {
-        render(
+        renderWithTranslations(
             <FormWrapper defaultValues={{ itemState: ["LISTED"] }}>
                 <ItemStateFilter />
             </FormWrapper>,
@@ -103,21 +104,21 @@ describe("ItemStateFilter", () => {
 
         // Get all status badges
         const statusBadges = screen.getAllByText(
-            /itemState.listed|itemState.available|itemState.reserved|itemState.sold|itemState.removed|itemState.unknown/,
+            /Gelistet|Verfügbar|Reserviert|Verkauft|Gelöscht|Unbekannt/,
         );
         expect(statusBadges).toHaveLength(6);
 
         // First badge (LISTED) should not have opacity class
-        const listedBadge = screen.getByText("itemState.listed");
+        const listedBadge = screen.getByText("Gelistet");
         expect(listedBadge).not.toHaveClass("opacity-35");
 
         // Other badges should have opacity class
-        const availableBadge = screen.getByText("itemState.available");
+        const availableBadge = screen.getByText("Verfügbar");
         expect(availableBadge).toHaveClass("opacity-35");
     });
 
     it("handles multiple selections and deselections correctly", async () => {
-        render(
+        renderWithTranslations(
             <FormWrapper>
                 <ItemStateFilter />
             </FormWrapper>,
@@ -147,7 +148,7 @@ describe("ItemStateFilter", () => {
     });
 
     it("works correctly with initially empty selection", () => {
-        render(
+        renderWithTranslations(
             <FormWrapper defaultValues={{ itemState: [] }}>
                 <ItemStateFilter />
             </FormWrapper>,
@@ -161,7 +162,7 @@ describe("ItemStateFilter", () => {
 
         // All badges should have opacity applied
         const badges = screen.getAllByText(
-            /itemState.listed|itemState.available|itemState.reserved|itemState.sold|itemState.removed|itemState.unknown/,
+            /Gelistet|Verfügbar|Reserviert|Verkauft|Gelöscht|Unbekannt/,
         );
         badges.forEach((badge) => {
             expect(badge).toHaveClass("opacity-35");

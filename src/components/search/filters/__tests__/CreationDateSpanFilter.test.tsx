@@ -1,8 +1,9 @@
 import { CreationDateSpanFilter } from "@/components/search/filters/CreationDateSpanFilter";
 import { FormProvider, useForm } from "react-hook-form";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
+import { renderWithTranslations } from "@/test/utils.tsx";
 
 // Wrapper component to provide form context for tests
 const FormWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -18,26 +19,26 @@ const FormWrapper = ({ children }: { children: React.ReactNode }) => {
 };
 
 describe("CreationDateSpanFilter", () => {
-    it("renders both date pickers correctly", () => {
-        render(
+    it("renderWithTranslationss both date pickers correctly", () => {
+        renderWithTranslations(
             <FormWrapper>
                 <CreationDateSpanFilter />
             </FormWrapper>,
         );
 
-        expect(screen.getByText("search.filter.creationDate")).toBeInTheDocument();
-        expect(screen.getAllByText("search.filter.anyDate")).toHaveLength(2);
+        expect(screen.getByText("Hinzugefügt")).toBeInTheDocument();
+        expect(screen.getAllByText("Beliebig")).toHaveLength(2);
     });
 
     it("opens calendar when from date picker is clicked", async () => {
-        render(
+        renderWithTranslations(
             <FormWrapper>
                 <CreationDateSpanFilter />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const datePickers = screen.getAllByText("search.filter.anyDate");
+        const datePickers = screen.getAllByText("Beliebig");
 
         await user.click(datePickers[0]);
 
@@ -45,14 +46,14 @@ describe("CreationDateSpanFilter", () => {
     });
 
     it("opens calendar when to date picker is clicked", async () => {
-        render(
+        renderWithTranslations(
             <FormWrapper>
                 <CreationDateSpanFilter />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const datePickers = screen.getAllByText("search.filter.anyDate");
+        const datePickers = screen.getAllByText("Beliebig");
 
         await user.click(datePickers[1]);
 
@@ -60,14 +61,14 @@ describe("CreationDateSpanFilter", () => {
     });
 
     it("displays selected date in from date picker after selection", async () => {
-        render(
+        renderWithTranslations(
             <FormWrapper>
                 <CreationDateSpanFilter />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const datePickers = screen.getAllByText("search.filter.anyDate");
+        const datePickers = screen.getAllByText("Beliebig");
 
         await user.click(datePickers[0]);
 
@@ -75,20 +76,20 @@ describe("CreationDateSpanFilter", () => {
         const dayButton = screen.getByText("15");
         await user.click(dayButton);
 
-        // Verify "search.filter.anyDate" text is no longer shown for the first date picker
-        const updatedDatePickers = screen.getAllByText("search.filter.anyDate");
+        // Verify "Beliebig" text is no longer shown for the first date picker
+        const updatedDatePickers = screen.getAllByText("Beliebig");
         expect(updatedDatePickers).toHaveLength(1);
     });
 
     it("displays selected date in to date picker after selection", async () => {
-        render(
+        renderWithTranslations(
             <FormWrapper>
                 <CreationDateSpanFilter />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const datePickers = screen.getAllByText("search.filter.anyDate");
+        const datePickers = screen.getAllByText("Beliebig");
 
         await user.click(datePickers[1]);
 
@@ -96,20 +97,20 @@ describe("CreationDateSpanFilter", () => {
         const dayButton = screen.getByText("15");
         await user.click(dayButton);
 
-        // Verify "search.filter.anyDate" text is no longer shown for the second date picker
-        const updatedDatePickers = screen.getAllByText("search.filter.anyDate");
+        // Verify "Beliebig" text is no longer shown for the second date picker
+        const updatedDatePickers = screen.getAllByText("Beliebig");
         expect(updatedDatePickers).toHaveLength(1);
     });
 
     it("hides calendar after date selection", async () => {
-        render(
+        renderWithTranslations(
             <FormWrapper>
                 <CreationDateSpanFilter />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const datePickers = screen.getAllByText("search.filter.anyDate");
+        const datePickers = screen.getAllByText("Beliebig");
 
         await user.click(datePickers[0]);
         const dayButton = screen.getByText("15");

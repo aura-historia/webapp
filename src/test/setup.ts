@@ -29,18 +29,3 @@ if (!Element.prototype.setPointerCapture) {
 if (!Element.prototype.releasePointerCapture) {
     Element.prototype.releasePointerCapture = () => {};
 }
-
-vi.mock("react-i18next", () => ({
-    useTranslation: () => {
-        return {
-            t: (i18nKey: string) => i18nKey,
-            i18n: {
-                changeLanguage: () => Promise.resolve(),
-            },
-        };
-    },
-    initReactI18next: {
-        type: "3rdParty",
-        init: () => {},
-    },
-}));

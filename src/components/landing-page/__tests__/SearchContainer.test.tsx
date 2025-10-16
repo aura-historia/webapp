@@ -12,13 +12,13 @@ describe("SearchContainer", () => {
 
     it("renders the main heading", () => {
         expect(
-            screen.getByText("landingPage.titleFirstLine", {
+            screen.getByText("Entdecken, vergleichen, sammeln-", {
                 exact: false,
             }),
         ).toBeInTheDocument();
     });
 
     it("renders the search bar", () => {
-        expect(screen.getByPlaceholderText("search.bar.placeholder")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Ich suche nach...")).toBeInTheDocument();
     });
 });
