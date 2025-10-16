@@ -14,8 +14,9 @@ export default defineConfig({
             projects: ['./tsconfig.json'],
         }),
         tailwindcss(),
-        devtools(),
-        cloudflare({viteEnvironment: {name: 'ssr'}}),
+        devtools({
+            removeDevtoolsOnBuild: true,
+        }), cloudflare({viteEnvironment: {name: 'ssr'}}),
         tanstackStart(),
         viteReact(),
     ],
