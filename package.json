@@ -4,7 +4,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite dev --port 3000",
-        "start": "node .output/server/index.mjs",
+        "start": "node dist/server/index.mjs",
         "build": "vite build",
         "serve": "vite preview",
         "test": "vitest run",
