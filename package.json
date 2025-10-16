@@ -4,7 +4,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite dev --port 3000",
-        "build": "vite build",
+        "build": "vite build --mode production",
         "serve": "vite preview",
         "test": "vitest run",
         "test:e2e": "playwright test",
@@ -14,7 +14,7 @@
         "lint": "biome lint",
         "check": "biome check",
         "openapi-ts": "openapi-ts",
-        "prepare": "husky || true",
+        "prepare": "husky",
         "preview": "vite preview",
         "deploy": "wrangler deploy",
         "cf-typegen": "wrangler types"
