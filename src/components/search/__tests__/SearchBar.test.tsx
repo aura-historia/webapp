@@ -13,7 +13,7 @@ describe("SearchBar", () => {
 
     it("should render the search bar with input and button", async () => {
         await act(() => {
-            renderWithRouter(<SearchBar />);
+            renderWithRouter(<SearchBar type={"big"} />);
         });
         expect(screen.getByPlaceholderText("Ich suche nach...")).toBeInTheDocument();
         expect(screen.getByRole("button", { name: /suchen/i })).toBeInTheDocument();
@@ -21,7 +21,7 @@ describe("SearchBar", () => {
 
     it("should navigate to the search page with the correct query when input is valid", async () => {
         await act(() => {
-            renderWithRouter(<SearchBar />);
+            renderWithRouter(<SearchBar type={"big"} />);
         });
         const input = screen.getByPlaceholderText("Ich suche nach...");
         const button = screen.getByRole("button", { name: /suchen/i });
@@ -34,7 +34,7 @@ describe("SearchBar", () => {
 
     it("should not navigate when the input is less than 3 characters", async () => {
         await act(() => {
-            renderWithRouter(<SearchBar />);
+            renderWithRouter(<SearchBar type={"big"} />);
         });
 
         const input = screen.getByPlaceholderText("Ich suche nach...");
@@ -51,7 +51,7 @@ describe("SearchBar", () => {
 
     it("should clear the error message when the input becomes valid", async () => {
         await act(() => {
-            renderWithRouter(<SearchBar />);
+            renderWithRouter(<SearchBar type={"big"} />);
         });
 
         const input = screen.getByPlaceholderText("Ich suche nach...");

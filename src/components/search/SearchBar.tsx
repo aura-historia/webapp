@@ -12,13 +12,24 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from "@tanstack/react-router";
+import { useLocation, useNavigate, useSearch } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 
-export function SearchBar() {
+interface SearchBarProps {
+    readonly type: "small" | "big";
+}
+
+export function SearchBar({ type }: SearchBarProps) {
     const { t } = useTranslation();
     const navigate = useNavigate({ from: "/" });
+    const pathname = useLocation({
+        select: (location) => location.pathname,
+    });
+
+    const searchParams = useSearch({ strict: false });
+    const currentQuery = pathname === "/search" ? (searchParams.q as string) || "" : "";
 
     const searchFormSchema = z.object({
         query: z
@@ -31,24 +42,44 @@ export function SearchBar() {
 
     const form = useForm<z.infer<typeof searchFormSchema>>({
         resolver: zodResolver(searchFormSchema),
-        defaultValues: {
-            query: "",
+        values: {
+            query: currentQuery,
         },
     });
 
     function onSubmit(values: z.infer<typeof searchFormSchema>) {
         navigate({
             to: "/search",
-            search: {
-                q: values.query,
-            },
+            search: mapFiltersToUrlParams({
+                query: values.query,
+                priceSpan: {
+                    min: searchParams.priceFrom,
+                    max: searchParams.priceTo,
+                },
+                itemState: searchParams.allowedStates,
+                creationDate: {
+                    from: searchParams.creationDateFrom,
+                    to: searchParams.creationDateTo,
+                },
+                updateDate: {
+                    from: searchParams.updateDateFrom,
+                    to: searchParams.updateDateTo,
+                },
+                merchant: searchParams.merchant,
+            }),
         });
     }
+
+    if (pathname === "/" && type === "small") return;
 
     return (
         <Form {...form}>
             <form
-                className={"flex items-start w-full gap-4"}
+                className={
+                    type === "big"
+                        ? "flex items-start w-full gap-4"
+                        : "flex items-start gap-2 w-full"
+                }
                 onSubmit={form.handleSubmit(onSubmit)}
             >
                 <FormField
@@ -59,7 +90,9 @@ export function SearchBar() {
                             <FormLabel className="sr-only">{t("search.bar.label")}</FormLabel>
                             <FormControl>
                                 <Input
-                                    className={"h-12 font-medium !text-lg"}
+                                    className={
+                                        type === "big" ? "h-12 font-medium !text-lg" : "h-10"
+                                    }
                                     type={"text"}
                                     placeholder={t("search.bar.placeholder")}
                                     {...field}
@@ -70,8 +103,10 @@ export function SearchBar() {
                     )}
                 />
 
-                <Button type="submit" className="mt-0 h-12">
-                    <span className={"hidden sm:inline text-lg"}>{t("search.bar.button")}</span>
+                <Button type="submit" className={type === "big" ? "mt-0 h-12" : "h-10"}>
+                    <span className={type === "big" ? "hidden sm:inline text-lg" : "hidden"}>
+                        {t("search.bar.button")}
+                    </span>
                     <Search />
                 </Button>
             </form>

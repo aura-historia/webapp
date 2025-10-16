@@ -15,7 +15,7 @@ export default function SearchContainer() {
                 </H1>
 
                 <Card className={"p-6 sm:mt-16 mt-4"}>
-                    <SearchBar />
+                    <SearchBar type={"big"} />
                 </Card>
             </div>
         </section>

@@ -10,9 +10,9 @@ import { MerchantFilter } from "@/components/search/filters/MerchantFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import { useEffect } from "react";
-import { formatToDateString } from "@/lib/utils.ts";
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
+import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 
 // Base schema for type inference - no translation needed
 const baseFilterSchema = z.object({
@@ -146,25 +146,14 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const onSubmit = (data: FilterSchema) => {
         navigate({
             to: "/search",
-            search: {
-                q: searchFilters.q,
-                priceFrom: data.priceSpan?.min,
-                priceTo: data.priceSpan?.max,
-                allowedStates: data.itemState.length > 0 ? data.itemState : undefined,
-                creationDateFrom: data.creationDate.from
-                    ? formatToDateString(data.creationDate.from)
-                    : undefined,
-                creationDateTo: data.creationDate.to
-                    ? formatToDateString(data.creationDate.to)
-                    : undefined,
-                updateDateFrom: data.updateDate.from
-                    ? formatToDateString(data.updateDate.from)
-                    : undefined,
-                updateDateTo: data.updateDate.to
-                    ? formatToDateString(data.updateDate.to)
-                    : undefined,
-                merchant: data.merchant ? data.merchant : undefined,
-            },
+            search: mapFiltersToUrlParams({
+                query: searchFilters.q,
+                priceSpan: data.priceSpan,
+                itemState: data.itemState,
+                creationDate: data.creationDate,
+                updateDate: data.updateDate,
+                merchant: data.merchant,
+            }),
         });
     };
 
