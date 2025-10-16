@@ -1,6 +1,6 @@
 {
     "$schema": "node_modules/wrangler/config-schema.json",
-    "name": "blitzfilter",
+    "name": "aura-historia",
     "compatibility_date": "2025-09-02",
     "compatibility_flags": [
         "nodejs_compat"
