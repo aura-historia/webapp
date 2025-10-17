@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton.tsx";
 
 export function ItemDetailPageSkeleton() {
     return (
-        <div className="max-w-[1400px] mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto px-4 py-8">
             {/* ItemInfo Skeleton */}
             <Card className="flex flex-col sm:flex-row p-8 gap-4 shadow-md min-w-0">
                 {/* Image Skeleton */}

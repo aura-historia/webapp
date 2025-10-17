@@ -1,10 +1,10 @@
 import { Badge } from "@/components/ui/badge";
-import type { ItemStateData } from "@/client";
 import { cn } from "@/lib/utils";
 import { Clock, HelpCircle, Package, ShoppingCart, Tag, XCircle } from "lucide-react";
+import type { ItemState } from "@/data/internal/ItemState.ts";
 
 interface StatusBadgeProps {
-    readonly status: ItemStateData;
+    readonly status: ItemState;
     readonly className?: string;
 }
 

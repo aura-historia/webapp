@@ -10,8 +10,8 @@ import { Link } from "@tanstack/react-router";
 
 export function ItemCard({ item }: { readonly item: OverviewItem }) {
     return (
-        <Card className={"flex flex-col sm:flex-row p-8 gap-4 shadow-md min-w-0"}>
-            <div className={"flex-shrink-0 flex sm:justify-start justify-center"}>
+        <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
+            <div className={"flex-shrink-0 flex lg:justify-start justify-center"}>
                 {item.images.length > 0 ? (
                     <img
                         className={"size-48 object-cover rounded-lg"}

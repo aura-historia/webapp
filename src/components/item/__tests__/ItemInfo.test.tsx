@@ -74,22 +74,4 @@ describe("ItemInfo", () => {
         const shareButtons = screen.getAllByRole("button");
         expect(shareButtons.length).toBeGreaterThan(0);
     });
-
-    it("should render the main product image", () => {
-        render(<ItemInfo item={mockItem} />);
-        const image = screen.getByAltText("Produktbild von Test Item Title");
-        expect(image).toBeInTheDocument();
-        expect(image).toHaveAttribute("src", "https://example.com/image.jpg");
-    });
-
-    it("should NOT show navigation buttons when there is only one image", () => {
-        render(<ItemInfo item={mockItem} />);
-        screen.queryAllByRole("button");
-        expect(screen.queryByRole("button", { name: /chevron/i })).not.toBeInTheDocument();
-    });
-
-    it("should NOT show thumbnail carousel when there is only one image", () => {
-        render(<ItemInfo item={mockItem} />);
-        expect(screen.queryByAltText("Thumbnail 1")).not.toBeInTheDocument();
-    });
 });

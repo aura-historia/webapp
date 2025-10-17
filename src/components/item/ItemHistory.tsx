@@ -2,25 +2,10 @@ import type { ItemEvent } from "@/data/internal/ItemDetails.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { StatusBadge } from "@/components/item/StatusBadge.tsx";
-import { PriceBadge } from "@/components/item/PriceBadge.tsx";
-import {
-    Timeline,
-    TimelineItem,
-    TimelineTitle,
-    TimelineDescription,
-    TimelineTime,
-    TimelineHeader,
-} from "@/components/ui/timeline.tsx";
-import {
-    formatDate,
-    formatTime,
-    formatPrice,
-    getStateDescription,
-    getPriceEventDescription,
-} from "@/lib/utils.ts";
+import { Timeline } from "@/components/ui/timeline.tsx";
 import { useState } from "react";
-import { isCreatedEvent, isPriceEvent, isStateEvent } from "@/lib/eventFilters.ts";
+import { isPriceEvent, isStateEvent } from "@/lib/eventFilters.ts";
+import { ItemEventHistory } from "@/components/item/ItemEventHistory.tsx";
 
 type FilterType = "all" | "price" | "state";
 
@@ -34,7 +19,11 @@ const FILTER_OPTIONS = [
     { label: "Verfügbarkeit", value: "state" },
 ] as const;
 
-export function ItemHistory({ history }: { readonly history?: readonly ItemEvent[] }) {
+interface ItemHistoryProps {
+    readonly history?: readonly ItemEvent[];
+}
+
+export function ItemHistory({ history }: ItemHistoryProps) {
     /**
      * Currently active filter state.
      * Controls which event types are displayed in the timeline.
@@ -118,77 +107,9 @@ export function ItemHistory({ history }: { readonly history?: readonly ItemEvent
                     {filteredEvents
                         .slice()
                         .reverse()
-                        .map((event) => {
-                            if (isStateEvent(event)) {
-                                return (
-                                    <TimelineItem key={event.eventId}>
-                                        <TimelineHeader>
-                                            <TimelineTime>
-                                                <span>{formatDate(event.timestamp)}</span>
-                                                <span className="text-muted-foreground">
-                                                    {formatTime(event.timestamp)}
-                                                </span>
-                                            </TimelineTime>
-                                            <TimelineTitle>
-                                                <StatusBadge status={event.payload} />
-                                            </TimelineTitle>
-                                        </TimelineHeader>
-                                        <TimelineDescription>
-                                            {getStateDescription(event.payload)}
-                                        </TimelineDescription>
-                                    </TimelineItem>
-                                );
-                            }
-
-                            if (isPriceEvent(event)) {
-                                return (
-                                    <TimelineItem key={event.eventId}>
-                                        <TimelineHeader>
-                                            <TimelineTime>
-                                                <span>{formatDate(event.timestamp)}</span>
-                                                <span className="text-muted-foreground">
-                                                    {formatTime(event.timestamp)}
-                                                </span>
-                                            </TimelineTime>
-                                            <TimelineTitle>
-                                                <PriceBadge eventType={event.eventType} />
-                                            </TimelineTitle>
-                                        </TimelineHeader>
-                                        <TimelineDescription>
-                                            {getPriceEventDescription(event.eventType)} •{" "}
-                                            {formatPrice(event.payload)}{" "}
-                                            {/*TODO:
-                                            I asked Julian to include the old price in the payload so that I can display
-                                            something like “Price has increased from X€ to Y€.” */}
-                                        </TimelineDescription>
-                                    </TimelineItem>
-                                );
-                            }
-                            if (isCreatedEvent(event)) {
-                                return (
-                                    <TimelineItem key={event.eventId}>
-                                        <TimelineHeader>
-                                            <TimelineTime>
-                                                <span>{formatDate(event.timestamp)}</span>
-                                                <span className="text-muted-foreground">
-                                                    {formatTime(event.timestamp)}
-                                                </span>
-                                            </TimelineTime>
-                                            <TimelineTitle>
-                                                <StatusBadge status={event.payload.state} />
-                                            </TimelineTitle>
-                                        </TimelineHeader>
-                                        <TimelineDescription>
-                                            Im System erfasst
-                                            {event.payload.price
-                                                ? ` • ${formatPrice(event.payload.price)}`
-                                                : ""}
-                                        </TimelineDescription>
-                                    </TimelineItem>
-                                );
-                            }
-                            return null;
-                        })}
+                        .map((event) => (
+                            <ItemEventHistory key={event.eventId} event={event} />
+                        ))}
                 </Timeline>
             </div>
         </Card>

@@ -1,31 +1,31 @@
-import type { PriceEventTypeData, StateEventTypeData } from "@/types/events";
-import type { ItemCreatedEventPayloadData, ItemStateData, PriceData } from "@/client";
-import type { ItemEvent } from "@/data/internal/ItemDetails.ts";
+import type { ItemEvent, Price, ItemCreatedPayload } from "@/data/internal/ItemDetails";
+import type { ItemState } from "@/data/internal/ItemState";
+import type { StateEventType, PriceEventType } from "@/types/events";
 
 /**
  * Filter only state events (where payload is a string like "AVAILABLE")
  * This excludes price events which have payload with {amount, currency}
  */
 export function isStateEvent(event: ItemEvent): event is ItemEvent & {
-    payload: ItemStateData;
-    eventType: StateEventTypeData;
+    payload: ItemState;
+    eventType: StateEventType;
 } {
-    return event.payload !== null && typeof event.payload === "string";
+    return typeof event.payload === "string";
 }
 
 /**
- * Filter only price events (where payload is a object like { amount: 4999, currency: "EUR" }
- * This excludes state events which have payload with string like "AVAILABLE"
+ * Filter only price events (where payload is object like { amount: 4999, currency: "EUR" })
+ * This excludes state events which have string payload like "AVAILABLE"
  */
 export function isPriceEvent(event: ItemEvent): event is ItemEvent & {
-    payload: PriceData;
-    eventType: PriceEventTypeData;
+    payload: Price;
+    eventType: PriceEventType;
 } {
     return (
-        event.payload !== null &&
         typeof event.payload === "object" &&
         "amount" in event.payload &&
-        "currency" in event.payload
+        "currency" in event.payload &&
+        !("state" in event.payload)
     );
 }
 
@@ -34,14 +34,12 @@ export function isPriceEvent(event: ItemEvent): event is ItemEvent & {
  * This excludes regular state events (string payload) and price-only events
  */
 export function isCreatedEvent(event: ItemEvent): event is ItemEvent & {
-    payload: ItemCreatedEventPayloadData;
+    payload: ItemCreatedPayload;
     eventType: "CREATED";
 } {
     return (
         event.eventType === "CREATED" &&
-        event.payload !== null &&
         typeof event.payload === "object" &&
-        "state" in event.payload &&
-        "price" in event.payload
+        "state" in event.payload
     );
 }

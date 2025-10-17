@@ -1,13 +1,13 @@
-import type { ItemEventTypeData } from "@/client";
+export type StateEventType =
+    | "STATE_LISTED"
+    | "STATE_AVAILABLE"
+    | "STATE_RESERVED"
+    | "STATE_SOLD"
+    | "STATE_REMOVED"
+    | "STATE_UNKNOWN";
 
-/**
- * Event type filters extracted from ItemEventTypeData.
- *
- * The generated client (types.gen.ts) only provides ItemEventTypeData with ALL event types mixed.
- * We need specific types for type guards and component props.
- *
- * - PriceEventTypeData: only PRICE_* events
- * - StateEventTypeData: only STATE_* events
- */
-export type PriceEventTypeData = Extract<ItemEventTypeData, `PRICE_${string}`>;
-export type StateEventTypeData = Extract<ItemEventTypeData, `STATE_${string}`>;
+export type PriceEventType =
+    | "PRICE_DISCOVERED"
+    | "PRICE_DROPPED"
+    | "PRICE_INCREASED"
+    | "PRICE_REMOVED";
