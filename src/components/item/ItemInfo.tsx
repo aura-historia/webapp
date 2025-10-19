@@ -48,7 +48,7 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                     {/* Spacer - pushes bottom content down on desktop */}
                     <div className="hidden sm:block flex-1"></div>
 
-                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-end w-full mt-4 sm:mt-0">
+                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-end w-full mt-4 md:mt-0">
                         <div className="flex flex-col gap-2 flex-shrink-0">
                             <StatusBadge status={item.state} />
                             <PriceText>{item.price ?? "Preis unbekannt"}</PriceText>
