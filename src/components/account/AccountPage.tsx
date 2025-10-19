@@ -1,80 +1,14 @@
 import { H1 } from "@/components/typography/H1.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input.tsx";
-import { useUserAttributes } from "@/hooks/useUserAttributes.ts";
-import { updateUserAttributes } from "@aws-amplify/auth";
 import { AccountSettings } from "@aws-amplify/ui-react";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import * as z from "zod";
-import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
-
-const profileSchema = z.object({
-    given_name: z.string().min(2, {
-        error: "Vorname muss mindestens 2 Zeichen haben",
-    }),
-    family_name: z.string().min(2, {
-        error: "Nachname muss mindestens 2 Zeichen haben",
-    }),
-});
 
 export function AccountPage() {
     const { user } = useAuthenticator();
     const navigate = useNavigate();
-    const queryClient = useQueryClient();
-
-    const { mutate: updateProfile, isPending } = useMutation({
-        mutationFn: async (attributes: { given_name: string; family_name: string }) => {
-            return await updateUserAttributes({
-                userAttributes: attributes,
-            });
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["userAttributes"] });
-            toast.success("Dein Profil wurde erfolgreich aktualisiert!");
-        },
-        onError: (error) => {
-            console.error("Error updating profile:", error);
-            toast.error("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
-        },
-    });
-
-    const { data, isLoading, error } = useUserAttributes();
-
-    const form = useForm<z.infer<typeof profileSchema>>({
-        resolver: zodResolver(profileSchema),
-        defaultValues: {
-            given_name: "",
-            family_name: "",
-        },
-    });
-
-    useEffect(() => {
-        if (data) {
-            form.reset({
-                given_name: data.given_name ?? "",
-                family_name: data.family_name ?? "",
-            });
-        }
-    }, [data, form]);
-
-    function onSubmit(values: z.infer<typeof profileSchema>) {
-        updateProfile(values);
-    }
 
     useEffect(() => {
         if (!user) {
@@ -84,79 +18,9 @@ export function AccountPage() {
         }
     }, [user, navigate]);
 
-    if (isLoading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-            </div>
-        );
-    }
-
-    if (error) {
-        return <SectionInfoText>Fehler beim Laden der Daten!</SectionInfoText>;
-    }
-
     return (
         <div className="flex flex-col items-center max-w-3xl mx-auto px-4 py-8 w-full">
             <H1>Mein Profil</H1>
-
-            {/* Personal data*/}
-            <section className="bg-card text-card-foreground w-full max-w-lg mx-auto p-6 mt-6 rounded-xl border shadow-sm">
-                <H2 className="mb-4">Persönliche Daten ändern</H2>
-
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <FormField
-                            control={form.control}
-                            name="given_name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-md">Vorname</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            className={
-                                                "min-h-12 py-2 px-4 text-base bg-neutral-100"
-                                            }
-                                            type={"text"}
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="family_name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-md">Nachname</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            className={
-                                                "min-h-12 py-2 px-4 text-base bg-neutral-100 font"
-                                            }
-                                            type={"text"}
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <div className="flex justify-center pt-4">
-                            <Button
-                                type="submit"
-                                disabled={isPending}
-                                className="w-1/2 font-bold text-base"
-                            >
-                                {isPending ? "Speichert..." : "Speichern"}
-                            </Button>
-                        </div>
-                    </form>
-                </Form>
-            </section>
 
             {/* Change password */}
             <section className="bg-card text-card-foreground w-full max-w-lg mx-auto p-6 mt-6 rounded-xl border shadow-sm">

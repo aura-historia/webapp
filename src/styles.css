@@ -165,6 +165,7 @@ code {
     --amplify-components-button-primary-focus-border-color: var(--ring);
     --amplify-components-button-primary-focus-box-shadow: 0 0 0 3px rgba(var(--ring) / 0.5);
     --amplify-components-button-primary-focus-color: var(--primary-foreground);
+    --amplify-components-button-primary-focus-background-color: var(--primary);
 
 
     /* Forgot password link */
@@ -188,6 +189,13 @@ code {
     --amplify-components-authenticator-router-background-color: var(--card);
     --amplify-components-authenticator-router-border-color: var(--border);
     --amplify-components-authenticator-router-box-shadow: var(--shadow-sm);
+
+    /* Forgot password link */
+    --amplify-components-button-link-color: var(--foreground);
+    --amplify-components-button-link-hover-color: var(--color-neutral-600);
+    --amplify-components-button-link-focus-color: var(--foreground);
+    --amplify-components-button-link-focus-background-color: transparent;
+
 }
 
 /* Glass container automatically makes inputs transparent; there is no Amplify CSS variable to make them white, so this is the workaround*/
@@ -199,6 +207,7 @@ code {
     @apply font-medium bg-neutral-100 border-input rounded-md shadow-xs min-h-12 outline-none;
 }
 
+/* Input Fields - Focus State */
 .amplify-passwordfield .amplify-input:focus,
 .amplify-field__show-password:focus,
 [data-amplify-authenticator] .amplify-input:focus,
@@ -207,6 +216,7 @@ code {
     @apply outline-none ring-2 ring-ring/50 border-ring;
 }
 
+/* Submit Button */
 .amplify-passwordfield ~ button[type="submit"] {
     @apply bg-primary text-primary-foreground rounded-md w-1/2 hover:bg-primary/90;
     margin-left: auto;
@@ -214,10 +224,12 @@ code {
     margin-top: 16px;
 }
 
+/* Submit Button - Disabled State */
 .amplify-passwordfield ~ button[type="submit"]:disabled {
     @apply opacity-50 cursor-not-allowed;
 }
 
+/* Warning Button */
 .amplify-button.amplify-button--warning {
     @apply bg-destructive text-white rounded-md w-1/2;
     margin-left: auto;
@@ -225,6 +237,7 @@ code {
     margin-top: 16px;
 }
 
+/* Labels above input fields */
 .amplify-passwordfield .amplify-label,
 .amplify-textfield .amplify-label,
 .amplify-field .amplify-label,
@@ -251,3 +264,68 @@ label[data-slot="form-label"] {
     @apply bg-primary/20;
 }
 
+/* Loading Spinner in Primary Button */
+[data-amplify-authenticator] .amplify-button--primary .amplify-loader circle[data-testid="circular-filled"] {
+    stroke: var(--primary-foreground);
+}
+
+/* Loading Spinner in Primary Button Background*/
+[data-amplify-authenticator] .amplify-button--primary .amplify-loader circle[data-testid="circular-empty"] {
+    stroke: var(--primary-hover);
+    opacity: 0.3;
+}
+
+/* Show Password Button - Focus State */
+.amplify-button.amplify-field__show-password:focus,
+.amplify-button.amplify-field__show-password:focus-visible {
+    @apply outline-none ring-2 ring-primary/50 bg-primary/10;
+}
+
+/* AccountSettings - Show Password Button Background */
+.amplify-accountsettings .amplify-field__show-password,
+.amplify-passwordfield .amplify-field__show-password:not([data-amplify-authenticator] *) {
+    @apply font-medium bg-neutral-100 border-input shadow-xs outline-none;
+}
+
+/* Hover Show Password Button for AccountSettings */
+.amplify-accountsettings .amplify-button.amplify-field__show-password:hover,
+.amplify-passwordfield .amplify-button.amplify-field__show-password:hover:not([data-amplify-authenticator] *) {
+    @apply bg-primary/20;
+}
+
+/* AccountSettings - Cancel Button */
+button.amplify-button.amplify-field-group__control.amplify-button--link {
+    --amplify-internal-button-color: var(--foreground);
+    --amplify-internal-button-background-color: transparent;
+}
+
+/* AccountSettings - Cancel Button Hover*/
+button.amplify-button.amplify-field-group__control.amplify-button--link:hover {
+    --amplify-internal-button-color: var(--color-neutral-600);
+    --amplify-internal-button-background-color: transparent;
+}
+
+/* AccountSettings - Cancel Button Focus */
+button.amplify-button.amplify-field-group__control.amplify-button--link:focus,
+button.amplify-button.amplify-field-group__control.amplify-button--link:focus-visible {
+    --amplify-internal-button-color: var(--foreground);
+    --amplify-internal-button-background-color: transparent;
+}
+
+
+/* AccountSettings - Delete-Button */
+button.amplify-button.amplify-field-group__control.amplify-button--destructive {
+    background-color: var(--destructive);
+    color: white;
+}
+
+/* AccountSettings - Delte-Button Hover */
+button.amplify-button.amplify-field-group__control.amplify-button--destructive:hover {
+    background-color: oklch(0.75 0.245 27.325);
+}
+
+/* Warning Button Hover */
+button.amplify-button.amplify-field-group__control.amplify-button--warning.amplify-button:hover {
+    background-color: oklch(0.75 0.245 27.325);
+    color: white;
+}
