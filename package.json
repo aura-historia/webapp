@@ -68,7 +68,7 @@
     },
     "devDependencies": {
         "@biomejs/biome": "2.2.6",
-        "@hey-api/openapi-ts": "0.85.2",
+        "@hey-api/openapi-ts": "0.86.0",
         "@playwright/test": "^1.56.0",
         "@tanstack/devtools-vite": "^0.3.6",
         "@testing-library/dom": "^10.4.0",
