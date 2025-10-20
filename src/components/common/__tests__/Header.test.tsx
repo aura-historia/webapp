@@ -82,7 +82,7 @@ describe("Header Component", () => {
             await user.click(dropdownTrigger);
 
             expect(screen.getByText("Mein Account")).toBeInTheDocument();
-            expect(screen.getByText("Profil bearbeiten")).toBeInTheDocument();
+            expect(screen.getByText("Account bearbeiten")).toBeInTheDocument();
             expect(screen.getByText("Ausloggen")).toBeInTheDocument();
         });
 

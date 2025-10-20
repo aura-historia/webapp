@@ -41,7 +41,7 @@ export function Header() {
                             <DropdownMenuLabel>Mein Account</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
-                                <Link to="/account">Profil bearbeiten</Link>
+                                <Link to="/account">Account bearbeiten</Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => signOut()}>
                                 Ausloggen

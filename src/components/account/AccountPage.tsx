@@ -20,7 +20,7 @@ export function AccountPage() {
 
     return (
         <div className="flex flex-col items-center max-w-3xl mx-auto px-4 py-8 w-full">
-            <H1>Mein Profil</H1>
+            <H1>Mein Account</H1>
 
             {/* Change password */}
             <section className="bg-card text-card-foreground w-full max-w-lg mx-auto p-6 mt-6 rounded-xl border shadow-sm">

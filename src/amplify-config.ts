@@ -43,7 +43,12 @@ I18n.putVocabularies({
         "Password must have lowercase characters": "Passwort muss Kleinbuchstaben enthalten.",
         "Password must have numeric characters": "Passwort muss Zahlen enthalten.",
         "Password must have symbol characters": "Passwort muss Sonderzeichen enthalten.",
+        "Password must have at least 8 characters": "Passwort muss mindestens 8 Zeichen enthalten.",
+        "Password did not conform with policy: Password must have uppercase characters":
+            "Das Passwort entspricht nicht den Richtlinien: Das Passwort muss Großbuchstaben enthalten.",
         "Your passwords must match": "Ihre Passwörter müssen übereinstimmen.",
+        "Password did not conform with policy: Password must have symbol characters":
+            "Das Passwort entspricht nicht den Richtlinien: Das Passwort muss Sonderzeichen enthalten.",
 
         // Account Status
         "User is not confirmed.": "Benutzer ist nicht bestätigt.",
