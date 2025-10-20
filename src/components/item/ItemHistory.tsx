@@ -97,7 +97,7 @@ export function ItemHistory({ history }: ItemHistoryProps) {
 
     return (
         <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0 h-full max-h-[500px] md:max-h-none items-start">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full flex-shrink-0">
+            <div className="flex flex-col gap-4 w-full flex-shrink-0">
                 <H2>Historie</H2>
                 {filterButtons}
             </div>

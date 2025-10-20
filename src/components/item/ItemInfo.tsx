@@ -30,10 +30,6 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                             <H3 variant="muted" className="overflow-hidden line-clamp-1 text-lg">
                                 {item.shopName}
                             </H3>
-                            <p className="text-base text-muted-foreground overflow-y-auto max-h-[250px] md:max-h-[130px] lg:max-h-[200px]">
-                                {" "}
-                                {item.description ?? "Keine Beschreibung verfügbar"}
-                            </p>
                         </div>
                         <div className="hidden md:flex gap-2 ml-auto flex-shrink-0 self-start">
                             <Button variant="ghost" size="icon">
@@ -44,11 +40,14 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                             </Button>
                         </div>
                     </div>
+                    <p className="scrollable-content text-base text-muted-foreground overflow-y-auto max-h-[250px] md:max-h-[130px] lg:max-h-[200px] w-full pr-3">
+                        {item.description ?? "Keine Beschreibung verfügbar"}
+                    </p>
 
                     {/* Spacer - pushes bottom content down on desktop */}
                     <div className="hidden sm:block flex-1"></div>
 
-                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-end w-full mt-4 md:mt-0">
+                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-end w-full pt-4">
                         <div className="flex flex-col gap-2 flex-shrink-0">
                             <StatusBadge status={item.state} />
                             <PriceText>{item.price ?? "Preis unbekannt"}</PriceText>

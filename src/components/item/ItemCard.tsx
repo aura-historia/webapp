@@ -12,25 +12,50 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
     return (
         <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
             <div className={"flex-shrink-0 flex lg:justify-start justify-center"}>
-                {item.images.length > 0 ? (
-                    <img
-                        className={"size-48 object-cover rounded-lg"}
-                        src={item.images[0].href}
-                        alt=""
-                    />
-                ) : (
-                    <Image
-                        data-testid="placeholder-image"
-                        className={"size-48 object-contain rounded-lg"}
-                    />
-                )}
+                <Link
+                    to="/item/$shopId/$shopsItemId"
+                    params={{
+                        shopId: item.shopId,
+                        shopsItemId: item.shopsItemId,
+                    }}
+                >
+                    {item.images.length > 0 ? (
+                        <img
+                            className={
+                                "size-48 object-cover rounded-lg hover:opacity-90 transition-opacity"
+                            }
+                            src={item.images[0].href}
+                            alt=""
+                        />
+                    ) : (
+                        <Image
+                            data-testid="placeholder-image"
+                            className={
+                                "size-48 object-contain rounded-lg hover:opacity-90 transition-opacity"
+                            }
+                        />
+                    )}
+                </Link>
             </div>
             <div className={"flex flex-col min-w-0 flex-1 justify-between"}>
                 <div className={"flex flex-row justify-between w-full"}>
                     <div className={"flex flex-col gap-2 min-w-0 overflow-hidden"}>
-                        <H2 className={"text-ellipsis overflow-hidden line-clamp-1"}>
-                            {item.title}
-                        </H2>
+                        <Link
+                            to="/item/$shopId/$shopsItemId"
+                            params={{
+                                shopId: item.shopId,
+                                shopsItemId: item.shopsItemId,
+                            }}
+                            className="min-w-0 overflow-hidden"
+                        >
+                            <H2
+                                className={
+                                    "text-ellipsis overflow-hidden line-clamp-1 hover:underline"
+                                }
+                            >
+                                {item.title}
+                            </H2>
+                        </Link>
                         <H3
                             variant={"muted"}
                             className={"line-clamp-1 overflow-ellipsis whitespace-nowrap"}

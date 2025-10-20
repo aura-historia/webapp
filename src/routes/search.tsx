@@ -5,7 +5,7 @@ import { createFileRoute, type SearchSchemaInput } from "@tanstack/react-router"
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import { FilteredSearchResults } from "@/components/search/FilteredSearchResults.tsx";
 import { isSimpleSearch } from "@/lib/utils.ts";
-import type { ItemState } from "@/data/internal/ItemState.ts";
+import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (
@@ -58,7 +58,10 @@ export const Route = createFileRoute("/search")({
             priceFrom: validPriceFrom,
             priceTo: validPriceTo,
             allowedStates: Array.isArray(search.allowedStates)
-                ? search.allowedStates.filter((elem, index, self) => index === self.indexOf(elem))
+                ? search.allowedStates
+                      .map((state) => parseItemState(state))
+                      .filter((s) => s)
+                      .filter((elem, index, self) => index === self.indexOf(elem))
                 : undefined,
             creationDateFrom: fromCreationDate,
             creationDateTo: toCreationDate,
