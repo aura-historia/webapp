@@ -1,22 +1,22 @@
 openapi: 3.0.0
 info:
-    title: Blitzfilter Backend API
+    title: Aura-Historia Backend API
     description: |
-        REST API for the Blitzfilter backend.
+        REST API for the Aura-Historia backend.
         
         The backend is written in Rust and utilizes event-driven architecture with CQRS and Event-Sourcing,
         hosted entirely on AWS using services like API Gateway, OpenSearch, DynamoDB, SQS, and Lambda.
     version: 1.0.0
     contact:
-        name: Blitzfilter Team
-        url: https://github.com/blitzfilter
+        name: Aura-Historia Team
+        url: https://github.com/aura-historia
     license:
         name: License
-        url: https://github.com/blitzfilter/aws-backend/blob/develop/LICENSE
+        url: https://github.com/aura-historia/backend/blob/develop/LICENSE
 
 servers:
-    -   url: https://api.blitzfilter.com
-        description: Placeholder server
+    -   url: https://api.aura-historia.com
+        description: Full Development-Server
 
 paths:
     /api/v1/items/{shopId}/{shopsItemId}:
@@ -752,7 +752,7 @@ paths:
                             schema:
                                 type: string
                                 format: uri
-                            example: "https://api.blitzfilter.com/api/v1/search-filters/6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                            example: "https://api.aura-historia.com/api/v1/search-filters/6ba7b810-9dad-11d1-80b4-00c04fd430c8"
                         Content-Language:
                             description: The language of the returned content
                             schema:
@@ -1390,12 +1390,23 @@ paths:
                             schema:
                                 type: string
                                 format: uri
-                            example: "https://api.blitzfilter.com/api/v1/watchlist/550e8400-e29b-41d4-a716-446655440000/6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                            example: "https://api.aura-historia.com/api/v1/watchlist/550e8400-e29b-41d4-a716-446655440000/6ba7b810-9dad-11d1-80b4-00c04fd430c8"
                         Access-Control-Allow-Origin:
                             description: CORS header
                             schema:
                                 type: string
                             example: "*"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/WatchlistItemPatchResponse'
+                            example:
+                                shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                shopsItemId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                                itemId: "7c9e6679-7425-40de-944b-e07fc1f90ae7"
+                                notifications: false
+                                created: "2024-01-15T08:00:00Z"
+                                updated: "2024-01-15T08:00:00Z"
                 '400':
                     description: Bad request - invalid request body
                     content:
@@ -1439,7 +1450,6 @@ paths:
             summary: Remove item from watchlist
             description: |
                 Removes a specific item from the authenticated user's watchlist.
-                Requires the creation timestamp as a query parameter to identify the exact watchlist entry.
                 Returns a 204 No Content response on success.
                 Requires valid Cognito JWT authentication.
             operationId: deleteWatchlistItem
@@ -1461,16 +1471,6 @@ paths:
                     schema:
                         type: string
                     example: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-                -   name: created
-                    in: query
-                    required: true
-                    description: |
-                        RFC3339 timestamp of when the watchlist entry was created.
-                        Required to identify the exact entry to delete.
-                    schema:
-                        type: string
-                        format: date-time
-                    example: "2024-01-15T08:00:00Z"
                 -   name: Authorization
                     in: header
                     required: true
@@ -1511,24 +1511,6 @@ paths:
                                         source:
                                             field: "shopsItemId"
                                             sourceType: "path"
-                                missing_created:
-                                    summary: Missing created timestamp
-                                    value:
-                                        status: 400
-                                        error: "BAD_QUERY_PARAMETER_VALUE"
-                                        source:
-                                            field: "created"
-                                            sourceType: "query"
-                                        message: "The timestamp of when the watchlist-entry was created is required to delete it."
-                                invalid_created_timestamp:
-                                    summary: Invalid created timestamp format
-                                    value:
-                                        status: 400
-                                        error: "INVALID_RFC3339_TIMESTAMP"
-                                        source:
-                                            field: "created"
-                                            sourceType: "query"
-                                        message: "Invalid RFC3339 timestamp format"
                                 invalid_uuid:
                                     summary: Invalid shop ID format
                                     value:
@@ -1538,6 +1520,153 @@ paths:
                                             field: "shopId"
                                             sourceType: "path"
                                         message: "Invalid UUID format"
+                '401':
+                    description: Unauthorized - invalid or missing JWT token
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApiError'
+                            example:
+                                status: 401
+                                error: "UNAUTHORIZED"
+                '404':
+                    description: Watchlist entry not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApiError'
+                            example:
+                                status: 404
+                                error: "WATCHLIST_ENTRY_NOT_FOUND"
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApiError'
+                            example:
+                                status: 500
+                                error: "INTERNAL_SERVER_ERROR"
+
+        patch:
+            summary: Update watchlist item settings
+            description: |
+                Updates settings for a specific watchlist item (e.g., toggle notifications).
+                Returns the updated watchlist item data with core identifiers and settings.
+                Requires valid Cognito JWT authentication.
+            operationId: patchWatchlistItem
+            tags:
+                - Watchlist
+            parameters:
+                -   name: shopId
+                    in: path
+                    required: true
+                    description: Unique identifier of the shop
+                    schema:
+                        type: string
+                        format: uuid
+                    example: "550e8400-e29b-41d4-a716-446655440000"
+                -   name: shopsItemId
+                    in: path
+                    required: true
+                    description: Shop's unique identifier for the item
+                    schema:
+                        type: string
+                    example: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                -   name: Authorization
+                    in: header
+                    required: true
+                    description: Cognito JWT token for user authentication
+                    schema:
+                        type: string
+                        pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
+                    example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            requestBody:
+                required: true
+                description: Patch object containing fields to update
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/WatchlistItemPatch'
+                        examples:
+                            enable_notifications:
+                                summary: Enable notifications
+                                value:
+                                    notifications: true
+                            disable_notifications:
+                                summary: Disable notifications
+                                value:
+                                    notifications: false
+            responses:
+                '200':
+                    description: Watchlist item updated successfully
+                    headers:
+                        Access-Control-Allow-Origin:
+                            description: CORS header
+                            schema:
+                                type: string
+                            example: "*"
+                        Last-Modified:
+                            description: When the watchlist item was last updated
+                            schema:
+                                type: string
+                                format: date-time
+                            example: "2024-01-15T08:30:00Z"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/WatchlistItemPatchResponse'
+                            example:
+                                shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                shopsItemId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                                itemId: "7c9e6679-7425-40de-944b-e07fc1f90ae7"
+                                notifications: true
+                                created: "2024-01-15T08:00:00Z"
+                                updated: "2024-01-15T08:30:00Z"
+                '400':
+                    description: Bad request - invalid parameters or body
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApiError'
+                            examples:
+                                missing_shop_id:
+                                    summary: Missing shop ID
+                                    value:
+                                        status: 400
+                                        error: "BAD_PATH_PARAMETER_VALUE"
+                                        source:
+                                            field: "shopId"
+                                            sourceType: "path"
+                                missing_shops_item_id:
+                                    summary: Missing shop's item ID
+                                    value:
+                                        status: 400
+                                        error: "BAD_PATH_PARAMETER_VALUE"
+                                        source:
+                                            field: "shopsItemId"
+                                            sourceType: "path"
+                                invalid_uuid:
+                                    summary: Invalid shop ID format
+                                    value:
+                                        status: 400
+                                        error: "INVALID_UUID"
+                                        source:
+                                            field: "shopId"
+                                            sourceType: "path"
+                                        message: "Invalid UUID format"
+                                missing_body:
+                                    summary: Missing request body
+                                    value:
+                                        status: 400
+                                        error: "BAD_BODY_VALUE"
+                                        message: "Body cannot be empty"
+                                invalid_body:
+                                    summary: Invalid request body format
+                                    value:
+                                        status: 400
+                                        error: "BAD_BODY_VALUE"
+                                        message: "Invalid JSON format"
                 '401':
                     description: Unauthorized - invalid or missing JWT token
                     content:
@@ -1940,6 +2069,48 @@ components:
                 price:
                     $ref: '#/components/schemas/PriceData'
 
+        ItemEventStateChangedPayloadData:
+            type: object
+            description: Payload for state change events, containing both old and new state
+            required:
+                - oldState
+                - newState
+            properties:
+                oldState:
+                    $ref: '#/components/schemas/ItemStateData'
+                newState:
+                    $ref: '#/components/schemas/ItemStateData'
+
+        ItemEventPriceDiscoveredPayloadData:
+            type: object
+            description: Payload for price discovered events when an item's price is first detected
+            required:
+                - newPrice
+            properties:
+                newPrice:
+                    $ref: '#/components/schemas/PriceData'
+
+        ItemEventPriceChangedPayloadData:
+            type: object
+            description: Payload for price change events (dropped or increased), containing both old and new price
+            required:
+                - oldPrice
+                - newPrice
+            properties:
+                oldPrice:
+                    $ref: '#/components/schemas/PriceData'
+                newPrice:
+                    $ref: '#/components/schemas/PriceData'
+
+        ItemEventPriceRemovedPayloadData:
+            type: object
+            description: Payload for price removed events when an item's price is removed
+            required:
+                - oldPrice
+            properties:
+                oldPrice:
+                    $ref: '#/components/schemas/PriceData'
+
         GetItemEventData:
             type: object
             description: Historical event for an item
@@ -2037,9 +2208,17 @@ components:
         ItemEventPayloadData:
             oneOf:
                 -   $ref: '#/components/schemas/ItemCreatedEventPayloadData'
-                -   $ref: '#/components/schemas/ItemStateData'
-                -   $ref: '#/components/schemas/PriceData'
-            description: Event-specific payload data
+                -   $ref: '#/components/schemas/ItemEventStateChangedPayloadData'
+                -   $ref: '#/components/schemas/ItemEventPriceDiscoveredPayloadData'
+                -   $ref: '#/components/schemas/ItemEventPriceChangedPayloadData'
+                -   $ref: '#/components/schemas/ItemEventPriceRemovedPayloadData'
+            description: |
+                Event-specific payload data. The structure varies depending on the event type:
+                - CREATED: ItemCreatedEventPayloadData (initial item state and optional price)
+                - STATE_LISTED, STATE_AVAILABLE, STATE_RESERVED, STATE_SOLD, STATE_REMOVED, STATE_UNKNOWN: ItemEventStateChangedPayloadData (old and new state)
+                - PRICE_DISCOVERED: ItemEventPriceDiscoveredPayloadData (new price only, when price is first detected)
+                - PRICE_DROPPED, PRICE_INCREASED: ItemEventPriceChangedPayloadData (old and new price)
+                - PRICE_REMOVED: ItemEventPriceRemovedPayloadData (old price only, when price is removed)
 
         ApiError:
             type: object
@@ -2506,14 +2685,25 @@ components:
             description: Watchlist item containing the item data and when it was added to the watchlist
             required:
                 - item
+                - notifications
                 - created
+                - updated
             properties:
                 item:
                     $ref: '#/components/schemas/GetItemData'
+                notifications:
+                    type: boolean
+                    description: Whether notifications are enabled for this watchlist item
+                    example: false
                 created:
                     type: string
                     format: date-time
                     description: When the item was added to the watchlist (RFC3339 format)
+                    example: "2024-01-15T08:00:00Z"
+                updated:
+                    type: string
+                    format: date-time
+                    description: When the watchlist item was last updated (RFC3339 format)
                     example: "2024-01-15T08:00:00Z"
 
         WatchlistCollectionData:
@@ -2545,6 +2735,55 @@ components:
                     description: Total number of items (optional, may not be available for cursor-based pagination)
                     nullable: true
                     example: 127
+
+        WatchlistItemPatch:
+            type: object
+            description: Patch object for updating watchlist item settings
+            properties:
+                notifications:
+                    type: boolean
+                    description: Whether to enable or disable notifications for this watchlist item
+                    example: true
+
+        WatchlistItemPatchResponse:
+            type: object
+            description: Response after patching a watchlist item, containing core item identifiers and notification settings
+            required:
+                - shopId
+                - shopsItemId
+                - itemId
+                - notifications
+                - created
+                - updated
+            properties:
+                shopId:
+                    type: string
+                    format: uuid
+                    description: Unique identifier of the shop
+                    example: "550e8400-e29b-41d4-a716-446655440000"
+                shopsItemId:
+                    type: string
+                    description: Shop's unique identifier for the item
+                    example: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                itemId:
+                    type: string
+                    format: uuid
+                    description: Internal item identifier
+                    example: "7c9e6679-7425-40de-944b-e07fc1f90ae7"
+                notifications:
+                    type: boolean
+                    description: Current notification setting for this watchlist item
+                    example: true
+                created:
+                    type: string
+                    format: date-time
+                    description: When the item was added to the watchlist (RFC3339 format)
+                    example: "2024-01-15T08:00:00Z"
+                updated:
+                    type: string
+                    format: date-time
+                    description: When the watchlist item was last updated (RFC3339 format)
+                    example: "2024-01-15T08:30:00Z"
 
         SortWatchlistItemFieldData:
             type: string

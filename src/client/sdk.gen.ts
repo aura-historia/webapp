@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistItemData, AddWatchlistItemErrors, AddWatchlistItemResponses, ComplexSearchItemsData, ComplexSearchItemsErrors, ComplexSearchItemsResponses, CreateSearchFilterData, CreateSearchFilterErrors, CreateSearchFilterResponses, DeleteSearchFilterData, DeleteSearchFilterErrors, DeleteSearchFilterResponses, DeleteWatchlistItemData, DeleteWatchlistItemErrors, DeleteWatchlistItemResponses, GetItemData2, GetItemErrors, GetItemResponses, GetSearchFilterData, GetSearchFilterErrors, GetSearchFilterResponses, GetSearchFiltersData, GetSearchFiltersErrors, GetSearchFiltersResponses, GetShopData2, GetShopErrors, GetShopResponses, GetWatchlistItemsData, GetWatchlistItemsErrors, GetWatchlistItemsResponses, PutItemsData, PutItemsErrors, PutItemsResponses, SearchItemsData, SearchItemsErrors, SearchItemsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, UpdateSearchFilterData, UpdateSearchFilterErrors, UpdateSearchFilterResponses } from './types.gen';
+import type { AddWatchlistItemData, AddWatchlistItemErrors, AddWatchlistItemResponses, ComplexSearchItemsData, ComplexSearchItemsErrors, ComplexSearchItemsResponses, CreateSearchFilterData, CreateSearchFilterErrors, CreateSearchFilterResponses, DeleteSearchFilterData, DeleteSearchFilterErrors, DeleteSearchFilterResponses, DeleteWatchlistItemData, DeleteWatchlistItemErrors, DeleteWatchlistItemResponses, GetItemData2, GetItemErrors, GetItemResponses, GetSearchFilterData, GetSearchFilterErrors, GetSearchFilterResponses, GetSearchFiltersData, GetSearchFiltersErrors, GetSearchFiltersResponses, GetShopData2, GetShopErrors, GetShopResponses, GetWatchlistItemsData, GetWatchlistItemsErrors, GetWatchlistItemsResponses, PatchWatchlistItemData, PatchWatchlistItemErrors, PatchWatchlistItemResponses, PutItemsData, PutItemsErrors, PutItemsResponses, SearchItemsData, SearchItemsErrors, SearchItemsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, UpdateSearchFilterData, UpdateSearchFilterErrors, UpdateSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -20,7 +20,6 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 
 /**
  * Get a single item
- *
  * Retrieves a single item by its shop ID and shop's item ID.
  * Returns localized content based on Accept-Language header and currency preferences.
  * Optionally includes item history when requested.
@@ -35,7 +34,6 @@ export const getItem = <ThrowOnError extends boolean = false>(options: Options<G
 
 /**
  * Search items
- *
  * Search for items using a text query with various filtering and sorting options.
  * Returns a paginated collection of items matching the search criteria.
  *
@@ -49,7 +47,6 @@ export const searchItems = <ThrowOnError extends boolean = false>(options: Optio
 
 /**
  * Bulk create or update items
- *
  * Creates or updates multiple items in a single batch request.
  * This endpoint accepts a collection of item data and processes them asynchronously.
  *
@@ -79,7 +76,6 @@ export const putItems = <ThrowOnError extends boolean = false>(options: Options<
 
 /**
  * Complex item search
- *
  * Performs an advanced search for items using a comprehensive search filter.
  * This endpoint accepts a SearchFilterData object in the request body,
  * allowing for complex filtering by multiple criteria simultaneously.
@@ -99,7 +95,6 @@ export const complexSearchItems = <ThrowOnError extends boolean = false>(options
 
 /**
  * List user search filters
- *
  * Retrieves all search filters for the authenticated user.
  * Results can be optionally sorted by creation date.
  * Requires valid Cognito JWT authentication.
@@ -114,7 +109,6 @@ export const getSearchFilters = <ThrowOnError extends boolean = false>(options: 
 
 /**
  * Create a new search filter
- *
  * Creates a new search filter for the authenticated user.
  * The search filter configuration is provided in the request body.
  * Returns the created search filter with generated ID and metadata.
@@ -134,7 +128,6 @@ export const createSearchFilter = <ThrowOnError extends boolean = false>(options
 
 /**
  * Delete a search filter
- *
  * Deletes a specific search filter by its ID for the authenticated user.
  * The search filter must exist and belong to the authenticated user.
  * Requires valid Cognito JWT authentication.
@@ -149,7 +142,6 @@ export const deleteSearchFilter = <ThrowOnError extends boolean = false>(options
 
 /**
  * Get a specific search filter
- *
  * Retrieves a specific search filter by its ID for the authenticated user.
  * Returns the complete search filter configuration and metadata.
  * Requires valid Cognito JWT authentication.
@@ -164,7 +156,6 @@ export const getSearchFilter = <ThrowOnError extends boolean = false>(options: O
 
 /**
  * Update a search filter
- *
  * Updates a specific search filter by its ID for the authenticated user.
  * Allows partial updates - only provided fields will be modified.
  * If no fields are provided in the request body, returns the existing search filter unchanged.
@@ -184,7 +175,6 @@ export const updateSearchFilter = <ThrowOnError extends boolean = false>(options
 
 /**
  * List user's watchlist items
- *
  * Retrieves all items in the authenticated user's watchlist.
  * Results are paginated using search-after cursor-based pagination with timestamp.
  * Requires valid Cognito JWT authentication.
@@ -199,7 +189,6 @@ export const getWatchlistItems = <ThrowOnError extends boolean = false>(options:
 
 /**
  * Add item to watchlist
- *
  * Adds an item to the authenticated user's watchlist.
  * The request body must contain the shop ID and shop's item ID.
  * Returns a 201 Created response with a Location header pointing to the created resource.
@@ -219,9 +208,7 @@ export const addWatchlistItem = <ThrowOnError extends boolean = false>(options: 
 
 /**
  * Remove item from watchlist
- *
  * Removes a specific item from the authenticated user's watchlist.
- * Requires the creation timestamp as a query parameter to identify the exact watchlist entry.
  * Returns a 204 No Content response on success.
  * Requires valid Cognito JWT authentication.
  *
@@ -234,8 +221,25 @@ export const deleteWatchlistItem = <ThrowOnError extends boolean = false>(option
 };
 
 /**
- * Get shop details
+ * Update watchlist item settings
+ * Updates settings for a specific watchlist item (e.g., toggle notifications).
+ * Returns the updated watchlist item data with core identifiers and settings.
+ * Requires valid Cognito JWT authentication.
  *
+ */
+export const patchWatchlistItem = <ThrowOnError extends boolean = false>(options: Options<PatchWatchlistItemData, ThrowOnError>) => {
+    return (options.client ?? client).patch<PatchWatchlistItemResponses, PatchWatchlistItemErrors, ThrowOnError>({
+        url: '/api/v1/watchlist/{shopId}/{shopsItemId}',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+};
+
+/**
+ * Get shop details
  * Retrieves detailed information about a specific shop by its unique identifier.
  * Returns complete shop metadata including name, URL, image, and timestamps.
  *
@@ -249,7 +253,6 @@ export const getShop = <ThrowOnError extends boolean = false>(options: Options<G
 
 /**
  * Search shops
- *
  * Performs an advanced search for shops using comprehensive filtering criteria.
  * This endpoint accepts a ShopSearchData object in the request body,
  * allowing for complex filtering by shop name and date ranges.
