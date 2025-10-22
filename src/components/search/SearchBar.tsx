@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,28 +14,35 @@ import { Input } from "@/components/ui/input";
 import { useNavigate } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
+import { z } from "zod";
+
+const createSearchFormSchema = (t: TFunction) =>
+    z.object({
+        query: z
+            .string()
+            .trim()
+            .min(3, {
+                error: t("search.validation.queryMinLength"),
+            }),
+    });
+
+export type SearchFormSchema = z.infer<ReturnType<typeof createSearchFormSchema>>;
 
 export function SearchBar() {
     const { t } = useTranslation();
     const navigate = useNavigate({ from: "/" });
 
-    const searchFormSchema = z.object({
-        query: z
-            .string()
-            .trim()
-            .min(3, {
-                error: t("search.bar.validation.minLength"),
-            }),
-    });
+    const searchFormSchema = createSearchFormSchema(t);
 
-    const form = useForm<z.infer<typeof searchFormSchema>>({
+    const form = useForm<SearchFormSchema>({
         resolver: zodResolver(searchFormSchema),
         defaultValues: {
             query: "",
         },
     });
 
-    function onSubmit(values: z.infer<typeof searchFormSchema>) {
+    function onSubmit(values: SearchFormSchema) {
         navigate({
             to: "/search",
             search: {
