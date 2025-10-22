@@ -6,7 +6,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ImageOff } from "lucide-react";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
@@ -22,7 +22,6 @@ interface ItemImageGalleryProps {
 export function ItemImageGallery({ images, title, itemId }: ItemImageGalleryProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-
     const slides = useMemo(() => images.map((img) => ({ src: img.href })), [images]);
 
     /**
@@ -58,6 +57,22 @@ export function ItemImageGallery({ images, title, itemId }: ItemImageGalleryProp
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [images.length, isLightboxOpen]);
 
+    /**
+     * Renders a fallback image if no images are provided.
+     *
+     * If the `images` array is empty, this returns a placeholder
+     * with an icon and a text message
+     */
+    if (images.length === 0) {
+        return (
+            <div className="w-full md:w-80 lg:w-96">
+                <div className="w-full min-h-[200px] max-h-[350px] h-auto md:h-64 lg:h-80 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
+                    <ImageOff className="w-12 h-12 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">Kein Bild verfügbar</p>
+                </div>
+            </div>
+        );
+    }
     return (
         <>
             <div className="w-full md:w-80 lg:w-96 space-y-3">

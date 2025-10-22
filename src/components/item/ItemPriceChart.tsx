@@ -12,6 +12,7 @@ import {
     formatCurrency,
     formatDate,
     formatTimeWithSeconds,
+    getPriceAmount,
 } from "@/lib/utils.ts";
 import { isPriceEvent } from "@/lib/eventFilters.ts";
 
@@ -62,7 +63,7 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
      */
     const priceData = priceEvents.map((event) => ({
         x: event.timestamp.getTime(),
-        y: event.payload.amount / 100,
+        y: getPriceAmount(event) / 100,
     }));
 
     if (priceData.length > 0) {

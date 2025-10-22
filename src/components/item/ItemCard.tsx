@@ -4,7 +4,7 @@ import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
-import { ArrowUpRight, Eye, HeartIcon, Image } from "lucide-react";
+import { ArrowUpRight, Eye, HeartIcon, ImageOff } from "lucide-react";
 import { H3 } from "../typography/H3";
 import { Link } from "@tanstack/react-router";
 
@@ -28,12 +28,10 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                             alt=""
                         />
                     ) : (
-                        <Image
-                            data-testid="placeholder-image"
-                            className={
-                                "size-48 object-contain rounded-lg hover:opacity-90 transition-opacity"
-                            }
-                        />
+                        <div className="size-48 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
+                            <ImageOff className="w-12 h-12 text-muted-foreground" />
+                            <p className="text-sm text-muted-foreground">Kein Bild verfügbar</p>
+                        </div>
                     )}
                 </Link>
             </div>

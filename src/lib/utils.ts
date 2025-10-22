@@ -1,18 +1,46 @@
-import type { PriceData, ItemStateData, ItemEventTypeData } from "@/client";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
+import type { ItemEvent, Price } from "@/data/internal/ItemDetails.ts";
+import {
+    isPriceChangedEvent,
+    isPriceDiscoveredEvent,
+    isPriceRemovedEvent,
+} from "@/lib/eventFilters.ts";
+import type { ItemState } from "@/data/internal/ItemState.ts";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-export function formatPrice(data: PriceData, locale: string | undefined = undefined): string {
+export function formatPrice(data: Price, locale?: string): string {
     return new Intl.NumberFormat(locale ?? navigator.language, {
         style: "currency",
-        currency: data?.currency,
-    }).format((data?.amount ?? 0) / 100);
+        currency: data.currency,
+    }).format(data.amount / 100);
+}
+
+/**
+ * Extracts the price amount from a price event.
+ *
+ * Different event types store the price in different places:
+ * - PRICE_DISCOVERED/CHANGED: newPrice.amount
+ * - PRICE_REMOVED: oldPrice.amount
+ *
+ * Returns the price in minor currency units (cents) or null (0).
+ */
+export function getPriceAmount(event: ItemEvent): number {
+    if (isPriceDiscoveredEvent(event)) {
+        return event.payload.newPrice.amount;
+    }
+    if (isPriceChangedEvent(event)) {
+        return event.payload.newPrice.amount;
+    }
+    if (isPriceRemovedEvent(event)) {
+        return event.payload.oldPrice.amount;
+    }
+    return 0;
 }
 
 export function formatToDateString(date?: Date): string | undefined {
@@ -84,34 +112,19 @@ export function formatCompactCurrency(value: number): string {
     return `${formatted} €`;
 }
 
-export function getStateDescription(state: ItemStateData): string {
+export function formatStateName(state: ItemState): string {
     switch (state) {
         case "LISTED":
-            return "Der Artikel wurde neu gelistet.";
+            return "'Gelistet'";
         case "AVAILABLE":
-            return "Der Artikel ist jetzt zum Kauf verfügbar.";
+            return "'Verfügbar'";
         case "RESERVED":
-            return "Der Artikel wurde von einem Käufer reserviert.";
+            return "'Reserviert'";
         case "SOLD":
-            return "Der Artikel wurde verkauft.";
+            return "'Verkauft'";
         case "REMOVED":
-            return "Der Artikel wurde entfernt.";
+            return "'Gelöscht'";
         case "UNKNOWN":
-            return "Der Status des Artikels ist unbekannt.";
-    }
-}
-
-export function getPriceEventDescription(eventType: ItemEventTypeData): string {
-    switch (eventType) {
-        case "PRICE_DISCOVERED":
-            return "Preis wurde entdeckt";
-        case "PRICE_DROPPED":
-            return "Preis ist gesunken";
-        case "PRICE_INCREASED":
-            return "Preis ist gestiegen";
-        case "PRICE_REMOVED":
-            return "Preis wurde entfernt";
-        default:
-            return "Preisänderung";
+            return "'Unbekannt'";
     }
 }
