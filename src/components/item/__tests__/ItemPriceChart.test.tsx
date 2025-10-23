@@ -31,7 +31,10 @@ describe("ItemPriceChart", () => {
         shopsItemId: "shops-item-1",
         eventType: "PRICE_INCREASED",
         timestamp: new Date("2024-01-15T10:00:00Z"),
-        payload: { amount: 9999, currency: "EUR" },
+        payload: {
+            oldPrice: { amount: 8999, currency: "EUR" },
+            newPrice: { amount: 9999, currency: "EUR" },
+        },
     };
 
     const mockStateEvent: ItemEvent = {
@@ -41,7 +44,10 @@ describe("ItemPriceChart", () => {
         shopsItemId: "shops-item-1",
         eventType: "STATE_AVAILABLE",
         timestamp: new Date("2024-01-16T11:00:00Z"),
-        payload: "AVAILABLE",
+        payload: {
+            oldState: "LISTED",
+            newState: "AVAILABLE",
+        },
     };
 
     it("should render empty state when history is undefined", () => {
@@ -105,13 +111,19 @@ describe("ItemPriceChart", () => {
             ...mockPriceEvent,
             eventId: "1",
             timestamp: new Date("2024-01-01"),
-            payload: { amount: 5000, currency: "EUR" },
+            payload: {
+                oldPrice: { amount: 4500, currency: "EUR" },
+                newPrice: { amount: 5000, currency: "EUR" },
+            },
         };
         const event2: ItemEvent = {
             ...mockPriceEvent,
             eventId: "2",
             timestamp: new Date("2024-01-02"),
-            payload: { amount: 6000, currency: "EUR" },
+            payload: {
+                oldPrice: { amount: 5000, currency: "EUR" },
+                newPrice: { amount: 6000, currency: "EUR" },
+            },
         };
 
         render(<ItemPriceChart history={[event1, event2]} />);

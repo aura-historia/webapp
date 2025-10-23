@@ -47,7 +47,10 @@ describe("mapToDetailItem", () => {
                     eventId: "event-1",
                     shopId: "shop-789",
                     shopsItemId: "shop-item-101",
-                    payload: "AVAILABLE",
+                    payload: {
+                        oldState: "LISTED",
+                        newState: "AVAILABLE",
+                    },
                     timestamp: "2023-01-01T10:00:00Z",
                 },
             ],
@@ -57,7 +60,9 @@ describe("mapToDetailItem", () => {
 
         expect(result.history).toHaveLength(1);
         expect(result.history![0].eventType).toBe("STATE_AVAILABLE");
-        expect(result.history![0].payload).toBe("AVAILABLE");
+        const payload = result.history![0].payload as any;
+        expect(payload.oldState).toBe("LISTED");
+        expect(payload.newState).toBe("AVAILABLE");
         expect(result.history![0].timestamp).toEqual(new Date("2023-01-01T10:00:00Z"));
     });
 
@@ -82,7 +87,10 @@ describe("mapToDetailItem", () => {
                     eventId: "event-2",
                     shopId: "shop-789",
                     shopsItemId: "shop-item-101",
-                    payload: { amount: 900, currency: "EUR" },
+                    payload: {
+                        oldPrice: { amount: 1000, currency: "EUR" },
+                        newPrice: { amount: 900, currency: "EUR" },
+                    },
                     timestamp: "2023-01-02T10:00:00Z",
                 },
             ],
@@ -93,8 +101,10 @@ describe("mapToDetailItem", () => {
         expect(result.history).toHaveLength(1);
         expect(result.history![0].eventType).toBe("PRICE_DROPPED");
         expect(typeof result.history![0].payload).toBe("object");
-        expect((result.history![0].payload as any).amount).toBe(900);
-        expect((result.history![0].payload as any).currency).toBe("EUR");
+        const payload = result.history![0].payload as any;
+        expect(payload.oldPrice.amount).toBe(1000);
+        expect(payload.newPrice.amount).toBe(900);
+        expect(payload.newPrice.currency).toBe("EUR");
     });
 
     it("should map created event correctly", () => {
@@ -203,7 +213,10 @@ describe("mapToDetailItem", () => {
                     eventId: "event-1",
                     shopId: "shop-789",
                     shopsItemId: "shop-item-101",
-                    payload: "AVAILABLE",
+                    payload: {
+                        oldState: "LISTED",
+                        newState: "AVAILABLE",
+                    },
                     timestamp: "2023-01-01T10:00:00Z",
                 },
                 {
@@ -212,7 +225,10 @@ describe("mapToDetailItem", () => {
                     eventId: "event-2",
                     shopId: "shop-789",
                     shopsItemId: "shop-item-101",
-                    payload: { amount: 800, currency: "EUR" },
+                    payload: {
+                        oldPrice: { amount: 1000, currency: "EUR" },
+                        newPrice: { amount: 800, currency: "EUR" },
+                    },
                     timestamp: "2023-01-02T10:00:00Z",
                 },
                 {
@@ -221,7 +237,10 @@ describe("mapToDetailItem", () => {
                     eventId: "event-3",
                     shopId: "shop-789",
                     shopsItemId: "shop-item-101",
-                    payload: "SOLD",
+                    payload: {
+                        oldState: "AVAILABLE",
+                        newState: "SOLD",
+                    },
                     timestamp: "2023-01-03T10:00:00Z",
                 },
             ],

@@ -29,7 +29,10 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                         />
                     ) : (
                         <div className="size-48 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
-                            <ImageOff className="w-12 h-12 text-muted-foreground" />
+                            <ImageOff
+                                data-testid="placeholder-image"
+                                className="w-12 h-12 text-muted-foreground"
+                            />
                             <p className="text-sm text-muted-foreground">Kein Bild verfügbar</p>
                         </div>
                     )}

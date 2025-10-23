@@ -45,7 +45,10 @@ describe("ItemHistory", () => {
         shopsItemId: "shops-item-1",
         eventType: "STATE_AVAILABLE",
         timestamp: new Date("2024-01-15T10:00:00Z"),
-        payload: "AVAILABLE",
+        payload: {
+            oldState: "LISTED",
+            newState: "AVAILABLE",
+        },
     };
 
     const mockPriceEvent: ItemEvent = {
@@ -55,7 +58,10 @@ describe("ItemHistory", () => {
         shopsItemId: "shops-item-1",
         eventType: "PRICE_INCREASED",
         timestamp: new Date("2024-01-16T11:00:00Z"),
-        payload: { amount: 9999, currency: "EUR" },
+        payload: {
+            oldPrice: { amount: 8999, currency: "EUR" },
+            newPrice: { amount: 9999, currency: "EUR" },
+        },
     };
 
     const mockCreatedEvent: ItemEvent = {
