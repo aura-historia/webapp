@@ -99,9 +99,14 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
             if (days === null) {
                 chartRef.current.zoomX(minTimestamp, maxTimestamp);
             } else {
-                const now = Date.now();
-                const startDate = now - days * 24 * 60 * 60 * 1000;
-                chartRef.current.zoomX(startDate, now);
+                const totalDays = (maxTimestamp - minTimestamp) / (24 * 60 * 60 * 1000);
+
+                if (days >= totalDays) {
+                    chartRef.current.zoomX(minTimestamp, maxTimestamp);
+                } else {
+                    const startDate = maxTimestamp - days * 24 * 60 * 60 * 1000;
+                    chartRef.current.zoomX(startDate, maxTimestamp);
+                }
             }
         },
         [minTimestamp, maxTimestamp],
