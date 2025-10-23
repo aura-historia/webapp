@@ -40,7 +40,7 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                             </Button>
                         </div>
                     </div>
-                    <p className="scrollable-content text-base text-muted-foreground overflow-y-auto max-h-[250px] md:max-h-[130px] lg:max-h-[200px] w-full pr-3">
+                    <p className="mask-linear-[to_bottom,transparent_0%,black_10%,black_90%,transparent_100%] pt-2 text-base text-muted-foreground overflow-y-auto max-h-[250px] md:max-h-[130px] lg:max-h-[200px] w-full pr-3">
                         {item.description ?? "Keine Beschreibung verfügbar"}
                     </p>
 

@@ -102,7 +102,7 @@ export function ItemHistory({ history }: ItemHistoryProps) {
                 {filterButtons}
             </div>
 
-            <div className="flex-1 min-h-0 overflow-y-auto w-full px-1">
+            <div className="flex-1 min-h-0 overflow-y-auto w-full px-1 mask-linear-[to_bottom,transparent,black_5%,black_95%,transparent] pt-4">
                 <Timeline>
                     {filteredEvents
                         .slice()
