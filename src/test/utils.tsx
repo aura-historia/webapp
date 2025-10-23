@@ -18,7 +18,7 @@ const rootRoute = createRootRouteWithContext()({
 const indexRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: "/",
-    component: () => <div>{"Index"}</div>,
+    component: () => <>{injectedChildren}</>,
 });
 
 let injectedChildren: ReactNode = null;
@@ -29,7 +29,13 @@ const testRoute = createRoute({
     component: () => <>{injectedChildren}</>,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, testRoute]);
+const searchRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/search",
+    component: () => <>{injectedChildren}</>,
+});
+
+const routeTree = rootRoute.addChildren([indexRoute, testRoute, searchRoute]);
 
 interface TestRouterWrapperProps {
     readonly children: ReactNode;
