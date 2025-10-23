@@ -1,17 +1,15 @@
 import { TanstackDevtools } from "@tanstack/react-devtools";
 import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
-
 import appCss from "../styles.css?url";
 
 import { Footer } from "@/components/common/Footer.tsx";
 import { Header } from "@/components/common/Header.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
-import "../amplify-config.ts";
 import { Toaster } from "sonner";
+import "../amplify-config.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -28,7 +26,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 content: "width=device-width, initial-scale=1",
             },
             {
-                title: "Blitzfilter",
+                title: "Aura Historia (Preview)",
             },
         ],
         links: [
@@ -55,7 +53,6 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                     <Footer />
                 </div>
                 <Toaster position="top-center" richColors />
-
                 <TanstackDevtools
                     config={{
                         position: "bottom-left",

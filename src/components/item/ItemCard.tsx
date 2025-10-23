@@ -9,8 +9,8 @@ import { H3 } from "../typography/H3";
 
 export function ItemCard({ item }: { readonly item: OverviewItem }) {
     return (
-        <Card className={"flex flex-col sm:flex-row p-8 gap-4 shadow-md min-w-0"}>
-            <div className={"flex-shrink-0 flex sm:justify-start justify-center"}>
+        <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
+            <div className={"flex-shrink-0 flex lg:justify-start justify-center"}>
                 {item.images.length > 0 ? (
                     <img
                         className={"size-48 object-cover rounded-lg"}
@@ -46,14 +46,14 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
 
                 <div
                     className={
-                        "flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-end w-full mt-4 sm:mt-0"
+                        "flex flex-col lg:flex-row gap-4 lg:gap-0 justify-between lg:items-end w-full mt-4 lg:mt-0"
                     }
                 >
                     <PriceText className="min-w-0 overflow-hidden text-ellipsis">
                         {item.price ?? "Preis unbekannt"}
                     </PriceText>
 
-                    <div className={"flex flex-col gap-2 sm:items-end flex-shrink-0 sm:ml-2"}>
+                    <div className={"flex flex-col gap-2 lg:items-end flex-shrink-0 lg:ml-2"}>
                         <Button variant={"default"}>
                             <Eye />
                             <span>Details</span>

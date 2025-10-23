@@ -1,41 +1,109 @@
-import { SearchResults } from "@/components/search/SearchResults.tsx";
+import { SearchFilters } from "@/components/search/SearchFilters.tsx";
+import { SimpleSearchResults } from "@/components/search/SimpleSearchResults.tsx";
 import { H1 } from "@/components/typography/H1";
-import { createFileRoute } from "@tanstack/react-router";
-
-type SearchParams = {
-    readonly q: string;
-};
+import { createFileRoute, type SearchSchemaInput } from "@tanstack/react-router";
+import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
+import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
+import { FilteredSearchResults } from "@/components/search/FilteredSearchResults.tsx";
+import { isSimpleSearch } from "@/lib/utils.ts";
 
 export const Route = createFileRoute("/search")({
-    validateSearch: (search: Record<string, unknown>): SearchParams => {
+    validateSearch: (
+        search: {
+            q: string;
+            priceFrom?: number;
+            priceTo?: number;
+            allowedStates?: ItemState[];
+            creationDateFrom?: string;
+            creationDateTo?: string;
+            updateDateFrom?: string;
+            updateDateTo?: string;
+            merchant?: string;
+        } & SearchSchemaInput,
+    ): SearchFilterArguments => {
+        const priceFrom = Number(search.priceFrom);
+        const priceTo = Number(search.priceTo);
+
+        const validPriceFrom = Number.isNaN(priceFrom) ? undefined : priceFrom;
+        const validPriceTo = Number.isNaN(priceTo) ? undefined : priceTo;
+
+        let fromCreationDate: Date | undefined;
+        let toCreationDate: Date | undefined;
+
+        let fromUpdateDate: Date | undefined;
+        let toUpdateDate: Date | undefined;
+
+        if (search.creationDateFrom) {
+            const parsed = new Date(search.creationDateFrom);
+            fromCreationDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
+        }
+
+        if (search.creationDateTo) {
+            const parsed = new Date(search.creationDateTo);
+            toCreationDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
+        }
+
+        if (search.updateDateFrom) {
+            const parsed = new Date(search.updateDateFrom);
+            fromUpdateDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
+        }
+
+        if (search.updateDateTo) {
+            const parsed = new Date(search.updateDateTo);
+            toUpdateDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
+        }
+
         return {
             q: (search.q as string) || "",
+            priceFrom: validPriceFrom,
+            priceTo: validPriceTo,
+            allowedStates: Array.isArray(search.allowedStates)
+                ? search.allowedStates
+                      .map((state) => parseItemState(state))
+                      .filter((s) => s)
+                      .filter((elem, index, self) => index === self.indexOf(elem))
+                : undefined,
+            creationDateFrom: fromCreationDate,
+            creationDateTo: toCreationDate,
+            updateDateFrom: fromUpdateDate,
+            updateDateTo: toUpdateDate,
+            merchant: (search.merchant?.trim() as string) || undefined,
         };
     },
     component: RouteComponent,
 });
 
 function RouteComponent() {
-    const { q } = Route.useSearch();
+    const searchArgs = Route.useSearch();
 
     return (
-        <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8 ml-8 mr-8 sm:ml-auto sm:mr-auto">
+        <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto">
             <div className={"flex flex-row items-end gap-8"}>
-                <div className={"flex-col hidden sm:block sm:w-[30%] min-w-0"}>
+                <div className={"flex-col hidden lg:block lg:w-[30%] min-w-0"}>
                     <H1>Filter</H1>
                 </div>
-                <div className={"flex-col sm:w-[70%] min-w-0"}>
+                <div className={"flex-col lg:w-[70%] min-w-0"}>
                     <H1>Suchergebnisse für:</H1>
-                    <H1 className={"text-ellipsis overflow-hidden line-clamp-1"}>"{q}"</H1>
+                    <H1 className={"text-ellipsis overflow-hidden line-clamp-1"}>
+                        "{searchArgs.q}"
+                    </H1>
                 </div>
             </div>
 
-            <div className={"flex flex-row items-start gap-8"}>
-                <div className={"flex-col hidden sm:block sm:w-[30%] min-w-0"}>
-                    4 Filter options go here
+            <div className={"flex flex-col lg:flex-row items-start gap-8"}>
+                <div
+                    className={
+                        "flex-col w-full lg:w-[30%] min-w-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300"
+                    }
+                >
+                    <SearchFilters searchFilters={searchArgs} />
                 </div>
-                <div className={"flex-col sm:w-[70%] min-w-0"}>
-                    <SearchResults query={q} />
+                <div className={"flex-col lg:w-[70%] min-w-0"}>
+                    {isSimpleSearch(searchArgs) ? (
+                        <SimpleSearchResults query={searchArgs.q} />
+                    ) : (
+                        <FilteredSearchResults searchFilters={searchArgs} />
+                    )}
                 </div>
             </div>
         </div>

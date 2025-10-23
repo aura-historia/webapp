@@ -81,4 +81,26 @@ describe("createListOverviewItem", () => {
 
         expect(result.images).toEqual([]);
     });
+
+    it("should return an empty list for missing image fields", () => {
+        const apiData: GetItemData = {
+            itemId: "item-123",
+            eventId: "event-456",
+            shopId: "shop-789",
+            shopsItemId: "shop-item-101",
+            shopName: "Antique Shop",
+            title: { text: "Vintage Vase", language: "de" },
+            description: { text: "Beautiful vintage vase", language: "de" },
+            price: { amount: 1099, currency: "USD" },
+            state: "AVAILABLE",
+            url: "https://example.com/item",
+            images: undefined,
+            created: "2023-01-01T00:00:00Z",
+            updated: "2023-01-02T00:00:00Z",
+        };
+
+        const result = mapToInternalOverviewItem(apiData);
+
+        expect(result.images).toEqual([]);
+    });
 });

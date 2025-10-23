@@ -1,35 +1,44 @@
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 import { render, screen } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
-import { SearchResults } from "../SearchResults";
+import { SimpleSearchResults } from "../SimpleSearchResults.tsx";
+import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 
 vi.mock("@/hooks/useSimpleSearch.ts", () => ({
     useSimpleSearch: vi.fn(),
 }));
+
+vi.mock("react-intersection-observer", () => ({
+    useInView: () => ({ ref: vi.fn(), inView: false }),
+}));
+
 import { useSimpleSearch } from "@/hooks/useSimpleSearch.ts";
 
 const mockUseSimpleSearch = vi.mocked(useSimpleSearch);
 
-const buildQueryPayload = (items: OverviewItem[]) => ({
-    data: { items },
-    error: undefined,
-    request: new Request("http://localhost/mock"),
-    response: new Response("{}", { status: 200 }),
+const buildQueryPayload = (items: OverviewItem[]): SearchResultData => ({
+    items,
+    size: items.length,
+    total: items.length,
+    searchAfter: undefined,
 });
 
 type SearchMockOptions = {
     items?: OverviewItem[];
-    isLoading?: boolean;
+    isPending?: boolean;
     error?: Error | null;
 };
 
-function setSearchMock({ items = [], isLoading = false, error = null }: SearchMockOptions = {}) {
-    const data = isLoading ? undefined : buildQueryPayload(items);
+function setSearchMock({ items = [], isPending = false, error = null }: SearchMockOptions = {}) {
+    const pages = isPending ? undefined : [buildQueryPayload(items)];
     mockUseSimpleSearch.mockReturnValue({
-        data,
-        isLoading,
+        data: pages ? { pages, pageParams: [undefined] } : undefined,
+        isPending,
         error,
-    } as ReturnType<typeof useSimpleSearch>);
+        fetchNextPage: vi.fn(),
+        hasNextPage: false,
+        isFetchingNextPage: false,
+    } as unknown as ReturnType<typeof useSimpleSearch>);
 }
 
 describe("SearchResults", () => {
@@ -39,21 +48,21 @@ describe("SearchResults", () => {
     });
 
     it("renders a message when query length is less than 3 characters", () => {
-        render(<SearchResults query="ab" />);
+        render(<SimpleSearchResults query="ab" />);
         expect(
             screen.getByText("Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten."),
         ).toBeInTheDocument();
     });
 
     it("renders skeleton loaders while data is loading", () => {
-        setSearchMock({ isLoading: true });
-        render(<SearchResults query="test" />);
+        setSearchMock({ isPending: true });
+        render(<SimpleSearchResults query="test" />);
         expect(screen.getAllByTestId("item-card-skeleton")).toHaveLength(4);
     });
 
     it("renders an error message when there is an error", () => {
         setSearchMock({ error: new Error("API Error") });
-        render(<SearchResults query="test" />);
+        render(<SimpleSearchResults query="test" />);
         expect(
             screen.getByText(
                 "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
@@ -63,7 +72,7 @@ describe("SearchResults", () => {
 
     it("renders a message when no items are found", () => {
         setSearchMock({ items: [] });
-        render(<SearchResults query="test" />);
+        render(<SimpleSearchResults query="test" />);
         expect(screen.getByText("Keine Artikel gefunden!")).toBeInTheDocument();
     });
 
@@ -88,7 +97,7 @@ describe("SearchResults", () => {
                 { ...base, itemId: "2", title: "Item 2" },
             ],
         });
-        render(<SearchResults query="test" />);
+        render(<SimpleSearchResults query="test" />);
         expect(screen.getByText("Item 1")).toBeInTheDocument();
         expect(screen.getByText("Item 2")).toBeInTheDocument();
     });
