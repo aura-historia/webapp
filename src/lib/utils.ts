@@ -96,13 +96,6 @@ export function formatTimeWithSeconds(date: Date, locale?: string): string {
     }).format(date);
 }
 
-export function formatCurrency(value: number): string {
-    return new Intl.NumberFormat("de-DE", {
-        style: "currency",
-        currency: "EUR",
-    }).format(value);
-}
-
 export function formatCompactCurrency(value: number): string {
     const formatted = new Intl.NumberFormat("en-US", {
         notation: "compact",

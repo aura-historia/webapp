@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button.tsx";
 
 import {
     formatCompactCurrency,
-    formatCurrency,
     formatDate,
     formatTimeWithSeconds,
     getPriceAmount,
@@ -231,7 +230,7 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
         },
         yaxis: {
             labels: {
-                formatter: (val: number) => formatCurrency(val),
+                formatter: (val: number) => formatCompactCurrency(val),
                 style: {
                     fontSize: "15px",
                     fontWeight: 500,
