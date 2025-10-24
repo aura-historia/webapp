@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import type { GetItemData } from "@/client";
-import { mapToDetailItem } from "../ItemDetails";
+import {
+    mapToDetailItem,
+    type ItemStateChangedPayload,
+    type ItemPriceChangedPayload,
+    type ItemCreatedPayload,
+} from "../ItemDetails";
 
 describe("mapToDetailItem", () => {
     it("should map item without history", () => {
@@ -59,11 +64,14 @@ describe("mapToDetailItem", () => {
         const result = mapToDetailItem(apiData);
 
         expect(result.history).toHaveLength(1);
-        expect(result.history![0].eventType).toBe("STATE_AVAILABLE");
-        const payload = result.history![0].payload as any;
+
+        const firstEvent = result.history?.[0];
+        expect(firstEvent?.eventType).toBe("STATE_AVAILABLE");
+
+        const payload = firstEvent?.payload as ItemStateChangedPayload;
         expect(payload.oldState).toBe("LISTED");
         expect(payload.newState).toBe("AVAILABLE");
-        expect(result.history![0].timestamp).toEqual(new Date("2023-01-01T10:00:00Z"));
+        expect(firstEvent?.timestamp).toEqual(new Date("2023-01-01T10:00:00Z"));
     });
 
     it("should map price event correctly", () => {
@@ -99,9 +107,12 @@ describe("mapToDetailItem", () => {
         const result = mapToDetailItem(apiData);
 
         expect(result.history).toHaveLength(1);
-        expect(result.history![0].eventType).toBe("PRICE_DROPPED");
-        expect(typeof result.history![0].payload).toBe("object");
-        const payload = result.history![0].payload as any;
+
+        const firstEvent = result.history?.[0];
+        expect(firstEvent?.eventType).toBe("PRICE_DROPPED");
+        expect(typeof firstEvent?.payload).toBe("object");
+
+        const payload = firstEvent?.payload as ItemPriceChangedPayload;
         expect(payload.oldPrice.amount).toBe(1000);
         expect(payload.newPrice.amount).toBe(900);
         expect(payload.newPrice.currency).toBe("EUR");
@@ -140,11 +151,14 @@ describe("mapToDetailItem", () => {
         const result = mapToDetailItem(apiData);
 
         expect(result.history).toHaveLength(1);
-        expect(result.history![0].eventType).toBe("CREATED");
-        const payload = result.history![0].payload as any;
+
+        const firstEvent = result.history?.[0];
+        expect(firstEvent?.eventType).toBe("CREATED");
+
+        const payload = firstEvent?.payload as ItemCreatedPayload;
         expect(payload.state).toBe("LISTED");
-        expect(payload.price.amount).toBe(1000);
-        expect(payload.price.currency).toBe("EUR");
+        expect(payload.price?.amount).toBe(1000);
+        expect(payload.price?.currency).toBe("EUR");
     });
 
     it("should map created event without price", () => {
@@ -178,7 +192,9 @@ describe("mapToDetailItem", () => {
         const result = mapToDetailItem(apiData);
 
         expect(result.history).toHaveLength(1);
-        const payload = result.history![0].payload as any;
+
+        const firstEvent = result.history?.[0];
+        const payload = firstEvent?.payload as ItemCreatedPayload;
         expect(payload.state).toBe("LISTED");
         expect(payload.price).toBeUndefined();
     });
@@ -249,9 +265,9 @@ describe("mapToDetailItem", () => {
         const result = mapToDetailItem(apiData);
 
         expect(result.history).toHaveLength(4);
-        expect(result.history![0].eventType).toBe("CREATED");
-        expect(result.history![1].eventType).toBe("STATE_AVAILABLE");
-        expect(result.history![2].eventType).toBe("PRICE_DROPPED");
-        expect(result.history![3].eventType).toBe("STATE_SOLD");
+        expect(result.history?.[0]?.eventType).toBe("CREATED");
+        expect(result.history?.[1]?.eventType).toBe("STATE_AVAILABLE");
+        expect(result.history?.[2]?.eventType).toBe("PRICE_DROPPED");
+        expect(result.history?.[3]?.eventType).toBe("STATE_SOLD");
     });
 });

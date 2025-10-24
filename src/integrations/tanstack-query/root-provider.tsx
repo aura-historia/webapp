@@ -1,3 +1,4 @@
+import { Authenticator } from "@aws-amplify/ui-react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type React from "react";
 
@@ -15,5 +16,9 @@ export function Provider({
     readonly children: React.ReactNode;
     readonly queryClient: QueryClient;
 }) {
-    return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+    return (
+        <Authenticator.Provider>
+            <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        </Authenticator.Provider>
+    );
 }

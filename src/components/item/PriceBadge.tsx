@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { TrendingDown, TrendingUp, Tag, XCircle } from "lucide-react";
+import { TrendingDown, TrendingUp, Tag, XCircle, type LucideIcon } from "lucide-react";
 import type { PriceEventType } from "@/types/events";
 
 interface PriceBadgeProps {
@@ -8,7 +8,10 @@ interface PriceBadgeProps {
     readonly className?: string;
 }
 
-const priceEventConfig: Record<PriceEventType, { label: string; icon: any; className: string }> = {
+const priceEventConfig: Record<
+    PriceEventType,
+    { label: string; icon: LucideIcon; className: string }
+> = {
     PRICE_DISCOVERED: {
         label: "Preis entdeckt",
         icon: Tag,

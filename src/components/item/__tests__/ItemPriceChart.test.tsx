@@ -6,8 +6,18 @@ import userEvent from "@testing-library/user-event";
 
 const mockZoomX = vi.fn();
 
+type MockApexChartsProps = {
+    options?: {
+        chart?: {
+            events?: {
+                mounted?: (context: { zoomX: (min: number, max: number) => void }) => void;
+            };
+        };
+    };
+    series?: unknown[];
+};
 vi.mock("react-apexcharts", () => ({
-    default: ({ options, series }: any) => {
+    default: ({ options, series }: MockApexChartsProps) => {
         if (options?.chart?.events?.mounted) {
             options.chart.events.mounted({ zoomX: mockZoomX });
         }
