@@ -15,6 +15,7 @@ import { Route as ImprintRouteImport } from './routes/imprint'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ItemShopIdShopsItemIdRouteImport } from './routes/item.$shopId.$shopsItemId'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -46,6 +47,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ItemShopIdShopsItemIdRoute = ItemShopIdShopsItemIdRouteImport.update({
+  id: '/item/$shopId/$shopsItemId',
+  path: '/item/$shopId/$shopsItemId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/imprint': typeof ImprintRoute
   '/search': typeof SearchRoute
   '/terms': typeof TermsRoute
+  '/item/$shopId/$shopsItemId': typeof ItemShopIdShopsItemIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/imprint': typeof ImprintRoute
   '/search': typeof SearchRoute
   '/terms': typeof TermsRoute
+  '/item/$shopId/$shopsItemId': typeof ItemShopIdShopsItemIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,10 +79,16 @@ export interface FileRoutesById {
   '/imprint': typeof ImprintRoute
   '/search': typeof SearchRoute
   '/terms': typeof TermsRoute
+  '/item/$shopId/$shopsItemId': typeof ItemShopIdShopsItemIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/account' | '/auth' | '/imprint' | '/search' | '/terms'
+  fullPaths:
+    | '/'
+    | '/account' | '/auth' | '/imprint'
+    | '/search'
+    | '/terms'
+    | '/item/$shopId/$shopsItemId'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/account' | '/auth' | '/imprint' | '/search' | '/terms'
   id:
@@ -94,6 +108,7 @@ export interface RootRouteChildren {
   ImprintRoute: typeof ImprintRoute
   SearchRoute: typeof SearchRoute
   TermsRoute: typeof TermsRoute
+  ItemShopIdShopsItemIdRoute: typeof ItemShopIdShopsItemIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -140,6 +155,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/item/$shopId/$shopsItemId': {
+      id: '/item/$shopId/$shopsItemId'
+      path: '/item/$shopId/$shopsItemId'
+      fullPath: '/item/$shopId/$shopsItemId'
+      preLoaderRoute: typeof ItemShopIdShopsItemIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -150,6 +172,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImprintRoute: ImprintRoute,
   SearchRoute: SearchRoute,
   TermsRoute: TermsRoute,
+  ItemShopIdShopsItemIdRoute: ItemShopIdShopsItemIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

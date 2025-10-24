@@ -2,10 +2,10 @@ import { SearchFilters } from "@/components/search/SearchFilters.tsx";
 import { SimpleSearchResults } from "@/components/search/SimpleSearchResults.tsx";
 import { H1 } from "@/components/typography/H1";
 import { createFileRoute, type SearchSchemaInput } from "@tanstack/react-router";
-import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import { FilteredSearchResults } from "@/components/search/FilteredSearchResults.tsx";
 import { isSimpleSearch } from "@/lib/utils.ts";
+import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (

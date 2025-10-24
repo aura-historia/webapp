@@ -23,7 +23,7 @@ export function Header() {
     const { data: userAttributes, isLoading } = useUserAttributes();
 
     return (
-        <header className="flex items-center backdrop-blur-sm justify-between sticky top-0 px-8 py-4 border-b h-20 z-10">
+        <header className="flex items-center backdrop-blur-sm z-50 justify-between sticky top-0 px-8 py-4 border-b h-20 z-10">
             <Link to="/" className="hidden sm:inline text-2xl font-bold">
                 Blitzfilter
             </Link>
