@@ -1,7 +1,13 @@
 import type { OverviewItem } from "@/data/internal/OverviewItem";
 import { screen } from "@testing-library/react";
 import { ItemCard } from "../ItemCard";
+import { vi } from "vitest";
+import type React from "react";
 import { renderWithTranslations } from "@/test/utils.tsx";
+
+vi.mock("@tanstack/react-router", () => ({
+    Link: ({ children, ...props }: { children: React.ReactNode }) => <a {...props}>{children}</a>,
+}));
 
 describe("ItemCard", () => {
     const mockItem: OverviewItem = {

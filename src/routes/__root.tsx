@@ -1,12 +1,14 @@
+import { TanStackDevtools } from "@tanstack/react-devtools";
 import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
-import { TanStackDevtools } from "@tanstack/react-devtools";
 import appCss from "../styles.css?url";
 import { Footer } from "@/components/common/Footer.tsx";
-import Header from "@/components/common/Header.tsx";
+import { Header } from "@/components/common/Header.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
+import { Toaster } from "sonner";
+import "../amplify-config.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -51,6 +53,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                     <main className="flex-1">{children}</main>
                     <Footer />
                 </div>
+                <Toaster position="top-center" richColors />
                 <TanStackDevtools
                     config={{
                         position: "bottom-left",
