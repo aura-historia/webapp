@@ -8,6 +8,10 @@ vi.mock("@/hooks/useSimpleSearch.ts", () => ({
     useSimpleSearch: vi.fn(),
 }));
 
+vi.mock("@tanstack/react-router", () => ({
+    Link: ({ children, ...props }: { children: React.ReactNode }) => <a {...props}>{children}</a>,
+}));
+
 vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: vi.fn(), inView: false }),
 }));

@@ -94,7 +94,7 @@ describe("createListOverviewItem", () => {
             price: { amount: 1099, currency: "USD" },
             state: "AVAILABLE",
             url: "https://example.com/item",
-            images: undefined,
+            images: [],
             created: "2023-01-01T00:00:00Z",
             updated: "2023-01-02T00:00:00Z",
         };
