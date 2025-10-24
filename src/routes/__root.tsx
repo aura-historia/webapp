@@ -1,4 +1,4 @@
-import { TanstackDevtools } from "@tanstack/react-devtools";
+import { TanStackDevtools } from "@tanstack/react-devtools";
 import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
@@ -53,7 +53,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                     <Footer />
                 </div>
                 <Toaster position="top-center" richColors />
-                <TanstackDevtools
+                <TanStackDevtools
                     config={{
                         position: "bottom-left",
                     }}
