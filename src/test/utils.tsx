@@ -8,8 +8,6 @@ import {
 } from "@tanstack/react-router";
 import { render } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { I18nextProvider } from "react-i18next";
-import i18n from "@/i18n/i18nForTests.ts";
 
 const rootRoute = createRootRouteWithContext()({
     component: () => <Outlet />, // entry point to render children
@@ -55,9 +53,5 @@ export function renderWithRouter(
     ui: React.ReactElement,
     options: Omit<TestRouterWrapperProps, "children"> = {},
 ) {
-    return renderWithTranslations(<TestRouterWrapper {...options}>{ui}</TestRouterWrapper>);
-}
-
-export function renderWithTranslations(ui: React.ReactElement) {
-    return render(<I18nextProvider i18n={i18n}>{ui}</I18nextProvider>);
+    return render(<TestRouterWrapper {...options}>{ui}</TestRouterWrapper>);
 }

@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom";
+import "@/i18n/i18nForTests";
 
 // Mock ResizeObserver which is not available in JSDOM
 class ResizeObserverMock {

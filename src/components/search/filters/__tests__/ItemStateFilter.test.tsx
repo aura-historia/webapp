@@ -1,10 +1,9 @@
 import { ItemStateFilter } from "@/components/search/filters/ItemStateFilter";
 import { FormProvider, useForm } from "react-hook-form";
-import { screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import type React from "react";
-import { renderWithTranslations } from "@/test/utils.tsx";
 
 // Wrapper component to provide form context for tests
 const FormWrapper = ({
@@ -25,7 +24,7 @@ const FormWrapper = ({
 
 describe("ItemStateFilter", () => {
     it("renders all item state options with checkboxes", () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <ItemStateFilter />
             </FormWrapper>,
@@ -50,7 +49,7 @@ describe("ItemStateFilter", () => {
     });
 
     it("unchecks a status when the checkbox is clicked", async () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <ItemStateFilter />
             </FormWrapper>,
@@ -72,7 +71,7 @@ describe("ItemStateFilter", () => {
     });
 
     it("checks a status when the checkbox is clicked again", async () => {
-        renderWithTranslations(
+        render(
             <FormWrapper
                 defaultValues={{
                     itemState: ["AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"],
@@ -96,7 +95,7 @@ describe("ItemStateFilter", () => {
     });
 
     it("applies different opacity to selected vs unselected status badges", () => {
-        renderWithTranslations(
+        render(
             <FormWrapper defaultValues={{ itemState: ["LISTED"] }}>
                 <ItemStateFilter />
             </FormWrapper>,
@@ -118,7 +117,7 @@ describe("ItemStateFilter", () => {
     });
 
     it("handles multiple selections and deselections correctly", async () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <ItemStateFilter />
             </FormWrapper>,
@@ -148,7 +147,7 @@ describe("ItemStateFilter", () => {
     });
 
     it("works correctly with initially empty selection", () => {
-        renderWithTranslations(
+        render(
             <FormWrapper defaultValues={{ itemState: [] }}>
                 <ItemStateFilter />
             </FormWrapper>,

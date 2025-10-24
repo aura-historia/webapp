@@ -1,10 +1,9 @@
 import { PriceSpanFilter } from "@/components/search/filters/PriceSpanFilter";
 import { FormProvider, useForm } from "react-hook-form";
-import { screen, act } from "@testing-library/react";
+import { screen, act, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import type React from "react";
-import { renderWithTranslations } from "@/test/utils.tsx";
 
 // Wrapper component to provide form context for tests
 const FormWrapper = ({
@@ -25,7 +24,7 @@ const FormWrapper = ({
 
 describe("PriceSpanFilter", () => {
     it("renders with default price range values", () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <PriceSpanFilter />
             </FormWrapper>,
@@ -41,7 +40,7 @@ describe("PriceSpanFilter", () => {
     });
 
     it("displays default values when provided", () => {
-        renderWithTranslations(
+        render(
             <FormWrapper defaultValues={{ priceSpan: { min: 2000, max: 5000 } }}>
                 <PriceSpanFilter />
             </FormWrapper>,
@@ -58,7 +57,7 @@ describe("PriceSpanFilter", () => {
     it("updates form values when input fields are changed", async () => {
         const user = userEvent.setup();
 
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <PriceSpanFilter />
             </FormWrapper>,
@@ -77,7 +76,7 @@ describe("PriceSpanFilter", () => {
         const user = userEvent.setup();
 
         // Start with max already set
-        renderWithTranslations(
+        render(
             <FormWrapper defaultValues={{ priceSpan: { max: 4000 } }}>
                 <PriceSpanFilter />
             </FormWrapper>,
@@ -104,7 +103,7 @@ describe("PriceSpanFilter", () => {
     });
 
     it("initializes with provided default values", () => {
-        renderWithTranslations(
+        render(
             <FormWrapper defaultValues={{ priceSpan: { min: 1500, max: 7500 } }}>
                 <PriceSpanFilter />
             </FormWrapper>,

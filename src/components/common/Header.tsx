@@ -41,13 +41,13 @@ export function Header() {
                             />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Mein Account</DropdownMenuLabel>
+                            <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
-                                <Link to="/account">Account bearbeiten</Link>
+                                <Link to="/account">{t("header.editAccount")}</Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => signOut()}>
-                                Ausloggen
+                                {t("header.logout")}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

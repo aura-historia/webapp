@@ -1,9 +1,8 @@
 import type { OverviewItem } from "@/data/internal/OverviewItem";
-import { screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { ItemCard } from "../ItemCard";
 import { vi } from "vitest";
 import type React from "react";
-import { renderWithTranslations } from "@/test/utils.tsx";
 
 vi.mock("@tanstack/react-router", async (importOriginal) => {
     const actual = await importOriginal<typeof import("@tanstack/react-router")>();
@@ -32,7 +31,7 @@ describe("ItemCard", () => {
     };
 
     it("should render the item title, shop name, and price correctly", () => {
-        renderWithTranslations(<ItemCard item={mockItem} />);
+        render(<ItemCard item={mockItem} />);
         expect(screen.getByText("Sample Item")).toBeInTheDocument();
         expect(screen.getByText("Sample Shop")).toBeInTheDocument();
         expect(screen.getByText("100€")).toBeInTheDocument();
@@ -40,23 +39,23 @@ describe("ItemCard", () => {
 
     it("should render a placeholder image when no images are provided", () => {
         const itemWithoutImages = { ...mockItem, images: [] };
-        renderWithTranslations(<ItemCard item={itemWithoutImages} key="2" />);
+        render(<ItemCard item={itemWithoutImages} key="2" />);
         expect(screen.getByTestId("placeholder-image")).toBeInTheDocument();
     });
 
     it("should render 'Preis unbekannt' when the price is not provided", () => {
         const itemWithoutPrice = { ...mockItem, price: undefined };
-        renderWithTranslations(<ItemCard item={itemWithoutPrice} />);
+        render(<ItemCard item={itemWithoutPrice} />);
         expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
     });
 
     it("should render the status badge with the correct status", () => {
-        renderWithTranslations(<ItemCard item={mockItem} />);
+        render(<ItemCard item={mockItem} />);
         expect(screen.getByText("Verfügbar")).toBeInTheDocument();
     });
 
     it("should render the buttons for details and external link", () => {
-        renderWithTranslations(<ItemCard item={mockItem} />);
+        render(<ItemCard item={mockItem} />);
         expect(screen.getByText("Details")).toBeInTheDocument();
         expect(screen.getByText("Zur Seite des Händlers")).toBeInTheDocument();
     });

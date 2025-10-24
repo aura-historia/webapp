@@ -6,24 +6,27 @@ import { Timeline } from "@/components/ui/timeline.tsx";
 import { useState } from "react";
 import { isPriceEvent, isStateEvent } from "@/lib/eventFilters.ts";
 import { ItemEventHistory } from "@/components/item/ItemEventHistory.tsx";
+import { useTranslation } from "react-i18next";
 
 type FilterType = "all" | "price" | "state";
-
-/**
- * Filter options for the event history timeline.
- * Allows users to filter events by type: all events, price changes only, or state changes only.
- */
-const FILTER_OPTIONS = [
-    { label: "Alle", value: "all" },
-    { label: "Preis", value: "price" },
-    { label: "Verfügbarkeit", value: "state" },
-] as const;
 
 interface ItemHistoryProps {
     readonly history?: readonly ItemEvent[];
 }
 
 export function ItemHistory({ history }: ItemHistoryProps) {
+    const { t } = useTranslation();
+
+    /**
+     * Filter options for the event history timeline.
+     * Allows users to filter events by type: all events, price changes only, or state changes only.
+     */
+    const FILTER_OPTIONS = [
+        { label: t("item.history.filters.all"), value: "all" as const },
+        { label: t("item.history.filters.price"), value: "price" as const },
+        { label: t("item.history.filters.availability"), value: "state" as const },
+    ];
+
     /**
      * Currently active filter state.
      * Controls which event types are displayed in the timeline.
@@ -54,10 +57,8 @@ export function ItemHistory({ history }: ItemHistoryProps) {
     if (!history || history.length === 0) {
         return (
             <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
-                <H2>Historie</H2>
-                <p className="text-sm text-muted-foreground">
-                    Keine Daten für diesen Artikel vorhanden.
-                </p>
+                <H2>{t("item.history.title")}</H2>
+                <p className="text-sm text-muted-foreground">{t("item.history.noData")}</p>
             </Card>
         );
     }
@@ -85,12 +86,10 @@ export function ItemHistory({ history }: ItemHistoryProps) {
         return (
             <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <H2>Historie</H2>
+                    <H2>{t("item.history.title")}</H2>
                     {filterButtons}
                 </div>
-                <p className="text-sm text-muted-foreground">
-                    Keine Events für diesen Filter verfügbar.
-                </p>
+                <p className="text-sm text-muted-foreground">{t("item.history.noEvents")}</p>
             </Card>
         );
     }
@@ -98,7 +97,7 @@ export function ItemHistory({ history }: ItemHistoryProps) {
     return (
         <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0 h-full max-h-[500px] md:max-h-none items-start">
             <div className="flex flex-col gap-4 w-full flex-shrink-0">
-                <H2>Historie</H2>
+                <H2>{t("item.history.title")}</H2>
                 {filterButtons}
             </div>
 

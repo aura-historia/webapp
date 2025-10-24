@@ -5,8 +5,10 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 export function AccountPage() {
+    const { t } = useTranslation();
     const { user } = useAuthenticator();
     const navigate = useNavigate();
 
@@ -20,35 +22,35 @@ export function AccountPage() {
 
     return (
         <div className="flex flex-col items-center max-w-3xl mx-auto px-4 py-8 w-full">
-            <H1>Mein Account</H1>
+            <H1>{t("account.title")}</H1>
 
             {/* Change password */}
             <section className="bg-card text-card-foreground w-full max-w-lg mx-auto p-6 mt-6 rounded-xl border shadow-sm">
-                <H2 className="mb-6">Passwort ändern</H2>
+                <H2 className="mb-6">{t("account.changePassword.title")}</H2>
                 <AccountSettings.ChangePassword
-                    onSuccess={() => toast.success("Passwort erfolgreich geändert!")}
-                    onError={() => toast.error("Fehler beim Ändern des Passworts.")}
+                    onSuccess={() => toast.success(t("account.changePassword.successMessage"))}
+                    onError={() => toast.error(t("account.changePassword.errorMessage"))}
                     displayText={{
-                        currentPasswordFieldLabel: "Aktuelles Passwort",
-                        newPasswordFieldLabel: "Neues Passwort",
-                        confirmPasswordFieldLabel: "Neues Passwort bestätigen",
-                        updatePasswordButtonText: "Passwort speichern",
+                        currentPasswordFieldLabel: t("account.changePassword.currentPasswordLabel"),
+                        newPasswordFieldLabel: t("account.changePassword.newPasswordLabel"),
+                        confirmPasswordFieldLabel: t("account.changePassword.confirmPasswordLabel"),
+                        updatePasswordButtonText: t("account.changePassword.saveButton"),
                     }}
                 />
             </section>
 
             {/* Delete account */}
             <section className="bg-card text-card-foreground w-full max-w-lg mx-auto p-6 mt-6 rounded-xl border shadow-sm">
-                <H2 className="mb-6">Account löschen</H2>
+                <H2 className="mb-6">{t("account.deleteAccount.title")}</H2>
                 <AccountSettings.DeleteUser
                     displayText={{
-                        deleteAccountButtonText: "Account löschen",
-                        warningText: "Sind Sie sicher, dass Sie Ihren Account löschen möchten?",
-                        cancelButtonText: "Abbrechen",
-                        confirmDeleteButtonText: "Ja, Account löschen",
+                        deleteAccountButtonText: t("account.deleteAccount.deleteButton"),
+                        warningText: t("account.deleteAccount.warningText"),
+                        cancelButtonText: t("account.deleteAccount.cancelButton"),
+                        confirmDeleteButtonText: t("account.deleteAccount.confirmButton"),
                     }}
-                    onSuccess={() => toast.success("Account wurde erfolgreich gelöscht!")}
-                    onError={() => toast.error("Fehler beim Löschen des Accounts.")}
+                    onSuccess={() => toast.success(t("account.deleteAccount.successMessage"))}
+                    onError={() => toast.error(t("account.deleteAccount.errorMessage"))}
                 />
             </section>
         </div>
