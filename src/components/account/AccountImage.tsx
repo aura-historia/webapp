@@ -1,9 +1,9 @@
 import { User } from "lucide-react";
 
 interface ProfileImageProps {
-    firstName: string;
-    lastName: string;
-    isLoading?: boolean;
+    readonly firstName: string;
+    readonly lastName: string;
+    readonly isLoading?: boolean;
 }
 
 /**

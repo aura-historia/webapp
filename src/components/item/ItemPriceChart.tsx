@@ -68,10 +68,10 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
     }));
 
     if (priceData.length > 0) {
-        const lastPrice = priceData[priceData.length - 1];
+        const lastPrice = priceData.at(priceData.length - 1);
         priceData.push({
             x: Date.now(),
-            y: lastPrice.y,
+            y: lastPrice?.y ?? 0,
         });
     }
 

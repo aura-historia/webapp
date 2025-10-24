@@ -1,7 +1,6 @@
 import { H1 } from "@/components/typography/H1.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
-import { AccountSettings } from "@aws-amplify/ui-react";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { AccountSettings, useAuthenticator } from "@aws-amplify/ui-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { toast } from "sonner";
