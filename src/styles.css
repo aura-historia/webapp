@@ -192,8 +192,6 @@ code {
     --amplify-components-authenticator-router-box-shadow: var(--shadow-sm);
 
     /* Forgot password link */
-    --amplify-components-button-link-color: var(--foreground);
-    --amplify-components-button-link-hover-color: var(--color-neutral-600);
     --amplify-components-button-link-focus-color: var(--foreground);
     --amplify-components-button-link-focus-background-color: transparent;
 
