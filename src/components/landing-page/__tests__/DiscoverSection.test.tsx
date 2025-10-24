@@ -11,7 +11,7 @@ describe("DiscoverSection", () => {
     });
 
     it("renders the discover more content section", () => {
-        expect(screen.getByText("Discover More Content")).toBeInTheDocument();
+        expect(screen.getByText("Entdecken Sie weitere Inhalte")).toBeInTheDocument();
         expect(
             screen.getByText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", {
                 exact: false,

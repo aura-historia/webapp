@@ -64,8 +64,8 @@ describe("Header Component", () => {
             });
         });
 
-        it("should render Blitzfilter logo link", () => {
-            const logoLink = screen.getByText("Blitzfilter");
+        it("should render webapp logo link", () => {
+            const logoLink = screen.getByText("Aura Historia");
             expect(logoLink).toBeInTheDocument();
             expect(logoLink.closest("a")).toHaveAttribute("href", "/");
         });
