@@ -3,16 +3,25 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Timeline } from "@/components/ui/timeline.tsx";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { isPriceEvent, isStateEvent } from "@/lib/eventFilters.ts";
 import { ItemEventHistory } from "@/components/item/ItemEventHistory.tsx";
 import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 
 type FilterType = "all" | "price" | "state";
 
 interface ItemHistoryProps {
     readonly history?: readonly ItemEvent[];
 }
+
+const createFitlerOptions = (t: TFunction) => {
+    return [
+        { label: t("item.history.filters.all"), value: "all" as const },
+        { label: t("item.history.filters.price"), value: "price" as const },
+        { label: t("item.history.filters.availability"), value: "state" as const },
+    ] as const;
+};
 
 export function ItemHistory({ history }: ItemHistoryProps) {
     const { t } = useTranslation();
@@ -21,11 +30,7 @@ export function ItemHistory({ history }: ItemHistoryProps) {
      * Filter options for the event history timeline.
      * Allows users to filter events by type: all events, price changes only, or state changes only.
      */
-    const FILTER_OPTIONS = [
-        { label: t("item.history.filters.all"), value: "all" as const },
-        { label: t("item.history.filters.price"), value: "price" as const },
-        { label: t("item.history.filters.availability"), value: "state" as const },
-    ];
+    const FILTER_OPTIONS = useMemo(() => createFitlerOptions(t), [t]);
 
     /**
      * Currently active filter state.

@@ -15,6 +15,7 @@ import {
 } from "@/lib/utils.ts";
 import { isPriceEvent } from "@/lib/eventFilters.ts";
 import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 
 interface ApexFormatterOpts {
     w?: {
@@ -25,11 +26,8 @@ interface ApexFormatterOpts {
     };
 }
 
-export function ItemPriceChart({ history }: { readonly history?: readonly ItemEvent[] }) {
-    const { t } = useTranslation();
-    const chartRef = useRef<ApexCharts | null>(null);
-
-    const TIME_RANGES = [
+const createTimeRanges = (t: TFunction) => {
+    return [
         { label: t("item.priceChart.timeRanges.1d"), days: 1 },
         { label: t("item.priceChart.timeRanges.5d"), days: 5 },
         { label: t("item.priceChart.timeRanges.1m"), days: 30 },
@@ -38,6 +36,13 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
         { label: t("item.priceChart.timeRanges.1y"), days: 365 },
         { label: t("item.priceChart.timeRanges.all"), days: null },
     ] as const;
+};
+
+export function ItemPriceChart({ history }: { readonly history?: readonly ItemEvent[] }) {
+    const { t } = useTranslation();
+    const chartRef = useRef<ApexCharts | null>(null);
+
+    const TIME_RANGES = useMemo(() => createTimeRanges(t), [t]);
     /**
      * Filters the mixed `history` list and keeps only the events
      * that actually contain a price.

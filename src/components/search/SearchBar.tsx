@@ -16,6 +16,7 @@ import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { z } from "zod";
+import { useMemo } from "react";
 
 const createSearchFormSchema = (t: TFunction) =>
     z.object({
@@ -33,7 +34,7 @@ export function SearchBar() {
     const { t } = useTranslation();
     const navigate = useNavigate({ from: "/" });
 
-    const searchFormSchema = createSearchFormSchema(t);
+    const searchFormSchema = useMemo(() => createSearchFormSchema(t), [t]);
 
     const form = useForm<SearchFormSchema>({
         resolver: zodResolver(searchFormSchema),

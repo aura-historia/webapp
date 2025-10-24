@@ -9,7 +9,7 @@ import { z } from "zod";
 import { MerchantFilter } from "@/components/search/filters/MerchantFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { formatToDateString } from "@/lib/utils.ts";
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
@@ -76,7 +76,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
     const { t } = useTranslation();
 
-    const filterSchema = createFilterSchema(t);
+    const filterSchema = useMemo(() => createFilterSchema(t), [t]);
 
     const form = useForm<FilterSchema>({
         resolver: zodResolver(filterSchema),

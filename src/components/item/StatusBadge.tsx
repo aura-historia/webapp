@@ -3,16 +3,16 @@ import { cn } from "@/lib/utils";
 import { Clock, HelpCircle, Package, ShoppingCart, Tag, XCircle } from "lucide-react";
 import type { ItemState } from "@/data/internal/ItemState.ts";
 import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
+import { useMemo } from "react";
 
 interface StatusBadgeProps {
     readonly status: ItemState;
     readonly className?: string;
 }
 
-export function StatusBadge({ status, className }: StatusBadgeProps) {
-    const { t } = useTranslation();
-
-    const statusConfig = {
+const createStatusBadge = (t: TFunction) => {
+    return {
         LISTED: {
             label: t("itemState.listed"),
             icon: Tag,
@@ -44,6 +44,12 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
             className: "bg-gray-400 text-white",
         },
     } as const;
+};
+
+export function StatusBadge({ status, className }: StatusBadgeProps) {
+    const { t } = useTranslation();
+
+    const statusConfig = useMemo(() => createStatusBadge(t), [t]);
 
     const config = statusConfig[status];
     const Icon = config.icon;
