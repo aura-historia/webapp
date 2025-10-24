@@ -168,7 +168,6 @@ code {
     --amplify-components-button-primary-focus-color: var(--primary-foreground);
     --amplify-components-button-primary-focus-background-color: var(--primary);
 
-
     /* Forgot password link */
     --amplify-components-button-link-color: var(--foreground);
     --amplify-components-button-link-hover-color: var(--color-neutral-600);
@@ -194,7 +193,6 @@ code {
     /* Forgot password link */
     --amplify-components-button-link-focus-color: var(--foreground);
     --amplify-components-button-link-focus-background-color: transparent;
-
 }
 
 /* Glass container automatically makes inputs transparent; there is no Amplify CSS variable to make them white, so this is the workaround*/
@@ -245,7 +243,6 @@ label[data-slot="form-label"] {
     color: var(--amplify-colors-font-secondary);
 }
 
-
 /* Submit Button (Passwort speichern) - Focus State */
 .amplify-button.amplify-field-group__control[type="submit"]:focus,
 .amplify-button.amplify-field-group__control[type="submit"]:focus-visible {
@@ -264,12 +261,18 @@ label[data-slot="form-label"] {
 }
 
 /* Loading Spinner in Primary Button */
-[data-amplify-authenticator] .amplify-button--primary .amplify-loader circle[data-testid="circular-filled"] {
+[data-amplify-authenticator]
+    .amplify-button--primary
+    .amplify-loader
+    circle[data-testid="circular-filled"] {
     stroke: var(--primary-foreground);
 }
 
 /* Loading Spinner in Primary Button Background*/
-[data-amplify-authenticator] .amplify-button--primary .amplify-loader circle[data-testid="circular-empty"] {
+[data-amplify-authenticator]
+    .amplify-button--primary
+    .amplify-loader
+    circle[data-testid="circular-empty"] {
     stroke: var(--primary-hover);
     opacity: 0.3;
 }
@@ -288,7 +291,8 @@ label[data-slot="form-label"] {
 
 /* Hover Show Password Button for AccountSettings */
 .amplify-accountsettings .amplify-button.amplify-field__show-password:hover,
-.amplify-passwordfield .amplify-button.amplify-field__show-password:hover:not([data-amplify-authenticator] *) {
+.amplify-passwordfield
+    .amplify-button.amplify-field__show-password:hover:not([data-amplify-authenticator] *) {
     @apply bg-primary/20;
 }
 
@@ -310,7 +314,6 @@ button.amplify-button.amplify-field-group__control.amplify-button--link:focus-vi
     --amplify-internal-button-color: var(--foreground);
     --amplify-internal-button-background-color: transparent;
 }
-
 
 /* AccountSettings - Delete-Button */
 button.amplify-button.amplify-field-group__control.amplify-button--destructive {

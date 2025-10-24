@@ -85,12 +85,21 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/account' | '/auth' | '/imprint'
+    | '/account'
+    | '/auth'
+    | '/imprint'
     | '/search'
     | '/terms'
     | '/item/$shopId/$shopsItemId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/account' | '/auth' | '/imprint' | '/search' | '/terms'
+  to:
+    | '/'
+    | '/account'
+    | '/auth'
+    | '/imprint'
+    | '/search'
+    | '/terms'
+    | '/item/$shopId/$shopsItemId'
   id:
     | '__root__'
     | '/'
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/imprint'
     | '/search'
     | '/terms'
+    | '/item/$shopId/$shopsItemId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
