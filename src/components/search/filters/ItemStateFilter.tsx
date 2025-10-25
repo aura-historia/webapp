@@ -50,11 +50,12 @@ export function ItemStateFilter() {
                                         htmlFor={`checkbox-${item}`}
                                         className="cursor-pointer select-none"
                                     >
-                                        {field.value?.includes(item) ? (
-                                            <StatusBadge status={item} />
-                                        ) : (
-                                            <StatusBadge className="opacity-35" status={item} />
-                                        )}
+                                        <StatusBadge
+                                            status={item}
+                                            className={
+                                                field.value?.includes(item) ? "" : "opacity-35"
+                                            }
+                                        />
                                     </label>
                                 </div>
                             )}
