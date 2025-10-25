@@ -9,8 +9,11 @@ import { H3 } from "../typography/H3";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { ItemImageGallery } from "@/components/item/ItemImageGallery.tsx";
+import { useTranslation } from "react-i18next";
 
 export function ItemInfo({ item }: { readonly item: ItemDetail }) {
+    const { t } = useTranslation();
+
     return (
         <>
             <Card className="flex flex-col md:flex-row p-8 gap-4 shadow-md min-w-0">
@@ -41,7 +44,7 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                         </div>
                     </div>
                     <p className="mask-linear-[to_bottom,transparent_0%,black_10%,black_90%,transparent_100%] pt-2 text-base text-muted-foreground overflow-y-auto max-h-[250px] md:max-h-[130px] lg:max-h-[200px] w-full pr-3">
-                        {item.description ?? "Keine Beschreibung verfügbar"}
+                        {item.description ?? t("item.noDescription")}
                     </p>
 
                     {/* Spacer - pushes bottom content down on desktop */}
@@ -50,14 +53,14 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-end w-full pt-4">
                         <div className="flex flex-col gap-2 flex-shrink-0">
                             <StatusBadge status={item.state} />
-                            <PriceText>{item.price ?? "Preis unbekannt"}</PriceText>
+                            <PriceText>{item.price ?? t("item.unknownPrice")}</PriceText>
                         </div>
 
                         <div className="flex flex-col gap-2 sm:items-end flex-shrink-0 sm:ml-2">
                             <Button variant="secondary" className="whitespace-nowrap" asChild>
                                 <a href={item.url?.href} target="_blank" rel="noopener noreferrer">
                                     <ArrowUpRight />
-                                    <span>Zur Seite des Händlers</span>
+                                    <span>{t("item.toMerchant")}</span>
                                 </a>
                             </Button>
                         </div>

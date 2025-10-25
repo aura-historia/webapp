@@ -16,7 +16,7 @@ describe("Footer Component", () => {
     });
 
     it("should render copyright text with correct year", () => {
-        expect(screen.getByText(`© ${new Date().getFullYear()} Blitzfilter`)).toBeInTheDocument();
+        expect(screen.getByText(`© ${new Date().getFullYear()} Aura Historia`)).toBeInTheDocument();
     });
 
     it("should render navigation links with correct href attributes", () => {

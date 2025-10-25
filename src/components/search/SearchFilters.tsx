@@ -9,61 +9,64 @@ import { z } from "zod";
 import { MerchantFilter } from "@/components/search/filters/MerchantFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { formatToDateString } from "@/lib/utils.ts";
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
+import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 
-const filterSchema = z
-    .object({
-        priceSpan: z
-            .object({
-                min: z.number().min(0).optional().or(z.undefined()),
-                max: z.number().min(0).optional().or(z.undefined()),
-            })
-            .optional(),
-        itemState: z.array(
-            z.enum(["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"]),
-        ),
-        creationDate: z.object({
-            from: z.date().optional(),
-            to: z.date().optional(),
-        }),
-        updateDate: z.object({
-            from: z.date().optional(),
-            to: z.date().optional(),
-        }),
-        merchant: z
-            .string()
-            .min(3, { error: "Bitte geben Sie mindestens 3 Zeichen ein" })
-            .optional()
-            .or(z.string().max(0)),
-    })
-    .superRefine((data, ctx) => {
-        if (
-            data.creationDate.from &&
-            data.creationDate.to &&
-            data.creationDate.from > data.creationDate.to
-        ) {
-            ctx.addIssue({
-                code: "custom",
-                message: "Startdatum muss vor dem Enddatum liegen",
-                path: ["creationDate", "to"],
-            });
-        }
-        if (
-            data.updateDate.from &&
-            data.updateDate.to &&
-            data.updateDate.from > data.updateDate.to
-        ) {
-            ctx.addIssue({
-                code: "custom",
-                message: "Startdatum muss vor dem Enddatum liegen",
-                path: ["updateDate", "to"],
-            });
-        }
-    });
+const createFilterSchema = (t: TFunction) =>
+    z
+        .object({
+            priceSpan: z
+                .object({
+                    min: z.number().min(0).optional().or(z.undefined()),
+                    max: z.number().min(0).optional().or(z.undefined()),
+                })
+                .optional(),
+            itemState: z.array(
+                z.enum(["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"]),
+            ),
+            creationDate: z.object({
+                from: z.date().optional(),
+                to: z.date().optional(),
+            }),
+            updateDate: z.object({
+                from: z.date().optional(),
+                to: z.date().optional(),
+            }),
+            merchant: z
+                .string()
+                .min(3, { error: t("search.validation.merchantMinLength") })
+                .optional()
+                .or(z.string().max(0)),
+        })
+        .superRefine((data, ctx) => {
+            if (
+                data.creationDate.from &&
+                data.creationDate.to &&
+                data.creationDate.from > data.creationDate.to
+            ) {
+                ctx.addIssue({
+                    code: "custom",
+                    message: t("search.validation.dateOrder"),
+                    path: ["creationDate", "to"],
+                });
+            }
+            if (
+                data.updateDate.from &&
+                data.updateDate.to &&
+                data.updateDate.from > data.updateDate.to
+            ) {
+                ctx.addIssue({
+                    code: "custom",
+                    message: t("search.validation.dateOrder"),
+                    path: ["updateDate", "to"],
+                });
+            }
+        });
 
-export type FilterSchema = z.infer<typeof filterSchema>;
+export type FilterSchema = z.infer<ReturnType<typeof createFilterSchema>>;
 
 type SearchFilterProps = {
     readonly searchFilters: SearchFilterArguments;
@@ -71,6 +74,9 @@ type SearchFilterProps = {
 
 export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
+    const { t } = useTranslation();
+
+    const filterSchema = useMemo(() => createFilterSchema(t), [t]);
 
     const form = useForm<FilterSchema>({
         resolver: zodResolver(filterSchema),
@@ -172,7 +178,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                     <MerchantFilter />
                 </div>
                 <Button className="w-full shadow-sm" type="submit">
-                    Filter anwenden
+                    {t("search.applyFilters")}
                 </Button>
             </form>
         </Form>

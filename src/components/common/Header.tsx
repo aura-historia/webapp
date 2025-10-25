@@ -10,9 +10,12 @@ import {
 import { useUserAttributes } from "@/hooks/useUserAttributes.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
 
 export function Header() {
+    const { t } = useTranslation();
+
     const { toSignUp, toSignIn, user, signOut } = useAuthenticator((context) => [
         context.toSignUp,
         context.toSignIn,
@@ -25,7 +28,7 @@ export function Header() {
     return (
         <header className="flex items-center backdrop-blur-sm z-50 justify-between sticky top-0 px-8 py-4 border-b h-20 z-10">
             <Link to="/" className="hidden sm:inline text-2xl font-bold">
-                Blitzfilter
+                {t("common.auraHistoria")}
             </Link>
             <div className="flex items-center gap-4">
                 {user ? (
@@ -38,23 +41,23 @@ export function Header() {
                             />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Mein Account</DropdownMenuLabel>
+                            <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
-                                <Link to="/account">Account bearbeiten</Link>
+                                <Link to="/account">{t("header.editAccount")}</Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => signOut()}>
-                                Ausloggen
+                                {t("header.logout")}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 ) : (
                     <>
                         <Button asChild onClick={toSignUp} variant={"default"}>
-                            <Link to="/auth">Registrieren</Link>
+                            <Link to="/auth">{t("common.register")}</Link>
                         </Button>
                         <Button asChild onClick={toSignIn} variant="outline">
-                            <Link to="/auth">Einloggen</Link>
+                            <Link to="/auth">{t("common.login")}</Link>
                         </Button>
                     </>
                 )}

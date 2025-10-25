@@ -7,8 +7,10 @@ import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 import { ArrowUpRight, Eye, HeartIcon, ImageOff } from "lucide-react";
 import { H3 } from "../typography/H3";
 import { Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 export function ItemCard({ item }: { readonly item: OverviewItem }) {
+    const { t } = useTranslation();
     return (
         <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
             <div className={"flex-shrink-0 flex lg:justify-start justify-center"}>
@@ -77,7 +79,7 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                     }
                 >
                     <PriceText className="min-w-0 overflow-hidden text-ellipsis">
-                        {item.price ?? "Preis unbekannt"}
+                        {item.price ?? t("item.unknownPrice")}
                     </PriceText>
 
                     <div className={"flex flex-col gap-2 lg:items-end flex-shrink-0 lg:ml-2"}>
@@ -90,13 +92,13 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                                 }}
                             >
                                 <Eye />
-                                <span>Details</span>
+                                <span>{t("item.details")}</span>
                             </Link>
                         </Button>
                         <Button variant={"secondary"} className="whitespace-nowrap" asChild>
                             <a href={item.url?.href} target="_blank">
                                 <ArrowUpRight />
-                                <span>Zur Seite des Händlers</span>
+                                <span>{t("item.toMerchant")}</span>
                             </a>
                         </Button>
                     </div>

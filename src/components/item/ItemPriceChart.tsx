@@ -14,6 +14,8 @@ import {
     getPriceAmount,
 } from "@/lib/utils.ts";
 import { isPriceEvent } from "@/lib/eventFilters.ts";
+import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 
 interface ApexFormatterOpts {
     w?: {
@@ -24,18 +26,23 @@ interface ApexFormatterOpts {
     };
 }
 
-const TIME_RANGES = [
-    { label: "1T", days: 1 },
-    { label: "5T", days: 5 },
-    { label: "1M", days: 30 },
-    { label: "3M", days: 90 },
-    { label: "6M", days: 180 },
-    { label: "1J", days: 365 },
-    { label: "Alle", days: null },
-] as const;
+const createTimeRanges = (t: TFunction) => {
+    return [
+        { label: t("item.priceChart.timeRanges.1d"), days: 1 },
+        { label: t("item.priceChart.timeRanges.5d"), days: 5 },
+        { label: t("item.priceChart.timeRanges.1m"), days: 30 },
+        { label: t("item.priceChart.timeRanges.3m"), days: 90 },
+        { label: t("item.priceChart.timeRanges.6m"), days: 180 },
+        { label: t("item.priceChart.timeRanges.1y"), days: 365 },
+        { label: t("item.priceChart.timeRanges.all"), days: null },
+    ] as const;
+};
 
 export function ItemPriceChart({ history }: { readonly history?: readonly ItemEvent[] }) {
+    const { t } = useTranslation();
     const chartRef = useRef<ApexCharts | null>(null);
+
+    const TIME_RANGES = useMemo(() => createTimeRanges(t), [t]);
     /**
      * Filters the mixed `history` list and keeps only the events
      * that actually contain a price.
@@ -66,10 +73,10 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
     }));
 
     if (priceData.length > 0) {
-        const lastPrice = priceData[priceData.length - 1];
+        const lastPrice = priceData.at(priceData.length - 1);
         priceData.push({
             x: Date.now(),
-            y: lastPrice.y,
+            y: lastPrice?.y ?? 0,
         });
     }
 
@@ -114,10 +121,8 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
     if (!history || priceData.length === 0) {
         return (
             <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
-                <H2>Preisverlauf</H2>
-                <p className="text-sm text-muted-foreground">
-                    Keine Preisdaten für diesen Artikel vorhanden.
-                </p>
+                <H2>{t("item.priceChart.title")}</H2>
+                <p className="text-sm text-muted-foreground">{t("item.priceChart.noData")}</p>
             </Card>
         );
     }
@@ -128,9 +133,8 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
      * ApexCharts expects an array of objects, where each object represents a single
      * series (e.g., a line).
      * - `name`: The label used for the series in legends and tooltips.
-     * - `data`: The array of {x, y} coordinate points to be plotted.
      */
-    const series = [{ name: "Preis", data: priceData }];
+    const series = [{ name: t("item.priceChart.seriesName"), data: priceData }];
 
     /**
      * Defines the visual appearance and behavior of the chart.
@@ -304,7 +308,7 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
     return (
         <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0 h-full">
             <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-start sm:items-center md:items-start lg:items-center sm:justify-between lg:justify-between gap-4">
-                <H2>Preisverlauf</H2>
+                <H2>{t("item.priceChart.title")}</H2>
                 <div className="flex gap-2 flex-wrap">
                     {TIME_RANGES.map((timeRange) => (
                         <Button

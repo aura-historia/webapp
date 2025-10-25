@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { StatusBadge } from "@/components/item/StatusBadge.tsx";
 import { Controller, useFormContext } from "react-hook-form";
 import type { CheckedState } from "@radix-ui/react-checkbox";
+import { useTranslation } from "react-i18next";
 
 const itemStates = ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"] as const;
 
@@ -23,11 +24,12 @@ function handleCheckedChange(
 
 export function ItemStateFilter() {
     const { control } = useFormContext<FilterSchema>();
+    const { t } = useTranslation();
 
     return (
         <Card>
             <CardHeader>
-                <H2>Anzeigenstatus</H2>
+                <H2>{t("search.filter.itemState")}</H2>
             </CardHeader>
             <CardContent>
                 <div className={"w-full grid grid-cols-2 gap-4"}>

@@ -3,7 +3,6 @@ import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/reac
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
-
 import { Footer } from "@/components/common/Footer.tsx";
 import { Header } from "@/components/common/Header.tsx";
 import type { QueryClient } from "@tanstack/react-query";
@@ -16,26 +15,28 @@ interface MyRouterContext {
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
-    head: () => ({
-        meta: [
-            {
-                charSet: "utf-8",
-            },
-            {
-                name: "viewport",
-                content: "width=device-width, initial-scale=1",
-            },
-            {
-                title: "Aura Historia (Preview)",
-            },
-        ],
-        links: [
-            {
-                rel: "stylesheet",
-                href: appCss,
-            },
-        ],
-    }),
+    head: () => {
+        return {
+            meta: [
+                {
+                    charSet: "utf-8",
+                },
+                {
+                    name: "viewport",
+                    content: "width=device-width, initial-scale=1",
+                },
+                {
+                    title: "Aura Historia",
+                },
+            ],
+            links: [
+                {
+                    rel: "stylesheet",
+                    href: appCss,
+                },
+            ],
+        };
+    },
 
     shellComponent: RootDocument,
 });

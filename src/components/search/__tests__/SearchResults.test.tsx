@@ -3,20 +3,25 @@ import { render, screen } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
 import { SimpleSearchResults } from "../SimpleSearchResults.tsx";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
+import { useSimpleSearch } from "@/hooks/useSimpleSearch.ts";
 
 vi.mock("@/hooks/useSimpleSearch.ts", () => ({
     useSimpleSearch: vi.fn(),
 }));
 
-vi.mock("@tanstack/react-router", () => ({
-    Link: ({ children, ...props }: { children: React.ReactNode }) => <a {...props}>{children}</a>,
-}));
+vi.mock("@tanstack/react-router", async (importOriginal) => {
+    const actual = await importOriginal<typeof import("@tanstack/react-router")>();
+    return {
+        ...actual,
+        Link: ({ children, ...props }: { children: React.ReactNode }) => (
+            <a {...props}>{children}</a>
+        ),
+    };
+});
 
 vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: vi.fn(), inView: false }),
 }));
-
-import { useSimpleSearch } from "@/hooks/useSimpleSearch.ts";
 
 const mockUseSimpleSearch = vi.mocked(useSimpleSearch);
 

@@ -1,6 +1,6 @@
 import { PriceSpanFilter } from "@/components/search/filters/PriceSpanFilter";
 import { FormProvider, useForm } from "react-hook-form";
-import { render, screen, act } from "@testing-library/react";
+import { screen, act, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import type React from "react";

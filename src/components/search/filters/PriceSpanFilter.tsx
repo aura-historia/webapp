@@ -5,12 +5,14 @@ import { Input } from "@/components/ui/input.tsx";
 import { Slider } from "@/components/ui/slider.tsx";
 import { useEffect, useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 10_000;
 
 export function PriceSpanFilter() {
     const { control, watch, setValue } = useFormContext<FilterSchema>();
+    const { t } = useTranslation();
 
     const watchedMin = watch("priceSpan.min");
     const watchedMax = watch("priceSpan.max");
@@ -47,7 +49,7 @@ export function PriceSpanFilter() {
     return (
         <Card>
             <CardHeader>
-                <H2>Preisspanne</H2>
+                <H2>{t("search.filter.priceSpan")}</H2>
             </CardHeader>
             <CardContent>
                 <div className={"flex flex-col gap-4"}>
@@ -72,7 +74,7 @@ export function PriceSpanFilter() {
                                 });
                             }
                         }}
-                        aria-label="Preisspanne"
+                        aria-label={t("search.filter.priceSpanAria")}
                     />
                     <div className="flex flex-row gap-2 items-center">
                         <Controller
@@ -83,7 +85,7 @@ export function PriceSpanFilter() {
                                     type="text"
                                     inputMode="numeric"
                                     pattern="[0-9]*"
-                                    placeholder="Min"
+                                    placeholder={t("search.filter.min")}
                                     className="rounded border px-2 py-1 text-sm"
                                     value={
                                         field.value === undefined || field.value === null
@@ -109,7 +111,7 @@ export function PriceSpanFilter() {
                                     type="text"
                                     inputMode="numeric"
                                     pattern="[0-9]*"
-                                    placeholder="Max"
+                                    placeholder={t("search.filter.max")}
                                     className="rounded border px-2 py-1 text-sm"
                                     value={
                                         field.value === undefined || field.value === null

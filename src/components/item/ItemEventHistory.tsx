@@ -16,12 +16,15 @@ import {
     isPriceRemovedEvent,
     isStateChangedEvent,
 } from "@/lib/eventFilters.ts";
+import { useTranslation } from "react-i18next";
 
 interface ItemEventHistoryProps {
     readonly event: ItemEvent;
 }
 
 export function ItemEventHistory({ event }: ItemEventHistoryProps) {
+    const { t } = useTranslation();
+
     if (isStateChangedEvent(event)) {
         return (
             <TimelineItem>
@@ -35,8 +38,10 @@ export function ItemEventHistory({ event }: ItemEventHistoryProps) {
                     </TimelineTitle>
                 </TimelineHeader>
                 <TimelineDescription>
-                    Der Status wurde von {formatStateName(event.payload.oldState)} auf{" "}
-                    {formatStateName(event.payload.newState)} geändert.
+                    {t("item.history.events.statusChanged", {
+                        oldState: formatStateName(event.payload.oldState),
+                        newState: formatStateName(event.payload.newState),
+                    })}
                 </TimelineDescription>
             </TimelineItem>
         );
@@ -55,7 +60,9 @@ export function ItemEventHistory({ event }: ItemEventHistoryProps) {
                     </TimelineTitle>
                 </TimelineHeader>
                 <TimelineDescription>
-                    Preis entdeckt • {formatPrice(event.payload.newPrice)}.
+                    {t("item.history.events.priceDiscovered", {
+                        price: formatPrice(event.payload.newPrice),
+                    })}
                 </TimelineDescription>
             </TimelineItem>
         );
@@ -63,7 +70,9 @@ export function ItemEventHistory({ event }: ItemEventHistoryProps) {
 
     if (isPriceChangedEvent(event)) {
         const isDropped = event.eventType === "PRICE_DROPPED";
-        const verb = isDropped ? "gefallen" : "gestiegen";
+        const verb = isDropped
+            ? t("item.history.events.priceFallen")
+            : t("item.history.events.priceIncreased");
 
         return (
             <TimelineItem>
@@ -77,8 +86,11 @@ export function ItemEventHistory({ event }: ItemEventHistoryProps) {
                     </TimelineTitle>
                 </TimelineHeader>
                 <TimelineDescription>
-                    Der Preis ist von {formatPrice(event.payload.oldPrice)} auf{" "}
-                    {formatPrice(event.payload.newPrice)} {verb}.
+                    {t("item.history.events.priceChanged", {
+                        oldPrice: formatPrice(event.payload.oldPrice),
+                        newPrice: formatPrice(event.payload.newPrice),
+                        verb,
+                    })}
                 </TimelineDescription>
             </TimelineItem>
         );
@@ -97,7 +109,9 @@ export function ItemEventHistory({ event }: ItemEventHistoryProps) {
                     </TimelineTitle>
                 </TimelineHeader>
                 <TimelineDescription>
-                    Preis entfernt • Letzter Preis: {formatPrice(event.payload.oldPrice)}.
+                    {t("item.history.events.priceRemoved", {
+                        price: formatPrice(event.payload.oldPrice),
+                    })}
                 </TimelineDescription>
             </TimelineItem>
         );
@@ -116,7 +130,7 @@ export function ItemEventHistory({ event }: ItemEventHistoryProps) {
                     </TimelineTitle>
                 </TimelineHeader>
                 <TimelineDescription>
-                    Im System erfasst
+                    {t("item.history.events.created")}
                     {event.payload.price ? ` • ${formatPrice(event.payload.price)}` : ""}.
                 </TimelineDescription>
             </TimelineItem>

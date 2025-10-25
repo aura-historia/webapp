@@ -4,9 +4,15 @@ import { ItemCard } from "../ItemCard";
 import { vi } from "vitest";
 import type React from "react";
 
-vi.mock("@tanstack/react-router", () => ({
-    Link: ({ children, ...props }: { children: React.ReactNode }) => <a {...props}>{children}</a>,
-}));
+vi.mock("@tanstack/react-router", async (importOriginal) => {
+    const actual = await importOriginal<typeof import("@tanstack/react-router")>();
+    return {
+        ...actual,
+        Link: ({ children, ...props }: { children: React.ReactNode }) => (
+            <a {...props}>{children}</a>
+        ),
+    };
+});
 
 describe("ItemCard", () => {
     const mockItem: OverviewItem = {

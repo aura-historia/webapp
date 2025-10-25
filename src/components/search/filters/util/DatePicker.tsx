@@ -7,6 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, X } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar.tsx";
+import { useTranslation } from "react-i18next";
 
 export function DatePicker({
     fieldName,
@@ -19,6 +20,7 @@ export function DatePicker({
 }) {
     const { control, setValue } = useFormContext<FilterSchema>();
     const [calendarOpen, setCalendarOpen] = useState(false);
+    const { t } = useTranslation();
 
     return (
         <Controller
@@ -37,7 +39,7 @@ export function DatePicker({
                                 {field.value ? (
                                     format(field.value, "P", { locale: de })
                                 ) : (
-                                    <span>Beliebig</span>
+                                    <span>{t("search.filter.anyDate")}</span>
                                 )}
                             </Button>
                         </PopoverTrigger>

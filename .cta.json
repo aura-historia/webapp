@@ -1,5 +1,5 @@
 {
-  "projectName": "blitzfilter-frontend",
+    "projectName": "webapp",
   "mode": "file-router",
   "typescript": true,
   "tailwind": true,
