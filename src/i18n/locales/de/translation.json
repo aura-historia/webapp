@@ -1,47 +1,71 @@
 {
-	"common": {
+    "common": {
         "auraHistoria": "Aura Historia",
-		"register": "Registrieren",
-		"login": "Einloggen",
-		"imprint": "Impressum",
-		"terms": "AGB",
+        "register": "Registrieren",
+        "login": "Einloggen",
+        "imprint": "Impressum",
+        "terms": "AGB",
         "copyright": "© {{year}} Aura Historia"
-	},
-	"imprint": {
-		"title": "Impressum"
-	},
-	"terms": {
-		"title": "AGB"
-	},
-	"search": {
-		"filters": "Filter",
-		"resultsFor": "Suchergebnisse für:",
-		"bar": {
-			"validation": {
-				"minLength": "Bitte geben Sie mindestens 3 Zeichen ein"
-			},
-			"label": "Search",
-			"placeholder": "Ich suche nach...",
-			"button": "Suchen"
-		},
-		"applyFilters": "Filter anwenden",
-		"validation": {
-			"merchantMinLength": "Bitte geben Sie mindestens 3 Zeichen ein",
-			"dateOrder": "Startdatum muss vor dem Enddatum liegen"
-		},
-		"filter": {
-			"creationDate": "Hinzugefügt",
-			"from": "Von:",
-			"to": "Bis:",
-			"itemState": "Anzeigenstatus",
-			"merchant": "Händler",
-			"anyMerchant": "Beliebiger Händler",
-			"priceSpan": "Preisspanne",
-			"min": "Min",
-			"max": "Max",
-			"priceSpanAria": "Preisspanne",
-			"updateDate": "Aktualisiert",
-			"anyDate": "Beliebig"
+    },
+    "imprint": {
+        "title": "Impressum"
+    },
+    "terms": {
+        "title": "AGB"
+    },
+    "header": {
+        "myAccount": "Mein Account",
+        "editAccount": "Account bearbeiten",
+        "logout": "Ausloggen"
+    },
+    "account": {
+        "title": "Mein Account",
+        "changePassword": {
+            "title": "Passwort ändern",
+            "currentPasswordLabel": "Aktuelles Passwort",
+            "newPasswordLabel": "Neues Passwort",
+            "confirmPasswordLabel": "Neues Passwort bestätigen",
+            "saveButton": "Passwort speichern",
+            "successMessage": "Passwort erfolgreich geändert!",
+            "errorMessage": "Fehler beim Ändern des Passworts."
+        },
+        "deleteAccount": {
+            "title": "Account löschen",
+            "deleteButton": "Account löschen",
+            "warningText": "Sind Sie sicher, dass Sie Ihren Account löschen möchten?",
+            "cancelButton": "Abbrechen",
+            "confirmButton": "Ja, Account löschen",
+            "successMessage": "Account wurde erfolgreich gelöscht!",
+            "errorMessage": "Fehler beim Löschen des Accounts."
+        }
+    },
+    "search": {
+        "filters": "Filter",
+        "resultsFor": "Suchergebnisse für:",
+        "bar": {
+            "label": "Suche",
+            "placeholder": "Ich suche nach...",
+            "button": "Suchen"
+        },
+        "applyFilters": "Filter anwenden",
+        "validation": {
+            "queryMinLength": "Bitte geben Sie mindestens 3 Zeichen ein",
+            "merchantMinLength": "Bitte geben Sie mindestens 3 Zeichen ein",
+            "dateOrder": "Startdatum muss vor dem Enddatum liegen"
+        },
+        "filter": {
+            "creationDate": "Hinzugefügt",
+            "from": "Von:",
+            "to": "Bis:",
+            "itemState": "Anzeigenstatus",
+            "merchant": "Händler",
+            "anyMerchant": "Beliebiger Händler",
+            "priceSpan": "Preisspanne",
+            "min": "Min",
+            "max": "Max",
+            "priceSpanAria": "Preisspanne",
+            "updateDate": "Aktualisiert",
+            "anyDate": "Beliebig"
         },
         "messages": {
             "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",
@@ -49,28 +73,68 @@
             "noResults": "Keine Artikel gefunden!",
             "loadingMore": "Lade neue Ergebnisse...",
             "allLoaded": "Alle Ergebnisse geladen"
-		}
-	},
-	"item": {
-		"unknownPrice": "Preis unbekannt",
-		"details": "Details",
-		"toMerchant": "Zur Seite des Händlers"
-	},
-	"itemState": {
-		"listed": "Gelistet",
-		"available": "Verfügbar",
-		"reserved": "Reserviert",
-		"sold": "Verkauft",
-		"removed": "Gelöscht",
-		"unknown": "Unbekannt"
-	},
-	"discover": {
-		"title": "Discover More Content",
-		"p1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-		"p2": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. You can add as much content as you need here—articles, feature lists, testimonials, footers, and more. The layout will handle the scroll automatically."
-	},
-	"landingPage": {
-		"titleFirstLine": "Entdecken, vergleichen, sammeln-",
-		"titleSecondLine": "mit Klarheit im Antiquitätenmarkt"
-	}
+        }
+    },
+    "item": {
+        "unknownPrice": "Preis unbekannt",
+        "details": "Details",
+        "toMerchant": "Zur Seite des Händlers",
+        "noDescription": "Keine Beschreibung verfügbar",
+        "history": {
+            "title": "Historie",
+            "noData": "Keine Daten für diesen Artikel vorhanden.",
+            "noEvents": "Keine Events für diesen Filter verfügbar.",
+            "filters": {
+                "all": "Alle",
+                "price": "Preis",
+                "availability": "Verfügbarkeit"
+            },
+            "events": {
+                "statusChanged": "Der Status wurde von {{oldState}} auf {{newState}} geändert.",
+                "priceDiscovered": "Preis entdeckt • {{price}}.",
+                "priceChanged": "Der Preis ist von {{oldPrice}} auf {{newPrice}} {{verb}}.",
+                "priceFallen": "gefallen",
+                "priceIncreased": "gestiegen",
+                "priceRemoved": "Preis entfernt • Letzter Preis: {{price}}.",
+                "created": "Im System erfasst"
+            }
+        },
+        "priceChart": {
+            "title": "Preisverlauf",
+            "noData": "Keine Preisdaten für diesen Artikel vorhanden.",
+            "seriesName": "Preis",
+            "timeRanges": {
+                "1d": "1T",
+                "5d": "5T",
+                "1m": "1M",
+                "3m": "3M",
+                "6m": "6M",
+                "1y": "1J",
+                "all": "Alle"
+            }
+        }
+    },
+    "priceBadge": {
+        "discovered": "Preis entdeckt",
+        "dropped": "Preis gesunken",
+        "increased": "Preis gestiegen",
+        "removed": "Preis entfernt"
+    },
+    "itemState": {
+        "listed": "Gelistet",
+        "available": "Verfügbar",
+        "reserved": "Reserviert",
+        "sold": "Verkauft",
+        "removed": "Gelöscht",
+        "unknown": "Unbekannt"
+    },
+    "discover": {
+        "title": "Entdecken Sie weitere Inhalte",
+        "p1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        "p2": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. You can add as much content as you need here—articles, feature lists, testimonials, footers, and more. The layout will handle the scroll automatically."
+    },
+    "landingPage": {
+        "titleFirstLine": "Entdecken, vergleichen, sammeln-",
+        "titleSecondLine": "mit Klarheit im Antiquitätenmarkt"
+    }
 }

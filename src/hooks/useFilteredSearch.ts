@@ -6,8 +6,8 @@ import {
     type InfiniteData,
 } from "@tanstack/react-query";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
-import { mapToBackendState } from "@/data/internal/ItemState.ts";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
+import { mapToBackendState } from "@/data/internal/ItemState.ts";
 
 const PAGE_SIZE = 21;
 

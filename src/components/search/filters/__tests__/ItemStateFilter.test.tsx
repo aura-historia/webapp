@@ -168,4 +168,23 @@ describe("ItemStateFilter", () => {
             expect(badge).toHaveClass("opacity-35");
         });
     });
+
+    it("toggles checkbox when status badge is clicked", async () => {
+        render(
+            <FormWrapper>
+                <ItemStateFilter />
+            </FormWrapper>,
+        );
+
+        const user = userEvent.setup();
+        const checkboxes = screen.getAllByRole("checkbox");
+
+        await user.click(screen.getByText("Gelistet"));
+
+        expect(checkboxes[0]).not.toBeChecked();
+
+        await user.click(screen.getByText("Gelistet"));
+
+        expect(checkboxes[0]).toBeChecked();
+    });
 });

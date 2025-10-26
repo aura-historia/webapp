@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,12 +13,26 @@ import {
 import { Input } from "@/components/ui/input";
 import { useLocation, useNavigate, useSearch } from "@tanstack/react-router";
 import { Search } from "lucide-react";
-import { useTranslation } from "react-i18next";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
+import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
+import { z } from "zod";
+import { useMemo } from "react";
 
 interface SearchBarProps {
     readonly type: "small" | "big";
 }
+const createSearchFormSchema = (t: TFunction) =>
+    z.object({
+        query: z
+            .string()
+            .trim()
+            .min(3, {
+                error: t("search.validation.queryMinLength"),
+            }),
+    });
+
+export type SearchFormSchema = z.infer<ReturnType<typeof createSearchFormSchema>>;
 
 export function SearchBar({ type }: SearchBarProps) {
     const { t } = useTranslation();
@@ -31,23 +44,16 @@ export function SearchBar({ type }: SearchBarProps) {
     const searchParams = useSearch({ strict: false });
     const currentQuery = pathname === "/search" ? (searchParams.q as string) || "" : "";
 
-    const searchFormSchema = z.object({
-        query: z
-            .string()
-            .trim()
-            .min(3, {
-                error: t("search.bar.validation.minLength"),
-            }),
-    });
+    const searchFormSchema = useMemo(() => createSearchFormSchema(t), [t]);
 
-    const form = useForm<z.infer<typeof searchFormSchema>>({
+    const form = useForm<SearchFormSchema>({
         resolver: zodResolver(searchFormSchema),
         values: {
             query: currentQuery,
         },
     });
 
-    function onSubmit(values: z.infer<typeof searchFormSchema>) {
+    function onSubmit(values: SearchFormSchema) {
         navigate({
             to: "/search",
             search: mapFiltersToUrlParams({

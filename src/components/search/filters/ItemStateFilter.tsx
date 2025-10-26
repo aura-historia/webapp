@@ -39,18 +39,26 @@ export function ItemStateFilter() {
                             name="itemState"
                             control={control}
                             render={({ field }) => (
-                                <div className={"flex flex-row gap-4 items-center"}>
+                                <div className="flex flex-row gap-4 items-center">
                                     <Checkbox
+                                        id={`checkbox-${item}`}
                                         checked={field.value?.includes(item)}
+                                        className="cursor-pointer"
                                         onCheckedChange={(checked) =>
                                             handleCheckedChange(field, item, checked)
                                         }
                                     />
-                                    {field.value?.includes(item) ? (
-                                        <StatusBadge status={item} />
-                                    ) : (
-                                        <StatusBadge className={"opacity-35"} status={item} />
-                                    )}
+                                    <label
+                                        htmlFor={`checkbox-${item}`}
+                                        className="cursor-pointer select-none"
+                                    >
+                                        <StatusBadge
+                                            status={item}
+                                            className={
+                                                field.value?.includes(item) ? "" : "opacity-35"
+                                            }
+                                        />
+                                    </label>
                                 </div>
                             )}
                         />

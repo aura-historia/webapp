@@ -4,8 +4,9 @@ import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
-import { ArrowUpRight, Eye, HeartIcon, Image } from "lucide-react";
+import { ArrowUpRight, Eye, HeartIcon, ImageOff } from "lucide-react";
 import { H3 } from "../typography/H3";
+import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
 export function ItemCard({ item }: { readonly item: OverviewItem }) {
@@ -13,25 +14,51 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
     return (
         <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
             <div className={"flex-shrink-0 flex lg:justify-start justify-center"}>
-                {item.images.length > 0 ? (
-                    <img
-                        className={"size-48 object-cover rounded-lg"}
-                        src={item.images[0].href}
-                        alt=""
-                    />
-                ) : (
-                    <Image
-                        data-testid="placeholder-image"
-                        className={"size-48 object-contain rounded-lg"}
-                    />
-                )}
+                <Link
+                    to="/item/$shopId/$shopsItemId"
+                    params={{
+                        shopId: item.shopId,
+                        shopsItemId: item.shopsItemId,
+                    }}
+                >
+                    {item.images.length > 0 ? (
+                        <img
+                            className={
+                                "size-48 object-cover rounded-lg hover:opacity-90 transition-opacity"
+                            }
+                            src={item.images[0].href}
+                            alt=""
+                        />
+                    ) : (
+                        <div className="size-48 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
+                            <ImageOff
+                                data-testid="placeholder-image"
+                                className="w-12 h-12 text-muted-foreground"
+                            />
+                            <p className="text-sm text-muted-foreground">Kein Bild verfügbar</p>
+                        </div>
+                    )}
+                </Link>
             </div>
             <div className={"flex flex-col min-w-0 flex-1 justify-between"}>
                 <div className={"flex flex-row justify-between w-full"}>
                     <div className={"flex flex-col gap-2 min-w-0 overflow-hidden"}>
-                        <H2 className={"text-ellipsis overflow-hidden line-clamp-1"}>
-                            {item.title}
-                        </H2>
+                        <Link
+                            to="/item/$shopId/$shopsItemId"
+                            params={{
+                                shopId: item.shopId,
+                                shopsItemId: item.shopsItemId,
+                            }}
+                            className="min-w-0 overflow-hidden"
+                        >
+                            <H2
+                                className={
+                                    "text-ellipsis overflow-hidden line-clamp-1 hover:underline"
+                                }
+                            >
+                                {item.title}
+                            </H2>
+                        </Link>
                         <H3
                             variant={"muted"}
                             className={"line-clamp-1 overflow-ellipsis whitespace-nowrap"}
@@ -56,13 +83,23 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                     </PriceText>
 
                     <div className={"flex flex-col gap-2 lg:items-end flex-shrink-0 lg:ml-2"}>
-                        <Button variant={"default"}>
-                            <Eye />
-                            <span>{t("item.details")}</span>
+                        <Button variant={"default"} asChild>
+                            <Link
+                                to="/item/$shopId/$shopsItemId"
+                                params={{
+                                    shopId: item.shopId,
+                                    shopsItemId: item.shopsItemId,
+                                }}
+                            >
+                                <Eye />
+                                <span>{t("item.details")}</span>
+                            </Link>
                         </Button>
-                        <Button variant={"secondary"} className="whitespace-nowrap">
-                            <ArrowUpRight />
-                            <span>{t("item.toMerchant")}</span>
+                        <Button variant={"secondary"} className="whitespace-nowrap" asChild>
+                            <a href={item.url?.href} target="_blank">
+                                <ArrowUpRight />
+                                <span>{t("item.toMerchant")}</span>
+                            </a>
                         </Button>
                     </div>
                 </div>

@@ -5,6 +5,7 @@ import { resources } from "./resources";
 i18n.use(initReactI18next).init({
     resources: resources,
     supportedLngs: ["de"],
+    lng: "de",
     load: "languageOnly",
     fallbackLng: "de",
     debug: import.meta.env.DEV,

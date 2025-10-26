@@ -45,7 +45,7 @@ export type GetItemData = {
     /**
      * Array of image URLs for the item
      */
-    images?: Array<string> | null;
+    images: Array<string>;
     /**
      * When the item was first created (RFC3339 format)
      */
@@ -113,6 +113,36 @@ export type PriceData = {
 export type ItemCreatedEventPayloadData = {
     state: ItemStateData;
     price?: PriceData;
+};
+
+/**
+ * Payload for state change events, containing both old and new state
+ */
+export type ItemEventStateChangedPayloadData = {
+    oldState: ItemStateData;
+    newState: ItemStateData;
+};
+
+/**
+ * Payload for price discovered events when an item's price is first detected
+ */
+export type ItemEventPriceDiscoveredPayloadData = {
+    newPrice: PriceData;
+};
+
+/**
+ * Payload for price change events (dropped or increased), containing both old and new price
+ */
+export type ItemEventPriceChangedPayloadData = {
+    oldPrice: PriceData;
+    newPrice: PriceData;
+};
+
+/**
+ * Payload for price removed events when an item's price is removed
+ */
+export type ItemEventPriceRemovedPayloadData = {
+    oldPrice: PriceData;
 };
 
 /**
@@ -190,22 +220,18 @@ export type SortItemFieldData = 'score' | 'price' | 'updated' | 'created';
 /**
  * Types of events that can occur for an item
  */
-export type ItemEventTypeData =
-    'CREATED'
-    | 'STATE_LISTED'
-    | 'STATE_AVAILABLE. STATE_RESERVED'
-    | 'STATE_SOLD'
-    | 'STATE_REMOVED'
-    | 'STATE_UNKNOWN'
-    | 'PRICE_DISCOVERED'
-    | 'PRICE_DROPPED'
-    | 'PRICE_INCREASED'
-    | 'PRICE_REMOVED';
+export type ItemEventTypeData = 'CREATED' | 'STATE_LISTED' | 'STATE_AVAILABLE' | 'STATE_RESERVED' | 'STATE_SOLD' | 'STATE_REMOVED' | 'STATE_UNKNOWN' | 'PRICE_DISCOVERED' | 'PRICE_DROPPED' | 'PRICE_INCREASED' | 'PRICE_REMOVED';
 
 /**
- * Event-specific payload data
+ * Event-specific payload data. The structure varies depending on the event type:
+ * - CREATED: ItemCreatedEventPayloadData (initial item state and optional price)
+ * - STATE_LISTED, STATE_AVAILABLE, STATE_RESERVED, STATE_SOLD, STATE_REMOVED, STATE_UNKNOWN: ItemEventStateChangedPayloadData (old and new state)
+ * - PRICE_DISCOVERED: ItemEventPriceDiscoveredPayloadData (new price only, when price is first detected)
+ * - PRICE_DROPPED, PRICE_INCREASED: ItemEventPriceChangedPayloadData (old and new price)
+ * - PRICE_REMOVED: ItemEventPriceRemovedPayloadData (old price only, when price is removed)
+ *
  */
-export type ItemEventPayloadData = ItemCreatedEventPayloadData | ItemStateData | PriceData;
+export type ItemEventPayloadData = ItemCreatedEventPayloadData | ItemEventStateChangedPayloadData | ItemEventPriceDiscoveredPayloadData | ItemEventPriceChangedPayloadData | ItemEventPriceRemovedPayloadData;
 
 /**
  * Standard error response format
@@ -261,7 +287,7 @@ export type SearchFilterData = {
     /**
      * Optional filter by item states
      */
-    state?: Array<ItemStateData>;
+    state?: Array<ItemStateData> | null;
     /**
      * Optional filter by item creation date range
      */
@@ -559,9 +585,17 @@ export type ItemKeyData = {
 export type WatchlistItemData = {
     item: GetItemData;
     /**
+     * Whether notifications are enabled for this watchlist item
+     */
+    notifications: boolean;
+    /**
      * When the item was added to the watchlist (RFC3339 format)
      */
     created: string;
+    /**
+     * When the watchlist item was last updated (RFC3339 format)
+     */
+    updated: string;
 };
 
 /**
@@ -584,6 +618,46 @@ export type WatchlistCollectionData = {
      * Total number of items (optional, may not be available for cursor-based pagination)
      */
     total?: number | null;
+};
+
+/**
+ * Patch object for updating watchlist item settings
+ */
+export type WatchlistItemPatch = {
+    /**
+     * Whether to enable or disable notifications for this watchlist item
+     */
+    notifications?: boolean;
+};
+
+/**
+ * Response after patching a watchlist item, containing core item identifiers and notification settings
+ */
+export type WatchlistItemPatchResponse = {
+    /**
+     * Unique identifier of the shop
+     */
+    shopId: string;
+    /**
+     * Shop's unique identifier for the item
+     */
+    shopsItemId: string;
+    /**
+     * Internal item identifier
+     */
+    itemId: string;
+    /**
+     * Current notification setting for this watchlist item
+     */
+    notifications: boolean;
+    /**
+     * When the item was added to the watchlist (RFC3339 format)
+     */
+    created: string;
+    /**
+     * When the watchlist item was last updated (RFC3339 format)
+     */
+    updated: string;
 };
 
 /**
@@ -1160,8 +1234,10 @@ export type AddWatchlistItemResponses = {
     /**
      * Item added to watchlist successfully
      */
-    201: unknown;
+    201: WatchlistItemPatchResponse;
 };
+
+export type AddWatchlistItemResponse = AddWatchlistItemResponses[keyof AddWatchlistItemResponses];
 
 export type DeleteWatchlistItemData = {
     body?: never;
@@ -1181,14 +1257,7 @@ export type DeleteWatchlistItemData = {
          */
         shopsItemId: string;
     };
-    query: {
-        /**
-         * RFC3339 timestamp of when the watchlist entry was created.
-         * Required to identify the exact entry to delete.
-         *
-         */
-        created: string;
-    };
+    query?: never;
     url: '/api/v1/watchlist/{shopId}/{shopsItemId}';
 };
 
@@ -1221,6 +1290,61 @@ export type DeleteWatchlistItemResponses = {
 };
 
 export type DeleteWatchlistItemResponse = DeleteWatchlistItemResponses[keyof DeleteWatchlistItemResponses];
+
+export type PatchWatchlistItemData = {
+    /**
+     * Patch object containing fields to update
+     */
+    body: WatchlistItemPatch;
+    headers: {
+        /**
+         * Cognito JWT token for user authentication
+         */
+        Authorization: string;
+    };
+    path: {
+        /**
+         * Unique identifier of the shop
+         */
+        shopId: string;
+        /**
+         * Shop's unique identifier for the item
+         */
+        shopsItemId: string;
+    };
+    query?: never;
+    url: '/api/v1/watchlist/{shopId}/{shopsItemId}';
+};
+
+export type PatchWatchlistItemErrors = {
+    /**
+     * Bad request - invalid parameters or body
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * Watchlist entry not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PatchWatchlistItemError = PatchWatchlistItemErrors[keyof PatchWatchlistItemErrors];
+
+export type PatchWatchlistItemResponses = {
+    /**
+     * Watchlist item updated successfully
+     */
+    200: WatchlistItemPatchResponse;
+};
+
+export type PatchWatchlistItemResponse = PatchWatchlistItemResponses[keyof PatchWatchlistItemResponses];
 
 export type GetShopData2 = {
     body?: never;

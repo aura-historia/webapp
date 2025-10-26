@@ -1,14 +1,23 @@
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
-import { screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
 import { SimpleSearchResults } from "../SimpleSearchResults.tsx";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 import { useSimpleSearch } from "@/hooks/useSimpleSearch.ts";
-import { renderWithTranslations } from "@/test/utils.tsx";
 
 vi.mock("@/hooks/useSimpleSearch.ts", () => ({
     useSimpleSearch: vi.fn(),
 }));
+
+vi.mock("@tanstack/react-router", async (importOriginal) => {
+    const actual = await importOriginal<typeof import("@tanstack/react-router")>();
+    return {
+        ...actual,
+        Link: ({ children, ...props }: { children: React.ReactNode }) => (
+            <a {...props}>{children}</a>
+        ),
+    };
+});
 
 vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: vi.fn(), inView: false }),
@@ -48,7 +57,7 @@ describe("SearchResults", () => {
     });
 
     it("renders a message when query length is less than 3 characters", () => {
-        renderWithTranslations(<SimpleSearchResults query="ab" />);
+        render(<SimpleSearchResults query="ab" />);
         expect(
             screen.getByText("Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten."),
         ).toBeInTheDocument();
@@ -56,13 +65,13 @@ describe("SearchResults", () => {
 
     it("renders skeleton loaders while data is loading", () => {
         setSearchMock({ isPending: true });
-        renderWithTranslations(<SimpleSearchResults query="test" />);
+        render(<SimpleSearchResults query="test" />);
         expect(screen.getAllByTestId("item-card-skeleton")).toHaveLength(4);
     });
 
     it("renders an error message when there is an error", () => {
         setSearchMock({ error: new Error("API Error") });
-        renderWithTranslations(<SimpleSearchResults query="test" />);
+        render(<SimpleSearchResults query="test" />);
         expect(
             screen.getByText(
                 "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
@@ -72,7 +81,7 @@ describe("SearchResults", () => {
 
     it("renders a message when no items are found", () => {
         setSearchMock({ items: [] });
-        renderWithTranslations(<SimpleSearchResults query="test" />);
+        render(<SimpleSearchResults query="test" />);
         expect(screen.getByText("Keine Artikel gefunden!")).toBeInTheDocument();
     });
 
@@ -97,7 +106,7 @@ describe("SearchResults", () => {
                 { ...base, itemId: "2", title: "Item 2" },
             ],
         });
-        renderWithTranslations(<SimpleSearchResults query="test" />);
+        render(<SimpleSearchResults query="test" />);
         expect(screen.getByText("Item 1")).toBeInTheDocument();
         expect(screen.getByText("Item 2")).toBeInTheDocument();
     });

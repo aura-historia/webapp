@@ -1,0 +1,170 @@
+import { useState, useEffect, useMemo } from "react";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel";
+import { ChevronLeft, ChevronRight, ImageOff } from "lucide-react";
+import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
+
+interface ItemImageGalleryProps {
+    readonly images: readonly URL[];
+    readonly title: string;
+    readonly itemId: string;
+}
+
+export function ItemImageGallery({ images, title, itemId }: ItemImageGalleryProps) {
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+    const slides = useMemo(() => images.map((img) => ({ src: img.href })), [images]);
+
+    /**
+     * Resets the image index to 0 when the 'item' changes.
+     * This prevents errors if the new 'item' has fewer images than the previous one.
+     */
+    // biome-ignore lint/correctness/useExhaustiveDependencies: itemId needed when item changes
+    useEffect(() => {
+        setCurrentImageIndex(0);
+    }, [itemId]);
+
+    /**
+     * Registers a `keydown` event listener for carousel image navigation.
+     *
+     * The handler function ignores arrow key events when the lightbox
+     * is active or there are fewer than two images.
+     *
+     * The cleanup function reliably removes the listener before unmounting
+     * or re-executing the effect to prevent memory leaks.
+     */
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (isLightboxOpen || images.length <= 1) return;
+
+            if (e.key === "ArrowLeft") {
+                setCurrentImageIndex((i) => (i === 0 ? images.length - 1 : i - 1));
+            } else if (e.key === "ArrowRight") {
+                setCurrentImageIndex((i) => (i + 1) % images.length);
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [images.length, isLightboxOpen]);
+
+    /**
+     * Renders a fallback image if no images are provided.
+     *
+     * If the `images` array is empty, this returns a placeholder
+     * with an icon and a text message
+     */
+    if (images.length === 0) {
+        return (
+            <div className="w-full md:w-80 lg:w-96">
+                <div className="w-full min-h-[200px] max-h-[350px] h-auto md:h-64 lg:h-80 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
+                    <ImageOff className="w-12 h-12 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">Kein Bild verfügbar</p>
+                </div>
+            </div>
+        );
+    }
+    return (
+        <>
+            <div className="w-full md:w-80 lg:w-96 space-y-3">
+                <div className="relative">
+                    <button
+                        type="button"
+                        onClick={() => setIsLightboxOpen(true)}
+                        className="w-full block"
+                    >
+                        <img
+                            src={images[currentImageIndex].href}
+                            alt={`Produktbild von ${title}`}
+                            className="w-full min-h-[200px] max-h-[350px] h-auto md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
+                        />
+                    </button>
+
+                    {/* Navigation buttons - only visible with 2+ images */}
+                    {images.length > 1 && (
+                        <>
+                            <button
+                                type="button"
+                                className=" absolute left-2 top-1/2 -translate-y-1/2 bg-black/50
+                            hover:bg-black/70 text-white rounded-full p-2 transition-colors"
+                                onClick={() =>
+                                    setCurrentImageIndex((i) =>
+                                        i === 0 ? images.length - 1 : i - 1,
+                                    )
+                                }
+                            >
+                                <ChevronLeft className="w-5 h-5" />
+                            </button>
+                            <button
+                                type="button"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
+                                onClick={() => setCurrentImageIndex((i) => (i + 1) % images.length)}
+                            >
+                                <ChevronRight className="w-5 h-5" />
+                            </button>
+                        </>
+                    )}
+                </div>
+
+                {/* Thumbnail carousel - only visible with 2+ images */}
+                {images.length > 1 && (
+                    <div className="relative px-10">
+                        <Carousel
+                            opts={{
+                                align: "start",
+                                containScroll: "trimSnaps",
+                            }}
+                            className="w-full"
+                        >
+                            <CarouselContent
+                                className={`-ml-2 ${images.length <= 2 ? "justify-center" : ""}`}
+                            >
+                                {images.map((img, idx) => (
+                                    <CarouselItem key={img.href} className="pl-2 basis-1/3">
+                                        <button
+                                            type="button"
+                                            onClick={() => setCurrentImageIndex(idx)}
+                                            className={`
+                                                    aspect-square w-full rounded-md overflow-hidden transition-all
+                                                    ${
+                                                        idx === currentImageIndex
+                                                            ? "border-2 border-primary"
+                                                            : "opacity-60 hover:opacity-100 border-2 border-transparent"
+                                                    } 
+                                                `}
+                                        >
+                                            <img
+                                                src={img.href}
+                                                alt={`Thumbnail ${idx + 1}`}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </button>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                            <CarouselPrevious className="absolute -left-10 top-1/2 -translate-y-1/2" />
+                            <CarouselNext className="absolute -right-10 top-1/2 -translate-y-1/2" />
+                        </Carousel>
+                    </div>
+                )}
+            </div>
+            <Lightbox
+                open={isLightboxOpen}
+                close={() => setIsLightboxOpen(false)}
+                slides={slides}
+                index={currentImageIndex}
+                plugins={[Zoom, Thumbnails]}
+                on={{ view: ({ index }) => setCurrentImageIndex(index) }}
+            />
+        </>
+    );
+}
