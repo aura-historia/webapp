@@ -1,9 +1,8 @@
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter";
 import { FormProvider, useForm } from "react-hook-form";
-import { screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
-import { renderWithTranslations } from "@/test/utils.tsx";
 
 // Wrapper component to provide form context for tests
 const FormWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -20,7 +19,7 @@ const FormWrapper = ({ children }: { children: React.ReactNode }) => {
 
 describe("UpdateDateSpanFilter", () => {
     it("renders both date pickers correctly", () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <UpdateDateSpanFilter />
             </FormWrapper>,
@@ -31,7 +30,7 @@ describe("UpdateDateSpanFilter", () => {
     });
 
     it("opens calendar when from date picker is clicked", async () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <UpdateDateSpanFilter />
             </FormWrapper>,
@@ -46,7 +45,7 @@ describe("UpdateDateSpanFilter", () => {
     });
 
     it("opens calendar when to date picker is clicked", async () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <UpdateDateSpanFilter />
             </FormWrapper>,
@@ -61,7 +60,7 @@ describe("UpdateDateSpanFilter", () => {
     });
 
     it("displays selected date in from date picker after selection", async () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <UpdateDateSpanFilter />
             </FormWrapper>,
@@ -82,7 +81,7 @@ describe("UpdateDateSpanFilter", () => {
     });
 
     it("displays selected date in to date picker after selection", async () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <UpdateDateSpanFilter />
             </FormWrapper>,
@@ -103,7 +102,7 @@ describe("UpdateDateSpanFilter", () => {
     });
 
     it("hides calendar after date selection", async () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <UpdateDateSpanFilter />
             </FormWrapper>,

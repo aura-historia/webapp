@@ -1,10 +1,9 @@
 import { MerchantFilter } from "@/components/search/filters/MerchantFilter";
 import { FormProvider, useForm } from "react-hook-form";
-import { screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import type React from "react";
-import { renderWithTranslations } from "@/test/utils.tsx";
 
 // Wrapper component to provide form context for tests
 const FormWrapper = ({
@@ -25,7 +24,7 @@ const FormWrapper = ({
 
 describe("MerchantFilter", () => {
     it("renders with correct heading and placeholder", () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <MerchantFilter />
             </FormWrapper>,
@@ -36,7 +35,7 @@ describe("MerchantFilter", () => {
     });
 
     it("allows entering merchant text", async () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <MerchantFilter />
             </FormWrapper>,
@@ -51,7 +50,7 @@ describe("MerchantFilter", () => {
     });
 
     it("shows pre-populated merchant value when provided", () => {
-        renderWithTranslations(
+        render(
             <FormWrapper defaultValues={{ merchant: "Existing Merchant" }}>
                 <MerchantFilter />
             </FormWrapper>,
@@ -62,7 +61,7 @@ describe("MerchantFilter", () => {
     });
 
     it("handles special characters in merchant name", async () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <MerchantFilter />
             </FormWrapper>,
@@ -77,7 +76,7 @@ describe("MerchantFilter", () => {
     });
 
     it("clears input correctly", async () => {
-        renderWithTranslations(
+        render(
             <FormWrapper defaultValues={{ merchant: "Initial Value" }}>
                 <MerchantFilter />
             </FormWrapper>,
@@ -93,7 +92,7 @@ describe("MerchantFilter", () => {
     });
 
     it("handles whitespace in merchant name", async () => {
-        renderWithTranslations(
+        render(
             <FormWrapper>
                 <MerchantFilter />
             </FormWrapper>,

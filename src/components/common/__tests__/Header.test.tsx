@@ -71,13 +71,13 @@ describe("Header Component", () => {
         });
 
         it("should show AccountImage for logged in user", () => {
-            const profileContainer = screen.getByRole("button");
+            const profileContainer = screen.getByRole("button", { name: "MM" });
             expect(profileContainer).toBeInTheDocument();
         });
 
         it("should show dropdown menu items when clicked", async () => {
             const user = userEvent.setup();
-            const dropdownTrigger = screen.getByRole("button");
+            const dropdownTrigger = screen.getByRole("button", { name: "MM" });
 
             await user.click(dropdownTrigger);
 
