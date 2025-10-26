@@ -14,6 +14,7 @@ import { formatToDateString } from "@/lib/utils.ts";
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
+import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 
 const createFilterSchema = (t: TFunction) =>
     z
@@ -80,19 +81,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
 
     const form = useForm<FilterSchema>({
         resolver: zodResolver(filterSchema),
-        defaultValues: {
-            priceSpan: { min: undefined, max: undefined },
-            itemState: ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"],
-            creationDate: {
-                from: undefined,
-                to: undefined,
-            },
-            updateDate: {
-                from: undefined,
-                to: undefined,
-            },
-            merchant: undefined,
-        },
+        defaultValues: FILTER_DEFAULTS,
         mode: "onSubmit",
     });
 
@@ -166,7 +155,16 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
             },
         });
     };
+    const handleResetAll = () => {
+        form.reset(FILTER_DEFAULTS);
 
+        navigate({
+            to: "/search",
+            search: {
+                q: searchFilters.q,
+            },
+        });
+    };
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -177,6 +175,14 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                     <UpdateDateSpanFilter />
                     <MerchantFilter />
                 </div>
+                <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full shadow-sm"
+                    onClick={handleResetAll}
+                >
+                    Alle Filter zurücksetzen {/* TODO i18n */}
+                </Button>
                 <Button className="w-full shadow-sm" type="submit">
                     {t("search.applyFilters")}
                 </Button>
