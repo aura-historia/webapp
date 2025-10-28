@@ -3,7 +3,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
-
+vi.mock("@/hooks/useFilterNavigation", () => ({
+    useFilterNavigation: () => vi.fn(),
+}));
 // Wrapper component to provide form context for tests
 const FormWrapper = ({ children }: { children: React.ReactNode }) => {
     const methods = useForm({
