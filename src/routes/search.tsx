@@ -7,6 +7,7 @@ import { FilteredSearchResults } from "@/components/search/FilteredSearchResults
 import { isSimpleSearch } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
+import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (
@@ -79,35 +80,38 @@ function RouteComponent() {
     const { t } = useTranslation();
 
     return (
-        <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto">
-            <div className={"flex flex-row items-end gap-8"}>
-                <div className={"flex-col hidden lg:block lg:w-[30%] min-w-0"}>
-                    <H1>{t("search.filters")}</H1>
+        <>
+            <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto">
+                <div className={"flex flex-row items-end gap-8"}>
+                    <div className={"flex-col hidden lg:block lg:w-[30%] min-w-0"}>
+                        <H1>{t("search.filters")}</H1>
+                    </div>
+                    <div className={"flex-col lg:w-[70%] min-w-0"}>
+                        <H1>{t("search.resultsFor")}</H1>
+                        <H1 className={"text-ellipsis overflow-hidden line-clamp-1"}>
+                            "{searchArgs.q}"
+                        </H1>
+                    </div>
                 </div>
-                <div className={"flex-col lg:w-[70%] min-w-0"}>
-                    <H1>{t("search.resultsFor")}</H1>
-                    <H1 className={"text-ellipsis overflow-hidden line-clamp-1"}>
-                        "{searchArgs.q}"
-                    </H1>
-                </div>
-            </div>
 
-            <div className={"flex flex-col lg:flex-row items-start gap-8"}>
-                <div
-                    className={
-                        "flex-col w-full lg:w-[30%] min-w-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300"
-                    }
-                >
-                    <SearchFilters searchFilters={searchArgs} />
-                </div>
-                <div className={"flex-col lg:w-[70%] min-w-0"}>
-                    {isSimpleSearch(searchArgs) ? (
-                        <SimpleSearchResults query={searchArgs.q} />
-                    ) : (
-                        <FilteredSearchResults searchFilters={searchArgs} />
-                    )}
+                <div className={"flex flex-col lg:flex-row items-start gap-8"}>
+                    <div
+                        className={
+                            "flex-col w-full lg:w-[30%] min-w-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300"
+                        }
+                    >
+                        <SearchFilters searchFilters={searchArgs} />
+                    </div>
+                    <div className={"flex-col lg:w-[70%] min-w-0"}>
+                        {isSimpleSearch(searchArgs) ? (
+                            <SimpleSearchResults query={searchArgs.q} />
+                        ) : (
+                            <FilteredSearchResults searchFilters={searchArgs} />
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+            <ScrollToTopButton />
+        </>
     );
 }
