@@ -54,7 +54,7 @@
         "@tanstack/react-table": "^8.21.2",
         "@tanstack/router-plugin": "^1.133.27",
         "apexcharts": "^5.3.5",
-        "aws-amplify": "^6.15.6",
+        "aws-amplify": "^6.15.7",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "components": "link:@/components",
