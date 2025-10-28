@@ -32,7 +32,7 @@ export function MerchantFilter() {
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                        <p>Filter für den Händler zurücksetzen</p>
+                        <p>{t("search.filter.resetTooltip.merchant")}</p>
                     </TooltipContent>
                 </Tooltip>
             </CardHeader>

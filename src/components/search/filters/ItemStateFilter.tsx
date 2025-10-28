@@ -47,7 +47,7 @@ export function ItemStateFilter() {
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                        <p>Filter für den Status zurücksetzen</p>
+                        <p>{t("search.filter.resetTooltip.itemState")}</p>
                     </TooltipContent>
                 </Tooltip>
             </CardHeader>

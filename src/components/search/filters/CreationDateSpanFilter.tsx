@@ -31,7 +31,7 @@ export function CreationDateSpanFilter() {
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                        <p>Filter für das Erstellungsdatum zurücksetzen</p>
+                        <p>{t("search.filter.resetTooltip.creationDate")}</p>
                     </TooltipContent>
                 </Tooltip>
             </CardHeader>

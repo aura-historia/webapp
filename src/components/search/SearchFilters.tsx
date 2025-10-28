@@ -181,7 +181,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                     className="w-full shadow-sm"
                     onClick={handleResetAll}
                 >
-                    Alle Filter zurücksetzen {/* TODO i18n */}
+                    {t("search.resetAllFilters")}
                 </Button>
                 <Button className="w-full shadow-sm" type="submit">
                     {t("search.applyFilters")}

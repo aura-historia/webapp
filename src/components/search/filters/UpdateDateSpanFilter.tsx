@@ -32,7 +32,7 @@ export function UpdateDateSpanFilter() {
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                        <p>Filter für das Aktualisierungsdatum zurücksetzen</p>
+                        <p>{t("search.filter.resetTooltip.updateDate")}</p>
                     </TooltipContent>
                 </Tooltip>
             </CardHeader>

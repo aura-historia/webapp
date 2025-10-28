@@ -68,7 +68,7 @@ export function PriceSpanFilter() {
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                        <p>Filter für die Preisspanne zurücksetzen</p>
+                        <p>{t("search.filter.resetTooltip.priceSpan")}</p>
                     </TooltipContent>
                 </Tooltip>
             </CardHeader>
