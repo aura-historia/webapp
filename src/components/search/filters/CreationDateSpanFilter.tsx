@@ -4,16 +4,16 @@ import { DatePicker } from "@/components/search/filters/util/DatePicker.tsx";
 import { useFormContext, useFormState } from "react-hook-form";
 import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { useTranslation } from "react-i18next";
-import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { FilterX } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useFilterNavigation } from "@/hooks/useFilterNavigation.ts";
 
 export function CreationDateSpanFilter() {
-    const { control, setValue } = useFormContext<FilterSchema>();
+    const { control } = useFormContext<FilterSchema>();
     const { errors } = useFormState({ control, name: ["creationDate.to"] });
     const { t } = useTranslation();
-
+    const resetAndNavigate = useFilterNavigation();
     return (
         <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
@@ -24,7 +24,7 @@ export function CreationDateSpanFilter() {
                             type="button"
                             variant="ghost"
                             size="sm"
-                            onClick={() => setValue("creationDate", FILTER_DEFAULTS.creationDate)}
+                            onClick={() => resetAndNavigate("creationDate")}
                             className="h-8 w-8 p-0"
                         >
                             <FilterX className="h-5 w-5" />

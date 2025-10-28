@@ -2,15 +2,14 @@ import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Card, CardContent, CardHeader } from "@/components/ui/card.tsx";
 import { Checkbox } from "@/components/ui/checkbox";
-
 import { StatusBadge } from "@/components/item/StatusBadge.tsx";
 import { Controller, useFormContext } from "react-hook-form";
 import type { CheckedState } from "@radix-ui/react-checkbox";
 import { useTranslation } from "react-i18next";
-import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { FilterX } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useFilterNavigation } from "@/hooks/useFilterNavigation";
 
 const itemStates = ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"] as const;
 
@@ -27,8 +26,9 @@ function handleCheckedChange(
 }
 
 export function ItemStateFilter() {
-    const { control, setValue } = useFormContext<FilterSchema>();
+    const { control } = useFormContext<FilterSchema>();
     const { t } = useTranslation();
+    const resetAndNavigate = useFilterNavigation();
 
     return (
         <Card>
@@ -40,7 +40,7 @@ export function ItemStateFilter() {
                             type="button"
                             variant="ghost"
                             size="sm"
-                            onClick={() => setValue("itemState", FILTER_DEFAULTS.itemState)}
+                            onClick={() => resetAndNavigate("itemState")}
                             className="h-8 w-8 p-0"
                         >
                             <FilterX className="h-5 w-5" />

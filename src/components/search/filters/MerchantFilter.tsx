@@ -7,12 +7,13 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button.tsx";
 import { FilterX } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
+import { useFilterNavigation } from "@/hooks/useFilterNavigation.ts";
 
 export function MerchantFilter() {
-    const { control, setValue } = useFormContext<FilterSchema>();
+    const { control } = useFormContext<FilterSchema>();
     const { errors } = useFormState({ control, name: ["merchant"] });
     const { t } = useTranslation();
+    const resetAndNavigate = useFilterNavigation();
 
     return (
         <Card>
@@ -24,7 +25,7 @@ export function MerchantFilter() {
                             type="button"
                             variant="ghost"
                             size="sm"
-                            onClick={() => setValue("merchant", FILTER_DEFAULTS.merchant)}
+                            onClick={() => resetAndNavigate("merchant")}
                             className="h-8 w-8 p-0"
                         >
                             <FilterX className="h-5 w-5" />

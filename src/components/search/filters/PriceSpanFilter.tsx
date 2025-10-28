@@ -7,9 +7,9 @@ import { useEffect, useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button.tsx";
-import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 import { FilterX } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useFilterNavigation } from "@/hooks/useFilterNavigation.ts";
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 10_000;
@@ -17,6 +17,7 @@ const PRICE_MAX = 10_000;
 export function PriceSpanFilter() {
     const { control, watch, setValue } = useFormContext<FilterSchema>();
     const { t } = useTranslation();
+    const resetAndNavigate = useFilterNavigation();
 
     const watchedMin = watch("priceSpan.min");
     const watchedMax = watch("priceSpan.max");
@@ -60,7 +61,7 @@ export function PriceSpanFilter() {
                             type="button"
                             variant="ghost"
                             size="sm"
-                            onClick={() => setValue("priceSpan", FILTER_DEFAULTS.priceSpan)}
+                            onClick={() => resetAndNavigate("priceSpan")}
                             className="h-8 w-8 p-0"
                         >
                             <FilterX className="h-5 w-5" />

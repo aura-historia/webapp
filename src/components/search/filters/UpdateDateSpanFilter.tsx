@@ -6,13 +6,14 @@ import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { useTranslation } from "react-i18next";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button.tsx";
-import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 import { FilterX } from "lucide-react";
+import { useFilterNavigation } from "@/hooks/useFilterNavigation.ts";
 
 export function UpdateDateSpanFilter() {
-    const { control, setValue } = useFormContext<FilterSchema>();
+    const { control } = useFormContext<FilterSchema>();
     const { errors } = useFormState({ control, name: ["updateDate.to"] });
     const { t } = useTranslation();
+    const resetAndNavigate = useFilterNavigation();
 
     return (
         <Card>
@@ -24,7 +25,7 @@ export function UpdateDateSpanFilter() {
                             type="button"
                             variant="ghost"
                             size="sm"
-                            onClick={() => setValue("updateDate", FILTER_DEFAULTS.updateDate)}
+                            onClick={() => resetAndNavigate("updateDate")}
                             className="h-8 w-8 p-0"
                         >
                             <FilterX className="h-5 w-5" />
