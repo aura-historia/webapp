@@ -19,7 +19,7 @@ code {
 
 :root {
     --background: var(--color-neutral-50);
-    --foreground: var(--color-neutral-800);
+    --foreground: var(--color-neutral-900);
     --card: oklch(0.95 0 0 / 70%);
     --card-foreground: var(--color-neutral-800);
     --popover: oklch(1 0 0);
@@ -32,7 +32,7 @@ code {
     --tertiary: #44a597;
     --tertiary-foreground: #ffffff;
     --muted: oklch(0.967 0.001 286.375);
-    --muted-foreground: var(--color-neutral-500);
+    --muted-foreground: var(--color-neutral-600);
     --accent: oklch(92.2% 0 0 / 70%);
     --accent-foreground: var(--color-neutral-800);
     --destructive: oklch(0.577 0.245 27.325);

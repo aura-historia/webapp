@@ -157,5 +157,9 @@
     "landingPage": {
         "titleFirstLine": "Entdecken, vergleichen, sammeln-",
         "titleSecondLine": "mit Klarheit im Antiquitätenmarkt"
+    },
+    "watchlist": {
+        "title": "Meine Merkliste",
+        "totalElements": "{{count}} Elemente"
     }
 }

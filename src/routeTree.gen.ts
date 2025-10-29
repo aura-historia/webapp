@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WatchlistRouteImport } from './routes/watchlist'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ImprintRouteImport } from './routes/imprint'
@@ -17,6 +18,11 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ItemShopIdShopsItemIdRouteImport } from './routes/item.$shopId.$shopsItemId'
 
+const WatchlistRoute = WatchlistRouteImport.update({
+  id: '/watchlist',
+  path: '/watchlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/imprint': typeof ImprintRoute
   '/search': typeof SearchRoute
   '/terms': typeof TermsRoute
+  '/watchlist': typeof WatchlistRoute
   '/item/$shopId/$shopsItemId': typeof ItemShopIdShopsItemIdRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/imprint': typeof ImprintRoute
   '/search': typeof SearchRoute
   '/terms': typeof TermsRoute
+  '/watchlist': typeof WatchlistRoute
   '/item/$shopId/$shopsItemId': typeof ItemShopIdShopsItemIdRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/imprint': typeof ImprintRoute
   '/search': typeof SearchRoute
   '/terms': typeof TermsRoute
+  '/watchlist': typeof WatchlistRoute
   '/item/$shopId/$shopsItemId': typeof ItemShopIdShopsItemIdRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/imprint'
     | '/search'
     | '/terms'
+    | '/watchlist'
     | '/item/$shopId/$shopsItemId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/imprint'
     | '/search'
     | '/terms'
+    | '/watchlist'
     | '/item/$shopId/$shopsItemId'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/imprint'
     | '/search'
     | '/terms'
+    | '/watchlist'
     | '/item/$shopId/$shopsItemId'
   fileRoutesById: FileRoutesById
 }
@@ -118,11 +130,19 @@ export interface RootRouteChildren {
   ImprintRoute: typeof ImprintRoute
   SearchRoute: typeof SearchRoute
   TermsRoute: typeof TermsRoute
+  WatchlistRoute: typeof WatchlistRoute
   ItemShopIdShopsItemIdRoute: typeof ItemShopIdShopsItemIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/watchlist': {
+      id: '/watchlist'
+      path: '/watchlist'
+      fullPath: '/watchlist'
+      preLoaderRoute: typeof WatchlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImprintRoute: ImprintRoute,
   SearchRoute: SearchRoute,
   TermsRoute: TermsRoute,
+  WatchlistRoute: WatchlistRoute,
   ItemShopIdShopsItemIdRoute: ItemShopIdShopsItemIdRoute,
 }
 export const routeTree = rootRouteImport

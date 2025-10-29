@@ -3,12 +3,22 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import "@aws-amplify/ui-react/styles.css";
 import "../amplify-config";
 
+type AuthSearch = {
+    redirect?: string;
+};
+
 export const Route = createFileRoute("/auth")({
+    validateSearch: (search: Record<string, unknown>): AuthSearch => {
+        return {
+            redirect: typeof search.redirect === "string" ? search.redirect : undefined,
+        };
+    },
     component: AuthPage,
 });
 
 function AuthPage() {
     const navigate = useNavigate();
+    const { redirect } = Route.useSearch();
 
     return (
         <div className="flex flex-row min-h-screen justify-center items-center">
@@ -36,7 +46,7 @@ function AuthPage() {
             >
                 {({ user }) => {
                     if (user) {
-                        navigate({ to: "/" }).catch((error) => {
+                        navigate({ to: redirect || "/" }).catch((error) => {
                             console.error("Navigation failed:", error);
                         });
                     }

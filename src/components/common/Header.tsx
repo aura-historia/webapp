@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useUserAttributes } from "@/hooks/useUserAttributes.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
 import { SearchBar } from "@/components/search/SearchBar.tsx";
@@ -17,6 +17,9 @@ import { Menu } from "lucide-react";
 
 export function Header() {
     const { t } = useTranslation();
+    const pathname = useLocation({
+        select: (location) => location.pathname,
+    });
 
     const { toSignUp, toSignIn, user, signOut } = useAuthenticator((context) => [
         context.toSignUp,
@@ -29,12 +32,21 @@ export function Header() {
 
     return (
         <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 backdrop-blur-sm items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
-            <Link
-                to="/"
-                className="text-md md:text-xl lg:text-2xl font-bold text-center md:text-left"
-            >
-                {t("common.auraHistoria")}
-            </Link>
+            <div className="flex items-center justify-start gap-8">
+                <Link to="/" className="text-md md:text-xl lg:text-2xl font-bold text-center md:text-left">
+                    {t("common.auraHistoria")}
+                </Link>
+                <div className="flex items-center gap-4 text-muted-foreground">
+                    <span>Shops</span>
+                    {user ? (
+                        <Link to="/watchlist" className="hidden sm:inline">
+                            <span className={pathname === "/watchlist" ? "underline" : ""}>
+                                Merkliste
+                            </span>
+                        </Link>
+                    ) : null}
+                </div>
+            </div>
 
             <div className="hidden justify-center md:flex">
                 <SearchBar type={"small"} />
