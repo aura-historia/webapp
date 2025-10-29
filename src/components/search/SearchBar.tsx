@@ -96,9 +96,7 @@ export function SearchBar({ type }: SearchBarProps) {
                             <FormLabel className="sr-only">{t("search.bar.label")}</FormLabel>
                             <FormControl>
                                 <Input
-                                    className={
-                                        type === "big" ? "h-12 font-medium !text-lg" : "h-10"
-                                    }
+                                    className={type === "big" ? "h-12 font-medium !text-lg" : "h-9"}
                                     type={"text"}
                                     placeholder={t("search.bar.placeholder")}
                                     {...field}
@@ -109,7 +107,7 @@ export function SearchBar({ type }: SearchBarProps) {
                     )}
                 />
 
-                <Button type="submit" className={type === "big" ? "mt-0 h-12" : "h-10"}>
+                <Button type="submit" className={type === "big" ? "mt-0 h-12" : "h-9"}>
                     <span className={type === "big" ? "hidden sm:inline text-lg" : "hidden"}>
                         {t("search.bar.button")}
                     </span>

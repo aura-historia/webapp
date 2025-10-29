@@ -13,6 +13,7 @@ import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
 import { SearchBar } from "@/components/search/SearchBar.tsx";
+import { Menu } from "lucide-react";
 
 export function Header() {
     const { t } = useTranslation();
@@ -27,16 +28,50 @@ export function Header() {
     const { data: userAttributes, isLoading } = useUserAttributes();
 
     return (
-        <header className="grid grid-cols-3 items-center backdrop-blur-sm z-50 sticky top-0 px-8 py-4 border-b h-20 z-10 w-full">
-            <Link to="/" className="hidden sm:inline text-2xl font-bold">
+        <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 backdrop-blur-sm items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
+            <Link to="/" className="text-md md:text-xl lg:text-2xl font-bold text-center">
                 {t("common.auraHistoria")}
             </Link>
 
-            <div className="flex justify-center">
+            <div className="hidden justify-center md:flex">
                 <SearchBar type={"small"} />
             </div>
 
-            <div className="flex items-center justify-end gap-4 w-full">
+            <div className="flex md:hidden items-center justify-end gap-2">
+                <SearchBar type={"small"} />
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <Button>
+                            <Menu />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        {user ? (
+                            <>
+                                <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                    <Link to="/account">{t("header.editAccount")}</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onSelect={() => signOut()}>
+                                    {t("header.logout")}
+                                </DropdownMenuItem>
+                            </>
+                        ) : (
+                            <>
+                                <DropdownMenuItem onClick={toSignUp} asChild>
+                                    <Link to="/auth">{t("common.register")}</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={toSignIn} asChild>
+                                    <Link to="/auth">{t("common.login")}</Link>
+                                </DropdownMenuItem>
+                            </>
+                        )}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+
+            <div className="hidden md:flex items-center justify-end gap-4 w-full">
                 {user ? (
                     <DropdownMenu>
                         <DropdownMenuTrigger>
