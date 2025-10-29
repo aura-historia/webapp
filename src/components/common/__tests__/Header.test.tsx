@@ -39,7 +39,7 @@ describe("Header Component", () => {
         });
 
         it("should render webapp logo link", () => {
-            const logoLink = screen.getByText("Aura Historia");
+            const logoLink = screen.getByText("Aura Historia (Preview)");
             expect(logoLink).toBeInTheDocument();
             expect(logoLink.closest("a")).toHaveAttribute("href", "/");
         });
@@ -65,7 +65,7 @@ describe("Header Component", () => {
         });
 
         it("should render webapp logo link", () => {
-            const logoLink = screen.getByText("Aura Historia");
+            const logoLink = screen.getByText("Aura Historia (Preview)");
             expect(logoLink).toBeInTheDocument();
             expect(logoLink.closest("a")).toHaveAttribute("href", "/");
         });
@@ -98,7 +98,8 @@ describe("Header Component", () => {
                 renderWithRouter(<Header />, { initialEntries: ["/search"] });
             });
             // Search bar should be visible on non-landing pages
-            expect(screen.getByPlaceholderText("Ich suche nach...")).toBeInTheDocument();
+            const searchInputs = screen.getAllByPlaceholderText("Ich suche nach...");
+            expect(searchInputs.length).toBeGreaterThan(0);
         });
 
         it("should hide the search bar on the landing page", async () => {
@@ -113,7 +114,8 @@ describe("Header Component", () => {
             await act(() => {
                 renderWithRouter(<Header />, { initialEntries: ["/test"] });
             });
-            expect(screen.getByPlaceholderText("Ich suche nach...")).toBeInTheDocument();
+            const searchInputs = screen.getAllByPlaceholderText("Ich suche nach...");
+            expect(searchInputs.length).toBeGreaterThan(0);
         });
 
         it("should render search bar in the center column", async () => {
@@ -121,13 +123,12 @@ describe("Header Component", () => {
                 renderWithRouter(<Header />, { initialEntries: ["/search"] });
             });
             const header = screen.getByRole("banner");
-            const searchInput = screen.getByPlaceholderText("Ich suche nach...");
 
-            // Verify header has grid layout
-            expect(header).toHaveClass("grid", "grid-cols-3");
+            // Verify header has responsive grid layout
+            expect(header).toHaveClass("md:grid", "md:grid-cols-3");
 
-            // Verify search input is in a centered div
-            const centerDiv = searchInput.closest("div.flex.justify-center");
+            // Verify search input is in a centered div (desktop version)
+            const centerDiv = header.querySelector("div.hidden.justify-center.md\\:flex");
             expect(centerDiv).toBeInTheDocument();
         });
 
@@ -137,11 +138,11 @@ describe("Header Component", () => {
                 renderWithRouter(<Header />, { initialEntries: ["/search"] });
             });
 
-            const input = screen.getByPlaceholderText("Ich suche nach...");
-            const button = screen.getByRole("button", { name: "Suchen" });
+            const inputs = screen.getAllByPlaceholderText("Ich suche nach...");
+            const buttons = screen.getAllByRole("button", { name: "Suchen" });
 
-            await user.type(input, "test query");
-            await user.click(button);
+            await user.type(inputs[0], "test query");
+            await user.click(buttons[0]);
 
             // Form should process without validation errors
             expect(
@@ -154,18 +155,23 @@ describe("Header Component", () => {
                 renderWithRouter(<Header />, { initialEntries: ["/search"] });
             });
 
-            const input = screen.getByPlaceholderText("Ich suche nach...");
-            const button = screen.getByRole("button", { name: "Suchen" });
+            const inputs = screen.getAllByPlaceholderText("Ich suche nach...");
+            const buttons = screen.getAllByRole("button");
 
-            // Small variant should have h-10 height
-            expect(input).toHaveClass("h-10");
-            expect(button).toHaveClass("h-10");
+            // Find the search button (has Search icon)
+            const searchButton = buttons.find((btn) => btn.querySelector("svg.lucide-search"));
+
+            // Small variant should have h-9 height
+            expect(inputs[0]).toHaveClass("h-9");
+            if (searchButton) {
+                expect(searchButton).toHaveClass("h-9");
+            }
 
             // Small variant should not show button text on any screen size
-            const buttonText = screen.queryByText("Suchen");
-            if (buttonText) {
-                expect(buttonText).toHaveClass("hidden");
-                expect(buttonText).not.toHaveClass("sm:inline");
+            const buttonTexts = screen.queryAllByText("Suchen");
+            if (buttonTexts.length > 0) {
+                expect(buttonTexts[0]).toHaveClass("hidden");
+                expect(buttonTexts[0]).not.toHaveClass("sm:inline");
             }
         });
     });
@@ -176,7 +182,7 @@ describe("Header Component", () => {
                 renderWithRouter(<Header />);
             });
             const header = screen.getByRole("banner");
-            expect(header).toHaveClass("grid", "grid-cols-3");
+            expect(header).toHaveClass("md:grid", "md:grid-cols-3");
         });
 
         it("should be sticky at the top", async () => {

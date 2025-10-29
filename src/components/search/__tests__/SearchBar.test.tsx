@@ -111,8 +111,8 @@ describe("SearchBar", () => {
             const input = screen.getByPlaceholderText("Ich suche nach...");
             const button = screen.getByRole("button");
 
-            expect(input).toHaveClass("h-10");
-            expect(button).toHaveClass("h-10");
+            expect(input).toHaveClass("h-9");
+            expect(button).toHaveClass("h-9");
         });
 
         it("should not show button text", async () => {
