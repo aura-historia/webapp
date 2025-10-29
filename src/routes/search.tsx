@@ -7,6 +7,7 @@ import { FilteredSearchResults } from "@/components/search/FilteredSearchResults
 import { isSimpleSearch } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
+import { useState } from "react";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (
@@ -77,6 +78,7 @@ export const Route = createFileRoute("/search")({
 function RouteComponent() {
     const searchArgs = Route.useSearch();
     const { t } = useTranslation();
+    const [totalResults, setTotalResults] = useState<number | null>(null);
 
     return (
         <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto">
@@ -85,7 +87,10 @@ function RouteComponent() {
                     <H1>{t("search.filters")}</H1>
                 </div>
                 <div className={"flex-col lg:w-[70%] min-w-0"}>
-                    <H1>{t("search.resultsFor")}</H1>
+                    <H1>
+                        {totalResults !== null ? `${totalResults} ` : ""}
+                        {t("search.resultsFor")}
+                    </H1>
                     <H1 className={"text-ellipsis overflow-hidden line-clamp-1"}>
                         "{searchArgs.q}"
                     </H1>
@@ -102,9 +107,12 @@ function RouteComponent() {
                 </div>
                 <div className={"flex-col lg:w-[70%] min-w-0"}>
                     {isSimpleSearch(searchArgs) ? (
-                        <SimpleSearchResults query={searchArgs.q} />
+                        <SimpleSearchResults query={searchArgs.q} onTotalChange={setTotalResults} />
                     ) : (
-                        <FilteredSearchResults searchFilters={searchArgs} />
+                        <FilteredSearchResults
+                            searchFilters={searchArgs}
+                            onTotalChange={setTotalResults}
+                        />
                     )}
                 </div>
             </div>

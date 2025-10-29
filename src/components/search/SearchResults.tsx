@@ -12,12 +12,19 @@ import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 type SearchResultsProps = {
     readonly query: string;
     readonly searchQueryHook: UseInfiniteQueryResult<InfiniteData<SearchResultData>>;
+    readonly onTotalChange?: (total: number) => void;
 };
 
-export function SearchResults({ query, searchQueryHook }: SearchResultsProps) {
+export function SearchResults({ query, searchQueryHook, onTotalChange }: SearchResultsProps) {
     const { ref, inView } = useInView();
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
         searchQueryHook;
+
+    useEffect(() => {
+        if (data?.pages[0]?.total !== undefined && onTotalChange) {
+            onTotalChange(data.pages[0].total);
+        }
+    }, [data?.pages[0]?.total, onTotalChange]);
 
     useEffect(() => {
         if (inView && hasNextPage && !isFetchingNextPage && query.length >= 3) {
