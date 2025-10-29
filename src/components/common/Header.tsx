@@ -29,7 +29,10 @@ export function Header() {
 
     return (
         <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 backdrop-blur-sm items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
-            <Link to="/" className="text-md md:text-xl lg:text-2xl font-bold text-center">
+            <Link
+                to="/"
+                className="text-md md:text-xl lg:text-2xl font-bold text-center md:text-left"
+            >
                 {t("common.auraHistoria")}
             </Link>
 

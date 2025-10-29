@@ -51,18 +51,11 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                             }}
                             className="min-w-0 overflow-hidden"
                         >
-                            <H2
-                                className={
-                                    "text-ellipsis overflow-hidden line-clamp-1 hover:underline"
-                                }
-                            >
+                            <H2 className={"overflow-ellipsis line-clamp-1 hover:underline"}>
                                 {item.title}
                             </H2>
                         </Link>
-                        <H3
-                            variant={"muted"}
-                            className={"line-clamp-1 overflow-ellipsis whitespace-nowrap"}
-                        >
+                        <H3 variant={"muted"} className={"line-clamp-1 overflow-ellipsis"}>
                             {item.shopName}
                         </H3>
                         <StatusBadge status={item.state} />
