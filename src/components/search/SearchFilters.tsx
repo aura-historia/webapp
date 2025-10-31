@@ -175,17 +175,19 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                     <UpdateDateSpanFilter />
                     <MerchantFilter />
                 </div>
-                <Button
-                    type="button"
-                    variant="outline"
-                    className="w-full shadow-sm"
-                    onClick={handleResetAll}
-                >
-                    {t("search.resetAllFilters")}
-                </Button>
-                <Button className="w-full shadow-sm" type="submit">
-                    {t("search.applyFilters")}
-                </Button>
+                <div className="flex flex-col gap-2">
+                    <Button className="w-full shadow-sm" type="submit">
+                        {t("search.applyFilters")}
+                    </Button>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full shadow-sm"
+                        onClick={handleResetAll}
+                    >
+                        {t("search.resetAllFilters")}
+                    </Button>
+                </div>
             </form>
         </Form>
     );
