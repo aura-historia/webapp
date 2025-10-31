@@ -34,6 +34,8 @@ const createSearchFormSchema = (t: TFunction) =>
 
 export type SearchFormSchema = z.infer<ReturnType<typeof createSearchFormSchema>>;
 
+const SEARCH_BAR_HIDDEN_ROUTES = ["/", "/auth"];
+
 export function SearchBar({ type }: SearchBarProps) {
     const { t } = useTranslation();
     const navigate = useNavigate({ from: "/" });
@@ -76,7 +78,7 @@ export function SearchBar({ type }: SearchBarProps) {
         });
     }
 
-    if (pathname === "/" && type === "small") return;
+    if (SEARCH_BAR_HIDDEN_ROUTES.includes(pathname) && type === "small") return;
 
     return (
         <Form {...form}>
