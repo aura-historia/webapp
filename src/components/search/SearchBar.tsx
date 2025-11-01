@@ -98,6 +98,7 @@ export function SearchBar({ type }: SearchBarProps) {
                             <FormLabel className="sr-only">{t("search.bar.label")}</FormLabel>
                             <FormControl>
                                 <Input
+                                    autoFocus={type === "big"}
                                     className={type === "big" ? "h-12 font-medium !text-lg" : "h-9"}
                                     type={"text"}
                                     placeholder={t("search.bar.placeholder")}
