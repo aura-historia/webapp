@@ -63,6 +63,59 @@ export function isSimpleSearch(searchArgs: SearchFilterArguments): boolean {
     );
 }
 
+export type SearchFilterData = {
+    query: string;
+    priceSpan?: {
+        min?: number;
+        max?: number;
+    };
+    itemState?: ItemState[];
+    creationDate?: {
+        from?: Date;
+        to?: Date;
+    };
+    updateDate?: {
+        from?: Date;
+        to?: Date;
+    };
+    merchant?: string;
+};
+
+export type SearchUrlParams = {
+    q: string;
+    priceFrom?: number;
+    priceTo?: number;
+    allowedStates?: ItemState[];
+    creationDateFrom?: string;
+    creationDateTo?: string;
+    updateDateFrom?: string;
+    updateDateTo?: string;
+    merchant?: string;
+};
+
+/**
+ * Converts filter form data to URL search parameters
+ */
+export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
+    return {
+        q: data.query,
+        priceFrom: data.priceSpan?.min,
+        priceTo: data.priceSpan?.max,
+        allowedStates: data.itemState && data.itemState.length > 0 ? data.itemState : undefined,
+        creationDateFrom: data.creationDate?.from
+            ? formatToDateString(data.creationDate.from)
+            : undefined,
+        creationDateTo: data.creationDate?.to
+            ? formatToDateString(data.creationDate.to)
+            : undefined,
+        updateDateFrom: data.updateDate?.from
+            ? formatToDateString(data.updateDate.from)
+            : undefined,
+        updateDateTo: data.updateDate?.to ? formatToDateString(data.updateDate.to) : undefined,
+        merchant: data.merchant ? data.merchant : undefined,
+    };
+}
+
 export function formatDateTime(date: Date, locale?: string): string {
     return new Intl.DateTimeFormat(locale ?? navigator.language, {
         day: "2-digit",

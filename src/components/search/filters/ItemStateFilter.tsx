@@ -32,7 +32,7 @@ export function ItemStateFilter() {
                 <H2>{t("search.filter.itemState")}</H2>
             </CardHeader>
             <CardContent>
-                <div className={"w-full grid grid-cols-2 gap-4"}>
+                <div className={"w-full grid grid-cols-1 sm:grid-cols-2 gap-4"}>
                     {itemStates.map((item) => (
                         <Controller
                             key={item}
