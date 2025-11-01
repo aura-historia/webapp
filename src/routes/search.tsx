@@ -8,6 +8,10 @@ import { isSimpleSearch } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { Filter } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (
@@ -78,6 +82,12 @@ export const Route = createFileRoute("/search")({
 function RouteComponent() {
     const searchArgs = Route.useSearch();
     const { t } = useTranslation();
+    const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
+
+    // biome-ignore lint/correctness/useExhaustiveDependencies: close sheet when search params change
+    useEffect(() => {
+        setIsFilterSheetOpen(false);
+    }, [searchArgs]);
 
     return (
         <>
@@ -94,10 +104,22 @@ function RouteComponent() {
                     </div>
                 </div>
 
+                <Sheet open={isFilterSheetOpen} onOpenChange={setIsFilterSheetOpen}>
+                    <SheetTrigger asChild className="lg:hidden w-auto self-start">
+                        <Button variant="outline">
+                            <Filter className="mr-2 h-4 w-4" />
+                            {t("search.filters")}
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-11/12 overflow-y-auto p-8">
+                        <SearchFilters searchFilters={searchArgs} />
+                    </SheetContent>
+                </Sheet>
+
                 <div className={"flex flex-col lg:flex-row items-start gap-8"}>
                     <div
                         className={
-                            "flex-col w-full lg:w-[30%] min-w-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300"
+                            "flex-col w-full lg:w-[30%] min-w-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300 hidden lg:block"
                         }
                     >
                         <SearchFilters searchFilters={searchArgs} />
