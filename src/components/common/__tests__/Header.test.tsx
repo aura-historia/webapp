@@ -39,7 +39,7 @@ describe("Header Component", () => {
         });
 
         it("should render webapp logo link", () => {
-            const logoLink = screen.getByText("Aura Historia");
+            const logoLink = screen.getByText("Aura Historia (Preview)");
             expect(logoLink).toBeInTheDocument();
             expect(logoLink.closest("a")).toHaveAttribute("href", "/");
         });
@@ -65,19 +65,19 @@ describe("Header Component", () => {
         });
 
         it("should render webapp logo link", () => {
-            const logoLink = screen.getByText("Aura Historia");
+            const logoLink = screen.getByText("Aura Historia (Preview)");
             expect(logoLink).toBeInTheDocument();
             expect(logoLink.closest("a")).toHaveAttribute("href", "/");
         });
 
         it("should show AccountImage for logged in user", () => {
-            const profileContainer = screen.getByRole("button");
+            const profileContainer = screen.getByRole("button", { name: "MM" });
             expect(profileContainer).toBeInTheDocument();
         });
 
         it("should show dropdown menu items when clicked", async () => {
             const user = userEvent.setup();
-            const dropdownTrigger = screen.getByRole("button");
+            const dropdownTrigger = screen.getByRole("button", { name: "MM" });
 
             await user.click(dropdownTrigger);
 
@@ -89,6 +89,116 @@ describe("Header Component", () => {
         it("should not show auth buttons", () => {
             expect(screen.queryByText("Registrieren")).not.toBeInTheDocument();
             expect(screen.queryByText("Einloggen")).not.toBeInTheDocument();
+        });
+    });
+
+    describe("Search bar integration", () => {
+        it("should render the search bar with small variant", async () => {
+            await act(() => {
+                renderWithRouter(<Header />, { initialEntries: ["/search"] });
+            });
+            // Search bar should be visible on non-landing pages
+            const searchInputs = screen.getAllByPlaceholderText("Ich suche nach...");
+            expect(searchInputs.length).toBeGreaterThan(0);
+        });
+
+        it("should hide the search bar on the landing page", async () => {
+            await act(() => {
+                renderWithRouter(<Header />, { initialEntries: ["/"] });
+            });
+            // Small variant should be hidden on landing page (pathname === "/")
+            expect(screen.queryByPlaceholderText("Ich suche nach...")).not.toBeInTheDocument();
+        });
+
+        it("should show the search bar on other routes", async () => {
+            await act(() => {
+                renderWithRouter(<Header />, { initialEntries: ["/test"] });
+            });
+            const searchInputs = screen.getAllByPlaceholderText("Ich suche nach...");
+            expect(searchInputs.length).toBeGreaterThan(0);
+        });
+
+        it("should render search bar in the center column", async () => {
+            await act(() => {
+                renderWithRouter(<Header />, { initialEntries: ["/search"] });
+            });
+            const header = screen.getByRole("banner");
+
+            // Verify header has responsive grid layout
+            expect(header).toHaveClass("md:grid", "md:grid-cols-3");
+
+            // Verify search input is in a centered div (desktop version)
+            const centerDiv = header.querySelector("div.hidden.justify-center.md\\:flex");
+            expect(centerDiv).toBeInTheDocument();
+        });
+
+        it("should allow searching from the header search bar", async () => {
+            const user = userEvent.setup();
+            await act(() => {
+                renderWithRouter(<Header />, { initialEntries: ["/search"] });
+            });
+
+            const inputs = screen.getAllByPlaceholderText("Ich suche nach...");
+            const buttons = screen.getAllByRole("button", { name: "Suchen" });
+
+            await user.type(inputs[0], "test query");
+            await user.click(buttons[0]);
+
+            // Form should process without validation errors
+            expect(
+                screen.queryByText("Bitte geben Sie mindestens 3 Zeichen ein"),
+            ).not.toBeInTheDocument();
+        });
+
+        it("should use the small variant styling in header", async () => {
+            await act(() => {
+                renderWithRouter(<Header />, { initialEntries: ["/search"] });
+            });
+
+            const inputs = screen.getAllByPlaceholderText("Ich suche nach...");
+            const buttons = screen.getAllByRole("button");
+
+            // Find the search button (has Search icon)
+            const searchButton = buttons.find((btn) => btn.querySelector("svg.lucide-search"));
+
+            // Small variant should have h-9 height
+            expect(inputs[0]).toHaveClass("h-9");
+            if (searchButton) {
+                expect(searchButton).toHaveClass("h-9");
+            }
+
+            // Small variant should not show button text on any screen size
+            const buttonTexts = screen.queryAllByText("Suchen");
+            if (buttonTexts.length > 0) {
+                expect(buttonTexts[0]).toHaveClass("hidden");
+                expect(buttonTexts[0]).not.toHaveClass("sm:inline");
+            }
+        });
+    });
+
+    describe("Layout structure", () => {
+        it("should have three-column grid layout", async () => {
+            await act(() => {
+                renderWithRouter(<Header />);
+            });
+            const header = screen.getByRole("banner");
+            expect(header).toHaveClass("md:grid", "md:grid-cols-3");
+        });
+
+        it("should be sticky at the top", async () => {
+            await act(() => {
+                renderWithRouter(<Header />);
+            });
+            const header = screen.getByRole("banner");
+            expect(header).toHaveClass("sticky", "top-0");
+        });
+
+        it("should have backdrop blur and border", async () => {
+            await act(() => {
+                renderWithRouter(<Header />);
+            });
+            const header = screen.getByRole("banner");
+            expect(header).toHaveClass("backdrop-blur-sm", "border-b");
         });
     });
 });
