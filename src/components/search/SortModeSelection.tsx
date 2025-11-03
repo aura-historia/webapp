@@ -28,7 +28,6 @@ export function SortModeSelection({ sortMode, updateSortMode, className }: Order
             <Select
                 onValueChange={(value: SortMode["field"]) => {
                     updateSortMode({ ...sortMode, field: value });
-                    console.log("value changed: ", value);
                 }}
                 defaultValue={sortMode.field}
             >
