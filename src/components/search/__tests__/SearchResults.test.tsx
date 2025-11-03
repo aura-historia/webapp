@@ -57,7 +57,7 @@ describe("SearchResults", () => {
     });
 
     it("renders a message when query length is less than 3 characters", () => {
-        render(<SimpleSearchResults query="ab" />);
+        render(<SimpleSearchResults query="ab" sortMode={undefined} />);
         expect(
             screen.getByText("Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten."),
         ).toBeInTheDocument();
@@ -65,13 +65,13 @@ describe("SearchResults", () => {
 
     it("renders skeleton loaders while data is loading", () => {
         setSearchMock({ isPending: true });
-        render(<SimpleSearchResults query="test" />);
+        render(<SimpleSearchResults query="test" sortMode={undefined} />);
         expect(screen.getAllByTestId("item-card-skeleton")).toHaveLength(4);
     });
 
     it("renders an error message when there is an error", () => {
         setSearchMock({ error: new Error("API Error") });
-        render(<SimpleSearchResults query="test" />);
+        render(<SimpleSearchResults query="test" sortMode={undefined} />);
         expect(
             screen.getByText(
                 "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
@@ -81,7 +81,7 @@ describe("SearchResults", () => {
 
     it("renders a message when no items are found", () => {
         setSearchMock({ items: [] });
-        render(<SimpleSearchResults query="test" />);
+        render(<SimpleSearchResults query="test" sortMode={undefined} />);
         expect(screen.getByText("Keine Artikel gefunden!")).toBeInTheDocument();
     });
 
@@ -106,7 +106,7 @@ describe("SearchResults", () => {
                 { ...base, itemId: "2", title: "Item 2" },
             ],
         });
-        render(<SimpleSearchResults query="test" />);
+        render(<SimpleSearchResults query="test" sortMode={undefined} />);
         expect(screen.getByText("Item 1")).toBeInTheDocument();
         expect(screen.getByText("Item 2")).toBeInTheDocument();
     });
