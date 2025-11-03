@@ -2,6 +2,7 @@
 
 import {type ClientOptions, type Config, createClient, createConfig} from './client';
 import type {ClientOptions as ClientOptions2} from './types.gen';
+import {env} from "std-env";
 
 /**
  * The `createClientConfig()` function will be called on client initialization
@@ -14,5 +15,5 @@ import type {ClientOptions as ClientOptions2} from './types.gen';
 export type CreateClientConfig<T extends ClientOptions = ClientOptions2> = (override?: Config<ClientOptions & T>) => Config<Required<ClientOptions> & T>;
 
 export const client = createClient(createConfig<ClientOptions2>({
-    baseUrl: 'https://7wgwwc7tf5.execute-api.eu-central-1.amazonaws.com/staging'
+    baseUrl: env.VITE_API_URL
 }));
