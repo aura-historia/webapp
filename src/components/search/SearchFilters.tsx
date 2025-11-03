@@ -166,7 +166,6 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
             },
         });
     };
-
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
