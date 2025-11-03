@@ -8,6 +8,15 @@ import { isSimpleSearch } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
+import { Select, SelectContent, SelectGroup, SelectItem } from "@/components/ui/select";
+import { SelectTrigger } from "@/components/ui/select.tsx";
+import { SortAsc, SortDesc } from "lucide-react";
+import { useState } from "react";
+import {
+    getSearchResultSortModeLabel,
+    SEARCH_RESULT_SORT_FIELDS,
+    type SearchResultSortMode,
+} from "@/data/internal/SearchResultSortMode.ts";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (
@@ -77,20 +86,71 @@ export const Route = createFileRoute("/search")({
 
 function RouteComponent() {
     const searchArgs = Route.useSearch();
+    const [sortMode, setSortMode] = useState<SearchResultSortMode>({
+        field: "RELEVANCE",
+        order: "DESC",
+    });
     const { t } = useTranslation();
 
     return (
         <>
-            <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto">
+            <div className="max-w-6xl mx-auto flex flex-col gap-4 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto">
                 <div className={"flex flex-row items-end gap-8"}>
                     <div className={"flex-col hidden lg:block lg:w-[30%] min-w-0"}>
                         <H1>{t("search.filters")}</H1>
                     </div>
-                    <div className={"flex-col lg:w-[70%] min-w-0"}>
+                    <div className={"flex flex-col lg:w-[70%] min-w-0"}>
                         <H1>{t("search.resultsFor")}</H1>
-                        <H1 className={"text-ellipsis overflow-hidden line-clamp-1"}>
-                            "{searchArgs.q}"
-                        </H1>
+                        <div className="flex flex-row items-end justify-between">
+                            <H1 className={"text-ellipsis overflow-hidden line-clamp-1"}>
+                                "{searchArgs.q}"
+                            </H1>
+                            <div className={"flex flex-row items-center gap-2"}>
+                                <Select
+                                    onValueChange={(value: SearchResultSortMode["field"]) => {
+                                        setSortMode({ ...sortMode, field: value });
+                                    }}
+                                >
+                                    <SelectTrigger>
+                                        {t(getSearchResultSortModeLabel(sortMode))}
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            {SEARCH_RESULT_SORT_FIELDS.map((field) => (
+                                                <SelectItem key={field} value={field}>
+                                                    {t(
+                                                        getSearchResultSortModeLabel({
+                                                            field,
+                                                            order: sortMode.order,
+                                                        }),
+                                                    )}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                                <Select
+                                    onValueChange={(value: SearchResultSortMode["order"]) => {
+                                        setSortMode({ ...sortMode, order: value });
+                                    }}
+                                >
+                                    <SelectTrigger>
+                                        {sortMode.order === "ASC" ? <SortAsc /> : <SortDesc />}
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="ASC">
+                                                <SortAsc /> {t("search.sortMode.order.asc")}
+                                            </SelectItem>
+
+                                            <SelectItem value="DESC">
+                                                <SortDesc /> {t("search.sortMode.order.desc")}
+                                            </SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -104,9 +164,9 @@ function RouteComponent() {
                     </div>
                     <div className={"flex-col lg:w-[70%] min-w-0"}>
                         {isSimpleSearch(searchArgs) ? (
-                            <SimpleSearchResults query={searchArgs.q} />
+                            <SimpleSearchResults query={searchArgs.q} sortMode={sortMode} />
                         ) : (
-                            <FilteredSearchResults searchFilters={searchArgs} />
+                            <FilteredSearchResults searchFilters={searchArgs} sortMode={sortMode} />
                         )}
                     </div>
                 </div>

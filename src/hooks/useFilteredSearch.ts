@@ -1,21 +1,26 @@
 import { complexSearchItems } from "@/client";
 import { mapToInternalOverviewItem } from "@/data/internal/OverviewItem.ts";
 import {
+    type InfiniteData,
     useInfiniteQuery,
     type UseInfiniteQueryResult,
-    type InfiniteData,
 } from "@tanstack/react-query";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 import { mapToBackendState } from "@/data/internal/ItemState.ts";
+import {
+    mapToBackendSortModeArguments,
+    type SearchResultSortMode,
+} from "@/data/internal/SearchResultSortMode.ts";
 
 const PAGE_SIZE = 21;
 
 export function useFilteredSearch(
     searchArgs: SearchFilterArguments,
+    sortMode: SearchResultSortMode,
 ): UseInfiniteQueryResult<InfiniteData<SearchResultData>> {
     return useInfiniteQuery({
-        queryKey: ["filteredSearch", searchArgs],
+        queryKey: ["filteredSearch", searchArgs, sortMode],
         queryFn: async ({ pageParam }) => {
             const result = await complexSearchItems({
                 body: {
@@ -55,7 +60,11 @@ export function useFilteredSearch(
                         : {}),
                     shopNameQuery: searchArgs.merchant,
                 },
-                query: { searchAfter: pageParam, size: PAGE_SIZE },
+                query: {
+                    searchAfter: pageParam,
+                    size: PAGE_SIZE,
+                    ...mapToBackendSortModeArguments(sortMode),
+                },
             });
 
             if (result.error) {

@@ -6,20 +6,26 @@ import {
     type InfiniteData,
 } from "@tanstack/react-query";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
+import {
+    mapToBackendSortModeArguments,
+    type SearchResultSortMode,
+} from "@/data/internal/SearchResultSortMode.ts";
 
 const PAGE_SIZE = 21;
 
 export function useSimpleSearch(
     query: string,
+    sortMode: SearchResultSortMode,
 ): UseInfiniteQueryResult<InfiniteData<SearchResultData>> {
     return useInfiniteQuery({
-        queryKey: ["search", query],
+        queryKey: ["search", query, sortMode],
         queryFn: async ({ pageParam }) => {
             const result = await searchItems({
                 query: {
                     q: query,
                     searchAfter: pageParam,
                     size: PAGE_SIZE,
+                    ...mapToBackendSortModeArguments(sortMode),
                 },
             });
 
