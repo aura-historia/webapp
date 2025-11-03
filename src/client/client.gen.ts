@@ -2,7 +2,6 @@
 
 import {type ClientOptions, type Config, createClient, createConfig} from './client';
 import type {ClientOptions as ClientOptions2} from './types.gen';
-import {env} from "@/env.ts";
 
 /**
  * The `createClientConfig()` function will be called on client initialization
@@ -15,5 +14,5 @@ import {env} from "@/env.ts";
 export type CreateClientConfig<T extends ClientOptions = ClientOptions2> = (override?: Config<ClientOptions & T>) => Config<Required<ClientOptions> & T>;
 
 export const client = createClient(createConfig<ClientOptions2>({
-    baseUrl: env.VITE_API_URL
+    baseUrl: 'https://7wgwwc7tf5.execute-api.eu-central-1.amazonaws.com/staging'
 }));
