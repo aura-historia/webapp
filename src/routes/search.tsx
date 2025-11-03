@@ -4,19 +4,18 @@ import { H1 } from "@/components/typography/H1";
 import { createFileRoute, type SearchSchemaInput } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import { FilteredSearchResults } from "@/components/search/FilteredSearchResults.tsx";
-import { isSimpleSearch } from "@/lib/utils.ts";
+import { isSimpleSearch, mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
 import { Select, SelectContent, SelectGroup, SelectItem } from "@/components/ui/select";
 import { SelectTrigger } from "@/components/ui/select.tsx";
 import { SortAsc, SortDesc } from "lucide-react";
-import { useState } from "react";
 import {
-    getSearchResultSortModeLabel,
+    getSortModeLabel,
     SEARCH_RESULT_SORT_FIELDS,
-    type SearchResultSortMode,
-} from "@/data/internal/SearchResultSortMode.ts";
+    type SortMode,
+} from "@/data/internal/SortMode.ts";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (
@@ -30,6 +29,8 @@ export const Route = createFileRoute("/search")({
             updateDateFrom?: string;
             updateDateTo?: string;
             merchant?: string;
+            sortField?: string;
+            sortOrder?: string;
         } & SearchSchemaInput,
     ): SearchFilterArguments => {
         const priceFrom = Number(search.priceFrom);
@@ -64,6 +65,13 @@ export const Route = createFileRoute("/search")({
             toUpdateDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
         }
 
+        const sortField = SEARCH_RESULT_SORT_FIELDS.includes(search.sortField as SortMode["field"])
+            ? (search.sortField as SortMode["field"])
+            : "RELEVANCE";
+
+        const sortOrder =
+            search.sortOrder === "ASC" || search.sortOrder === "DESC" ? search.sortOrder : "DESC";
+
         return {
             q: (search.q as string) || "",
             priceFrom: validPriceFrom,
@@ -79,6 +87,7 @@ export const Route = createFileRoute("/search")({
             updateDateFrom: fromUpdateDate,
             updateDateTo: toUpdateDate,
             merchant: (search.merchant?.trim() as string) || undefined,
+            sortMode: { field: sortField, order: sortOrder },
         };
     },
     component: RouteComponent,
@@ -86,11 +95,23 @@ export const Route = createFileRoute("/search")({
 
 function RouteComponent() {
     const searchArgs = Route.useSearch();
-    const [sortMode, setSortMode] = useState<SearchResultSortMode>({
-        field: "RELEVANCE",
-        order: "DESC",
-    });
+    const navigate = Route.useNavigate();
     const { t } = useTranslation();
+
+    const sortMode = searchArgs.sortMode || { field: "RELEVANCE", order: "DESC" };
+
+    const updateSortMode = (newSortMode: SortMode) => {
+        navigate({
+            search: (prev) => ({
+                ...mapFiltersToUrlParams({
+                    query: prev.q,
+                    ...prev,
+                }),
+                sortField: newSortMode.field,
+                sortOrder: newSortMode.order,
+            }),
+        });
+    };
 
     return (
         <>
@@ -107,19 +128,19 @@ function RouteComponent() {
                             </H1>
                             <div className={"flex flex-row items-center gap-2"}>
                                 <Select
-                                    onValueChange={(value: SearchResultSortMode["field"]) => {
-                                        setSortMode({ ...sortMode, field: value });
+                                    onValueChange={(value: SortMode["field"]) => {
+                                        updateSortMode({ ...sortMode, field: value });
+                                        console.log("value changed: ", value);
                                     }}
+                                    defaultValue={sortMode.field}
                                 >
-                                    <SelectTrigger>
-                                        {t(getSearchResultSortModeLabel(sortMode))}
-                                    </SelectTrigger>
+                                    <SelectTrigger>{t(getSortModeLabel(sortMode))}</SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
                                             {SEARCH_RESULT_SORT_FIELDS.map((field) => (
                                                 <SelectItem key={field} value={field}>
                                                     {t(
-                                                        getSearchResultSortModeLabel({
+                                                        getSortModeLabel({
                                                             field,
                                                             order: sortMode.order,
                                                         }),
@@ -130,9 +151,10 @@ function RouteComponent() {
                                     </SelectContent>
                                 </Select>
                                 <Select
-                                    onValueChange={(value: SearchResultSortMode["order"]) => {
-                                        setSortMode({ ...sortMode, order: value });
+                                    onValueChange={(value: SortMode["order"]) => {
+                                        updateSortMode({ ...sortMode, order: value });
                                     }}
+                                    defaultValue={sortMode.order}
                                 >
                                     <SelectTrigger>
                                         {sortMode.order === "ASC" ? <SortAsc /> : <SortDesc />}
@@ -166,7 +188,7 @@ function RouteComponent() {
                         {isSimpleSearch(searchArgs) ? (
                             <SimpleSearchResults query={searchArgs.q} sortMode={sortMode} />
                         ) : (
-                            <FilteredSearchResults searchFilters={searchArgs} sortMode={sortMode} />
+                            <FilteredSearchResults searchFilters={searchArgs} />
                         )}
                     </div>
                 </div>

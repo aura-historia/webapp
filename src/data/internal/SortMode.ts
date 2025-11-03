@@ -7,12 +7,12 @@ export const SEARCH_RESULT_SORT_FIELDS = [
     "UPDATE_DATE",
 ] as const;
 
-export type SearchResultSortMode = {
+export type SortMode = {
     field: (typeof SEARCH_RESULT_SORT_FIELDS)[number];
     order: "ASC" | "DESC";
 };
 
-export function getSearchResultSortModeLabel(sortMode: SearchResultSortMode): string {
+export function getSortModeLabel(sortMode: SortMode): string {
     switch (sortMode.field) {
         case "RELEVANCE":
             return "search.sortMode.relevance";
@@ -27,14 +27,14 @@ export function getSearchResultSortModeLabel(sortMode: SearchResultSortMode): st
     }
 }
 
-export function mapToBackendSortModeArguments(sortMode: SearchResultSortMode): {
+export function mapToBackendSortModeArguments(sortMode?: SortMode): {
     sort: SortItemFieldData;
     order: "asc" | "desc";
 } {
     let sort: SortItemFieldData;
     let order: "asc" | "desc";
 
-    switch (sortMode.field) {
+    switch (sortMode?.field) {
         case "RELEVANCE":
             sort = "score";
             break;
@@ -51,7 +51,7 @@ export function mapToBackendSortModeArguments(sortMode: SearchResultSortMode): {
             sort = "score";
     }
 
-    if (sortMode.order === "ASC") {
+    if (sortMode?.order === "ASC") {
         order = "asc";
     } else {
         order = "desc";

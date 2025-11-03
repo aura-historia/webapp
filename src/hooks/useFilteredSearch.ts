@@ -8,19 +8,15 @@ import {
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 import { mapToBackendState } from "@/data/internal/ItemState.ts";
-import {
-    mapToBackendSortModeArguments,
-    type SearchResultSortMode,
-} from "@/data/internal/SearchResultSortMode.ts";
+import { mapToBackendSortModeArguments } from "@/data/internal/SortMode.ts";
 
 const PAGE_SIZE = 21;
 
 export function useFilteredSearch(
     searchArgs: SearchFilterArguments,
-    sortMode: SearchResultSortMode,
 ): UseInfiniteQueryResult<InfiniteData<SearchResultData>> {
     return useInfiniteQuery({
-        queryKey: ["filteredSearch", searchArgs, sortMode],
+        queryKey: ["filteredSearch", searchArgs],
         queryFn: async ({ pageParam }) => {
             const result = await complexSearchItems({
                 body: {
@@ -63,7 +59,7 @@ export function useFilteredSearch(
                 query: {
                     searchAfter: pageParam,
                     size: PAGE_SIZE,
-                    ...mapToBackendSortModeArguments(sortMode),
+                    ...mapToBackendSortModeArguments(searchArgs.sortMode),
                 },
             });
 
