@@ -4,16 +4,37 @@ import { DatePicker } from "@/components/search/filters/util/DatePicker.tsx";
 import { useFormContext, useFormState } from "react-hook-form";
 import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { useTranslation } from "react-i18next";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button.tsx";
+import { FilterX } from "lucide-react";
+import { useFilterNavigation } from "@/hooks/useFilterNavigation.ts";
 
 export function UpdateDateSpanFilter() {
     const { control } = useFormContext<FilterSchema>();
     const { errors } = useFormState({ control, name: ["updateDate.to"] });
     const { t } = useTranslation();
+    const resetAndNavigate = useFilterNavigation();
 
     return (
         <Card>
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <H2>{t("search.filter.updateDate")}</H2>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => resetAndNavigate("updateDate")}
+                            className="h-8 w-8 p-0"
+                        >
+                            <FilterX className="h-5 w-5" />
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>{t("search.filter.resetTooltip.updateDate")}</p>
+                    </TooltipContent>
+                </Tooltip>
             </CardHeader>
             <CardContent>
                 <div className={"flex flex-col w-full gap-2"}>

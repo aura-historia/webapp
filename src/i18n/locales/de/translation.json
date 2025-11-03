@@ -42,6 +42,7 @@
     "search": {
         "filters": "Filter",
         "resultsFor": "Suchergebnisse für:",
+        "resetAllFilters": "Alle Filter zurücksetzen",
         "bar": {
             "label": "Suche",
             "placeholder": "Ich suche nach...",
@@ -65,7 +66,14 @@
             "max": "Max",
             "priceSpanAria": "Preisspanne",
             "updateDate": "Aktualisiert",
-            "anyDate": "Beliebig"
+            "anyDate": "Beliebig",
+            "resetTooltip": {
+                "priceSpan": "Filter für die Preisspanne zurücksetzen",
+                "itemState": "Filter für den Status zurücksetzen",
+                "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
+                "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
+                "merchant": "Filter für den Händler zurücksetzen"
+            }
         },
         "messages": {
             "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",

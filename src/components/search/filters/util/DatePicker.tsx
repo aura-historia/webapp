@@ -28,7 +28,7 @@ export function DatePicker({
             control={control}
             render={({ field }) => (
                 <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
-                    <div className={"flex flex-row"}>
+                    <div className="flex flex-row ">
                         <PopoverTrigger asChild>
                             <Button
                                 variant="default"
@@ -46,6 +46,7 @@ export function DatePicker({
                         <Button
                             type="button"
                             variant={"ghost"}
+                            className="h-8 w-8 p-0 ml-auto"
                             onClick={() =>
                                 setValue(fieldName, undefined, {
                                     shouldDirty: false,
