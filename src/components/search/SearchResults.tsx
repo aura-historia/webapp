@@ -79,7 +79,7 @@ export function SearchResults({ query, searchQueryHook, onTotalChange }: SearchR
                             ? "Lade neue Ergebnisse..."
                             : hasNextPage
                               ? ""
-                              : "Alle Ergebnisse geladen"}
+                              : `Alle ${data?.pages[0]?.total} Ergebnisse wurden geladen.`}
                     </SectionInfoText>
                 </CardContent>
             </Card>

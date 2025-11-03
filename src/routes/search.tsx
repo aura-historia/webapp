@@ -8,6 +8,7 @@ import { isSimpleSearch } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 import { useState } from "react";
+import { H2 } from "@/components/typography/H2.tsx";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (
@@ -84,16 +85,26 @@ function RouteComponent() {
         <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto">
             <div className={"flex flex-row items-end gap-8"}>
                 <div className={"flex-col hidden lg:block lg:w-[30%] min-w-0"}>
-                    <H1>{t("search.filters")}</H1>
+                    <H2>{t("search.filters")}</H2>
                 </div>
                 <div className={"flex-col lg:w-[70%] min-w-0"}>
-                    <H1>
-                        {totalResults !== null ? `${totalResults} ` : ""}
-                        {t("search.resultsFor")}
-                    </H1>
-                    <H1 className={"text-ellipsis overflow-hidden line-clamp-1"}>
-                        "{searchArgs.q}"
-                    </H1>
+                    <div className="flex justify-between items-center gap-4">
+                        <div className="flex flex-col min-w-0">
+                            <H1>{t("search.resultsFor")}</H1>
+                            <div
+                                className={
+                                    "text-3xl sm:text-4xl font-bold text-ellipsis overflow-hidden line-clamp-1"
+                                }
+                            >
+                                "{searchArgs.q}"
+                            </div>
+                        </div>
+                        {totalResults !== null && (
+                            <span className="text-2xl font-semibold whitespace-nowrap">
+                                {totalResults} Elemente
+                            </span>
+                        )}
+                    </div>
                 </div>
             </div>
 
