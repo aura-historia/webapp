@@ -11,7 +11,7 @@ import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Filter } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (
@@ -84,10 +84,9 @@ function RouteComponent() {
     const { t } = useTranslation();
     const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: close sheet when search params change
-    useEffect(() => {
+    const closeFilterSheet = () => {
         setIsFilterSheetOpen(false);
-    }, [searchArgs]);
+    };
 
     return (
         <>
@@ -107,12 +106,15 @@ function RouteComponent() {
                 <Sheet open={isFilterSheetOpen} onOpenChange={setIsFilterSheetOpen}>
                     <SheetTrigger asChild className="lg:hidden w-auto self-start">
                         <Button variant="outline">
-                            <Filter className="mr-2 h-4 w-4" />
+                            <Filter className="h-4 w-4" />
                             {t("search.filters")}
                         </Button>
                     </SheetTrigger>
                     <SheetContent side="left" className="w-11/12 overflow-y-auto p-8">
-                        <SearchFilters searchFilters={searchArgs} />
+                        <SearchFilters
+                            searchFilters={searchArgs}
+                            onFiltersApplied={closeFilterSheet}
+                        />
                     </SheetContent>
                 </Sheet>
 
