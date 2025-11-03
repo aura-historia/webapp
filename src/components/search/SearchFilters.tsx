@@ -71,9 +71,10 @@ export type FilterSchema = z.infer<ReturnType<typeof createFilterSchema>>;
 
 type SearchFilterProps = {
     readonly searchFilters: SearchFilterArguments;
+    readonly onFiltersApplied?: () => void;
 };
 
-export function SearchFilters({ searchFilters }: SearchFilterProps) {
+export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
     const { t } = useTranslation();
 
@@ -153,6 +154,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                 q: searchFilters.q,
             },
         });
+        onFiltersApplied?.();
     };
     return (
         <Form {...form}>
