@@ -8,14 +8,9 @@ import { isSimpleSearch, mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
-import { Select, SelectContent, SelectGroup, SelectItem } from "@/components/ui/select";
-import { SelectTrigger } from "@/components/ui/select.tsx";
-import { SortAsc, SortDesc } from "lucide-react";
-import {
-    getSortModeLabel,
-    SEARCH_RESULT_SORT_FIELDS,
-    type SortMode,
-} from "@/data/internal/SortMode.ts";
+
+import { SEARCH_RESULT_SORT_FIELDS, type SortMode } from "@/data/internal/SortMode.ts";
+import { SortModeSelection } from "@/components/search/SortModeSelection.tsx";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (
@@ -126,53 +121,17 @@ function RouteComponent() {
                             <H1 className={"text-ellipsis overflow-hidden line-clamp-1"}>
                                 "{searchArgs.q}"
                             </H1>
-                            <div className={"flex flex-row items-center gap-2"}>
-                                <Select
-                                    onValueChange={(value: SortMode["field"]) => {
-                                        updateSortMode({ ...sortMode, field: value });
-                                        console.log("value changed: ", value);
-                                    }}
-                                    defaultValue={sortMode.field}
-                                >
-                                    <SelectTrigger>{t(getSortModeLabel(sortMode))}</SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {SEARCH_RESULT_SORT_FIELDS.map((field) => (
-                                                <SelectItem key={field} value={field}>
-                                                    {t(
-                                                        getSortModeLabel({
-                                                            field,
-                                                            order: sortMode.order,
-                                                        }),
-                                                    )}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                                <Select
-                                    onValueChange={(value: SortMode["order"]) => {
-                                        updateSortMode({ ...sortMode, order: value });
-                                    }}
-                                    defaultValue={sortMode.order}
-                                >
-                                    <SelectTrigger>
-                                        {sortMode.order === "ASC" ? <SortAsc /> : <SortDesc />}
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            <SelectItem value="ASC">
-                                                <SortAsc /> {t("search.sortMode.order.asc")}
-                                            </SelectItem>
-
-                                            <SelectItem value="DESC">
-                                                <SortDesc /> {t("search.sortMode.order.desc")}
-                                            </SelectItem>
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            </div>
+                            <SortModeSelection
+                                sortMode={sortMode}
+                                updateSortMode={updateSortMode}
+                                className={"hidden lg:flex"}
+                            />
                         </div>
+                        <SortModeSelection
+                            sortMode={sortMode}
+                            updateSortMode={updateSortMode}
+                            className={"w-full mt-4 lg:hidden"}
+                        />
                     </div>
                 </div>
 
