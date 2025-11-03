@@ -14,6 +14,7 @@ import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpan
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
+import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 
 const createFilterSchema = (t: TFunction) =>
     z
@@ -70,9 +71,10 @@ export type FilterSchema = z.infer<ReturnType<typeof createFilterSchema>>;
 
 type SearchFilterProps = {
     readonly searchFilters: SearchFilterArguments;
+    readonly onFiltersApplied?: () => void;
 };
 
-export function SearchFilters({ searchFilters }: SearchFilterProps) {
+export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
     const { t } = useTranslation();
 
@@ -80,19 +82,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
 
     const form = useForm<FilterSchema>({
         resolver: zodResolver(filterSchema),
-        defaultValues: {
-            priceSpan: { min: undefined, max: undefined },
-            itemState: ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"],
-            creationDate: {
-                from: undefined,
-                to: undefined,
-            },
-            updateDate: {
-                from: undefined,
-                to: undefined,
-            },
-            merchant: undefined,
-        },
+        defaultValues: FILTER_DEFAULTS,
         mode: "onSubmit",
     });
 
@@ -155,7 +145,17 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
             }),
         });
     };
+    const handleResetAll = () => {
+        form.reset(FILTER_DEFAULTS);
 
+        navigate({
+            to: "/search",
+            search: {
+                q: searchFilters.q,
+            },
+        });
+        onFiltersApplied?.();
+    };
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -166,9 +166,19 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                     <UpdateDateSpanFilter />
                     <MerchantFilter />
                 </div>
-                <Button className="w-full shadow-sm" type="submit">
-                    {t("search.applyFilters")}
-                </Button>
+                <div className="flex flex-col gap-2">
+                    <Button className="w-full shadow-sm" type="submit">
+                        {t("search.applyFilters")}
+                    </Button>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full shadow-sm"
+                        onClick={handleResetAll}
+                    >
+                        {t("search.resetAllFilters")}
+                    </Button>
+                </div>
             </form>
         </Form>
     );

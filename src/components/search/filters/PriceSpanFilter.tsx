@@ -6,6 +6,10 @@ import { Slider } from "@/components/ui/slider.tsx";
 import { useEffect, useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button.tsx";
+import { FilterX } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useFilterNavigation } from "@/hooks/useFilterNavigation.ts";
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 10_000;
@@ -13,6 +17,7 @@ const PRICE_MAX = 10_000;
 export function PriceSpanFilter() {
     const { control, watch, setValue } = useFormContext<FilterSchema>();
     const { t } = useTranslation();
+    const resetAndNavigate = useFilterNavigation();
 
     const watchedMin = watch("priceSpan.min");
     const watchedMax = watch("priceSpan.max");
@@ -48,8 +53,24 @@ export function PriceSpanFilter() {
 
     return (
         <Card>
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <H2>{t("search.filter.priceSpan")}</H2>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => resetAndNavigate("priceSpan")}
+                            className="h-8 w-8 p-0"
+                        >
+                            <FilterX className="h-5 w-5" />
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>{t("search.filter.resetTooltip.priceSpan")}</p>
+                    </TooltipContent>
+                </Tooltip>
             </CardHeader>
             <CardContent>
                 <div className={"flex flex-col gap-4"}>
