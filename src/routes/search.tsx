@@ -111,7 +111,7 @@ function RouteComponent() {
                             </div>
                             {totalResults !== null && (
                                 <span className="text-2xl font-semibold whitespace-nowrap">
-                                    {totalResults} Elemente
+                                    {t("search.totalResults", { count: totalResults })}
                                 </span>
                             )}
                         </div>

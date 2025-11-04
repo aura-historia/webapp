@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import type { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
+import { useTranslation } from "react-i18next";
 
 type SearchResultsProps = {
     readonly query: string;
@@ -19,6 +20,7 @@ export function SearchResults({ query, searchQueryHook, onTotalChange }: SearchR
     const { ref, inView } = useInView();
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
         searchQueryHook;
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (data?.pages[0]?.total !== undefined && onTotalChange) {
@@ -33,11 +35,7 @@ export function SearchResults({ query, searchQueryHook, onTotalChange }: SearchR
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, query.length]);
 
     if (query.length < 3) {
-        return (
-            <SectionInfoText>
-                Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.
-            </SectionInfoText>
-        );
+        return <SectionInfoText>{t("search.messages.minQueryLength")}</SectionInfoText>;
     }
 
     if (isPending) {
@@ -53,18 +51,14 @@ export function SearchResults({ query, searchQueryHook, onTotalChange }: SearchR
     if (error) {
         console.error(error);
 
-        return (
-            <SectionInfoText>
-                Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!
-            </SectionInfoText>
-        );
+        return <SectionInfoText>{t("search.messages.error")}</SectionInfoText>;
     }
 
     const allItems: OverviewItem[] =
         data?.pages.flatMap((page: SearchResultData) => page.items) ?? [];
 
     if (allItems.length === 0) {
-        return <SectionInfoText>Keine Artikel gefunden!</SectionInfoText>;
+        return <SectionInfoText>{t("search.messages.noResults")}</SectionInfoText>;
     }
 
     return (
@@ -76,10 +70,10 @@ export function SearchResults({ query, searchQueryHook, onTotalChange }: SearchR
                 <CardContent>
                     <SectionInfoText>
                         {isFetchingNextPage
-                            ? "Lade neue Ergebnisse..."
+                            ? t("search.messages.loadingMore")
                             : hasNextPage
                               ? ""
-                              : `Alle ${data?.pages[0]?.total} Ergebnisse wurden geladen.`}
+                              : t("search.messages.allLoaded", { count: data?.pages[0]?.total })}
                     </SectionInfoText>
                 </CardContent>
             </Card>
