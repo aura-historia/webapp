@@ -1,5 +1,5 @@
 import {
-    getSortModeLabel,
+    getSortModeFieldLabel,
     SEARCH_RESULT_SORT_FIELDS,
     type SortMode,
 } from "@/data/internal/SortMode.ts";
@@ -14,13 +14,13 @@ import { useTranslation } from "react-i18next";
 import { SortAsc, SortDesc } from "lucide-react";
 import { cn } from "@/lib/utils.ts";
 
-export type OrderSelectionProps = {
+export type SortModeSelectionProps = {
     readonly sortMode: SortMode;
     readonly updateSortMode: (newSortMode: SortMode) => void;
     readonly className?: string;
 };
 
-export function SortModeSelection({ sortMode, updateSortMode, className }: OrderSelectionProps) {
+export function SortModeSelection({ sortMode, updateSortMode, className }: SortModeSelectionProps) {
     const { t } = useTranslation();
 
     return (
@@ -31,17 +31,12 @@ export function SortModeSelection({ sortMode, updateSortMode, className }: Order
                 }}
                 defaultValue={sortMode.field}
             >
-                <SelectTrigger>{t(getSortModeLabel(sortMode))}</SelectTrigger>
+                <SelectTrigger>{t(getSortModeFieldLabel(sortMode.field))}</SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
                         {SEARCH_RESULT_SORT_FIELDS.map((field) => (
                             <SelectItem key={field} value={field}>
-                                {t(
-                                    getSortModeLabel({
-                                        field,
-                                        order: sortMode.order,
-                                    }),
-                                )}
+                                {t(getSortModeFieldLabel(field))}
                             </SelectItem>
                         ))}
                     </SelectGroup>

@@ -1,25 +1,29 @@
 import { describe, expect, it } from "vitest";
-import { type SortMode, getSortModeLabel, mapToBackendSortModeArguments } from "../SortMode.ts";
+import {
+    type SortMode,
+    getSortModeFieldLabel,
+    mapToBackendSortModeArguments,
+} from "../SortMode.ts";
 
-describe("getSortModeLabel", () => {
+describe("getSortModeFieldLabel", () => {
     it("should return correct label for RELEVANCE", () => {
         const sortMode: SortMode = { field: "RELEVANCE", order: "DESC" };
-        expect(getSortModeLabel(sortMode)).toBe("search.sortMode.relevance");
+        expect(getSortModeFieldLabel(sortMode.field)).toBe("search.sortMode.relevance");
     });
 
     it("should return correct label for PRICE", () => {
         const sortMode: SortMode = { field: "PRICE", order: "ASC" };
-        expect(getSortModeLabel(sortMode)).toBe("search.sortMode.price");
+        expect(getSortModeFieldLabel(sortMode.field)).toBe("search.sortMode.price");
     });
 
     it("should return correct label for CREATION_DATE", () => {
         const sortMode: SortMode = { field: "CREATION_DATE", order: "DESC" };
-        expect(getSortModeLabel(sortMode)).toBe("search.sortMode.creationDate");
+        expect(getSortModeFieldLabel(sortMode.field)).toBe("search.sortMode.creationDate");
     });
 
     it("should return correct label for UPDATE_DATE", () => {
         const sortMode: SortMode = { field: "UPDATE_DATE", order: "ASC" };
-        expect(getSortModeLabel(sortMode)).toBe("search.sortMode.updateDate");
+        expect(getSortModeFieldLabel(sortMode.field)).toBe("search.sortMode.updateDate");
     });
 });
 

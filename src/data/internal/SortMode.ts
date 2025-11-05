@@ -12,8 +12,8 @@ export type SortMode = {
     order: "ASC" | "DESC";
 };
 
-export function getSortModeLabel(sortMode: SortMode): string {
-    switch (sortMode.field) {
+export function getSortModeFieldLabel(field: (typeof SEARCH_RESULT_SORT_FIELDS)[number]): string {
+    switch (field) {
         case "RELEVANCE":
             return "search.sortMode.relevance";
         case "PRICE":
