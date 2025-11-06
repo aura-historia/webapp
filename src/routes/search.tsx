@@ -66,7 +66,6 @@ export const Route = createFileRoute("/search")({
             allowedStates: Array.isArray(search.allowedStates)
                 ? search.allowedStates
                       .map((state) => parseItemState(state))
-                      .filter((s) => s)
                       .filter((elem, index, self) => index === self.indexOf(elem))
                 : undefined,
             creationDateFrom: fromCreationDate,
