@@ -130,7 +130,7 @@ function RouteComponent() {
                     >
                         <SearchFilters searchFilters={searchArgs} />
                     </div>
-                    <div className={"flex-col lg:w-[70%] min-w-0"}>
+                    <div className={"flex-col w-full lg:w-[70%] min-w-0"}>
                         {isSimpleSearch(searchArgs) ? (
                             <SimpleSearchResults query={searchArgs.q} />
                         ) : (
