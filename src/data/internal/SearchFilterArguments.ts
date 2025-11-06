@@ -1,4 +1,5 @@
 import type { ItemState } from "@/data/internal/ItemState.ts";
+import type { SortMode } from "@/data/internal/SortMode.ts";
 
 export type SearchFilterArguments = {
     q: string;
@@ -10,4 +11,5 @@ export type SearchFilterArguments = {
     updateDateFrom: Date | undefined;
     updateDateTo: Date | undefined;
     merchant: string | undefined;
+    sortMode: SortMode | undefined;
 };

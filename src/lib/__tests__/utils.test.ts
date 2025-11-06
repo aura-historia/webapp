@@ -73,6 +73,7 @@ describe("utils", () => {
                 updateDateFrom: undefined,
                 updateDateTo: undefined,
                 merchant: undefined,
+                sortMode: undefined,
             };
             expect(isSimpleSearch(searchArgs)).toBe(true);
         });
@@ -88,6 +89,7 @@ describe("utils", () => {
                 updateDateFrom: undefined,
                 updateDateTo: undefined,
                 priceFrom: 100,
+                sortMode: undefined,
             };
             expect(isSimpleSearch(searchArgs)).toBe(false);
         });
@@ -103,6 +105,7 @@ describe("utils", () => {
                 updateDateFrom: undefined,
                 updateDateTo: undefined,
                 priceTo: 500,
+                sortMode: undefined,
             };
             expect(isSimpleSearch(searchArgs)).toBe(false);
         });
@@ -118,6 +121,7 @@ describe("utils", () => {
                 updateDateFrom: undefined,
                 updateDateTo: undefined,
                 allowedStates: ["AVAILABLE", "SOLD"],
+                sortMode: undefined,
             };
             expect(isSimpleSearch(searchArgs)).toBe(false);
         });
@@ -133,6 +137,7 @@ describe("utils", () => {
                 updateDateFrom: undefined,
                 updateDateTo: undefined,
                 creationDateFrom: new Date("2024-01-01"),
+                sortMode: undefined,
             };
             expect(isSimpleSearch(searchArgs)).toBe(false);
         });
@@ -148,6 +153,7 @@ describe("utils", () => {
                 updateDateFrom: undefined,
                 updateDateTo: undefined,
                 creationDateTo: new Date("2024-12-31"),
+                sortMode: undefined,
             };
             expect(isSimpleSearch(searchArgs)).toBe(false);
         });
@@ -163,6 +169,7 @@ describe("utils", () => {
                 q: "",
                 updateDateTo: undefined,
                 updateDateFrom: new Date("2024-01-01"),
+                sortMode: undefined,
             };
             expect(isSimpleSearch(searchArgs)).toBe(false);
         });
@@ -178,6 +185,7 @@ describe("utils", () => {
                 q: "",
                 updateDateFrom: undefined,
                 updateDateTo: new Date("2024-12-31"),
+                sortMode: undefined,
             };
             expect(isSimpleSearch(searchArgs)).toBe(false);
         });
@@ -193,6 +201,7 @@ describe("utils", () => {
                 updateDateFrom: undefined,
                 updateDateTo: undefined,
                 merchant: "ebay",
+                sortMode: undefined,
             };
             expect(isSimpleSearch(searchArgs)).toBe(false);
         });
@@ -208,6 +217,7 @@ describe("utils", () => {
                 priceTo: 500,
                 allowedStates: ["AVAILABLE"],
                 merchant: "kleinanzeigen",
+                sortMode: undefined,
             };
             expect(isSimpleSearch(searchArgs)).toBe(false);
         });
@@ -223,8 +233,41 @@ describe("utils", () => {
                 q: "",
                 updateDateFrom: undefined,
                 updateDateTo: undefined,
+                sortMode: undefined,
             };
             expect(isSimpleSearch(searchArgs)).toBe(true);
+        });
+
+        it("returns true when only sortMode is set", () => {
+            const searchArgs: SearchFilterArguments = {
+                allowedStates: undefined,
+                creationDateFrom: undefined,
+                creationDateTo: undefined,
+                merchant: undefined,
+                priceFrom: undefined,
+                priceTo: undefined,
+                q: "",
+                updateDateFrom: undefined,
+                updateDateTo: undefined,
+                sortMode: { field: "PRICE", order: "ASC" },
+            };
+            expect(isSimpleSearch(searchArgs)).toBe(true);
+        });
+
+        it("returns false when sortMode is set along with other filters", () => {
+            const searchArgs: SearchFilterArguments = {
+                allowedStates: undefined,
+                creationDateFrom: undefined,
+                creationDateTo: undefined,
+                merchant: undefined,
+                priceTo: undefined,
+                q: "",
+                updateDateFrom: undefined,
+                updateDateTo: undefined,
+                priceFrom: 100,
+                sortMode: { field: "PRICE", order: "DESC" },
+            };
+            expect(isSimpleSearch(searchArgs)).toBe(false);
         });
     });
 });
