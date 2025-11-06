@@ -110,7 +110,11 @@ function RouteComponent() {
                             {t("search.filters")}
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="w-11/12 overflow-y-auto p-8">
+                    <SheetContent
+                        side="left"
+                        className="w-11/12 overflow-y-auto p-8"
+                        onOpenAutoFocus={(event) => event.preventDefault()}
+                    >
                         <SearchFilters
                             searchFilters={searchArgs}
                             onFiltersApplied={closeFilterSheet}
