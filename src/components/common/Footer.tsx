@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 export function Footer() {
     const { t } = useTranslation();
     return (
-        <footer className={"w-full flex items-start justify-center flex-col"}>
+        <footer className={"w-full flex items-start justify-center flex-col backdrop-blur-sm"}>
             <Separator />
             <NavigationMenu className={"p-8 w-full"}>
                 <div
