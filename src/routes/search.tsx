@@ -66,7 +66,6 @@ export const Route = createFileRoute("/search")({
             allowedStates: Array.isArray(search.allowedStates)
                 ? search.allowedStates
                       .map((state) => parseItemState(state))
-                      .filter((s) => s)
                       .filter((elem, index, self) => index === self.indexOf(elem))
                 : undefined,
             creationDateFrom: fromCreationDate,
@@ -110,7 +109,11 @@ function RouteComponent() {
                             {t("search.filters")}
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="w-11/12 overflow-y-auto p-8">
+                    <SheetContent
+                        side="left"
+                        className="w-11/12 overflow-y-auto p-8"
+                        onOpenAutoFocus={(event) => event.preventDefault()}
+                    >
                         <SearchFilters
                             searchFilters={searchArgs}
                             onFiltersApplied={closeFilterSheet}
@@ -126,7 +129,7 @@ function RouteComponent() {
                     >
                         <SearchFilters searchFilters={searchArgs} />
                     </div>
-                    <div className={"flex-col lg:w-[70%] min-w-0"}>
+                    <div className={"flex-col w-full lg:w-[70%] min-w-0"}>
                         {isSimpleSearch(searchArgs) ? (
                             <SimpleSearchResults query={searchArgs.q} />
                         ) : (
