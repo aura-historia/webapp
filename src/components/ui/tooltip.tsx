@@ -24,8 +24,7 @@ function Tooltip({
 }) {
     const [open, setOpen] = React.useState(false);
 
-    const handleTouch = (event: React.TouchEvent | React.MouseEvent) => {
-        event.persist();
+    const handleTouch = () => {
         setOpen(true);
     };
 
@@ -43,7 +42,6 @@ function Tooltip({
                             child as React.ReactElement<React.HTMLAttributes<HTMLElement>>,
                             {
                                 onTouchStart: handleTouch,
-                                onMouseDown: handleTouch,
                             },
                         );
                     }
