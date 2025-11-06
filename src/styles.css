@@ -20,7 +20,7 @@ code {
 :root {
     --background: var(--color-neutral-50);
     --foreground: var(--color-neutral-800);
-    --card: oklch(0.8853 0 0 / 20%);
+    --card: oklch(0.95 0 0 / 70%);
     --card-foreground: var(--color-neutral-800);
     --popover: oklch(1 0 0);
     --popover-foreground: var(--color-neutral-800);
@@ -151,8 +151,6 @@ code {
 
     body {
         @apply text-foreground;
-        background: var(--linear-gradient-main);
-        background-attachment: scroll;
     }
 }
 
@@ -261,20 +259,15 @@ label[data-slot="form-label"] {
 }
 
 /* Loading Spinner in Primary Button */
-[data-amplify-authenticator]
-    .amplify-button--primary
-    .amplify-loader
-    circle[data-testid="circular-filled"] {
-    stroke: var(--primary-foreground);
+[data-amplify-authenticator],
+.amplify-button--primary,
+.amplify-loader circle[data-testid="circular-filled"] {
+    stroke: var(--border);
 }
 
 /* Loading Spinner in Primary Button Background*/
-[data-amplify-authenticator]
-    .amplify-button--primary
-    .amplify-loader
-    circle[data-testid="circular-empty"] {
+circle[data-testid="circular-empty"] {
     stroke: var(--primary-hover);
-    opacity: 0.3;
 }
 
 /* Show Password Button - Focus State */
@@ -290,9 +283,9 @@ label[data-slot="form-label"] {
 }
 
 /* Hover Show Password Button for AccountSettings */
-.amplify-accountsettings .amplify-button.amplify-field__show-password:hover,
-.amplify-passwordfield
-    .amplify-button.amplify-field__show-password:hover:not([data-amplify-authenticator] *) {
+.amplify-accountsettings,
+.amplify-button.amplify-field__show-password:hover,
+.amplify-button.amplify-field__show-password:hover:not([data-amplify-authenticator] *) {
     @apply bg-primary/20;
 }
 
@@ -330,4 +323,8 @@ button.amplify-button.amplify-field-group__control.amplify-button--destructive:h
 button.amplify-button.amplify-field-group__control.amplify-button--warning.amplify-button:hover {
     background-color: oklch(0.75 0.245 27.325);
     color: white;
+}
+
+.amplify-icon {
+    color: var(--text-foreground);
 }
