@@ -8,6 +8,9 @@ import { v4 as uuidv4 } from "uuid";
 import type { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
+import Lottie from "lottie-react";
+import tick from "@/assets/lottie/tick.json";
+import { Spinner } from "@/components/ui/spinner.tsx";
 
 type SearchResultsProps = {
     readonly query: string;
@@ -65,15 +68,23 @@ export function SearchResults({ query, searchQueryHook }: SearchResultsProps) {
             {allItems.map((item: OverviewItem) => (
                 <ItemCard key={item.itemId} item={item} />
             ))}
-            <Card className={"h-8 px-2 justify-center items-center shadow-md"} ref={ref}>
-                <CardContent>
-                    <SectionInfoText>
-                        {isFetchingNextPage
-                            ? "Lade neue Ergebnisse..."
-                            : hasNextPage
-                              ? ""
-                              : "Alle Ergebnisse geladen"}
-                    </SectionInfoText>
+            <Card className={"h-16 px-2 flex justify-center items-center shadow-md"} ref={ref}>
+                <CardContent className="flex justify-center items-center w-full">
+                    {isFetchingNextPage ? (
+                        <div className={"flex flex-row items-center gap-2"}>
+                            <Spinner />
+                            <SectionInfoText>Lade neue Ergebnisse...</SectionInfoText>
+                        </div>
+                    ) : hasNextPage ? (
+                        ""
+                    ) : (
+                        <div className={"flex flex-row items-center gap-2"}>
+                            <div className={"h-12 w-12 shrink-0"}>
+                                <Lottie className={"h-12 w-12"} animationData={tick} loop={false} />
+                            </div>
+                            <SectionInfoText>Alle Ergebnisse geladen</SectionInfoText>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
         </div>
