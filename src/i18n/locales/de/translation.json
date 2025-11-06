@@ -84,6 +84,16 @@
             "loadingMore": "Lade neue Ergebnisse...",
             "allLoaded_one": "{{count}} Ergebnis wurde geladen.",
             "allLoaded_other": "Alle {{count}} Ergebnisse wurden geladen."
+        },
+        "sortMode": {
+            "relevance": "Relevanz",
+            "creationDate": "Erstellungsdatum",
+            "updateDate": "Zuletzt aktualisiert",
+            "price": "Preis",
+            "order": {
+                "asc": "Aufsteigend",
+                "desc": "Absteigend"
+            }
         }
     },
     "item": {
