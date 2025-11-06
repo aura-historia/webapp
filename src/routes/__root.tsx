@@ -1,5 +1,10 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
-import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
+import {
+    HeadContent,
+    Scripts,
+    createRootRouteWithContext,
+    useMatches,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
@@ -42,12 +47,21 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 });
 
 function RootDocument({ children }: { readonly children: React.ReactNode }) {
+    const matches = useMatches();
+    const isLandingPage = matches.some((match) => match.routeId === "/");
+
     return (
         <html lang="de">
             <head>
                 <HeadContent />
             </head>
-            <body>
+            <body
+                className={
+                    isLandingPage
+                        ? "[background:var(--linear-gradient-main)]"
+                        : "[background-image:repeating-linear-gradient(45deg,var(--border)_0,var(--border)_1px,transparent_1px,transparent_40px)] bg-fixed"
+                }
+            >
                 <div className={"min-h-screen flex flex-col"}>
                     <Header />
                     <main className="flex-1">{children}</main>

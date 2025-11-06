@@ -20,7 +20,7 @@ code {
 :root {
     --background: var(--color-neutral-50);
     --foreground: var(--color-neutral-800);
-    --card: oklch(0.8853 0 0 / 70%);
+    --card: oklch(0.95 0 0 / 70%);
     --card-foreground: var(--color-neutral-800);
     --popover: oklch(1 0 0);
     --popover-foreground: var(--color-neutral-800);
@@ -151,35 +151,6 @@ code {
 
     body {
         @apply text-foreground;
-
-        /* * We will modify the 'background' properties here.
-         * The original was:
-         * background: var(--linear-gradient-main);
-         * background-attachment: scroll;
-        */
-
-        /* === CHOICE 1: Pattern on Solid Color (See options below) === */
-
-        /*background-color: var(--background); !* Your off-white base *!*/
-        /*background-image: radial-gradient(*/
-        /*    oklch(0 0 0 / 0.05) 1px !* 5% black dots *!,*/
-        /*    transparent 1px*/
-        /*);*/
-        /*background-size: 3px 3px; !* Controls the density of the dots *!*/
-
-        /* === CHOICE 2: Pattern ON TOP of Gradient (See options below) === */
-
-        /* Inside your body rule */
-        background-color: var(--background); /* Your off-white base */
-        background-image: repeating-linear-gradient(
-            45deg,
-            var(--border) 0,
-            var(--border) 1px,
-            transparent 1px,
-            transparent 40px /* 1px line every 20px. Adjust '20px' for density */
-        );
-
-        background-attachment: scroll;
     }
 }
 
@@ -288,18 +259,18 @@ label[data-slot="form-label"] {
 }
 
 /* Loading Spinner in Primary Button */
-[data-amplify-authenticator]
-    .amplify-button--primary
-    .amplify-loader
-    circle[data-testid="circular-filled"] {
+[data-amplify-authenticator],
+.amplify-button--primary,
+.amplify-loader,
+circle[data-testid="circular-filled"] {
     stroke: var(--primary-foreground);
 }
 
 /* Loading Spinner in Primary Button Background*/
-[data-amplify-authenticator]
-    .amplify-button--primary
-    .amplify-loader
-    circle[data-testid="circular-empty"] {
+[data-amplify-authenticator],
+.amplify-button--primary,
+.amplify-loader,
+circle[data-testid="circular-empty"] {
     stroke: var(--primary-hover);
     opacity: 0.3;
 }
@@ -318,8 +289,8 @@ label[data-slot="form-label"] {
 
 /* Hover Show Password Button for AccountSettings */
 .amplify-accountsettings .amplify-button.amplify-field__show-password:hover,
-.amplify-passwordfield
-    .amplify-button.amplify-field__show-password:hover:not([data-amplify-authenticator] *) {
+.amplify-passwordfield,
+.amplify-button.amplify-field__show-password:hover:not([data-amplify-authenticator] *) {
     @apply bg-primary/20;
 }
 
