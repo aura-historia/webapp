@@ -97,15 +97,11 @@ function RouteComponent() {
                     <div className={"flex-col hidden lg:block lg:w-[30%] min-w-0"}>
                         <H2>{t("search.filters")}</H2>
                     </div>
-                    <div className={"flex-col lg:w-[70%] min-w-0"}>
-                        <div className="flex justify-between items-center gap-4">
+                    <div className={"lg:w-[70%] w-full min-w-0"}>
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                             <div className="flex flex-col min-w-0">
                                 <H1>{t("search.resultsFor")}</H1>
-                                <div
-                                    className={
-                                        "text-3xl sm:text-4xl font-bold text-ellipsis overflow-hidden line-clamp-1"
-                                    }
-                                >
+                                <div className="text-3xl sm:text-4xl font-bold text-ellipsis overflow-hidden break-words">
                                     "{searchArgs.q}"
                                 </div>
                             </div>
