@@ -150,7 +150,7 @@ function RouteComponent() {
                         <div className="flex flex-row gap-2 mt-4 lg:hidden">
                             <Sheet open={isFilterSheetOpen} onOpenChange={setIsFilterSheetOpen}>
                                 <SheetTrigger asChild>
-                                    <Button variant="outline">
+                                    <Button variant="filter">
                                         <Filter className="h-4 w-4" />
                                         {t("search.filters")}
                                     </Button>
