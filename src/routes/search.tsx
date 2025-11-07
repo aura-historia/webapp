@@ -126,27 +126,28 @@ function RouteComponent() {
                         <H2>{t("search.filters")}</H2>
                     </div>
                     <div className="lg:w-[70%] w-full min-w-0">
-                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
                             <div className="flex flex-col min-w-0">
                                 <H1>{t("search.resultsFor")}</H1>
                                 <div className="text-3xl sm:text-4xl font-bold text-ellipsis overflow-hidden break-words">
                                     "{searchArgs.q}"
                                 </div>
                             </div>
-                            {totalResults !== null && (
-                                <span className="text-2xl font-semibold whitespace-nowrap">
-                                    {t("search.totalResults", { count: totalResults })}
-                                </span>
-                            )}
-                        </div>
 
-                        <div className="hidden lg:flex justify-end mt-4">
-                            <SortModeSelection
-                                sortMode={sortMode}
-                                updateSortMode={updateSortMode}
-                            />
+                            <div className="flex items-center gap-4">
+                                {totalResults !== null && (
+                                    <span className="text-2xl font-semibold whitespace-nowrap">
+                                        {t("search.totalResults", { count: totalResults })}
+                                    </span>
+                                )}
+                                <div className="hidden lg:block">
+                                    <SortModeSelection
+                                        sortMode={sortMode}
+                                        updateSortMode={updateSortMode}
+                                    />
+                                </div>
+                            </div>
                         </div>
-
                         <div className="flex flex-row gap-2 mt-4 lg:hidden">
                             <Sheet open={isFilterSheetOpen} onOpenChange={setIsFilterSheetOpen}>
                                 <SheetTrigger asChild>
@@ -175,7 +176,6 @@ function RouteComponent() {
                         </div>
                     </div>
                 </div>
-
                 <div className="flex flex-col lg:flex-row items-start gap-8">
                     <div className="w-full lg:w-[30%] min-w-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300 hidden lg:block">
                         <SearchFilters searchFilters={searchArgs} />
