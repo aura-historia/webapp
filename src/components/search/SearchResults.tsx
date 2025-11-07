@@ -62,8 +62,8 @@ export function SearchResults({ query, searchQueryHook }: SearchResultsProps) {
             {allItems.map((item: OverviewItem) => (
                 <ItemCard key={item.itemId} item={item} />
             ))}
-            <Card className={"h-16 px-2 flex justify-center items-center shadow-md"} ref={ref}>
-                <CardContent className="flex justify-center items-center w-full">
+            <Card className={"p-4 flex justify-center items-center shadow-md"} ref={ref}>
+                <CardContent className="flex justify-center items-center w-full px-2">
                     {isFetchingNextPage ? (
                         <div className={"flex flex-row items-center gap-2"}>
                             <Spinner />
