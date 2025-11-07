@@ -1,7 +1,6 @@
-import { useCallback, useRef, useMemo } from "react";
+import { useCallback, useRef, useMemo, useState } from "react";
 import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
-import type ApexCharts from "apexcharts";
 import type { ItemEvent } from "@/data/internal/ItemDetails.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Card } from "@/components/ui/card.tsx";
@@ -41,6 +40,7 @@ const createTimeRanges = (t: TFunction) => {
 export function ItemPriceChart({ history }: { readonly history?: readonly ItemEvent[] }) {
     const { t } = useTranslation();
     const chartRef = useRef<ApexCharts | null>(null);
+    const [selectedTimeRange, setSelectedTimeRange] = useState<number | null>(null);
 
     const TIME_RANGES = useMemo(() => createTimeRanges(t), [t]);
     /**
@@ -101,6 +101,8 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
     const handleZoom = useCallback(
         (days: number | null) => {
             if (!chartRef.current) return;
+
+            setSelectedTimeRange(days);
 
             if (days === null) {
                 chartRef.current.zoomX(minTimestamp, maxTimestamp);
@@ -314,7 +316,7 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
                         <Button
                             key={timeRange.label}
                             onClick={() => handleZoom(timeRange.days)}
-                            variant={"outline"}
+                            variant={timeRange.days === selectedTimeRange ? "default" : "outline"}
                             size="sm"
                         >
                             {timeRange.label}
