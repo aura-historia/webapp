@@ -10,7 +10,7 @@ export function H4({ variant = "default", className, children, ...props }: H4Pro
     return (
         <h4
             className={cn(
-                "text-xl font-semibold",
+                "text-lg sm:text-xl font-semibold",
                 variant === "muted" && "text-muted-foreground",
                 className,
             )}

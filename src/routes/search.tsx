@@ -6,6 +6,7 @@ import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
+import { H2 } from "@/components/typography/H2.tsx";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Filter } from "lucide-react";
@@ -94,6 +95,7 @@ function RouteComponent() {
     const searchArgs = Route.useSearch();
     const navigate = Route.useNavigate();
     const { t } = useTranslation();
+    const [totalResults, setTotalResults] = useState<number | null>(null);
     const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
 
     const closeFilterSheet = () => {
@@ -118,59 +120,74 @@ function RouteComponent() {
     return (
         <>
             <div className="max-w-6xl mx-auto flex flex-col gap-4 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto">
-                <div className={"flex flex-row items-end gap-8"}>
-                    <div className={"flex-col hidden lg:block lg:w-[30%] min-w-0"}>
-                        <H1>{t("search.filters")}</H1>
+                <div className="flex flex-row items-end gap-8">
+                    <div className="hidden lg:block lg:w-[30%] min-w-0">
+                        <H2>{t("search.filters")}</H2>
                     </div>
-                    <div className={"flex flex-col lg:w-[70%] min-w-0"}>
-                        <H1>{t("search.resultsFor")}</H1>
-                        <div className="flex flex-row items-end justify-between">
-                            <H1 className={"text-ellipsis overflow-hidden line-clamp-1"}>
-                                "{searchArgs.q}"
-                            </H1>
+                    <div className="lg:w-[70%] w-full min-w-0">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
+                            <div className="flex flex-col min-w-0">
+                                <H1>{t("search.resultsFor")}</H1>
+                                <div className="text-3xl sm:text-4xl font-bold text-ellipsis overflow-hidden break-words">
+                                    "{searchArgs.q}"
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col items-end gap-2">
+                                {totalResults !== null && (
+                                    <span className="text-2xl font-semibold whitespace-nowrap hidden md:block ">
+                                        {t("search.totalResults", { count: totalResults })}
+                                    </span>
+                                )}
+                                <div className="hidden lg:block">
+                                    <SortModeSelection
+                                        sortMode={sortMode}
+                                        updateSortMode={updateSortMode}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {totalResults !== null && (
+                            <span className="block md:hidden text-2xl font-semibold mt-4">
+                                {t("search.totalResults", { count: totalResults })}
+                            </span>
+                        )}
+
+                        <div className="flex flex-row gap-2 mt-2 lg:hidden">
+                            <Sheet open={isFilterSheetOpen} onOpenChange={setIsFilterSheetOpen}>
+                                <SheetTrigger asChild>
+                                    <Button variant="filter">
+                                        <Filter className="h-4 w-4" />
+                                        {t("search.filters")}
+                                    </Button>
+                                </SheetTrigger>
+                                <SheetContent
+                                    side="left"
+                                    className="w-11/12 overflow-y-auto p-8"
+                                    onOpenAutoFocus={(event) => event.preventDefault()}
+                                >
+                                    <SearchFilters
+                                        searchFilters={searchArgs}
+                                        onFiltersApplied={closeFilterSheet}
+                                    />
+                                </SheetContent>
+                            </Sheet>
+
                             <SortModeSelection
                                 sortMode={sortMode}
                                 updateSortMode={updateSortMode}
-                                className={"hidden lg:flex"}
+                                className="flex-1"
                             />
                         </div>
-                        <SortModeSelection
-                            sortMode={sortMode}
-                            updateSortMode={updateSortMode}
-                            className={"w-full mt-4 lg:hidden"}
-                        />
                     </div>
                 </div>
-
-                <Sheet open={isFilterSheetOpen} onOpenChange={setIsFilterSheetOpen}>
-                    <SheetTrigger asChild className="lg:hidden w-auto self-start">
-                        <Button variant="outline">
-                            <Filter className="h-4 w-4" />
-                            {t("search.filters")}
-                        </Button>
-                    </SheetTrigger>
-                    <SheetContent
-                        side="left"
-                        className="w-11/12 overflow-y-auto p-8"
-                        onOpenAutoFocus={(event) => event.preventDefault()}
-                    >
-                        <SearchFilters
-                            searchFilters={searchArgs}
-                            onFiltersApplied={closeFilterSheet}
-                        />
-                    </SheetContent>
-                </Sheet>
-
-                <div className={"flex flex-col lg:flex-row items-start gap-8"}>
-                    <div
-                        className={
-                            "flex-col w-full lg:w-[30%] min-w-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300 hidden lg:block"
-                        }
-                    >
+                <div className="flex flex-col lg:flex-row items-start gap-8">
+                    <div className="w-full lg:w-[30%] min-w-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300 hidden lg:block">
                         <SearchFilters searchFilters={searchArgs} />
                     </div>
                     <div className={"flex-col w-full lg:w-[70%] min-w-0"}>
-                        <SearchResults searchFilters={searchArgs} />
+                        <SearchResults searchFilters={searchArgs} onTotalChange={setTotalResults} />
                     </div>
                 </div>
             </div>
