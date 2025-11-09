@@ -1,10 +1,8 @@
 import { SearchFilters } from "@/components/search/SearchFilters.tsx";
-import { SimpleSearchResults } from "@/components/search/SimpleSearchResults.tsx";
 import { H1 } from "@/components/typography/H1";
 import { createFileRoute, type SearchSchemaInput } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
-import { FilteredSearchResults } from "@/components/search/FilteredSearchResults.tsx";
-import { isSimpleSearch, mapFiltersToUrlParams } from "@/lib/utils.ts";
+import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
@@ -15,6 +13,7 @@ import { useState } from "react";
 
 import { SEARCH_RESULT_SORT_FIELDS, type SortMode } from "@/data/internal/SortMode.ts";
 import { SortModeSelection } from "@/components/search/SortModeSelection.tsx";
+import { SearchResults } from "@/components/search/SearchResults.tsx";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (
@@ -171,11 +170,7 @@ function RouteComponent() {
                         <SearchFilters searchFilters={searchArgs} />
                     </div>
                     <div className={"flex-col w-full lg:w-[70%] min-w-0"}>
-                        {isSimpleSearch(searchArgs) ? (
-                            <SimpleSearchResults query={searchArgs.q} sortMode={sortMode} />
-                        ) : (
-                            <FilteredSearchResults searchFilters={searchArgs} />
-                        )}
+                        <SearchResults searchFilters={searchArgs} />
                     </div>
                 </div>
             </div>

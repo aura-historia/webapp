@@ -12,7 +12,7 @@ import { mapToBackendSortModeArguments } from "@/data/internal/SortMode.ts";
 
 const PAGE_SIZE = 21;
 
-export function useFilteredSearch(
+export function useSearch(
     searchArgs: SearchFilterArguments,
 ): UseInfiniteQueryResult<InfiniteData<SearchResultData>> {
     return useInfiniteQuery({

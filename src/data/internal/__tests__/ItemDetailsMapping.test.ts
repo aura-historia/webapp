@@ -1,28 +1,30 @@
 import { describe, expect, it } from "vitest";
-import type { GetItemData } from "@/client";
+import type { PersonalizedGetItemData } from "@/client";
 import {
-    mapToDetailItem,
-    type ItemStateChangedPayload,
-    type ItemPriceChangedPayload,
     type ItemCreatedPayload,
+    type ItemPriceChangedPayload,
+    type ItemStateChangedPayload,
+    mapToDetailItem,
 } from "../ItemDetails";
 
 describe("mapToDetailItem", () => {
     it("should map item without history", () => {
-        const apiData: GetItemData = {
-            itemId: "item-123",
-            eventId: "event-456",
-            shopId: "shop-789",
-            shopsItemId: "shop-item-101",
-            shopName: "Test Shop",
-            title: { text: "Test Item", language: "de" },
-            price: { amount: 1000, currency: "EUR" },
-            state: "AVAILABLE",
-            url: "https://example.com/item",
-            images: [],
-            created: "2023-01-01T00:00:00Z",
-            updated: "2023-01-02T00:00:00Z",
-            history: undefined,
+        const apiData: PersonalizedGetItemData = {
+            item: {
+                itemId: "item-123",
+                eventId: "event-456",
+                shopId: "shop-789",
+                shopsItemId: "shop-item-101",
+                shopName: "Test Shop",
+                title: { text: "Test Item", language: "de" },
+                price: { amount: 1000, currency: "EUR" },
+                state: "AVAILABLE",
+                url: "https://example.com/item",
+                images: [],
+                created: "2023-01-01T00:00:00Z",
+                updated: "2023-01-02T00:00:00Z",
+                history: undefined,
+            },
         };
 
         const result = mapToDetailItem(apiData);
@@ -32,33 +34,35 @@ describe("mapToDetailItem", () => {
     });
 
     it("should map state event correctly", () => {
-        const apiData: GetItemData = {
-            itemId: "item-123",
-            eventId: "event-456",
-            shopId: "shop-789",
-            shopsItemId: "shop-item-101",
-            shopName: "Test Shop",
-            title: { text: "Test Item", language: "de" },
-            price: { amount: 1000, currency: "EUR" },
-            state: "AVAILABLE",
-            url: "https://example.com/item",
-            images: [],
-            created: "2023-01-01T00:00:00Z",
-            updated: "2023-01-02T00:00:00Z",
-            history: [
-                {
-                    eventType: "STATE_AVAILABLE",
-                    itemId: "item-123",
-                    eventId: "event-1",
-                    shopId: "shop-789",
-                    shopsItemId: "shop-item-101",
-                    payload: {
-                        oldState: "LISTED",
-                        newState: "AVAILABLE",
+        const apiData: PersonalizedGetItemData = {
+            item: {
+                itemId: "item-123",
+                eventId: "event-456",
+                shopId: "shop-789",
+                shopsItemId: "shop-item-101",
+                shopName: "Test Shop",
+                title: { text: "Test Item", language: "de" },
+                price: { amount: 1000, currency: "EUR" },
+                state: "AVAILABLE",
+                url: "https://example.com/item",
+                images: [],
+                created: "2023-01-01T00:00:00Z",
+                updated: "2023-01-02T00:00:00Z",
+                history: [
+                    {
+                        eventType: "STATE_AVAILABLE",
+                        itemId: "item-123",
+                        eventId: "event-1",
+                        shopId: "shop-789",
+                        shopsItemId: "shop-item-101",
+                        payload: {
+                            oldState: "LISTED",
+                            newState: "AVAILABLE",
+                        },
+                        timestamp: "2023-01-01T10:00:00Z",
                     },
-                    timestamp: "2023-01-01T10:00:00Z",
-                },
-            ],
+                ],
+            },
         };
 
         const result = mapToDetailItem(apiData);
@@ -75,33 +79,35 @@ describe("mapToDetailItem", () => {
     });
 
     it("should map price event correctly", () => {
-        const apiData: GetItemData = {
-            itemId: "item-123",
-            eventId: "event-456",
-            shopId: "shop-789",
-            shopsItemId: "shop-item-101",
-            shopName: "Test Shop",
-            title: { text: "Test Item", language: "de" },
-            price: { amount: 1000, currency: "EUR" },
-            state: "AVAILABLE",
-            url: "https://example.com/item",
-            images: [],
-            created: "2023-01-01T00:00:00Z",
-            updated: "2023-01-02T00:00:00Z",
-            history: [
-                {
-                    eventType: "PRICE_DROPPED",
-                    itemId: "item-123",
-                    eventId: "event-2",
-                    shopId: "shop-789",
-                    shopsItemId: "shop-item-101",
-                    payload: {
-                        oldPrice: { amount: 1000, currency: "EUR" },
-                        newPrice: { amount: 900, currency: "EUR" },
+        const apiData: PersonalizedGetItemData = {
+            item: {
+                itemId: "item-123",
+                eventId: "event-456",
+                shopId: "shop-789",
+                shopsItemId: "shop-item-101",
+                shopName: "Test Shop",
+                title: { text: "Test Item", language: "de" },
+                price: { amount: 1000, currency: "EUR" },
+                state: "AVAILABLE",
+                url: "https://example.com/item",
+                images: [],
+                created: "2023-01-01T00:00:00Z",
+                updated: "2023-01-02T00:00:00Z",
+                history: [
+                    {
+                        eventType: "PRICE_DROPPED",
+                        itemId: "item-123",
+                        eventId: "event-2",
+                        shopId: "shop-789",
+                        shopsItemId: "shop-item-101",
+                        payload: {
+                            oldPrice: { amount: 1000, currency: "EUR" },
+                            newPrice: { amount: 900, currency: "EUR" },
+                        },
+                        timestamp: "2023-01-02T10:00:00Z",
                     },
-                    timestamp: "2023-01-02T10:00:00Z",
-                },
-            ],
+                ],
+            },
         };
 
         const result = mapToDetailItem(apiData);
@@ -119,33 +125,35 @@ describe("mapToDetailItem", () => {
     });
 
     it("should map created event correctly", () => {
-        const apiData: GetItemData = {
-            itemId: "item-123",
-            eventId: "event-456",
-            shopId: "shop-789",
-            shopsItemId: "shop-item-101",
-            shopName: "Test Shop",
-            title: { text: "Test Item", language: "de" },
-            price: { amount: 1000, currency: "EUR" },
-            state: "LISTED",
-            url: "https://example.com/item",
-            images: [],
-            created: "2023-01-01T00:00:00Z",
-            updated: "2023-01-02T00:00:00Z",
-            history: [
-                {
-                    eventType: "CREATED",
-                    itemId: "item-123",
-                    eventId: "event-0",
-                    shopId: "shop-789",
-                    shopsItemId: "shop-item-101",
-                    payload: {
-                        state: "LISTED",
-                        price: { amount: 1000, currency: "EUR" },
+        const apiData: PersonalizedGetItemData = {
+            item: {
+                itemId: "item-123",
+                eventId: "event-456",
+                shopId: "shop-789",
+                shopsItemId: "shop-item-101",
+                shopName: "Test Shop",
+                title: { text: "Test Item", language: "de" },
+                price: { amount: 1000, currency: "EUR" },
+                state: "LISTED",
+                url: "https://example.com/item",
+                images: [],
+                created: "2023-01-01T00:00:00Z",
+                updated: "2023-01-02T00:00:00Z",
+                history: [
+                    {
+                        eventType: "CREATED",
+                        itemId: "item-123",
+                        eventId: "event-0",
+                        shopId: "shop-789",
+                        shopsItemId: "shop-item-101",
+                        payload: {
+                            state: "LISTED",
+                            price: { amount: 1000, currency: "EUR" },
+                        },
+                        timestamp: "2023-01-01T08:00:00Z",
                     },
-                    timestamp: "2023-01-01T08:00:00Z",
-                },
-            ],
+                ],
+            },
         };
 
         const result = mapToDetailItem(apiData);
@@ -162,31 +170,33 @@ describe("mapToDetailItem", () => {
     });
 
     it("should map created event without price", () => {
-        const apiData: GetItemData = {
-            itemId: "item-123",
-            eventId: "event-456",
-            shopId: "shop-789",
-            shopsItemId: "shop-item-101",
-            shopName: "Test Shop",
-            title: { text: "Test Item", language: "de" },
-            state: "LISTED",
-            url: "https://example.com/item",
-            images: [],
-            created: "2023-01-01T00:00:00Z",
-            updated: "2023-01-02T00:00:00Z",
-            history: [
-                {
-                    eventType: "CREATED",
-                    itemId: "item-123",
-                    eventId: "event-0",
-                    shopId: "shop-789",
-                    shopsItemId: "shop-item-101",
-                    payload: {
-                        state: "LISTED",
+        const apiData: PersonalizedGetItemData = {
+            item: {
+                itemId: "item-123",
+                eventId: "event-456",
+                shopId: "shop-789",
+                shopsItemId: "shop-item-101",
+                shopName: "Test Shop",
+                title: { text: "Test Item", language: "de" },
+                state: "LISTED",
+                url: "https://example.com/item",
+                images: [],
+                created: "2023-01-01T00:00:00Z",
+                updated: "2023-01-02T00:00:00Z",
+                history: [
+                    {
+                        eventType: "CREATED",
+                        itemId: "item-123",
+                        eventId: "event-0",
+                        shopId: "shop-789",
+                        shopsItemId: "shop-item-101",
+                        payload: {
+                            state: "LISTED",
+                        },
+                        timestamp: "2023-01-01T08:00:00Z",
                     },
-                    timestamp: "2023-01-01T08:00:00Z",
-                },
-            ],
+                ],
+            },
         };
 
         const result = mapToDetailItem(apiData);
@@ -200,66 +210,68 @@ describe("mapToDetailItem", () => {
     });
 
     it("should map multiple events in correct order", () => {
-        const apiData: GetItemData = {
-            itemId: "item-123",
-            eventId: "event-456",
-            shopId: "shop-789",
-            shopsItemId: "shop-item-101",
-            shopName: "Test Shop",
-            title: { text: "Test Item", language: "de" },
-            price: { amount: 800, currency: "EUR" },
-            state: "SOLD",
-            url: "https://example.com/item",
-            images: [],
-            created: "2023-01-01T00:00:00Z",
-            updated: "2023-01-03T00:00:00Z",
-            history: [
-                {
-                    eventType: "CREATED",
-                    itemId: "item-123",
-                    eventId: "event-0",
-                    shopId: "shop-789",
-                    shopsItemId: "shop-item-101",
-                    payload: { state: "LISTED", price: { amount: 1000, currency: "EUR" } },
-                    timestamp: "2023-01-01T08:00:00Z",
-                },
-                {
-                    eventType: "STATE_AVAILABLE",
-                    itemId: "item-123",
-                    eventId: "event-1",
-                    shopId: "shop-789",
-                    shopsItemId: "shop-item-101",
-                    payload: {
-                        oldState: "LISTED",
-                        newState: "AVAILABLE",
+        const apiData: PersonalizedGetItemData = {
+            item: {
+                itemId: "item-123",
+                eventId: "event-456",
+                shopId: "shop-789",
+                shopsItemId: "shop-item-101",
+                shopName: "Test Shop",
+                title: { text: "Test Item", language: "de" },
+                price: { amount: 800, currency: "EUR" },
+                state: "SOLD",
+                url: "https://example.com/item",
+                images: [],
+                created: "2023-01-01T00:00:00Z",
+                updated: "2023-01-03T00:00:00Z",
+                history: [
+                    {
+                        eventType: "CREATED",
+                        itemId: "item-123",
+                        eventId: "event-0",
+                        shopId: "shop-789",
+                        shopsItemId: "shop-item-101",
+                        payload: { state: "LISTED", price: { amount: 1000, currency: "EUR" } },
+                        timestamp: "2023-01-01T08:00:00Z",
                     },
-                    timestamp: "2023-01-01T10:00:00Z",
-                },
-                {
-                    eventType: "PRICE_DROPPED",
-                    itemId: "item-123",
-                    eventId: "event-2",
-                    shopId: "shop-789",
-                    shopsItemId: "shop-item-101",
-                    payload: {
-                        oldPrice: { amount: 1000, currency: "EUR" },
-                        newPrice: { amount: 800, currency: "EUR" },
+                    {
+                        eventType: "STATE_AVAILABLE",
+                        itemId: "item-123",
+                        eventId: "event-1",
+                        shopId: "shop-789",
+                        shopsItemId: "shop-item-101",
+                        payload: {
+                            oldState: "LISTED",
+                            newState: "AVAILABLE",
+                        },
+                        timestamp: "2023-01-01T10:00:00Z",
                     },
-                    timestamp: "2023-01-02T10:00:00Z",
-                },
-                {
-                    eventType: "STATE_SOLD",
-                    itemId: "item-123",
-                    eventId: "event-3",
-                    shopId: "shop-789",
-                    shopsItemId: "shop-item-101",
-                    payload: {
-                        oldState: "AVAILABLE",
-                        newState: "SOLD",
+                    {
+                        eventType: "PRICE_DROPPED",
+                        itemId: "item-123",
+                        eventId: "event-2",
+                        shopId: "shop-789",
+                        shopsItemId: "shop-item-101",
+                        payload: {
+                            oldPrice: { amount: 1000, currency: "EUR" },
+                            newPrice: { amount: 800, currency: "EUR" },
+                        },
+                        timestamp: "2023-01-02T10:00:00Z",
                     },
-                    timestamp: "2023-01-03T10:00:00Z",
-                },
-            ],
+                    {
+                        eventType: "STATE_SOLD",
+                        itemId: "item-123",
+                        eventId: "event-3",
+                        shopId: "shop-789",
+                        shopsItemId: "shop-item-101",
+                        payload: {
+                            oldState: "AVAILABLE",
+                            newState: "SOLD",
+                        },
+                        timestamp: "2023-01-03T10:00:00Z",
+                    },
+                ],
+            },
         };
 
         const result = mapToDetailItem(apiData);

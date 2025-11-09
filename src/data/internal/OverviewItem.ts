@@ -1,6 +1,7 @@
-import type { GetItemData } from "@/client";
+import type { PersonalizedGetItemData } from "@/client";
 import { formatPrice } from "@/lib/utils.ts";
 import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
+import { mapToInternalUserItemData, type UserItemData } from "@/data/internal/UserItemData.ts";
 
 export type OverviewItem = {
     readonly itemId: string;
@@ -10,31 +11,38 @@ export type OverviewItem = {
     readonly shopName: string;
     readonly title: string;
     readonly description?: string;
-    readonly price: string | undefined;
+    readonly price?: string;
     readonly state: ItemState;
     readonly url: URL | null;
     readonly images: readonly URL[];
     readonly created: Date;
     readonly updated: Date;
+    readonly userData?: UserItemData;
 };
 
-export function mapToInternalOverviewItem(apiData: GetItemData): OverviewItem {
+export function mapToInternalOverviewItem(apiData: PersonalizedGetItemData): OverviewItem {
+    const itemData = apiData.item;
+    const userData = apiData.userState;
+
     return {
-        itemId: apiData.itemId,
-        eventId: apiData.eventId,
-        shopId: apiData.shopId,
-        shopsItemId: apiData.shopsItemId,
-        shopName: apiData.shopName,
-        title: apiData.title.text,
-        description: apiData.description?.text,
-        price: apiData.price ? formatPrice(apiData.price) : undefined,
-        state: parseItemState(apiData.state),
-        url: URL.parse(apiData.url),
+        itemId: itemData.itemId,
+        eventId: itemData.eventId,
+        shopId: itemData.shopId,
+        shopsItemId: itemData.shopsItemId,
+        shopName: itemData.shopName,
+        title: itemData.title.text,
+        description: itemData.description?.text,
+        price: itemData.price ? formatPrice(itemData.price) : undefined,
+        state: parseItemState(itemData.state),
+        url: URL.parse(itemData.url),
         images:
-            apiData.images == null
+            itemData.images == null
                 ? []
-                : apiData.images.filter((url) => URL.canParse(url)).map((url): URL => new URL(url)),
-        created: new Date(apiData.created),
-        updated: new Date(apiData.updated),
+                : itemData.images
+                      .filter((url) => URL.canParse(url))
+                      .map((url): URL => new URL(url)),
+        created: new Date(itemData.created),
+        updated: new Date(itemData.updated),
+        userData: userData ? mapToInternalUserItemData(userData) : undefined,
     };
 }
