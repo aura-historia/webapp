@@ -134,9 +134,9 @@ function RouteComponent() {
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-4">
+                            <div className="flex flex-col items-end gap-2">
                                 {totalResults !== null && (
-                                    <span className="text-2xl font-semibold whitespace-nowrap">
+                                    <span className="text-2xl font-semibold whitespace-nowrap hidden md:block ">
                                         {t("search.totalResults", { count: totalResults })}
                                     </span>
                                 )}
@@ -148,7 +148,14 @@ function RouteComponent() {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-row gap-2 mt-4 lg:hidden">
+
+                        {totalResults !== null && (
+                            <span className="block md:hidden text-2xl font-semibold mt-4">
+                                {t("search.totalResults", { count: totalResults })}
+                            </span>
+                        )}
+
+                        <div className="flex flex-row gap-2 mt-2 lg:hidden">
                             <Sheet open={isFilterSheetOpen} onOpenChange={setIsFilterSheetOpen}>
                                 <SheetTrigger asChild>
                                     <Button variant="filter">
