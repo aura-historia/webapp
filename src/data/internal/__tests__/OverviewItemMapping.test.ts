@@ -1,23 +1,25 @@
-import type { GetItemData } from "@/client";
+import type { PersonalizedGetItemData } from "@/client";
 import { describe, expect, it } from "vitest";
 import { mapToInternalOverviewItem } from "../OverviewItem.ts";
 
 describe("createListOverviewItem", () => {
     it("should create ListOverviewItem with valid data", () => {
-        const apiData: GetItemData = {
-            itemId: "item-123",
-            eventId: "event-456",
-            shopId: "shop-789",
-            shopsItemId: "shop-item-101",
-            shopName: "Antique Shop",
-            title: { text: "Vintage Vase", language: "de" },
-            description: { text: "Beautiful vintage vase", language: "de" },
-            price: { amount: 1099, currency: "USD" },
-            state: "AVAILABLE",
-            url: "https://example.com/item",
-            images: ["https://example.com/image1.jpg"],
-            created: "2023-01-01T00:00:00Z",
-            updated: "2023-01-02T00:00:00Z",
+        const apiData: PersonalizedGetItemData = {
+            item: {
+                itemId: "item-123",
+                eventId: "event-456",
+                shopId: "shop-789",
+                shopsItemId: "shop-item-101",
+                shopName: "Antique Shop",
+                title: { text: "Vintage Vase", language: "de" },
+                description: { text: "Beautiful vintage vase", language: "de" },
+                price: { amount: 1099, currency: "USD" },
+                state: "AVAILABLE",
+                url: "https://example.com/item",
+                images: ["https://example.com/image1.jpg"],
+                created: "2023-01-01T00:00:00Z",
+                updated: "2023-01-02T00:00:00Z",
+            },
         };
 
         const result = mapToInternalOverviewItem(apiData);
@@ -38,20 +40,22 @@ describe("createListOverviewItem", () => {
     });
 
     it("should handle missing fields", () => {
-        const apiData: GetItemData = {
-            itemId: "item-123",
-            eventId: "event-456",
-            shopId: "shop-789",
-            shopsItemId: "shop-item-101",
-            shopName: "Antique Shop",
-            title: { text: "Vintage Vase", language: "de" },
-            description: undefined,
-            price: { amount: 2550, currency: "EUR" },
-            state: "LISTED",
-            url: "",
-            images: [],
-            created: "2023-01-01T00:00:00Z",
-            updated: "2023-01-02T00:00:00Z",
+        const apiData: PersonalizedGetItemData = {
+            item: {
+                itemId: "item-123",
+                eventId: "event-456",
+                shopId: "shop-789",
+                shopsItemId: "shop-item-101",
+                shopName: "Antique Shop",
+                title: { text: "Vintage Vase", language: "de" },
+                description: undefined,
+                price: { amount: 2550, currency: "EUR" },
+                state: "LISTED",
+                url: "",
+                images: [],
+                created: "2023-01-01T00:00:00Z",
+                updated: "2023-01-02T00:00:00Z",
+            },
         };
 
         const result = mapToInternalOverviewItem(apiData);
@@ -62,19 +66,21 @@ describe("createListOverviewItem", () => {
     });
 
     it("should contain an empty array for an invalid image url", () => {
-        const apiData: GetItemData = {
-            itemId: "item-123",
-            eventId: "event-456",
-            shopId: "shop-789",
-            shopsItemId: "shop-item-101",
-            shopName: "Antique Shop",
-            title: { text: "Rare Painting", language: "de" },
-            price: { amount: 5000, currency: "USD" },
-            state: "SOLD",
-            url: "https://example.com/item",
-            images: ["invalid-url"],
-            created: "2023-01-01T00:00:00Z",
-            updated: "2023-01-02T00:00:00Z",
+        const apiData: PersonalizedGetItemData = {
+            item: {
+                itemId: "item-123",
+                eventId: "event-456",
+                shopId: "shop-789",
+                shopsItemId: "shop-item-101",
+                shopName: "Antique Shop",
+                title: { text: "Rare Painting", language: "de" },
+                price: { amount: 5000, currency: "USD" },
+                state: "SOLD",
+                url: "https://example.com/item",
+                images: ["invalid-url"],
+                created: "2023-01-01T00:00:00Z",
+                updated: "2023-01-02T00:00:00Z",
+            },
         };
 
         const result = mapToInternalOverviewItem(apiData);
@@ -83,20 +89,22 @@ describe("createListOverviewItem", () => {
     });
 
     it("should return an empty list for missing image fields", () => {
-        const apiData: GetItemData = {
-            itemId: "item-123",
-            eventId: "event-456",
-            shopId: "shop-789",
-            shopsItemId: "shop-item-101",
-            shopName: "Antique Shop",
-            title: { text: "Vintage Vase", language: "de" },
-            description: { text: "Beautiful vintage vase", language: "de" },
-            price: { amount: 1099, currency: "USD" },
-            state: "AVAILABLE",
-            url: "https://example.com/item",
-            images: [],
-            created: "2023-01-01T00:00:00Z",
-            updated: "2023-01-02T00:00:00Z",
+        const apiData: PersonalizedGetItemData = {
+            item: {
+                itemId: "item-123",
+                eventId: "event-456",
+                shopId: "shop-789",
+                shopsItemId: "shop-item-101",
+                shopName: "Antique Shop",
+                title: { text: "Vintage Vase", language: "de" },
+                description: { text: "Beautiful vintage vase", language: "de" },
+                price: { amount: 1099, currency: "USD" },
+                state: "AVAILABLE",
+                url: "https://example.com/item",
+                images: [],
+                created: "2023-01-01T00:00:00Z",
+                updated: "2023-01-02T00:00:00Z",
+            },
         };
 
         const result = mapToInternalOverviewItem(apiData);

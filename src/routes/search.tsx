@@ -1,10 +1,8 @@
 import { SearchFilters } from "@/components/search/SearchFilters.tsx";
-import { SimpleSearchResults } from "@/components/search/SimpleSearchResults.tsx";
 import { H1 } from "@/components/typography/H1";
 import { createFileRoute, type SearchSchemaInput } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
-import { FilteredSearchResults } from "@/components/search/FilteredSearchResults.tsx";
-import { isSimpleSearch, mapFiltersToUrlParams } from "@/lib/utils.ts";
+import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
@@ -16,6 +14,7 @@ import { useState } from "react";
 
 import { SEARCH_RESULT_SORT_FIELDS, type SortMode } from "@/data/internal/SortMode.ts";
 import { SortModeSelection } from "@/components/search/SortModeSelection.tsx";
+import { SearchResults } from "@/components/search/SearchResults.tsx";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (
@@ -86,7 +85,8 @@ export const Route = createFileRoute("/search")({
             updateDateFrom: fromUpdateDate,
             updateDateTo: toUpdateDate,
             merchant: (search.merchant?.trim() as string) || undefined,
-            sortMode: { field: sortField, order: sortOrder },
+            sortField: sortField,
+            sortOrder: sortOrder,
         };
     },
     component: RouteComponent,
@@ -103,7 +103,10 @@ function RouteComponent() {
         setIsFilterSheetOpen(false);
     };
 
-    const sortMode = searchArgs.sortMode || { field: "RELEVANCE", order: "DESC" };
+    const sortMode = {
+        field: searchArgs.sortField ?? "RELEVANCE",
+        order: searchArgs.sortOrder ?? "DESC",
+    };
 
     const updateSortMode = (newSortMode: SortMode) => {
         navigate({
@@ -187,19 +190,8 @@ function RouteComponent() {
                     <div className="w-full lg:w-[30%] min-w-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300 hidden lg:block">
                         <SearchFilters searchFilters={searchArgs} />
                     </div>
-                    <div className="w-full lg:w-[70%] min-w-0">
-                        {isSimpleSearch(searchArgs) ? (
-                            <SimpleSearchResults
-                                query={searchArgs.q}
-                                sortMode={sortMode}
-                                onTotalChange={setTotalResults}
-                            />
-                        ) : (
-                            <FilteredSearchResults
-                                searchFilters={searchArgs}
-                                onTotalChange={setTotalResults}
-                            />
-                        )}
+                    <div className={"flex-col w-full lg:w-[70%] min-w-0"}>
+                        <SearchResults searchFilters={searchArgs} onTotalChange={setTotalResults} />
                     </div>
                 </div>
             </div>
