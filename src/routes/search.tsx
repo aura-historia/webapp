@@ -85,7 +85,8 @@ export const Route = createFileRoute("/search")({
             updateDateFrom: fromUpdateDate,
             updateDateTo: toUpdateDate,
             merchant: (search.merchant?.trim() as string) || undefined,
-            sortMode: { field: sortField, order: sortOrder },
+            sortField: sortField,
+            sortOrder: sortOrder,
         };
     },
     component: RouteComponent,
@@ -102,7 +103,12 @@ function RouteComponent() {
         setIsFilterSheetOpen(false);
     };
 
-    const sortMode = searchArgs.sortMode || { field: "RELEVANCE", order: "DESC" };
+    const sortMode = {
+        field: searchArgs.sortField ?? "RELEVANCE",
+        order: searchArgs.sortOrder ?? "DESC",
+    };
+
+    console.log({ sortMode });
 
     const updateSortMode = (newSortMode: SortMode) => {
         navigate({

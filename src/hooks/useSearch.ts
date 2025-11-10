@@ -59,7 +59,10 @@ export function useSearch(
                 query: {
                     searchAfter: pageParam,
                     size: PAGE_SIZE,
-                    ...mapToBackendSortModeArguments(searchArgs.sortMode),
+                    ...mapToBackendSortModeArguments({
+                        field: searchArgs.sortField ?? "RELEVANCE",
+                        order: searchArgs.sortOrder ?? "DESC",
+                    }),
                 },
             });
 
