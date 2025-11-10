@@ -108,8 +108,6 @@ function RouteComponent() {
         order: searchArgs.sortOrder ?? "DESC",
     };
 
-    console.log({ sortMode });
-
     const updateSortMode = (newSortMode: SortMode) => {
         navigate({
             search: (prev) => ({
