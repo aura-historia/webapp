@@ -43,7 +43,7 @@ export function Header() {
             <div className="flex md:hidden items-center justify-end gap-2">
                 <SearchBar type={"small"} />
                 <DropdownMenu>
-                    <DropdownMenuTrigger>
+                    <DropdownMenuTrigger asChild>
                         <Button>
                             <Menu />
                         </Button>
@@ -77,7 +77,7 @@ export function Header() {
             <div className="hidden md:flex items-center justify-end gap-4 w-full">
                 {user ? (
                     <DropdownMenu>
-                        <DropdownMenuTrigger>
+                        <DropdownMenuTrigger asChild>
                             <AccountImage
                                 firstName={userAttributes?.given_name || ""}
                                 lastName={userAttributes?.family_name || ""}
