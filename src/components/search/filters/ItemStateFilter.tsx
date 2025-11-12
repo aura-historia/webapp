@@ -58,29 +58,33 @@ export function ItemStateFilter() {
                             key={item}
                             name="itemState"
                             control={control}
-                            render={({ field }) => (
-                                <div className="flex flex-row gap-4 items-center">
-                                    <Checkbox
-                                        id={`checkbox-${item}`}
-                                        checked={field.value?.includes(item)}
-                                        className="cursor-pointer"
-                                        onCheckedChange={(checked) =>
-                                            handleCheckedChange(field, item, checked)
-                                        }
-                                    />
-                                    <label
-                                        htmlFor={`checkbox-${item}`}
-                                        className="cursor-pointer select-none"
-                                    >
-                                        <StatusBadge
-                                            status={item}
-                                            className={
-                                                field.value?.includes(item) ? "" : "opacity-35"
+                            render={({ field }) => {
+                                const isChecked = field.value?.includes(item);
+                                return (
+                                    <div className="flex flex-row gap-4 items-center">
+                                        <Checkbox
+                                            id={`checkbox-${item}`}
+                                            checked={field.value?.includes(item)}
+                                            className="cursor-pointer"
+                                            onCheckedChange={(checked) =>
+                                                handleCheckedChange(field, item, checked)
                                             }
                                         />
-                                    </label>
-                                </div>
-                            )}
+                                        <button
+                                            type="button"
+                                            className="cursor-pointer select-none border-0 bg-transparent p-0"
+                                            onClick={() =>
+                                                handleCheckedChange(field, item, !isChecked)
+                                            }
+                                        >
+                                            <StatusBadge
+                                                status={item}
+                                                className={isChecked ? "" : "opacity-35"}
+                                            />
+                                        </button>
+                                    </div>
+                                );
+                            }}
                         />
                     ))}
                 </div>
