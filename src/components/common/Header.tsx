@@ -77,7 +77,7 @@ export function Header() {
             <div className="hidden md:flex items-center justify-end gap-4 w-full">
                 {user ? (
                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
+                        <DropdownMenuTrigger>
                             <AccountImage
                                 firstName={userAttributes?.given_name || ""}
                                 lastName={userAttributes?.family_name || ""}
