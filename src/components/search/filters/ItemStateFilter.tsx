@@ -64,7 +64,7 @@ export function ItemStateFilter() {
                                     <div className="flex flex-row gap-4 items-center">
                                         <Checkbox
                                             id={`checkbox-${item}`}
-                                            checked={field.value?.includes(item)}
+                                            checked={isChecked}
                                             className="cursor-pointer"
                                             onCheckedChange={(checked) =>
                                                 handleCheckedChange(field, item, checked)
