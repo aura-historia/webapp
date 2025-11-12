@@ -80,7 +80,10 @@
         "messages": {
             "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",
             "error": "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
-            "noResults": "Keine Artikel gefunden!",
+            "noResults": {
+                "title": "Keine Ergebnisse gefunden",
+                "description": "Versuchen Sie Ihren Suchbegriff oder Ihre Filter anzupassen."
+            },
             "loadingMore": "Lade neue Ergebnisse...",
             "allLoaded_one": "{{count}} Ergebnis wurde geladen.",
             "allLoaded_other": "Alle {{count}} Ergebnisse wurden geladen."
