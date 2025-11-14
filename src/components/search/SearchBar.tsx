@@ -21,7 +21,9 @@ import { useMemo } from "react";
 
 interface SearchBarProps {
     readonly type: "small" | "big";
+    readonly showOnLandingPage?: boolean;
 }
+
 const createSearchFormSchema = (t: TFunction) =>
     z.object({
         query: z
@@ -34,9 +36,9 @@ const createSearchFormSchema = (t: TFunction) =>
 
 export type SearchFormSchema = z.infer<ReturnType<typeof createSearchFormSchema>>;
 
-const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/", "/auth"]);
+const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/auth"]);
 
-export function SearchBar({ type }: SearchBarProps) {
+export function SearchBar({ type, showOnLandingPage = false }: SearchBarProps) {
     const { t } = useTranslation();
     const navigate = useNavigate({ from: "/" });
     const pathname = useLocation({
@@ -78,7 +80,10 @@ export function SearchBar({ type }: SearchBarProps) {
         });
     }
 
-    if (SEARCH_BAR_HIDDEN_ROUTES.has(pathname) && type === "small") return;
+    if (SEARCH_BAR_HIDDEN_ROUTES.has(pathname) && type === "small") return null;
+
+    const isLandingPage = pathname === "/" && type === "small";
+    const isVisible = !isLandingPage || showOnLandingPage;
 
     return (
         <Form {...form}>
@@ -86,7 +91,13 @@ export function SearchBar({ type }: SearchBarProps) {
                 className={
                     type === "big"
                         ? "flex items-start w-full gap-4"
-                        : "flex items-start gap-2 w-full"
+                        : isLandingPage
+                          ? `flex items-start gap-2 w-full transition-all duration-500 ease-in-out ${
+                                isVisible
+                                    ? "opacity-100 translate-y-0"
+                                    : "opacity-0 -translate-y-2 pointer-events-none"
+                            }`
+                          : "flex items-start gap-2 w-full"
                 }
                 onSubmit={form.handleSubmit(onSubmit)}
             >

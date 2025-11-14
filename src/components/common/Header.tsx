@@ -14,9 +14,17 @@ import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
 import { SearchBar } from "@/components/search/SearchBar.tsx";
 import { Menu } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function Header() {
     const { t } = useTranslation();
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => setIsScrolled(window.scrollY > 600);
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     const { toSignUp, toSignIn, user, signOut } = useAuthenticator((context) => [
         context.toSignUp,
@@ -36,12 +44,12 @@ export function Header() {
                 {t("common.auraHistoria")}
             </Link>
 
-            <div className="hidden justify-center md:flex">
-                <SearchBar type={"small"} />
+            <div className="hidden justify-center md:flex overflow-hidden">
+                <SearchBar type={"small"} showOnLandingPage={isScrolled} />
             </div>
 
             <div className="flex md:hidden items-center justify-end gap-2">
-                <SearchBar type={"small"} />
+                <SearchBar type={"small"} showOnLandingPage={isScrolled} />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button>
