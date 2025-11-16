@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistItemData, AddWatchlistItemErrors, AddWatchlistItemResponses, ComplexSearchItemsData, ComplexSearchItemsErrors, ComplexSearchItemsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistItemData, DeleteWatchlistItemErrors, DeleteWatchlistItemResponses, GetItemData2, GetItemErrors, GetItemResponses, GetShopData2, GetShopErrors, GetShopResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistItemsData, GetWatchlistItemsErrors, GetWatchlistItemsResponses, PatchWatchlistItemData, PatchWatchlistItemErrors, PatchWatchlistItemResponses, PutItemsData, PutItemsErrors, PutItemsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistItemData, AddWatchlistItemErrors, AddWatchlistItemResponses, ComplexSearchItemsData, ComplexSearchItemsErrors, ComplexSearchItemsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistItemData, DeleteWatchlistItemErrors, DeleteWatchlistItemResponses, GetItemData2, GetItemErrors, GetItemResponses, GetShopData2, GetShopErrors, GetShopResponses, GetSimilarItemsData, GetSimilarItemsErrors, GetSimilarItemsResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistItemsData, GetWatchlistItemsErrors, GetWatchlistItemsResponses, PatchWatchlistItemData, PatchWatchlistItemErrors, PatchWatchlistItemResponses, PutItemsData, PutItemsErrors, PutItemsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -33,6 +33,28 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 export const getItem = <ThrowOnError extends boolean = false>(options: Options<GetItemData2, ThrowOnError>) => {
     return (options.client ?? client).get<GetItemResponses, GetItemErrors, ThrowOnError>({
         url: '/api/v1/items/{shopId}/{shopsItemId}',
+        ...options
+    });
+};
+
+/**
+ * Get similar items
+ *
+ * Retrieves items similar to the specified item using semantic search based on text embeddings.
+ * Returns localized content based on Accept-Language header and currency preferences.
+ *
+ * **Personalization**: When authenticated (via optional Authorization header), the response includes
+ * user-specific state for each similar item (watchlist status, notifications).
+ * Anonymous requests receive item data without user state.
+ *
+ * **Asynchronous Processing**: If the item's text embedding has not yet been computed (typically for
+ * items created less than 24 hours ago), the endpoint returns 202 Accepted with a Location header
+ * to poll. The embedding generation runs nightly via batch processing.
+ *
+ */
+export const getSimilarItems = <ThrowOnError extends boolean = false>(options: Options<GetSimilarItemsData, ThrowOnError>) => {
+    return (options.client ?? client).get<GetSimilarItemsResponses, GetSimilarItemsErrors, ThrowOnError>({
+        url: '/api/v1/items/{shopId}/{shopsItemId}/similar',
         ...options
     });
 };
