@@ -1,6 +1,7 @@
 import { getSimilarItems } from "@/client";
 import { mapToInternalOverviewItem, type OverviewItem } from "@/data/internal/OverviewItem";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+import { useApiError } from "@/hooks/useApiError";
 
 type SimilarItemsData = {
     items: OverviewItem[];
@@ -11,6 +12,8 @@ export function useSimilarItems(
     shopId: string,
     shopsItemId: string,
 ): UseQueryResult<SimilarItemsData> {
+    const { getErrorMessage } = useApiError();
+
     return useQuery({
         queryKey: ["similarItems", shopId, shopsItemId],
         queryFn: async () => {
@@ -23,7 +26,7 @@ export function useSimilarItems(
             });
 
             if (result.error) {
-                throw new Error(result.error.message);
+                throw new Error(getErrorMessage(result.error.error));
             }
 
             if (result.response.status === 202) {

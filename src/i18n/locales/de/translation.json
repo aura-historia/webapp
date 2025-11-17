@@ -157,5 +157,27 @@
     "landingPage": {
         "titleFirstLine": "Entdecken, vergleichen, sammeln-",
         "titleSecondLine": "mit Klarheit im Antiquitätenmarkt"
+    },
+    "apiErrors": {
+        "PRODUCT_NOT_FOUND": "Dieser Artikel wurde nicht gefunden oder ist nicht mehr verfügbar.",
+        "UNAUTHORIZED": "Deine Sitzung ist abgelaufen. Bitte melde dich erneut an.",
+        "INTERNAL_SERVER_ERROR": "Es ist ein interner Serverfehler aufgetreten. Bitte versuche es später erneut.",
+        "GATEWAY_TIMEOUT": "Die Seite lädt zu lange. Bitte versuche es erneut.",
+        "WATCHLIST_ENTRY_NOT_FOUND": "Dieser Artikel ist nicht mehr auf deiner Merkliste.",
+        "SEARCH_FILTER_NOT_FOUND": "Dieser Suchfilter wurde nicht gefunden.",
+        "TEXT_QUERY_TOO_SHORT": "Bitte gib mindestens 3 Zeichen ein.",
+        "BAD_PATH_PARAMETER_VALUE": "Der Link ist ungültig. Bitte überprüfe die URL.",
+        "INVALID_UUID": "Der Link ist ungültig. Bitte überprüfe die URL.",
+        "SERVICE_UNAVAILABLE": "Der Service ist momentan nicht verfügbar. Bitte versuche es später erneut.",
+        "BAD_QUERY_PARAMETER_VALUE": "Deine Suche enthält ungültige Einstellungen.",
+        "SHOP_NOT_FOUND": "Dieser Shop ist nicht mehr verfügbar.",
+        "FORBIDDEN": "Diese Aktion ist für dich nicht verfügbar.",
+        "BAD_BODY_VALUE": "Einige Angaben sind nicht korrekt. Bitte überprüfe deine Eingaben.",
+        "MONETARY_AMOUNT_OVERFLOW": "Der Preis ist zu hoch und kann nicht verarbeitet werden.",
+        "BAD_PAGE_FROM_VALUE": "Ungültige Seitennummer.",
+        "BAD_PAGE_SIZE_VALUE": "Ungültige Anzahl an Ergebnissen.",
+        "BAD_SORT_VALUE": "Ungültige Sortierung.",
+        "BAD_ORDER_VALUE": "Ungültige Sortierreihenfolge.",
+        "unknown": "Ein unerwarteter Fehler ist aufgetreten."
     }
 }
