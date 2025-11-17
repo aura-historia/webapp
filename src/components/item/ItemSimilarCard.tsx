@@ -43,35 +43,35 @@ export function ItemSimilarCard({ item }: { readonly item: OverviewItem }) {
                 </Link>
             </div>
             <div className={"flex flex-col min-w-0 flex-1 justify-between p-4"}>
-                <div className={"flex flex-row justify-between w-full"}>
-                    <div className={"flex flex-col gap-2 min-w-0 overflow-hidden"}>
-                        <Link
-                            to="/item/$shopId/$shopsItemId"
-                            params={{
-                                shopId: item.shopId,
-                                shopsItemId: item.shopsItemId,
-                            }}
-                            className="min-w-0 overflow-hidden"
+                <div className={"flex flex-col gap-2 min-w-0 overflow-hidden"}>
+                    <Link
+                        to="/item/$shopId/$shopsItemId"
+                        params={{
+                            shopId: item.shopId,
+                            shopsItemId: item.shopsItemId,
+                        }}
+                        className="min-w-0 overflow-hidden"
+                    >
+                        <H2
+                            className={
+                                "overflow-ellipsis line-clamp-2 hover:underline !text-base !font-semibold"
+                            }
                         >
-                            <H2
-                                className={
-                                    "overflow-ellipsis line-clamp-2 hover:underline !text-base !font-semibold"
-                                }
-                            >
-                                {item.title}
-                            </H2>
-                        </Link>
-                        <H3 variant={"muted"} className={"line-clamp-1 overflow-ellipsis !text-sm"}>
-                            {item.shopName}
-                        </H3>
-                        <StatusBadge status={item.state} />
-                    </div>
+                            {item.title}
+                        </H2>
+                    </Link>
+                    <H3 variant={"muted"} className={"line-clamp-1 overflow-ellipsis !text-sm"}>
+                        {item.shopName}
+                    </H3>
                 </div>
 
-                <div className={"flex flex-row gap-3 justify-between items-center w-full mt-4"}>
-                    <PriceText className="min-w-0 overflow-hidden text-ellipsis !text-2xl !font-bold">
-                        {item.price ?? t("item.unknownPrice")}
-                    </PriceText>
+                <div className={"flex flex-row gap-3 justify-between items-end w-full mt-4"}>
+                    <div className={"flex flex-col gap-2 flex-shrink-0"}>
+                        <StatusBadge status={item.state} />
+                        <PriceText className="min-w-0 overflow-hidden text-ellipsis !text-2xl !font-bold">
+                            {item.price ?? t("item.unknownPrice")}
+                        </PriceText>
+                    </div>
 
                     <div className={"flex-shrink-0"}>
                         <Button variant={"secondary"} size={"sm"} asChild>
