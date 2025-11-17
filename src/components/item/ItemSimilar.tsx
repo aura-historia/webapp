@@ -88,7 +88,7 @@ export function ItemSimilar({ shopId, shopsItemId }: ItemSimilarProps) {
         <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
             <H2>{t("item.similar.title")}</H2>
 
-            <div className="relative px-12 pb-12">
+            <div className="relative px-12">
                 <Carousel
                     opts={{
                         align: "start",
