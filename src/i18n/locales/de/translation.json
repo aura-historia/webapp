@@ -101,6 +101,21 @@
         "details": "Details",
         "toMerchant": "Zur Seite des Händlers",
         "noDescription": "Keine Beschreibung verfügbar",
+        "similar": {
+            "title": "Ähnliche Artikel",
+            "error": {
+                "title": "Fehler beim Laden",
+                "description": "Ähnliche Artikel konnten nicht geladen werden."
+            },
+            "embeddingsPending": {
+                "title": "Wird vorbereitet",
+                "description": "Ähnliche Artikel werden vorbereitet. Dies kann bei neuen Artikeln bis zu 24 Stunden dauern."
+            },
+            "noData": {
+                "title": "Keine ähnlichen Artikel",
+                "description": "Für diesen Artikel wurden keine ähnlichen Produkte gefunden."
+            }
+        },
         "history": {
             "title": "Historie",
             "noData": "Keine Daten für diesen Artikel vorhanden.",
