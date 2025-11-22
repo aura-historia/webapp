@@ -5,32 +5,39 @@ import { Card, CardContent } from "@/components/ui/card.tsx";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import type { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
+import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
+import { useSearch } from "@/hooks/useSearch.ts";
 import Lottie from "lottie-react";
 import tick from "@/assets/lottie/tick.json";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { useTranslation } from "react-i18next";
 
 type SearchResultsProps = {
-    readonly query: string;
-    readonly searchQueryHook: UseInfiniteQueryResult<InfiniteData<SearchResultData>>;
+    readonly searchFilters: SearchFilterArguments;
+    readonly onTotalChange?: (total: number) => void;
 };
 
-export function SearchResults({ query, searchQueryHook }: SearchResultsProps) {
+export function SearchResults({ searchFilters, onTotalChange }: SearchResultsProps) {
     const { ref, inView } = useInView();
     const { t } = useTranslation();
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        searchQueryHook;
+        useSearch(searchFilters);
 
     useEffect(() => {
-        if (inView && hasNextPage && !isFetchingNextPage && query.length >= 3) {
+        if (data?.pages[0]?.total !== undefined && onTotalChange) {
+            onTotalChange(data.pages[0].total);
+        }
+    }, [data?.pages[0]?.total, onTotalChange]);
+
+    useEffect(() => {
+        if (inView && hasNextPage && !isFetchingNextPage && searchFilters.q.length >= 3) {
             fetchNextPage();
         }
-    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, query.length]);
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, searchFilters.q.length]);
 
-    if (query.length < 3) {
+    if (searchFilters.q.length < 3) {
         return <SectionInfoText>{t("search.messages.minQueryLength")}</SectionInfoText>;
     }
 
@@ -76,7 +83,9 @@ export function SearchResults({ query, searchQueryHook }: SearchResultsProps) {
                             <div className={"h-12 w-12 shrink-0"}>
                                 <Lottie className={"h-12 w-12"} animationData={tick} loop={false} />
                             </div>
-                            <SectionInfoText>{t("search.messages.allLoaded")}</SectionInfoText>
+                            <SectionInfoText>
+                                {t("search.messages.allLoaded", { count: data?.pages[0]?.total })}
+                            </SectionInfoText>
                         </div>
                     )}
                 </CardContent>

@@ -1,7 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
-import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import type { ItemEvent, Price } from "@/data/internal/ItemDetails.ts";
 import {
     isPriceChangedEvent,
@@ -48,19 +47,6 @@ export function formatToDateString(date?: Date): string | undefined {
         return undefined;
     }
     return format(date, "yyyy-MM-dd");
-}
-
-export function isSimpleSearch(searchArgs: SearchFilterArguments): boolean {
-    return !(
-        searchArgs.priceFrom ||
-        searchArgs.priceTo ||
-        searchArgs.allowedStates ||
-        searchArgs.creationDateFrom ||
-        searchArgs.creationDateTo ||
-        searchArgs.updateDateFrom ||
-        searchArgs.updateDateTo ||
-        searchArgs.merchant
-    );
 }
 
 export type SearchFilterData = {

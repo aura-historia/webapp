@@ -43,6 +43,8 @@
         "filters": "Filter",
         "resultsFor": "Suchergebnisse für:",
         "resetAllFilters": "Alle Filter zurücksetzen",
+        "totalResults_one": "{{count}} Element",
+        "totalResults_other": "{{count}} Elemente",
         "bar": {
             "label": "Suche",
             "placeholder": "Ich suche nach...",
@@ -80,7 +82,8 @@
             "error": "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
             "noResults": "Keine Artikel gefunden!",
             "loadingMore": "Lade neue Ergebnisse...",
-            "allLoaded": "Sie haben alle Ergebnisse gesehen, die Ihren Filtern entsprechen."
+            "allLoaded_one": "Sie haben {{count}} Ergebnis gesehen, das Ihren Filtern entsprach.",
+            "allLoaded_other": "Sie haben alle {{count}} Ergebnisse gesehen, die Ihren Filtern entsprechen."
         },
         "sortMode": {
             "relevance": "Relevanz",

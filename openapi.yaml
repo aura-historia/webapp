@@ -26,6 +26,10 @@ paths:
                 Retrieves a single item by its shop ID and shop's item ID.
                 Returns localized content based on Accept-Language header and currency preferences.
                 Optionally includes item history when requested.
+                
+                **Personalization**: When authenticated (via optional Authorization header), the response includes
+                user-specific state such as whether the item is on the user's watchlist and notification preferences.
+                Anonymous requests receive item data without user state.
             operationId: getItem
             tags:
                 - Items
@@ -80,6 +84,17 @@ paths:
                         regional:
                             value: "en-US"
                             description: "US English"
+                -   name: Authorization
+                    in: header
+                    required: false
+                    description: |
+                        Optional Cognito JWT token for personalized response.
+                        When provided, response includes user-specific state (watchlist status, notifications).
+                        When omitted, response contains only item data without user state.
+                    schema:
+                        type: string
+                        pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
+                    example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
             responses:
                 '200':
                     description: Item found and returned successfully
@@ -109,29 +124,62 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GetItemData'
-                            example:
-                                itemId: "550e8400-e29b-41d4-a716-446655440000"
-                                eventId: "550e8400-e29b-41d4-a716-446655440001"
-                                shopId: "550e8400-e29b-41d4-a716-446655440000"
-                                shopsItemId: "6ba7b810"
-                                shopName: "My Shop"
-                                title:
-                                    text: "Amazing Product"
-                                    language: "en"
-                                description:
-                                    text: "This is an amazing product description"
-                                    language: "en"
-                                price:
-                                    currency: "EUR"
-                                    amount: 2999
-                                state: "AVAILABLE"
-                                url: "https://my-shop.com/products/amazing-product"
-                                images:
-                                    - "https://my-shop.com/images/product-1.jpg"
-                                    - "https://my-shop.com/images/product-2.jpg"
-                                created: "2024-01-01T10:00:00Z"
-                                updated: "2024-01-01T12:00:00Z"
+                                $ref: '#/components/schemas/PersonalizedGetItemData'
+                            examples:
+                                authenticated:
+                                    summary: Authenticated user response with watchlist state
+                                    value:
+                                        item:
+                                            itemId: "550e8400-e29b-41d4-a716-446655440000"
+                                            eventId: "550e8400-e29b-41d4-a716-446655440001"
+                                            shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                            shopsItemId: "6ba7b810"
+                                            shopName: "My Shop"
+                                            title:
+                                                text: "Amazing Product"
+                                                language: "en"
+                                            description:
+                                                text: "This is an amazing product description"
+                                                language: "en"
+                                            price:
+                                                currency: "EUR"
+                                                amount: 2999
+                                            state: "AVAILABLE"
+                                            url: "https://my-shop.com/products/amazing-product"
+                                            images:
+                                                - "https://my-shop.com/images/product-1.jpg"
+                                                - "https://my-shop.com/images/product-2.jpg"
+                                            created: "2024-01-01T10:00:00Z"
+                                            updated: "2024-01-01T12:00:00Z"
+                                        userState:
+                                            watchlist:
+                                                watching: true
+                                                notifications: true
+                                anonymous:
+                                    summary: Anonymous user response without user state
+                                    value:
+                                        item:
+                                            itemId: "550e8400-e29b-41d4-a716-446655440000"
+                                            eventId: "550e8400-e29b-41d4-a716-446655440001"
+                                            shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                            shopsItemId: "6ba7b810"
+                                            shopName: "My Shop"
+                                            title:
+                                                text: "Amazing Product"
+                                                language: "en"
+                                            description:
+                                                text: "This is an amazing product description"
+                                                language: "en"
+                                            price:
+                                                currency: "EUR"
+                                                amount: 2999
+                                            state: "AVAILABLE"
+                                            url: "https://my-shop.com/products/amazing-product"
+                                            images:
+                                                - "https://my-shop.com/images/product-1.jpg"
+                                                - "https://my-shop.com/images/product-2.jpg"
+                                            created: "2024-01-01T10:00:00Z"
+                                            updated: "2024-01-01T12:00:00Z"
                 '400':
                     description: Bad request - invalid parameters
                     content:
@@ -184,144 +232,6 @@ paths:
                                 error: "INTERNAL_SERVER_ERROR"
 
     /api/v1/items:
-        get:
-            summary: Search items
-            description: |
-                Search for items using a text query with various filtering and sorting options.
-                Returns a paginated collection of items matching the search criteria.
-            operationId: searchItems
-            tags:
-                - Items
-            parameters:
-                -   name: q
-                    in: query
-                    required: true
-                    description: Text search query (minimum 3 characters)
-                    schema:
-                        type: string
-                        minLength: 3
-                    example: "smartphone case"
-                -   name: language
-                    in: query
-                    required: false
-                    description: Language for search and localized content
-                    schema:
-                        $ref: '#/components/schemas/LanguageData'
-                        default: de
-                    example: en
-                -   name: currency
-                    in: query
-                    required: false
-                    description: Currency for price display
-                    schema:
-                        $ref: '#/components/schemas/CurrencyData'
-                        default: EUR
-                    example: USD
-                -   name: sort
-                    in: query
-                    required: false
-                    description: Field to sort results by
-                    schema:
-                        $ref: '#/components/schemas/SortItemFieldData'
-                    example: price
-                -   name: order
-                    in: query
-                    required: false
-                    description: Sort order (only valid when sort is specified)
-                    schema:
-                        type: string
-                        enum: [ asc, desc ]
-                    example: asc
-                -   name: searchAfter
-                    in: query
-                    required: false
-                    description: |
-                        Cursor value for pagination (search-after pattern).
-                        This is a JSON value returned as `searchAfter` in the previous response.
-                        Use this to fetch the next page of results.
-                        In general you do not have to worry about determining this key. It's given with the `searchAfter` field in the preceding response if more entries are present.
-                        This can be ANY heterogeneous array.
-                    schema:
-                        type: array
-                    example: "[2999, \"6ba7b810-9dad-11d1-80b4-00c04fd430c8\"]"
-                -   name: size
-                    in: query
-                    required: false
-                    description: Number of items to return per page
-                    schema:
-                        type: integer
-                        minimum: 1
-                        maximum: 100
-                        default: 21
-                    example: 21
-            responses:
-                '200':
-                    description: Search results returned successfully
-                    headers:
-                        Access-Control-Allow-Origin:
-                            description: CORS header
-                            schema:
-                                type: string
-                            example: "*"
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ItemSearchResultData'
-                            example:
-                                items:
-                                    -   itemId: "550e8400-e29b-41d4-a716-446655440000"
-                                        eventId: "550e8400-e29b-41d4-a716-446655440001"
-                                        shopId: "550e8400-e29b-41d4-a716-446655440000"
-                                        shopsItemId: "6ba7b810"
-                                        shopName: "Tech Store"
-                                        title:
-                                            text: "Smartphone Case"
-                                            language: "en"
-                                        price:
-                                            currency: "USD"
-                                            amount: 1999
-                                        state: "AVAILABLE"
-                                        url: "https://tech-store.com/smartphone-case"
-                                        images:
-                                            - "https://tech-store.com/images/case-1.jpg"
-                                        created: "2024-01-01T10:00:00Z"
-                                        updated: "2024-01-01T12:00:00Z"
-                                size: 21
-                                total: 127
-                                searchAfter: "[1999, \"550e8400-e29b-41d4-a716-446655440000\"]"
-                '400':
-                    description: Bad request - invalid parameters
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ApiError'
-                            examples:
-                                missing_query:
-                                    summary: Missing search query
-                                    value:
-                                        status: 400
-                                        error: "BAD_PARAMETER"
-                                        source:
-                                            field: "q"
-                                            sourceType: "query"
-                                query_too_short:
-                                    summary: Search query too short
-                                    value:
-                                        status: 400
-                                        error: "TEXT_QUERY_TOO_SHORT"
-                                        source:
-                                            field: "q"
-                                            sourceType: "query"
-                                        message: "Text query must be at least 3 characters long"
-                '500':
-                    description: Internal server error
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ApiError'
-                            example:
-                                status: 500
-                                error: "INTERNAL_SERVER_ERROR"
         put:
             summary: Bulk create or update items
             description: |
@@ -442,9 +352,13 @@ paths:
             summary: Complex item search
             description: |
                 Performs an advanced search for items using a comprehensive search filter.
-                This endpoint accepts a SearchFilterData object in the request body,
+                This endpoint accepts a ItemSearchData object in the request body,
                 allowing for complex filtering by multiple criteria simultaneously.
                 Returns a paginated collection of items matching the search criteria.
+                
+                **Personalization**: When authenticated (via optional Authorization header), the response includes
+                user-specific state for each item such as whether it's on the user's watchlist and notification preferences.
+                Anonymous requests receive item data without user state.
             operationId: complexSearchItems
             tags:
                 - Items
@@ -475,6 +389,7 @@ paths:
                         This can be ANY heterogeneous array.
                     schema:
                         type: array
+                        items: { }
                     example: "[2999, \"6ba7b810-9dad-11d1-80b4-00c04fd430c8\"]"
                 -   name: size
                     in: query
@@ -486,6 +401,17 @@ paths:
                         maximum: 100
                         default: 21
                     example: 21
+                -   name: Authorization
+                    in: header
+                    required: false
+                    description: |
+                        Optional Cognito JWT token for personalized response.
+                        When provided, response includes user-specific state for each item (watchlist status, notifications).
+                        When omitted, response contains only item data without user state.
+                    schema:
+                        type: string
+                        pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
+                    example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
             requestBody:
                 required: true
                 description: |
@@ -495,7 +421,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/SearchFilterData'
+                            $ref: '#/components/schemas/ItemSearchData'
                         example:
                             language: "en"
                             currency: "USD"
@@ -520,29 +446,62 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ItemSearchResultData'
-                            example:
-                                items:
-                                    -   itemId: "550e8400-e29b-41d4-a716-446655440000"
-                                        eventId: "550e8400-e29b-41d4-a716-446655440001"
-                                        shopId: "550e8400-e29b-41d4-a716-446655440000"
-                                        shopsItemId: "6ba7b810"
-                                        shopName: "Tech Store"
-                                        title:
-                                            text: "Premium Smartphone Case"
-                                            language: "en"
-                                        price:
-                                            currency: "USD"
-                                            amount: 2999
-                                        state: "AVAILABLE"
-                                        url: "https://tech-store.com/premium-case"
-                                        images:
-                                            - "https://tech-store.com/images/premium-case-1.jpg"
-                                        created: "2024-01-15T10:00:00Z"
-                                        updated: "2024-01-15T12:00:00Z"
-                                size: 21
-                                total: 84
-                                searchAfter: "[2999, \"550e8400-e29b-41d4-a716-446655440000\"]"
+                                $ref: '#/components/schemas/PersonalizedItemSearchResultData'
+                            examples:
+                                authenticated:
+                                    summary: Authenticated user response with user state for each item
+                                    value:
+                                        items:
+                                            -   item:
+                                                    itemId: "550e8400-e29b-41d4-a716-446655440000"
+                                                    eventId: "550e8400-e29b-41d4-a716-446655440001"
+                                                    shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                                    shopsItemId: "6ba7b810"
+                                                    shopName: "Tech Store"
+                                                    title:
+                                                        text: "Premium Smartphone Case"
+                                                        language: "en"
+                                                    price:
+                                                        currency: "USD"
+                                                        amount: 2999
+                                                    state: "AVAILABLE"
+                                                    url: "https://tech-store.com/premium-case"
+                                                    images:
+                                                        - "https://tech-store.com/images/premium-case-1.jpg"
+                                                    created: "2024-01-15T10:00:00Z"
+                                                    updated: "2024-01-15T12:00:00Z"
+                                                userState:
+                                                    watchlist:
+                                                        watching: true
+                                                        notifications: false
+                                        size: 21
+                                        total: 84
+                                        searchAfter: "[2999, \"550e8400-e29b-41d4-a716-446655440000\"]"
+                                anonymous:
+                                    summary: Anonymous user response without user state
+                                    value:
+                                        items:
+                                            -   item:
+                                                    itemId: "550e8400-e29b-41d4-a716-446655440000"
+                                                    eventId: "550e8400-e29b-41d4-a716-446655440001"
+                                                    shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                                    shopsItemId: "6ba7b810"
+                                                    shopName: "Tech Store"
+                                                    title:
+                                                        text: "Premium Smartphone Case"
+                                                        language: "en"
+                                                    price:
+                                                        currency: "USD"
+                                                        amount: 2999
+                                                    state: "AVAILABLE"
+                                                    url: "https://tech-store.com/premium-case"
+                                                    images:
+                                                        - "https://tech-store.com/images/premium-case-1.jpg"
+                                                    created: "2024-01-15T10:00:00Z"
+                                                    updated: "2024-01-15T12:00:00Z"
+                                        size: 21
+                                        total: 84
+                                        searchAfter: "[2999, \"550e8400-e29b-41d4-a716-446655440000\"]"
                 '400':
                     description: Bad request - invalid parameters or body
                     content:
@@ -596,14 +555,14 @@ paths:
                                 status: 500
                                 error: "INTERNAL_SERVER_ERROR"
 
-    /api/v1/search-filters:
+    /api/v1/me/search-filters:
         get:
             summary: List user search filters
             description: |
                 Retrieves all search filters for the authenticated user.
                 Results can be optionally sorted by creation date.
                 Requires valid Cognito JWT authentication.
-            operationId: getSearchFilters
+            operationId: getUserSearchFilters
             tags:
                 - Search Filters
             parameters:
@@ -612,7 +571,7 @@ paths:
                     required: false
                     description: Field to sort results by
                     schema:
-                        $ref: '#/components/schemas/SortSearchFilterFieldData'
+                        $ref: '#/components/schemas/SortUserSearchFilterFieldData'
                     example: created
                 -   name: order
                     in: query
@@ -643,12 +602,13 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SearchFilterCollectionData'
+                                $ref: '#/components/schemas/UserSearchFilterCollectionData'
                             example:
                                 items:
                                     -   userId: "550e8400-e29b-41d4-a716-446655440000"
-                                        searchFilterId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-                                        searchFilter:
+                                        userSearchFilterId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                                        name: "My Tech Store Search"
+                                        itemSearch:
                                             language: "en"
                                             currency: "USD"
                                             itemQuery: "smartphone"
@@ -712,7 +672,7 @@ paths:
                 The search filter configuration is provided in the request body.
                 Returns the created search filter with generated ID and metadata.
                 Requires valid Cognito JWT authentication.
-            operationId: createSearchFilter
+            operationId: createUserSearchFilter
             tags:
                 - Search Filters
             parameters:
@@ -726,23 +686,25 @@ paths:
                     example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
             requestBody:
                 required: true
-                description: Search filter configuration
+                description: Search filter configuration with name and filter criteria
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/SearchFilterData'
+                            $ref: '#/components/schemas/PostUserSearchFilterData'
                         example:
-                            language: "en"
-                            currency: "USD"
-                            itemQuery: "smartphone"
-                            shopNameQuery: "Tech Store"
-                            price:
-                                min: 1000
-                                max: 5000
-                            state: [ "AVAILABLE" ]
-                            created:
-                                min: "2024-01-01T00:00:00Z"
-                                max: "2024-12-31T23:59:59Z"
+                            name: "My Tech Store Search"
+                            itemSearch:
+                                language: "en"
+                                currency: "USD"
+                                itemQuery: "smartphone"
+                                shopNameQuery: "Tech Store"
+                                price:
+                                    min: 1000
+                                    max: 5000
+                                state: [ "AVAILABLE" ]
+                                created:
+                                    min: "2024-01-01T00:00:00Z"
+                                    max: "2024-12-31T23:59:59Z"
             responses:
                 '201':
                     description: Search filter created successfully
@@ -752,7 +714,7 @@ paths:
                             schema:
                                 type: string
                                 format: uri
-                            example: "https://api.aura-historia.com/api/v1/search-filters/6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                            example: "https://api.aura-historia.com/api/v1/me/search-filters/6ba7b810-9dad-11d1-80b4-00c04fd430c8"
                         Content-Language:
                             description: The language of the returned content
                             schema:
@@ -775,8 +737,9 @@ paths:
                                 $ref: '#/components/schemas/UserSearchFilterData'
                             example:
                                 userId: "550e8400-e29b-41d4-a716-446655440000"
-                                searchFilterId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-                                searchFilter:
+                                userSearchFilterId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                                name: "My Tech Store Search"
+                                itemSearch:
                                     language: "en"
                                     currency: "USD"
                                     itemQuery: "smartphone"
@@ -831,18 +794,18 @@ paths:
                                 status: 500
                                 error: "INTERNAL_SERVER_ERROR"
 
-    /api/v1/search-filters/{searchFilterId}:
+    /api/v1/me/search-filters/{userSearchFilterId}:
         get:
             summary: Get a specific search filter
             description: |
                 Retrieves a specific search filter by its ID for the authenticated user.
                 Returns the complete search filter configuration and metadata.
                 Requires valid Cognito JWT authentication.
-            operationId: getSearchFilter
+            operationId: getUserSearchFilter
             tags:
                 - Search Filters
             parameters:
-                -   name: searchFilterId
+                -   name: userSearchFilterId
                     in: path
                     required: true
                     description: Unique identifier of the search filter
@@ -884,8 +847,9 @@ paths:
                                 $ref: '#/components/schemas/UserSearchFilterData'
                             example:
                                 userId: "550e8400-e29b-41d4-a716-446655440000"
-                                searchFilterId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-                                searchFilter:
+                                userSearchFilterId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                                name: "My Tech Store Search"
+                                itemSearch:
                                     language: "en"
                                     currency: "USD"
                                     itemQuery: "smartphone"
@@ -909,7 +873,7 @@ paths:
                                         status: 400
                                         error: "BAD_PATH_PARAMETER_VALUE"
                                         source:
-                                            field: "searchFilterId"
+                                            field: "userSearchFilterId"
                                             sourceType: "path"
                                 invalid_uuid:
                                     summary: Invalid search filter ID format
@@ -917,7 +881,7 @@ paths:
                                         status: 400
                                         error: "INVALID_UUID"
                                         source:
-                                            field: "searchFilterId"
+                                            field: "userSearchFilterId"
                                             sourceType: "path"
                                         message: "Invalid UUID format"
                 '401':
@@ -953,11 +917,11 @@ paths:
                 Deletes a specific search filter by its ID for the authenticated user.
                 The search filter must exist and belong to the authenticated user.
                 Requires valid Cognito JWT authentication.
-            operationId: deleteSearchFilter
+            operationId: deleteUserSearchFilter
             tags:
                 - Search Filters
             parameters:
-                -   name: searchFilterId
+                -   name: userSearchFilterId
                     in: path
                     required: true
                     description: Unique identifier of the search filter to delete
@@ -995,7 +959,7 @@ paths:
                                         status: 400
                                         error: "BAD_PATH_PARAMETER_VALUE"
                                         source:
-                                            field: "searchFilterId"
+                                            field: "userSearchFilterId"
                                             sourceType: "path"
                                 invalid_uuid:
                                     summary: Invalid search filter ID format
@@ -1003,7 +967,7 @@ paths:
                                         status: 400
                                         error: "INVALID_UUID"
                                         source:
-                                            field: "searchFilterId"
+                                            field: "userSearchFilterId"
                                             sourceType: "path"
                                         message: "Invalid UUID format"
                 '401':
@@ -1040,11 +1004,11 @@ paths:
                 Allows partial updates - only provided fields will be modified.
                 If no fields are provided in the request body, returns the existing search filter unchanged.
                 Requires valid Cognito JWT authentication.
-            operationId: updateSearchFilter
+            operationId: updateUserSearchFilter
             tags:
                 - Search Filters
             parameters:
-                -   name: searchFilterId
+                -   name: userSearchFilterId
                     in: path
                     required: true
                     description: Unique identifier of the search filter to update
@@ -1068,15 +1032,27 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/SearchFilterDataPatch'
+                            $ref: '#/components/schemas/PatchUserSearchFilterData'
                         examples:
                             partial_update:
                                 summary: Update specific fields
                                 value:
-                                    shopNameQuery: "Updated Store"
-                                    price:
-                                        min: 2000
-                                        max: 8000
+                                    name: "Updated Filter Name"
+                                    itemSearch:
+                                        shopNameQuery: "Updated Store"
+                                        price:
+                                            min: 2000
+                                            max: 8000
+                            update_name_only:
+                                summary: Update only the name
+                                value:
+                                    name: "New Filter Name"
+                            update_filter_only:
+                                summary: Update only the filter criteria
+                                value:
+                                    itemSearch:
+                                        language: "de"
+                                        currency: "EUR"
                             empty_update:
                                 summary: No changes (returns existing filter)
                                 value: { }
@@ -1106,8 +1082,9 @@ paths:
                                 $ref: '#/components/schemas/UserSearchFilterData'
                             example:
                                 userId: "550e8400-e29b-41d4-a716-446655440000"
-                                searchFilterId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-                                searchFilter:
+                                userSearchFilterId: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                                name: "Updated Filter Name"
+                                itemSearch:
                                     language: "en"
                                     currency: "USD"
                                     itemQuery: "smartphone"
@@ -1131,7 +1108,7 @@ paths:
                                         status: 400
                                         error: "BAD_PATH_PARAMETER_VALUE"
                                         source:
-                                            field: "searchFilterId"
+                                            field: "userSearchFilterId"
                                             sourceType: "path"
                                 invalid_uuid:
                                     summary: Invalid search filter ID format
@@ -1139,7 +1116,7 @@ paths:
                                         status: 400
                                         error: "INVALID_UUID"
                                         source:
-                                            field: "searchFilterId"
+                                            field: "userSearchFilterId"
                                             sourceType: "path"
                                         message: "Invalid UUID format"
                                 invalid_json:
@@ -1182,7 +1159,7 @@ paths:
                                 status: 500
                                 error: "INTERNAL_SERVER_ERROR"
 
-    /api/v1/watchlist:
+    /api/v1/me/watchlist:
         get:
             summary: List user's watchlist items
             description: |
@@ -1390,7 +1367,7 @@ paths:
                             schema:
                                 type: string
                                 format: uri
-                            example: "https://api.aura-historia.com/api/v1/watchlist/550e8400-e29b-41d4-a716-446655440000/6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                            example: "https://api.aura-historia.com/api/v1/me/watchlist/550e8400-e29b-41d4-a716-446655440000/6ba7b810-9dad-11d1-80b4-00c04fd430c8"
                         Access-Control-Allow-Origin:
                             description: CORS header
                             schema:
@@ -1445,7 +1422,7 @@ paths:
                                 status: 500
                                 error: "INTERNAL_SERVER_ERROR"
 
-    /api/v1/watchlist/{shopId}/{shopsItemId}:
+    /api/v1/me/watchlist/{shopId}/{shopsItemId}:
         delete:
             summary: Remove item from watchlist
             description: |
@@ -1810,15 +1787,19 @@ paths:
                         enum: [ asc, desc ]
                         default: asc
                     example: desc
-                -   name: from
+                -   name: searchAfter
                     in: query
                     required: false
-                    description: Pagination offset (number of shops to skip)
+                    description: |
+                        Cursor value for keyset pagination (search-after pattern).
+                        This is a JSON array value returned as `searchAfter` in the previous response.
+                        Use this to fetch the next page of results.
+                        In general you do not have to worry about determining this key. It's given with the `searchAfter` field in the preceding response if more entries are present.
+                        The array contains the sort field value and the shop ID as a tie-breaker: `[sortValue, shopId]`.
                     schema:
-                        type: integer
-                        minimum: 0
-                        default: 0
-                    example: 0
+                        type: array
+                        items: { }
+                    example: '["Tech Store Premium", "550e8400-e29b-41d4-a716-446655440000"]'
                 -   name: size
                     in: query
                     required: false
@@ -1872,9 +1853,9 @@ paths:
                                         url: "https://tech-store-basic.com"
                                         created: "2024-02-01T08:30:00Z"
                                         updated: "2024-07-01T14:20:00Z"
-                                from: 0
-                                size: 21
-                                total: 2
+                                size: 2
+                                total: 42
+                                searchAfter: '["Tech Store Basic", "660f9500-f39c-42e5-b827-556766550001"]'
                 '400':
                     description: Bad request - invalid parameters or body
                     content:
@@ -1998,9 +1979,28 @@ components:
                     nullable: true
                     description: Optional array of item history events
 
-        ItemSearchResultData:
+        PersonalizedGetItemData:
             type: object
-            description: Paginated collection of items using cursor-based pagination (search-after pattern)
+            description: |
+                Wrapper for item data with optional user-specific state.
+                When user is authenticated, includes personalized information such as watchlist status.
+                When user is anonymous, only the item data is present.
+            required:
+                - item
+            properties:
+                item:
+                    $ref: '#/components/schemas/GetItemData'
+                userState:
+                    allOf:
+                        -   $ref: '#/components/schemas/ItemUserStateData'
+                    nullable: true
+                    description: Optional user-specific state for this item (only present when authenticated)
+
+        PersonalizedItemSearchResultData:
+            type: object
+            description: |
+                Paginated collection of personalized items using cursor-based pagination (search-after pattern).
+                Each item may include user-specific state when the request is authenticated.
             required:
                 - items
                 - size
@@ -2008,8 +2008,8 @@ components:
                 items:
                     type: array
                     items:
-                        $ref: '#/components/schemas/GetItemData'
-                    description: Array of items in the current page
+                        $ref: '#/components/schemas/PersonalizedGetItemData'
+                    description: Array of personalized items in the current page
                 size:
                     type: integer
                     minimum: 0
@@ -2023,12 +2023,38 @@ components:
                     example: 127
                 searchAfter:
                     type: array
+                    items: { }
                     description: |
                         Cursor for the next page (JSON value). Present when there are more results.
                         Pass this value as the `searchAfter` query parameter to get the next page.
                         This can be ANY heterogeneous array.
                     nullable: true
                     example: "[2999, \"550e8400-e29b-41d4-a716-446655440000\"]"
+
+        ItemUserStateData:
+            type: object
+            description: User-specific state information for an item
+            required:
+                - watchlist
+            properties:
+                watchlist:
+                    $ref: '#/components/schemas/WatchlistUserStateData'
+
+        WatchlistUserStateData:
+            type: object
+            description: Watchlist-specific user state for an item
+            required:
+                - watching
+                - notifications
+            properties:
+                watching:
+                    type: boolean
+                    description: Whether the item is on the user's watchlist
+                    example: true
+                notifications:
+                    type: boolean
+                    description: Whether notifications are enabled for this watchlist item
+                    example: false
 
         LocalizedTextData:
             type: object
@@ -2259,9 +2285,9 @@ components:
                     description: Type of parameter that caused the error
                     example: "path"
 
-        SearchFilterData:
+        ItemSearchData:
             type: object
-            description: Search filter configuration with query parameters and filtering options
+            description: Item search configuration with query parameters and filtering options
             required:
                 - language
                 - currency
@@ -2307,12 +2333,46 @@ components:
                     nullable: true
                     description: Optional filter by item last updated date range
 
-        SearchFilterDataPatch:
+        PostUserSearchFilterData:
+            type: object
+            description: Request body for creating a new search filter
+            required:
+                - name
+                - itemSearch
+            properties:
+                name:
+                    type: string
+                    description: User-defined name for the search filter (max 255 characters, will be truncated if longer)
+                    maxLength: 255
+                    example: "My Tech Store Search"
+                itemSearch:
+                    $ref: '#/components/schemas/ItemSearchData'
+
+        PatchUserSearchFilterData:
             type: object
             description: |
                 Partial search filter update data.
                 All fields are optional and only provided fields will be updated.
-                Follows the same structure as SearchFilterData but with optional fields.
+                Can update the search filter name and/or the search filter criteria.
+            properties:
+                name:
+                    type: string
+                    description: User-defined name for the search filter (max 255 characters, will be truncated if longer)
+                    maxLength: 255
+                    nullable: true
+                    example: "Updated Filter Name"
+                itemSearch:
+                    allOf:
+                        -   $ref: '#/components/schemas/PatchItemSearchData'
+                    nullable: true
+                    description: Partial search filter criteria to update
+
+        PatchItemSearchData:
+            type: object
+            description: |
+                Partial search filter criteria update.
+                All fields are optional and only provided fields will be updated.
+                Follows the same structure as ItemSearchData but with optional fields.
             properties:
                 language:
                     allOf:
@@ -2365,8 +2425,9 @@ components:
             description: Complete user search filter with metadata
             required:
                 - userId
-                - searchFilterId
-                - searchFilter
+                - userSearchFilterId
+                - name
+                - itemSearch
                 - created
                 - updated
             properties:
@@ -2375,13 +2436,17 @@ components:
                     format: uuid
                     description: Unique identifier of the user who owns this search filter
                     example: "550e8400-e29b-41d4-a716-446655440000"
-                searchFilterId:
+                userSearchFilterId:
                     type: string
                     format: uuid
                     description: Unique identifier for this search filter
                     example: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-                searchFilter:
-                    $ref: '#/components/schemas/SearchFilterData'
+                name:
+                    type: string
+                    description: User-defined name for the search filter
+                    example: "My Tech Store Search"
+                itemSearch:
+                    $ref: '#/components/schemas/ItemSearchData'
                 created:
                     type: string
                     format: date-time
@@ -2423,7 +2488,7 @@ components:
                     description: Maximum date and time (inclusive, RFC3339 format)
                     example: "2024-12-31T23:59:59Z"
 
-        SortSearchFilterFieldData:
+        SortUserSearchFilterFieldData:
             type: string
             enum: [ created ]
             description: |
@@ -2431,7 +2496,7 @@ components:
                 - created: Sort by creation timestamp
             example: created
 
-        SearchFilterCollectionData:
+        UserSearchFilterCollectionData:
             type: object
             description: Paginated collection of user search filters with flattened pagination
             required:
@@ -2635,10 +2700,9 @@ components:
 
         ShopSearchResultData:
             type: object
-            description: Paginated collection of shops with flattened pagination
+            description: Cursor-paginated collection of shops using keyset pagination
             required:
                 - items
-                - from
                 - size
             properties:
                 items:
@@ -2646,16 +2710,21 @@ components:
                     items:
                         $ref: '#/components/schemas/GetShopData'
                     description: Array of shops in the current page
-                from:
-                    type: integer
-                    minimum: 0
-                    description: Number of items skipped (offset)
-                    example: 0
                 size:
                     type: integer
                     minimum: 0
                     description: Number of items in the current page
                     example: 21
+                searchAfter:
+                    type: array
+                    items: { }
+                    description: |
+                        Cursor for the next page (keyset pagination).
+                        Contains the sort field value and shop ID as tie-breaker: `[sortValue, shopId]`.
+                        Present when there are more results available.
+                        This is a heterogeneous JSON array.
+                    nullable: true
+                    example: '["Tech Store Premium", "550e8400-e29b-41d4-a716-446655440000"]'
                 total:
                     type: integer
                     minimum: 0

@@ -43,7 +43,7 @@ export function Header() {
             <div className="flex md:hidden items-center justify-end gap-2">
                 <SearchBar type={"small"} />
                 <DropdownMenu>
-                    <DropdownMenuTrigger>
+                    <DropdownMenuTrigger asChild>
                         <Button>
                             <Menu />
                         </Button>
