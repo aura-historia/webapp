@@ -82,7 +82,7 @@
             "error": "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
             "noResults": "Keine Artikel gefunden!",
             "loadingMore": "Lade neue Ergebnisse...",
-            "allLoaded_one": "Sie haben {{count}} Ergebnis gesehen, das Ihren Filtern entsprach.",
+            "allLoaded_one": "Sie haben {{count}} Ergebnis gesehen, das Ihren Filtern entspricht.",
             "allLoaded_other": "Sie haben alle {{count}} Ergebnisse gesehen, die Ihren Filtern entsprechen."
         },
         "sortMode": {
