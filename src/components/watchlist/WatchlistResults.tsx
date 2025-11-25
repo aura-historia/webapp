@@ -7,10 +7,10 @@ import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getWatchlistItems } from "@/client";
-import { mapToInternalWatchlistItem, type WatchlistItem } from "@/data/internal/WatchlistItem.ts";
 import { useAuthToken } from "@/hooks/useAuthToken.ts";
 import { H1 } from "@/components/typography/H1.tsx";
 import { useTranslation } from "react-i18next";
+import { mapToInternalOverviewItem, type OverviewItem } from "@/data/internal/OverviewItem.ts";
 
 const PAGE_SIZE = 21;
 
@@ -42,7 +42,7 @@ export function WatchlistResults() {
                 }
 
                 return {
-                    items: result.data?.items?.map(mapToInternalWatchlistItem) ?? [],
+                    items: result.data?.items?.map(mapToInternalOverviewItem) ?? [],
                     size: result.data?.size,
                     total: result.data?.total ?? undefined,
                     searchAfter: result.data?.searchAfter ?? undefined,
@@ -73,9 +73,7 @@ export function WatchlistResults() {
 
     if (authError) {
         console.error(authError);
-        return (
-            <SectionInfoText>Authentifizierungsfehler. Bitte melden Sie sich an!</SectionInfoText>
-        );
+        return <SectionInfoText>{t("account.authError")}</SectionInfoText>;
     }
 
     if (isPending) {
@@ -91,17 +89,13 @@ export function WatchlistResults() {
     if (error) {
         console.error(error);
 
-        return (
-            <SectionInfoText>
-                Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!
-            </SectionInfoText>
-        );
+        return <SectionInfoText>{t("search.messages.error")}</SectionInfoText>;
     }
 
-    const allItems: WatchlistItem[] = data?.pages.flatMap((page) => page.items) ?? [];
+    const allItems: OverviewItem[] = data?.pages.flatMap((page) => page.items) ?? [];
 
     if (allItems.length === 0) {
-        return <SectionInfoText>Keine Artikel gefunden!</SectionInfoText>;
+        return <SectionInfoText>{t("search.messages.noResults")}</SectionInfoText>;
     }
 
     return (
@@ -115,17 +109,19 @@ export function WatchlistResults() {
                 </SectionInfoText>
             </div>
             <div className="flex flex-col gap-4">
-                {allItems.map((watchlistItem: WatchlistItem) => (
-                    <ItemCard key={watchlistItem.item.itemId} item={watchlistItem.item} />
+                {allItems.map((watchlistItem: OverviewItem) => (
+                    <ItemCard key={watchlistItem.itemId} item={watchlistItem} />
                 ))}
                 <Card className={"h-8 px-2 justify-center items-center shadow-md"} ref={ref}>
                     <CardContent>
                         <SectionInfoText>
                             {isFetchingNextPage
-                                ? "Lade neue Ergebnisse..."
+                                ? t("search.messages.loadingMore")
                                 : hasNextPage
                                   ? ""
-                                  : "Alle Ergebnisse geladen"}
+                                  : t("search.messages.allLoaded", {
+                                        count: data?.pages[0]?.total,
+                                    })}
                         </SectionInfoText>
                     </CardContent>
                 </Card>

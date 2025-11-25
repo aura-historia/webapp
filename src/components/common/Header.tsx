@@ -33,7 +33,10 @@ export function Header() {
     return (
         <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 backdrop-blur-sm items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
             <div className="flex items-center justify-start gap-8">
-                <Link to="/" className="text-md md:text-xl lg:text-2xl font-bold text-center md:text-left">
+                <Link
+                    to="/"
+                    className="text-md md:text-xl lg:text-2xl font-bold text-center md:text-left"
+                >
                     {t("common.auraHistoria")}
                 </Link>
                 <div className="flex items-center gap-4 text-muted-foreground">
@@ -75,10 +78,10 @@ export function Header() {
                         ) : (
                             <>
                                 <DropdownMenuItem onClick={toSignUp} asChild>
-                                    <Link to="/auth">{t("common.register")}</Link>
+                                    <Link to="/login">{t("common.register")}</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={toSignIn} asChild>
-                                    <Link to="/auth">{t("common.login")}</Link>
+                                    <Link to="/login">{t("common.login")}</Link>
                                 </DropdownMenuItem>
                             </>
                         )}
@@ -110,10 +113,10 @@ export function Header() {
                 ) : (
                     <>
                         <Button asChild onClick={toSignUp} variant={"default"}>
-                            <Link to="/auth">{t("common.register")}</Link>
+                            <Link to="/login">{t("common.register")}</Link>
                         </Button>
                         <Button asChild onClick={toSignIn} variant="outline">
-                            <Link to="/auth">{t("common.login")}</Link>
+                            <Link to="/login">{t("common.login")}</Link>
                         </Button>
                     </>
                 )}

@@ -13,7 +13,7 @@ export function AccountPage() {
 
     useEffect(() => {
         if (!user) {
-            navigate({ to: "/auth" }).catch((error) => {
+            navigate({ to: "/login" }).catch((error) => {
                 console.error("Navigation fehlgeschlagen:", error);
             });
         }

@@ -3,20 +3,20 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import "@aws-amplify/ui-react/styles.css";
 import "../amplify-config";
 
-type AuthSearch = {
+type LoginSearch = {
     redirect?: string;
 };
 
-export const Route = createFileRoute("/auth")({
-    validateSearch: (search: Record<string, unknown>): AuthSearch => {
+export const Route = createFileRoute("/login")({
+    validateSearch: (search: Record<string, unknown>): LoginSearch => {
         return {
             redirect: typeof search.redirect === "string" ? search.redirect : undefined,
         };
     },
-    component: AuthPage,
+    component: LoginPage,
 });
 
-function AuthPage() {
+function LoginPage() {
     const navigate = useNavigate();
     const { redirect } = Route.useSearch();
 

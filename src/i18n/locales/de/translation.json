@@ -37,7 +37,8 @@
             "confirmButton": "Ja, Account löschen",
             "successMessage": "Account wurde erfolgreich gelöscht!",
             "errorMessage": "Fehler beim Löschen des Accounts."
-        }
+        },
+        "authError": "Authentifizierungsfehler. Bitte melden Sie sich erneut an."
     },
     "search": {
         "filters": "Filter",
