@@ -1,4 +1,4 @@
-import { useCallback, useRef, useMemo, useState } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
 import type { ItemEvent } from "@/data/internal/ItemDetails.ts";
@@ -98,27 +98,26 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
      * @param days - Number of days from today to be displayed, or zero for the entire available data period
      *
      */
-    const handleZoom = useCallback(
-        (days: number | null) => {
-            if (!chartRef.current) return;
+    const handleZoom = (days: number | null) => {
+        setSelectedTimeRange(days);
+    };
 
-            setSelectedTimeRange(days);
+    useEffect(() => {
+        if (chartRef.current) {
+            if (selectedTimeRange === null) {
+                return chartRef.current?.zoomX(minTimestamp, maxTimestamp);
+            }
 
-            if (days === null) {
+            const totalDays = (maxTimestamp - minTimestamp) / (24 * 60 * 60 * 1000);
+
+            if (selectedTimeRange >= totalDays) {
                 chartRef.current.zoomX(minTimestamp, maxTimestamp);
             } else {
-                const totalDays = (maxTimestamp - minTimestamp) / (24 * 60 * 60 * 1000);
-
-                if (days >= totalDays) {
-                    chartRef.current.zoomX(minTimestamp, maxTimestamp);
-                } else {
-                    const startDate = maxTimestamp - days * 24 * 60 * 60 * 1000;
-                    chartRef.current.zoomX(startDate, maxTimestamp);
-                }
+                const startDate = maxTimestamp - selectedTimeRange * 24 * 60 * 60 * 1000;
+                chartRef.current.zoomX(startDate, maxTimestamp);
             }
-        },
-        [minTimestamp, maxTimestamp],
-    );
+        }
+    }, [selectedTimeRange, maxTimestamp, minTimestamp]);
 
     if (!history || priceData.length === 0) {
         return (
