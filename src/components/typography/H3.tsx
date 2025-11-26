@@ -10,7 +10,7 @@ export function H3({ variant = "default", className, children, ...props }: H3Pro
     return (
         <h3
             className={cn(
-                "text-xl sm:text-2xl font-semibold break-words",
+                "text-xl sm:text-2xl font-semibold  hyphens-auto",
                 variant === "muted" && "text-muted-foreground",
                 className,
             )}

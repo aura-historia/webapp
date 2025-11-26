@@ -10,7 +10,7 @@ export function H2({ variant = "default", className, children, ...props }: H2Pro
     return (
         <h2
             className={cn(
-                "text-2xl sm:text-3xl font-bold hyphens-auto break-words",
+                "text-2xl sm:text-3xl font-bold hyphens-auto  hyphens-auto",
                 variant === "muted" && "text-muted-foreground",
                 className,
             )}

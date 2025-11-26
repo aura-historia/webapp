@@ -10,7 +10,7 @@ export function H1({ variant = "default", className, children, ...props }: H1Pro
     return (
         <h1
             className={cn(
-                "text-3xl sm:text-4xl font-bold break-words",
+                "text-3xl sm:text-4xl font-bold  hyphens-auto",
                 variant === "muted" && "text-muted-foreground",
                 className,
             )}
