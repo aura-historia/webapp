@@ -145,7 +145,6 @@ code {
 }
 
 @layer base {
-
     body {
         @apply text-foreground;
     }
