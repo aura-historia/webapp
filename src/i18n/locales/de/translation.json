@@ -82,7 +82,7 @@
             "error": "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
             "noResults": {
                 "title": "Keine Ergebnisse gefunden",
-                "description": "Versuchen Sie Ihren Suchbegriff oder Ihre Filter anzupassen."
+                "description": "Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen."
             },
             "loadingMore": "Lade neue Ergebnisse...",
             "allLoaded_one": "{{count}} Ergebnis wurde geladen.",
