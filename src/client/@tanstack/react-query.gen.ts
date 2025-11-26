@@ -3,8 +3,57 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistItem, complexSearchItems, createSearchFilter, deleteSearchFilter, deleteWatchlistItem, getItem, getSearchFilter, getSearchFilters, getShop, getWatchlistItems, type Options, patchWatchlistItem, putItems, searchItems, searchShops, updateSearchFilter } from '../sdk.gen';
-import type { AddWatchlistItemData, AddWatchlistItemError, AddWatchlistItemResponse, ComplexSearchItemsData, ComplexSearchItemsError, ComplexSearchItemsResponse, CreateSearchFilterData, CreateSearchFilterError, CreateSearchFilterResponse, DeleteSearchFilterData, DeleteSearchFilterError, DeleteSearchFilterResponse, DeleteWatchlistItemData, DeleteWatchlistItemError, DeleteWatchlistItemResponse, GetItemData2, GetSearchFilterData, GetSearchFiltersData, GetShopData2, GetWatchlistItemsData, PatchWatchlistItemData, PatchWatchlistItemError, PatchWatchlistItemResponse, PutItemsData, PutItemsError, PutItemsResponse2, SearchItemsData, SearchShopsData, SearchShopsError, SearchShopsResponse, UpdateSearchFilterData, UpdateSearchFilterError, UpdateSearchFilterResponse } from '../types.gen';
+import {
+    addWatchlistItem,
+    complexSearchItems,
+    createUserSearchFilter,
+    deleteUserSearchFilter,
+    deleteWatchlistItem,
+    getItem,
+    getShop,
+    getUserSearchFilter,
+    getUserSearchFilters,
+    getWatchlistItems,
+    type Options,
+    patchWatchlistItem,
+    putItems,
+    searchShops,
+    updateUserSearchFilter
+} from '../sdk.gen';
+import type {
+    AddWatchlistItemData,
+    AddWatchlistItemError,
+    AddWatchlistItemResponse,
+    ComplexSearchItemsData,
+    ComplexSearchItemsError,
+    ComplexSearchItemsResponse,
+    CreateUserSearchFilterData,
+    CreateUserSearchFilterError,
+    CreateUserSearchFilterResponse,
+    DeleteUserSearchFilterData,
+    DeleteUserSearchFilterError,
+    DeleteUserSearchFilterResponse,
+    DeleteWatchlistItemData,
+    DeleteWatchlistItemError,
+    DeleteWatchlistItemResponse,
+    GetItemData2,
+    GetShopData2,
+    GetUserSearchFilterData,
+    GetUserSearchFiltersData,
+    GetWatchlistItemsData,
+    PatchWatchlistItemData,
+    PatchWatchlistItemError,
+    PatchWatchlistItemResponse,
+    PutItemsData,
+    PutItemsError,
+    PutItemsResponse2,
+    SearchShopsData,
+    SearchShopsError,
+    SearchShopsResponse,
+    UpdateUserSearchFilterData,
+    UpdateUserSearchFilterError,
+    UpdateUserSearchFilterResponse
+} from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -45,9 +94,14 @@ export const getItemQueryKey = (options: Options<GetItemData2>) => createQueryKe
 
 /**
  * Get a single item
+ *
  * Retrieves a single item by its shop ID and shop's item ID.
  * Returns localized content based on Accept-Language header and currency preferences.
  * Optionally includes item history when requested.
+ *
+ * **Personalization**: When authenticated (via optional Authorization header), the response includes
+ * user-specific state such as whether the item is on the user's watchlist and notification preferences.
+ * Anonymous requests receive item data without user state.
  *
  */
 export const getItemOptions = (options: Options<GetItemData2>) => {
@@ -65,31 +119,9 @@ export const getItemOptions = (options: Options<GetItemData2>) => {
     });
 };
 
-export const searchItemsQueryKey = (options: Options<SearchItemsData>) => createQueryKey('searchItems', options);
-
-/**
- * Search items
- * Search for items using a text query with various filtering and sorting options.
- * Returns a paginated collection of items matching the search criteria.
- *
- */
-export const searchItemsOptions = (options: Options<SearchItemsData>) => {
-    return queryOptions({
-        queryFn: async ({ queryKey, signal }) => {
-            const { data } = await searchItems({
-                ...options,
-                ...queryKey[0],
-                signal,
-                throwOnError: true
-            });
-            return data;
-        },
-        queryKey: searchItemsQueryKey(options)
-    });
-};
-
 /**
  * Bulk create or update items
+ *
  * Creates or updates multiple items in a single batch request.
  * This endpoint accepts a collection of item data and processes them asynchronously.
  *
@@ -122,10 +154,15 @@ export const putItemsMutation = (options?: Partial<Options<PutItemsData>>): UseM
 
 /**
  * Complex item search
+ *
  * Performs an advanced search for items using a comprehensive search filter.
- * This endpoint accepts a SearchFilterData object in the request body,
+ * This endpoint accepts a ItemSearchData object in the request body,
  * allowing for complex filtering by multiple criteria simultaneously.
  * Returns a paginated collection of items matching the search criteria.
+ *
+ * **Personalization**: When authenticated (via optional Authorization header), the response includes
+ * user-specific state for each item such as whether it's on the user's watchlist and notification preferences.
+ * Anonymous requests receive item data without user state.
  *
  */
 export const complexSearchItemsMutation = (options?: Partial<Options<ComplexSearchItemsData>>): UseMutationOptions<ComplexSearchItemsResponse, ComplexSearchItemsError, Options<ComplexSearchItemsData>> => {
@@ -142,19 +179,20 @@ export const complexSearchItemsMutation = (options?: Partial<Options<ComplexSear
     return mutationOptions;
 };
 
-export const getSearchFiltersQueryKey = (options: Options<GetSearchFiltersData>) => createQueryKey('getSearchFilters', options);
+export const getUserSearchFiltersQueryKey = (options: Options<GetUserSearchFiltersData>) => createQueryKey('getUserSearchFilters', options);
 
 /**
  * List user search filters
+ *
  * Retrieves all search filters for the authenticated user.
  * Results can be optionally sorted by creation date.
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getSearchFiltersOptions = (options: Options<GetSearchFiltersData>) => {
+export const getUserSearchFiltersOptions = (options: Options<GetUserSearchFiltersData>) => {
     return queryOptions({
         queryFn: async ({ queryKey, signal }) => {
-            const { data } = await getSearchFilters({
+            const {data} = await getUserSearchFilters({
                 ...options,
                 ...queryKey[0],
                 signal,
@@ -162,22 +200,23 @@ export const getSearchFiltersOptions = (options: Options<GetSearchFiltersData>) 
             });
             return data;
         },
-        queryKey: getSearchFiltersQueryKey(options)
+        queryKey: getUserSearchFiltersQueryKey(options)
     });
 };
 
 /**
  * Create a new search filter
+ *
  * Creates a new search filter for the authenticated user.
  * The search filter configuration is provided in the request body.
  * Returns the created search filter with generated ID and metadata.
  * Requires valid Cognito JWT authentication.
  *
  */
-export const createSearchFilterMutation = (options?: Partial<Options<CreateSearchFilterData>>): UseMutationOptions<CreateSearchFilterResponse, CreateSearchFilterError, Options<CreateSearchFilterData>> => {
-    const mutationOptions: UseMutationOptions<CreateSearchFilterResponse, CreateSearchFilterError, Options<CreateSearchFilterData>> = {
+export const createUserSearchFilterMutation = (options?: Partial<Options<CreateUserSearchFilterData>>): UseMutationOptions<CreateUserSearchFilterResponse, CreateUserSearchFilterError, Options<CreateUserSearchFilterData>> => {
+    const mutationOptions: UseMutationOptions<CreateUserSearchFilterResponse, CreateUserSearchFilterError, Options<CreateUserSearchFilterData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await createSearchFilter({
+            const {data} = await createUserSearchFilter({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -190,15 +229,16 @@ export const createSearchFilterMutation = (options?: Partial<Options<CreateSearc
 
 /**
  * Delete a search filter
+ *
  * Deletes a specific search filter by its ID for the authenticated user.
  * The search filter must exist and belong to the authenticated user.
  * Requires valid Cognito JWT authentication.
  *
  */
-export const deleteSearchFilterMutation = (options?: Partial<Options<DeleteSearchFilterData>>): UseMutationOptions<DeleteSearchFilterResponse, DeleteSearchFilterError, Options<DeleteSearchFilterData>> => {
-    const mutationOptions: UseMutationOptions<DeleteSearchFilterResponse, DeleteSearchFilterError, Options<DeleteSearchFilterData>> = {
+export const deleteUserSearchFilterMutation = (options?: Partial<Options<DeleteUserSearchFilterData>>): UseMutationOptions<DeleteUserSearchFilterResponse, DeleteUserSearchFilterError, Options<DeleteUserSearchFilterData>> => {
+    const mutationOptions: UseMutationOptions<DeleteUserSearchFilterResponse, DeleteUserSearchFilterError, Options<DeleteUserSearchFilterData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await deleteSearchFilter({
+            const {data} = await deleteUserSearchFilter({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -209,19 +249,20 @@ export const deleteSearchFilterMutation = (options?: Partial<Options<DeleteSearc
     return mutationOptions;
 };
 
-export const getSearchFilterQueryKey = (options: Options<GetSearchFilterData>) => createQueryKey('getSearchFilter', options);
+export const getUserSearchFilterQueryKey = (options: Options<GetUserSearchFilterData>) => createQueryKey('getUserSearchFilter', options);
 
 /**
  * Get a specific search filter
+ *
  * Retrieves a specific search filter by its ID for the authenticated user.
  * Returns the complete search filter configuration and metadata.
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getSearchFilterOptions = (options: Options<GetSearchFilterData>) => {
+export const getUserSearchFilterOptions = (options: Options<GetUserSearchFilterData>) => {
     return queryOptions({
         queryFn: async ({ queryKey, signal }) => {
-            const { data } = await getSearchFilter({
+            const {data} = await getUserSearchFilter({
                 ...options,
                 ...queryKey[0],
                 signal,
@@ -229,22 +270,23 @@ export const getSearchFilterOptions = (options: Options<GetSearchFilterData>) =>
             });
             return data;
         },
-        queryKey: getSearchFilterQueryKey(options)
+        queryKey: getUserSearchFilterQueryKey(options)
     });
 };
 
 /**
  * Update a search filter
+ *
  * Updates a specific search filter by its ID for the authenticated user.
  * Allows partial updates - only provided fields will be modified.
  * If no fields are provided in the request body, returns the existing search filter unchanged.
  * Requires valid Cognito JWT authentication.
  *
  */
-export const updateSearchFilterMutation = (options?: Partial<Options<UpdateSearchFilterData>>): UseMutationOptions<UpdateSearchFilterResponse, UpdateSearchFilterError, Options<UpdateSearchFilterData>> => {
-    const mutationOptions: UseMutationOptions<UpdateSearchFilterResponse, UpdateSearchFilterError, Options<UpdateSearchFilterData>> = {
+export const updateUserSearchFilterMutation = (options?: Partial<Options<UpdateUserSearchFilterData>>): UseMutationOptions<UpdateUserSearchFilterResponse, UpdateUserSearchFilterError, Options<UpdateUserSearchFilterData>> => {
+    const mutationOptions: UseMutationOptions<UpdateUserSearchFilterResponse, UpdateUserSearchFilterError, Options<UpdateUserSearchFilterData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await updateSearchFilter({
+            const {data} = await updateUserSearchFilter({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -259,6 +301,7 @@ export const getWatchlistItemsQueryKey = (options: Options<GetWatchlistItemsData
 
 /**
  * List user's watchlist items
+ *
  * Retrieves all items in the authenticated user's watchlist.
  * Results are paginated using search-after cursor-based pagination with timestamp.
  * Requires valid Cognito JWT authentication.
@@ -281,6 +324,7 @@ export const getWatchlistItemsOptions = (options: Options<GetWatchlistItemsData>
 
 /**
  * Add item to watchlist
+ *
  * Adds an item to the authenticated user's watchlist.
  * The request body must contain the shop ID and shop's item ID.
  * Returns a 201 Created response with a Location header pointing to the created resource.
@@ -303,6 +347,7 @@ export const addWatchlistItemMutation = (options?: Partial<Options<AddWatchlistI
 
 /**
  * Remove item from watchlist
+ *
  * Removes a specific item from the authenticated user's watchlist.
  * Returns a 204 No Content response on success.
  * Requires valid Cognito JWT authentication.
@@ -324,6 +369,7 @@ export const deleteWatchlistItemMutation = (options?: Partial<Options<DeleteWatc
 
 /**
  * Update watchlist item settings
+ *
  * Updates settings for a specific watchlist item (e.g., toggle notifications).
  * Returns the updated watchlist item data with core identifiers and settings.
  * Requires valid Cognito JWT authentication.
@@ -347,6 +393,7 @@ export const getShopQueryKey = (options: Options<GetShopData2>) => createQueryKe
 
 /**
  * Get shop details
+ *
  * Retrieves detailed information about a specific shop by its unique identifier.
  * Returns complete shop metadata including name, URL, image, and timestamps.
  *
@@ -368,6 +415,7 @@ export const getShopOptions = (options: Options<GetShopData2>) => {
 
 /**
  * Search shops
+ *
  * Performs an advanced search for shops using comprehensive filtering criteria.
  * This endpoint accepts a ShopSearchData object in the request body,
  * allowing for complex filtering by shop name and date ranges.

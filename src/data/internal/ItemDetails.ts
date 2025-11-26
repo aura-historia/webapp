@@ -1,5 +1,4 @@
 import type {
-    GetItemData,
     GetItemEventData,
     ItemEventPayloadData,
     ItemCreatedEventPayloadData,
@@ -8,6 +7,7 @@ import type {
     ItemEventPriceChangedPayloadData,
     ItemEventPriceDiscoveredPayloadData,
     ItemEventPriceRemovedPayloadData,
+    PersonalizedGetItemData,
 } from "@/client";
 import { mapToInternalOverviewItem, type OverviewItem } from "@/data/internal/OverviewItem";
 import { parseItemState, type ItemState } from "@/data/internal/ItemState";
@@ -224,10 +224,10 @@ function mapEventPayload(
  * Converts complete item data from the API to our internal ItemDetail type
  * Includes all item information and the full event history
  */
-export function mapToDetailItem(apiData: GetItemData): ItemDetail {
+export function mapToDetailItem(apiData: PersonalizedGetItemData): ItemDetail {
     return {
         ...mapToInternalOverviewItem(apiData),
-        history: apiData.history?.map(
+        history: apiData.item.history?.map(
             (apiEvent: GetItemEventData): ItemEvent => ({
                 eventType: apiEvent.eventType,
                 itemId: apiEvent.itemId,

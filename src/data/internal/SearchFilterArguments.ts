@@ -3,13 +3,14 @@ import type { SortMode } from "@/data/internal/SortMode.ts";
 
 export type SearchFilterArguments = {
     q: string;
-    priceFrom: number | undefined;
-    priceTo: number | undefined;
-    allowedStates: ItemState[] | undefined;
-    creationDateFrom: Date | undefined;
-    creationDateTo: Date | undefined;
-    updateDateFrom: Date | undefined;
-    updateDateTo: Date | undefined;
-    merchant: string | undefined;
-    sortMode: SortMode | undefined;
+    priceFrom?: number;
+    priceTo?: number;
+    allowedStates?: ItemState[];
+    creationDateFrom?: Date;
+    creationDateTo?: Date;
+    updateDateFrom?: Date;
+    updateDateTo?: Date;
+    merchant?: string;
+    sortField?: SortMode["field"];
+    sortOrder?: SortMode["order"];
 };
