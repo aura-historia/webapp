@@ -9,6 +9,9 @@ import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import { useSearch } from "@/hooks/useSearch.ts";
+import Lottie from "lottie-react";
+import tick from "@/assets/lottie/tick.json";
+import { Spinner } from "@/components/ui/spinner.tsx";
 import { useTranslation } from "react-i18next";
 
 type SearchResultsProps = {
@@ -18,9 +21,9 @@ type SearchResultsProps = {
 
 export function SearchResults({ searchFilters, onTotalChange }: SearchResultsProps) {
     const { ref, inView } = useInView();
+    const { t } = useTranslation();
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useSearch(searchFilters);
-    const { t } = useTranslation();
 
     useEffect(() => {
         if (data?.pages[0]?.total !== undefined && onTotalChange) {
@@ -66,15 +69,25 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
             {allItems.map((item: OverviewItem) => (
                 <ItemCard key={item.itemId} item={item} />
             ))}
-            <Card className={"h-8 px-2 justify-center items-center shadow-md"} ref={ref}>
-                <CardContent>
-                    <SectionInfoText>
-                        {isFetchingNextPage
-                            ? t("search.messages.loadingMore")
-                            : hasNextPage
-                              ? ""
-                              : t("search.messages.allLoaded", { count: data?.pages[0]?.total })}
-                    </SectionInfoText>
+            <Card className={"p-4 flex justify-center items-center shadow-md"} ref={ref}>
+                <CardContent className="flex justify-center items-center w-full px-2">
+                    {isFetchingNextPage ? (
+                        <div className={"flex flex-row items-center gap-2"}>
+                            <Spinner />
+                            <SectionInfoText>{t("search.messages.loadingMore")}</SectionInfoText>
+                        </div>
+                    ) : hasNextPage ? (
+                        ""
+                    ) : (
+                        <div className={"flex flex-row items-center gap-2"}>
+                            <div className={"h-12 w-12 shrink-0"}>
+                                <Lottie className={"h-12 w-12"} animationData={tick} loop={false} />
+                            </div>
+                            <SectionInfoText>
+                                {t("search.messages.allLoaded", { count: data?.pages[0]?.total })}
+                            </SectionInfoText>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
         </div>
