@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import {
     Carousel,
+    type CarouselApi,
     CarouselContent,
     CarouselItem,
     CarouselNext,
@@ -23,6 +24,7 @@ export function ItemImageGallery({ images, title, itemId }: ItemImageGalleryProp
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const slides = useMemo(() => images.map((img) => ({ src: img.href })), [images]);
+    const [carouselApi, setCarouselApi] = useState<CarouselApi>();
 
     /**
      * Resets the image index to 0 when the 'item' changes.
@@ -32,6 +34,10 @@ export function ItemImageGallery({ images, title, itemId }: ItemImageGalleryProp
     useEffect(() => {
         setCurrentImageIndex(0);
     }, [itemId]);
+
+    useEffect(() => {
+        carouselApi?.scrollTo(currentImageIndex);
+    }, [currentImageIndex, carouselApi]);
 
     /**
      * Registers a `keydown` event listener for carousel image navigation.
@@ -119,6 +125,7 @@ export function ItemImageGallery({ images, title, itemId }: ItemImageGalleryProp
                 {images.length > 1 && (
                     <div className="relative px-10">
                         <Carousel
+                            setApi={setCarouselApi}
                             opts={{
                                 align: "start",
                                 containScroll: "trimSnaps",
