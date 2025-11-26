@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { useSimilarItems } from "@/hooks/useSimiliarItems.ts";
 import { ItemSimilarCard } from "@/components/item/ItemSimilarCard.tsx";
 import { Card } from "@/components/ui/card.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
 import {
@@ -9,9 +11,10 @@ import {
     CarouselItem,
     CarouselNext,
     CarouselPrevious,
+    type CarouselApi,
 } from "@/components/ui/carousel.tsx";
 import { useTranslation } from "react-i18next";
-import { AlertCircle, SearchX, RefreshCw } from "lucide-react";
+import { AlertCircle, SearchX, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ItemSimilarProps {
     readonly shopId: string;
@@ -21,6 +24,7 @@ interface ItemSimilarProps {
 export function ItemSimilar({ shopId, shopsItemId }: ItemSimilarProps) {
     const { t } = useTranslation();
     const { data, isLoading, isError, error } = useSimilarItems(shopId, shopsItemId);
+    const [carouselApi, setCarouselApi] = useState<CarouselApi>();
 
     if (isLoading) {
         return (
@@ -86,10 +90,32 @@ export function ItemSimilar({ shopId, shopsItemId }: ItemSimilarProps) {
 
     return (
         <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
-            <H2>{t("item.similar.title")}</H2>
+            <div className="flex justify-between items-center">
+                <H2>{t("item.similar.title")}</H2>
 
-            <div className="relative px-12">
+                <div className="flex gap-2 md:hidden">
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => carouselApi?.scrollPrev()}
+                        className="h-8 w-8 rounded-full"
+                    >
+                        <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => carouselApi?.scrollNext()}
+                        className="h-8 w-8 rounded-full"
+                    >
+                        <ChevronRight className="h-4 w-4" />
+                    </Button>
+                </div>
+            </div>
+
+            <div className="relative md:px-12">
                 <Carousel
+                    setApi={setCarouselApi}
                     opts={{
                         align: "start",
                         containScroll: "trimSnaps",
@@ -100,14 +126,14 @@ export function ItemSimilar({ shopId, shopsItemId }: ItemSimilarProps) {
                         {data.items.map((item) => (
                             <CarouselItem
                                 key={item.itemId}
-                                className="pl-4 md:basis-1/2 lg:basis-1/2 xl:basis-1/3"
+                                className="pl-4 md:basis-1/2 xl:basis-1/3"
                             >
                                 <ItemSimilarCard item={item} />
                             </CarouselItem>
                         ))}
                     </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
+                    <CarouselPrevious className="hidden md:flex" />
+                    <CarouselNext className="hidden md:flex" />
                 </Carousel>
             </div>
         </Card>
