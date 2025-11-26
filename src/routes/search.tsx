@@ -170,8 +170,8 @@ function RouteComponent() {
                                         {t("search.filters")}
                                     </Button>
                                 </DrawerTrigger>
-                                <DrawerContent className="w-11/12 h-full flex flex-col">
-                                    <div className="flex-1 overflow-y-auto p-8">
+                                <DrawerContent className="h-full flex flex-col">
+                                    <div className="flex-1 overflow-y-auto p-4">
                                         <SearchFilters
                                             searchFilters={searchArgs}
                                             onFiltersApplied={closeFilterSheet}
