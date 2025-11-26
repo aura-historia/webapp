@@ -103,19 +103,19 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
     };
 
     useEffect(() => {
-        if (chartRef.current) {
-            if (selectedTimeRange === null) {
-                return chartRef.current?.zoomX(minTimestamp, maxTimestamp);
-            }
+        if (!chartRef.current) return;
 
-            const totalDays = (maxTimestamp - minTimestamp) / (24 * 60 * 60 * 1000);
+        if (selectedTimeRange === null) {
+            return chartRef.current?.zoomX(minTimestamp, maxTimestamp);
+        }
 
-            if (selectedTimeRange >= totalDays) {
-                chartRef.current.zoomX(minTimestamp, maxTimestamp);
-            } else {
-                const startDate = maxTimestamp - selectedTimeRange * 24 * 60 * 60 * 1000;
-                chartRef.current.zoomX(startDate, maxTimestamp);
-            }
+        const totalDays = (maxTimestamp - minTimestamp) / (24 * 60 * 60 * 1000);
+
+        if (selectedTimeRange >= totalDays) {
+            chartRef.current.zoomX(minTimestamp, maxTimestamp);
+        } else {
+            const startDate = maxTimestamp - selectedTimeRange * 24 * 60 * 60 * 1000;
+            chartRef.current.zoomX(startDate, maxTimestamp);
         }
     }, [selectedTimeRange, maxTimestamp, minTimestamp]);
 
