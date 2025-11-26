@@ -64,6 +64,7 @@
         "embla-carousel-react": "^8.6.0",
         "i18next": "^25.6.0",
         "lucide-react": "^0.553.0",
+        "lottie-react": "^2.4.1",
         "react": "^19.0.0",
         "react-apexcharts": "^1.7.0",
         "react-day-picker": "^9.11.1",
@@ -82,7 +83,7 @@
         "zod": "^4.1.12"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.3.4",
+        "@biomejs/biome": "2.3.7",
         "@hey-api/openapi-ts": "0.87.1",
         "@playwright/test": "^1.56.0",
         "@tanstack/devtools-vite": "^0.3.11",

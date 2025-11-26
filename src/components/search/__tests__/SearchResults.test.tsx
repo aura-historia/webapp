@@ -23,6 +23,10 @@ vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: vi.fn(), inView: false }),
 }));
 
+vi.mock("lottie-react", () => ({
+    default: () => <div data-testid="lottie-animation" />,
+}));
+
 const mockUseSearch = vi.mocked(useSearch);
 
 const buildQueryPayload = (items: OverviewItem[]): SearchResultData => ({
