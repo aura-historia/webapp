@@ -36,7 +36,7 @@ const createSearchFormSchema = (t: TFunction) =>
 
 export type SearchFormSchema = z.infer<ReturnType<typeof createSearchFormSchema>>;
 
-const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/auth"]);
+export const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/auth"]);
 
 export function SearchBar({ type, showOnLandingPage = false }: SearchBarProps) {
     const { t } = useTranslation();
@@ -79,8 +79,6 @@ export function SearchBar({ type, showOnLandingPage = false }: SearchBarProps) {
             }),
         });
     }
-
-    if (SEARCH_BAR_HIDDEN_ROUTES.has(pathname) && type === "small") return null;
 
     const isLandingPage = pathname === "/" && type === "small";
     const isVisible = !isLandingPage || showOnLandingPage;

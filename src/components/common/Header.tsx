@@ -9,16 +9,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useUserAttributes } from "@/hooks/useUserAttributes.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
-import { SearchBar } from "@/components/search/SearchBar.tsx";
+import { SearchBar, SEARCH_BAR_HIDDEN_ROUTES } from "@/components/search/SearchBar.tsx";
 import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function Header() {
     const { t } = useTranslation();
     const [isScrolled, setIsScrolled] = useState(false);
+    const pathname = useLocation({
+        select: (location) => location.pathname,
+    });
 
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 500);
@@ -35,6 +38,8 @@ export function Header() {
 
     const { data: userAttributes, isLoading } = useUserAttributes();
 
+    const shouldShowSearchBar = !SEARCH_BAR_HIDDEN_ROUTES.has(pathname);
+
     return (
         <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 backdrop-blur-sm items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
             <Link
@@ -45,11 +50,11 @@ export function Header() {
             </Link>
 
             <div className="hidden justify-center md:flex overflow-hidden">
-                <SearchBar type={"small"} showOnLandingPage={isScrolled} />
+                {shouldShowSearchBar && <SearchBar type={"small"} showOnLandingPage={isScrolled} />}
             </div>
 
             <div className="flex md:hidden items-center justify-end gap-2">
-                <SearchBar type={"small"} showOnLandingPage={isScrolled} />
+                {shouldShowSearchBar && <SearchBar type={"small"} showOnLandingPage={isScrolled} />}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button>
