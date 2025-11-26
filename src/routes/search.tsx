@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet.tsx";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Filter } from "lucide-react";
 import { useState } from "react";
@@ -159,24 +159,26 @@ function RouteComponent() {
                         )}
 
                         <div className="flex flex-row gap-2 mt-2 lg:hidden">
-                            <Sheet open={isFilterSheetOpen} onOpenChange={setIsFilterSheetOpen}>
-                                <SheetTrigger asChild>
+                            <Drawer
+                                direction="left"
+                                open={isFilterSheetOpen}
+                                onOpenChange={setIsFilterSheetOpen}
+                            >
+                                <DrawerTrigger asChild>
                                     <Button variant="filter">
                                         <Filter className="h-4 w-4" />
                                         {t("search.filters")}
                                     </Button>
-                                </SheetTrigger>
-                                <SheetContent
-                                    side="left"
-                                    className="w-11/12 overflow-y-auto p-8"
-                                    onOpenAutoFocus={(event) => event.preventDefault()}
-                                >
-                                    <SearchFilters
-                                        searchFilters={searchArgs}
-                                        onFiltersApplied={closeFilterSheet}
-                                    />
-                                </SheetContent>
-                            </Sheet>
+                                </DrawerTrigger>
+                                <DrawerContent className="h-full flex flex-col">
+                                    <div className="flex-1 overflow-y-auto p-4">
+                                        <SearchFilters
+                                            searchFilters={searchArgs}
+                                            onFiltersApplied={closeFilterSheet}
+                                        />
+                                    </div>
+                                </DrawerContent>
+                            </Drawer>
 
                             <SortModeSelection
                                 sortMode={sortMode}
