@@ -15,7 +15,7 @@ interface ItemHistoryProps {
     readonly history?: readonly ItemEvent[];
 }
 
-const createFitlerOptions = (t: TFunction) => {
+const createFilterOptions = (t: TFunction) => {
     return [
         { label: t("item.history.filters.all"), value: "all" as const },
         { label: t("item.history.filters.price"), value: "price" as const },
@@ -30,7 +30,7 @@ export function ItemHistory({ history }: ItemHistoryProps) {
      * Filter options for the event history timeline.
      * Allows users to filter events by type: all events, price changes only, or state changes only.
      */
-    const FILTER_OPTIONS = useMemo(() => createFitlerOptions(t), [t]);
+    const FILTER_OPTIONS = useMemo(() => createFilterOptions(t), [t]);
 
     /**
      * Currently active filter state.
