@@ -84,7 +84,7 @@ describe("SearchResults", () => {
         render(<SearchResults searchFilters={{ q: "test" }} />);
         expect(screen.getByText("Keine Ergebnisse gefunden")).toBeInTheDocument();
         expect(
-            screen.getByText("Versuchen Sie Ihren Suchbegriff oder Ihre Filter anzupassen."),
+            screen.getByText("Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen."),
         ).toBeInTheDocument();
     });
 
