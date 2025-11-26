@@ -21,7 +21,6 @@ import { useMemo } from "react";
 
 interface SearchBarProps {
     readonly type: "small" | "big";
-    readonly showOnLandingPage?: boolean;
 }
 
 const createSearchFormSchema = (t: TFunction) =>
@@ -36,9 +35,7 @@ const createSearchFormSchema = (t: TFunction) =>
 
 export type SearchFormSchema = z.infer<ReturnType<typeof createSearchFormSchema>>;
 
-export const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/auth"]);
-
-export function SearchBar({ type, showOnLandingPage = false }: SearchBarProps) {
+export function SearchBar({ type }: SearchBarProps) {
     const { t } = useTranslation();
     const navigate = useNavigate({ from: "/" });
     const pathname = useLocation({
@@ -80,22 +77,13 @@ export function SearchBar({ type, showOnLandingPage = false }: SearchBarProps) {
         });
     }
 
-    const isLandingPage = pathname === "/" && type === "small";
-    const isVisible = !isLandingPage || showOnLandingPage;
-
     return (
         <Form {...form}>
             <form
                 className={
                     type === "big"
                         ? "flex items-start w-full gap-4"
-                        : isLandingPage
-                          ? `flex items-start gap-2 w-full transition-all duration-500 ease-in-out ${
-                                isVisible
-                                    ? "opacity-100 translate-y-0"
-                                    : "opacity-0 -translate-y-2 pointer-events-none"
-                            }`
-                          : "flex items-start gap-2 w-full"
+                        : "flex items-start gap-2 w-full"
                 }
                 onSubmit={form.handleSubmit(onSubmit)}
             >

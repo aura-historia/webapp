@@ -12,9 +12,11 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
-import { SearchBar, SEARCH_BAR_HIDDEN_ROUTES } from "@/components/search/SearchBar.tsx";
+import { SearchBar } from "@/components/search/SearchBar.tsx";
 import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
+
+const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/auth"]);
 
 export function Header() {
     const { t } = useTranslation();
@@ -38,7 +40,9 @@ export function Header() {
 
     const { data: userAttributes, isLoading } = useUserAttributes();
 
-    const shouldShowSearchBar = !SEARCH_BAR_HIDDEN_ROUTES.has(pathname);
+    const isLandingPage = pathname === "/";
+    const isHiddenRoute = SEARCH_BAR_HIDDEN_ROUTES.has(pathname);
+    const shouldShowSearchBar = !isHiddenRoute && (!isLandingPage || isScrolled);
 
     return (
         <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 backdrop-blur-sm items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
@@ -50,11 +54,11 @@ export function Header() {
             </Link>
 
             <div className="hidden justify-center md:flex overflow-hidden">
-                {shouldShowSearchBar && <SearchBar type={"small"} showOnLandingPage={isScrolled} />}
+                {shouldShowSearchBar && <SearchBar type="small" />}
             </div>
 
             <div className="flex md:hidden items-center justify-end gap-2">
-                {shouldShowSearchBar && <SearchBar type={"small"} showOnLandingPage={isScrolled} />}
+                {shouldShowSearchBar && <SearchBar type="small" />}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button>
