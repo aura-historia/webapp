@@ -89,27 +89,29 @@ export function ItemSimilar({ shopId, shopsItemId }: ItemSimilarProps) {
     }
 
     return (
-        <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
-            <div className="flex justify-between items-center">
-                <H2>{t("item.similar.title")}</H2>
+        <Card className="flex flex-col py-8 md:p-8 gap-4 shadow-md min-w-0">
+            <div className="px-8 md:px-0">
+                <div className="flex justify-between items-center">
+                    <H2>{t("item.similar.title")}</H2>
 
-                <div className="flex gap-2 md:hidden">
-                    <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => carouselApi?.scrollPrev()}
-                        className="h-8 w-8 rounded-full"
-                    >
-                        <ChevronLeft className="h-4 w-4" />
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => carouselApi?.scrollNext()}
-                        className="h-8 w-8 rounded-full"
-                    >
-                        <ChevronRight className="h-4 w-4" />
-                    </Button>
+                    <div className="flex gap-2 md:hidden">
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => carouselApi?.scrollPrev()}
+                            className="h-8 w-8 rounded-full"
+                        >
+                            <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => carouselApi?.scrollNext()}
+                            className="h-8 w-8 rounded-full"
+                        >
+                            <ChevronRight className="h-4 w-4" />
+                        </Button>
+                    </div>
                 </div>
             </div>
 
@@ -126,7 +128,7 @@ export function ItemSimilar({ shopId, shopsItemId }: ItemSimilarProps) {
                         {data.items.map((item) => (
                             <CarouselItem
                                 key={item.itemId}
-                                className="pl-4 basis-[80%] md:basis-1/2 xl:basis-1/3"
+                                className="pl-4 first:pl-12 md:first:pl-4 last:pr-8 md:last:pr-0 basis-[calc(100vw-80px)] md:basis-1/2 xl:basis-1/3"
                             >
                                 <ItemSimilarCard item={item} />
                             </CarouselItem>
