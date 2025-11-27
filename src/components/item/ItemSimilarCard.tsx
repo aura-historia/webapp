@@ -65,28 +65,35 @@ export function ItemSimilarCard({ item }: { readonly item: OverviewItem }) {
                     </H3>
                 </div>
 
-                <div className={"flex flex-row gap-3 justify-between items-end w-full mt-4"}>
+                <div
+                    className={
+                        "flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-end w-full mt-4"
+                    }
+                >
                     <div className={"flex flex-col gap-2 flex-shrink-0"}>
                         <StatusBadge status={item.state} />
-                        <PriceText className="min-w-0 overflow-hidden text-ellipsis !text-2xl !font-bold">
+                        <PriceText className="min-w-0 overflow-hidden text-ellipsis !text-xl sm:!text-2xl !font-bold">
                             {item.price ?? t("item.unknownPrice")}
                         </PriceText>
                     </div>
 
-                    <div className={"flex-shrink-0"}>
-                        <Button variant={"secondary"} size={"sm"} asChild>
-                            <Link
-                                to="/item/$shopId/$shopsItemId"
-                                params={{
-                                    shopId: item.shopId,
-                                    shopsItemId: item.shopsItemId,
-                                }}
-                            >
-                                <Eye />
-                                <span>{t("item.details")}</span>
-                            </Link>
-                        </Button>
-                    </div>
+                    <Button
+                        variant={"secondary"}
+                        size={"sm"}
+                        asChild
+                        className="w-full sm:w-auto sm:flex-shrink-0"
+                    >
+                        <Link
+                            to="/item/$shopId/$shopsItemId"
+                            params={{
+                                shopId: item.shopId,
+                                shopsItemId: item.shopsItemId,
+                            }}
+                        >
+                            <Eye />
+                            <span>{t("item.details")}</span>
+                        </Link>
+                    </Button>
                 </div>
             </div>
         </Card>

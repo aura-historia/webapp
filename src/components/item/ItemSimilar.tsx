@@ -117,7 +117,7 @@ export function ItemSimilar({ shopId, shopsItemId }: ItemSimilarProps) {
                 <Carousel
                     setApi={setCarouselApi}
                     opts={{
-                        align: "start",
+                        align: "center",
                         containScroll: "trimSnaps",
                     }}
                     className="w-full"
@@ -126,7 +126,7 @@ export function ItemSimilar({ shopId, shopsItemId }: ItemSimilarProps) {
                         {data.items.map((item) => (
                             <CarouselItem
                                 key={item.itemId}
-                                className="pl-4 md:basis-1/2 xl:basis-1/3"
+                                className="pl-4 basis-[80%] md:basis-1/2 xl:basis-1/3"
                             >
                                 <ItemSimilarCard item={item} />
                             </CarouselItem>
