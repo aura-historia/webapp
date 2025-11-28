@@ -1,7 +1,6 @@
-import { useCallback, useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
-import type ApexCharts from "apexcharts";
 import type { ItemEvent } from "@/data/internal/ItemDetails.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Card } from "@/components/ui/card.tsx";
@@ -41,6 +40,7 @@ const createTimeRanges = (t: TFunction) => {
 export function ItemPriceChart({ history }: { readonly history?: readonly ItemEvent[] }) {
     const { t } = useTranslation();
     const chartRef = useRef<ApexCharts | null>(null);
+    const [selectedTimeRange, setSelectedTimeRange] = useState<number | null>(null);
 
     const TIME_RANGES = useMemo(() => createTimeRanges(t), [t]);
     /**
@@ -98,25 +98,26 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
      * @param days - Number of days from today to be displayed, or zero for the entire available data period
      *
      */
-    const handleZoom = useCallback(
-        (days: number | null) => {
-            if (!chartRef.current) return;
+    const handleZoom = (days: number | null) => {
+        setSelectedTimeRange(days);
+    };
 
-            if (days === null) {
-                chartRef.current.zoomX(minTimestamp, maxTimestamp);
-            } else {
-                const totalDays = (maxTimestamp - minTimestamp) / (24 * 60 * 60 * 1000);
+    useEffect(() => {
+        if (!chartRef.current) return;
 
-                if (days >= totalDays) {
-                    chartRef.current.zoomX(minTimestamp, maxTimestamp);
-                } else {
-                    const startDate = maxTimestamp - days * 24 * 60 * 60 * 1000;
-                    chartRef.current.zoomX(startDate, maxTimestamp);
-                }
-            }
-        },
-        [minTimestamp, maxTimestamp],
-    );
+        if (selectedTimeRange === null) {
+            return chartRef.current?.zoomX(minTimestamp, maxTimestamp);
+        }
+
+        const totalDays = (maxTimestamp - minTimestamp) / (24 * 60 * 60 * 1000);
+
+        if (selectedTimeRange >= totalDays) {
+            chartRef.current.zoomX(minTimestamp, maxTimestamp);
+        } else {
+            const startDate = maxTimestamp - selectedTimeRange * 24 * 60 * 60 * 1000;
+            chartRef.current.zoomX(startDate, maxTimestamp);
+        }
+    }, [selectedTimeRange, maxTimestamp, minTimestamp]);
 
     if (!history || priceData.length === 0) {
         return (
@@ -314,7 +315,7 @@ export function ItemPriceChart({ history }: { readonly history?: readonly ItemEv
                         <Button
                             key={timeRange.label}
                             onClick={() => handleZoom(timeRange.days)}
-                            variant={"outline"}
+                            variant={timeRange.days === selectedTimeRange ? "default" : "outline"}
                             size="sm"
                         >
                             {timeRange.label}

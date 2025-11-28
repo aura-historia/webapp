@@ -144,6 +144,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                 merchant: data.merchant,
             }),
         });
+        onFiltersApplied?.();
     };
     const handleResetAll = () => {
         form.reset(FILTER_DEFAULTS);

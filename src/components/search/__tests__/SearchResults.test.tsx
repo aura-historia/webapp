@@ -25,6 +25,10 @@ vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: vi.fn(), inView: false }),
 }));
 
+vi.mock("lottie-react", () => ({
+    default: () => <div data-testid="lottie-animation" />,
+}));
+
 const mockUseSearch = vi.mocked(useSearch);
 
 const buildQueryPayload = (items: OverviewItem[]): SearchResultData => ({
@@ -84,7 +88,10 @@ describe("SearchResults", () => {
     it("renders a message when no items are found", () => {
         setSearchMock({ items: [] });
         renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
-        expect(screen.getByText("Keine Artikel gefunden!")).toBeInTheDocument();
+        expect(screen.getByText("Keine Ergebnisse gefunden")).toBeInTheDocument();
+        expect(
+            screen.getByText("Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen."),
+        ).toBeInTheDocument();
     });
 
     it("renders a list of item cards when items are found", () => {
