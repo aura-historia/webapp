@@ -16,7 +16,7 @@ export function useSearch(
     searchArgs: SearchFilterArguments,
 ): UseInfiniteQueryResult<InfiniteData<SearchResultData>> {
     return useInfiniteQuery({
-        queryKey: ["filteredSearch", searchArgs],
+        queryKey: ["search", searchArgs],
         queryFn: async ({ pageParam }) => {
             const result = await complexSearchItems({
                 body: {

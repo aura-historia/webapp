@@ -2,7 +2,53 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistItemData, AddWatchlistItemErrors, AddWatchlistItemResponses, ComplexSearchItemsData, ComplexSearchItemsErrors, ComplexSearchItemsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistItemData, DeleteWatchlistItemErrors, DeleteWatchlistItemResponses, GetItemData2, GetItemErrors, GetItemResponses, GetShopData2, GetShopErrors, GetShopResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistItemsData, GetWatchlistItemsErrors, GetWatchlistItemsResponses, PatchWatchlistItemData, PatchWatchlistItemErrors, PatchWatchlistItemResponses, PutItemsData, PutItemsErrors, PutItemsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type {
+    AddWatchlistItemData,
+    AddWatchlistItemErrors,
+    AddWatchlistItemResponses,
+    ComplexSearchItemsData,
+    ComplexSearchItemsErrors,
+    ComplexSearchItemsResponses,
+    CreateUserSearchFilterData,
+    CreateUserSearchFilterErrors,
+    CreateUserSearchFilterResponses,
+    DeleteUserSearchFilterData,
+    DeleteUserSearchFilterErrors,
+    DeleteUserSearchFilterResponses,
+    DeleteWatchlistItemData,
+    DeleteWatchlistItemErrors,
+    DeleteWatchlistItemResponses,
+    GetItemData2,
+    GetItemErrors,
+    GetItemResponses,
+    GetShopData2,
+    GetShopErrors,
+    GetShopResponses,
+    GetSimilarItemsData,
+    GetSimilarItemsErrors,
+    GetSimilarItemsResponses,
+    GetUserSearchFilterData,
+    GetUserSearchFilterErrors,
+    GetUserSearchFilterResponses,
+    GetUserSearchFiltersData,
+    GetUserSearchFiltersErrors,
+    GetUserSearchFiltersResponses,
+    GetWatchlistItemsData,
+    GetWatchlistItemsErrors,
+    GetWatchlistItemsResponses,
+    PatchWatchlistItemData,
+    PatchWatchlistItemErrors,
+    PatchWatchlistItemResponses,
+    PutItemsData,
+    PutItemsErrors,
+    PutItemsResponses,
+    SearchShopsData,
+    SearchShopsErrors,
+    SearchShopsResponses,
+    UpdateUserSearchFilterData,
+    UpdateUserSearchFilterErrors,
+    UpdateUserSearchFilterResponses
+} from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -32,7 +78,41 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
  */
 export const getItem = <ThrowOnError extends boolean = false>(options: Options<GetItemData2, ThrowOnError>) => {
     return (options.client ?? client).get<GetItemResponses, GetItemErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/api/v1/items/{shopId}/{shopsItemId}',
+        ...options
+    });
+};
+
+/**
+ * Get similar items
+ *
+ * Retrieves items similar to the specified item using semantic search based on text embeddings.
+ * Returns localized content based on Accept-Language header and currency preferences.
+ *
+ * **Personalization**: When authenticated (via optional Authorization header), the response includes
+ * user-specific state for each similar item (watchlist status, notifications).
+ * Anonymous requests receive item data without user state.
+ *
+ * **Asynchronous Processing**: If the item's text embedding has not yet been computed (typically for
+ * items created less than 24 hours ago), the endpoint returns 202 Accepted with a Location header
+ * to poll. The embedding generation runs nightly via batch processing.
+ *
+ */
+export const getSimilarItems = <ThrowOnError extends boolean = false>(options: Options<GetSimilarItemsData, ThrowOnError>) => {
+    return (options.client ?? client).get<GetSimilarItemsResponses, GetSimilarItemsErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
+        url: '/api/v1/items/{shopId}/{shopsItemId}/similar',
         ...options
     });
 };
@@ -82,6 +162,12 @@ export const putItems = <ThrowOnError extends boolean = false>(options: Options<
  */
 export const complexSearchItems = <ThrowOnError extends boolean = false>(options: Options<ComplexSearchItemsData, ThrowOnError>) => {
     return (options.client ?? client).post<ComplexSearchItemsResponses, ComplexSearchItemsErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/api/v1/items/search',
         ...options,
         headers: {
@@ -99,8 +185,14 @@ export const complexSearchItems = <ThrowOnError extends boolean = false>(options
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getUserSearchFilters = <ThrowOnError extends boolean = false>(options: Options<GetUserSearchFiltersData, ThrowOnError>) => {
-    return (options.client ?? client).get<GetUserSearchFiltersResponses, GetUserSearchFiltersErrors, ThrowOnError>({
+export const getUserSearchFilters = <ThrowOnError extends boolean = false>(options?: Options<GetUserSearchFiltersData, ThrowOnError>) => {
+    return (options?.client ?? client).get<GetUserSearchFiltersResponses, GetUserSearchFiltersErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/api/v1/me/search-filters',
         ...options
     });
@@ -117,6 +209,12 @@ export const getUserSearchFilters = <ThrowOnError extends boolean = false>(optio
  */
 export const createUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<CreateUserSearchFilterData, ThrowOnError>) => {
     return (options.client ?? client).post<CreateUserSearchFilterResponses, CreateUserSearchFilterErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/api/v1/me/search-filters',
         ...options,
         headers: {
@@ -136,6 +234,12 @@ export const createUserSearchFilter = <ThrowOnError extends boolean = false>(opt
  */
 export const deleteUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<DeleteUserSearchFilterData, ThrowOnError>) => {
     return (options.client ?? client).delete<DeleteUserSearchFilterResponses, DeleteUserSearchFilterErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/api/v1/me/search-filters/{userSearchFilterId}',
         ...options
     });
@@ -151,6 +255,12 @@ export const deleteUserSearchFilter = <ThrowOnError extends boolean = false>(opt
  */
 export const getUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<GetUserSearchFilterData, ThrowOnError>) => {
     return (options.client ?? client).get<GetUserSearchFilterResponses, GetUserSearchFilterErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/api/v1/me/search-filters/{userSearchFilterId}',
         ...options
     });
@@ -167,6 +277,12 @@ export const getUserSearchFilter = <ThrowOnError extends boolean = false>(option
  */
 export const updateUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<UpdateUserSearchFilterData, ThrowOnError>) => {
     return (options.client ?? client).patch<UpdateUserSearchFilterResponses, UpdateUserSearchFilterErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/api/v1/me/search-filters/{userSearchFilterId}',
         ...options,
         headers: {
@@ -184,8 +300,14 @@ export const updateUserSearchFilter = <ThrowOnError extends boolean = false>(opt
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getWatchlistItems = <ThrowOnError extends boolean = false>(options: Options<GetWatchlistItemsData, ThrowOnError>) => {
-    return (options.client ?? client).get<GetWatchlistItemsResponses, GetWatchlistItemsErrors, ThrowOnError>({
+export const getWatchlistItems = <ThrowOnError extends boolean = false>(options?: Options<GetWatchlistItemsData, ThrowOnError>) => {
+    return (options?.client ?? client).get<GetWatchlistItemsResponses, GetWatchlistItemsErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/api/v1/me/watchlist',
         ...options
     });
@@ -202,6 +324,12 @@ export const getWatchlistItems = <ThrowOnError extends boolean = false>(options:
  */
 export const addWatchlistItem = <ThrowOnError extends boolean = false>(options: Options<AddWatchlistItemData, ThrowOnError>) => {
     return (options.client ?? client).post<AddWatchlistItemResponses, AddWatchlistItemErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/api/v1/me/watchlist',
         ...options,
         headers: {
@@ -221,6 +349,12 @@ export const addWatchlistItem = <ThrowOnError extends boolean = false>(options: 
  */
 export const deleteWatchlistItem = <ThrowOnError extends boolean = false>(options: Options<DeleteWatchlistItemData, ThrowOnError>) => {
     return (options.client ?? client).delete<DeleteWatchlistItemResponses, DeleteWatchlistItemErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/api/v1/me/watchlist/{shopId}/{shopsItemId}',
         ...options
     });
@@ -236,6 +370,12 @@ export const deleteWatchlistItem = <ThrowOnError extends boolean = false>(option
  */
 export const patchWatchlistItem = <ThrowOnError extends boolean = false>(options: Options<PatchWatchlistItemData, ThrowOnError>) => {
     return (options.client ?? client).patch<PatchWatchlistItemResponses, PatchWatchlistItemErrors, ThrowOnError>({
+        security: [
+            {
+                scheme: 'bearer',
+                type: 'http'
+            }
+        ],
         url: '/api/v1/me/watchlist/{shopId}/{shopsItemId}',
         ...options,
         headers: {

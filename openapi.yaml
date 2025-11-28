@@ -84,17 +84,9 @@ paths:
             regional:
               value: "en-US"
               description: "US English"
-        - name: Authorization
-          in: header
-          required: false
-          description: |
-            Optional Cognito JWT token for personalized response.
-            When provided, response includes user-specific state (watchlist status, notifications).
-            When omitted, response contains only item data without user state.
-          schema:
-            type: string
-            pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
-          example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      security:
+          -   BearerAuth: [ ]
+          - { }
       responses:
         '200':
           description: Item found and returned successfully
@@ -230,6 +222,211 @@ paths:
               example:
                 status: 500
                 error: "INTERNAL_SERVER_ERROR"
+
+  /api/v1/items/{shopId}/{shopsItemId}/similar:
+      get:
+          summary: Get similar items
+          description: |
+              Retrieves items similar to the specified item using semantic search based on text embeddings.
+              Returns localized content based on Accept-Language header and currency preferences.
+              
+              **Personalization**: When authenticated (via optional Authorization header), the response includes
+              user-specific state for each similar item (watchlist status, notifications).
+              Anonymous requests receive item data without user state.
+              
+              **Asynchronous Processing**: If the item's text embedding has not yet been computed (typically for 
+              items created less than 24 hours ago), the endpoint returns 202 Accepted with a Location header 
+              to poll. The embedding generation runs nightly via batch processing.
+          operationId: getSimilarItems
+          tags:
+              - Items
+          parameters:
+              -   name: shopId
+                  in: path
+                  required: true
+                  description: Unique identifier of the shop
+                  schema:
+                      type: string
+                      format: uuid
+                      example: "550e8400-e29b-41d4-a716-446655440000"
+              -   name: shopsItemId
+                  in: path
+                  required: true
+                  description: Shop's unique identifier for the item
+                  schema:
+                      type: string
+                      example: "6ba7b810"
+              -   name: currency
+                  in: query
+                  required: false
+                  description: Currency for price display
+                  schema:
+                      $ref: '#/components/schemas/CurrencyData'
+                  example: EUR
+              -   name: Accept-Language
+                  in: header
+                  required: false
+                  description: |
+                      Preferred language for localized content.
+                      Supports quality values and multiple languages.
+                      Supported languages: de, en, fr, es (with regional variants).
+                  schema:
+                      type: string
+                      pattern: '^([a-z]{2}(-[A-Z]{2})?(;q=[0-9](\.[0-9])?)?)(,([a-z]{2}(-[A-Z]{2})?(;q=[0-9](\.[0-9])?)?)*)*$'
+                  examples:
+                      single:
+                          value: "de"
+                          description: "German"
+                      multiple:
+                          value: "en;q=0.9,de;q=0.8"
+                          description: "English preferred, German as fallback"
+          security:
+              -   BearerAuth: [ ]
+              - { }
+          responses:
+              '200':
+                  description: Similar items found and returned successfully
+                  content:
+                      application/json:
+                          schema:
+                              type: array
+                              items:
+                                  $ref: '#/components/schemas/PersonalizedGetItemData'
+                              description: Array of similar items, each with optional user state
+                          examples:
+                              authenticated:
+                                  summary: Authenticated user response with user state for each item
+                                  value:
+                                      -   item:
+                                              itemId: "660e8400-e29b-41d4-a716-446655440001"
+                                              eventId: "660e8400-e29b-41d4-a716-446655440011"
+                                              shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                              shopsItemId: "6ba7b811"
+                                              shopName: "My Shop"
+                                              title:
+                                                  text: "Similar Product"
+                                                  language: "en"
+                                              price:
+                                                  currency: "EUR"
+                                                  amount: 2899
+                                              state: "AVAILABLE"
+                                              url: "https://my-shop.com/products/similar-product"
+                                              images:
+                                                  - "https://my-shop.com/images/similar-1.jpg"
+                                              created: "2024-01-01T10:00:00Z"
+                                              updated: "2024-01-01T12:00:00Z"
+                                          userState:
+                                              watchlist:
+                                                  watching: true
+                                                  notifications: false
+                                      -   item:
+                                              itemId: "770e8400-e29b-41d4-a716-446655440002"
+                                              eventId: "770e8400-e29b-41d4-a716-446655440012"
+                                              shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                              shopsItemId: "6ba7b812"
+                                              shopName: "My Shop"
+                                              title:
+                                                  text: "Another Similar Item"
+                                                  language: "en"
+                                              price:
+                                                  currency: "EUR"
+                                                  amount: 3199
+                                              state: "AVAILABLE"
+                                              url: "https://my-shop.com/products/another-item"
+                                              images: [ ]
+                                              created: "2024-01-01T11:00:00Z"
+                                              updated: "2024-01-01T13:00:00Z"
+                                          userState:
+                                              watchlist:
+                                                  watching: false
+                                                  notifications: false
+                              anonymous:
+                                  summary: Anonymous user response without user state
+                                  value:
+                                      -   item:
+                                              itemId: "660e8400-e29b-41d4-a716-446655440001"
+                                              eventId: "660e8400-e29b-41d4-a716-446655440011"
+                                              shopId: "550e8400-e29b-41d4-a716-446655440000"
+                                              shopsItemId: "6ba7b811"
+                                              shopName: "My Shop"
+                                              title:
+                                                  text: "Similar Product"
+                                                  language: "en"
+                                              price:
+                                                  currency: "EUR"
+                                                  amount: 2899
+                                              state: "AVAILABLE"
+                                              url: "https://my-shop.com/products/similar-product"
+                                              images:
+                                                  - "https://my-shop.com/images/similar-1.jpg"
+                                              created: "2024-01-01T10:00:00Z"
+                                              updated: "2024-01-01T12:00:00Z"
+                              empty:
+                                  summary: No similar items found
+                                  value: [ ]
+              '202':
+                  description: |
+                      Accepted - Item embedding not yet computed.
+                      The text embedding for this item has not been generated yet (typically for items less than 24 hours old).
+                      Embeddings are computed during nightly batch processing.
+                      Poll the endpoint again later using the Location header.
+                  headers:
+                      Location:
+                          description: URL to poll for similar items once embeddings are computed
+                          schema:
+                              type: string
+                              format: uri
+                          example: "https://api.aura-historia.com/api/v1/items/550e8400-e29b-41d4-a716-446655440000/6ba7b810/similar"
+              '400':
+                  description: Bad request - invalid parameters
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          examples:
+                              missing_shop_id:
+                                  summary: Missing shop ID
+                                  value:
+                                      status: 400
+                                      error: "BAD_PATH_PARAMETER_VALUE"
+                                      source:
+                                          field: "shopId"
+                                          sourceType: "path"
+                              missing_shops_item_id:
+                                  summary: Missing shop's item ID
+                                  value:
+                                      status: 400
+                                      error: "BAD_PATH_PARAMETER_VALUE"
+                                      source:
+                                          field: "shopsItemId"
+                                          sourceType: "path"
+                              invalid_uuid:
+                                  summary: Invalid UUID format for shop ID
+                                  value:
+                                      status: 400
+                                      error: "INVALID_UUID"
+                                      source:
+                                          field: "shopId"
+                                          sourceType: "path"
+              '404':
+                  description: Item not found
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          example:
+                              status: 404
+                              error: "ITEM_NOT_FOUND"
+                              message: "Item with ShopId '550e8400-e29b-41d4-a716-446655440000' and ShopsItemId '6ba7b810' not found."
+              '500':
+                  description: Internal server error
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/ApiError'
+                          example:
+                              status: 500
+                              error: "INTERNAL_SERVER_ERROR"
 
   /api/v1/items:
     put:
@@ -401,17 +598,9 @@ paths:
             maximum: 100
             default: 21
           example: 21
-        - name: Authorization
-          in: header
-          required: false
-          description: |
-            Optional Cognito JWT token for personalized response.
-            When provided, response includes user-specific state for each item (watchlist status, notifications).
-            When omitted, response contains only item data without user state.
-          schema:
-            type: string
-            pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
-          example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      security:
+          -   BearerAuth: [ ]
+          - { }
       requestBody:
         required: true
         description: |
@@ -582,14 +771,8 @@ paths:
             enum: [ asc, desc ]
             default: asc
           example: desc
-        - name: Authorization
-          in: header
-          required: true
-          description: Cognito JWT token for user authentication
-          schema:
-            type: string
-            pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
-          example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      security:
+          -   BearerAuth: [ ]
       responses:
         '200':
           description: Search filters retrieved successfully
@@ -675,15 +858,8 @@ paths:
       operationId: createUserSearchFilter
       tags:
         - Search Filters
-      parameters:
-        - name: Authorization
-          in: header
-          required: true
-          description: Cognito JWT token for user authentication
-          schema:
-            type: string
-            pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
-          example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      security:
+          -   BearerAuth: [ ]
       requestBody:
         required: true
         description: Search filter configuration with name and filter criteria
@@ -813,14 +989,8 @@ paths:
             type: string
             format: uuid
           example: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-        - name: Authorization
-          in: header
-          required: true
-          description: Cognito JWT token for user authentication
-          schema:
-            type: string
-            pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
-          example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      security:
+          -   BearerAuth: [ ]
       responses:
         '200':
           description: Search filter found and returned successfully
@@ -929,14 +1099,8 @@ paths:
             type: string
             format: uuid
           example: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-        - name: Authorization
-          in: header
-          required: true
-          description: Cognito JWT token for user authentication
-          schema:
-            type: string
-            pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
-          example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      security:
+          -   BearerAuth: [ ]
       responses:
         '204':
           description: Search filter deleted successfully
@@ -1016,14 +1180,8 @@ paths:
             type: string
             format: uuid
           example: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-        - name: Authorization
-          in: header
-          required: true
-          description: Cognito JWT token for user authentication
-          schema:
-            type: string
-            pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
-          example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      security:
+          -   BearerAuth: [ ]
       requestBody:
         required: false
         description: |
@@ -1233,14 +1391,8 @@ paths:
             regional:
               value: "en-US"
               description: "US English"
-        - name: Authorization
-          in: header
-          required: true
-          description: Cognito JWT token for user authentication
-          schema:
-            type: string
-            pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
-          example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      security:
+          -   BearerAuth: [ ]
       responses:
         '200':
           description: Watchlist items retrieved successfully
@@ -1339,15 +1491,8 @@ paths:
       operationId: addWatchlistItem
       tags:
         - Watchlist
-      parameters:
-        - name: Authorization
-          in: header
-          required: true
-          description: Cognito JWT token for user authentication
-          schema:
-            type: string
-            pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
-          example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      security:
+          -   BearerAuth: [ ]
       requestBody:
         required: true
         description: Item identifier to add to watchlist
@@ -1448,14 +1593,8 @@ paths:
           schema:
             type: string
           example: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-        - name: Authorization
-          in: header
-          required: true
-          description: Cognito JWT token for user authentication
-          schema:
-            type: string
-            pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
-          example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      security:
+          -   BearerAuth: [ ]
       responses:
         '204':
           description: Item removed from watchlist successfully
@@ -1550,14 +1689,8 @@ paths:
           schema:
             type: string
           example: "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-        - name: Authorization
-          in: header
-          required: true
-          description: Cognito JWT token for user authentication
-          schema:
-            type: string
-            pattern: '^Bearer [A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$'
-          example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      security:
+          -   BearerAuth: [ ]
       requestBody:
         required: true
         description: Patch object containing fields to update
@@ -1904,6 +2037,15 @@ paths:
                 error: "INTERNAL_SERVER_ERROR"
 
 components:
+    securitySchemes:
+        BearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+            description: |
+                Cognito JWT token for personalized response.
+                When provided, response includes user-specific state (watchlist status, notifications).
+                When omitted, response contains only item data without user state.
   schemas:
     GetItemData:
       type: object

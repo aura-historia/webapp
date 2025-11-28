@@ -8,9 +8,36 @@ import { ArrowUpRight, Eye, HeartIcon, ImageOff } from "lucide-react";
 import { H3 } from "../typography/H3";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addWatchlistItem, deleteWatchlistItem } from "@/client";
+import { toast } from "sonner";
 
 export function ItemCard({ item }: { readonly item: OverviewItem }) {
     const { t } = useTranslation();
+    const queryClient = useQueryClient();
+
+    const watchlistMutation = useMutation({
+        mutationFn: async (isAdded: boolean) => {
+            if (isAdded) {
+                return await deleteWatchlistItem({
+                    path: { shopId: item.shopId, shopsItemId: item.shopsItemId },
+                });
+            } else {
+                return await addWatchlistItem({
+                    body: { shopId: item.shopId, shopsItemId: item.shopsItemId },
+                });
+            }
+        },
+        onError: (e) => {
+            console.error("Error adding item to watchlist:", e);
+            toast.error(t("watchlist.loadingError"));
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["watchlist"] });
+            await queryClient.invalidateQueries({ queryKey: ["search"] });
+        },
+    });
+
     return (
         <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
             <div className={"flex-shrink-0 flex lg:justify-start justify-center"}>
@@ -61,8 +88,23 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                         <StatusBadge status={item.state} />
                     </div>
 
-                    <Button variant={"ghost"} size={"icon"} className={"ml-auto flex-shrink-0"}>
-                        <HeartIcon />
+                    <Button
+                        variant={"ghost"}
+                        size={"icon"}
+                        className={"ml-auto flex-shrink-0"}
+                        onClick={() => {
+                            watchlistMutation.mutate(
+                                item.userData?.watchlistData.isWatching ?? false,
+                            );
+                        }}
+                    >
+                        <HeartIcon
+                            className={`transition-all duration-300 ease-in-out ${
+                                item.userData?.watchlistData.isWatching
+                                    ? "fill-foreground"
+                                    : "fill-transparent"
+                            }`}
+                        />
                     </Button>
                 </div>
 

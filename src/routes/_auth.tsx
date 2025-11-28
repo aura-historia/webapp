@@ -4,7 +4,8 @@ import { getCurrentUser } from "@aws-amplify/auth";
 export const Route = createFileRoute("/_auth")({
     beforeLoad: async ({ location }) => {
         try {
-            await getCurrentUser();
+            const user = await getCurrentUser();
+            return { user };
         } catch {
             throw redirect({
                 to: "/login",

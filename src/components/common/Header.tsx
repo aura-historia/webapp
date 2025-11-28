@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useUserAttributes } from "@/hooks/useUserAttributes.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
 import { SearchBar } from "@/components/search/SearchBar.tsx";
@@ -17,11 +17,21 @@ import { Menu } from "lucide-react";
 
 export function Header() {
     const { t } = useTranslation();
+    const navigate = useNavigate();
+
     const pathname = useLocation({
         select: (location) => location.pathname,
     });
+    const searchString = useLocation({
+        select: (location) => location.searchStr,
+    });
 
-    const { toSignUp, toSignIn, user, signOut } = useAuthenticator((context) => [
+    const {
+        toSignUp,
+        toSignIn,
+        user,
+        signOut: amplifySignOut,
+    } = useAuthenticator((context) => [
         context.toSignUp,
         context.toSignIn,
         context.user,
@@ -29,6 +39,13 @@ export function Header() {
     ]);
 
     const { data: userAttributes, isLoading } = useUserAttributes();
+
+    const signOut = async () => {
+        amplifySignOut();
+        await navigate({
+            to: "/",
+        });
+    };
 
     return (
         <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 backdrop-blur-sm items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
@@ -78,10 +95,20 @@ export function Header() {
                         ) : (
                             <>
                                 <DropdownMenuItem onClick={toSignUp} asChild>
-                                    <Link to="/login">{t("common.register")}</Link>
+                                    <Link
+                                        to="/login"
+                                        search={{ redirect: pathname + searchString }}
+                                    >
+                                        {t("common.register")}
+                                    </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={toSignIn} asChild>
-                                    <Link to="/login">{t("common.login")}</Link>
+                                    <Link
+                                        to="/login"
+                                        search={{ redirect: pathname + searchString }}
+                                    >
+                                        {t("common.login")}
+                                    </Link>
                                 </DropdownMenuItem>
                             </>
                         )}
@@ -113,10 +140,14 @@ export function Header() {
                 ) : (
                     <>
                         <Button asChild onClick={toSignUp} variant={"default"}>
-                            <Link to="/login">{t("common.register")}</Link>
+                            <Link to="/login" search={{ redirect: pathname + searchString }}>
+                                {t("common.register")}
+                            </Link>
                         </Button>
                         <Button asChild onClick={toSignIn} variant="outline">
-                            <Link to="/login">{t("common.login")}</Link>
+                            <Link to="/login" search={{ redirect: pathname + searchString }}>
+                                {t("common.login")}
+                            </Link>
                         </Button>
                     </>
                 )}

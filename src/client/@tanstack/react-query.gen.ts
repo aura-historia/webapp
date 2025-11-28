@@ -3,8 +3,59 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistItem, complexSearchItems, createUserSearchFilter, deleteUserSearchFilter, deleteWatchlistItem, getItem, getShop, getUserSearchFilter, getUserSearchFilters, getWatchlistItems, type Options, patchWatchlistItem, putItems, searchShops, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistItemData, AddWatchlistItemError, AddWatchlistItemResponse, ComplexSearchItemsData, ComplexSearchItemsError, ComplexSearchItemsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistItemData, DeleteWatchlistItemError, DeleteWatchlistItemResponse, GetItemData2, GetShopData2, GetUserSearchFilterData, GetUserSearchFiltersData, GetWatchlistItemsData, PatchWatchlistItemData, PatchWatchlistItemError, PatchWatchlistItemResponse, PutItemsData, PutItemsError, PutItemsResponse2, SearchShopsData, SearchShopsError, SearchShopsResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import {
+    addWatchlistItem,
+    complexSearchItems,
+    createUserSearchFilter,
+    deleteUserSearchFilter,
+    deleteWatchlistItem,
+    getItem,
+    getShop,
+    getSimilarItems,
+    getUserSearchFilter,
+    getUserSearchFilters,
+    getWatchlistItems,
+    type Options,
+    patchWatchlistItem,
+    putItems,
+    searchShops,
+    updateUserSearchFilter
+} from '../sdk.gen';
+import type {
+    AddWatchlistItemData,
+    AddWatchlistItemError,
+    AddWatchlistItemResponse,
+    ComplexSearchItemsData,
+    ComplexSearchItemsError,
+    ComplexSearchItemsResponse,
+    CreateUserSearchFilterData,
+    CreateUserSearchFilterError,
+    CreateUserSearchFilterResponse,
+    DeleteUserSearchFilterData,
+    DeleteUserSearchFilterError,
+    DeleteUserSearchFilterResponse,
+    DeleteWatchlistItemData,
+    DeleteWatchlistItemError,
+    DeleteWatchlistItemResponse,
+    GetItemData2,
+    GetShopData2,
+    GetSimilarItemsData,
+    GetUserSearchFilterData,
+    GetUserSearchFiltersData,
+    GetWatchlistItemsData,
+    PatchWatchlistItemData,
+    PatchWatchlistItemError,
+    PatchWatchlistItemResponse,
+    PutItemsData,
+    PutItemsError,
+    PutItemsResponse2,
+    SearchShopsData,
+    SearchShopsError,
+    SearchShopsResponse,
+    UpdateUserSearchFilterData,
+    UpdateUserSearchFilterError,
+    UpdateUserSearchFilterResponse
+} from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -70,6 +121,38 @@ export const getItemOptions = (options: Options<GetItemData2>) => {
     });
 };
 
+export const getSimilarItemsQueryKey = (options: Options<GetSimilarItemsData>) => createQueryKey('getSimilarItems', options);
+
+/**
+ * Get similar items
+ *
+ * Retrieves items similar to the specified item using semantic search based on text embeddings.
+ * Returns localized content based on Accept-Language header and currency preferences.
+ *
+ * **Personalization**: When authenticated (via optional Authorization header), the response includes
+ * user-specific state for each similar item (watchlist status, notifications).
+ * Anonymous requests receive item data without user state.
+ *
+ * **Asynchronous Processing**: If the item's text embedding has not yet been computed (typically for
+ * items created less than 24 hours ago), the endpoint returns 202 Accepted with a Location header
+ * to poll. The embedding generation runs nightly via batch processing.
+ *
+ */
+export const getSimilarItemsOptions = (options: Options<GetSimilarItemsData>) => {
+    return queryOptions({
+        queryFn: async ({queryKey, signal}) => {
+            const {data} = await getSimilarItems({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: getSimilarItemsQueryKey(options)
+    });
+};
+
 /**
  * Bulk create or update items
  *
@@ -130,7 +213,7 @@ export const complexSearchItemsMutation = (options?: Partial<Options<ComplexSear
     return mutationOptions;
 };
 
-export const getUserSearchFiltersQueryKey = (options: Options<GetUserSearchFiltersData>) => createQueryKey('getUserSearchFilters', options);
+export const getUserSearchFiltersQueryKey = (options?: Options<GetUserSearchFiltersData>) => createQueryKey('getUserSearchFilters', options);
 
 /**
  * List user search filters
@@ -140,7 +223,7 @@ export const getUserSearchFiltersQueryKey = (options: Options<GetUserSearchFilte
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getUserSearchFiltersOptions = (options: Options<GetUserSearchFiltersData>) => {
+export const getUserSearchFiltersOptions = (options?: Options<GetUserSearchFiltersData>) => {
     return queryOptions({
         queryFn: async ({ queryKey, signal }) => {
             const { data } = await getUserSearchFilters({
@@ -248,7 +331,7 @@ export const updateUserSearchFilterMutation = (options?: Partial<Options<UpdateU
     return mutationOptions;
 };
 
-export const getWatchlistItemsQueryKey = (options: Options<GetWatchlistItemsData>) => createQueryKey('getWatchlistItems', options);
+export const getWatchlistItemsQueryKey = (options?: Options<GetWatchlistItemsData>) => createQueryKey('getWatchlistItems', options);
 
 /**
  * List user's watchlist items
@@ -258,7 +341,7 @@ export const getWatchlistItemsQueryKey = (options: Options<GetWatchlistItemsData
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getWatchlistItemsOptions = (options: Options<GetWatchlistItemsData>) => {
+export const getWatchlistItemsOptions = (options?: Options<GetWatchlistItemsData>) => {
     return queryOptions({
         queryFn: async ({ queryKey, signal }) => {
             const { data } = await getWatchlistItems({

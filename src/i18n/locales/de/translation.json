@@ -161,6 +161,8 @@
     },
     "watchlist": {
         "title": "Meine Merkliste",
-        "totalElements": "{{count}} Elemente"
+        "totalElements": "{{count}} Elemente",
+        "loadingError": "Die Merkliste kann zur Zeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
+        "empty": "Ihre Merkliste ist leer. Fügen Sie Artikel hinzu, um sie hier anzuzeigen."
     }
 }
