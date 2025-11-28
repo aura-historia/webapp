@@ -80,7 +80,7 @@ describe("AccountPage", () => {
             renderWithQueryClient(<AccountPage />);
 
             await waitFor(() => {
-                expect(mockNavigate).toHaveBeenCalledWith({ to: "/auth" });
+                expect(mockNavigate).toHaveBeenCalledWith({ to: "/login" });
             });
         });
     });
