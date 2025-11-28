@@ -166,6 +166,12 @@
         "title": "Meine Merkliste",
         "totalElements": "{{count}} Elemente",
         "loadingError": "Die Merkliste kann zur Zeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
-        "empty": "Ihre Merkliste ist leer. Fügen Sie Artikel hinzu, um sie hier anzuzeigen."
+        "loadingMore": "Lade neue Ergebnisse...",
+        "allLoaded_one": "Sie haben {{count}} Gegenstand ihrer Merkliste gesehen.",
+        "allLoaded_other": "Sie haben alle {{count}} Gegenstände ihrer Merkliste gesehen.",
+        "noResults": {
+            "title": "Keine Gegenstände gefunden",
+            "description": "Fügen Sie Gegenstände zur Merkliste hinzu, um sie hier anzusehen."
+        }
     }
 }
