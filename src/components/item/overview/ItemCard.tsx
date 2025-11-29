@@ -5,38 +5,14 @@ import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 import { ArrowUpRight, Eye, HeartIcon, ImageOff } from "lucide-react";
-import { H3 } from "../typography/H3";
+import { H3 } from "../../typography/H3.tsx";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addWatchlistItem, deleteWatchlistItem } from "@/client";
-import { toast } from "sonner";
+import { useWatchlistMutation } from "@/hooks/useWatchlistMutation.ts";
 
 export function ItemCard({ item }: { readonly item: OverviewItem }) {
     const { t } = useTranslation();
-    const queryClient = useQueryClient();
-
-    const watchlistMutation = useMutation({
-        mutationFn: async (isAdded: boolean) => {
-            if (isAdded) {
-                return await deleteWatchlistItem({
-                    path: { shopId: item.shopId, shopsItemId: item.shopsItemId },
-                });
-            } else {
-                return await addWatchlistItem({
-                    body: { shopId: item.shopId, shopsItemId: item.shopsItemId },
-                });
-            }
-        },
-        onError: (e) => {
-            console.error("Error adding item to watchlist:", e);
-            toast.error(t("watchlist.loadingError"));
-        },
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ["watchlist"] });
-            await queryClient.invalidateQueries({ queryKey: ["search"] });
-        },
-    });
+    const watchlistMutation = useWatchlistMutation(item.shopId, item.shopsItemId);
 
     return (
         <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
@@ -99,11 +75,11 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                         }}
                     >
                         <HeartIcon
-                            className={`transition-all duration-300 ease-in-out ${
+                            className={`size-5 transition-all duration-300 ease-in-out ${
                                 item.userData?.watchlistData.isWatching
-                                    ? "fill-foreground"
+                                    ? "fill-red-500 text-red-500"
                                     : "fill-transparent"
-                            }`}
+                            } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
                         />
                     </Button>
                 </div>

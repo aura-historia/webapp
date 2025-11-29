@@ -1,5 +1,5 @@
-import { ItemCard } from "@/components/item/ItemCard.tsx";
-import { ItemCardSkeleton } from "@/components/item/ItemCardSkeleton.tsx";
+import { ItemCard } from "@/components/item/overview/ItemCard.tsx";
+import { ItemCardSkeleton } from "@/components/item/overview/ItemCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { useInView } from "react-intersection-observer";

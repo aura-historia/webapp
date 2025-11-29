@@ -5,14 +5,16 @@ import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { ArrowUpRight, HeartIcon, Share } from "lucide-react";
-import { H3 } from "../typography/H3";
+import { H3 } from "../../typography/H3.tsx";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
-import { ItemImageGallery } from "@/components/item/ItemImageGallery.tsx";
+import { ItemImageGallery } from "@/components/item/detail/ItemImageGallery.tsx";
 import { useTranslation } from "react-i18next";
+import { useWatchlistMutation } from "@/hooks/useWatchlistMutation.ts";
 
 export function ItemInfo({ item }: { readonly item: ItemDetail }) {
     const { t } = useTranslation();
+    const watchlistMutation = useWatchlistMutation(item.shopId, item.shopsItemId);
 
     return (
         <>
@@ -38,8 +40,24 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                             <Button variant="ghost" size="icon">
                                 <Share />
                             </Button>
-                            <Button variant="ghost" size="icon">
-                                <HeartIcon />
+
+                            <Button
+                                variant={"ghost"}
+                                size={"icon"}
+                                className={"ml-auto flex-shrink-0"}
+                                onClick={() => {
+                                    watchlistMutation.mutate(
+                                        item.userData?.watchlistData.isWatching ?? false,
+                                    );
+                                }}
+                            >
+                                <HeartIcon
+                                    className={`size-5 transition-all duration-300 ease-in-out ${
+                                        item.userData?.watchlistData.isWatching
+                                            ? "fill-red-500 text-red-500"
+                                            : "fill-transparent"
+                                    } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
+                                />
                             </Button>
                         </div>
                     </div>

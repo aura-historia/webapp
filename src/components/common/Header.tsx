@@ -49,23 +49,14 @@ export function Header() {
 
     return (
         <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 backdrop-blur-sm items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
-            <div className="flex items-center justify-start gap-8">
+            <div className="flex items-center justify-start gap-4">
                 <Link
                     to="/"
-                    className="text-md md:text-xl lg:text-2xl font-bold text-center md:text-left"
+                    className="text-md lg:text-xl line-clamp-2 lg:line-clamp-1 xl:text-2xl font-bold text-center lg:text-left"
                 >
                     {t("common.auraHistoria")}
                 </Link>
-                <div className="flex items-center gap-4 text-muted-foreground">
-                    <span>Shops</span>
-                    {user ? (
-                        <Link to="/watchlist" className="hidden sm:inline">
-                            <span className={pathname === "/watchlist" ? "underline" : ""}>
-                                Merkliste
-                            </span>
-                        </Link>
-                    ) : null}
-                </div>
+                {/* Additional Navigation Items can be placed here */}
             </div>
 
             <div className="hidden justify-center md:flex">
@@ -85,6 +76,9 @@ export function Header() {
                             <>
                                 <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                    <Link to="/watchlist">{t("header.watchlist")}</Link>
+                                </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
                                     <Link to="/account">{t("header.editAccount")}</Link>
                                 </DropdownMenuItem>
@@ -118,25 +112,32 @@ export function Header() {
 
             <div className="hidden md:flex items-center justify-end gap-4 w-full">
                 {user ? (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger>
-                            <AccountImage
-                                firstName={userAttributes?.given_name || ""}
-                                lastName={userAttributes?.family_name || ""}
-                                isLoading={isLoading}
-                            />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild>
-                                <Link to="/account">{t("header.editAccount")}</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => signOut()}>
-                                {t("header.logout")}
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <>
+                        <Link to="/watchlist" className="hidden md:inline mr-4">
+                            <span className={pathname === "/watchlist" ? "underline" : ""}>
+                                {t("header.watchlist")}
+                            </span>
+                        </Link>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <AccountImage
+                                    firstName={userAttributes?.given_name || ""}
+                                    lastName={userAttributes?.family_name || ""}
+                                    isLoading={isLoading}
+                                />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                    <Link to="/account">{t("header.editAccount")}</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onSelect={() => signOut()}>
+                                    {t("header.logout")}
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </>
                 ) : (
                     <>
                         <Button asChild onClick={toSignUp} variant={"default"}>

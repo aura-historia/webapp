@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card.tsx";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton.tsx";
 
 export function ItemCardSkeleton() {
     return (

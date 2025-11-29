@@ -1,6 +1,6 @@
-import type { ItemEvent } from "@/data/internal/ItemDetails";
+import type { ItemEvent } from "@/data/internal/ItemDetails.ts";
 import { render, screen } from "@testing-library/react";
-import { ItemPriceChart } from "../ItemPriceChart";
+import { ItemPriceChart } from "../../detail/ItemPriceChart.tsx";
 import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 

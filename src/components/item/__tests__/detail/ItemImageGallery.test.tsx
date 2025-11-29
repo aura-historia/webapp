@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { ItemImageGallery } from "@/components/item/ItemImageGallery";
+import { ItemImageGallery } from "@/components/item/detail/ItemImageGallery.tsx";
 import userEvent from "@testing-library/user-event";
 
 beforeAll(() => {

@@ -14,6 +14,7 @@
         "title": "AGB"
     },
     "header": {
+        "watchlist": "Merkliste",
         "myAccount": "Mein Account",
         "editAccount": "Account bearbeiten",
         "logout": "Ausloggen"
@@ -44,8 +45,8 @@
         "filters": "Filter",
         "resultsFor": "Suchergebnisse für:",
         "resetAllFilters": "Alle Filter zurücksetzen",
-        "totalResults_one": "{{count}} Element",
-        "totalResults_other": "{{count}} Elemente",
+        "totalResults_one": "{{count}} Artikel",
+        "totalResults_other": "{{count}} Artikel",
         "bar": {
             "label": "Suche",
             "placeholder": "Ich suche nach...",
@@ -164,14 +165,14 @@
     },
     "watchlist": {
         "title": "Meine Merkliste",
-        "totalElements": "{{count}} Elemente",
+        "totalElements": "{{count}} Artikel",
         "loadingError": "Die Merkliste kann zur Zeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
         "loadingMore": "Lade neue Ergebnisse...",
-        "allLoaded_one": "Sie haben {{count}} Gegenstand ihrer Merkliste gesehen.",
-        "allLoaded_other": "Sie haben alle {{count}} Gegenstände ihrer Merkliste gesehen.",
+        "allLoaded_one": "Sie haben {{count}} Artikel ihrer Merkliste gesehen.",
+        "allLoaded_other": "Sie haben alle {{count}} Artikel ihrer Merkliste gesehen.",
         "noResults": {
-            "title": "Keine Gegenstände gefunden",
-            "description": "Fügen Sie Gegenstände zur Merkliste hinzu, um sie hier anzusehen."
+            "title": "Keine Artikel gefunden",
+            "description": "Fügen Sie Artikel zur Merkliste hinzu, um sie hier anzusehen."
         }
     }
 }

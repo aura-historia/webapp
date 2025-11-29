@@ -1,6 +1,6 @@
-import type { OverviewItem } from "@/data/internal/OverviewItem";
+import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 import { screen } from "@testing-library/react";
-import { ItemCard } from "../ItemCard";
+import { ItemCard } from "../../overview/ItemCard.tsx";
 import { vi } from "vitest";
 import type React from "react";
 import { renderWithQueryClient } from "@/test/utils.tsx";
