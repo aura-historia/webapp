@@ -132,11 +132,9 @@ describe("WatchlistResults", () => {
             setInfiniteQueryMock({ items: [] });
             renderWithQueryClient(<WatchlistResults />);
 
-            expect(screen.getByText("Keine Gegenstände gefunden")).toBeInTheDocument();
+            expect(screen.getByText("Keine Artikel gefunden")).toBeInTheDocument();
             expect(
-                screen.getByText(
-                    "Fügen Sie Gegenstände zur Merkliste hinzu, um sie hier anzusehen.",
-                ),
+                screen.getByText("Fügen Sie Artikel zur Merkliste hinzu, um sie hier anzusehen."),
             ).toBeInTheDocument();
         });
 
@@ -169,7 +167,7 @@ describe("WatchlistResults", () => {
             renderWithQueryClient(<WatchlistResults />);
 
             expect(screen.getByText("Meine Merkliste")).toBeInTheDocument();
-            expect(screen.getByText("2 Elemente")).toBeInTheDocument();
+            expect(screen.getByText("2 Artikel")).toBeInTheDocument();
         });
 
         it("should ensure all items have isWatching set to true", () => {
@@ -228,7 +226,7 @@ describe("WatchlistResults", () => {
             renderWithQueryClient(<WatchlistResults />);
 
             expect(
-                screen.getByText("Sie haben 1 Gegenstand ihrer Merkliste gesehen."),
+                screen.getByText("Sie haben 1 Artikel ihrer Merkliste gesehen."),
             ).toBeInTheDocument();
         });
 
@@ -243,7 +241,7 @@ describe("WatchlistResults", () => {
             renderWithQueryClient(<WatchlistResults />);
 
             expect(
-                screen.getByText("Sie haben alle 2 Gegenstände ihrer Merkliste gesehen."),
+                screen.getByText("Sie haben alle 2 Artikel ihrer Merkliste gesehen."),
             ).toBeInTheDocument();
         });
 
