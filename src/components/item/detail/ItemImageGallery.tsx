@@ -59,8 +59,8 @@ export function ItemImageGallery({ images, title, itemId }: ItemImageGalleryProp
             }
         };
 
-        window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
+        globalThis.addEventListener("keydown", handleKeyDown);
+        return () => globalThis.removeEventListener("keydown", handleKeyDown);
     }, [images.length, isLightboxOpen]);
 
     /**
