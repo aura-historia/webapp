@@ -104,11 +104,11 @@ export function WatchlistResults() {
         <div className={"flex flex-col w-full gap-8"}>
             <div className="flex flex-row items-center justify-between">
                 <H1>{t("watchlist.title")}</H1>
-                <SectionInfoText>
+                <span className={"text-2xl font-semibold whitespace-nowrap"}>
                     {t("watchlist.totalElements", {
                         count: data.pages[0].total ?? 0,
                     })}
-                </SectionInfoText>
+                </span>
             </div>
             <div className="flex flex-col gap-4">
                 {allItems.map((watchlistItem: OverviewItem) => (
