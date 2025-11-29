@@ -54,7 +54,7 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                                 <HeartIcon
                                     className={`size-5 transition-all duration-300 ease-in-out ${
                                         item.userData?.watchlistData.isWatching
-                                            ? "fill-red-500 text-red-500"
+                                            ? "fill-heart text-heart"
                                             : "fill-transparent"
                                     } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
                                 />
