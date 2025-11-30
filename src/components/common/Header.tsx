@@ -54,11 +54,23 @@ export function Header() {
             </Link>
 
             <div className="hidden justify-center md:flex overflow-hidden">
-                {shouldShowSearchBar && <SearchBar type="small" />}
+                <div
+                    className={`w-full transition-all duration-500 ${
+                        shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none"
+                    }`}
+                >
+                    <SearchBar type="small" />
+                </div>
             </div>
 
             <div className="flex md:hidden items-center justify-end gap-2">
-                {shouldShowSearchBar && <SearchBar type="small" />}
+                <div
+                    className={`transition-all duration-500 ${
+                        shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none"
+                    }`}
+                >
+                    <SearchBar type="small" />
+                </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button>

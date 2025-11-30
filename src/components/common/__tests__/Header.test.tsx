@@ -110,9 +110,9 @@ describe("Header Component", () => {
             const searchInputs = screen.queryAllByPlaceholderText("Ich suche nach...");
 
             if (searchInputs.length > 0) {
-                const form = searchInputs[0].closest("form");
-                expect(form).toHaveClass("opacity-0");
-                expect(form).toHaveClass("pointer-events-none");
+                const wrapper = searchInputs[0].closest("form")?.parentElement;
+                expect(wrapper).toHaveClass("opacity-0");
+                expect(wrapper).toHaveClass("pointer-events-none");
             }
         });
 
@@ -128,8 +128,8 @@ describe("Header Component", () => {
 
             const searchInputs = screen.queryAllByPlaceholderText("Ich suche nach...");
             if (searchInputs.length > 0) {
-                const form = searchInputs[0].closest("form");
-                expect(form).toHaveClass("opacity-100");
+                const wrapper = searchInputs[0].closest("form")?.parentElement;
+                expect(wrapper).toHaveClass("opacity-100");
             }
         });
 
