@@ -2,7 +2,50 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistItemData, AddWatchlistItemErrors, AddWatchlistItemResponses, ComplexSearchItemsData, ComplexSearchItemsErrors, ComplexSearchItemsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistItemData, DeleteWatchlistItemErrors, DeleteWatchlistItemResponses, GetItemData2, GetItemErrors, GetItemResponses, GetShopData2, GetShopErrors, GetShopResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistItemsData, GetWatchlistItemsErrors, GetWatchlistItemsResponses, PatchWatchlistItemData, PatchWatchlistItemErrors, PatchWatchlistItemResponses, PutItemsData, PutItemsErrors, PutItemsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type {
+    AddWatchlistItemData,
+    AddWatchlistItemErrors,
+    AddWatchlistItemResponses,
+    ComplexSearchItemsData,
+    ComplexSearchItemsErrors,
+    ComplexSearchItemsResponses,
+    CreateUserSearchFilterData,
+    CreateUserSearchFilterErrors,
+    CreateUserSearchFilterResponses,
+    DeleteUserSearchFilterData,
+    DeleteUserSearchFilterErrors,
+    DeleteUserSearchFilterResponses,
+    DeleteWatchlistItemData,
+    DeleteWatchlistItemErrors,
+    DeleteWatchlistItemResponses,
+    GetItemData2,
+    GetItemErrors,
+    GetItemResponses,
+    GetShopData2,
+    GetShopErrors,
+    GetShopResponses,
+    GetUserSearchFilterData,
+    GetUserSearchFilterErrors,
+    GetUserSearchFilterResponses,
+    GetUserSearchFiltersData,
+    GetUserSearchFiltersErrors,
+    GetUserSearchFiltersResponses,
+    GetWatchlistItemsData,
+    GetWatchlistItemsErrors,
+    GetWatchlistItemsResponses,
+    PatchWatchlistItemData,
+    PatchWatchlistItemErrors,
+    PatchWatchlistItemResponses,
+    PutItemsData,
+    PutItemsErrors,
+    PutItemsResponses,
+    SearchShopsData,
+    SearchShopsErrors,
+    SearchShopsResponses,
+    UpdateUserSearchFilterData,
+    UpdateUserSearchFilterErrors,
+    UpdateUserSearchFilterResponses
+} from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
