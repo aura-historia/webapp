@@ -22,6 +22,7 @@ import { useMemo } from "react";
 interface SearchBarProps {
     readonly type: "small" | "big";
 }
+
 const createSearchFormSchema = (t: TFunction) =>
     z.object({
         query: z
@@ -33,8 +34,6 @@ const createSearchFormSchema = (t: TFunction) =>
     });
 
 export type SearchFormSchema = z.infer<ReturnType<typeof createSearchFormSchema>>;
-
-const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/", "/auth"]);
 
 export function SearchBar({ type }: SearchBarProps) {
     const { t } = useTranslation();
@@ -77,8 +76,6 @@ export function SearchBar({ type }: SearchBarProps) {
             }),
         });
     }
-
-    if (SEARCH_BAR_HIDDEN_ROUTES.has(pathname) && type === "small") return;
 
     return (
         <Form {...form}>
