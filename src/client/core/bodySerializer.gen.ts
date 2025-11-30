@@ -12,16 +12,16 @@ export type BodySerializer = (body: any) => any;
 
 type QuerySerializerOptionsObject = {
   allowReserved?: boolean;
-    array?: Partial<SerializerOptions<ArrayStyle>>;
-    object?: Partial<SerializerOptions<ObjectStyle>>;
+  array?: Partial<SerializerOptions<ArrayStyle>>;
+  object?: Partial<SerializerOptions<ObjectStyle>>;
 };
 
 export type QuerySerializerOptions = QuerySerializerOptionsObject & {
-    /**
-     * Per-parameter serialization overrides. When provided, these settings
-     * override the global array/object settings for specific parameter names.
-     */
-    parameters?: Record<string, QuerySerializerOptionsObject>;
+  /**
+   * Per-parameter serialization overrides. When provided, these settings
+   * override the global array/object settings for specific parameter names.
+   */
+  parameters?: Record<string, QuerySerializerOptionsObject>;
 };
 
 const serializeFormDataPair = (

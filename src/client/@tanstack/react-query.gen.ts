@@ -3,59 +3,8 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import {
-    addWatchlistItem,
-    complexSearchItems,
-    createUserSearchFilter,
-    deleteUserSearchFilter,
-    deleteWatchlistItem,
-    getItem,
-    getShop,
-    getSimilarItems,
-    getUserSearchFilter,
-    getUserSearchFilters,
-    getWatchlistItems,
-    type Options,
-    patchWatchlistItem,
-    putItems,
-    searchShops,
-    updateUserSearchFilter
-} from '../sdk.gen';
-import type {
-    AddWatchlistItemData,
-    AddWatchlistItemError,
-    AddWatchlistItemResponse,
-    ComplexSearchItemsData,
-    ComplexSearchItemsError,
-    ComplexSearchItemsResponse,
-    CreateUserSearchFilterData,
-    CreateUserSearchFilterError,
-    CreateUserSearchFilterResponse,
-    DeleteUserSearchFilterData,
-    DeleteUserSearchFilterError,
-    DeleteUserSearchFilterResponse,
-    DeleteWatchlistItemData,
-    DeleteWatchlistItemError,
-    DeleteWatchlistItemResponse,
-    GetItemData2,
-    GetShopData2,
-    GetSimilarItemsData,
-    GetUserSearchFilterData,
-    GetUserSearchFiltersData,
-    GetWatchlistItemsData,
-    PatchWatchlistItemData,
-    PatchWatchlistItemError,
-    PatchWatchlistItemResponse,
-    PutItemsData,
-    PutItemsError,
-    PutItemsResponse2,
-    SearchShopsData,
-    SearchShopsError,
-    SearchShopsResponse,
-    UpdateUserSearchFilterData,
-    UpdateUserSearchFilterError,
-    UpdateUserSearchFilterResponse
-} from '../types.gen';
+import { addWatchlistItem, complexSearchItems, createUserSearchFilter, deleteUserSearchFilter, deleteWatchlistItem, getItem, getShop, getSimilarItems, getUserSearchFilter, getUserSearchFilters, getWatchlistItems, type Options, patchWatchlistItem, putItems, searchShops, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistItemData, AddWatchlistItemError, AddWatchlistItemResponse, ComplexSearchItemsData, ComplexSearchItemsError, ComplexSearchItemsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistItemData, DeleteWatchlistItemError, DeleteWatchlistItemResponse, GetItemData2, GetShopData2, GetSimilarItemsData, GetUserSearchFilterData, GetUserSearchFiltersData, GetWatchlistItemsData, PatchWatchlistItemData, PatchWatchlistItemError, PatchWatchlistItemResponse, PutItemsData, PutItemsError, PutItemsResponse2, SearchShopsData, SearchShopsError, SearchShopsResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -140,8 +89,8 @@ export const getSimilarItemsQueryKey = (options: Options<GetSimilarItemsData>) =
  */
 export const getSimilarItemsOptions = (options: Options<GetSimilarItemsData>) => {
     return queryOptions({
-        queryFn: async ({queryKey, signal}) => {
-            const {data} = await getSimilarItems({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getSimilarItems({
                 ...options,
                 ...queryKey[0],
                 signal,
