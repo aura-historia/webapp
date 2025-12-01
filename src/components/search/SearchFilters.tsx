@@ -15,16 +15,7 @@ import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { FILTER_DEFAULTS, MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
-
-/**
- * Gets the current search query from the search bar input.
- * This ensures filters use the latest typed query, not just the URL value.
- */
-function getCurrentSearchQuery(fallback: string): string {
-    const searchInput = document.querySelector<HTMLInputElement>('input[name="query"]');
-    const currentValue = searchInput?.value?.trim();
-    return currentValue && currentValue.length >= MIN_SEARCH_QUERY_LENGTH ? currentValue : fallback;
-}
+import { useSearchQueryContext } from "@/hooks/useSearchQueryContext.tsx";
 
 const createFilterSchema = (t: TFunction) =>
     z
@@ -87,6 +78,18 @@ type SearchFilterProps = {
 export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
     const { t } = useTranslation();
+    const { getQuery } = useSearchQueryContext();
+
+    /**
+     * Gets the effective search query to use.
+     * Returns the current typed query if valid, otherwise falls back to URL param.
+     */
+    const getEffectiveQuery = useCallback((): string => {
+        const currentQuery = getQuery()?.trim();
+        return currentQuery && currentQuery.length >= MIN_SEARCH_QUERY_LENGTH
+            ? currentQuery
+            : searchFilters.q;
+    }, [getQuery, searchFilters.q]);
 
     const filterSchema = useMemo(() => createFilterSchema(t), [t]);
 
@@ -144,11 +147,10 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
 
     const onSubmit = useCallback(
         (data: FilterSchema) => {
-            const query = getCurrentSearchQuery(searchFilters.q);
             navigate({
                 to: "/search",
                 search: mapFiltersToUrlParams({
-                    query,
+                    query: getEffectiveQuery(),
                     priceSpan: data.priceSpan,
                     itemState: data.itemState,
                     creationDate: data.creationDate,
@@ -158,19 +160,18 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
             });
             onFiltersApplied?.();
         },
-        [navigate, searchFilters.q, onFiltersApplied],
+        [navigate, onFiltersApplied, getEffectiveQuery],
     );
     const handleResetAll = useCallback(() => {
         form.reset(FILTER_DEFAULTS);
-        const query = getCurrentSearchQuery(searchFilters.q);
         navigate({
             to: "/search",
             search: {
-                q: query,
+                q: getEffectiveQuery(),
             },
         });
         onFiltersApplied?.();
-    }, [form, navigate, searchFilters.q, onFiltersApplied]);
+    }, [form, navigate, onFiltersApplied, getEffectiveQuery]);
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

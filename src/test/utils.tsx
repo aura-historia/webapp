@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-router";
 import { render } from "@testing-library/react";
 import type { ReactNode } from "react";
+import { SearchQueryProvider } from "@/hooks/useSearchQueryContext.tsx";
 
 const rootRoute = createRootRouteWithContext()({
     component: () => <Outlet />, // entry point to render children
@@ -52,7 +53,11 @@ export function TestRouterWrapper({
         context: {},
     });
 
-    return <RouterProvider router={router} />;
+    return (
+        <SearchQueryProvider>
+            <RouterProvider router={router} />
+        </SearchQueryProvider>
+    );
 }
 
 export function renderWithRouter(

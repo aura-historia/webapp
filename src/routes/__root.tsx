@@ -14,6 +14,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
 import { Toaster } from "sonner";
 import "../amplify-config.ts";
+import { SearchQueryProvider } from "@/hooks/useSearchQueryContext.tsx";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -62,24 +63,26 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                         : "[background-image:repeating-linear-gradient(45deg,var(--border)_0,var(--border)_1px,transparent_1px,transparent_40px)] bg-fixed"
                 }
             >
-                <div className={"min-h-screen flex flex-col"}>
-                    <Header />
-                    <main className="flex-1">{children}</main>
-                    <Footer />
-                </div>
-                <Toaster position="top-center" richColors />
-                <TanStackDevtools
-                    config={{
-                        position: "bottom-left",
-                    }}
-                    plugins={[
-                        {
-                            name: "Tanstack Router",
-                            render: <TanStackRouterDevtoolsPanel />,
-                        },
-                        TanStackQueryDevtools,
-                    ]}
-                />
+                <SearchQueryProvider>
+                    <div className={"min-h-screen flex flex-col"}>
+                        <Header />
+                        <main className="flex-1">{children}</main>
+                        <Footer />
+                    </div>
+                    <Toaster position="top-center" richColors />
+                    <TanStackDevtools
+                        config={{
+                            position: "bottom-left",
+                        }}
+                        plugins={[
+                            {
+                                name: "Tanstack Router",
+                                render: <TanStackRouterDevtoolsPanel />,
+                            },
+                            TanStackQueryDevtools,
+                        ]}
+                    />
+                </SearchQueryProvider>
                 <Scripts />
             </body>
         </html>
