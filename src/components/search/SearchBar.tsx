@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { z } from "zod";
 import { useMemo } from "react";
+import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 
 interface SearchBarProps {
     readonly type: "small" | "big";
@@ -28,7 +29,7 @@ const createSearchFormSchema = (t: TFunction) =>
         query: z
             .string()
             .trim()
-            .min(3, {
+            .min(MIN_SEARCH_QUERY_LENGTH, {
                 error: t("search.validation.queryMinLength"),
             }),
     });

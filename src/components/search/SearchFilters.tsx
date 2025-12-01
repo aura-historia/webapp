@@ -14,7 +14,7 @@ import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpan
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
-import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
+import { FILTER_DEFAULTS, MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 
 /**
  * Gets the current search query from the search bar input.
@@ -23,7 +23,7 @@ import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 function getCurrentSearchQuery(fallback: string): string {
     const searchInput = document.querySelector<HTMLInputElement>('input[name="query"]');
     const currentValue = searchInput?.value?.trim();
-    return currentValue && currentValue.length >= 3 ? currentValue : fallback;
+    return currentValue && currentValue.length >= MIN_SEARCH_QUERY_LENGTH ? currentValue : fallback;
 }
 
 const createFilterSchema = (t: TFunction) =>
