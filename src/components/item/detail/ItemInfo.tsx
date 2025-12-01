@@ -42,9 +42,9 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                             </Button>
 
                             <Button
-                                variant={"ghost"}
-                                size={"icon"}
-                                className={"ml-auto flex-shrink-0"}
+                                variant="ghost"
+                                size="icon"
+                                className="ml-auto flex-shrink-0"
                                 onClick={() => {
                                     watchlistMutation.mutate(
                                         item.userData?.watchlistData.isWatching ?? false,
@@ -86,11 +86,24 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                 </div>
             </Card>
             <div className="fixed top-24 right-4 flex flex-col gap-2 md:hidden z-40">
-                <Button size="icon" className="shadow-lg rounded-full">
+                <Button size="icon" variant="outline" className="shadow-lg rounded-full bg-card">
                     <Share className="w-4 h-4" />
                 </Button>
-                <Button size="icon" className="shadow-lg rounded-full">
-                    <HeartIcon className="w-4 h-4" />
+                <Button
+                    size="icon"
+                    variant="outline"
+                    className="shadow-lg rounded-full bg-card"
+                    onClick={() => {
+                        watchlistMutation.mutate(item.userData?.watchlistData.isWatching ?? false);
+                    }}
+                >
+                    <HeartIcon
+                        className={`size-4 transition-all duration-300 ease-in-out ${
+                            item.userData?.watchlistData.isWatching
+                                ? "fill-heart text-heart"
+                                : "fill-transparent"
+                        } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
+                    />
                 </Button>
             </div>
         </>
