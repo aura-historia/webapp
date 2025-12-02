@@ -18,6 +18,10 @@ vi.mock("@/components/item/detail/ItemHistory.tsx", () => ({
     ItemHistory: () => <div data-testid="item-history">ItemHistory</div>,
 }));
 
+vi.mock("@/components/item/ItemSimilar", () => ({
+    ItemSimilar: () => <div data-testid="item-similar">ItemSimilar</div>,
+}));
+
 describe("ItemDetailPage", () => {
     const mockItem: ItemDetail = {
         itemId: "1",

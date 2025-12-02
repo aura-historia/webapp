@@ -14,10 +14,15 @@ import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
 import { SearchBar } from "@/components/search/SearchBar.tsx";
 import { Menu } from "lucide-react";
+import { useEffect, useState } from "react";
+
+const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/auth"]);
 
 export function Header() {
     const { t } = useTranslation();
     const navigate = useNavigate();
+
+    const [isScrolled, setIsScrolled] = useState(false);
 
     const pathname = useLocation({
         select: (location) => location.pathname,
@@ -25,6 +30,12 @@ export function Header() {
     const searchString = useLocation({
         select: (location) => location.searchStr,
     });
+
+    useEffect(() => {
+        const handleScroll = () => setIsScrolled(window.scrollY > 500);
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     const {
         toSignUp,
@@ -39,6 +50,10 @@ export function Header() {
     ]);
 
     const { data: userAttributes, isLoading } = useUserAttributes();
+
+    const isLandingPage = pathname === "/";
+    const isHiddenRoute = SEARCH_BAR_HIDDEN_ROUTES.has(pathname);
+    const shouldShowSearchBar = !isHiddenRoute && (!isLandingPage || isScrolled);
 
     const signOut = async () => {
         amplifySignOut();
@@ -59,12 +74,24 @@ export function Header() {
                 {/* Additional Navigation Items can be placed here */}
             </div>
 
-            <div className="hidden justify-center md:flex">
-                <SearchBar type={"small"} />
+            <div className="hidden justify-center md:flex overflow-hidden">
+                <div
+                    className={`w-full transition-all duration-500 ${
+                        shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none"
+                    }`}
+                >
+                    <SearchBar type="small" />
+                </div>
             </div>
 
             <div className="flex md:hidden items-center justify-end gap-2">
-                <SearchBar type={"small"} />
+                <div
+                    className={`transition-all duration-500 ${
+                        shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none"
+                    }`}
+                >
+                    <SearchBar type="small" />
+                </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button>
