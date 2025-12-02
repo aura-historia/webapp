@@ -104,6 +104,22 @@
         "details": "Details",
         "toMerchant": "Zur Seite des Händlers",
         "noDescription": "Keine Beschreibung verfügbar",
+        "noImage": "Kein Bild verfügbar",
+        "similar": {
+            "title": "Ähnliche Artikel",
+            "error": {
+                "title": "Fehler beim Laden",
+                "description": "Ähnliche Artikel konnten nicht geladen werden."
+            },
+            "embeddingsPending": {
+                "title": "Wird vorbereitet",
+                "description": "Ähnliche Artikel werden vorbereitet. Dies kann bei neuen Artikeln bis zu 24 Stunden dauern."
+            },
+            "noData": {
+                "title": "Keine ähnlichen Artikel",
+                "description": "Für diesen Artikel wurden keine ähnlichen Produkte gefunden."
+            }
+        },
         "history": {
             "title": "Historie",
             "noData": "Keine Daten für diesen Artikel vorhanden.",
@@ -160,5 +176,27 @@
     "landingPage": {
         "titleFirstLine": "Entdecken, vergleichen, sammeln-",
         "titleSecondLine": "mit Klarheit im Antiquitätenmarkt"
+    },
+    "apiErrors": {
+        "PRODUCT_NOT_FOUND": "Dieser Artikel wurde nicht gefunden.",
+        "UNAUTHORIZED": "Authentifizierung fehlgeschlagen. Bitte melden Sie sich an.",
+        "INTERNAL_SERVER_ERROR": "Es ist ein interner Serverfehler aufgetreten. Bitte versuchen Sie es später erneut.",
+        "GATEWAY_TIMEOUT": "Zeitüberschreitung bei der Anfrage. Bitte versuchen Sie es später erneut.",
+        "WATCHLIST_ENTRY_NOT_FOUND": "Dieser Artikel ist nicht auf Ihrer Merkliste.",
+        "SEARCH_FILTER_NOT_FOUND": "Dieser Suchauftrag existiert nicht.",
+        "TEXT_QUERY_TOO_SHORT": "Die Suchanfrage muss mindestens 3 Zeichen enthalten.",
+        "BAD_PATH_PARAMETER_VALUE": "Der Link ist ungültig.",
+        "INVALID_UUID": "Der Link ist ungültig.",
+        "SERVICE_UNAVAILABLE": "Der Service ist momentan nicht verfügbar. Bitte versuche es später erneut.",
+        "BAD_QUERY_PARAMETER_VALUE": "Deine Suche enthält ungültige Einstellungen.",
+        "SHOP_NOT_FOUND": "Dieser Shop ist nicht mehr verfügbar.",
+        "FORBIDDEN": "Diese Aktion ist für Sie nicht verfügbar.",
+        "BAD_BODY_VALUE": "Einige Angaben sind nicht korrekt. Bitte überprüfen Sie Ihre Eingaben.",
+        "MONETARY_AMOUNT_OVERFLOW": "Der Preis ist zu hoch und kann nicht verarbeitet werden.",
+        "BAD_PAGE_FROM_VALUE": "Ungültige Seitennummer.",
+        "BAD_PAGE_SIZE_VALUE": "Ungültige Anzahl pro Seite.",
+        "BAD_SORT_VALUE": "Ungültige Sortierung.",
+        "BAD_ORDER_VALUE": "Ungültige Sortierreihenfolge.",
+        "unknown": "Ein unerwarteter Fehler ist aufgetreten."
     }
 }

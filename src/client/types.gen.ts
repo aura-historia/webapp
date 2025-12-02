@@ -816,6 +816,77 @@ export type GetItemResponses = {
 
 export type GetItemResponse = GetItemResponses[keyof GetItemResponses];
 
+export type GetSimilarItemsData = {
+    body?: never;
+    headers?: {
+        /**
+         * Preferred language for localized content.
+         * Supports quality values and multiple languages.
+         * Supported languages: de, en, fr, es (with regional variants).
+         *
+         */
+        'Accept-Language'?: string;
+        /**
+         * Optional Cognito JWT token for personalized response.
+         * When provided, response includes user-specific state for each similar item.
+         * When omitted, response contains only item data without user state.
+         *
+         */
+        Authorization?: string;
+    };
+    path: {
+        /**
+         * Unique identifier of the shop
+         */
+        shopId: string;
+        /**
+         * Shop's unique identifier for the item
+         */
+        shopsItemId: string;
+    };
+    query?: {
+        /**
+         * Currency for price display
+         */
+        currency?: CurrencyData;
+    };
+    url: '/api/v1/items/{shopId}/{shopsItemId}/similar';
+};
+
+export type GetSimilarItemsErrors = {
+    /**
+     * Bad request - invalid parameters
+     */
+    400: ApiError;
+    /**
+     * Item not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetSimilarItemsError = GetSimilarItemsErrors[keyof GetSimilarItemsErrors];
+
+export type GetSimilarItemsResponses = {
+    /**
+     * Array of similar items, each with optional user state
+     */
+    200: Array<PersonalizedGetItemData>;
+    /**
+     * Accepted - Item embedding not yet computed.
+     * The text embedding for this item has not been generated yet (typically for items less than 24 hours old).
+     * Embeddings are computed during nightly batch processing.
+     * Poll the endpoint again later using the Location header.
+     *
+     */
+    202: unknown;
+};
+
+export type GetSimilarItemsResponse = GetSimilarItemsResponses[keyof GetSimilarItemsResponses];
+
 export type PutItemsData = {
     /**
      * Collection of items to create or update
