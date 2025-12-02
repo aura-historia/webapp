@@ -1,5 +1,5 @@
 import { useSimilarItems } from "@/hooks/useSimiliarItems.ts";
-import { ItemSimilarCard } from "@/components/item/ItemSimilarCard.tsx";
+import { ItemSimilarCard } from "@/components/item/detail/ItemSimilarCard.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
