@@ -37,7 +37,7 @@ export function ItemSimilarCard({ item }: { readonly item: OverviewItem }) {
                                 data-testid="placeholder-image"
                                 className="w-12 h-12 text-muted-foreground"
                             />
-                            <p className="text-xs text-muted-foreground">Kein Bild verfügbar</p>
+                            <p className="text-xs text-muted-foreground">{t("item.noImage")}</p>
                         </div>
                     )}
                 </Link>

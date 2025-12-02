@@ -104,6 +104,7 @@
         "details": "Details",
         "toMerchant": "Zur Seite des Händlers",
         "noDescription": "Keine Beschreibung verfügbar",
+        "noImage": "Kein Bild verfügbar",
         "similar": {
             "title": "Ähnliche Artikel",
             "error": {

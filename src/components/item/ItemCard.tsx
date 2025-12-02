@@ -35,7 +35,7 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                                 data-testid="placeholder-image"
                                 className="w-12 h-12 text-muted-foreground"
                             />
-                            <p className="text-sm text-muted-foreground">Kein Bild verfügbar</p>
+                            <p className="text-sm text-muted-foreground">{t("item.noImage")}</p>
                         </div>
                     )}
                 </Link>

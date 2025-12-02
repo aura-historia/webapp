@@ -12,7 +12,7 @@ export function useApiError() {
         const translated = t(translationKey);
 
         if (translated === translationKey) {
-            console.log(`[useApiError] Unbekannter Error-Code: ${errorCode}`);
+            console.log(`[useApiError] Unknown error code: ${errorCode}`);
             return t("apiErrors.unknown");
         }
 
