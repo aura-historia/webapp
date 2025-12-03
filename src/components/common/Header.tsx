@@ -15,6 +15,13 @@ import { Button } from "../ui/button.tsx";
 import { SearchBar } from "@/components/search/SearchBar.tsx";
 import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
+import {
+    NavigationMenu,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+} from "@/components/ui/navigation-menu.tsx";
+import { cn } from "@/lib/utils.ts";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/auth"]);
 
@@ -140,11 +147,25 @@ export function Header() {
             <div className="hidden md:flex items-center justify-end gap-4 w-full">
                 {user ? (
                     <>
-                        <Link to="/watchlist" className="hidden md:inline mr-4">
-                            <span className={pathname === "/watchlist" ? "underline" : ""}>
-                                {t("header.watchlist")}
-                            </span>
-                        </Link>
+                        <NavigationMenu className={"md:inline mr-4 flex-none"}>
+                            <NavigationMenuList>
+                                <NavigationMenuItem>
+                                    <NavigationMenuLink asChild>
+                                        <Link to="/watchlist">
+                                            <span
+                                                className={cn(
+                                                    pathname === "/watchlist" ? "underline" : "",
+                                                    "text-base",
+                                                )}
+                                            >
+                                                {t("header.watchlist")}
+                                            </span>
+                                        </Link>
+                                    </NavigationMenuLink>
+                                </NavigationMenuItem>
+                            </NavigationMenuList>
+                        </NavigationMenu>
+
                         <DropdownMenu>
                             <DropdownMenuTrigger>
                                 <AccountImage
