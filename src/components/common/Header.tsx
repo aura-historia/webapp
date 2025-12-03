@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/navigation-menu.tsx";
 import { cn } from "@/lib/utils.ts";
 
-const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/auth"]);
+const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
 export function Header() {
     const { t } = useTranslation();
