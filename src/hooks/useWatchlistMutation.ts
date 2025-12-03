@@ -3,32 +3,42 @@ import { addWatchlistItem, deleteWatchlistItem } from "@/client";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { getItemQueryKey } from "@/client/@tanstack/react-query.gen.ts";
+import { useApiError } from "@/hooks/useApiError.ts";
+
+export type WatchlistMutationType = "addToWatchlist" | "deleteFromWatchlist";
 
 export function useWatchlistMutation(shopId: string, shopsItemId: string) {
     const queryClient = useQueryClient();
+    const { getErrorMessage } = useApiError();
+
     const { t } = useTranslation();
 
     return useMutation({
-        mutationFn: async (isAdded: boolean) => {
-            if (isAdded) {
-                return await deleteWatchlistItem({
-                    path: { shopId: shopId, shopsItemId: shopsItemId },
-                });
-            } else {
-                return await addWatchlistItem({
-                    body: { shopId: shopId, shopsItemId: shopsItemId },
-                });
+        mutationFn: async (mutationType: WatchlistMutationType) => {
+            const result =
+                mutationType === "deleteFromWatchlist"
+                    ? await deleteWatchlistItem({
+                          path: { shopId: shopId, shopsItemId: shopsItemId },
+                      })
+                    : await addWatchlistItem({
+                          body: { shopId: shopId, shopsItemId: shopsItemId },
+                      });
+
+            if (result.error) {
+                throw new Error(getErrorMessage(result.error.error));
             }
+
+            return result.data;
         },
         onError: (e) => {
-            console.error("Error adding item to watchlist:", e);
-            toast.error(t("watchlist.loadingError"));
+            console.error("Error mutating watchlist:", e);
+            toast.error(e.message || t("watchlist.loadingError"));
         },
         onSuccess: async () => {
             await Promise.all([
-                await queryClient.invalidateQueries({ queryKey: ["watchlist"] }),
-                await queryClient.invalidateQueries({ queryKey: ["search"] }),
-                await queryClient.invalidateQueries({
+                queryClient.invalidateQueries({ queryKey: ["watchlist"] }),
+                queryClient.invalidateQueries({ queryKey: ["search"] }),
+                queryClient.invalidateQueries({
                     queryKey: getItemQueryKey({
                         path: { shopId: shopId, shopsItemId: shopsItemId },
                         query: {

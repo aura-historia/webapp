@@ -10,11 +10,14 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { ItemImageGallery } from "@/components/item/detail/ItemImageGallery.tsx";
 import { useTranslation } from "react-i18next";
-import { useWatchlistMutation } from "@/hooks/useWatchlistMutation.ts";
+import { useWatchlistMutation, type WatchlistMutationType } from "@/hooks/useWatchlistMutation.ts";
 
 export function ItemInfo({ item }: { readonly item: ItemDetail }) {
     const { t } = useTranslation();
     const watchlistMutation = useWatchlistMutation(item.shopId, item.shopsItemId);
+    const mutationType: WatchlistMutationType = item.userData?.watchlistData.isWatching
+        ? "deleteFromWatchlist"
+        : "addToWatchlist";
 
     return (
         <>
@@ -46,9 +49,8 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                                 size="icon"
                                 className="ml-auto flex-shrink-0"
                                 onClick={() => {
-                                    watchlistMutation.mutate(
-                                        item.userData?.watchlistData.isWatching ?? false,
-                                    );
+                                    if (watchlistMutation.isPending) return;
+                                    watchlistMutation.mutate(mutationType);
                                 }}
                             >
                                 <HeartIcon
@@ -94,7 +96,8 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                     variant="outline"
                     className="shadow-lg rounded-full bg-card"
                     onClick={() => {
-                        watchlistMutation.mutate(item.userData?.watchlistData.isWatching ?? false);
+                        if (watchlistMutation.isPending) return;
+                        watchlistMutation.mutate(mutationType);
                     }}
                 >
                     <HeartIcon

@@ -8,11 +8,14 @@ import { ArrowUpRight, Eye, HeartIcon, ImageOff } from "lucide-react";
 import { H3 } from "../../typography/H3.tsx";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { useWatchlistMutation } from "@/hooks/useWatchlistMutation.ts";
+import { useWatchlistMutation, type WatchlistMutationType } from "@/hooks/useWatchlistMutation.ts";
 
 export function ItemCard({ item }: { readonly item: OverviewItem }) {
     const { t } = useTranslation();
     const watchlistMutation = useWatchlistMutation(item.shopId, item.shopsItemId);
+    const mutationType: WatchlistMutationType = item.userData?.watchlistData.isWatching
+        ? "deleteFromWatchlist"
+        : "addToWatchlist";
 
     return (
         <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
@@ -69,9 +72,8 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                         size={"icon"}
                         className={"ml-auto flex-shrink-0"}
                         onClick={() => {
-                            watchlistMutation.mutate(
-                                item.userData?.watchlistData.isWatching ?? false,
-                            );
+                            if (watchlistMutation.isPending) return;
+                            watchlistMutation.mutate(mutationType);
                         }}
                     >
                         <HeartIcon

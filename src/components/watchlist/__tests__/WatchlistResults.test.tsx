@@ -121,7 +121,7 @@ describe("WatchlistResults", () => {
 
             expect(
                 screen.getByText(
-                    "Die Merkliste kann zur Zeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
+                    "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
                 ),
             ).toBeInTheDocument();
         });
@@ -226,7 +226,7 @@ describe("WatchlistResults", () => {
             renderWithQueryClient(<WatchlistResults />);
 
             expect(
-                screen.getByText("Sie haben 1 Artikel ihrer Merkliste gesehen."),
+                screen.getByText("Sie haben 1 Artikel Ihrer Merkliste gesehen."),
             ).toBeInTheDocument();
         });
 
@@ -241,7 +241,7 @@ describe("WatchlistResults", () => {
             renderWithQueryClient(<WatchlistResults />);
 
             expect(
-                screen.getByText("Sie haben alle 2 Artikel ihrer Merkliste gesehen."),
+                screen.getByText("Sie haben alle 2 Artikel Ihrer Merkliste gesehen."),
             ).toBeInTheDocument();
         });
 

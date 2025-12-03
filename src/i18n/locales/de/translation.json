@@ -38,8 +38,7 @@
             "confirmButton": "Ja, Account löschen",
             "successMessage": "Account wurde erfolgreich gelöscht!",
             "errorMessage": "Fehler beim Löschen des Accounts."
-        },
-        "authError": "Authentifizierungsfehler. Bitte melden Sie sich erneut an."
+        }
     },
     "search": {
         "filters": "Filter",
@@ -204,10 +203,10 @@
     "watchlist": {
         "title": "Meine Merkliste",
         "totalElements": "{{count}} Artikel",
-        "loadingError": "Die Merkliste kann zur Zeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
+        "loadingError": "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
         "loadingMore": "Lade neue Ergebnisse...",
-        "allLoaded_one": "Sie haben {{count}} Artikel ihrer Merkliste gesehen.",
-        "allLoaded_other": "Sie haben alle {{count}} Artikel ihrer Merkliste gesehen.",
+        "allLoaded_one": "Sie haben {{count}} Artikel Ihrer Merkliste gesehen.",
+        "allLoaded_other": "Sie haben alle {{count}} Artikel Ihrer Merkliste gesehen.",
         "noResults": {
             "title": "Keine Artikel gefunden",
             "description": "Fügen Sie Artikel zur Merkliste hinzu, um sie hier anzusehen."
