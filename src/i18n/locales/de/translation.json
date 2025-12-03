@@ -202,6 +202,7 @@
     },
     "watchlist": {
         "title": "Meine Merkliste",
+        "loginRequired": "Bitte melden Sie sich an, um die Merkliste nutzen zu können.",
         "totalElements": "{{count}} Artikel",
         "loadingError": "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
         "loadingMore": "Lade neue Ergebnisse...",

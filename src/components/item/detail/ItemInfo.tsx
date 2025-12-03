@@ -41,7 +41,7 @@ export function ItemInfo({ item }: { readonly item: ItemDetail }) {
                         </div>
                         <div className="hidden md:flex gap-2 ml-auto flex-shrink-0 self-start">
                             <Button variant="ghost" size="icon">
-                                <Share />
+                                <Share className="size-5" />
                             </Button>
 
                             <Button
