@@ -30,7 +30,7 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                     {item.images.length > 0 ? (
                         <img
                             className={
-                                "size-48 object-cover rounded-lg hover:opacity-90 transition-opacity"
+                                "w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
                             }
                             src={item.images[0].href}
                             alt=""
