@@ -1,7 +1,7 @@
-import type { OverviewItem } from "@/data/internal/OverviewItem";
+import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ItemSimilar } from "../ItemSimilar";
+import { ItemSimilar } from "../../detail/ItemSimilar.tsx";
 import { vi } from "vitest";
 import type React from "react";
 

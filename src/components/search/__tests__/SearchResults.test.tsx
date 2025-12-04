@@ -1,9 +1,11 @@
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 import { useSearch } from "@/hooks/useSearch.ts";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
+import type React from "react";
+import { renderWithQueryClient } from "@/test/utils.tsx";
 
 vi.mock("@/hooks/useSearch.ts", () => ({
     useSearch: vi.fn(),
@@ -61,7 +63,7 @@ describe("SearchResults", () => {
     });
 
     it("renders a message when query length is less than 3 characters", () => {
-        render(<SearchResults searchFilters={{ q: "ab" }} />);
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "ab" }} />);
         expect(
             screen.getByText("Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten."),
         ).toBeInTheDocument();
@@ -69,13 +71,13 @@ describe("SearchResults", () => {
 
     it("renders skeleton loaders while data is loading", () => {
         setSearchMock({ isPending: true });
-        render(<SearchResults searchFilters={{ q: "test" }} />);
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
         expect(screen.getAllByTestId("item-card-skeleton")).toHaveLength(4);
     });
 
     it("renders an error message when there is an error", () => {
         setSearchMock({ error: new Error("API Error") });
-        render(<SearchResults searchFilters={{ q: "test" }} />);
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
         expect(
             screen.getByText(
                 "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
@@ -85,7 +87,7 @@ describe("SearchResults", () => {
 
     it("renders a message when no items are found", () => {
         setSearchMock({ items: [] });
-        render(<SearchResults searchFilters={{ q: "test" }} />);
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
         expect(screen.getByText("Keine Ergebnisse gefunden")).toBeInTheDocument();
         expect(
             screen.getByText("Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen."),
@@ -113,7 +115,7 @@ describe("SearchResults", () => {
                 { ...base, itemId: "2", title: "Item 2" },
             ],
         });
-        render(<SearchResults searchFilters={{ q: "test" }} />);
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
         expect(screen.getByText("Item 1")).toBeInTheDocument();
         expect(screen.getByText("Item 2")).toBeInTheDocument();
     });

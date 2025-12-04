@@ -9,20 +9,33 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useUserAttributes } from "@/hooks/useUserAttributes.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
 import { SearchBar } from "@/components/search/SearchBar.tsx";
 import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
+import {
+    NavigationMenu,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+} from "@/components/ui/navigation-menu.tsx";
+import { cn } from "@/lib/utils.ts";
 
-const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/auth"]);
+const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
 export function Header() {
     const { t } = useTranslation();
+    const navigate = useNavigate();
+
     const [isScrolled, setIsScrolled] = useState(false);
+
     const pathname = useLocation({
         select: (location) => location.pathname,
+    });
+    const searchString = useLocation({
+        select: (location) => location.searchStr,
     });
 
     useEffect(() => {
@@ -31,7 +44,12 @@ export function Header() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const { toSignUp, toSignIn, user, signOut } = useAuthenticator((context) => [
+    const {
+        toSignUp,
+        toSignIn,
+        user,
+        signOut: amplifySignOut,
+    } = useAuthenticator((context) => [
         context.toSignUp,
         context.toSignIn,
         context.user,
@@ -44,14 +62,24 @@ export function Header() {
     const isHiddenRoute = SEARCH_BAR_HIDDEN_ROUTES.has(pathname);
     const shouldShowSearchBar = !isHiddenRoute && (!isLandingPage || isScrolled);
 
+    const signOut = async () => {
+        amplifySignOut();
+        await navigate({
+            to: "/",
+        });
+    };
+
     return (
         <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 backdrop-blur-sm items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
-            <Link
-                to="/"
-                className="text-md md:text-xl lg:text-2xl font-bold text-center md:text-left"
-            >
-                {t("common.auraHistoria")}
-            </Link>
+            <div className="flex items-center justify-start gap-4">
+                <Link
+                    to="/"
+                    className="text-md lg:text-xl line-clamp-2 lg:line-clamp-1 xl:text-2xl font-bold text-center lg:text-left"
+                >
+                    {t("common.auraHistoria")}
+                </Link>
+                {/* Additional Navigation Items can be placed here */}
+            </div>
 
             <div className="hidden justify-center md:flex overflow-hidden">
                 <div
@@ -83,6 +111,9 @@ export function Header() {
                                 <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
+                                    <Link to="/watchlist">{t("header.watchlist")}</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
                                     <Link to="/account">{t("header.editAccount")}</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onSelect={() => signOut()}>
@@ -92,10 +123,20 @@ export function Header() {
                         ) : (
                             <>
                                 <DropdownMenuItem onClick={toSignUp} asChild>
-                                    <Link to="/auth">{t("common.register")}</Link>
+                                    <Link
+                                        to="/login"
+                                        search={{ redirect: pathname + searchString }}
+                                    >
+                                        {t("common.register")}
+                                    </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={toSignIn} asChild>
-                                    <Link to="/auth">{t("common.login")}</Link>
+                                    <Link
+                                        to="/login"
+                                        search={{ redirect: pathname + searchString }}
+                                    >
+                                        {t("common.login")}
+                                    </Link>
                                 </DropdownMenuItem>
                             </>
                         )}
@@ -105,32 +146,57 @@ export function Header() {
 
             <div className="hidden md:flex items-center justify-end gap-4 w-full">
                 {user ? (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger>
-                            <AccountImage
-                                firstName={userAttributes?.given_name || ""}
-                                lastName={userAttributes?.family_name || ""}
-                                isLoading={isLoading}
-                            />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild>
-                                <Link to="/account">{t("header.editAccount")}</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => signOut()}>
-                                {t("header.logout")}
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <>
+                        <NavigationMenu className={"md:inline mr-4 flex-none"}>
+                            <NavigationMenuList>
+                                <NavigationMenuItem>
+                                    <NavigationMenuLink asChild>
+                                        <Link to="/watchlist">
+                                            <span
+                                                className={cn(
+                                                    pathname === "/watchlist" ? "underline" : "",
+                                                    "text-base",
+                                                )}
+                                            >
+                                                {t("header.watchlist")}
+                                            </span>
+                                        </Link>
+                                    </NavigationMenuLink>
+                                </NavigationMenuItem>
+                            </NavigationMenuList>
+                        </NavigationMenu>
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <AccountImage
+                                    firstName={userAttributes?.given_name || ""}
+                                    lastName={userAttributes?.family_name || ""}
+                                    isLoading={isLoading}
+                                />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                    <Link to="/account">{t("header.editAccount")}</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onSelect={() => signOut()}>
+                                    {t("header.logout")}
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </>
                 ) : (
                     <>
                         <Button asChild onClick={toSignUp} variant={"default"}>
-                            <Link to="/auth">{t("common.register")}</Link>
+                            <Link to="/login" search={{ redirect: pathname + searchString }}>
+                                {t("common.register")}
+                            </Link>
                         </Button>
                         <Button asChild onClick={toSignIn} variant="outline">
-                            <Link to="/auth">{t("common.login")}</Link>
+                            <Link to="/login" search={{ redirect: pathname + searchString }}>
+                                {t("common.login")}
+                            </Link>
                         </Button>
                     </>
                 )}

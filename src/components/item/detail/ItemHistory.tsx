@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { Timeline } from "@/components/ui/timeline.tsx";
 import { useMemo, useState } from "react";
 import { isPriceEvent, isStateEvent } from "@/lib/eventFilters.ts";
-import { ItemEventHistory } from "@/components/item/ItemEventHistory.tsx";
+import { ItemEventHistory } from "@/components/item/detail/ItemEventHistory.tsx";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 

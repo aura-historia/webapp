@@ -1,8 +1,8 @@
 import type { ItemDetail } from "@/data/internal/ItemDetails.ts";
-import { ItemPriceChart } from "@/components/item/ItemPriceChart.tsx";
-import { ItemHistory } from "@/components/item/ItemHistory.tsx";
-import { ItemInfo } from "@/components/item/ItemInfo.tsx";
-import { ItemSimilar } from "@/components/item/ItemSimilar.tsx";
+import { ItemPriceChart } from "@/components/item/detail/ItemPriceChart.tsx";
+import { ItemHistory } from "@/components/item/detail/ItemHistory.tsx";
+import { ItemInfo } from "@/components/item/detail/ItemInfo.tsx";
+import { ItemSimilar } from "@/components/item/detail/ItemSimilar.tsx";
 
 export function ItemDetailPage({ item }: { readonly item: ItemDetail }) {
     return (

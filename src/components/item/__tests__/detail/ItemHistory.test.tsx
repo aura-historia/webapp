@@ -1,6 +1,6 @@
-import type { ItemEvent } from "@/data/internal/ItemDetails";
+import type { ItemEvent } from "@/data/internal/ItemDetails.ts";
 import { render, screen } from "@testing-library/react";
-import { ItemHistory } from "@/components/item/ItemHistory.tsx";
+import { ItemHistory } from "@/components/item/detail/ItemHistory.tsx";
 import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 
@@ -117,8 +117,8 @@ describe("ItemHistory", () => {
         const user = userEvent.setup();
         render(<ItemHistory history={[mockStateEvent, mockPriceEvent]} />);
 
-        const verfügbarkeitButton = screen.getByText("Verfügbarkeit");
-        await user.click(verfügbarkeitButton);
+        const availabilityButton = screen.getByText("Verfügbarkeit");
+        await user.click(availabilityButton);
 
         const timelineItems = screen.getAllByTestId("timeline-item");
         expect(timelineItems).toHaveLength(1);

@@ -5,12 +5,18 @@ import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
 import { ArrowUpRight, Eye, HeartIcon, ImageOff } from "lucide-react";
-import { H3 } from "../typography/H3";
+import { H3 } from "../../typography/H3.tsx";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+import { useWatchlistMutation, type WatchlistMutationType } from "@/hooks/useWatchlistMutation.ts";
 
 export function ItemCard({ item }: { readonly item: OverviewItem }) {
     const { t } = useTranslation();
+    const watchlistMutation = useWatchlistMutation(item.shopId, item.shopsItemId);
+    const mutationType: WatchlistMutationType = item.userData?.watchlistData.isWatching
+        ? "deleteFromWatchlist"
+        : "addToWatchlist";
+
     return (
         <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
             <div className={"flex-shrink-0 flex lg:justify-start justify-center"}>
@@ -24,7 +30,7 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                     {item.images.length > 0 ? (
                         <img
                             className={
-                                "size-48 object-cover rounded-lg hover:opacity-90 transition-opacity"
+                                "w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
                             }
                             src={item.images[0].href}
                             alt=""
@@ -61,8 +67,22 @@ export function ItemCard({ item }: { readonly item: OverviewItem }) {
                         <StatusBadge status={item.state} />
                     </div>
 
-                    <Button variant={"ghost"} size={"icon"} className={"ml-auto flex-shrink-0"}>
-                        <HeartIcon />
+                    <Button
+                        variant={"ghost"}
+                        size={"icon"}
+                        className={"ml-auto flex-shrink-0"}
+                        onClick={() => {
+                            if (watchlistMutation.isPending) return;
+                            watchlistMutation.mutate(mutationType);
+                        }}
+                    >
+                        <HeartIcon
+                            className={`size-5 transition-all duration-300 ease-in-out ${
+                                item.userData?.watchlistData.isWatching
+                                    ? "fill-heart text-heart"
+                                    : "fill-transparent"
+                            } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
+                        />
                     </Button>
                 </div>
 

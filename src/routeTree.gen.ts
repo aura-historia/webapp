@@ -11,10 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as ImprintRouteImport } from './routes/imprint'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AccountRouteImport } from './routes/account'
+import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthWatchlistRouteImport } from './routes/_auth.watchlist'
+import { Route as AuthAccountRouteImport } from './routes/_auth.account'
 import { Route as ItemShopIdShopsItemIdRouteImport } from './routes/item.$shopId.$shopsItemId'
 
 const TermsRoute = TermsRouteImport.update({
@@ -27,25 +29,34 @@ const SearchRoute = SearchRouteImport.update({
   path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ImprintRoute = ImprintRouteImport.update({
   id: '/imprint',
   path: '/imprint',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AccountRoute = AccountRouteImport.update({
-  id: '/account',
-  path: '/account',
+  id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthWatchlistRoute = AuthWatchlistRouteImport.update({
+  id: '/watchlist',
+  path: '/watchlist',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAccountRoute = AuthAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthRoute,
 } as any)
 const ItemShopIdShopsItemIdRoute = ItemShopIdShopsItemIdRouteImport.update({
   id: '/item/$shopId/$shopsItemId',
@@ -55,67 +66,75 @@ const ItemShopIdShopsItemIdRoute = ItemShopIdShopsItemIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/account': typeof AccountRoute
-  '/auth': typeof AuthRoute
   '/imprint': typeof ImprintRoute
+  '/login': typeof LoginRoute
   '/search': typeof SearchRoute
   '/terms': typeof TermsRoute
+  '/account': typeof AuthAccountRoute
+  '/watchlist': typeof AuthWatchlistRoute
   '/item/$shopId/$shopsItemId': typeof ItemShopIdShopsItemIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/account': typeof AccountRoute
-  '/auth': typeof AuthRoute
   '/imprint': typeof ImprintRoute
+  '/login': typeof LoginRoute
   '/search': typeof SearchRoute
   '/terms': typeof TermsRoute
+  '/account': typeof AuthAccountRoute
+  '/watchlist': typeof AuthWatchlistRoute
   '/item/$shopId/$shopsItemId': typeof ItemShopIdShopsItemIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/account': typeof AccountRoute
-  '/auth': typeof AuthRoute
+  '/_auth': typeof AuthRouteWithChildren
   '/imprint': typeof ImprintRoute
+  '/login': typeof LoginRoute
   '/search': typeof SearchRoute
   '/terms': typeof TermsRoute
+  '/_auth/account': typeof AuthAccountRoute
+  '/_auth/watchlist': typeof AuthWatchlistRoute
   '/item/$shopId/$shopsItemId': typeof ItemShopIdShopsItemIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/account'
-    | '/auth'
     | '/imprint'
+    | '/login'
     | '/search'
     | '/terms'
+    | '/account'
+    | '/watchlist'
     | '/item/$shopId/$shopsItemId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/account'
-    | '/auth'
     | '/imprint'
+    | '/login'
     | '/search'
     | '/terms'
+    | '/account'
+    | '/watchlist'
     | '/item/$shopId/$shopsItemId'
   id:
     | '__root__'
     | '/'
-    | '/account'
-    | '/auth'
+    | '/_auth'
     | '/imprint'
+    | '/login'
     | '/search'
     | '/terms'
+    | '/_auth/account'
+    | '/_auth/watchlist'
     | '/item/$shopId/$shopsItemId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AccountRoute: typeof AccountRoute
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
   ImprintRoute: typeof ImprintRoute
+  LoginRoute: typeof LoginRoute
   SearchRoute: typeof SearchRoute
   TermsRoute: typeof TermsRoute
   ItemShopIdShopsItemIdRoute: typeof ItemShopIdShopsItemIdRoute
@@ -137,6 +156,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/imprint': {
       id: '/imprint'
       path: '/imprint'
@@ -144,18 +170,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ImprintRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/account': {
-      id: '/account'
-      path: '/account'
-      fullPath: '/account'
-      preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -164,6 +183,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_auth/watchlist': {
+      id: '/_auth/watchlist'
+      path: '/watchlist'
+      fullPath: '/watchlist'
+      preLoaderRoute: typeof AuthWatchlistRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/account': {
+      id: '/_auth/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthAccountRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/item/$shopId/$shopsItemId': {
       id: '/item/$shopId/$shopsItemId'
@@ -175,11 +208,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthRouteChildren {
+  AuthAccountRoute: typeof AuthAccountRoute
+  AuthWatchlistRoute: typeof AuthWatchlistRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthAccountRoute: AuthAccountRoute,
+  AuthWatchlistRoute: AuthWatchlistRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AccountRoute: AccountRoute,
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
   ImprintRoute: ImprintRoute,
+  LoginRoute: LoginRoute,
   SearchRoute: SearchRoute,
   TermsRoute: TermsRoute,
   ItemShopIdShopsItemIdRoute: ItemShopIdShopsItemIdRoute,

@@ -4,22 +4,7 @@ import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
 import { addWatchlistItem, complexSearchItems, createUserSearchFilter, deleteUserSearchFilter, deleteWatchlistItem, getItem, getShop, getSimilarItems, getUserSearchFilter, getUserSearchFilters, getWatchlistItems, type Options, patchWatchlistItem, putItems, searchShops, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistItemData, AddWatchlistItemError, AddWatchlistItemResponse, ComplexSearchItemsData, ComplexSearchItemsError, ComplexSearchItemsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistItemData, DeleteWatchlistItemError, DeleteWatchlistItemResponse, GetItemData2, GetShopData2, GetSimilarItemsData, GetUserSearchFilterData,
-    GetUserSearchFiltersData,
-    GetWatchlistItemsData,
-    PatchWatchlistItemData,
-    PatchWatchlistItemError,
-    PatchWatchlistItemResponse,
-    PutItemsData,
-    PutItemsError,
-    PutItemsResponse2,
-    SearchShopsData,
-    SearchShopsError,
-    SearchShopsResponse,
-    UpdateUserSearchFilterData,
-    UpdateUserSearchFilterError,
-    UpdateUserSearchFilterResponse
-} from '../types.gen';
+import type { AddWatchlistItemData, AddWatchlistItemError, AddWatchlistItemResponse, ComplexSearchItemsData, ComplexSearchItemsError, ComplexSearchItemsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistItemData, DeleteWatchlistItemError, DeleteWatchlistItemResponse, GetItemData2, GetShopData2, GetSimilarItemsData, GetUserSearchFilterData, GetUserSearchFiltersData, GetWatchlistItemsData, PatchWatchlistItemData, PatchWatchlistItemError, PatchWatchlistItemResponse, PutItemsData, PutItemsError, PutItemsResponse2, SearchShopsData, SearchShopsError, SearchShopsResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -177,7 +162,7 @@ export const complexSearchItemsMutation = (options?: Partial<Options<ComplexSear
     return mutationOptions;
 };
 
-export const getUserSearchFiltersQueryKey = (options: Options<GetUserSearchFiltersData>) => createQueryKey('getUserSearchFilters', options);
+export const getUserSearchFiltersQueryKey = (options?: Options<GetUserSearchFiltersData>) => createQueryKey('getUserSearchFilters', options);
 
 /**
  * List user search filters
@@ -187,10 +172,10 @@ export const getUserSearchFiltersQueryKey = (options: Options<GetUserSearchFilte
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getUserSearchFiltersOptions = (options: Options<GetUserSearchFiltersData>) => {
+export const getUserSearchFiltersOptions = (options?: Options<GetUserSearchFiltersData>) => {
     return queryOptions({
         queryFn: async ({ queryKey, signal }) => {
-            const {data} = await getUserSearchFilters({
+            const { data } = await getUserSearchFilters({
                 ...options,
                 ...queryKey[0],
                 signal,
@@ -214,7 +199,7 @@ export const getUserSearchFiltersOptions = (options: Options<GetUserSearchFilter
 export const createUserSearchFilterMutation = (options?: Partial<Options<CreateUserSearchFilterData>>): UseMutationOptions<CreateUserSearchFilterResponse, CreateUserSearchFilterError, Options<CreateUserSearchFilterData>> => {
     const mutationOptions: UseMutationOptions<CreateUserSearchFilterResponse, CreateUserSearchFilterError, Options<CreateUserSearchFilterData>> = {
         mutationFn: async (fnOptions) => {
-            const {data} = await createUserSearchFilter({
+            const { data } = await createUserSearchFilter({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -236,7 +221,7 @@ export const createUserSearchFilterMutation = (options?: Partial<Options<CreateU
 export const deleteUserSearchFilterMutation = (options?: Partial<Options<DeleteUserSearchFilterData>>): UseMutationOptions<DeleteUserSearchFilterResponse, DeleteUserSearchFilterError, Options<DeleteUserSearchFilterData>> => {
     const mutationOptions: UseMutationOptions<DeleteUserSearchFilterResponse, DeleteUserSearchFilterError, Options<DeleteUserSearchFilterData>> = {
         mutationFn: async (fnOptions) => {
-            const {data} = await deleteUserSearchFilter({
+            const { data } = await deleteUserSearchFilter({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -260,7 +245,7 @@ export const getUserSearchFilterQueryKey = (options: Options<GetUserSearchFilter
 export const getUserSearchFilterOptions = (options: Options<GetUserSearchFilterData>) => {
     return queryOptions({
         queryFn: async ({ queryKey, signal }) => {
-            const {data} = await getUserSearchFilter({
+            const { data } = await getUserSearchFilter({
                 ...options,
                 ...queryKey[0],
                 signal,
@@ -284,7 +269,7 @@ export const getUserSearchFilterOptions = (options: Options<GetUserSearchFilterD
 export const updateUserSearchFilterMutation = (options?: Partial<Options<UpdateUserSearchFilterData>>): UseMutationOptions<UpdateUserSearchFilterResponse, UpdateUserSearchFilterError, Options<UpdateUserSearchFilterData>> => {
     const mutationOptions: UseMutationOptions<UpdateUserSearchFilterResponse, UpdateUserSearchFilterError, Options<UpdateUserSearchFilterData>> = {
         mutationFn: async (fnOptions) => {
-            const {data} = await updateUserSearchFilter({
+            const { data } = await updateUserSearchFilter({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -295,7 +280,7 @@ export const updateUserSearchFilterMutation = (options?: Partial<Options<UpdateU
     return mutationOptions;
 };
 
-export const getWatchlistItemsQueryKey = (options: Options<GetWatchlistItemsData>) => createQueryKey('getWatchlistItems', options);
+export const getWatchlistItemsQueryKey = (options?: Options<GetWatchlistItemsData>) => createQueryKey('getWatchlistItems', options);
 
 /**
  * List user's watchlist items
@@ -305,7 +290,7 @@ export const getWatchlistItemsQueryKey = (options: Options<GetWatchlistItemsData
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getWatchlistItemsOptions = (options: Options<GetWatchlistItemsData>) => {
+export const getWatchlistItemsOptions = (options?: Options<GetWatchlistItemsData>) => {
     return queryOptions({
         queryFn: async ({ queryKey, signal }) => {
             const { data } = await getWatchlistItems({
