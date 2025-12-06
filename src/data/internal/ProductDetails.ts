@@ -1,70 +1,73 @@
 import type {
-    GetItemEventData,
-    ItemEventPayloadData,
-    ItemCreatedEventPayloadData,
+    GetProductEventData,
+    ProductEventPayloadData,
+    ProductCreatedEventPayloadData,
     PriceData,
-    ItemEventStateChangedPayloadData,
-    ItemEventPriceChangedPayloadData,
-    ItemEventPriceDiscoveredPayloadData,
-    ItemEventPriceRemovedPayloadData,
-    PersonalizedGetItemData,
+    ProductEventStateChangedPayloadData,
+    ProductEventPriceChangedPayloadData,
+    ProductEventPriceDiscoveredPayloadData,
+    ProductEventPriceRemovedPayloadData,
+    PersonalizedGetProductData,
 } from "@/client";
-import { mapToInternalOverviewItem, type OverviewItem } from "@/data/internal/OverviewItem";
-import { parseItemState, type ItemState } from "@/data/internal/ItemState";
+import {
+    mapToInternalOverviewProduct,
+    type OverviewProduct,
+} from "@/data/internal/OverviewProduct";
+import { parseProductState, type ProductState } from "@/data/internal/ProductState";
 
 export type Price = {
     readonly amount: number;
     readonly currency: string;
 };
 
-export type ItemCreatedPayload = {
-    readonly state: ItemState;
+export type ProductCreatedPayload = {
+    readonly state: ProductState;
     readonly price?: Price;
 };
 
-export type ItemStateChangedPayload = {
-    readonly oldState: ItemState;
-    readonly newState: ItemState;
+export type ProductStateChangedPayload = {
+    readonly oldState: ProductState;
+    readonly newState: ProductState;
 };
 
-export type ItemPriceChangedPayload = {
+export type ProductPriceChangedPayload = {
     readonly oldPrice: Price;
     readonly newPrice: Price;
 };
 
-export type ItemPriceDiscoveredPayload = {
+export type ProductPriceDiscoveredPayload = {
     readonly newPrice: Price;
 };
 
-export type ItemPriceRemovedPayload = {
+export type ProductPriceRemovedPayload = {
     readonly oldPrice: Price;
 };
 
-export type ItemEvent = {
+export type ProductEvent = {
     readonly eventType: string;
-    readonly itemId: string;
+    readonly productId: string;
     readonly eventId: string;
     readonly shopId: string;
-    readonly shopsItemId: string;
+    readonly shopsProductId: string;
     readonly payload:
-        | ItemCreatedPayload
-        | ItemStateChangedPayload
-        | ItemPriceChangedPayload
-        | ItemPriceDiscoveredPayload
-        | ItemPriceRemovedPayload;
+        | ProductCreatedPayload
+        | ProductStateChangedPayload
+        | ProductPriceChangedPayload
+        | ProductPriceDiscoveredPayload
+        | ProductPriceRemovedPayload;
     readonly timestamp: Date;
 };
 
-export type ItemDetail = OverviewItem & {
-    readonly history?: readonly ItemEvent[];
+export type ProductDetail = OverviewProduct & {
+    readonly history?: readonly ProductEvent[];
 };
 
 /**
  *  Checks if payload is a STATE CHANGED event (has oldState + newState)
  */
 function isStateChangedPayload(
-    payload: ItemEventPayloadData,
-): payload is ItemEventStateChangedPayloadData {
+    payload: ProductEventPayloadData,
+): payload is ProductEventStateChangedPayloadData {
     return (
         typeof payload === "object" &&
         payload !== null &&
@@ -76,7 +79,9 @@ function isStateChangedPayload(
 /**
  * Checks if payload is a CREATED event (has state field and no old/new state)
  */
-function isCreatedPayload(payload: ItemEventPayloadData): payload is ItemCreatedEventPayloadData {
+function isCreatedPayload(
+    payload: ProductEventPayloadData,
+): payload is ProductCreatedEventPayloadData {
     return (
         typeof payload === "object" &&
         payload !== null &&
@@ -90,8 +95,8 @@ function isCreatedPayload(payload: ItemEventPayloadData): payload is ItemCreated
  * Checks if payload is a PRICE CHANGED event (has oldPrice + newPrice)
  */
 function isPriceChangedPayload(
-    payload: ItemEventPayloadData,
-): payload is ItemEventPriceChangedPayloadData {
+    payload: ProductEventPayloadData,
+): payload is ProductEventPriceChangedPayloadData {
     return (
         typeof payload === "object" &&
         payload !== null &&
@@ -104,8 +109,8 @@ function isPriceChangedPayload(
  * Checks if payload is a PRICE DISCOVERED event (has only newPrice)
  */
 function isPriceDiscoveredPayload(
-    payload: ItemEventPayloadData,
-): payload is ItemEventPriceDiscoveredPayloadData {
+    payload: ProductEventPayloadData,
+): payload is ProductEventPriceDiscoveredPayloadData {
     return (
         typeof payload === "object" &&
         payload !== null &&
@@ -115,8 +120,8 @@ function isPriceDiscoveredPayload(
 }
 
 function isPriceRemovedPayload(
-    payload: ItemEventPayloadData,
-): payload is ItemEventPriceRemovedPayloadData {
+    payload: ProductEventPayloadData,
+): payload is ProductEventPriceRemovedPayloadData {
     return (
         typeof payload === "object" &&
         payload !== null &&
@@ -126,14 +131,14 @@ function isPriceRemovedPayload(
 }
 
 /**
- * Converts a state string from the API to our internal ItemState type
+ * Converts a state string from the API to our internal ProductState type
  */
 function mapStateChangedPayload(
-    apiPayload: ItemEventStateChangedPayloadData,
-): ItemStateChangedPayload {
+    apiPayload: ProductEventStateChangedPayloadData,
+): ProductStateChangedPayload {
     return {
-        oldState: parseItemState(apiPayload.oldState),
-        newState: parseItemState(apiPayload.newState),
+        oldState: parseProductState(apiPayload.oldState),
+        newState: parseProductState(apiPayload.newState),
     };
 }
 
@@ -141,8 +146,8 @@ function mapStateChangedPayload(
  * Converts price data from the API to our internal Price type
  */
 function mapPriceChangedPayload(
-    apiPayload: ItemEventPriceChangedPayloadData,
-): ItemPriceChangedPayload {
+    apiPayload: ProductEventPriceChangedPayloadData,
+): ProductPriceChangedPayload {
     return {
         oldPrice: mapPricePayload(apiPayload.oldPrice),
         newPrice: mapPricePayload(apiPayload.newPrice),
@@ -150,16 +155,16 @@ function mapPriceChangedPayload(
 }
 
 function mapPriceDiscoveredPayload(
-    apiPayload: ItemEventPriceDiscoveredPayloadData,
-): ItemPriceDiscoveredPayload {
+    apiPayload: ProductEventPriceDiscoveredPayloadData,
+): ProductPriceDiscoveredPayload {
     return {
         newPrice: mapPricePayload(apiPayload.newPrice),
     };
 }
 
 function mapPriceRemovedPayload(
-    apiPayload: ItemEventPriceRemovedPayloadData,
-): ItemPriceRemovedPayload {
+    apiPayload: ProductEventPriceRemovedPayloadData,
+): ProductPriceRemovedPayload {
     return {
         oldPrice: mapPricePayload(apiPayload.oldPrice),
     };
@@ -173,11 +178,11 @@ function mapPricePayload(apiPayload: PriceData): Price {
 }
 
 /**
- * Converts a created event from the API to our internal ItemCreatedPayload type
+ * Converts a created event from the API to our internal ProductCreatedPayload type
  */
-function mapCreatedPayload(apiPayload: ItemCreatedEventPayloadData): ItemCreatedPayload {
+function mapCreatedPayload(apiPayload: ProductCreatedEventPayloadData): ProductCreatedPayload {
     return {
-        state: parseItemState(apiPayload.state),
+        state: parseProductState(apiPayload.state),
         price: apiPayload.price ? mapPricePayload(apiPayload.price) : undefined,
     };
 }
@@ -187,13 +192,13 @@ function mapCreatedPayload(apiPayload: ItemCreatedEventPayloadData): ItemCreated
  * Determines the payload type and calls the appropriate mapper function
  */
 function mapEventPayload(
-    apiPayload: ItemEventPayloadData,
+    apiPayload: ProductEventPayloadData,
 ):
-    | ItemCreatedPayload
-    | ItemStateChangedPayload
-    | ItemPriceChangedPayload
-    | ItemPriceDiscoveredPayload
-    | ItemPriceRemovedPayload {
+    | ProductCreatedPayload
+    | ProductStateChangedPayload
+    | ProductPriceChangedPayload
+    | ProductPriceDiscoveredPayload
+    | ProductPriceRemovedPayload {
     if (isCreatedPayload(apiPayload)) {
         return mapCreatedPayload(apiPayload);
     }
@@ -215,25 +220,25 @@ function mapEventPayload(
     }
 
     return {
-        state: parseItemState("UNKNOWN"),
+        state: parseProductState("UNKNOWN"),
         price: undefined,
     };
 }
 
 /**
- * Converts complete item data from the API to our internal ItemDetail type
- * Includes all item information and the full event history
+ * Converts complete product data from the API to our internal ProductDetail type
+ * Includes all product information and the full event history
  */
-export function mapToDetailItem(apiData: PersonalizedGetItemData): ItemDetail {
+export function mapToDetailProduct(apiData: PersonalizedGetProductData): ProductDetail {
     return {
-        ...mapToInternalOverviewItem(apiData),
+        ...mapToInternalOverviewProduct(apiData),
         history: apiData.item.history?.map(
-            (apiEvent: GetItemEventData): ItemEvent => ({
+            (apiEvent: GetProductEventData): ProductEvent => ({
                 eventType: apiEvent.eventType,
-                itemId: apiEvent.itemId,
+                productId: apiEvent.productId,
                 eventId: apiEvent.eventId,
                 shopId: apiEvent.shopId,
-                shopsItemId: apiEvent.shopsItemId,
+                shopsProductId: apiEvent.shopsProductId,
                 payload: mapEventPayload(apiEvent.payload),
                 timestamp: new Date(apiEvent.timestamp),
             }),

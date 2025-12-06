@@ -1,8 +1,8 @@
-import type { ItemStateData } from "@/client";
+import type { ProductStateData } from "@/client";
 
-export type ItemState = "LISTED" | "AVAILABLE" | "RESERVED" | "SOLD" | "REMOVED" | "UNKNOWN";
+export type ProductState = "LISTED" | "AVAILABLE" | "RESERVED" | "SOLD" | "REMOVED" | "UNKNOWN";
 
-export function parseItemState(state?: string): ItemState {
+export function parseProductState(state?: string): ProductState {
     const uppercasedStateData = state?.toUpperCase() ?? "UNKNOWN";
 
     switch (uppercasedStateData) {
@@ -17,7 +17,7 @@ export function parseItemState(state?: string): ItemState {
     }
 }
 
-export function mapToBackendState(state: ItemState): ItemStateData {
+export function mapToBackendState(state: ProductState): ProductStateData {
     // This is kept to de-couple internal and backend representations
     switch (state) {
         case "LISTED":
