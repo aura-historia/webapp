@@ -2,6 +2,7 @@ import { getWatchlistProducts } from "@/client";
 import { mapToInternalOverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useApiError } from "@/hooks/useApiError.ts";
+import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 
 const PAGE_SIZE = 21;
 
@@ -19,7 +20,7 @@ export function useWatchlist() {
             });
 
             if (result.error) {
-                throw new Error(getErrorMessage(result.error.error));
+                throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
 
             return {

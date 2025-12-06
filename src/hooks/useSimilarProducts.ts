@@ -5,6 +5,7 @@ import {
 } from "@/data/internal/OverviewProduct";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { useApiError } from "@/hooks/useApiError";
+import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 
 type SimilarProductsData = {
     items: OverviewProduct[];
@@ -29,7 +30,7 @@ export function useSimilarProducts(
             });
 
             if (result.error) {
-                throw new Error(getErrorMessage(result.error.error));
+                throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
 
             if (result.response.status === 202) {

@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { getProductQueryKey } from "@/client/@tanstack/react-query.gen.ts";
 import { useApiError } from "@/hooks/useApiError.ts";
+import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 
 export type WatchlistMutationType = "addToWatchlist" | "deleteFromWatchlist";
 
@@ -30,7 +31,7 @@ export function useWatchlistMutation(shopId: string, shopsProductId: string) {
                     return;
                 }
 
-                throw new Error(getErrorMessage(result.error.error));
+                throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
 
             return result.data;

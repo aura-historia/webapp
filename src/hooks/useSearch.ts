@@ -10,6 +10,7 @@ import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 import { mapToBackendState } from "@/data/internal/ProductState.ts";
 import { mapToBackendSortModeArguments } from "@/data/internal/SortMode.ts";
 import { useApiError } from "@/hooks/useApiError.ts";
+import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 
 const PAGE_SIZE = 21;
 
@@ -70,7 +71,7 @@ export function useSearch(
             });
 
             if (result.error) {
-                throw new Error(getErrorMessage(result.error.error));
+                throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
 
             return {
