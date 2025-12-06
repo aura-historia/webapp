@@ -9,12 +9,15 @@ import type { SearchFilterArguments } from "@/data/internal/SearchFilterArgument
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 import { mapToBackendState } from "@/data/internal/ProductState.ts";
 import { mapToBackendSortModeArguments } from "@/data/internal/SortMode.ts";
+import { useApiError } from "@/hooks/useApiError.ts";
 
 const PAGE_SIZE = 21;
 
 export function useSearch(
     searchArgs: SearchFilterArguments,
 ): UseInfiniteQueryResult<InfiniteData<SearchResultData>> {
+    const { getErrorMessage } = useApiError();
+
     return useInfiniteQuery({
         queryKey: ["search", searchArgs],
         queryFn: async ({ pageParam }) => {
@@ -67,7 +70,7 @@ export function useSearch(
             });
 
             if (result.error) {
-                throw new Error(result.error.message);
+                throw new Error(getErrorMessage(result.error.error));
             }
 
             return {
