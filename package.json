@@ -66,7 +66,7 @@
         "lucide-react": "^0.555.0",
         "lottie-react": "^2.4.1",
         "react": "^19.0.0",
-        "react-apexcharts": "^1.7.0",
+        "react-apexcharts": "^1.9.0",
         "react-day-picker": "^9.11.3",
         "react-dom": "^19.0.0",
         "react-hook-form": "^7.68.0",
