@@ -1,5 +1,5 @@
-import { getWatchlistItems } from "@/client";
-import { mapToInternalOverviewItem } from "@/data/internal/OverviewItem.ts";
+import { getWatchlistProducts } from "@/client";
+import { mapToInternalOverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useApiError } from "@/hooks/useApiError.ts";
 
@@ -11,7 +11,7 @@ export function useWatchlist() {
     return useInfiniteQuery({
         queryKey: ["watchlist"],
         queryFn: async ({ pageParam }) => {
-            const result = await getWatchlistItems({
+            const result = await getWatchlistProducts({
                 query: {
                     searchAfter: pageParam,
                     size: PAGE_SIZE,
@@ -23,7 +23,7 @@ export function useWatchlist() {
             }
 
             return {
-                items: result.data?.items?.map(mapToInternalOverviewItem) ?? [],
+                items: result.data?.items?.map(mapToInternalOverviewProduct) ?? [],
                 size: result.data?.size,
                 total: result.data?.total ?? undefined,
                 searchAfter: result.data?.searchAfter ?? undefined,

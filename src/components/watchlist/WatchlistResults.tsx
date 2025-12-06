@@ -1,5 +1,5 @@
-import { ItemCard } from "@/components/item/overview/ItemCard.tsx";
-import { ItemCardSkeleton } from "@/components/item/overview/ItemCardSkeleton.tsx";
+import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
+import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { useInView } from "react-intersection-observer";
@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { H1 } from "@/components/typography/H1.tsx";
 import { useTranslation } from "react-i18next";
-import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
+import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import Lottie from "lottie-react";
 import tick from "@/assets/lottie/tick.json";
@@ -31,7 +31,7 @@ export function WatchlistResults() {
         return (
             <div className="flex flex-col gap-4">
                 {Array.from({ length: 4 }, () => (
-                    <ItemCardSkeleton key={uuidv4()} />
+                    <ProductCardSkeleton key={uuidv4()} />
                 ))}
             </div>
         );
@@ -42,7 +42,7 @@ export function WatchlistResults() {
         return <SectionInfoText>{t("watchlist.loadingError")}</SectionInfoText>;
     }
 
-    const allItems: OverviewItem[] =
+    const allItems: OverviewProduct[] =
         data?.pages.flatMap((page) =>
             page.items.map((item) => {
                 return {
@@ -83,8 +83,8 @@ export function WatchlistResults() {
                 </span>
             </div>
             <div className="flex flex-col gap-4">
-                {allItems.map((watchlistItem: OverviewItem) => (
-                    <ItemCard key={watchlistItem.itemId} item={watchlistItem} />
+                {allItems.map((watchlistItem: OverviewProduct) => (
+                    <ProductCard key={watchlistItem.productId} item={watchlistItem} />
                 ))}
                 <Card className={"p-4 flex justify-center items-center shadow-md"} ref={ref}>
                     <CardContent className="flex justify-center items-center w-full px-2">

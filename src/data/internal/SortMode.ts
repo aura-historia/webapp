@@ -1,4 +1,4 @@
-import type { SortItemFieldData } from "@/client";
+import type { SortProductFieldData } from "@/client";
 
 export const SEARCH_RESULT_SORT_FIELDS = [
     "RELEVANCE",
@@ -28,10 +28,10 @@ export function getSortModeFieldLabel(field: (typeof SEARCH_RESULT_SORT_FIELDS)[
 }
 
 export function mapToBackendSortModeArguments(sortMode?: SortMode): {
-    sort: SortItemFieldData;
+    sort: SortProductFieldData;
     order: "asc" | "desc";
 } {
-    let sort: SortItemFieldData;
+    let sort: SortProductFieldData;
     let order: "asc" | "desc";
 
     switch (sortMode?.field) {

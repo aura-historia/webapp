@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { WatchlistResults } from "@/components/watchlist/WatchlistResults.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
-import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
+import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 vi.mock("@tanstack/react-query", async (importOriginal) => {
@@ -33,11 +33,11 @@ vi.mock("lottie-react", () => ({
 
 const mockUseInfiniteQuery = vi.mocked(useInfiniteQuery);
 
-const createMockItem = (overrides: Partial<OverviewItem> = {}): OverviewItem => ({
-    itemId: "item-1",
+const createMockItem = (overrides: Partial<OverviewProduct> = {}): OverviewProduct => ({
+    productId: "item-1",
     eventId: "event-1",
     shopId: "shop-1",
-    shopsItemId: "shops-item-1",
+    shopsProductId: "shops-item-1",
     shopName: "Test Shop",
     title: "Test Item",
     description: "Test Description",
@@ -57,7 +57,7 @@ const createMockItem = (overrides: Partial<OverviewItem> = {}): OverviewItem => 
 });
 
 type InfiniteQueryMockOptions = {
-    items?: OverviewItem[];
+    items?: OverviewProduct[];
     isPending?: boolean;
     error?: Error | null;
     hasNextPage?: boolean;
@@ -151,8 +151,8 @@ describe("WatchlistResults", () => {
     describe("Items Display", () => {
         it("should render watchlist items", () => {
             const items = [
-                createMockItem({ itemId: "1", title: "Item 1" }),
-                createMockItem({ itemId: "2", title: "Item 2" }),
+                createMockItem({ productId: "1", title: "Item 1" }),
+                createMockItem({ productId: "2", title: "Item 2" }),
             ];
             setInfiniteQueryMock({ items, total: 2 });
             renderWithQueryClient(<WatchlistResults />);
@@ -162,7 +162,7 @@ describe("WatchlistResults", () => {
         });
 
         it("should render title and total count", () => {
-            const items = [createMockItem(), createMockItem({ itemId: "2" })];
+            const items = [createMockItem(), createMockItem({ productId: "2" })];
             setInfiniteQueryMock({ items, total: 2 });
             renderWithQueryClient(<WatchlistResults />);
 
@@ -172,7 +172,7 @@ describe("WatchlistResults", () => {
 
         it("should ensure all items have isWatching set to true", () => {
             const itemWithoutWatchlistData = createMockItem({
-                itemId: "1",
+                productId: "1",
                 userData: {
                     watchlistData: {
                         isWatching: false,
@@ -189,7 +189,7 @@ describe("WatchlistResults", () => {
 
         it("should preserve notification settings for watchlist items", () => {
             const itemWithNotifications = createMockItem({
-                itemId: "1",
+                productId: "1",
                 userData: {
                     watchlistData: {
                         isWatching: true,
@@ -231,7 +231,7 @@ describe("WatchlistResults", () => {
         });
 
         it("should show 'all loaded' message with plural for multiple items", () => {
-            const items = [createMockItem({ itemId: "1" }), createMockItem({ itemId: "2" })];
+            const items = [createMockItem({ productId: "1" }), createMockItem({ productId: "2" })];
             setInfiniteQueryMock({
                 items,
                 hasNextPage: false,
@@ -275,8 +275,8 @@ describe("WatchlistResults", () => {
 
     describe("Multiple Pages", () => {
         it("should flatten and display items from multiple pages", () => {
-            const page1Items = [createMockItem({ itemId: "1", title: "Item 1" })];
-            const page2Items = [createMockItem({ itemId: "2", title: "Item 2" })];
+            const page1Items = [createMockItem({ productId: "1", title: "Item 1" })];
+            const page2Items = [createMockItem({ productId: "2", title: "Item 2" })];
 
             mockUseInfiniteQuery.mockReturnValue({
                 data: {

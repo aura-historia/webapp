@@ -1,4 +1,4 @@
-import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
+import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import { screen } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
@@ -31,7 +31,7 @@ vi.mock("lottie-react", () => ({
 
 const mockUseSearch = vi.mocked(useSearch);
 
-const buildQueryPayload = (items: OverviewItem[]): SearchResultData => ({
+const buildQueryPayload = (items: OverviewProduct[]): SearchResultData => ({
     items,
     size: items.length,
     total: items.length,
@@ -39,7 +39,7 @@ const buildQueryPayload = (items: OverviewItem[]): SearchResultData => ({
 });
 
 type SearchMockOptions = {
-    items?: OverviewItem[];
+    items?: OverviewProduct[];
     isPending?: boolean;
     error?: Error | null;
 };
@@ -95,10 +95,10 @@ describe("SearchResults", () => {
     });
 
     it("renders a list of item cards when items are found", () => {
-        const base: Omit<OverviewItem, "itemId" | "title"> = {
+        const base: Omit<OverviewProduct, "productId" | "title"> = {
             eventId: "e1",
             shopId: "s1",
-            shopsItemId: "si1",
+            shopsProductId: "si1",
             shopName: "Shop 1",
             description: undefined,
             price: "10 €",
@@ -111,8 +111,8 @@ describe("SearchResults", () => {
 
         setSearchMock({
             items: [
-                { ...base, itemId: "1", title: "Item 1" },
-                { ...base, itemId: "2", title: "Item 2" },
+                { ...base, productId: "1", title: "Item 1" },
+                { ...base, productId: "2", title: "Item 2" },
             ],
         });
         renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
