@@ -42,23 +42,23 @@ export function WatchlistResults() {
         return <SectionInfoText>{t("watchlist.loadingError")}</SectionInfoText>;
     }
 
-    const allItems: OverviewProduct[] =
+    const allProducts: OverviewProduct[] =
         data?.pages.flatMap((page) =>
-            page.items.map((item) => {
+            page.items.map((product) => {
                 return {
-                    ...item,
+                    ...product,
                     userData: {
                         watchlistData: {
                             isWatching: true,
                             isNotificationEnabled:
-                                item.userData?.watchlistData.isNotificationEnabled ?? false,
+                                product.userData?.watchlistData.isNotificationEnabled ?? false,
                         },
                     },
                 };
             }),
         ) ?? [];
 
-    if (allItems.length === 0) {
+    if (allProducts.length === 0) {
         return (
             <div className="flex flex-col items-center gap-4 py-16">
                 <SearchX className="h-16 w-16 text-muted-foreground" />
@@ -83,8 +83,8 @@ export function WatchlistResults() {
                 </span>
             </div>
             <div className="flex flex-col gap-4">
-                {allItems.map((watchlistItem: OverviewProduct) => (
-                    <ProductCard key={watchlistItem.productId} item={watchlistItem} />
+                {allProducts.map((watchlistProduct: OverviewProduct) => (
+                    <ProductCard key={watchlistProduct.productId} product={watchlistProduct} />
                 ))}
                 <Card className={"p-4 flex justify-center items-center shadow-md"} ref={ref}>
                     <CardContent className="flex justify-center items-center w-full px-2">

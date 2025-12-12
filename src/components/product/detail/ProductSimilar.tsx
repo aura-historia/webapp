@@ -104,12 +104,12 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
                     </div>
 
                     <CarouselContent className="pb-4">
-                        {data.items.map((item) => (
+                        {data.items.map((product) => (
                             <CarouselItem
-                                key={item.productId}
+                                key={product.productId}
                                 className="pl-4 first:pl-12 md:first:pl-4 last:pr-8 md:last:pr-0 basis-[calc(100vw-80px)] md:basis-1/2 xl:basis-1/3"
                             >
-                                <ProductSimilarCard item={item} />
+                                <ProductSimilarCard product={product} />
                             </CarouselItem>
                         ))}
                     </CarouselContent>

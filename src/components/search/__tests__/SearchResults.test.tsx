@@ -72,7 +72,7 @@ describe("SearchResults", () => {
     it("renders skeleton loaders while data is loading", () => {
         setSearchMock({ isPending: true });
         renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
-        expect(screen.getAllByTestId("item-card-skeleton")).toHaveLength(4);
+        expect(screen.getAllByTestId("product-card-skeleton")).toHaveLength(4);
     });
 
     it("renders an error message when there is an error", () => {
@@ -94,7 +94,7 @@ describe("SearchResults", () => {
         ).toBeInTheDocument();
     });
 
-    it("renders a list of item cards when items are found", () => {
+    it("renders a list of product cards when products are found", () => {
         const base: Omit<OverviewProduct, "productId" | "title"> = {
             eventId: "e1",
             shopId: "s1",

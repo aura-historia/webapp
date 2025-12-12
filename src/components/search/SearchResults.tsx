@@ -59,10 +59,10 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
         return <SectionInfoText>{t("search.messages.error")}</SectionInfoText>;
     }
 
-    const allItems: OverviewProduct[] =
+    const allProducts: OverviewProduct[] =
         data?.pages.flatMap((page: SearchResultData) => page.items) ?? [];
 
-    if (allItems.length === 0) {
+    if (allProducts.length === 0) {
         return (
             <div className="flex flex-col items-center gap-4 py-16">
                 <SearchX className="h-16 w-16 text-muted-foreground" />
@@ -78,8 +78,8 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
 
     return (
         <div className="flex flex-col gap-4">
-            {allItems.map((item: OverviewProduct) => (
-                <ProductCard key={item.productId} item={item} />
+            {allProducts.map((product: OverviewProduct) => (
+                <ProductCard key={product.productId} product={product} />
             ))}
             <Card className={"p-4 flex justify-center items-center shadow-md"} ref={ref}>
                 <CardContent className="flex justify-center items-center w-full px-2">

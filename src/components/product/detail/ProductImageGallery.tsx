@@ -27,10 +27,10 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
 
     /**
-     * Resets the image index to 0 when the 'item' changes.
-     * This prevents errors if the new 'item' has fewer images than the previous one.
+     * Resets the image index to 0 when the 'product' changes.
+     * This prevents errors if the new 'product' has fewer images than the previous one.
      */
-    // biome-ignore lint/correctness/useExhaustiveDependencies: productId needed when item changes
+    // biome-ignore lint/correctness/useExhaustiveDependencies: productId needed when product changes
     useEffect(() => {
         setCurrentImageIndex(0);
     }, [productId]);

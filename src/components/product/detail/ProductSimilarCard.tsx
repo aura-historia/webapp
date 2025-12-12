@@ -9,7 +9,7 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 
-export function ProductSimilarCard({ item }: { readonly item: OverviewProduct }) {
+export function ProductSimilarCard({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
 
     return (
@@ -18,17 +18,17 @@ export function ProductSimilarCard({ item }: { readonly item: OverviewProduct })
                 <Link
                     to="/product/$shopId/$shopsProductId"
                     params={{
-                        shopId: item.shopId,
-                        shopsProductId: item.shopsProductId,
+                        shopId: product.shopId,
+                        shopsProductId: product.shopsProductId,
                     }}
                     className={"block w-full"}
                 >
-                    {item.images.length > 0 ? (
+                    {product.images.length > 0 ? (
                         <img
                             className={
                                 "w-full aspect-video object-cover hover:opacity-90 transition-opacity"
                             }
-                            src={item.images[0].href}
+                            src={product.images[0].href}
                             alt=""
                         />
                     ) : (
@@ -47,8 +47,8 @@ export function ProductSimilarCard({ item }: { readonly item: OverviewProduct })
                     <Link
                         to="/product/$shopId/$shopsProductId"
                         params={{
-                            shopId: item.shopId,
-                            shopsProductId: item.shopsProductId,
+                            shopId: product.shopId,
+                            shopsProductId: product.shopsProductId,
                         }}
                         className="min-w-0 overflow-hidden"
                     >
@@ -57,11 +57,11 @@ export function ProductSimilarCard({ item }: { readonly item: OverviewProduct })
                                 "overflow-ellipsis line-clamp-2 hover:underline !text-base !font-semibold"
                             }
                         >
-                            {item.title}
+                            {product.title}
                         </H2>
                     </Link>
                     <H3 variant={"muted"} className={"line-clamp-1 overflow-ellipsis !text-sm"}>
-                        {item.shopName}
+                        {product.shopName}
                     </H3>
                 </div>
 
@@ -71,9 +71,9 @@ export function ProductSimilarCard({ item }: { readonly item: OverviewProduct })
                     }
                 >
                     <div className={"flex flex-col gap-2 flex-shrink-0"}>
-                        <StatusBadge status={item.state} />
+                        <StatusBadge status={product.state} />
                         <PriceText className="min-w-0 overflow-hidden text-ellipsis !text-xl sm:!text-2xl !font-bold">
-                            {item.price ?? t("product.unknownPrice")}
+                            {product.price ?? t("product.unknownPrice")}
                         </PriceText>
                     </div>
 
@@ -86,8 +86,8 @@ export function ProductSimilarCard({ item }: { readonly item: OverviewProduct })
                         <Link
                             to="/product/$shopId/$shopsProductId"
                             params={{
-                                shopId: item.shopId,
-                                shopsProductId: item.shopsProductId,
+                                shopId: product.shopId,
+                                shopsProductId: product.shopsProductId,
                             }}
                         >
                             <Eye />

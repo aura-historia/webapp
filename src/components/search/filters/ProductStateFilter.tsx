@@ -15,13 +15,13 @@ const productStates = ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UN
 
 function handleCheckedChange(
     field: { value: string[]; onChange: (value: string[]) => void },
-    item: string,
+    state: string,
     isChecked: CheckedState,
 ) {
     if (isChecked) {
-        field.onChange([...field.value, item]);
+        field.onChange([...field.value, state]);
     } else {
-        field.onChange(field.value?.filter((value) => value !== item));
+        field.onChange(field.value?.filter((value) => value !== state));
     }
 }
 
@@ -53,32 +53,32 @@ export function ProductStateFilter() {
             </CardHeader>
             <CardContent>
                 <div className={"w-full grid grid-cols-1 sm:grid-cols-2 gap-4"}>
-                    {productStates.map((item) => (
+                    {productStates.map((state) => (
                         <Controller
-                            key={item}
+                            key={state}
                             name="productState"
                             control={control}
                             render={({ field }) => {
-                                const isChecked = field.value?.includes(item);
+                                const isChecked = field.value?.includes(state);
                                 return (
                                     <div className="flex flex-row gap-4 items-center">
                                         <Checkbox
-                                            id={`checkbox-${item}`}
+                                            id={`checkbox-${state}`}
                                             checked={isChecked}
                                             className="cursor-pointer"
                                             onCheckedChange={(checked) =>
-                                                handleCheckedChange(field, item, checked)
+                                                handleCheckedChange(field, state, checked)
                                             }
                                         />
                                         <button
                                             type="button"
                                             className="cursor-pointer select-none border-0 bg-transparent p-0"
                                             onClick={() =>
-                                                handleCheckedChange(field, item, !isChecked)
+                                                handleCheckedChange(field, state, !isChecked)
                                             }
                                         >
                                             <StatusBadge
-                                                status={item}
+                                                status={state}
                                                 className={isChecked ? "" : "opacity-35"}
                                             />
                                         </button>

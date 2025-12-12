@@ -16,7 +16,7 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
 });
 
 describe("ProductCard", () => {
-    const mockItem: OverviewProduct = {
+    const mockProduct: OverviewProduct = {
         created: new Date(),
         eventId: "",
         shopId: "",
@@ -31,32 +31,32 @@ describe("ProductCard", () => {
         images: [new URL("https://example.com/image.jpg")],
     };
 
-    it("should render the item title, shop name, and price correctly", () => {
-        renderWithQueryClient(<ProductCard item={mockItem} />);
+    it("should render the product title, shop name, and price correctly", () => {
+        renderWithQueryClient(<ProductCard product={mockProduct} />);
         expect(screen.getByText("Sample Item")).toBeInTheDocument();
         expect(screen.getByText("Sample Shop")).toBeInTheDocument();
         expect(screen.getByText("100€")).toBeInTheDocument();
     });
 
     it("should render a placeholder image when no images are provided", () => {
-        const itemWithoutImages = { ...mockItem, images: [] };
-        renderWithQueryClient(<ProductCard item={itemWithoutImages} key="2" />);
+        const productWithoutImages = { ...mockProduct, images: [] };
+        renderWithQueryClient(<ProductCard product={productWithoutImages} key="2" />);
         expect(screen.getByTestId("placeholder-image")).toBeInTheDocument();
     });
 
     it("should render 'Preis unbekannt' when the price is not provided", () => {
-        const itemWithoutPrice = { ...mockItem, price: undefined };
-        renderWithQueryClient(<ProductCard item={itemWithoutPrice} />);
+        const productWithoutPrice = { ...mockProduct, price: undefined };
+        renderWithQueryClient(<ProductCard product={productWithoutPrice} />);
         expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
     });
 
     it("should render the status badge with the correct status", () => {
-        renderWithQueryClient(<ProductCard item={mockItem} />);
+        renderWithQueryClient(<ProductCard product={mockProduct} />);
         expect(screen.getByText("Verfügbar")).toBeInTheDocument();
     });
 
     it("should render the buttons for details and external link", () => {
-        renderWithQueryClient(<ProductCard item={mockItem} />);
+        renderWithQueryClient(<ProductCard product={mockProduct} />);
         expect(screen.getByText("Details")).toBeInTheDocument();
         expect(screen.getByText("Zur Seite des Händlers")).toBeInTheDocument();
     });

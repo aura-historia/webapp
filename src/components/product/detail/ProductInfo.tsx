@@ -12,10 +12,10 @@ import { ProductImageGallery } from "@/components/product/detail/ProductImageGal
 import { useTranslation } from "react-i18next";
 import { useWatchlistMutation, type WatchlistMutationType } from "@/hooks/useWatchlistMutation.ts";
 
-export function ProductInfo({ item }: { readonly item: ProductDetail }) {
+export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();
-    const watchlistMutation = useWatchlistMutation(item.shopId, item.shopsProductId);
-    const mutationType: WatchlistMutationType = item.userData?.watchlistData.isWatching
+    const watchlistMutation = useWatchlistMutation(product.shopId, product.shopsProductId);
+    const mutationType: WatchlistMutationType = product.userData?.watchlistData.isWatching
         ? "deleteFromWatchlist"
         : "addToWatchlist";
 
@@ -24,19 +24,19 @@ export function ProductInfo({ item }: { readonly item: ProductDetail }) {
             <Card className="flex flex-col md:flex-row p-8 gap-4 shadow-md min-w-0">
                 <div className="flex-shrink-0 flex sm:justify-start justify-center">
                     <ProductImageGallery
-                        images={item.images}
-                        title={item.title}
-                        productId={item.productId}
+                        images={product.images}
+                        title={product.title}
+                        productId={product.productId}
                     />
                 </div>
                 <div className="flex flex-col min-w-0 flex-1">
                     <div className="flex flex-row justify-between w-full">
                         <div className="flex flex-col gap-2 min-w-0 overflow-hidden">
                             <H2 className="overflow-hidden line-clamp-3 md:line-clamp-2 lg:line-clamp-2 text-[26px]">
-                                {item.title}
+                                {product.title}
                             </H2>
                             <H3 variant="muted" className="overflow-hidden line-clamp-1 text-lg">
-                                {item.shopName}
+                                {product.shopName}
                             </H3>
                         </div>
                         <div className="hidden md:flex gap-2 ml-auto flex-shrink-0 self-start">
@@ -55,7 +55,7 @@ export function ProductInfo({ item }: { readonly item: ProductDetail }) {
                             >
                                 <HeartIcon
                                     className={`size-5 transition-all duration-300 ease-in-out ${
-                                        item.userData?.watchlistData.isWatching
+                                        product.userData?.watchlistData.isWatching
                                             ? "fill-heart text-heart"
                                             : "fill-transparent"
                                     } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
@@ -64,7 +64,7 @@ export function ProductInfo({ item }: { readonly item: ProductDetail }) {
                         </div>
                     </div>
                     <p className="mask-linear-[to_bottom,transparent_0%,black_10%,black_90%,transparent_100%] pt-2 text-base text-muted-foreground overflow-y-auto max-h-[250px] md:max-h-[130px] lg:max-h-[200px] w-full pr-3">
-                        {item.description ?? t("product.noDescription")}
+                        {product.description ?? t("product.noDescription")}
                     </p>
 
                     {/* Spacer - pushes bottom content down on desktop */}
@@ -72,13 +72,17 @@ export function ProductInfo({ item }: { readonly item: ProductDetail }) {
 
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-end w-full pt-4">
                         <div className="flex flex-col gap-2 flex-shrink-0">
-                            <StatusBadge status={item.state} />
-                            <PriceText>{item.price ?? t("product.unknownPrice")}</PriceText>
+                            <StatusBadge status={product.state} />
+                            <PriceText>{product.price ?? t("product.unknownPrice")}</PriceText>
                         </div>
 
                         <div className="flex flex-col gap-2 sm:items-end flex-shrink-0 sm:ml-2">
                             <Button variant="secondary" className="whitespace-nowrap" asChild>
-                                <a href={item.url?.href} target="_blank" rel="noopener noreferrer">
+                                <a
+                                    href={product.url?.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
                                     <ArrowUpRight />
                                     <span>{t("product.toMerchant")}</span>
                                 </a>
@@ -102,7 +106,7 @@ export function ProductInfo({ item }: { readonly item: ProductDetail }) {
                 >
                     <HeartIcon
                         className={`size-4 transition-all duration-300 ease-in-out ${
-                            item.userData?.watchlistData.isWatching
+                            product.userData?.watchlistData.isWatching
                                 ? "fill-heart text-heart"
                                 : "fill-transparent"
                         } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}

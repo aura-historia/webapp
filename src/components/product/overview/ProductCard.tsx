@@ -10,10 +10,10 @@ import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { useWatchlistMutation, type WatchlistMutationType } from "@/hooks/useWatchlistMutation.ts";
 
-export function ProductCard({ item }: { readonly item: OverviewProduct }) {
+export function ProductCard({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
-    const watchlistMutation = useWatchlistMutation(item.shopId, item.shopsProductId);
-    const mutationType: WatchlistMutationType = item.userData?.watchlistData.isWatching
+    const watchlistMutation = useWatchlistMutation(product.shopId, product.shopsProductId);
+    const mutationType: WatchlistMutationType = product.userData?.watchlistData.isWatching
         ? "deleteFromWatchlist"
         : "addToWatchlist";
 
@@ -23,16 +23,16 @@ export function ProductCard({ item }: { readonly item: OverviewProduct }) {
                 <Link
                     to="/product/$shopId/$shopsProductId"
                     params={{
-                        shopId: item.shopId,
-                        shopsProductId: item.shopsProductId,
+                        shopId: product.shopId,
+                        shopsProductId: product.shopsProductId,
                     }}
                 >
-                    {item.images.length > 0 ? (
+                    {product.images.length > 0 ? (
                         <img
                             className={
                                 "w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
                             }
-                            src={item.images[0].href}
+                            src={product.images[0].href}
                             alt=""
                         />
                     ) : (
@@ -52,19 +52,19 @@ export function ProductCard({ item }: { readonly item: OverviewProduct }) {
                         <Link
                             to="/product/$shopId/$shopsProductId"
                             params={{
-                                shopId: item.shopId,
-                                shopsProductId: item.shopsProductId,
+                                shopId: product.shopId,
+                                shopsProductId: product.shopsProductId,
                             }}
                             className="min-w-0 overflow-hidden"
                         >
                             <H2 className={"overflow-ellipsis line-clamp-1 hover:underline"}>
-                                {item.title}
+                                {product.title}
                             </H2>
                         </Link>
                         <H3 variant={"muted"} className={"line-clamp-1 overflow-ellipsis"}>
-                            {item.shopName}
+                            {product.shopName}
                         </H3>
-                        <StatusBadge status={item.state} />
+                        <StatusBadge status={product.state} />
                     </div>
 
                     <Button
@@ -78,7 +78,7 @@ export function ProductCard({ item }: { readonly item: OverviewProduct }) {
                     >
                         <HeartIcon
                             className={`size-5 transition-all duration-300 ease-in-out ${
-                                item.userData?.watchlistData.isWatching
+                                product.userData?.watchlistData.isWatching
                                     ? "fill-heart text-heart"
                                     : "fill-transparent"
                             } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
@@ -92,7 +92,7 @@ export function ProductCard({ item }: { readonly item: OverviewProduct }) {
                     }
                 >
                     <PriceText className="min-w-0 overflow-hidden text-ellipsis">
-                        {item.price ?? t("product.unknownPrice")}
+                        {product.price ?? t("product.unknownPrice")}
                     </PriceText>
 
                     <div className={"flex flex-col gap-2 lg:items-end flex-shrink-0 lg:ml-2"}>
@@ -100,8 +100,8 @@ export function ProductCard({ item }: { readonly item: OverviewProduct }) {
                             <Link
                                 to="/product/$shopId/$shopsProductId"
                                 params={{
-                                    shopId: item.shopId,
-                                    shopsProductId: item.shopsProductId,
+                                    shopId: product.shopId,
+                                    shopsProductId: product.shopsProductId,
                                 }}
                             >
                                 <Eye />
@@ -109,7 +109,7 @@ export function ProductCard({ item }: { readonly item: OverviewProduct }) {
                             </Link>
                         </Button>
                         <Button variant={"secondary"} className="whitespace-nowrap" asChild>
-                            <a href={item.url?.href} target="_blank">
+                            <a href={product.url?.href} target="_blank">
                                 <ArrowUpRight />
                                 <span>{t("product.toMerchant")}</span>
                             </a>

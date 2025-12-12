@@ -28,7 +28,7 @@ function ProductDetailComponent() {
         }),
     );
 
-    const item = mapToDetailProduct(apiData);
+    const product = mapToDetailProduct(apiData);
 
-    return <ProductDetailPage item={item} />;
+    return <ProductDetailPage product={product} />;
 }

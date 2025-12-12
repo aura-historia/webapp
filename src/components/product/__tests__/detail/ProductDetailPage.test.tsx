@@ -5,25 +5,25 @@ import { vi } from "vitest";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 
 vi.mock("@/components/product/detail/ProductInfo.tsx", () => ({
-    ProductInfo: ({ item }: { item: ProductDetail }) => (
-        <div data-testid="item-info">ProductInfo: {item.title}</div>
+    ProductInfo: ({ product }: { product: ProductDetail }) => (
+        <div data-testid="product-info">ProductInfo: {product.title}</div>
     ),
 }));
 
 vi.mock("@/components/product/detail/ProductPriceChart.tsx", () => ({
-    ProductPriceChart: () => <div data-testid="item-price-chart">ProductPriceChart</div>,
+    ProductPriceChart: () => <div data-testid="product-price-chart">ProductPriceChart</div>,
 }));
 
 vi.mock("@/components/product/detail/ProductHistory.tsx", () => ({
-    ProductHistory: () => <div data-testid="item-history">ProductHistory</div>,
+    ProductHistory: () => <div data-testid="product-history">ProductHistory</div>,
 }));
 
 vi.mock("@/components/product/ProductSimilar", () => ({
-    ProductSimilar: () => <div data-testid="item-similar">ProductSimilar</div>,
+    ProductSimilar: () => <div data-testid="product-similar">ProductSimilar</div>,
 }));
 
 describe("ProductDetailPage", () => {
-    const mockItem: ProductDetail = {
+    const mockProduct: ProductDetail = {
         productId: "1",
         eventId: "",
         shopId: "",
@@ -41,25 +41,25 @@ describe("ProductDetailPage", () => {
     };
 
     it("should render ProductInfo component", () => {
-        renderWithQueryClient(<ProductDetailPage item={mockItem} />);
-        expect(screen.getByTestId("item-info")).toBeInTheDocument();
+        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
+        expect(screen.getByTestId("product-info")).toBeInTheDocument();
         expect(screen.getByText("ProductInfo: Test Item")).toBeInTheDocument();
     });
 
     it("should render ProductPriceChart component", () => {
-        renderWithQueryClient(<ProductDetailPage item={mockItem} />);
-        expect(screen.getByTestId("item-price-chart")).toBeInTheDocument();
+        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
+        expect(screen.getByTestId("product-price-chart")).toBeInTheDocument();
     });
 
     it("should render ProductHistory component", () => {
-        renderWithQueryClient(<ProductDetailPage item={mockItem} />);
-        expect(screen.getByTestId("item-history")).toBeInTheDocument();
+        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
+        expect(screen.getByTestId("product-history")).toBeInTheDocument();
     });
 
     it("should render all three components together", () => {
-        renderWithQueryClient(<ProductDetailPage item={mockItem} />);
-        expect(screen.getByTestId("item-info")).toBeInTheDocument();
-        expect(screen.getByTestId("item-price-chart")).toBeInTheDocument();
-        expect(screen.getByTestId("item-history")).toBeInTheDocument();
+        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
+        expect(screen.getByTestId("product-info")).toBeInTheDocument();
+        expect(screen.getByTestId("product-price-chart")).toBeInTheDocument();
+        expect(screen.getByTestId("product-history")).toBeInTheDocument();
     });
 });

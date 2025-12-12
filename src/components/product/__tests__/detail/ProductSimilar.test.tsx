@@ -271,7 +271,7 @@ describe("ProductSimilar", () => {
         expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
     });
 
-    it("should render all item cards with detail buttons", () => {
+    it("should render all product cards with detail buttons", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
             data: { isEmbeddingsPending: false, items: mockItems },
             isLoading: false,

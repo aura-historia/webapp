@@ -15,7 +15,7 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
 });
 
 describe("ProductSimilarCard", () => {
-    const mockItem: OverviewProduct = {
+    const mockProduct: OverviewProduct = {
         productId: "1",
         eventId: "",
         shopId: "shop-123",
@@ -31,16 +31,16 @@ describe("ProductSimilarCard", () => {
         updated: new Date(),
     };
 
-    it("should render the item title, shop name, and price correctly", () => {
-        render(<ProductSimilarCard item={mockItem} />);
+    it("should render the product title, shop name, and price correctly", () => {
+        render(<ProductSimilarCard product={mockProduct} />);
 
         expect(screen.getByText("Test Item Title")).toBeInTheDocument();
         expect(screen.getByText("Test Shop")).toBeInTheDocument();
         expect(screen.getByText("99,99 €")).toBeInTheDocument();
     });
 
-    it("should render the item image when provided", () => {
-        const { container } = render(<ProductSimilarCard item={mockItem} />);
+    it("should render the product image when provided", () => {
+        const { container } = render(<ProductSimilarCard product={mockProduct} />);
 
         const image = container.querySelector("img[src='https://example.com/image.jpg']");
         expect(image).toBeInTheDocument();
@@ -48,48 +48,48 @@ describe("ProductSimilarCard", () => {
     });
 
     it("should render a placeholder when no images are provided", () => {
-        const itemWithoutImages = { ...mockItem, images: [] };
-        render(<ProductSimilarCard item={itemWithoutImages} />);
+        const productWithoutImages = { ...mockProduct, images: [] };
+        render(<ProductSimilarCard product={productWithoutImages} />);
 
         expect(screen.getByTestId("placeholder-image")).toBeInTheDocument();
         expect(screen.getByText("Kein Bild verfügbar")).toBeInTheDocument();
     });
 
     it("should render 'Preis unbekannt' when price is not provided", () => {
-        const itemWithoutPrice = { ...mockItem, price: undefined };
-        render(<ProductSimilarCard item={itemWithoutPrice} />);
+        const productWithoutPrice = { ...mockProduct, price: undefined };
+        render(<ProductSimilarCard product={productWithoutPrice} />);
 
         expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
     });
 
     it("should render the status badge with 'Verfügbar' for AVAILABLE state", () => {
-        render(<ProductSimilarCard item={mockItem} />);
+        render(<ProductSimilarCard product={mockProduct} />);
 
         expect(screen.getByText("Verfügbar")).toBeInTheDocument();
     });
 
     it("should render the status badge with 'Verkauft' for SOLD state", () => {
-        const soldItem = { ...mockItem, state: "SOLD" as const };
-        render(<ProductSimilarCard item={soldItem} />);
+        const soldProduct = { ...mockProduct, state: "SOLD" as const };
+        render(<ProductSimilarCard product={soldProduct} />);
 
         expect(screen.getByText("Verkauft")).toBeInTheDocument();
     });
 
     it("should render the status badge with 'Reserviert' for RESERVED state", () => {
-        const reservedItem = { ...mockItem, state: "RESERVED" as const };
-        render(<ProductSimilarCard item={reservedItem} />);
+        const reservedProduct = { ...mockProduct, state: "RESERVED" as const };
+        render(<ProductSimilarCard product={reservedProduct} />);
 
         expect(screen.getByText("Reserviert")).toBeInTheDocument();
     });
 
     it("should render the details button", () => {
-        render(<ProductSimilarCard item={mockItem} />);
+        render(<ProductSimilarCard product={mockProduct} />);
 
         expect(screen.getByText("Details")).toBeInTheDocument();
     });
 
-    it("should have correct links to item detail page", () => {
-        const { container } = render(<ProductSimilarCard item={mockItem} />);
+    it("should have correct links to product detail page", () => {
+        const { container } = render(<ProductSimilarCard product={mockProduct} />);
 
         const links = container.querySelectorAll("a");
         expect(links.length).toBeGreaterThan(0);
@@ -100,46 +100,46 @@ describe("ProductSimilarCard", () => {
     });
 
     it("should truncate long titles correctly with line-clamp", () => {
-        const itemWithLongTitle = {
-            ...mockItem,
+        const productWithLongTitle = {
+            ...mockProduct,
             title: "This is a very long title that should be truncated to two lines maximum to prevent overflow and maintain layout consistency",
         };
-        render(<ProductSimilarCard item={itemWithLongTitle} />);
+        render(<ProductSimilarCard product={productWithLongTitle} />);
 
-        const titleElement = screen.getByText(itemWithLongTitle.title);
+        const titleElement = screen.getByText(productWithLongTitle.title);
         expect(titleElement).toBeInTheDocument();
         expect(titleElement).toHaveClass("line-clamp-2");
     });
 
     it("should truncate long shop names correctly with line-clamp", () => {
-        const itemWithLongShopName = {
-            ...mockItem,
+        const productWithLongShopName = {
+            ...mockProduct,
             shopName: "This is a very long shop name that should be truncated to one line",
         };
-        render(<ProductSimilarCard item={itemWithLongShopName} />);
+        render(<ProductSimilarCard product={productWithLongShopName} />);
 
-        const shopNameElement = screen.getByText(itemWithLongShopName.shopName);
+        const shopNameElement = screen.getByText(productWithLongShopName.shopName);
         expect(shopNameElement).toBeInTheDocument();
         expect(shopNameElement).toHaveClass("line-clamp-1");
     });
 
     it("should render multiple images by showing only the first one", () => {
-        const itemWithMultipleImages = {
-            ...mockItem,
+        const productWithMultipleImages = {
+            ...mockProduct,
             images: [
                 new URL("https://example.com/image1.jpg"),
                 new URL("https://example.com/image2.jpg"),
                 new URL("https://example.com/image3.jpg"),
             ],
         };
-        const { container } = render(<ProductSimilarCard item={itemWithMultipleImages} />);
+        const { container } = render(<ProductSimilarCard product={productWithMultipleImages} />);
 
         const image = container.querySelector("img[src='https://example.com/image1.jpg']");
         expect(image).toBeInTheDocument();
     });
 
     it("should apply hover effects to image and title", () => {
-        const { container } = render(<ProductSimilarCard item={mockItem} />);
+        const { container } = render(<ProductSimilarCard product={mockProduct} />);
 
         const image = container.querySelector("img");
         expect(image).toHaveClass("hover:opacity-90");
@@ -149,22 +149,22 @@ describe("ProductSimilarCard", () => {
     });
 
     it("should render with proper responsive layout classes", () => {
-        const { container } = render(<ProductSimilarCard item={mockItem} />);
+        const { container } = render(<ProductSimilarCard product={mockProduct} />);
 
         const card = container.querySelector(".flex-col");
         expect(card).toBeInTheDocument();
     });
 
     it("should handle empty price string", () => {
-        const itemWithEmptyPrice = { ...mockItem, price: "" };
-        render(<ProductSimilarCard item={itemWithEmptyPrice} />);
+        const productWithEmptyPrice = { ...mockProduct, price: "" };
+        render(<ProductSimilarCard product={productWithEmptyPrice} />);
 
         const priceElement = screen.queryByText("99,99 €");
         expect(priceElement).not.toBeInTheDocument();
     });
 
     it("should render Eye icon in details button", () => {
-        const { container } = render(<ProductSimilarCard item={mockItem} />);
+        const { container } = render(<ProductSimilarCard product={mockProduct} />);
 
         const detailsLink = screen.getByText("Details").closest("a");
         expect(detailsLink).toBeInTheDocument();

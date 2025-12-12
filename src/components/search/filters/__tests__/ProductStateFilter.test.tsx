@@ -25,7 +25,7 @@ const FormWrapper = ({
 };
 
 describe("ProductStateFilter", () => {
-    it("renders all item state options with checkboxes", () => {
+    it("renders all product state options with checkboxes", () => {
         render(
             <FormWrapper>
                 <ProductStateFilter />

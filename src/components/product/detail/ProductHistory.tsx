@@ -57,7 +57,7 @@ export function ProductHistory({ history }: ProductHistoryProps) {
     );
 
     /**
-     * Early return: Shows empty state when item has no events.
+     * Early return: Shows empty state when product has no events.
      */
     if (!history || history.length === 0) {
         return (

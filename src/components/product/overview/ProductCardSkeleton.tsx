@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton.tsx";
 export function ProductCardSkeleton() {
     return (
         <Card
-            data-testid="item-card-skeleton"
+            data-testid="product-card-skeleton"
             className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0 w-full"}
         >
             <div className={"flex-shrink-0 flex lg:justify-start justify-center"}>
