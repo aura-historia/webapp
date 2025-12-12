@@ -75,7 +75,7 @@ export function useSearch(
             }
 
             return {
-                items: result.data?.items?.map(mapToInternalOverviewProduct) ?? [],
+                products: result.data?.items?.map(mapToInternalOverviewProduct) ?? [],
                 size: result.data?.size,
                 total: result.data?.total,
                 searchAfter: result.data?.searchAfter,

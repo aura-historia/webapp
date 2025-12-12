@@ -67,7 +67,7 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
         );
     }
 
-    if (!data?.items || data.items.length === 0) {
+    if (!data?.products || data.products.length === 0) {
         return (
             <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
                 <H2>{t("product.similar.title")}</H2>
@@ -104,7 +104,7 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
                     </div>
 
                     <CarouselContent className="pb-4">
-                        {data.items.map((product) => (
+                        {data.products.map((product) => (
                             <CarouselItem
                                 key={product.productId}
                                 className="pl-4 first:pl-12 md:first:pl-4 last:pr-8 md:last:pr-0 basis-[calc(100vw-80px)] md:basis-1/2 xl:basis-1/3"

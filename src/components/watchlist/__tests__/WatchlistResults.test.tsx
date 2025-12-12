@@ -77,7 +77,7 @@ function setInfiniteQueryMock({
         ? undefined
         : [
               {
-                  items,
+                  products: items,
                   size: items.length,
                   total,
                   searchAfter: hasNextPage ? "next-page-token" : undefined,
@@ -284,8 +284,8 @@ describe("WatchlistResults", () => {
             mockUseInfiniteQuery.mockReturnValue({
                 data: {
                     pages: [
-                        { items: page1Items, size: 1, total: 2, searchAfter: "token1" },
-                        { items: page2Items, size: 1, total: 2, searchAfter: undefined },
+                        { products: page1Items, size: 1, total: 2, searchAfter: "token1" },
+                        { products: page2Items, size: 1, total: 2, searchAfter: undefined },
                     ],
                     pageParams: [undefined, "token1"],
                 },

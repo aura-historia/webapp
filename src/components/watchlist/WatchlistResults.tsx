@@ -44,7 +44,7 @@ export function WatchlistResults() {
 
     const allProducts: OverviewProduct[] =
         data?.pages.flatMap((page) =>
-            page.items.map((product) => {
+            page.products.map((product) => {
                 return {
                     ...product,
                     userData: {

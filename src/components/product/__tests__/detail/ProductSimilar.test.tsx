@@ -157,7 +157,7 @@ describe("ProductSimilar", () => {
 
     it("should render embeddings pending state correctly", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: true, items: [] },
+            data: { isEmbeddingsPending: true, products: [] },
             isLoading: false,
             isError: false,
             error: null,
@@ -176,7 +176,7 @@ describe("ProductSimilar", () => {
 
     it("should render no data state when items array is empty", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: false, items: [] },
+            data: { isEmbeddingsPending: false, products: [] },
             isLoading: false,
             isError: false,
             error: null,
@@ -193,7 +193,7 @@ describe("ProductSimilar", () => {
 
     it("should render no data state when items is undefined", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: false, items: undefined as never },
+            data: { isEmbeddingsPending: false, products: undefined as never },
             isLoading: false,
             isError: false,
             error: null,
@@ -206,7 +206,7 @@ describe("ProductSimilar", () => {
 
     it("should render similar items correctly in carousel", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: false, items: mockItems },
+            data: { isEmbeddingsPending: false, products: mockItems },
             isLoading: false,
             isError: false,
             error: null,
@@ -225,7 +225,7 @@ describe("ProductSimilar", () => {
 
     it("should render navigation buttons for mobile view", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: false, items: mockItems },
+            data: { isEmbeddingsPending: false, products: mockItems },
             isLoading: false,
             isError: false,
             error: null,
@@ -239,7 +239,7 @@ describe("ProductSimilar", () => {
 
     it("should handle carousel navigation", async () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: false, items: mockItems },
+            data: { isEmbeddingsPending: false, products: mockItems },
             isLoading: false,
             isError: false,
             error: null,
@@ -258,7 +258,7 @@ describe("ProductSimilar", () => {
 
     it("should render items with correct prices and without prices", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: false, items: mockItems },
+            data: { isEmbeddingsPending: false, products: mockItems },
             isLoading: false,
             isError: false,
             error: null,
@@ -273,7 +273,7 @@ describe("ProductSimilar", () => {
 
     it("should render all product cards with detail buttons", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: false, items: mockItems },
+            data: { isEmbeddingsPending: false, products: mockItems },
             isLoading: false,
             isError: false,
             error: null,

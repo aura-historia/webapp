@@ -24,7 +24,7 @@ export function useWatchlist() {
             }
 
             return {
-                items: result.data?.items?.map(mapToInternalOverviewProduct) ?? [],
+                products: result.data?.items?.map(mapToInternalOverviewProduct) ?? [],
                 size: result.data?.size,
                 total: result.data?.total ?? undefined,
                 searchAfter: result.data?.searchAfter ?? undefined,

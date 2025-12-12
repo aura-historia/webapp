@@ -17,7 +17,7 @@ export function useApiError() {
         const translated = t(translationKey);
 
         if (translated === translationKey) {
-            console.log(`[useApiError] Unknown error code: ${error.error}`);
+            console.error(`[useApiError] Unknown error code: ${error.error}`);
             return t("apiErrors.unknown");
         }
 

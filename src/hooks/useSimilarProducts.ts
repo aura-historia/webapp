@@ -8,7 +8,7 @@ import { useApiError } from "@/hooks/useApiError";
 import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 
 type SimilarProductsData = {
-    items: OverviewProduct[];
+    products: OverviewProduct[];
     isEmbeddingsPending: boolean;
 };
 
@@ -35,20 +35,20 @@ export function useSimilarProducts(
 
             if (result.response.status === 202) {
                 return {
-                    items: [],
+                    products: [],
                     isEmbeddingsPending: true,
                 };
             }
 
             if (!Array.isArray(result.data)) {
                 return {
-                    items: [],
+                    products: [],
                     isEmbeddingsPending: false,
                 };
             }
 
             return {
-                items: result.data.map(mapToInternalOverviewProduct),
+                products: result.data.map(mapToInternalOverviewProduct),
                 isEmbeddingsPending: false,
             };
         },
