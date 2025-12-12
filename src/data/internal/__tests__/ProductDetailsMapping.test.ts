@@ -8,7 +8,7 @@ import {
 } from "../ProductDetails";
 
 describe("mapToDetailProduct", () => {
-    it("should map item without history", () => {
+    it("should map product without history", () => {
         const apiData: PersonalizedGetProductData = {
             item: {
                 productId: "item-123",
@@ -16,7 +16,7 @@ describe("mapToDetailProduct", () => {
                 shopId: "shop-789",
                 shopsProductId: "shop-item-101",
                 shopName: "Test Shop",
-                title: { text: "Test Item", language: "de" },
+                title: { text: "Test Product", language: "de" },
                 price: { amount: 1000, currency: "EUR" },
                 state: "AVAILABLE",
                 url: "https://example.com/item",
@@ -41,7 +41,7 @@ describe("mapToDetailProduct", () => {
                 shopId: "shop-789",
                 shopsProductId: "shop-item-101",
                 shopName: "Test Shop",
-                title: { text: "Test Item", language: "de" },
+                title: { text: "Test Product", language: "de" },
                 price: { amount: 1000, currency: "EUR" },
                 state: "AVAILABLE",
                 url: "https://example.com/item",
@@ -86,7 +86,7 @@ describe("mapToDetailProduct", () => {
                 shopId: "shop-789",
                 shopsProductId: "shop-item-101",
                 shopName: "Test Shop",
-                title: { text: "Test Item", language: "de" },
+                title: { text: "Test Product", language: "de" },
                 price: { amount: 1000, currency: "EUR" },
                 state: "AVAILABLE",
                 url: "https://example.com/item",
@@ -132,7 +132,7 @@ describe("mapToDetailProduct", () => {
                 shopId: "shop-789",
                 shopsProductId: "shop-item-101",
                 shopName: "Test Shop",
-                title: { text: "Test Item", language: "de" },
+                title: { text: "Test Product", language: "de" },
                 price: { amount: 1000, currency: "EUR" },
                 state: "LISTED",
                 url: "https://example.com/item",
@@ -177,7 +177,7 @@ describe("mapToDetailProduct", () => {
                 shopId: "shop-789",
                 shopsProductId: "shop-item-101",
                 shopName: "Test Shop",
-                title: { text: "Test Item", language: "de" },
+                title: { text: "Test Product", language: "de" },
                 state: "LISTED",
                 url: "https://example.com/item",
                 images: [],
@@ -217,7 +217,7 @@ describe("mapToDetailProduct", () => {
                 shopId: "shop-789",
                 shopsProductId: "shop-item-101",
                 shopName: "Test Shop",
-                title: { text: "Test Item", language: "de" },
+                title: { text: "Test Product", language: "de" },
                 price: { amount: 800, currency: "EUR" },
                 state: "SOLD",
                 url: "https://example.com/item",

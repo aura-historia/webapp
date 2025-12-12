@@ -59,7 +59,7 @@ describe("ProductSimilar", () => {
             shopId: "shop1",
             shopsProductId: "item1",
             shopName: "Shop 1",
-            title: "Similar Item 1",
+            title: "Similar Product 1",
             description: "Description 1",
             price: "50€",
             state: "AVAILABLE",
@@ -74,7 +74,7 @@ describe("ProductSimilar", () => {
             shopId: "shop2",
             shopsProductId: "item2",
             shopName: "Shop 2",
-            title: "Similar Item 2",
+            title: "Similar Product 2",
             description: "Description 2",
             price: "75€",
             state: "AVAILABLE",
@@ -89,7 +89,7 @@ describe("ProductSimilar", () => {
             shopId: "shop3",
             shopsProductId: "item3",
             shopName: "Shop 3",
-            title: "Similar Item 3",
+            title: "Similar Product 3",
             description: "Description 3",
             price: undefined,
             state: "SOLD",
@@ -129,14 +129,14 @@ describe("ProductSimilar", () => {
             data: undefined,
             isLoading: false,
             isError: true,
-            error: { message: "Failed to load similar items" },
+            error: { message: "Failed to load similar products" },
         } as never);
 
         render(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText("Ähnliche Artikel")).toBeInTheDocument();
         expect(screen.getByText("Fehler beim Laden")).toBeInTheDocument();
-        expect(screen.getByText("Failed to load similar items")).toBeInTheDocument();
+        expect(screen.getByText("Failed to load similar products")).toBeInTheDocument();
     });
 
     it("should render error state with fallback message when error has no message", () => {
@@ -204,7 +204,7 @@ describe("ProductSimilar", () => {
         expect(screen.getByText("Keine ähnlichen Artikel")).toBeInTheDocument();
     });
 
-    it("should render similar items correctly in carousel", () => {
+    it("should render similar products correctly in carousel", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
             data: { isEmbeddingsPending: false, products: mockItems },
             isLoading: false,
@@ -215,9 +215,9 @@ describe("ProductSimilar", () => {
         render(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText("Ähnliche Artikel")).toBeInTheDocument();
-        expect(screen.getByText("Similar Item 1")).toBeInTheDocument();
-        expect(screen.getByText("Similar Item 2")).toBeInTheDocument();
-        expect(screen.getByText("Similar Item 3")).toBeInTheDocument();
+        expect(screen.getByText("Similar Product 1")).toBeInTheDocument();
+        expect(screen.getByText("Similar Product 2")).toBeInTheDocument();
+        expect(screen.getByText("Similar Product 3")).toBeInTheDocument();
         expect(screen.getByText("Shop 1")).toBeInTheDocument();
         expect(screen.getByText("Shop 2")).toBeInTheDocument();
         expect(screen.getByText("Shop 3")).toBeInTheDocument();

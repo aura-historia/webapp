@@ -26,7 +26,7 @@ describe("ProductInfo", () => {
         shopId: "",
         shopsProductId: "",
         shopName: "Test Shop",
-        title: "Test Item Title",
+        title: "Test Product Title",
         description: "This is a test description",
         price: "99,99 €",
         state: "AVAILABLE",
@@ -38,7 +38,7 @@ describe("ProductInfo", () => {
 
     it("should render the product title, shop name, and price correctly", () => {
         renderWithQueryClient(<ProductInfo product={mockProduct} />);
-        expect(screen.getByText("Test Item Title")).toBeInTheDocument();
+        expect(screen.getByText("Test Product Title")).toBeInTheDocument();
         expect(screen.getByText("Test Shop")).toBeInTheDocument();
         expect(screen.getByText("99,99 €")).toBeInTheDocument();
     });

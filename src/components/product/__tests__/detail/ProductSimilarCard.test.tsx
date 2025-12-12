@@ -21,7 +21,7 @@ describe("ProductSimilarCard", () => {
         shopId: "shop-123",
         shopsProductId: "item-456",
         shopName: "Test Shop",
-        title: "Test Item Title",
+        title: "Test Product Title",
         description: "Test Description",
         price: "99,99 €",
         state: "AVAILABLE",
@@ -34,7 +34,7 @@ describe("ProductSimilarCard", () => {
     it("should render the product title, shop name, and price correctly", () => {
         render(<ProductSimilarCard product={mockProduct} />);
 
-        expect(screen.getByText("Test Item Title")).toBeInTheDocument();
+        expect(screen.getByText("Test Product Title")).toBeInTheDocument();
         expect(screen.getByText("Test Shop")).toBeInTheDocument();
         expect(screen.getByText("99,99 €")).toBeInTheDocument();
     });
@@ -144,7 +144,7 @@ describe("ProductSimilarCard", () => {
         const image = container.querySelector("img");
         expect(image).toHaveClass("hover:opacity-90");
 
-        const titleElement = screen.getByText("Test Item Title");
+        const titleElement = screen.getByText("Test Product Title");
         expect(titleElement).toHaveClass("hover:underline");
     });
 

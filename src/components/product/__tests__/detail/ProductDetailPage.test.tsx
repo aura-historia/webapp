@@ -29,7 +29,7 @@ describe("ProductDetailPage", () => {
         shopId: "",
         shopsProductId: "",
         shopName: "Test Shop",
-        title: "Test Item",
+        title: "Test Product",
         description: "Test description",
         price: "99€",
         state: "AVAILABLE",
@@ -43,7 +43,7 @@ describe("ProductDetailPage", () => {
     it("should render ProductInfo component", () => {
         renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
         expect(screen.getByTestId("product-info")).toBeInTheDocument();
-        expect(screen.getByText("ProductInfo: Test Item")).toBeInTheDocument();
+        expect(screen.getByText("ProductInfo: Test Product")).toBeInTheDocument();
     });
 
     it("should render ProductPriceChart component", () => {

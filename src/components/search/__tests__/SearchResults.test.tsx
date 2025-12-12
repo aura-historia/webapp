@@ -31,21 +31,21 @@ vi.mock("lottie-react", () => ({
 
 const mockUseSearch = vi.mocked(useSearch);
 
-const buildQueryPayload = (items: OverviewProduct[]): SearchResultData => ({
-    items,
-    size: items.length,
-    total: items.length,
+const buildQueryPayload = (products: OverviewProduct[]): SearchResultData => ({
+    products,
+    size: products.length,
+    total: products.length,
     searchAfter: undefined,
 });
 
 type SearchMockOptions = {
-    items?: OverviewProduct[];
+    products?: OverviewProduct[];
     isPending?: boolean;
     error?: Error | null;
 };
 
-function setSearchMock({ items = [], isPending = false, error = null }: SearchMockOptions = {}) {
-    const pages = isPending ? undefined : [buildQueryPayload(items)];
+function setSearchMock({ products = [], isPending = false, error = null }: SearchMockOptions = {}) {
+    const pages = isPending ? undefined : [buildQueryPayload(products)];
     mockUseSearch.mockReturnValue({
         data: pages ? { pages, pageParams: [undefined] } : undefined,
         isPending,
@@ -86,7 +86,7 @@ describe("SearchResults", () => {
     });
 
     it("renders a message when no items are found", () => {
-        setSearchMock({ items: [] });
+        setSearchMock({ products: [] });
         renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
         expect(screen.getByText("Keine Ergebnisse gefunden")).toBeInTheDocument();
         expect(
@@ -110,7 +110,7 @@ describe("SearchResults", () => {
         } as const;
 
         setSearchMock({
-            items: [
+            products: [
                 { ...base, productId: "1", title: "Item 1" },
                 { ...base, productId: "2", title: "Item 2" },
             ],

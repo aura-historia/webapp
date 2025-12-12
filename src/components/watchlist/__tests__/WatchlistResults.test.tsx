@@ -39,7 +39,7 @@ const createMockProduct = (overrides: Partial<OverviewProduct> = {}): OverviewPr
     shopId: "shop-1",
     shopsProductId: "shops-item-1",
     shopName: "Test Shop",
-    title: "Test Item",
+    title: "Test Product",
     description: "Test Description",
     price: "10 €",
     state: "AVAILABLE",
@@ -184,7 +184,7 @@ describe("WatchlistResults", () => {
             renderWithQueryClient(<WatchlistResults />);
 
             // Component should render the product - the component sets isWatching to true internally
-            expect(screen.getByText("Test Item")).toBeInTheDocument();
+            expect(screen.getByText("Test Product")).toBeInTheDocument();
         });
 
         it("should preserve notification settings for watchlist products", () => {
@@ -200,7 +200,7 @@ describe("WatchlistResults", () => {
             setInfiniteQueryMock({ items: [productWithNotifications] });
             renderWithQueryClient(<WatchlistResults />);
 
-            expect(screen.getByText("Test Item")).toBeInTheDocument();
+            expect(screen.getByText("Test Product")).toBeInTheDocument();
         });
     });
 

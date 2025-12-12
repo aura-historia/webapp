@@ -60,7 +60,7 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
     }
 
     const allProducts: OverviewProduct[] =
-        data?.pages.flatMap((page: SearchResultData) => page.items) ?? [];
+        data?.pages.flatMap((page: SearchResultData) => page.products) ?? [];
 
     if (allProducts.length === 0) {
         return (
