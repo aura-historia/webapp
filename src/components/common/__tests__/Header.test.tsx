@@ -122,7 +122,7 @@ describe("Header Component", () => {
             });
 
             await act(() => {
-                Object.defineProperty(window, "scrollY", { value: 501, writable: true });
+                Object.defineProperty(window, "scrollY", { value: 601, writable: true });
                 window.dispatchEvent(new Event("scroll"));
             });
 

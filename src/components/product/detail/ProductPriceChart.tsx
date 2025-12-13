@@ -67,10 +67,20 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
      * - `x` is set to the event's timestamp for the horizontal time axis.
      * - `y` is set to the price amount, converted from its minor unit (e.g., cents).
      */
-    const priceData = priceEvents.map((event) => ({
-        x: event.timestamp.getTime(),
-        y: getPriceAmount(event) / 100,
-    }));
+    const priceData = priceEvents.flatMap((event) => {
+        const priceAmount = getPriceAmount(event);
+
+        if (priceAmount === undefined) {
+            return [];
+        }
+
+        return [
+            {
+                x: event.timestamp.getTime(),
+                y: priceAmount / 100,
+            },
+        ];
+    });
 
     if (priceData.length > 0) {
         const lastPrice = priceData.at(-1);
