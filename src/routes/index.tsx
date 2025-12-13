@@ -1,4 +1,5 @@
 import DiscoverSection from "@/components/landing-page/DiscoverSection.tsx";
+import FAQSection from "@/components/landing-page/FAQSection.tsx";
 import HeroSection from "@/components/landing-page/HeroSection.tsx";
 import FeaturesSection from "@/components/landing-page/FeaturesSection.tsx";
 import HowItWorksSection from "@/components/landing-page/HowItWorksSection.tsx";
@@ -17,6 +18,7 @@ function LandingPage() {
             <FeaturesSection />
             <HowItWorksSection />
             <TestimonialsSection />
+            <FAQSection />
         </>
     );
 }

@@ -281,6 +281,36 @@
             "benefit1": "Wöchentliche Highlights",
             "benefit2": "Marktberichte & Trends",
             "benefit3": "Jederzeit abbestellbar"
+        },
+        "faq": {
+            "title": "Häufig gestellte Fragen",
+            "subtitle": "Hier finden Sie Antworten auf die wichtigsten Fragen rund um Aura Historia.",
+            "items": {
+                "free": {
+                    "question": "Ist Aura Historia wirklich kostenlos?",
+                    "answer": "Ja, die Nutzung von Aura Historia ist vollständig kostenlos. Sie können unbegrenzt suchen, Artikel auf Ihre Merkliste setzen und Preisverläufe einsehen – ohne versteckte Kosten oder Abonnements."
+                },
+                "howItWorks": {
+                    "question": "Wie funktioniert Aura Historia?",
+                    "answer": "Aura Historia durchsucht täglich automatisch die Webseiten von über 500 Antiquitätenhändlern weltweit und sammelt alle Angebote an einem zentralen Ort. Unsere intelligente Suche ermöglicht es Ihnen, genau das zu finden, was Sie suchen."
+                },
+                "directPurchase": {
+                    "question": "Kann ich Artikel direkt über Aura Historia kaufen?",
+                    "answer": "Nein, Aura Historia ist eine reine Suchplattform. Wenn Sie einen Artikel kaufen möchten, werden Sie direkt zur Website des jeweiligen Händlers weitergeleitet, wo Sie den Kauf abschließen können."
+                },
+                "priceAlerts": {
+                    "question": "Wie funktionieren die Preisbenachrichtigungen?",
+                    "answer": "Sobald Sie einen Artikel auf Ihre Merkliste setzen, verfolgen wir automatisch dessen Preisentwicklung. Wenn der Preis sinkt, erhalten Sie eine Benachrichtigung – so verpassen Sie nie wieder ein Schnäppchen."
+                },
+                "updateFrequency": {
+                    "question": "Wie oft werden die Daten aktualisiert?",
+                    "answer": "Unsere Daten werden kontinuierlich aktualisiert. Die meisten Händlerseiten werden mehrmals täglich durchsucht, sodass Sie immer aktuelle Preise und Verfügbarkeiten sehen."
+                },
+                "dealers": {
+                    "question": "Welche Händler sind auf Aura Historia vertreten?",
+                    "answer": "Wir arbeiten mit über 500 renommierten Antiquitätenhändlern aus mehr als 15 Ländern zusammen. Darunter finden Sie sowohl große Auktionshäuser als auch spezialisierte Fachhändler für verschiedene Antiquitätenbereiche."
+                }
+            }
         }
     },
     "apiErrors": {
