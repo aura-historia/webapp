@@ -4,7 +4,7 @@ import { createFileRoute, type SearchSchemaInput } from "@tanstack/react-router"
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
-import { type ItemState, parseItemState } from "@/data/internal/ItemState.ts";
+import { type ProductState, parseProductState } from "@/data/internal/ProductState.ts";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer.tsx";
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/search")({
             q: string;
             priceFrom?: number;
             priceTo?: number;
-            allowedStates?: ItemState[];
+            allowedStates?: ProductState[];
             creationDateFrom?: string;
             creationDateTo?: string;
             updateDateFrom?: string;
@@ -77,7 +77,7 @@ export const Route = createFileRoute("/search")({
             priceTo: validPriceTo,
             allowedStates: Array.isArray(search.allowedStates)
                 ? search.allowedStates
-                      .map((state) => parseItemState(state))
+                      .map((state) => parseProductState(state))
                       .filter((elem, index, self) => index === self.indexOf(elem))
                 : undefined,
             creationDateFrom: fromCreationDate,

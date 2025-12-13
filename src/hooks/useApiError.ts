@@ -1,18 +1,23 @@
 import { useTranslation } from "react-i18next";
+import type { ApiErrorData } from "@/data/internal/ApiError";
 
 export function useApiError() {
     const { t } = useTranslation();
 
-    const getErrorMessage = (errorCode?: string): string => {
-        if (!errorCode) {
-            return t("apiErrors.unknown");
-        }
+    const getErrorMessage = (error: ApiErrorData): string => {
+        console.error("[API Error]", {
+            status: error.status,
+            title: error.title,
+            code: error.error,
+            detail: error.detail,
+            source: error.source,
+        });
 
-        const translationKey = `apiErrors.${errorCode}`;
+        const translationKey = `apiErrors.${error.error}`;
         const translated = t(translationKey);
 
         if (translated === translationKey) {
-            console.log(`[useApiError] Unknown error code: ${errorCode}`);
+            console.error(`[useApiError] Unknown error code: ${error.error}`);
             return t("apiErrors.unknown");
         }
 

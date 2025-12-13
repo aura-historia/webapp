@@ -3,8 +3,8 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistItem, complexSearchItems, createUserSearchFilter, deleteUserSearchFilter, deleteWatchlistItem, getItem, getShop, getSimilarItems, getUserSearchFilter, getUserSearchFilters, getWatchlistItems, type Options, patchWatchlistItem, putItems, searchShops, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistItemData, AddWatchlistItemError, AddWatchlistItemResponse, ComplexSearchItemsData, ComplexSearchItemsError, ComplexSearchItemsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistItemData, DeleteWatchlistItemError, DeleteWatchlistItemResponse, GetItemData2, GetShopData2, GetSimilarItemsData, GetUserSearchFilterData, GetUserSearchFiltersData, GetWatchlistItemsData, PatchWatchlistItemData, PatchWatchlistItemError, PatchWatchlistItemResponse, PutItemsData, PutItemsError, PutItemsResponse2, SearchShopsData, SearchShopsError, SearchShopsResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import { addWatchlistProduct, complexSearchProducts, createUserSearchFilter, deleteUserSearchFilter, deleteWatchlistProduct, getProduct, getShop, getSimilarProducts, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchWatchlistProduct, putProducts, searchShops, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetProductData2, GetShopData2, GetSimilarProductsData, GetUserSearchFilterData, GetUserSearchFiltersData, GetWatchlistProductsData, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PutProductsData, PutProductsError, PutProductsResponse2, SearchShopsData, SearchShopsError, SearchShopsResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -41,24 +41,24 @@ const createQueryKey = <TOptions extends Options>(id: string, options?: TOptions
     ];
 };
 
-export const getItemQueryKey = (options: Options<GetItemData2>) => createQueryKey('getItem', options);
+export const getProductQueryKey = (options: Options<GetProductData2>) => createQueryKey('getProduct', options);
 
 /**
- * Get a single item
+ * Get a single product
  *
- * Retrieves a single item by its shop ID and shop's item ID.
+ * Retrieves a single product by its shop ID and shop's product ID.
  * Returns localized content based on Accept-Language header and currency preferences.
- * Optionally includes item history when requested.
+ * Optionally includes product history when requested.
  *
  * **Personalization**: When authenticated (via optional Authorization header), the response includes
- * user-specific state such as whether the item is on the user's watchlist and notification preferences.
- * Anonymous requests receive item data without user state.
+ * user-specific state such as whether the product is on the user's watchlist and notification preferences.
+ * Anonymous requests receive product data without user state.
  *
  */
-export const getItemOptions = (options: Options<GetItemData2>) => {
+export const getProductOptions = (options: Options<GetProductData2>) => {
     return queryOptions({
         queryFn: async ({ queryKey, signal }) => {
-            const { data } = await getItem({
+            const { data } = await getProduct({
                 ...options,
                 ...queryKey[0],
                 signal,
@@ -66,31 +66,31 @@ export const getItemOptions = (options: Options<GetItemData2>) => {
             });
             return data;
         },
-        queryKey: getItemQueryKey(options)
+        queryKey: getProductQueryKey(options)
     });
 };
 
-export const getSimilarItemsQueryKey = (options: Options<GetSimilarItemsData>) => createQueryKey('getSimilarItems', options);
+export const getSimilarProductsQueryKey = (options: Options<GetSimilarProductsData>) => createQueryKey('getSimilarProducts', options);
 
 /**
- * Get similar items
+ * Get similar products
  *
- * Retrieves items similar to the specified item using semantic search based on text embeddings.
+ * Retrieves products similar to the specified product using semantic search based on text embeddings.
  * Returns localized content based on Accept-Language header and currency preferences.
  *
  * **Personalization**: When authenticated (via optional Authorization header), the response includes
- * user-specific state for each similar item (watchlist status, notifications).
- * Anonymous requests receive item data without user state.
+ * user-specific state for each similar product (watchlist status, notifications).
+ * Anonymous requests receive product data without user state.
  *
- * **Asynchronous Processing**: If the item's text embedding has not yet been computed (typically for
- * items created less than 24 hours ago), the endpoint returns 202 Accepted with a Location header
+ * **Asynchronous Processing**: If the product's text embedding has not yet been computed (typically for
+ * products created less than 24 hours ago), the endpoint returns 202 Accepted with a Location header
  * to poll. The embedding generation runs nightly via batch processing.
  *
  */
-export const getSimilarItemsOptions = (options: Options<GetSimilarItemsData>) => {
+export const getSimilarProductsOptions = (options: Options<GetSimilarProductsData>) => {
     return queryOptions({
         queryFn: async ({ queryKey, signal }) => {
-            const { data } = await getSimilarItems({
+            const { data } = await getSimilarProducts({
                 ...options,
                 ...queryKey[0],
                 signal,
@@ -98,33 +98,33 @@ export const getSimilarItemsOptions = (options: Options<GetSimilarItemsData>) =>
             });
             return data;
         },
-        queryKey: getSimilarItemsQueryKey(options)
+        queryKey: getSimilarProductsQueryKey(options)
     });
 };
 
 /**
- * Bulk create or update items
+ * Bulk create or update products
  *
- * Creates or updates multiple items in a single batch request.
- * This endpoint accepts a collection of item data and processes them asynchronously.
+ * Creates or updates multiple products in a single batch request.
+ * This endpoint accepts a collection of product data and processes them asynchronously.
  *
  * **Shop Enrichment**: The shop information (shopId and shopName) is automatically
- * enriched based on the item's URL. The URL must belong to a shop that is already
- * registered in the system. If the shop is not found, the item will fail with
+ * enriched based on the product's URL. The URL must belong to a shop that is already
+ * registered in the system. If the shop is not found, the product will fail with
  * a SHOP_NOT_FOUND error.
  *
  * **Response Structure**:
- * - `skipped`: Number of items that had no changes and were skipped
- * - `unprocessed`: URLs of items that could not be processed due to temporary issues (can be retried)
- * - `failed`: Map of item URLs to error codes for items that permanently failed processing
+ * - `skipped`: Number of products that had no changes and were skipped
+ * - `unprocessed`: URLs of products that could not be processed due to temporary issues (can be retried)
+ * - `failed`: Map of product URLs to error codes for products that permanently failed processing
  *
- * Returns information about any items that could not be processed or failed during enrichment.
+ * Returns information about any products that could not be processed or failed during enrichment.
  *
  */
-export const putItemsMutation = (options?: Partial<Options<PutItemsData>>): UseMutationOptions<PutItemsResponse2, PutItemsError, Options<PutItemsData>> => {
-    const mutationOptions: UseMutationOptions<PutItemsResponse2, PutItemsError, Options<PutItemsData>> = {
+export const putProductsMutation = (options?: Partial<Options<PutProductsData>>): UseMutationOptions<PutProductsResponse2, PutProductsError, Options<PutProductsData>> => {
+    const mutationOptions: UseMutationOptions<PutProductsResponse2, PutProductsError, Options<PutProductsData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await putItems({
+            const { data } = await putProducts({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -136,22 +136,22 @@ export const putItemsMutation = (options?: Partial<Options<PutItemsData>>): UseM
 };
 
 /**
- * Complex item search
+ * Complex product search
  *
- * Performs an advanced search for items using a comprehensive search filter.
- * This endpoint accepts a ItemSearchData object in the request body,
+ * Performs an advanced search for products using a comprehensive search filter.
+ * This endpoint accepts a ProductSearchData object in the request body,
  * allowing for complex filtering by multiple criteria simultaneously.
- * Returns a paginated collection of items matching the search criteria.
+ * Returns a paginated collection of products matching the search criteria.
  *
  * **Personalization**: When authenticated (via optional Authorization header), the response includes
- * user-specific state for each item such as whether it's on the user's watchlist and notification preferences.
- * Anonymous requests receive item data without user state.
+ * user-specific state for each product such as whether it's on the user's watchlist and notification preferences.
+ * Anonymous requests receive product data without user state.
  *
  */
-export const complexSearchItemsMutation = (options?: Partial<Options<ComplexSearchItemsData>>): UseMutationOptions<ComplexSearchItemsResponse, ComplexSearchItemsError, Options<ComplexSearchItemsData>> => {
-    const mutationOptions: UseMutationOptions<ComplexSearchItemsResponse, ComplexSearchItemsError, Options<ComplexSearchItemsData>> = {
+export const complexSearchProductsMutation = (options?: Partial<Options<ComplexSearchProductsData>>): UseMutationOptions<ComplexSearchProductsResponse, ComplexSearchProductsError, Options<ComplexSearchProductsData>> => {
+    const mutationOptions: UseMutationOptions<ComplexSearchProductsResponse, ComplexSearchProductsError, Options<ComplexSearchProductsData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await complexSearchItems({
+            const { data } = await complexSearchProducts({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -280,20 +280,20 @@ export const updateUserSearchFilterMutation = (options?: Partial<Options<UpdateU
     return mutationOptions;
 };
 
-export const getWatchlistItemsQueryKey = (options?: Options<GetWatchlistItemsData>) => createQueryKey('getWatchlistItems', options);
+export const getWatchlistProductsQueryKey = (options?: Options<GetWatchlistProductsData>) => createQueryKey('getWatchlistProducts', options);
 
 /**
- * List user's watchlist items
+ * List user's watchlist products
  *
- * Retrieves all items in the authenticated user's watchlist.
+ * Retrieves all products in the authenticated user's watchlist.
  * Results are paginated using search-after cursor-based pagination with timestamp.
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getWatchlistItemsOptions = (options?: Options<GetWatchlistItemsData>) => {
+export const getWatchlistProductsOptions = (options?: Options<GetWatchlistProductsData>) => {
     return queryOptions({
         queryFn: async ({ queryKey, signal }) => {
-            const { data } = await getWatchlistItems({
+            const { data } = await getWatchlistProducts({
                 ...options,
                 ...queryKey[0],
                 signal,
@@ -301,23 +301,23 @@ export const getWatchlistItemsOptions = (options?: Options<GetWatchlistItemsData
             });
             return data;
         },
-        queryKey: getWatchlistItemsQueryKey(options)
+        queryKey: getWatchlistProductsQueryKey(options)
     });
 };
 
 /**
- * Add item to watchlist
+ * Add product to watchlist
  *
- * Adds an item to the authenticated user's watchlist.
- * The request body must contain the shop ID and shop's item ID.
+ * Adds an product to the authenticated user's watchlist.
+ * The request body must contain the shop ID and shop's product ID.
  * Returns a 201 Created response with a Location header pointing to the created resource.
  * Requires valid Cognito JWT authentication.
  *
  */
-export const addWatchlistItemMutation = (options?: Partial<Options<AddWatchlistItemData>>): UseMutationOptions<AddWatchlistItemResponse, AddWatchlistItemError, Options<AddWatchlistItemData>> => {
-    const mutationOptions: UseMutationOptions<AddWatchlistItemResponse, AddWatchlistItemError, Options<AddWatchlistItemData>> = {
+export const addWatchlistProductMutation = (options?: Partial<Options<AddWatchlistProductData>>): UseMutationOptions<AddWatchlistProductResponse, AddWatchlistProductError, Options<AddWatchlistProductData>> => {
+    const mutationOptions: UseMutationOptions<AddWatchlistProductResponse, AddWatchlistProductError, Options<AddWatchlistProductData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await addWatchlistItem({
+            const { data } = await addWatchlistProduct({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -329,17 +329,17 @@ export const addWatchlistItemMutation = (options?: Partial<Options<AddWatchlistI
 };
 
 /**
- * Remove item from watchlist
+ * Remove product from watchlist
  *
- * Removes a specific item from the authenticated user's watchlist.
+ * Removes a specific product from the authenticated user's watchlist.
  * Returns a 204 No Content response on success.
  * Requires valid Cognito JWT authentication.
  *
  */
-export const deleteWatchlistItemMutation = (options?: Partial<Options<DeleteWatchlistItemData>>): UseMutationOptions<DeleteWatchlistItemResponse, DeleteWatchlistItemError, Options<DeleteWatchlistItemData>> => {
-    const mutationOptions: UseMutationOptions<DeleteWatchlistItemResponse, DeleteWatchlistItemError, Options<DeleteWatchlistItemData>> = {
+export const deleteWatchlistProductMutation = (options?: Partial<Options<DeleteWatchlistProductData>>): UseMutationOptions<DeleteWatchlistProductResponse, DeleteWatchlistProductError, Options<DeleteWatchlistProductData>> => {
+    const mutationOptions: UseMutationOptions<DeleteWatchlistProductResponse, DeleteWatchlistProductError, Options<DeleteWatchlistProductData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await deleteWatchlistItem({
+            const { data } = await deleteWatchlistProduct({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -351,17 +351,17 @@ export const deleteWatchlistItemMutation = (options?: Partial<Options<DeleteWatc
 };
 
 /**
- * Update watchlist item settings
+ * Update watchlist product settings
  *
- * Updates settings for a specific watchlist item (e.g., toggle notifications).
- * Returns the updated watchlist item data with core identifiers and settings.
+ * Updates settings for a specific watchlist product (e.g., toggle notifications).
+ * Returns the updated watchlist product data with core identifiers and settings.
  * Requires valid Cognito JWT authentication.
  *
  */
-export const patchWatchlistItemMutation = (options?: Partial<Options<PatchWatchlistItemData>>): UseMutationOptions<PatchWatchlistItemResponse, PatchWatchlistItemError, Options<PatchWatchlistItemData>> => {
-    const mutationOptions: UseMutationOptions<PatchWatchlistItemResponse, PatchWatchlistItemError, Options<PatchWatchlistItemData>> = {
+export const patchWatchlistProductMutation = (options?: Partial<Options<PatchWatchlistProductData>>): UseMutationOptions<PatchWatchlistProductResponse, PatchWatchlistProductError, Options<PatchWatchlistProductData>> => {
+    const mutationOptions: UseMutationOptions<PatchWatchlistProductResponse, PatchWatchlistProductError, Options<PatchWatchlistProductData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await patchWatchlistItem({
+            const { data } = await patchWatchlistProduct({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
