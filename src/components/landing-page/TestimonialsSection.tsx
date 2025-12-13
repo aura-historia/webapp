@@ -8,16 +8,19 @@ const testimonials = [
         nameKey: "landingPage.testimonials.testimonial1.name",
         roleKey: "landingPage.testimonials.testimonial1.role",
         quoteKey: "landingPage.testimonials.testimonial1.quote",
+        image: "src/assets/testimonials/testimonial1.jpg",
     },
     {
         nameKey: "landingPage.testimonials.testimonial2.name",
         roleKey: "landingPage.testimonials.testimonial2.role",
         quoteKey: "landingPage.testimonials.testimonial2.quote",
+        image: "src/assets/testimonials/testimonial2.jpg",
     },
     {
         nameKey: "landingPage.testimonials.testimonial3.name",
         roleKey: "landingPage.testimonials.testimonial3.role",
         quoteKey: "landingPage.testimonials.testimonial3.quote",
+        image: undefined,
     },
 ];
 
@@ -48,9 +51,17 @@ export default function TestimonialsSection() {
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                                        <span className="text-primary font-semibold text-lg">
-                                            {t(testimonial.nameKey).charAt(0)}
-                                        </span>
+                                        {testimonial.image ? (
+                                            <img
+                                                src={testimonial.image}
+                                                className="w-12 h-12 rounded-full object-cover"
+                                                alt={""}
+                                            />
+                                        ) : (
+                                            <span className="text-primary font-semibold text-lg">
+                                                {t(testimonial.nameKey).charAt(0)}
+                                            </span>
+                                        )}
                                     </div>
                                     <div>
                                         <p className="font-semibold overflow">
