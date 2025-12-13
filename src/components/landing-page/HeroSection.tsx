@@ -28,7 +28,7 @@ export default function HeroSection() {
                         {t("landingPage.badge")}
                     </span>
                 </div>
-                <H1 className="text-center hyphens-auto !text-4xl md:!text-5xl lg:!text-6xl leading-tight">
+                <H1 className="text-center hyphens-none text-4xl md:text-5xl lg:text-6xl leading-tight">
                     {t("landingPage.titleFirstLine")}
                     <br />
                     <span className="text-primary">{t("landingPage.titleSecondLine")}</span>
