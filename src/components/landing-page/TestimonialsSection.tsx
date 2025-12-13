@@ -2,19 +2,21 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { useTranslation } from "react-i18next";
 import { Quote } from "lucide-react";
+import testimonialImage1 from "@/assets/testimonials/testimonial1.jpg";
+import testimonialImage2 from "@/assets/testimonials/testimonial2.jpg";
 
 const testimonials = [
     {
         nameKey: "landingPage.testimonials.testimonial1.name",
         roleKey: "landingPage.testimonials.testimonial1.role",
         quoteKey: "landingPage.testimonials.testimonial1.quote",
-        image: "src/assets/testimonials/testimonial1.jpg",
+        image: testimonialImage1,
     },
     {
         nameKey: "landingPage.testimonials.testimonial2.name",
         roleKey: "landingPage.testimonials.testimonial2.role",
         quoteKey: "landingPage.testimonials.testimonial2.quote",
-        image: "src/assets/testimonials/testimonial2.jpg",
+        image: testimonialImage2,
     },
     {
         nameKey: "landingPage.testimonials.testimonial3.name",
