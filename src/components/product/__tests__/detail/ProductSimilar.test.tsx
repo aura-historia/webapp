@@ -52,7 +52,7 @@ beforeAll(() => {
 });
 
 describe("ProductSimilar", () => {
-    const mockItems: OverviewProduct[] = [
+    const mockProducts: OverviewProduct[] = [
         {
             productId: "1",
             eventId: "",
@@ -174,7 +174,7 @@ describe("ProductSimilar", () => {
         ).toBeInTheDocument();
     });
 
-    it("should render no data state when items array is empty", () => {
+    it("should render no data state when products array is empty", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
             data: { isEmbeddingsPending: false, products: [] },
             isLoading: false,
@@ -191,7 +191,7 @@ describe("ProductSimilar", () => {
         ).toBeInTheDocument();
     });
 
-    it("should render no data state when items is undefined", () => {
+    it("should render no data state when products is undefined", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
             data: { isEmbeddingsPending: false, products: undefined as never },
             isLoading: false,
@@ -206,7 +206,7 @@ describe("ProductSimilar", () => {
 
     it("should render similar products correctly in carousel", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: false, products: mockItems },
+            data: { isEmbeddingsPending: false, products: mockProducts },
             isLoading: false,
             isError: false,
             error: null,
@@ -225,7 +225,7 @@ describe("ProductSimilar", () => {
 
     it("should render navigation buttons for mobile view", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: false, products: mockItems },
+            data: { isEmbeddingsPending: false, products: mockProducts },
             isLoading: false,
             isError: false,
             error: null,
@@ -239,7 +239,7 @@ describe("ProductSimilar", () => {
 
     it("should handle carousel navigation", async () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: false, products: mockItems },
+            data: { isEmbeddingsPending: false, products: mockProducts },
             isLoading: false,
             isError: false,
             error: null,
@@ -258,7 +258,7 @@ describe("ProductSimilar", () => {
 
     it("should render items with correct prices and without prices", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: false, products: mockItems },
+            data: { isEmbeddingsPending: false, products: mockProducts },
             isLoading: false,
             isError: false,
             error: null,
@@ -273,7 +273,7 @@ describe("ProductSimilar", () => {
 
     it("should render all product cards with detail buttons", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: false, products: mockItems },
+            data: { isEmbeddingsPending: false, products: mockProducts },
             isLoading: false,
             isError: false,
             error: null,
@@ -282,6 +282,6 @@ describe("ProductSimilar", () => {
         render(<ProductSimilar {...defaultProps} />);
 
         const detailButtons = screen.getAllByText("Details");
-        expect(detailButtons).toHaveLength(mockItems.length);
+        expect(detailButtons).toHaveLength(mockProducts.length);
     });
 });

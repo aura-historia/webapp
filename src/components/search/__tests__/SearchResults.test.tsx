@@ -85,7 +85,7 @@ describe("SearchResults", () => {
         ).toBeInTheDocument();
     });
 
-    it("renders a message when no items are found", () => {
+    it("renders a message when no products are found", () => {
         setSearchMock({ products: [] });
         renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
         expect(screen.getByText("Keine Ergebnisse gefunden")).toBeInTheDocument();
@@ -111,12 +111,12 @@ describe("SearchResults", () => {
 
         setSearchMock({
             products: [
-                { ...base, productId: "1", title: "Item 1" },
-                { ...base, productId: "2", title: "Item 2" },
+                { ...base, productId: "1", title: "Product 1" },
+                { ...base, productId: "2", title: "Product 2" },
             ],
         });
         renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
-        expect(screen.getByText("Item 1")).toBeInTheDocument();
-        expect(screen.getByText("Item 2")).toBeInTheDocument();
+        expect(screen.getByText("Product 1")).toBeInTheDocument();
+        expect(screen.getByText("Product 2")).toBeInTheDocument();
     });
 });

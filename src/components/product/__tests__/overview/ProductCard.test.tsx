@@ -24,7 +24,7 @@ describe("ProductCard", () => {
         updated: new Date(),
         url: new URL("https://example.com"),
         productId: "1",
-        title: "Sample Item",
+        title: "Sample Product",
         shopName: "Sample Shop",
         state: "AVAILABLE",
         price: "100€",
@@ -33,7 +33,7 @@ describe("ProductCard", () => {
 
     it("should render the product title, shop name, and price correctly", () => {
         renderWithQueryClient(<ProductCard product={mockProduct} />);
-        expect(screen.getByText("Sample Item")).toBeInTheDocument();
+        expect(screen.getByText("Sample Product")).toBeInTheDocument();
         expect(screen.getByText("Sample Shop")).toBeInTheDocument();
         expect(screen.getByText("100€")).toBeInTheDocument();
     });
