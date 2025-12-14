@@ -1,7 +1,17 @@
 import { H2 } from "@/components/typography/H2.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { useTranslation } from "react-i18next";
-import { Search, Bell, TrendingDown, Globe, History, Heart } from "lucide-react";
+import {
+    Search,
+    Bell,
+    TrendingDown,
+    Globe,
+    History,
+    Heart,
+    Languages,
+    Funnel,
+    Bot,
+} from "lucide-react";
 
 const features = [
     {
@@ -34,6 +44,23 @@ const features = [
         titleKey: "landingPage.features.watchlist.title",
         descKey: "landingPage.features.watchlist.description",
     },
+    {
+        icon: Languages,
+        titleKey: "landingPage.features.translations.title",
+        descKey: "landingPage.features.translations.description",
+    },
+    {
+        icon: Funnel,
+        titleKey: "landingPage.features.personalFilter.title",
+        descKey: "landingPage.features.personalFilter.description",
+        isPreview: true,
+    },
+    {
+        icon: Bot,
+        titleKey: "landingPage.features.aiSearchAgent.title",
+        descKey: "landingPage.features.aiSearchAgent.description",
+        isPreview: true,
+    },
 ];
 
 export default function FeaturesSection() {
@@ -55,8 +82,15 @@ export default function FeaturesSection() {
                             className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-primary/10 hover:border-primary/30"
                         >
                             <CardHeader>
-                                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                                    <feature.icon className="w-6 h-6 text-primary" />
+                                <div className="flex items-center justify-between flex-row gap-4 mb-4">
+                                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                        <feature.icon className="w-6 h-6 text-primary" />
+                                    </div>
+                                    {feature.isPreview && (
+                                        <span className="inline-block px-4 py-2 grow-0 text-xs font-medium bg-primary/10 rounded-full">
+                                            {t("landingPage.features.previewBadge")}
+                                        </span>
+                                    )}
                                 </div>
                                 <CardTitle className="text-xl">{t(feature.titleKey)}</CardTitle>
                             </CardHeader>

@@ -24,7 +24,7 @@ export default function HeroSection() {
 
             <div className="w-full max-w-4xl px-4 relative z-10">
                 <div className="text-center mb-6">
-                    <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+                    <span className="inline-block px-4 py-2 rounded-full bg-primary/10 border-primary border-1 text-primary text-sm font-medium mb-6">
                         {t("landingPage.badge")}
                     </span>
                 </div>

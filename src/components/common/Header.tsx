@@ -147,7 +147,7 @@ export function Header() {
             <div className="hidden md:flex items-center justify-end gap-4 w-full">
                 {user ? (
                     <>
-                        <NavigationMenu className={"md:inline mr-4 flex-none"}>
+                        <NavigationMenu className={"md:inline flex-none"}>
                             <NavigationMenuList>
                                 <NavigationMenuItem>
                                     <NavigationMenuLink asChild>

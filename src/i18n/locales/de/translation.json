@@ -171,7 +171,7 @@
     },
     "discover": {
         "title": "Ihr Fenster zur Welt der Antiquitäten",
-        "p1": "Aura Historia durchsucht täglich hunderte von Antiquitätenhändlern weltweit und bringt deren Schätze an einem Ort zusammen. Ob Sie ein erfahrener Sammler oder ein neugieriger Entdecker sind – bei uns finden Sie einzigartige Stücke mit Geschichte.",
+        "p1": "Aura Historia durchsucht täglich tausende von Antiquitätenhändlern weltweit und bringt deren Schätze an einem Ort zusammen. Ob Sie ein erfahrener Sammler oder ein neugieriger Entdecker sind – bei uns finden Sie einzigartige Stücke mit Geschichte.",
         "p2": "Unsere intelligente Plattform erfasst nicht nur aktuelle Angebote, sondern verfolgt auch Preisänderungen und Verfügbarkeiten. So verpassen Sie nie wieder ein Schnäppchen und behalten den Markt stets im Blick.",
         "highlight1": {
             "title": "Über 500 Händler vernetzt",
@@ -179,7 +179,7 @@
         },
         "highlight2": {
             "title": "Echtzeit-Überwachung",
-            "description": "Preisänderungen und Statusupdates werden automatisch erfasst und in Ihrer Merkliste angezeigt."
+            "description": "Preisänderungen und Verfügbarkeit werden automatisch erfasst und angezeigt."
         },
         "highlight3": {
             "title": "Transparente Preisentwicklung",
@@ -197,23 +197,24 @@
         }
     },
     "landingPage": {
-        "badge": "Die führende Plattform für Antiquitäten-Sammler",
+        "badge": "Die führende Plattform für Antiquitäten-Liebhaber",
         "titleFirstLine": "Entdecken, vergleichen, sammeln –",
         "titleSecondLine": "Antiquitäten aus aller Welt",
         "subtitle": "Durchsuchen Sie über 120.000 einzigartige Antiquitäten von mehr als 500 Händlern weltweit. Verfolgen Sie Preisänderungen, speichern Sie Favoriten und verpassen Sie nie wieder ein Schnäppchen.",
-        "trustBadge1": "Kostenlos nutzen",
+        "trustBadge1": "Vollständig kostenfrei",
         "trustBadge2": "Keine Registrierung nötig",
-        "trustBadge3": "Täglich aktualisiert",
+        "trustBadge3": "Mehrmals täglich aktualisiert",
         "features": {
             "title": "Alles, was Sammler brauchen",
-            "subtitle": "Aura Historia bietet Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen und Ihre Schätze zu finden.",
+            "subtitle": "Aura Historia bietet Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen und Schätze zu finden.",
+            "previewBadge": "Bald verfügbar",
             "search": {
                 "title": "Intelligente Suche",
                 "description": "Durchsuchen Sie tausende Artikel mit unserer leistungsstarken Suchfunktion. Filtern Sie nach Kategorie, Preis, Händler und vielem mehr."
             },
             "global": {
                 "title": "Weltweite Abdeckung",
-                "description": "Wir verbinden Sie mit renommierten Antiquitätenhändlern aus über 15 Ländern – von Deutschland bis in die USA."
+                "description": "Wir verbinden Sie mit renommierten Antiquitätenhändlern aus über 15 Ländern – von Deutschland bis in die USA.."
             },
             "notifications": {
                 "title": "Preisbenachrichtigungen",
@@ -230,6 +231,18 @@
             "watchlist": {
                 "title": "Persönliche Merkliste",
                 "description": "Speichern Sie interessante Artikel und behalten Sie deren Entwicklung im Blick – alles an einem Ort."
+            },
+            "translations": {
+                "title": "Automatische Übersetzungen",
+                "description": "Lesen Sie Artikelbeschreibungen in Ihrer bevorzugten Sprache, ganz ohne Sprachbarrieren."
+            },
+            "personalFilter": {
+                "title": "Persönliche Filter",
+                "description": "Speichern Sie Ihre Suchfilter und werden Sie bei neuen Angeboten automatisch benachrichtigt."
+            },
+            "aiSearchAgent": {
+                "title": "KI Suchagent",
+                "description": "Ihr persönlicher KI-Agent hilft Ihnen, spezifische Antiquitäten zu finden, die sonst schwer zu entdecken sind."
             }
         },
         "howItWorks": {
@@ -245,11 +258,11 @@
             },
             "step3": {
                 "title": "Merken",
-                "description": "Speichern Sie interessante Artikel auf Ihrer persönlichen Merkliste."
+                "description": "Speichern Sie interessante Artikel auf Ihrer persönlichen Merkliste. Wir benachrichtigen Sie bei Änderungen."
             },
             "step4": {
                 "title": "Kaufen",
-                "description": "Werden Sie direkt zum Händler weitergeleitet, um Ihren Fund zu sichern."
+                "description": "Wir leiten Sie direkt zum Händler weiter, wo Sie Ihren Fund sichern können."
             }
         },
         "testimonials": {
@@ -287,8 +300,8 @@
             "subtitle": "Hier finden Sie Antworten auf die wichtigsten Fragen rund um Aura Historia.",
             "items": {
                 "free": {
-                    "question": "Ist Aura Historia wirklich kostenlos?",
-                    "answer": "Ja, die Nutzung von Aura Historia ist vollständig kostenlos. Sie können unbegrenzt suchen, Artikel auf Ihre Merkliste setzen und Preisverläufe einsehen – ohne versteckte Kosten oder Abonnements."
+                    "question": "Ist Aura Historia wirklich kostenfrei?",
+                    "answer": "Ja, die Nutzung von Aura Historia ist vollständig kostenfrei. Sie können unbegrenzt suchen, Artikel auf Ihre Merkliste setzen und Preisverläufe einsehen – ohne versteckte Kosten oder Abonnements."
                 },
                 "howItWorks": {
                     "question": "Wie funktioniert Aura Historia?",
@@ -300,7 +313,7 @@
                 },
                 "priceAlerts": {
                     "question": "Wie funktionieren die Preisbenachrichtigungen?",
-                    "answer": "Sobald Sie einen Artikel auf Ihre Merkliste setzen, verfolgen wir automatisch dessen Preisentwicklung. Wenn der Preis sinkt, erhalten Sie eine Benachrichtigung – so verpassen Sie nie wieder ein Schnäppchen."
+                    "answer": "Sobald Sie einen Artikel auf Ihre Merkliste setzen, verfolgen wir automatisch dessen Preisentwicklung für Sie. Sobald sich etwas bei Ihrem Artikel ändert, erhalten Sie eine Benachrichtigung – so verpassen Sie nie wieder ein Schnäppchen."
                 },
                 "updateFrequency": {
                     "question": "Wie oft werden die Daten aktualisiert?",
