@@ -1,6 +1,6 @@
 import { getSimilarProducts } from "@/client";
 import {
-    mapToInternalOverviewProduct,
+    mapPersonalizedGetProductDataToOverviewProduct,
     type OverviewProduct,
 } from "@/data/internal/OverviewProduct";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
@@ -48,7 +48,7 @@ export function useSimilarProducts(
             }
 
             return {
-                products: result.data.map(mapToInternalOverviewProduct),
+                products: result.data.map(mapPersonalizedGetProductDataToOverviewProduct),
                 isEmbeddingsPending: false,
             };
         },

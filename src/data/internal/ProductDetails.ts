@@ -10,7 +10,7 @@ import type {
     PersonalizedGetProductData,
 } from "@/client";
 import {
-    mapToInternalOverviewProduct,
+    mapPersonalizedGetProductDataToOverviewProduct,
     type OverviewProduct,
 } from "@/data/internal/OverviewProduct";
 import { parseProductState, type ProductState } from "@/data/internal/ProductState";
@@ -231,7 +231,7 @@ function mapEventPayload(
  */
 export function mapToDetailProduct(apiData: PersonalizedGetProductData): ProductDetail {
     return {
-        ...mapToInternalOverviewProduct(apiData),
+        ...mapPersonalizedGetProductDataToOverviewProduct(apiData),
         history: apiData.item.history?.map(
             (apiEvent: GetProductEventData): ProductEvent => ({
                 eventType: apiEvent.eventType,

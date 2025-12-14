@@ -1,4 +1,9 @@
-import type { PersonalizedGetProductData } from "@/client";
+import type {
+    PersonalizedGetProductData,
+    WatchlistProductData,
+    GetProductData,
+    ProductUserStateData,
+} from "@/client";
 import { formatPrice } from "@/lib/utils.ts";
 import { type ProductState, parseProductState } from "@/data/internal/ProductState.ts";
 import {
@@ -23,10 +28,10 @@ export type OverviewProduct = {
     readonly userData?: UserProductData;
 };
 
-export function mapToInternalOverviewProduct(apiData: PersonalizedGetProductData): OverviewProduct {
-    const productData = apiData.item;
-    const userData = apiData.userState;
-
+function mapProductDataToOverviewProduct(
+    productData: GetProductData,
+    userData?: ProductUserStateData | null,
+): OverviewProduct {
     return {
         productId: productData.productId,
         eventId: productData.eventId,
@@ -48,4 +53,21 @@ export function mapToInternalOverviewProduct(apiData: PersonalizedGetProductData
         updated: new Date(productData.updated),
         userData: userData ? mapToInternalUserProductData(userData) : undefined,
     };
+}
+
+export function mapPersonalizedGetProductDataToOverviewProduct(
+    apiData: PersonalizedGetProductData,
+): OverviewProduct {
+    return mapProductDataToOverviewProduct(apiData.item, apiData.userState);
+}
+
+export function mapWatchlistProductDataToOverviewProduct(
+    apiData: WatchlistProductData,
+): OverviewProduct {
+    return mapProductDataToOverviewProduct(apiData.product, {
+        watchlist: {
+            watching: true,
+            notifications: apiData.notifications,
+        },
+    });
 }
