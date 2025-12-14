@@ -524,7 +524,7 @@ export type PutProductData = {
     state: ProductStateData;
     /**
      * URL to the product on the shop's website.
-     * The shop will be automatically identified and enriched based on the domain extracted from this URL.
+     * The shop will be automatically identified and enriched based on this URL.
      *
      */
     url: string;
@@ -571,11 +571,9 @@ export type GetShopData = {
      */
     name: string;
     /**
-     * All known domains associated with the shop.
-     * Domains are normalized (lowercase, no scheme, no www prefix, no path/query/fragment).
-     *
+     * All known URLs to the shop's website
      */
-    domains: Array<string>;
+    urls: Array<string>;
     /**
      * Optional URL to the shop's logo or image
      */
@@ -588,54 +586,6 @@ export type GetShopData = {
      * When the shop was last updated (RFC3339 format)
      */
     updated: string;
-};
-
-/**
- * Data required to create a new shop
- */
-export type PostShopData = {
-    /**
-     * Display name of the shop
-     */
-    name: string;
-    /**
-     * All domains associated with the shop.
-     * Can be provided as full URLs (will be normalized) or as domain strings.
-     * Domains are normalized to lowercase without scheme, www prefix, or path/query/fragment.
-     * At least one domain is required, maximum 100 domains allowed.
-     *
-     */
-    domains: Array<string>;
-    /**
-     * Optional URL to the shop's logo or image
-     */
-    image?: string | null;
-};
-
-/**
- * Partial update data for a shop.
- * All fields are optional - only provided fields will be updated.
- * If the request body is empty or all fields are null, the shop is returned unchanged.
- *
- */
-export type PatchShopData = {
-    /**
-     * New display name for the shop
-     */
-    name?: string | null;
-    /**
-     * Complete new set of domains for the shop.
-     * Can be provided as full URLs (will be normalized) or as domain strings.
-     * When updating domains, the complete new set must be provided (not a diff).
-     * Domains are normalized to lowercase without scheme, www prefix, or path/query/fragment.
-     * Minimum 1 domain, maximum 100 domains.
-     *
-     */
-    domains?: Array<string> | null;
-    /**
-     * New URL to the shop's logo or image
-     */
-    image?: string | null;
 };
 
 /**
@@ -710,7 +660,7 @@ export type ProductKeyData = {
  * Watchlist product containing the product data and when it was added to the watchlist
  */
 export type WatchlistProductData = {
-    product?: GetProductData;
+    item: GetProductData;
     /**
      * Whether notifications are enabled for this watchlist product
      */
@@ -796,75 +746,12 @@ export type SortWatchlistProductFieldData = 'created';
 
 /**
  * Error codes for products that failed during processing:
- * - SHOP_NOT_FOUND: The shop associated with the product's domain is not registered in the system
+ * - SHOP_NOT_FOUND: The shop associated with the product's URL is not registered in the system
  * - MONETARY_AMOUNT_OVERFLOW: The price amount exceeds the maximum supported value during currency conversion
  * - PRODUCT_ENRICHMENT_FAILED: Failed to enrich the product with additional shop and price information
- * - NO_DOMAIN: The product URL does not contain a valid domain that can be extracted
  *
  */
-export type PutProductError = 'SHOP_NOT_FOUND' | 'MONETARY_AMOUNT_OVERFLOW' | 'PRODUCT_ENRICHMENT_FAILED' | 'NO_DOMAIN';
-
-/**
- * Complete user account information
- */
-export type GetUserAccountData = {
-    /**
-     * Unique identifier for the user
-     */
-    userId: string;
-    /**
-     * User's email address
-     */
-    email: string;
-    /**
-     * User's first name (optional, max 64 characters)
-     */
-    firstName?: string | null;
-    /**
-     * User's last name (optional, max 64 characters)
-     */
-    lastName?: string | null;
-    /**
-     * User's preferred language (optional)
-     */
-    language?: LanguageData | null;
-    /**
-     * User's preferred currency (optional)
-     */
-    currency?: CurrencyData | null;
-    /**
-     * When the user account was created (RFC3339 format)
-     */
-    created: string;
-    /**
-     * When the user account was last updated (RFC3339 format)
-     */
-    updated: string;
-};
-
-/**
- * Partial user account update data.
- * All fields are optional - only provided fields will be updated.
- *
- */
-export type PatchUserAccountData = {
-    /**
-     * New first name (max 64 characters)
-     */
-    firstName?: string | null;
-    /**
-     * New last name (max 64 characters)
-     */
-    lastName?: string | null;
-    /**
-     * New preferred language
-     */
-    language?: LanguageData | null;
-    /**
-     * New preferred currency
-     */
-    currency?: CurrencyData | null;
-};
+export type PutProductError = 'SHOP_NOT_FOUND' | 'MONETARY_AMOUNT_OVERFLOW' | 'PRODUCT_ENRICHMENT_FAILED';
 
 export type GetProductData2 = {
     body?: never;
@@ -1390,81 +1277,6 @@ export type AddWatchlistProductResponses = {
 
 export type AddWatchlistProductResponse = AddWatchlistProductResponses[keyof AddWatchlistProductResponses];
 
-export type GetUserAccountData2 = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/api/v1/me/account';
-};
-
-export type GetUserAccountErrors = {
-    /**
-     * Unauthorized - invalid or missing JWT token
-     */
-    401: ApiError;
-    /**
-     * User not found
-     */
-    404: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-};
-
-export type GetUserAccountError = GetUserAccountErrors[keyof GetUserAccountErrors];
-
-export type GetUserAccountResponses = {
-    /**
-     * User account data retrieved successfully
-     */
-    200: GetUserAccountData;
-};
-
-export type GetUserAccountResponse = GetUserAccountResponses[keyof GetUserAccountResponses];
-
-export type UpdateUserAccountData = {
-    /**
-     * Partial user account update data.
-     * All fields are optional - only provided fields will be updated.
-     *
-     */
-    body: PatchUserAccountData;
-    path?: never;
-    query?: never;
-    url: '/api/v1/me/account';
-};
-
-export type UpdateUserAccountErrors = {
-    /**
-     * Bad request - invalid request body
-     */
-    400: ApiError;
-    /**
-     * Unauthorized - invalid or missing JWT token
-     */
-    401: ApiError;
-    /**
-     * User not found
-     */
-    404: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-};
-
-export type UpdateUserAccountError = UpdateUserAccountErrors[keyof UpdateUserAccountErrors];
-
-export type UpdateUserAccountResponses = {
-    /**
-     * User account updated successfully
-     */
-    200: GetUserAccountData;
-};
-
-export type UpdateUserAccountResponse = UpdateUserAccountResponses[keyof UpdateUserAccountResponses];
-
 export type DeleteWatchlistProductData = {
     body?: never;
     path: {
@@ -1560,46 +1372,6 @@ export type PatchWatchlistProductResponses = {
 
 export type PatchWatchlistProductResponse = PatchWatchlistProductResponses[keyof PatchWatchlistProductResponses];
 
-export type CreateShopData = {
-    /**
-     * Shop data for creating a new shop
-     */
-    body: PostShopData;
-    path?: never;
-    query?: never;
-    url: '/api/v1/shops';
-};
-
-export type CreateShopErrors = {
-    /**
-     * Bad request - invalid request body
-     */
-    400: ApiError;
-    /**
-     * Conflict - shop with this domain already exists
-     */
-    409: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-    /**
-     * Service temporarily unavailable
-     */
-    503: ApiError;
-};
-
-export type CreateShopError = CreateShopErrors[keyof CreateShopErrors];
-
-export type CreateShopResponses = {
-    /**
-     * Shop created successfully
-     */
-    201: GetShopData;
-};
-
-export type CreateShopResponse = CreateShopResponses[keyof CreateShopResponses];
-
 export type GetShopData2 = {
     body?: never;
     path: {
@@ -1637,53 +1409,6 @@ export type GetShopResponses = {
 };
 
 export type GetShopResponse = GetShopResponses[keyof GetShopResponses];
-
-export type UpdateShopData = {
-    /**
-     * Partial shop update data.
-     * Only provided fields will be updated. All fields are optional.
-     *
-     */
-    body: PatchShopData;
-    path: {
-        /**
-         * Unique identifier of the shop to update
-         */
-        shopId: string;
-    };
-    query?: never;
-    url: '/api/v1/shops/{shopId}';
-};
-
-export type UpdateShopErrors = {
-    /**
-     * Bad request - invalid parameters or body
-     */
-    400: ApiError;
-    /**
-     * Shop not found
-     */
-    404: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-    /**
-     * Service temporarily unavailable
-     */
-    503: ApiError;
-};
-
-export type UpdateShopError = UpdateShopErrors[keyof UpdateShopErrors];
-
-export type UpdateShopResponses = {
-    /**
-     * Shop updated successfully
-     */
-    200: GetShopData;
-};
-
-export type UpdateShopResponse = UpdateShopResponses[keyof UpdateShopResponses];
 
 export type SearchShopsData = {
     /**

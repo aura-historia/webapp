@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateShopData, CreateShopErrors, CreateShopResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetProductData2, GetProductErrors, GetProductResponses, GetShopData2, GetShopErrors, GetShopResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PutProductsData, PutProductsErrors, PutProductsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, UpdateShopData, UpdateShopErrors, UpdateShopResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetProductData2, GetProductErrors, GetProductResponses, GetShopData2, GetShopErrors, GetShopResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PutProductsData, PutProductsErrors, PutProductsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -78,10 +78,9 @@ export const getSimilarProducts = <ThrowOnError extends boolean = false>(options
  * This endpoint accepts a collection of product data and processes them asynchronously.
  *
  * **Shop Enrichment**: The shop information (shopId and shopName) is automatically
- * enriched based on the product's URL. The domain is extracted from the product URL
- * and must match a shop that is already registered in the system. If the shop is not
- * found, the product will fail with a SHOP_NOT_FOUND error. If the URL does not contain
- * a valid extractable domain, the product will fail with a NO_DOMAIN error.
+ * enriched based on the product's URL. The URL must belong to a shop that is already
+ * registered in the system. If the shop is not found, the product will fail with
+ * a SHOP_NOT_FOUND error.
  *
  * **Response Structure**:
  * - `skipped`: Number of products that had no changes and were skipped
@@ -295,52 +294,6 @@ export const addWatchlistProduct = <ThrowOnError extends boolean = false>(option
 };
 
 /**
- * Get user account data
- *
- * Retrieves the authenticated user's account information including email, name, language, and currency preferences.
- * Requires valid Cognito JWT authentication.
- *
- */
-export const getUserAccount = <ThrowOnError extends boolean = false>(options?: Options<GetUserAccountData2, ThrowOnError>) => {
-    return (options?.client ?? client).get<GetUserAccountResponses, GetUserAccountErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/me/account',
-        ...options
-    });
-};
-
-/**
- * Update user account data
- *
- * Updates the authenticated user's account information.
- * All fields in the request body are optional - only provided fields will be updated.
- * Returns the updated user account data.
- * Requires valid Cognito JWT authentication.
- *
- */
-export const updateUserAccount = <ThrowOnError extends boolean = false>(options: Options<UpdateUserAccountData, ThrowOnError>) => {
-    return (options.client ?? client).patch<UpdateUserAccountResponses, UpdateUserAccountErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/me/account',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
  * Remove product from watchlist
  *
  * Removes a specific product from the authenticated user's watchlist.
@@ -387,55 +340,16 @@ export const patchWatchlistProduct = <ThrowOnError extends boolean = false>(opti
 };
 
 /**
- * Create a new shop
- *
- * Creates a new shop in the system with the provided details.
- * The shop must include at least one domain and can have up to 100 domains.
- * Returns the created shop with generated ID and timestamps.
- *
- */
-export const createShop = <ThrowOnError extends boolean = false>(options: Options<CreateShopData, ThrowOnError>) => {
-    return (options.client ?? client).post<CreateShopResponses, CreateShopErrors, ThrowOnError>({
-        url: '/api/v1/shops',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
-
-/**
  * Get shop details
  *
  * Retrieves detailed information about a specific shop by its unique identifier.
- * Returns complete shop metadata including name, domains, image, and timestamps.
+ * Returns complete shop metadata including name, URL, image, and timestamps.
  *
  */
 export const getShop = <ThrowOnError extends boolean = false>(options: Options<GetShopData2, ThrowOnError>) => {
     return (options.client ?? client).get<GetShopResponses, GetShopErrors, ThrowOnError>({
         url: '/api/v1/shops/{shopId}',
         ...options
-    });
-};
-
-/**
- * Update shop details
- *
- * Updates an existing shop's information by its unique identifier.
- * All fields in the request body are optional - only provided fields will be updated.
- * If the request body is empty or only contains null values, the shop is returned unchanged.
- * When updating URLs, the complete new set of URLs must be provided.
- *
- */
-export const updateShop = <ThrowOnError extends boolean = false>(options: Options<UpdateShopData, ThrowOnError>) => {
-    return (options.client ?? client).patch<UpdateShopResponses, UpdateShopErrors, ThrowOnError>({
-        url: '/api/v1/shops/{shopId}',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
     });
 };
 

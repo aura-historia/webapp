@@ -3,8 +3,8 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistProduct, complexSearchProducts, createShop, createUserSearchFilter, deleteUserSearchFilter, deleteWatchlistProduct, getProduct, getShop, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchWatchlistProduct, putProducts, searchShops, updateShop, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateShopData, CreateShopError, CreateShopResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetProductData2, GetShopData2, GetSimilarProductsData, GetUserAccountData2, GetUserSearchFilterData, GetUserSearchFiltersData, GetWatchlistProductsData, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PutProductsData, PutProductsError, PutProductsResponse2, SearchShopsData, SearchShopsError, SearchShopsResponse, UpdateShopData, UpdateShopError, UpdateShopResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import { addWatchlistProduct, complexSearchProducts, createUserSearchFilter, deleteUserSearchFilter, deleteWatchlistProduct, getProduct, getShop, getSimilarProducts, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchWatchlistProduct, putProducts, searchShops, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetProductData2, GetShopData2, GetSimilarProductsData, GetUserSearchFilterData, GetUserSearchFiltersData, GetWatchlistProductsData, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PutProductsData, PutProductsError, PutProductsResponse2, SearchShopsData, SearchShopsError, SearchShopsResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -109,10 +109,9 @@ export const getSimilarProductsOptions = (options: Options<GetSimilarProductsDat
  * This endpoint accepts a collection of product data and processes them asynchronously.
  *
  * **Shop Enrichment**: The shop information (shopId and shopName) is automatically
- * enriched based on the product's URL. The domain is extracted from the product URL
- * and must match a shop that is already registered in the system. If the shop is not
- * found, the product will fail with a SHOP_NOT_FOUND error. If the URL does not contain
- * a valid extractable domain, the product will fail with a NO_DOMAIN error.
+ * enriched based on the product's URL. The URL must belong to a shop that is already
+ * registered in the system. If the shop is not found, the product will fail with
+ * a SHOP_NOT_FOUND error.
  *
  * **Response Structure**:
  * - `skipped`: Number of products that had no changes and were skipped
@@ -329,53 +328,6 @@ export const addWatchlistProductMutation = (options?: Partial<Options<AddWatchli
     return mutationOptions;
 };
 
-export const getUserAccountQueryKey = (options?: Options<GetUserAccountData2>) => createQueryKey('getUserAccount', options);
-
-/**
- * Get user account data
- *
- * Retrieves the authenticated user's account information including email, name, language, and currency preferences.
- * Requires valid Cognito JWT authentication.
- *
- */
-export const getUserAccountOptions = (options?: Options<GetUserAccountData2>) => {
-    return queryOptions({
-        queryFn: async ({ queryKey, signal }) => {
-            const { data } = await getUserAccount({
-                ...options,
-                ...queryKey[0],
-                signal,
-                throwOnError: true
-            });
-            return data;
-        },
-        queryKey: getUserAccountQueryKey(options)
-    });
-};
-
-/**
- * Update user account data
- *
- * Updates the authenticated user's account information.
- * All fields in the request body are optional - only provided fields will be updated.
- * Returns the updated user account data.
- * Requires valid Cognito JWT authentication.
- *
- */
-export const updateUserAccountMutation = (options?: Partial<Options<UpdateUserAccountData>>): UseMutationOptions<UpdateUserAccountResponse, UpdateUserAccountError, Options<UpdateUserAccountData>> => {
-    const mutationOptions: UseMutationOptions<UpdateUserAccountResponse, UpdateUserAccountError, Options<UpdateUserAccountData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await updateUserAccount({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
 /**
  * Remove product from watchlist
  *
@@ -420,35 +372,13 @@ export const patchWatchlistProductMutation = (options?: Partial<Options<PatchWat
     return mutationOptions;
 };
 
-/**
- * Create a new shop
- *
- * Creates a new shop in the system with the provided details.
- * The shop must include at least one domain and can have up to 100 domains.
- * Returns the created shop with generated ID and timestamps.
- *
- */
-export const createShopMutation = (options?: Partial<Options<CreateShopData>>): UseMutationOptions<CreateShopResponse, CreateShopError, Options<CreateShopData>> => {
-    const mutationOptions: UseMutationOptions<CreateShopResponse, CreateShopError, Options<CreateShopData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await createShop({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
 export const getShopQueryKey = (options: Options<GetShopData2>) => createQueryKey('getShop', options);
 
 /**
  * Get shop details
  *
  * Retrieves detailed information about a specific shop by its unique identifier.
- * Returns complete shop metadata including name, domains, image, and timestamps.
+ * Returns complete shop metadata including name, URL, image, and timestamps.
  *
  */
 export const getShopOptions = (options: Options<GetShopData2>) => {
@@ -464,29 +394,6 @@ export const getShopOptions = (options: Options<GetShopData2>) => {
         },
         queryKey: getShopQueryKey(options)
     });
-};
-
-/**
- * Update shop details
- *
- * Updates an existing shop's information by its unique identifier.
- * All fields in the request body are optional - only provided fields will be updated.
- * If the request body is empty or only contains null values, the shop is returned unchanged.
- * When updating URLs, the complete new set of URLs must be provided.
- *
- */
-export const updateShopMutation = (options?: Partial<Options<UpdateShopData>>): UseMutationOptions<UpdateShopResponse, UpdateShopError, Options<UpdateShopData>> => {
-    const mutationOptions: UseMutationOptions<UpdateShopResponse, UpdateShopError, Options<UpdateShopData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await updateShop({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
 };
 
 /**
