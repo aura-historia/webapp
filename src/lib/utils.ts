@@ -1,13 +1,13 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
-import type { ItemEvent, Price } from "@/data/internal/ItemDetails.ts";
+import type { ProductEvent, Price } from "@/data/internal/ProductDetails.ts";
 import {
     isPriceChangedEvent,
     isPriceDiscoveredEvent,
     isPriceRemovedEvent,
 } from "@/lib/eventFilters.ts";
-import type { ItemState } from "@/data/internal/ItemState.ts";
+import type { ProductState } from "@/data/internal/ProductState.ts";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -29,7 +29,7 @@ export function formatPrice(data: Price, locale?: string): string {
  *
  * Returns the price in minor currency units (cents) or null (0).
  */
-export function getPriceAmount(event: ItemEvent): number {
+export function getPriceAmount(event: ProductEvent): number {
     if (isPriceDiscoveredEvent(event)) {
         return event.payload.newPrice.amount;
     }
@@ -55,7 +55,7 @@ export type SearchFilterData = {
         min?: number;
         max?: number;
     };
-    itemState?: ItemState[];
+    productState?: ProductState[];
     creationDate?: {
         from?: Date;
         to?: Date;
@@ -71,7 +71,7 @@ export type SearchUrlParams = {
     q: string;
     priceFrom?: number;
     priceTo?: number;
-    allowedStates?: ItemState[];
+    allowedStates?: ProductState[];
     creationDateFrom?: string;
     creationDateTo?: string;
     updateDateFrom?: string;
@@ -87,7 +87,8 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
         q: data.query,
         priceFrom: data.priceSpan?.min,
         priceTo: data.priceSpan?.max,
-        allowedStates: data.itemState && data.itemState.length > 0 ? data.itemState : undefined,
+        allowedStates:
+            data.productState && data.productState.length > 0 ? data.productState : undefined,
         creationDateFrom: data.creationDate?.from
             ? formatToDateString(data.creationDate.from)
             : undefined,
@@ -144,7 +145,7 @@ export function formatCompactCurrency(value: number): string {
     return `${formatted} €`;
 }
 
-export function formatStateName(state: ItemState): string {
+export function formatStateName(state: ProductState): string {
     switch (state) {
         case "LISTED":
             return "'Gelistet'";

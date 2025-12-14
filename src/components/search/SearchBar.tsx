@@ -63,7 +63,7 @@ export function SearchBar({ type }: SearchBarProps) {
                     min: searchParams.priceFrom,
                     max: searchParams.priceTo,
                 },
-                itemState: searchParams.allowedStates,
+                productState: searchParams.allowedStates,
                 creationDate: {
                     from: searchParams.creationDateFrom,
                     to: searchParams.creationDateTo,

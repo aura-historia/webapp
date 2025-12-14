@@ -1,13 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addWatchlistItem, deleteWatchlistItem } from "@/client";
+import { addWatchlistProduct, deleteWatchlistProduct } from "@/client";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { getItemQueryKey } from "@/client/@tanstack/react-query.gen.ts";
+import { getProductQueryKey } from "@/client/@tanstack/react-query.gen.ts";
 import { useApiError } from "@/hooks/useApiError.ts";
+import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 
 export type WatchlistMutationType = "addToWatchlist" | "deleteFromWatchlist";
 
-export function useWatchlistMutation(shopId: string, shopsItemId: string) {
+export function useWatchlistMutation(shopId: string, shopsProductId: string) {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
 
@@ -17,11 +18,11 @@ export function useWatchlistMutation(shopId: string, shopsItemId: string) {
         mutationFn: async (mutationType: WatchlistMutationType) => {
             const result =
                 mutationType === "deleteFromWatchlist"
-                    ? await deleteWatchlistItem({
-                          path: { shopId: shopId, shopsItemId: shopsItemId },
+                    ? await deleteWatchlistProduct({
+                          path: { shopId: shopId, shopsProductId: shopsProductId },
                       })
-                    : await addWatchlistItem({
-                          body: { shopId: shopId, shopsItemId: shopsItemId },
+                    : await addWatchlistProduct({
+                          body: { shopId: shopId, shopsProductId: shopsProductId },
                       });
 
             if (result.error) {
@@ -30,7 +31,7 @@ export function useWatchlistMutation(shopId: string, shopsItemId: string) {
                     return;
                 }
 
-                throw new Error(getErrorMessage(result.error.error));
+                throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
 
             return result.data;
@@ -44,8 +45,8 @@ export function useWatchlistMutation(shopId: string, shopsItemId: string) {
                 queryClient.invalidateQueries({ queryKey: ["watchlist"] }),
                 queryClient.invalidateQueries({ queryKey: ["search"] }),
                 queryClient.invalidateQueries({
-                    queryKey: getItemQueryKey({
-                        path: { shopId: shopId, shopsItemId: shopsItemId },
+                    queryKey: getProductQueryKey({
+                        path: { shopId: shopId, shopsProductId: shopsProductId },
                         query: {
                             history: true,
                         },

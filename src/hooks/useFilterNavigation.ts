@@ -4,10 +4,10 @@ import { useFormContext } from "react-hook-form";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { formatToDateString } from "@/lib/utils.ts";
 
-function isDefaultItemState(states: FilterSchema["itemState"]): boolean {
+function isDefaultProductState(states: FilterSchema["productState"]): boolean {
     return (
-        states.length === FILTER_DEFAULTS.itemState.length &&
-        states.every((s) => FILTER_DEFAULTS.itemState.includes(s))
+        states.length === FILTER_DEFAULTS.productState.length &&
+        states.every((s) => FILTER_DEFAULTS.productState.includes(s))
     );
 }
 
@@ -47,7 +47,9 @@ export function useFilterNavigation() {
                 q: search.q,
                 priceFrom: hasCustomPrice ? data.priceSpan?.min : undefined,
                 priceTo: hasCustomPrice ? data.priceSpan?.max : undefined,
-                allowedStates: isDefaultItemState(data.itemState) ? undefined : data.itemState,
+                allowedStates: isDefaultProductState(data.productState)
+                    ? undefined
+                    : data.productState,
                 creationDateFrom: creationDateRange?.from,
                 creationDateTo: creationDateRange?.to,
                 updateDateFrom: updateDateRange?.from,

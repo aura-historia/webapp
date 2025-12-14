@@ -17,7 +17,7 @@ import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthWatchlistRouteImport } from './routes/_auth.watchlist'
 import { Route as AuthAccountRouteImport } from './routes/_auth.account'
-import { Route as ItemShopIdShopsItemIdRouteImport } from './routes/item.$shopId.$shopsItemId'
+import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -58,11 +58,12 @@ const AuthAccountRoute = AuthAccountRouteImport.update({
   path: '/account',
   getParentRoute: () => AuthRoute,
 } as any)
-const ItemShopIdShopsItemIdRoute = ItemShopIdShopsItemIdRouteImport.update({
-  id: '/item/$shopId/$shopsItemId',
-  path: '/item/$shopId/$shopsItemId',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const ProductShopIdShopsProductIdRoute =
+  ProductShopIdShopsProductIdRouteImport.update({
+    id: '/product/$shopId/$shopsProductId',
+    path: '/product/$shopId/$shopsProductId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -72,7 +73,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
-  '/item/$shopId/$shopsItemId': typeof ItemShopIdShopsItemIdRoute
+  '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -82,7 +83,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
-  '/item/$shopId/$shopsItemId': typeof ItemShopIdShopsItemIdRoute
+  '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -94,7 +95,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/_auth/account': typeof AuthAccountRoute
   '/_auth/watchlist': typeof AuthWatchlistRoute
-  '/item/$shopId/$shopsItemId': typeof ItemShopIdShopsItemIdRoute
+  '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -106,7 +107,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/account'
     | '/watchlist'
-    | '/item/$shopId/$shopsItemId'
+    | '/product/$shopId/$shopsProductId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -116,7 +117,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/account'
     | '/watchlist'
-    | '/item/$shopId/$shopsItemId'
+    | '/product/$shopId/$shopsProductId'
   id:
     | '__root__'
     | '/'
@@ -127,7 +128,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/_auth/account'
     | '/_auth/watchlist'
-    | '/item/$shopId/$shopsItemId'
+    | '/product/$shopId/$shopsProductId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -137,7 +138,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   SearchRoute: typeof SearchRoute
   TermsRoute: typeof TermsRoute
-  ItemShopIdShopsItemIdRoute: typeof ItemShopIdShopsItemIdRoute
+  ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -198,11 +199,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAccountRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/item/$shopId/$shopsItemId': {
-      id: '/item/$shopId/$shopsItemId'
-      path: '/item/$shopId/$shopsItemId'
-      fullPath: '/item/$shopId/$shopsItemId'
-      preLoaderRoute: typeof ItemShopIdShopsItemIdRouteImport
+    '/product/$shopId/$shopsProductId': {
+      id: '/product/$shopId/$shopsProductId'
+      path: '/product/$shopId/$shopsProductId'
+      fullPath: '/product/$shopId/$shopsProductId'
+      preLoaderRoute: typeof ProductShopIdShopsProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -227,7 +228,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   SearchRoute: SearchRoute,
   TermsRoute: TermsRoute,
-  ItemShopIdShopsItemIdRoute: ItemShopIdShopsItemIdRoute,
+  ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

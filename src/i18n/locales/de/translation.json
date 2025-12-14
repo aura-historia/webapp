@@ -61,7 +61,7 @@
             "creationDate": "Hinzugefügt",
             "from": "Von:",
             "to": "Bis:",
-            "itemState": "Anzeigenstatus",
+            "productState": "Anzeigenstatus",
             "merchant": "Händler",
             "anyMerchant": "Beliebiger Händler",
             "priceSpan": "Preisspanne",
@@ -72,7 +72,7 @@
             "anyDate": "Beliebig",
             "resetTooltip": {
                 "priceSpan": "Filter für die Preisspanne zurücksetzen",
-                "itemState": "Filter für den Status zurücksetzen",
+                "productState": "Filter für den Status zurücksetzen",
                 "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
                 "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
                 "merchant": "Filter für den Händler zurücksetzen"
@@ -100,7 +100,7 @@
             }
         }
     },
-    "item": {
+    "product": {
         "unknownPrice": "Preis unbekannt",
         "details": "Details",
         "toMerchant": "Zur Seite des Händlers",
@@ -161,7 +161,7 @@
         "increased": "Preis gestiegen",
         "removed": "Preis entfernt"
     },
-    "itemState": {
+    "productState": {
         "listed": "Gelistet",
         "available": "Verfügbar",
         "reserved": "Reserviert",

@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { WatchlistResults } from "@/components/watchlist/WatchlistResults.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
-import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
+import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 vi.mock("@tanstack/react-query", async (importOriginal) => {
@@ -33,13 +33,13 @@ vi.mock("lottie-react", () => ({
 
 const mockUseInfiniteQuery = vi.mocked(useInfiniteQuery);
 
-const createMockItem = (overrides: Partial<OverviewItem> = {}): OverviewItem => ({
-    itemId: "item-1",
+const createMockProduct = (overrides: Partial<OverviewProduct> = {}): OverviewProduct => ({
+    productId: "item-1",
     eventId: "event-1",
     shopId: "shop-1",
-    shopsItemId: "shops-item-1",
+    shopsProductId: "shops-item-1",
     shopName: "Test Shop",
-    title: "Test Item",
+    title: "Test Product",
     description: "Test Description",
     price: "10 €",
     state: "AVAILABLE",
@@ -57,7 +57,7 @@ const createMockItem = (overrides: Partial<OverviewItem> = {}): OverviewItem => 
 });
 
 type InfiniteQueryMockOptions = {
-    items?: OverviewItem[];
+    products?: OverviewProduct[];
     isPending?: boolean;
     error?: Error | null;
     hasNextPage?: boolean;
@@ -66,19 +66,19 @@ type InfiniteQueryMockOptions = {
 };
 
 function setInfiniteQueryMock({
-    items = [],
+    products = [],
     isPending = false,
     error = null,
     hasNextPage = false,
     isFetchingNextPage = false,
-    total = items.length,
+    total = products.length,
 }: InfiniteQueryMockOptions = {}) {
     const pages = isPending
         ? undefined
         : [
               {
-                  items,
-                  size: items.length,
+                  products: products,
+                  size: products.length,
                   total,
                   searchAfter: hasNextPage ? "next-page-token" : undefined,
               },
@@ -109,7 +109,7 @@ describe("WatchlistResults", () => {
             setInfiniteQueryMock({ isPending: true });
             renderWithQueryClient(<WatchlistResults />);
 
-            const skeletons = screen.getAllByTestId("item-card-skeleton");
+            const skeletons = screen.getAllByTestId("product-card-skeleton");
             expect(skeletons).toHaveLength(4);
         });
     });
@@ -128,8 +128,8 @@ describe("WatchlistResults", () => {
     });
 
     describe("Empty State", () => {
-        it("should render empty state when no items are found", () => {
-            setInfiniteQueryMock({ items: [] });
+        it("should render empty state when no products are found", () => {
+            setInfiniteQueryMock({ products: [] });
             renderWithQueryClient(<WatchlistResults />);
 
             expect(screen.getByText("Keine Artikel gefunden")).toBeInTheDocument();
@@ -139,7 +139,7 @@ describe("WatchlistResults", () => {
         });
 
         it("should display search icon in empty state", () => {
-            setInfiniteQueryMock({ items: [] });
+            setInfiniteQueryMock({ products: [] });
             const { container } = renderWithQueryClient(<WatchlistResults />);
 
             // Icon is an SVG with aria-hidden, so we check for its presence
@@ -148,31 +148,31 @@ describe("WatchlistResults", () => {
         });
     });
 
-    describe("Items Display", () => {
-        it("should render watchlist items", () => {
-            const items = [
-                createMockItem({ itemId: "1", title: "Item 1" }),
-                createMockItem({ itemId: "2", title: "Item 2" }),
+    describe("Products Display", () => {
+        it("should render watchlist products", () => {
+            const products = [
+                createMockProduct({ productId: "1", title: "Product 1" }),
+                createMockProduct({ productId: "2", title: "Product 2" }),
             ];
-            setInfiniteQueryMock({ items, total: 2 });
+            setInfiniteQueryMock({ products: products, total: 2 });
             renderWithQueryClient(<WatchlistResults />);
 
-            expect(screen.getByText("Item 1")).toBeInTheDocument();
-            expect(screen.getByText("Item 2")).toBeInTheDocument();
+            expect(screen.getByText("Product 1")).toBeInTheDocument();
+            expect(screen.getByText("Product 2")).toBeInTheDocument();
         });
 
         it("should render title and total count", () => {
-            const items = [createMockItem(), createMockItem({ itemId: "2" })];
-            setInfiniteQueryMock({ items, total: 2 });
+            const products = [createMockProduct(), createMockProduct({ productId: "2" })];
+            setInfiniteQueryMock({ products: products, total: 2 });
             renderWithQueryClient(<WatchlistResults />);
 
             expect(screen.getByText("Meine Merkliste")).toBeInTheDocument();
             expect(screen.getByText("2 Artikel")).toBeInTheDocument();
         });
 
-        it("should ensure all items have isWatching set to true", () => {
-            const itemWithoutWatchlistData = createMockItem({
-                itemId: "1",
+        it("should ensure all products have isWatching set to true", () => {
+            const productWithoutWatchlistData = createMockProduct({
+                productId: "1",
                 userData: {
                     watchlistData: {
                         isWatching: false,
@@ -180,16 +180,16 @@ describe("WatchlistResults", () => {
                     },
                 },
             });
-            setInfiniteQueryMock({ items: [itemWithoutWatchlistData] });
+            setInfiniteQueryMock({ products: [productWithoutWatchlistData] });
             renderWithQueryClient(<WatchlistResults />);
 
-            // Component should render the item - the component sets isWatching to true internally
-            expect(screen.getByText("Test Item")).toBeInTheDocument();
+            // Component should render the product - the component sets isWatching to true internally
+            expect(screen.getByText("Test Product")).toBeInTheDocument();
         });
 
-        it("should preserve notification settings for watchlist items", () => {
-            const itemWithNotifications = createMockItem({
-                itemId: "1",
+        it("should preserve notification settings for watchlist products", () => {
+            const productWithNotifications = createMockProduct({
+                productId: "1",
                 userData: {
                     watchlistData: {
                         isWatching: true,
@@ -197,17 +197,17 @@ describe("WatchlistResults", () => {
                     },
                 },
             });
-            setInfiniteQueryMock({ items: [itemWithNotifications] });
+            setInfiniteQueryMock({ products: [productWithNotifications] });
             renderWithQueryClient(<WatchlistResults />);
 
-            expect(screen.getByText("Test Item")).toBeInTheDocument();
+            expect(screen.getByText("Test Product")).toBeInTheDocument();
         });
     });
 
     describe("Pagination", () => {
         it("should show 'loading more' indicator when fetching next page", () => {
             setInfiniteQueryMock({
-                items: [createMockItem()],
+                products: [createMockProduct()],
                 hasNextPage: true,
                 isFetchingNextPage: true,
             });
@@ -218,7 +218,7 @@ describe("WatchlistResults", () => {
 
         it("should show 'all loaded' message when no more pages", () => {
             setInfiniteQueryMock({
-                items: [createMockItem()],
+                products: [createMockProduct()],
                 hasNextPage: false,
                 isFetchingNextPage: false,
                 total: 1,
@@ -230,10 +230,13 @@ describe("WatchlistResults", () => {
             ).toBeInTheDocument();
         });
 
-        it("should show 'all loaded' message with plural for multiple items", () => {
-            const items = [createMockItem({ itemId: "1" }), createMockItem({ itemId: "2" })];
+        it("should show 'all loaded' message with plural for multiple products", () => {
+            const products = [
+                createMockProduct({ productId: "1" }),
+                createMockProduct({ productId: "2" }),
+            ];
             setInfiniteQueryMock({
-                items,
+                products: products,
                 hasNextPage: false,
                 isFetchingNextPage: false,
                 total: 2,
@@ -245,9 +248,9 @@ describe("WatchlistResults", () => {
             ).toBeInTheDocument();
         });
 
-        it("should display lottie animation when all items are loaded", () => {
+        it("should display lottie animation when all products are loaded", () => {
             setInfiniteQueryMock({
-                items: [createMockItem()],
+                products: [createMockProduct()],
                 hasNextPage: false,
                 isFetchingNextPage: false,
                 total: 1,
@@ -259,7 +262,7 @@ describe("WatchlistResults", () => {
 
         it("should show nothing when has next page but not fetching", () => {
             setInfiniteQueryMock({
-                items: [createMockItem()],
+                products: [createMockProduct()],
                 hasNextPage: true,
                 isFetchingNextPage: false,
             });
@@ -274,15 +277,15 @@ describe("WatchlistResults", () => {
     });
 
     describe("Multiple Pages", () => {
-        it("should flatten and display items from multiple pages", () => {
-            const page1Items = [createMockItem({ itemId: "1", title: "Item 1" })];
-            const page2Items = [createMockItem({ itemId: "2", title: "Item 2" })];
+        it("should flatten and display products from multiple pages", () => {
+            const page1Items = [createMockProduct({ productId: "1", title: "Product 1" })];
+            const page2Items = [createMockProduct({ productId: "2", title: "Product 2" })];
 
             mockUseInfiniteQuery.mockReturnValue({
                 data: {
                     pages: [
-                        { items: page1Items, size: 1, total: 2, searchAfter: "token1" },
-                        { items: page2Items, size: 1, total: 2, searchAfter: undefined },
+                        { products: page1Items, size: 1, total: 2, searchAfter: "token1" },
+                        { products: page2Items, size: 1, total: 2, searchAfter: undefined },
                     ],
                     pageParams: [undefined, "token1"],
                 },
@@ -298,8 +301,8 @@ describe("WatchlistResults", () => {
 
             renderWithQueryClient(<WatchlistResults />);
 
-            expect(screen.getByText("Item 1")).toBeInTheDocument();
-            expect(screen.getByText("Item 2")).toBeInTheDocument();
+            expect(screen.getByText("Product 1")).toBeInTheDocument();
+            expect(screen.getByText("Product 2")).toBeInTheDocument();
         });
     });
 });

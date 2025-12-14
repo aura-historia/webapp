@@ -5,15 +5,15 @@ export type ClientOptions = {
 };
 
 /**
- * Complete item information including metadata and localized content
+ * Complete product information including metadata and localized content
  */
-export type GetItemData = {
+export type GetProductData = {
     /**
-     * Unique internal identifier for the item
+     * Unique internal identifier for the product
      */
-    itemId: string;
+    productId: string;
     /**
-     * Unique identifier for the current state/version of the item
+     * Unique identifier for the current state/version of the product
      */
     eventId: string;
     /**
@@ -21,75 +21,75 @@ export type GetItemData = {
      */
     shopId: string;
     /**
-     * Shop's unique identifier for the item. Can be any arbitrary string.
+     * Shop's unique identifier for the product. Can be any arbitrary string.
      */
-    shopsItemId: string;
+    shopsProductId: string;
     /**
      * Display name of the shop
      */
     shopName: string;
     title: LocalizedTextData;
     /**
-     * Optional item description
+     * Optional product description
      */
     description?: LocalizedTextData | null;
     /**
-     * Optional item price
+     * Optional product price
      */
     price?: PriceData | null;
-    state: ItemStateData;
+    state: ProductStateData;
     /**
-     * URL to the item on the shop's website
+     * URL to the product on the shop's website
      */
     url: string;
     /**
-     * Array of image URLs for the item
+     * Array of image URLs for the product
      */
     images: Array<string>;
     /**
-     * When the item was first created (RFC3339 format)
+     * When the product was first created (RFC3339 format)
      */
     created: string;
     /**
-     * When the item was last updated (RFC3339 format)
+     * When the product was last updated (RFC3339 format)
      */
     updated: string;
     /**
-     * Optional array of item history events
+     * Optional array of product history events
      */
-    history?: Array<GetItemEventData> | null;
+    history?: Array<GetProductEventData> | null;
 };
 
 /**
- * Wrapper for item data with optional user-specific state.
+ * Wrapper for product data with optional user-specific state.
  * When user is authenticated, includes personalized information such as watchlist status.
- * When user is anonymous, only the item data is present.
+ * When user is anonymous, only the product data is present.
  *
  */
-export type PersonalizedGetItemData = {
-    item: GetItemData;
+export type PersonalizedGetProductData = {
+    item: GetProductData;
     /**
-     * Optional user-specific state for this item (only present when authenticated)
+     * Optional user-specific state for this product (only present when authenticated)
      */
-    userState?: ItemUserStateData | null;
+    userState?: ProductUserStateData | null;
 };
 
 /**
- * Paginated collection of personalized items using cursor-based pagination (search-after pattern).
- * Each item may include user-specific state when the request is authenticated.
+ * Paginated collection of personalized products using cursor-based pagination (search-after pattern).
+ * Each product may include user-specific state when the request is authenticated.
  *
  */
-export type PersonalizedItemSearchResultData = {
+export type PersonalizedProductSearchResultData = {
     /**
-     * Array of personalized items in the current page
+     * Array of personalized products in the current page
      */
-    items: Array<PersonalizedGetItemData>;
+    items: Array<PersonalizedGetProductData>;
     /**
-     * Number of items returned in the current page
+     * Number of products returned in the current page
      */
     size: number;
     /**
-     * Total number of items matching the query (optional, may not always be available)
+     * Total number of products matching the query (optional, may not always be available)
      */
     total?: number | null;
     /**
@@ -102,22 +102,22 @@ export type PersonalizedItemSearchResultData = {
 };
 
 /**
- * User-specific state information for an item
+ * User-specific state information for a product
  */
-export type ItemUserStateData = {
+export type ProductUserStateData = {
     watchlist: WatchlistUserStateData;
 };
 
 /**
- * Watchlist-specific user state for an item
+ * Watchlist-specific user state for a product
  */
 export type WatchlistUserStateData = {
     /**
-     * Whether the item is on the user's watchlist
+     * Whether the product is on the user's watchlist
      */
     watching: boolean;
     /**
-     * Whether notifications are enabled for this watchlist item
+     * Whether notifications are enabled for this watchlist product
      */
     notifications: boolean;
 };
@@ -145,52 +145,52 @@ export type PriceData = {
 };
 
 /**
- * Minimal information about an item when it was created
+ * Minimal information about an product when it was created
  */
-export type ItemCreatedEventPayloadData = {
-    state: ItemStateData;
+export type ProductCreatedEventPayloadData = {
+    state: ProductStateData;
     price?: PriceData;
 };
 
 /**
  * Payload for state change events, containing both old and new state
  */
-export type ItemEventStateChangedPayloadData = {
-    oldState: ItemStateData;
-    newState: ItemStateData;
+export type ProductEventStateChangedPayloadData = {
+    oldState: ProductStateData;
+    newState: ProductStateData;
 };
 
 /**
- * Payload for price discovered events when an item's price is first detected
+ * Payload for price discovered events when a product's price is first detected
  */
-export type ItemEventPriceDiscoveredPayloadData = {
+export type ProductEventPriceDiscoveredPayloadData = {
     newPrice: PriceData;
 };
 
 /**
  * Payload for price change events (dropped or increased), containing both old and new price
  */
-export type ItemEventPriceChangedPayloadData = {
+export type ProductEventPriceChangedPayloadData = {
     oldPrice: PriceData;
     newPrice: PriceData;
 };
 
 /**
- * Payload for price removed events when an item's price is removed
+ * Payload for price removed events when a product's price is removed
  */
-export type ItemEventPriceRemovedPayloadData = {
+export type ProductEventPriceRemovedPayloadData = {
     oldPrice: PriceData;
 };
 
 /**
- * Historical event for an item
+ * Historical event for a product
  */
-export type GetItemEventData = {
-    eventType: ItemEventTypeData;
+export type GetProductEventData = {
+    eventType: ProductEventTypeData;
     /**
-     * Unique internal identifier for the item
+     * Unique internal identifier for the product
      */
-    itemId: string;
+    productId: string;
     /**
      * Unique identifier for this event
      */
@@ -200,10 +200,10 @@ export type GetItemEventData = {
      */
     shopId: string;
     /**
-     * Shop's unique identifier for the item. Can be any arbitrary string.
+     * Shop's unique identifier for the product. Can be any arbitrary string.
      */
-    shopsItemId: string;
-    payload: ItemEventPayloadData;
+    shopsProductId: string;
+    payload: ProductEventPayloadData;
     /**
      * When the event occurred (RFC3339 format)
      */
@@ -233,51 +233,55 @@ export type LanguageData = 'de' | 'en' | 'fr' | 'es';
 export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD';
 
 /**
- * Current state of the item:
- * - LISTED: Item has been listed
- * - AVAILABLE: Item is available for purchase
- * - RESERVED: Item is reserved by a buyer
- * - SOLD: Item has been sold
- * - REMOVED: Item has been removed and can no longer be tracked
- * - UNKNOWN: Item has an unknown state
+ * Current state of the product:
+ * - LISTED: Product has been listed
+ * - AVAILABLE: Product is available for purchase
+ * - RESERVED: Product is reserved by a buyer
+ * - SOLD: Product has been sold
+ * - REMOVED: Product has been removed and can no longer be tracked
+ * - UNKNOWN: Product has an unknown state
  *
  */
-export type ItemStateData = 'LISTED' | 'AVAILABLE' | 'RESERVED' | 'SOLD' | 'REMOVED' | 'UNKNOWN';
+export type ProductStateData = 'LISTED' | 'AVAILABLE' | 'RESERVED' | 'SOLD' | 'REMOVED' | 'UNKNOWN';
 
 /**
  * Fields available for sorting:
  * - score: Sort by relevance score (default, only available when searching with text query)
- * - price: Sort by item price
+ * - price: Sort by product price
  * - updated: Sort by last updated timestamp
  * - created: Sort by creation timestamp
  *
  */
-export type SortItemFieldData = 'score' | 'price' | 'updated' | 'created';
+export type SortProductFieldData = 'score' | 'price' | 'updated' | 'created';
 
 /**
- * Types of events that can occur for an item
+ * Types of events that can occur for a product
  */
-export type ItemEventTypeData = 'CREATED' | 'STATE_LISTED' | 'STATE_AVAILABLE' | 'STATE_RESERVED' | 'STATE_SOLD' | 'STATE_REMOVED' | 'STATE_UNKNOWN' | 'PRICE_DISCOVERED' | 'PRICE_DROPPED' | 'PRICE_INCREASED' | 'PRICE_REMOVED';
+export type ProductEventTypeData = 'CREATED' | 'STATE_LISTED' | 'STATE_AVAILABLE' | 'STATE_RESERVED' | 'STATE_SOLD' | 'STATE_REMOVED' | 'STATE_UNKNOWN' | 'PRICE_DISCOVERED' | 'PRICE_DROPPED' | 'PRICE_INCREASED' | 'PRICE_REMOVED';
 
 /**
  * Event-specific payload data. The structure varies depending on the event type:
- * - CREATED: ItemCreatedEventPayloadData (initial item state and optional price)
- * - STATE_LISTED, STATE_AVAILABLE, STATE_RESERVED, STATE_SOLD, STATE_REMOVED, STATE_UNKNOWN: ItemEventStateChangedPayloadData (old and new state)
- * - PRICE_DISCOVERED: ItemEventPriceDiscoveredPayloadData (new price only, when price is first detected)
- * - PRICE_DROPPED, PRICE_INCREASED: ItemEventPriceChangedPayloadData (old and new price)
- * - PRICE_REMOVED: ItemEventPriceRemovedPayloadData (old price only, when price is removed)
+ * - CREATED: ProductCreatedEventPayloadData (initial product state and optional price)
+ * - STATE_LISTED, STATE_AVAILABLE, STATE_RESERVED, STATE_SOLD, STATE_REMOVED, STATE_UNKNOWN: ProductEventStateChangedPayloadData (old and new state)
+ * - PRICE_DISCOVERED: ProductEventPriceDiscoveredPayloadData (new price only, when price is first detected)
+ * - PRICE_DROPPED, PRICE_INCREASED: ProductEventPriceChangedPayloadData (old and new price)
+ * - PRICE_REMOVED: ProductEventPriceRemovedPayloadData (old price only, when price is removed)
  *
  */
-export type ItemEventPayloadData = ItemCreatedEventPayloadData | ItemEventStateChangedPayloadData | ItemEventPriceDiscoveredPayloadData | ItemEventPriceChangedPayloadData | ItemEventPriceRemovedPayloadData;
+export type ProductEventPayloadData = ProductCreatedEventPayloadData | ProductEventStateChangedPayloadData | ProductEventPriceDiscoveredPayloadData | ProductEventPriceChangedPayloadData | ProductEventPriceRemovedPayloadData;
 
 /**
- * Standard error response format
+ * Standard error response format (RFC 9457)
  */
 export type ApiError = {
     /**
      * HTTP status code
      */
     status: number;
+    /**
+     * HTTP status code in human-readable form
+     */
+    title: string;
     /**
      * Error code identifier
      */
@@ -286,7 +290,7 @@ export type ApiError = {
     /**
      * Human-readable error message
      */
-    message?: string;
+    detail?: string;
 };
 
 /**
@@ -304,15 +308,15 @@ export type ApiErrorSource = {
 };
 
 /**
- * Item search configuration with query parameters and filtering options
+ * Product search configuration with query parameters and filtering options
  */
-export type ItemSearchData = {
+export type ProductSearchData = {
     language: LanguageData;
     currency: CurrencyData;
     /**
-     * Text query for searching items (minimum 3 characters)
+     * Text query for searching products (minimum 3 characters)
      */
-    itemQuery: string;
+    productQuery: string;
     /**
      * Optional text query for filtering by shop name
      */
@@ -322,15 +326,15 @@ export type ItemSearchData = {
      */
     price?: RangeQueryUInt64 | null;
     /**
-     * Optional filter by item states
+     * Optional filter by product states
      */
-    state?: Array<ItemStateData> | null;
+    state?: Array<ProductStateData> | null;
     /**
-     * Optional filter by item creation date range
+     * Optional filter by product creation date range
      */
     created?: RangeQueryDateTime | null;
     /**
-     * Optional filter by item last updated date range
+     * Optional filter by product last updated date range
      */
     updated?: RangeQueryDateTime | null;
 };
@@ -343,7 +347,7 @@ export type PostUserSearchFilterData = {
      * User-defined name for the search filter (max 255 characters, will be truncated if longer)
      */
     name: string;
-    itemSearch: ItemSearchData;
+    productSearch: ProductSearchData;
 };
 
 /**
@@ -360,16 +364,16 @@ export type PatchUserSearchFilterData = {
     /**
      * Partial search filter criteria to update
      */
-    itemSearch?: PatchItemSearchData | null;
+    productSearch?: PatchProductSearchData | null;
 };
 
 /**
  * Partial search filter criteria update.
  * All fields are optional and only provided fields will be updated.
- * Follows the same structure as ItemSearchData but with optional fields.
+ * Follows the same structure as ProductSearchData but with optional fields.
  *
  */
-export type PatchItemSearchData = {
+export type PatchProductSearchData = {
     /**
      * Language for search and localized content
      */
@@ -379,9 +383,9 @@ export type PatchItemSearchData = {
      */
     currency?: CurrencyData | null;
     /**
-     * Text query for searching items (minimum 3 characters when provided)
+     * Text query for searching products (minimum 3 characters when provided)
      */
-    itemQuery?: string | null;
+    productQuery?: string | null;
     /**
      * Optional text query for filtering by shop name (minimum 3 characters when provided)
      */
@@ -391,15 +395,15 @@ export type PatchItemSearchData = {
      */
     price?: RangeQueryUInt64 | null;
     /**
-     * Optional filter by item states
+     * Optional filter by product states
      */
-    state?: Array<ItemStateData> | null;
+    state?: Array<ProductStateData> | null;
     /**
-     * Optional filter by item creation date range
+     * Optional filter by product creation date range
      */
     created?: RangeQueryDateTime | null;
     /**
-     * Optional filter by item last updated date range
+     * Optional filter by product last updated date range
      */
     updated?: RangeQueryDateTime | null;
 };
@@ -420,7 +424,7 @@ export type UserSearchFilterData = {
      * User-defined name for the search filter
      */
     name: string;
-    itemSearch: ItemSearchData;
+    productSearch: ProductSearchData;
     /**
      * When the search filter was created (RFC3339 format)
      */
@@ -475,81 +479,81 @@ export type UserSearchFilterCollectionData = {
      */
     items: Array<UserSearchFilterData>;
     /**
-     * Number of items skipped (offset)
+     * Number of products skipped (offset)
      */
     from: number;
     /**
-     * Number of items in the current page
+     * Number of products in the current page
      */
     size: number;
     /**
-     * Total number of items matching the query
+     * Total number of products matching the query
      */
     total?: number | null;
 };
 
 /**
- * Collection of items to create or update
+ * Collection of products to create or update
  */
-export type PutItemsCollectionData = {
+export type PutProductsCollectionData = {
     /**
-     * Array of items to process
+     * Array of products to process
      */
-    items: Array<PutItemData>;
+    items: Array<PutProductData>;
 };
 
 /**
- * Data required to create or update an item.
- * Shop information (shopId and shopName) is automatically enriched based on the item's URL.
+ * Data required to create or update a product.
+ * Shop information (shopId and shopName) is automatically enriched based on the product's URL.
  *
  */
-export type PutItemData = {
+export type PutProductData = {
     /**
-     * Shop's unique identifier for the item. Can be any arbitrary string.
+     * Shop's unique identifier for the product. Can be any arbitrary string.
      */
-    shopsItemId: string;
+    shopsProductId: string;
     title: LocalizedTextData;
     /**
-     * Optional item description
+     * Optional product description
      */
     description?: LocalizedTextData | null;
     /**
-     * Optional item price
+     * Optional product price
      */
     price?: PriceData | null;
-    state: ItemStateData;
+    state: ProductStateData;
     /**
-     * URL to the item on the shop's website.
-     * The shop will be automatically identified and enriched based on this URL.
+     * URL to the product on the shop's website.
+     * The shop will be automatically identified and enriched based on the domain extracted from this URL.
      *
      */
     url: string;
     /**
-     * Array of image URLs for the item
+     * Array of image URLs for the product
      */
     images?: Array<string>;
 };
 
 /**
- * Response from bulk item creation/update operation with enrichment
+ * Response from bulk product creation/update operation with enrichment
  */
-export type PutItemsResponse = {
+export type PutProductsResponse = {
     /**
-     * Item URLs that could not be processed due to temporary issues.
-     * These items may succeed if retried.
+     * Product URLs that could not be processed due to temporary issues.
+     * These products may succeed if retried.
      *
      */
     unprocessed?: Array<string>;
     /**
-     * Map of item URLs to error codes for items that failed processing.
-     * The key is the item URL, and the value is the error code explaining why it failed.
+     * Map of product URLs to error codes for products that failed processing.
+     * The key is the product URL, and the value is the error code explaining why it failed.
      *
      */
     failed?: {
-        [key: string]: PutItemError;
+        [key: string]: PutProductError;
     };
     /**
-     * Number of items that were skipped during processing because they had no changes
+     * Number of products that were skipped during processing because they had no changes
      */
     skipped: number;
 };
@@ -567,9 +571,11 @@ export type GetShopData = {
      */
     name: string;
     /**
-     * All known URLs to the shop's website
+     * All known domains associated with the shop.
+     * Domains are normalized (lowercase, no scheme, no www prefix, no path/query/fragment).
+     *
      */
-    urls: Array<string>;
+    domains: Array<string>;
     /**
      * Optional URL to the shop's logo or image
      */
@@ -582,6 +588,54 @@ export type GetShopData = {
      * When the shop was last updated (RFC3339 format)
      */
     updated: string;
+};
+
+/**
+ * Data required to create a new shop
+ */
+export type PostShopData = {
+    /**
+     * Display name of the shop
+     */
+    name: string;
+    /**
+     * All domains associated with the shop.
+     * Can be provided as full URLs (will be normalized) or as domain strings.
+     * Domains are normalized to lowercase without scheme, www prefix, or path/query/fragment.
+     * At least one domain is required, maximum 100 domains allowed.
+     *
+     */
+    domains: Array<string>;
+    /**
+     * Optional URL to the shop's logo or image
+     */
+    image?: string | null;
+};
+
+/**
+ * Partial update data for a shop.
+ * All fields are optional - only provided fields will be updated.
+ * If the request body is empty or all fields are null, the shop is returned unchanged.
+ *
+ */
+export type PatchShopData = {
+    /**
+     * New display name for the shop
+     */
+    name?: string | null;
+    /**
+     * Complete new set of domains for the shop.
+     * Can be provided as full URLs (will be normalized) or as domain strings.
+     * When updating domains, the complete new set must be provided (not a diff).
+     * Domains are normalized to lowercase without scheme, www prefix, or path/query/fragment.
+     * Minimum 1 domain, maximum 100 domains.
+     *
+     */
+    domains?: Array<string> | null;
+    /**
+     * New URL to the shop's logo or image
+     */
+    image?: string | null;
 };
 
 /**
@@ -621,7 +675,7 @@ export type ShopSearchResultData = {
      */
     items: Array<GetShopData>;
     /**
-     * Number of items in the current page
+     * Number of products in the current page
      */
     size: number;
     /**
@@ -633,54 +687,54 @@ export type ShopSearchResultData = {
      */
     searchAfter?: Array<unknown> | null;
     /**
-     * Total number of items matching the query
+     * Total number of products matching the query
      */
     total?: number | null;
 };
 
 /**
- * Identifier for an item using shop ID and shop's item ID
+ * Identifier for a product using shop ID and shop's product ID
  */
-export type ItemKeyData = {
+export type ProductKeyData = {
     /**
      * Unique identifier of the shop
      */
     shopId: string;
     /**
-     * Shop's unique identifier for the item. Can be any arbitrary string.
+     * Shop's unique identifier for the product. Can be any arbitrary string.
      */
-    shopsItemId: string;
+    shopsProductId: string;
 };
 
 /**
- * Watchlist item containing the item data and when it was added to the watchlist
+ * Watchlist product containing the product data and when it was added to the watchlist
  */
-export type WatchlistItemData = {
-    item: GetItemData;
+export type WatchlistProductData = {
+    product: GetProductData;
     /**
-     * Whether notifications are enabled for this watchlist item
+     * Whether notifications are enabled for this watchlist product
      */
     notifications: boolean;
     /**
-     * When the item was added to the watchlist (RFC3339 format)
+     * When the product was added to the watchlist (RFC3339 format)
      */
     created: string;
     /**
-     * When the watchlist item was last updated (RFC3339 format)
+     * When the watchlist product was last updated (RFC3339 format)
      */
     updated: string;
 };
 
 /**
- * Paginated collection of watchlist items using cursor-based pagination
+ * Paginated collection of watchlist products using cursor-based pagination
  */
 export type WatchlistCollectionData = {
     /**
-     * Array of watchlist items in the current page
+     * Array of watchlist products in the current page
      */
-    items: Array<WatchlistItemData>;
+    items: Array<WatchlistProductData>;
     /**
-     * Number of items in the current page
+     * Number of products in the current page
      */
     size: number;
     /**
@@ -688,68 +742,131 @@ export type WatchlistCollectionData = {
      */
     searchAfter?: string | null;
     /**
-     * Total number of items (optional, may not be available for cursor-based pagination)
+     * Total number of products (optional, may not be available for cursor-based pagination)
      */
     total?: number | null;
 };
 
 /**
- * Patch object for updating watchlist item settings
+ * Patch object for updating watchlist product settings
  */
-export type WatchlistItemPatch = {
+export type WatchlistProductPatch = {
     /**
-     * Whether to enable or disable notifications for this watchlist item
+     * Whether to enable or disable notifications for this watchlist product
      */
     notifications?: boolean;
 };
 
 /**
- * Response after patching a watchlist item, containing core item identifiers and notification settings
+ * Response after patching a watchlist product, containing core product identifiers and notification settings
  */
-export type WatchlistItemPatchResponse = {
+export type WatchlistProductPatchResponse = {
     /**
      * Unique identifier of the shop
      */
     shopId: string;
     /**
-     * Shop's unique identifier for the item
+     * Shop's unique identifier for the product
      */
-    shopsItemId: string;
+    shopsProductId: string;
     /**
-     * Internal item identifier
+     * Internal product identifier
      */
-    itemId: string;
+    productId: string;
     /**
-     * Current notification setting for this watchlist item
+     * Current notification setting for this watchlist product
      */
     notifications: boolean;
     /**
-     * When the item was added to the watchlist (RFC3339 format)
+     * When the product was added to the watchlist (RFC3339 format)
      */
     created: string;
     /**
-     * When the watchlist item was last updated (RFC3339 format)
+     * When the watchlist product was last updated (RFC3339 format)
      */
     updated: string;
 };
 
 /**
- * Fields available for sorting watchlist items:
- * - created: Sort by when item was added to watchlist
+ * Fields available for sorting watchlist products:
+ * - created: Sort by when product was added to watchlist
  *
  */
-export type SortWatchlistItemFieldData = 'created';
+export type SortWatchlistProductFieldData = 'created';
 
 /**
- * Error codes for items that failed during processing:
- * - SHOP_NOT_FOUND: The shop associated with the item's URL is not registered in the system
+ * Error codes for products that failed during processing:
+ * - SHOP_NOT_FOUND: The shop associated with the product's domain is not registered in the system
  * - MONETARY_AMOUNT_OVERFLOW: The price amount exceeds the maximum supported value during currency conversion
- * - ITEM_ENRICHMENT_FAILED: Failed to enrich the item with additional shop and price information
+ * - PRODUCT_ENRICHMENT_FAILED: Failed to enrich the product with additional shop and price information
+ * - NO_DOMAIN: The product URL does not contain a valid domain that can be extracted
  *
  */
-export type PutItemError = 'SHOP_NOT_FOUND' | 'MONETARY_AMOUNT_OVERFLOW' | 'ITEM_ENRICHMENT_FAILED';
+export type PutProductError = 'SHOP_NOT_FOUND' | 'MONETARY_AMOUNT_OVERFLOW' | 'PRODUCT_ENRICHMENT_FAILED' | 'NO_DOMAIN';
 
-export type GetItemData2 = {
+/**
+ * Complete user account information
+ */
+export type GetUserAccountData = {
+    /**
+     * Unique identifier for the user
+     */
+    userId: string;
+    /**
+     * User's email address
+     */
+    email: string;
+    /**
+     * User's first name (optional, max 64 characters)
+     */
+    firstName?: string | null;
+    /**
+     * User's last name (optional, max 64 characters)
+     */
+    lastName?: string | null;
+    /**
+     * User's preferred language (optional)
+     */
+    language?: LanguageData | null;
+    /**
+     * User's preferred currency (optional)
+     */
+    currency?: CurrencyData | null;
+    /**
+     * When the user account was created (RFC3339 format)
+     */
+    created: string;
+    /**
+     * When the user account was last updated (RFC3339 format)
+     */
+    updated: string;
+};
+
+/**
+ * Partial user account update data.
+ * All fields are optional - only provided fields will be updated.
+ *
+ */
+export type PatchUserAccountData = {
+    /**
+     * New first name (max 64 characters)
+     */
+    firstName?: string | null;
+    /**
+     * New last name (max 64 characters)
+     */
+    lastName?: string | null;
+    /**
+     * New preferred language
+     */
+    language?: LanguageData | null;
+    /**
+     * New preferred currency
+     */
+    currency?: CurrencyData | null;
+};
+
+export type GetProductData2 = {
     body?: never;
     headers?: {
         /**
@@ -766,9 +883,9 @@ export type GetItemData2 = {
          */
         shopId: string;
         /**
-         * Shop's unique identifier for the item. Can be any arbitrary string.
+         * Shop's unique identifier for the product. Can be any arbitrary string.
          */
-        shopsItemId: string;
+        shopsProductId: string;
     };
     query?: {
         /**
@@ -776,20 +893,20 @@ export type GetItemData2 = {
          */
         currency?: CurrencyData;
         /**
-         * Whether to include item history in the response
+         * Whether to include product history in the response
          */
         history?: boolean;
     };
-    url: '/api/v1/items/{shopId}/{shopsItemId}';
+    url: '/api/v1/products/{shopId}/{shopsProductId}';
 };
 
-export type GetItemErrors = {
+export type GetProductErrors = {
     /**
      * Bad request - invalid parameters
      */
     400: ApiError;
     /**
-     * Item not found
+     * Product not found
      */
     404: ApiError;
     /**
@@ -798,18 +915,18 @@ export type GetItemErrors = {
     500: ApiError;
 };
 
-export type GetItemError = GetItemErrors[keyof GetItemErrors];
+export type GetProductError = GetProductErrors[keyof GetProductErrors];
 
-export type GetItemResponses = {
+export type GetProductResponses = {
     /**
-     * Item found and returned successfully
+     * Product found and returned successfully
      */
-    200: PersonalizedGetItemData;
+    200: PersonalizedGetProductData;
 };
 
-export type GetItemResponse = GetItemResponses[keyof GetItemResponses];
+export type GetProductResponse = GetProductResponses[keyof GetProductResponses];
 
-export type GetSimilarItemsData = {
+export type GetSimilarProductsData = {
     body?: never;
     headers?: {
         /**
@@ -826,9 +943,9 @@ export type GetSimilarItemsData = {
          */
         shopId: string;
         /**
-         * Shop's unique identifier for the item
+         * Shop's unique identifier for the product
          */
-        shopsItemId: string;
+        shopsProductId: string;
     };
     query?: {
         /**
@@ -836,16 +953,16 @@ export type GetSimilarItemsData = {
          */
         currency?: CurrencyData;
     };
-    url: '/api/v1/items/{shopId}/{shopsItemId}/similar';
+    url: '/api/v1/products/{shopId}/{shopsProductId}/similar';
 };
 
-export type GetSimilarItemsErrors = {
+export type GetSimilarProductsErrors = {
     /**
      * Bad request - invalid parameters
      */
     400: ApiError;
     /**
-     * Item not found
+     * Product not found
      */
     404: ApiError;
     /**
@@ -854,16 +971,16 @@ export type GetSimilarItemsErrors = {
     500: ApiError;
 };
 
-export type GetSimilarItemsError = GetSimilarItemsErrors[keyof GetSimilarItemsErrors];
+export type GetSimilarProductsError = GetSimilarProductsErrors[keyof GetSimilarProductsErrors];
 
-export type GetSimilarItemsResponses = {
+export type GetSimilarProductsResponses = {
     /**
-     * Array of similar items, each with optional user state
+     * Array of similar products, each with optional user state
      */
-    200: Array<PersonalizedGetItemData>;
+    200: Array<PersonalizedGetProductData>;
     /**
-     * Accepted - Item embedding not yet computed.
-     * The text embedding for this item has not been generated yet (typically for items less than 24 hours old).
+     * Accepted - Product embedding not yet computed.
+     * The text embedding for this product has not been generated yet (typically for products less than 24 hours old).
      * Embeddings are computed during nightly batch processing.
      * Poll the endpoint again later using the Location header.
      *
@@ -871,19 +988,19 @@ export type GetSimilarItemsResponses = {
     202: unknown;
 };
 
-export type GetSimilarItemsResponse = GetSimilarItemsResponses[keyof GetSimilarItemsResponses];
+export type GetSimilarProductsResponse = GetSimilarProductsResponses[keyof GetSimilarProductsResponses];
 
-export type PutItemsData = {
+export type PutProductsData = {
     /**
-     * Collection of items to create or update
+     * Collection of products to create or update
      */
-    body: PutItemsCollectionData;
+    body: PutProductsCollectionData;
     path?: never;
     query?: never;
-    url: '/api/v1/items';
+    url: '/api/v1/products';
 };
 
-export type PutItemsErrors = {
+export type PutProductsErrors = {
     /**
      * Bad request - invalid request body
      */
@@ -894,31 +1011,31 @@ export type PutItemsErrors = {
     500: ApiError;
 };
 
-export type PutItemsError = PutItemsErrors[keyof PutItemsErrors];
+export type PutProductsError = PutProductsErrors[keyof PutProductsErrors];
 
-export type PutItemsResponses = {
+export type PutProductsResponses = {
     /**
-     * Items processed successfully
+     * Products processed successfully
      */
-    200: PutItemsResponse;
+    200: PutProductsResponse;
 };
 
-export type PutItemsResponse2 = PutItemsResponses[keyof PutItemsResponses];
+export type PutProductsResponse2 = PutProductsResponses[keyof PutProductsResponses];
 
-export type ComplexSearchItemsData = {
+export type ComplexSearchProductsData = {
     /**
      * Search filter configuration with all filtering criteria.
      * Unlike the simple text search, this allows filtering by multiple fields,
-     * price ranges, item states, and date ranges.
+     * price ranges, product states, and date ranges.
      *
      */
-    body: ItemSearchData;
+    body: ProductSearchData;
     path?: never;
     query?: {
         /**
          * Field to sort results by
          */
-        sort?: SortItemFieldData;
+        sort?: SortProductFieldData;
         /**
          * Sort order (only valid when sort is specified)
          */
@@ -933,14 +1050,14 @@ export type ComplexSearchItemsData = {
          */
         searchAfter?: Array<unknown>;
         /**
-         * Number of items to return per page
+         * Number of products to return per page
          */
         size?: number;
     };
-    url: '/api/v1/items/search';
+    url: '/api/v1/products/search';
 };
 
-export type ComplexSearchItemsErrors = {
+export type ComplexSearchProductsErrors = {
     /**
      * Bad request - invalid parameters or body
      */
@@ -951,16 +1068,16 @@ export type ComplexSearchItemsErrors = {
     500: ApiError;
 };
 
-export type ComplexSearchItemsError = ComplexSearchItemsErrors[keyof ComplexSearchItemsErrors];
+export type ComplexSearchProductsError = ComplexSearchProductsErrors[keyof ComplexSearchProductsErrors];
 
-export type ComplexSearchItemsResponses = {
+export type ComplexSearchProductsResponses = {
     /**
      * Complex search results returned successfully
      */
-    200: PersonalizedItemSearchResultData;
+    200: PersonalizedProductSearchResultData;
 };
 
-export type ComplexSearchItemsResponse = ComplexSearchItemsResponses[keyof ComplexSearchItemsResponses];
+export type ComplexSearchProductsResponse = ComplexSearchProductsResponses[keyof ComplexSearchProductsResponses];
 
 export type GetUserSearchFiltersData = {
     body?: never;
@@ -1171,7 +1288,7 @@ export type UpdateUserSearchFilterResponses = {
 
 export type UpdateUserSearchFilterResponse = UpdateUserSearchFilterResponses[keyof UpdateUserSearchFilterResponses];
 
-export type GetWatchlistItemsData = {
+export type GetWatchlistProductsData = {
     body?: never;
     headers?: {
         /**
@@ -1191,27 +1308,27 @@ export type GetWatchlistItemsData = {
         /**
          * Field to sort results by
          */
-        sort?: SortWatchlistItemFieldData;
+        sort?: SortWatchlistProductFieldData;
         /**
          * Sort order (only valid when sort is specified)
          */
         order?: 'asc' | 'desc';
         /**
          * RFC3339 timestamp for cursor-based pagination (search-after).
-         * Depending on sort-order, returns watchlist-items created, either after this timestamp for asc (oldest first) or before this timestamp for desc (latest first).
+         * Depending on sort-order, returns watchlist-products created, either after this timestamp for asc (oldest first) or before this timestamp for desc (latest first).
          * In general you do not have to worry about determining this key. It's given with `searchAfter` in the preceding response if more entries are present.
          *
          */
         searchAfter?: string;
         /**
-         * Number of items to return per page
+         * Number of products to return per page
          */
         size?: number;
     };
     url: '/api/v1/me/watchlist';
 };
 
-export type GetWatchlistItemsErrors = {
+export type GetWatchlistProductsErrors = {
     /**
      * Bad request - invalid parameters
      */
@@ -1226,28 +1343,28 @@ export type GetWatchlistItemsErrors = {
     500: ApiError;
 };
 
-export type GetWatchlistItemsError = GetWatchlistItemsErrors[keyof GetWatchlistItemsErrors];
+export type GetWatchlistProductsError = GetWatchlistProductsErrors[keyof GetWatchlistProductsErrors];
 
-export type GetWatchlistItemsResponses = {
+export type GetWatchlistProductsResponses = {
     /**
-     * Watchlist items retrieved successfully
+     * Watchlist products retrieved successfully
      */
     200: WatchlistCollectionData;
 };
 
-export type GetWatchlistItemsResponse = GetWatchlistItemsResponses[keyof GetWatchlistItemsResponses];
+export type GetWatchlistProductsResponse = GetWatchlistProductsResponses[keyof GetWatchlistProductsResponses];
 
-export type AddWatchlistItemData = {
+export type AddWatchlistProductData = {
     /**
-     * Item identifier to add to watchlist
+     * Product identifier to add to watchlist
      */
-    body: ItemKeyData;
+    body: ProductKeyData;
     path?: never;
     query?: never;
     url: '/api/v1/me/watchlist';
 };
 
-export type AddWatchlistItemErrors = {
+export type AddWatchlistProductErrors = {
     /**
      * Bad request - invalid request body
      */
@@ -1262,18 +1379,93 @@ export type AddWatchlistItemErrors = {
     500: ApiError;
 };
 
-export type AddWatchlistItemError = AddWatchlistItemErrors[keyof AddWatchlistItemErrors];
+export type AddWatchlistProductError = AddWatchlistProductErrors[keyof AddWatchlistProductErrors];
 
-export type AddWatchlistItemResponses = {
+export type AddWatchlistProductResponses = {
     /**
-     * Item added to watchlist successfully
+     * Product added to watchlist successfully
      */
-    201: WatchlistItemPatchResponse;
+    201: WatchlistProductPatchResponse;
 };
 
-export type AddWatchlistItemResponse = AddWatchlistItemResponses[keyof AddWatchlistItemResponses];
+export type AddWatchlistProductResponse = AddWatchlistProductResponses[keyof AddWatchlistProductResponses];
 
-export type DeleteWatchlistItemData = {
+export type GetUserAccountData2 = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/account';
+};
+
+export type GetUserAccountErrors = {
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetUserAccountError = GetUserAccountErrors[keyof GetUserAccountErrors];
+
+export type GetUserAccountResponses = {
+    /**
+     * User account data retrieved successfully
+     */
+    200: GetUserAccountData;
+};
+
+export type GetUserAccountResponse = GetUserAccountResponses[keyof GetUserAccountResponses];
+
+export type UpdateUserAccountData = {
+    /**
+     * Partial user account update data.
+     * All fields are optional - only provided fields will be updated.
+     *
+     */
+    body: PatchUserAccountData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/account';
+};
+
+export type UpdateUserAccountErrors = {
+    /**
+     * Bad request - invalid request body
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type UpdateUserAccountError = UpdateUserAccountErrors[keyof UpdateUserAccountErrors];
+
+export type UpdateUserAccountResponses = {
+    /**
+     * User account updated successfully
+     */
+    200: GetUserAccountData;
+};
+
+export type UpdateUserAccountResponse = UpdateUserAccountResponses[keyof UpdateUserAccountResponses];
+
+export type DeleteWatchlistProductData = {
     body?: never;
     path: {
         /**
@@ -1281,15 +1473,15 @@ export type DeleteWatchlistItemData = {
          */
         shopId: string;
         /**
-         * Shop's unique identifier for the item
+         * Shop's unique identifier for the product
          */
-        shopsItemId: string;
+        shopsProductId: string;
     };
     query?: never;
-    url: '/api/v1/me/watchlist/{shopId}/{shopsItemId}';
+    url: '/api/v1/me/watchlist/{shopId}/{shopsProductId}';
 };
 
-export type DeleteWatchlistItemErrors = {
+export type DeleteWatchlistProductErrors = {
     /**
      * Bad request - invalid parameters
      */
@@ -1308,37 +1500,37 @@ export type DeleteWatchlistItemErrors = {
     500: ApiError;
 };
 
-export type DeleteWatchlistItemError = DeleteWatchlistItemErrors[keyof DeleteWatchlistItemErrors];
+export type DeleteWatchlistProductError = DeleteWatchlistProductErrors[keyof DeleteWatchlistProductErrors];
 
-export type DeleteWatchlistItemResponses = {
+export type DeleteWatchlistProductResponses = {
     /**
-     * Item removed from watchlist successfully
+     * Product removed from watchlist successfully
      */
     204: void;
 };
 
-export type DeleteWatchlistItemResponse = DeleteWatchlistItemResponses[keyof DeleteWatchlistItemResponses];
+export type DeleteWatchlistProductResponse = DeleteWatchlistProductResponses[keyof DeleteWatchlistProductResponses];
 
-export type PatchWatchlistItemData = {
+export type PatchWatchlistProductData = {
     /**
      * Patch object containing fields to update
      */
-    body: WatchlistItemPatch;
+    body: WatchlistProductPatch;
     path: {
         /**
          * Unique identifier of the shop
          */
         shopId: string;
         /**
-         * Shop's unique identifier for the item
+         * Shop's unique identifier for the product
          */
-        shopsItemId: string;
+        shopsProductId: string;
     };
     query?: never;
-    url: '/api/v1/me/watchlist/{shopId}/{shopsItemId}';
+    url: '/api/v1/me/watchlist/{shopId}/{shopsProductId}';
 };
 
-export type PatchWatchlistItemErrors = {
+export type PatchWatchlistProductErrors = {
     /**
      * Bad request - invalid parameters or body
      */
@@ -1357,16 +1549,56 @@ export type PatchWatchlistItemErrors = {
     500: ApiError;
 };
 
-export type PatchWatchlistItemError = PatchWatchlistItemErrors[keyof PatchWatchlistItemErrors];
+export type PatchWatchlistProductError = PatchWatchlistProductErrors[keyof PatchWatchlistProductErrors];
 
-export type PatchWatchlistItemResponses = {
+export type PatchWatchlistProductResponses = {
     /**
-     * Watchlist item updated successfully
+     * Watchlist product updated successfully
      */
-    200: WatchlistItemPatchResponse;
+    200: WatchlistProductPatchResponse;
 };
 
-export type PatchWatchlistItemResponse = PatchWatchlistItemResponses[keyof PatchWatchlistItemResponses];
+export type PatchWatchlistProductResponse = PatchWatchlistProductResponses[keyof PatchWatchlistProductResponses];
+
+export type CreateShopData = {
+    /**
+     * Shop data for creating a new shop
+     */
+    body: PostShopData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/shops';
+};
+
+export type CreateShopErrors = {
+    /**
+     * Bad request - invalid request body
+     */
+    400: ApiError;
+    /**
+     * Conflict - shop with this domain already exists
+     */
+    409: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+    /**
+     * Service temporarily unavailable
+     */
+    503: ApiError;
+};
+
+export type CreateShopError = CreateShopErrors[keyof CreateShopErrors];
+
+export type CreateShopResponses = {
+    /**
+     * Shop created successfully
+     */
+    201: GetShopData;
+};
+
+export type CreateShopResponse = CreateShopResponses[keyof CreateShopResponses];
 
 export type GetShopData2 = {
     body?: never;
@@ -1405,6 +1637,53 @@ export type GetShopResponses = {
 };
 
 export type GetShopResponse = GetShopResponses[keyof GetShopResponses];
+
+export type UpdateShopData = {
+    /**
+     * Partial shop update data.
+     * Only provided fields will be updated. All fields are optional.
+     *
+     */
+    body: PatchShopData;
+    path: {
+        /**
+         * Unique identifier of the shop to update
+         */
+        shopId: string;
+    };
+    query?: never;
+    url: '/api/v1/shops/{shopId}';
+};
+
+export type UpdateShopErrors = {
+    /**
+     * Bad request - invalid parameters or body
+     */
+    400: ApiError;
+    /**
+     * Shop not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+    /**
+     * Service temporarily unavailable
+     */
+    503: ApiError;
+};
+
+export type UpdateShopError = UpdateShopErrors[keyof UpdateShopErrors];
+
+export type UpdateShopResponses = {
+    /**
+     * Shop updated successfully
+     */
+    200: GetShopData;
+};
+
+export type UpdateShopResponse = UpdateShopResponses[keyof UpdateShopResponses];
 
 export type SearchShopsData = {
     /**

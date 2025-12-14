@@ -1,4 +1,4 @@
-import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
+import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import { screen } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
@@ -31,21 +31,21 @@ vi.mock("lottie-react", () => ({
 
 const mockUseSearch = vi.mocked(useSearch);
 
-const buildQueryPayload = (items: OverviewItem[]): SearchResultData => ({
-    items,
-    size: items.length,
-    total: items.length,
+const buildQueryPayload = (products: OverviewProduct[]): SearchResultData => ({
+    products,
+    size: products.length,
+    total: products.length,
     searchAfter: undefined,
 });
 
 type SearchMockOptions = {
-    items?: OverviewItem[];
+    products?: OverviewProduct[];
     isPending?: boolean;
     error?: Error | null;
 };
 
-function setSearchMock({ items = [], isPending = false, error = null }: SearchMockOptions = {}) {
-    const pages = isPending ? undefined : [buildQueryPayload(items)];
+function setSearchMock({ products = [], isPending = false, error = null }: SearchMockOptions = {}) {
+    const pages = isPending ? undefined : [buildQueryPayload(products)];
     mockUseSearch.mockReturnValue({
         data: pages ? { pages, pageParams: [undefined] } : undefined,
         isPending,
@@ -72,7 +72,7 @@ describe("SearchResults", () => {
     it("renders skeleton loaders while data is loading", () => {
         setSearchMock({ isPending: true });
         renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
-        expect(screen.getAllByTestId("item-card-skeleton")).toHaveLength(4);
+        expect(screen.getAllByTestId("product-card-skeleton")).toHaveLength(4);
     });
 
     it("renders an error message when there is an error", () => {
@@ -85,8 +85,8 @@ describe("SearchResults", () => {
         ).toBeInTheDocument();
     });
 
-    it("renders a message when no items are found", () => {
-        setSearchMock({ items: [] });
+    it("renders a message when no products are found", () => {
+        setSearchMock({ products: [] });
         renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
         expect(screen.getByText("Keine Ergebnisse gefunden")).toBeInTheDocument();
         expect(
@@ -94,11 +94,11 @@ describe("SearchResults", () => {
         ).toBeInTheDocument();
     });
 
-    it("renders a list of item cards when items are found", () => {
-        const base: Omit<OverviewItem, "itemId" | "title"> = {
+    it("renders a list of product cards when products are found", () => {
+        const base: Omit<OverviewProduct, "productId" | "title"> = {
             eventId: "e1",
             shopId: "s1",
-            shopsItemId: "si1",
+            shopsProductId: "si1",
             shopName: "Shop 1",
             description: undefined,
             price: "10 €",
@@ -110,13 +110,13 @@ describe("SearchResults", () => {
         } as const;
 
         setSearchMock({
-            items: [
-                { ...base, itemId: "1", title: "Item 1" },
-                { ...base, itemId: "2", title: "Item 2" },
+            products: [
+                { ...base, productId: "1", title: "Product 1" },
+                { ...base, productId: "2", title: "Product 2" },
             ],
         });
         renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
-        expect(screen.getByText("Item 1")).toBeInTheDocument();
-        expect(screen.getByText("Item 2")).toBeInTheDocument();
+        expect(screen.getByText("Product 1")).toBeInTheDocument();
+        expect(screen.getByText("Product 2")).toBeInTheDocument();
     });
 });
