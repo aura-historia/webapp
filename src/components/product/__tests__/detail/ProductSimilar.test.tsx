@@ -23,8 +23,6 @@ import { useSimilarProducts } from "@/hooks/useSimilarProducts.ts";
 
 beforeAll(() => {
     global.IntersectionObserver = class IntersectionObserver {
-        constructor() {}
-
         disconnect() {}
 
         observe() {}
