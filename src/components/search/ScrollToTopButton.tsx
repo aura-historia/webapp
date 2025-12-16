@@ -7,16 +7,15 @@ export function ScrollToTopButton() {
 
     useEffect(() => {
         const handleScroll = () => {
-            setShowButton(window.scrollY > 300);
+            setShowButton(globalThis.scrollY > 300);
         };
+        globalThis.addEventListener("scroll", handleScroll);
 
-        window.addEventListener("scroll", handleScroll);
-
-        return () => window.removeEventListener("scroll", handleScroll);
+        return () => globalThis.removeEventListener("scroll", handleScroll);
     }, []);
 
     const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        globalThis.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     if (!showButton) return null;

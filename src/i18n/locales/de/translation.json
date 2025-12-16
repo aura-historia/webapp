@@ -14,6 +14,7 @@
         "title": "AGB"
     },
     "header": {
+        "watchlist": "Merkliste",
         "myAccount": "Mein Account",
         "editAccount": "Account bearbeiten",
         "logout": "Ausloggen"
@@ -43,8 +44,8 @@
         "filters": "Filter",
         "resultsFor": "Suchergebnisse für:",
         "resetAllFilters": "Alle Filter zurücksetzen",
-        "totalResults_one": "{{count}} Element",
-        "totalResults_other": "{{count}} Elemente",
+        "totalResults_one": "{{count}} Artikel",
+        "totalResults_other": "{{count}} Artikel",
         "bar": {
             "label": "Suche",
             "placeholder": "Ich suche nach...",
@@ -60,7 +61,7 @@
             "creationDate": "Hinzugefügt",
             "from": "Von:",
             "to": "Bis:",
-            "itemState": "Anzeigenstatus",
+            "productState": "Anzeigenstatus",
             "merchant": "Händler",
             "anyMerchant": "Beliebiger Händler",
             "priceSpan": "Preisspanne",
@@ -71,7 +72,7 @@
             "anyDate": "Beliebig",
             "resetTooltip": {
                 "priceSpan": "Filter für die Preisspanne zurücksetzen",
-                "itemState": "Filter für den Status zurücksetzen",
+                "productState": "Filter für den Status zurücksetzen",
                 "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
                 "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
                 "merchant": "Filter für den Händler zurücksetzen"
@@ -99,11 +100,27 @@
             }
         }
     },
-    "item": {
+    "product": {
         "unknownPrice": "Preis unbekannt",
         "details": "Details",
         "toMerchant": "Zur Seite des Händlers",
         "noDescription": "Keine Beschreibung verfügbar",
+        "noImage": "Kein Bild verfügbar",
+        "similar": {
+            "title": "Ähnliche Artikel",
+            "error": {
+                "title": "Fehler beim Laden",
+                "description": "Ähnliche Artikel konnten nicht geladen werden."
+            },
+            "embeddingsPending": {
+                "title": "Wird vorbereitet",
+                "description": "Ähnliche Artikel werden vorbereitet. Dies kann bei neuen Artikeln bis zu 24 Stunden dauern."
+            },
+            "noData": {
+                "title": "Keine ähnlichen Artikel",
+                "description": "Für diesen Artikel wurden keine ähnlichen Produkte gefunden."
+            }
+        },
         "history": {
             "title": "Historie",
             "noData": "Keine Daten für diesen Artikel vorhanden.",
@@ -144,7 +161,7 @@
         "increased": "Preis gestiegen",
         "removed": "Preis entfernt"
     },
-    "itemState": {
+    "productState": {
         "listed": "Gelistet",
         "available": "Verfügbar",
         "reserved": "Reserviert",
@@ -160,5 +177,40 @@
     "landingPage": {
         "titleFirstLine": "Entdecken, vergleichen, sammeln-",
         "titleSecondLine": "mit Klarheit im Antiquitätenmarkt"
+    },
+    "apiErrors": {
+        "PRODUCT_NOT_FOUND": "Dieser Artikel wurde nicht gefunden.",
+        "UNAUTHORIZED": "Authentifizierung fehlgeschlagen. Bitte melden Sie sich an.",
+        "INTERNAL_SERVER_ERROR": "Es ist ein interner Serverfehler aufgetreten. Bitte versuchen Sie es später erneut.",
+        "GATEWAY_TIMEOUT": "Zeitüberschreitung bei der Anfrage. Bitte versuchen Sie es später erneut.",
+        "WATCHLIST_ENTRY_NOT_FOUND": "Dieser Artikel ist nicht auf Ihrer Merkliste.",
+        "SEARCH_FILTER_NOT_FOUND": "Dieser Suchauftrag existiert nicht.",
+        "TEXT_QUERY_TOO_SHORT": "Die Suchanfrage muss mindestens 3 Zeichen enthalten.",
+        "BAD_PATH_PARAMETER_VALUE": "Der Link ist ungültig.",
+        "INVALID_UUID": "Der Link ist ungültig.",
+        "SERVICE_UNAVAILABLE": "Der Service ist momentan nicht verfügbar. Bitte versuche es später erneut.",
+        "BAD_QUERY_PARAMETER_VALUE": "Deine Suche enthält ungültige Einstellungen.",
+        "SHOP_NOT_FOUND": "Dieser Shop ist nicht mehr verfügbar.",
+        "FORBIDDEN": "Diese Aktion ist für Sie nicht verfügbar.",
+        "BAD_BODY_VALUE": "Einige Angaben sind nicht korrekt. Bitte überprüfen Sie Ihre Eingaben.",
+        "MONETARY_AMOUNT_OVERFLOW": "Der Preis ist zu hoch und kann nicht verarbeitet werden.",
+        "BAD_PAGE_FROM_VALUE": "Ungültige Seitennummer.",
+        "BAD_PAGE_SIZE_VALUE": "Ungültige Anzahl pro Seite.",
+        "BAD_SORT_VALUE": "Ungültige Sortierung.",
+        "BAD_ORDER_VALUE": "Ungültige Sortierreihenfolge.",
+        "unknown": "Ein unerwarteter Fehler ist aufgetreten."
+    },
+    "watchlist": {
+        "title": "Meine Merkliste",
+        "loginRequired": "Bitte melden Sie sich an, um die Merkliste nutzen zu können.",
+        "totalElements": "{{count}} Artikel",
+        "loadingError": "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
+        "loadingMore": "Lade neue Ergebnisse...",
+        "allLoaded_one": "Sie haben {{count}} Artikel Ihrer Merkliste gesehen.",
+        "allLoaded_other": "Sie haben alle {{count}} Artikel Ihrer Merkliste gesehen.",
+        "noResults": {
+            "title": "Keine Artikel gefunden",
+            "description": "Fügen Sie Artikel zur Merkliste hinzu, um sie hier anzusehen."
+        }
     }
 }

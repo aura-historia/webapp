@@ -1,23 +1,11 @@
 import { H1 } from "@/components/typography/H1.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
-import { AccountSettings, useAuthenticator } from "@aws-amplify/ui-react";
-import { useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { AccountSettings } from "@aws-amplify/ui-react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 
 export function AccountPage() {
     const { t } = useTranslation();
-    const { user } = useAuthenticator();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!user) {
-            navigate({ to: "/auth" }).catch((error) => {
-                console.error("Navigation fehlgeschlagen:", error);
-            });
-        }
-    }, [user, navigate]);
 
     return (
         <div className="flex flex-col items-center max-w-3xl mx-auto px-4 py-8 w-full">

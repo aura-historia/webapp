@@ -1,5 +1,5 @@
 import { CreationDateSpanFilter } from "@/components/search/filters/CreationDateSpanFilter.tsx";
-import { ItemStateFilter } from "@/components/search/filters/ItemStateFilter.tsx";
+import { ProductStateFilter } from "@/components/search/filters/ProductStateFilter.tsx";
 import { PriceSpanFilter } from "@/components/search/filters/PriceSpanFilter.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Form } from "@/components/ui/form.tsx";
@@ -26,7 +26,7 @@ const createFilterSchema = (t: TFunction) =>
                     max: z.number().min(0).optional().or(z.undefined()),
                 })
                 .optional(),
-            itemState: z.array(
+            productState: z.array(
                 z.enum(["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"]),
             ),
             creationDate: z.object({
@@ -131,7 +131,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
             form.setValue("merchant", searchFilters.merchant, { shouldDirty: false });
         }
         if (searchFilters.allowedStates) {
-            form.setValue("itemState", searchFilters.allowedStates, { shouldDirty: false });
+            form.setValue("productState", searchFilters.allowedStates, { shouldDirty: false });
         }
     }, [
         searchFilters.priceFrom,
@@ -152,7 +152,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                 search: mapFiltersToUrlParams({
                     query: getEffectiveQuery(),
                     priceSpan: data.priceSpan,
-                    itemState: data.itemState,
+                    productState: data.productState,
                     creationDate: data.creationDate,
                     updateDate: data.updateDate,
                     merchant: data.merchant,
@@ -177,7 +177,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <div className={"flex flex-col gap-4"}>
                     <PriceSpanFilter />
-                    <ItemStateFilter />
+                    <ProductStateFilter />
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />
                     <MerchantFilter />

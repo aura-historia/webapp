@@ -4,56 +4,57 @@ import { useFormContext } from "react-hook-form";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { formatToDateString } from "@/lib/utils.ts";
 
+function isDefaultProductState(states: FilterSchema["productState"]): boolean {
+    return (
+        states.length === FILTER_DEFAULTS.productState.length &&
+        states.every((s) => FILTER_DEFAULTS.productState.includes(s))
+    );
+}
+
+function isDefaultDateRange(range: { from?: Date; to?: Date }): boolean {
+    return range.from === undefined && range.to === undefined;
+}
+
+function formatDateRangeForUrl(range: {
+    from?: Date;
+    to?: Date;
+}): { from?: string; to?: string } | null {
+    if (isDefaultDateRange(range)) return null;
+
+    return {
+        from: range.from ? formatToDateString(range.from) : undefined,
+        to: range.to ? formatToDateString(range.to) : undefined,
+    };
+}
+
 export function useFilterNavigation() {
     const navigate = useNavigate({ from: "/search" });
     const search = useSearch({ from: "/search" });
     const form = useFormContext<FilterSchema>();
 
-    return (filterKey: keyof FilterSchema) => {
+    return async (filterKey: keyof FilterSchema) => {
         form.setValue(filterKey, FILTER_DEFAULTS[filterKey]);
         const data = form.getValues();
 
-        const isDefaultItemState =
-            data.itemState.length === FILTER_DEFAULTS.itemState.length &&
-            data.itemState.every((s) => FILTER_DEFAULTS.itemState.includes(s));
+        const hasCustomPrice =
+            data.priceSpan?.min !== undefined || data.priceSpan?.max !== undefined;
+        const creationDateRange = formatDateRangeForUrl(data.creationDate);
+        const updateDateRange = formatDateRangeForUrl(data.updateDate);
 
-        const isDefaultPrice =
-            data.priceSpan?.min === undefined && data.priceSpan?.max === undefined;
-
-        const isDefaultCreationDate =
-            data.creationDate.from === undefined && data.creationDate.to === undefined;
-
-        const isDefaultUpdateDate =
-            data.updateDate.from === undefined && data.updateDate.to === undefined;
-
-        navigate({
+        await navigate({
             to: "/search",
             search: {
                 q: search.q,
-                priceFrom: isDefaultPrice ? undefined : data.priceSpan?.min,
-                priceTo: isDefaultPrice ? undefined : data.priceSpan?.max,
-                allowedStates: isDefaultItemState ? undefined : data.itemState,
-                creationDateFrom: isDefaultCreationDate
+                priceFrom: hasCustomPrice ? data.priceSpan?.min : undefined,
+                priceTo: hasCustomPrice ? data.priceSpan?.max : undefined,
+                allowedStates: isDefaultProductState(data.productState)
                     ? undefined
-                    : data.creationDate.from
-                      ? formatToDateString(data.creationDate.from)
-                      : undefined,
-                creationDateTo: isDefaultCreationDate
-                    ? undefined
-                    : data.creationDate.to
-                      ? formatToDateString(data.creationDate.to)
-                      : undefined,
-                updateDateFrom: isDefaultUpdateDate
-                    ? undefined
-                    : data.updateDate.from
-                      ? formatToDateString(data.updateDate.from)
-                      : undefined,
-                updateDateTo: isDefaultUpdateDate
-                    ? undefined
-                    : data.updateDate.to
-                      ? formatToDateString(data.updateDate.to)
-                      : undefined,
-                merchant: data.merchant ? data.merchant : undefined,
+                    : data.productState,
+                creationDateFrom: creationDateRange?.from,
+                creationDateTo: creationDateRange?.to,
+                updateDateFrom: updateDateRange?.from,
+                updateDateTo: updateDateRange?.to,
+                merchant: data.merchant || undefined,
             },
         });
     };

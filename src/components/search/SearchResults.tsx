@@ -1,5 +1,5 @@
-import { ItemCard } from "@/components/item/ItemCard.tsx";
-import { ItemCardSkeleton } from "@/components/item/ItemCardSkeleton.tsx";
+import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
+import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { useInView } from "react-intersection-observer";
@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { SearchX } from "lucide-react";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
-import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
+import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
 import { useSearch } from "@/hooks/useSearch.ts";
 import Lottie from "lottie-react";
@@ -47,7 +47,7 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
         return (
             <div className="flex flex-col gap-4">
                 {Array.from({ length: 4 }, () => (
-                    <ItemCardSkeleton key={uuidv4()} />
+                    <ProductCardSkeleton key={uuidv4()} />
                 ))}
             </div>
         );
@@ -59,10 +59,10 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
         return <SectionInfoText>{t("search.messages.error")}</SectionInfoText>;
     }
 
-    const allItems: OverviewItem[] =
-        data?.pages.flatMap((page: SearchResultData) => page.items) ?? [];
+    const allProducts: OverviewProduct[] =
+        data?.pages.flatMap((page: SearchResultData) => page.products) ?? [];
 
-    if (allItems.length === 0) {
+    if (allProducts.length === 0) {
         return (
             <div className="flex flex-col items-center gap-4 py-16">
                 <SearchX className="h-16 w-16 text-muted-foreground" />
@@ -78,8 +78,8 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
 
     return (
         <div className="flex flex-col gap-4">
-            {allItems.map((item: OverviewItem) => (
-                <ItemCard key={item.itemId} item={item} />
+            {allProducts.map((product: OverviewProduct) => (
+                <ProductCard key={product.productId} product={product} />
             ))}
             <Card className={"p-4 flex justify-center items-center shadow-md"} ref={ref}>
                 <CardContent className="flex justify-center items-center w-full px-2">

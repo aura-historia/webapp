@@ -4,13 +4,13 @@ import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
 
 describe("ScrollToTopButton", () => {
     beforeEach(() => {
-        Object.defineProperty(window, "scrollY", {
+        Object.defineProperty(globalThis, "scrollY", {
             writable: true,
             configurable: true,
             value: 0,
         });
 
-        vi.spyOn(window, "scrollTo").mockImplementation(() => {});
+        vi.spyOn(globalThis, "scrollTo").mockImplementation(() => {});
     });
 
     it("should not be visible when scrollY < 300", () => {
@@ -19,7 +19,7 @@ describe("ScrollToTopButton", () => {
     });
 
     it("should be visible when scrollY > 300", () => {
-        window.scrollY = 400;
+        globalThis.scrollY = 400;
         render(<ScrollToTopButton />);
 
         fireEvent.scroll(window);
@@ -28,7 +28,7 @@ describe("ScrollToTopButton", () => {
     });
 
     it("should call scrollTo on click", () => {
-        window.scrollY = 400;
+        globalThis.scrollY = 400;
         render(<ScrollToTopButton />);
 
         fireEvent.scroll(window);

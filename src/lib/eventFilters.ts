@@ -1,19 +1,19 @@
 import type {
-    ItemEvent,
-    ItemCreatedPayload,
-    ItemStateChangedPayload,
-    ItemPriceChangedPayload,
-    ItemPriceDiscoveredPayload,
-    ItemPriceRemovedPayload,
-} from "@/data/internal/ItemDetails";
+    ProductEvent,
+    ProductCreatedPayload,
+    ProductStateChangedPayload,
+    ProductPriceChangedPayload,
+    ProductPriceDiscoveredPayload,
+    ProductPriceRemovedPayload,
+} from "@/data/internal/ProductDetails";
 import type { StateEventType, PriceEventType } from "@/types/events";
 
 /**
  * Filter only CREATED events (where payload has state field and optional price)
  * This excludes state change events which have oldState/newState instead
  */
-export function isCreatedEvent(event: ItemEvent): event is ItemEvent & {
-    payload: ItemCreatedPayload;
+export function isCreatedEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductCreatedPayload;
     eventType: "CREATED";
 } {
     return (
@@ -30,8 +30,8 @@ export function isCreatedEvent(event: ItemEvent): event is ItemEvent & {
  * Filter only STATE CHANGED events (where payload has oldState and newState)
  * This excludes CREATED events which have only a state field
  */
-export function isStateChangedEvent(event: ItemEvent): event is ItemEvent & {
-    payload: ItemStateChangedPayload;
+export function isStateChangedEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductStateChangedPayload;
     eventType: StateEventType;
 } {
     return (
@@ -46,8 +46,8 @@ export function isStateChangedEvent(event: ItemEvent): event is ItemEvent & {
  * Filter only PRICE CHANGED events (where payload has both oldPrice and newPrice)
  * This excludes PRICE_DISCOVERED (only newPrice) and PRICE_REMOVED (only oldPrice)
  */
-export function isPriceChangedEvent(event: ItemEvent): event is ItemEvent & {
-    payload: ItemPriceChangedPayload;
+export function isPriceChangedEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductPriceChangedPayload;
     eventType: "PRICE_DROPPED" | "PRICE_INCREASED";
 } {
     return (
@@ -63,8 +63,8 @@ export function isPriceChangedEvent(event: ItemEvent): event is ItemEvent & {
  * Filter only PRICE DISCOVERED events (where payload has only newPrice)
  * This excludes price change events which have both oldPrice and newPrice
  */
-export function isPriceDiscoveredEvent(event: ItemEvent): event is ItemEvent & {
-    payload: ItemPriceDiscoveredPayload;
+export function isPriceDiscoveredEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductPriceDiscoveredPayload;
     eventType: "PRICE_DISCOVERED";
 } {
     return (
@@ -80,8 +80,8 @@ export function isPriceDiscoveredEvent(event: ItemEvent): event is ItemEvent & {
  * Filter only PRICE REMOVED events (where payload has only oldPrice)
  * This excludes price change events which have both oldPrice and newPrice
  */
-export function isPriceRemovedEvent(event: ItemEvent): event is ItemEvent & {
-    payload: ItemPriceRemovedPayload;
+export function isPriceRemovedEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductPriceRemovedPayload;
     eventType: "PRICE_REMOVED";
 } {
     return (
@@ -97,8 +97,11 @@ export function isPriceRemovedEvent(event: ItemEvent): event is ItemEvent & {
  * Filter all price events (where payload has price-related fields)
  * This excludes state events which have state or oldState/newState fields
  */
-export function isPriceEvent(event: ItemEvent): event is ItemEvent & {
-    payload: ItemPriceChangedPayload | ItemPriceDiscoveredPayload | ItemPriceRemovedPayload;
+export function isPriceEvent(event: ProductEvent): event is ProductEvent & {
+    payload:
+        | ProductPriceChangedPayload
+        | ProductPriceDiscoveredPayload
+        | ProductPriceRemovedPayload;
     eventType: PriceEventType;
 } {
     return (
@@ -110,8 +113,8 @@ export function isPriceEvent(event: ItemEvent): event is ItemEvent & {
  * Filter all state events (where payload has state-related fields)
  * This excludes price events which have price-related fields
  */
-export function isStateEvent(event: ItemEvent): event is ItemEvent & {
-    payload: ItemCreatedPayload | ItemStateChangedPayload;
+export function isStateEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductCreatedPayload | ProductStateChangedPayload;
     eventType: StateEventType | "CREATED";
 } {
     return isCreatedEvent(event) || isStateChangedEvent(event);

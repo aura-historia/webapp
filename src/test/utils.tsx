@@ -7,6 +7,7 @@ import {
     createRouter,
 } from "@tanstack/react-router";
 import { render } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { SearchQueryProvider } from "@/hooks/useSearchQueryContext.tsx";
 
@@ -53,9 +54,22 @@ export function TestRouterWrapper({
         context: {},
     });
 
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry: false,
+            },
+            mutations: {
+                retry: false,
+            },
+        },
+    });
+
     return (
         <SearchQueryProvider>
-            <RouterProvider router={router} />
+            <QueryClientProvider client={queryClient}>
+                <RouterProvider router={router} />
+            </QueryClientProvider>
         </SearchQueryProvider>
     );
 }
@@ -65,4 +79,18 @@ export function renderWithRouter(
     options: Omit<TestRouterWrapperProps, "children"> = {},
 ) {
     return render(<TestRouterWrapper {...options}>{ui}</TestRouterWrapper>);
+}
+
+export function renderWithQueryClient(ui: React.ReactElement) {
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry: false,
+            },
+            mutations: {
+                retry: false,
+            },
+        },
+    });
+    return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
 }

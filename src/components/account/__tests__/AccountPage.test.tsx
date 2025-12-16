@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AccountPage } from "../AccountPage.tsx";
@@ -71,18 +71,6 @@ describe("AccountPage", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         mockNavigate.mockResolvedValue(undefined);
-    });
-
-    describe("Not logged in", () => {
-        it("should redirect to auth page", async () => {
-            mockUseAuthenticator.mockReturnValue({ user: null });
-
-            renderWithQueryClient(<AccountPage />);
-
-            await waitFor(() => {
-                expect(mockNavigate).toHaveBeenCalledWith({ to: "/auth" });
-            });
-        });
     });
 
     describe("Logged in user", () => {

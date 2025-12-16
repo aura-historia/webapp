@@ -21,6 +21,7 @@ export function PriceSpanFilter() {
 
     const watchedMin = watch("priceSpan.min");
     const watchedMax = watch("priceSpan.max");
+    const watchedPriceSpan = watch("priceSpan");
 
     const sliderMin = typeof watchedMin === "number" ? watchedMin : PRICE_MIN;
     const sliderMax = typeof watchedMax === "number" ? watchedMax : PRICE_MAX;
@@ -29,8 +30,12 @@ export function PriceSpanFilter() {
     const lastSlider = useRef<[number, number]>([sliderMin, sliderMax]);
 
     useEffect(() => {
+        if (!watchedPriceSpan) {
+            lastSlider.current = [PRICE_MIN, PRICE_MAX];
+        }
+
         lastSlider.current = [sliderMin, sliderMax];
-    }, [sliderMin, sliderMax]);
+    }, [sliderMin, sliderMax, watchedPriceSpan]);
 
     const handleNumericChange = (raw: string, fieldName: "priceSpan.min" | "priceSpan.max") => {
         if (raw === "") {
@@ -63,6 +68,7 @@ export function PriceSpanFilter() {
                             size="sm"
                             onClick={() => resetAndNavigate("priceSpan")}
                             className="h-8 w-8 p-0"
+                            aria-label={t("search.filter.resetTooltip.priceSpan")}
                         >
                             <FilterX className="h-5 w-5" />
                         </Button>
