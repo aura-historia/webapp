@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { type ProductState, parseProductState } from "@/data/internal/ProductState.ts";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer.tsx";
+import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Filter } from "lucide-react";
 import { useState } from "react";
@@ -170,7 +170,13 @@ function RouteComponent() {
                                         {t("search.filters")}
                                     </Button>
                                 </DrawerTrigger>
-                                <DrawerContent className="h-full flex flex-col">
+                                <DrawerContent
+                                    aria-describedby={undefined}
+                                    className="h-full flex flex-col"
+                                >
+                                    <DrawerTitle className="sr-only">
+                                        {t("search.filters")}
+                                    </DrawerTitle>
                                     <div className="flex-1 overflow-y-auto p-4">
                                         <SearchFilters
                                             searchFilters={searchArgs}
