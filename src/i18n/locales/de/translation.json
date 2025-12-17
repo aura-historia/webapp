@@ -213,5 +213,34 @@
             "title": "Keine Artikel gefunden",
             "description": "Fügen Sie Artikel zur Merkliste hinzu, um sie hier anzusehen."
         }
+    },
+    "auth": {
+        "signUp": {
+            "firstName": "Vorname",
+            "firstNamePlaceholder": "Max",
+            "lastName": "Nachname",
+            "lastNamePlaceholder": "Mustermann",
+            "email": "E-Mail*",
+            "emailPlaceholder": "ihre.email@beispiel.de",
+            "password": "Passwort*",
+            "confirmPassword": "Passwort bestätigen*",
+            "language": "Sprache",
+            "currency": "Währung",
+            "pleaseSelect": "Bitte wählen"
+        },
+        "languages": {
+            "de": "Deutsch",
+            "en": "Englisch",
+            "fr": "Französisch",
+            "es": "Spanisch"
+        },
+        "currencies": {
+            "EUR": "EUR - Euro",
+            "GBP": "GBP - Britisches Pfund",
+            "USD": "USD - US-Dollar",
+            "AUD": "AUD - Australischer Dollar",
+            "CAD": "CAD - Kanadischer Dollar",
+            "NZD": "NZD - Neuseeland-Dollar"
+        }
     }
 }

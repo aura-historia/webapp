@@ -1,5 +1,6 @@
-import { Authenticator } from "@aws-amplify/ui-react";
+import { Authenticator, TextField, SelectField, Grid, useTheme } from "@aws-amplify/ui-react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import "@aws-amplify/ui-react/styles.css";
 import "../amplify-config";
 
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
     const navigate = useNavigate();
     const { redirect } = Route.useSearch();
+    const { t } = useTranslation();
 
     return (
         <div className="flex flex-row min-h-screen justify-center items-center">
@@ -26,20 +28,86 @@ function LoginPage() {
                 formFields={{
                     signUp: {
                         email: {
-                            label: "E-Mail*",
-                            placeholder: "ihre.email@beispiel.de",
+                            label: t("auth.signUp.email"),
+                            placeholder: t("auth.signUp.emailPlaceholder"),
                             isRequired: true,
                             order: 1,
                         },
                         password: {
-                            label: "Passwort*",
+                            label: t("auth.signUp.password"),
                             isRequired: true,
                             order: 2,
                         },
                         confirm_password: {
-                            label: "Passwort bestätigen*",
+                            label: t("auth.signUp.confirmPassword"),
                             isRequired: true,
                             order: 3,
+                        },
+                    },
+                }}
+                components={{
+                    SignUp: {
+                        FormFields() {
+                            const { tokens } = useTheme();
+
+                            return (
+                                <>
+                                    {/* 1. Custom: firstName & lastName (optional) */}
+                                    <Grid
+                                        templateColumns={{ base: "1fr", medium: "1fr 1fr" }}
+                                        gap={tokens.space.medium}
+                                    >
+                                        <TextField
+                                            name="firstName"
+                                            label={t("auth.signUp.firstName")}
+                                            placeholder={t("auth.signUp.firstNamePlaceholder")}
+                                        />
+
+                                        <TextField
+                                            name="lastName"
+                                            label={t("auth.signUp.lastName")}
+                                            placeholder={t("auth.signUp.lastNamePlaceholder")}
+                                        />
+                                    </Grid>
+
+                                    {/* 2. Custom: language & currency (optional) */}
+                                    <Grid
+                                        templateColumns={{ base: "1fr", medium: "1fr 1fr" }}
+                                        gap={tokens.space.medium}
+                                    >
+                                        <SelectField
+                                            name="language"
+                                            label={t("auth.signUp.language")}
+                                        >
+                                            <option value="">
+                                                {t("auth.signUp.pleaseSelect")}
+                                            </option>
+                                            <option value="de">{t("auth.languages.de")}</option>
+                                            <option value="en">{t("auth.languages.en")}</option>
+                                            <option value="fr">{t("auth.languages.fr")}</option>
+                                            <option value="es">{t("auth.languages.es")}</option>
+                                        </SelectField>
+
+                                        <SelectField
+                                            name="currency"
+                                            label={t("auth.signUp.currency")}
+                                        >
+                                            <option value="">
+                                                {t("auth.signUp.pleaseSelect")}
+                                            </option>
+                                            <option value="EUR">{t("auth.currencies.EUR")}</option>
+                                            <option value="GBP">{t("auth.currencies.GBP")}</option>
+                                            <option value="USD">{t("auth.currencies.USD")}</option>
+                                            <option value="AUD">{t("auth.currencies.AUD")}</option>
+                                            <option value="CAD">{t("auth.currencies.CAD")}</option>
+                                            <option value="NZD">{t("auth.currencies.NZD")}</option>
+                                        </SelectField>
+                                    </Grid>
+
+                                    {/* 3. Cognito: E-Mail, Password, Confirm password (required) */}
+                                    <Authenticator.SignUp.FormFields />
+                                </>
+                            );
                         },
                     },
                 }}
