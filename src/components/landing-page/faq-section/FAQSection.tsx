@@ -6,33 +6,7 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion.tsx";
 import { useTranslation } from "react-i18next";
-
-const faqItems = [
-    {
-        questionKey: "landingPage.faq.items.free.question",
-        answerKey: "landingPage.faq.items.free.answer",
-    },
-    {
-        questionKey: "landingPage.faq.items.howItWorks.question",
-        answerKey: "landingPage.faq.items.howItWorks.answer",
-    },
-    {
-        questionKey: "landingPage.faq.items.directPurchase.question",
-        answerKey: "landingPage.faq.items.directPurchase.answer",
-    },
-    {
-        questionKey: "landingPage.faq.items.priceAlerts.question",
-        answerKey: "landingPage.faq.items.priceAlerts.answer",
-    },
-    {
-        questionKey: "landingPage.faq.items.updateFrequency.question",
-        answerKey: "landingPage.faq.items.updateFrequency.answer",
-    },
-    {
-        questionKey: "landingPage.faq.items.dealers.question",
-        answerKey: "landingPage.faq.items.dealers.answer",
-    },
-];
+import { FAQ_DATA } from "@/components/landing-page/faq-section/FAQSection.data.ts";
 
 export default function FAQSection() {
     const { t } = useTranslation();
@@ -47,7 +21,7 @@ export default function FAQSection() {
                     </p>
                 </div>
                 <Accordion type="single" collapsible className="w-full">
-                    {faqItems.map((item, index) => (
+                    {FAQ_DATA.map((item, index) => (
                         <AccordionItem key={item.questionKey} value={`item-${index}`}>
                             <AccordionTrigger className="text-left">
                                 {t(item.questionKey)}

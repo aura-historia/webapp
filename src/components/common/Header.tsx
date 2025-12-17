@@ -22,6 +22,7 @@ import {
     NavigationMenuList,
 } from "@/components/ui/navigation-menu.tsx";
 import { cn } from "@/lib/utils.ts";
+import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
@@ -39,7 +40,7 @@ export function Header() {
     });
 
     useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > 600);
+        const handleScroll = () => setIsScrolled(window.scrollY > HERO_SEARCH_BAR_SCROLL_THRESHOLD);
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);

@@ -4,13 +4,14 @@ import { Card } from "@/components/ui/card.tsx";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
+import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
 
 export default function HeroSection() {
     const { t } = useTranslation();
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > 600);
+        const handleScroll = () => setIsScrolled(window.scrollY > HERO_SEARCH_BAR_SCROLL_THRESHOLD);
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -24,7 +25,7 @@ export default function HeroSection() {
 
             <div className="w-full max-w-4xl px-4 relative z-10">
                 <div className="text-center mb-6">
-                    <span className="inline-block px-4 py-2 rounded-full bg-primary/10 border-primary border-1 text-primary text-sm font-medium mb-6">
+                    <span className="inline-block px-4 py-2 rounded-full bg-primary/10 border-primary border text-primary text-sm font-medium mb-6">
                         {t("landingPage.badge")}
                     </span>
                 </div>

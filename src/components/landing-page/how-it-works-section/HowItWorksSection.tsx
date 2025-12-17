@@ -1,28 +1,6 @@
 import { H2 } from "@/components/typography/H2.tsx";
 import { useTranslation } from "react-i18next";
-
-const steps = [
-    {
-        number: "1",
-        titleKey: "landingPage.howItWorks.step1.title",
-        descKey: "landingPage.howItWorks.step1.description",
-    },
-    {
-        number: "2",
-        titleKey: "landingPage.howItWorks.step2.title",
-        descKey: "landingPage.howItWorks.step2.description",
-    },
-    {
-        number: "3",
-        titleKey: "landingPage.howItWorks.step3.title",
-        descKey: "landingPage.howItWorks.step3.description",
-    },
-    {
-        number: "4",
-        titleKey: "landingPage.howItWorks.step4.title",
-        descKey: "landingPage.howItWorks.step4.description",
-    },
-];
+import { HOW_IT_WORKS_STEPS } from "@/components/landing-page/how-it-works-section/HowItWorksSection.data.ts";
 
 export default function HowItWorksSection() {
     const { t } = useTranslation();
@@ -37,11 +15,11 @@ export default function HowItWorksSection() {
                     </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {steps.map((step, index) => (
+                    {HOW_IT_WORKS_STEPS.map((step, index) => (
                         <div key={step.number} className="relative">
                             {/* Connector line */}
-                            {index < steps.length - 1 && (
-                                <div className="hidden lg:block absolute top-8 left-[60%] w-full h-0.5 bg-gradient-to-r from-primary/10 via-primary/50 to-primary/10 " />
+                            {index < HOW_IT_WORKS_STEPS.length - 1 && (
+                                <div className="hidden lg:block absolute top-8 left-[60%] w-full h-0.5 bg-linear-to-r from-primary/10 via-primary/50 to-primary/10 " />
                             )}
                             <div className="relative z-10 text-center">
                                 <div className="inline-flex items-center justify-center rounded-full w-16 h-16 border-2 border-primary/30 mb-6 bg-card">

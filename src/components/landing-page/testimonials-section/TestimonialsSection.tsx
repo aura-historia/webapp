@@ -2,29 +2,7 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { useTranslation } from "react-i18next";
 import { Quote } from "lucide-react";
-import testimonialImage1 from "@/assets/testimonials/testimonial1.jpg";
-import testimonialImage2 from "@/assets/testimonials/testimonial2.jpg";
-
-const testimonials = [
-    {
-        nameKey: "landingPage.testimonials.testimonial1.name",
-        roleKey: "landingPage.testimonials.testimonial1.role",
-        quoteKey: "landingPage.testimonials.testimonial1.quote",
-        image: testimonialImage1,
-    },
-    {
-        nameKey: "landingPage.testimonials.testimonial2.name",
-        roleKey: "landingPage.testimonials.testimonial2.role",
-        quoteKey: "landingPage.testimonials.testimonial2.quote",
-        image: testimonialImage2,
-    },
-    {
-        nameKey: "landingPage.testimonials.testimonial3.name",
-        roleKey: "landingPage.testimonials.testimonial3.role",
-        quoteKey: "landingPage.testimonials.testimonial3.quote",
-        image: undefined,
-    },
-];
+import { TESTIMONIALS } from "@/components/landing-page/testimonials-section/TestimonialsSection.data.ts";
 
 export default function TestimonialsSection() {
     const { t } = useTranslation();
@@ -39,7 +17,7 @@ export default function TestimonialsSection() {
                     </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {testimonials.map((testimonial) => (
+                    {TESTIMONIALS.map((testimonial) => (
                         <Card
                             key={testimonial.nameKey}
                             className="relative overflow-hidden border-primary/10"
@@ -52,7 +30,7 @@ export default function TestimonialsSection() {
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                    <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
                                         {testimonial.image ? (
                                             <img
                                                 src={testimonial.image}
