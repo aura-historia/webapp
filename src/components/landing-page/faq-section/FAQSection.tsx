@@ -1,4 +1,3 @@
-import { H2 } from "@/components/typography/H2.tsx";
 import {
     Accordion,
     AccordionContent,
@@ -7,6 +6,7 @@ import {
 } from "@/components/ui/accordion.tsx";
 import { useTranslation } from "react-i18next";
 import { FAQ_DATA } from "@/components/landing-page/faq-section/FAQSection.data.ts";
+import { SectionHeading } from "@/components/landing-page/common/SectionHeading.tsx";
 
 export default function FAQSection() {
     const { t } = useTranslation();
@@ -14,12 +14,10 @@ export default function FAQSection() {
     return (
         <section className="py-20 px-4">
             <div className="max-w-3xl mx-auto">
-                <div className="text-center mb-16">
-                    <H2 className="mb-4">{t("landingPage.faq.title")}</H2>
-                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                        {t("landingPage.faq.subtitle")}
-                    </p>
-                </div>
+                <SectionHeading
+                    headline={t("landingPage.faq.title")}
+                    description={t("landingPage.faq.subtitle")}
+                />
                 <Accordion type="single" collapsible className="w-full">
                     {FAQ_DATA.map((item, index) => (
                         <AccordionItem key={item.questionKey} value={`item-${index}`}>

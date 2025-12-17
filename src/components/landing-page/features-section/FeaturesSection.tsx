@@ -1,7 +1,7 @@
-import { H2 } from "@/components/typography/H2.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { useTranslation } from "react-i18next";
-import { FEATURES_CARD_DATA } from "@/components/landing-page/features-section/FeatureSection.data.ts";
+import { FEATURES_CARD_DATA } from "@/components/landing-page/features-section/FeaturesSection.data.ts";
+import { SectionHeading } from "@/components/landing-page/common/SectionHeading.tsx";
 
 export default function FeaturesSection() {
     const { t } = useTranslation();
@@ -9,12 +9,10 @@ export default function FeaturesSection() {
     return (
         <section className="py-20 px-4 bg-muted/30">
             <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-16">
-                    <H2 className="mb-4">{t("landingPage.features.title")}</H2>
-                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                        {t("landingPage.features.subtitle")}
-                    </p>
-                </div>
+                <SectionHeading
+                    headline={t("landingPage.features.title")}
+                    description={t("landingPage.features.subtitle")}
+                />
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {FEATURES_CARD_DATA.map((feature) => (
                         <Card

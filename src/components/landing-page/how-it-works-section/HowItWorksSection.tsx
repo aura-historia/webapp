@@ -1,6 +1,6 @@
-import { H2 } from "@/components/typography/H2.tsx";
 import { useTranslation } from "react-i18next";
 import { HOW_IT_WORKS_STEPS } from "@/components/landing-page/how-it-works-section/HowItWorksSection.data.ts";
+import { SectionHeading } from "@/components/landing-page/common/SectionHeading.tsx";
 
 export default function HowItWorksSection() {
     const { t } = useTranslation();
@@ -8,12 +8,10 @@ export default function HowItWorksSection() {
     return (
         <section className="py-20 px-4">
             <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-16">
-                    <H2 className="mb-4">{t("landingPage.howItWorks.title")}</H2>
-                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                        {t("landingPage.howItWorks.subtitle")}
-                    </p>
-                </div>
+                <SectionHeading
+                    headline={t("landingPage.howItWorks.title")}
+                    description={t("landingPage.howItWorks.subtitle")}
+                />
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {HOW_IT_WORKS_STEPS.map((step, index) => (
                         <div key={step.number} className="relative">

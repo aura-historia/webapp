@@ -186,13 +186,13 @@
             "description": "Verfolgen Sie die komplette Preishistorie eines Artikels und erkennen Sie Trends auf einen Blick."
         },
         "stats": {
-            "shops": "500+",
+            "shops": "500",
             "shopsLabel": "Vernetzte Händler",
-            "items": "120.000+",
+            "items": "120.000",
             "itemsLabel": "Einzigartige Artikel",
             "updates": "24/7",
             "updatesLabel": "Automatische Updates",
-            "countries": "15+",
+            "countries": "15",
             "countriesLabel": "Länder abgedeckt"
         }
     },

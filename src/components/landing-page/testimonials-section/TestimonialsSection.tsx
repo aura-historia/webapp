@@ -1,8 +1,8 @@
-import { H2 } from "@/components/typography/H2.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { useTranslation } from "react-i18next";
 import { Quote } from "lucide-react";
 import { TESTIMONIALS } from "@/components/landing-page/testimonials-section/TestimonialsSection.data.ts";
+import { SectionHeading } from "@/components/landing-page/common/SectionHeading.tsx";
 
 export default function TestimonialsSection() {
     const { t } = useTranslation();
@@ -10,12 +10,11 @@ export default function TestimonialsSection() {
     return (
         <section className="py-20 px-4 bg-muted/30">
             <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-16">
-                    <H2 className="mb-4">{t("landingPage.testimonials.title")}</H2>
-                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                        {t("landingPage.testimonials.subtitle")}
-                    </p>
-                </div>
+                <SectionHeading
+                    headline={t("landingPage.testimonials.title")}
+                    description={t("landingPage.testimonials.subtitle")}
+                />
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {TESTIMONIALS.map((testimonial) => (
                         <Card
