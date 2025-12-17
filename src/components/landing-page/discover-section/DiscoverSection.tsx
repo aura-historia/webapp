@@ -5,9 +5,28 @@ import {
     DISCOVER_STATS,
 } from "@/components/landing-page/discover-section/DiscoverSection.data.ts";
 import NumberFlow from "@number-flow/react";
+import { useEffect, useRef, useState } from "react";
 
 export default function DiscoverSection() {
     const { t } = useTranslation();
+    const [isVisible, setIsVisible] = useState(false);
+    const statsRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsVisible(entry.isIntersecting);
+            },
+            { threshold: 0.3 },
+        );
+
+        if (statsRef.current) {
+            observer.observe(statsRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <section className="py-20 px-4">
             <div className="max-w-6xl mx-auto">
@@ -37,7 +56,7 @@ export default function DiscoverSection() {
                         </div>
                     </div>
                     {/* Visual/Stats */}
-                    <div className="relative">
+                    <div className="relative" ref={statsRef}>
                         <div className="bg-linear-to-br from-primary/10 via-primary/5 to-transparent rounded-2xl p-8">
                             <div className="grid grid-cols-2 gap-6">
                                 {DISCOVER_STATS.map((stat) => (
@@ -48,12 +67,7 @@ export default function DiscoverSection() {
                                         {stat.amount ? (
                                             <span className="text-xl md:text-4xl font-bold text-primary mb-2 text-ellipsis overflow-hidden">
                                                 <NumberFlow
-                                                    willChange={true}
-                                                    value={stat.amount}
-                                                    spinTiming={{
-                                                        duration: 750,
-                                                        easing: "linear(...)",
-                                                    }}
+                                                    value={isVisible ? stat.amount : 0}
                                                     suffix="+"
                                                 />
                                             </span>
