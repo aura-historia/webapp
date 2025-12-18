@@ -12,7 +12,7 @@ describe("SearchContainer", () => {
 
     it("renders the main heading", () => {
         expect(
-            screen.getByText("Entdecken, vergleichen, sammeln-", {
+            screen.getByText("Entdecken, vergleichen, sammeln –", {
                 exact: false,
             }),
         ).toBeInTheDocument();

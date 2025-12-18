@@ -3,13 +3,14 @@ import { H1 } from "@/components/typography/H1.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
+import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
 
 export default function SearchContainer() {
     const { t } = useTranslation();
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > 500);
+        const handleScroll = () => setIsScrolled(window.scrollY > HERO_SEARCH_BAR_SCROLL_THRESHOLD);
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -17,7 +18,7 @@ export default function SearchContainer() {
     return (
         <section className="h-[calc(100vh-5rem)] flex items-center justify-center">
             <div className="w-full max-w-4xl px-4">
-                <H1 className="text-center hyphens-auto !text-4xl md:!text-5xl">
+                <H1 className="text-center hyphens-auto text-4xl! md:text-5xl!">
                     {t("landingPage.titleFirstLine")}
                     <br />
                     {t("landingPage.titleSecondLine")}

@@ -22,6 +22,7 @@ import {
     NavigationMenuList,
 } from "@/components/ui/navigation-menu.tsx";
 import { cn } from "@/lib/utils.ts";
+import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
@@ -39,7 +40,7 @@ export function Header() {
     });
 
     useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > 500);
+        const handleScroll = () => setIsScrolled(window.scrollY > HERO_SEARCH_BAR_SCROLL_THRESHOLD);
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -70,7 +71,7 @@ export function Header() {
     };
 
     return (
-        <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 backdrop-blur-sm items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
+        <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 bg-background/50 backdrop-blur-sm items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
             <div className="flex items-center justify-start gap-4">
                 <Link
                     to="/"
@@ -147,7 +148,7 @@ export function Header() {
             <div className="hidden md:flex items-center justify-end gap-4 w-full">
                 {user ? (
                     <>
-                        <NavigationMenu className={"md:inline mr-4 flex-none"}>
+                        <NavigationMenu className={"md:inline flex-none"}>
                             <NavigationMenuList>
                                 <NavigationMenuItem>
                                     <NavigationMenuLink asChild>
