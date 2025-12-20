@@ -12,11 +12,7 @@ import { parseLanguage } from "@/data/internal/Language.ts";
 import { parseCurrency } from "@/data/internal/Currency.ts";
 import { CompleteRegistration } from "@/components/auth/CompleteRegistration";
 
-type AuthenticatorProps = {
-    redirect?: string;
-};
-
-export function Authenticator({ redirect }: AuthenticatorProps) {
+export function Authenticator({ redirect }: { redirect?: string }) {
     const { t } = useTranslation();
 
     return (
@@ -108,9 +104,7 @@ export function Authenticator({ redirect }: AuthenticatorProps) {
         >
             {({ user }) => {
                 if (user) {
-                    navigate({ to: redirect || "/" }).catch((error) => {
-                        console.error("Navigation failed:", error);
-                    });
+                    return <CompleteRegistration redirect={redirect} />;
                 }
                 return (
                     <div className="min-h-screen flex items-center justify-center">
