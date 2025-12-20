@@ -5,6 +5,7 @@ import { registrationStore } from "@/stores/registrationStore";
 import { useRegistrationPolling } from "@/hooks/useRegistrationPolling";
 import { useTranslation } from "react-i18next";
 
+//NOTE: Zeigt die Anwendung der Hook mit bspw. Texten
 export function CompleteRegistration({ redirect }: { redirect?: string }) {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -37,7 +38,7 @@ export function CompleteRegistration({ redirect }: { redirect?: string }) {
                         onClick={() => navigate({ to: "/" })}
                         className="px-4 py-2"
                     >
-                        Zur Startseite
+                        Zur Startseite (ODER Erneut versuchen)
                     </button>
                 </div>
             </div>
@@ -52,14 +53,14 @@ export function CompleteRegistration({ redirect }: { redirect?: string }) {
                     <p>
                         Ihr Account wurde erfolgreich erstellt, aber Ihre Nutzerdaten konnten
                         aufgrund des hohen Nutzeraufkommens derzeit nicht gespeichert werden. Sie
-                        können Ihre Daten jederzeit in den Einstellungen nachtragen.
+                        können Ihre Daten jederzeit in den Einstellungen nachtragen. (BEISPIELSWEISE)
                     </p>
                     <button
                         type="button"
                         onClick={() => navigate({ to: redirect || "/" })}
                         className="px-4 py-2"
                     >
-                        Zur App
+                        Zur Startseite (ODER NACH AUTOMATISCHE WEITERLEITUNG NACH WENIGEN SEKUNDEN. Button aber Besser.)
                     </button>
                 </div>
             </div>
