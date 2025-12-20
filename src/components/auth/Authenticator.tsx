@@ -5,16 +5,18 @@ import {
     Grid,
     useTheme,
 } from "@aws-amplify/ui-react";
-import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import "@aws-amplify/ui-react/styles.css";
+import { setPendingUserData } from "@/stores/registrationStore";
+import { parseLanguage } from "@/data/internal/Language.ts";
+import { parseCurrency } from "@/data/internal/Currency.ts";
+import { CompleteRegistration } from "@/components/auth/CompleteRegistration";
 
 type AuthenticatorProps = {
     redirect?: string;
 };
 
 export function Authenticator({ redirect }: AuthenticatorProps) {
-    const navigate = useNavigate();
     const { t } = useTranslation();
 
     return (
@@ -89,6 +91,18 @@ export function Authenticator({ redirect }: AuthenticatorProps) {
                             </>
                         );
                     },
+                },
+            }}
+            services={{
+                async validateCustomSignUp(formData) {
+                    const customData = {
+                        firstName: formData.firstName || undefined,
+                        lastName: formData.lastName || undefined,
+                        language: formData.language ? parseLanguage(formData.language) : undefined,
+                        currency: formData.currency ? parseCurrency(formData.currency) : undefined,
+                    };
+
+                    setPendingUserData(customData);
                 },
             }}
         >
