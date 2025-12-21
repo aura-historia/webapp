@@ -6,7 +6,6 @@
  * @see https://developer.mozilla.org/en-US/docs/Web/API/URL/canParse_static
  */
 
-// Extend the URLConstructor interface to include parse and canParse methods
 declare global {
     interface URLConstructor {
         parse(url: string, base?: string | URL): URL | null;
@@ -43,4 +42,12 @@ if (typeof URL.canParse !== "function") {
     };
 }
 
-export {};
+/**
+ * Ensures URL polyfills are loaded.
+ * This function is exported to make the module intentionally side-effectful.
+ * The polyfills are applied when this module is imported.
+ */
+export function ensureURLPolyfills(): void {
+    // Polyfills are applied at module load time
+    // This function serves as an explicit entry point if needed
+}
