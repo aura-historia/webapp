@@ -1,4 +1,4 @@
-import { useRef, useMemo, useState, useEffect, lazy } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import type { ApexOptions } from "apexcharts";
 import type { ProductEvent } from "@/data/internal/ProductDetails.ts";
 import { H2 } from "@/components/typography/H2.tsx";
@@ -14,10 +14,7 @@ import {
 import { isPriceEvent } from "@/lib/eventFilters.ts";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
-import { ClientOnly } from "@tanstack/react-router";
-import { Spinner } from "@/components/ui/spinner.tsx";
-
-const Chart = lazy(() => import("react-apexcharts"));
+import Chart from "react-apexcharts";
 
 interface ApexFormatterOpts {
     w?: {
@@ -337,15 +334,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                 </div>
             </div>
             <div className="flex-1 min-h-[300px]">
-                <ClientOnly
-                    fallback={
-                        <div className={"flex items-center justify-center h-full"}>
-                            <Spinner />
-                        </div>
-                    }
-                >
-                    <Chart options={options} series={series} type="area" height="100%" />
-                </ClientOnly>
+                <Chart options={options} series={series} type="area" height="100%" />
             </div>
         </Card>
     );
