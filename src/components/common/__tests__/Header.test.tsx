@@ -224,6 +224,8 @@ describe("Header Component", () => {
             await act(() => {
                 renderWithRouter(<Header />);
             });
+            const header = screen.getByRole("banner");
+            expect(header).toHaveClass("backdrop-blur-sm", "border-b");
         });
     });
 });
