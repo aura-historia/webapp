@@ -9,12 +9,13 @@ import { z } from "zod";
 import { MerchantFilter } from "@/components/search/filters/MerchantFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
-import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
+import { FILTER_DEFAULTS, MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
+import { useSearchQueryContext } from "@/hooks/useSearchQueryContext.tsx";
 
 const createFilterSchema = (t: TFunction) =>
     z
@@ -77,6 +78,18 @@ type SearchFilterProps = {
 export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
     const { t } = useTranslation();
+    const { getQuery } = useSearchQueryContext();
+
+    /**
+     * Gets the effective search query to use.
+     * Returns the current typed query if valid, otherwise falls back to URL param.
+     */
+    const getEffectiveQuery = useCallback((): string => {
+        const currentQuery = getQuery()?.trim();
+        return currentQuery && currentQuery.length >= MIN_SEARCH_QUERY_LENGTH
+            ? currentQuery
+            : searchFilters.q;
+    }, [getQuery, searchFilters.q]);
 
     const filterSchema = useMemo(() => createFilterSchema(t), [t]);
 
@@ -132,31 +145,33 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         form,
     ]);
 
-    const onSubmit = (data: FilterSchema) => {
-        navigate({
-            to: "/search",
-            search: mapFiltersToUrlParams({
-                query: searchFilters.q,
-                priceSpan: data.priceSpan,
-                productState: data.productState,
-                creationDate: data.creationDate,
-                updateDate: data.updateDate,
-                merchant: data.merchant,
-            }),
-        });
-        onFiltersApplied?.();
-    };
-    const handleResetAll = () => {
+    const onSubmit = useCallback(
+        (data: FilterSchema) => {
+            navigate({
+                to: "/search",
+                search: mapFiltersToUrlParams({
+                    query: getEffectiveQuery(),
+                    priceSpan: data.priceSpan,
+                    productState: data.productState,
+                    creationDate: data.creationDate,
+                    updateDate: data.updateDate,
+                    merchant: data.merchant,
+                }),
+            });
+            onFiltersApplied?.();
+        },
+        [navigate, onFiltersApplied, getEffectiveQuery],
+    );
+    const handleResetAll = useCallback(() => {
         form.reset(FILTER_DEFAULTS);
-
         navigate({
             to: "/search",
             search: {
-                q: searchFilters.q,
+                q: getEffectiveQuery(),
             },
         });
         onFiltersApplied?.();
-    };
+    }, [form, navigate, onFiltersApplied, getEffectiveQuery]);
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
