@@ -91,14 +91,18 @@ export function SearchBar({ type }: SearchBarProps) {
                     control={form.control}
                     name="query"
                     render={({ field }) => (
-                        <FormItem className="flex-grow">
+                        <FormItem className="grow">
                             <FormLabel className="sr-only">{t("search.bar.label")}</FormLabel>
                             <FormControl>
                                 <Input
                                     autoFocus={type === "big"}
-                                    className={type === "big" ? "h-12 font-medium !text-lg" : "h-9"}
+                                    className={type === "big" ? "h-12 font-medium text-lg" : "h-9"}
                                     type={"text"}
-                                    placeholder={t("search.bar.placeholder")}
+                                    placeholder={
+                                        type === "big"
+                                            ? t("search.bar.placeholder")
+                                            : t("search.bar.placeholderShort")
+                                    }
                                     {...field}
                                 />
                             </FormControl>
