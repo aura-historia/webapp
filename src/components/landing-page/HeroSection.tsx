@@ -43,7 +43,7 @@ export default function HeroSection() {
                     <SearchBar type={"big"} />
                 </Card>
                 <div className="w-full px-4 sm:px-0">
-                    <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mt-8 text-sm text-muted-foreground">
+                    <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mt-6 sm:mt-8 text-sm text-muted-foreground">
                         <div className="flex items-center gap-2">
                             <Check className="w-5 h-5 text-primary" aria-hidden="true" />
                             <span>{t("landingPage.trustBadge1")}</span>

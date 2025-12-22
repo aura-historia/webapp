@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { z } from "zod";
 import { useMemo } from "react";
+import { toast } from "sonner";
 
 interface SearchBarProps {
     readonly type: "small" | "big";
@@ -85,7 +86,14 @@ export function SearchBar({ type }: SearchBarProps) {
                         ? "flex items-start w-full gap-4"
                         : "flex items-start gap-2 w-full"
                 }
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={form.handleSubmit(onSubmit, () => {
+                    if (type === "small") {
+                        toast.warning(t("search.validation.queryMinLength"), {
+                            position: "top-center",
+                            duration: 2000,
+                        });
+                    }
+                })}
             >
                 <FormField
                     control={form.control}
@@ -106,7 +114,7 @@ export function SearchBar({ type }: SearchBarProps) {
                                     {...field}
                                 />
                             </FormControl>
-                            <FormMessage />
+                            {type === "big" && <FormMessage />}
                         </FormItem>
                     )}
                 />

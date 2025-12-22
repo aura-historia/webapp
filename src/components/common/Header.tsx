@@ -82,7 +82,7 @@ export function Header() {
                 {/* Additional Navigation Items can be placed here */}
             </div>
 
-            <div className="hidden justify-center md:flex overflow-hidden">
+            <div className="hidden justify-center md:flex">
                 <div
                     className={`w-full transition-all duration-500 ${
                         shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none"
