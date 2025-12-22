@@ -19,7 +19,7 @@ import type { TFunction } from "i18next";
 import { z } from "zod";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 import { useSearchQueryContext } from "@/hooks/useSearchQueryContext.tsx";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { toast } from "sonner";
 
 interface SearchBarProps {
