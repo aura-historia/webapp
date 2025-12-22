@@ -15,6 +15,7 @@ import type React from "react";
 import { Toaster } from "sonner";
 import "@/amplify-config.ts";
 import "@/api-config.ts";
+import { useTranslation } from "react-i18next";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -50,9 +51,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const matches = useMatches();
     const isLandingPage = matches.some((match) => match.routeId === "/");
+    const { i18n } = useTranslation();
 
     return (
-        <html lang="de">
+        <html lang={i18n.language || "de"}>
             <head>
                 <HeadContent />
             </head>
