@@ -17,6 +17,8 @@ import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { z } from "zod";
+import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
+import { useSearchQueryContext } from "@/hooks/useSearchQueryContext.tsx";
 import { useMemo } from "react";
 import { toast } from "sonner";
 
@@ -29,7 +31,7 @@ const createSearchFormSchema = (t: TFunction) =>
         query: z
             .string()
             .trim()
-            .min(3, {
+            .min(MIN_SEARCH_QUERY_LENGTH, {
                 error: t("search.validation.queryMinLength"),
             }),
     });
@@ -42,6 +44,7 @@ export function SearchBar({ type }: SearchBarProps) {
     const pathname = useLocation({
         select: (location) => location.pathname,
     });
+    const { setQuery } = useSearchQueryContext();
 
     const searchParams = useSearch({ strict: false });
     const currentQuery = pathname === "/search" ? (searchParams.q as string) || "" : "";
@@ -54,6 +57,12 @@ export function SearchBar({ type }: SearchBarProps) {
             query: currentQuery,
         },
     });
+
+    // Sync the form query value to the context whenever it changes
+    const queryValue = form.watch("query");
+    useEffect(() => {
+        setQuery(queryValue);
+    }, [queryValue, setQuery]);
 
     function onSubmit(values: SearchFormSchema) {
         navigate({
