@@ -38,9 +38,7 @@ describe("SearchFilters", () => {
             });
 
             // Verify initial state - the SearchBar should have the original query
-            const searchInput = screen.getByPlaceholderText(
-                "Ich suche nach...",
-            ) as HTMLInputElement;
+            const searchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
             expect(searchInput.value).toBe("original query");
 
             // Update the search query in the input without submitting
@@ -58,9 +56,7 @@ describe("SearchFilters", () => {
             // We can verify this by checking that the search input still has the new value
             // (If the old query was used, the component would re-render with the old value)
             await waitFor(() => {
-                const currentSearchInput = screen.getByPlaceholderText(
-                    "Ich suche nach...",
-                ) as HTMLInputElement;
+                const currentSearchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
                 expect(currentSearchInput.value).toBe("new search query");
             });
         });
@@ -89,9 +85,7 @@ describe("SearchFilters", () => {
             });
 
             // Update the search query in the input without submitting
-            const searchInput = screen.getByPlaceholderText(
-                "Ich suche nach...",
-            ) as HTMLInputElement;
+            const searchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
             await user.clear(searchInput);
             await user.type(searchInput, "updated query");
 
@@ -101,9 +95,7 @@ describe("SearchFilters", () => {
 
             // Verify the search input kept the new query
             await waitFor(() => {
-                const currentSearchInput = screen.getByPlaceholderText(
-                    "Ich suche nach...",
-                ) as HTMLInputElement;
+                const currentSearchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
                 expect(currentSearchInput.value).toBe("updated query");
             });
         });
@@ -132,9 +124,7 @@ describe("SearchFilters", () => {
             });
 
             // Clear the search input completely
-            const searchInput = screen.getByPlaceholderText(
-                "Ich suche nach...",
-            ) as HTMLInputElement;
+            const searchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
             await user.clear(searchInput);
 
             // Click Apply filters - should use fallback query
@@ -169,9 +159,7 @@ describe("SearchFilters", () => {
             });
 
             // Set search input to only 2 characters
-            const searchInput = screen.getByPlaceholderText(
-                "Ich suche nach...",
-            ) as HTMLInputElement;
+            const searchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
             await user.clear(searchInput);
             await user.type(searchInput, "ab");
 
