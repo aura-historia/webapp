@@ -62,6 +62,7 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "components": "link:@/components",
+        "country-flag-icons": "^1.6.4",
         "date-fns": "^4.1.0",
         "embla-carousel-react": "^8.6.0",
         "i18next": "^25.7.1",

@@ -8,9 +8,25 @@ import {
 import { Separator } from "@/components/ui/separator.tsx";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "../ui/select";
+import { SUPPORTED_LANGUAGES } from "@/i18n/i18n.ts";
 
 export function Footer() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+
+    const currentLanguage = SUPPORTED_LANGUAGES.find((lang) => lang.code === i18n.resolvedLanguage);
+
+    const handleLanguageChange = (languageCode: string) => {
+        void i18n.changeLanguage(languageCode);
+    };
+
     return (
         <footer className={"w-full flex items-start justify-center flex-col backdrop-blur-sm"}>
             <Separator />
@@ -36,9 +52,27 @@ export function Footer() {
                             </Button>
                         </NavigationMenuItem>
                     </NavigationMenuList>
-                    <NavText variant={"muted"}>
-                        {t("common.copyright", { year: new Date().getFullYear() })}
-                    </NavText>
+                    <div className="flex flex-row gap-4 items-center">
+                        <Select value={i18n.language} onValueChange={handleLanguageChange}>
+                            <SelectTrigger>
+                                <SelectValue>
+                                    {currentLanguage && <currentLanguage.flag />}
+                                </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent className="min-w-2">
+                                <SelectGroup>
+                                    {SUPPORTED_LANGUAGES.map((language) => (
+                                        <SelectItem key={language.code} value={language.code}>
+                                            <language.flag />
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        <NavText variant={"muted"}>
+                            {t("common.copyright", { year: new Date().getFullYear() })}
+                        </NavText>
+                    </div>
                 </div>
             </NavigationMenu>
         </footer>
