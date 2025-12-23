@@ -39,8 +39,8 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
                 </TimelineHeader>
                 <TimelineDescription>
                     {t("product.history.events.statusChanged", {
-                        oldState: formatStateName(event.payload.oldState),
-                        newState: formatStateName(event.payload.newState),
+                        oldState: formatStateName(event.payload.oldState, t),
+                        newState: formatStateName(event.payload.newState, t),
                     })}
                 </TimelineDescription>
             </TimelineItem>

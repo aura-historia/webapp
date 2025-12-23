@@ -9,6 +9,7 @@ import {
     isPriceRemovedEvent,
 } from "@/lib/eventFilters.ts";
 import type { ProductState } from "@/data/internal/ProductState.ts";
+import type { TFunction } from "i18next";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -149,19 +150,19 @@ export function formatCompactCurrency(value: number): string {
     return `${formatted} €`;
 }
 
-export function formatStateName(state: ProductState): string {
+export function formatStateName(state: ProductState, t: TFunction): string {
     switch (state) {
         case "LISTED":
-            return "'Gelistet'";
+            return `'${t("productState.listed")}'`;
         case "AVAILABLE":
-            return "'Verfügbar'";
+            return `'${t("productState.available")}'`;
         case "RESERVED":
-            return "'Reserviert'";
+            return `'${t("productState.reserved")}'`;
         case "SOLD":
-            return "'Verkauft'";
+            return `'${t("productState.sold")}'`;
         case "REMOVED":
-            return "'Gelöscht'";
+            return `'${t("productState.removed")}'`;
         case "UNKNOWN":
-            return "'Unbekannt'";
+            return `'${t("productState.unknown")}'`;
     }
 }
