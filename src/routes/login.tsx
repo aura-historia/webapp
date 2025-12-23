@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useStore } from "@tanstack/react-store";
 import { motion, AnimatePresence } from "motion/react";
+import { useMediaQuery } from "usehooks-ts";
 import { Authenticator } from "@/components/auth/Authenticator.tsx";
 import { registrationStore, resetAuth } from "@/stores/registrationStore";
 import { useUserAccount } from "@/hooks/useUserAccount";
@@ -33,6 +34,7 @@ function LoginPage() {
     const isSignUpFlow = useStore(registrationStore, (state) => state.isSignUpFlow);
     const { data: userAccount, isFetching } = useUserAccount(isAuthComplete);
     const [showAnimation, setShowAnimation] = useState(false);
+    const isDesktop = useMediaQuery("(min-width: 1024px)");
 
     useEffect(() => resetAuth(), []);
 
@@ -73,22 +75,27 @@ function LoginPage() {
     const welcomeText = `${isSignUpFlow ? t("auth.welcome") : t("auth.welcomeBack")}${userName ? `, ${userName}` : ""}!`;
 
     return (
-        <div className="grid grid-cols-[2fr_auto_3fr] min-h-screen">
+        <div className="flex flex-col gap-8 lg:gap-0 lg:grid lg:grid-cols-[2fr_auto_3fr] min-h-screen w-full">
             <motion.div
-                className="flex flex-col items-center justify-center"
-                animate={{ x: showAnimation ? "30vw" : 0, scale: showAnimation ? 1.1 : 1 }}
+                className="flex flex-col items-center justify-start lg:justify-center pt-12 lg:pt-0 px-6 lg:px-0 pb-8 lg:pb-0 w-full"
+                animate={{
+                    x: showAnimation && isDesktop ? "30vw" : 0,
+                    y: showAnimation && !isDesktop ? "30vh" : 0,
+                }}
                 transition={{ duration: 0.8 }}
             >
-                <span className="text-4xl font-bold">Aura Historia</span>
-                <div className="mt-6 text-center relative" style={{ minHeight: "32px" }}>
+                <span className="text-3xl lg:text-4xl font-bold text-center">Aura Historia</span>
+                <div
+                    className="mt-6 text-center relative w-full max-w-full px-4"
+                    style={{ minHeight: "80px" }}
+                >
                     <AnimatePresence mode="wait">
                         {!showAnimation ? (
                             <motion.p
                                 key="subtitle"
                                 exit={{ opacity: 0, y: -30 }}
                                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                                className="text-xl text-muted-foreground absolute left-1/2 -translate-x-1/2"
-                                style={{ width: "max-content", maxWidth: "28rem" }}
+                                className="text-lg lg:text-xl text-muted-foreground"
                             >
                                 {t("auth.subtitle")}
                             </motion.p>
@@ -98,8 +105,7 @@ function LoginPage() {
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                                className="text-xl text-muted-foreground absolute left-1/2 -translate-x-1/2"
-                                style={{ width: "max-content", maxWidth: "28rem" }}
+                                className="text-lg lg:text-xl text-muted-foreground"
                             >
                                 {welcomeText}
                             </motion.p>
@@ -109,27 +115,29 @@ function LoginPage() {
             </motion.div>
 
             <motion.div
-                className="flex items-center justify-center"
+                className="hidden lg:flex items-center justify-center"
                 animate={{ opacity: showAnimation ? 0 : 1 }}
             >
                 <div className="w-px bg-gray-300 h-[80%]"></div>
             </motion.div>
 
             <motion.div
-                className="flex justify-center items-center"
+                className="flex justify-center items-start lg:items-center px-6 lg:px-0 pb-12 lg:pb-0 w-full"
                 animate={{ opacity: showAnimation ? 0 : 1 }}
             >
                 {isAuthComplete && !showAnimation ? (
                     <div className="flex flex-col items-center gap-4">
                         <div className="w-12 h-12 border-4 border-t-primary rounded-full animate-spin"></div>
-                        <p>
+                        <p className="text-sm lg:text-base">
                             {isSignUpFlow
                                 ? t("auth.completingRegistration")
                                 : t("auth.completingLogin")}
                         </p>
                     </div>
                 ) : (
-                    <Authenticator />
+                    <div className="w-full max-w-md">
+                        <Authenticator />
+                    </div>
                 )}
             </motion.div>
         </div>
