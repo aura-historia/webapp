@@ -23,8 +23,20 @@ export function Footer() {
 
     const currentLanguage = SUPPORTED_LANGUAGES.find((lang) => lang.code === i18n.resolvedLanguage);
 
-    const handleLanguageChange = (languageCode: string) => {
-        void i18n.changeLanguage(languageCode);
+    const handleLanguageChange = async (languageCode: string) => {
+        if ("cookieStore" in globalThis) {
+            await window.cookieStore.set({
+                name: "i18next",
+                value: languageCode,
+                path: "/",
+                expires: Date.now() + 31536000000,
+            });
+        } else {
+            // biome-ignore lint/suspicious/noDocumentCookie: Not all browsers support cookieStore API yet
+            document.cookie = `i18next=${languageCode}; path=/; max-age=31536000; SameSite=Lax`;
+        }
+
+        i18n.changeLanguage(languageCode);
     };
 
     return (

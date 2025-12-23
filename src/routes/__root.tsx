@@ -1,8 +1,8 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import {
+    createRootRouteWithContext,
     HeadContent,
     Scripts,
-    createRootRouteWithContext,
     useMatches,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
@@ -16,6 +16,8 @@ import { Toaster } from "sonner";
 import "@/amplify-config.ts";
 import "@/api-config.ts";
 import { useTranslation } from "react-i18next";
+import { getLocale } from "@/lib/server/i18n.server.ts";
+import i18n from "@/i18n/i18n.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -44,7 +46,13 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
             ],
         };
     },
-
+    beforeLoad: async () => {
+        // Set locale for initial server side rendering based on browsers pref
+        const locale = await getLocale();
+        if (i18n.language !== locale) {
+            i18n.changeLanguage(locale);
+        }
+    },
     shellComponent: RootDocument,
 });
 
