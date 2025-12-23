@@ -25,8 +25,8 @@
         ]
     },
     "dependencies": {
-        "@aws-amplify/auth": "^6.17.0",
-        "@aws-amplify/ui-react": "^6.13.1",
+        "@aws-amplify/auth": "^6.17.1",
+        "@aws-amplify/ui-react": "^6.13.2",
         "@cloudflare/vite-plugin": "^1.13.18",
         "@faker-js/faker": "^10.1.0",
         "@hookform/resolvers": "^5.2.2",
