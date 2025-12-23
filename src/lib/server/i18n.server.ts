@@ -19,5 +19,5 @@ export const getLocale = createServerFn({ method: "GET" }).handler(async () => {
     acceptLanguage.languages(supportedLanguageCodes);
     const bestMatch = acceptLanguage.get(acceptLangHeader);
 
-    return bestMatch ? bestMatch : DEFAULT_LANGUAGE;
+    return bestMatch || DEFAULT_LANGUAGE;
 });

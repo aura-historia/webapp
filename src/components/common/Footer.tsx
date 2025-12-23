@@ -25,7 +25,7 @@ export function Footer() {
 
     const handleLanguageChange = async (languageCode: string) => {
         if ("cookieStore" in globalThis) {
-            await window.cookieStore.set({
+            await globalThis.cookieStore.set({
                 name: "i18next",
                 value: languageCode,
                 path: "/",
