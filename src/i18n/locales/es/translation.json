@@ -1,0 +1,369 @@
+{
+    "common": {
+        "auraHistoria": "Aura Historia (Vista previa)"
+    },
+    "imprint": {
+        "title": "Aviso legal"
+    },
+    "terms": {
+        "title": "Términos y condiciones"
+    },
+    "header": {
+        "watchlist": "Lista de seguimiento",
+        "myAccount": "Mi cuenta",
+        "editAccount": "Editar cuenta",
+        "logout": "Cerrar sesión",
+        "register": "Registrarse",
+        "login": "Iniciar sesión"
+    },
+    "footer": {
+        "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
+        "imprint": "Aviso legal",
+        "terms": "Términos y condiciones",
+        "copyright": "© {{year}} Aura Historia"
+    },
+    "account": {
+        "title": "Mi cuenta",
+        "changePassword": {
+            "title": "Cambiar contraseña",
+            "currentPasswordLabel": "Contraseña actual",
+            "newPasswordLabel": "Nueva contraseña",
+            "confirmPasswordLabel": "Confirmar nueva contraseña",
+            "saveButton": "Guardar contraseña",
+            "successMessage": "¡Contraseña cambiada con éxito!",
+            "errorMessage": "Error al cambiar la contraseña."
+        },
+        "deleteAccount": {
+            "title": "Eliminar cuenta",
+            "deleteButton": "Eliminar cuenta",
+            "warningText": "¿Está seguro de que desea eliminar su cuenta?",
+            "cancelButton": "Cancelar",
+            "confirmButton": "Sí, eliminar cuenta",
+            "successMessage": "¡Cuenta eliminada con éxito!",
+            "errorMessage": "Error al eliminar la cuenta."
+        }
+    },
+    "search": {
+        "filters": "Filtros",
+        "resultsFor": "Resultados de búsqueda para:",
+        "resetAllFilters": "Restablecer todos los filtros",
+        "totalResults_one": "{{count}} artículo",
+        "totalResults_other": "{{count}} artículos",
+        "bar": {
+            "label": "Búsqueda",
+            "placeholder": "Estoy buscando...",
+            "button": "Buscar"
+        },
+        "applyFilters": "Aplicar filtros",
+        "validation": {
+            "queryMinLength": "Por favor, introduzca al menos 3 caracteres",
+            "merchantMinLength": "Por favor, introduzca al menos 3 caracteres",
+            "dateOrder": "La fecha de inicio debe ser anterior a la fecha de fin"
+        },
+        "filter": {
+            "creationDate": "Añadido",
+            "from": "Desde:",
+            "to": "Hasta:",
+            "productState": "Estado del anuncio",
+            "merchant": "Vendedor",
+            "anyMerchant": "Cualquier vendedor",
+            "priceSpan": "Rango de precios",
+            "min": "Mín",
+            "max": "Máx",
+            "priceSpanAria": "Rango de precios",
+            "updateDate": "Actualizado",
+            "anyDate": "Cualquiera",
+            "resetTooltip": {
+                "priceSpan": "Restablecer filtro de rango de precios",
+                "productState": "Restablecer filtro de estado",
+                "creationDate": "Restablecer filtro de fecha de creación",
+                "updateDate": "Restablecer filtro de fecha de actualización",
+                "merchant": "Restablecer filtro de vendedor"
+            }
+        },
+        "messages": {
+            "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
+            "error": "Error al cargar los resultados de búsqueda. ¡Por favor, inténtelo de nuevo más tarde!",
+            "noResults": {
+                "title": "No se encontraron resultados",
+                "description": "Intente ajustar su término de búsqueda o filtros."
+            },
+            "loadingMore": "Cargando más resultados...",
+            "allLoaded_one": "Ha visto {{count}} resultado que coincide con sus filtros.",
+            "allLoaded_other": "Ha visto los {{count}} resultados que coinciden con sus filtros."
+        },
+        "sortMode": {
+            "relevance": "Relevancia",
+            "creationDate": "Fecha de creación",
+            "updateDate": "Última actualización",
+            "price": "Precio",
+            "order": {
+                "asc": "Ascendente",
+                "desc": "Descendente"
+            }
+        }
+    },
+    "product": {
+        "unknownPrice": "Precio desconocido",
+        "details": "Detalles",
+        "toMerchant": "Ir al vendedor",
+        "noDescription": "No hay descripción disponible",
+        "noImage": "No hay imagen disponible",
+        "similar": {
+            "title": "Artículos similares",
+            "error": {
+                "title": "Error de carga",
+                "description": "No se pudieron cargar los artículos similares."
+            },
+            "embeddingsPending": {
+                "title": "En preparación",
+                "description": "Los artículos similares se están preparando. Esto puede tardar hasta 24 horas para artículos nuevos."
+            },
+            "noData": {
+                "title": "Sin artículos similares",
+                "description": "No se encontraron productos similares para este artículo."
+            }
+        },
+        "history": {
+            "title": "Historial",
+            "noData": "No hay datos disponibles para este artículo.",
+            "noEvents": "No hay eventos disponibles para este filtro.",
+            "filters": {
+                "all": "Todos",
+                "price": "Precio",
+                "availability": "Disponibilidad"
+            },
+            "events": {
+                "statusChanged": "Estado cambiado de {{oldState}} a {{newState}}.",
+                "priceDiscovered": "Precio descubierto • {{price}}.",
+                "priceChanged": "El precio ha {{verb}} de {{oldPrice}} a {{newPrice}}.",
+                "priceFallen": "bajado",
+                "priceIncreased": "subido",
+                "priceRemoved": "Precio eliminado • Último precio: {{price}}.",
+                "created": "Añadido al sistema"
+            }
+        },
+        "priceChart": {
+            "title": "Historial de precios",
+            "noData": "No hay datos de precios disponibles para este artículo.",
+            "seriesName": "Precio",
+            "timeRanges": {
+                "1d": "1D",
+                "5d": "5D",
+                "1m": "1M",
+                "3m": "3M",
+                "6m": "6M",
+                "1y": "1A",
+                "all": "Todo"
+            }
+        }
+    },
+    "priceBadge": {
+        "discovered": "Precio descubierto",
+        "dropped": "Precio rebajado",
+        "increased": "Precio aumentado",
+        "removed": "Precio eliminado"
+    },
+    "productState": {
+        "listed": "Listado",
+        "available": "Disponible",
+        "reserved": "Reservado",
+        "sold": "Vendido",
+        "removed": "Eliminado",
+        "unknown": "Desconocido"
+    },
+    "discover": {
+        "title": "Su ventana al mundo de las antigüedades",
+        "p1": "Aura Historia busca diariamente a través de la vasta oferta de miles de anticuarios dispersos en todo el mundo y reúne sus tesoros en un solo lugar.",
+        "p2": "Nuestra plataforma inteligente no solo captura las ofertas actuales, sino que también rastrea los cambios de precios y la disponibilidad. De esta manera, nunca se pierde una ganga y siempre mantiene el mercado bajo control.",
+        "highlight1": {
+            "title": "Más de 500 vendedores conectados",
+            "description": "Buscamos continuamente anticuarios de renombre de toda Europa y más allá."
+        },
+        "highlight2": {
+            "title": "Monitoreo en tiempo real",
+            "description": "Los cambios de precios y la disponibilidad se capturan y muestran automáticamente."
+        },
+        "highlight3": {
+            "title": "Evolución transparente de precios",
+            "description": "Siga el historial completo de precios de un artículo y reconozca las tendencias de un vistazo."
+        },
+        "stats": {
+            "shops": "500",
+            "shopsLabel": "Vendedores conectados",
+            "items": "120.000",
+            "itemsLabel": "Artículos únicos",
+            "updates": "24/7",
+            "updatesLabel": "Actualizaciones automáticas",
+            "countries": "15",
+            "countriesLabel": "Países cubiertos"
+        }
+    },
+    "landingPage": {
+        "badge": "La plataforma líder para entusiastas de antigüedades",
+        "titleFirstLine": "Descubre, compara, colecciona –",
+        "titleSecondLine": "Antigüedades de todo el mundo",
+        "subtitle": "Explore más de 120.000 antigüedades únicas de más de 500 vendedores en todo el mundo. Siga los cambios de precios, guarde favoritos y no se pierda nunca más una ganga.",
+        "trustBadge1": "Completamente gratis",
+        "trustBadge2": "Sin registro necesario",
+        "trustBadge3": "Actualizado varias veces al día",
+        "features": {
+            "title": "Todo lo que los coleccionistas necesitan",
+            "subtitle": "Aura Historia le proporciona todas las herramientas para buscar eficientemente en el mercado de antigüedades y encontrar tesoros.",
+            "previewBadge": "Próximamente",
+            "search": {
+                "title": "Búsqueda inteligente",
+                "description": "Busque entre miles de artículos con nuestra potente función de búsqueda. Filtre por categoría, precio, vendedor y mucho más."
+            },
+            "global": {
+                "title": "Cobertura mundial",
+                "description": "Le conectamos con anticuarios de renombre de más de 15 países – desde Alemania hasta Estados Unidos."
+            },
+            "notifications": {
+                "title": "Alertas de precio",
+                "description": "Reciba notificaciones instantáneas cuando el precio de un artículo en su lista de seguimiento baje."
+            },
+            "priceTracking": {
+                "title": "Historial de precios",
+                "description": "Vea el historial completo de precios de cualquier artículo y reconozca el momento perfecto para comprar."
+            },
+            "history": {
+                "title": "Historial de cambios",
+                "description": "Siga todos los cambios de un artículo – desde ajustes de precio hasta cambios de estado."
+            },
+            "watchlist": {
+                "title": "Lista de seguimiento personal",
+                "description": "Guarde artículos interesantes y siga su evolución – todo en un solo lugar."
+            },
+            "translations": {
+                "title": "Traducciones automáticas",
+                "description": "Lea las descripciones de artículos en su idioma preferido, sin barreras lingüísticas."
+            },
+            "personalFilter": {
+                "title": "Filtros personales",
+                "description": "Guarde sus filtros de búsqueda y reciba notificaciones automáticas sobre nuevas ofertas."
+            },
+            "aiSearchAgent": {
+                "title": "Agente de búsqueda IA",
+                "description": "Su agente de IA personal le ayuda a encontrar antigüedades específicas que de otro modo serían difíciles de descubrir."
+            }
+        },
+        "howItWorks": {
+            "title": "Cómo funciona",
+            "subtitle": "Solo unos pocos pasos hacia la pieza de sus sueños – sin costos ocultos.",
+            "step1": {
+                "title": "Buscar",
+                "description": "Introduzca lo que busca – ya sean muebles, joyas, arte u objetos de colección."
+            },
+            "step2": {
+                "title": "Descubrir",
+                "description": "Explore resultados de cientos de vendedores de un vistazo."
+            },
+            "step3": {
+                "title": "Guardar",
+                "description": "Guarde artículos interesantes en su lista de seguimiento personal. Le notificaremos de los cambios."
+            },
+            "step4": {
+                "title": "Comprar",
+                "description": "Le redirigimos directamente al vendedor donde puede asegurar su hallazgo."
+            }
+        },
+        "testimonials": {
+            "title": "Lo que dicen nuestros usuarios",
+            "subtitle": "Descubra cómo Aura Historia ayuda a los coleccionistas a vivir su pasión.",
+            "testimonial1": {
+                "name": "Margarete W.",
+                "role": "Colecciona muebles Art Nouveau",
+                "quote": "Por fin una plataforma que facilita la búsqueda de piezas raras. Las alertas de precio me han ayudado varias veces a encontrar verdaderas gangas."
+            },
+            "testimonial2": {
+                "name": "Heinrich K.",
+                "role": "Anticuario",
+                "quote": "Como vendedor, uso Aura Historia para vigilar el mercado. Las evoluciones de precios me ayudan enormemente con mi propia fijación de precios."
+            },
+            "testimonial3": {
+                "name": "Elisabeth M.",
+                "role": "Coleccionista aficionada desde hace 20 años",
+                "quote": "Estoy asombrada por la claridad. Antes, pasaba horas buscando en diferentes sitios de vendedores. Ahora encuentro todo en un solo lugar."
+            }
+        },
+        "newsletter": {
+            "title": "Manténgase informado",
+            "description": "Reciba semanalmente hallazgos seleccionados, tendencias del mercado e información exclusiva directamente en su bandeja de entrada.",
+            "placeholder": "Su dirección de correo electrónico",
+            "button": "Suscribirse",
+            "privacy": "Al suscribirse, acepta nuestra política de privacidad. Puede darse de baja en cualquier momento.",
+            "successMessage": "¡Gracias por suscribirse! Por favor, confirme su dirección de correo electrónico.",
+            "benefit1": "Destacados semanales",
+            "benefit2": "Informes de mercado y tendencias",
+            "benefit3": "Cancelar en cualquier momento"
+        },
+        "faq": {
+            "title": "Preguntas frecuentes",
+            "subtitle": "Aquí encontrará respuestas a las preguntas más importantes sobre Aura Historia.",
+            "items": {
+                "free": {
+                    "question": "¿Es Aura Historia realmente gratis?",
+                    "answer": "Sí, usar Aura Historia es completamente gratis. Puede buscar sin límites, añadir artículos a su lista de seguimiento y ver historiales de precios – sin costos ocultos ni suscripciones."
+                },
+                "howItWorks": {
+                    "question": "¿Cómo funciona Aura Historia?",
+                    "answer": "Aura Historia busca automáticamente cada día en los sitios web de más de 500 anticuarios en todo el mundo y recopila todas las ofertas en un solo lugar. Nuestra búsqueda inteligente le permite encontrar exactamente lo que busca."
+                },
+                "directPurchase": {
+                    "question": "¿Puedo comprar artículos directamente a través de Aura Historia?",
+                    "answer": "No, Aura Historia es una plataforma de búsqueda pura. Si desea comprar un artículo, será redirigido directamente al sitio web del vendedor correspondiente donde puede completar la compra."
+                },
+                "priceAlerts": {
+                    "question": "¿Cómo funcionan las alertas de precio?",
+                    "answer": "Una vez que añade un artículo a su lista de seguimiento, rastreamos automáticamente la evolución de su precio. Tan pronto como algo cambie con su artículo, recibirá una notificación – así nunca más se perderá una ganga."
+                },
+                "updateFrequency": {
+                    "question": "¿Con qué frecuencia se actualizan los datos?",
+                    "answer": "Nuestros datos se actualizan continuamente. La mayoría de los sitios de vendedores se buscan varias veces al día, por lo que siempre ve precios y disponibilidad actuales."
+                },
+                "dealers": {
+                    "question": "¿Qué vendedores están en Aura Historia?",
+                    "answer": "Trabajamos con más de 500 anticuarios de renombre de más de 15 países. Entre ellos encontrará tanto grandes casas de subastas como vendedores especializados en diversas áreas de antigüedades."
+                }
+            }
+        }
+    },
+    "apiErrors": {
+        "PRODUCT_NOT_FOUND": "Este artículo no fue encontrado.",
+        "UNAUTHORIZED": "Autenticación fallida. Por favor, inicie sesión.",
+        "INTERNAL_SERVER_ERROR": "Se produjo un error interno del servidor. Por favor, inténtelo de nuevo más tarde.",
+        "GATEWAY_TIMEOUT": "Tiempo de espera de la solicitud agotado. Por favor, inténtelo de nuevo más tarde.",
+        "WATCHLIST_ENTRY_NOT_FOUND": "Este artículo no está en su lista de seguimiento.",
+        "SEARCH_FILTER_NOT_FOUND": "Este filtro de búsqueda no existe.",
+        "TEXT_QUERY_TOO_SHORT": "La consulta de búsqueda debe contener al menos 3 caracteres.",
+        "BAD_PATH_PARAMETER_VALUE": "El enlace no es válido.",
+        "INVALID_UUID": "El enlace no es válido.",
+        "SERVICE_UNAVAILABLE": "El servicio no está disponible actualmente. Por favor, inténtelo de nuevo más tarde.",
+        "BAD_QUERY_PARAMETER_VALUE": "Su búsqueda contiene configuraciones no válidas.",
+        "SHOP_NOT_FOUND": "Esta tienda ya no está disponible.",
+        "INVALID_SHOP_IDENTIFIER": "El identificador de la tienda no es válido.",
+        "FORBIDDEN": "Esta acción no está disponible para usted.",
+        "BAD_BODY_VALUE": "Algunos detalles son incorrectos. Por favor, verifique su entrada.",
+        "MONETARY_AMOUNT_OVERFLOW": "El precio es demasiado alto y no se puede procesar.",
+        "BAD_PAGE_FROM_VALUE": "Número de página no válido.",
+        "BAD_PAGE_SIZE_VALUE": "Número de elementos por página no válido.",
+        "BAD_SORT_VALUE": "Ordenación no válida.",
+        "BAD_ORDER_VALUE": "Orden de clasificación no válido.",
+        "unknown": "Se produjo un error inesperado."
+    },
+    "watchlist": {
+        "title": "Mi lista de seguimiento",
+        "loginRequired": "Por favor, inicie sesión para usar la lista de seguimiento.",
+        "totalElements": "{{count}} artículos",
+        "loadingError": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde.",
+        "loadingMore": "Cargando más resultados...",
+        "allLoaded_one": "Ha visto {{count}} artículo de su lista de seguimiento.",
+        "allLoaded_other": "Ha visto los {{count}} artículos de su lista de seguimiento.",
+        "noResults": {
+            "title": "No se encontraron artículos",
+            "description": "Añada artículos a su lista de seguimiento para verlos aquí."
+        }
+    }
+}
+

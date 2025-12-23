@@ -1,4 +1,4 @@
-import { DE, US } from "country-flag-icons/react/3x2";
+import { DE, ES, FR, US } from "country-flag-icons/react/3x2";
 
 export const SUPPORTED_LANGUAGES = [
     {
@@ -8,6 +8,14 @@ export const SUPPORTED_LANGUAGES = [
     {
         code: "en",
         flag: US,
+    },
+    {
+        code: "fr",
+        flag: FR,
+    },
+    {
+        code: "es",
+        flag: ES,
     },
 ];
 

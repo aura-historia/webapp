@@ -65,7 +65,11 @@ export function Footer() {
                         </NavigationMenuItem>
                     </NavigationMenuList>
                     <div className="flex flex-row gap-4 items-center">
-                        <Select value={i18n.language} onValueChange={handleLanguageChange}>
+                        <Select
+                            defaultValue={i18n.language}
+                            value={i18n.language}
+                            onValueChange={handleLanguageChange}
+                        >
                             <SelectTrigger>
                                 <SelectValue>
                                     {currentLanguage && <currentLanguage.flag />}
