@@ -62,6 +62,12 @@ export function useRegistrationPolling() {
             setIsDone(true);
             return;
         }
+        // Handle other errors (500, 401, etc.): clean up store and mark as done
+        if (polling.isError && !isTimeout && !isDone) {
+            clearPendingUserData();
+            setIsDone(true);
+            return;
+        }
 
         // Early return if any of these conditions are true
         if (!polling.data || updateAccount.isPending || isDone || hasStartedPatch) {
@@ -109,6 +115,7 @@ export function useRegistrationPolling() {
         pendingData,
         isTimeout,
         updateAccount,
+        polling.isError,
     ]);
 
     // Return values used by CompleteRegistration component:

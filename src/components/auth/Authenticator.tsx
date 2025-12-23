@@ -7,12 +7,12 @@ import {
 } from "@aws-amplify/ui-react";
 import { useTranslation } from "react-i18next";
 import "@aws-amplify/ui-react/styles.css";
-import { setPendingUserData } from "@/stores/registrationStore";
+import { setPendingUserData, setIsSignUpFlow } from "@/stores/registrationStore";
 import { parseLanguage } from "@/data/internal/Language.ts";
 import { parseCurrency } from "@/data/internal/Currency.ts";
 import { CompleteRegistration } from "@/components/auth/CompleteRegistration";
 
-export function Authenticator({ redirect }: { redirect?: string }) {
+export function Authenticator() {
     const { t } = useTranslation();
 
     return (
@@ -99,12 +99,13 @@ export function Authenticator({ redirect }: { redirect?: string }) {
                     };
 
                     setPendingUserData(customData);
+                    setIsSignUpFlow(true);
                 },
             }}
         >
             {({ user }) => {
                 if (user) {
-                    return <CompleteRegistration redirect={redirect} />;
+                    return <CompleteRegistration />;
                 }
                 return (
                     <div className="min-h-screen flex items-center justify-center">

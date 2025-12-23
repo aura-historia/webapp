@@ -11,11 +11,17 @@ type PendingUserData = {
 
 type RegistrationState = {
     pendingUserData: PendingUserData | null;
+    isSignUpFlow: boolean;
+    isAuthComplete: boolean;
 };
 
-export const registrationStore = new Store<RegistrationState>({
+const INITIAL_STATE: RegistrationState = {
     pendingUserData: null,
-});
+    isSignUpFlow: false,
+    isAuthComplete: false,
+};
+
+export const registrationStore = new Store<RegistrationState>(INITIAL_STATE);
 
 export const setPendingUserData = (data: PendingUserData) => {
     registrationStore.setState((state) => ({
@@ -29,4 +35,22 @@ export const clearPendingUserData = () => {
         ...state,
         pendingUserData: null,
     }));
+};
+
+export const setIsSignUpFlow = (isSignUp: boolean) => {
+    registrationStore.setState((state) => ({
+        ...state,
+        isSignUpFlow: isSignUp,
+    }));
+};
+
+export const setAuthComplete = () => {
+    registrationStore.setState((state) => ({
+        ...state,
+        isAuthComplete: true,
+    }));
+};
+
+export const resetAuth = () => {
+    registrationStore.setState(INITIAL_STATE);
 };

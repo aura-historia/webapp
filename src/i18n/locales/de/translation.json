@@ -216,6 +216,9 @@
     },
     "auth": {
         "subtitle": "Über 120.000 Antiquitäten von 500 Händlern. Vergleichen, speichern und Preise verfolgen bei Aura Historia.",
+        "welcome": "Herzlich Willkommen",
+        "welcomeBack": "Willkommen zurück",
+        "completingRegistration": "Die Registrierung wird abgeschlossen, bitte haben Sie noch einen Moment Geduld!",
         "signUp": {
             "firstName": "Vorname",
             "firstNamePlaceholder": "Max",

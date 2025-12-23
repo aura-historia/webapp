@@ -4,7 +4,7 @@ import { getUserAccount } from "@/client";
 import { useApiError } from "@/hooks/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 
-export function useUserAccount(): UseQueryResult<UserAccountData> {
+export function useUserAccount(enabled: boolean = true): UseQueryResult<UserAccountData> {
     const { getErrorMessage } = useApiError();
 
     return useQuery({
@@ -19,7 +19,7 @@ export function useUserAccount(): UseQueryResult<UserAccountData> {
             return mapToInternalUserAccount(userAccountData.data);
         },
 
-        enabled: true,
+        enabled: enabled,
         retry: false,
         staleTime: 5 * 60 * 1000,
         gcTime: 10 * 60 * 1000,
