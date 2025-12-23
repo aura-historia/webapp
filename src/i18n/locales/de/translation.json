@@ -219,6 +219,7 @@
         "welcome": "Herzlich Willkommen",
         "welcomeBack": "Willkommen zurück",
         "completingRegistration": "Die Registrierung wird abgeschlossen, bitte haben Sie noch einen Moment Geduld!",
+        "completingLogin": "Die Anmeldung wird abgeschlossen, bitte haben Sie noch einen Moment Geduld!",
         "signUp": {
             "firstName": "Vorname",
             "firstNamePlaceholder": "Max",

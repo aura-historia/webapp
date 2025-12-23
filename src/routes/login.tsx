@@ -37,19 +37,33 @@ function LoginPage() {
     useEffect(() => resetAuth(), []);
 
     useEffect(() => {
-        if (isAuthComplete && !isFetching) {
-            setShowAnimation(true);
-            const timer = setTimeout(() => {
-                navigate({ to: redirectParam || "/" });
-                resetAuth();
-            }, 3000);
+        if (!isAuthComplete || showAnimation) return;
 
-            return () => {
-                clearTimeout(timer);
-                resetAuth();
-            };
+        if (!isFetching) {
+            setShowAnimation(true);
+            return;
         }
-    }, [isAuthComplete, isFetching, navigate, redirectParam]);
+
+        const proceedWithoutUserDataTimer = setTimeout(() => {
+            setShowAnimation(true);
+        }, 5000);
+
+        return () => clearTimeout(proceedWithoutUserDataTimer);
+    }, [isAuthComplete, isFetching, showAnimation]);
+
+    useEffect(() => {
+        if (!showAnimation) return;
+
+        const navigationTimer = setTimeout(() => {
+            navigate({ to: redirectParam || "/" });
+            resetAuth();
+        }, 3000);
+
+        return () => {
+            clearTimeout(navigationTimer);
+            resetAuth();
+        };
+    }, [showAnimation, navigate, redirectParam]);
 
     const userName =
         `${userAccount?.firstName || ""} ${userAccount?.lastName || ""}`.trim() || null;
@@ -102,7 +116,18 @@ function LoginPage() {
                 className="flex justify-center items-center"
                 animate={{ opacity: showAnimation ? 0 : 1 }}
             >
-                <Authenticator />
+                {isAuthComplete && !showAnimation ? (
+                    <div className="flex flex-col items-center gap-4">
+                        <div className="w-12 h-12 border-4 border-t-primary rounded-full animate-spin"></div>
+                        <p>
+                            {isSignUpFlow
+                                ? t("auth.completingRegistration")
+                                : t("auth.completingLogin")}
+                        </p>
+                    </div>
+                ) : (
+                    <Authenticator />
+                )}
             </motion.div>
         </div>
     );
