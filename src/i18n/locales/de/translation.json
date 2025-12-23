@@ -17,7 +17,8 @@
         "watchlist": "Merkliste",
         "myAccount": "Mein Account",
         "editAccount": "Account bearbeiten",
-        "logout": "Ausloggen"
+        "logout": "Ausloggen",
+        "hello": "Hallo"
     },
     "account": {
         "title": "Mein Account",
