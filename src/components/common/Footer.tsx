@@ -16,7 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "../ui/select";
-import { SUPPORTED_LANGUAGES } from "@/i18n/i18n.ts";
+import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 
 export function Footer() {
     const { t, i18n } = useTranslation();

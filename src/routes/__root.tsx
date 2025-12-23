@@ -62,7 +62,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                 className={
                     isLandingPage
                         ? "[background:var(--linear-gradient-main)]"
-                        : "[background-image:repeating-linear-gradient(45deg,var(--border)_0,var(--border)_1px,transparent_1px,transparent_40px)] bg-fixed"
+                        : "bg-[repeating-linear-gradient(45deg,var(--border)_0,var(--border)_1px,transparent_1px,transparent_40px)] bg-fixed"
                 }
             >
                 <div className={"min-h-screen flex flex-col"}>
