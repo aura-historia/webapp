@@ -1,11 +1,6 @@
 {
     "common": {
-        "auraHistoria": "Aura Historia (Preview)",
-        "register": "Registrieren",
-        "login": "Einloggen",
-        "imprint": "Impressum",
-        "terms": "AGB",
-        "copyright": "© {{year}} Aura Historia"
+        "auraHistoria": "Aura Historia (Preview)"
     },
     "imprint": {
         "title": "Impressum"
@@ -17,7 +12,15 @@
         "watchlist": "Merkliste",
         "myAccount": "Mein Account",
         "editAccount": "Account bearbeiten",
-        "logout": "Ausloggen"
+        "logout": "Ausloggen",
+        "register": "Registrieren",
+        "login": "Einloggen"
+    },
+    "footer": {
+        "ariaSwitchToLanguage": "Zu Sprache {{language}} wechseln",
+        "imprint": "Impressum",
+        "terms": "AGB",
+        "copyright": "© {{year}} Aura Historia"
     },
     "account": {
         "title": "Mein Account",

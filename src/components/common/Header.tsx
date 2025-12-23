@@ -128,7 +128,7 @@ export function Header() {
                                         to="/login"
                                         search={{ redirect: pathname + searchString }}
                                     >
-                                        {t("common.register")}
+                                        {t("header.register")}
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={toSignIn} asChild>
@@ -136,7 +136,7 @@ export function Header() {
                                         to="/login"
                                         search={{ redirect: pathname + searchString }}
                                     >
-                                        {t("common.login")}
+                                        {t("header.login")}
                                     </Link>
                                 </DropdownMenuItem>
                             </>
@@ -191,12 +191,12 @@ export function Header() {
                     <>
                         <Button asChild onClick={toSignUp} variant={"default"}>
                             <Link to="/login" search={{ redirect: pathname + searchString }}>
-                                {t("common.register")}
+                                {t("header.register")}
                             </Link>
                         </Button>
                         <Button asChild onClick={toSignIn} variant="outline">
                             <Link to="/login" search={{ redirect: pathname + searchString }}>
-                                {t("common.login")}
+                                {t("header.login")}
                             </Link>
                         </Button>
                     </>

@@ -52,14 +52,14 @@ export function Footer() {
                         <NavigationMenuItem>
                             <Button variant={"ghost"} asChild>
                                 <Link to="/imprint">
-                                    <NavText>{t("common.imprint")}</NavText>
+                                    <NavText>{t("footer.imprint")}</NavText>
                                 </Link>
                             </Button>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
                             <Button variant={"ghost"} asChild>
                                 <Link to="/terms">
-                                    <NavText>{t("common.terms")}</NavText>
+                                    <NavText>{t("footer.terms")}</NavText>
                                 </Link>
                             </Button>
                         </NavigationMenuItem>
@@ -74,7 +74,13 @@ export function Footer() {
                             <SelectContent className="min-w-2">
                                 <SelectGroup>
                                     {SUPPORTED_LANGUAGES.map((language) => (
-                                        <SelectItem key={language.code} value={language.code}>
+                                        <SelectItem
+                                            key={language.code}
+                                            value={language.code}
+                                            aria-label={t("footer.ariaSwitchToLanguage", {
+                                                language: language.code,
+                                            })}
+                                        >
                                             <language.flag />
                                         </SelectItem>
                                     ))}
@@ -82,7 +88,7 @@ export function Footer() {
                             </SelectContent>
                         </Select>
                         <NavText variant={"muted"}>
-                            {t("common.copyright", { year: new Date().getFullYear() })}
+                            {t("footer.copyright", { year: new Date().getFullYear() })}
                         </NavText>
                     </div>
                 </div>
