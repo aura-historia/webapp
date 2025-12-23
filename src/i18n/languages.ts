@@ -11,4 +11,4 @@ export const SUPPORTED_LANGUAGES = [
     },
 ];
 
-export const DEFAULT_LANGUAGE = "de";
+export const DEFAULT_LANGUAGE = "en";
