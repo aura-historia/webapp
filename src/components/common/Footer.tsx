@@ -65,6 +65,7 @@ export function Footer() {
                         </NavigationMenuItem>
                     </NavigationMenuList>
                     <div className="flex flex-row gap-4 items-center">
+                        <Select></Select>
                         <Select
                             defaultValue={i18n.language}
                             value={i18n.language}
@@ -72,20 +73,26 @@ export function Footer() {
                         >
                             <SelectTrigger>
                                 <SelectValue>
-                                    {currentLanguage && <currentLanguage.flag />}
+                                    {currentLanguage && (
+                                        <>
+                                            <currentLanguage.flag />
+                                            <span className={"pl-2"}>{currentLanguage.name}</span>
+                                        </>
+                                    )}
                                 </SelectValue>
                             </SelectTrigger>
-                            <SelectContent className="min-w-2">
+                            <SelectContent>
                                 <SelectGroup>
                                     {SUPPORTED_LANGUAGES.map((language) => (
                                         <SelectItem
                                             key={language.code}
                                             value={language.code}
                                             aria-label={t("footer.ariaSwitchToLanguage", {
-                                                language: language.code,
+                                                language: language.name,
                                             })}
                                         >
                                             <language.flag />
+                                            <span className={"pl-2"}>{language.name}</span>
                                         </SelectItem>
                                     ))}
                                 </SelectGroup>

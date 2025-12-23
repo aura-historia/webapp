@@ -65,7 +65,7 @@ describe("Footer Component", () => {
         await user.click(trigger);
 
         // Select English (assuming default is German)
-        const option = screen.getByLabelText("Zu Sprache en wechseln");
+        const option = screen.getByLabelText("Zu English wechseln");
         await user.click(option);
 
         expect(setCookieMock).toHaveBeenCalledWith(
@@ -87,7 +87,7 @@ describe("Footer Component", () => {
         await user.click(trigger);
 
         // Select English
-        const option = screen.getByLabelText("Zu Sprache en wechseln");
+        const option = screen.getByLabelText("Zu English wechseln");
         await user.click(option);
 
         expect(document.cookie).toContain("i18next=en");

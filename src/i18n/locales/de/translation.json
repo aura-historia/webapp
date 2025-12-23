@@ -17,7 +17,7 @@
         "login": "Einloggen"
     },
     "footer": {
-        "ariaSwitchToLanguage": "Zu Sprache {{language}} wechseln",
+        "ariaSwitchToLanguage": "Zu {{language}} wechseln",
         "imprint": "Impressum",
         "terms": "AGB",
         "copyright": "© {{year}} Aura Historia"

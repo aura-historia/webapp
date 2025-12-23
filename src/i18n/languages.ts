@@ -4,18 +4,22 @@ export const SUPPORTED_LANGUAGES = [
     {
         code: "de",
         flag: DE,
+        name: "Deutsch",
     },
     {
         code: "en",
         flag: US,
+        name: "English",
     },
     {
         code: "fr",
         flag: FR,
+        name: "Français",
     },
     {
         code: "es",
         flag: ES,
+        name: "Español",
     },
 ];
 
