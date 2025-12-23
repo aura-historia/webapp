@@ -55,7 +55,10 @@ function LoginPage() {
         if (!showAnimation) return;
 
         const navigationTimer = setTimeout(() => {
-            navigate({ to: redirectParam || "/" });
+            navigate({
+                to: redirectParam || "/",
+                viewTransition: true,
+            });
             resetAuth();
         }, 3000);
 
