@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useStore } from "@tanstack/react-store";
 import { useEffect, useState } from "react";
 import { registrationStore, clearPendingUserData } from "@/stores/registrationStore";
@@ -15,6 +15,7 @@ export function useRegistrationPolling() {
     const [isPolling, setIsPolling] = useState(false);
     const [isDone, setIsDone] = useState(false);
     const { getErrorMessage } = useApiError();
+    const queryClient = useQueryClient();
 
     // Poll PATCH /api/v1/me/account every 500ms (for 10 seconds) until user exists in backend
     const polling = useQuery({
@@ -38,7 +39,12 @@ export function useRegistrationPolling() {
                 throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
             }
 
-            return mapToInternalUserAccount(response.data);
+            const userData = mapToInternalUserAccount(response.data);
+
+            // Update cache immediately with fresh data from PATCH response
+            queryClient.setQueryData(["userAccount"], userData);
+
+            return userData;
         },
 
         // Only poll when explicitly started via start() AND when there's data to patch

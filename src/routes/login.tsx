@@ -8,6 +8,7 @@ import { Authenticator } from "@/components/auth/Authenticator.tsx";
 import { registrationStore, resetAuth } from "@/stores/registrationStore";
 import { useUserAccount } from "@/hooks/useUserAccount";
 import "../amplify-config";
+import { useQueryClient } from "@tanstack/react-query";
 
 type LoginSearch = {
     redirect?: string;
@@ -35,9 +36,12 @@ function LoginPage() {
     const { data: userAccount, isFetching } = useUserAccount(isAuthComplete);
     const [showAnimation, setShowAnimation] = useState(false);
     const isDesktop = useMediaQuery("(min-width: 1024px)");
+    const queryClient = useQueryClient();
 
-    useEffect(() => resetAuth(), []);
-
+    useEffect(() => {
+        queryClient.removeQueries({ queryKey: ["userAccount"] });
+        resetAuth();
+    }, [queryClient]);
     useEffect(() => {
         if (!isAuthComplete || showAnimation) return;
 
