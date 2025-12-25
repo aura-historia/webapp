@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useStore } from "@tanstack/react-store";
-import { registrationStore, setAuthComplete } from "@/stores/registrationStore";
+import {
+    registrationStore,
+    setAuthComplete,
+    clearPendingUserData,
+} from "@/stores/registrationStore";
 import { useRegistrationPolling } from "@/hooks/useRegistrationPolling";
 import { useTranslation } from "react-i18next";
 
@@ -8,10 +12,17 @@ export function CompleteRegistration() {
     const { t } = useTranslation();
     const pendingData = useStore(registrationStore, (state) => state.pendingUserData);
     const isAuthComplete = useStore(registrationStore, (state) => state.isAuthComplete);
+    const isSignUpFlow = useStore(registrationStore, (state) => state.isSignUpFlow);
     const registrationPolling = useRegistrationPolling();
 
     useEffect(() => {
         if (isAuthComplete) return;
+
+        if (!isSignUpFlow) {
+            clearPendingUserData();
+            setAuthComplete();
+            return;
+        }
 
         if (!pendingData || registrationPolling.isDone) {
             setAuthComplete();
@@ -24,6 +35,7 @@ export function CompleteRegistration() {
     }, [
         pendingData,
         isAuthComplete,
+        isSignUpFlow,
         registrationPolling.isDone,
         registrationPolling.isLoading,
         registrationPolling.start,

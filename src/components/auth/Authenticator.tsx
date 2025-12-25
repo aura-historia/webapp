@@ -8,10 +8,12 @@ import {
 } from "@aws-amplify/ui-react";
 import { useTranslation } from "react-i18next";
 import "@aws-amplify/ui-react/styles.css";
+import { signUp } from "aws-amplify/auth";
 import {
     setPendingUserData,
     setIsSignUpFlow,
     clearPendingUserData,
+    registrationStore,
 } from "@/stores/registrationStore";
 import { parseLanguage } from "@/data/internal/Language.ts";
 import { parseCurrency } from "@/data/internal/Currency.ts";
@@ -51,8 +53,11 @@ export function Authenticator() {
                         const { validationErrors } = useAuthenticator();
 
                         useEffect(() => {
-                            clearPendingUserData();
+                            if (!registrationStore.state.isSignUpFlow) {
+                                clearPendingUserData();
+                            }
                         }, []);
+
                         return (
                             <>
                                 <Grid
@@ -63,7 +68,7 @@ export function Authenticator() {
                                         name="firstName"
                                         label={t("auth.signUp.firstName")}
                                         placeholder={t("auth.signUp.firstNamePlaceholder")}
-                                        errorMessage={validationErrors.firstName} //Custom fields have "Error" written below the field. Cognito fields have "Error" written in the tooltip. TODO: Standardize
+                                        errorMessage={validationErrors.firstName}
                                         hasError={!!validationErrors.firstName}
                                     />
                                     <TextField
@@ -124,7 +129,16 @@ export function Authenticator() {
                     };
 
                     setPendingUserData(customData);
+                },
+
+                async handleSignUp(input) {
                     setIsSignUpFlow(true);
+
+                    return signUp({
+                        username: input.username,
+                        password: input.password,
+                        options: input.options,
+                    });
                 },
             }}
         >
