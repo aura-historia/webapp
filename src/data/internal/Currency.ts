@@ -14,7 +14,7 @@ export function parseCurrency(currency?: string): Currency {
         case "NZD":
             return uppercasedCurrency;
         default:
-            return "USD";
+            return "EUR";
     }
 }
 
