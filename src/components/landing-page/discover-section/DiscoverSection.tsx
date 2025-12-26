@@ -4,8 +4,10 @@ import {
     DISCOVER_HIGHLIGHTS,
     DISCOVER_STATS,
 } from "@/components/landing-page/discover-section/DiscoverSection.data.ts";
-import NumberFlow from "@number-flow/react";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { ClientOnly } from "@tanstack/react-router";
+
+const NumberFlow = lazy(() => import("@number-flow/react"));
 
 export default function DiscoverSection() {
     const { t } = useTranslation();
@@ -66,10 +68,14 @@ export default function DiscoverSection() {
                                     >
                                         {stat.amount ? (
                                             <span className="text-xl md:text-4xl font-bold text-primary mb-2 text-ellipsis overflow-hidden">
-                                                <NumberFlow
-                                                    value={isVisible ? stat.amount : 0}
-                                                    suffix="+"
-                                                />
+                                                <ClientOnly fallback={<>0</>}>
+                                                    <Suspense fallback={<>0</>}>
+                                                        <NumberFlow
+                                                            value={isVisible ? stat.amount : 0}
+                                                            suffix="+"
+                                                        />
+                                                    </Suspense>
+                                                </ClientOnly>
                                             </span>
                                         ) : (
                                             <p className="text-xl md:text-4xl font-bold text-primary mb-2 text-ellipsis overflow-hidden">

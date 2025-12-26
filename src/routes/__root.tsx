@@ -13,6 +13,7 @@ import { Header } from "@/components/common/Header.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
 import { Toaster } from "sonner";
+import "@/lib/polyfills/url";
 import "@/amplify-config.ts";
 import "@/api-config.ts";
 

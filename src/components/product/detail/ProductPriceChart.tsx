@@ -1,5 +1,4 @@
 import { useRef, useMemo, useState, useEffect } from "react";
-import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
 import type { ProductEvent } from "@/data/internal/ProductDetails.ts";
 import { H2 } from "@/components/typography/H2.tsx";
@@ -15,6 +14,7 @@ import {
 import { isPriceEvent } from "@/lib/eventFilters.ts";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
+import Chart from "react-apexcharts";
 
 interface ApexFormatterOpts {
     w?: {
