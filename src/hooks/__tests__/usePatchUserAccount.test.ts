@@ -178,7 +178,7 @@ describe("useUpdateUserAccount", () => {
             await act(async () => {
                 try {
                     await result.current.mutateAsync({ firstName: "Max" });
-                } catch (error) {
+                } catch (_error) {
                     // Expected to throw
                 }
             });
@@ -207,7 +207,7 @@ describe("useUpdateUserAccount", () => {
             await act(async () => {
                 try {
                     await result.current.mutateAsync({ firstName: "Max" });
-                } catch (error) {
+                } catch (_error) {
                     // Expected to throw
                 }
             });
@@ -234,7 +234,7 @@ describe("useUpdateUserAccount", () => {
             await act(async () => {
                 try {
                     await result.current.mutateAsync({ firstName: "Max" });
-                } catch (error) {
+                } catch (_error) {
                     // Expected to throw
                 }
             });
@@ -264,7 +264,7 @@ describe("useUpdateUserAccount", () => {
             await act(async () => {
                 try {
                     await result.current.mutateAsync({ firstName: "Max" });
-                } catch (error) {
+                } catch (_error) {
                     // Expected
                 }
             });
@@ -292,7 +292,7 @@ describe("useUpdateUserAccount", () => {
             await act(async () => {
                 try {
                     await result.current.mutateAsync({ firstName: "Max" });
-                } catch (error) {
+                } catch (_error) {
                     // Expected
                 }
             });
@@ -369,7 +369,7 @@ describe("useUpdateUserAccount", () => {
             await act(async () => {
                 try {
                     await result.current.mutateAsync({ firstName: "Max" });
-                } catch (error) {
+                } catch (_error) {
                     // Expected
                 }
             });
