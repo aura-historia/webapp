@@ -68,7 +68,6 @@ function LoginPage() {
                 to: redirectParam || "/",
                 viewTransition: true,
             });
-            resetAuth();
         }, 3000);
 
         return () => {
