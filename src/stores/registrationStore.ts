@@ -13,12 +13,14 @@ type RegistrationState = {
     pendingUserData: PendingUserData | null;
     isSignUpFlow: boolean;
     isAuthComplete: boolean;
+    isUserAuthenticated: boolean;
 };
 
 const INITIAL_STATE: RegistrationState = {
     pendingUserData: null,
     isSignUpFlow: false,
     isAuthComplete: false,
+    isUserAuthenticated: false,
 };
 
 export const registrationStore = new Store<RegistrationState>(INITIAL_STATE);
@@ -48,6 +50,13 @@ export const setAuthComplete = () => {
     registrationStore.setState((state) => ({
         ...state,
         isAuthComplete: true,
+    }));
+};
+
+export const setUserAuthenticated = () => {
+    registrationStore.setState((state) => ({
+        ...state,
+        isUserAuthenticated: true,
     }));
 };
 

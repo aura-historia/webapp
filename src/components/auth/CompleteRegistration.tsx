@@ -78,6 +78,7 @@ export function CompleteRegistration() {
                         onClick={() => {
                             clearPendingUserData();
                             navigate({ to: "/" });
+                            setAuthComplete();
                         }}
                         className="w-full sm:w-auto"
                     >
@@ -112,6 +113,7 @@ export function CompleteRegistration() {
                         onClick={() => {
                             clearPendingUserData();
                             navigate({ to: "/" });
+                            setAuthComplete();
                         }}
                         className="w-full sm:w-auto"
                     >

@@ -14,10 +14,10 @@ import {
     setIsSignUpFlow,
     clearPendingUserData,
     registrationStore,
+    setUserAuthenticated,
 } from "@/stores/registrationStore";
 import { parseLanguage } from "@/data/internal/Language.ts";
 import { parseCurrency } from "@/data/internal/Currency.ts";
-import { CompleteRegistration } from "@/components/auth/CompleteRegistration";
 import { validateCognitoNameFields } from "@/utils/nameValidation";
 import { useEffect } from "react";
 
@@ -144,10 +144,10 @@ export function Authenticator() {
         >
             {({ user }) => {
                 if (user) {
-                    return <CompleteRegistration />;
+                    setUserAuthenticated();
                 }
                 return (
-                    <div className="min-h-screen flex items-center justify-center">
+                    <div className="flex items-center justify-center py-12">
                         <div className="w-12 h-12 border-4 border-t-primary rounded-full animate-spin"></div>
                     </div>
                 );

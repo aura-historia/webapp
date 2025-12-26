@@ -9,6 +9,7 @@ import { registrationStore, resetAuth } from "@/stores/registrationStore";
 import { useUserAccount } from "@/hooks/useUserAccount";
 import "../amplify-config";
 import { useQueryClient } from "@tanstack/react-query";
+import { CompleteRegistration } from "@/components/auth/CompleteRegistration.tsx";
 
 type LoginSearch = {
     redirect?: string;
@@ -32,6 +33,8 @@ function LoginPage() {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const isAuthComplete = useStore(registrationStore, (state) => state.isAuthComplete);
+    const isUserAuthenticated = useStore(registrationStore, (state) => state.isUserAuthenticated); // ← ADD!
+
     const isSignUpFlow = useStore(registrationStore, (state) => state.isSignUpFlow);
     const { data: userAccount, isFetching } = useUserAccount(isAuthComplete);
     const [showAnimation, setShowAnimation] = useState(false);
@@ -73,6 +76,10 @@ function LoginPage() {
             resetAuth();
         };
     }, [showAnimation, navigate, redirectParam]);
+
+    if (isUserAuthenticated && !isAuthComplete) {
+        return <CompleteRegistration />;
+    }
 
     const userName =
         `${userAccount?.firstName || ""} ${userAccount?.lastName || ""}`.trim() || null;
