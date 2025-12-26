@@ -94,14 +94,12 @@ export function useRegistrationPolling() {
 
         // Handle timeout: clean up store even though user was never found
         if (isTimeout && !isDone) {
-            clearPendingUserData();
             setIsDone(true);
             return;
         }
 
         // Handle other errors (500, 401, etc.): clean up store and mark as done
         if (polling.isError && !isTimeout && !isDone) {
-            clearPendingUserData();
             setIsDone(true);
             return;
         }
@@ -128,8 +126,9 @@ export function useRegistrationPolling() {
     // - errorMessage: Translated error text for display
     return {
         start: () => {
-            if (isPolling || isDone) return;
+            if (isPolling) return;
 
+            queryClient.resetQueries({ queryKey: ["user-polling"] });
             setIsPolling(true);
             setIsDone(false);
         },

@@ -228,6 +228,16 @@
         "welcomeBack": "Willkommen zurück",
         "completingRegistration": "Die Registrierung wird abgeschlossen, bitte haben Sie noch einen Moment Geduld!",
         "completingLogin": "Die Anmeldung wird abgeschlossen, bitte haben Sie noch einen Moment Geduld!",
+        "retry": "Erneut versuchen",
+        "backToLogin": "Zurück zum Login",
+        "backToHomepage": "Zurück zur Startseite",
+        "errorTitle": "Benutzerdaten nicht gespeichert",
+        "timeout": {
+            "title": "Registrierung erfolgreich!",
+            "message": "Ihre Registrierung wurde erfolgreich abgeschlossen! Die persönlichen Daten konnten aufgrund eines hohen Nutzeraufkommens derzeit nicht gespeichert werden.",
+            "hint": "Sie können diese Informationen jederzeit in den Kontoeinstellungen nachtragen.",
+            "noteLabel": "Hinweis:"
+        },
         "signUp": {
             "firstName": "Vorname",
             "firstNamePlaceholder": "Max",
