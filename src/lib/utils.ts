@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
 import type { ProductEvent, Price } from "@/data/internal/ProductDetails.ts";
 import {
+    isCreatedEvent,
     isPriceChangedEvent,
     isPriceDiscoveredEvent,
     isPriceRemovedEvent,
@@ -29,7 +30,10 @@ export function formatPrice(data: Price, locale?: string): string {
  *
  * Returns the price in minor currency units (cents) or null (0).
  */
-export function getPriceAmount(event: ProductEvent): number {
+export function getPriceAmount(event: ProductEvent): number | undefined {
+    if (isCreatedEvent(event)) {
+        return event.payload.price?.amount;
+    }
     if (isPriceDiscoveredEvent(event)) {
         return event.payload.newPrice.amount;
     }

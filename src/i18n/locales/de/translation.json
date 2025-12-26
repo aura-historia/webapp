@@ -178,13 +178,161 @@
         "unknown": "Unbekannt"
     },
     "discover": {
-        "title": "Entdecken Sie weitere Inhalte",
-        "p1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-        "p2": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. You can add as much content as you need here—articles, feature lists, testimonials, footers, and more. The layout will handle the scroll automatically."
+        "title": "Ihr Fenster zur Welt der Antiquitäten",
+        "p1": "Aura Historia durchforstet täglich das unübersichtliche Angebot tausender verstreuter Antiquitätenhändler weltweit und bündelt deren Schätze zentral an einem Ort.",
+        "p2": "Unsere intelligente Plattform erfasst nicht nur aktuelle Angebote, sondern verfolgt auch Preisänderungen und Verfügbarkeiten. So verpassen Sie nie wieder ein Schnäppchen und behalten den Markt stets im Blick.",
+        "highlight1": {
+            "title": "Über 500 Händler vernetzt",
+            "description": "Wir durchsuchen kontinuierlich renommierte Antiquitätenhändler aus ganz Europa und darüber hinaus."
+        },
+        "highlight2": {
+            "title": "Echtzeit-Überwachung",
+            "description": "Preisänderungen und Verfügbarkeit werden automatisch erfasst und angezeigt."
+        },
+        "highlight3": {
+            "title": "Transparente Preisentwicklung",
+            "description": "Verfolgen Sie die komplette Preishistorie eines Artikels und erkennen Sie Trends auf einen Blick."
+        },
+        "stats": {
+            "shops": "500",
+            "shopsLabel": "Vernetzte Händler",
+            "items": "120.000",
+            "itemsLabel": "Einzigartige Artikel",
+            "updates": "24/7",
+            "updatesLabel": "Automatische Updates",
+            "countries": "15",
+            "countriesLabel": "Länder abgedeckt"
+        }
     },
     "landingPage": {
-        "titleFirstLine": "Entdecken, vergleichen, sammeln-",
-        "titleSecondLine": "mit Klarheit im Antiquitätenmarkt"
+        "badge": "Die führende Plattform für Antiquitäten-Liebhaber",
+        "titleFirstLine": "Entdecken, vergleichen, sammeln –",
+        "titleSecondLine": "Antiquitäten aus aller Welt",
+        "subtitle": "Durchsuchen Sie über 120.000 einzigartige Antiquitäten von mehr als 500 Händlern weltweit. Verfolgen Sie Preisänderungen, speichern Sie Favoriten und verpassen Sie nie wieder ein Schnäppchen.",
+        "trustBadge1": "Vollständig kostenfrei",
+        "trustBadge2": "Keine Registrierung nötig",
+        "trustBadge3": "Mehrmals täglich aktualisiert",
+        "features": {
+            "title": "Alles, was Sammler brauchen",
+            "subtitle": "Aura Historia bietet Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen und Schätze zu finden.",
+            "previewBadge": "Bald verfügbar",
+            "search": {
+                "title": "Intelligente Suche",
+                "description": "Durchsuchen Sie tausende Artikel mit unserer leistungsstarken Suchfunktion. Filtern Sie nach Kategorie, Preis, Händler und vielem mehr."
+            },
+            "global": {
+                "title": "Weltweite Abdeckung",
+                "description": "Wir verbinden Sie mit renommierten Antiquitätenhändlern aus über 15 Ländern – von Deutschland bis in die USA.."
+            },
+            "notifications": {
+                "title": "Preisbenachrichtigungen",
+                "description": "Erhalten Sie sofortige Benachrichtigungen, wenn der Preis eines Artikels auf Ihrer Merkliste sinkt."
+            },
+            "priceTracking": {
+                "title": "Preisverlauf",
+                "description": "Sehen Sie die komplette Preishistorie eines jeden Artikels und erkennen Sie den perfekten Kaufzeitpunkt."
+            },
+            "history": {
+                "title": "Änderungshistorie",
+                "description": "Verfolgen Sie alle Änderungen eines Artikels – von Preisanpassungen bis hin zu Statusänderungen."
+            },
+            "watchlist": {
+                "title": "Persönliche Merkliste",
+                "description": "Speichern Sie interessante Artikel und behalten Sie deren Entwicklung im Blick – alles an einem Ort."
+            },
+            "translations": {
+                "title": "Automatische Übersetzungen",
+                "description": "Lesen Sie Artikelbeschreibungen in Ihrer bevorzugten Sprache, ganz ohne Sprachbarrieren."
+            },
+            "personalFilter": {
+                "title": "Persönliche Filter",
+                "description": "Speichern Sie Ihre Suchfilter und werden Sie bei neuen Angeboten automatisch benachrichtigt."
+            },
+            "aiSearchAgent": {
+                "title": "KI Suchagent",
+                "description": "Ihr persönlicher KI-Agent hilft Ihnen, spezifische Antiquitäten zu finden, die sonst schwer zu entdecken sind."
+            }
+        },
+        "howItWorks": {
+            "title": "So einfach funktioniert's",
+            "subtitle": "In nur wenigen Schritten zu Ihrem Traumstück – ohne versteckte Kosten.",
+            "step1": {
+                "title": "Suchen",
+                "description": "Geben Sie ein, wonach Sie suchen – ob Möbel, Schmuck, Kunst oder Sammlerstücke."
+            },
+            "step2": {
+                "title": "Entdecken",
+                "description": "Durchstöbern Sie Ergebnisse von hunderten Händlern auf einen Blick."
+            },
+            "step3": {
+                "title": "Merken",
+                "description": "Speichern Sie interessante Artikel auf Ihrer persönlichen Merkliste. Wir benachrichtigen Sie bei Änderungen."
+            },
+            "step4": {
+                "title": "Kaufen",
+                "description": "Wir leiten Sie direkt zum Händler weiter, wo Sie Ihren Fund sichern können."
+            }
+        },
+        "testimonials": {
+            "title": "Das sagen unsere Nutzer",
+            "subtitle": "Erfahren Sie, wie Aura Historia Sammlern dabei hilft, ihre Leidenschaft zu leben.",
+            "testimonial1": {
+                "name": "Margarete W.",
+                "role": "Sammelt Jugendstil-Möbel",
+                "quote": "Endlich eine Plattform, die mir die Suche nach seltenen Stücken erleichtert. Die Preisbenachrichtigungen haben mir schon mehrfach geholfen, echte Schnäppchen zu finden."
+            },
+            "testimonial2": {
+                "name": "Heinrich K.",
+                "role": "Antiquitätenhändler",
+                "quote": "Als Händler nutze ich Aura Historia, um den Markt im Blick zu behalten. Die Preisentwicklungen helfen mir bei der eigenen Preisgestaltung enorm."
+            },
+            "testimonial3": {
+                "name": "Elisabeth M.",
+                "role": "Hobby-Sammlerin seit 20 Jahren",
+                "quote": "Ich bin begeistert von der Übersichtlichkeit. Früher habe ich Stunden damit verbracht, verschiedene Händlerseiten zu durchsuchen. Jetzt finde ich alles an einem Ort."
+            }
+        },
+        "newsletter": {
+            "title": "Bleiben Sie informiert",
+            "description": "Erhalten Sie wöchentlich ausgewählte Fundstücke, Markttrends und exklusive Einblicke direkt in Ihr Postfach.",
+            "placeholder": "Ihre E-Mail-Adresse",
+            "button": "Anmelden",
+            "privacy": "Mit der Anmeldung stimmen Sie unserer Datenschutzerklärung zu. Sie können sich jederzeit abmelden.",
+            "successMessage": "Vielen Dank für Ihre Anmeldung! Bitte bestätigen Sie Ihre E-Mail-Adresse.",
+            "benefit1": "Wöchentliche Highlights",
+            "benefit2": "Marktberichte & Trends",
+            "benefit3": "Jederzeit abbestellbar"
+        },
+        "faq": {
+            "title": "Häufig gestellte Fragen",
+            "subtitle": "Hier finden Sie Antworten auf die wichtigsten Fragen rund um Aura Historia.",
+            "items": {
+                "free": {
+                    "question": "Ist Aura Historia wirklich kostenfrei?",
+                    "answer": "Ja, die Nutzung von Aura Historia ist vollständig kostenfrei. Sie können unbegrenzt suchen, Artikel auf Ihre Merkliste setzen und Preisverläufe einsehen – ohne versteckte Kosten oder Abonnements."
+                },
+                "howItWorks": {
+                    "question": "Wie funktioniert Aura Historia?",
+                    "answer": "Aura Historia durchsucht täglich automatisch die Webseiten von über 500 Antiquitätenhändlern weltweit und sammelt alle Angebote an einem zentralen Ort. Unsere intelligente Suche ermöglicht es Ihnen, genau das zu finden, was Sie suchen."
+                },
+                "directPurchase": {
+                    "question": "Kann ich Artikel direkt über Aura Historia kaufen?",
+                    "answer": "Nein, Aura Historia ist eine reine Suchplattform. Wenn Sie einen Artikel kaufen möchten, werden Sie direkt zur Website des jeweiligen Händlers weitergeleitet, wo Sie den Kauf abschließen können."
+                },
+                "priceAlerts": {
+                    "question": "Wie funktionieren die Preisbenachrichtigungen?",
+                    "answer": "Sobald Sie einen Artikel auf Ihre Merkliste setzen, verfolgen wir automatisch dessen Preisentwicklung für Sie. Sobald sich etwas bei Ihrem Artikel ändert, erhalten Sie eine Benachrichtigung – so verpassen Sie nie wieder ein Schnäppchen."
+                },
+                "updateFrequency": {
+                    "question": "Wie oft werden die Daten aktualisiert?",
+                    "answer": "Unsere Daten werden kontinuierlich aktualisiert. Die meisten Händlerseiten werden mehrmals täglich durchsucht, sodass Sie immer aktuelle Preise und Verfügbarkeiten sehen."
+                },
+                "dealers": {
+                    "question": "Welche Händler sind auf Aura Historia vertreten?",
+                    "answer": "Wir arbeiten mit über 500 renommierten Antiquitätenhändlern aus mehr als 15 Ländern zusammen. Darunter finden Sie sowohl große Auktionshäuser als auch spezialisierte Fachhändler für verschiedene Antiquitätenbereiche."
+                }
+            }
+        }
     },
     "apiErrors": {
         "PRODUCT_NOT_FOUND": "Dieser Artikel wurde nicht gefunden.",

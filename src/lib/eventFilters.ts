@@ -99,13 +99,17 @@ export function isPriceRemovedEvent(event: ProductEvent): event is ProductEvent 
  */
 export function isPriceEvent(event: ProductEvent): event is ProductEvent & {
     payload:
+        | ProductCreatedPayload
         | ProductPriceChangedPayload
         | ProductPriceDiscoveredPayload
         | ProductPriceRemovedPayload;
     eventType: PriceEventType;
 } {
     return (
-        isPriceDiscoveredEvent(event) || isPriceChangedEvent(event) || isPriceRemovedEvent(event)
+        isCreatedEvent(event) ||
+        isPriceDiscoveredEvent(event) ||
+        isPriceChangedEvent(event) ||
+        isPriceRemovedEvent(event)
     );
 }
 
