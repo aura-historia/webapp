@@ -362,5 +362,10 @@
             "title": "Keine Artikel gefunden",
             "description": "Fügen Sie Artikel zur Merkliste hinzu, um sie hier anzusehen."
         }
+    },
+    "notFound": {
+        "title": "Seite nicht gefunden",
+        "description": "Die gesuchte Seite wurde leider nicht gefunden.",
+        "goHome": "Zur Startseite"
     }
 }
