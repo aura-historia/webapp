@@ -91,7 +91,11 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
             </Card>
 
             <div className="fixed top-24 right-4 flex flex-col gap-2 md:hidden z-40">
-                <ProductSharer title={product.title} />
+                <ProductSharer
+                    title={product.title}
+                    variant="outline"
+                    className="shadow-lg rounded-full bg-card"
+                />
 
                 <Button
                     size="icon"

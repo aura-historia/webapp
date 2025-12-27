@@ -18,7 +18,13 @@ import {
 import tick from "@/assets/lottie/tick.json";
 import { useTranslation } from "react-i18next";
 
-export function ProductSharer({ title }: { title: string }) {
+type ProductSharerProps = {
+    title: string;
+    variant?: "ghost" | "outline";
+    className?: string;
+};
+
+export function ProductSharer({ title, variant = "ghost", className }: ProductSharerProps) {
     const { t } = useTranslation();
     const [copied, setCopied] = useState(false);
     const url = typeof window !== "undefined" ? window.location.href : "";
@@ -46,7 +52,7 @@ export function ProductSharer({ title }: { title: string }) {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant={variant} size="icon" className={className}>
                     <Share2 className="size-5" />
                     <span className="sr-only">{t("share.shareProduct")}</span>
                 </Button>
