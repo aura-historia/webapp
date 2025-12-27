@@ -59,8 +59,8 @@ export default function DiscoverSection() {
                     </div>
                     {/* Visual/Stats */}
                     <div className="relative" ref={statsRef}>
-                        <div className="bg-linear-to-br from-primary/10 via-primary/5 to-transparent rounded-2xl p-8">
-                            <div className="grid grid-cols-2 gap-6">
+                        <div className="bg-linear-to-br from-primary/10 via-primary/5 to-transparent rounded-2xl p-4 md:p-8">
+                            <div className="grid grid-cols-2 md:gap-6 gap-4">
                                 {DISCOVER_STATS.map((stat) => (
                                     <div
                                         key={stat.labelKey}

@@ -49,6 +49,7 @@
         "bar": {
             "label": "Suche",
             "placeholder": "Ich suche nach...",
+            "placeholderShort": "Suche",
             "button": "Suchen"
         },
         "applyFilters": "Filter anwenden",
