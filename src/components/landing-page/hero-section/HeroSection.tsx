@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
+import { TRUST_BADGE_KEYS } from "@/components/landing-page/hero-section/HeroSection.data.ts";
 
 export default function HeroSection() {
     const { t } = useTranslation();
@@ -44,18 +45,12 @@ export default function HeroSection() {
                 </Card>
                 <div className="w-full px-4 sm:px-0">
                     <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mt-6 sm:mt-8 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                            <Check className="w-5 h-5 text-primary" aria-hidden="true" />
-                            <span>{t("landingPage.trustBadge1")}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <Check className="w-5 h-5 text-primary" aria-hidden="true" />
-                            <span>{t("landingPage.trustBadge2")}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <Check className="w-5 h-5 text-primary" aria-hidden="true" />
-                            <span>{t("landingPage.trustBadge3")}</span>
-                        </div>
+                        {TRUST_BADGE_KEYS.map((badgeKey) => (
+                            <div key={badgeKey} className="flex items-center gap-2">
+                                <Check className="w-5 h-5 text-primary" aria-hidden="true" />
+                                <span>{t(badgeKey)}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
