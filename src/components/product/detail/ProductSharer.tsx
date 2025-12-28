@@ -57,7 +57,7 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
                     <span className="sr-only">{t("share.shareProduct")}</span>
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-56 p-2" align="end">
+            <PopoverContent className="w-56 p-2 bg-background" align="end">
                 <div className="flex flex-col gap-1">
                     <button
                         type="button"
