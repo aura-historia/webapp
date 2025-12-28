@@ -368,5 +368,10 @@
         "copied": "Kopiert!",
         "shareProduct": "Produkt teilen",
         "foundOnAuraHistoria": "Ich habe {{title}} auf Aura Historia gefunden! Das könnte interessant für dich sein!"
+    },
+    "notFound": {
+        "title": "Seite nicht gefunden",
+        "description": "Die gesuchte Seite wurde leider nicht gefunden.",
+        "goHome": "Zur Startseite"
     }
 }
