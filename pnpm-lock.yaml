@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  react-share@5.2.2:
+    hash: 9d5551b0b23d8cd2bb90b5194d7e74c628274e7ffa6552d314022d7ea6888a96
+    path: patches/react-share@5.2.2.patch
+
 importers:
 
   .:
@@ -157,7 +162,7 @@ importers:
         version: 10.0.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       react-share:
         specifier: ^5.2.2
-        version: 5.2.2(react@19.2.3)
+        version: 5.2.2(patch_hash=9d5551b0b23d8cd2bb90b5194d7e74c628274e7ffa6552d314022d7ea6888a96)(react@19.2.3)
       sonner:
         specifier: ^2.0.7
         version: 2.0.7(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -8154,7 +8159,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.7
 
-  react-share@5.2.2(react@19.2.3):
+  react-share@5.2.2(patch_hash=9d5551b0b23d8cd2bb90b5194d7e74c628274e7ffa6552d314022d7ea6888a96)(react@19.2.3):
     dependencies:
       classnames: 2.5.1
       jsonp: 0.2.1
