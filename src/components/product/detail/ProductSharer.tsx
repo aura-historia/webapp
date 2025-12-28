@@ -41,12 +41,31 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
     };
 
     const iconSize = 32;
+
+    const personalText = t("share.foundOnAuraHistoria", { title });
+    const standardText = title;
+
     const shareButtons = [
-        { name: "WhatsApp", Button: WhatsappShareButton, Icon: WhatsappIcon },
-        { name: "Facebook", Button: FacebookShareButton, Icon: FacebookIcon },
-        { name: "X", Button: TwitterShareButton, Icon: XIcon },
-        { name: "Telegram", Button: TelegramShareButton, Icon: TelegramIcon },
-        { name: "Reddit", Button: RedditShareButton, Icon: RedditIcon },
+        {
+            name: "WhatsApp",
+            Button: WhatsappShareButton,
+            Icon: WhatsappIcon,
+            usePersonalText: true,
+        },
+        {
+            name: "Facebook",
+            Button: FacebookShareButton,
+            Icon: FacebookIcon,
+            usePersonalText: false,
+        },
+        { name: "X", Button: TwitterShareButton, Icon: XIcon, usePersonalText: false },
+        {
+            name: "Telegram",
+            Button: TelegramShareButton,
+            Icon: TelegramIcon,
+            usePersonalText: true,
+        },
+        { name: "Reddit", Button: RedditShareButton, Icon: RedditIcon, usePersonalText: false },
     ];
 
     return (
@@ -105,8 +124,13 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
                         </div>
                     </button>
 
-                    {shareButtons.map(({ name, Button: ShareButton, Icon }) => (
-                        <ShareButton key={name} url={url} title={title} resetButtonStyle={false}>
+                    {shareButtons.map(({ name, Button: ShareButton, Icon, usePersonalText }) => (
+                        <ShareButton
+                            key={name}
+                            url={url}
+                            title={usePersonalText ? personalText : standardText}
+                            resetButtonStyle={false}
+                        >
                             <div className="flex items-center gap-3 px-3 py-2 hover:bg-accent rounded-md cursor-pointer w-full">
                                 <Icon size={iconSize} round className="flex-shrink-0" />
                                 <span className="font-medium text-sm">{name}</span>

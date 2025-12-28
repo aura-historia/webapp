@@ -365,6 +365,8 @@
     },
     "share": {
         "copyLink": "Link kopieren",
-        "copied": "Kopiert!"
+        "copied": "Kopiert!",
+        "shareProduct": "Produkt teilen",
+        "foundOnAuraHistoria": "Ich habe {{title}} auf Aura Historia gefunden! Das könnte interessant für dich sein!"
     }
 }
