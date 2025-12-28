@@ -14,7 +14,7 @@ export function Footer() {
     return (
         <footer className={"w-full flex items-start justify-center flex-col backdrop-blur-sm"}>
             <Separator />
-            <NavigationMenu className={"p-8 w-full"}>
+            <NavigationMenu className={"px-2 py-4 sm:p-8 w-full"}>
                 <div
                     className={
                         "flex flex-col gap-2 sm:gap-0 sm:flex-row justify-between items-center w-full"
@@ -25,13 +25,6 @@ export function Footer() {
                             <Button variant={"ghost"} asChild>
                                 <Link to="/imprint">
                                     <NavText>{t("common.imprint")}</NavText>
-                                </Link>
-                            </Button>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <Button variant={"ghost"} asChild>
-                                <Link to="/terms">
-                                    <NavText>{t("common.terms")}</NavText>
                                 </Link>
                             </Button>
                         </NavigationMenuItem>
