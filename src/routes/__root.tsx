@@ -4,7 +4,7 @@ import {
     Scripts,
     createRootRouteWithContext,
     useMatches,
-    useNavigate,
+    Link,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
@@ -55,7 +55,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 });
 
 function NotFound() {
-    const navigate = useNavigate();
     const { t } = useTranslation();
 
     return (
@@ -66,7 +65,9 @@ function NotFound() {
                     <H2>{t("notFound.title")}</H2>
                     <p className="text-base text-muted-foreground">{t("notFound.description")}</p>
                 </div>
-                <Button onClick={() => navigate({ to: "/" })}>{t("notFound.goHome")}</Button>
+                <Button asChild>
+                    <Link to="/">{t("notFound.goHome")}</Link>
+                </Button>
             </div>
         </div>
     );
