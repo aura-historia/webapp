@@ -79,7 +79,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     return (
         <html lang="de">
             <head>
-                <HeadContent /> <title>Aura Historia (Preview)</title>
+                <HeadContent />
             </head>
             <body
                 className={
