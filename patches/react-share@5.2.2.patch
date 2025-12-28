@@ -1,0 +1,26 @@
+diff --git a/dist/index.cjs b/dist/index.cjs
+index b6183e8188d6ffdd47669e3fd00e295eea252000..96505adca8561666f4faf1e97b6b0befa9444f87 100644
+--- a/dist/index.cjs
++++ b/dist/index.cjs
+@@ -654,7 +654,7 @@ const RedditIcon = createIcon({
+ });
+ function redditLink(url, { title }) {
+   assert(url, "reddit.url");
+-  return "https://www.reddit.com/web/submit" + objectToGetParams({
++  return "https://www.reddit.com/submit" + objectToGetParams({
+     url,
+     title
+   });
+diff --git a/dist/index.js b/dist/index.js
+index 943c6d3d36b1e7414c23c7739bda8ea16087b452..ac5ca925cc4ee8efac0ca74bed8c3be893425ec1 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -652,7 +652,7 @@ const RedditIcon = createIcon({
+ });
+ function redditLink(url, { title }) {
+   assert(url, "reddit.url");
+-  return "https://www.reddit.com/web/submit" + objectToGetParams({
++  return "https://www.reddit.com/submit" + objectToGetParams({
+     url,
+     title
+   });
