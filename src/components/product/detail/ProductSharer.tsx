@@ -56,9 +56,9 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
             name: "Facebook",
             Button: FacebookShareButton,
             Icon: FacebookIcon,
-            usePersonalText: false,
+            usePersonalText: true,
         },
-        { name: "X", Button: TwitterShareButton, Icon: XIcon, usePersonalText: false },
+        { name: "X", Button: TwitterShareButton, Icon: XIcon, usePersonalText: true },
         {
             name: "Telegram",
             Button: TelegramShareButton,
@@ -76,7 +76,7 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
                     <span className="sr-only">{t("share.shareProduct")}</span>
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-56 p-2 bg-background" align="end">
+            <PopoverContent className="w-56 p-2 bg-background z-40" align="end">
                 <div className="flex flex-col gap-1">
                     <button
                         type="button"
@@ -94,14 +94,7 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
 
                             {copied && (
                                 <div className="absolute inset-0 flex items-center justify-center scale-[1.7]">
-                                    <Lottie
-                                        animationData={tick}
-                                        loop={false}
-                                        className="w-8 h-8"
-                                        rendererSettings={{
-                                            preserveAspectRatio: "xMidYMid slice",
-                                        }}
-                                    />
+                                    <Lottie animationData={tick} loop={false} className="w-8 h-8" />
                                 </div>
                             )}
                         </div>
