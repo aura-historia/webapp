@@ -4,13 +4,14 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
-import { ArrowUpRight, HeartIcon, Share } from "lucide-react";
+import { ArrowUpRight, HeartIcon } from "lucide-react";
 import { H3 } from "../../typography/H3.tsx";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { ProductImageGallery } from "@/components/product/detail/ProductImageGallery.tsx";
 import { useTranslation } from "react-i18next";
 import { useWatchlistMutation, type WatchlistMutationType } from "@/hooks/useWatchlistMutation.ts";
+import { ProductSharer } from "@/components/product/detail/ProductSharer.tsx";
 
 export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();
@@ -40,9 +41,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                             </H3>
                         </div>
                         <div className="hidden md:flex gap-2 ml-auto flex-shrink-0 self-start">
-                            <Button variant="ghost" size="icon">
-                                <Share className="size-5" />
-                            </Button>
+                            <ProductSharer title={product.title} />
 
                             <Button
                                 variant="ghost"
@@ -67,7 +66,6 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                         {product.description ?? t("product.noDescription")}
                     </p>
 
-                    {/* Spacer - pushes bottom content down on desktop */}
                     <div className="hidden sm:block flex-1"></div>
 
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-end w-full pt-4">
@@ -91,10 +89,14 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                     </div>
                 </div>
             </Card>
+
             <div className="fixed top-24 right-4 flex flex-col gap-2 md:hidden z-40">
-                <Button size="icon" variant="outline" className="shadow-lg rounded-full bg-card">
-                    <Share className="w-4 h-4" />
-                </Button>
+                <ProductSharer
+                    title={product.title}
+                    variant="outline"
+                    className="shadow-lg rounded-full bg-card"
+                />
+
                 <Button
                     size="icon"
                     variant="outline"

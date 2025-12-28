@@ -362,5 +362,11 @@
             "title": "Keine Artikel gefunden",
             "description": "Fügen Sie Artikel zur Merkliste hinzu, um sie hier anzusehen."
         }
+    },
+    "share": {
+        "copyLink": "Link kopieren",
+        "copied": "Kopiert!",
+        "shareProduct": "Produkt teilen",
+        "foundOnAuraHistoria": "Ich habe {{title}} auf Aura Historia gefunden! Das könnte interessant für dich sein!"
     }
 }
