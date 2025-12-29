@@ -107,10 +107,5 @@
         "vitest": "^4.0.16",
         "web-vitals": "^5.1.0",
         "wrangler": "^4.56.0"
-    },
-    "pnpm": {
-        "patchedDependencies": {
-            "react-share@5.2.2": "patches/react-share@5.2.2.patch"
-        }
     }
 }
