@@ -3,7 +3,7 @@ import type { CurrencyData } from "@/client";
 export type Currency = "EUR" | "GBP" | "USD" | "AUD" | "CAD" | "NZD";
 
 export function parseCurrency(currency?: string): Currency {
-    const uppercasedCurrency = currency?.toUpperCase() ?? "USD";
+    const uppercasedCurrency = currency?.toUpperCase() ?? "EUR";
 
     switch (uppercasedCurrency) {
         case "EUR":

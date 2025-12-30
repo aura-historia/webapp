@@ -17,7 +17,7 @@ import { parseProductState, type ProductState } from "@/data/internal/ProductSta
 
 export type Price = {
     readonly amount: number;
-    readonly currency: string; //That is wrong? It has to be enum and not just string? Then I might as well use bananas as currency. -> TODO: Internal Type for Currency
+    readonly currency: string;
 };
 
 export type ProductCreatedPayload = {

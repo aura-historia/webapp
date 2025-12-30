@@ -11,7 +11,7 @@
         "name": {
             "minLength": "Bitte geben Sie mindestens {{min}} Zeichen ein",
             "maxLength": "Bitte geben Sie maximal {{max}} Zeichen ein",
-            "invalidChars": "Nur Buchstaben, Leerzeichen, Bindestrich und Apostroph erlaubt"
+            "invalidChars": "Nur Buchstaben, Leerzeichen, Bindestriche und Apostrophe erlaubt"
         }
     },
     "imprint": {
@@ -373,7 +373,9 @@
     "auth": {
         "subtitle": "Über 120.000 Antiquitäten von 500 Händlern. Vergleichen, speichern und Preise verfolgen bei Aura Historia.",
         "welcome": "Herzlich Willkommen",
+        "welcomeWithName": "Herzlich Willkommen, {{name}}!",
         "welcomeBack": "Willkommen zurück",
+        "welcomeBackWithName": "Willkommen zurück, {{name}}!",
         "completingRegistration": "Die Registrierung wird abgeschlossen, bitte haben Sie noch einen Moment Geduld!",
         "completingLogin": "Die Anmeldung wird abgeschlossen, bitte haben Sie noch einen Moment Geduld!",
         "retry": "Erneut versuchen",

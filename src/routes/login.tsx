@@ -33,7 +33,7 @@ function LoginPage() {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const isAuthComplete = useStore(registrationStore, (state) => state.isAuthComplete);
-    const isUserAuthenticated = useStore(registrationStore, (state) => state.isUserAuthenticated); // ← ADD!
+    const isUserAuthenticated = useStore(registrationStore, (state) => state.isUserAuthenticated);
 
     const isSignUpFlow = useStore(registrationStore, (state) => state.isSignUpFlow);
     const { data: userAccount, isFetching } = useUserAccount(isAuthComplete);
@@ -76,14 +76,11 @@ function LoginPage() {
         };
     }, [showAnimation, navigate, redirectParam]);
 
-    if (isUserAuthenticated && !isAuthComplete) {
-        return <CompleteRegistration />;
-    }
-
     const userName =
         `${userAccount?.firstName || ""} ${userAccount?.lastName || ""}`.trim() || null;
-    const welcomeText = `${isSignUpFlow ? t("auth.welcome") : t("auth.welcomeBack")}${userName ? `, ${userName}` : ""}!`;
-
+    const welcomeText = userName
+        ? t(isSignUpFlow ? "auth.welcomeWithName" : "auth.welcomeBackWithName", { name: userName })
+        : t(isSignUpFlow ? "auth.welcome" : "auth.welcomeBack");
     return (
         <div className="flex flex-col gap-8 lg:gap-0 lg:grid lg:grid-cols-[2fr_auto_3fr] min-h-screen w-full">
             <motion.div
@@ -94,9 +91,11 @@ function LoginPage() {
                 }}
                 transition={{ duration: 0.8 }}
             >
-                <span className="text-3xl lg:text-4xl font-bold text-center">Aura Historia</span>
+                <span className="text-3xl lg:text-4xl font-bold text-center">
+                    {t("common.auraHistoria")}
+                </span>
                 <div
-                    className="mt-6 text-center relative w-full max-w-full px-4"
+                    className="mt-6 text-center relative w-full max-w-full px-8"
                     style={{ minHeight: "80px" }}
                 >
                     <AnimatePresence mode="wait">
@@ -135,7 +134,11 @@ function LoginPage() {
                 className="flex justify-center items-start lg:items-center px-6 lg:px-0 pb-12 lg:pb-0 w-full"
                 animate={{ opacity: showAnimation ? 0 : 1 }}
             >
-                {isAuthComplete && !showAnimation ? (
+                {isUserAuthenticated && !isAuthComplete ? (
+                    <div className="w-full max-w-md">
+                        <CompleteRegistration />
+                    </div>
+                ) : isAuthComplete && !showAnimation ? (
                     <div className="flex flex-col items-center gap-4">
                         <div className="w-12 h-12 border-4 border-t-primary rounded-full animate-spin"></div>
                         <p className="text-sm lg:text-base">
