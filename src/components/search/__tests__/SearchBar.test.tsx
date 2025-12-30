@@ -1,14 +1,22 @@
 import { SearchBar } from "@/components/search/SearchBar";
 import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderWithRouter } from "@/test/utils.tsx";
+import { toast } from "sonner";
+
+vi.mock("sonner", () => ({
+    toast: {
+        warning: vi.fn(),
+    },
+}));
 
 describe("SearchBar", () => {
     let user: ReturnType<typeof userEvent.setup>;
 
     beforeEach(() => {
         user = userEvent.setup();
+        vi.clearAllMocks();
     });
 
     describe("Big variant", () => {
@@ -100,7 +108,7 @@ describe("SearchBar", () => {
             await act(() => {
                 renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
             });
-            expect(screen.getByPlaceholderText("Ich suche nach...")).toBeInTheDocument();
+            expect(screen.getByPlaceholderText("Suche")).toBeInTheDocument();
             expect(screen.getByRole("button")).toBeInTheDocument();
         });
 
@@ -108,7 +116,7 @@ describe("SearchBar", () => {
             await act(() => {
                 renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
             });
-            const input = screen.getByPlaceholderText("Ich suche nach...");
+            const input = screen.getByPlaceholderText("Suche");
             const button = screen.getByRole("button");
 
             expect(input).toHaveClass("h-9");
@@ -130,7 +138,7 @@ describe("SearchBar", () => {
             await act(() => {
                 renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
             });
-            const input = screen.getByPlaceholderText("Ich suche nach...");
+            const input = screen.getByPlaceholderText("Suche");
             const button = screen.getByRole("button");
 
             await user.type(input, "test query");
@@ -139,20 +147,25 @@ describe("SearchBar", () => {
             expect(screen.queryByText("Entdecken, vergleichen, sammeln-")).not.toBeInTheDocument();
         });
 
-        it("should show validation error for input less than 3 characters", async () => {
+        it("should show toast warning for input less than 3 characters", async () => {
             await act(() => {
                 renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
             });
 
-            const input = screen.getByPlaceholderText("Ich suche nach...");
+            const input = screen.getByPlaceholderText("Suche");
             const button = screen.getByRole("button");
 
             await user.type(input, "ab");
             await user.click(button);
 
-            expect(
-                await screen.findByText("Bitte geben Sie mindestens 3 Zeichen ein"),
-            ).toBeInTheDocument();
+            await waitFor(() => {
+                expect(toast.warning).toHaveBeenCalledWith(
+                    "Bitte geben Sie mindestens 3 Zeichen ein",
+                    expect.objectContaining({
+                        position: "top-center",
+                    }),
+                );
+            });
         });
 
         it("should populate input with current query from search params on /search page", async () => {
@@ -161,7 +174,7 @@ describe("SearchBar", () => {
                     initialEntries: ["/search?q=existing+query"],
                 });
             });
-            const input = screen.getByPlaceholderText("Ich suche nach...") as HTMLInputElement;
+            const input = screen.getByPlaceholderText("Suche") as HTMLInputElement;
             expect(input.value).toBe("existing query");
         });
     });
