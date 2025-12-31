@@ -54,7 +54,8 @@ describe("ProductSharer", () => {
         expect(screen.getByText("Facebook")).toBeInTheDocument();
         expect(screen.getByText("X")).toBeInTheDocument();
         expect(screen.getByText("Telegram")).toBeInTheDocument();
-        expect(screen.getByText("Reddit")).toBeInTheDocument();
+        // TODO: Re-enable Reddit test once https://github.com/nygardk/react-share/pull/572 is merged
+        // expect(screen.getByText("Reddit")).toBeInTheDocument();
     });
 
     it("should show copied state temporarily", async () => {

@@ -8,12 +8,12 @@ import {
     WhatsappShareButton,
     TwitterShareButton,
     TelegramShareButton,
-    RedditShareButton,
+    // RedditShareButton, // TODO: Re-enable once https://github.com/nygardk/react-share/pull/572 is merged
     FacebookIcon,
     WhatsappIcon,
     XIcon,
     TelegramIcon,
-    RedditIcon,
+    // RedditIcon, // TODO: Re-enable once https://github.com/nygardk/react-share/pull/572 is merged
 } from "react-share";
 import tick from "@/assets/lottie/tick.json";
 import { useTranslation } from "react-i18next";
@@ -65,7 +65,8 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
             Icon: TelegramIcon,
             usePersonalText: true,
         },
-        { name: "Reddit", Button: RedditShareButton, Icon: RedditIcon, usePersonalText: false },
+        // TODO: Re-enable Reddit button once https://github.com/nygardk/react-share/pull/572 is merged
+        // { name: "Reddit", Button: RedditShareButton, Icon: RedditIcon, usePersonalText: false },
     ];
 
     return (
