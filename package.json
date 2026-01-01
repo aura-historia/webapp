@@ -86,7 +86,7 @@
         "vaul": "^1.1.2",
         "vite-tsconfig-paths": "^6.0.3",
         "yet-another-react-lightbox": "^3.25.0",
-        "zod": "^4.2.1"
+        "zod": "^4.3.4"
     },
     "devDependencies": {
         "@biomejs/biome": "2.3.9",
