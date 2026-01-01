@@ -6,14 +6,14 @@ import { Header } from "../Header.tsx";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
 
 const mockUseAuthenticator = vi.hoisted(() => vi.fn());
-const mockUseUserAttributes = vi.hoisted(() => vi.fn());
+const mockUseUserAccount = vi.hoisted(() => vi.fn());
 
 vi.mock("@aws-amplify/ui-react", () => ({
     useAuthenticator: mockUseAuthenticator,
 }));
 
-vi.mock("@/hooks/useUserAttributes.ts", () => ({
-    useUserAttributes: mockUseUserAttributes,
+vi.mock("@/hooks/useUserAccount.ts", () => ({
+    useUserAccount: mockUseUserAccount,
 }));
 
 const setupAuthMock = (isLoggedIn = false) => {
@@ -33,7 +33,7 @@ describe("Header Component", () => {
     describe("Not logged in user", () => {
         beforeEach(async () => {
             setupAuthMock(false);
-            mockUseUserAttributes.mockReturnValue({ data: undefined });
+            mockUseUserAccount.mockReturnValue({ data: undefined, isLoading: false });
             await act(async () => {
                 renderWithRouter(<Header />);
             });
@@ -54,11 +54,12 @@ describe("Header Component", () => {
     describe("Logged in user", () => {
         beforeEach(async () => {
             setupAuthMock(true);
-            mockUseUserAttributes.mockReturnValue({
+            mockUseUserAccount.mockReturnValue({
                 data: {
-                    given_name: "Max",
-                    family_name: "Mustermann",
+                    firstName: "Max",
+                    lastName: "Mustermann",
                 },
+                isLoading: false,
             });
             await act(async () => {
                 renderWithRouter(<Header />);
@@ -72,15 +73,19 @@ describe("Header Component", () => {
         });
 
         it("should show AccountImage for logged in user", () => {
-            const profileContainer = screen.getByRole("button", { name: "MM" });
-            expect(profileContainer).toBeInTheDocument();
+            const initialsElement = screen.getByText("MM");
+            expect(initialsElement).toBeInTheDocument();
         });
 
         it("should show dropdown menu items when clicked", async () => {
             const user = userEvent.setup();
-            const dropdownTrigger = screen.getByRole("button", { name: "MM" });
+            const initialsElement = screen.getByText("MM");
+            const dropdownTrigger = initialsElement.closest("button");
 
-            await user.click(dropdownTrigger);
+            expect(dropdownTrigger).toBeInTheDocument();
+            if (dropdownTrigger) {
+                await user.click(dropdownTrigger);
+            }
 
             expect(screen.getByText("Mein Account")).toBeInTheDocument();
             expect(screen.getByText("Account bearbeiten")).toBeInTheDocument();
@@ -226,6 +231,124 @@ describe("Header Component", () => {
             });
             const header = screen.getByRole("banner");
             expect(header).toHaveClass("backdrop-blur-sm", "border-b");
+        });
+    });
+
+    describe("Greeting logic", () => {
+        it("should display greeting with firstName when user is logged in", async () => {
+            setupAuthMock(true);
+            mockUseUserAccount.mockReturnValue({
+                data: {
+                    firstName: "Max",
+                    lastName: "Mustermann",
+                },
+                isLoading: false,
+            });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            expect(screen.getByText("Hallo, Max", { exact: false })).toBeInTheDocument();
+        });
+
+        it("should not display greeting when user is not logged in", async () => {
+            setupAuthMock(false);
+            mockUseUserAccount.mockReturnValue({
+                data: undefined,
+                isLoading: false,
+            });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            expect(screen.queryByText("Hallo", { exact: false })).not.toBeInTheDocument();
+        });
+
+        it("should not display greeting when user is logged in but firstName is missing", async () => {
+            setupAuthMock(true);
+            mockUseUserAccount.mockReturnValue({
+                data: {
+                    firstName: undefined,
+                    lastName: "Mustermann",
+                },
+                isLoading: false,
+            });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            expect(screen.queryByText("Hallo", { exact: false })).not.toBeInTheDocument();
+        });
+
+        it("should not display greeting when user account data is still loading", async () => {
+            setupAuthMock(true);
+            mockUseUserAccount.mockReturnValue({
+                data: undefined,
+                isLoading: true,
+            });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            expect(screen.queryByText("Hallo", { exact: false })).not.toBeInTheDocument();
+        });
+
+        it("should display greeting with different firstName", async () => {
+            setupAuthMock(true);
+            mockUseUserAccount.mockReturnValue({
+                data: {
+                    firstName: "Anna",
+                    lastName: "Schmidt",
+                },
+                isLoading: false,
+            });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            expect(screen.getByText("Hallo, Anna", { exact: false })).toBeInTheDocument();
+        });
+
+        it("should display greeting in dropdown trigger for desktop view", async () => {
+            setupAuthMock(true);
+            mockUseUserAccount.mockReturnValue({
+                data: {
+                    firstName: "Max",
+                    lastName: "Mustermann",
+                },
+                isLoading: false,
+            });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            // Desktop dropdown trigger should contain greeting
+            const dropdownTriggers = screen.getAllByText("Hallo, Max", { exact: false });
+            expect(dropdownTriggers.length).toBeGreaterThan(0);
+        });
+
+        it("should show AccountImage alongside greeting", async () => {
+            setupAuthMock(true);
+            mockUseUserAccount.mockReturnValue({
+                data: {
+                    firstName: "Max",
+                    lastName: "Mustermann",
+                },
+                isLoading: false,
+            });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            expect(screen.getByText("Hallo, Max", { exact: false })).toBeInTheDocument();
+            expect(screen.getByText("MM")).toBeInTheDocument();
         });
     });
 });
