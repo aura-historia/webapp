@@ -2,6 +2,13 @@
     "common": {
         "auraHistoria": "Aura Historia (Preview)"
     },
+    "validation": {
+        "name": {
+            "minLength": "Please enter at least {{min}} characters",
+            "maxLength": "Please enter no more than {{max}} characters",
+            "invalidChars": "Only letters, spaces, hyphens, and apostrophes are allowed"
+        }
+    },
     "imprint": {
         "title": "Imprint"
     },
@@ -13,6 +20,7 @@
         "myAccount": "My Account",
         "editAccount": "Edit Account",
         "logout": "Logout",
+        "hello": "Hello",
         "register": "Register",
         "login": "Login"
     },
@@ -52,6 +60,7 @@
         "bar": {
             "label": "Search",
             "placeholder": "I'm looking for...",
+            "placeholderShort": "Search",
             "button": "Search"
         },
         "applyFilters": "Apply filters",
@@ -363,6 +372,63 @@
         "noResults": {
             "title": "No items found",
             "description": "Add items to your watchlist to see them here."
+        }
+    },
+    "share": {
+        "copyLink": "Copy link",
+        "copied": "Copied!",
+        "shareProduct": "Share product",
+        "foundOnAuraHistoria": "I found {{title}} on Aura Historia! This might be interesting for you!"
+    },
+    "notFound": {
+        "title": "Page not found",
+        "description": "The page you are looking for was not found.",
+        "goHome": "Go to homepage"
+    },
+    "auth": {
+        "subtitle": "Over 120,000 antiques from 500 dealers. Compare, save, and track prices on Aura Historia.",
+        "welcome": "Welcome",
+        "welcomeWithName": "Welcome, {{name}}!",
+        "welcomeBack": "Welcome back",
+        "welcomeBackWithName": "Welcome back, {{name}}!",
+        "completingRegistration": "Registration is being completed, please wait a moment!",
+        "completingLogin": "Login is being completed, please wait a moment!",
+        "retry": "Try again",
+        "backToLogin": "Back to login",
+        "backToHomepage": "Back to homepage",
+        "errorTitle": "User data not saved",
+        "timeout": {
+            "title": "Registration successful!",
+            "message": "Your registration was completed successfully! Personal data could not be saved due to high user traffic.",
+            "hint": "You can add this information at any time in your account settings.",
+            "noteLabel": "Note:"
+        },
+        "signUp": {
+            "firstName": "First name",
+            "firstNamePlaceholder": "John",
+            "lastName": "Last name",
+            "lastNamePlaceholder": "Doe",
+            "email": "Email*",
+            "emailPlaceholder": "your.email@example.com",
+            "password": "Password*",
+            "confirmPassword": "Confirm password*",
+            "language": "Language",
+            "currency": "Currency",
+            "pleaseSelect": "Please select"
+        },
+        "languages": {
+            "de": "German",
+            "en": "English",
+            "fr": "French",
+            "es": "Spanish"
+        },
+        "currencies": {
+            "EUR": "EUR - Euro",
+            "GBP": "GBP - British Pound",
+            "USD": "USD - US Dollar",
+            "AUD": "AUD - Australian Dollar",
+            "CAD": "CAD - Canadian Dollar",
+            "NZD": "NZD - New Zealand Dollar"
         }
     }
 }

@@ -2,6 +2,13 @@
     "common": {
         "auraHistoria": "Aura Historia (Aperçu)"
     },
+    "validation": {
+        "name": {
+            "minLength": "Veuillez saisir au moins {{min}} caractères",
+            "maxLength": "Veuillez saisir au maximum {{max}} caractères",
+            "invalidChars": "Seules les lettres, espaces, tirets et apostrophes sont autorisés"
+        }
+    },
     "imprint": {
         "title": "Mentions légales"
     },
@@ -13,6 +20,7 @@
         "myAccount": "Mon compte",
         "editAccount": "Modifier le compte",
         "logout": "Se déconnecter",
+        "hello": "Bonjour",
         "register": "S'inscrire",
         "login": "Se connecter"
     },
@@ -52,6 +60,7 @@
         "bar": {
             "label": "Recherche",
             "placeholder": "Je recherche...",
+            "placeholderShort": "Rechercher",
             "button": "Rechercher"
         },
         "applyFilters": "Appliquer les filtres",
@@ -364,6 +373,62 @@
             "title": "Aucun article trouvé",
             "description": "Ajoutez des articles à votre liste de favoris pour les retrouver ici."
         }
+    },
+    "share": {
+        "copyLink": "Copier le lien",
+        "copied": "Copié !",
+        "shareProduct": "Partager le produit",
+        "foundOnAuraHistoria": "J'ai trouvé {{title}} sur Aura Historia ! Cela pourrait t'intéresser !"
+    },
+    "notFound": {
+        "title": "Page non trouvée",
+        "description": "La page que vous recherchez n'a pas été trouvée.",
+        "goHome": "Retour à l'accueil"
+    },
+    "auth": {
+        "subtitle": "Plus de 120 000 antiquités de 500 marchands. Comparez, sauvegardez et suivez les prix sur Aura Historia.",
+        "welcome": "Bienvenue",
+        "welcomeWithName": "Bienvenue, {{name}} !",
+        "welcomeBack": "Bon retour",
+        "welcomeBackWithName": "Bon retour, {{name}} !",
+        "completingRegistration": "L'inscription est en cours de finalisation, veuillez patienter un instant !",
+        "completingLogin": "La connexion est en cours de finalisation, veuillez patienter un instant !",
+        "retry": "Réessayer",
+        "backToLogin": "Retour à la connexion",
+        "backToHomepage": "Retour à l'accueil",
+        "errorTitle": "Données utilisateur non enregistrées",
+        "timeout": {
+            "title": "Inscription réussie !",
+            "message": "Votre inscription a été complétée avec succès ! Les données personnelles n'ont pas pu être enregistrées en raison d'un trafic élevé.",
+            "hint": "Vous pouvez ajouter ces informations à tout moment dans les paramètres de votre compte.",
+            "noteLabel": "Remarque :"
+        },
+        "signUp": {
+            "firstName": "Prénom",
+            "firstNamePlaceholder": "Jean",
+            "lastName": "Nom",
+            "lastNamePlaceholder": "Dupont",
+            "email": "E-mail*",
+            "emailPlaceholder": "votre.email@exemple.fr",
+            "password": "Mot de passe*",
+            "confirmPassword": "Confirmer le mot de passe*",
+            "language": "Langue",
+            "currency": "Devise",
+            "pleaseSelect": "Veuillez sélectionner"
+        },
+        "languages": {
+            "de": "Allemand",
+            "en": "Anglais",
+            "fr": "Français",
+            "es": "Espagnol"
+        },
+        "currencies": {
+            "EUR": "EUR - Euro",
+            "GBP": "GBP - Livre sterling",
+            "USD": "USD - Dollar américain",
+            "AUD": "AUD - Dollar australien",
+            "CAD": "CAD - Dollar canadien",
+            "NZD": "NZD - Dollar néo-zélandais"
+        }
     }
 }
-

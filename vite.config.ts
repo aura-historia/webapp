@@ -8,6 +8,11 @@ import {devtools} from '@tanstack/devtools-vite'
 
 
 export default defineConfig({
+    resolve: {
+        alias: {
+            '@': '/src',
+        }
+    },
     plugins: [
         // this is the plugin that enables path aliases
         viteTsConfigPaths({

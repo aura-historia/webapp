@@ -2,6 +2,13 @@
     "common": {
         "auraHistoria": "Aura Historia (Vista previa)"
     },
+    "validation": {
+        "name": {
+            "minLength": "Por favor, introduzca al menos {{min}} caracteres",
+            "maxLength": "Por favor, introduzca un máximo de {{max}} caracteres",
+            "invalidChars": "Solo se permiten letras, espacios, guiones y apóstrofes"
+        }
+    },
     "imprint": {
         "title": "Aviso legal"
     },
@@ -13,6 +20,7 @@
         "myAccount": "Mi cuenta",
         "editAccount": "Editar cuenta",
         "logout": "Cerrar sesión",
+        "hello": "Hola",
         "register": "Registrarse",
         "login": "Iniciar sesión"
     },
@@ -52,6 +60,7 @@
         "bar": {
             "label": "Búsqueda",
             "placeholder": "Estoy buscando...",
+            "placeholderShort": "Buscar",
             "button": "Buscar"
         },
         "applyFilters": "Aplicar filtros",
@@ -364,6 +373,62 @@
             "title": "No se encontraron artículos",
             "description": "Añada artículos a su lista de seguimiento para verlos aquí."
         }
+    },
+    "share": {
+        "copyLink": "Copiar enlace",
+        "copied": "¡Copiado!",
+        "shareProduct": "Compartir producto",
+        "foundOnAuraHistoria": "¡He encontrado {{title}} en Aura Historia! ¡Podría interesarte!"
+    },
+    "notFound": {
+        "title": "Página no encontrada",
+        "description": "La página que busca no fue encontrada.",
+        "goHome": "Ir a la página principal"
+    },
+    "auth": {
+        "subtitle": "Más de 120.000 antigüedades de 500 vendedores. Compare, guarde y siga precios en Aura Historia.",
+        "welcome": "Bienvenido",
+        "welcomeWithName": "¡Bienvenido, {{name}}!",
+        "welcomeBack": "Bienvenido de nuevo",
+        "welcomeBackWithName": "¡Bienvenido de nuevo, {{name}}!",
+        "completingRegistration": "El registro se está completando, ¡por favor espere un momento!",
+        "completingLogin": "El inicio de sesión se está completando, ¡por favor espere un momento!",
+        "retry": "Intentar de nuevo",
+        "backToLogin": "Volver al inicio de sesión",
+        "backToHomepage": "Volver a la página principal",
+        "errorTitle": "Datos de usuario no guardados",
+        "timeout": {
+            "title": "¡Registro exitoso!",
+            "message": "¡Su registro se completó con éxito! Los datos personales no pudieron guardarse debido al alto tráfico de usuarios.",
+            "hint": "Puede añadir esta información en cualquier momento en la configuración de su cuenta.",
+            "noteLabel": "Nota:"
+        },
+        "signUp": {
+            "firstName": "Nombre",
+            "firstNamePlaceholder": "Juan",
+            "lastName": "Apellido",
+            "lastNamePlaceholder": "García",
+            "email": "Correo electrónico*",
+            "emailPlaceholder": "su.correo@ejemplo.com",
+            "password": "Contraseña*",
+            "confirmPassword": "Confirmar contraseña*",
+            "language": "Idioma",
+            "currency": "Moneda",
+            "pleaseSelect": "Por favor seleccione"
+        },
+        "languages": {
+            "de": "Alemán",
+            "en": "Inglés",
+            "fr": "Francés",
+            "es": "Español"
+        },
+        "currencies": {
+            "EUR": "EUR - Euro",
+            "GBP": "GBP - Libra esterlina",
+            "USD": "USD - Dólar estadounidense",
+            "AUD": "AUD - Dólar australiano",
+            "CAD": "CAD - Dólar canadiense",
+            "NZD": "NZD - Dólar neozelandés"
+        }
     }
 }
-
