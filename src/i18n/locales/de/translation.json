@@ -416,6 +416,12 @@
             "currency": "Währung",
             "pleaseSelect": "Bitte wählen"
         },
+        "signIn": {
+            "email": "E-Mail",
+            "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
+            "password": "Passwort",
+            "passwordPlaceholder": "Geben Sie Ihr Passwort ein"
+        },
         "languages": {
             "de": "Deutsch",
             "en": "Englisch",

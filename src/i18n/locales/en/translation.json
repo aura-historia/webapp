@@ -416,6 +416,12 @@
             "currency": "Currency",
             "pleaseSelect": "Please select"
         },
+        "signIn": {
+            "email": "Email",
+            "emailPlaceholder": "Enter your email",
+            "password": "Password",
+            "passwordPlaceholder": "Enter your password"
+        },
         "languages": {
             "de": "German",
             "en": "English",

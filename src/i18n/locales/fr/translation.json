@@ -416,6 +416,12 @@
             "currency": "Devise",
             "pleaseSelect": "Veuillez sélectionner"
         },
+        "signIn": {
+            "email": "E-mail",
+            "emailPlaceholder": "Entrez votre e-mail",
+            "password": "Mot de passe",
+            "passwordPlaceholder": "Entrez votre mot de passe"
+        },
         "languages": {
             "de": "Allemand",
             "en": "Anglais",

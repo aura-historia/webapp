@@ -36,7 +36,7 @@ export function Footer() {
             document.cookie = `i18next=${languageCode}; path=/; max-age=31536000; SameSite=Lax`;
         }
 
-        i18n.changeLanguage(languageCode);
+        await i18n.changeLanguage(languageCode);
     };
 
     return (
