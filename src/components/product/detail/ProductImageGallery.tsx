@@ -72,7 +72,7 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
     if (images.length === 0) {
         return (
             <div className="w-full md:w-80 lg:w-96">
-                <div className="w-full min-h-[200px] max-h-[350px] h-auto md:h-64 lg:h-80 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
+                <div className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
                     <ImageOff className="w-12 h-12 text-muted-foreground" />
                     <p className="text-sm text-muted-foreground">Kein Bild verfügbar</p>
                 </div>
@@ -91,7 +91,7 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                         <img
                             src={images[currentImageIndex].href}
                             alt={`Produktbild von ${title}`}
-                            className="w-full min-h-[200px] max-h-[350px] h-auto md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
+                            className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
                         />
                     </button>
 

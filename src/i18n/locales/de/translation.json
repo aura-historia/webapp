@@ -2,6 +2,13 @@
     "common": {
         "auraHistoria": "Aura Historia (Preview)"
     },
+    "validation": {
+        "name": {
+            "minLength": "Bitte geben Sie mindestens {{min}} Zeichen ein",
+            "maxLength": "Bitte geben Sie maximal {{max}} Zeichen ein",
+            "invalidChars": "Nur Buchstaben, Leerzeichen, Bindestriche und Apostrophe erlaubt"
+        }
+    },
     "imprint": {
         "title": "Impressum"
     },
@@ -13,6 +20,7 @@
         "myAccount": "Mein Account",
         "editAccount": "Account bearbeiten",
         "logout": "Ausloggen",
+        "hello": "Hallo",
         "register": "Registrieren",
         "login": "Einloggen"
     },
@@ -52,6 +60,7 @@
         "bar": {
             "label": "Suche",
             "placeholder": "Ich suche nach...",
+            "placeholderShort": "Suche",
             "button": "Suchen"
         },
         "applyFilters": "Filter anwenden",
@@ -363,6 +372,63 @@
         "noResults": {
             "title": "Keine Artikel gefunden",
             "description": "Fügen Sie Artikel zur Merkliste hinzu, um sie hier anzusehen."
+        }
+    },
+    "share": {
+        "copyLink": "Link kopieren",
+        "copied": "Kopiert!",
+        "shareProduct": "Produkt teilen",
+        "foundOnAuraHistoria": "Ich habe {{title}} auf Aura Historia gefunden! Das könnte interessant für dich sein!"
+    },
+    "notFound": {
+        "title": "Seite nicht gefunden",
+        "description": "Die gesuchte Seite wurde leider nicht gefunden.",
+        "goHome": "Zur Startseite"
+    },
+    "auth": {
+        "subtitle": "Über 120.000 Antiquitäten von 500 Händlern. Vergleichen, speichern und Preise verfolgen bei Aura Historia.",
+        "welcome": "Herzlich Willkommen",
+        "welcomeWithName": "Herzlich Willkommen, {{name}}!",
+        "welcomeBack": "Willkommen zurück",
+        "welcomeBackWithName": "Willkommen zurück, {{name}}!",
+        "completingRegistration": "Die Registrierung wird abgeschlossen, bitte haben Sie noch einen Moment Geduld!",
+        "completingLogin": "Die Anmeldung wird abgeschlossen, bitte haben Sie noch einen Moment Geduld!",
+        "retry": "Erneut versuchen",
+        "backToLogin": "Zurück zum Login",
+        "backToHomepage": "Zurück zur Startseite",
+        "errorTitle": "Benutzerdaten nicht gespeichert",
+        "timeout": {
+            "title": "Registrierung erfolgreich!",
+            "message": "Ihre Registrierung wurde erfolgreich abgeschlossen! Die persönlichen Daten konnten aufgrund eines hohen Nutzeraufkommens derzeit nicht gespeichert werden.",
+            "hint": "Sie können diese Informationen jederzeit in den Kontoeinstellungen nachtragen.",
+            "noteLabel": "Hinweis:"
+        },
+        "signUp": {
+            "firstName": "Vorname",
+            "firstNamePlaceholder": "Max",
+            "lastName": "Nachname",
+            "lastNamePlaceholder": "Mustermann",
+            "email": "E-Mail*",
+            "emailPlaceholder": "ihre.email@beispiel.de",
+            "password": "Passwort*",
+            "confirmPassword": "Passwort bestätigen*",
+            "language": "Sprache",
+            "currency": "Währung",
+            "pleaseSelect": "Bitte wählen"
+        },
+        "languages": {
+            "de": "Deutsch",
+            "en": "Englisch",
+            "fr": "Französisch",
+            "es": "Spanisch"
+        },
+        "currencies": {
+            "EUR": "EUR - Euro",
+            "GBP": "GBP - Britisches Pfund",
+            "USD": "USD - US-Dollar",
+            "AUD": "AUD - Australischer Dollar",
+            "CAD": "CAD - Kanadischer Dollar",
+            "NZD": "NZD - Neuseeland-Dollar"
         }
     }
 }

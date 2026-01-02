@@ -7,7 +7,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useUserAttributes } from "@/hooks/useUserAttributes.ts";
+import { useUserAccount } from "@/hooks/useUserAccount.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
@@ -57,7 +57,7 @@ export function Header() {
         context.signOut,
     ]);
 
-    const { data: userAttributes, isLoading } = useUserAttributes();
+    const { data: userAccount, isLoading } = useUserAccount();
 
     const isLandingPage = pathname === "/";
     const isHiddenRoute = SEARCH_BAR_HIDDEN_ROUTES.has(pathname);
@@ -82,7 +82,7 @@ export function Header() {
                 {/* Additional Navigation Items can be placed here */}
             </div>
 
-            <div className="hidden justify-center md:flex overflow-hidden">
+            <div className="hidden justify-center md:flex">
                 <div
                     className={`w-full transition-all duration-500 ${
                         shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -168,10 +168,15 @@ export function Header() {
                         </NavigationMenu>
 
                         <DropdownMenu>
-                            <DropdownMenuTrigger>
+                            <DropdownMenuTrigger className="flex items-center gap-4">
+                                {userAccount?.firstName && (
+                                    <span>
+                                        {t("header.hello")}, {userAccount.firstName}
+                                    </span>
+                                )}
                                 <AccountImage
-                                    firstName={userAttributes?.given_name || ""}
-                                    lastName={userAttributes?.family_name || ""}
+                                    firstName={userAccount?.firstName || ""}
+                                    lastName={userAccount?.lastName || ""}
                                     isLoading={isLoading}
                                 />
                             </DropdownMenuTrigger>
@@ -189,7 +194,7 @@ export function Header() {
                     </>
                 ) : (
                     <>
-                        <Button asChild onClick={toSignUp} variant={"default"}>
+                        <Button asChild onClick={toSignUp} variant="default">
                             <Link to="/login" search={{ redirect: pathname + searchString }}>
                                 {t("header.register")}
                             </Link>

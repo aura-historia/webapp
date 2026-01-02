@@ -1,4 +1,4 @@
-import HeroSection from "@/components/landing-page/HeroSection.tsx";
+import HeroSection from "@/components/landing-page/hero-section/HeroSection.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 

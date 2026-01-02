@@ -17,9 +17,10 @@ import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { z } from "zod";
-import { useEffect, useMemo } from "react";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 import { useSearchQueryContext } from "@/hooks/useSearchQueryContext.tsx";
+import { useEffect, useMemo } from "react";
+import { toast } from "sonner";
 
 interface SearchBarProps {
     readonly type: "small" | "big";
@@ -94,24 +95,35 @@ export function SearchBar({ type }: SearchBarProps) {
                         ? "flex items-start w-full gap-4"
                         : "flex items-start gap-2 w-full"
                 }
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={form.handleSubmit(onSubmit, () => {
+                    if (type === "small") {
+                        toast.warning(t("search.validation.queryMinLength"), {
+                            position: "top-center",
+                            duration: 2000,
+                        });
+                    }
+                })}
             >
                 <FormField
                     control={form.control}
                     name="query"
                     render={({ field }) => (
-                        <FormItem className="flex-grow">
+                        <FormItem className="grow">
                             <FormLabel className="sr-only">{t("search.bar.label")}</FormLabel>
                             <FormControl>
                                 <Input
                                     autoFocus={type === "big"}
-                                    className={type === "big" ? "h-12 font-medium !text-lg" : "h-9"}
+                                    className={type === "big" ? "h-12 font-medium text-lg" : "h-9"}
                                     type={"text"}
-                                    placeholder={t("search.bar.placeholder")}
+                                    placeholder={
+                                        type === "big"
+                                            ? t("search.bar.placeholder")
+                                            : t("search.bar.placeholderShort")
+                                    }
                                     {...field}
                                 />
                             </FormControl>
-                            <FormMessage />
+                            {type === "big" && <FormMessage />}
                         </FormItem>
                     )}
                 />

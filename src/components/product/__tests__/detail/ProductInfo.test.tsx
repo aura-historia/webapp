@@ -1,3 +1,7 @@
+vi.mock("lottie-react", () => ({
+    default: () => null,
+}));
+
 import type { ProductDetail } from "@/data/internal/ProductDetails.ts";
 import { screen } from "@testing-library/react";
 import { ProductInfo } from "../../detail/ProductInfo.tsx";

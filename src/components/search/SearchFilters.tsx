@@ -16,6 +16,7 @@ import type { TFunction } from "i18next";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { FILTER_DEFAULTS, MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 import { useSearchQueryContext } from "@/hooks/useSearchQueryContext.tsx";
+import { toast } from "sonner";
 
 const createFilterSchema = (t: TFunction) =>
     z
@@ -86,10 +87,14 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
      */
     const getEffectiveQuery = useCallback((): string => {
         const currentQuery = getQuery()?.trim();
-        return currentQuery && currentQuery.length >= MIN_SEARCH_QUERY_LENGTH
-            ? currentQuery
-            : searchFilters.q;
-    }, [getQuery, searchFilters.q]);
+
+        if (currentQuery && currentQuery.length < MIN_SEARCH_QUERY_LENGTH) {
+            toast.warning(t("search.validation.queryMinLength"), { duration: 2000 });
+            return searchFilters.q;
+        }
+
+        return currentQuery;
+    }, [getQuery, searchFilters.q, t]);
 
     const filterSchema = useMemo(() => createFilterSchema(t), [t]);
 

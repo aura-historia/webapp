@@ -4,6 +4,7 @@ import {
     HeadContent,
     Scripts,
     useMatches,
+    Link,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
@@ -13,8 +14,12 @@ import { Header } from "@/components/common/Header.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
 import { Toaster } from "sonner";
+import "@/lib/polyfills/url";
 import "@/amplify-config.ts";
 import "@/api-config.ts";
+import { SearchX } from "lucide-react";
+import { H2 } from "@/components/typography/H2";
+import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/server/i18n.server.ts";
 import i18n from "@/i18n/i18n.ts";
@@ -54,7 +59,27 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         }
     },
     shellComponent: RootDocument,
+    notFoundComponent: NotFound,
 });
+
+function NotFound() {
+    const { t } = useTranslation();
+
+    return (
+        <div className="container mx-auto px-4 flex items-center justify-center min-h-[60vh]">
+            <div className="flex flex-col items-center gap-4">
+                <SearchX className="h-16 w-16 text-muted-foreground" />
+                <div className="text-center space-y-2">
+                    <H2>{t("notFound.title")}</H2>
+                    <p className="text-base text-muted-foreground">{t("notFound.description")}</p>
+                </div>
+                <Button asChild>
+                    <Link to="/">{t("notFound.goHome")}</Link>
+                </Button>
+            </div>
+        </div>
+    );
+}
 
 function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const matches = useMatches();
@@ -62,7 +87,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const { i18n } = useTranslation();
 
     return (
-        <html lang={i18n.language || "de"}>
+        <html lang={i18n.language || "en"}>
             <head>
                 <HeadContent />
             </head>
