@@ -24,18 +24,6 @@ export function Footer() {
     const currentLanguage = SUPPORTED_LANGUAGES.find((lang) => lang.code === i18n.resolvedLanguage);
 
     const handleLanguageChange = async (languageCode: string) => {
-        if ("cookieStore" in globalThis) {
-            await globalThis.cookieStore.set({
-                name: "i18next",
-                value: languageCode,
-                path: "/",
-                expires: Date.now() + 31536000000,
-            });
-        } else {
-            // biome-ignore lint/suspicious/noDocumentCookie: Not all browsers support cookieStore API yet
-            document.cookie = `i18next=${languageCode}; path=/; max-age=31536000; SameSite=Lax`;
-        }
-
         await i18n.changeLanguage(languageCode);
     };
 
@@ -65,7 +53,6 @@ export function Footer() {
                         </NavigationMenuItem>
                     </NavigationMenuList>
                     <div className="flex flex-row gap-4 items-center">
-                        <Select></Select>
                         <Select
                             defaultValue={i18n.language}
                             value={i18n.language}

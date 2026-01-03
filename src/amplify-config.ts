@@ -17,10 +17,44 @@ Amplify.configure({
 });
 
 I18n.putVocabularies(translations);
-I18n.setLanguage("de");
 
 I18n.putVocabularies({
+    en: {
+        // Sign Up Form Fields
+        Email: "Email*",
+        "Enter your Email": "Enter your email",
+        Password: "Password*",
+        "Enter your Password": "Enter your password",
+        "Confirm Password": "Confirm Password*",
+        "Please confirm your Password": "Please confirm your password",
+    },
+    fr: {
+        // Sign Up Form Fields
+        Email: "E-mail*",
+        "Enter your Email": "Entrez votre e-mail",
+        Password: "Mot de passe*",
+        "Enter your Password": "Entrez votre mot de passe",
+        "Confirm Password": "Confirmer le mot de passe*",
+        "Please confirm your Password": "Veuillez confirmer votre mot de passe",
+    },
+    es: {
+        // Sign Up Form Fields
+        Email: "Correo electrónico*",
+        "Enter your Email": "Ingrese su correo electrónico",
+        Password: "Contraseña*",
+        "Enter your Password": "Ingrese su contraseña",
+        "Confirm Password": "Confirmar contraseña*",
+        "Please confirm your Password": "Por favor confirme su contraseña",
+    },
     de: {
+        // Sign Up Form Fields
+        Email: "E-Mail*",
+        "Enter your Email": "Geben Sie Ihre E-Mail ein",
+        Password: "Passwort*",
+        "Enter your Password": "Geben Sie Ihr Passwort ein",
+        "Confirm Password": "Passwort bestätigen*",
+        "Please confirm your Password": "Bitte bestätigen Sie Ihr Passwort",
+
         // Auth Fehler
         "Incorrect username or password.": "Falscher Benutzername oder Passwort.",
         "User does not exist.": "Benutzer existiert nicht.",

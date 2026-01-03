@@ -3,6 +3,7 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { resources } from "./resources";
 import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE } from "./languages";
+import { I18n } from "aws-amplify/utils";
 
 i18n.use(initReactI18next);
 i18n.use(LanguageDetector);
@@ -23,6 +24,24 @@ i18n.init({
         lookupLocalStorage: "i18nextLng",
         caches: ["localStorage"],
     },
+}).then(() => {
+    I18n.setLanguage(i18n.language);
+});
+
+i18n.on("languageChanged", async (language) => {
+    I18n.setLanguage(language);
+
+    if ("cookieStore" in globalThis) {
+        await globalThis.cookieStore.set({
+            name: "i18next",
+            value: language,
+            path: "/",
+            expires: Date.now() + 31536000000,
+        });
+    } else {
+        // biome-ignore lint/suspicious/noDocumentCookie: Not all browsers support cookieStore API yet
+        document.cookie = `i18next=${language}; path=/; max-age=31536000; SameSite=Lax`;
+    }
 });
 
 export default i18n;

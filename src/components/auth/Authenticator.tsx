@@ -19,147 +19,128 @@ import {
 import { parseLanguage } from "@/data/internal/Language.ts";
 import { parseCurrency } from "@/data/internal/Currency.ts";
 import { validateCognitoNameFields } from "@/utils/nameValidation";
-import { useEffect, useMemo } from "react";
-import { I18n } from "aws-amplify/utils";
+import { useEffect } from "react";
 
 export function Authenticator() {
     const { t, i18n } = useTranslation();
 
-    useEffect(() => {
-        const currentLanguage = i18n.language;
-        console.log("Setting Language to: ", currentLanguage);
-        I18n.setLanguage(currentLanguage);
-    }, [i18n.language]);
-
-    const formFields = useMemo(
-        () => ({
-            signUp: {
-                email: {
-                    label: t("auth.signUp.email"),
-                    placeholder: t("auth.signUp.emailPlaceholder"),
-                    isRequired: true,
-                    order: 1,
-                },
-                password: {
-                    label: t("auth.signUp.password"),
-                    isRequired: true,
-                    order: 2,
-                },
-                confirm_password: {
-                    label: t("auth.signUp.confirmPassword"),
-                    isRequired: true,
-                    order: 3,
-                },
+    const formFields = {
+        signUp: {
+            email: {
+                isRequired: true,
+                order: 1,
             },
-        }),
-        [t],
-    );
-
-    const components = useMemo(
-        () => ({
-            SignUp: {
-                FormFields() {
-                    const { tokens } = useTheme();
-                    const { validationErrors } = useAuthenticator();
-
-                    useEffect(() => {
-                        if (!registrationStore.state.isSignUpFlow) {
-                            clearPendingUserData();
-                        }
-                    }, []);
-
-                    return (
-                        <>
-                            <Grid
-                                templateColumns={{ base: "1fr", medium: "1fr 1fr" }}
-                                gap={tokens.space.medium}
-                            >
-                                <TextField
-                                    name="firstName"
-                                    label={t("auth.signUp.firstName")}
-                                    placeholder={t("auth.signUp.firstNamePlaceholder")}
-                                    errorMessage={validationErrors.firstName}
-                                    hasError={!!validationErrors.firstName}
-                                />
-                                <TextField
-                                    name="lastName"
-                                    label={t("auth.signUp.lastName")}
-                                    placeholder={t("auth.signUp.lastNamePlaceholder")}
-                                    errorMessage={validationErrors.lastName}
-                                    hasError={!!validationErrors.lastName}
-                                />
-                            </Grid>
-
-                            <Grid
-                                templateColumns={{ base: "1fr", medium: "1fr 1fr" }}
-                                gap={tokens.space.medium}
-                            >
-                                <SelectField name="language" label={t("auth.signUp.language")}>
-                                    <option value="">{t("auth.signUp.pleaseSelect")}</option>
-                                    <option value="de">{t("auth.languages.de")}</option>
-                                    <option value="en">{t("auth.languages.en")}</option>
-                                    <option value="fr">{t("auth.languages.fr")}</option>
-                                    <option value="es">{t("auth.languages.es")}</option>
-                                </SelectField>
-
-                                <SelectField name="currency" label={t("auth.signUp.currency")}>
-                                    <option value="">{t("auth.signUp.pleaseSelect")}</option>
-                                    <option value="EUR">{t("auth.currencies.EUR")}</option>
-                                    <option value="GBP">{t("auth.currencies.GBP")}</option>
-                                    <option value="USD">{t("auth.currencies.USD")}</option>
-                                    <option value="AUD">{t("auth.currencies.AUD")}</option>
-                                    <option value="CAD">{t("auth.currencies.CAD")}</option>
-                                    <option value="NZD">{t("auth.currencies.NZD")}</option>
-                                </SelectField>
-                            </Grid>
-
-                            <AmplifyAuthenticator.SignUp.FormFields />
-                        </>
-                    );
-                },
+            password: {
+                isRequired: true,
+                order: 2,
             },
-        }),
-        [t],
-    );
-
-    const services = useMemo(
-        () => ({
-            async validateCustomSignUp(formData: Record<string, string>) {
-                const errors = validateCognitoNameFields(
-                    {
-                        firstName: formData.firstName,
-                        lastName: formData.lastName,
-                    },
-                    t,
-                );
-
-                if (errors) return errors;
-
-                const customData = {
-                    firstName: formData.firstName || undefined,
-                    lastName: formData.lastName || undefined,
-                    language: formData.language ? parseLanguage(formData.language) : undefined,
-                    currency: formData.currency ? parseCurrency(formData.currency) : undefined,
-                };
-
-                setPendingUserData(customData);
+            confirm_password: {
+                isRequired: true,
+                order: 3,
             },
-
-            async handleSignUp(input: Parameters<typeof signUp>[0]) {
-                setIsSignUpFlow(true);
-
-                return signUp({
-                    username: input.username,
-                    password: input.password,
-                    options: input.options,
-                });
-            },
-        }),
-        [t],
-    );
+        },
+    };
 
     return (
-        <AmplifyAuthenticator formFields={formFields} components={components} services={services}>
+        <AmplifyAuthenticator
+            key={i18n.language}
+            formFields={formFields}
+            components={{
+                SignUp: {
+                    FormFields() {
+                        const { tokens } = useTheme();
+                        const { validationErrors } = useAuthenticator();
+
+                        useEffect(() => {
+                            if (!registrationStore.state.isSignUpFlow) {
+                                clearPendingUserData();
+                            }
+                        }, []);
+
+                        return (
+                            <>
+                                <Grid
+                                    templateColumns={{ base: "1fr", medium: "1fr 1fr" }}
+                                    gap={tokens.space.medium}
+                                >
+                                    <TextField
+                                        name="firstName"
+                                        label={t("auth.signUp.firstName")}
+                                        placeholder={t("auth.signUp.firstNamePlaceholder")}
+                                        errorMessage={validationErrors.firstName}
+                                        hasError={!!validationErrors.firstName}
+                                    />
+                                    <TextField
+                                        name="lastName"
+                                        label={t("auth.signUp.lastName")}
+                                        placeholder={t("auth.signUp.lastNamePlaceholder")}
+                                        errorMessage={validationErrors.lastName}
+                                        hasError={!!validationErrors.lastName}
+                                    />
+                                </Grid>
+
+                                <Grid
+                                    templateColumns={{ base: "1fr", medium: "1fr 1fr" }}
+                                    gap={tokens.space.medium}
+                                >
+                                    <SelectField name="language" label={t("auth.signUp.language")}>
+                                        <option value="">{t("auth.signUp.pleaseSelect")}</option>
+                                        <option value="de">{t("auth.languages.de")}</option>
+                                        <option value="en">{t("auth.languages.en")}</option>
+                                        <option value="fr">{t("auth.languages.fr")}</option>
+                                        <option value="es">{t("auth.languages.es")}</option>
+                                    </SelectField>
+
+                                    <SelectField name="currency" label={t("auth.signUp.currency")}>
+                                        <option value="">{t("auth.signUp.pleaseSelect")}</option>
+                                        <option value="EUR">{t("auth.currencies.EUR")}</option>
+                                        <option value="GBP">{t("auth.currencies.GBP")}</option>
+                                        <option value="USD">{t("auth.currencies.USD")}</option>
+                                        <option value="AUD">{t("auth.currencies.AUD")}</option>
+                                        <option value="CAD">{t("auth.currencies.CAD")}</option>
+                                        <option value="NZD">{t("auth.currencies.NZD")}</option>
+                                    </SelectField>
+                                </Grid>
+
+                                <AmplifyAuthenticator.SignUp.FormFields key={i18n.language} />
+                            </>
+                        );
+                    },
+                },
+            }}
+            services={{
+                async validateCustomSignUp(formData: Record<string, string>) {
+                    const errors = validateCognitoNameFields(
+                        {
+                            firstName: formData.firstName,
+                            lastName: formData.lastName,
+                        },
+                        t,
+                    );
+
+                    if (errors) return errors;
+
+                    const customData = {
+                        firstName: formData.firstName || undefined,
+                        lastName: formData.lastName || undefined,
+                        language: formData.language ? parseLanguage(formData.language) : undefined,
+                        currency: formData.currency ? parseCurrency(formData.currency) : undefined,
+                    };
+
+                    setPendingUserData(customData);
+                },
+
+                async handleSignUp(input: Parameters<typeof signUp>[0]) {
+                    setIsSignUpFlow(true);
+
+                    return signUp({
+                        username: input.username,
+                        password: input.password,
+                        options: input.options,
+                    });
+                },
+            }}
+        >
             {({ user }) => {
                 if (user) {
                     setUserAuthenticated();

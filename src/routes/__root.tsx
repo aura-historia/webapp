@@ -55,7 +55,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         // Set locale for initial server side rendering based on browsers pref
         const locale = await getLocale();
         if (i18n.language !== locale) {
-            i18n.changeLanguage(locale);
+            await i18n.changeLanguage(locale);
         }
     },
     shellComponent: RootDocument,
