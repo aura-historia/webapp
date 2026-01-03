@@ -27,12 +27,12 @@ i18n.init({
     },
 }).then(() => {
     I18n.setLanguage(i18n.language);
-    syncAmplifyTranslations(I18n);
+    syncAmplifyTranslations();
 });
 
 i18n.on("languageChanged", async (language) => {
     I18n.setLanguage(language);
-    syncAmplifyTranslations(I18n);
+    syncAmplifyTranslations();
 
     if ("cookieStore" in globalThis) {
         await globalThis.cookieStore.set({

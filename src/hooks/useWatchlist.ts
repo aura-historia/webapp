@@ -3,16 +3,22 @@ import { mapWatchlistProductDataToOverviewProduct } from "@/data/internal/Overvi
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useApiError } from "@/hooks/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
+import { parseLanguage } from "@/data/internal/Language.ts";
+import { useTranslation } from "react-i18next";
 
 const PAGE_SIZE = 21;
 
 export function useWatchlist() {
     const { getErrorMessage } = useApiError();
+    const { i18n } = useTranslation();
 
     return useInfiniteQuery({
-        queryKey: ["watchlist"],
+        queryKey: ["watchlist", i18n.language],
         queryFn: async ({ pageParam }) => {
             const result = await getWatchlistProducts({
+                headers: {
+                    "Accept-Language": parseLanguage(i18n.language),
+                },
                 query: {
                     searchAfter: pageParam,
                     size: PAGE_SIZE,

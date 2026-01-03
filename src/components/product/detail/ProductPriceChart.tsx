@@ -15,6 +15,7 @@ import { isPriceEvent } from "@/lib/eventFilters.ts";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import Chart from "react-apexcharts";
+import { ClientOnly } from "@tanstack/react-router";
 
 interface ApexFormatterOpts {
     w?: {
@@ -159,9 +160,6 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
             type: "area",
             toolbar: { show: false },
             events: {
-                mounted: (chart) => {
-                    chartRef.current = chart;
-                },
                 /**
                  * Prevents a bug in ApexCharts where the graph renders incorrectly
                  *
@@ -333,8 +331,16 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                     ))}
                 </div>
             </div>
-            <div className="flex-1 min-h-[300px]">
-                <Chart options={options} series={series} type="area" height="100%" />
+            <div className="flex-1 min-h-75">
+                <ClientOnly>
+                    <Chart
+                        chartRef={chartRef}
+                        options={options}
+                        series={series}
+                        type="area"
+                        height="100%"
+                    />
+                </ClientOnly>
             </div>
         </Card>
     );
