@@ -51,7 +51,7 @@ export function Authenticator() {
                 },
             }}
             services={{
-                async validateCustomSignUp(formData: Record<string, string>) {
+                async validateCustomSignUp(formData) {
                     const errors = validateCognitoNameFields(
                         {
                             firstName: formData.firstName,
@@ -72,7 +72,7 @@ export function Authenticator() {
                     setPendingUserData(customData);
                 },
 
-                async handleSignUp(input: Parameters<typeof signUp>[0]) {
+                async handleSignUp(input) {
                     setIsSignUpFlow(true);
 
                     return signUp({
