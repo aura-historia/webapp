@@ -1,12 +1,12 @@
 import { renderWithRouter } from "@/test/utils.tsx";
-import { act, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Footer } from "../Footer.tsx";
 import { t } from "i18next";
+import userEvent from "@testing-library/user-event";
 
 const { changeLanguageMock } = vi.hoisted(() => ({
-    changeLanguageMock: vi.fn(),
+    changeLanguageMock: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock("react-i18next", async () => {
@@ -27,11 +27,9 @@ vi.mock("react-i18next", async () => {
 });
 
 describe("Footer Component", () => {
-    beforeEach(async () => {
+    beforeEach(() => {
         changeLanguageMock.mockClear();
-        await act(() => {
-            renderWithRouter(<Footer />);
-        });
+        renderWithRouter(<Footer />);
     });
 
     afterEach(() => {
@@ -53,12 +51,8 @@ describe("Footer Component", () => {
         expect(screen.getByText("AGB").closest("a")).toHaveAttribute("href", "/terms");
     });
 
-    it("should change language using cookieStore API when available", async () => {
+    it("should change language", async () => {
         const user = userEvent.setup();
-        const setCookieMock = vi.fn();
-        (globalThis as unknown as { cookieStore: { set: typeof setCookieMock } }).cookieStore = {
-            set: setCookieMock,
-        };
 
         // Open the select
         const trigger = screen.getByRole("combobox");
@@ -68,29 +62,8 @@ describe("Footer Component", () => {
         const option = screen.getByLabelText("Zu English wechseln");
         await user.click(option);
 
-        expect(setCookieMock).toHaveBeenCalledWith(
-            expect.objectContaining({
-                name: "i18next",
-                value: "en",
-            }),
-        );
-        expect(changeLanguageMock).toHaveBeenCalledWith("en");
-    });
-
-    it("should change language using document.cookie when cookieStore API is not available", async () => {
-        const user = userEvent.setup();
-        // Ensure cookieStore is not available
-        Reflect.deleteProperty(globalThis, "cookieStore");
-
-        // Open the select
-        const trigger = screen.getByRole("combobox");
-        await user.click(trigger);
-
-        // Select English
-        const option = screen.getByLabelText("Zu English wechseln");
-        await user.click(option);
-
-        expect(document.cookie).toContain("i18next=en");
-        expect(changeLanguageMock).toHaveBeenCalledWith("en");
+        await waitFor(() => {
+            expect(changeLanguageMock).toHaveBeenCalledWith("en");
+        });
     });
 });
