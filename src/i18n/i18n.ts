@@ -9,7 +9,7 @@ import { syncAmplifyTranslations } from "@/lib/amplifyI18nBridge.ts";
 i18n.use(initReactI18next);
 i18n.use(LanguageDetector);
 
-i18n.init({
+const i18nPromise = i18n.init({
     resources: resources,
     supportedLngs: SUPPORTED_LANGUAGES.map((lang) => lang.code),
     lng: undefined,
@@ -25,7 +25,9 @@ i18n.init({
         lookupLocalStorage: "i18nextLng",
         caches: ["localStorage"],
     },
-}).then(() => {
+});
+
+i18nPromise.then(() => {
     I18n.setLanguage(i18n.language);
     syncAmplifyTranslations();
 });

@@ -118,10 +118,7 @@ export function getAmplifyVocabulary(): Record<string, string> {
  * Call this function when the language changes to sync Amplify translations.
  */
 export function syncAmplifyTranslations(): void {
-    const vocabulary = getAmplifyVocabulary();
-    const currentLang = i18n.language;
-
     I18n.putVocabularies({
-        [currentLang]: vocabulary,
+        [i18n.language]: getAmplifyVocabulary(),
     });
 }

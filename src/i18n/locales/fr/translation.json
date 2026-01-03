@@ -438,9 +438,9 @@
         }
     },
     "amplify": {
-        "email": "E-mail *",
-        "password": "Mot de passe *",
-        "confirmPassword": "Confirmer le mot de passe *",
+        "email": "E-mail*",
+        "password": "Mot de passe*",
+        "confirmPassword": "Confirmer le mot de passe*",
         "signIn": "Se connecter",
         "signUp": "S'inscrire",
         "createAccount": "Créer un compte",
