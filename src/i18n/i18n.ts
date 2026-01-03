@@ -4,6 +4,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import { resources } from "./resources";
 import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE } from "./languages";
 import { I18n } from "aws-amplify/utils";
+import { syncAmplifyTranslations } from "@/lib/amplifyI18nBridge.ts";
 
 i18n.use(initReactI18next);
 i18n.use(LanguageDetector);
@@ -26,10 +27,12 @@ i18n.init({
     },
 }).then(() => {
     I18n.setLanguage(i18n.language);
+    syncAmplifyTranslations(I18n);
 });
 
 i18n.on("languageChanged", async (language) => {
     I18n.setLanguage(language);
+    syncAmplifyTranslations(I18n);
 
     if ("cookieStore" in globalThis) {
         await globalThis.cookieStore.set({
