@@ -54,7 +54,9 @@ export function useSimilarProducts(
             }
 
             return {
-                products: result.data.map(mapPersonalizedGetProductDataToOverviewProduct),
+                products: result.data.map((product) =>
+                    mapPersonalizedGetProductDataToOverviewProduct(product, i18n.language),
+                ),
                 isEmbeddingsPending: false,
             };
         },

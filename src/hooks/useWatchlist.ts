@@ -30,7 +30,10 @@ export function useWatchlist() {
             }
 
             return {
-                products: result.data?.items?.map(mapWatchlistProductDataToOverviewProduct) ?? [],
+                products:
+                    result.data?.items?.map((product) =>
+                        mapWatchlistProductDataToOverviewProduct(product, i18n.language),
+                    ) ?? [],
                 size: result.data?.size,
                 total: result.data?.total ?? undefined,
                 searchAfter: result.data?.searchAfter ?? undefined,

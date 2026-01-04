@@ -38,7 +38,7 @@ function ProductDetailComponent() {
         }),
     );
 
-    const product = mapToDetailProduct(apiData);
+    const product = mapToDetailProduct(apiData, i18n.language);
 
     return <ProductDetailPage product={product} />;
 }

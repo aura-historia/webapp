@@ -9,7 +9,7 @@ import { syncAmplifyTranslations } from "@/lib/amplifyI18nBridge.ts";
 i18n.use(initReactI18next);
 i18n.use(LanguageDetector);
 
-const i18nPromise = i18n.init({
+i18n.init({
     resources: resources,
     supportedLngs: SUPPORTED_LANGUAGES.map((lang) => lang.code),
     lng: undefined,
@@ -24,10 +24,9 @@ const i18nPromise = i18n.init({
         lookupQuerystring: "lng",
         lookupLocalStorage: "i18nextLng",
         caches: ["localStorage"],
+        convertDetectedLanguage: (lang) => lang.split("-")[0],
     },
-});
-
-i18nPromise.then(() => {
+}).then(() => {
     I18n.setLanguage(i18n.language);
     syncAmplifyTranslations();
 });
@@ -35,7 +34,6 @@ i18nPromise.then(() => {
 i18n.on("languageChanged", async (language) => {
     I18n.setLanguage(language);
     syncAmplifyTranslations();
-
     if ("cookieStore" in globalThis) {
         await globalThis.cookieStore.set({
             name: "i18next",

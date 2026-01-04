@@ -229,9 +229,12 @@ function mapEventPayload(
  * Converts complete product data from the API to our internal ProductDetail type
  * Includes all product information and the full event history
  */
-export function mapToDetailProduct(apiData: PersonalizedGetProductData): ProductDetail {
+export function mapToDetailProduct(
+    apiData: PersonalizedGetProductData,
+    locale: string,
+): ProductDetail {
     return {
-        ...mapPersonalizedGetProductDataToOverviewProduct(apiData),
+        ...mapPersonalizedGetProductDataToOverviewProduct(apiData, locale),
         history: apiData.item.history?.map(
             (apiEvent: GetProductEventData): ProductEvent => ({
                 eventType: apiEvent.eventType,

@@ -79,7 +79,9 @@ export function useSearch(
 
             return {
                 products:
-                    result.data?.items?.map(mapPersonalizedGetProductDataToOverviewProduct) ?? [],
+                    result.data?.items?.map((product) =>
+                        mapPersonalizedGetProductDataToOverviewProduct(product, i18n.language),
+                    ) ?? [],
                 size: result.data?.size,
                 total: result.data?.total,
                 searchAfter: result.data?.searchAfter,

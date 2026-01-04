@@ -23,7 +23,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     return (
         <>
             <Card className="flex flex-col md:flex-row p-8 gap-4 shadow-md min-w-0">
-                <div className="flex-shrink-0 flex sm:justify-start justify-center">
+                <div className="shrink-0 flex sm:justify-start justify-center">
                     <ProductImageGallery
                         images={product.images}
                         title={product.title}
@@ -40,13 +40,13 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                                 {product.shopName}
                             </H3>
                         </div>
-                        <div className="hidden md:flex gap-2 ml-auto flex-shrink-0 self-start">
+                        <div className="hidden md:flex gap-2 ml-auto shrink-0 self-start">
                             <ProductSharer title={product.title} />
 
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                className="ml-auto flex-shrink-0"
+                                className="ml-auto shrink-0"
                                 onClick={() => {
                                     if (watchlistMutation.isPending) return;
                                     watchlistMutation.mutate(mutationType);
@@ -69,12 +69,12 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                     <div className="hidden sm:block flex-1"></div>
 
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-end w-full pt-4">
-                        <div className="flex flex-col gap-2 flex-shrink-0">
+                        <div className="flex flex-col gap-2 shrink-0">
                             <StatusBadge status={product.state} />
                             <PriceText>{product.price ?? t("product.unknownPrice")}</PriceText>
                         </div>
 
-                        <div className="flex flex-col gap-2 sm:items-end flex-shrink-0 sm:ml-2">
+                        <div className="flex flex-col gap-2 sm:items-end shrink-0 sm:ml-2">
                             <Button variant="secondary" className="whitespace-nowrap" asChild>
                                 <a
                                     href={product.url?.href}
