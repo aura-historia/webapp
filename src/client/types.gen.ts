@@ -47,6 +47,42 @@ export type GetProductData = {
      */
     images: Array<string>;
     /**
+     * Lower end of the year range when the antique is estimated to have originated.
+     * Only present when the origin year is expressed as a range (originYear will be null).
+     * Can be present alone (without originYearMax) to indicate "after this year".
+     *
+     */
+    originYearMin?: number | null;
+    /**
+     * Exact year the antique is estimated to have originated.
+     * When this value is present, both originYearMin and originYearMax will be null.
+     *
+     */
+    originYear?: number | null;
+    /**
+     * Upper end of the year range when the antique is estimated to have originated.
+     * Only present when the origin year is expressed as a range (originYear will be null).
+     * Can be present alone (without originYearMin) to indicate "before this year".
+     *
+     */
+    originYearMax?: number | null;
+    /**
+     * Authenticity classification of the antique product
+     */
+    authenticity?: AuthenticityData | null;
+    /**
+     * Physical condition assessment of the antique product
+     */
+    condition?: ConditionData | null;
+    /**
+     * Documentation trail and ownership history of the antique product
+     */
+    provenance?: ProvenanceData | null;
+    /**
+     * Level of restoration work performed on the antique product
+     */
+    restoration?: RestorationData | null;
+    /**
      * When the product was first created (RFC3339 format)
      */
     created: string;
@@ -243,6 +279,50 @@ export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD';
  *
  */
 export type ProductStateData = 'LISTED' | 'AVAILABLE' | 'RESERVED' | 'SOLD' | 'REMOVED' | 'UNKNOWN';
+
+/**
+ * Authenticity classification of the antique product:
+ * - ORIGINAL: Verified original antique from the stated period
+ * - LATER_COPY: Antique copy made at a later time but still historical
+ * - REPRODUCTION: Modern reproduction or replica
+ * - QUESTIONABLE: Authenticity is disputed or uncertain
+ * - UNKNOWN: Authenticity has not been determined
+ *
+ */
+export type AuthenticityData = 'ORIGINAL' | 'LATER_COPY' | 'REPRODUCTION' | 'QUESTIONABLE' | 'UNKNOWN';
+
+/**
+ * Physical condition assessment of the antique product:
+ * - EXCELLENT: Near-perfect condition with minimal wear
+ * - GREAT: Very good condition with minor signs of age
+ * - GOOD: Good condition with moderate wear consistent with age
+ * - FAIR: Fair condition with significant wear but structurally sound
+ * - POOR: Poor condition with major damage or deterioration
+ * - UNKNOWN: Condition has not been assessed
+ *
+ */
+export type ConditionData = 'EXCELLENT' | 'GREAT' | 'GOOD' | 'FAIR' | 'POOR' | 'UNKNOWN';
+
+/**
+ * Documentation trail and ownership history of the antique product:
+ * - COMPLETE: Full documented history from origin to present
+ * - PARTIAL: Some documentation exists but history has gaps
+ * - CLAIMED: Provenance is claimed by seller but lacks documentation
+ * - NONE: No provenance documentation available
+ * - UNKNOWN: Provenance status has not been determined
+ *
+ */
+export type ProvenanceData = 'COMPLETE' | 'PARTIAL' | 'CLAIMED' | 'NONE' | 'UNKNOWN';
+
+/**
+ * Level of restoration work performed on the antique product:
+ * - NONE: No restoration, original condition preserved
+ * - MINOR: Minor restoration or conservation work (cleaning, small repairs)
+ * - MAJOR: Significant restoration or reconstruction work
+ * - UNKNOWN: Restoration history has not been determined
+ *
+ */
+export type RestorationData = 'NONE' | 'MINOR' | 'MAJOR' | 'UNKNOWN';
 
 /**
  * Fields available for sorting:
@@ -1604,17 +1684,20 @@ export type GetShopData2 = {
     body?: never;
     path: {
         /**
-         * Unique identifier of the shop
+         * Identifier of the shop. Can be either:
+         * - A shop ID (UUID format)
+         * - A domain associated with the shop (e.g., "tech-store.com", "shop.example.com")
+         *
          */
-        shopId: string;
+        shopIdentifier: string;
     };
     query?: never;
-    url: '/api/v1/shops/{shopId}';
+    url: '/api/v1/shops/{shopIdentifier}';
 };
 
 export type GetShopErrors = {
     /**
-     * Bad request - invalid shop ID
+     * Bad request - invalid or missing shop identifier
      */
     400: ApiError;
     /**
@@ -1647,12 +1730,15 @@ export type UpdateShopData = {
     body: PatchShopData;
     path: {
         /**
-         * Unique identifier of the shop to update
+         * Identifier of the shop to update. Can be either:
+         * - A shop ID (UUID format)
+         * - A domain associated with the shop (e.g., "tech-store.com", "shop.example.com")
+         *
          */
-        shopId: string;
+        shopIdentifier: string;
     };
     query?: never;
-    url: '/api/v1/shops/{shopId}';
+    url: '/api/v1/shops/{shopIdentifier}';
 };
 
 export type UpdateShopErrors = {
