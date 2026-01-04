@@ -26,12 +26,15 @@ i18n.init({
         caches: ["localStorage"],
         convertDetectedLanguage: (lang) => lang.split("-")[0],
     },
-}).then(() => {
-    I18n.setLanguage(i18n.language);
-    syncAmplifyTranslations();
+}).then(async () => {
+    await syncLanguageSettings(i18n.language);
 });
 
 i18n.on("languageChanged", async (language) => {
+    await syncLanguageSettings(language);
+});
+
+async function syncLanguageSettings(language: string) {
     I18n.setLanguage(language);
     syncAmplifyTranslations();
     if ("cookieStore" in globalThis) {
@@ -45,6 +48,6 @@ i18n.on("languageChanged", async (language) => {
         // biome-ignore lint/suspicious/noDocumentCookie: Not all browsers support cookieStore API yet
         document.cookie = `i18next=${language}; path=/; max-age=31536000; SameSite=Lax`;
     }
-});
+}
 
 export default i18n;
