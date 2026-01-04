@@ -11,6 +11,14 @@ import {
     type UserProductData,
 } from "@/data/internal/UserProductData.ts";
 
+export type Authenticity = "ORIGINAL" | "LATER_COPY" | "REPRODUCTION" | "QUESTIONABLE" | "UNKNOWN";
+
+export type Condition = "EXCELLENT" | "GREAT" | "GOOD" | "FAIR" | "POOR" | "UNKNOWN";
+
+export type Provenance = "COMPLETE" | "PARTIAL" | "CLAIMED" | "NONE" | "UNKNOWN";
+
+export type Restoration = "NONE" | "MINOR" | "MAJOR" | "UNKNOWN";
+
 export type OverviewProduct = {
     readonly productId: string;
     readonly eventId: string;
@@ -26,6 +34,14 @@ export type OverviewProduct = {
     readonly created: Date;
     readonly updated: Date;
     readonly userData?: UserProductData;
+
+    readonly originYear?: number | null;
+    readonly originYearMin?: number | null;
+    readonly originYearMax?: number | null;
+    readonly authenticity?: Authenticity | null;
+    readonly condition?: Condition | null;
+    readonly provenance?: Provenance | null;
+    readonly restoration?: Restoration | null;
 };
 
 function mapProductDataToOverviewProduct(
@@ -52,6 +68,14 @@ function mapProductDataToOverviewProduct(
         created: new Date(productData.created),
         updated: new Date(productData.updated),
         userData: userData ? mapToInternalUserProductData(userData) : undefined,
+
+        originYear: productData.originYear,
+        originYearMin: productData.originYearMin,
+        originYearMax: productData.originYearMax,
+        authenticity: productData.authenticity,
+        condition: productData.condition,
+        provenance: productData.provenance,
+        restoration: productData.restoration,
     };
 }
 
