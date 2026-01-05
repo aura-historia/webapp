@@ -115,6 +115,49 @@
         "toMerchant": "Zur Seite des Händlers",
         "noDescription": "Keine Beschreibung verfügbar",
         "noImage": "Kein Bild verfügbar",
+        "qualityIndicators": {
+            "title": "Qualitätsmerkmale",
+            "noData": "Keine zusätzlichen Informationen verfügbar",
+            "originYear": {
+                "label": "Entstehungsjahr",
+                "range": "{{min}}–{{max}}",
+                "from": "ab {{year}}",
+                "until": "bis {{year}}",
+                "unknown": "Unbekannt"
+            },
+            "authenticity": {
+                "label": "Authentizität",
+                "original": "Original",
+                "later_copy": "Spätere Kopie",
+                "reproduction": "Reproduktion",
+                "questionable": "Fraglich",
+                "unknown": "Unbekannt"
+            },
+            "condition": {
+                "label": "Zustand",
+                "excellent": "Exzellent",
+                "great": "Sehr gut",
+                "good": "Gut",
+                "fair": "Akzeptabel",
+                "poor": "Schlecht",
+                "unknown": "Unbekannt"
+            },
+            "provenance": {
+                "label": "Herkunftsnachweis",
+                "complete": "Vollständig",
+                "partial": "Teilweise",
+                "claimed": "Behauptet",
+                "none": "Keine",
+                "unknown": "Unbekannt"
+            },
+            "restoration": {
+                "label": "Restaurierung",
+                "none": "Keine",
+                "minor": "Geringfügig",
+                "major": "Umfangreich",
+                "unknown": "Unbekannt"
+            }
+        },
         "similar": {
             "title": "Ähnliche Artikel",
             "error": {
