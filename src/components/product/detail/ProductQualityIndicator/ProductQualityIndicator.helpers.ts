@@ -46,18 +46,42 @@ export function formatOriginYear(
     originYearMax: number | null | undefined,
     t: TFunction,
 ): string {
-    if (originYear) return `${originYear}`;
-    if (originYearMin && originYearMax) {
+    if (originYear != null) return `${originYear}`;
+    if (originYearMin != null && originYearMax != null) {
         return t("product.qualityIndicators.originYear.range", {
             min: originYearMin,
             max: originYearMax,
         });
     }
-    if (originYearMin) {
+    if (originYearMin != null) {
         return t("product.qualityIndicators.originYear.from", { year: originYearMin });
     }
-    if (originYearMax) {
+    if (originYearMax != null) {
         return t("product.qualityIndicators.originYear.until", { year: originYearMax });
     }
     return t("product.qualityIndicators.originYear.unknown");
+}
+
+export function formatOriginYearDescription(
+    originYear: number | null | undefined,
+    originYearMin: number | null | undefined,
+    originYearMax: number | null | undefined,
+    t: TFunction,
+): string {
+    if (originYear != null) {
+        return t("product.qualityIndicators.originYear.exactDescription", { year: originYear });
+    }
+    if (originYearMin != null && originYearMax != null) {
+        return t("product.qualityIndicators.originYear.rangeDescription", {
+            min: originYearMin,
+            max: originYearMax,
+        });
+    }
+    if (originYearMin != null) {
+        return t("product.qualityIndicators.originYear.fromDescription", { year: originYearMin });
+    }
+    if (originYearMax != null) {
+        return t("product.qualityIndicators.originYear.untilDescription", { year: originYearMax });
+    }
+    return t("product.qualityIndicators.originYear.unknownDescription");
 }

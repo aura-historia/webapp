@@ -1,17 +1,24 @@
 import type { ProductDetail } from "@/data/internal/ProductDetails.ts";
 import { Card } from "@/components/ui/card.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
-import { Calendar, ShieldCheck, Star, FileText, Wrench } from "lucide-react";
+import { Calendar, ShieldCheck, Star, FileText, Paintbrush } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { ProductQualityIndicatorItem } from "./ProductQualityIndicatorItem.tsx";
 import {
     PRODUCT_ATTRIBUTE_COLORS,
     formatOriginYear,
+    formatOriginYearDescription,
 } from "@/components/product/detail/ProductQualityIndicator/ProductQualityIndicator.helpers.ts";
 
 export function ProductQualityIndicators({ product }: { product: ProductDetail }) {
     const { t } = useTranslation();
     const originYear = formatOriginYear(
+        product.originYear,
+        product.originYearMin,
+        product.originYearMax,
+        t,
+    );
+    const originYearDescription = formatOriginYearDescription(
         product.originYear,
         product.originYearMin,
         product.originYearMax,
@@ -32,6 +39,7 @@ export function ProductQualityIndicators({ product }: { product: ProductDetail }
             colorClass: originYearColor,
             label: t("product.qualityIndicators.originYear.label"),
             value: originYear,
+            description: originYearDescription,
         },
         {
             key: "authenticity",
@@ -43,6 +51,9 @@ export function ProductQualityIndicators({ product }: { product: ProductDetail }
             value: t(
                 `product.qualityIndicators.authenticity.${(product.authenticity || "UNKNOWN").toLowerCase()}`,
             ),
+            description: t(
+                `product.qualityIndicators.authenticity.${(product.authenticity || "UNKNOWN").toLowerCase()}Description`,
+            ),
         },
         {
             key: "condition",
@@ -52,6 +63,9 @@ export function ProductQualityIndicators({ product }: { product: ProductDetail }
             label: t("product.qualityIndicators.condition.label"),
             value: t(
                 `product.qualityIndicators.condition.${(product.condition || "UNKNOWN").toLowerCase()}`,
+            ),
+            description: t(
+                `product.qualityIndicators.condition.${(product.condition || "UNKNOWN").toLowerCase()}Description`,
             ),
         },
         {
@@ -64,16 +78,22 @@ export function ProductQualityIndicators({ product }: { product: ProductDetail }
             value: t(
                 `product.qualityIndicators.provenance.${(product.provenance || "UNKNOWN").toLowerCase()}`,
             ),
+            description: t(
+                `product.qualityIndicators.provenance.${(product.provenance || "UNKNOWN").toLowerCase()}Description`,
+            ),
         },
         {
             key: "restoration",
-            icon: Wrench,
+            icon: Paintbrush,
             colorClass:
                 PRODUCT_ATTRIBUTE_COLORS.restoration[product.restoration || "UNKNOWN"] ||
                 "bg-gray-400",
             label: t("product.qualityIndicators.restoration.label"),
             value: t(
                 `product.qualityIndicators.restoration.${(product.restoration || "UNKNOWN").toLowerCase()}`,
+            ),
+            description: t(
+                `product.qualityIndicators.restoration.${(product.restoration || "UNKNOWN").toLowerCase()}Description`,
             ),
         },
     ];
@@ -92,6 +112,7 @@ export function ProductQualityIndicators({ product }: { product: ProductDetail }
                         colorClass={indicator.colorClass}
                         label={indicator.label}
                         value={indicator.value}
+                        description={indicator.description}
                     />
                 ))}
             </div>

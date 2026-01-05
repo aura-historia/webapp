@@ -1,10 +1,13 @@
 import type { LucideIcon } from "lucide-react";
+import { Info } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface QualityIndicatorItemProps {
     readonly icon: LucideIcon;
     readonly colorClass: string;
     readonly label: string;
     readonly value: string;
+    readonly description?: string;
 }
 
 export function ProductQualityIndicatorItem({
@@ -12,6 +15,7 @@ export function ProductQualityIndicatorItem({
     colorClass,
     label,
     value,
+    description,
 }: QualityIndicatorItemProps) {
     return (
         <div className="flex items-start gap-3">
@@ -20,7 +24,21 @@ export function ProductQualityIndicatorItem({
             </div>
             <div className="flex flex-col gap-0.5">
                 <span className="text-base font-semibold text-muted-foreground">{label}</span>
-                <span className="text-lg font-bold">{value}</span>
+                <div className="flex items-center gap-1.5">
+                    <span className="text-lg font-bold">{value}</span>
+                    {description && (
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Info className="size-4" />
+                                </TooltipTrigger>
+                                <TooltipContent side="top" className="max-w-xs">
+                                    <p>{description}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    )}
+                </div>
             </div>
         </div>
     );
