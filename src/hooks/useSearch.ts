@@ -11,6 +11,8 @@ import { mapToBackendState } from "@/data/internal/ProductState.ts";
 import { mapToBackendSortModeArguments } from "@/data/internal/SortMode.ts";
 import { useApiError } from "@/hooks/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
+import { useTranslation } from "react-i18next";
+import { parseLanguage } from "@/data/internal/Language.ts";
 
 const PAGE_SIZE = 21;
 
@@ -18,14 +20,15 @@ export function useSearch(
     searchArgs: SearchFilterArguments,
 ): UseInfiniteQueryResult<InfiniteData<SearchResultData>> {
     const { getErrorMessage } = useApiError();
+    const { i18n } = useTranslation();
 
     return useInfiniteQuery({
-        queryKey: ["search", searchArgs],
+        queryKey: ["search", searchArgs, i18n.language],
         queryFn: async ({ pageParam }) => {
             const result = await complexSearchProducts({
                 body: {
-                    // TODO: Make language and currency configurable
-                    language: "de",
+                    language: parseLanguage(i18n.language),
+                    // TODO: Make currency dynamic
                     currency: "EUR",
                     productQuery: searchArgs.q,
                     ...(searchArgs.priceFrom != null || searchArgs.priceTo != null
@@ -76,7 +79,9 @@ export function useSearch(
 
             return {
                 products:
-                    result.data?.items?.map(mapPersonalizedGetProductDataToOverviewProduct) ?? [],
+                    result.data?.items?.map((product) =>
+                        mapPersonalizedGetProductDataToOverviewProduct(product, i18n.language),
+                    ) ?? [],
                 size: result.data?.size,
                 total: result.data?.total,
                 searchAfter: result.data?.searchAfter,

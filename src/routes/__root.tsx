@@ -1,8 +1,8 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import {
+    createRootRouteWithContext,
     HeadContent,
     Scripts,
-    createRootRouteWithContext,
     useMatches,
     Link,
 } from "@tanstack/react-router";
@@ -21,6 +21,8 @@ import { SearchX } from "lucide-react";
 import { H2 } from "@/components/typography/H2";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
+import { getLocale } from "@/lib/server/i18n.server.ts";
+import i18n from "@/i18n/i18n.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -49,7 +51,13 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
             ],
         };
     },
-
+    beforeLoad: async () => {
+        // Set locale for initial server side rendering based on browsers pref
+        const locale = await getLocale();
+        if (i18n.language !== locale) {
+            await i18n.changeLanguage(locale);
+        }
+    },
     shellComponent: RootDocument,
     notFoundComponent: NotFound,
 });
@@ -76,9 +84,10 @@ function NotFound() {
 function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const matches = useMatches();
     const isLandingPage = matches.some((match) => match.routeId === "/");
+    const { i18n } = useTranslation();
 
     return (
-        <html lang="de">
+        <html lang={i18n.language || "en"}>
             <head>
                 <HeadContent />
             </head>
@@ -86,7 +95,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                 className={
                     isLandingPage
                         ? "[background:var(--linear-gradient-main)]"
-                        : "[background-image:repeating-linear-gradient(45deg,var(--border)_0,var(--border)_1px,transparent_1px,transparent_40px)] bg-fixed"
+                        : "bg-[repeating-linear-gradient(45deg,var(--border)_0,var(--border)_1px,transparent_1px,transparent_40px)] bg-fixed"
                 }
             >
                 <div className={"min-h-screen flex flex-col"}>

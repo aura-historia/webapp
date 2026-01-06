@@ -16,9 +16,10 @@ export default defineConfig({
         tailwindcss(),
         devtools({
             removeDevtoolsOnBuild: true,
-        }), cloudflare({viteEnvironment: {name: 'ssr'}}),
+        }),
         tanstackStart(),
         viteReact(),
+        cloudflare({viteEnvironment: {name: 'ssr'}}),
     ],
 })
 

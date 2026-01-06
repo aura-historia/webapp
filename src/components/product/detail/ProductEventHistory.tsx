@@ -23,15 +23,17 @@ interface ProductEventHistoryProps {
 }
 
 export function ProductEventHistory({ event }: ProductEventHistoryProps) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     if (isStateChangedEvent(event)) {
         return (
             <TimelineItem>
                 <TimelineHeader>
                     <TimelineTime>
-                        <span>{formatDate(event.timestamp)}</span>
-                        <span className="text-muted-foreground">{formatTime(event.timestamp)}</span>
+                        <span>{formatDate(event.timestamp, i18n.language)}</span>
+                        <span className="text-muted-foreground">
+                            {formatTime(event.timestamp, i18n.language)}
+                        </span>
                     </TimelineTime>
                     <TimelineTitle>
                         <StatusBadge status={event.payload.newState} />
@@ -39,8 +41,8 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
                 </TimelineHeader>
                 <TimelineDescription>
                     {t("product.history.events.statusChanged", {
-                        oldState: formatStateName(event.payload.oldState),
-                        newState: formatStateName(event.payload.newState),
+                        oldState: formatStateName(event.payload.oldState, t),
+                        newState: formatStateName(event.payload.newState, t),
                     })}
                 </TimelineDescription>
             </TimelineItem>
@@ -52,8 +54,10 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
             <TimelineItem>
                 <TimelineHeader>
                     <TimelineTime>
-                        <span>{formatDate(event.timestamp)}</span>
-                        <span className="text-muted-foreground">{formatTime(event.timestamp)}</span>
+                        <span>{formatDate(event.timestamp, i18n.language)}</span>
+                        <span className="text-muted-foreground">
+                            {formatTime(event.timestamp, i18n.language)}
+                        </span>
                     </TimelineTime>
                     <TimelineTitle>
                         <PriceBadge eventType={event.eventType} />
@@ -78,8 +82,10 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
             <TimelineItem>
                 <TimelineHeader>
                     <TimelineTime>
-                        <span>{formatDate(event.timestamp)}</span>
-                        <span className="text-muted-foreground">{formatTime(event.timestamp)}</span>
+                        <span>{formatDate(event.timestamp, i18n.language)}</span>
+                        <span className="text-muted-foreground">
+                            {formatTime(event.timestamp, i18n.language)}
+                        </span>
                     </TimelineTime>
                     <TimelineTitle>
                         <PriceBadge eventType={event.eventType} />
@@ -101,8 +107,10 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
             <TimelineItem>
                 <TimelineHeader>
                     <TimelineTime>
-                        <span>{formatDate(event.timestamp)}</span>
-                        <span className="text-muted-foreground">{formatTime(event.timestamp)}</span>
+                        <span>{formatDate(event.timestamp, i18n.language)}</span>
+                        <span className="text-muted-foreground">
+                            {formatTime(event.timestamp, i18n.language)}
+                        </span>
                     </TimelineTime>
                     <TimelineTitle>
                         <PriceBadge eventType={event.eventType} />
@@ -122,8 +130,10 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
             <TimelineItem>
                 <TimelineHeader>
                     <TimelineTime>
-                        <span>{formatDate(event.timestamp)}</span>
-                        <span className="text-muted-foreground">{formatTime(event.timestamp)}</span>
+                        <span>{formatDate(event.timestamp, i18n.language)}</span>
+                        <span className="text-muted-foreground">
+                            {formatTime(event.timestamp, i18n.language)}
+                        </span>
                     </TimelineTime>
                     <TimelineTitle>
                         <StatusBadge status={event.payload.state} />
@@ -131,7 +141,10 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
                 </TimelineHeader>
                 <TimelineDescription>
                     {t("product.history.events.created")}
-                    {event.payload.price ? ` • ${formatPrice(event.payload.price)}` : ""}.
+                    {event.payload.price
+                        ? ` • ${formatPrice(event.payload.price, i18n.language)}`
+                        : ""}
+                    .
                 </TimelineDescription>
             </TimelineItem>
         );

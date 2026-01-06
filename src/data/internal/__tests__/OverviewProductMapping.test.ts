@@ -26,7 +26,7 @@ describe("OverviewProduct mappers", () => {
                 },
             };
 
-            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData);
+            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData, "en");
 
             expect(result.productId).toBe("item-123");
             expect(result.eventId).toBe("event-456");
@@ -62,7 +62,7 @@ describe("OverviewProduct mappers", () => {
                 },
             };
 
-            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData);
+            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData, "de");
 
             expect(result.description).toBeUndefined();
             expect(result.url).toBeNull();
@@ -87,7 +87,7 @@ describe("OverviewProduct mappers", () => {
                 },
             };
 
-            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData);
+            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData, "de");
 
             expect(result.images).toEqual([]);
         });
@@ -111,7 +111,7 @@ describe("OverviewProduct mappers", () => {
                 },
             };
 
-            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData);
+            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData, "de");
 
             expect(result.images).toEqual([]);
         });
@@ -140,7 +140,7 @@ describe("OverviewProduct mappers", () => {
                 updated: "2023-01-04T00:00:00Z",
             };
 
-            const result = mapWatchlistProductDataToOverviewProduct(apiData);
+            const result = mapWatchlistProductDataToOverviewProduct(apiData, "en");
 
             expect(result.productId).toBe("item-123");
             expect(result.shopName).toBe("Watchlist Shop");
@@ -171,7 +171,7 @@ describe("OverviewProduct mappers", () => {
                 updated: "2023-01-04T00:00:00Z",
             };
 
-            const result = mapWatchlistProductDataToOverviewProduct(apiData);
+            const result = mapWatchlistProductDataToOverviewProduct(apiData, "de");
 
             expect(result.userData?.watchlistData.isWatching).toBe(true);
             expect(result.userData?.watchlistData.isNotificationEnabled).toBe(false);
@@ -199,7 +199,7 @@ describe("OverviewProduct mappers", () => {
                 updated: "2023-01-04T00:00:00Z",
             };
 
-            const result = mapWatchlistProductDataToOverviewProduct(apiData);
+            const result = mapWatchlistProductDataToOverviewProduct(apiData, "de");
 
             expect(result.description).toBeUndefined();
             expect(result.price).toBeUndefined();

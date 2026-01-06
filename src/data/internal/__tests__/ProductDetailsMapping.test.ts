@@ -27,7 +27,7 @@ describe("mapToDetailProduct", () => {
             },
         };
 
-        const result = mapToDetailProduct(apiData);
+        const result = mapToDetailProduct(apiData, "de");
 
         expect(result.productId).toBe("item-123");
         expect(result.history).toBeUndefined();
@@ -65,7 +65,7 @@ describe("mapToDetailProduct", () => {
             },
         };
 
-        const result = mapToDetailProduct(apiData);
+        const result = mapToDetailProduct(apiData, "de");
 
         expect(result.history).toHaveLength(1);
 
@@ -110,7 +110,7 @@ describe("mapToDetailProduct", () => {
             },
         };
 
-        const result = mapToDetailProduct(apiData);
+        const result = mapToDetailProduct(apiData, "de");
 
         expect(result.history).toHaveLength(1);
 
@@ -156,7 +156,7 @@ describe("mapToDetailProduct", () => {
             },
         };
 
-        const result = mapToDetailProduct(apiData);
+        const result = mapToDetailProduct(apiData, "de");
 
         expect(result.history).toHaveLength(1);
 
@@ -199,7 +199,7 @@ describe("mapToDetailProduct", () => {
             },
         };
 
-        const result = mapToDetailProduct(apiData);
+        const result = mapToDetailProduct(apiData, "de");
 
         expect(result.history).toHaveLength(1);
 
@@ -274,7 +274,7 @@ describe("mapToDetailProduct", () => {
             },
         };
 
-        const result = mapToDetailProduct(apiData);
+        const result = mapToDetailProduct(apiData, "de");
 
         expect(result.history).toHaveLength(4);
         expect(result.history?.[0]?.eventType).toBe("CREATED");
