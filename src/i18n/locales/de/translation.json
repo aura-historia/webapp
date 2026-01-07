@@ -1,11 +1,6 @@
 {
     "common": {
-        "auraHistoria": "Aura Historia (Preview)",
-        "register": "Registrieren",
-        "login": "Einloggen",
-        "imprint": "Impressum",
-        "terms": "AGB",
-        "copyright": "© {{year}} Aura Historia"
+        "auraHistoria": "Aura Historia (Preview)"
     },
     "validation": {
         "name": {
@@ -25,7 +20,15 @@
         "myAccount": "Mein Account",
         "editAccount": "Account bearbeiten",
         "logout": "Ausloggen",
-        "hello": "Hallo"
+        "hello": "Hallo",
+        "register": "Registrieren",
+        "login": "Einloggen"
+    },
+    "footer": {
+        "ariaSwitchToLanguage": "Zu {{language}} wechseln",
+        "imprint": "Impressum",
+        "terms": "AGB",
+        "copyright": "© {{year}} Aura Historia"
     },
     "account": {
         "title": "Mein Account",
@@ -481,6 +484,12 @@
             "currency": "Währung",
             "pleaseSelect": "Bitte wählen"
         },
+        "signIn": {
+            "email": "E-Mail",
+            "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
+            "password": "Passwort",
+            "passwordPlaceholder": "Geben Sie Ihr Passwort ein"
+        },
         "languages": {
             "de": "Deutsch",
             "en": "Englisch",
@@ -495,5 +504,64 @@
             "CAD": "CAD - Kanadischer Dollar",
             "NZD": "NZD - Neuseeland-Dollar"
         }
+    },
+    "amplify": {
+        "email": "E-Mail*",
+        "password": "Passwort*",
+        "confirmPassword": "Passwort bestätigen*",
+        "signIn": "Anmelden",
+        "signUp": "Registrieren",
+        "createAccount": "Konto erstellen",
+        "forgotYourPassword": "Passwort vergessen?",
+        "resetPassword": "Passwort zurücksetzen",
+        "backToSignIn": "Zurück zur Anmeldung",
+        "sendCode": "Code senden",
+        "confirm": "Bestätigen",
+        "submit": "Absenden",
+        "verify": "Verifizieren",
+        "skip": "Überspringen",
+        "code": "Code",
+        "newPassword": "Neues Passwort",
+        "enterYourEmail": "Geben Sie Ihre E-Mail ein",
+        "enterYourPassword": "Geben Sie Ihr Passwort ein",
+        "pleaseConfirmYourPassword": "Bitte bestätigen Sie Ihr Passwort",
+        "weEmailedYou": "Wir haben Ihnen eine E-Mail gesendet",
+        "weSentACode": "Wir haben einen Code gesendet",
+        "weTextedYou": "Wir haben Ihnen eine SMS gesendet",
+        "codeOnTheWayEmail": "Ihr Code ist unterwegs. Geben Sie den Code ein, den wir per E-Mail gesendet haben an",
+        "codeOnTheWaySent": "Ihr Code ist unterwegs. Geben Sie den Code ein, den wir Ihnen gesendet haben",
+        "codeOnTheWayText": "Ihr Code ist unterwegs. Geben Sie den Code ein, den wir per SMS gesendet haben an",
+        "itMayTakeAMinuteToArrive": "Es kann eine Minute dauern, bis er ankommt",
+        "confirmationCode": "Bestätigungscode",
+        "enterYourConfirmationCode": "Geben Sie Ihren Bestätigungscode ein",
+        "resendCode": "Code erneut senden",
+        "incorrectUsernameOrPassword": "Falscher Benutzername oder Passwort.",
+        "userDoesNotExist": "Benutzer existiert nicht.",
+        "userAlreadyExists": "Benutzer existiert bereits.",
+        "invalidVerificationCode": "Ungültiger Bestätigungscode. Bitte versuchen Sie es erneut.",
+        "invalidPasswordFormat": "Ungültiges Passwortformat.",
+        "passwordAttemptsExceeded": "Zu viele Anmeldeversuche. Bitte versuchen Sie es später erneut.",
+        "attemptLimitExceeded": "Versuchslimit überschritten. Bitte versuchen Sie es später erneut.",
+        "alreadySignedInUser": "Es ist bereits ein Benutzer angemeldet.",
+        "passwordPolicyNotLongEnough": "Passwort entspricht nicht den Richtlinien: Passwort ist nicht lang genug.",
+        "passwordPolicyMustHaveLowercase": "Das Passwort entspricht nicht den Richtlinien: Das Passwort muss Kleinbuchstaben enthalten.",
+        "passwordPolicyMustHaveUppercase": "Das Passwort entspricht nicht den Richtlinien: Das Passwort muss Großbuchstaben enthalten.",
+        "passwordPolicyMustHaveSymbol": "Das Passwort entspricht nicht den Richtlinien: Das Passwort muss Sonderzeichen enthalten.",
+        "passwordMustHaveUppercase": "Passwort muss Großbuchstaben enthalten.",
+        "passwordMustHaveLowercase": "Passwort muss Kleinbuchstaben enthalten.",
+        "passwordMustHaveNumeric": "Passwort muss Zahlen enthalten.",
+        "passwordMustHaveSymbol": "Passwort muss Sonderzeichen enthalten.",
+        "passwordMustHaveAtLeast8Chars": "Passwort muss mindestens 8 Zeichen enthalten.",
+        "yourPasswordsMustMatch": "Ihre Passwörter müssen übereinstimmen.",
+        "userIsNotConfirmed": "Benutzer ist nicht bestätigt.",
+        "userIsDisabled": "Benutzer ist deaktiviert.",
+        "usernameCannotBeEmpty": "Benutzername darf nicht leer sein.",
+        "passwordCannotBeEmpty": "Passwort darf nicht leer sein.",
+        "networkError": "Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung.",
+        "accountWithEmailAlreadyExists": "Ein Konto mit dieser E-Mail-Adresse existiert bereits.",
+        "invalidEmailAddressFormat": "Ungültiges E-Mail-Adressenformat.",
+        "codeMismatch": "Der eingegebene Code ist falsch.",
+        "confirmationCodeCannotBeEmpty": "Bestätigungscode darf nicht leer sein.",
+        "invalidCodeProvidedRequestAgain": "Ungültiger Code. Bitte fordern Sie einen neuen Code an."
     }
 }

@@ -46,6 +46,7 @@ export type OverviewProduct = {
 
 function mapProductDataToOverviewProduct(
     productData: GetProductData,
+    locale: string,
     userData?: ProductUserStateData | null,
 ): OverviewProduct {
     return {
@@ -56,7 +57,7 @@ function mapProductDataToOverviewProduct(
         shopName: productData.shopName,
         title: productData.title.text,
         description: productData.description?.text,
-        price: productData.price ? formatPrice(productData.price) : undefined,
+        price: productData.price ? formatPrice(productData.price, locale) : undefined,
         state: parseProductState(productData.state),
         url: URL.parse(productData.url),
         images:
@@ -81,14 +82,16 @@ function mapProductDataToOverviewProduct(
 
 export function mapPersonalizedGetProductDataToOverviewProduct(
     apiData: PersonalizedGetProductData,
+    locale: string,
 ): OverviewProduct {
-    return mapProductDataToOverviewProduct(apiData.item, apiData.userState);
+    return mapProductDataToOverviewProduct(apiData.item, locale, apiData.userState);
 }
 
 export function mapWatchlistProductDataToOverviewProduct(
     apiData: WatchlistProductData,
+    locale: string,
 ): OverviewProduct {
-    return mapProductDataToOverviewProduct(apiData.product, {
+    return mapProductDataToOverviewProduct(apiData.product, locale, {
         watchlist: {
             watching: true,
             notifications: apiData.notifications,
