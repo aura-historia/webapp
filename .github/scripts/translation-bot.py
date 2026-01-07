@@ -93,6 +93,7 @@ def deep_merge(target, delta):
 def translate_delta(data, lang):
     prompt = (
         f'Translate the following JSON values from English to {lang}. '
+        f'Try to keep the tone as it is in English. This is for a SaaS in the antiques business and requires extreme precision and quality.'
         f'Return valid JSON only. Preserve keys exactly.'
     )
     try:
