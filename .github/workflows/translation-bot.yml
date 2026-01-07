@@ -50,7 +50,7 @@ jobs:
                   TARGET_LANGS: ${{ env.TARGET_LANGS }}
                   SOURCE_FILE: ${{ env.WATCH_FILE }}
                 # Simply call the script file
-              run: python scripts/translation-bot.py
+              run: python .github/scripts/translation-bot.py
 
             - name: Create Pull Request
               if: steps.check_changes.outputs.run_translation == 'true'
