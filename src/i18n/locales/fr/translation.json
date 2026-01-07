@@ -1,499 +1,499 @@
 {
-    "common": {
-        "auraHistoria": "Aura Historia (Aperçu)"
+  "common": {
+    "auraHistoria": "Aura Historia (Aperçu)"
+  },
+  "validation": {
+    "name": {
+      "minLength": "Veuillez saisir au moins {{min}} caractères",
+      "maxLength": "Veuillez saisir au maximum {{max}} caractères",
+      "invalidChars": "Seules les lettres, espaces, tirets et apostrophes sont autorisés"
+    }
+  },
+  "imprint": {
+    "title": "Mentions légales"
+  },
+  "terms": {
+    "title": "CGV"
+  },
+  "header": {
+    "watchlist": "Favoris",
+    "myAccount": "Mon compte",
+    "editAccount": "Modifier le compte",
+    "logout": "Se déconnecter",
+    "hello": "Bonjour",
+    "register": "S'inscrire",
+    "login": "Se connecter"
+  },
+  "footer": {
+    "ariaSwitchToLanguage": "Changer de langue vers {{language}}",
+    "imprint": "Mentions légales",
+    "terms": "CGV",
+    "copyright": "© {{year}} Aura Historia"
+  },
+  "account": {
+    "title": "Mon compte",
+    "changePassword": {
+      "title": "Modifier le mot de passe",
+      "currentPasswordLabel": "Mot de passe actuel",
+      "newPasswordLabel": "Nouveau mot de passe",
+      "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+      "saveButton": "Enregistrer le mot de passe",
+      "successMessage": "Mot de passe modifié avec succès !",
+      "errorMessage": "Erreur lors de la modification du mot de passe."
     },
+    "deleteAccount": {
+      "title": "Supprimer le compte",
+      "deleteButton": "Supprimer le compte",
+      "warningText": "Êtes-vous sûr de vouloir supprimer votre compte ?",
+      "cancelButton": "Annuler",
+      "confirmButton": "Oui, supprimer le compte",
+      "successMessage": "Compte supprimé avec succès !",
+      "errorMessage": "Erreur lors de la suppression du compte."
+    }
+  },
+  "search": {
+    "filters": "Filtres",
+    "resultsFor": "Résultats de recherche pour :",
+    "resetAllFilters": "Réinitialiser tous les filtres",
+    "totalResults_one": "{{count}} article",
+    "totalResults_other": "{{count}} articles",
+    "bar": {
+      "label": "Recherche",
+      "placeholder": "Je recherche...",
+      "placeholderShort": "Rechercher",
+      "button": "Rechercher"
+    },
+    "applyFilters": "Appliquer les filtres",
     "validation": {
-        "name": {
-            "minLength": "Veuillez saisir au moins {{min}} caractères",
-            "maxLength": "Veuillez saisir au maximum {{max}} caractères",
-            "invalidChars": "Seules les lettres, espaces, tirets et apostrophes sont autorisés"
-        }
+      "queryMinLength": "Veuillez saisir au moins 3 caractères",
+      "merchantMinLength": "Veuillez saisir au moins 3 caractères",
+      "dateOrder": "La date de début doit être antérieure à la date de fin"
     },
-    "imprint": {
-        "title": "Mentions légales"
+    "filter": {
+      "creationDate": "Ajouté le",
+      "from": "Du :",
+      "to": "Au :",
+      "productState": "Statut de l'annonce",
+      "merchant": "Marchand",
+      "anyMerchant": "Tous les marchands",
+      "priceSpan": "Fourchette de prix",
+      "min": "Min",
+      "max": "Max",
+      "priceSpanAria": "Fourchette de prix",
+      "updateDate": "Mis à jour",
+      "anyDate": "Toutes",
+      "resetTooltip": {
+        "priceSpan": "Réinitialiser le filtre de fourchette de prix",
+        "productState": "Réinitialiser le filtre de statut",
+        "creationDate": "Réinitialiser le filtre de date de création",
+        "updateDate": "Réinitialiser le filtre de date de mise à jour",
+        "merchant": "Réinitialiser le filtre de marchand"
+      }
     },
-    "terms": {
-        "title": "CGV"
+    "messages": {
+      "minQueryLength": "Veuillez saisir au moins 3 caractères pour lancer la recherche.",
+      "error": "Erreur lors du chargement des résultats de recherche. Veuillez réessayer plus tard !",
+      "noResults": {
+        "title": "Aucun résultat trouvé",
+        "description": "Essayez d'ajuster votre terme de recherche ou vos filtres."
+      },
+      "loadingMore": "Chargement des résultats...",
+      "allLoaded_one": "Vous avez consulté {{count}} résultat correspondant à vos filtres.",
+      "allLoaded_other": "Vous avez consulté les {{count}} résultats correspondant à vos filtres."
     },
-    "header": {
-        "watchlist": "Favoris",
-        "myAccount": "Mon compte",
-        "editAccount": "Modifier le compte",
-        "logout": "Se déconnecter",
-        "hello": "Bonjour",
-        "register": "S'inscrire",
-        "login": "Se connecter"
+    "sortMode": {
+      "relevance": "Pertinence",
+      "creationDate": "Date de création",
+      "updateDate": "Dernière mise à jour",
+      "price": "Prix",
+      "order": {
+        "asc": "Croissant",
+        "desc": "Décroissant"
+      }
+    }
+  },
+  "product": {
+    "unknownPrice": "Prix inconnu",
+    "details": "Détails",
+    "toMerchant": "Voir chez le marchand",
+    "noDescription": "Aucune description disponible",
+    "noImage": "Aucune image disponible",
+    "similar": {
+      "title": "Articles similaires",
+      "error": {
+        "title": "Erreur de chargement",
+        "description": "Impossible de charger les articles similaires."
+      },
+      "embeddingsPending": {
+        "title": "En cours de préparation",
+        "description": "Les articles similaires sont en cours de préparation. Cela peut prendre jusqu'à 24 heures pour les nouveaux articles."
+      },
+      "noData": {
+        "title": "Aucun article similaire",
+        "description": "Aucun produit similaire n'a été trouvé pour cet article."
+      }
     },
-    "footer": {
-        "ariaSwitchToLanguage": "Changer de langue vers {{language}}",
-        "imprint": "Mentions légales",
-        "terms": "CGV",
-        "copyright": "© {{year}} Aura Historia"
+    "history": {
+      "title": "Historique",
+      "noData": "Aucune donnée disponible pour cet article.",
+      "noEvents": "Aucun événement disponible pour ce filtre.",
+      "filters": {
+        "all": "Tous",
+        "price": "Prix",
+        "availability": "Disponibilité"
+      },
+      "events": {
+        "statusChanged": "Le statut est passé de {{oldState}} à {{newState}}.",
+        "priceDiscovered": "Prix découvert • {{price}}.",
+        "priceChanged": "Le prix est {{verb}} de {{oldPrice}} à {{newPrice}}.",
+        "priceFallen": "passé",
+        "priceIncreased": "passé",
+        "priceRemoved": "Prix supprimé • Dernier prix : {{price}}.",
+        "created": "Enregistré dans le système"
+      }
     },
-    "account": {
-        "title": "Mon compte",
-        "changePassword": {
-            "title": "Modifier le mot de passe",
-            "currentPasswordLabel": "Mot de passe actuel",
-            "newPasswordLabel": "Nouveau mot de passe",
-            "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
-            "saveButton": "Enregistrer le mot de passe",
-            "successMessage": "Mot de passe modifié avec succès !",
-            "errorMessage": "Erreur lors de la modification du mot de passe."
-        },
-        "deleteAccount": {
-            "title": "Supprimer le compte",
-            "deleteButton": "Supprimer le compte",
-            "warningText": "Êtes-vous sûr de vouloir supprimer votre compte ?",
-            "cancelButton": "Annuler",
-            "confirmButton": "Oui, supprimer le compte",
-            "successMessage": "Compte supprimé avec succès !",
-            "errorMessage": "Erreur lors de la suppression du compte."
-        }
+    "priceChart": {
+      "title": "Évolution du prix",
+      "noData": "Aucune donnée de prix disponible pour cet article.",
+      "seriesName": "Prix",
+      "timeRanges": {
+        "1d": "1J",
+        "5d": "5J",
+        "1m": "1M",
+        "3m": "3M",
+        "6m": "6M",
+        "1y": "1A",
+        "all": "Tout"
+      }
+    }
+  },
+  "priceBadge": {
+    "discovered": "Prix découvert",
+    "dropped": "Prix en baisse",
+    "increased": "Prix en hausse",
+    "removed": "Prix supprimé"
+  },
+  "productState": {
+    "listed": "Listé",
+    "available": "Disponible",
+    "reserved": "Réservé",
+    "sold": "Vendu",
+    "removed": "Supprimé",
+    "unknown": "Inconnu"
+  },
+  "discover": {
+    "title": "Votre fenêtre sur le monde des antiquités",
+    "p1": "Aura Historia parcourt quotidiennement l'offre pléthorique de milliers d'antiquaires disséminés dans le monde entier et centralise leurs trésors en un seul endroit.",
+    "p2": "Notre plateforme intelligente ne se contente pas de recenser les offres actuelles, elle suit également l'évolution des prix et la disponibilité. Ainsi, vous ne manquez jamais une bonne affaire et gardez toujours un œil sur le marché.",
+    "highlight1": {
+      "title": "Plus de 500 marchands connectés",
+      "description": "Nous recherchons en permanence des antiquaires renommés dans toute l'Europe et au-delà."
     },
-    "search": {
-        "filters": "Filtres",
-        "resultsFor": "Résultats de recherche pour :",
-        "resetAllFilters": "Réinitialiser tous les filtres",
-        "totalResults_one": "{{count}} article",
-        "totalResults_other": "{{count}} articles",
-        "bar": {
-            "label": "Recherche",
-            "placeholder": "Je recherche...",
-            "placeholderShort": "Rechercher",
-            "button": "Rechercher"
-        },
-        "applyFilters": "Appliquer les filtres",
-        "validation": {
-            "queryMinLength": "Veuillez saisir au moins 3 caractères",
-            "merchantMinLength": "Veuillez saisir au moins 3 caractères",
-            "dateOrder": "La date de début doit être antérieure à la date de fin"
-        },
-        "filter": {
-            "creationDate": "Ajouté le",
-            "from": "Du :",
-            "to": "Au :",
-            "productState": "Statut de l'annonce",
-            "merchant": "Marchand",
-            "anyMerchant": "Tous les marchands",
-            "priceSpan": "Fourchette de prix",
-            "min": "Min",
-            "max": "Max",
-            "priceSpanAria": "Fourchette de prix",
-            "updateDate": "Mis à jour",
-            "anyDate": "Toutes",
-            "resetTooltip": {
-                "priceSpan": "Réinitialiser le filtre de fourchette de prix",
-                "productState": "Réinitialiser le filtre de statut",
-                "creationDate": "Réinitialiser le filtre de date de création",
-                "updateDate": "Réinitialiser le filtre de date de mise à jour",
-                "merchant": "Réinitialiser le filtre de marchand"
-            }
-        },
-        "messages": {
-            "minQueryLength": "Veuillez saisir au moins 3 caractères pour lancer la recherche.",
-            "error": "Erreur lors du chargement des résultats de recherche. Veuillez réessayer plus tard !",
-            "noResults": {
-                "title": "Aucun résultat trouvé",
-                "description": "Essayez d'ajuster votre terme de recherche ou vos filtres."
-            },
-            "loadingMore": "Chargement des résultats...",
-            "allLoaded_one": "Vous avez consulté {{count}} résultat correspondant à vos filtres.",
-            "allLoaded_other": "Vous avez consulté les {{count}} résultats correspondant à vos filtres."
-        },
-        "sortMode": {
-            "relevance": "Pertinence",
-            "creationDate": "Date de création",
-            "updateDate": "Dernière mise à jour",
-            "price": "Prix",
-            "order": {
-                "asc": "Croissant",
-                "desc": "Décroissant"
-            }
-        }
+    "highlight2": {
+      "title": "Surveillance en temps réel",
+      "description": "Les changements de prix et la disponibilité sont automatiquement détectés et affichés."
     },
-    "product": {
-        "unknownPrice": "Prix inconnu",
-        "details": "Détails",
-        "toMerchant": "Voir chez le marchand",
-        "noDescription": "Aucune description disponible",
-        "noImage": "Aucune image disponible",
-        "similar": {
-            "title": "Articles similaires",
-            "error": {
-                "title": "Erreur de chargement",
-                "description": "Impossible de charger les articles similaires."
-            },
-            "embeddingsPending": {
-                "title": "En cours de préparation",
-                "description": "Les articles similaires sont en cours de préparation. Cela peut prendre jusqu'à 24 heures pour les nouveaux articles."
-            },
-            "noData": {
-                "title": "Aucun article similaire",
-                "description": "Aucun produit similaire n'a été trouvé pour cet article."
-            }
-        },
-        "history": {
-            "title": "Historique",
-            "noData": "Aucune donnée disponible pour cet article.",
-            "noEvents": "Aucun événement disponible pour ce filtre.",
-            "filters": {
-                "all": "Tous",
-                "price": "Prix",
-                "availability": "Disponibilité"
-            },
-            "events": {
-                "statusChanged": "Le statut est passé de {{oldState}} à {{newState}}.",
-                "priceDiscovered": "Prix découvert • {{price}}.",
-                "priceChanged": "Le prix est {{verb}} de {{oldPrice}} à {{newPrice}}.",
-                "priceFallen": "passé",
-                "priceIncreased": "passé",
-                "priceRemoved": "Prix supprimé • Dernier prix : {{price}}.",
-                "created": "Enregistré dans le système"
-            }
-        },
-        "priceChart": {
-            "title": "Évolution du prix",
-            "noData": "Aucune donnée de prix disponible pour cet article.",
-            "seriesName": "Prix",
-            "timeRanges": {
-                "1d": "1J",
-                "5d": "5J",
-                "1m": "1M",
-                "3m": "3M",
-                "6m": "6M",
-                "1y": "1A",
-                "all": "Tout"
-            }
-        }
+    "highlight3": {
+      "title": "Évolution des prix transparente",
+      "description": "Suivez l'historique complet des prix d'un article et identifiez les tendances d'un coup d'œil."
     },
-    "priceBadge": {
-        "discovered": "Prix découvert",
-        "dropped": "Prix en baisse",
-        "increased": "Prix en hausse",
-        "removed": "Prix supprimé"
+    "stats": {
+      "shops": "500",
+      "shopsLabel": "Marchands connectés",
+      "items": "120 000",
+      "itemsLabel": "Articles uniques",
+      "updates": "24/7",
+      "updatesLabel": "Mises à jour automatiques",
+      "countries": "15",
+      "countriesLabel": "Pays couverts"
+    }
+  },
+  "landingPage": {
+    "badge": "La plateforme de référence pour les passionnés d'antiquités",
+    "titleFirstLine": "Découvrez, comparez, collectionnez –",
+    "titleSecondLine": "Des antiquités du monde entier",
+    "subtitle": "Parcourez plus de 120 000 antiquités uniques provenant de plus de 500 marchands dans le monde. Suivez l'évolution des prix, enregistrez vos favoris et ne manquez plus jamais une bonne affaire.",
+    "trustBadge1": "Entièrement gratuit",
+    "trustBadge2": "Aucune inscription requise",
+    "trustBadge3": "Mis à jour plusieurs fois par jour",
+    "features": {
+      "title": "Tout ce dont les collectionneurs ont besoin",
+      "subtitle": "Aura Historia vous offre tous les outils pour explorer efficacement le marché des antiquités et dénicher des trésors.",
+      "previewBadge": "Bientôt disponible",
+      "search": {
+        "title": "Recherche intelligente",
+        "description": "Parcourez des milliers d'articles grâce à notre puissant moteur de recherche. Filtrez par catégorie, prix, marchand et bien plus encore."
+      },
+      "global": {
+        "title": "Couverture mondiale",
+        "description": "Nous vous mettons en relation avec des antiquaires renommés de plus de 15 pays – de l'Allemagne aux États-Unis."
+      },
+      "notifications": {
+        "title": "Alertes de prix",
+        "description": "Recevez une notification instantanée lorsque le prix d'un article de votre liste de favoris baisse."
+      },
+      "priceTracking": {
+        "title": "Historique des prix",
+        "description": "Consultez l'historique complet des prix de n'importe quel article et identifiez le moment idéal pour acheter."
+      },
+      "history": {
+        "title": "Historique des modifications",
+        "description": "Suivez toutes les modifications d'un article – des ajustements de prix aux changements de statut."
+      },
+      "watchlist": {
+        "title": "Liste de favoris personnelle",
+        "description": "Enregistrez les articles qui vous intéressent et suivez leur évolution – le tout au même endroit."
+      },
+      "translations": {
+        "title": "Traductions automatiques",
+        "description": "Lisez les descriptions des articles dans votre langue préférée, sans aucune barrière linguistique."
+      },
+      "personalFilter": {
+        "title": "Filtres personnalisés",
+        "description": "Enregistrez vos filtres de recherche et soyez automatiquement informé des nouvelles offres."
+      },
+      "aiSearchAgent": {
+        "title": "Agent de recherche IA",
+        "description": "Votre agent IA personnel vous aide à trouver des antiquités spécifiques autrement difficiles à dénicher."
+      }
     },
-    "productState": {
-        "listed": "Listé",
-        "available": "Disponible",
-        "reserved": "Réservé",
-        "sold": "Vendu",
-        "removed": "Supprimé",
-        "unknown": "Inconnu"
+    "howItWorks": {
+      "title": "Comment ça marche",
+      "subtitle": "Quelques étapes seulement pour trouver la pièce de vos rêves – sans frais cachés.",
+      "step1": {
+        "title": "Rechercher",
+        "description": "Saisissez ce que vous cherchez – meubles, bijoux, art ou objets de collection."
+      },
+      "step2": {
+        "title": "Découvrir",
+        "description": "Parcourez les résultats de centaines de marchands en un coup d'œil."
+      },
+      "step3": {
+        "title": "Sauvegarder",
+        "description": "Enregistrez les articles intéressants dans votre liste de favoris personnelle. Nous vous préviendrons en cas de changement."
+      },
+      "step4": {
+        "title": "Acheter",
+        "description": "Nous vous redirigeons directement vers le marchand où vous pouvez acquérir votre trouvaille."
+      }
     },
-    "discover": {
-        "title": "Votre fenêtre sur le monde des antiquités",
-        "p1": "Aura Historia parcourt quotidiennement l'offre pléthorique de milliers d'antiquaires disséminés dans le monde entier et centralise leurs trésors en un seul endroit.",
-        "p2": "Notre plateforme intelligente ne se contente pas de recenser les offres actuelles, elle suit également l'évolution des prix et la disponibilité. Ainsi, vous ne manquez jamais une bonne affaire et gardez toujours un œil sur le marché.",
-        "highlight1": {
-            "title": "Plus de 500 marchands connectés",
-            "description": "Nous recherchons en permanence des antiquaires renommés dans toute l'Europe et au-delà."
-        },
-        "highlight2": {
-            "title": "Surveillance en temps réel",
-            "description": "Les changements de prix et la disponibilité sont automatiquement détectés et affichés."
-        },
-        "highlight3": {
-            "title": "Évolution des prix transparente",
-            "description": "Suivez l'historique complet des prix d'un article et identifiez les tendances d'un coup d'œil."
-        },
-        "stats": {
-            "shops": "500",
-            "shopsLabel": "Marchands connectés",
-            "items": "120 000",
-            "itemsLabel": "Articles uniques",
-            "updates": "24/7",
-            "updatesLabel": "Mises à jour automatiques",
-            "countries": "15",
-            "countriesLabel": "Pays couverts"
-        }
+    "testimonials": {
+      "title": "Ce que disent nos utilisateurs",
+      "subtitle": "Découvrez comment Aura Historia aide les collectionneurs à vivre leur passion.",
+      "testimonial1": {
+        "name": "Margarete W.",
+        "role": "Collectionne les meubles Art nouveau",
+        "quote": "Enfin une plateforme qui facilite la recherche de pièces rares. Les alertes de prix m'ont permis à plusieurs reprises de dénicher de véritables bonnes affaires."
+      },
+      "testimonial2": {
+        "name": "Heinrich K.",
+        "role": "Antiquaire",
+        "quote": "En tant que marchand, j'utilise Aura Historia pour surveiller le marché. L'évolution des prix m'aide énormément à fixer mes propres tarifs."
+      },
+      "testimonial3": {
+        "name": "Elisabeth M.",
+        "role": "Collectionneuse amateur depuis 20 ans",
+        "quote": "Je suis impressionnée par la clarté de l'interface. Avant, je passais des heures à chercher sur différents sites de marchands. Maintenant, je trouve tout au même endroit."
+      }
     },
-    "landingPage": {
-        "badge": "La plateforme de référence pour les passionnés d'antiquités",
-        "titleFirstLine": "Découvrez, comparez, collectionnez –",
-        "titleSecondLine": "Des antiquités du monde entier",
-        "subtitle": "Parcourez plus de 120 000 antiquités uniques provenant de plus de 500 marchands dans le monde. Suivez l'évolution des prix, enregistrez vos favoris et ne manquez plus jamais une bonne affaire.",
-        "trustBadge1": "Entièrement gratuit",
-        "trustBadge2": "Aucune inscription requise",
-        "trustBadge3": "Mis à jour plusieurs fois par jour",
-        "features": {
-            "title": "Tout ce dont les collectionneurs ont besoin",
-            "subtitle": "Aura Historia vous offre tous les outils pour explorer efficacement le marché des antiquités et dénicher des trésors.",
-            "previewBadge": "Bientôt disponible",
-            "search": {
-                "title": "Recherche intelligente",
-                "description": "Parcourez des milliers d'articles grâce à notre puissant moteur de recherche. Filtrez par catégorie, prix, marchand et bien plus encore."
-            },
-            "global": {
-                "title": "Couverture mondiale",
-                "description": "Nous vous mettons en relation avec des antiquaires renommés de plus de 15 pays – de l'Allemagne aux États-Unis."
-            },
-            "notifications": {
-                "title": "Alertes de prix",
-                "description": "Recevez une notification instantanée lorsque le prix d'un article de votre liste de favoris baisse."
-            },
-            "priceTracking": {
-                "title": "Historique des prix",
-                "description": "Consultez l'historique complet des prix de n'importe quel article et identifiez le moment idéal pour acheter."
-            },
-            "history": {
-                "title": "Historique des modifications",
-                "description": "Suivez toutes les modifications d'un article – des ajustements de prix aux changements de statut."
-            },
-            "watchlist": {
-                "title": "Liste de favoris personnelle",
-                "description": "Enregistrez les articles qui vous intéressent et suivez leur évolution – le tout au même endroit."
-            },
-            "translations": {
-                "title": "Traductions automatiques",
-                "description": "Lisez les descriptions des articles dans votre langue préférée, sans aucune barrière linguistique."
-            },
-            "personalFilter": {
-                "title": "Filtres personnalisés",
-                "description": "Enregistrez vos filtres de recherche et soyez automatiquement informé des nouvelles offres."
-            },
-            "aiSearchAgent": {
-                "title": "Agent de recherche IA",
-                "description": "Votre agent IA personnel vous aide à trouver des antiquités spécifiques autrement difficiles à dénicher."
-            }
+    "newsletter": {
+      "title": "Restez informé",
+      "description": "Recevez chaque semaine une sélection de trouvailles, les tendances du marché et des aperçus exclusifs directement dans votre boîte mail.",
+      "placeholder": "Votre adresse e-mail",
+      "button": "S'inscrire",
+      "privacy": "En vous inscrivant, vous acceptez notre politique de confidentialité. Vous pouvez vous désinscrire à tout moment.",
+      "successMessage": "Merci pour votre inscription ! Veuillez confirmer votre adresse e-mail.",
+      "benefit1": "Sélection hebdomadaire",
+      "benefit2": "Rapports de marché et tendances",
+      "benefit3": "Désinscription à tout moment"
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "subtitle": "Retrouvez ici les réponses aux questions les plus importantes sur Aura Historia.",
+      "items": {
+        "free": {
+          "question": "Aura Historia est-il vraiment gratuit ?",
+          "answer": "Oui, l'utilisation d'Aura Historia est entièrement gratuite. Vous pouvez effectuer des recherches sans limite, ajouter des articles à votre liste de favoris et consulter l'historique des prix – sans frais cachés ni abonnement."
         },
         "howItWorks": {
-            "title": "Comment ça marche",
-            "subtitle": "Quelques étapes seulement pour trouver la pièce de vos rêves – sans frais cachés.",
-            "step1": {
-                "title": "Rechercher",
-                "description": "Saisissez ce que vous cherchez – meubles, bijoux, art ou objets de collection."
-            },
-            "step2": {
-                "title": "Découvrir",
-                "description": "Parcourez les résultats de centaines de marchands en un coup d'œil."
-            },
-            "step3": {
-                "title": "Sauvegarder",
-                "description": "Enregistrez les articles intéressants dans votre liste de favoris personnelle. Nous vous préviendrons en cas de changement."
-            },
-            "step4": {
-                "title": "Acheter",
-                "description": "Nous vous redirigeons directement vers le marchand où vous pouvez acquérir votre trouvaille."
-            }
+          "question": "Comment fonctionne Aura Historia ?",
+          "answer": "Aura Historia parcourt automatiquement chaque jour les sites web de plus de 500 antiquaires dans le monde et centralise toutes les offres en un seul endroit. Notre moteur de recherche intelligent vous permet de trouver exactement ce que vous cherchez."
         },
-        "testimonials": {
-            "title": "Ce que disent nos utilisateurs",
-            "subtitle": "Découvrez comment Aura Historia aide les collectionneurs à vivre leur passion.",
-            "testimonial1": {
-                "name": "Margarete W.",
-                "role": "Collectionne les meubles Art nouveau",
-                "quote": "Enfin une plateforme qui facilite la recherche de pièces rares. Les alertes de prix m'ont permis à plusieurs reprises de dénicher de véritables bonnes affaires."
-            },
-            "testimonial2": {
-                "name": "Heinrich K.",
-                "role": "Antiquaire",
-                "quote": "En tant que marchand, j'utilise Aura Historia pour surveiller le marché. L'évolution des prix m'aide énormément à fixer mes propres tarifs."
-            },
-            "testimonial3": {
-                "name": "Elisabeth M.",
-                "role": "Collectionneuse amateur depuis 20 ans",
-                "quote": "Je suis impressionnée par la clarté de l'interface. Avant, je passais des heures à chercher sur différents sites de marchands. Maintenant, je trouve tout au même endroit."
-            }
+        "directPurchase": {
+          "question": "Puis-je acheter des articles directement via Aura Historia ?",
+          "answer": "Non, Aura Historia est uniquement une plateforme de recherche. Si vous souhaitez acheter un article, vous serez redirigé directement vers le site du marchand concerné où vous pourrez finaliser l'achat."
         },
-        "newsletter": {
-            "title": "Restez informé",
-            "description": "Recevez chaque semaine une sélection de trouvailles, les tendances du marché et des aperçus exclusifs directement dans votre boîte mail.",
-            "placeholder": "Votre adresse e-mail",
-            "button": "S'inscrire",
-            "privacy": "En vous inscrivant, vous acceptez notre politique de confidentialité. Vous pouvez vous désinscrire à tout moment.",
-            "successMessage": "Merci pour votre inscription ! Veuillez confirmer votre adresse e-mail.",
-            "benefit1": "Sélection hebdomadaire",
-            "benefit2": "Rapports de marché et tendances",
-            "benefit3": "Désinscription à tout moment"
+        "priceAlerts": {
+          "question": "Comment fonctionnent les alertes de prix ?",
+          "answer": "Dès que vous ajoutez un article à votre liste de favoris, nous suivons automatiquement l'évolution de son prix pour vous. En cas de changement sur votre article, vous recevez une notification – ainsi vous ne manquez plus jamais une bonne affaire."
         },
-        "faq": {
-            "title": "Questions fréquentes",
-            "subtitle": "Retrouvez ici les réponses aux questions les plus importantes sur Aura Historia.",
-            "items": {
-                "free": {
-                    "question": "Aura Historia est-il vraiment gratuit ?",
-                    "answer": "Oui, l'utilisation d'Aura Historia est entièrement gratuite. Vous pouvez effectuer des recherches sans limite, ajouter des articles à votre liste de favoris et consulter l'historique des prix – sans frais cachés ni abonnement."
-                },
-                "howItWorks": {
-                    "question": "Comment fonctionne Aura Historia ?",
-                    "answer": "Aura Historia parcourt automatiquement chaque jour les sites web de plus de 500 antiquaires dans le monde et centralise toutes les offres en un seul endroit. Notre moteur de recherche intelligent vous permet de trouver exactement ce que vous cherchez."
-                },
-                "directPurchase": {
-                    "question": "Puis-je acheter des articles directement via Aura Historia ?",
-                    "answer": "Non, Aura Historia est uniquement une plateforme de recherche. Si vous souhaitez acheter un article, vous serez redirigé directement vers le site du marchand concerné où vous pourrez finaliser l'achat."
-                },
-                "priceAlerts": {
-                    "question": "Comment fonctionnent les alertes de prix ?",
-                    "answer": "Dès que vous ajoutez un article à votre liste de favoris, nous suivons automatiquement l'évolution de son prix pour vous. En cas de changement sur votre article, vous recevez une notification – ainsi vous ne manquez plus jamais une bonne affaire."
-                },
-                "updateFrequency": {
-                    "question": "À quelle fréquence les données sont-elles mises à jour ?",
-                    "answer": "Nos données sont mises à jour en continu. La plupart des sites de marchands sont parcourus plusieurs fois par jour, vous voyez donc toujours les prix et disponibilités actuels."
-                },
-                "dealers": {
-                    "question": "Quels marchands sont présents sur Aura Historia ?",
-                    "answer": "Nous collaborons avec plus de 500 antiquaires renommés de plus de 15 pays. Parmi eux, vous trouverez aussi bien de grandes maisons de ventes aux enchères que des marchands spécialisés dans divers domaines des antiquités."
-                }
-            }
+        "updateFrequency": {
+          "question": "À quelle fréquence les données sont-elles mises à jour ?",
+          "answer": "Nos données sont mises à jour en continu. La plupart des sites de marchands sont parcourus plusieurs fois par jour, vous voyez donc toujours les prix et disponibilités actuels."
+        },
+        "dealers": {
+          "question": "Quels marchands sont présents sur Aura Historia ?",
+          "answer": "Nous collaborons avec plus de 500 antiquaires renommés de plus de 15 pays. Parmi eux, vous trouverez aussi bien de grandes maisons de ventes aux enchères que des marchands spécialisés dans divers domaines des antiquités."
         }
-    },
-    "apiErrors": {
-        "PRODUCT_NOT_FOUND": "Cet article n'a pas été trouvé.",
-        "UNAUTHORIZED": "Échec de l'authentification. Veuillez vous connecter.",
-        "INTERNAL_SERVER_ERROR": "Une erreur interne du serveur s'est produite. Veuillez réessayer plus tard.",
-        "GATEWAY_TIMEOUT": "Délai d'attente de la requête dépassé. Veuillez réessayer plus tard.",
-        "WATCHLIST_ENTRY_NOT_FOUND": "Cet article ne figure pas dans votre liste de favoris.",
-        "SEARCH_FILTER_NOT_FOUND": "Ce filtre de recherche n'existe pas.",
-        "TEXT_QUERY_TOO_SHORT": "La requête de recherche doit contenir au moins 3 caractères.",
-        "BAD_PATH_PARAMETER_VALUE": "Le lien est invalide.",
-        "INVALID_UUID": "Le lien est invalide.",
-        "SERVICE_UNAVAILABLE": "Le service est actuellement indisponible. Veuillez réessayer plus tard.",
-        "BAD_QUERY_PARAMETER_VALUE": "Votre recherche contient des paramètres invalides.",
-        "SHOP_NOT_FOUND": "Cette boutique n'est plus disponible.",
-        "INVALID_SHOP_IDENTIFIER": "L'identifiant de la boutique est invalide.",
-        "FORBIDDEN": "Cette action n'est pas disponible pour vous.",
-        "BAD_BODY_VALUE": "Certaines informations sont incorrectes. Veuillez vérifier votre saisie.",
-        "MONETARY_AMOUNT_OVERFLOW": "Le prix est trop élevé et ne peut pas être traité.",
-        "BAD_PAGE_FROM_VALUE": "Numéro de page invalide.",
-        "BAD_PAGE_SIZE_VALUE": "Nombre d'éléments par page invalide.",
-        "BAD_SORT_VALUE": "Tri invalide.",
-        "BAD_ORDER_VALUE": "Ordre de tri invalide.",
-        "unknown": "Une erreur inattendue s'est produite."
-    },
-    "watchlist": {
-        "title": "Mes favoris",
-        "loginRequired": "Veuillez vous connecter pour utiliser la liste de favoris.",
-        "totalElements": "{{count}} articles",
-        "loadingError": "La liste de favoris est actuellement inaccessible. Veuillez réessayer plus tard.",
-        "loadingMore": "Chargement des résultats...",
-        "allLoaded_one": "Vous avez consulté {{count}} article de votre liste de favoris.",
-        "allLoaded_other": "Vous avez consulté les {{count}} articles de votre liste de favoris.",
-        "noResults": {
-            "title": "Aucun article trouvé",
-            "description": "Ajoutez des articles à votre liste de favoris pour les retrouver ici."
-        }
-    },
-    "share": {
-        "copyLink": "Copier le lien",
-        "copied": "Copié !",
-        "shareProduct": "Partager le produit",
-        "foundOnAuraHistoria": "J'ai trouvé {{title}} sur Aura Historia ! Cela pourrait t'intéresser !"
-    },
-    "notFound": {
-        "title": "Page non trouvée",
-        "description": "La page que vous recherchez n'a pas été trouvée.",
-        "goHome": "Retour à l'accueil"
-    },
-    "auth": {
-        "subtitle": "Plus de 120 000 antiquités de 500 marchands. Comparez, sauvegardez et suivez les prix sur Aura Historia.",
-        "welcome": "Bienvenue",
-        "welcomeWithName": "Bienvenue, {{name}} !",
-        "welcomeBack": "Bon retour",
-        "welcomeBackWithName": "Bon retour, {{name}} !",
-        "completingRegistration": "L'inscription est en cours de finalisation, veuillez patienter un instant !",
-        "completingLogin": "La connexion est en cours de finalisation, veuillez patienter un instant !",
-        "retry": "Réessayer",
-        "backToLogin": "Retour à la connexion",
-        "backToHomepage": "Retour à l'accueil",
-        "errorTitle": "Données utilisateur non enregistrées",
-        "timeout": {
-            "title": "Inscription réussie !",
-            "message": "Votre inscription a été complétée avec succès ! Les données personnelles n'ont pas pu être enregistrées en raison d'un trafic élevé.",
-            "hint": "Vous pouvez ajouter ces informations à tout moment dans les paramètres de votre compte.",
-            "noteLabel": "Remarque :"
-        },
-        "signUp": {
-            "firstName": "Prénom",
-            "firstNamePlaceholder": "Jean",
-            "lastName": "Nom",
-            "lastNamePlaceholder": "Dupont",
-            "email": "E-mail*",
-            "emailPlaceholder": "votre.email@exemple.fr",
-            "password": "Mot de passe*",
-            "confirmPassword": "Confirmer le mot de passe*",
-            "language": "Langue",
-            "currency": "Devise",
-            "pleaseSelect": "Veuillez sélectionner"
-        },
-        "signIn": {
-            "email": "E-mail",
-            "emailPlaceholder": "Entrez votre e-mail",
-            "password": "Mot de passe",
-            "passwordPlaceholder": "Entrez votre mot de passe"
-        },
-        "languages": {
-            "de": "Allemand",
-            "en": "Anglais",
-            "fr": "Français",
-            "es": "Espagnol"
-        },
-        "currencies": {
-            "EUR": "EUR - Euro",
-            "GBP": "GBP - Livre sterling",
-            "USD": "USD - Dollar américain",
-            "AUD": "AUD - Dollar australien",
-            "CAD": "CAD - Dollar canadien",
-            "NZD": "NZD - Dollar néo-zélandais"
-        }
-    },
-    "amplify": {
-        "email": "E-mail*",
-        "password": "Mot de passe*",
-        "confirmPassword": "Confirmer le mot de passe*",
-        "signIn": "Se connecter",
-        "signUp": "S'inscrire",
-        "createAccount": "Créer un compte",
-        "forgotYourPassword": "Mot de passe oublié ?",
-        "resetPassword": "Réinitialiser le mot de passe",
-        "backToSignIn": "Retour à la connexion",
-        "sendCode": "Envoyer le code",
-        "confirm": "Confirmer",
-        "submit": "Soumettre",
-        "verify": "Vérifier",
-        "skip": "Ignorer",
-        "code": "Code",
-        "newPassword": "Nouveau mot de passe",
-        "enterYourEmail": "Entrez votre e-mail",
-        "enterYourPassword": "Entrez votre mot de passe",
-        "pleaseConfirmYourPassword": "Veuillez confirmer votre mot de passe",
-        "weEmailedYou": "Nous vous avons envoyé un e-mail",
-        "weSentACode": "Nous avons envoyé un code",
-        "weTextedYou": "Nous vous avons envoyé un SMS",
-        "codeOnTheWayEmail": "Votre code est en route. Pour vous connecter, entrez le code que nous avons envoyé à",
-        "codeOnTheWaySent": "Votre code est en route. Pour vous connecter, entrez le code que nous vous avons envoyé",
-        "codeOnTheWayText": "Votre code est en route. Pour vous connecter, entrez le code que nous avons envoyé par SMS à",
-        "itMayTakeAMinuteToArrive": "Cela peut prendre une minute",
-        "confirmationCode": "Code de confirmation",
-        "enterYourConfirmationCode": "Entrez votre code de confirmation",
-        "resendCode": "Renvoyer le code",
-        "incorrectUsernameOrPassword": "Nom d'utilisateur ou mot de passe incorrect.",
-        "userDoesNotExist": "L'utilisateur n'existe pas.",
-        "userAlreadyExists": "L'utilisateur existe déjà.",
-        "invalidVerificationCode": "Code de vérification invalide, veuillez réessayer.",
-        "invalidPasswordFormat": "Format de mot de passe invalide.",
-        "passwordAttemptsExceeded": "Trop de tentatives. Veuillez réessayer plus tard.",
-        "attemptLimitExceeded": "Limite de tentatives dépassée, veuillez réessayer plus tard.",
-        "alreadySignedInUser": "Un utilisateur est déjà connecté.",
-        "passwordPolicyNotLongEnough": "Le mot de passe n'est pas assez long.",
-        "passwordPolicyMustHaveLowercase": "Le mot de passe doit contenir des minuscules.",
-        "passwordPolicyMustHaveUppercase": "Le mot de passe doit contenir des majuscules.",
-        "passwordPolicyMustHaveSymbol": "Le mot de passe doit contenir des caractères spéciaux.",
-        "passwordMustHaveUppercase": "Le mot de passe doit contenir des majuscules.",
-        "passwordMustHaveLowercase": "Le mot de passe doit contenir des minuscules.",
-        "passwordMustHaveNumeric": "Le mot de passe doit contenir des chiffres.",
-        "passwordMustHaveSymbol": "Le mot de passe doit contenir des caractères spéciaux.",
-        "passwordMustHaveAtLeast8Chars": "Le mot de passe doit contenir au moins 8 caractères.",
-        "yourPasswordsMustMatch": "Les mots de passe doivent correspondre.",
-        "userIsNotConfirmed": "L'utilisateur n'est pas confirmé.",
-        "userIsDisabled": "L'utilisateur est désactivé.",
-        "usernameCannotBeEmpty": "Le nom d'utilisateur ne peut pas être vide.",
-        "passwordCannotBeEmpty": "Le mot de passe ne peut pas être vide.",
-        "networkError": "Erreur réseau. Veuillez vérifier votre connexion Internet.",
-        "accountWithEmailAlreadyExists": "Un compte avec cette adresse e-mail existe déjà.",
-        "invalidEmailAddressFormat": "Format d'adresse e-mail invalide.",
-        "codeMismatch": "Le code entré est incorrect.",
-        "confirmationCodeCannotBeEmpty": "Le code de confirmation ne peut pas être vide.",
-        "invalidCodeProvidedRequestAgain": "Code invalide, veuillez en demander un nouveau."
+      }
     }
+  },
+  "apiErrors": {
+    "PRODUCT_NOT_FOUND": "Cet article n'a pas été trouvé.",
+    "UNAUTHORIZED": "Échec de l'authentification. Veuillez vous connecter.",
+    "INTERNAL_SERVER_ERROR": "Une erreur interne du serveur s'est produite. Veuillez réessayer plus tard.",
+    "GATEWAY_TIMEOUT": "Délai d'attente de la requête dépassé. Veuillez réessayer plus tard.",
+    "WATCHLIST_ENTRY_NOT_FOUND": "Cet article ne figure pas dans votre liste de favoris.",
+    "SEARCH_FILTER_NOT_FOUND": "Ce filtre de recherche n'existe pas.",
+    "TEXT_QUERY_TOO_SHORT": "La requête de recherche doit contenir au moins 3 caractères.",
+    "BAD_PATH_PARAMETER_VALUE": "Le lien est invalide.",
+    "INVALID_UUID": "Le lien est invalide.",
+    "SERVICE_UNAVAILABLE": "Le service est actuellement indisponible. Veuillez réessayer plus tard.",
+    "BAD_QUERY_PARAMETER_VALUE": "Votre recherche contient des paramètres invalides.",
+    "SHOP_NOT_FOUND": "Cette boutique n'est plus disponible.",
+    "INVALID_SHOP_IDENTIFIER": "L'identifiant de la boutique est invalide.",
+    "FORBIDDEN": "Cette action n'est pas disponible pour vous.",
+    "BAD_BODY_VALUE": "Certaines informations sont incorrectes. Veuillez vérifier votre saisie.",
+    "MONETARY_AMOUNT_OVERFLOW": "Le prix est trop élevé et ne peut pas être traité.",
+    "BAD_PAGE_FROM_VALUE": "Numéro de page invalide.",
+    "BAD_PAGE_SIZE_VALUE": "Nombre d'éléments par page invalide.",
+    "BAD_SORT_VALUE": "Tri invalide.",
+    "BAD_ORDER_VALUE": "Ordre de tri invalide.",
+    "unknown": "Une erreur inattendue s'est produite."
+  },
+  "watchlist": {
+    "title": "Mes favoris",
+    "loginRequired": "Veuillez vous connecter pour utiliser la liste de favoris.",
+    "totalElements": "{{count}} articles",
+    "loadingError": "La liste de favoris est actuellement inaccessible. Veuillez réessayer plus tard.",
+    "loadingMore": "Chargement des résultats...",
+    "allLoaded_one": "Vous avez consulté {{count}} article de votre liste de favoris.",
+    "allLoaded_other": "Vous avez consulté les {{count}} articles de votre liste de favoris.",
+    "noResults": {
+      "title": "Aucun article trouvé",
+      "description": "Ajoutez des articles à votre liste de favoris pour les retrouver ici."
+    }
+  },
+  "share": {
+    "copyLink": "Copier le lien",
+    "copied": "Copié !",
+    "shareProduct": "Partager le produit",
+    "foundOnAuraHistoria": "J'ai trouvé {{title}} sur Aura Historia ! Cela pourrait t'intéresser !"
+  },
+  "notFound": {
+    "title": "Page non trouvée",
+    "description": "La page que vous recherchez n'a pas été trouvée.",
+    "goHome": "Retour à l'accueil"
+  },
+  "auth": {
+    "subtitle": "Plus de 120 000 antiquités de 500 marchands. Comparez, sauvegardez et suivez les prix sur Aura Historia.",
+    "welcome": "Bienvenue",
+    "welcomeWithName": "Bienvenue, {{name}} !",
+    "welcomeBack": "Bon retour",
+    "welcomeBackWithName": "Bon retour, {{name}} !",
+    "completingRegistration": "L'inscription est en cours de finalisation, veuillez patienter un instant !",
+    "completingLogin": "La connexion est en cours de finalisation, veuillez patienter un instant !",
+    "retry": "Réessayer",
+    "backToLogin": "Retour à la connexion",
+    "backToHomepage": "Retour à l'accueil",
+    "errorTitle": "Données utilisateur non enregistrées",
+    "timeout": {
+      "title": "Inscription réussie !",
+      "message": "Votre inscription a été complétée avec succès ! Les données personnelles n'ont pas pu être enregistrées en raison d'un trafic élevé.",
+      "hint": "Vous pouvez ajouter ces informations à tout moment dans les paramètres de votre compte.",
+      "noteLabel": "Remarque :"
+    },
+    "signUp": {
+      "firstName": "Prénom",
+      "firstNamePlaceholder": "Jean",
+      "lastName": "Nom",
+      "lastNamePlaceholder": "Dupont",
+      "email": "E-mail*",
+      "emailPlaceholder": "votre.email@exemple.fr",
+      "password": "Mot de passe*",
+      "confirmPassword": "Confirmer le mot de passe*",
+      "language": "Langue",
+      "currency": "Devise",
+      "pleaseSelect": "Veuillez sélectionner"
+    },
+    "signIn": {
+      "email": "E-mail",
+      "emailPlaceholder": "Entrez votre e-mail",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe"
+    },
+    "languages": {
+      "de": "Allemand",
+      "en": "Anglais",
+      "fr": "Français",
+      "es": "Espagnol"
+    },
+    "currencies": {
+      "EUR": "EUR - Euro",
+      "GBP": "GBP - Livre sterling",
+      "USD": "USD - Dollar américain",
+      "AUD": "AUD - Dollar australien",
+      "CAD": "CAD - Dollar canadien",
+      "NZD": "NZD - Dollar néo-zélandais"
+    }
+  },
+  "amplify": {
+    "email": "E-mail*",
+    "password": "Mot de passe*",
+    "confirmPassword": "Confirmer le mot de passe*",
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "createAccount": "Créer un compte",
+    "forgotYourPassword": "Mot de passe oublié ?",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "backToSignIn": "Retour à la connexion",
+    "sendCode": "Envoyer le code",
+    "confirm": "Confirmer",
+    "submit": "Soumettre",
+    "verify": "Vérifier",
+    "skip": "Ignorer",
+    "code": "Code",
+    "newPassword": "Nouveau mot de passe",
+    "enterYourEmail": "Entrez votre e-mail",
+    "enterYourPassword": "Entrez votre mot de passe",
+    "pleaseConfirmYourPassword": "Veuillez confirmer votre mot de passe",
+    "weEmailedYou": "Nous vous avons envoyé un e-mail",
+    "weSentACode": "Nous avons envoyé un code",
+    "weTextedYou": "Nous vous avons envoyé un SMS",
+    "codeOnTheWayEmail": "Votre code est en route. Pour vous connecter, entrez le code que nous avons envoyé à",
+    "codeOnTheWaySent": "Votre code est en route. Pour vous connecter, entrez le code que nous vous avons envoyé",
+    "codeOnTheWayText": "Votre code est en route. Pour vous connecter, entrez le code que nous avons envoyé par SMS à",
+    "itMayTakeAMinuteToArrive": "Cela peut prendre une minute",
+    "confirmationCode": "Code de confirmation",
+    "enterYourConfirmationCode": "Entrez votre code de confirmation",
+    "resendCode": "Renvoyer le code",
+    "incorrectUsernameOrPassword": "Nom d'utilisateur ou mot de passe incorrect.",
+    "userDoesNotExist": "L'utilisateur n'existe pas.",
+    "userAlreadyExists": "L'utilisateur existe déjà.",
+    "invalidVerificationCode": "Code de vérification invalide, veuillez réessayer.",
+    "invalidPasswordFormat": "Format de mot de passe invalide.",
+    "passwordAttemptsExceeded": "Trop de tentatives. Veuillez réessayer plus tard.",
+    "attemptLimitExceeded": "Limite de tentatives dépassée, veuillez réessayer plus tard.",
+    "alreadySignedInUser": "Un utilisateur est déjà connecté.",
+    "passwordPolicyNotLongEnough": "Le mot de passe n'est pas assez long.",
+    "passwordPolicyMustHaveLowercase": "Le mot de passe doit contenir des minuscules.",
+    "passwordPolicyMustHaveUppercase": "Le mot de passe doit contenir des majuscules.",
+    "passwordPolicyMustHaveSymbol": "Le mot de passe doit contenir des caractères spéciaux.",
+    "passwordMustHaveUppercase": "Le mot de passe doit contenir des majuscules.",
+    "passwordMustHaveLowercase": "Le mot de passe doit contenir des minuscules.",
+    "passwordMustHaveNumeric": "Le mot de passe doit contenir des chiffres.",
+    "passwordMustHaveSymbol": "Le mot de passe doit contenir des caractères spéciaux.",
+    "passwordMustHaveAtLeast8Chars": "Le mot de passe doit contenir au moins 8 caractères.",
+    "yourPasswordsMustMatch": "Les mots de passe doivent correspondre.",
+    "userIsNotConfirmed": "L'utilisateur n'est pas confirmé.",
+    "userIsDisabled": "L'utilisateur est désactivé.",
+    "usernameCannotBeEmpty": "Le nom d'utilisateur ne peut pas être vide.",
+    "passwordCannotBeEmpty": "Le mot de passe ne peut pas être vide.",
+    "networkError": "Erreur réseau. Veuillez vérifier votre connexion Internet.",
+    "accountWithEmailAlreadyExists": "Un compte avec cette adresse e-mail existe déjà.",
+    "invalidEmailAddressFormat": "Format d'adresse e-mail invalide.",
+    "codeMismatch": "Le code entré est incorrect.",
+    "confirmationCodeCannotBeEmpty": "Le code de confirmation ne peut pas être vide.",
+    "invalidCodeProvidedRequestAgain": "Code invalide, veuillez en demander un nouveau."
+  }
 }
