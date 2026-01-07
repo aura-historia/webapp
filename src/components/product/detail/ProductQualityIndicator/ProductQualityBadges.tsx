@@ -21,6 +21,7 @@ export function ProductQualityBadges({ product }: { product: ProductDetail | Ove
     const hasCondition = product.condition != null && product.condition !== "UNKNOWN";
 
     // No iteration: OriginYear differs greatly (different functions, 3 parameters), only 2 similar badges → build array + filter + map = more code than currently. Not worth it.
+    //We could move the badge structure (icon + text in a badge with styling) to its own QualityBadge component, but I don't think that really adds any value, so I'll leave everything as it is.
     return (
         <>
             {hasOriginYear && (

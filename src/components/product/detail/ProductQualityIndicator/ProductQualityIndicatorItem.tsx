@@ -29,7 +29,7 @@ export function ProductQualityIndicatorItem({
                     {description && (
                         <TooltipProvider>
                             <Tooltip>
-                                <TooltipTrigger asChild>
+                                <TooltipTrigger>
                                     <Info className="size-4" />
                                 </TooltipTrigger>
                                 <TooltipContent side="top" className="max-w-xs">
