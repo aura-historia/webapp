@@ -17,11 +17,11 @@ export function ProductQualityBadges({ product }: { product: ProductDetail | Ove
         product.originYear != null ||
         product.originYearMin != null ||
         product.originYearMax != null;
-    const hasAuthenticity = product.authenticity != null && product.authenticity !== "UNKNOWN";
-    const hasCondition = product.condition != null && product.condition !== "UNKNOWN";
+    const hasAuthenticity = product.authenticity !== "UNKNOWN";
+    const hasCondition = product.condition !== "UNKNOWN";
 
     // No iteration: OriginYear differs greatly (different functions, 3 parameters), only 2 similar badges → build array + filter + map = more code than currently. Not worth it.
-    //We could move the badge structure (icon + text in a badge with styling) to its own QualityBadge component, but I don't think that really adds any value, so I'll leave everything as it is.
+    // We could move the badge structure (icon + text in a badge with styling) to its own QualityBadge component, but I don't think that really adds any value, so I'll leave everything as it is.
     return (
         <>
             {hasOriginYear && (
@@ -54,7 +54,7 @@ export function ProductQualityBadges({ product }: { product: ProductDetail | Ove
                 >
                     <ShieldCheck className="size-3" />
                     {t(
-                        `product.qualityIndicators.authenticity.${(product.authenticity || "UNKNOWN").toLowerCase()}`,
+                        `product.qualityIndicators.authenticity.${product.authenticity.toLowerCase()}`,
                     )}
                 </Badge>
             )}
@@ -67,9 +67,7 @@ export function ProductQualityBadges({ product }: { product: ProductDetail | Ove
                     )}
                 >
                     <Star className="size-3" />
-                    {t(
-                        `product.qualityIndicators.condition.${(product.condition || "UNKNOWN").toLowerCase()}`,
-                    )}
+                    {t(`product.qualityIndicators.condition.${product.condition.toLowerCase()}`)}
                 </Badge>
             )}
         </>

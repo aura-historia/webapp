@@ -42,50 +42,47 @@ export function ProductQualityIndicators({ product }: { product: ProductDetail }
             {
                 key: "authenticity",
                 icon: ShieldCheck,
-                colorClass:
-                    PRODUCT_ATTRIBUTE_COLORS.authenticity[product.authenticity || "UNKNOWN"],
+                colorClass: PRODUCT_ATTRIBUTE_COLORS.authenticity[product.authenticity],
                 label: t("product.qualityIndicators.authenticity.label"),
                 value: t(
-                    `product.qualityIndicators.authenticity.${(product.authenticity || "UNKNOWN").toLowerCase()}`,
+                    `product.qualityIndicators.authenticity.${product.authenticity.toLowerCase()}`,
                 ),
                 description: t(
-                    `product.qualityIndicators.authenticity.${(product.authenticity || "UNKNOWN").toLowerCase()}Description`,
+                    `product.qualityIndicators.authenticity.${product.authenticity.toLowerCase()}Description`,
                 ),
             },
             {
                 key: "condition",
                 icon: Star,
-                colorClass: PRODUCT_ATTRIBUTE_COLORS.condition[product.condition || "UNKNOWN"],
+                colorClass: PRODUCT_ATTRIBUTE_COLORS.condition[product.condition],
                 label: t("product.qualityIndicators.condition.label"),
-                value: t(
-                    `product.qualityIndicators.condition.${(product.condition || "UNKNOWN").toLowerCase()}`,
-                ),
+                value: t(`product.qualityIndicators.condition.${product.condition.toLowerCase()}`),
                 description: t(
-                    `product.qualityIndicators.condition.${(product.condition || "UNKNOWN").toLowerCase()}Description`,
+                    `product.qualityIndicators.condition.${product.condition.toLowerCase()}Description`,
                 ),
             },
             {
                 key: "provenance",
                 icon: FileText,
-                colorClass: PRODUCT_ATTRIBUTE_COLORS.provenance[product.provenance || "UNKNOWN"],
+                colorClass: PRODUCT_ATTRIBUTE_COLORS.provenance[product.provenance],
                 label: t("product.qualityIndicators.provenance.label"),
                 value: t(
-                    `product.qualityIndicators.provenance.${(product.provenance || "UNKNOWN").toLowerCase()}`,
+                    `product.qualityIndicators.provenance.${product.provenance.toLowerCase()}`,
                 ),
                 description: t(
-                    `product.qualityIndicators.provenance.${(product.provenance || "UNKNOWN").toLowerCase()}Description`,
+                    `product.qualityIndicators.provenance.${product.provenance.toLowerCase()}Description`,
                 ),
             },
             {
                 key: "restoration",
                 icon: Paintbrush,
-                colorClass: PRODUCT_ATTRIBUTE_COLORS.restoration[product.restoration || "UNKNOWN"],
+                colorClass: PRODUCT_ATTRIBUTE_COLORS.restoration[product.restoration],
                 label: t("product.qualityIndicators.restoration.label"),
                 value: t(
-                    `product.qualityIndicators.restoration.${(product.restoration || "UNKNOWN").toLowerCase()}`,
+                    `product.qualityIndicators.restoration.${product.restoration.toLowerCase()}`,
                 ),
                 description: t(
-                    `product.qualityIndicators.restoration.${(product.restoration || "UNKNOWN").toLowerCase()}Description`,
+                    `product.qualityIndicators.restoration.${product.restoration.toLowerCase()}Description`,
                 ),
             },
         ],

@@ -10,14 +10,10 @@ import {
     mapToInternalUserProductData,
     type UserProductData,
 } from "@/data/internal/UserProductData.ts";
-
-export type Authenticity = "ORIGINAL" | "LATER_COPY" | "REPRODUCTION" | "QUESTIONABLE" | "UNKNOWN";
-
-export type Condition = "EXCELLENT" | "GREAT" | "GOOD" | "FAIR" | "POOR" | "UNKNOWN";
-
-export type Provenance = "COMPLETE" | "PARTIAL" | "CLAIMED" | "NONE" | "UNKNOWN";
-
-export type Restoration = "NONE" | "MINOR" | "MAJOR" | "UNKNOWN";
+import { type Authenticity, parseAuthenticity } from "@/data/internal/Authenticity.ts";
+import { type Condition, parseCondition } from "@/data/internal/Condition.ts";
+import { type Provenance, parseProvenance } from "@/data/internal/Provenance.ts";
+import { type Restoration, parseRestoration } from "@/data/internal/Restoration.ts";
 
 export type OverviewProduct = {
     readonly productId: string;
@@ -38,10 +34,10 @@ export type OverviewProduct = {
     readonly originYear?: number | null;
     readonly originYearMin?: number | null;
     readonly originYearMax?: number | null;
-    readonly authenticity?: Authenticity | null;
-    readonly condition?: Condition | null;
-    readonly provenance?: Provenance | null;
-    readonly restoration?: Restoration | null;
+    readonly authenticity: Authenticity;
+    readonly condition: Condition;
+    readonly provenance: Provenance;
+    readonly restoration: Restoration;
 };
 
 function mapProductDataToOverviewProduct(
@@ -73,10 +69,10 @@ function mapProductDataToOverviewProduct(
         originYear: productData.originYear,
         originYearMin: productData.originYearMin,
         originYearMax: productData.originYearMax,
-        authenticity: productData.authenticity,
-        condition: productData.condition,
-        provenance: productData.provenance,
-        restoration: productData.restoration,
+        authenticity: parseAuthenticity(productData.authenticity),
+        condition: parseCondition(productData.condition),
+        provenance: parseProvenance(productData.provenance),
+        restoration: parseRestoration(productData.restoration),
     };
 }
 
