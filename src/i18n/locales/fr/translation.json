@@ -18,7 +18,7 @@
   "header": {
     "watchlist": "Favoris",
     "myAccount": "Mon compte",
-    "editAccount": "Modifier le compte",
+    "editAccount": "Modifier mon compte",
     "logout": "Se déconnecter",
     "hello": "Bonjour",
     "register": "S'inscrire",
@@ -495,5 +495,7 @@
     "codeMismatch": "Le code entré est incorrect.",
     "confirmationCodeCannotBeEmpty": "Le code de confirmation ne peut pas être vide.",
     "invalidCodeProvidedRequestAgain": "Code invalide, veuillez en demander un nouveau."
-  }
+  },
+  "demo12": "Ceci est une autre clé de test pour vérifier si les traductions automatiques fonctionnent correctement.",
+  "test": "Traduisez cette phrase dans d'autres langues"
 }

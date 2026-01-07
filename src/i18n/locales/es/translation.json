@@ -18,7 +18,7 @@
   "header": {
     "watchlist": "Lista de seguimiento",
     "myAccount": "Mi cuenta",
-    "editAccount": "Editar cuenta",
+    "editAccount": "Editar Mi Cuenta",
     "logout": "Cerrar sesión",
     "hello": "Hola",
     "register": "Registrarse",
@@ -495,5 +495,7 @@
     "codeMismatch": "El código introducido es incorrecto.",
     "confirmationCodeCannotBeEmpty": "El código de confirmación no puede estar vacío.",
     "invalidCodeProvidedRequestAgain": "Código inválido, por favor solicite uno nuevo."
-  }
+  },
+  "demo12": "Esta es otra clave de prueba para verificar si las traducciones automáticas están funcionando correctamente.",
+  "test": "Traduce esta frase a otros idiomas"
 }

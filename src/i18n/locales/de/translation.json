@@ -18,7 +18,7 @@
   "header": {
     "watchlist": "Merkliste",
     "myAccount": "Mein Account",
-    "editAccount": "Account bearbeiten",
+    "editAccount": "Mein Konto bearbeiten",
     "logout": "Ausloggen",
     "hello": "Hallo",
     "register": "Registrieren",
@@ -495,5 +495,7 @@
     "codeMismatch": "Der eingegebene Code ist falsch.",
     "confirmationCodeCannotBeEmpty": "Bestätigungscode darf nicht leer sein.",
     "invalidCodeProvidedRequestAgain": "Ungültiger Code. Bitte fordern Sie einen neuen Code an."
-  }
+  },
+  "demo12": "Dies ist ein weiterer Testschlüssel, um zu überprüfen, ob die automatischen Übersetzungen ordnungsgemäß funktionieren.",
+  "test": "Übersetze diesen Satz in andere Sprachen"
 }
