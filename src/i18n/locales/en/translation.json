@@ -15,10 +15,10 @@
     "terms": {
         "title": "Terms & Conditions"
     },
-    "demo1": "This is a test key to check if the auto translations are working.",
+    "demo11": "This is a test key to check if the auto translations are working properly.",
     "header": {
         "watchlist": "Watchlist Changed",
-        "myAccounts": "My Account",
+        "myAccount": "My Account",
         "editAccount": "Edit Account",
         "logout": "Logout",
         "hello": "Hello",
