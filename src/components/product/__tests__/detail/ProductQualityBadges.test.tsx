@@ -30,8 +30,8 @@ const createProduct = (overrides?: Partial<ProductDetail>): ProductDetail =>
         originYear: null,
         originYearMin: null,
         originYearMax: null,
-        authenticity: null,
-        condition: null,
+        authenticity: "UNKNOWN",
+        condition: "UNKNOWN",
         ...overrides,
     }) as ProductDetail;
 
@@ -89,13 +89,6 @@ describe("ProductQualityBadges", () => {
 
             expect(screen.queryByTestId("shield-icon")).not.toBeInTheDocument();
         });
-
-        it("should not render when authenticity is null", () => {
-            const product = createProduct({ authenticity: null });
-            render(<ProductQualityBadges product={product} />);
-
-            expect(screen.queryByTestId("shield-icon")).not.toBeInTheDocument();
-        });
     });
 
     describe("Condition Badge", () => {
@@ -116,13 +109,6 @@ describe("ProductQualityBadges", () => {
 
         it("should not render for UNKNOWN", () => {
             const product = createProduct({ condition: "UNKNOWN" });
-            render(<ProductQualityBadges product={product} />);
-
-            expect(screen.queryByTestId("star-icon")).not.toBeInTheDocument();
-        });
-
-        it("should not render when condition is null", () => {
-            const product = createProduct({ condition: null });
             render(<ProductQualityBadges product={product} />);
 
             expect(screen.queryByTestId("star-icon")).not.toBeInTheDocument();
