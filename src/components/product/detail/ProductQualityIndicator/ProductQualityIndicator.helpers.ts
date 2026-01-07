@@ -45,21 +45,37 @@ export function formatOriginYear(
     originYearMin: number | null | undefined,
     originYearMax: number | null | undefined,
     t: TFunction,
+    isDescription: boolean = false,
 ): string {
-    if (originYear != null) return `${originYear}`;
+    if (originYear != null) {
+        return isDescription
+            ? t("product.qualityIndicators.originYear.exactDescription", { year: originYear })
+            : `${originYear}`;
+    }
     if (originYearMin != null && originYearMax != null) {
-        return t("product.qualityIndicators.originYear.range", {
-            min: originYearMin,
-            max: originYearMax,
-        });
+        return isDescription
+            ? t("product.qualityIndicators.originYear.rangeDescription", {
+                  min: originYearMin,
+                  max: originYearMax,
+              })
+            : t("product.qualityIndicators.originYear.range", {
+                  min: originYearMin,
+                  max: originYearMax,
+              });
     }
     if (originYearMin != null) {
-        return t("product.qualityIndicators.originYear.from", { year: originYearMin });
+        return isDescription
+            ? t("product.qualityIndicators.originYear.fromDescription", { year: originYearMin })
+            : t("product.qualityIndicators.originYear.from", { year: originYearMin });
     }
     if (originYearMax != null) {
-        return t("product.qualityIndicators.originYear.until", { year: originYearMax });
+        return isDescription
+            ? t("product.qualityIndicators.originYear.untilDescription", { year: originYearMax })
+            : t("product.qualityIndicators.originYear.until", { year: originYearMax });
     }
-    return t("product.qualityIndicators.originYear.unknown");
+    return isDescription
+        ? t("product.qualityIndicators.originYear.unknownDescription")
+        : t("product.qualityIndicators.originYear.unknown");
 }
 
 export function formatOriginYearDescription(
@@ -68,20 +84,15 @@ export function formatOriginYearDescription(
     originYearMax: number | null | undefined,
     t: TFunction,
 ): string {
-    if (originYear != null) {
-        return t("product.qualityIndicators.originYear.exactDescription", { year: originYear });
-    }
-    if (originYearMin != null && originYearMax != null) {
-        return t("product.qualityIndicators.originYear.rangeDescription", {
-            min: originYearMin,
-            max: originYearMax,
-        });
-    }
-    if (originYearMin != null) {
-        return t("product.qualityIndicators.originYear.fromDescription", { year: originYearMin });
-    }
-    if (originYearMax != null) {
-        return t("product.qualityIndicators.originYear.untilDescription", { year: originYearMax });
-    }
-    return t("product.qualityIndicators.originYear.unknownDescription");
+    return formatOriginYear(originYear, originYearMin, originYearMax, t, true);
+}
+
+export function getOriginYearColor(
+    originYear: number | null | undefined,
+    originYearMin: number | null | undefined,
+    originYearMax: number | null | undefined,
+): string {
+    if (originYear != null) return COLOR_LEVELS.BEST;
+    if (originYearMin != null || originYearMax != null) return COLOR_LEVELS.GOOD;
+    return COLOR_LEVELS.UNKNOWN;
 }
