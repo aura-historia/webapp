@@ -39,9 +39,9 @@ describe("ProductDetailPage", () => {
         updated: new Date(),
         history: [],
 
-        originYear: null,
-        originYearMin: null,
-        originYearMax: null,
+        originYear: undefined,
+        originYearMin: undefined,
+        originYearMax: undefined,
         authenticity: "UNKNOWN",
         condition: "UNKNOWN",
         provenance: "UNKNOWN",
