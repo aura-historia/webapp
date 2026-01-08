@@ -11,8 +11,12 @@ import {
     getOriginYearColor,
 } from "@/components/product/detail/ProductQualityIndicator/ProductQualityIndicator.helpers.ts";
 import { useMemo } from "react";
+import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/Authenticity";
+import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/Condition";
+import { PROVENANCE_TRANSLATION_CONFIG } from "@/data/internal/Provenance";
+import { RESTORATION_TRANSLATION_CONFIG } from "@/data/internal/Restoration";
 
-export function ProductQualityIndicators({ product }: { product: ProductDetail }) {
+export function ProductQualityIndicators({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();
 
     const qualityIndicators = useMemo(
@@ -44,11 +48,9 @@ export function ProductQualityIndicators({ product }: { product: ProductDetail }
                 icon: ShieldCheck,
                 colorClass: PRODUCT_ATTRIBUTE_COLORS.authenticity[product.authenticity],
                 label: t("product.qualityIndicators.authenticity.label"),
-                value: t(
-                    `product.qualityIndicators.authenticity.${product.authenticity.toLowerCase()}`,
-                ),
+                value: t(AUTHENTICITY_TRANSLATION_CONFIG[product.authenticity].translationKey),
                 description: t(
-                    `product.qualityIndicators.authenticity.${product.authenticity.toLowerCase()}Description`,
+                    AUTHENTICITY_TRANSLATION_CONFIG[product.authenticity].descriptionKey,
                 ),
             },
             {
@@ -56,34 +58,24 @@ export function ProductQualityIndicators({ product }: { product: ProductDetail }
                 icon: Star,
                 colorClass: PRODUCT_ATTRIBUTE_COLORS.condition[product.condition],
                 label: t("product.qualityIndicators.condition.label"),
-                value: t(`product.qualityIndicators.condition.${product.condition.toLowerCase()}`),
-                description: t(
-                    `product.qualityIndicators.condition.${product.condition.toLowerCase()}Description`,
-                ),
+                value: t(CONDITION_TRANSLATION_CONFIG[product.condition].translationKey),
+                description: t(CONDITION_TRANSLATION_CONFIG[product.condition].descriptionKey),
             },
             {
                 key: "provenance",
                 icon: FileText,
                 colorClass: PRODUCT_ATTRIBUTE_COLORS.provenance[product.provenance],
                 label: t("product.qualityIndicators.provenance.label"),
-                value: t(
-                    `product.qualityIndicators.provenance.${product.provenance.toLowerCase()}`,
-                ),
-                description: t(
-                    `product.qualityIndicators.provenance.${product.provenance.toLowerCase()}Description`,
-                ),
+                value: t(PROVENANCE_TRANSLATION_CONFIG[product.provenance].translationKey),
+                description: t(PROVENANCE_TRANSLATION_CONFIG[product.provenance].descriptionKey),
             },
             {
                 key: "restoration",
                 icon: Paintbrush,
                 colorClass: PRODUCT_ATTRIBUTE_COLORS.restoration[product.restoration],
                 label: t("product.qualityIndicators.restoration.label"),
-                value: t(
-                    `product.qualityIndicators.restoration.${product.restoration.toLowerCase()}`,
-                ),
-                description: t(
-                    `product.qualityIndicators.restoration.${product.restoration.toLowerCase()}Description`,
-                ),
+                value: t(RESTORATION_TRANSLATION_CONFIG[product.restoration].translationKey),
+                description: t(RESTORATION_TRANSLATION_CONFIG[product.restoration].descriptionKey),
             },
         ],
         [

@@ -1,21 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { ProductQualityBadges } from "@/components/product/detail/ProductQualityIndicator/ProductQualityBadges.tsx";
+import { ProductQualityBadges } from "@/components/product/badges/ProductQualityBadges.tsx";
 import type { ProductDetail } from "@/data/internal/ProductDetails";
-
-vi.mock("react-i18next", () => ({
-    useTranslation: () => ({
-        t: vi.fn((key: string) => {
-            const translations: Record<string, string> = {
-                "product.qualityIndicators.authenticity.original": "Original",
-                "product.qualityIndicators.authenticity.reproduction": "Reproduction",
-                "product.qualityIndicators.condition.excellent": "Excellent",
-                "product.qualityIndicators.condition.fair": "Fair",
-            };
-            return translations[key] || key;
-        }),
-    }),
-}));
 
 vi.mock("lucide-react", () => ({
     Calendar: () => <div data-testid="calendar-icon" />,
@@ -27,9 +13,9 @@ const createProduct = (overrides?: Partial<ProductDetail>): ProductDetail =>
     ({
         id: "1",
         title: "Test Product",
-        originYear: null,
-        originYearMin: null,
-        originYearMax: null,
+        originYear: undefined,
+        originYearMin: undefined,
+        originYearMax: undefined,
         authenticity: "UNKNOWN",
         condition: "UNKNOWN",
         ...overrides,
@@ -80,7 +66,7 @@ describe("ProductQualityBadges", () => {
             const product = createProduct({ authenticity: "REPRODUCTION" });
             render(<ProductQualityBadges product={product} />);
 
-            expect(screen.getByText("Reproduction")).toBeInTheDocument();
+            expect(screen.getByText("Reproduktion")).toBeInTheDocument();
         });
 
         it("should not render for UNKNOWN", () => {
@@ -96,7 +82,7 @@ describe("ProductQualityBadges", () => {
             const product = createProduct({ condition: "EXCELLENT" });
             render(<ProductQualityBadges product={product} />);
 
-            expect(screen.getByText("Excellent")).toBeInTheDocument();
+            expect(screen.getByText("Exzellent")).toBeInTheDocument();
             expect(screen.getByTestId("star-icon")).toBeInTheDocument();
         });
 
@@ -104,7 +90,7 @@ describe("ProductQualityBadges", () => {
             const product = createProduct({ condition: "FAIR" });
             render(<ProductQualityBadges product={product} />);
 
-            expect(screen.getByText("Fair")).toBeInTheDocument();
+            expect(screen.getByText("Akzeptabel")).toBeInTheDocument();
         });
 
         it("should not render for UNKNOWN", () => {

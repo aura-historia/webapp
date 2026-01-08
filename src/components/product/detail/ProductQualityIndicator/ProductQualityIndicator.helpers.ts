@@ -41,9 +41,9 @@ export const PRODUCT_ATTRIBUTE_COLORS = {
 } as const;
 
 export function formatOriginYear(
-    originYear: number | null | undefined,
-    originYearMin: number | null | undefined,
-    originYearMax: number | null | undefined,
+    originYear: number | undefined,
+    originYearMin: number | undefined,
+    originYearMax: number | undefined,
     t: TFunction,
     isDescription: boolean = false,
 ): string {
@@ -79,18 +79,18 @@ export function formatOriginYear(
 }
 
 export function formatOriginYearDescription(
-    originYear: number | null | undefined,
-    originYearMin: number | null | undefined,
-    originYearMax: number | null | undefined,
+    originYear: number | undefined,
+    originYearMin: number | undefined,
+    originYearMax: number | undefined,
     t: TFunction,
 ): string {
     return formatOriginYear(originYear, originYearMin, originYearMax, t, true);
 }
 
 export function getOriginYearColor(
-    originYear: number | null | undefined,
-    originYearMin: number | null | undefined,
-    originYearMax: number | null | undefined,
+    originYear: number | undefined,
+    originYearMin: number | undefined,
+    originYearMax: number | undefined,
 ): string {
     if (originYear != null) return COLOR_LEVELS.BEST;
     if (originYearMin != null || originYearMax != null) return COLOR_LEVELS.GOOD;

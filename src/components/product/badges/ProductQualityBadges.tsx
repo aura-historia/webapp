@@ -1,16 +1,22 @@
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge.tsx";
 import { Calendar, ShieldCheck, Star } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { cn } from "@/lib/utils";
-import type { ProductDetail } from "@/data/internal/ProductDetails";
-import type { OverviewProduct } from "@/data/internal/OverviewProduct";
+import { cn } from "@/lib/utils.ts";
+import type { ProductDetail } from "@/data/internal/ProductDetails.ts";
+import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import {
     formatOriginYear,
     getOriginYearColor,
     PRODUCT_ATTRIBUTE_COLORS,
 } from "@/components/product/detail/ProductQualityIndicator/ProductQualityIndicator.helpers.ts";
+import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/Authenticity.ts";
+import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/Condition.ts";
 
-export function ProductQualityBadges({ product }: { product: ProductDetail | OverviewProduct }) {
+export function ProductQualityBadges({
+    product,
+}: {
+    readonly product: ProductDetail | OverviewProduct;
+}) {
     const { t } = useTranslation();
 
     const hasOriginYear =
@@ -20,8 +26,6 @@ export function ProductQualityBadges({ product }: { product: ProductDetail | Ove
     const hasAuthenticity = product.authenticity !== "UNKNOWN";
     const hasCondition = product.condition !== "UNKNOWN";
 
-    // No iteration: OriginYear differs greatly (different functions, 3 parameters), only 2 similar badges → build array + filter + map = more code than currently. Not worth it.
-    // We could move the badge structure (icon + text in a badge with styling) to its own QualityBadge component, but I don't think that really adds any value, so I'll leave everything as it is.
     return (
         <>
             {hasOriginYear && (
@@ -53,9 +57,7 @@ export function ProductQualityBadges({ product }: { product: ProductDetail | Ove
                     )}
                 >
                     <ShieldCheck className="size-3" />
-                    {t(
-                        `product.qualityIndicators.authenticity.${product.authenticity.toLowerCase()}`,
-                    )}
+                    {t(AUTHENTICITY_TRANSLATION_CONFIG[product.authenticity].translationKey)}
                 </Badge>
             )}
 
@@ -67,7 +69,7 @@ export function ProductQualityBadges({ product }: { product: ProductDetail | Ove
                     )}
                 >
                     <Star className="size-3" />
-                    {t(`product.qualityIndicators.condition.${product.condition.toLowerCase()}`)}
+                    {t(CONDITION_TRANSLATION_CONFIG[product.condition].translationKey)}
                 </Badge>
             )}
         </>

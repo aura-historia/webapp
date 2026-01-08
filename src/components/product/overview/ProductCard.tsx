@@ -1,4 +1,4 @@
-import { StatusBadge } from "@/components/product/StatusBadge.tsx";
+import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -9,7 +9,7 @@ import { H3 } from "../../typography/H3.tsx";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { useWatchlistMutation, type WatchlistMutationType } from "@/hooks/useWatchlistMutation.ts";
-import { ProductQualityBadges } from "@/components/product/detail/ProductQualityIndicator/ProductQualityBadges.tsx";
+import { ProductQualityBadges } from "@/components/product/badges/ProductQualityBadges.tsx";
 
 export function ProductCard({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();

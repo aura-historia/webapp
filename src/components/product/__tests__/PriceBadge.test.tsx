@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { PriceBadge } from "../PriceBadge";
+import { PriceBadge } from "../badges/PriceBadge.tsx";
 
 describe("PriceBadge", () => {
     it("should render PRICE_DISCOVERED correctly", () => {

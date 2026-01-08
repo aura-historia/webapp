@@ -2,6 +2,29 @@ import type { ProvenanceData } from "@/client";
 
 export type Provenance = "COMPLETE" | "PARTIAL" | "CLAIMED" | "NONE" | "UNKNOWN";
 
+export const PROVENANCE_TRANSLATION_CONFIG = {
+    COMPLETE: {
+        translationKey: "product.qualityIndicators.provenance.complete",
+        descriptionKey: "product.qualityIndicators.provenance.completeDescription",
+    },
+    PARTIAL: {
+        translationKey: "product.qualityIndicators.provenance.partial",
+        descriptionKey: "product.qualityIndicators.provenance.partialDescription",
+    },
+    CLAIMED: {
+        translationKey: "product.qualityIndicators.provenance.claimed",
+        descriptionKey: "product.qualityIndicators.provenance.claimedDescription",
+    },
+    NONE: {
+        translationKey: "product.qualityIndicators.provenance.none",
+        descriptionKey: "product.qualityIndicators.provenance.noneDescription",
+    },
+    UNKNOWN: {
+        translationKey: "product.qualityIndicators.provenance.unknown",
+        descriptionKey: "product.qualityIndicators.provenance.unknownDescription",
+    },
+} as const;
+
 export function parseProvenance(provenance?: string | null): Provenance {
     const uppercasedProvenanceData = provenance?.toUpperCase() ?? "UNKNOWN";
 

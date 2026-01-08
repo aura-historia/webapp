@@ -3,26 +3,6 @@ import { render, screen } from "@testing-library/react";
 import { ProductQualityIndicators } from "@/components/product/detail/ProductQualityIndicator/ProductQualityIndicators";
 import type { ProductDetail } from "@/data/internal/ProductDetails";
 
-vi.mock("react-i18next", () => ({
-    useTranslation: () => ({
-        t: vi.fn((key: string) => {
-            const translations: Record<string, string> = {
-                "product.qualityIndicators.title": "Quality Indicators",
-                "product.qualityIndicators.originYear.label": "Origin Year",
-                "product.qualityIndicators.authenticity.label": "Authenticity",
-                "product.qualityIndicators.condition.label": "Condition",
-                "product.qualityIndicators.provenance.label": "Provenance",
-                "product.qualityIndicators.restoration.label": "Restoration",
-                "product.qualityIndicators.authenticity.original": "Original",
-                "product.qualityIndicators.condition.excellent": "Excellent",
-                "product.qualityIndicators.provenance.complete": "Complete",
-                "product.qualityIndicators.restoration.none": "None",
-            };
-            return translations[key] || key;
-        }),
-    }),
-}));
-
 vi.mock("lucide-react", () => ({
     Calendar: () => <div data-testid="calendar-icon" />,
     ShieldCheck: () => <div data-testid="shield-icon" />,
@@ -37,8 +17,8 @@ const createProduct = (overrides?: Partial<ProductDetail>): ProductDetail =>
         id: "1",
         title: "Test Product",
         originYear: 1850,
-        originYearMin: null,
-        originYearMax: null,
+        originYearMin: undefined,
+        originYearMax: undefined,
         authenticity: "ORIGINAL",
         condition: "EXCELLENT",
         provenance: "COMPLETE",
@@ -52,18 +32,18 @@ describe("ProductQualityIndicators", () => {
             const product = createProduct();
             render(<ProductQualityIndicators product={product} />);
 
-            expect(screen.getByText("Quality Indicators")).toBeInTheDocument();
+            expect(screen.getByText("Qualitätsmerkmale")).toBeInTheDocument();
         });
 
         it("should render all 5 indicator labels", () => {
             const product = createProduct();
             render(<ProductQualityIndicators product={product} />);
 
-            expect(screen.getByText("Origin Year")).toBeInTheDocument();
-            expect(screen.getByText("Authenticity")).toBeInTheDocument();
-            expect(screen.getByText("Condition")).toBeInTheDocument();
-            expect(screen.getByText("Provenance")).toBeInTheDocument();
-            expect(screen.getByText("Restoration")).toBeInTheDocument();
+            expect(screen.getByText("Entstehungsjahr")).toBeInTheDocument();
+            expect(screen.getByText("Authentizität")).toBeInTheDocument();
+            expect(screen.getByText("Zustand")).toBeInTheDocument();
+            expect(screen.getByText("Herkunftsnachweis")).toBeInTheDocument();
+            expect(screen.getByText("Restaurierung")).toBeInTheDocument();
         });
 
         it("should render all 5 icons", () => {
@@ -97,21 +77,21 @@ describe("ProductQualityIndicators", () => {
             const product = createProduct({ condition: "EXCELLENT" });
             render(<ProductQualityIndicators product={product} />);
 
-            expect(screen.getByText("Excellent")).toBeInTheDocument();
+            expect(screen.getByText("Exzellent")).toBeInTheDocument();
         });
 
         it("should display provenance value", () => {
             const product = createProduct({ provenance: "COMPLETE" });
             render(<ProductQualityIndicators product={product} />);
 
-            expect(screen.getByText("Complete")).toBeInTheDocument();
+            expect(screen.getByText("Vollständig")).toBeInTheDocument();
         });
 
         it("should display restoration value", () => {
             const product = createProduct({ restoration: "NONE" });
             render(<ProductQualityIndicators product={product} />);
 
-            expect(screen.getByText("None")).toBeInTheDocument();
+            expect(screen.getByText("Keine")).toBeInTheDocument();
         });
     });
 

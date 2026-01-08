@@ -31,9 +31,9 @@ export type OverviewProduct = {
     readonly updated: Date;
     readonly userData?: UserProductData;
 
-    readonly originYear?: number | null;
-    readonly originYearMin?: number | null;
-    readonly originYearMax?: number | null;
+    readonly originYear?: number;
+    readonly originYearMin?: number;
+    readonly originYearMax?: number;
     readonly authenticity: Authenticity;
     readonly condition: Condition;
     readonly provenance: Provenance;
@@ -66,9 +66,9 @@ function mapProductDataToOverviewProduct(
         updated: new Date(productData.updated),
         userData: userData ? mapToInternalUserProductData(userData) : undefined,
 
-        originYear: productData.originYear,
-        originYearMin: productData.originYearMin,
-        originYearMax: productData.originYearMax,
+        originYear: productData.originYear ?? undefined,
+        originYearMin: productData.originYearMin ?? undefined,
+        originYearMax: productData.originYearMax ?? undefined,
         authenticity: parseAuthenticity(productData.authenticity),
         condition: parseCondition(productData.condition),
         provenance: parseProvenance(productData.provenance),
