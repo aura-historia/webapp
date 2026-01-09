@@ -4,7 +4,7 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
-import { ArrowUpRight, HeartIcon } from "lucide-react";
+import { ArrowUpRight, Bell, BellRing, HeartIcon } from "lucide-react";
 import { H3 } from "../../typography/H3.tsx";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
@@ -15,10 +15,15 @@ import {
     type WatchlistMutationType,
 } from "@/hooks/watchlist/useWatchlistMutation.ts";
 import { ProductSharer } from "@/components/product/detail/ProductSharer.tsx";
+import { useWatchlistNotificationMutation } from "@/hooks/watchlist/useWatchlistNotificationMutation.ts";
 
 export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();
     const watchlistMutation = useWatchlistMutation(product.shopId, product.shopsProductId);
+    const watchlistNotificationMutation = useWatchlistNotificationMutation(
+        product.shopId,
+        product.shopsProductId,
+    );
     const mutationType: WatchlistMutationType = product.userData?.watchlistData.isWatching
         ? "deleteFromWatchlist"
         : "addToWatchlist";
@@ -45,6 +50,39 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                         </div>
                         <div className="hidden md:flex gap-2 ml-auto shrink-0 self-start">
                             <ProductSharer title={product.title} />
+
+                            {product.userData?.watchlistData.isWatching && (
+                                <Button
+                                    variant={"ghost"}
+                                    size={"icon"}
+                                    className={"ml-auto shrink-0"}
+                                    onClick={() => {
+                                        if (watchlistNotificationMutation.isPending) return;
+                                        watchlistNotificationMutation.mutate(
+                                            !product.userData?.watchlistData.isNotificationEnabled,
+                                        );
+                                    }}
+                                >
+                                    <div className="relative size-5">
+                                        <Bell
+                                            className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out ${
+                                                product.userData?.watchlistData
+                                                    .isNotificationEnabled
+                                                    ? "opacity-0 scale-75"
+                                                    : "opacity-100 scale-100"
+                                            } ${watchlistNotificationMutation.isPending ? "animate-heart-bounce" : ""}`}
+                                        />
+                                        <BellRing
+                                            className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out fill-foreground ${
+                                                product.userData?.watchlistData
+                                                    .isNotificationEnabled
+                                                    ? "opacity-100 scale-100"
+                                                    : "opacity-0 scale-75"
+                                            } ${watchlistNotificationMutation.isPending ? "animate-heart-bounce" : ""}`}
+                                        />
+                                    </div>
+                                </Button>
+                            )}
 
                             <Button
                                 variant="ghost"
@@ -117,6 +155,37 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                         } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
                     />
                 </Button>
+
+                {product.userData?.watchlistData.isWatching && (
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        className="shadow-lg rounded-full bg-card"
+                        onClick={() => {
+                            if (watchlistNotificationMutation.isPending) return;
+                            watchlistNotificationMutation.mutate(
+                                !product.userData?.watchlistData.isNotificationEnabled,
+                            );
+                        }}
+                    >
+                        <div className="relative size-5">
+                            <Bell
+                                className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out ${
+                                    product.userData?.watchlistData.isNotificationEnabled
+                                        ? "opacity-0 scale-75"
+                                        : "opacity-100 scale-100"
+                                } ${watchlistNotificationMutation.isPending ? "animate-heart-bounce" : ""}`}
+                            />
+                            <BellRing
+                                className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out fill-foreground ${
+                                    product.userData?.watchlistData.isNotificationEnabled
+                                        ? "opacity-100 scale-100"
+                                        : "opacity-0 scale-75"
+                                } ${watchlistNotificationMutation.isPending ? "animate-heart-bounce" : ""}`}
+                            />
+                        </div>
+                    </Button>
+                )}
             </div>
         </>
     );
