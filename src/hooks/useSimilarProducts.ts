@@ -6,6 +6,8 @@ import {
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { useApiError } from "@/hooks/useApiError";
 import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
+import { parseLanguage } from "@/data/internal/Language.ts";
+import { useTranslation } from "react-i18next";
 
 type SimilarProductsData = {
     products: OverviewProduct[];
@@ -17,11 +19,15 @@ export function useSimilarProducts(
     shopsProductId: string,
 ): UseQueryResult<SimilarProductsData> {
     const { getErrorMessage } = useApiError();
+    const { i18n } = useTranslation();
 
     return useQuery({
-        queryKey: ["similarProducts", shopId, shopsProductId],
+        queryKey: ["similarProducts", shopId, shopsProductId, i18n.language],
         queryFn: async () => {
             const result = await getSimilarProducts({
+                headers: {
+                    "Accept-Language": parseLanguage(i18n.language),
+                },
                 path: { shopId, shopsProductId },
                 query: {
                     // TODO: Make currency configurable
@@ -48,7 +54,9 @@ export function useSimilarProducts(
             }
 
             return {
-                products: result.data.map(mapPersonalizedGetProductDataToOverviewProduct),
+                products: result.data.map((product) =>
+                    mapPersonalizedGetProductDataToOverviewProduct(product, i18n.language),
+                ),
                 isEmbeddingsPending: false,
             };
         },

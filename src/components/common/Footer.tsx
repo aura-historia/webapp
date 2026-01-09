@@ -8,9 +8,25 @@ import {
 import { Separator } from "@/components/ui/separator.tsx";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "../ui/select";
+import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 
 export function Footer() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+
+    const currentLanguage = SUPPORTED_LANGUAGES.find((lang) => lang.code === i18n.resolvedLanguage);
+
+    const handleLanguageChange = async (languageCode: string) => {
+        await i18n.changeLanguage(languageCode);
+    };
+
     return (
         <footer className={"w-full flex items-start justify-center flex-col backdrop-blur-sm"}>
             <Separator />
@@ -24,14 +40,48 @@ export function Footer() {
                         <NavigationMenuItem>
                             <Button variant={"ghost"} asChild>
                                 <Link to="/imprint">
-                                    <NavText>{t("common.imprint")}</NavText>
+                                    <NavText>{t("footer.imprint")}</NavText>
                                 </Link>
                             </Button>
                         </NavigationMenuItem>
                     </NavigationMenuList>
-                    <NavText variant={"muted"}>
-                        {t("common.copyright", { year: new Date().getFullYear() })}
-                    </NavText>
+                    <div className="flex flex-row gap-4 items-center">
+                        <Select
+                            defaultValue={i18n.language}
+                            value={i18n.language}
+                            onValueChange={handleLanguageChange}
+                        >
+                            <SelectTrigger>
+                                <SelectValue>
+                                    {currentLanguage && (
+                                        <>
+                                            <currentLanguage.flag />
+                                            <span className={"pl-2"}>{currentLanguage.name}</span>
+                                        </>
+                                    )}
+                                </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    {SUPPORTED_LANGUAGES.map((language) => (
+                                        <SelectItem
+                                            key={language.code}
+                                            value={language.code}
+                                            aria-label={t("footer.ariaSwitchToLanguage", {
+                                                language: language.name,
+                                            })}
+                                        >
+                                            <language.flag />
+                                            <span className={"pl-2"}>{language.name}</span>
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        <NavText variant={"muted"}>
+                            {t("footer.copyright", { year: new Date().getFullYear() })}
+                        </NavText>
+                    </div>
                 </div>
             </NavigationMenu>
         </footer>
