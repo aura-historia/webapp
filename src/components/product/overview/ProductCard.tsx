@@ -4,22 +4,31 @@ import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
-import { ArrowUpRight, Eye, HeartIcon, ImageOff } from "lucide-react";
+import { ArrowUpRight, Bell, BellRing, Eye, HeartIcon, ImageOff } from "lucide-react";
 import { H3 } from "../../typography/H3.tsx";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { useWatchlistMutation, type WatchlistMutationType } from "@/hooks/useWatchlistMutation.ts";
+import {
+    useWatchlistMutation,
+    type WatchlistMutationType,
+} from "@/hooks/watchlist/useWatchlistMutation.ts";
+import { useWatchlistNotificationMutation } from "@/hooks/watchlist/useWatchlistNotificationMutation.ts";
 
 export function ProductCard({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
     const watchlistMutation = useWatchlistMutation(product.shopId, product.shopsProductId);
+    const watchlistNotificationMutation = useWatchlistNotificationMutation(
+        product.shopId,
+        product.shopsProductId,
+    );
+
     const mutationType: WatchlistMutationType = product.userData?.watchlistData.isWatching
         ? "deleteFromWatchlist"
         : "addToWatchlist";
 
     return (
         <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
-            <div className={"flex-shrink-0 flex lg:justify-start justify-center"}>
+            <div className={"shrink-0 flex lg:justify-start justify-center"}>
                 <Link
                     to="/product/$shopId/$shopsProductId"
                     params={{
@@ -67,23 +76,55 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
                         <StatusBadge status={product.state} />
                     </div>
 
-                    <Button
-                        variant={"ghost"}
-                        size={"icon"}
-                        className={"ml-auto flex-shrink-0"}
-                        onClick={() => {
-                            if (watchlistMutation.isPending) return;
-                            watchlistMutation.mutate(mutationType);
-                        }}
-                    >
-                        <HeartIcon
-                            className={`size-5 transition-all duration-300 ease-in-out ${
-                                product.userData?.watchlistData.isWatching
-                                    ? "fill-heart text-heart"
-                                    : "fill-transparent"
-                            } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
-                        />
-                    </Button>
+                    <div className={"flex flex-row gap-2"}>
+                        {product.userData?.watchlistData.isWatching && (
+                            <Button
+                                variant={"ghost"}
+                                size={"icon"}
+                                className={"ml-auto shrink-0"}
+                                onClick={() => {
+                                    if (watchlistNotificationMutation.isPending) return;
+                                    watchlistNotificationMutation.mutate(
+                                        !product.userData?.watchlistData.isNotificationEnabled,
+                                    );
+                                }}
+                            >
+                                <div className="relative size-5">
+                                    <Bell
+                                        className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out ${
+                                            product.userData?.watchlistData.isNotificationEnabled
+                                                ? "opacity-0 scale-75"
+                                                : "opacity-100 scale-100"
+                                        } ${watchlistNotificationMutation.isPending ? "animate-heart-bounce" : ""}`}
+                                    />
+                                    <BellRing
+                                        className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out fill-foreground ${
+                                            product.userData?.watchlistData.isNotificationEnabled
+                                                ? "opacity-100 scale-100"
+                                                : "opacity-0 scale-75"
+                                        } ${watchlistNotificationMutation.isPending ? "animate-heart-bounce" : ""}`}
+                                    />
+                                </div>
+                            </Button>
+                        )}
+                        <Button
+                            variant={"ghost"}
+                            size={"icon"}
+                            className={"ml-auto shrink-0"}
+                            onClick={() => {
+                                if (watchlistMutation.isPending) return;
+                                watchlistMutation.mutate(mutationType);
+                            }}
+                        >
+                            <HeartIcon
+                                className={`size-5 transition-all duration-300 ease-in-out ${
+                                    product.userData?.watchlistData.isWatching
+                                        ? "fill-heart text-heart"
+                                        : "fill-transparent"
+                                } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
+                            />
+                        </Button>
+                    </div>
                 </div>
 
                 <div
@@ -95,7 +136,7 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
                         {product.price ?? t("product.unknownPrice")}
                     </PriceText>
 
-                    <div className={"flex flex-col gap-2 lg:items-end flex-shrink-0 lg:ml-2"}>
+                    <div className={"flex flex-col gap-2 lg:items-end shrink-0 lg:ml-2"}>
                         <Button variant={"default"} asChild>
                             <Link
                                 to="/product/$shopId/$shopsProductId"

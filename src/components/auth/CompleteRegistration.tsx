@@ -8,7 +8,7 @@ import {
     setAuthComplete,
     clearPendingUserData,
 } from "@/stores/registrationStore";
-import { useRegistrationPolling } from "@/hooks/useRegistrationPolling";
+import { useRegistrationPolling } from "@/hooks/account/useRegistrationPolling.ts";
 import { useTranslation } from "react-i18next";
 import { Card } from "@/components/ui/card.tsx";
 

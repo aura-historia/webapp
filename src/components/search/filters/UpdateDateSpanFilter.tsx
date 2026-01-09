@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button.tsx";
 import { FilterX } from "lucide-react";
-import { useFilterNavigation } from "@/hooks/useFilterNavigation.ts";
+import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
 
 export function UpdateDateSpanFilter() {
     const { control } = useFormContext<FilterSchema>();

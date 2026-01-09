@@ -10,7 +10,10 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { ProductImageGallery } from "@/components/product/detail/ProductImageGallery.tsx";
 import { useTranslation } from "react-i18next";
-import { useWatchlistMutation, type WatchlistMutationType } from "@/hooks/useWatchlistMutation.ts";
+import {
+    useWatchlistMutation,
+    type WatchlistMutationType,
+} from "@/hooks/watchlist/useWatchlistMutation.ts";
 import { ProductSharer } from "@/components/product/detail/ProductSharer.tsx";
 
 export function ProductInfo({ product }: { readonly product: ProductDetail }) {

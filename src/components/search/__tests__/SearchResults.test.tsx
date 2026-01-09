@@ -2,7 +2,7 @@ import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import { screen } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
-import { useSearch } from "@/hooks/useSearch.ts";
+import { useSearch } from "@/hooks/search/useSearch.ts";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
 import type React from "react";
 import { renderWithQueryClient } from "@/test/utils.tsx";

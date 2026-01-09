@@ -1,29 +1,23 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addWatchlistProduct, deleteWatchlistProduct } from "@/client";
+import { patchWatchlistProduct } from "@/client";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { getProductQueryKey } from "@/client/@tanstack/react-query.gen.ts";
-import { useApiError } from "@/hooks/useApiError.ts";
+import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 
-export type WatchlistMutationType = "addToWatchlist" | "deleteFromWatchlist";
-
-export function useWatchlistMutation(shopId: string, shopsProductId: string) {
+export function useWatchlistNotificationMutation(shopId: string, shopsProductId: string) {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
 
     const { t } = useTranslation();
 
     return useMutation({
-        mutationFn: async (mutationType: WatchlistMutationType) => {
-            const result =
-                mutationType === "deleteFromWatchlist"
-                    ? await deleteWatchlistProduct({
-                          path: { shopId: shopId, shopsProductId: shopsProductId },
-                      })
-                    : await addWatchlistProduct({
-                          body: { shopId: shopId, shopsProductId: shopsProductId },
-                      });
+        mutationFn: async (notificationsEnabled: boolean) => {
+            const result = await patchWatchlistProduct({
+                path: { shopId: shopId, shopsProductId: shopsProductId },
+                body: { notifications: notificationsEnabled },
+            });
 
             if (result.error) {
                 if (result.response.status === 401) {

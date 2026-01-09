@@ -5,9 +5,9 @@ import {
     mapToBackendUserAccountPatch,
     type UserAccountData,
     type UserAccountPatchData,
-} from "@/data/internal/UserAccountData";
-import { useApiError } from "@/hooks/useApiError";
-import { mapToInternalApiError } from "@/data/internal/ApiError";
+} from "@/data/internal/UserAccountData.ts";
+import { useApiError } from "@/hooks/common/useApiError.ts";
+import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 import { toast } from "sonner";
 
 export function useUpdateUserAccount(): UseMutationResult<
