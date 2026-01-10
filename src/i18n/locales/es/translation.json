@@ -165,6 +165,74 @@
         "1y": "1A",
         "all": "Todo"
       }
+    },
+    "qualityIndicators": {
+      "title": "Indicadores de Calidad",
+      "noData": "No hay información adicional disponible",
+      "originYear": {
+        "label": "Año de Origen",
+        "range": "{{min}}–{{max}}",
+        "from": "desde {{year}}",
+        "until": "hasta {{year}}",
+        "unknown": "Desconocido",
+        "exactDescription": "Esta pieza data del año {{year}}.",
+        "rangeDescription": "Esta pieza fue fabricada entre {{min}} y {{max}}.",
+        "fromDescription": "Esta pieza fue fabricada a partir del año {{year}}.",
+        "untilDescription": "Esta pieza fue fabricada hasta el año {{year}}.",
+        "unknownDescription": "El año de fabricación de esta pieza es desconocido."
+      },
+      "authenticity": {
+        "label": "Autenticidad",
+        "original": "Original",
+        "originalDescription": "Un original verificado del período indicado.",
+        "later_copy": "Copia Posterior",
+        "later_copyDescription": "Una copia histórica realizada posteriormente al original.",
+        "reproduction": "Reproducción",
+        "reproductionDescription": "Una réplica moderna sin valor histórico.",
+        "questionable": "Cuestionable",
+        "questionableDescription": "La autenticidad de esta pieza está en duda o no puede ser confirmada claramente.",
+        "unknown": "Desconocido",
+        "unknownDescription": "La autenticidad aún no ha sido verificada."
+      },
+      "condition": {
+        "label": "Condición",
+        "excellent": "Excelente",
+        "excellentDescription": "Condición casi perfecta sin signos significativos de desgaste.",
+        "great": "Muy Buena",
+        "greatDescription": "Muy bien conservada con solo signos menores de envejecimiento.",
+        "good": "Buena",
+        "goodDescription": "Bien conservada con signos visibles pero aceptables de desgaste.",
+        "fair": "Regular",
+        "fairDescription": "Presenta signos notables de desgaste, pero sigue siendo completa y estable.",
+        "poor": "Mala",
+        "poorDescription": "Daños significativos o desgaste severo.",
+        "unknown": "Desconocido",
+        "unknownDescription": "La condición no ha sido evaluada."
+      },
+      "provenance": {
+        "label": "Procedencia",
+        "complete": "Completa",
+        "completeDescription": "La procedencia está completamente documentada desde su creación hasta la actualidad.",
+        "partial": "Parcial",
+        "partialDescription": "La procedencia está parcialmente documentada pero tiene lagunas.",
+        "claimed": "Reclamada",
+        "claimedDescription": "El vendedor declara una procedencia, pero no está respaldada por documentos.",
+        "none": "Ninguna",
+        "noneDescription": "No existe documentación de procedencia.",
+        "unknown": "Desconocido",
+        "unknownDescription": "La procedencia aún no ha podido determinarse."
+      },
+      "restoration": {
+        "label": "Restauración",
+        "none": "Ninguna",
+        "noneDescription": "No se ha realizado restauración, la pieza está en su estado original.",
+        "minor": "Menor",
+        "minorDescription": "Trabajo de restauración ligero, como limpieza o pequeñas reparaciones.",
+        "major": "Mayor",
+        "majorDescription": "Restauración extensa o reconstrucción parcial.",
+        "unknown": "Desconocido",
+        "unknownDescription": "No hay información disponible sobre restauraciones."
+      }
     }
   },
   "priceBadge": {
