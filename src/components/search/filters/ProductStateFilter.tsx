@@ -2,7 +2,7 @@ import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Card, CardContent, CardHeader } from "@/components/ui/card.tsx";
 import { Checkbox } from "@/components/ui/checkbox";
-import { StatusBadge } from "@/components/product/StatusBadge.tsx";
+import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { Controller, useFormContext } from "react-hook-form";
 import type { CheckedState } from "@radix-ui/react-checkbox";
 import { useTranslation } from "react-i18next";

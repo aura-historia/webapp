@@ -38,6 +38,14 @@ describe("ProductDetailPage", () => {
         created: new Date(),
         updated: new Date(),
         history: [],
+
+        originYear: undefined,
+        originYearMin: undefined,
+        originYearMax: undefined,
+        authenticity: "UNKNOWN",
+        condition: "UNKNOWN",
+        provenance: "UNKNOWN",
+        restoration: "UNKNOWN",
     };
 
     it("should render ProductInfo component", () => {
