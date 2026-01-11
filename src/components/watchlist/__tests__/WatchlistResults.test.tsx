@@ -47,6 +47,13 @@ const createMockProduct = (overrides: Partial<OverviewProduct> = {}): OverviewPr
     images: [],
     created: new Date("2023-01-01"),
     updated: new Date("2023-01-02"),
+    originYear: undefined,
+    originYearMin: undefined,
+    originYearMax: undefined,
+    authenticity: "UNKNOWN",
+    condition: "UNKNOWN",
+    provenance: "UNKNOWN",
+    restoration: "UNKNOWN",
     userData: {
         watchlistData: {
             isWatching: true,

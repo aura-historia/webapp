@@ -29,6 +29,13 @@ describe("ProductCard", () => {
         state: "AVAILABLE",
         price: "100€",
         images: [new URL("https://example.com/image.jpg")],
+        originYear: undefined,
+        originYearMin: undefined,
+        originYearMax: undefined,
+        authenticity: "UNKNOWN",
+        condition: "UNKNOWN",
+        provenance: "UNKNOWN",
+        restoration: "UNKNOWN",
     };
 
     it("should render the product title, shop name, and price correctly", () => {

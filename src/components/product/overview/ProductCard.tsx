@@ -1,4 +1,4 @@
-import { StatusBadge } from "@/components/product/StatusBadge.tsx";
+import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -8,6 +8,7 @@ import { ArrowUpRight, Bell, BellRing, Eye, HeartIcon, ImageOff } from "lucide-r
 import { H3 } from "../../typography/H3.tsx";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+import { ProductQualityBadges } from "@/components/product/badges/ProductQualityBadges.tsx";
 import {
     useWatchlistMutation,
     type WatchlistMutationType,
@@ -73,7 +74,10 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
                         <H3 variant={"muted"} className={"line-clamp-1 overflow-ellipsis"}>
                             {product.shopName}
                         </H3>
-                        <StatusBadge status={product.state} />
+                        <div className="flex flex-wrap gap-2">
+                            <StatusBadge status={product.state} />
+                            <ProductQualityBadges product={product} />
+                        </div>
                     </div>
 
                     <div className={"flex flex-row gap-2"}>
