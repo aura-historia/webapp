@@ -44,15 +44,11 @@ export function getAccountEditSchema(t: TFunction) {
     const nameSchema = createNameSchema(t);
 
     return z.object({
-        firstName: nameSchema
-            .or(z.literal(""))
-            .optional()
-            .transform((val) => (val === "" ? undefined : val)),
-        lastName: nameSchema
-            .or(z.literal(""))
-            .optional()
-            .transform((val) => (val === "" ? undefined : val)),
+        firstName: nameSchema,
+        lastName: nameSchema,
         language: z.enum(["de", "en", "fr", "es"]).optional(),
         currency: z.enum(["EUR", "GBP", "USD", "AUD", "CAD", "NZD"]).optional(),
     });
 }
+
+export type AccountEditFormData = z.infer<ReturnType<typeof getAccountEditSchema>>;
