@@ -32,6 +32,17 @@
   },
   "account": {
     "title": "Mein Account",
+    "personalData": {
+      "title": "Persönliche Daten",
+      "firstNameLabel": "Vorname",
+      "lastNameLabel": "Nachname",
+      "languageLabel": "Sprache",
+      "currencyLabel": "Währung",
+      "languagePlaceholder": "Sprache auswählen",
+      "currencyPlaceholder": "Währung auswählen",
+      "saveButton": "Änderungen speichern",
+      "successMessage": "Persönliche Daten erfolgreich aktualisiert"
+    },
     "changePassword": {
       "title": "Passwort ändern",
       "currentPasswordLabel": "Aktuelles Passwort",
