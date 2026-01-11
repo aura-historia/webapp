@@ -11,6 +11,7 @@ import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
 import { Footer } from "@/components/common/Footer.tsx";
 import { Header } from "@/components/common/Header.tsx";
+import { NavigationProgress } from "@/components/common/NavigationProgress.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
 import { Toaster } from "sonner";
@@ -98,6 +99,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                         : "bg-[repeating-linear-gradient(45deg,var(--border)_0,var(--border)_1px,transparent_1px,transparent_40px)] bg-fixed"
                 }
             >
+                <NavigationProgress />
                 <div className={"min-h-screen flex flex-col"}>
                     <Header />
                     <main className="flex-1">{children}</main>
