@@ -11,7 +11,7 @@ vi.mock("@/client", () => ({
     getUserAccount: mockGetUserAccount,
 }));
 
-vi.mock("@/hooks/useApiError", () => ({
+vi.mock("@/hooks/common/useApiError", () => ({
     useApiError: () => ({
         getErrorMessage: mockGetErrorMessage,
     }),

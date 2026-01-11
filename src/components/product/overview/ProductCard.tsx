@@ -4,28 +4,17 @@ import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
-import { ArrowUpRight, Bell, BellRing, Eye, HeartIcon, ImageOff } from "lucide-react";
+import { ArrowUpRight, Eye, ImageOff } from "lucide-react";
 import { H3 } from "../../typography/H3.tsx";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { ProductQualityBadges } from "@/components/product/badges/ProductQualityBadges.tsx";
-import {
-    useWatchlistMutation,
-    type WatchlistMutationType,
-} from "@/hooks/watchlist/useWatchlistMutation.ts";
-import { useWatchlistNotificationMutation } from "@/hooks/watchlist/useWatchlistNotificationMutation.ts";
+
+import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
+import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
 
 export function ProductCard({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
-    const watchlistMutation = useWatchlistMutation(product.shopId, product.shopsProductId);
-    const watchlistNotificationMutation = useWatchlistNotificationMutation(
-        product.shopId,
-        product.shopsProductId,
-    );
-
-    const mutationType: WatchlistMutationType = product.userData?.watchlistData.isWatching
-        ? "deleteFromWatchlist"
-        : "addToWatchlist";
 
     return (
         <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
@@ -82,52 +71,23 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
 
                     <div className={"flex flex-row gap-2"}>
                         {product.userData?.watchlistData.isWatching && (
-                            <Button
-                                variant={"ghost"}
-                                size={"icon"}
-                                className={"ml-auto shrink-0"}
-                                onClick={() => {
-                                    if (watchlistNotificationMutation.isPending) return;
-                                    watchlistNotificationMutation.mutate(
-                                        !product.userData?.watchlistData.isNotificationEnabled,
-                                    );
-                                }}
-                            >
-                                <div className="relative size-5">
-                                    <Bell
-                                        className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out ${
-                                            product.userData?.watchlistData.isNotificationEnabled
-                                                ? "opacity-0 scale-75"
-                                                : "opacity-100 scale-100"
-                                        } ${watchlistNotificationMutation.isPending ? "animate-heart-bounce" : ""}`}
-                                    />
-                                    <BellRing
-                                        className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out fill-foreground ${
-                                            product.userData?.watchlistData.isNotificationEnabled
-                                                ? "opacity-100 scale-100"
-                                                : "opacity-0 scale-75"
-                                        } ${watchlistNotificationMutation.isPending ? "animate-heart-bounce" : ""}`}
-                                    />
-                                </div>
-                            </Button>
-                        )}
-                        <Button
-                            variant={"ghost"}
-                            size={"icon"}
-                            className={"ml-auto shrink-0"}
-                            onClick={() => {
-                                if (watchlistMutation.isPending) return;
-                                watchlistMutation.mutate(mutationType);
-                            }}
-                        >
-                            <HeartIcon
-                                className={`size-5 transition-all duration-300 ease-in-out ${
-                                    product.userData?.watchlistData.isWatching
-                                        ? "fill-heart text-heart"
-                                        : "fill-transparent"
-                                } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
+                            <NotificationButton
+                                variant="ghost"
+                                size="icon"
+                                shopId={product.shopId}
+                                shopsProductId={product.shopsProductId}
+                                isNotificationEnabled={
+                                    product.userData?.watchlistData.isNotificationEnabled
+                                }
                             />
-                        </Button>
+                        )}
+                        <WatchlistButton
+                            variant="ghost"
+                            size="icon"
+                            shopId={product.shopId}
+                            shopsProductId={product.shopsProductId}
+                            isWatching={product.userData?.watchlistData.isWatching ?? false}
+                        />
                     </div>
                 </div>
 

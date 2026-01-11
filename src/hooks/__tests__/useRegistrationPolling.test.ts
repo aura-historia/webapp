@@ -22,7 +22,7 @@ vi.mock("@/stores/registrationStore", () => ({
     clearPendingUserData: mockClearPendingUserData,
 }));
 
-vi.mock("@/hooks/useApiError", () => ({
+vi.mock("@/hooks/common/useApiError", () => ({
     useApiError: () => ({
         getErrorMessage: mockGetErrorMessage,
     }),

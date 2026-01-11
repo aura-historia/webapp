@@ -7,7 +7,7 @@ import { SearchResults } from "@/components/search/SearchResults.tsx";
 import type React from "react";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 
-vi.mock("@/hooks/useSearch.ts", () => ({
+vi.mock("@/hooks/search/useSearch.ts", () => ({
     useSearch: vi.fn(),
 }));
 
@@ -20,6 +20,14 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
         ),
     };
 });
+
+vi.mock("@/components/product/buttons/NotificationButton", () => ({
+    NotificationButton: () => (
+        <button type="button" data-testid="notification-button">
+            Notification
+        </button>
+    ),
+}));
 
 vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: vi.fn(), inView: false }),
