@@ -10,6 +10,10 @@ import {
     mapToInternalUserProductData,
     type UserProductData,
 } from "@/data/internal/UserProductData.ts";
+import { type Authenticity, parseAuthenticity } from "@/data/internal/Authenticity.ts";
+import { type Condition, parseCondition } from "@/data/internal/Condition.ts";
+import { type Provenance, parseProvenance } from "@/data/internal/Provenance.ts";
+import { type Restoration, parseRestoration } from "@/data/internal/Restoration.ts";
 
 export type OverviewProduct = {
     readonly productId: string;
@@ -26,6 +30,14 @@ export type OverviewProduct = {
     readonly created: Date;
     readonly updated: Date;
     readonly userData?: UserProductData;
+
+    readonly originYear?: number;
+    readonly originYearMin?: number;
+    readonly originYearMax?: number;
+    readonly authenticity: Authenticity;
+    readonly condition: Condition;
+    readonly provenance: Provenance;
+    readonly restoration: Restoration;
 };
 
 function mapProductDataToOverviewProduct(
@@ -53,6 +65,14 @@ function mapProductDataToOverviewProduct(
         created: new Date(productData.created),
         updated: new Date(productData.updated),
         userData: userData ? mapToInternalUserProductData(userData) : undefined,
+
+        originYear: productData.originYear ?? undefined,
+        originYearMin: productData.originYearMin ?? undefined,
+        originYearMax: productData.originYearMax ?? undefined,
+        authenticity: parseAuthenticity(productData.authenticity),
+        condition: parseCondition(productData.condition),
+        provenance: parseProvenance(productData.provenance),
+        restoration: parseRestoration(productData.restoration),
     };
 }
 

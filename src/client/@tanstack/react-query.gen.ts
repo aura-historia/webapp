@@ -4,7 +4,7 @@ import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
 import { addWatchlistProduct, complexSearchProducts, createShop, createUserSearchFilter, deleteUserSearchFilter, deleteWatchlistProduct, getProduct, getShop, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchWatchlistProduct, putProducts, searchShops, updateShop, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateShopData, CreateShopError, CreateShopResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetProductData2, GetShopData2, GetSimilarProductsData, GetUserAccountData2, GetUserSearchFilterData, GetUserSearchFiltersData, GetWatchlistProductsData, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PutProductsData, PutProductsError, PutProductsResponse2, SearchShopsData, SearchShopsError, SearchShopsResponse, UpdateShopData, UpdateShopError, UpdateShopResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateShopData, CreateShopError, CreateShopResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetProductData2, GetProductError, GetProductResponse, GetShopData2, GetShopError, GetShopResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PutProductsData, PutProductsError, PutProductsResponse2, SearchShopsData, SearchShopsError, SearchShopsResponse, UpdateShopData, UpdateShopError, UpdateShopResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -36,9 +36,7 @@ const createQueryKey = <TOptions extends Options>(id: string, options?: TOptions
     if (options?.query) {
         params.query = options.query;
     }
-    return [
-        params
-    ];
+    return [params];
 };
 
 export const getProductQueryKey = (options: Options<GetProductData2>) => createQueryKey('getProduct', options);
@@ -55,20 +53,18 @@ export const getProductQueryKey = (options: Options<GetProductData2>) => createQ
  * Anonymous requests receive product data without user state.
  *
  */
-export const getProductOptions = (options: Options<GetProductData2>) => {
-    return queryOptions({
-        queryFn: async ({ queryKey, signal }) => {
-            const { data } = await getProduct({
-                ...options,
-                ...queryKey[0],
-                signal,
-                throwOnError: true
-            });
-            return data;
-        },
-        queryKey: getProductQueryKey(options)
-    });
-};
+export const getProductOptions = (options: Options<GetProductData2>) => queryOptions<GetProductResponse, GetProductError, GetProductResponse, ReturnType<typeof getProductQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getProduct({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getProductQueryKey(options)
+});
 
 export const getSimilarProductsQueryKey = (options: Options<GetSimilarProductsData>) => createQueryKey('getSimilarProducts', options);
 
@@ -87,20 +83,18 @@ export const getSimilarProductsQueryKey = (options: Options<GetSimilarProductsDa
  * to poll. The embedding generation runs nightly via batch processing.
  *
  */
-export const getSimilarProductsOptions = (options: Options<GetSimilarProductsData>) => {
-    return queryOptions({
-        queryFn: async ({ queryKey, signal }) => {
-            const { data } = await getSimilarProducts({
-                ...options,
-                ...queryKey[0],
-                signal,
-                throwOnError: true
-            });
-            return data;
-        },
-        queryKey: getSimilarProductsQueryKey(options)
-    });
-};
+export const getSimilarProductsOptions = (options: Options<GetSimilarProductsData>) => queryOptions<GetSimilarProductsResponse, GetSimilarProductsError, GetSimilarProductsResponse, ReturnType<typeof getSimilarProductsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getSimilarProducts({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getSimilarProductsQueryKey(options)
+});
 
 /**
  * Bulk create or update products
@@ -173,20 +167,18 @@ export const getUserSearchFiltersQueryKey = (options?: Options<GetUserSearchFilt
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getUserSearchFiltersOptions = (options?: Options<GetUserSearchFiltersData>) => {
-    return queryOptions({
-        queryFn: async ({ queryKey, signal }) => {
-            const { data } = await getUserSearchFilters({
-                ...options,
-                ...queryKey[0],
-                signal,
-                throwOnError: true
-            });
-            return data;
-        },
-        queryKey: getUserSearchFiltersQueryKey(options)
-    });
-};
+export const getUserSearchFiltersOptions = (options?: Options<GetUserSearchFiltersData>) => queryOptions<GetUserSearchFiltersResponse, GetUserSearchFiltersError, GetUserSearchFiltersResponse, ReturnType<typeof getUserSearchFiltersQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getUserSearchFilters({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getUserSearchFiltersQueryKey(options)
+});
 
 /**
  * Create a new search filter
@@ -243,20 +235,18 @@ export const getUserSearchFilterQueryKey = (options: Options<GetUserSearchFilter
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getUserSearchFilterOptions = (options: Options<GetUserSearchFilterData>) => {
-    return queryOptions({
-        queryFn: async ({ queryKey, signal }) => {
-            const { data } = await getUserSearchFilter({
-                ...options,
-                ...queryKey[0],
-                signal,
-                throwOnError: true
-            });
-            return data;
-        },
-        queryKey: getUserSearchFilterQueryKey(options)
-    });
-};
+export const getUserSearchFilterOptions = (options: Options<GetUserSearchFilterData>) => queryOptions<GetUserSearchFilterResponse, GetUserSearchFilterError, GetUserSearchFilterResponse, ReturnType<typeof getUserSearchFilterQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getUserSearchFilter({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getUserSearchFilterQueryKey(options)
+});
 
 /**
  * Update a search filter
@@ -291,20 +281,18 @@ export const getWatchlistProductsQueryKey = (options?: Options<GetWatchlistProdu
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getWatchlistProductsOptions = (options?: Options<GetWatchlistProductsData>) => {
-    return queryOptions({
-        queryFn: async ({ queryKey, signal }) => {
-            const { data } = await getWatchlistProducts({
-                ...options,
-                ...queryKey[0],
-                signal,
-                throwOnError: true
-            });
-            return data;
-        },
-        queryKey: getWatchlistProductsQueryKey(options)
-    });
-};
+export const getWatchlistProductsOptions = (options?: Options<GetWatchlistProductsData>) => queryOptions<GetWatchlistProductsResponse, GetWatchlistProductsError, GetWatchlistProductsResponse, ReturnType<typeof getWatchlistProductsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getWatchlistProducts({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getWatchlistProductsQueryKey(options)
+});
 
 /**
  * Add product to watchlist
@@ -338,20 +326,18 @@ export const getUserAccountQueryKey = (options?: Options<GetUserAccountData2>) =
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getUserAccountOptions = (options?: Options<GetUserAccountData2>) => {
-    return queryOptions({
-        queryFn: async ({ queryKey, signal }) => {
-            const { data } = await getUserAccount({
-                ...options,
-                ...queryKey[0],
-                signal,
-                throwOnError: true
-            });
-            return data;
-        },
-        queryKey: getUserAccountQueryKey(options)
-    });
-};
+export const getUserAccountOptions = (options?: Options<GetUserAccountData2>) => queryOptions<GetUserAccountResponse, GetUserAccountError, GetUserAccountResponse, ReturnType<typeof getUserAccountQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getUserAccount({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getUserAccountQueryKey(options)
+});
 
 /**
  * Update user account data
@@ -447,32 +433,32 @@ export const getShopQueryKey = (options: Options<GetShopData2>) => createQueryKe
 /**
  * Get shop details
  *
- * Retrieves detailed information about a specific shop by its unique identifier.
+ * Retrieves detailed information about a specific shop by its identifier.
+ * The identifier can be either a shop ID (UUID) or a domain associated with the shop.
  * Returns complete shop metadata including name, domains, image, and timestamps.
  *
  */
-export const getShopOptions = (options: Options<GetShopData2>) => {
-    return queryOptions({
-        queryFn: async ({ queryKey, signal }) => {
-            const { data } = await getShop({
-                ...options,
-                ...queryKey[0],
-                signal,
-                throwOnError: true
-            });
-            return data;
-        },
-        queryKey: getShopQueryKey(options)
-    });
-};
+export const getShopOptions = (options: Options<GetShopData2>) => queryOptions<GetShopResponse, GetShopError, GetShopResponse, ReturnType<typeof getShopQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getShop({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getShopQueryKey(options)
+});
 
 /**
  * Update shop details
  *
- * Updates an existing shop's information by its unique identifier.
+ * Updates an existing shop's information by its identifier.
+ * The identifier can be either a shop ID (UUID) or a domain associated with the shop.
  * All fields in the request body are optional - only provided fields will be updated.
  * If the request body is empty or only contains null values, the shop is returned unchanged.
- * When updating URLs, the complete new set of URLs must be provided.
+ * When updating domains, the complete new set of domains must be provided.
  *
  */
 export const updateShopMutation = (options?: Partial<Options<UpdateShopData>>): UseMutationOptions<UpdateShopResponse, UpdateShopError, Options<UpdateShopData>> => {

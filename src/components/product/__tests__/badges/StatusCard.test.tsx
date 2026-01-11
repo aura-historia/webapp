@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { StatusBadge } from "../StatusBadge";
+import { StatusBadge } from "../../badges/StatusBadge.tsx";
 
 describe("StatusBadge", () => {
     it("should render the correct label and styles for the LISTED status", () => {

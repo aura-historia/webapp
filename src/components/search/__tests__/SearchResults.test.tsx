@@ -107,6 +107,13 @@ describe("SearchResults", () => {
             images: [],
             created: new Date(),
             updated: new Date(),
+            originYear: undefined,
+            originYearMin: undefined,
+            originYearMax: undefined,
+            authenticity: "UNKNOWN",
+            condition: "UNKNOWN",
+            provenance: "UNKNOWN",
+            restoration: "UNKNOWN",
         } as const;
 
         setSearchMock({

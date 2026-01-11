@@ -165,6 +165,74 @@
         "1y": "1A",
         "all": "Tout"
       }
+    },
+    "qualityIndicators": {
+      "title": "Indicateurs de Qualité",
+      "noData": "Aucune information supplémentaire disponible",
+      "originYear": {
+        "label": "Année d'Origine",
+        "range": "{{min}}–{{max}}",
+        "from": "à partir de {{year}}",
+        "until": "jusqu'à {{year}}",
+        "unknown": "Inconnu",
+        "exactDescription": "Cette pièce date de {{year}}.",
+        "rangeDescription": "Cette pièce a été fabriquée entre {{min}} et {{max}}.",
+        "fromDescription": "Cette pièce a été fabriquée à partir de {{year}}.",
+        "untilDescription": "Cette pièce a été fabriquée jusqu'à {{year}}.",
+        "unknownDescription": "L'année de fabrication de cette pièce est inconnue."
+      },
+      "authenticity": {
+        "label": "Authenticité",
+        "original": "Original",
+        "originalDescription": "Un original vérifié de la période indiquée.",
+        "later_copy": "Copie Postérieure",
+        "later_copyDescription": "Une copie historique réalisée après l'original.",
+        "reproduction": "Reproduction",
+        "reproductionDescription": "Une réplique moderne sans valeur historique.",
+        "questionable": "Douteuse",
+        "questionableDescription": "L'authenticité de cette pièce est contestée ou ne peut pas être clairement confirmée.",
+        "unknown": "Inconnu",
+        "unknownDescription": "L'authenticité n'a pas encore été vérifiée."
+      },
+      "condition": {
+        "label": "État",
+        "excellent": "Excellent",
+        "excellentDescription": "État presque parfait sans signes significatifs d'usure.",
+        "great": "Très Bon",
+        "greatDescription": "Très bien conservé avec seulement de légers signes de vieillissement.",
+        "good": "Bon",
+        "goodDescription": "Bien conservé avec des signes visibles mais acceptables d'usure.",
+        "fair": "Correct",
+        "fairDescription": "Présente des signes d'usure notables, mais reste complet et stable.",
+        "poor": "Mauvais",
+        "poorDescription": "Dommages importants ou usure prononcée.",
+        "unknown": "Inconnu",
+        "unknownDescription": "L'état n'a pas été évalué."
+      },
+      "provenance": {
+        "label": "Provenance",
+        "complete": "Complète",
+        "completeDescription": "La provenance est entièrement documentée depuis la création jusqu'à aujourd'hui.",
+        "partial": "Partielle",
+        "partialDescription": "La provenance est partiellement documentée mais comporte des lacunes.",
+        "claimed": "Déclarée",
+        "claimedDescription": "Le vendeur affirme une provenance, mais elle n'est pas étayée par des documents.",
+        "none": "Aucune",
+        "noneDescription": "Aucune documentation de provenance n'existe.",
+        "unknown": "Inconnue",
+        "unknownDescription": "La provenance n'a pas encore pu être déterminée."
+      },
+      "restoration": {
+        "label": "Restauration",
+        "none": "Aucune",
+        "noneDescription": "Aucune restauration effectuée, la pièce est dans son état d'origine.",
+        "minor": "Mineure",
+        "minorDescription": "Travaux de restauration légers tels que nettoyage ou petites réparations.",
+        "major": "Importante",
+        "majorDescription": "Restauration extensive ou reconstruction partielle.",
+        "unknown": "Inconnue",
+        "unknownDescription": "Aucune information sur la restauration n'est disponible."
+      }
     }
   },
   "priceBadge": {

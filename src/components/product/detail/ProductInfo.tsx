@@ -1,5 +1,5 @@
 import type { ProductDetail } from "@/data/internal/ProductDetails.ts";
-import { StatusBadge } from "@/components/product/StatusBadge.tsx";
+import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";

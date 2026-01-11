@@ -29,6 +29,13 @@ describe("ProductSimilarCard", () => {
         images: [new URL("https://example.com/image.jpg")],
         created: new Date(),
         updated: new Date(),
+        originYear: undefined,
+        originYearMin: undefined,
+        originYearMax: undefined,
+        authenticity: "UNKNOWN",
+        condition: "UNKNOWN",
+        provenance: "UNKNOWN",
+        restoration: "UNKNOWN",
     };
 
     it("should render the product title, shop name, and price correctly", () => {

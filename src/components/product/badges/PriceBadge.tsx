@@ -1,7 +1,7 @@
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge.tsx";
+import { cn } from "@/lib/utils.ts";
 import { TrendingDown, TrendingUp, Tag, XCircle } from "lucide-react";
-import type { PriceEventType } from "@/types/events";
+import type { PriceEventType } from "@/types/events.ts";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { useMemo } from "react";

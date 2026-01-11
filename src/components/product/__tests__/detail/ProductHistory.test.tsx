@@ -25,13 +25,13 @@ vi.mock("@/components/ui/timeline", () => ({
     ),
 }));
 
-vi.mock("@/components/product/StatusBadge", () => ({
+vi.mock("@/components/product/badges/StatusBadge", () => ({
     StatusBadge: ({ status }: { status: string }) => (
         <span data-testid="status-badge">{status}</span>
     ),
 }));
 
-vi.mock("@/components/product/PriceBadge", () => ({
+vi.mock("@/components/product/badges/PriceBadge", () => ({
     PriceBadge: ({ eventType }: { eventType: string }) => (
         <span data-testid="price-badge">{eventType}</span>
     ),

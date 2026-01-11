@@ -30,18 +30,11 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
  * Anonymous requests receive product data without user state.
  *
  */
-export const getProduct = <ThrowOnError extends boolean = false>(options: Options<GetProductData2, ThrowOnError>) => {
-    return (options.client ?? client).get<GetProductResponses, GetProductErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/products/{shopId}/{shopsProductId}',
-        ...options
-    });
-};
+export const getProduct = <ThrowOnError extends boolean = false>(options: Options<GetProductData2, ThrowOnError>) => (options.client ?? client).get<GetProductResponses, GetProductErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/products/{shopId}/{shopsProductId}',
+    ...options
+});
 
 /**
  * Get similar products
@@ -58,18 +51,11 @@ export const getProduct = <ThrowOnError extends boolean = false>(options: Option
  * to poll. The embedding generation runs nightly via batch processing.
  *
  */
-export const getSimilarProducts = <ThrowOnError extends boolean = false>(options: Options<GetSimilarProductsData, ThrowOnError>) => {
-    return (options.client ?? client).get<GetSimilarProductsResponses, GetSimilarProductsErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/products/{shopId}/{shopsProductId}/similar',
-        ...options
-    });
-};
+export const getSimilarProducts = <ThrowOnError extends boolean = false>(options: Options<GetSimilarProductsData, ThrowOnError>) => (options.client ?? client).get<GetSimilarProductsResponses, GetSimilarProductsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/products/{shopId}/{shopsProductId}/similar',
+    ...options
+});
 
 /**
  * Bulk create or update products
@@ -91,16 +77,14 @@ export const getSimilarProducts = <ThrowOnError extends boolean = false>(options
  * Returns information about any products that could not be processed or failed during enrichment.
  *
  */
-export const putProducts = <ThrowOnError extends boolean = false>(options: Options<PutProductsData, ThrowOnError>) => {
-    return (options.client ?? client).put<PutProductsResponses, PutProductsErrors, ThrowOnError>({
-        url: '/api/v1/products',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const putProducts = <ThrowOnError extends boolean = false>(options: Options<PutProductsData, ThrowOnError>) => (options.client ?? client).put<PutProductsResponses, PutProductsErrors, ThrowOnError>({
+    url: '/api/v1/products',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Complex product search
@@ -115,22 +99,15 @@ export const putProducts = <ThrowOnError extends boolean = false>(options: Optio
  * Anonymous requests receive product data without user state.
  *
  */
-export const complexSearchProducts = <ThrowOnError extends boolean = false>(options: Options<ComplexSearchProductsData, ThrowOnError>) => {
-    return (options.client ?? client).post<ComplexSearchProductsResponses, ComplexSearchProductsErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/products/search',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const complexSearchProducts = <ThrowOnError extends boolean = false>(options: Options<ComplexSearchProductsData, ThrowOnError>) => (options.client ?? client).post<ComplexSearchProductsResponses, ComplexSearchProductsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/products/search',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * List user search filters
@@ -140,18 +117,11 @@ export const complexSearchProducts = <ThrowOnError extends boolean = false>(opti
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getUserSearchFilters = <ThrowOnError extends boolean = false>(options?: Options<GetUserSearchFiltersData, ThrowOnError>) => {
-    return (options?.client ?? client).get<GetUserSearchFiltersResponses, GetUserSearchFiltersErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/me/search-filters',
-        ...options
-    });
-};
+export const getUserSearchFilters = <ThrowOnError extends boolean = false>(options?: Options<GetUserSearchFiltersData, ThrowOnError>) => (options?.client ?? client).get<GetUserSearchFiltersResponses, GetUserSearchFiltersErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/search-filters',
+    ...options
+});
 
 /**
  * Create a new search filter
@@ -162,22 +132,15 @@ export const getUserSearchFilters = <ThrowOnError extends boolean = false>(optio
  * Requires valid Cognito JWT authentication.
  *
  */
-export const createUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<CreateUserSearchFilterData, ThrowOnError>) => {
-    return (options.client ?? client).post<CreateUserSearchFilterResponses, CreateUserSearchFilterErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/me/search-filters',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const createUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<CreateUserSearchFilterData, ThrowOnError>) => (options.client ?? client).post<CreateUserSearchFilterResponses, CreateUserSearchFilterErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/search-filters',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Delete a search filter
@@ -187,18 +150,11 @@ export const createUserSearchFilter = <ThrowOnError extends boolean = false>(opt
  * Requires valid Cognito JWT authentication.
  *
  */
-export const deleteUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<DeleteUserSearchFilterData, ThrowOnError>) => {
-    return (options.client ?? client).delete<DeleteUserSearchFilterResponses, DeleteUserSearchFilterErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/me/search-filters/{userSearchFilterId}',
-        ...options
-    });
-};
+export const deleteUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<DeleteUserSearchFilterData, ThrowOnError>) => (options.client ?? client).delete<DeleteUserSearchFilterResponses, DeleteUserSearchFilterErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/search-filters/{userSearchFilterId}',
+    ...options
+});
 
 /**
  * Get a specific search filter
@@ -208,18 +164,11 @@ export const deleteUserSearchFilter = <ThrowOnError extends boolean = false>(opt
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<GetUserSearchFilterData, ThrowOnError>) => {
-    return (options.client ?? client).get<GetUserSearchFilterResponses, GetUserSearchFilterErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/me/search-filters/{userSearchFilterId}',
-        ...options
-    });
-};
+export const getUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<GetUserSearchFilterData, ThrowOnError>) => (options.client ?? client).get<GetUserSearchFilterResponses, GetUserSearchFilterErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/search-filters/{userSearchFilterId}',
+    ...options
+});
 
 /**
  * Update a search filter
@@ -230,22 +179,15 @@ export const getUserSearchFilter = <ThrowOnError extends boolean = false>(option
  * Requires valid Cognito JWT authentication.
  *
  */
-export const updateUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<UpdateUserSearchFilterData, ThrowOnError>) => {
-    return (options.client ?? client).patch<UpdateUserSearchFilterResponses, UpdateUserSearchFilterErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/me/search-filters/{userSearchFilterId}',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const updateUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<UpdateUserSearchFilterData, ThrowOnError>) => (options.client ?? client).patch<UpdateUserSearchFilterResponses, UpdateUserSearchFilterErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/search-filters/{userSearchFilterId}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * List user's watchlist products
@@ -255,18 +197,11 @@ export const updateUserSearchFilter = <ThrowOnError extends boolean = false>(opt
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getWatchlistProducts = <ThrowOnError extends boolean = false>(options?: Options<GetWatchlistProductsData, ThrowOnError>) => {
-    return (options?.client ?? client).get<GetWatchlistProductsResponses, GetWatchlistProductsErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/me/watchlist',
-        ...options
-    });
-};
+export const getWatchlistProducts = <ThrowOnError extends boolean = false>(options?: Options<GetWatchlistProductsData, ThrowOnError>) => (options?.client ?? client).get<GetWatchlistProductsResponses, GetWatchlistProductsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/watchlist',
+    ...options
+});
 
 /**
  * Add product to watchlist
@@ -277,22 +212,15 @@ export const getWatchlistProducts = <ThrowOnError extends boolean = false>(optio
  * Requires valid Cognito JWT authentication.
  *
  */
-export const addWatchlistProduct = <ThrowOnError extends boolean = false>(options: Options<AddWatchlistProductData, ThrowOnError>) => {
-    return (options.client ?? client).post<AddWatchlistProductResponses, AddWatchlistProductErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/me/watchlist',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const addWatchlistProduct = <ThrowOnError extends boolean = false>(options: Options<AddWatchlistProductData, ThrowOnError>) => (options.client ?? client).post<AddWatchlistProductResponses, AddWatchlistProductErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/watchlist',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Get user account data
@@ -301,18 +229,11 @@ export const addWatchlistProduct = <ThrowOnError extends boolean = false>(option
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getUserAccount = <ThrowOnError extends boolean = false>(options?: Options<GetUserAccountData2, ThrowOnError>) => {
-    return (options?.client ?? client).get<GetUserAccountResponses, GetUserAccountErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/me/account',
-        ...options
-    });
-};
+export const getUserAccount = <ThrowOnError extends boolean = false>(options?: Options<GetUserAccountData2, ThrowOnError>) => (options?.client ?? client).get<GetUserAccountResponses, GetUserAccountErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/account',
+    ...options
+});
 
 /**
  * Update user account data
@@ -323,22 +244,15 @@ export const getUserAccount = <ThrowOnError extends boolean = false>(options?: O
  * Requires valid Cognito JWT authentication.
  *
  */
-export const updateUserAccount = <ThrowOnError extends boolean = false>(options: Options<UpdateUserAccountData, ThrowOnError>) => {
-    return (options.client ?? client).patch<UpdateUserAccountResponses, UpdateUserAccountErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/me/account',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const updateUserAccount = <ThrowOnError extends boolean = false>(options: Options<UpdateUserAccountData, ThrowOnError>) => (options.client ?? client).patch<UpdateUserAccountResponses, UpdateUserAccountErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/account',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Remove product from watchlist
@@ -348,18 +262,11 @@ export const updateUserAccount = <ThrowOnError extends boolean = false>(options:
  * Requires valid Cognito JWT authentication.
  *
  */
-export const deleteWatchlistProduct = <ThrowOnError extends boolean = false>(options: Options<DeleteWatchlistProductData, ThrowOnError>) => {
-    return (options.client ?? client).delete<DeleteWatchlistProductResponses, DeleteWatchlistProductErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/me/watchlist/{shopId}/{shopsProductId}',
-        ...options
-    });
-};
+export const deleteWatchlistProduct = <ThrowOnError extends boolean = false>(options: Options<DeleteWatchlistProductData, ThrowOnError>) => (options.client ?? client).delete<DeleteWatchlistProductResponses, DeleteWatchlistProductErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/watchlist/{shopId}/{shopsProductId}',
+    ...options
+});
 
 /**
  * Update watchlist product settings
@@ -369,22 +276,15 @@ export const deleteWatchlistProduct = <ThrowOnError extends boolean = false>(opt
  * Requires valid Cognito JWT authentication.
  *
  */
-export const patchWatchlistProduct = <ThrowOnError extends boolean = false>(options: Options<PatchWatchlistProductData, ThrowOnError>) => {
-    return (options.client ?? client).patch<PatchWatchlistProductResponses, PatchWatchlistProductErrors, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/me/watchlist/{shopId}/{shopsProductId}',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const patchWatchlistProduct = <ThrowOnError extends boolean = false>(options: Options<PatchWatchlistProductData, ThrowOnError>) => (options.client ?? client).patch<PatchWatchlistProductResponses, PatchWatchlistProductErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/watchlist/{shopId}/{shopsProductId}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Create a new shop
@@ -394,50 +294,43 @@ export const patchWatchlistProduct = <ThrowOnError extends boolean = false>(opti
  * Returns the created shop with generated ID and timestamps.
  *
  */
-export const createShop = <ThrowOnError extends boolean = false>(options: Options<CreateShopData, ThrowOnError>) => {
-    return (options.client ?? client).post<CreateShopResponses, CreateShopErrors, ThrowOnError>({
-        url: '/api/v1/shops',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const createShop = <ThrowOnError extends boolean = false>(options: Options<CreateShopData, ThrowOnError>) => (options.client ?? client).post<CreateShopResponses, CreateShopErrors, ThrowOnError>({
+    url: '/api/v1/shops',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Get shop details
  *
- * Retrieves detailed information about a specific shop by its unique identifier.
+ * Retrieves detailed information about a specific shop by its identifier.
+ * The identifier can be either a shop ID (UUID) or a domain associated with the shop.
  * Returns complete shop metadata including name, domains, image, and timestamps.
  *
  */
-export const getShop = <ThrowOnError extends boolean = false>(options: Options<GetShopData2, ThrowOnError>) => {
-    return (options.client ?? client).get<GetShopResponses, GetShopErrors, ThrowOnError>({
-        url: '/api/v1/shops/{shopId}',
-        ...options
-    });
-};
+export const getShop = <ThrowOnError extends boolean = false>(options: Options<GetShopData2, ThrowOnError>) => (options.client ?? client).get<GetShopResponses, GetShopErrors, ThrowOnError>({ url: '/api/v1/shops/{shopIdentifier}', ...options });
 
 /**
  * Update shop details
  *
- * Updates an existing shop's information by its unique identifier.
+ * Updates an existing shop's information by its identifier.
+ * The identifier can be either a shop ID (UUID) or a domain associated with the shop.
  * All fields in the request body are optional - only provided fields will be updated.
  * If the request body is empty or only contains null values, the shop is returned unchanged.
- * When updating URLs, the complete new set of URLs must be provided.
+ * When updating domains, the complete new set of domains must be provided.
  *
  */
-export const updateShop = <ThrowOnError extends boolean = false>(options: Options<UpdateShopData, ThrowOnError>) => {
-    return (options.client ?? client).patch<UpdateShopResponses, UpdateShopErrors, ThrowOnError>({
-        url: '/api/v1/shops/{shopId}',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const updateShop = <ThrowOnError extends boolean = false>(options: Options<UpdateShopData, ThrowOnError>) => (options.client ?? client).patch<UpdateShopResponses, UpdateShopErrors, ThrowOnError>({
+    url: '/api/v1/shops/{shopIdentifier}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Search shops
@@ -448,13 +341,11 @@ export const updateShop = <ThrowOnError extends boolean = false>(options: Option
  * Returns a paginated collection of shops matching the search criteria.
  *
  */
-export const searchShops = <ThrowOnError extends boolean = false>(options: Options<SearchShopsData, ThrowOnError>) => {
-    return (options.client ?? client).post<SearchShopsResponses, SearchShopsErrors, ThrowOnError>({
-        url: '/api/v1/shops/search',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options.headers
-        }
-    });
-};
+export const searchShops = <ThrowOnError extends boolean = false>(options: Options<SearchShopsData, ThrowOnError>) => (options.client ?? client).post<SearchShopsResponses, SearchShopsErrors, ThrowOnError>({
+    url: '/api/v1/shops/search',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});

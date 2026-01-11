@@ -1,4 +1,4 @@
-import { StatusBadge } from "@/components/product/StatusBadge.tsx";
+import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
