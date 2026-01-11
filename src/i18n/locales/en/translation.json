@@ -427,6 +427,7 @@
     "BAD_PAGE_SIZE_VALUE": "Invalid number per page.",
     "BAD_SORT_VALUE": "Invalid sorting.",
     "BAD_ORDER_VALUE": "Invalid sort order.",
+    "WATCHLIST_QUOTA_EXCEEDED": "You've reached the maximum number of items on your watchlist. There are already 5/5 watchlist entries occupied.",
     "unknown": "An unexpected error occurred."
   },
   "watchlist": {
