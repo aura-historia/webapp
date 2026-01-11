@@ -32,6 +32,18 @@
   },
   "account": {
     "title": "My Account",
+    "personalData": {
+      "title": "Personal Data",
+      "emailLabel": "Email",
+      "firstNameLabel": "First Name",
+      "lastNameLabel": "Last Name",
+      "languageLabel": "Language",
+      "languagePlaceholder": "Select language",
+      "currencyLabel": "Currency",
+      "currencyPlaceholder": "Select currency",
+      "saveButton": "Save Changes",
+      "successMessage": "Personal data updated successfully"
+    },
     "changePassword": {
       "title": "Change Password",
       "currentPasswordLabel": "Current Password",
