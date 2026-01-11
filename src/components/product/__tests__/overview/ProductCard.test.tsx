@@ -28,7 +28,7 @@ describe("ProductCard", () => {
         shopName: "Sample Shop",
         state: "AVAILABLE",
         price: "100€",
-        images: [new URL("https://example.com/image.jpg")],
+        images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
         originYear: undefined,
         originYearMin: undefined,
         originYearMax: undefined,

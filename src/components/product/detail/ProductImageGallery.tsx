@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
     Carousel,
     type CarouselApi,
@@ -13,9 +13,10 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
+import type { ProductImage } from "@/data/internal/ProductImageData.ts";
 
 interface ProductImageGalleryProps {
-    readonly images: readonly URL[];
+    readonly images: readonly ProductImage[];
     readonly title: string;
     readonly productId: string;
 }
@@ -23,7 +24,7 @@ interface ProductImageGalleryProps {
 export function ProductImageGallery({ images, title, productId }: ProductImageGalleryProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-    const slides = useMemo(() => images.map((img) => ({ src: img.href })), [images]);
+    const slides = useMemo(() => images.map((img) => ({ src: img.url?.href ?? "" })), [images]);
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
 
     /**
@@ -89,7 +90,7 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                         className="w-full block"
                     >
                         <img
-                            src={images[currentImageIndex].href}
+                            src={images[currentImageIndex].url?.href}
                             alt={`Produktbild von ${title}`}
                             className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
                         />
@@ -136,7 +137,7 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                                 className={`-ml-2 ${images.length <= 2 ? "justify-center" : ""}`}
                             >
                                 {images.map((img, idx) => (
-                                    <CarouselItem key={img.href} className="pl-2 basis-1/3">
+                                    <CarouselItem key={img.url?.href} className="pl-2 basis-1/3">
                                         <button
                                             type="button"
                                             onClick={() => setCurrentImageIndex(idx)}
@@ -150,7 +151,7 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                                                 `}
                                         >
                                             <img
-                                                src={img.href}
+                                                src={img.url?.href}
                                                 alt={`Thumbnail ${idx + 1}`}
                                                 className="w-full h-full object-cover"
                                             />

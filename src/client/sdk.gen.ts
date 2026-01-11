@@ -206,8 +206,10 @@ export const getWatchlistProducts = <ThrowOnError extends boolean = false>(optio
 /**
  * Add product to watchlist
  *
- * Adds an product to the authenticated user's watchlist.
+ * Adds a product to the authenticated user's watchlist.
  * The request body must contain the shop ID and shop's product ID.
+ * Each user is limited to a maximum of 5 watchlist products. If the user already has 5 products
+ * in their watchlist, adding another will result in a 422 Unprocessable Entity error.
  * Returns a 201 Created response with a Location header pointing to the created resource.
  * Requires valid Cognito JWT authentication.
  *

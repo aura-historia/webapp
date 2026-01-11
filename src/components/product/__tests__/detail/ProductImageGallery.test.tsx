@@ -30,12 +30,14 @@ beforeAll(() => {
 });
 
 describe("ProductImageGallery", () => {
-    const singleImage = [new URL("https://example.com/image1.jpg")];
+    const singleImage = [
+        { url: new URL("https://example.com/image1.jpg"), prohibitedContentType: "NONE" },
+    ] as const;
     const multipleImages = [
-        new URL("https://example.com/image1.jpg"),
-        new URL("https://example.com/image2.jpg"),
-        new URL("https://example.com/image3.jpg"),
-    ];
+        { url: new URL("https://example.com/image1.jpg"), prohibitedContentType: "NONE" },
+        { url: new URL("https://example.com/image2.jpg"), prohibitedContentType: "NONE" },
+        { url: new URL("https://example.com/image3.jpg"), prohibitedContentType: "NONE" },
+    ] as const;
 
     it("should render the main product image", () => {
         render(<ProductImageGallery images={singleImage} title="Test Product" productId="1" />);
