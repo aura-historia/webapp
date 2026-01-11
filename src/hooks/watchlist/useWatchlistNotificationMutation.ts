@@ -16,7 +16,7 @@ export function useWatchlistNotificationMutation(shopId: string, shopsProductId:
     return useMutation({
         mutationFn: async (notificationsEnabled: boolean) => {
             const result = await patchWatchlistProduct({
-                path: { shopId: shopId, shopsProductId: shopsProductId },
+                path: { shopId, shopsProductId },
                 body: { notifications: notificationsEnabled },
             });
 
@@ -25,7 +25,6 @@ export function useWatchlistNotificationMutation(shopId: string, shopsProductId:
                     toast.info(t("watchlist.loginRequired"));
                     return;
                 }
-
                 throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
 
@@ -36,38 +35,26 @@ export function useWatchlistNotificationMutation(shopId: string, shopsProductId:
             toast.error(e.message || t("watchlist.loadingError"));
         },
         onSuccess: async (data) => {
-            // Update the product query data with the new notification state
-            const queryKey = getProductQueryKey({
-                headers: {
-                    "Accept-Language": parseLanguage(i18n.language),
-                },
-                path: { shopId: shopId, shopsProductId: shopsProductId },
-                query: {
-                    history: true,
-                },
-            });
+            if (!data) return;
 
+            // Update product detail query
             queryClient.setQueryData(
-                queryKey,
-                (oldData: PersonalizedGetProductData | undefined) => {
-                    if (!oldData) {
-                        // If the query doesn't exist yet, we can't update it
-                        console.warn("Product query data not found for update");
-                        return oldData;
-                    }
-
-                    return {
-                        ...oldData,
+                getProductQueryKey({
+                    headers: { "Accept-Language": parseLanguage(i18n.language) },
+                    path: { shopId, shopsProductId },
+                    query: { history: true },
+                }),
+                (old: PersonalizedGetProductData | undefined) =>
+                    old && {
+                        ...old,
                         userState: {
-                            ...oldData.userState,
+                            ...old.userState,
                             watchlist: {
-                                ...oldData.userState?.watchlist,
-                                notifications: data?.notifications ?? false,
-                                watching: oldData.userState?.watchlist?.watching ?? true,
+                                watching: old.userState?.watchlist?.watching ?? true,
+                                notifications: data.notifications,
                             },
                         },
-                    };
-                },
+                    },
             );
 
             await Promise.all([
