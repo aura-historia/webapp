@@ -25,17 +25,19 @@ describe("FAQSection", () => {
     it("renders all FAQ questions", () => {
         expect(screen.getByText("Wie funktioniert Aura Historia?")).toBeInTheDocument();
         expect(
-            screen.getByText("Kann ich Artikel direkt über Aura Historia kaufen?"),
+            screen.getByText("Kann ich direkt über Aura Historia Antiquitäten kaufen?"),
         ).toBeInTheDocument();
         expect(
-            screen.getByText("Wie funktionieren die Preis- und Verfügbarkeitsbenachrichtigungen?"),
+            screen.getByText("Wie funktionieren die Preis- und Verfügbarkeits-Benachrichtigungen?"),
         ).toBeInTheDocument();
         expect(screen.getByText("Wie oft werden die Daten aktualisiert?")).toBeInTheDocument();
         expect(
             screen.getByText("Welche Antiquitäten-Onlineshops sind auf Aura Historia vertreten?"),
         ).toBeInTheDocument();
         expect(
-            screen.getByText(/Ich kenne einen Onlinehändler.*der noch nicht auf Aura Historia ist/),
+            screen.getByText(
+                /Ich kenne einen Onlinehändler, ein Auktionshaus oder einen Marktplatz, der noch nicht auf Aura Historia vertreten ist. Können wir ihn hinzufügen?/,
+            ),
         ).toBeInTheDocument();
         expect(
             screen.getByText("Wie unterscheidet sich Aura Historia von Barnebys?"),

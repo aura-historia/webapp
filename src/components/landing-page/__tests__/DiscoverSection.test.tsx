@@ -19,22 +19,28 @@ describe("DiscoverSection", () => {
     });
 
     it("renders the section title", () => {
-        expect(screen.getByText("Ihr Fenster zur Welt der Antiquitäten")).toBeInTheDocument();
+        expect(
+            screen.getByText(
+                "Wir bringen Transparenz in die undurchsichtige Welt der Online-Antiquitäten",
+            ),
+        ).toBeInTheDocument();
     });
 
     it("renders the description paragraphs", () => {
         expect(
-            screen.getByText(/Aura Historia durchforstet täglich das unübersichtliche Angebot/),
+            screen.getByText(/Aura Historia durchsucht täglich das unübersichtliche Angebot/),
         ).toBeInTheDocument();
         expect(
-            screen.getByText(/Unsere intelligente Plattform erfasst nicht nur aktuelle Angebote/),
+            screen.getByText(/Wir erfassen nicht nur aktuelle und neu aufgetauchte Anitquitäten/),
         ).toBeInTheDocument();
     });
 
     it("renders all highlights", () => {
-        expect(screen.getByText("Über 500 Händler vernetzt")).toBeInTheDocument();
+        expect(
+            screen.getByText("Über 500 Händler, Auktionshäuser und Marktplätze"),
+        ).toBeInTheDocument();
         expect(screen.getByText("Echtzeit-Überwachung")).toBeInTheDocument();
-        expect(screen.getByText("Transparente Preisentwicklung")).toBeInTheDocument();
+        expect(screen.getByText("Vollständig Sprach-unabhängig")).toBeInTheDocument();
     });
 
     it("renders highlight descriptions", () => {
@@ -42,15 +48,19 @@ describe("DiscoverSection", () => {
             screen.getByText(/Wir durchsuchen kontinuierlich renommierte Antiquitätenhändler/),
         ).toBeInTheDocument();
         expect(
-            screen.getByText(/Preisänderungen und Verfügbarkeit werden automatisch erfasst/),
+            screen.getByText(
+                /Sowohl neu aufgetauchte Antiquitäten, als auch Preis- und Verfügbarkeits-Updates werden nahezu in Echtzeit erfasst/,
+            ),
         ).toBeInTheDocument();
-        expect(screen.getByText(/Verfolgen Sie die komplette Preishistorie/)).toBeInTheDocument();
+        expect(
+            screen.getByText(/Wir übersetzen jeden Artikel in verschiedene Sprachen/),
+        ).toBeInTheDocument();
     });
 
     it("renders all stat labels", () => {
-        expect(screen.getByText("Vernetzte Händler")).toBeInTheDocument();
+        expect(screen.getByText("Vernetzte Shops")).toBeInTheDocument();
         expect(screen.getByText("Einzigartige Artikel")).toBeInTheDocument();
-        expect(screen.getByText("Automatische Updates")).toBeInTheDocument();
+        expect(screen.getByText("Nahezu Echtzeit-Updates")).toBeInTheDocument();
         expect(screen.getByText("Länder abgedeckt")).toBeInTheDocument();
     });
 });

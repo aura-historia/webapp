@@ -11,14 +11,16 @@ describe("FeaturesSection", () => {
 
     it("renders the section heading", () => {
         expect(
-            screen.getByText("Antiquitäten sind überall online - Ihre Suche sollte es nicht sein"),
+            screen.getByText(
+                "Antiquitäten sind überall im Internet verstreut - Ihre Suche sollte es nicht sein",
+            ),
         ).toBeInTheDocument();
     });
 
     it("renders the section subtitle", () => {
         expect(
             screen.getByText(
-                "Aura Historia ist die ausgefeilteste Suchmaschine für Antiquitäten und bietet Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen.",
+                "Aura Historia ist die forgeschrittenste Suchmaschine für Antiquitäten und bietet Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen.",
             ),
         ).toBeInTheDocument();
     });
@@ -36,7 +38,7 @@ describe("FeaturesSection", () => {
     it("renders feature descriptions", () => {
         expect(
             screen.getByText(
-                /Durchsuchen Sie hunderttausende Artikel mit unserer leistungsstarken Suchfunktion/,
+                /Durchsuchen Sie hunderttausende Artikel mit unserer leistungsstarken Suchmaschine/,
             ),
         ).toBeInTheDocument();
         expect(

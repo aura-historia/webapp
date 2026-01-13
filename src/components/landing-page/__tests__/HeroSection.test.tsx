@@ -12,27 +12,21 @@ describe("HeroSection", () => {
     it("renders the badge", () => {
         expect(
             screen.getByText(
-                "Die führende Plattform für die Suche nach hochspezifischen Antiquitäten",
+                "Die führende Plattform für alle, die nach ganz bestimmten Antiquitäten suchen",
             ),
         ).toBeInTheDocument();
     });
 
     it("renders the main heading", () => {
         expect(
-            screen.getByText(
-                "Stoppen Sie die Zeitverschwendung bei der Suche nach Antiquitäten, die Sie nicht finden können",
-            ),
+            screen.getByText("Hör auf, Zeit bei der Suche nach Antiquitäten zu verschwenden"),
         ).toBeInTheDocument();
-        expect(
-            screen.getByText(
-                "Ein zentraler Ort, um die Antiquitäten zu finden, nach denen Sie suchen",
-            ),
-        ).toBeInTheDocument();
+        expect(screen.getByText("Der zentrale Ort, um Antiquitäten zu finden")).toBeInTheDocument();
     });
 
     it("renders the subtitle", () => {
         expect(
-            screen.getByText(/Aura Historia überwacht das gesamte Web nach Antiquitäten/),
+            screen.getByText(/Aura Historia durchsucht das gesamte Web nach Antiquitäten/),
         ).toBeInTheDocument();
     });
 
@@ -42,9 +36,7 @@ describe("HeroSection", () => {
 
     it("renders all trust badges", () => {
         expect(screen.getByText("Für ernsthafte Sammler und Händler")).toBeInTheDocument();
-        expect(
-            screen.getByText("Entwickelt unter der Anleitung erfahrener Antiquitätensammler"),
-        ).toBeInTheDocument();
-        expect(screen.getByText("Echtzeit")).toBeInTheDocument();
+        expect(screen.getByText("Von Antiquitätensammlern")).toBeInTheDocument();
+        expect(screen.getByText("Nahezu Echtzeit")).toBeInTheDocument();
     });
 });
