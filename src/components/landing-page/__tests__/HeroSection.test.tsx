@@ -11,18 +11,28 @@ describe("HeroSection", () => {
 
     it("renders the badge", () => {
         expect(
-            screen.getByText("Die führende Plattform für Antiquitäten-Liebhaber"),
+            screen.getByText(
+                "Die führende Plattform für die Suche nach hochspezifischen Antiquitäten",
+            ),
         ).toBeInTheDocument();
     });
 
     it("renders the main heading", () => {
-        expect(screen.getByText("Entdecken, vergleichen, sammeln –")).toBeInTheDocument();
-        expect(screen.getByText("Antiquitäten aus aller Welt")).toBeInTheDocument();
+        expect(
+            screen.getByText(
+                "Stoppen Sie die Zeitverschwendung bei der Suche nach Antiquitäten, die Sie nicht finden können",
+            ),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText(
+                "Ein zentraler Ort, um die Antiquitäten zu finden, nach denen Sie suchen",
+            ),
+        ).toBeInTheDocument();
     });
 
     it("renders the subtitle", () => {
         expect(
-            screen.getByText(/Durchsuchen Sie über 120.000 einzigartige Antiquitäten/),
+            screen.getByText(/Aura Historia überwacht das gesamte Web nach Antiquitäten/),
         ).toBeInTheDocument();
     });
 
@@ -31,8 +41,10 @@ describe("HeroSection", () => {
     });
 
     it("renders all trust badges", () => {
-        expect(screen.getByText("Vollständig kostenfrei")).toBeInTheDocument();
-        expect(screen.getByText("Keine Registrierung nötig")).toBeInTheDocument();
-        expect(screen.getByText("Mehrmals täglich aktualisiert")).toBeInTheDocument();
+        expect(screen.getByText("Für ernsthafte Sammler und Händler")).toBeInTheDocument();
+        expect(
+            screen.getByText("Entwickelt unter der Anleitung erfahrener Antiquitätensammler"),
+        ).toBeInTheDocument();
+        expect(screen.getByText("Echtzeit")).toBeInTheDocument();
     });
 });
