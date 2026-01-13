@@ -319,14 +319,14 @@
     },
     "howItWorks": {
       "title": "How it works",
-      "subtitle": "Just a few steps to your dream piece – without hidden costs.",
+      "subtitle": "Just a few steps to your dream pieces.",
       "step1": {
         "title": "Search",
         "description": "Enter what you're looking for – whether furniture, jewelry, art, or collectibles."
       },
       "step2": {
         "title": "Discover",
-        "description": "Browse results from hundreds of dealers at a glance."
+        "description": "Browse results from thousands of dealers at a glance."
       },
       "step3": {
         "title": "Save",
@@ -371,29 +371,37 @@
       "title": "Frequently Asked Questions",
       "subtitle": "Here you'll find answers to the most important questions about Aura Historia.",
       "items": {
-        "free": {
-          "question": "Is Aura Historia really free?",
-          "answer": "Yes, using Aura Historia is completely free. You can search unlimited, add items to your watchlist, and view price histories – without hidden costs or subscriptions."
-        },
         "howItWorks": {
           "question": "How does Aura Historia work?",
-          "answer": "Aura Historia automatically searches the websites of over 500 antique dealers worldwide daily and collects all offers in one central place. Our intelligent search allows you to find exactly what you're looking for."
+          "answer": "Aura Historia continuously searches the websites of over 500 antique dealers, auction houses and marketplaces worldwide and collects all offers in one central place. Our intelligent search allows you to find exactly what you're looking for."
         },
         "directPurchase": {
           "question": "Can I buy items directly through Aura Historia?",
           "answer": "No, Aura Historia is a pure search platform. If you want to buy an item, you will be redirected directly to the respective dealer's website where you can complete the purchase."
         },
         "priceAlerts": {
-          "question": "How do price notifications work?",
-          "answer": "Once you add an item to your watchlist, we automatically track its price development for you. As soon as something changes with your item, you receive a notification – so you never miss a bargain again."
+          "question": "How do price and availability notifications work?",
+          "answer": "Once you add an item to your watchlist, we automatically track its price- and availability development for you. As soon as something changes with your item, you receive a notification via E-Mail."
         },
         "updateFrequency": {
           "question": "How often is the data updated?",
-          "answer": "Our data is continuously updated. Most dealer sites are searched multiple times daily, so you always see current prices and availability."
+          "answer": "Our data is continuously updated. We operate in near real-time."
         },
         "dealers": {
-          "question": "Which dealers are on Aura Historia?",
-          "answer": "We work with over 500 renowned antique dealers from more than 15 countries. Among them you'll find both large auction houses and specialized dealers for various antique areas."
+          "question": "Which Antique Online-Shops are on Aura Historia?",
+          "answer": "We include data from over 500 renowned antique dealers from more than 15 countries. Among them you'll find both, large auction houses and specialized dealers for all antique areas."
+        },
+        "dealerRequest": {
+          "question": "I know an online dealer/auction house/marketplace that's not yet on Aura Historia. Can we add it?",
+          "answer": "Yes! Send us an email to contact@aura-historia.com and include the URL/Link of the shop along any additional information you might want to provide. We will verify the shop and include it within hours."
+        },
+        "comparisonBarnebys": {
+          "question": "How does Aura Historia compare to Barnebys?",
+          "answer": "While Barnebys is also an antiques search engine, they only focus on the largest players - the big auction houses and dealers. This makes up for a very high chance for you to miss out on what you're actually searching for. Ask yourself, where did I find my biggest treasures? It probably was a small local dealer or even thrift store."
+        },
+        "comparisonPriceDatabase": {
+          "question": "How does Aura Historia compare to price databases like WorthPoint and the salesroom?",
+          "answer": "Price databases leverage the sheer amount of historical data with auction results dating back until the 90s. While this helps finding comparisons for astronomically rare pieces, it often deflects the current market-value and availability of antiques. If your goal is to find antiques or research their current value, Aura Historia is the right place. We also want to take a heavy standpoint against the monetization of historical antique pricing data. You should not need to pay to find out what sold."
         }
       }
     }
