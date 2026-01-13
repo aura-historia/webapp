@@ -48,7 +48,7 @@ describe("NavigationProgress Component", () => {
             vi.advanceTimersByTime(100);
         });
 
-        const progressBar = container.querySelector("[style*='width']");
+        const progressBar = container.querySelector("[style*='transform']");
         expect(progressBar).toBeInTheDocument();
     });
 
@@ -62,7 +62,7 @@ describe("NavigationProgress Component", () => {
             vi.advanceTimersByTime(100);
         });
 
-        const progressBar = container.querySelector("[style*='width']");
+        const progressBar = container.querySelector("[style*='transform']");
         const initialWidth = progressBar?.getAttribute("style");
 
         // Advance time to increase progress
@@ -86,13 +86,17 @@ describe("NavigationProgress Component", () => {
             vi.advanceTimersByTime(5000);
         });
 
-        const progressBar = container.querySelector("[style*='width']");
-        const style = progressBar?.getAttribute("style") || "";
-        const widthMatch = style.match(/width:\s*(\d+(?:\.\d+)?)%/);
+        const progressIndicator = container.querySelector("[data-slot='progress-indicator']");
+        const style = progressIndicator?.getAttribute("style") || "";
+        // Progress component uses translateX(-X%) where X = 100 - progress
+        // So if progress is 90%, translateX should be -10%
+        const translateMatch = style.match(/translateX\(-(\d+(?:\.\d+)?)%\)/);
 
-        expect(widthMatch).toBeTruthy();
-        const width = Number.parseFloat(widthMatch?.[1] ?? "0");
-        expect(width).toBeLessThanOrEqual(90);
+        expect(translateMatch).toBeTruthy();
+        const translateValue = Number.parseFloat(translateMatch?.[1] ?? "100");
+        // translateX(-10%) means progress is 90%
+        const progressValue = 100 - translateValue;
+        expect(progressValue).toBeLessThanOrEqual(90);
     });
 
     it("should complete to 100% when loading finishes", async () => {
@@ -113,8 +117,9 @@ describe("NavigationProgress Component", () => {
             vi.advanceTimersByTime(50);
         });
 
-        const progressBar = container.querySelector("[style*='width']");
-        expect(progressBar?.getAttribute("style")).toContain("width: 100%");
+        const progressIndicator = container.querySelector("[data-slot='progress-indicator']");
+        // At 100% progress, translateX should be -0% (or 0%)
+        expect(progressIndicator?.getAttribute("style")).toContain("translateX(-0%)");
     });
 
     it("should hide after loading completes", async () => {
@@ -131,11 +136,12 @@ describe("NavigationProgress Component", () => {
         mockUseRouterState.mockReturnValue(false);
         rerender(<NavigationProgress />);
 
-        // Wait for hide timeout (300ms)
+        // Wait for the hide timeout to complete (300ms)
         await act(async () => {
             vi.advanceTimersByTime(350);
         });
 
+        // After fade out, the component should be unmounted
         expect(container.firstChild).toBeNull();
     });
 
@@ -161,8 +167,8 @@ describe("NavigationProgress Component", () => {
             vi.advanceTimersByTime(100);
         });
 
-        const progressBar = container.querySelector("[style*='width']");
-        expect(progressBar).toHaveClass("bg-primary");
+        const progressIndicator = container.querySelector("[data-slot='progress-indicator']");
+        expect(progressIndicator).toHaveClass("bg-primary");
     });
 
     it("should be non-interactive (pointer-events-none)", async () => {
@@ -192,12 +198,14 @@ describe("NavigationProgress Component", () => {
         mockUseRouterState.mockReturnValue(false);
         rerender(<NavigationProgress />);
 
+        // Wait just a bit for progress to hit 100% but before the hide timeout (300ms)
         await act(async () => {
             vi.advanceTimersByTime(50);
         });
 
-        const progressBar = container.querySelector("[style*='width']");
-        expect(progressBar).toHaveClass("opacity-0");
+        // The outer container should have opacity-0 class for fade out effect
+        const progressContainer = container.firstChild as HTMLElement;
+        expect(progressContainer).toHaveClass("opacity-0", "transition-opacity", "duration-300");
     });
 
     it("should reset progress when starting a new navigation", async () => {
@@ -226,13 +234,15 @@ describe("NavigationProgress Component", () => {
             vi.advanceTimersByTime(100);
         });
 
-        const progressBar = container.querySelector("[style*='width']");
-        const style = progressBar?.getAttribute("style") || "";
-        const widthMatch = style.match(/width:\s*(\d+(?:\.\d+)?)%/);
+        const progressIndicator = container.querySelector("[data-slot='progress-indicator']");
+        const style = progressIndicator?.getAttribute("style") || "";
+        // Progress component uses translateX(-X%) where X = 100 - progress
+        const translateMatch = style.match(/translateX\(-(\d+(?:\.\d+)?)%\)/);
 
         // Progress should have reset and be small again
-        expect(widthMatch).toBeTruthy();
-        const width = Number.parseFloat(widthMatch?.[1] ?? "0");
-        expect(width).toBeLessThan(50);
+        expect(translateMatch).toBeTruthy();
+        const translateValue = Number.parseFloat(translateMatch?.[1] ?? "100");
+        const progressValue = 100 - translateValue;
+        expect(progressValue).toBeLessThan(50);
     });
 });

@@ -1,6 +1,7 @@
 import { useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { Progress } from "@/components/ui/progress.tsx";
+import { cn } from "@/lib/utils.ts";
 
 export function NavigationProgress() {
     const isLoading = useRouterState({ select: (s) => s.isLoading });
@@ -47,14 +48,13 @@ export function NavigationProgress() {
     }
 
     return (
-        <div className="fixed top-0 left-0 right-0 z-100 h-1 bg-transparent pointer-events-none">
-            <div
-                className={cn(
-                    "h-full bg-primary transition-all duration-200 ease-out",
-                    progress === 100 && "opacity-0 transition-opacity duration-300",
-                )}
-                style={{ width: `${progress}%` }}
-            />
+        <div
+            className={cn(
+                "fixed top-0 left-0 right-0 z-100 h-1 bg-transparent pointer-events-none",
+                progress === 100 && "opacity-0 transition-opacity duration-300",
+            )}
+        >
+            <Progress className="rounded-none h-full " value={progress} />
         </div>
     );
 }
