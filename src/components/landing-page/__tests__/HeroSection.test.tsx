@@ -19,7 +19,7 @@ describe("HeroSection", () => {
 
     it("renders the main heading", () => {
         expect(
-            screen.getByText("Hör auf, Zeit bei der Suche nach Antiquitäten zu verschwenden"),
+            screen.getByText("Hören Sie auf, Zeit bei der Suche nach Antiquitäten zu verschwenden"),
         ).toBeInTheDocument();
         expect(screen.getByText("Der zentrale Ort, um Antiquitäten zu finden")).toBeInTheDocument();
     });

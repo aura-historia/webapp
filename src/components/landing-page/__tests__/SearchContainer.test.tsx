@@ -12,9 +12,12 @@ describe("SearchContainer", () => {
 
     it("renders the main heading", () => {
         expect(
-            screen.getByText("Hör auf, Zeit bei der Suche nach Antiquitäten zu verschwenden", {
-                exact: false,
-            }),
+            screen.getByText(
+                "Hören Sie auf, Zeit bei der Suche nach Antiquitäten zu verschwenden",
+                {
+                    exact: false,
+                },
+            ),
         ).toBeInTheDocument();
     });
 
