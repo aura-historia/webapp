@@ -28,6 +28,7 @@ export function NotificationButton({
                 if (watchlistNotificationMutation.isPending) return;
                 watchlistNotificationMutation.mutate(!isNotificationEnabled);
             }}
+            disabled={watchlistNotificationMutation.isPending}
         >
             <div className="relative size-5">
                 <Bell
