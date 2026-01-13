@@ -315,6 +315,10 @@
       "aiSearchAgent": {
         "title": "Personal AI Search Agent",
         "description": "Your personal AI agent helps you find the most specific antiques. In combination with search requests, describe what you're looking for in plain language - as detailed as you wish. We will notify you as soon as hits match what you described."
+      },
+      "communityWishes": {
+        "title": "Your wishes",
+        "description": "You have critique, are missing something or have an idea what we should improve or add? We'll listen very closely. Contact us at contact@aura-historia.com and we will make it happen."
       }
     },
     "howItWorks": {

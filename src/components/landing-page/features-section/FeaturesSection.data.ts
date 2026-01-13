@@ -1,4 +1,4 @@
-import { Bot, Funnel, Globe, Heart, History, Languages, Search } from "lucide-react";
+import { Bot, UserStar, Funnel, Globe, Heart, History, Languages, Search } from "lucide-react";
 
 export const FEATURES_CARD_DATA = [
     {
@@ -37,5 +37,10 @@ export const FEATURES_CARD_DATA = [
         titleKey: "landingPage.features.aiSearchAgent.title",
         descKey: "landingPage.features.aiSearchAgent.description",
         isPreview: true,
+    },
+    {
+        icon: UserStar,
+        titleKey: "landingPage.features.communityWishes.title",
+        descKey: "landingPage.features.communityWishes.description",
     },
 ];

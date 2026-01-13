@@ -315,6 +315,10 @@
       "aiSearchAgent": {
         "title": "Persönlicher KI-Suchagent",
         "description": "Ihr persönlicher KI-Agent hilft Ihnen, die spezifischsten Antiquitäten zu finden. In Kombination mit Suchaufträgen beschreiben Sie in natürlicher Sprache, wonach Sie suchen – so detailliert, wie Sie es möchten. Wir benachrichtigen Sie, sobald Treffer mit Ihrer Beschreibung übereinstimmen."
+      },
+      "communityWishes": {
+        "title": "Ihre Wünsche",
+        "description": "Sie haben Kritik, vermissen etwas oder haben eine Idee, was wir verbessern oder ergänzen können? Wir hören sehr genau zu. Kontaktieren Sie uns gern über contact@aura-historia.com und wir machen es möglich."
       }
     },
     "howItWorks": {
