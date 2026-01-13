@@ -1,14 +1,4 @@
-import {
-    Bell,
-    Bot,
-    Funnel,
-    Globe,
-    Heart,
-    History,
-    Languages,
-    Search,
-    TrendingDown,
-} from "lucide-react";
+import { Bot, Funnel, Globe, Heart, History, Languages, Search } from "lucide-react";
 
 export const FEATURES_CARD_DATA = [
     {
@@ -22,14 +12,9 @@ export const FEATURES_CARD_DATA = [
         descKey: "landingPage.features.global.description",
     },
     {
-        icon: Bell,
-        titleKey: "landingPage.features.notifications.title",
-        descKey: "landingPage.features.notifications.description",
-    },
-    {
-        icon: TrendingDown,
-        titleKey: "landingPage.features.priceTracking.title",
-        descKey: "landingPage.features.priceTracking.description",
+        icon: Languages,
+        titleKey: "landingPage.features.translations.title",
+        descKey: "landingPage.features.translations.description",
     },
     {
         icon: History,
@@ -40,11 +25,6 @@ export const FEATURES_CARD_DATA = [
         icon: Heart,
         titleKey: "landingPage.features.watchlist.title",
         descKey: "landingPage.features.watchlist.description",
-    },
-    {
-        icon: Languages,
-        titleKey: "landingPage.features.translations.title",
-        descKey: "landingPage.features.translations.description",
     },
     {
         icon: Funnel,
