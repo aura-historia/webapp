@@ -15,9 +15,7 @@ describe("HowItWorksSection", () => {
 
     it("renders the section subtitle", () => {
         expect(
-            screen.getByText(
-                "In nur wenigen Schritten zu Ihrem Traumstück – ohne versteckte Kosten.",
-            ),
+            screen.getByText("In nur wenigen Schritten zu Ihren Traumstücken."),
         ).toBeInTheDocument();
     });
 
@@ -38,7 +36,7 @@ describe("HowItWorksSection", () => {
     it("renders all step descriptions", () => {
         expect(screen.getByText(/Geben Sie ein, wonach Sie suchen/)).toBeInTheDocument();
         expect(
-            screen.getByText(/Durchstöbern Sie Ergebnisse von hunderten Händlern/),
+            screen.getByText(/Durchstöbern Sie Ergebnisse von tausenden Händlern/),
         ).toBeInTheDocument();
         expect(
             screen.getByText(/Speichern Sie interessante Artikel auf Ihrer persönlichen Merkliste/),
