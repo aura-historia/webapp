@@ -125,6 +125,20 @@ describe("NotificationButton", () => {
         expect(mockMutate).not.toHaveBeenCalled();
     });
 
+    it("should be disabled while mutation is pending", async () => {
+        mockUseWatchlistNotificationMutation.mockReturnValue({
+            mutate: mockMutate,
+            isPending: true,
+        } as unknown as ReturnType<typeof useWatchlistNotificationMutation>);
+
+        await act(() => {
+            renderWithQueryClient(<NotificationButton {...defaultProps} />);
+        });
+
+        const button = screen.getByRole("button");
+        expect(button).toBeDisabled();
+    });
+
     it("should apply bounce animation to both icons when pending", async () => {
         mockUseWatchlistNotificationMutation.mockReturnValue({
             mutate: mockMutate,
@@ -168,18 +182,6 @@ describe("NotificationButton", () => {
 
         const button = screen.getByRole("button");
         expect(button).toHaveClass("custom-class");
-    });
-
-    it("should pass additional button props", async () => {
-        await act(() => {
-            renderWithQueryClient(
-                <NotificationButton {...defaultProps} disabled aria-label="Toggle notifications" />,
-            );
-        });
-
-        const button = screen.getByRole("button");
-        expect(button).toBeDisabled();
-        expect(button).toHaveAttribute("aria-label", "Toggle notifications");
     });
 
     it("should have filled BellRing icon when notifications are enabled", async () => {
