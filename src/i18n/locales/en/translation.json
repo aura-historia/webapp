@@ -250,12 +250,12 @@
     "unknown": "Unknown"
   },
   "discover": {
-    "title": "Bringing transparency into the opaque landscape of online Antiques",
-    "p1": "Aura Historia searches through the vast offerings of thousands of scattered antique dealers, auction houses and marketplaces worldwide and bundles their treasures in one central place.",
+    "title": "We bring transparency into the opaque landscape of online antiques",
+    "p1": "Aura Historia searches through the vast offerings of thousands of scattered antique dealers, auction houses and marketplaces worldwide and bundles their items in one central place.",
     "p2": "We not only capture current and upcoming items but also track price changes and availability. This way, you never miss a bargain and always keep an eye on the market.",
     "highlight1": {
       "title": "Over 500 Dealers, Auction Houses & Marketplaces",
-      "description": "We continuously search renowned antique dealers & auction houses from all over Europe and beyond."
+      "description": "We continuously search renowned antique dealers, auction houses and marketplaces from all over Europe and beyond."
     },
     "highlight2": {
       "title": "Near Real-Time Monitoring",
@@ -278,14 +278,14 @@
   },
   "landingPage": {
     "badge": "The leading platform for those searching highly specific antiques",
-    "titleFirstLine": "Stop wasting time searching antiques you cannot find",
+    "titleFirstLine": "Stop wasting time searching for antiques you cannot find",
     "titleSecondLine": "One central place to find the antiques you're looking for",
-    "subtitle": "Aura Historia monitors the entire web for antiques and makes it available in a highly-specializable search. We scan antique shops and auction houses you don't even know. Stop searching, start finding.",
-    "trustBadge1": "For serious collectors and dealers",
-    "trustBadge2": "Developed under the guidance of veteran antique collectors",
+    "subtitle": "Aura Historia monitors the entire web for antiques and makes it available in a specialized search. We scan antique shops and auction houses even you don't know.",
+    "trustBadge1": "From antique collectors",
+    "trustBadge2": "For serious collectors and dealers",
     "trustBadge3": "Near Real-Time",
     "features": {
-      "title": "Antiques are everywhere online - your search shouldn't be",
+      "title": "Antiques are scattered everywhere online - your search shouldn't be",
       "subtitle": "Aura Historia ist the most sophisticated search-engine for antiques and provides you with all the tools to efficiently search the antiques market.",
       "previewBadge": "Coming soon",
       "search": {
@@ -294,7 +294,7 @@
       },
       "global": {
         "title": "Worldwide Coverage",
-        "description": "We connect you with renowned antique dealers from over 15 countries – from Germany to the USA. No matter how small the dealer, if he has an online-shop, we will add it."
+        "description": "We connect you with renowned antique dealers from over 15 countries – from Germany to the USA. No matter how small the dealer, if he has an online-shop, we are adding it."
       },
       "history": {
         "title": "Change History",
@@ -401,7 +401,7 @@
         },
         "comparisonPriceDatabase": {
           "question": "How does Aura Historia compare to price databases like WorthPoint and the salesroom?",
-          "answer": "Price databases leverage the sheer amount of historical data with auction results dating back until the 90s. While this helps finding comparisons for astronomically rare pieces, it often deflects the current market-value and availability of antiques. If your goal is to find antiques or research their current value, Aura Historia is the right place. We also want to take a heavy standpoint against the monetization of historical antique pricing data. You should not need to pay to find out what sold."
+          "answer": "Price databases leverage the sheer amount of historical data with auction results dating back to the 90s. While this helps finding comparisons for astronomically rare pieces, it often deflects the current market-value and availability of antiques. If your goal is to find antiques or research their current value, Aura Historia is the right place. We also want to take a heavy standpoint against the monetization of historical antique pricing data. You should not need to pay to find out what sold at which price."
         }
       }
     }
