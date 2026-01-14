@@ -5,7 +5,6 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
 import { H4 } from "@/components/typography/H4.tsx";
 import { Ul } from "@/components/typography/Ul.tsx";
-import { Ol } from "@/components/typography/Ol.tsx";
 import { Li } from "@/components/typography/Li.tsx";
 import { IMPRINT_LOCALE_MAP } from "@/assets/content/imprint/imprint-asset-map.ts";
 import { Card } from "@/components/ui/card.tsx";
@@ -26,7 +25,6 @@ export function Imprint() {
                         h4,
                         a,
                         li,
-                        ol,
                         ul,
                     }}
                 >
@@ -89,13 +87,6 @@ function li({
     return <Li {...(props as React.ComponentPropsWithoutRef<"li">)}>{children}</Li>;
 }
 
-function ol({
-    node,
-    children,
-    ...props
-}: { node?: unknown; children?: ReactNode } & HTMLProps<HTMLOListElement>) {
-    return <Ol {...(props as React.ComponentPropsWithoutRef<"ol">)}>{children}</Ol>;
-}
 function ul({
     node,
     children,
