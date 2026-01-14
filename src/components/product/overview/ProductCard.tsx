@@ -33,7 +33,7 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
                             className={
                                 "w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
                             }
-                            src={product.images[0].url?.href}
+                            src={product.images[0].url.href}
                             alt=""
                         />
                     ) : (

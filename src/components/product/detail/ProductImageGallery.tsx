@@ -137,7 +137,7 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                                 className={`-ml-2 ${images.length <= 2 ? "justify-center" : ""}`}
                             >
                                 {images.map((img, idx) => (
-                                    <CarouselItem key={img.url?.href} className="pl-2 basis-1/3">
+                                    <CarouselItem key={img.url.href} className="pl-2 basis-1/3">
                                         <button
                                             type="button"
                                             onClick={() => setCurrentImageIndex(idx)}
@@ -151,7 +151,7 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                                                 `}
                                         >
                                             <img
-                                                src={img.url?.href}
+                                                src={img.url.href}
                                                 alt={`Thumbnail ${idx + 1}`}
                                                 className="w-full h-full object-cover"
                                             />

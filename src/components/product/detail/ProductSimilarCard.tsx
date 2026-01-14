@@ -28,7 +28,7 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                             className={
                                 "w-full aspect-video object-cover hover:opacity-90 transition-opacity"
                             }
-                            src={product.images[0].url?.href}
+                            src={product.images[0].url.href}
                             alt=""
                         />
                     ) : (
