@@ -7,7 +7,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useUserAccount } from "@/hooks/useUserAccount.ts";
+import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";

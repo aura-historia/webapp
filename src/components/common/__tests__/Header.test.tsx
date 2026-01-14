@@ -12,7 +12,7 @@ vi.mock("@aws-amplify/ui-react", () => ({
     useAuthenticator: mockUseAuthenticator,
 }));
 
-vi.mock("@/hooks/useUserAccount.ts", () => ({
+vi.mock("@/hooks/account/useUserAccount.ts", () => ({
     useUserAccount: mockUseUserAccount,
 }));
 

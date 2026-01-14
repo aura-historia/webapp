@@ -1,6 +1,6 @@
 import { renderHook, waitFor, act } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { useRegistrationPolling } from "../useRegistrationPolling";
+import { useRegistrationPolling } from "../account/useRegistrationPolling.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
 
@@ -22,7 +22,7 @@ vi.mock("@/stores/registrationStore", () => ({
     clearPendingUserData: mockClearPendingUserData,
 }));
 
-vi.mock("@/hooks/useApiError", () => ({
+vi.mock("@/hooks/common/useApiError", () => ({
     useApiError: () => ({
         getErrorMessage: mockGetErrorMessage,
     }),

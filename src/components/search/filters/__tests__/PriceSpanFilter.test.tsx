@@ -7,7 +7,7 @@ import type React from "react";
 
 const mockResetAndNavigate = vi.fn();
 
-vi.mock("@/hooks/useFilterNavigation", () => ({
+vi.mock("@/hooks/search/useFilterNavigation", () => ({
     useFilterNavigation: () => mockResetAndNavigate,
 }));
 // Wrapper component to provide form context for tests

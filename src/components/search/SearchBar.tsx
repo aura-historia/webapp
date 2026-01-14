@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { z } from "zod";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
-import { useSearchQueryContext } from "@/hooks/useSearchQueryContext.tsx";
+import { useSearchQueryContext } from "@/hooks/search/useSearchQueryContext.tsx";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 

@@ -9,7 +9,7 @@ import type { SearchFilterArguments } from "@/data/internal/SearchFilterArgument
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 import { mapToBackendState } from "@/data/internal/ProductState.ts";
 import { mapToBackendSortModeArguments } from "@/data/internal/SortMode.ts";
-import { useApiError } from "@/hooks/useApiError.ts";
+import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 import { useTranslation } from "react-i18next";
 import { parseLanguage } from "@/data/internal/Language.ts";
