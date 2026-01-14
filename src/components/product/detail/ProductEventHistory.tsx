@@ -65,7 +65,7 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
                 </TimelineHeader>
                 <TimelineDescription>
                     {t("product.history.events.priceDiscovered", {
-                        price: formatPrice(event.payload.newPrice),
+                        price: formatPrice(event.payload.newPrice, i18n.language),
                     })}
                 </TimelineDescription>
             </TimelineItem>
@@ -93,8 +93,8 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
                 </TimelineHeader>
                 <TimelineDescription>
                     {t("product.history.events.priceChanged", {
-                        oldPrice: formatPrice(event.payload.oldPrice),
-                        newPrice: formatPrice(event.payload.newPrice),
+                        oldPrice: formatPrice(event.payload.oldPrice, i18n.language),
+                        newPrice: formatPrice(event.payload.newPrice, i18n.language),
                         verb,
                     })}
                 </TimelineDescription>
@@ -118,7 +118,7 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
                 </TimelineHeader>
                 <TimelineDescription>
                     {t("product.history.events.priceRemoved", {
-                        price: formatPrice(event.payload.oldPrice),
+                        price: formatPrice(event.payload.oldPrice, i18n.language),
                     })}
                 </TimelineDescription>
             </TimelineItem>

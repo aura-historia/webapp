@@ -1,6 +1,6 @@
 import { renderHook, waitFor, act } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { useUpdateUserAccount } from "../usePatchUserAccount";
+import { useUpdateUserAccount } from "../account/usePatchUserAccount.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
 
@@ -14,7 +14,7 @@ vi.mock("@/client", () => ({
     updateUserAccount: mockUpdateUserAccount,
 }));
 
-vi.mock("@/hooks/useApiError", () => ({
+vi.mock("@/hooks/common/useApiError", () => ({
     useApiError: () => ({
         getErrorMessage: mockGetErrorMessage,
     }),

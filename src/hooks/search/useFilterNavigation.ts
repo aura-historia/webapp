@@ -1,4 +1,4 @@
-import type { FilterSchema } from "@/components/search/SearchFilters";
+import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 import { useFormContext } from "react-hook-form";
 import { useNavigate, useSearch } from "@tanstack/react-router";

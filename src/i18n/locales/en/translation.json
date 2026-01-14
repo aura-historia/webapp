@@ -16,7 +16,7 @@
     "title": "Terms & Conditions"
   },
   "header": {
-    "watchlist": "Watchlist Changed",
+    "watchlist": "Watchlist",
     "myAccount": "My Account",
     "editAccount": "Edit Account",
     "logout": "Logout",
@@ -250,91 +250,87 @@
     "unknown": "Unknown"
   },
   "discover": {
-    "title": "Your Window to the World of Antiques",
-    "p1": "Aura Historia searches through the vast offerings of thousands of scattered antique dealers worldwide daily and bundles their treasures in one central place.",
-    "p2": "Our intelligent platform not only captures current offers but also tracks price changes and availability. This way, you never miss a bargain and always keep an eye on the market.",
+    "title": "We bring transparency into the opaque landscape of online antiques",
+    "p1": "Aura Historia searches through the vast offerings of thousands of scattered antique dealers, auction houses and marketplaces worldwide and bundles their items in one central place.",
+    "p2": "We not only capture current and upcoming items but also track price changes and availability. This way, you never miss a bargain and always keep an eye on the market.",
     "highlight1": {
-      "title": "Over 500 dealers connected",
-      "description": "We continuously search renowned antique dealers from all over Europe and beyond."
+      "title": "Over 500 Dealers, Auction Houses & Marketplaces",
+      "description": "We continuously search renowned antique dealers, auction houses and marketplaces from all over Europe and beyond."
     },
     "highlight2": {
-      "title": "Real-time monitoring",
-      "description": "Price changes and availability are automatically captured and displayed."
+      "title": "Near Real-Time Monitoring",
+      "description": "Newly offered antiques as well as price- or availability-changes are automatically captured in near real-time."
     },
     "highlight3": {
-      "title": "Transparent price development",
-      "description": "Track the complete price history of an item and recognize trends at a glance."
+      "title": "Fully Language-agnostic",
+      "description": "We translate every antique into multiple languages. The language in which you search does not matter. We currently support English, German, French and Spanish."
     },
     "stats": {
       "shops": "500",
-      "shopsLabel": "Connected Dealers",
+      "shopsLabel": "Connected Shops",
       "items": "120,000",
       "itemsLabel": "Unique Items",
       "updates": "24/7",
-      "updatesLabel": "Automatic Updates",
+      "updatesLabel": "Near Real-Time Updates",
       "countries": "15",
       "countriesLabel": "Countries Covered"
     }
   },
   "landingPage": {
-    "badge": "The leading platform for antique enthusiasts",
-    "titleFirstLine": "Discover, compare, collect –",
-    "titleSecondLine": "Antiques from around the world",
-    "subtitle": "Browse over 120,000 unique antiques from more than 500 dealers worldwide. Track price changes, save favorites, and never miss a bargain again.",
-    "trustBadge1": "Completely free",
-    "trustBadge2": "No registration required",
-    "trustBadge3": "Updated multiple times daily",
+    "badge": "The leading platform for those searching highly specific antiques",
+    "titleFirstLine": "Stop wasting time searching for antiques you cannot find",
+    "titleSecondLine": "One central place to find the antiques you're looking for",
+    "subtitle": "Aura Historia monitors the entire web for antiques and makes it available in a specialized search. We scan antique shops and auction houses even you don't know.",
+    "trustBadge1": "From antique collectors",
+    "trustBadge2": "For serious collectors and dealers",
+    "trustBadge3": "Near Real-Time",
     "features": {
-      "title": "Everything collectors need",
-      "subtitle": "Aura Historia provides you with all the tools to efficiently search the antiques market and find treasures.",
+      "title": "Antiques are scattered everywhere online - your search shouldn't be",
+      "subtitle": "Aura Historia ist the most sophisticated search-engine for antiques and provides you with all the tools to efficiently search the antiques market.",
       "previewBadge": "Coming soon",
       "search": {
         "title": "Intelligent Search",
-        "description": "Search thousands of items with our powerful search function. Filter by category, price, dealer, and much more."
+        "description": "Search hundreds of thousands of items with our powerful search engine. Cut out all the noise by filtering for condition, price, dealer, and much more."
       },
       "global": {
         "title": "Worldwide Coverage",
-        "description": "We connect you with renowned antique dealers from over 15 countries – from Germany to the USA."
-      },
-      "notifications": {
-        "title": "Price Notifications",
-        "description": "Receive instant notifications when the price of an item on your watchlist drops."
-      },
-      "priceTracking": {
-        "title": "Price History",
-        "description": "See the complete price history of any item and recognize the perfect time to buy."
+        "description": "We connect you with renowned antique dealers from over 15 countries – from Germany to the USA. No matter how small the dealer, if he has an online-shop, we are adding it."
       },
       "history": {
         "title": "Change History",
-        "description": "Track all changes to an item – from price adjustments to status changes."
+        "description": "Track all changes to an item – from price adjustments to status changes. We opt for the maximum amount of transparency."
       },
       "watchlist": {
         "title": "Personal Watchlist",
-        "description": "Save interesting items and keep track of their development – all in one place."
+        "description": "Save interesting items and keep track of their development. Get notified when price or availability changes."
       },
       "translations": {
         "title": "Automatic Translations",
-        "description": "Read item descriptions in your preferred language, without any language barriers."
+        "description": "Search and discover all items in your preferred language, without any barriers. We currently support English, German, French and Spanish."
       },
       "personalFilter": {
-        "title": "Personal Filters",
-        "description": "Save your search filters and get automatically notified about new offers."
+        "title": "Search Requests",
+        "description": "Save your search request and get notified about new offers or updated items. The antiques you used to search for, now come to you."
       },
       "aiSearchAgent": {
-        "title": "AI Search Agent",
-        "description": "Your personal AI agent helps you find specific antiques that are otherwise hard to discover."
+        "title": "Personal AI Search Agent",
+        "description": "Your personal AI agent helps you find the most specific antiques. In combination with search requests, describe what you're looking for in plain language - as detailed as you wish. We will notify you as soon as hits match what you described."
+      },
+      "communityWishes": {
+        "title": "Your wishes",
+        "description": "You have critique, are missing something or have an idea what we should improve or add? We'll listen very closely. Contact us at contact@aura-historia.com and we will make it happen."
       }
     },
     "howItWorks": {
       "title": "How it works",
-      "subtitle": "Just a few steps to your dream piece – without hidden costs.",
+      "subtitle": "Just a few steps to your dream pieces.",
       "step1": {
         "title": "Search",
         "description": "Enter what you're looking for – whether furniture, jewelry, art, or collectibles."
       },
       "step2": {
         "title": "Discover",
-        "description": "Browse results from hundreds of dealers at a glance."
+        "description": "Browse results from thousands of dealers at a glance."
       },
       "step3": {
         "title": "Save",
@@ -379,29 +375,37 @@
       "title": "Frequently Asked Questions",
       "subtitle": "Here you'll find answers to the most important questions about Aura Historia.",
       "items": {
-        "free": {
-          "question": "Is Aura Historia really free?",
-          "answer": "Yes, using Aura Historia is completely free. You can search unlimited, add items to your watchlist, and view price histories – without hidden costs or subscriptions."
-        },
         "howItWorks": {
           "question": "How does Aura Historia work?",
-          "answer": "Aura Historia automatically searches the websites of over 500 antique dealers worldwide daily and collects all offers in one central place. Our intelligent search allows you to find exactly what you're looking for."
+          "answer": "Aura Historia continuously searches the websites of over 500 antique dealers, auction houses and marketplaces worldwide and collects all offers in one central place. Our intelligent search allows you to find exactly what you're looking for."
         },
         "directPurchase": {
           "question": "Can I buy items directly through Aura Historia?",
           "answer": "No, Aura Historia is a pure search platform. If you want to buy an item, you will be redirected directly to the respective dealer's website where you can complete the purchase."
         },
         "priceAlerts": {
-          "question": "How do price notifications work?",
-          "answer": "Once you add an item to your watchlist, we automatically track its price development for you. As soon as something changes with your item, you receive a notification – so you never miss a bargain again."
+          "question": "How do price and availability notifications work?",
+          "answer": "Once you add an item to your watchlist, we automatically track its price- and availability development for you. As soon as something changes with your item, you receive a notification via E-Mail."
         },
         "updateFrequency": {
           "question": "How often is the data updated?",
-          "answer": "Our data is continuously updated. Most dealer sites are searched multiple times daily, so you always see current prices and availability."
+          "answer": "Our data is continuously updated. We operate in near real-time."
         },
         "dealers": {
-          "question": "Which dealers are on Aura Historia?",
-          "answer": "We work with over 500 renowned antique dealers from more than 15 countries. Among them you'll find both large auction houses and specialized dealers for various antique areas."
+          "question": "Which Antique Online-Shops are on Aura Historia?",
+          "answer": "We include data from over 500 renowned antique dealers from more than 15 countries. Among them you'll find both, large auction houses and specialized dealers for all antique areas."
+        },
+        "dealerRequest": {
+          "question": "I know an online dealer/auction house/marketplace that's not yet on Aura Historia. Can we add it?",
+          "answer": "Yes! Send us an email to contact@aura-historia.com and include the URL/Link of the shop along any additional information you might want to provide. We will verify the shop and include it within hours."
+        },
+        "comparisonBarnebys": {
+          "question": "How does Aura Historia compare to Barnebys?",
+          "answer": "While Barnebys is also an antiques search engine, they only focus on the largest players - the big auction houses and dealers. This makes up for a very high chance for you to miss out on what you're actually searching for. Ask yourself, where did I find my biggest treasures? It probably was a small local dealer or even thrift store."
+        },
+        "comparisonPriceDatabase": {
+          "question": "How does Aura Historia compare to price databases like WorthPoint and the salesroom?",
+          "answer": "Price databases leverage the sheer amount of historical data with auction results dating back to the 90s. While this helps finding comparisons for astronomically rare pieces, it often deflects the current market-value and availability of antiques. If your goal is to find antiques or research their current value, Aura Historia is the right place. We also want to take a heavy standpoint against the monetization of historical antique pricing data. You should not need to pay to find out what sold at which price."
         }
       }
     }

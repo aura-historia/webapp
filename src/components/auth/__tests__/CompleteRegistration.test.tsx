@@ -24,7 +24,7 @@ vi.mock("@tanstack/react-store", () => ({
     useStore: mockUseStore,
 }));
 
-vi.mock("@/hooks/useRegistrationPolling", () => ({
+vi.mock("@/hooks/account/useRegistrationPolling", () => ({
     useRegistrationPolling: mockUseRegistrationPolling,
 }));
 

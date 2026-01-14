@@ -4,21 +4,19 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
-import { ArrowUpRight, HeartIcon } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { H3 } from "../../typography/H3.tsx";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { ProductImageGallery } from "@/components/product/detail/ProductImageGallery.tsx";
 import { useTranslation } from "react-i18next";
-import { useWatchlistMutation, type WatchlistMutationType } from "@/hooks/useWatchlistMutation.ts";
+
 import { ProductSharer } from "@/components/product/detail/ProductSharer.tsx";
+import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
+import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
 
 export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();
-    const watchlistMutation = useWatchlistMutation(product.shopId, product.shopsProductId);
-    const mutationType: WatchlistMutationType = product.userData?.watchlistData.isWatching
-        ? "deleteFromWatchlist"
-        : "addToWatchlist";
 
     return (
         <>
@@ -43,23 +41,25 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                         <div className="hidden md:flex gap-2 ml-auto shrink-0 self-start">
                             <ProductSharer title={product.title} />
 
-                            <Button
+                            {product.userData?.watchlistData.isWatching && (
+                                <NotificationButton
+                                    variant="ghost"
+                                    size="icon"
+                                    shopId={product.shopId}
+                                    shopsProductId={product.shopsProductId}
+                                    isNotificationEnabled={
+                                        product.userData?.watchlistData.isNotificationEnabled
+                                    }
+                                />
+                            )}
+
+                            <WatchlistButton
                                 variant="ghost"
                                 size="icon"
-                                className="ml-auto shrink-0"
-                                onClick={() => {
-                                    if (watchlistMutation.isPending) return;
-                                    watchlistMutation.mutate(mutationType);
-                                }}
-                            >
-                                <HeartIcon
-                                    className={`size-5 transition-all duration-300 ease-in-out ${
-                                        product.userData?.watchlistData.isWatching
-                                            ? "fill-heart text-heart"
-                                            : "fill-transparent"
-                                    } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
-                                />
-                            </Button>
+                                shopId={product.shopId}
+                                shopsProductId={product.shopsProductId}
+                                isWatching={product.userData?.watchlistData.isWatching ?? false}
+                            />
                         </div>
                     </div>
                     <p className="mask-linear-[to_bottom,transparent_0%,black_10%,black_90%,transparent_100%] py-2 text-base text-muted-foreground overflow-y-auto max-h-[250px] md:max-h-[130px] lg:max-h-[200px] w-full pr-3">
@@ -97,23 +97,27 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                     className="shadow-lg rounded-full bg-card"
                 />
 
-                <Button
+                <WatchlistButton
                     size="icon"
                     variant="outline"
                     className="shadow-lg rounded-full bg-card"
-                    onClick={() => {
-                        if (watchlistMutation.isPending) return;
-                        watchlistMutation.mutate(mutationType);
-                    }}
-                >
-                    <HeartIcon
-                        className={`size-4 transition-all duration-300 ease-in-out ${
-                            product.userData?.watchlistData.isWatching
-                                ? "fill-heart text-heart"
-                                : "fill-transparent"
-                        } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
+                    shopId={product.shopId}
+                    shopsProductId={product.shopsProductId}
+                    isWatching={product.userData?.watchlistData.isWatching ?? false}
+                />
+
+                {product.userData?.watchlistData.isWatching && (
+                    <NotificationButton
+                        variant="outline"
+                        size="icon"
+                        className="shadow-lg rounded-full bg-card"
+                        shopId={product.shopId}
+                        shopsProductId={product.shopsProductId}
+                        isNotificationEnabled={
+                            product.userData?.watchlistData.isNotificationEnabled
+                        }
                     />
-                </Button>
+                )}
             </div>
         </>
     );

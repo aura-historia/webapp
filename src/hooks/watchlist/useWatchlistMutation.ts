@@ -3,7 +3,7 @@ import { addWatchlistProduct, deleteWatchlistProduct } from "@/client";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { getProductQueryKey } from "@/client/@tanstack/react-query.gen.ts";
-import { useApiError } from "@/hooks/useApiError.ts";
+import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 
 export type WatchlistMutationType = "addToWatchlist" | "deleteFromWatchlist";

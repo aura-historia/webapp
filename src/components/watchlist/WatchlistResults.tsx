@@ -13,7 +13,7 @@ import Lottie from "lottie-react";
 import tick from "@/assets/lottie/tick.json";
 import { SearchX } from "lucide-react";
 import { H3 } from "@/components/typography/H3.tsx";
-import { useWatchlist } from "@/hooks/useWatchlist.ts";
+import { useWatchlist } from "@/hooks/watchlist/useWatchlist.ts";
 
 export function WatchlistResults() {
     const { ref, inView } = useInView();

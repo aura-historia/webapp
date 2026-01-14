@@ -1,7 +1,7 @@
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { mapToInternalUserAccount, type UserAccountData } from "@/data/internal/UserAccountData.ts";
 import { getUserAccount } from "@/client";
-import { useApiError } from "@/hooks/useApiError.ts";
+import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 

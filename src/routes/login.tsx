@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useMediaQuery } from "usehooks-ts";
 import { Authenticator } from "@/components/auth/Authenticator.tsx";
 import { registrationStore, resetAuth } from "@/stores/registrationStore";
-import { useUserAccount } from "@/hooks/useUserAccount";
+import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import "../amplify-config";
 import { useQueryClient } from "@tanstack/react-query";
 import { CompleteRegistration } from "@/components/auth/CompleteRegistration.tsx";
