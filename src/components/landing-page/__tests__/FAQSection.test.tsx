@@ -23,34 +23,44 @@ describe("FAQSection", () => {
     });
 
     it("renders all FAQ questions", () => {
-        expect(screen.getByText("Ist Aura Historia wirklich kostenfrei?")).toBeInTheDocument();
         expect(screen.getByText("Wie funktioniert Aura Historia?")).toBeInTheDocument();
         expect(
-            screen.getByText("Kann ich Artikel direkt über Aura Historia kaufen?"),
+            screen.getByText("Kann ich direkt über Aura Historia Antiquitäten kaufen?"),
         ).toBeInTheDocument();
         expect(
-            screen.getByText("Wie funktionieren die Preisbenachrichtigungen?"),
+            screen.getByText("Wie funktionieren die Preis- und Verfügbarkeits-Benachrichtigungen?"),
         ).toBeInTheDocument();
         expect(screen.getByText("Wie oft werden die Daten aktualisiert?")).toBeInTheDocument();
         expect(
-            screen.getByText("Welche Händler sind auf Aura Historia vertreten?"),
+            screen.getByText("Welche Antiquitäten-Onlineshops sind auf Aura Historia vertreten?"),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText(
+                /Ich kenne einen Onlinehändler, ein Auktionshaus oder einen Marktplatz, der noch nicht auf Aura Historia vertreten ist. Können wir ihn hinzufügen?/,
+            ),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText("Wie unterscheidet sich Aura Historia von Barnebys?"),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText(/Wie unterscheidet sich Aura Historia von Preisdatenbanken/),
         ).toBeInTheDocument();
     });
 
     it("expands accordion item when clicked", async () => {
         const user = userEvent.setup();
-        const firstQuestion = screen.getByText("Ist Aura Historia wirklich kostenfrei?");
+        const firstQuestion = screen.getByText("Wie funktioniert Aura Historia?");
 
         await user.click(firstQuestion);
 
         expect(
-            screen.getByText(/Ja, die Nutzung von Aura Historia ist vollständig kostenfrei/),
+            screen.getByText(/Aura Historia durchsucht kontinuierlich die Webseiten/),
         ).toBeInTheDocument();
     });
 
     it("collapses accordion item when clicked again", async () => {
         const user = userEvent.setup();
-        const firstQuestion = screen.getByText("Ist Aura Historia wirklich kostenfrei?");
+        const firstQuestion = screen.getByText("Wie funktioniert Aura Historia?");
 
         // Open
         await user.click(firstQuestion);
