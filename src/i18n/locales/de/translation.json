@@ -251,23 +251,23 @@
   },
   "discover": {
     "title": "Wir bringen Transparenz in die undurchsichtige Welt der Online-Antiquitäten",
-    "p1": "Aura Historia durchsucht die riesigen Angebote von Tausenden verstreuter Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit und bündelt deren Artikel an einem zentralen Ort.",
-    "p2": "Wir erfassen nicht nur aktuelle und kommende Artikel, sondern verfolgen auch Preisänderungen und Verfügbarkeiten. So verpassen Sie nie ein Schnäppchen und behalten den Markt stets im Blick.",
+    "p1": "Aura Historia durchsucht täglich das unübersichtliche Angebot tausender verstreuter Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit und bündelt deren Artikel zentral an einem Ort.",
+    "p2": "Wir erfassen nicht nur aktuelle und neu aufgetauchte Anitquitäten, sondern verfolgen auch Preisänderungen und Verfügbarkeiten. So verpassen Sie nie wieder ein Schnäppchen und behalten den Markt stets im Blick.",
     "highlight1": {
-      "title": "Über 500 Händler, Auktionshäuser & Marktplätze",
+      "title": "Über 500 Händler, Auktionshäuser und Marktplätze",
       "description": "Wir durchsuchen kontinuierlich renommierte Antiquitätenhändler, Auktionshäuser und Marktplätze aus ganz Europa und darüber hinaus."
     },
     "highlight2": {
-      "title": "Nahezu Echtzeit-Überwachung",
-      "description": "Neu angebotene Antiquitäten sowie Preis- oder Verfügbarkeitsänderungen werden automatisch nahezu in Echtzeit erfasst."
+      "title": "Echtzeit-Überwachung",
+      "description": "Sowohl neu aufgetauchte Antiquitäten, als auch Preis- und Verfügbarkeits-Updates werden nahezu in Echtzeit erfasst."
     },
     "highlight3": {
-      "title": "Vollständig sprachunabhängig",
-      "description": "Wir übersetzen jede Antiquität in mehrere Sprachen. Die Sprache, in der Sie suchen, spielt keine Rolle. Derzeit unterstützen wir Englisch, Deutsch, Französisch und Spanisch."
+      "title": "Vollständig Sprach-unabhängig",
+      "description": "Wir übersetzen jeden Artikel in verschiedene Sprachen. Damit ist es egal, in welcher Sprache Sie suchen. Derzeit unterstützen wir Deutsch, Englisch, Französisch und Spanisch."
     },
     "stats": {
       "shops": "500",
-      "shopsLabel": "Verbundene Shops",
+      "shopsLabel": "Vernetzte Shops",
       "items": "120.000",
       "itemsLabel": "Einzigartige Artikel",
       "updates": "24/7",
@@ -277,44 +277,44 @@
     }
   },
   "landingPage": {
-    "badge": "Die führende Plattform für die Suche nach hochspezifischen Antiquitäten",
-    "titleFirstLine": "Hören Sie auf, Zeit mit der Suche nach Antiquitäten zu verschwenden, die Sie nicht finden können",
-    "titleSecondLine": "Ein zentraler Ort, um die Antiquitäten zu finden, die Sie suchen",
-    "subtitle": "Aura Historia überwacht das gesamte Web nach Antiquitäten und macht diese in einer spezialisierten Suche verfügbar. Wir durchsuchen auch Antiquitätenshops und Auktionshäuser, die Sie nicht kennen.",
+    "badge": "Die führende Plattform für alle, die nach ganz bestimmten Antiquitäten suchen",
+    "titleFirstLine": "Hören Sie auf, Zeit bei der Suche nach Antiquitäten zu verschwenden",
+    "titleSecondLine": "Der zentrale Ort, um Antiquitäten zu finden",
+    "subtitle": "Aura Historia durchsucht das gesamte Web nach Antiquitäten und macht sie in einer spezialisierten Suche verfügbar. Wir durchsuchen Antiquitätengeschäfte und Auktionshäuser, die nicht einmal Sie kennen.",
     "trustBadge1": "Von Antiquitätensammlern",
     "trustBadge2": "Für ernsthafte Sammler und Händler",
     "trustBadge3": "Nahezu Echtzeit",
     "features": {
-      "title": "Antiquitäten sind überall online verstreut – Ihre Suche sollte es nicht sein",
-      "subtitle": "Aura Historia ist die fortschrittlichste Suchmaschine für Antiquitäten und bietet Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen.",
+      "title": "Antiquitäten sind überall im Internet verstreut - Ihre Suche sollte es nicht sein",
+      "subtitle": "Aura Historia ist die forgeschrittenste Suchmaschine für Antiquitäten und bietet Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen.",
       "previewBadge": "Bald verfügbar",
       "search": {
         "title": "Intelligente Suche",
-        "description": "Durchsuchen Sie Hunderttausende von Artikeln mit unserer leistungsstarken Suchmaschine. Filtern Sie gezielt nach Zustand, Preis, Händler und vielem mehr, um alle Störfaktoren auszublenden."
+        "description": "Durchsuchen Sie hunderttausende Artikel mit unserer leistungsstarken Suchmaschine. Entfernen Sie alle für Sie irrelevanten Antiquitäten, indem Sie nach Zustand, Preis, Händler und vielem mehr filtern."
       },
       "global": {
         "title": "Weltweite Abdeckung",
-        "description": "Wir verbinden Sie mit renommierten Antiquitätenhändlern aus über 15 Ländern – von Deutschland bis in die USA. Egal wie klein der Händler ist, wenn er einen Online-Shop hat, fügen wir ihn hinzu."
+        "description": "Wir verbinden Sie mit renommierten Antiquitätenhändlern aus über 15 Ländern – von Deutschland bis in die USA. Egal wie klein ein Händler ist, wenn er einen Onlineshop hat, fügen wir ihn hinzu."
       },
       "history": {
         "title": "Änderungshistorie",
-        "description": "Verfolgen Sie alle Änderungen eines Artikels – von Preisänderungen bis hin zu Statusänderungen. Wir setzen auf maximale Transparenz."
+        "description": "Verfolgen Sie alle Änderungen eines Artikels – von Preisanpassungen bis hin zu Verfügbarkeits-Änderungen. Wir setzen auf maximale Transparenz."
       },
       "watchlist": {
         "title": "Persönliche Merkliste",
-        "description": "Speichern Sie interessante Artikel und behalten Sie deren Entwicklung im Blick. Lassen Sie sich benachrichtigen, wenn sich Preis oder Verfügbarkeit ändern."
+        "description": "Speichern Sie interessante Artikel und behalten Sie deren Entwicklung im Blick. Wie benachrichtigen Sie, wenn sich Preis oder Verfügbarkeit ändern."
       },
       "translations": {
         "title": "Automatische Übersetzungen",
-        "description": "Suchen und entdecken Sie alle Artikel in Ihrer bevorzugten Sprache, ohne Barrieren. Derzeit unterstützen wir Englisch, Deutsch, Französisch und Spanisch."
+        "description": "Suchen und entdecken Sie alle Artikel in Ihrer bevorzugten Sprache, ohne Barrieren. Wir unterstützen derzeit Deutsch. Englisch, Französisch und Spanisch."
       },
       "personalFilter": {
-        "title": "Suchanfragen",
-        "description": "Speichern Sie Ihre Suchanfrage und lassen Sie sich über neue Angebote oder aktualisierte Artikel benachrichtigen. Die Antiquitäten, nach denen Sie früher gesucht haben, kommen jetzt zu Ihnen."
+        "title": "Suchaufträge",
+        "description": "Speichern Sie Ihren Suchauftrag und werden Sie über neue oder aktualisierte Antiquitäten benachrichtigt. Die Antiquitäten, nach denen Sie früher gesucht haben, kommen jetzt zu Ihnen."
       },
       "aiSearchAgent": {
         "title": "Persönlicher KI-Suchagent",
-        "description": "Ihr persönlicher KI-Agent hilft Ihnen, die spezifischsten Antiquitäten zu finden. In Kombination mit Suchanfragen beschreiben Sie einfach in Klartext, wonach Sie suchen – so detailliert, wie Sie möchten. Wir benachrichtigen Sie, sobald Treffer zu Ihrer Beschreibung passen."
+        "description": "Ihr persönlicher KI-Agent hilft Ihnen, die spezifischsten Antiquitäten zu finden. In Kombination mit Suchaufträgen beschreiben Sie in natürlicher Sprache, wonach Sie suchen – so detailliert, wie Sie es möchten. Wir benachrichtigen Sie, sobald Treffer mit Ihrer Beschreibung übereinstimmen."
       },
       "communityWishes": {
         "title": "Ihre Wünsche",
@@ -323,14 +323,14 @@
     },
     "howItWorks": {
       "title": "So einfach funktioniert's",
-      "subtitle": "Nur wenige Schritte zu Ihren Traumstücken.",
+      "subtitle": "In nur wenigen Schritten zu Ihren Traumstücken.",
       "step1": {
         "title": "Suchen",
         "description": "Geben Sie ein, wonach Sie suchen – ob Möbel, Schmuck, Kunst oder Sammlerstücke."
       },
       "step2": {
         "title": "Entdecken",
-        "description": "Durchsuchen Sie Ergebnisse von Tausenden Händlern auf einen Blick."
+        "description": "Durchstöbern Sie Ergebnisse von tausenden Händlern auf einen Blick."
       },
       "step3": {
         "title": "Merken",
@@ -377,23 +377,23 @@
       "items": {
         "howItWorks": {
           "question": "Wie funktioniert Aura Historia?",
-          "answer": "Aura Historia durchsucht kontinuierlich die Websites von über 500 Antiquitätenhändlern, Auktionshäusern und Marktplätzen weltweit und sammelt alle Angebote an einem zentralen Ort. Unsere intelligente Suche ermöglicht es Ihnen, genau das zu finden, wonach Sie suchen."
+          "answer": "Aura Historia durchsucht kontinuierlich die Webseiten von über 500 Antiquitätenhändlern, Auktionshäusern und Marktplätzen weltweit und sammelt alle Angebote an einem zentralen Ort. Unsere intelligente Suche ermöglicht es Ihnen, genau das zu finden, was Sie suchen."
         },
         "directPurchase": {
           "question": "Kann ich direkt über Aura Historia Antiquitäten kaufen?",
           "answer": "Nein, Aura Historia ist eine reine Suchplattform. Wenn Sie einen Artikel kaufen möchten, werden Sie direkt zur Website des jeweiligen Händlers weitergeleitet, wo Sie den Kauf abschließen können."
         },
         "priceAlerts": {
-          "question": "Wie funktionieren Preis- und Verfügbarkeitsbenachrichtigungen?",
-          "answer": "Sobald Sie einen Artikel zu Ihrer Merkliste hinzufügen, verfolgen wir automatisch dessen Preis- und Verfügbarkeitsentwicklung für Sie. Sobald sich etwas an Ihrem Artikel ändert, erhalten Sie eine Benachrichtigung per E-Mail."
+          "question": "Wie funktionieren die Preis- und Verfügbarkeits-Benachrichtigungen?",
+          "answer": "Sobald Sie einen Artikel auf Ihre Merkliste setzen, verfolgen wir automatisch dessen Preis- und Verfügbarkeitsentwicklung für Sie. Sobald sich etwas bei Ihrem Artikel ändert, erhalten Sie eine Benachrichtigung per E-Mail."
         },
         "updateFrequency": {
           "question": "Wie oft werden die Daten aktualisiert?",
           "answer": "Unsere Daten werden kontinuierlich aktualisiert. Wir arbeiten nahezu in Echtzeit."
         },
         "dealers": {
-          "question": "Welche Antiquitäten-Online-Shops sind auf Aura Historia?",
-          "answer": "Wir erfassen Daten von über 500 renommierten Antiquitätenhändlern aus mehr als 15 Ländern. Darunter finden Sie sowohl große Auktionshäuser als auch spezialisierte Händler für alle Antiquitätenbereiche."
+          "question": "Welche Antiquitäten-Onlineshops sind auf Aura Historia vertreten?",
+          "answer": "Wir arbeiten mit Daten von über 500 renommierten Antiquitätenhändlern aus mehr als 15 Ländern. Darunter finden Sie sowohl große Auktionshäuser als auch spezialisierte Fachhändler für alle Antiquitätenbereiche."
         },
         "dealerRequest": {
           "question": "Ich kenne einen Onlinehändler, ein Auktionshaus oder einen Marktplatz, der noch nicht auf Aura Historia vertreten ist. Können wir ihn hinzufügen?",
