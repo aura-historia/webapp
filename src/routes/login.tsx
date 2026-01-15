@@ -31,7 +31,7 @@ export const Route = createFileRoute("/login")({
         try {
             await getCurrentUser();
             // User is authenticated, redirect them away from login page
-            const redirectPath = (search as LoginSearch).redirect || "/";
+            const redirectPath = search.redirect || "/";
             throw redirect({
                 to: redirectPath,
             });
