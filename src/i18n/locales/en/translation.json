@@ -458,6 +458,11 @@
     "description": "The page you are looking for was not found.",
     "goHome": "Go to homepage"
   },
+  "error": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Please try again later.",
+    "goHome": "Go to homepage"
+  },
   "auth": {
     "subtitle": "Over 120,000 antiques from 500 dealers. Compare, save, and track prices on Aura Historia.",
     "welcome": "Welcome",
