@@ -4,6 +4,8 @@ import Markdown from "react-markdown";
 import { H2 } from "@/components/typography/H2.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
 import { H4 } from "@/components/typography/H4.tsx";
+import { Ul } from "@/components/typography/Ul.tsx";
+import { Li } from "@/components/typography/Li.tsx";
 import { IMPRINT_LOCALE_MAP } from "@/assets/content/imprint/imprint-asset-map.ts";
 import { Card } from "@/components/ui/card.tsx";
 import type { HTMLProps, ReactNode } from "react";
@@ -15,7 +17,17 @@ export function Imprint() {
         <div className="max-w-6xl lg:px-4 flex flex-col py-8 ml-8 mr-8 gap-2 lg:ml-auto lg:mr-auto">
             <Card className="gap-4 flex-col flex p-8">
                 <H1 className="pb-4">{t("imprint.title")}</H1>
-                <Markdown components={{ h1, h2, h3, h4, a }}>
+                <Markdown
+                    components={{
+                        h1,
+                        h2,
+                        h3,
+                        h4,
+                        a,
+                        li,
+                        ul,
+                    }}
+                >
                     {IMPRINT_LOCALE_MAP[i18n.language] || IMPRINT_LOCALE_MAP.en}
                 </Markdown>
             </Card>
@@ -65,4 +77,20 @@ function a({
             {children}
         </a>
     );
+}
+
+function li({
+    node,
+    children,
+    ...props
+}: { node?: unknown; children?: ReactNode } & HTMLProps<HTMLLIElement>) {
+    return <Li {...(props as React.ComponentPropsWithoutRef<"li">)}>{children}</Li>;
+}
+
+function ul({
+    node,
+    children,
+    ...props
+}: { node?: unknown; children?: ReactNode } & HTMLProps<HTMLUListElement>) {
+    return <Ul {...(props as React.ComponentPropsWithoutRef<"ul">)}>{children}</Ul>;
 }

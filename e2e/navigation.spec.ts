@@ -10,7 +10,9 @@ test.describe('Navigation', () => {
     await imprintLink.click();
 
     await expect(page).toHaveURL('/imprint');
-    await expect(page.locator('text=Hello "/imprint"!')).toBeVisible();
+    
+    // Check that imprint page content is visible
+    await expect(page.locator('h1').filter({ hasText: /Imprint|Impressum/ })).toBeVisible();
 
     // Navigate back to home
     await page.goBack();
@@ -20,7 +22,7 @@ test.describe('Navigation', () => {
   test('should handle direct URL navigation', async ({ page }) => {
     // Navigate directly to imprint page
     await page.goto('/imprint');
-    await expect(page.locator('text=Hello "/imprint"!')).toBeVisible();
+    await expect(page.locator('h1').filter({ hasText: /Imprint|Impressum/ })).toBeVisible();
 
     // Navigate directly to terms page if it exists
     const response = await page.goto('/terms');
