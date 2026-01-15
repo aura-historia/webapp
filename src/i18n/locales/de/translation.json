@@ -13,7 +13,7 @@
     "title": "Impressum"
   },
   "dataPrivacy": {
-    "title": "Datenschutz"
+    "title": "Datenschutzerklärung"
   },
   "terms": {
     "title": "AGB"
@@ -30,7 +30,7 @@
   "footer": {
     "ariaSwitchToLanguage": "Zu {{language}} wechseln",
     "imprint": "Impressum",
-    "dataPrivacy": "Datenschutz",
+    "dataPrivacy": "Datenschutzerklärung",
     "terms": "AGB",
     "copyright": "© {{year}} Aura Historia"
   },

@@ -13,7 +13,7 @@
     "title": "Mentions légales"
   },
   "dataPrivacy": {
-    "title": "Protection des données"
+    "title": "Politique de confidentialité"
   },
   "terms": {
     "title": "CGV"
@@ -30,7 +30,7 @@
   "footer": {
     "ariaSwitchToLanguage": "Changer de langue vers {{language}}",
     "imprint": "Mentions légales",
-    "dataPrivacy": "Protection des données",
+    "dataPrivacy": "Politique de confidentialité",
     "terms": "CGV",
     "copyright": "© {{year}} Aura Historia"
   },
