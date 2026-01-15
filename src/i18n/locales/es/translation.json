@@ -30,6 +30,7 @@
   "footer": {
     "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
     "imprint": "Aviso legal",
+    "dataPrivacy": "Privacidad de datos",
     "terms": "Términos y condiciones",
     "copyright": "© {{year}} Aura Historia"
   },

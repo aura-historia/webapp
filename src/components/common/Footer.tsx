@@ -44,6 +44,13 @@ export function Footer() {
                                 </Link>
                             </Button>
                         </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <Button variant={"ghost"} asChild>
+                                <Link to="/data-privacy">
+                                    <NavText>{t("footer.dataPrivacy")}</NavText>
+                                </Link>
+                            </Button>
+                        </NavigationMenuItem>
                     </NavigationMenuList>
                     <div className="flex flex-row gap-4 items-center">
                         <Select
@@ -79,7 +86,9 @@ export function Footer() {
                             </SelectContent>
                         </Select>
                         <NavText variant={"muted"}>
-                            {t("footer.copyright", { year: new Date().getFullYear() })}
+                            {t("footer.copyright", {
+                                year: new Date().getFullYear(),
+                            })}
                         </NavText>
                     </div>
                 </div>
