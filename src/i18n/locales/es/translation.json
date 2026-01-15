@@ -431,7 +431,8 @@
     "BAD_PAGE_SIZE_VALUE": "Número de elementos por página no válido.",
     "BAD_SORT_VALUE": "Ordenación no válida.",
     "BAD_ORDER_VALUE": "Orden de clasificación no válido.",
-    "unknown": "Se produjo un error inesperado."
+    "unknown": "Se produjo un error inesperado.",
+    "WATCHLIST_QUOTA_EXCEEDED": "Has alcanzado el número máximo de artículos en tu lista de seguimiento. Ya hay 5/5 entradas ocupadas en la lista de seguimiento."
   },
   "watchlist": {
     "title": "Mi lista de seguimiento",
