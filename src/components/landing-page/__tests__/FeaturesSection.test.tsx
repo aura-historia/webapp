@@ -20,7 +20,7 @@ describe("FeaturesSection", () => {
     it("renders the section subtitle", () => {
         expect(
             screen.getByText(
-                "Aura Historia ist die forgeschrittenste Suchmaschine für Antiquitäten und bietet Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen.",
+                "Aura Historia ist die fortgeschrittenste Suchmaschine für Antiquitäten und bietet Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen.",
             ),
         ).toBeInTheDocument();
     });
