@@ -38,7 +38,7 @@ describe("OverviewProduct mappers", () => {
             expect(result.price).toBe("$10.99");
             expect(result.state).toBe("AVAILABLE");
             expect(result.url?.href).toBe("https://example.com/item");
-            expect(result.images[0].url?.href).toEqual("https://example.com/image1.jpg");
+            expect(result.images[0].url.href).toEqual("https://example.com/image1.jpg");
             expect(result.created.getTime()).toBe(new Date("2023-01-01T00:00:00Z").getTime());
             expect(result.updated.getTime()).toBe(new Date("2023-01-02T00:00:00Z").getTime());
         });

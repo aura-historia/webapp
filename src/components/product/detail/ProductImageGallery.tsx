@@ -24,7 +24,7 @@ interface ProductImageGalleryProps {
 export function ProductImageGallery({ images, title, productId }: ProductImageGalleryProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-    const slides = useMemo(() => images.map((img) => ({ src: img.url?.href ?? "" })), [images]);
+    const slides = useMemo(() => images.map((img) => ({ src: img.url.href })), [images]);
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
 
     /**
@@ -90,7 +90,7 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                         className="w-full block"
                     >
                         <img
-                            src={images[currentImageIndex].url?.href}
+                            src={images[currentImageIndex].url.href}
                             alt={`Produktbild von ${title}`}
                             className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
                         />
