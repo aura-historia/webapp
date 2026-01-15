@@ -36,12 +36,11 @@ export const Route = createFileRoute("/login")({
                 to: redirectPath,
             });
         } catch (error) {
-            // User is not authenticated, allow them to access login page
-            // Only throw if it's a redirect (not an auth error)
+            // If it's a redirect error, re-throw it
+            // Otherwise, user is not authenticated - continue to login page
             if (error && typeof error === "object" && "isRedirect" in error) {
                 throw error;
             }
-            // Continue to login page for unauthenticated users
         }
     },
     component: LoginPage,
