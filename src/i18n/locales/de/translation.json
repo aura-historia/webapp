@@ -431,6 +431,7 @@
     "BAD_PAGE_SIZE_VALUE": "Ungültige Anzahl pro Seite.",
     "BAD_SORT_VALUE": "Ungültige Sortierung.",
     "BAD_ORDER_VALUE": "Ungültige Sortierreihenfolge.",
+    "WATCHLIST_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an Artikeln auf Ihrer Merkliste erreicht. Es können maximal 5 Artikel gespeichert werden.",
     "unknown": "Ein unerwarteter Fehler ist aufgetreten."
   },
   "watchlist": {

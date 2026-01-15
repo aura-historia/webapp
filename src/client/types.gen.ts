@@ -43,9 +43,9 @@ export type GetProductData = {
      */
     url: string;
     /**
-     * Array of image URLs for the product
+     * Array of product images with prohibited content classification
      */
-    images: Array<string>;
+    images: Array<ProductImageData>;
     /**
      * Lower end of the year range when the antique is estimated to have originated.
      * Only present when the origin year is expressed as a range (originYear will be null).
@@ -325,14 +325,35 @@ export type ProvenanceData = 'COMPLETE' | 'PARTIAL' | 'CLAIMED' | 'NONE' | 'UNKN
 export type RestorationData = 'NONE' | 'MINOR' | 'MAJOR' | 'UNKNOWN';
 
 /**
+ * Classification of prohibited or sensitive content that may be present in product images:
+ * - UNKNOWN: Content classification has not been determined
+ * - NONE: No prohibited content detected in the image
+ * - NAZI_GERMANY: Image contains Nazi Germany symbols, insignia, or related content
+ *
+ */
+export type ProhibitedContentData = 'UNKNOWN' | 'NONE' | 'NAZI_GERMANY';
+
+/**
+ * Product image with prohibited content classification
+ */
+export type ProductImageData = {
+    /**
+     * URL to the product image
+     */
+    url: string;
+    prohibitedContent: ProhibitedContentData;
+};
+
+/**
  * Fields available for sorting:
  * - score: Sort by relevance score (default, only available when searching with text query)
  * - price: Sort by product price
+ * - originYear: Sort by product origin year
  * - updated: Sort by last updated timestamp
  * - created: Sort by creation timestamp
  *
  */
-export type SortProductFieldData = 'score' | 'price' | 'updated' | 'created';
+export type SortProductFieldData = 'score' | 'price' | 'originYear' | 'updated' | 'created';
 
 /**
  * Types of events that can occur for a product
@@ -410,6 +431,26 @@ export type ProductSearchData = {
      */
     state?: Array<ProductStateData> | null;
     /**
+     * Optional filter by product origin year range
+     */
+    originYear?: RangeQueryInt32 | null;
+    /**
+     * Optional filter by authenticity classifications
+     */
+    authenticity?: Array<AuthenticityData> | null;
+    /**
+     * Optional filter by product condition assessments
+     */
+    condition?: Array<ConditionData> | null;
+    /**
+     * Optional filter by provenance documentation levels
+     */
+    provenance?: Array<ProvenanceData> | null;
+    /**
+     * Optional filter by restoration work levels
+     */
+    restoration?: Array<RestorationData> | null;
+    /**
      * Optional filter by product creation date range
      */
     created?: RangeQueryDateTime | null;
@@ -479,6 +520,26 @@ export type PatchProductSearchData = {
      */
     state?: Array<ProductStateData> | null;
     /**
+     * Optional filter by product origin year range
+     */
+    originYear?: RangeQueryInt32 | null;
+    /**
+     * Optional filter by authenticity classifications
+     */
+    authenticity?: Array<AuthenticityData> | null;
+    /**
+     * Optional filter by product condition assessments
+     */
+    condition?: Array<ConditionData> | null;
+    /**
+     * Optional filter by provenance documentation levels
+     */
+    provenance?: Array<ProvenanceData> | null;
+    /**
+     * Optional filter by restoration work levels
+     */
+    restoration?: Array<RestorationData> | null;
+    /**
      * Optional filter by product creation date range
      */
     created?: RangeQueryDateTime | null;
@@ -541,6 +602,20 @@ export type RangeQueryDateTime = {
      * Maximum date and time (inclusive, RFC3339 format)
      */
     max?: string;
+};
+
+/**
+ * Range query for integer values (e.g., years)
+ */
+export type RangeQueryInt32 = {
+    /**
+     * Minimum value (inclusive)
+     */
+    min?: number;
+    /**
+     * Maximum value (inclusive)
+     */
+    max?: number;
 };
 
 /**
@@ -1453,6 +1528,10 @@ export type AddWatchlistProductErrors = {
      * Unauthorized - invalid or missing JWT token
      */
     401: ApiError;
+    /**
+     * Unprocessable Entity - watchlist quota exceeded
+     */
+    422: ApiError;
     /**
      * Internal server error
      */
