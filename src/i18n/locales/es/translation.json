@@ -152,6 +152,12 @@
         "created": "Añadido al sistema"
       }
     },
+    "priceEstimate": {
+      "label": "Estimación: {{price}}",
+      "minOnly": "Mín. {{min}}",
+      "maxOnly": "Máx. {{max}}",
+      "range": "{{min}} - {{max}}"
+    },
     "priceChart": {
       "title": "Historial de precios",
       "noData": "No hay datos de precios disponibles para este artículo.",

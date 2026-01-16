@@ -220,6 +220,12 @@
         "created": "Added to system"
       }
     },
+    "priceEstimate": {
+      "label": "Estimate: {{price}}",
+      "minOnly": "Min. {{min}}",
+      "maxOnly": "Max. {{max}}",
+      "range": "{{min}} - {{max}}"
+    },
     "priceChart": {
       "title": "Price History",
       "noData": "No price data available for this item.",

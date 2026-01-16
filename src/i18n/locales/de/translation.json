@@ -220,6 +220,12 @@
         "created": "Im System erfasst"
       }
     },
+    "priceEstimate": {
+      "label": "Schätzung: {{price}}",
+      "minOnly": "Mind. {{min}}",
+      "maxOnly": "Max. {{max}}",
+      "range": "{{min}} - {{max}}"
+    },
     "priceChart": {
       "title": "Preisverlauf",
       "noData": "Keine Preisdaten für diesen Artikel vorhanden.",

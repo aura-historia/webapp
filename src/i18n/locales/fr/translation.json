@@ -152,6 +152,12 @@
         "created": "Enregistré dans le système"
       }
     },
+    "priceEstimate": {
+      "label": "Estimation : {{price}}",
+      "minOnly": "Min. {{min}}",
+      "maxOnly": "Max. {{max}}",
+      "range": "{{min}} - {{max}}"
+    },
     "priceChart": {
       "title": "Évolution du prix",
       "noData": "Aucune donnée de prix disponible pour cet article.",
