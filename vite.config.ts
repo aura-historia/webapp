@@ -31,6 +31,10 @@ export default defineConfig({
                     path: '/privacy',
                     prerender: { enabled: true },
                 },
+                {
+                    path: '/login',
+                    prerender: { enabled: true },
+                }
             ],
         }),
         viteReact(),
