@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
-import type { ProductEvent, Price } from "@/data/internal/ProductDetails.ts";
+import type { ProductEvent } from "@/data/internal/ProductDetails.ts";
 import {
     isCreatedEvent,
     isPriceChangedEvent,
@@ -10,6 +10,7 @@ import {
 } from "@/lib/eventFilters.ts";
 import type { ProductState } from "@/data/internal/ProductState.ts";
 import type { TFunction } from "i18next";
+import type { Price } from "@/data/internal/Price.ts";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));

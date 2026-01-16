@@ -16,6 +16,7 @@ import { type Provenance, parseProvenance } from "@/data/internal/Provenance.ts"
 import { type Restoration, parseRestoration } from "@/data/internal/Restoration.ts";
 import { mapToInternalProductImage, type ProductImage } from "@/data/internal/ProductImageData.ts";
 import { parseShopType, type ShopType } from "@/data/internal/ShopType.ts";
+import { parsePriceEstimate, type PriceEstimate } from "@/data/internal/PriceEstimate.ts";
 
 export type OverviewProduct = {
     readonly productId: string;
@@ -26,6 +27,7 @@ export type OverviewProduct = {
     readonly title: string;
     readonly description?: string;
     readonly price?: string;
+    readonly priceEstimate?: PriceEstimate;
     readonly state: ProductState;
     readonly url: URL | null;
     readonly images: readonly ProductImage[];
@@ -58,6 +60,10 @@ function mapProductDataToOverviewProduct(
         title: productData.title.text,
         description: productData.description?.text,
         price: productData.price ? formatPrice(productData.price, locale) : undefined,
+        priceEstimate: parsePriceEstimate(
+            productData.priceEstimateMin ?? undefined,
+            productData.priceEstimateMax ?? undefined,
+        ),
         state: parseProductState(productData.state),
         url: URL.parse(productData.url),
         images:
