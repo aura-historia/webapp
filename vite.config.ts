@@ -18,16 +18,6 @@ export default defineConfig({
             removeDevtoolsOnBuild: true,
         }),
         tanstackStart({
-            prerender: {
-                enabled: true,
-                autoStaticPathsDiscovery: false,
-                concurrency: 14,
-                crawlLinks: true,
-                retryCount: 2,
-                retryDelay: 1000,
-                maxRedirects: 5,
-                failOnError: true,
-            },
             pages: [
                 {
                     path: '/',
