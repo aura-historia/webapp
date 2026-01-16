@@ -462,6 +462,11 @@
     "description": "La página que busca no fue encontrada.",
     "goHome": "Ir a la página principal"
   },
+  "error": {
+    "title": "Algo salió mal",
+    "description": "Se produjo un error inesperado. Por favor, inténtelo de nuevo más tarde.",
+    "goHome": "Ir a la página principal"
+  },
   "auth": {
     "subtitle": "Más de 120.000 antigüedades de 500 vendedores. Compare, guarde y siga precios en Aura Historia.",
     "welcome": "Bienvenido",

@@ -462,6 +462,11 @@
     "description": "La page que vous recherchez n'a pas été trouvée.",
     "goHome": "Retour à l'accueil"
   },
+  "error": {
+    "title": "Une erreur s'est produite",
+    "description": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard.",
+    "goHome": "Retour à l'accueil"
+  },
   "auth": {
     "subtitle": "Plus de 120 000 antiquités de 500 marchands. Comparez, sauvegardez et suivez les prix sur Aura Historia.",
     "welcome": "Bienvenue",

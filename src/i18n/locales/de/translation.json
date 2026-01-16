@@ -462,6 +462,11 @@
     "description": "Die gesuchte Seite wurde leider nicht gefunden.",
     "goHome": "Zur Startseite"
   },
+  "error": {
+    "title": "Etwas ist schiefgelaufen",
+    "description": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
+    "goHome": "Zur Startseite"
+  },
   "auth": {
     "subtitle": "Über 120.000 Antiquitäten von 500 Händlern. Vergleichen, speichern und Preise verfolgen bei Aura Historia.",
     "welcome": "Herzlich Willkommen",
