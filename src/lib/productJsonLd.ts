@@ -36,8 +36,6 @@ export function generateProductJsonLd(apiData: PersonalizedGetProductData): Prod
         "@type": "Product",
         name: product.title.text,
         sku: `${product.shopId}-${product.shopsProductId}`,
-        dateCreated: product.created,
-        dateModified: product.updated,
     };
 
     if (product.description?.text) {
@@ -67,7 +65,7 @@ export function generateProductJsonLd(apiData: PersonalizedGetProductData): Prod
         jsonLd.offers = {
             "@type": "Offer",
             priceCurrency: product.price.currency,
-            price: product.price.amount,
+            price: product.price.amount / 100,
             availability,
             url: product.url,
             seller: {
