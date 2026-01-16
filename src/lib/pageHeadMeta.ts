@@ -7,6 +7,7 @@ type HeadMeta = {
         | { property: string; content: string }
         | { charSet: string }
     >;
+    links?: Array<{ rel: string; href: string }>;
     scripts?: Array<{ type: string; children: string }>;
 };
 
@@ -149,5 +150,8 @@ export function generatePageHeadMeta(options: PageMetaOptions): HeadMeta {
         });
     }
 
-    return { meta };
+    // Build links array with canonical URL if provided
+    const links: HeadMeta["links"] = url ? [{ rel: "canonical", href: url }] : [];
+
+    return { meta, links };
 }

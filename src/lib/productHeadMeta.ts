@@ -7,6 +7,7 @@ type HeadMeta = {
         | { name: string; content: string }
         | { property: string; content: string }
     >;
+    links: Array<{ rel: string; href: string }>;
     scripts: Array<{ type: string; children: string }>;
 };
 
@@ -102,6 +103,7 @@ export function generateProductHeadMeta(
                   ]
                 : []),
         ],
+        links: [{ rel: "canonical", href: productUrl }],
         scripts: loaderData
             ? [
                   {
