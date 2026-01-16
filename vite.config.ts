@@ -17,7 +17,21 @@ export default defineConfig({
         devtools({
             removeDevtoolsOnBuild: true,
         }),
-        tanstackStart(),
+        tanstackStart({
+            prerender: {
+                enabled: true,
+                autoStaticPathsDiscovery: true,
+                concurrency: 14,
+                crawlLinks: true,
+                retryCount: 2,
+                retryDelay: 1000,
+                maxRedirects: 5,
+                failOnError: true,
+                onSuccess: ({ page }) => {
+                    console.log(`Rendered ${page.path}!`)
+                },
+            },
+        }),
         viteReact(),
         cloudflare({viteEnvironment: {name: 'ssr'}}),
     ],
