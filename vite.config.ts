@@ -20,17 +20,28 @@ export default defineConfig({
         tanstackStart({
             prerender: {
                 enabled: true,
-                autoStaticPathsDiscovery: true,
+                autoStaticPathsDiscovery: false,
                 concurrency: 14,
                 crawlLinks: true,
                 retryCount: 2,
                 retryDelay: 1000,
                 maxRedirects: 5,
                 failOnError: true,
-                onSuccess: ({ page }) => {
-                    console.log(`Rendered ${page.path}!`)
-                },
             },
+            pages: [
+                {
+                    path: '/',
+                    prerender: { enabled: true },
+                },
+                {
+                    path: '/imprint',
+                    prerender: { enabled: true },
+                },
+                {
+                    path: '/privacy',
+                    prerender: { enabled: true },
+                },
+            ],
         }),
         viteReact(),
         cloudflare({viteEnvironment: {name: 'ssr'}}),
