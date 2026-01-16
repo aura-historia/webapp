@@ -8,10 +8,6 @@ type ProductJsonLd = {
     image?: string[];
     url?: string;
     sku?: string;
-    brand?: {
-        "@type": "Organization";
-        name: string;
-    };
     offers?: {
         "@type": "Offer";
         priceCurrency: string;
@@ -40,10 +36,6 @@ export function generateProductJsonLd(apiData: PersonalizedGetProductData): Prod
         "@type": "Product",
         name: product.title.text,
         sku: `${product.shopId}-${product.shopsProductId}`,
-        brand: {
-            "@type": "Organization",
-            name: product.shopName,
-        },
         dateCreated: product.created,
         dateModified: product.updated,
     };
