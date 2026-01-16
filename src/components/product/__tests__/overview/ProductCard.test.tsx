@@ -14,6 +14,7 @@ describe("ProductCard", () => {
         productId: "1",
         title: "Sample Product",
         shopName: "Sample Shop",
+        shopType: "AUCTION_HOUSE",
         state: "AVAILABLE",
         price: "100€",
         images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],

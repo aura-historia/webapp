@@ -39,6 +39,7 @@ const createMockProduct = (overrides: Partial<OverviewProduct> = {}): OverviewPr
     shopId: "shop-1",
     shopsProductId: "shops-item-1",
     shopName: "Test Shop",
+    shopType: "AUCTION_HOUSE",
     title: "Test Product",
     description: "Test Description",
     price: "10 €",

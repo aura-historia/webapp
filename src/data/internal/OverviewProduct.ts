@@ -15,6 +15,7 @@ import { type Condition, parseCondition } from "@/data/internal/Condition.ts";
 import { type Provenance, parseProvenance } from "@/data/internal/Provenance.ts";
 import { type Restoration, parseRestoration } from "@/data/internal/Restoration.ts";
 import { mapToInternalProductImage, type ProductImage } from "@/data/internal/ProductImageData.ts";
+import { parseShopType, type ShopType } from "@/data/internal/ShopType.ts";
 
 export type OverviewProduct = {
     readonly productId: string;
@@ -31,6 +32,7 @@ export type OverviewProduct = {
     readonly created: Date;
     readonly updated: Date;
     readonly userData?: UserProductData;
+    readonly shopType: ShopType;
 
     readonly originYear?: number;
     readonly originYearMin?: number;
@@ -52,6 +54,7 @@ function mapProductDataToOverviewProduct(
         shopId: productData.shopId,
         shopsProductId: productData.shopsProductId,
         shopName: productData.shopName,
+        shopType: parseShopType(productData.shopType),
         title: productData.title.text,
         description: productData.description?.text,
         price: productData.price ? formatPrice(productData.price, locale) : undefined,

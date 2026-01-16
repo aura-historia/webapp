@@ -30,6 +30,7 @@ describe("ProductInfo", () => {
         shopId: "",
         shopsProductId: "",
         shopName: "Test Shop",
+        shopType: "AUCTION_HOUSE",
         title: "Test Product Title",
         description: "This is a test description",
         price: "99,99 €",
