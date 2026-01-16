@@ -1,6 +1,6 @@
 import { screen, act, fireEvent } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { NotificationButton } from "../../buttons/NotificationButton.tsx";
+import { NotificationButton } from "../NotificationButton.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 
 const mockMutate = vi.fn();

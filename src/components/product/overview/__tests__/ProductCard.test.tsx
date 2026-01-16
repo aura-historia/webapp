@@ -1,6 +1,6 @@
 import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import { act, screen } from "@testing-library/react";
-import { ProductCard } from "../../overview/ProductCard.tsx";
+import { ProductCard } from "../ProductCard.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 
 describe("ProductCard", () => {
