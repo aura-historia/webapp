@@ -74,7 +74,10 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                             <StatusBadge status={product.state} />
                             <PriceText>{product.price ?? t("product.unknownPrice")}</PriceText>
                             {product.priceEstimate && (
-                                <ProductPriceEstimate priceEstimate={product.priceEstimate} />
+                                <ProductPriceEstimate
+                                    priceEstimate={product.priceEstimate}
+                                    shopType={product.shopType}
+                                />
                             )}
                         </div>
 

@@ -1,5 +1,20 @@
 export type ShopType = "AUCTION_HOUSE" | "COMMERCIAL_DEALER" | "MARKETPLACE" | "UNKNOWN";
 
+export const SHOP_TYPE_TRANSLATION_CONFIG = {
+    AUCTION_HOUSE: {
+        translationKey: "shopType.auctionHouse",
+    },
+    COMMERCIAL_DEALER: {
+        translationKey: "shopType.commercialDealer",
+    },
+    MARKETPLACE: {
+        translationKey: "shopType.marketplace",
+    },
+    UNKNOWN: {
+        translationKey: "shopType.unknown",
+    },
+} as const;
+
 export function parseShopType(shopType?: string): ShopType {
     const uppercasedShopType = shopType?.toUpperCase() ?? "UNKNOWN";
 

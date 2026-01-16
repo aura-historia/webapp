@@ -153,7 +153,8 @@
       }
     },
     "priceEstimate": {
-      "label": "Estimación: {{price}}",
+      "tooltip": "Estimación de precio de {{shopType}}",
+      "tooltipUnknown": "Estimación de precio",
       "minOnly": "Mín. {{min}}",
       "maxOnly": "Máx. {{max}}",
       "range": "{{min}} - {{max}}"
@@ -253,6 +254,12 @@
     "reserved": "Reservado",
     "sold": "Vendido",
     "removed": "Eliminado",
+    "unknown": "Desconocido"
+  },
+  "shopType": {
+    "auctionHouse": "Casa de subastas",
+    "commercialDealer": "Vendedor",
+    "marketplace": "Mercado",
     "unknown": "Desconocido"
   },
   "discover": {
