@@ -10,8 +10,8 @@ import { Card } from "@/components/ui/card.tsx";
 import type { ComponentPropsWithoutRef, HTMLProps, ReactNode } from "react";
 
 interface MarkdownPageProps {
-    titleKey: string;
-    localeMap: Record<string, string>;
+    readonly titleKey: string;
+    readonly localeMap: Record<string, string>;
 }
 
 export function MarkdownPage({ titleKey, localeMap }: MarkdownPageProps) {
