@@ -4,9 +4,9 @@ const modules = import.meta.glob('./*.md', {
   import: 'default' 
 });
 
-export const DATA_PRIVACY_LOCALE_MAP: Record<string, string> = Object.fromEntries(
+export const PRIVACY_LOCALE_MAP: Record<string, string> = Object.fromEntries(
   Object.entries(modules).map(([path, content]) => {
-    const localeKey = path.split('/').pop()?.replace('.md', '').replace("data-privacy-", "") || '';
+    const localeKey = path.split('/').pop()?.replace('.md', '').replace("privacy-", "") || '';
     return [localeKey, content as string];
   })
 );

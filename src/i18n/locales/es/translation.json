@@ -12,7 +12,7 @@
   "imprint": {
     "title": "Aviso legal"
   },
-  "dataPrivacy": {
+  "privacy": {
     "title": "Política de privacidad"
   },
   "terms": {
@@ -30,7 +30,7 @@
   "footer": {
     "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
     "imprint": "Aviso legal",
-    "dataPrivacy": "Política de privacidad",
+    "privacy": "Política de privacidad",
     "terms": "Términos y condiciones",
     "copyright": "© {{year}} Aura Historia"
   },

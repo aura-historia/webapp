@@ -46,8 +46,8 @@ export function Footer() {
                         </NavigationMenuItem>
                         <NavigationMenuItem>
                             <Button variant={"ghost"} asChild>
-                                <Link to="/data-privacy">
-                                    <NavText>{t("footer.dataPrivacy")}</NavText>
+                                <Link to="/privacy">
+                                    <NavText>{t("footer.privacy")}</NavText>
                                 </Link>
                             </Button>
                         </NavigationMenuItem>
