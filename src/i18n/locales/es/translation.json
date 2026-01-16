@@ -12,6 +12,9 @@
   "imprint": {
     "title": "Aviso legal"
   },
+  "privacy": {
+    "title": "Política de privacidad"
+  },
   "terms": {
     "title": "Términos y condiciones"
   },
@@ -27,6 +30,7 @@
   "footer": {
     "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
     "imprint": "Aviso legal",
+    "privacy": "Política de privacidad",
     "terms": "Términos y condiciones",
     "copyright": "© {{year}} Aura Historia"
   },
