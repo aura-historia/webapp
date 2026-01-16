@@ -46,9 +46,9 @@ export default function DiscoverSection() {
                                         <highlight.icon className="w-5 h-5 text-primary" />
                                     </div>
                                     <div>
-                                        <h4 className="font-semibold mb-1">
+                                        <h3 className="font-semibold mb-1">
                                             {t(highlight.titleKey)}
-                                        </h4>
+                                        </h3>
                                         <p className="text-sm text-muted-foreground">
                                             {t(highlight.descKey)}
                                         </p>
