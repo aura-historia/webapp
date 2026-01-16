@@ -15,6 +15,7 @@ import { useState } from "react";
 import { SEARCH_RESULT_SORT_FIELDS, type SortMode } from "@/data/internal/SortMode.ts";
 import { SortModeSelection } from "@/components/search/SortModeSelection.tsx";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
+import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
 
 export const Route = createFileRoute("/search")({
     validateSearch: (
@@ -89,6 +90,13 @@ export const Route = createFileRoute("/search")({
             sortOrder: sortOrder,
         };
     },
+    head: () =>
+        generatePageHeadMeta({
+            title: "Search Antiques | Aura Historia",
+            description:
+                "Search and discover unique antiques from trusted dealers on Aura Historia.",
+            url: "https://aura-historia.com/search",
+        }),
     component: RouteComponent,
 });
 

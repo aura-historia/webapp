@@ -43,6 +43,25 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 {
                     title: "Aura Historia (Preview)",
                 },
+                {
+                    name: "description",
+                    content:
+                        "Discover unique antiques from trusted dealers. Aura Historia connects collectors with authentic pieces and transparent pricing.",
+                },
+                // Open Graph defaults
+                {
+                    property: "og:site_name",
+                    content: "Aura Historia",
+                },
+                {
+                    property: "og:locale",
+                    content: "en_US",
+                },
+                // Twitter Card defaults
+                {
+                    name: "twitter:card",
+                    content: "summary",
+                },
             ],
             links: [
                 {

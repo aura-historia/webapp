@@ -5,8 +5,16 @@ import FeaturesSection from "@/components/landing-page/features-section/Features
 import HowItWorksSection from "@/components/landing-page/how-it-works-section/HowItWorksSection.tsx";
 import TestimonialsSection from "@/components/landing-page/testimonials-section/TestimonialsSection.tsx";
 import { createFileRoute } from "@tanstack/react-router";
+import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
 
 export const Route = createFileRoute("/")({
+    head: () =>
+        generatePageHeadMeta({
+            title: "Aura Historia - Discover Unique Antiques",
+            description:
+                "Discover unique antiques from trusted dealers. Aura Historia connects collectors with authentic pieces and transparent pricing.",
+            url: "https://aura-historia.com/",
+        }),
     component: LandingPage,
 });
 
