@@ -18,24 +18,26 @@ export default defineConfig({
             removeDevtoolsOnBuild: true,
         }),
         tanstackStart({
-            pages: [
-                {
-                    path: '/',
-                    prerender: { enabled: true },
+            prerender: {
+                enabled: true,
+                crawlLinks: true,
+                filter: ({path}) => {
+                    // Exclude authenticated routes
+                    if (path.startsWith('/account') || path.startsWith('/watchlist')) {
+                        return false
+                    }
+                    // Exclude search routes (dynamic query params)
+                    if (path.startsWith('/search')) {
+                        return false
+                    }
+                    // Exclude API routes
+                    return !path.startsWith('/api/');
                 },
-                {
-                    path: '/imprint',
-                    prerender: { enabled: true },
-                },
-                {
-                    path: '/privacy',
-                    prerender: { enabled: true },
-                },
-                {
-                    path: '/login',
-                    prerender: { enabled: true },
-                }
-            ],
+            },
+            sitemap: {
+                enabled: true,
+                host: 'https://aura-historia.com',
+            },
         }),
         viteReact(),
         cloudflare({viteEnvironment: {name: 'ssr'}}),
