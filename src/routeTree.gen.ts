@@ -10,9 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ImprintRouteImport } from './routes/imprint'
-import { Route as DataPrivacyRouteImport } from './routes/data-privacy'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthWatchlistRouteImport } from './routes/_auth.watchlist'
@@ -24,6 +24,11 @@ const SearchRoute = SearchRouteImport.update({
   path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -32,11 +37,6 @@ const LoginRoute = LoginRouteImport.update({
 const ImprintRoute = ImprintRouteImport.update({
   id: '/imprint',
   path: '/imprint',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DataPrivacyRoute = DataPrivacyRouteImport.update({
-  id: '/data-privacy',
-  path: '/data-privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -67,9 +67,9 @@ const ProductShopIdShopsProductIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/data-privacy': typeof DataPrivacyRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
@@ -77,9 +77,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/data-privacy': typeof DataPrivacyRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
@@ -89,9 +89,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
-  '/data-privacy': typeof DataPrivacyRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/_auth/account': typeof AuthAccountRoute
   '/_auth/watchlist': typeof AuthWatchlistRoute
@@ -101,9 +101,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/data-privacy'
     | '/imprint'
     | '/login'
+    | '/privacy'
     | '/search'
     | '/account'
     | '/watchlist'
@@ -111,9 +111,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/data-privacy'
     | '/imprint'
     | '/login'
+    | '/privacy'
     | '/search'
     | '/account'
     | '/watchlist'
@@ -122,9 +122,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_auth'
-    | '/data-privacy'
     | '/imprint'
     | '/login'
+    | '/privacy'
     | '/search'
     | '/_auth/account'
     | '/_auth/watchlist'
@@ -134,9 +134,9 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
-  DataPrivacyRoute: typeof DataPrivacyRoute
   ImprintRoute: typeof ImprintRoute
   LoginRoute: typeof LoginRoute
+  PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
 }
@@ -148,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -162,13 +169,6 @@ declare module '@tanstack/react-router' {
       path: '/imprint'
       fullPath: '/imprint'
       preLoaderRoute: typeof ImprintRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/data-privacy': {
-      id: '/data-privacy'
-      path: '/data-privacy'
-      fullPath: '/data-privacy'
-      preLoaderRoute: typeof DataPrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth': {
@@ -224,9 +224,9 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
-  DataPrivacyRoute: DataPrivacyRoute,
   ImprintRoute: ImprintRoute,
   LoginRoute: LoginRoute,
+  PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
 }

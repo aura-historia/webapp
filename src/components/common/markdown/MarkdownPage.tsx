@@ -7,7 +7,7 @@ import { H4 } from "@/components/typography/H4.tsx";
 import { Ul } from "@/components/typography/Ul.tsx";
 import { Li } from "@/components/typography/Li.tsx";
 import { Card } from "@/components/ui/card.tsx";
-import type { HTMLProps, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, HTMLProps, ReactNode } from "react";
 
 interface MarkdownPageProps {
     titleKey: string;
@@ -88,7 +88,7 @@ function li({
     children,
     ...props
 }: { node?: unknown; children?: ReactNode } & HTMLProps<HTMLLIElement>) {
-    return <Li {...(props as React.ComponentPropsWithoutRef<"li">)}>{children}</Li>;
+    return <Li {...(props as ComponentPropsWithoutRef<"li">)}>{children}</Li>;
 }
 
 function ul({
@@ -96,5 +96,5 @@ function ul({
     children,
     ...props
 }: { node?: unknown; children?: ReactNode } & HTMLProps<HTMLUListElement>) {
-    return <Ul {...(props as React.ComponentPropsWithoutRef<"ul">)}>{children}</Ul>;
+    return <Ul {...(props as ComponentPropsWithoutRef<"ul">)}>{children}</Ul>;
 }
