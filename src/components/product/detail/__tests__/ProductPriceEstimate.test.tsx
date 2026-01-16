@@ -6,7 +6,9 @@ describe("ProductPriceEstimate", () => {
     it("renders nothing when both min and max are undefined", () => {
         const priceEstimate: PriceEstimate = {};
 
-        const { container } = render(<ProductPriceEstimate priceEstimate={priceEstimate} />);
+        const { container } = render(
+            <ProductPriceEstimate priceEstimate={priceEstimate} shopType={"AUCTION_HOUSE"} />,
+        );
 
         expect(container).toBeEmptyDOMElement();
     });
@@ -17,9 +19,9 @@ describe("ProductPriceEstimate", () => {
             max: "500 €",
         };
 
-        render(<ProductPriceEstimate priceEstimate={priceEstimate} />);
+        render(<ProductPriceEstimate priceEstimate={priceEstimate} shopType={"AUCTION_HOUSE"} />);
 
-        expect(screen.getByText("Schätzung: 100 € - 500 €")).toBeInTheDocument();
+        expect(screen.getByText("100 € - 500 €")).toBeInTheDocument();
     });
 
     it("renders only the minimum price when max is undefined", () => {
@@ -27,9 +29,9 @@ describe("ProductPriceEstimate", () => {
             min: "100 €",
         };
 
-        render(<ProductPriceEstimate priceEstimate={priceEstimate} />);
+        render(<ProductPriceEstimate priceEstimate={priceEstimate} shopType={"AUCTION_HOUSE"} />);
 
-        expect(screen.getByText("Schätzung: Mind. 100 €")).toBeInTheDocument();
+        expect(screen.getByText("Mind. 100 €")).toBeInTheDocument();
     });
 
     it("renders only the maximum price when min is undefined", () => {
@@ -37,9 +39,9 @@ describe("ProductPriceEstimate", () => {
             max: "500 €",
         };
 
-        render(<ProductPriceEstimate priceEstimate={priceEstimate} />);
+        render(<ProductPriceEstimate priceEstimate={priceEstimate} shopType={"AUCTION_HOUSE"} />);
 
-        expect(screen.getByText("Schätzung: Max. 500 €")).toBeInTheDocument();
+        expect(screen.getByText("Max. 500 €")).toBeInTheDocument();
     });
 
     it("applies the correct styling classes", () => {
@@ -48,9 +50,9 @@ describe("ProductPriceEstimate", () => {
             max: "500 €",
         };
 
-        render(<ProductPriceEstimate priceEstimate={priceEstimate} />);
+        render(<ProductPriceEstimate priceEstimate={priceEstimate} shopType={"AUCTION_HOUSE"} />);
 
-        const container = screen.getByText("Schätzung: 100 € - 500 €").parentElement;
+        const container = screen.getByText("100 € - 500 €").parentElement;
         expect(container).toHaveClass("flex", "flex-row", "gap-2");
     });
 
@@ -60,9 +62,9 @@ describe("ProductPriceEstimate", () => {
             max: "500 €",
         };
 
-        render(<ProductPriceEstimate priceEstimate={priceEstimate} />);
+        render(<ProductPriceEstimate priceEstimate={priceEstimate} shopType={"AUCTION_HOUSE"} />);
 
-        const textElement = screen.getByText("Schätzung: 100 € - 500 €");
+        const textElement = screen.getByText("100 € - 500 €");
         expect(textElement).toHaveClass("text-sm", "text-muted-foreground");
     });
 });
