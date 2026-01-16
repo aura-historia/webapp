@@ -4,7 +4,6 @@ import type {
     GetProductData,
     ProductUserStateData,
 } from "@/client";
-import { formatPrice } from "@/lib/utils.ts";
 import { type ProductState, parseProductState } from "@/data/internal/ProductState.ts";
 import {
     mapToInternalUserProductData,
@@ -17,6 +16,7 @@ import { type Restoration, parseRestoration } from "@/data/internal/Restoration.
 import { mapToInternalProductImage, type ProductImage } from "@/data/internal/ProductImageData.ts";
 import { parseShopType, type ShopType } from "@/data/internal/ShopType.ts";
 import { parsePriceEstimate, type PriceEstimate } from "@/data/internal/PriceEstimate.ts";
+import { formatPrice } from "@/data/internal/Price.ts";
 
 export type OverviewProduct = {
     readonly productId: string;
@@ -63,6 +63,7 @@ function mapProductDataToOverviewProduct(
         priceEstimate: parsePriceEstimate(
             productData.priceEstimateMin ?? undefined,
             productData.priceEstimateMax ?? undefined,
+            locale,
         ),
         state: parseProductState(productData.state),
         url: URL.parse(productData.url),

@@ -1,12 +1,16 @@
 import type { PriceData } from "@/client";
-import { parsePrice, type Price } from "@/data/internal/Price.ts";
+import { formatPrice, parsePrice } from "@/data/internal/Price.ts";
 
 export type PriceEstimate = {
-    readonly min?: Price;
-    readonly max?: Price;
+    readonly min?: string;
+    readonly max?: string;
 };
 
-export function parsePriceEstimate(min?: PriceData, max?: PriceData): PriceEstimate | undefined {
+export function parsePriceEstimate(
+    min?: PriceData,
+    max?: PriceData,
+    locale?: string,
+): PriceEstimate | undefined {
     if (!min && !max) {
         return undefined;
     }
@@ -15,7 +19,7 @@ export function parsePriceEstimate(min?: PriceData, max?: PriceData): PriceEstim
     const maxPrice = max && parsePrice(max);
 
     return {
-        min: minPrice,
-        max: maxPrice,
+        min: minPrice && formatPrice(minPrice, locale),
+        max: maxPrice && formatPrice(maxPrice, locale),
     };
 }

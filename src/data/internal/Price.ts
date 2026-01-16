@@ -11,3 +11,10 @@ export function parsePrice(apiPayload: PriceData): Price {
         currency: apiPayload.currency,
     };
 }
+
+export function formatPrice(data: Price, locale?: string): string {
+    return new Intl.NumberFormat(locale ?? navigator.language, {
+        style: "currency",
+        currency: data.currency,
+    }).format(data.amount / 100);
+}

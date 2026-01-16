@@ -10,17 +10,9 @@ import {
 } from "@/lib/eventFilters.ts";
 import type { ProductState } from "@/data/internal/ProductState.ts";
 import type { TFunction } from "i18next";
-import type { Price } from "@/data/internal/Price.ts";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
-}
-
-export function formatPrice(data: Price, locale?: string): string {
-    return new Intl.NumberFormat(locale ?? navigator.language, {
-        style: "currency",
-        currency: data.currency,
-    }).format(data.amount / 100);
 }
 
 /**
