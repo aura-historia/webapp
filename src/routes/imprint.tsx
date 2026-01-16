@@ -5,9 +5,9 @@ import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
 export const Route = createFileRoute("/imprint")({
     head: () =>
         generatePageHeadMeta({
-            title: "Imprint | Aura Historia",
-            description: "Legal information and imprint for Aura Historia.",
+            pageKey: "imprint",
             url: "https://aura-historia.com/imprint",
+            noIndex: true,
         }),
     component: Imprint,
 });

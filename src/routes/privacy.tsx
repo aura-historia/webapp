@@ -5,9 +5,9 @@ import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
 export const Route = createFileRoute("/privacy")({
     head: () =>
         generatePageHeadMeta({
-            title: "Privacy Policy | Aura Historia",
-            description: "Privacy policy and data protection information for Aura Historia.",
+            pageKey: "privacy",
             url: "https://aura-historia.com/privacy",
+            noIndex: true,
         }),
     component: Privacy,
 });

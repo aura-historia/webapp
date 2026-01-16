@@ -5,7 +5,7 @@ import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
 export const Route = createFileRoute("/_auth/account")({
     head: () =>
         generatePageHeadMeta({
-            title: "My Account | Aura Historia",
+            pageKey: "account",
             noIndex: true,
         }),
     component: AccountPage,

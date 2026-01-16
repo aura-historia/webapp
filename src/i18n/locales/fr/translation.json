@@ -2,6 +2,36 @@
   "common": {
     "auraHistoria": "Aura Historia (Aperçu)"
   },
+  "meta": {
+    "siteName": "Aura Historia",
+    "defaultDescription": "Découvrez des antiquités uniques auprès de marchands de confiance. Aura Historia connecte les collectionneurs avec des pièces authentiques et des prix transparents.",
+    "home": {
+      "title": "Aura Historia - Découvrez des antiquités uniques",
+      "description": "Découvrez des antiquités uniques auprès de marchands de confiance. Aura Historia connecte les collectionneurs avec des pièces authentiques et des prix transparents."
+    },
+    "search": {
+      "title": "Rechercher des antiquités | Aura Historia",
+      "description": "Recherchez et découvrez des antiquités uniques auprès de marchands de confiance sur Aura Historia."
+    },
+    "login": {
+      "title": "Connexion | Aura Historia",
+      "description": "Connectez-vous à votre compte Aura Historia pour gérer votre liste de surveillance et vos préférences."
+    },
+    "imprint": {
+      "title": "Mentions légales | Aura Historia",
+      "description": "Informations légales et mentions légales pour Aura Historia."
+    },
+    "privacy": {
+      "title": "Politique de confidentialité | Aura Historia",
+      "description": "Politique de confidentialité et informations sur la protection des données pour Aura Historia."
+    },
+    "account": {
+      "title": "Mon compte | Aura Historia"
+    },
+    "watchlist": {
+      "title": "Ma liste de surveillance | Aura Historia"
+    }
+  },
   "validation": {
     "name": {
       "minLength": "Veuillez saisir au moins {{min}} caractères",

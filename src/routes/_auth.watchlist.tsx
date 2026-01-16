@@ -5,7 +5,7 @@ import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
 export const Route = createFileRoute("/_auth/watchlist")({
     head: () =>
         generatePageHeadMeta({
-            title: "My Watchlist | Aura Historia",
+            pageKey: "watchlist",
             noIndex: true,
         }),
     component: RouteComponent,

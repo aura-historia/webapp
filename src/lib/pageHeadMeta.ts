@@ -1,3 +1,5 @@
+import i18n from "@/i18n/i18n.ts";
+
 type HeadMeta = {
     meta: Array<
         | { title: string }
@@ -8,20 +10,60 @@ type HeadMeta = {
     scripts?: Array<{ type: string; children: string }>;
 };
 
+type PageMetaKey = "home" | "search" | "login" | "imprint" | "privacy" | "account" | "watchlist";
+
+const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string }> = {
+    home: {
+        title: "meta.home.title",
+        description: "meta.home.description",
+    },
+    search: {
+        title: "meta.search.title",
+        description: "meta.search.description",
+    },
+    login: {
+        title: "meta.login.title",
+        description: "meta.login.description",
+    },
+    imprint: {
+        title: "meta.imprint.title",
+        description: "meta.imprint.description",
+    },
+    privacy: {
+        title: "meta.privacy.title",
+        description: "meta.privacy.description",
+    },
+    account: {
+        title: "meta.account.title",
+    },
+    watchlist: {
+        title: "meta.watchlist.title",
+    },
+};
+
 type PageMetaOptions = {
-    title: string;
-    description?: string;
+    /** The translation key for the page (e.g., "home", "search", "login") */
+    pageKey: PageMetaKey;
+    /** The canonical URL for the page */
     url?: string;
+    /** Optional image URL for Open Graph/Twitter cards */
     image?: string;
+    /** The Open Graph type (defaults to "website") */
     type?: string;
+    /** Whether to add noindex, nofollow meta tag */
     noIndex?: boolean;
 };
 
 /**
  * Generates standard head metadata for a page including Open Graph and Twitter Card tags.
+ * Uses i18n translations for title and description.
  */
 export function generatePageHeadMeta(options: PageMetaOptions): HeadMeta {
-    const { title, description, url, image, type = "website", noIndex = false } = options;
+    const { pageKey, url, image, type = "website", noIndex = false } = options;
+
+    const keys = PAGE_META_KEYS[pageKey];
+    const title = i18n.t(keys.title);
+    const description = keys.description ? i18n.t(keys.description) : undefined;
 
     const meta: HeadMeta["meta"] = [
         {

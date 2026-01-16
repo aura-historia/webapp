@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/server/i18n.server.ts";
 import i18n from "@/i18n/i18n.ts";
+import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -31,6 +32,11 @@ interface MyRouterContext {
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
     head: () => {
+        const locale = i18n.language || "en";
+        const ogLocale =
+            SUPPORTED_LANGUAGES.find((supportedLng) => supportedLng.code === locale)
+                ?.region_locale || "en_US";
+
         return {
             meta: [
                 {
@@ -41,21 +47,20 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                     content: "width=device-width, initial-scale=1",
                 },
                 {
-                    title: "Aura Historia (Preview)",
+                    title: i18n.t("common.auraHistoria"),
                 },
                 {
                     name: "description",
-                    content:
-                        "Discover unique antiques from trusted dealers. Aura Historia connects collectors with authentic pieces and transparent pricing.",
+                    content: i18n.t("meta.defaultDescription"),
                 },
                 // Open Graph defaults
                 {
                     property: "og:site_name",
-                    content: "Aura Historia",
+                    content: i18n.t("meta.siteName"),
                 },
                 {
                     property: "og:locale",
-                    content: "en_US",
+                    content: ogLocale,
                 },
                 // Twitter Card defaults
                 {

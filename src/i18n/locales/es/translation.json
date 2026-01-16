@@ -2,6 +2,36 @@
   "common": {
     "auraHistoria": "Aura Historia (Vista previa)"
   },
+  "meta": {
+    "siteName": "Aura Historia",
+    "defaultDescription": "Descubre antigüedades únicas de comerciantes de confianza. Aura Historia conecta a coleccionistas con piezas auténticas y precios transparentes.",
+    "home": {
+      "title": "Aura Historia - Descubre antigüedades únicas",
+      "description": "Descubre antigüedades únicas de comerciantes de confianza. Aura Historia conecta a coleccionistas con piezas auténticas y precios transparentes."
+    },
+    "search": {
+      "title": "Buscar antigüedades | Aura Historia",
+      "description": "Busca y descubre antigüedades únicas de comerciantes de confianza en Aura Historia."
+    },
+    "login": {
+      "title": "Iniciar sesión | Aura Historia",
+      "description": "Inicia sesión en tu cuenta de Aura Historia para gestionar tu lista de seguimiento y preferencias."
+    },
+    "imprint": {
+      "title": "Aviso legal | Aura Historia",
+      "description": "Información legal y aviso legal para Aura Historia."
+    },
+    "privacy": {
+      "title": "Política de privacidad | Aura Historia",
+      "description": "Política de privacidad e información sobre protección de datos para Aura Historia."
+    },
+    "account": {
+      "title": "Mi cuenta | Aura Historia"
+    },
+    "watchlist": {
+      "title": "Mi lista de seguimiento | Aura Historia"
+    }
+  },
   "validation": {
     "name": {
       "minLength": "Por favor, introduzca al menos {{min}} caracteres",

@@ -92,9 +92,7 @@ export const Route = createFileRoute("/search")({
     },
     head: () =>
         generatePageHeadMeta({
-            title: "Search Antiques | Aura Historia",
-            description:
-                "Search and discover unique antiques from trusted dealers on Aura Historia.",
+            pageKey: "search",
             url: "https://aura-historia.com/search",
         }),
     component: RouteComponent,

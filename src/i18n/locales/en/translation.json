@@ -2,6 +2,36 @@
   "common": {
     "auraHistoria": "Aura Historia (Preview)"
   },
+  "meta": {
+    "siteName": "Aura Historia",
+    "defaultDescription": "Discover unique antiques from trusted dealers. Aura Historia connects collectors with authentic pieces and transparent pricing.",
+    "home": {
+      "title": "Aura Historia - Discover Unique Antiques",
+      "description": "Discover unique antiques from trusted dealers. Aura Historia connects collectors with authentic pieces and transparent pricing."
+    },
+    "search": {
+      "title": "Search Antiques | Aura Historia",
+      "description": "Search and discover unique antiques from trusted dealers on Aura Historia."
+    },
+    "login": {
+      "title": "Login | Aura Historia",
+      "description": "Sign in to your Aura Historia account to manage your watchlist and preferences."
+    },
+    "imprint": {
+      "title": "Imprint | Aura Historia",
+      "description": "Legal information and imprint for Aura Historia."
+    },
+    "privacy": {
+      "title": "Privacy Policy | Aura Historia",
+      "description": "Privacy policy and data protection information for Aura Historia."
+    },
+    "account": {
+      "title": "My Account | Aura Historia"
+    },
+    "watchlist": {
+      "title": "My Watchlist | Aura Historia"
+    }
+  },
   "validation": {
     "name": {
       "minLength": "Please enter at least {{min}} characters",

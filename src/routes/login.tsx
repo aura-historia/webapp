@@ -28,9 +28,7 @@ export const Route = createFileRoute("/login")({
     },
     head: () =>
         generatePageHeadMeta({
-            title: "Login | Aura Historia",
-            description:
-                "Sign in to your Aura Historia account to manage your watchlist and preferences.",
+            pageKey: "login",
             url: "https://aura-historia.com/login",
             noIndex: true,
         }),

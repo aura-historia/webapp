@@ -10,9 +10,7 @@ import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
 export const Route = createFileRoute("/")({
     head: () =>
         generatePageHeadMeta({
-            title: "Aura Historia - Discover Unique Antiques",
-            description:
-                "Discover unique antiques from trusted dealers. Aura Historia connects collectors with authentic pieces and transparent pricing.",
+            pageKey: "home",
             url: "https://aura-historia.com/",
         }),
     component: LandingPage,
