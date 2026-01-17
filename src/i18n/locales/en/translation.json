@@ -80,6 +80,8 @@
       "productState": "Listing Status",
       "merchant": "Merchant",
       "anyMerchant": "Any Merchant",
+      "searchMerchants": "Search merchants...",
+      "noMerchantsFound": "No merchants found",
       "priceSpan": "Price Range",
       "min": "Min",
       "max": "Max",

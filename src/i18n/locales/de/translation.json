@@ -80,6 +80,8 @@
       "productState": "Anzeigenstatus",
       "merchant": "Händler",
       "anyMerchant": "Beliebiger Händler",
+      "searchMerchants": "Händler suchen...",
+      "noMerchantsFound": "Keine Händler gefunden",
       "priceSpan": "Preisspanne",
       "min": "Min",
       "max": "Max",

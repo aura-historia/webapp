@@ -80,6 +80,8 @@
       "productState": "Estado del anuncio",
       "merchant": "Vendedor",
       "anyMerchant": "Cualquier vendedor",
+      "searchMerchants": "Buscar vendedores...",
+      "noMerchantsFound": "No se encontraron vendedores",
       "priceSpan": "Rango de precios",
       "min": "Mín",
       "max": "Máx",

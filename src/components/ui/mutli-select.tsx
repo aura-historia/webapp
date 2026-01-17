@@ -1,30 +1,50 @@
 import * as React from "react";
-import { X } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
+import {
+    Command,
+    CommandGroup,
+    CommandItem,
+    CommandList,
+    CommandEmpty,
+} from "@/components/ui/command";
 import { Command as CommandPrimitive } from "cmdk";
 
-type Framework = Record<"value" | "label", string>;
+export type MultiSelectOption = {
+    value: string;
+    label: string;
+};
 
-const FRAMEWORKS = [
-    { value: "next.js", label: "Next.js" },
-    { value: "sveltekit", label: "SvelteKit" },
-    { value: "nuxt.js", label: "Nuxt.js" },
-    { value: "remix", label: "Remix" },
-    { value: "astro", label: "Astro" },
-    { value: "wordpress", label: "WordPress" },
-    { value: "express.js", label: "Express.js" },
-    { value: "nest.js", label: "Nest.js" },
-] satisfies Framework[];
+export type MultiSelectProps = {
+    options: MultiSelectOption[];
+    value: MultiSelectOption[];
+    onChange: (value: MultiSelectOption[]) => void;
+    onSearchChange?: (search: string) => void;
+    placeholder?: string;
+    isLoading?: boolean;
+    emptyMessage?: string;
+};
 
-export function MultiSelect() {
+export function MultiSelect({
+    options,
+    value,
+    onChange,
+    onSearchChange,
+    placeholder = "Select...",
+    isLoading = false,
+    emptyMessage = "No results found.",
+}: MultiSelectProps) {
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [open, setOpen] = React.useState(false);
-    const [selected, setSelected] = React.useState<Framework[]>([]);
     const [inputValue, setInputValue] = React.useState("");
 
-    const handleUnselect = (framework: Framework) => {
-        setSelected((prev) => prev.filter((s) => s.value !== framework.value));
+    const handleUnselect = (option: MultiSelectOption) => {
+        onChange(value.filter((s) => s.value !== option.value));
+    };
+
+    const handleInputChange = (search: string) => {
+        setInputValue(search);
+        onSearchChange?.(search);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -32,11 +52,9 @@ export function MultiSelect() {
         if (input) {
             if (e.key === "Delete" || e.key === "Backspace") {
                 if (input.value === "") {
-                    setSelected((prev) => {
-                        const newSelected = [...prev];
-                        newSelected.pop();
-                        return newSelected;
-                    });
+                    const newValue = [...value];
+                    newValue.pop();
+                    onChange(newValue);
                 }
             }
             // This is not a default behaviour of the <input /> field
@@ -46,28 +64,28 @@ export function MultiSelect() {
         }
     };
 
-    const selectables = FRAMEWORKS.filter((framework) => !selected.includes(framework));
+    const selectables = options.filter((option) => !value.some((v) => v.value === option.value));
 
     return (
         <Command onKeyDown={handleKeyDown} className="overflow-visible bg-transparent">
             <div className="group border bg-background border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
                 <div className="flex gap-1 flex-wrap">
-                    {selected.map((framework) => (
-                        <Badge key={framework.value} variant="outline">
-                            {framework.label}
+                    {value.map((option) => (
+                        <Badge key={option.value} variant="outline">
+                            {option.label}
                             <button
                                 type="button"
                                 className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter") {
-                                        handleUnselect(framework);
+                                        handleUnselect(option);
                                     }
                                 }}
                                 onMouseDown={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
                                 }}
-                                onClick={() => handleUnselect(framework)}
+                                onClick={() => handleUnselect(option)}
                             >
                                 <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
                             </button>
@@ -77,36 +95,48 @@ export function MultiSelect() {
                     <CommandPrimitive.Input
                         ref={inputRef}
                         value={inputValue}
-                        onValueChange={setInputValue}
+                        onValueChange={handleInputChange}
                         onBlur={() => setOpen(false)}
                         onFocus={() => setOpen(true)}
-                        placeholder="Select frameworks..."
+                        placeholder={placeholder}
                         className="ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
                     />
+                    {isLoading && (
+                        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                    )}
                 </div>
             </div>
             <div className="relative mt-2">
-                {open && selectables.length > 0 ? (
+                {open && (selectables.length > 0 || isLoading) ? (
                     <div className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
                         <CommandList>
-                            <CommandGroup className="h-full overflow-auto">
-                                {selectables.map((framework) => (
-                                    <CommandItem
-                                        key={framework.value}
-                                        onMouseDown={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                        }}
-                                        onSelect={(value) => {
-                                            setInputValue("");
-                                            setSelected((prev) => [...prev, framework]);
-                                        }}
-                                        className={"cursor-pointer"}
-                                    >
-                                        {framework.label}
-                                    </CommandItem>
-                                ))}
-                            </CommandGroup>
+                            {isLoading && selectables.length === 0 ? (
+                                <div className="py-6 text-center text-sm text-muted-foreground">
+                                    <Loader2 className="mx-auto h-4 w-4 animate-spin" />
+                                </div>
+                            ) : selectables.length === 0 && inputValue.length >= 3 ? (
+                                <CommandEmpty>{emptyMessage}</CommandEmpty>
+                            ) : (
+                                <CommandGroup className="h-full overflow-auto">
+                                    {selectables.map((option) => (
+                                        <CommandItem
+                                            key={option.value}
+                                            onMouseDown={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                            }}
+                                            onSelect={() => {
+                                                setInputValue("");
+                                                onSearchChange?.("");
+                                                onChange([...value, option]);
+                                            }}
+                                            className={"cursor-pointer"}
+                                        >
+                                            {option.label}
+                                        </CommandItem>
+                                    ))}
+                                </CommandGroup>
+                            )}
                         </CommandList>
                     </div>
                 ) : null}

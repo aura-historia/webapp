@@ -80,6 +80,8 @@
       "productState": "Statut de l'annonce",
       "merchant": "Marchand",
       "anyMerchant": "Tous les marchands",
+      "searchMerchants": "Rechercher des marchands...",
+      "noMerchantsFound": "Aucun marchand trouvé",
       "priceSpan": "Fourchette de prix",
       "min": "Min",
       "max": "Max",

@@ -97,7 +97,7 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
             ? formatToDateString(data.updateDate.from)
             : undefined,
         updateDateTo: data.updateDate?.to ? formatToDateString(data.updateDate.to) : undefined,
-        merchant: data.merchant ? data.merchant : undefined,
+        merchant: data.merchant && data.merchant.length > 0 ? data.merchant : undefined,
     };
 }
 
