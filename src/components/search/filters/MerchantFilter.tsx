@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { FilterX } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
+import { MultiSelect } from "@/components/ui/mutli-select.tsx";
 
 export function MerchantFilter() {
     const { control } = useFormContext<FilterSchema>();
@@ -41,12 +42,13 @@ export function MerchantFilter() {
                     name="merchant"
                     control={control}
                     render={({ field }) => (
-                        <Input
-                            type={"text"}
-                            placeholder={t("search.filter.anyMerchant")}
-                            value={field.value || ""}
-                            onChange={(e) => field.onChange(e.target.value)}
-                        />
+                        <MultiSelect />
+                        // <Input
+                        //     type={"text"}
+                        //     placeholder={t("search.filter.anyMerchant")}
+                        //     value={field.value || ""}
+                        //     onChange={(e) => field.onChange(e.target.value)}
+                        // />
                     )}
                 />
                 {errors?.merchant && (

@@ -65,6 +65,7 @@
         "aws-amplify": "^6.15.10",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
+        "cmdk": "^1.1.1",
         "components": "link:@/components",
         "country-flag-icons": "^1.6.4",
         "date-fns": "^4.1.0",
