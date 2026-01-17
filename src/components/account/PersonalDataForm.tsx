@@ -22,8 +22,8 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { useUserAccount } from "@/hooks/useUserAccount";
-import { useUpdateUserAccount } from "@/hooks/usePatchUserAccount";
+import { useUserAccount } from "@/hooks/account/useUserAccount";
+import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount";
 import { getAccountEditSchema, type AccountEditFormData } from "@/utils/nameValidation";
 import { PersonalDataFormSkeleton } from "@/components/account/PersonalDataFormSkeleton";
 import { LANGUAGES } from "@/data/internal/Language.ts";

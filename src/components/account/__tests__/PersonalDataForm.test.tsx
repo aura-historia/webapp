@@ -15,8 +15,8 @@ vi.mock("sonner", () => ({
     toast: mockToast,
 }));
 
-vi.mock("@/hooks/useUserAccount");
-vi.mock("@/hooks/usePatchUserAccount");
+vi.mock("@/hooks/account/useUserAccount");
+vi.mock("@/hooks/account/usePatchUserAccount");
 
 const renderWithQueryClient = (component: React.ReactElement) => {
     const queryClient = new QueryClient({
@@ -46,8 +46,8 @@ describe("PersonalDataForm", () => {
         vi.clearAllMocks();
         mockMutate = vi.fn();
 
-        const { useUserAccount } = await import("@/hooks/useUserAccount");
-        const { useUpdateUserAccount } = await import("@/hooks/usePatchUserAccount");
+        const { useUserAccount } = await import("@/hooks/account/useUserAccount");
+        const { useUpdateUserAccount } = await import("@/hooks/account/usePatchUserAccount");
 
         vi.mocked(useUserAccount).mockReturnValue({
             data: mockUserData,
@@ -145,7 +145,7 @@ describe("PersonalDataForm", () => {
     });
 
     it("should show spinner and disable button while submitting", async () => {
-        const { useUpdateUserAccount } = await import("@/hooks/usePatchUserAccount");
+        const { useUpdateUserAccount } = await import("@/hooks/account/usePatchUserAccount");
 
         vi.mocked(useUpdateUserAccount).mockReturnValue({
             mutate: mockMutate,
