@@ -53,6 +53,18 @@
       "confirmButton": "Sí, eliminar cuenta",
       "successMessage": "¡Cuenta eliminada con éxito!",
       "errorMessage": "Error al eliminar la cuenta."
+    },
+    "personalData": {
+      "title": "Datos Personales",
+      "emailLabel": "Correo Electrónico",
+      "firstNameLabel": "Nombre",
+      "lastNameLabel": "Apellido",
+      "languageLabel": "Idioma",
+      "languagePlaceholder": "Seleccionar idioma",
+      "currencyLabel": "Moneda",
+      "currencyPlaceholder": "Seleccionar moneda",
+      "saveButton": "Guardar Cambios",
+      "successMessage": "Datos personales actualizados con éxito"
     }
   },
   "search": {
