@@ -7,7 +7,7 @@ on:
 
 env:
     WATCH_FILE: "src/i18n/locales/en/translation.json"
-    TARGET_LANGS: "es,fr,de"
+    TARGET_LANGS: "es,fr"
 
 jobs:
     translate:

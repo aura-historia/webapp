@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button.tsx";
 import { FilterX } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { useFilterNavigation } from "@/hooks/useFilterNavigation.ts";
+import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 10_000;

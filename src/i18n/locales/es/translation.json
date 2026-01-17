@@ -12,6 +12,9 @@
   "imprint": {
     "title": "Aviso legal"
   },
+  "privacy": {
+    "title": "Política de privacidad"
+  },
   "terms": {
     "title": "Términos y condiciones"
   },
@@ -27,6 +30,7 @@
   "footer": {
     "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
     "imprint": "Aviso legal",
+    "privacy": "Política de privacidad",
     "terms": "Términos y condiciones",
     "copyright": "© {{year}} Aura Historia"
   },
@@ -250,91 +254,87 @@
     "unknown": "Desconocido"
   },
   "discover": {
-    "title": "Su ventana al mundo de las antigüedades",
-    "p1": "Aura Historia busca diariamente a través de la vasta oferta de miles de anticuarios dispersos en todo el mundo y reúne sus tesoros en un solo lugar.",
-    "p2": "Nuestra plataforma inteligente no solo captura las ofertas actuales, sino que también rastrea los cambios de precios y la disponibilidad. De esta manera, nunca se pierde una ganga y siempre mantiene el mercado bajo control.",
+    "title": "Traemos transparencia al opaco panorama de las antigüedades en línea",
+    "p1": "Aura Historia busca entre las vastas ofertas de miles de anticuarios, casas de subastas y mercados dispersos en todo el mundo y reúne sus artículos en un solo lugar central.",
+    "p2": "No solo capturamos artículos actuales y próximos, sino que también rastreamos cambios de precio y disponibilidad. De esta manera, nunca te perderás una ganga y siempre estarás al tanto del mercado.",
     "highlight1": {
-      "title": "Más de 500 vendedores conectados",
-      "description": "Buscamos continuamente anticuarios de renombre de toda Europa y más allá."
+      "title": "Más de 500 anticuarios, casas de subastas y mercados",
+      "description": "Buscamos continuamente anticuarios, casas de subastas y mercados renombrados de toda Europa y más allá."
     },
     "highlight2": {
-      "title": "Monitoreo en tiempo real",
-      "description": "Los cambios de precios y la disponibilidad se capturan y muestran automáticamente."
+      "title": "Monitoreo casi en tiempo real",
+      "description": "Las antigüedades recién ofrecidas, así como los cambios de precio o disponibilidad, se capturan automáticamente casi en tiempo real."
     },
     "highlight3": {
-      "title": "Evolución transparente de precios",
-      "description": "Siga el historial completo de precios de un artículo y reconozca las tendencias de un vistazo."
+      "title": "Completamente independiente del idioma",
+      "description": "Traducimos cada antigüedad a múltiples idiomas. El idioma en el que buscas no importa. Actualmente soportamos inglés, alemán, francés y español."
     },
     "stats": {
       "shops": "500",
-      "shopsLabel": "Vendedores conectados",
+      "shopsLabel": "Tiendas conectadas",
       "items": "120.000",
       "itemsLabel": "Artículos únicos",
       "updates": "24/7",
-      "updatesLabel": "Actualizaciones automáticas",
+      "updatesLabel": "Actualizaciones casi en tiempo real",
       "countries": "15",
       "countriesLabel": "Países cubiertos"
     }
   },
   "landingPage": {
-    "badge": "La plataforma líder para entusiastas de antigüedades",
-    "titleFirstLine": "Descubre, compara, colecciona –",
-    "titleSecondLine": "Antigüedades de todo el mundo",
-    "subtitle": "Explore más de 120.000 antigüedades únicas de más de 500 vendedores en todo el mundo. Siga los cambios de precios, guarde favoritos y no se pierda nunca más una ganga.",
-    "trustBadge1": "Completamente gratis",
-    "trustBadge2": "Sin registro necesario",
-    "trustBadge3": "Actualizado varias veces al día",
+    "badge": "La plataforma líder para quienes buscan antigüedades altamente específicas",
+    "titleFirstLine": "Deja de perder tiempo buscando antigüedades que no puedes encontrar",
+    "titleSecondLine": "Un lugar central para encontrar las antigüedades que buscas",
+    "subtitle": "Aura Historia monitorea toda la web en busca de antigüedades y las pone a tu disposición en una búsqueda especializada. Escaneamos tiendas de antigüedades y casas de subastas que ni siquiera conoces.",
+    "trustBadge1": "De coleccionistas de antigüedades",
+    "trustBadge2": "Para coleccionistas y comerciantes serios",
+    "trustBadge3": "Casi en tiempo real",
     "features": {
-      "title": "Todo lo que los coleccionistas necesitan",
-      "subtitle": "Aura Historia le proporciona todas las herramientas para buscar eficientemente en el mercado de antigüedades y encontrar tesoros.",
+      "title": "Las antigüedades están dispersas por toda la web: tu búsqueda no debería estarlo",
+      "subtitle": "Aura Historia es el motor de búsqueda más sofisticado para antigüedades y te proporciona todas las herramientas para buscar eficientemente en el mercado de antigüedades.",
       "previewBadge": "Próximamente",
       "search": {
         "title": "Búsqueda inteligente",
-        "description": "Busque entre miles de artículos con nuestra potente función de búsqueda. Filtre por categoría, precio, vendedor y mucho más."
+        "description": "Busca entre cientos de miles de artículos con nuestro potente motor de búsqueda. Elimina todo el ruido filtrando por estado, precio, vendedor y mucho más."
       },
       "global": {
         "title": "Cobertura mundial",
-        "description": "Le conectamos con anticuarios de renombre de más de 15 países – desde Alemania hasta Estados Unidos."
-      },
-      "notifications": {
-        "title": "Alertas de precio",
-        "description": "Reciba notificaciones instantáneas cuando el precio de un artículo en su lista de seguimiento baje."
-      },
-      "priceTracking": {
-        "title": "Historial de precios",
-        "description": "Vea el historial completo de precios de cualquier artículo y reconozca el momento perfecto para comprar."
+        "description": "Te conectamos con anticuarios renombrados de más de 15 países, desde Alemania hasta Estados Unidos. No importa cuán pequeño sea el vendedor, si tiene una tienda en línea, lo estamos añadiendo."
       },
       "history": {
         "title": "Historial de cambios",
-        "description": "Siga todos los cambios de un artículo – desde ajustes de precio hasta cambios de estado."
+        "description": "Rastrea todos los cambios de un artículo, desde ajustes de precio hasta cambios de estado. Optamos por la máxima transparencia."
       },
       "watchlist": {
         "title": "Lista de seguimiento personal",
-        "description": "Guarde artículos interesantes y siga su evolución – todo en un solo lugar."
+        "description": "Guarda artículos interesantes y sigue su desarrollo. Recibe notificaciones cuando cambien el precio o la disponibilidad."
       },
       "translations": {
         "title": "Traducciones automáticas",
-        "description": "Lea las descripciones de artículos en su idioma preferido, sin barreras lingüísticas."
+        "description": "Busca y descubre todos los artículos en tu idioma preferido, sin barreras. Actualmente soportamos inglés, alemán, francés y español."
       },
       "personalFilter": {
-        "title": "Filtros personales",
-        "description": "Guarde sus filtros de búsqueda y reciba notificaciones automáticas sobre nuevas ofertas."
+        "title": "Solicitudes de búsqueda",
+        "description": "Guarda tu solicitud de búsqueda y recibe notificaciones sobre nuevas ofertas o artículos actualizados. Las antigüedades que solías buscar ahora vienen a ti."
       },
       "aiSearchAgent": {
-        "title": "Agente de búsqueda IA",
-        "description": "Su agente de IA personal le ayuda a encontrar antigüedades específicas que de otro modo serían difíciles de descubrir."
+        "title": "Agente de búsqueda personal con IA",
+        "description": "Tu agente personal de IA te ayuda a encontrar las antigüedades más específicas. En combinación con las solicitudes de búsqueda, describe lo que buscas en lenguaje sencillo, tan detallado como desees. Te notificaremos tan pronto como haya coincidencias con lo que describiste."
+      },
+      "communityWishes": {
+        "title": "Tus deseos",
+        "description": "¿Tienes críticas, te falta algo o tienes una idea de lo que deberíamos mejorar o añadir? Escucharemos muy atentamente. Contáctanos en contact@aura-historia.com y lo haremos realidad."
       }
     },
     "howItWorks": {
       "title": "Cómo funciona",
-      "subtitle": "Solo unos pocos pasos hacia la pieza de sus sueños – sin costos ocultos.",
+      "subtitle": "Solo unos pocos pasos para tus piezas soñadas.",
       "step1": {
         "title": "Buscar",
         "description": "Introduzca lo que busca – ya sean muebles, joyas, arte u objetos de colección."
       },
       "step2": {
         "title": "Descubrir",
-        "description": "Explore resultados de cientos de vendedores de un vistazo."
+        "description": "Explora resultados de miles de vendedores de un vistazo."
       },
       "step3": {
         "title": "Guardar",
@@ -379,29 +379,37 @@
       "title": "Preguntas frecuentes",
       "subtitle": "Aquí encontrará respuestas a las preguntas más importantes sobre Aura Historia.",
       "items": {
-        "free": {
-          "question": "¿Es Aura Historia realmente gratis?",
-          "answer": "Sí, usar Aura Historia es completamente gratis. Puede buscar sin límites, añadir artículos a su lista de seguimiento y ver historiales de precios – sin costos ocultos ni suscripciones."
-        },
         "howItWorks": {
           "question": "¿Cómo funciona Aura Historia?",
-          "answer": "Aura Historia busca automáticamente cada día en los sitios web de más de 500 anticuarios en todo el mundo y recopila todas las ofertas en un solo lugar. Nuestra búsqueda inteligente le permite encontrar exactamente lo que busca."
+          "answer": "Aura Historia busca continuamente en los sitios web de más de 500 anticuarios, casas de subastas y mercados en todo el mundo y recopila todas las ofertas en un solo lugar central. Nuestra búsqueda inteligente te permite encontrar exactamente lo que estás buscando."
         },
         "directPurchase": {
           "question": "¿Puedo comprar artículos directamente a través de Aura Historia?",
           "answer": "No, Aura Historia es una plataforma de búsqueda pura. Si desea comprar un artículo, será redirigido directamente al sitio web del vendedor correspondiente donde puede completar la compra."
         },
         "priceAlerts": {
-          "question": "¿Cómo funcionan las alertas de precio?",
-          "answer": "Una vez que añade un artículo a su lista de seguimiento, rastreamos automáticamente la evolución de su precio. Tan pronto como algo cambie con su artículo, recibirá una notificación – así nunca más se perderá una ganga."
+          "question": "¿Cómo funcionan las notificaciones de precio y disponibilidad?",
+          "answer": "Una vez que añades un artículo a tu lista de seguimiento, rastreamos automáticamente su desarrollo de precio y disponibilidad por ti. Tan pronto como algo cambie con tu artículo, recibirás una notificación por correo electrónico."
         },
         "updateFrequency": {
           "question": "¿Con qué frecuencia se actualizan los datos?",
-          "answer": "Nuestros datos se actualizan continuamente. La mayoría de los sitios de vendedores se buscan varias veces al día, por lo que siempre ve precios y disponibilidad actuales."
+          "answer": "Nuestros datos se actualizan continuamente. Operamos casi en tiempo real."
         },
         "dealers": {
-          "question": "¿Qué vendedores están en Aura Historia?",
-          "answer": "Trabajamos con más de 500 anticuarios de renombre de más de 15 países. Entre ellos encontrará tanto grandes casas de subastas como vendedores especializados en diversas áreas de antigüedades."
+          "question": "¿Qué tiendas de antigüedades en línea están en Aura Historia?",
+          "answer": "Incluimos datos de más de 500 anticuarios renombrados de más de 15 países. Entre ellos encontrarás tanto grandes casas de subastas como vendedores especializados en todas las áreas de antigüedades."
+        },
+        "dealerRequest": {
+          "question": "Conozco un anticuario/casa de subastas/mercado en línea que aún no está en Aura Historia. ¿Podemos añadirlo?",
+          "answer": "¡Sí! Envíanos un correo electrónico a contact@aura-historia.com e incluye la URL/enlace de la tienda junto con cualquier información adicional que desees proporcionar. Verificaremos la tienda y la incluiremos en cuestión de horas."
+        },
+        "comparisonBarnebys": {
+          "question": "¿Cómo se compara Aura Historia con Barnebys?",
+          "answer": "Aunque Barnebys también es un motor de búsqueda de antigüedades, solo se enfoca en los jugadores más grandes: las grandes casas de subastas y anticuarios. Esto aumenta mucho las posibilidades de que te pierdas lo que realmente estás buscando. Pregúntate, ¿dónde encontré mis mayores tesoros? Probablemente fue en un pequeño anticuario local o incluso en una tienda de segunda mano."
+        },
+        "comparisonPriceDatabase": {
+          "question": "¿Cómo se compara Aura Historia con bases de datos de precios como WorthPoint y the saleroom?",
+          "answer": "Las bases de datos de precios aprovechan la gran cantidad de datos históricos con resultados de subastas que se remontan a los años 90. Si bien esto ayuda a encontrar comparaciones para piezas astronómicamente raras, a menudo no reflejan el valor de mercado actual ni la disponibilidad de las antigüedades. Si tu objetivo es encontrar antigüedades o investigar su valor actual, Aura Historia es el lugar adecuado. También queremos tomar una postura firme contra la monetización de los datos históricos de precios de antigüedades. No deberías tener que pagar para saber qué se vendió y a qué precio."
         }
       }
     }
@@ -427,7 +435,8 @@
     "BAD_PAGE_SIZE_VALUE": "Número de elementos por página no válido.",
     "BAD_SORT_VALUE": "Ordenación no válida.",
     "BAD_ORDER_VALUE": "Orden de clasificación no válido.",
-    "unknown": "Se produjo un error inesperado."
+    "unknown": "Se produjo un error inesperado.",
+    "WATCHLIST_QUOTA_EXCEEDED": "Has alcanzado el número máximo de artículos en tu lista de seguimiento. Ya hay 5/5 entradas ocupadas en la lista de seguimiento."
   },
   "watchlist": {
     "title": "Mi lista de seguimiento",
@@ -451,6 +460,11 @@
   "notFound": {
     "title": "Página no encontrada",
     "description": "La página que busca no fue encontrada.",
+    "goHome": "Ir a la página principal"
+  },
+  "error": {
+    "title": "Algo salió mal",
+    "description": "Se produjo un error inesperado. Por favor, inténtelo de nuevo más tarde.",
     "goHome": "Ir a la página principal"
   },
   "auth": {

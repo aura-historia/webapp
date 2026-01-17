@@ -3,7 +3,7 @@ import { addWatchlistProduct, deleteWatchlistProduct } from "@/client";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { getProductQueryKey } from "@/client/@tanstack/react-query.gen.ts";
-import { useApiError } from "@/hooks/useApiError.ts";
+import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 
 export type WatchlistMutationType = "addToWatchlist" | "deleteFromWatchlist";
@@ -28,6 +28,9 @@ export function useWatchlistMutation(shopId: string, shopsProductId: string) {
             if (result.error) {
                 if (result.response.status === 401) {
                     toast.info(t("watchlist.loginRequired"));
+                    return;
+                } else if (result.response.status === 422) {
+                    toast.warning(getErrorMessage(mapToInternalApiError(result.error)));
                     return;
                 }
 

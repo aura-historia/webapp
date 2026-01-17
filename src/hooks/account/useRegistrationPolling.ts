@@ -1,14 +1,14 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useStore } from "@tanstack/react-store";
 import { useEffect, useState } from "react";
-import { registrationStore, clearPendingUserData } from "@/stores/registrationStore";
+import { registrationStore, clearPendingUserData } from "@/stores/registrationStore.ts";
 import { updateUserAccount } from "@/client";
 import {
     mapToInternalUserAccount,
     mapToBackendUserAccountPatch,
-} from "@/data/internal/UserAccountData";
-import { mapToInternalApiError } from "@/data/internal/ApiError";
-import { useApiError } from "@/hooks/useApiError";
+} from "@/data/internal/UserAccountData.ts";
+import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
+import { useApiError } from "@/hooks/common/useApiError.ts";
 
 export function useRegistrationPolling() {
     const pendingData = useStore(registrationStore, (state) => state.pendingUserData);

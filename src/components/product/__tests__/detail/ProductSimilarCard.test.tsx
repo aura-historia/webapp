@@ -26,7 +26,12 @@ describe("ProductSimilarCard", () => {
         price: "99,99 €",
         state: "AVAILABLE",
         url: new URL("https://example.com"),
-        images: [new URL("https://example.com/image.jpg")],
+        images: [
+            {
+                url: new URL("https://example.com/image.jpg"),
+                prohibitedContentType: "NONE",
+            },
+        ],
         created: new Date(),
         updated: new Date(),
         originYear: undefined,
@@ -134,9 +139,18 @@ describe("ProductSimilarCard", () => {
         const productWithMultipleImages = {
             ...mockProduct,
             images: [
-                new URL("https://example.com/image1.jpg"),
-                new URL("https://example.com/image2.jpg"),
-                new URL("https://example.com/image3.jpg"),
+                {
+                    url: new URL("https://example.com/image1.jpg"),
+                    prohibitedContentType: "NONE" as const,
+                },
+                {
+                    url: new URL("https://example.com/image2.jpg"),
+                    prohibitedContentType: "NONE" as const,
+                },
+                {
+                    url: new URL("https://example.com/image3.jpg"),
+                    prohibitedContentType: "NONE" as const,
+                },
             ],
         };
         const { container } = render(<ProductSimilarCard product={productWithMultipleImages} />);

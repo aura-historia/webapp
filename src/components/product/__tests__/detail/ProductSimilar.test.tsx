@@ -62,7 +62,9 @@ describe("ProductSimilar", () => {
             price: "50€",
             state: "AVAILABLE",
             url: new URL("https://example.com/1"),
-            images: [new URL("https://example.com/image1.jpg")],
+            images: [
+                { url: new URL("https://example.com/image1.jpg"), prohibitedContentType: "NONE" },
+            ],
             created: new Date(),
             updated: new Date(),
             originYear: undefined,
@@ -84,7 +86,9 @@ describe("ProductSimilar", () => {
             price: "75€",
             state: "AVAILABLE",
             url: new URL("https://example.com/2"),
-            images: [new URL("https://example.com/image2.jpg")],
+            images: [
+                { url: new URL("https://example.com/image2.jpg"), prohibitedContentType: "NONE" },
+            ],
             created: new Date(),
             updated: new Date(),
             originYear: undefined,

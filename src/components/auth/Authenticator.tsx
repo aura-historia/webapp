@@ -83,17 +83,22 @@ export function Authenticator() {
                 },
             }}
         >
-            {({ user }) => {
-                if (user) {
-                    setUserAuthenticated();
-                }
-                return (
-                    <div className="flex items-center justify-center py-12">
-                        <div className="w-12 h-12 border-4 border-t-primary rounded-full animate-spin"></div>
-                    </div>
-                );
-            }}
+            {({ user }) => <AuthenticatorContent user={user} />}
         </AmplifyAuthenticator>
+    );
+}
+
+function AuthenticatorContent({ user }: { user: unknown }) {
+    useEffect(() => {
+        if (user) {
+            setUserAuthenticated();
+        }
+    }, [user]);
+
+    return (
+        <div className="flex items-center justify-center py-12">
+            <div className="w-12 h-12 border-4 border-t-primary rounded-full animate-spin"></div>
+        </div>
     );
 }
 

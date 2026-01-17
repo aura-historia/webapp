@@ -1,19 +1,7 @@
 import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import { ProductCard } from "../../overview/ProductCard.tsx";
-import { vi } from "vitest";
-import type React from "react";
-import { renderWithQueryClient } from "@/test/utils.tsx";
-
-vi.mock("@tanstack/react-router", async (importOriginal) => {
-    const actual = await importOriginal<typeof import("@tanstack/react-router")>();
-    return {
-        ...actual,
-        Link: ({ children, ...props }: { children: React.ReactNode }) => (
-            <a {...props}>{children}</a>
-        ),
-    };
-});
+import { renderWithRouter } from "@/test/utils.tsx";
 
 describe("ProductCard", () => {
     const mockProduct: OverviewProduct = {
@@ -28,7 +16,7 @@ describe("ProductCard", () => {
         shopName: "Sample Shop",
         state: "AVAILABLE",
         price: "100€",
-        images: [new URL("https://example.com/image.jpg")],
+        images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
         originYear: undefined,
         originYearMin: undefined,
         originYearMax: undefined,
@@ -38,32 +26,42 @@ describe("ProductCard", () => {
         restoration: "UNKNOWN",
     };
 
-    it("should render the product title, shop name, and price correctly", () => {
-        renderWithQueryClient(<ProductCard product={mockProduct} />);
+    it("should render the product title, shop name, and price correctly", async () => {
+        await act(() => {
+            renderWithRouter(<ProductCard product={mockProduct} />);
+        });
         expect(screen.getByText("Sample Product")).toBeInTheDocument();
         expect(screen.getByText("Sample Shop")).toBeInTheDocument();
         expect(screen.getByText("100€")).toBeInTheDocument();
     });
 
-    it("should render a placeholder image when no images are provided", () => {
+    it("should render a placeholder image when no images are provided", async () => {
         const productWithoutImages = { ...mockProduct, images: [] };
-        renderWithQueryClient(<ProductCard product={productWithoutImages} key="2" />);
+        await act(() => {
+            renderWithRouter(<ProductCard product={productWithoutImages} key="2" />);
+        });
         expect(screen.getByTestId("placeholder-image")).toBeInTheDocument();
     });
 
-    it("should render 'Preis unbekannt' when the price is not provided", () => {
+    it("should render 'Preis unbekannt' when the price is not provided", async () => {
         const productWithoutPrice = { ...mockProduct, price: undefined };
-        renderWithQueryClient(<ProductCard product={productWithoutPrice} />);
+        await act(() => {
+            renderWithRouter(<ProductCard product={productWithoutPrice} />);
+        });
         expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
     });
 
-    it("should render the status badge with the correct status", () => {
-        renderWithQueryClient(<ProductCard product={mockProduct} />);
+    it("should render the status badge with the correct status", async () => {
+        await act(() => {
+            renderWithRouter(<ProductCard product={mockProduct} />);
+        });
         expect(screen.getByText("Verfügbar")).toBeInTheDocument();
     });
 
-    it("should render the buttons for details and external link", () => {
-        renderWithQueryClient(<ProductCard product={mockProduct} />);
+    it("should render the buttons for details and external link", async () => {
+        await act(() => {
+            renderWithRouter(<ProductCard product={mockProduct} />);
+        });
         expect(screen.getByText("Details")).toBeInTheDocument();
         expect(screen.getByText("Zur Seite des Händlers")).toBeInTheDocument();
     });

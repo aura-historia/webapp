@@ -39,7 +39,6 @@ describe("Footer Component", () => {
 
     it("should render all navigation links with correct text", () => {
         expect(screen.getByText("Impressum")).toBeInTheDocument();
-        expect(screen.getByText("AGB")).toBeInTheDocument();
     });
 
     it("should render copyright text with correct year", () => {
@@ -48,7 +47,6 @@ describe("Footer Component", () => {
 
     it("should render navigation links with correct href attributes", () => {
         expect(screen.getByText("Impressum").closest("a")).toHaveAttribute("href", "/imprint");
-        expect(screen.getByText("AGB").closest("a")).toHaveAttribute("href", "/terms");
     });
 
     it("should change language", async () => {

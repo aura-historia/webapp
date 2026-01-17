@@ -11,15 +11,15 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useLocation, useNavigate, useSearch } from "@tanstack/react-router";
-import { Search } from "lucide-react";
+import { useLocation, useNavigate, useRouterState, useSearch } from "@tanstack/react-router";
+import { Search, Loader2 } from "lucide-react";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { z } from "zod";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
-import { useSearchQueryContext } from "@/hooks/useSearchQueryContext.tsx";
-import { useEffect, useMemo } from "react";
+import { useSearchQueryContext } from "@/hooks/search/useSearchQueryContext.tsx";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 interface SearchBarProps {
@@ -44,7 +44,18 @@ export function SearchBar({ type }: SearchBarProps) {
     const pathname = useLocation({
         select: (location) => location.pathname,
     });
+    const isNavigating = useRouterState({ select: (s) => s.isLoading });
     const { setQuery } = useSearchQueryContext();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Reset isSubmitting when navigation completes
+    useEffect(() => {
+        if (!isNavigating && isSubmitting) {
+            setIsSubmitting(false);
+        }
+    }, [isNavigating, isSubmitting]);
+
+    const showLoading = isSubmitting && isNavigating;
 
     const searchParams = useSearch({ strict: false });
     const currentQuery = pathname === "/search" ? (searchParams.q as string) || "" : "";
@@ -65,6 +76,7 @@ export function SearchBar({ type }: SearchBarProps) {
     }, [queryValue, setQuery]);
 
     function onSubmit(values: SearchFormSchema) {
+        setIsSubmitting(true);
         navigate({
             to: "/search",
             search: mapFiltersToUrlParams({
@@ -128,11 +140,15 @@ export function SearchBar({ type }: SearchBarProps) {
                     )}
                 />
 
-                <Button type="submit" className={type === "big" ? "mt-0 h-12" : "h-9"}>
+                <Button
+                    type="submit"
+                    className={type === "big" ? "mt-0 h-12" : "h-9"}
+                    disabled={showLoading}
+                >
                     <span className={type === "big" ? "hidden sm:inline text-lg" : "hidden"}>
                         {t("search.bar.button")}
                     </span>
-                    <Search />
+                    {showLoading ? <Loader2 className="animate-spin" /> : <Search />}
                 </Button>
             </form>
         </Form>

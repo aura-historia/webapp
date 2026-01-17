@@ -14,6 +14,7 @@ import { type Authenticity, parseAuthenticity } from "@/data/internal/Authentici
 import { type Condition, parseCondition } from "@/data/internal/Condition.ts";
 import { type Provenance, parseProvenance } from "@/data/internal/Provenance.ts";
 import { type Restoration, parseRestoration } from "@/data/internal/Restoration.ts";
+import { mapToInternalProductImage, type ProductImage } from "@/data/internal/ProductImageData.ts";
 
 export type OverviewProduct = {
     readonly productId: string;
@@ -26,7 +27,7 @@ export type OverviewProduct = {
     readonly price?: string;
     readonly state: ProductState;
     readonly url: URL | null;
-    readonly images: readonly URL[];
+    readonly images: readonly ProductImage[];
     readonly created: Date;
     readonly updated: Date;
     readonly userData?: UserProductData;
@@ -60,8 +61,8 @@ function mapProductDataToOverviewProduct(
             productData.images == null
                 ? []
                 : productData.images
-                      .filter((url) => URL.canParse(url))
-                      .map((url): URL => new URL(url)),
+                      .map(mapToInternalProductImage)
+                      .filter((image) => image !== undefined),
         created: new Date(productData.created),
         updated: new Date(productData.updated),
         userData: userData ? mapToInternalUserProductData(userData) : undefined,

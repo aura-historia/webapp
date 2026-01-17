@@ -9,8 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ImprintRouteImport } from './routes/imprint'
 import { Route as AuthRouteImport } from './routes/_auth'
@@ -19,14 +19,14 @@ import { Route as AuthWatchlistRouteImport } from './routes/_auth.watchlist'
 import { Route as AuthAccountRouteImport } from './routes/_auth.account'
 import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
 
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -69,8 +69,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
-  '/terms': typeof TermsRoute
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
@@ -79,8 +79,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
-  '/terms': typeof TermsRoute
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
@@ -91,8 +91,8 @@ export interface FileRoutesById {
   '/_auth': typeof AuthRouteWithChildren
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
-  '/terms': typeof TermsRoute
   '/_auth/account': typeof AuthAccountRoute
   '/_auth/watchlist': typeof AuthWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
@@ -103,8 +103,8 @@ export interface FileRouteTypes {
     | '/'
     | '/imprint'
     | '/login'
+    | '/privacy'
     | '/search'
-    | '/terms'
     | '/account'
     | '/watchlist'
     | '/product/$shopId/$shopsProductId'
@@ -113,8 +113,8 @@ export interface FileRouteTypes {
     | '/'
     | '/imprint'
     | '/login'
+    | '/privacy'
     | '/search'
-    | '/terms'
     | '/account'
     | '/watchlist'
     | '/product/$shopId/$shopsProductId'
@@ -124,8 +124,8 @@ export interface FileRouteTypes {
     | '/_auth'
     | '/imprint'
     | '/login'
+    | '/privacy'
     | '/search'
-    | '/terms'
     | '/_auth/account'
     | '/_auth/watchlist'
     | '/product/$shopId/$shopsProductId'
@@ -136,25 +136,25 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   ImprintRoute: typeof ImprintRoute
   LoginRoute: typeof LoginRoute
+  PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
-  TermsRoute: typeof TermsRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/search': {
       id: '/search'
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -226,8 +226,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   ImprintRoute: ImprintRoute,
   LoginRoute: LoginRoute,
+  PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
-  TermsRoute: TermsRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
 }
 export const routeTree = rootRouteImport

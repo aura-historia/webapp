@@ -2,12 +2,12 @@ import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import { screen } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
-import { useSearch } from "@/hooks/useSearch.ts";
+import { useSearch } from "@/hooks/search/useSearch.ts";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
 import type React from "react";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 
-vi.mock("@/hooks/useSearch.ts", () => ({
+vi.mock("@/hooks/search/useSearch.ts", () => ({
     useSearch: vi.fn(),
 }));
 
@@ -20,6 +20,14 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
         ),
     };
 });
+
+vi.mock("@/components/product/buttons/NotificationButton", () => ({
+    NotificationButton: () => (
+        <button type="button" data-testid="notification-button">
+            Notification
+        </button>
+    ),
+}));
 
 vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: vi.fn(), inView: false }),

@@ -34,7 +34,7 @@ describe("ProductDetailPage", () => {
         price: "99€",
         state: "AVAILABLE",
         url: new URL("https://example.com"),
-        images: [new URL("https://example.com/image.jpg")],
+        images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
         created: new Date(),
         updated: new Date(),
         history: [],

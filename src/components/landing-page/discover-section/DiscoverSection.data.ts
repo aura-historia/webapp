@@ -1,4 +1,4 @@
-import { BarChart, Eye, Store } from "lucide-react";
+import { Eye, Languages, Store } from "lucide-react";
 
 export const DISCOVER_HIGHLIGHTS = [
     {
@@ -14,7 +14,7 @@ export const DISCOVER_HIGHLIGHTS = [
     {
         titleKey: "discover.highlight3.title",
         descKey: "discover.highlight3.description",
-        icon: BarChart,
+        icon: Languages,
     },
 ];
 

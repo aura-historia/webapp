@@ -35,7 +35,7 @@ describe("ProductInfo", () => {
         price: "99,99 €",
         state: "AVAILABLE",
         url: new URL("https://example.com"),
-        images: [new URL("https://example.com/image.jpg")],
+        images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
         created: new Date(),
         updated: new Date(),
         originYear: undefined,

@@ -20,7 +20,7 @@ describe("OverviewProduct mappers", () => {
                     price: { amount: 1099, currency: "USD" },
                     state: "AVAILABLE",
                     url: "https://example.com/item",
-                    images: ["https://example.com/image1.jpg"],
+                    images: [{ url: "https://example.com/image1.jpg", prohibitedContent: "NONE" }],
                     created: "2023-01-01T00:00:00Z",
                     updated: "2023-01-02T00:00:00Z",
                 },
@@ -38,7 +38,7 @@ describe("OverviewProduct mappers", () => {
             expect(result.price).toBe("$10.99");
             expect(result.state).toBe("AVAILABLE");
             expect(result.url?.href).toBe("https://example.com/item");
-            expect(result.images[0].href).toEqual("https://example.com/image1.jpg");
+            expect(result.images[0].url.href).toEqual("https://example.com/image1.jpg");
             expect(result.created.getTime()).toBe(new Date("2023-01-01T00:00:00Z").getTime());
             expect(result.updated.getTime()).toBe(new Date("2023-01-02T00:00:00Z").getTime());
         });
@@ -81,7 +81,7 @@ describe("OverviewProduct mappers", () => {
                     price: { amount: 5000, currency: "USD" },
                     state: "SOLD",
                     url: "https://example.com/item",
-                    images: ["invalid-url"],
+                    images: [{ url: "invalid-url", prohibitedContent: "NONE" }],
                     created: "2023-01-01T00:00:00Z",
                     updated: "2023-01-02T00:00:00Z",
                 },
@@ -131,7 +131,7 @@ describe("OverviewProduct mappers", () => {
                     price: { amount: 2500, currency: "EUR" },
                     state: "AVAILABLE",
                     url: "https://example.com/watchlist-item",
-                    images: ["https://example.com/image1.jpg"],
+                    images: [{ url: "https://example.com/image1.jpg", prohibitedContent: "NONE" }],
                     created: "2023-01-01T00:00:00Z",
                     updated: "2023-01-02T00:00:00Z",
                 },

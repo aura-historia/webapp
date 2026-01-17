@@ -9,7 +9,7 @@ import { SearchX } from "lucide-react";
 import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
 import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
-import { useSearch } from "@/hooks/useSearch.ts";
+import { useSearch } from "@/hooks/search/useSearch.ts";
 import Lottie from "lottie-react";
 import tick from "@/assets/lottie/tick.json";
 import { Spinner } from "@/components/ui/spinner.tsx";

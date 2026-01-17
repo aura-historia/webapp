@@ -2,8 +2,9 @@ import { CreationDateSpanFilter } from "@/components/search/filters/CreationDate
 import { FormProvider, useForm } from "react-hook-form";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
-vi.mock("@/hooks/useFilterNavigation", () => ({
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("@/hooks/search/useFilterNavigation", () => ({
     useFilterNavigation: () => vi.fn(),
 }));
 // Wrapper component to provide form context for tests
