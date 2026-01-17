@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { FilterX } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
-import { MultiSelect, type MultiSelectOption } from "@/components/ui/mutli-select.tsx";
+import { MultiSelect, type MultiSelectOption } from "@/components/ui/multi-select.tsx";
 import { useMutation } from "@tanstack/react-query";
 import { searchShopsMutation } from "@/client/@tanstack/react-query.gen.ts";
 import { useState, useCallback, useMemo } from "react";

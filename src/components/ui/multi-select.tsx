@@ -68,10 +68,14 @@ export function MultiSelect({
 
     return (
         <Command onKeyDown={handleKeyDown} className="overflow-visible bg-transparent">
-            <div className="group border bg-background border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-                <div className="flex gap-1 flex-wrap">
+            {/* Selected items displayed above the search input */}
+            {value.length > 0 && (
+                <div className="flex gap-1 flex-wrap mb-2">
                     {value.map((option) => (
-                        <Badge key={option.value} variant="outline">
+                        <Badge
+                            key={option.value}
+                            className="bg-background text-foreground border-muted-foreground/20"
+                        >
                             {option.label}
                             <button
                                 type="button"
@@ -91,6 +95,11 @@ export function MultiSelect({
                             </button>
                         </Badge>
                     ))}
+                </div>
+            )}
+            {/* Search input */}
+            <div className="group border bg-background border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+                <div className="flex gap-2 items-center">
                     {/* Avoid having the "Search" Icon */}
                     <CommandPrimitive.Input
                         ref={inputRef}
@@ -99,7 +108,7 @@ export function MultiSelect({
                         onBlur={() => setOpen(false)}
                         onFocus={() => setOpen(true)}
                         placeholder={placeholder}
-                        className="ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
+                        className="flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
                     />
                     {isLoading && (
                         <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
