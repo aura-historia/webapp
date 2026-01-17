@@ -62,7 +62,7 @@ export type SearchFilterData = {
         from?: Date;
         to?: Date;
     };
-    merchant?: string;
+    merchant?: string[];
 };
 
 export type SearchUrlParams = {
@@ -74,7 +74,7 @@ export type SearchUrlParams = {
     creationDateTo?: string;
     updateDateFrom?: string;
     updateDateTo?: string;
-    merchant?: string;
+    merchant?: string[];
 };
 
 /**

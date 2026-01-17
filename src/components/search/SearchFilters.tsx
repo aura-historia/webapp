@@ -39,10 +39,10 @@ const createFilterSchema = (t: TFunction) =>
                 to: z.date().optional(),
             }),
             merchant: z
-                .string()
-                .min(3, { error: t("search.validation.merchantMinLength") })
+                .array(z.string())
+                .min(1, { error: t("search.validation.merchantMinLength") })
                 .optional()
-                .or(z.string().max(0)),
+                .or(z.array(z.string()).max(0)),
         })
         .superRefine((data, ctx) => {
             if (

@@ -27,7 +27,7 @@ export const Route = createFileRoute("/search")({
             creationDateTo?: string;
             updateDateFrom?: string;
             updateDateTo?: string;
-            merchant?: string;
+            merchant?: string[];
             sortField?: string;
             sortOrder?: string;
         } & SearchSchemaInput,
@@ -84,7 +84,7 @@ export const Route = createFileRoute("/search")({
             creationDateTo: toCreationDate,
             updateDateFrom: fromUpdateDate,
             updateDateTo: toUpdateDate,
-            merchant: (search.merchant?.trim() as string) || undefined,
+            merchant: Array.isArray(search.merchant) ? search.merchant : undefined,
             sortField: sortField,
             sortOrder: sortOrder,
         };
