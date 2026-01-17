@@ -1,6 +1,7 @@
 import type { CurrencyData } from "@/client";
 
-export type Currency = "EUR" | "GBP" | "USD" | "AUD" | "CAD" | "NZD";
+export const CURRENCIES = ["EUR", "GBP", "USD", "AUD", "CAD", "NZD"] as const;
+export type Currency = (typeof CURRENCIES)[number]; // Create something like that: "EUR" | "GBP" | "USD" | ....
 
 export function parseCurrency(currency?: string): Currency {
     const uppercasedCurrency = currency?.toUpperCase() ?? "EUR";
