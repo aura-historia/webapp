@@ -1,6 +1,6 @@
 import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import { render, screen } from "@testing-library/react";
-import { ProductSimilarCard } from "../../detail/ProductSimilarCard.tsx";
+import { ProductSimilarCard } from "../ProductSimilarCard.tsx";
 import { vi } from "vitest";
 import type React from "react";
 
@@ -21,6 +21,7 @@ describe("ProductSimilarCard", () => {
         shopId: "shop-123",
         shopsProductId: "item-456",
         shopName: "Test Shop",
+        shopType: "AUCTION_HOUSE",
         title: "Test Product Title",
         description: "Test Description",
         price: "99,99 €",

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/timeline.tsx";
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { PriceBadge } from "@/components/product/badges/PriceBadge.tsx";
-import { formatDate, formatTime, formatPrice, formatStateName } from "@/lib/utils.ts";
+import { formatDate, formatTime, formatStateName } from "@/lib/utils.ts";
 import {
     isCreatedEvent,
     isPriceChangedEvent,
@@ -17,6 +17,7 @@ import {
     isStateChangedEvent,
 } from "@/lib/eventFilters.ts";
 import { useTranslation } from "react-i18next";
+import { formatPrice } from "@/data/internal/Price.ts";
 
 interface ProductEventHistoryProps {
     readonly event: ProductEvent;

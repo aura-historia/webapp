@@ -156,6 +156,13 @@
         "created": "Añadido al sistema"
       }
     },
+    "priceEstimate": {
+      "tooltip": "Estimación de precio de {{shopType}}",
+      "tooltipUnknown": "Estimación de precio",
+      "minOnly": "Mín. {{min}}",
+      "maxOnly": "Máx. {{max}}",
+      "range": "{{min}} - {{max}}"
+    },
     "priceChart": {
       "title": "Historial de precios",
       "noData": "No hay datos de precios disponibles para este artículo.",
@@ -251,6 +258,12 @@
     "reserved": "Reservado",
     "sold": "Vendido",
     "removed": "Eliminado",
+    "unknown": "Desconocido"
+  },
+  "shopType": {
+    "auctionHouse": "Casa de subastas",
+    "commercialDealer": "Vendedor",
+    "marketplace": "Mercado",
     "unknown": "Desconocido"
   },
   "discover": {

@@ -224,6 +224,13 @@
         "created": "Added to system"
       }
     },
+    "priceEstimate": {
+      "tooltip": "Price estimate from {{shopType}}",
+      "tooltipUnknown": "Price estimate",
+      "minOnly": "Min. {{min}}",
+      "maxOnly": "Max. {{max}}",
+      "range": "{{min}} - {{max}}"
+    },
     "priceChart": {
       "title": "Price History",
       "noData": "No price data available for this item.",
@@ -251,6 +258,12 @@
     "reserved": "Reserved",
     "sold": "Sold",
     "removed": "Removed",
+    "unknown": "Unknown"
+  },
+  "shopType": {
+    "auctionHouse": "Auction House",
+    "commercialDealer": "Dealer",
+    "marketplace": "Marketplace",
     "unknown": "Unknown"
   },
   "discover": {
