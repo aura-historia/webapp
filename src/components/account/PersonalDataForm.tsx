@@ -26,6 +26,8 @@ import { useUserAccount } from "@/hooks/useUserAccount";
 import { useUpdateUserAccount } from "@/hooks/usePatchUserAccount";
 import { getAccountEditSchema, type AccountEditFormData } from "@/utils/nameValidation";
 import { PersonalDataFormSkeleton } from "@/components/account/PersonalDataFormSkeleton";
+import { LANGUAGES } from "@/data/internal/Language.ts";
+import { CURRENCIES } from "@/data/internal/Currency.ts";
 
 export function PersonalDataForm() {
     const { t } = useTranslation();
@@ -104,10 +106,11 @@ export function PersonalDataForm() {
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    <SelectItem value="de">{t("auth.languages.de")}</SelectItem>
-                                    <SelectItem value="en">{t("auth.languages.en")}</SelectItem>
-                                    <SelectItem value="fr">{t("auth.languages.fr")}</SelectItem>
-                                    <SelectItem value="es">{t("auth.languages.es")}</SelectItem>
+                                    {LANGUAGES.map((lang) => (
+                                        <SelectItem key={lang} value={lang}>
+                                            {t(`auth.languages.${lang}`)}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                             <FormMessage />
@@ -132,12 +135,11 @@ export function PersonalDataForm() {
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    <SelectItem value="EUR">{t("auth.currencies.EUR")}</SelectItem>
-                                    <SelectItem value="GBP">{t("auth.currencies.GBP")}</SelectItem>
-                                    <SelectItem value="USD">{t("auth.currencies.USD")}</SelectItem>
-                                    <SelectItem value="AUD">{t("auth.currencies.AUD")}</SelectItem>
-                                    <SelectItem value="CAD">{t("auth.currencies.CAD")}</SelectItem>
-                                    <SelectItem value="NZD">{t("auth.currencies.NZD")}</SelectItem>
+                                    {CURRENCIES.map((curr) => (
+                                        <SelectItem key={curr} value={curr}>
+                                            {t(`auth.currencies.${curr}`)}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                             <FormMessage />

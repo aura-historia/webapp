@@ -1,5 +1,7 @@
 import { z } from "zod";
 import type { TFunction } from "i18next";
+import { LANGUAGES } from "@/data/internal/Language.ts";
+import { CURRENCIES } from "@/data/internal/Currency.ts";
 
 type NameFormData = {
     firstName?: string;
@@ -46,8 +48,8 @@ export function getAccountEditSchema(t: TFunction) {
     return z.object({
         firstName: nameSchema,
         lastName: nameSchema,
-        language: z.enum(["de", "en", "fr", "es"]).optional(),
-        currency: z.enum(["EUR", "GBP", "USD", "AUD", "CAD", "NZD"]).optional(),
+        language: z.enum(LANGUAGES).optional(),
+        currency: z.enum(CURRENCIES).optional(),
     });
 }
 
