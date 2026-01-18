@@ -159,3 +159,15 @@ export function formatStateName(state: ProductState, t: TFunction): string {
             return `'${t("productState.unknown")}'`;
     }
 }
+
+export function handleCheckedChange(
+    field: { value: string[]; onChange: (value: string[]) => void },
+    state: string,
+    isChecked: CheckedState,
+): void {
+    if (isChecked) {
+        field.onChange([...field.value, state]);
+    } else {
+        field.onChange(field.value?.filter((value) => value !== state));
+    }
+}
