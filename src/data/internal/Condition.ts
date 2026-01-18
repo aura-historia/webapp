@@ -1,7 +1,7 @@
 import type { ConditionData } from "@/client";
 
-export type Condition = "EXCELLENT" | "GREAT" | "GOOD" | "FAIR" | "POOR" | "UNKNOWN";
-
+export const CONDITIONS = ["EXCELLENT", "GREAT", "GOOD", "FAIR", "POOR", "UNKNOWN"] as const;
+export type Condition = (typeof CONDITIONS)[number];
 export const CONDITION_TRANSLATION_CONFIG = {
     EXCELLENT: {
         translationKey: "product.qualityIndicators.condition.excellent",
