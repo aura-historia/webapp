@@ -225,7 +225,7 @@ code {
 
 /* Submit Button */
 .amplify-passwordfield ~ button[type="submit"] {
-    @apply bg-primary text-primary-foreground rounded-md w-1/2 hover:bg-primary/90;
+    @apply bg-primary text-primary-foreground rounded-md hover:bg-primary/90 w-full font-medium border-0;
     margin-left: auto;
     margin-right: auto;
     margin-top: 16px;
@@ -238,7 +238,7 @@ code {
 
 /* Warning Button */
 .amplify-button.amplify-button--warning {
-    @apply bg-destructive text-white rounded-md w-1/2;
+    @apply bg-destructive text-white rounded-md w-full font-medium;
     margin-left: auto;
     margin-right: auto;
     margin-top: 16px;
