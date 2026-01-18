@@ -110,9 +110,6 @@ export function MultiSelect({
                         placeholder={placeholder}
                         className="flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
                     />
-                    {isLoading && (
-                        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-                    )}
                 </div>
             </div>
             <div className="relative mt-2">

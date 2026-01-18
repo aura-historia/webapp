@@ -23,7 +23,7 @@ export function MerchantFilter() {
     const { mutate: searchShops, data: shopsData, isPending } = useMutation(searchShopsMutation());
 
     const debouncedSearch = useDebouncedCallback((query: string) => {
-        if (query.length >= 3) {
+        if (query.length > 0) {
             searchShops({
                 body: { shopNameQuery: query },
                 query: { size: 20 },
