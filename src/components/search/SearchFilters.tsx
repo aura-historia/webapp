@@ -17,6 +17,11 @@ import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { FILTER_DEFAULTS, MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 import { useSearchQueryContext } from "@/hooks/search/useSearchQueryContext.tsx";
 import { toast } from "sonner";
+import { RESTORATIONS } from "@/data/internal/Restoration";
+import { PROVENANCES } from "@/data/internal/Provenance.ts";
+import { CONDITIONS } from "@/data/internal/Condition.ts";
+import { AUTHENTICITIES } from "@/data/internal/Authenticity.ts";
+import { PRODUCT_STATES } from "@/data/internal/ProductState.ts";
 
 const createFilterSchema = (t: TFunction) =>
     z
@@ -27,9 +32,7 @@ const createFilterSchema = (t: TFunction) =>
                     max: z.number().min(0).optional().or(z.undefined()),
                 })
                 .optional(),
-            productState: z.array(
-                z.enum(["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"]),
-            ),
+            productState: z.array(z.enum(PRODUCT_STATES)),
             creationDate: z.object({
                 from: z.date().optional(),
                 to: z.date().optional(),
@@ -43,6 +46,16 @@ const createFilterSchema = (t: TFunction) =>
                 .min(3, { error: t("search.validation.merchantMinLength") })
                 .optional()
                 .or(z.string().max(0)),
+            originYearSpan: z
+                .object({
+                    min: z.number().optional().or(z.undefined()),
+                    max: z.number().optional().or(z.undefined()),
+                })
+                .optional(),
+            authenticity: z.array(z.enum(AUTHENTICITIES)),
+            condition: z.array(z.enum(CONDITIONS)),
+            provenance: z.array(z.enum(PROVENANCES)),
+            restoration: z.array(z.enum(RESTORATIONS)),
         })
         .superRefine((data, ctx) => {
             if (
@@ -67,6 +80,17 @@ const createFilterSchema = (t: TFunction) =>
                     path: ["updateDate", "to"],
                 });
             }
+            if (
+                data.originYearSpan?.min &&
+                data.originYearSpan?.max &&
+                data.originYearSpan.min > data.originYearSpan.max
+            ) {
+                ctx.addIssue({
+                    code: "custom",
+                    message: t("search.validation.dateOrder"),
+                    path: ["originYearSpan", "max"],
+                });
+            }
         });
 
 export type FilterSchema = z.infer<ReturnType<typeof createFilterSchema>>;
@@ -81,10 +105,6 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
     const { t } = useTranslation();
     const { getQuery } = useSearchQueryContext();
 
-    /**
-     * Gets the effective search query to use.
-     * Returns the current typed query if valid, otherwise falls back to URL param.
-     */
     const getEffectiveQuery = useCallback((): string => {
         const currentQuery = getQuery()?.trim();
 
@@ -104,7 +124,6 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         mode: "onSubmit",
     });
 
-    // Set initial values from search filters after form is created
     useEffect(() => {
         if (searchFilters.priceFrom !== undefined) {
             form.setValue("priceSpan.min", searchFilters.priceFrom, { shouldDirty: false });
@@ -138,6 +157,28 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         if (searchFilters.allowedStates) {
             form.setValue("productState", searchFilters.allowedStates, { shouldDirty: false });
         }
+        if (searchFilters.originYearMin !== undefined) {
+            form.setValue("originYearSpan.min", searchFilters.originYearMin, {
+                shouldDirty: false,
+            });
+        }
+        if (searchFilters.originYearMax !== undefined) {
+            form.setValue("originYearSpan.max", searchFilters.originYearMax, {
+                shouldDirty: false,
+            });
+        }
+        if (searchFilters.authenticity) {
+            form.setValue("authenticity", searchFilters.authenticity, { shouldDirty: false });
+        }
+        if (searchFilters.condition) {
+            form.setValue("condition", searchFilters.condition, { shouldDirty: false });
+        }
+        if (searchFilters.provenance) {
+            form.setValue("provenance", searchFilters.provenance, { shouldDirty: false });
+        }
+        if (searchFilters.restoration) {
+            form.setValue("restoration", searchFilters.restoration, { shouldDirty: false });
+        }
     }, [
         searchFilters.priceFrom,
         searchFilters.priceTo,
@@ -147,6 +188,12 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         searchFilters.updateDateTo,
         searchFilters.merchant,
         searchFilters.allowedStates,
+        searchFilters.originYearMin,
+        searchFilters.originYearMax,
+        searchFilters.authenticity,
+        searchFilters.condition,
+        searchFilters.provenance,
+        searchFilters.restoration,
         form,
     ]);
 
@@ -161,12 +208,18 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                     creationDate: data.creationDate,
                     updateDate: data.updateDate,
                     merchant: data.merchant,
+                    originYearSpan: data.originYearSpan,
+                    authenticity: data.authenticity,
+                    condition: data.condition,
+                    provenance: data.provenance,
+                    restoration: data.restoration,
                 }),
             });
             onFiltersApplied?.();
         },
         [navigate, onFiltersApplied, getEffectiveQuery],
     );
+
     const handleResetAll = useCallback(() => {
         form.reset(FILTER_DEFAULTS);
         navigate({
@@ -177,6 +230,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         });
         onFiltersApplied?.();
     }, [form, navigate, onFiltersApplied, getEffectiveQuery]);
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

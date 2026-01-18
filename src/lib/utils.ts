@@ -10,6 +10,11 @@ import {
 } from "@/lib/eventFilters.ts";
 import type { ProductState } from "@/data/internal/ProductState.ts";
 import type { TFunction } from "i18next";
+import type { Authenticity } from "@/data/internal/Authenticity.ts";
+import type { Condition } from "@/data/internal/Condition.ts";
+import type { Provenance } from "@/data/internal/Provenance.ts";
+import type { Restoration } from "@/data/internal/Restoration.ts";
+import type { CheckedState } from "@radix-ui/react-checkbox";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -63,6 +68,14 @@ export type SearchFilterData = {
         to?: Date;
     };
     merchant?: string;
+    originYearSpan?: {
+        min?: number;
+        max?: number;
+    };
+    authenticity?: Authenticity[];
+    condition?: Condition[];
+    provenance?: Provenance[];
+    restoration?: Restoration[];
 };
 
 export type SearchUrlParams = {
@@ -75,6 +88,12 @@ export type SearchUrlParams = {
     updateDateFrom?: string;
     updateDateTo?: string;
     merchant?: string;
+    originYearMin?: number;
+    originYearMax?: number;
+    authenticity?: Authenticity[];
+    condition?: Condition[];
+    provenance?: Provenance[];
+    restoration?: Restoration[];
 };
 
 /**
@@ -98,6 +117,13 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
             : undefined,
         updateDateTo: data.updateDate?.to ? formatToDateString(data.updateDate.to) : undefined,
         merchant: data.merchant ? data.merchant : undefined,
+        originYearMin: data.originYearSpan?.min,
+        originYearMax: data.originYearSpan?.max,
+        authenticity:
+            data.authenticity && data.authenticity.length > 0 ? data.authenticity : undefined,
+        condition: data.condition && data.condition.length > 0 ? data.condition : undefined,
+        provenance: data.provenance && data.provenance.length > 0 ? data.provenance : undefined,
+        restoration: data.restoration && data.restoration.length > 0 ? data.restoration : undefined,
     };
 }
 
