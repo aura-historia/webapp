@@ -81,7 +81,6 @@
     "applyFilters": "Filter anwenden",
     "validation": {
       "queryMinLength": "Bitte geben Sie mindestens 3 Zeichen ein",
-      "merchantMinLength": "Bitte geben Sie mindestens 3 Zeichen ein",
       "dateOrder": "Startdatum muss vor dem Enddatum liegen"
     },
     "filter": {
