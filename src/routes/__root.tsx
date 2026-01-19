@@ -6,9 +6,9 @@ import {
     useMatches,
     Link,
 } from "@tanstack/react-router";
+import appCss from "../styles.css?url";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
-import appCss from "../styles.css?url";
 import { Footer } from "@/components/common/Footer.tsx";
 import { Header } from "@/components/common/Header.tsx";
 import { NavigationProgress } from "@/components/common/NavigationProgress.tsx";

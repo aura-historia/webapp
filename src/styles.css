@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
+@import "@fontsource-variable/geist/index.css";
 
 @import "tailwindcss";
 
@@ -8,7 +8,7 @@
 
 body {
     @apply m-0;
-    font-family: "Geist", sans-serif;
+    font-family: "Geist Variable", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
