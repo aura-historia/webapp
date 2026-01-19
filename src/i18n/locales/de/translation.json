@@ -285,7 +285,7 @@
   },
   "discover": {
     "title": "Wir bringen Transparenz in die undurchsichtige Welt der Online-Antiquitäten",
-    "p1": "Aura Historia durchsucht täglich das unübersichtliche Angebot tausender verstreuter Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit und bündelt deren Artikel zentral an einem Ort.",
+    "p1": "Wir durchsuchen täglich das unübersichtliche Angebot tausender verstreuter Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit und bündeln deren Artikel zentral an einem Ort.",
     "p2": "Wir erfassen nicht nur aktuelle und neu aufgetauchte Anitquitäten, sondern verfolgen auch Preisänderungen und Verfügbarkeiten. So verpassen Sie nie wieder ein Schnäppchen und behalten den Markt stets im Blick.",
     "highlight1": {
       "title": "Über 500 Händler, Auktionshäuser und Marktplätze",
@@ -314,13 +314,13 @@
     "badge": "Die führende Plattform für alle, die nach ganz bestimmten Antiquitäten suchen",
     "titleFirstLine": "Hören Sie auf, Zeit bei der Suche nach Antiquitäten zu verschwenden",
     "titleSecondLine": "Der zentrale Ort, um Antiquitäten zu finden",
-    "subtitle": "Aura Historia durchsucht das gesamte Web nach Antiquitäten und macht sie in einer spezialisierten Suche verfügbar. Wir durchsuchen Antiquitätengeschäfte und Auktionshäuser, die nicht einmal Sie kennen.",
+    "subtitle": "Wir durchsuchen das gesamte Web nach Antiquitäten und macht sie in einer spezialisierten Suche verfügbar. Dabei decken wir Antiquitätengeschäfte und Auktionshäuser ab, die nicht einmal Sie kennen.",
     "trustBadge1": "Von Antiquitätensammlern",
     "trustBadge2": "Für ernsthafte Sammler und Händler",
     "trustBadge3": "Nahezu Echtzeit",
     "features": {
       "title": "Antiquitäten sind überall im Internet verstreut - Ihre Suche sollte es nicht sein",
-      "subtitle": "Aura Historia ist die fortgeschrittenste Suchmaschine für Antiquitäten und bietet Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen.",
+      "subtitle": "Wir sind die fortgeschrittenste Suchmaschine für Antiquitäten und bieten Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen.",
       "previewBadge": "Bald verfügbar",
       "search": {
         "title": "Intelligente Suche",
@@ -377,7 +377,7 @@
     },
     "testimonials": {
       "title": "Das sagen unsere Nutzer",
-      "subtitle": "Erfahren Sie, wie Aura Historia Sammlern dabei hilft, ihre Leidenschaft zu leben.",
+      "subtitle": "Erfahren Sie, wie wir Sammlern dabei helfen, ihre Leidenschaft zu leben.",
       "testimonial1": {
         "name": "Margarete W.",
         "role": "Sammelt Jugendstil-Möbel",
@@ -407,15 +407,15 @@
     },
     "faq": {
       "title": "Häufig gestellte Fragen",
-      "subtitle": "Hier finden Sie Antworten auf die wichtigsten Fragen rund um Aura Historia.",
+      "subtitle": "Hier finden Sie Antworten auf die wichtigsten Fragen.",
       "items": {
         "howItWorks": {
           "question": "Wie funktioniert Aura Historia?",
-          "answer": "Aura Historia durchsucht kontinuierlich die Webseiten von über 500 Antiquitätenhändlern, Auktionshäusern und Marktplätzen weltweit und sammelt alle Angebote an einem zentralen Ort. Unsere intelligente Suche ermöglicht es Ihnen, genau das zu finden, was Sie suchen."
+          "answer": "Wir durchsuchen kontinuierlich die Webseiten von über 500 Antiquitätenhändlern, Auktionshäusern und Marktplätzen weltweit und sammeln alle Angebote an einem zentralen Ort. Unsere intelligente Suche ermöglicht es Ihnen, genau das zu finden, was Sie suchen."
         },
         "directPurchase": {
           "question": "Kann ich direkt über Aura Historia Antiquitäten kaufen?",
-          "answer": "Nein, Aura Historia ist eine reine Suchplattform. Wenn Sie einen Artikel kaufen möchten, werden Sie direkt zur Website des jeweiligen Händlers weitergeleitet, wo Sie den Kauf abschließen können."
+          "answer": "Nein, wir sind eine reine Suchplattform. Wenn Sie einen Artikel kaufen möchten, werden Sie direkt zur Website des jeweiligen Händlers weitergeleitet, wo Sie den Kauf abschließen können."
         },
         "priceAlerts": {
           "question": "Wie funktionieren die Preis- und Verfügbarkeits-Benachrichtigungen?",
