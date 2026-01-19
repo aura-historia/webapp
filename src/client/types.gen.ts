@@ -453,9 +453,12 @@ export type ProductSearchData = {
      */
     productQuery: string;
     /**
-     * Optional text query for filtering by shop name
+     * Optional filter by exact shop names (keyword matching).
+     * Filters products to only those from shops with names exactly matching one of the provided values.
+     * This is an exact match filter, not a fuzzy text search.
+     *
      */
-    shopNameQuery?: string | null;
+    shopName?: Array<string>;
     /**
      * Optional filter by shop types
      */
@@ -560,9 +563,12 @@ export type PatchProductSearchData = {
      */
     productQuery?: string | null;
     /**
-     * Optional text query for filtering by shop name (minimum 3 characters when provided)
+     * Optional filter by exact shop names (keyword matching).
+     * Filters products to only those from shops with names exactly matching one of the provided values.
+     * This is an exact match filter, not a fuzzy text search.
+     *
      */
-    shopNameQuery?: string | null;
+    shopName?: Array<string> | null;
     /**
      * Optional filter by shop types
      */
