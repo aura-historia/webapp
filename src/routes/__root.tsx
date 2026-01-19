@@ -7,6 +7,7 @@ import {
     Link,
 } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
+import geistFontUrl from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import { Footer } from "@/components/common/Footer.tsx";
@@ -72,6 +73,13 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 {
                     rel: "stylesheet",
                     href: appCss,
+                },
+                {
+                    rel: "preload",
+                    href: geistFontUrl,
+                    as: "font",
+                    type: "font/woff2",
+                    crossOrigin: "anonymous",
                 },
             ],
         };
