@@ -1,7 +1,7 @@
 import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ProductSimilar } from "../../detail/ProductSimilar.tsx";
+import { ProductSimilar } from "../ProductSimilar.tsx";
 import { vi } from "vitest";
 import type React from "react";
 
@@ -57,6 +57,7 @@ describe("ProductSimilar", () => {
             shopId: "shop1",
             shopsProductId: "item1",
             shopName: "Shop 1",
+            shopType: "AUCTION_HOUSE",
             title: "Similar Product 1",
             description: "Description 1",
             price: "50€",
@@ -81,6 +82,7 @@ describe("ProductSimilar", () => {
             shopId: "shop2",
             shopsProductId: "item2",
             shopName: "Shop 2",
+            shopType: "AUCTION_HOUSE",
             title: "Similar Product 2",
             description: "Description 2",
             price: "75€",
@@ -105,6 +107,7 @@ describe("ProductSimilar", () => {
             shopId: "shop3",
             shopsProductId: "item3",
             shopName: "Shop 3",
+            shopType: "AUCTION_HOUSE",
             title: "Similar Product 3",
             description: "Description 3",
             price: undefined,

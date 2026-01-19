@@ -1,6 +1,7 @@
 import type { LanguageData } from "@/client";
 
-export type Language = "de" | "en" | "fr" | "es";
+export const LANGUAGES = ["de", "en", "fr", "es"] as const;
+export type Language = (typeof LANGUAGES)[number]; // Create something like that: "de" | "en" | ....
 
 export function parseLanguage(language?: string): Language {
     const lowercasedLanguage = language?.toLowerCase() ?? "en";

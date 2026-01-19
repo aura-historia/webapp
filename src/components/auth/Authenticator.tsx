@@ -16,8 +16,8 @@ import {
     registrationStore,
     setUserAuthenticated,
 } from "@/stores/registrationStore";
-import { parseLanguage } from "@/data/internal/Language.ts";
-import { parseCurrency } from "@/data/internal/Currency.ts";
+import { parseLanguage, LANGUAGES } from "@/data/internal/Language.ts";
+import { parseCurrency, CURRENCIES } from "@/data/internal/Currency.ts";
 import { validateCognitoNameFields } from "@/utils/nameValidation";
 import { useEffect } from "react";
 
@@ -135,20 +135,20 @@ function FormFields() {
             <Grid templateColumns={{ base: "1fr", medium: "1fr 1fr" }} gap={tokens.space.medium}>
                 <SelectField name="language" label={t("auth.signUp.language")}>
                     <option value="">{t("auth.signUp.pleaseSelect")}</option>
-                    <option value="de">{t("auth.languages.de")}</option>
-                    <option value="en">{t("auth.languages.en")}</option>
-                    <option value="fr">{t("auth.languages.fr")}</option>
-                    <option value="es">{t("auth.languages.es")}</option>
+                    {LANGUAGES.map((lang) => (
+                        <option key={lang} value={lang}>
+                            {t(`auth.languages.${lang}`)}
+                        </option>
+                    ))}
                 </SelectField>
 
                 <SelectField name="currency" label={t("auth.signUp.currency")}>
                     <option value="">{t("auth.signUp.pleaseSelect")}</option>
-                    <option value="EUR">{t("auth.currencies.EUR")}</option>
-                    <option value="GBP">{t("auth.currencies.GBP")}</option>
-                    <option value="USD">{t("auth.currencies.USD")}</option>
-                    <option value="AUD">{t("auth.currencies.AUD")}</option>
-                    <option value="CAD">{t("auth.currencies.CAD")}</option>
-                    <option value="NZD">{t("auth.currencies.NZD")}</option>
+                    {CURRENCIES.map((curr) => (
+                        <option key={curr} value={curr}>
+                            {t(`auth.currencies.${curr}`)}
+                        </option>
+                    ))}
                 </SelectField>
             </Grid>
 

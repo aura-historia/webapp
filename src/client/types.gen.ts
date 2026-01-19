@@ -28,6 +28,7 @@ export type GetProductData = {
      * Display name of the shop
      */
     shopName: string;
+    shopType: ShopTypeData;
     title: LocalizedTextData;
     /**
      * Optional product description
@@ -37,6 +38,14 @@ export type GetProductData = {
      * Optional product price
      */
     price?: PriceData | null;
+    /**
+     * Optional minimum estimated price for the product
+     */
+    priceEstimateMin?: PriceData | null;
+    /**
+     * Optional maximum estimated price for the product
+     */
+    priceEstimateMax?: PriceData | null;
     state: ProductStateData;
     /**
      * URL to the product on the shop's website
@@ -82,6 +91,20 @@ export type GetProductData = {
      * Level of restoration work performed on the antique product
      */
     restoration?: RestorationData | null;
+    /**
+     * Start datetime of the auction window for this product (RFC3339 format).
+     * Only present for products from auction houses with scheduled auction times.
+     * Used to indicate when bidding begins or when the item will be auctioned.
+     *
+     */
+    auctionStart?: string | null;
+    /**
+     * End datetime of the auction window for this product (RFC3339 format).
+     * Only present for products from auction houses with scheduled auction times.
+     * Used to indicate when bidding ends or when the auction session concludes.
+     *
+     */
+    auctionEnd?: string | null;
     /**
      * When the product was first created (RFC3339 format)
      */
@@ -186,6 +209,8 @@ export type PriceData = {
 export type ProductCreatedEventPayloadData = {
     state: ProductStateData;
     price?: PriceData;
+    priceEstimateMin?: PriceData;
+    priceEstimateMax?: PriceData;
 };
 
 /**
@@ -334,6 +359,15 @@ export type RestorationData = 'NONE' | 'MINOR' | 'MAJOR' | 'UNKNOWN';
 export type ProhibitedContentData = 'UNKNOWN' | 'NONE' | 'NAZI_GERMANY';
 
 /**
+ * Type of vendor or shop:
+ * - AUCTION_HOUSE: Auction house selling items through auctions
+ * - COMMERCIAL_DEALER: Commercial dealer or shop selling items directly
+ * - MARKETPLACE: Marketplace platform connecting buyers and sellers
+ *
+ */
+export type ShopTypeData = 'AUCTION_HOUSE' | 'COMMERCIAL_DEALER' | 'MARKETPLACE';
+
+/**
  * Product image with prohibited content classification
  */
 export type ProductImageData = {
@@ -423,6 +457,10 @@ export type ProductSearchData = {
      */
     shopNameQuery?: string | null;
     /**
+     * Optional filter by shop types
+     */
+    shopType?: Array<ShopTypeData> | null;
+    /**
      * Optional price range filter in minor currency units
      */
     price?: RangeQueryUInt64 | null;
@@ -458,6 +496,20 @@ export type ProductSearchData = {
      * Optional filter by product last updated date range
      */
     updated?: RangeQueryDateTime | null;
+    /**
+     * Optional filter by auction start datetime range.
+     * Filters products by when their auction windows begin.
+     * Only matches products that have auction start times set.
+     *
+     */
+    auctionStart?: RangeQueryDateTime | null;
+    /**
+     * Optional filter by auction end datetime range.
+     * Filters products by when their auction windows end.
+     * Only matches products that have auction end times set.
+     *
+     */
+    auctionEnd?: RangeQueryDateTime | null;
 };
 
 /**
@@ -512,6 +564,10 @@ export type PatchProductSearchData = {
      */
     shopNameQuery?: string | null;
     /**
+     * Optional filter by shop types
+     */
+    shopType?: Array<ShopTypeData> | null;
+    /**
      * Optional price range filter in minor currency units
      */
     price?: RangeQueryUInt64 | null;
@@ -547,6 +603,20 @@ export type PatchProductSearchData = {
      * Optional filter by product last updated date range
      */
     updated?: RangeQueryDateTime | null;
+    /**
+     * Optional filter by auction start datetime range.
+     * Filters products by when their auction windows begin.
+     * Only matches products that have auction start times set.
+     *
+     */
+    auctionStart?: RangeQueryDateTime | null;
+    /**
+     * Optional filter by auction end datetime range.
+     * Filters products by when their auction windows end.
+     * Only matches products that have auction end times set.
+     *
+     */
+    auctionEnd?: RangeQueryDateTime | null;
 };
 
 /**
@@ -676,6 +746,14 @@ export type PutProductData = {
      * Optional product price
      */
     price?: PriceData | null;
+    /**
+     * Optional minimum estimated price for the product
+     */
+    priceEstimateMin?: PriceData | null;
+    /**
+     * Optional maximum estimated price for the product
+     */
+    priceEstimateMax?: PriceData | null;
     state: ProductStateData;
     /**
      * URL to the product on the shop's website.
@@ -687,6 +765,20 @@ export type PutProductData = {
      * Array of image URLs for the product
      */
     images?: Array<string>;
+    /**
+     * Start datetime of the auction window for this product (RFC3339 format).
+     * Only applicable for products from auction houses with scheduled auction times.
+     * Used to indicate when bidding begins or when the item will be auctioned.
+     *
+     */
+    auctionStart?: string | null;
+    /**
+     * End datetime of the auction window for this product (RFC3339 format).
+     * Only applicable for products from auction houses with scheduled auction times.
+     * Used to indicate when bidding ends or when the auction session concludes.
+     *
+     */
+    auctionEnd?: string | null;
 };
 
 /**
@@ -725,6 +817,7 @@ export type GetShopData = {
      * Display name of the shop
      */
     name: string;
+    shopType: ShopTypeData;
     /**
      * All known domains associated with the shop.
      * Domains are normalized (lowercase, no scheme, no www prefix, no path/query/fragment).
@@ -753,6 +846,7 @@ export type PostShopData = {
      * Display name of the shop
      */
     name: string;
+    shopType: ShopTypeData;
     /**
      * All domains associated with the shop.
      * Can be provided as full URLs (will be normalized) or as domain strings.
@@ -779,6 +873,10 @@ export type PatchShopData = {
      */
     name?: string | null;
     /**
+     * New shop type classification
+     */
+    shopType?: ShopTypeData | null;
+    /**
      * Complete new set of domains for the shop.
      * Can be provided as full URLs (will be normalized) or as domain strings.
      * When updating domains, the complete new set must be provided (not a diff).
@@ -801,6 +899,10 @@ export type ShopSearchData = {
      * Optional text query for searching shops by name (minimum 3 characters)
      */
     shopNameQuery?: string;
+    /**
+     * Optional filter by shop types
+     */
+    shopType?: Array<ShopTypeData> | null;
     /**
      * Optional filter by shop creation date range
      */

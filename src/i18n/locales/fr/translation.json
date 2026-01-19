@@ -83,6 +83,18 @@
       "confirmButton": "Oui, supprimer le compte",
       "successMessage": "Compte supprimé avec succès !",
       "errorMessage": "Erreur lors de la suppression du compte."
+    },
+    "personalData": {
+      "title": "Données personnelles",
+      "emailLabel": "Email",
+      "firstNameLabel": "Prénom",
+      "lastNameLabel": "Nom de famille",
+      "languageLabel": "Langue",
+      "languagePlaceholder": "Sélectionnez la langue",
+      "currencyLabel": "Devise",
+      "currencyPlaceholder": "Sélectionnez la devise",
+      "saveButton": "Enregistrer les modifications",
+      "successMessage": "Données personnelles mises à jour avec succès"
     }
   },
   "search": {
@@ -186,6 +198,13 @@
         "created": "Enregistré dans le système"
       }
     },
+    "priceEstimate": {
+      "tooltip": "Estimation de prix de {{shopType}}",
+      "tooltipUnknown": "Estimation de prix",
+      "minOnly": "Min. {{min}}",
+      "maxOnly": "Max. {{max}}",
+      "range": "{{min}} - {{max}}"
+    },
     "priceChart": {
       "title": "Évolution du prix",
       "noData": "Aucune donnée de prix disponible pour cet article.",
@@ -281,6 +300,12 @@
     "reserved": "Réservé",
     "sold": "Vendu",
     "removed": "Supprimé",
+    "unknown": "Inconnu"
+  },
+  "shopType": {
+    "auctionHouse": "Maison de vente aux enchères",
+    "commercialDealer": "Marchand",
+    "marketplace": "Place de marché",
     "unknown": "Inconnu"
   },
   "discover": {
@@ -490,6 +515,11 @@
   "notFound": {
     "title": "Page non trouvée",
     "description": "La page que vous recherchez n'a pas été trouvée.",
+    "goHome": "Retour à l'accueil"
+  },
+  "error": {
+    "title": "Une erreur s'est produite",
+    "description": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard.",
     "goHome": "Retour à l'accueil"
   },
   "auth": {

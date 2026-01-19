@@ -83,6 +83,18 @@
       "confirmButton": "Sí, eliminar cuenta",
       "successMessage": "¡Cuenta eliminada con éxito!",
       "errorMessage": "Error al eliminar la cuenta."
+    },
+    "personalData": {
+      "title": "Datos Personales",
+      "emailLabel": "Correo Electrónico",
+      "firstNameLabel": "Nombre",
+      "lastNameLabel": "Apellido",
+      "languageLabel": "Idioma",
+      "languagePlaceholder": "Seleccionar idioma",
+      "currencyLabel": "Moneda",
+      "currencyPlaceholder": "Seleccionar moneda",
+      "saveButton": "Guardar Cambios",
+      "successMessage": "Datos personales actualizados con éxito"
     }
   },
   "search": {
@@ -186,6 +198,13 @@
         "created": "Añadido al sistema"
       }
     },
+    "priceEstimate": {
+      "tooltip": "Estimación de precio de {{shopType}}",
+      "tooltipUnknown": "Estimación de precio",
+      "minOnly": "Mín. {{min}}",
+      "maxOnly": "Máx. {{max}}",
+      "range": "{{min}} - {{max}}"
+    },
     "priceChart": {
       "title": "Historial de precios",
       "noData": "No hay datos de precios disponibles para este artículo.",
@@ -281,6 +300,12 @@
     "reserved": "Reservado",
     "sold": "Vendido",
     "removed": "Eliminado",
+    "unknown": "Desconocido"
+  },
+  "shopType": {
+    "auctionHouse": "Casa de subastas",
+    "commercialDealer": "Vendedor",
+    "marketplace": "Mercado",
     "unknown": "Desconocido"
   },
   "discover": {
@@ -490,6 +515,11 @@
   "notFound": {
     "title": "Página no encontrada",
     "description": "La página que busca no fue encontrada.",
+    "goHome": "Ir a la página principal"
+  },
+  "error": {
+    "title": "Algo salió mal",
+    "description": "Se produjo un error inesperado. Por favor, inténtelo de nuevo más tarde.",
     "goHome": "Ir a la página principal"
   },
   "auth": {

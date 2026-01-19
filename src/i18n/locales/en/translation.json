@@ -66,6 +66,18 @@
   },
   "account": {
     "title": "My Account",
+    "personalData": {
+      "title": "Personal Data",
+      "emailLabel": "Email",
+      "firstNameLabel": "First Name",
+      "lastNameLabel": "Last Name",
+      "languageLabel": "Language",
+      "languagePlaceholder": "Select language",
+      "currencyLabel": "Currency",
+      "currencyPlaceholder": "Select currency",
+      "saveButton": "Save Changes",
+      "successMessage": "Personal data updated successfully"
+    },
     "changePassword": {
       "title": "Change Password",
       "currentPasswordLabel": "Current Password",
@@ -254,6 +266,13 @@
         "created": "Added to system"
       }
     },
+    "priceEstimate": {
+      "tooltip": "Price estimate from {{shopType}}",
+      "tooltipUnknown": "Price estimate",
+      "minOnly": "Min. {{min}}",
+      "maxOnly": "Max. {{max}}",
+      "range": "{{min}} - {{max}}"
+    },
     "priceChart": {
       "title": "Price History",
       "noData": "No price data available for this item.",
@@ -281,6 +300,12 @@
     "reserved": "Reserved",
     "sold": "Sold",
     "removed": "Removed",
+    "unknown": "Unknown"
+  },
+  "shopType": {
+    "auctionHouse": "Auction House",
+    "commercialDealer": "Dealer",
+    "marketplace": "Marketplace",
     "unknown": "Unknown"
   },
   "discover": {
@@ -490,6 +515,11 @@
   "notFound": {
     "title": "Page not found",
     "description": "The page you are looking for was not found.",
+    "goHome": "Go to homepage"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Please try again later.",
     "goHome": "Go to homepage"
   },
   "auth": {
