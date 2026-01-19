@@ -16,9 +16,7 @@ describe("FAQSection", () => {
 
     it("renders the section subtitle", () => {
         expect(
-            screen.getByText(
-                "Hier finden Sie Antworten auf die wichtigsten Fragen rund um Aura Historia.",
-            ),
+            screen.getByText("Hier finden Sie Antworten auf die wichtigsten Fragen."),
         ).toBeInTheDocument();
     });
 
@@ -54,7 +52,7 @@ describe("FAQSection", () => {
         await user.click(firstQuestion);
 
         expect(
-            screen.getByText(/Aura Historia durchsucht kontinuierlich die Webseiten/),
+            screen.getByText(/Wir durchsuchen kontinuierlich die Webseiten/),
         ).toBeInTheDocument();
     });
 
