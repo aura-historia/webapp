@@ -67,88 +67,22 @@ export function generatePageHeadMeta(options: PageMetaOptions): HeadMeta {
     const description = keys.description ? i18n.t(keys.description) : undefined;
 
     const meta: HeadMeta["meta"] = [
-        {
-            title,
-        },
+        { title },
+        ...(noIndex ? [{ name: "robots" as const, content: "noindex, nofollow" }] : []),
+        ...(description ? [{ name: "description" as const, content: description }] : []),
+        // Open Graph tags
+        { property: "og:title" as const, content: title },
+        ...(description ? [{ property: "og:description" as const, content: description }] : []),
+        { property: "og:type" as const, content: type },
+        ...(url ? [{ property: "og:url" as const, content: url }] : []),
+        ...(image ? [{ property: "og:image" as const, content: image }] : []),
+        // Twitter Card tags
+        { name: "twitter:card" as const, content: image ? "summary_large_image" : "summary" },
+        { name: "twitter:title" as const, content: title },
+        ...(description ? [{ name: "twitter:description" as const, content: description }] : []),
+        ...(url ? [{ name: "twitter:url" as const, content: url }] : []),
+        ...(image ? [{ name: "twitter:image" as const, content: image }] : []),
     ];
-
-    if (noIndex) {
-        meta.push({
-            name: "robots",
-            content: "noindex, nofollow",
-        });
-    }
-
-    if (description) {
-        meta.push({
-            name: "description",
-            content: description,
-        });
-    }
-
-    // Open Graph tags
-    meta.push({
-        property: "og:title",
-        content: title,
-    });
-
-    if (description) {
-        meta.push({
-            property: "og:description",
-            content: description,
-        });
-    }
-
-    meta.push({
-        property: "og:type",
-        content: type,
-    });
-
-    if (url) {
-        meta.push({
-            property: "og:url",
-            content: url,
-        });
-    }
-
-    if (image) {
-        meta.push({
-            property: "og:image",
-            content: image,
-        });
-    }
-
-    // Twitter Card tags
-    meta.push({
-        name: "twitter:card",
-        content: image ? "summary_large_image" : "summary",
-    });
-
-    meta.push({
-        name: "twitter:title",
-        content: title,
-    });
-
-    if (description) {
-        meta.push({
-            name: "twitter:description",
-            content: description,
-        });
-    }
-
-    if (url) {
-        meta.push({
-            name: "twitter:url",
-            content: url,
-        });
-    }
-
-    if (image) {
-        meta.push({
-            name: "twitter:image",
-            content: image,
-        });
-    }
 
     // Build links array with canonical URL if provided
     const links: HeadMeta["links"] = url ? [{ rel: "canonical", href: url }] : [];

@@ -53,14 +53,16 @@ export function generateProductJsonLd(apiData: PersonalizedGetProductData): Prod
     }
 
     if (product.price) {
-        const availability =
-            product.state === "LISTED" || product.state === "AVAILABLE"
-                ? "https://schema.org/InStock"
-                : product.state === "RESERVED"
-                  ? "https://schema.org/LimitedAvailability"
-                  : product.state === "SOLD"
-                    ? "https://schema.org/SoldOut"
-                    : "https://schema.org/Discontinued";
+        let availability: string;
+        if (product.state === "LISTED" || product.state === "AVAILABLE") {
+            availability = "https://schema.org/InStock";
+        } else if (product.state === "RESERVED") {
+            availability = "https://schema.org/LimitedAvailability";
+        } else if (product.state === "SOLD") {
+            availability = "https://schema.org/SoldOut";
+        } else {
+            availability = "https://schema.org/Discontinued";
+        }
 
         jsonLd.offers = {
             "@type": "Offer",
