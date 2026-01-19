@@ -13,6 +13,8 @@ import { searchShopsMutation } from "@/client/@tanstack/react-query.gen.ts";
 import { useState, useCallback, useMemo } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
+const DEBOUNCE_DELAY_MS = 300;
+
 export function MerchantFilter() {
     const { control } = useFormContext<FilterSchema>();
     const { errors } = useFormState({ control, name: ["merchant"] });
@@ -26,10 +28,9 @@ export function MerchantFilter() {
         if (query.length > 0) {
             searchShops({
                 body: { shopNameQuery: query },
-                query: { size: 20 },
             });
         }
-    }, 300);
+    }, DEBOUNCE_DELAY_MS);
 
     const handleSearchChange = useCallback(
         (query: string) => {
@@ -86,7 +87,7 @@ export function MerchantFilter() {
                                 }}
                                 onSearchChange={handleSearchChange}
                                 placeholder={t("search.filter.searchMerchants")}
-                                isLoading={isPending && searchQuery.length >= 3}
+                                isLoading={isPending && searchQuery.length > 0}
                                 emptyMessage={t("search.filter.noMerchantsFound")}
                             />
                         );

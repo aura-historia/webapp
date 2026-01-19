@@ -74,7 +74,7 @@ export function MultiSelect({
                     {value.map((option) => (
                         <Badge
                             key={option.value}
-                            className="bg-background text-foreground border-muted-foreground/20 px-2 py-1"
+                            className="bg-background text-sm text-foreground border-muted-foreground/20 px-2 py-1"
                         >
                             {option.label}
                             <button
@@ -113,14 +113,14 @@ export function MultiSelect({
                 </div>
             </div>
             <div className="relative mt-2">
-                {open && (selectables.length > 0 || isLoading || inputValue.length >= 3) ? (
+                {open && (selectables.length > 0 || isLoading || inputValue.length > 0) ? (
                     <div className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
                         <CommandList>
                             {isLoading && selectables.length === 0 ? (
                                 <div className="py-6 text-center text-sm text-muted-foreground">
                                     <Loader2 className="mx-auto h-4 w-4 animate-spin" />
                                 </div>
-                            ) : selectables.length === 0 && inputValue.length >= 3 ? (
+                            ) : selectables.length === 0 && inputValue.length > 0 ? (
                                 <CommandEmpty>{emptyMessage}</CommandEmpty>
                             ) : selectables.length > 0 ? (
                                 <CommandGroup className="h-full overflow-auto">
