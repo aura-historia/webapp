@@ -101,6 +101,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     needs: [ lint, test, sonarqube ]
+    env:
+        VITE_USER_POOL_ID: ${{ secrets.VITE_USER_POOL_ID }}
+        VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
