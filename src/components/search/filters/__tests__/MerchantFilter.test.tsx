@@ -2,13 +2,31 @@ import { MerchantFilter } from "@/components/search/filters/MerchantFilter";
 import { FormProvider, useForm } from "react-hook-form";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi, beforeEach } from "vitest";
 import type React from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 vi.mock("@/hooks/search/useFilterNavigation", () => ({
     useFilterNavigation: () => vi.fn(),
 }));
-// Wrapper component to provide form context for tests
+
+// Mock the searchShops API
+vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
+    searchShopsMutation: () => ({
+        mutationFn: vi.fn(),
+    }),
+}));
+
+// Create a new QueryClient for each test
+const createTestQueryClient = () =>
+    new QueryClient({
+        defaultOptions: {
+            queries: { retry: false },
+            mutations: { retry: false },
+        },
+    });
+
+// Wrapper component to provide form context and QueryClient for tests
 const FormWrapper = ({
     children,
     defaultValues = {},
@@ -16,16 +34,25 @@ const FormWrapper = ({
     children: React.ReactNode;
     defaultValues?: Record<string, unknown>;
 }) => {
+    const queryClient = createTestQueryClient();
     const methods = useForm({
         defaultValues: {
-            merchant: undefined,
+            merchant: [],
             ...defaultValues,
         },
     });
-    return <FormProvider {...methods}>{children}</FormProvider>;
+    return (
+        <QueryClientProvider client={queryClient}>
+            <FormProvider {...methods}>{children}</FormProvider>
+        </QueryClientProvider>
+    );
 };
 
 describe("MerchantFilter", () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
     it("renders with correct heading and placeholder", () => {
         render(
             <FormWrapper>
@@ -34,10 +61,10 @@ describe("MerchantFilter", () => {
         );
 
         expect(screen.getByText("Händler")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Beliebiger Händler")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Händler suchen...")).toBeInTheDocument();
     });
 
-    it("allows entering merchant text", async () => {
+    it("allows entering search text in the input", async () => {
         render(
             <FormWrapper>
                 <MerchantFilter />
@@ -45,25 +72,24 @@ describe("MerchantFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Beliebiger Händler");
+        const input = screen.getByPlaceholderText("Händler suchen...");
 
-        await user.type(input, "Test Merchant");
+        await user.type(input, "Test");
 
-        expect(input).toHaveValue("Test Merchant");
+        expect(input).toHaveValue("Test");
     });
 
-    it("shows pre-populated merchant value when provided", () => {
+    it("shows pre-populated merchant values as badges when provided", () => {
         render(
-            <FormWrapper defaultValues={{ merchant: "Existing Merchant" }}>
+            <FormWrapper defaultValues={{ merchant: ["Existing Merchant"] }}>
                 <MerchantFilter />
             </FormWrapper>,
         );
 
-        const input = screen.getByPlaceholderText("Beliebiger Händler");
-        expect(input).toHaveValue("Existing Merchant");
+        expect(screen.getByText("Existing Merchant")).toBeInTheDocument();
     });
 
-    it("handles special characters in merchant name", async () => {
+    it("handles special characters in search input", async () => {
         render(
             <FormWrapper>
                 <MerchantFilter />
@@ -71,41 +97,37 @@ describe("MerchantFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Beliebiger Händler");
+        const input = screen.getByPlaceholderText("Händler suchen...");
 
-        await user.type(input, "Special & Chars #123!");
+        await user.type(input, "Special & Chars");
 
-        expect(input).toHaveValue("Special & Chars #123!");
+        expect(input).toHaveValue("Special & Chars");
     });
 
-    it("clears input correctly", async () => {
+    it("clears search input correctly", async () => {
         render(
-            <FormWrapper defaultValues={{ merchant: "Initial Value" }}>
+            <FormWrapper>
                 <MerchantFilter />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Beliebiger Händler");
+        const input = screen.getByPlaceholderText("Händler suchen...");
 
-        // Clear the input by selecting all and deleting
+        await user.type(input, "Initial Value");
         await user.clear(input);
 
         expect(input).toHaveValue("");
     });
 
-    it("handles whitespace in merchant name", async () => {
+    it("displays multiple selected merchants as badges", () => {
         render(
-            <FormWrapper>
+            <FormWrapper defaultValues={{ merchant: ["Merchant One", "Merchant Two"] }}>
                 <MerchantFilter />
             </FormWrapper>,
         );
 
-        const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Beliebiger Händler");
-
-        await user.type(input, "   Merchant With Spaces   ");
-
-        expect(input).toHaveValue("   Merchant With Spaces   ");
+        expect(screen.getByText("Merchant One")).toBeInTheDocument();
+        expect(screen.getByText("Merchant Two")).toBeInTheDocument();
     });
 });

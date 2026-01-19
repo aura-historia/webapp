@@ -1,10 +1,8 @@
 import { SearchFilters } from "@/components/search/SearchFilters.tsx";
-import { H1 } from "@/components/typography/H1";
-import { createFileRoute, type SearchSchemaInput } from "@tanstack/react-router";
-import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
+import { H1 } from "@/components/typography/H1.tsx";
+import { createFileRoute } from "@tanstack/react-router";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
-import { type ProductState, parseProductState } from "@/data/internal/ProductState.ts";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer.tsx";
@@ -12,89 +10,19 @@ import { Button } from "@/components/ui/button.tsx";
 import { Filter } from "lucide-react";
 import { useState } from "react";
 
-import { SEARCH_RESULT_SORT_FIELDS, type SortMode } from "@/data/internal/SortMode.ts";
+import type { SortMode } from "@/data/internal/SortMode.ts";
 import { SortModeSelection } from "@/components/search/SortModeSelection.tsx";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
+import { validateSearchParams } from "@/lib/searchValidation.ts";
 import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
 
 export const Route = createFileRoute("/search")({
-    validateSearch: (
-        search: {
-            q: string;
-            priceFrom?: number;
-            priceTo?: number;
-            allowedStates?: ProductState[];
-            creationDateFrom?: string;
-            creationDateTo?: string;
-            updateDateFrom?: string;
-            updateDateTo?: string;
-            merchant?: string;
-            sortField?: string;
-            sortOrder?: string;
-        } & SearchSchemaInput,
-    ): SearchFilterArguments => {
-        const priceFrom = Number(search.priceFrom);
-        const priceTo = Number(search.priceTo);
-
-        const validPriceFrom = Number.isNaN(priceFrom) ? undefined : priceFrom;
-        const validPriceTo = Number.isNaN(priceTo) ? undefined : priceTo;
-
-        let fromCreationDate: Date | undefined;
-        let toCreationDate: Date | undefined;
-
-        let fromUpdateDate: Date | undefined;
-        let toUpdateDate: Date | undefined;
-
-        if (search.creationDateFrom) {
-            const parsed = new Date(search.creationDateFrom);
-            fromCreationDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
-        }
-
-        if (search.creationDateTo) {
-            const parsed = new Date(search.creationDateTo);
-            toCreationDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
-        }
-
-        if (search.updateDateFrom) {
-            const parsed = new Date(search.updateDateFrom);
-            fromUpdateDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
-        }
-
-        if (search.updateDateTo) {
-            const parsed = new Date(search.updateDateTo);
-            toUpdateDate = Number.isNaN(parsed.getTime()) ? undefined : parsed;
-        }
-
-        const sortField = SEARCH_RESULT_SORT_FIELDS.includes(search.sortField as SortMode["field"])
-            ? (search.sortField as SortMode["field"])
-            : "RELEVANCE";
-
-        const sortOrder =
-            search.sortOrder === "ASC" || search.sortOrder === "DESC" ? search.sortOrder : "DESC";
-
-        return {
-            q: (search.q as string) || "",
-            priceFrom: validPriceFrom,
-            priceTo: validPriceTo,
-            allowedStates: Array.isArray(search.allowedStates)
-                ? search.allowedStates
-                      .map((state) => parseProductState(state))
-                      .filter((elem, index, self) => index === self.indexOf(elem))
-                : undefined,
-            creationDateFrom: fromCreationDate,
-            creationDateTo: toCreationDate,
-            updateDateFrom: fromUpdateDate,
-            updateDateTo: toUpdateDate,
-            merchant: (search.merchant?.trim() as string) || undefined,
-            sortField: sortField,
-            sortOrder: sortOrder,
-        };
-    },
     head: () =>
         generatePageHeadMeta({
             pageKey: "search",
             url: "https://aura-historia.com/search",
         }),
+    validateSearch: validateSearchParams,
     component: RouteComponent,
 });
 

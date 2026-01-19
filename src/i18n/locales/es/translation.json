@@ -112,7 +112,6 @@
     "applyFilters": "Aplicar filtros",
     "validation": {
       "queryMinLength": "Por favor, introduzca al menos 3 caracteres",
-      "merchantMinLength": "Por favor, introduzca al menos 3 caracteres",
       "dateOrder": "La fecha de inicio debe ser anterior a la fecha de fin"
     },
     "filter": {
@@ -122,6 +121,8 @@
       "productState": "Estado del anuncio",
       "merchant": "Vendedor",
       "anyMerchant": "Cualquier vendedor",
+      "searchMerchants": "Buscar vendedores...",
+      "noMerchantsFound": "No se encontraron vendedores",
       "priceSpan": "Rango de precios",
       "min": "Mín",
       "max": "Máx",

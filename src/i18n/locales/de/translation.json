@@ -111,7 +111,6 @@
     "applyFilters": "Filter anwenden",
     "validation": {
       "queryMinLength": "Bitte geben Sie mindestens 3 Zeichen ein",
-      "merchantMinLength": "Bitte geben Sie mindestens 3 Zeichen ein",
       "dateOrder": "Startdatum muss vor dem Enddatum liegen"
     },
     "filter": {
@@ -121,6 +120,8 @@
       "productState": "Anzeigenstatus",
       "merchant": "Händler",
       "anyMerchant": "Beliebiger Händler",
+      "searchMerchants": "Händler suchen...",
+      "noMerchantsFound": "Keine Händler gefunden",
       "priceSpan": "Preisspanne",
       "min": "Min",
       "max": "Max",

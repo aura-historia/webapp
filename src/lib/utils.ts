@@ -62,7 +62,7 @@ export type SearchFilterData = {
         from?: Date;
         to?: Date;
     };
-    merchant?: string;
+    merchant?: string[];
 };
 
 export type SearchUrlParams = {
@@ -74,7 +74,7 @@ export type SearchUrlParams = {
     creationDateTo?: string;
     updateDateFrom?: string;
     updateDateTo?: string;
-    merchant?: string;
+    merchant?: string[];
 };
 
 /**
@@ -97,7 +97,7 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
             ? formatToDateString(data.updateDate.from)
             : undefined,
         updateDateTo: data.updateDate?.to ? formatToDateString(data.updateDate.to) : undefined,
-        merchant: data.merchant ? data.merchant : undefined,
+        merchant: data.merchant && data.merchant.length > 0 ? data.merchant : undefined,
     };
 }
 
