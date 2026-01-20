@@ -1,4 +1,4 @@
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useStore } from "@tanstack/react-store";
@@ -10,7 +10,6 @@ import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import "../amplify-config";
 import { useQueryClient } from "@tanstack/react-query";
 import { CompleteRegistration } from "@/components/auth/CompleteRegistration.tsx";
-import { getCurrentUser } from "@aws-amplify/auth";
 
 type LoginSearch = {
     redirect?: string;
@@ -25,23 +24,6 @@ export const Route = createFileRoute("/login")({
         }
 
         return { redirect };
-    },
-    beforeLoad: async ({ search }) => {
-        // Check if user is already authenticated
-        try {
-            await getCurrentUser();
-            // User is authenticated, redirect them away from login page
-            const redirectPath = search.redirect || "/";
-            throw redirect({
-                to: redirectPath,
-            });
-        } catch (error) {
-            // If it's a redirect error, re-throw it
-            // Otherwise, user is not authenticated - continue to login page
-            if (error && typeof error === "object" && "isRedirect" in error) {
-                throw error;
-            }
-        }
     },
     component: LoginPage,
 });
