@@ -1,6 +1,6 @@
 import type { ProductDetail } from "@/data/internal/ProductDetails.ts";
 import { screen } from "@testing-library/react";
-import { ProductDetailPage } from "../../detail/ProductDetailPage.tsx";
+import { ProductDetailPage } from "../ProductDetailPage.tsx";
 import { vi } from "vitest";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 
@@ -29,6 +29,7 @@ describe("ProductDetailPage", () => {
         shopId: "",
         shopsProductId: "",
         shopName: "Test Shop",
+        shopType: "AUCTION_HOUSE",
         title: "Test Product",
         description: "Test description",
         price: "99€",

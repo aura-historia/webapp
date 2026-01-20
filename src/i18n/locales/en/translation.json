@@ -12,6 +12,9 @@
   "imprint": {
     "title": "Imprint"
   },
+  "privacy": {
+    "title": "Privacy Policy"
+  },
   "terms": {
     "title": "Terms & Conditions"
   },
@@ -27,11 +30,24 @@
   "footer": {
     "ariaSwitchToLanguage": "Switch to language {{language}}",
     "imprint": "Imprint",
+    "privacy": "Privacy Policy",
     "terms": "Terms & Conditions",
     "copyright": "© {{year}} Aura Historia"
   },
   "account": {
     "title": "My Account",
+    "personalData": {
+      "title": "Personal Data",
+      "emailLabel": "Email",
+      "firstNameLabel": "First Name",
+      "lastNameLabel": "Last Name",
+      "languageLabel": "Language",
+      "languagePlaceholder": "Select language",
+      "currencyLabel": "Currency",
+      "currencyPlaceholder": "Select currency",
+      "saveButton": "Save Changes",
+      "successMessage": "Personal data updated successfully"
+    },
     "changePassword": {
       "title": "Change Password",
       "currentPasswordLabel": "Current Password",
@@ -66,7 +82,6 @@
     "applyFilters": "Apply filters",
     "validation": {
       "queryMinLength": "Please enter at least 3 characters",
-      "merchantMinLength": "Please enter at least 3 characters",
       "dateOrder": "Start date must be before end date"
     },
     "filter": {
@@ -76,6 +91,8 @@
       "productState": "Listing Status",
       "merchant": "Merchant",
       "anyMerchant": "Any Merchant",
+      "searchMerchants": "Search merchants...",
+      "noMerchantsFound": "No merchants found",
       "priceSpan": "Price Range",
       "min": "Min",
       "max": "Max",
@@ -220,6 +237,13 @@
         "created": "Added to system"
       }
     },
+    "priceEstimate": {
+      "tooltip": "Price estimate from {{shopType}}",
+      "tooltipUnknown": "Price estimate",
+      "minOnly": "Min. {{min}}",
+      "maxOnly": "Max. {{max}}",
+      "range": "{{min}} - {{max}}"
+    },
     "priceChart": {
       "title": "Price History",
       "noData": "No price data available for this item.",
@@ -247,6 +271,12 @@
     "reserved": "Reserved",
     "sold": "Sold",
     "removed": "Removed",
+    "unknown": "Unknown"
+  },
+  "shopType": {
+    "auctionHouse": "Auction House",
+    "commercialDealer": "Dealer",
+    "marketplace": "Marketplace",
     "unknown": "Unknown"
   },
   "discover": {
@@ -456,6 +486,11 @@
   "notFound": {
     "title": "Page not found",
     "description": "The page you are looking for was not found.",
+    "goHome": "Go to homepage"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Please try again later.",
     "goHome": "Go to homepage"
   },
   "auth": {

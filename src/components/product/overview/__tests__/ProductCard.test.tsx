@@ -1,6 +1,6 @@
 import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
 import { act, screen } from "@testing-library/react";
-import { ProductCard } from "../../overview/ProductCard.tsx";
+import { ProductCard } from "../ProductCard.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 
 describe("ProductCard", () => {
@@ -14,6 +14,7 @@ describe("ProductCard", () => {
         productId: "1",
         title: "Sample Product",
         shopName: "Sample Shop",
+        shopType: "AUCTION_HOUSE",
         state: "AVAILABLE",
         price: "100€",
         images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],

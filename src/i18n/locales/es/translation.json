@@ -12,6 +12,9 @@
   "imprint": {
     "title": "Aviso legal"
   },
+  "privacy": {
+    "title": "Política de privacidad"
+  },
   "terms": {
     "title": "Términos y condiciones"
   },
@@ -27,6 +30,7 @@
   "footer": {
     "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
     "imprint": "Aviso legal",
+    "privacy": "Política de privacidad",
     "terms": "Términos y condiciones",
     "copyright": "© {{year}} Aura Historia"
   },
@@ -49,6 +53,18 @@
       "confirmButton": "Sí, eliminar cuenta",
       "successMessage": "¡Cuenta eliminada con éxito!",
       "errorMessage": "Error al eliminar la cuenta."
+    },
+    "personalData": {
+      "title": "Datos Personales",
+      "emailLabel": "Correo Electrónico",
+      "firstNameLabel": "Nombre",
+      "lastNameLabel": "Apellido",
+      "languageLabel": "Idioma",
+      "languagePlaceholder": "Seleccionar idioma",
+      "currencyLabel": "Moneda",
+      "currencyPlaceholder": "Seleccionar moneda",
+      "saveButton": "Guardar Cambios",
+      "successMessage": "Datos personales actualizados con éxito"
     }
   },
   "search": {
@@ -66,7 +82,6 @@
     "applyFilters": "Aplicar filtros",
     "validation": {
       "queryMinLength": "Por favor, introduzca al menos 3 caracteres",
-      "merchantMinLength": "Por favor, introduzca al menos 3 caracteres",
       "dateOrder": "La fecha de inicio debe ser anterior a la fecha de fin"
     },
     "filter": {
@@ -76,6 +91,8 @@
       "productState": "Estado del anuncio",
       "merchant": "Vendedor",
       "anyMerchant": "Cualquier vendedor",
+      "searchMerchants": "Buscar vendedores...",
+      "noMerchantsFound": "No se encontraron vendedores",
       "priceSpan": "Rango de precios",
       "min": "Mín",
       "max": "Máx",
@@ -151,6 +168,13 @@
         "priceRemoved": "Precio eliminado • Último precio: {{price}}.",
         "created": "Añadido al sistema"
       }
+    },
+    "priceEstimate": {
+      "tooltip": "Estimación de precio de {{shopType}}",
+      "tooltipUnknown": "Estimación de precio",
+      "minOnly": "Mín. {{min}}",
+      "maxOnly": "Máx. {{max}}",
+      "range": "{{min}} - {{max}}"
     },
     "priceChart": {
       "title": "Historial de precios",
@@ -247,6 +271,12 @@
     "reserved": "Reservado",
     "sold": "Vendido",
     "removed": "Eliminado",
+    "unknown": "Desconocido"
+  },
+  "shopType": {
+    "auctionHouse": "Casa de subastas",
+    "commercialDealer": "Vendedor",
+    "marketplace": "Mercado",
     "unknown": "Desconocido"
   },
   "discover": {
@@ -456,6 +486,11 @@
   "notFound": {
     "title": "Página no encontrada",
     "description": "La página que busca no fue encontrada.",
+    "goHome": "Ir a la página principal"
+  },
+  "error": {
+    "title": "Algo salió mal",
+    "description": "Se produjo un error inesperado. Por favor, inténtelo de nuevo más tarde.",
     "goHome": "Ir a la página principal"
   },
   "auth": {

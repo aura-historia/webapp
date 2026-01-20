@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ImprintRouteImport } from './routes/imprint'
 import { Route as AuthRouteImport } from './routes/_auth'
@@ -21,6 +22,11 @@ import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/produc
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
@@ -83,6 +91,7 @@ export interface FileRoutesById {
   '/_auth': typeof AuthRouteWithChildren
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/_auth/account': typeof AuthAccountRoute
   '/_auth/watchlist': typeof AuthWatchlistRoute
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
     | '/'
     | '/imprint'
     | '/login'
+    | '/privacy'
     | '/search'
     | '/account'
     | '/watchlist'
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
     | '/'
     | '/imprint'
     | '/login'
+    | '/privacy'
     | '/search'
     | '/account'
     | '/watchlist'
@@ -113,6 +124,7 @@ export interface FileRouteTypes {
     | '/_auth'
     | '/imprint'
     | '/login'
+    | '/privacy'
     | '/search'
     | '/_auth/account'
     | '/_auth/watchlist'
@@ -124,6 +136,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   ImprintRoute: typeof ImprintRoute
   LoginRoute: typeof LoginRoute
+  PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
 }
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -206,6 +226,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   ImprintRoute: ImprintRoute,
   LoginRoute: LoginRoute,
+  PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
 }

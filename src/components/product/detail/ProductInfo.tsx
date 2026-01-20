@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { ProductSharer } from "@/components/product/detail/ProductSharer.tsx";
 import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
+import { ProductPriceEstimate } from "@/components/product/detail/ProductPriceEstimate.tsx";
 
 export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();
@@ -69,9 +70,15 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                     <div className="hidden sm:block flex-1"></div>
 
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-end w-full pt-4">
-                        <div className="flex flex-col gap-2 shrink-0">
+                        <div className="flex flex-col gap-1 shrink-0">
                             <StatusBadge status={product.state} />
                             <PriceText>{product.price ?? t("product.unknownPrice")}</PriceText>
+                            {product.priceEstimate && (
+                                <ProductPriceEstimate
+                                    priceEstimate={product.priceEstimate}
+                                    shopType={product.shopType}
+                                />
+                            )}
                         </div>
 
                         <div className="flex flex-col gap-2 sm:items-end shrink-0 sm:ml-2">

@@ -4,7 +4,7 @@ vi.mock("lottie-react", () => ({
 
 import type { ProductDetail } from "@/data/internal/ProductDetails.ts";
 import { screen } from "@testing-library/react";
-import { ProductInfo } from "../../detail/ProductInfo.tsx";
+import { ProductInfo } from "../ProductInfo.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 
 beforeAll(() => {
@@ -30,6 +30,7 @@ describe("ProductInfo", () => {
         shopId: "",
         shopsProductId: "",
         shopName: "Test Shop",
+        shopType: "AUCTION_HOUSE",
         title: "Test Product Title",
         description: "This is a test description",
         price: "99,99 €",

@@ -2,7 +2,6 @@ import type {
     GetProductEventData,
     ProductEventPayloadData,
     ProductCreatedEventPayloadData,
-    PriceData,
     ProductEventStateChangedPayloadData,
     ProductEventPriceChangedPayloadData,
     ProductEventPriceDiscoveredPayloadData,
@@ -14,11 +13,7 @@ import {
     type OverviewProduct,
 } from "@/data/internal/OverviewProduct";
 import { parseProductState, type ProductState } from "@/data/internal/ProductState";
-
-export type Price = {
-    readonly amount: number;
-    readonly currency: string;
-};
+import { parsePrice, type Price } from "@/data/internal/Price.ts";
 
 export type ProductCreatedPayload = {
     readonly state: ProductState;
@@ -149,8 +144,8 @@ function mapPriceChangedPayload(
     apiPayload: ProductEventPriceChangedPayloadData,
 ): ProductPriceChangedPayload {
     return {
-        oldPrice: mapPricePayload(apiPayload.oldPrice),
-        newPrice: mapPricePayload(apiPayload.newPrice),
+        oldPrice: parsePrice(apiPayload.oldPrice),
+        newPrice: parsePrice(apiPayload.newPrice),
     };
 }
 
@@ -158,7 +153,7 @@ function mapPriceDiscoveredPayload(
     apiPayload: ProductEventPriceDiscoveredPayloadData,
 ): ProductPriceDiscoveredPayload {
     return {
-        newPrice: mapPricePayload(apiPayload.newPrice),
+        newPrice: parsePrice(apiPayload.newPrice),
     };
 }
 
@@ -166,14 +161,7 @@ function mapPriceRemovedPayload(
     apiPayload: ProductEventPriceRemovedPayloadData,
 ): ProductPriceRemovedPayload {
     return {
-        oldPrice: mapPricePayload(apiPayload.oldPrice),
-    };
-}
-
-function mapPricePayload(apiPayload: PriceData): Price {
-    return {
-        amount: apiPayload.amount,
-        currency: apiPayload.currency,
+        oldPrice: parsePrice(apiPayload.oldPrice),
     };
 }
 
@@ -183,7 +171,7 @@ function mapPricePayload(apiPayload: PriceData): Price {
 function mapCreatedPayload(apiPayload: ProductCreatedEventPayloadData): ProductCreatedPayload {
     return {
         state: parseProductState(apiPayload.state),
-        price: apiPayload.price ? mapPricePayload(apiPayload.price) : undefined,
+        price: apiPayload.price ? parsePrice(apiPayload.price) : undefined,
     };
 }
 

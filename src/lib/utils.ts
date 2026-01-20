@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
-import type { ProductEvent, Price } from "@/data/internal/ProductDetails.ts";
+import type { ProductEvent } from "@/data/internal/ProductDetails.ts";
 import {
     isCreatedEvent,
     isPriceChangedEvent,
@@ -13,13 +13,6 @@ import type { TFunction } from "i18next";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
-}
-
-export function formatPrice(data: Price, locale?: string): string {
-    return new Intl.NumberFormat(locale ?? navigator.language, {
-        style: "currency",
-        currency: data.currency,
-    }).format(data.amount / 100);
 }
 
 /**
@@ -69,7 +62,7 @@ export type SearchFilterData = {
         from?: Date;
         to?: Date;
     };
-    merchant?: string;
+    merchant?: string[];
 };
 
 export type SearchUrlParams = {
@@ -81,7 +74,7 @@ export type SearchUrlParams = {
     creationDateTo?: string;
     updateDateFrom?: string;
     updateDateTo?: string;
-    merchant?: string;
+    merchant?: string[];
 };
 
 /**
@@ -104,7 +97,7 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
             ? formatToDateString(data.updateDate.from)
             : undefined,
         updateDateTo: data.updateDate?.to ? formatToDateString(data.updateDate.to) : undefined,
-        merchant: data.merchant ? data.merchant : undefined,
+        merchant: data.merchant && data.merchant.length > 0 ? data.merchant : undefined,
     };
 }
 

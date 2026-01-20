@@ -127,10 +127,12 @@ vi.mock("@/stores/registrationStore", () => ({
 
 vi.mock("@/data/internal/Language.ts", () => ({
     parseLanguage: mockParseLanguage,
+    LANGUAGES: ["de", "en", "fr", "es"] as const,
 }));
 
 vi.mock("@/data/internal/Currency.ts", () => ({
     parseCurrency: mockParseCurrency,
+    CURRENCIES: ["EUR", "GBP", "USD", "AUD", "CAD", "NZD"] as const,
 }));
 
 vi.mock("@/utils/nameValidation", () => ({
