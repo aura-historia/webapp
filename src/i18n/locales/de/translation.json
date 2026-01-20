@@ -1,6 +1,8 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Preview)"
+    "auraHistoria": "Aura Historia (Preview)",
+    "all": "Alle",
+    "select": "Auswählen"
   },
   "validation": {
     "name": {
@@ -104,7 +106,13 @@
         "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
         "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
         "merchant": "Filter für den Händler zurücksetzen"
-      }
+      },
+      "qualityIndicators": "Qualitätsmerkmale",
+      "originYear": "Entstehungsjahr",
+      "authenticity": "Authentizität",
+      "condition": "Zustand",
+      "provenance": "Herkunftsnachweis",
+      "restoration": "Restaurierung"
     },
     "messages": {
       "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",

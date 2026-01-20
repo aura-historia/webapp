@@ -1,6 +1,7 @@
 import { CreationDateSpanFilter } from "@/components/search/filters/CreationDateSpanFilter.tsx";
 import { ProductStateFilter } from "@/components/search/filters/ProductStateFilter.tsx";
 import { PriceSpanFilter } from "@/components/search/filters/PriceSpanFilter.tsx";
+import { QualityIndicatorsFilter } from "@/components/search/filters/QualityIndicatorsFilter.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Form } from "@/components/ui/form.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -233,6 +234,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                 <div className={"flex flex-col gap-4"}>
                     <PriceSpanFilter />
                     <ProductStateFilter />
+                    <QualityIndicatorsFilter />
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />
                     <MerchantFilter />

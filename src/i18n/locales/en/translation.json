@@ -1,6 +1,8 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Preview)"
+    "auraHistoria": "Aura Historia (Preview)",
+    "all": "All",
+    "select": "Select"
   },
   "validation": {
     "name": {
@@ -105,7 +107,13 @@
         "creationDate": "Reset creation date filter",
         "updateDate": "Reset update date filter",
         "merchant": "Reset merchant filter"
-      }
+      },
+      "qualityIndicators": "Quality Indicators",
+      "originYear": "Year of Origin",
+      "authenticity": "Authenticity",
+      "condition": "Condition",
+      "provenance": "Provenance",
+      "restoration": "Restoration"
     },
     "messages": {
       "minQueryLength": "Please enter at least 3 characters to start the search.",
