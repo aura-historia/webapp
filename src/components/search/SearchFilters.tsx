@@ -41,11 +41,7 @@ const createFilterSchema = (t: TFunction) =>
                 from: z.date().optional(),
                 to: z.date().optional(),
             }),
-            merchant: z
-                .string()
-                .min(3, { error: t("search.validation.merchantMinLength") })
-                .optional()
-                .or(z.string().max(0)),
+            merchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
             originYearSpan: z
                 .object({
                     min: z.number().optional().or(z.undefined()),

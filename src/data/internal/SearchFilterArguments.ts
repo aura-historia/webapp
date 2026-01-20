@@ -14,7 +14,7 @@ export type SearchFilterArguments = {
     creationDateTo?: Date;
     updateDateFrom?: Date;
     updateDateTo?: Date;
-    merchant?: string;
+    merchant?: string[];
     sortField?: SortMode["field"];
     sortOrder?: SortMode["order"];
     originYearMin?: number;

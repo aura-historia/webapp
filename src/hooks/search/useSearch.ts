@@ -61,7 +61,7 @@ export function useSearch(
                               },
                           }
                         : {}),
-                    shopNameQuery: searchArgs.merchant,
+                    shopName: searchArgs.merchant?.length === 0 ? undefined : searchArgs.merchant,
                 },
                 query: {
                     searchAfter: pageParam,
