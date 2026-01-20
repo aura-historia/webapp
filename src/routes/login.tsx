@@ -10,6 +10,7 @@ import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import "../amplify-config";
 import { useQueryClient } from "@tanstack/react-query";
 import { CompleteRegistration } from "@/components/auth/CompleteRegistration.tsx";
+import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
 
 type LoginSearch = {
     redirect?: string;
@@ -25,6 +26,12 @@ export const Route = createFileRoute("/login")({
 
         return { redirect };
     },
+    head: () =>
+        generatePageHeadMeta({
+            pageKey: "login",
+            url: "https://aura-historia.com/login",
+            noIndex: true,
+        }),
     component: LoginPage,
 });
 

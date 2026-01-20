@@ -16,7 +16,7 @@ describe("TestimonialsSection", () => {
     it("renders the section subtitle", () => {
         expect(
             screen.getByText(
-                "Erfahren Sie, wie Aura Historia Sammlern dabei hilft, ihre Leidenschaft zu leben.",
+                "Erfahren Sie, wie wir Sammlern dabei helfen, ihre Leidenschaft zu leben.",
             ),
         ).toBeInTheDocument();
     });

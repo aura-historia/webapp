@@ -5,8 +5,14 @@ import FeaturesSection from "@/components/landing-page/features-section/Features
 import HowItWorksSection from "@/components/landing-page/how-it-works-section/HowItWorksSection.tsx";
 import TestimonialsSection from "@/components/landing-page/testimonials-section/TestimonialsSection.tsx";
 import { createFileRoute } from "@tanstack/react-router";
+import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
 
 export const Route = createFileRoute("/")({
+    head: () =>
+        generatePageHeadMeta({
+            pageKey: "home",
+            url: "https://aura-historia.com/",
+        }),
     component: LandingPage,
 });
 

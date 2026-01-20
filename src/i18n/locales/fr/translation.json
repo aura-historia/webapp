@@ -2,6 +2,36 @@
   "common": {
     "auraHistoria": "Aura Historia (Aperçu)"
   },
+  "meta": {
+    "siteName": "Aura Historia | Moteur de recherche d'antiquités leader",
+    "defaultDescription": "Trouvez des antiquités avec Aura Historia. Données en temps réel de plus de 1000 maisons de ventes, marchands et places de marché.",
+    "home": {
+      "title": "Aura Historia | Moteur de recherche d'antiquités leader",
+      "description": "Trouvez des antiquités avec Aura Historia. Données en temps réel de plus de 1000 maisons de ventes, marchands et places de marché."
+    },
+    "search": {
+      "title": "Rechercher des antiquités | Aura Historia",
+      "description": "Recherchez et découvrez des antiquités uniques auprès de marchands de confiance sur Aura Historia."
+    },
+    "login": {
+      "title": "Connexion | Aura Historia",
+      "description": "Connectez-vous à votre compte Aura Historia pour gérer votre liste de surveillance et vos préférences."
+    },
+    "imprint": {
+      "title": "Mentions légales | Aura Historia",
+      "description": "Informations légales et mentions légales pour Aura Historia."
+    },
+    "privacy": {
+      "title": "Politique de confidentialité | Aura Historia",
+      "description": "Politique de confidentialité et informations sur la protection des données pour Aura Historia."
+    },
+    "account": {
+      "title": "Mon compte | Aura Historia"
+    },
+    "watchlist": {
+      "title": "Ma liste de surveillance | Aura Historia"
+    }
+  },
   "validation": {
     "name": {
       "minLength": "Veuillez saisir au moins {{min}} caractères",
@@ -281,7 +311,7 @@
   },
   "discover": {
     "title": "Nous apportons de la transparence dans le paysage opaque des antiquités en ligne",
-    "p1": "Aura Historia explore les vastes offres de milliers de marchands d'antiquités, maisons de vente aux enchères et places de marché dispersés dans le monde entier et regroupe leurs articles en un seul endroit central.",
+    "p1": "Nous explorons chaque jour les vastes offres de milliers de marchands d'antiquités, maisons de vente aux enchères et places de marché dispersés dans le monde entier et regroupons leurs articles en un seul endroit central.",
     "p2": "Nous ne capturons pas seulement les articles actuels et à venir, mais nous suivons également les changements de prix et de disponibilité. Ainsi, vous ne manquez jamais une bonne affaire et gardez toujours un œil sur le marché.",
     "highlight1": {
       "title": "Plus de 500 marchands, maisons de vente aux enchères et places de marché",
@@ -310,13 +340,13 @@
     "badge": "La plateforme leader pour ceux qui recherchent des antiquités très spécifiques",
     "titleFirstLine": "Arrêtez de perdre du temps à chercher des antiquités introuvables",
     "titleSecondLine": "Un endroit central pour trouver les antiquités que vous recherchez",
-    "subtitle": "Aura Historia surveille l'ensemble du web pour les antiquités et les rend disponibles dans une recherche spécialisée. Nous scannons des boutiques d'antiquités et des maisons de vente aux enchères que vous ne connaissez même pas.",
+    "subtitle": "Nous parcourons l'ensemble du web à la recherche d'antiquités et les rendons disponibles via une recherche spécialisée. Nous couvrons des boutiques d'antiquités et des maisons de vente aux enchères que vous ne connaissez même pas.",
     "trustBadge1": "Par des collectionneurs d'antiquités",
     "trustBadge2": "Pour les collectionneurs et marchands sérieux",
     "trustBadge3": "Quasi en temps réel",
     "features": {
       "title": "Les antiquités sont dispersées partout en ligne - votre recherche ne devrait pas l'être",
-      "subtitle": "Aura Historia est le moteur de recherche le plus sophistiqué pour les antiquités et vous fournit tous les outils nécessaires pour rechercher efficacement sur le marché des antiquités.",
+      "subtitle": "Nous sommes le moteur de recherche le plus sophistiqué pour les antiquités et vous fournissons tous les outils nécessaires pour rechercher efficacement sur le marché des antiquités.",
       "previewBadge": "Bientôt disponible",
       "search": {
         "title": "Recherche intelligente",
@@ -373,7 +403,7 @@
     },
     "testimonials": {
       "title": "Ce que disent nos utilisateurs",
-      "subtitle": "Découvrez comment Aura Historia aide les collectionneurs à vivre leur passion.",
+      "subtitle": "Découvrez comment nous aidons les collectionneurs à vivre leur passion.",
       "testimonial1": {
         "name": "Margarete W.",
         "role": "Collectionne les meubles Art nouveau",

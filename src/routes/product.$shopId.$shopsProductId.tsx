@@ -7,6 +7,7 @@ import { ProductDetailPageSkeleton } from "@/components/product/detail/ProductDe
 import { parseLanguage } from "@/data/internal/Language.ts";
 import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
+import { generateProductHeadMeta } from "@/lib/productHeadMeta.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 
 export const Route = createFileRoute("/product/$shopId/$shopsProductId")({
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/product/$shopId/$shopsProductId")({
             }),
         );
     },
+    head: ({ loaderData, params }) => generateProductHeadMeta(loaderData, params),
     pendingComponent: ProductDetailPageSkeleton,
     errorComponent: NotFoundComponent,
     component: ProductDetailComponent,

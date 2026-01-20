@@ -26,7 +26,7 @@ describe("HeroSection", () => {
 
     it("renders the subtitle", () => {
         expect(
-            screen.getByText(/Aura Historia durchsucht das gesamte Web nach Antiquitäten/),
+            screen.getByText(/Wir durchsuchen das gesamte Web nach Antiquitäten/),
         ).toBeInTheDocument();
     });
 

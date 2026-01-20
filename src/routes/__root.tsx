@@ -5,9 +5,10 @@ import {
     Scripts,
     useMatches,
 } from "@tanstack/react-router";
+import appCss from "../styles.css?url";
+import geistFontUrl from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
-import appCss from "../styles.css?url";
 import { Footer } from "@/components/common/Footer.tsx";
 import { Header } from "@/components/common/Header.tsx";
 import { NavigationProgress } from "@/components/common/NavigationProgress.tsx";
@@ -20,6 +21,7 @@ import "@/api-config.ts";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/server/i18n.server.ts";
 import i18n from "@/i18n/i18n.ts";
+import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
 
@@ -29,6 +31,11 @@ interface MyRouterContext {
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
     head: () => {
+        const locale = i18n.language || "en";
+        const ogLocale =
+            SUPPORTED_LANGUAGES.find((supportedLng) => supportedLng.code === locale)
+                ?.region_locale || "en_US";
+
         return {
             meta: [
                 {
@@ -39,13 +46,38 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                     content: "width=device-width, initial-scale=1",
                 },
                 {
-                    title: "Aura Historia (Preview)",
+                    title: i18n.t("common.auraHistoria"),
+                },
+                {
+                    name: "description",
+                    content: i18n.t("meta.defaultDescription"),
+                },
+                // Open Graph defaults
+                {
+                    property: "og:site_name",
+                    content: i18n.t("meta.siteName"),
+                },
+                {
+                    property: "og:locale",
+                    content: ogLocale,
+                },
+                // Twitter Card defaults
+                {
+                    name: "twitter:card",
+                    content: "summary",
                 },
             ],
             links: [
                 {
                     rel: "stylesheet",
                     href: appCss,
+                },
+                {
+                    rel: "preload",
+                    href: geistFontUrl,
+                    as: "font",
+                    type: "font/woff2",
+                    crossOrigin: "anonymous",
                 },
             ],
         };

@@ -17,7 +17,28 @@ export default defineConfig({
         devtools({
             removeDevtoolsOnBuild: true,
         }),
-        tanstackStart(),
+        tanstackStart({
+            prerender: {
+                enabled: true,
+                crawlLinks: true,
+                filter: ({path}) => {
+                    // Exclude authenticated routes
+                    if (path.startsWith('/account') || path.startsWith('/watchlist')) {
+                        return false
+                    }
+                    // Exclude search routes (dynamic query params)
+                    if (path.startsWith('/search')) {
+                        return false
+                    }
+                    // Exclude API routes
+                    return !path.startsWith('/api/');
+                },
+            },
+            sitemap: {
+                enabled: true,
+                host: 'https://aura-historia.com',
+            },
+        }),
         viteReact(),
         cloudflare({viteEnvironment: {name: 'ssr'}}),
     ],
