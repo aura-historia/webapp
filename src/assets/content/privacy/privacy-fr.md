@@ -82,18 +82,31 @@ Le traitement est effectué sur la base des fondements juridiques suivants :
 
 ---
 
-## 6. Utilisation du Stockage Local (Aucune Utilisation de Cookies)
+## 6. Utilisation de Cookies et du Stockage Local
 
-Notre plateforme **n’utilise aucun cookie**.
+Notre plateforme utilise des **cookies fonctionnels** qui sont techniquement nécessaires au fonctionnement du service.
 
-À la place, le **stockage local** est utilisé exclusivement pour des fonctions techniquement nécessaires, notamment :
+### 6.1 Cookies Fonctionnels
+
+Les cookies fonctionnels suivants sont utilisés :
+
+- **i18next** : Stocke la préférence linguistique de l'utilisateur
+  - Finalité : Mémorisation de la langue sélectionnée entre les sessions
+  - Expiration : 1 an
+  - Type : Fonctionnel (nécessaire)
+
+### 6.2 Stockage Local
+
+En plus des cookies fonctionnels, le **stockage local** est utilisé pour des fonctions techniquement nécessaires, notamment :
 
 - gestion des sessions
 - stockage des préférences fonctionnelles des utilisateurs
 
-Il n’y a **aucun suivi inter-utilisateurs**.
+### 6.3 Aucun Suivi
 
-La base juridique est le § 25, al. 2, n° 2 TTDSG, l’utilisation étant techniquement nécessaire.
+Il n'y a **aucune utilisation de cookies de suivi ou publicitaires**. Aucun suivi inter-utilisateurs n'est effectué.
+
+La base juridique est le § 25, al. 2, n° 2 TTDSG, l'utilisation étant techniquement nécessaire.
 
 ---
 

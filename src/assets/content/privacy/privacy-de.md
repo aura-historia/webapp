@@ -82,16 +82,29 @@ Die Verarbeitung erfolgt auf Grundlage folgender Rechtsgrundlagen:
 
 ---
 
-## 6. Einsatz von Local Storage (kein Cookie-Einsatz)
+## 6. Einsatz von Cookies und Local Storage
 
-Unsere Plattform verwendet **keine Cookies**.
+Unsere Plattform verwendet **funktionale Cookies**, die für den technischen Betrieb des Dienstes erforderlich sind.
 
-Stattdessen wird **Local Storage** ausschließlich für technisch notwendige Funktionen eingesetzt, insbesondere:
+### 6.1 Funktionale Cookies
+
+Folgende funktionale Cookies werden eingesetzt:
+
+- **i18next**: Speichert die bevorzugte Sprache des Nutzers
+  - Zweck: Wiederherstellung der gewählten Sprache über Sitzungen hinweg
+  - Speicherdauer: 1 Jahr
+  - Art: Funktional (erforderlich)
+
+### 6.2 Local Storage
+
+Zusätzlich zu funktionalen Cookies wird **Local Storage** für technisch notwendige Funktionen eingesetzt, insbesondere:
 
 - Sitzungsverwaltung
 - Speicherung funktionaler Nutzerpräferenzen
 
-Es findet **keine nutzerübergreifende Nachverfolgung** statt.
+### 6.3 Kein Tracking
+
+Es findet **kein Einsatz von Tracking- oder Werbe-Cookies** statt. Eine nutzerübergreifende Nachverfolgung findet nicht statt.
 
 Rechtsgrundlage ist § 25 Abs. 2 Nr. 2 TTDSG, da der Einsatz technisch erforderlich ist.
 
