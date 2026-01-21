@@ -112,7 +112,8 @@
       "authenticity": "Authentizität",
       "condition": "Zustand",
       "provenance": "Herkunftsnachweis",
-      "restoration": "Restaurierung"
+      "restoration": "Restaurierung",
+      "selected": "{{count}} ausgewählt"
     },
     "messages": {
       "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",

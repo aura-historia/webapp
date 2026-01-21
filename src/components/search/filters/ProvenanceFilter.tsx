@@ -32,7 +32,7 @@ export function ProvenanceFilter() {
                         onChange={field.onChange}
                         allSelectedLabel={t("common.all")}
                         placeholder={t("common.select")}
-                        selectedCountLabel={(count) => `${count} / ${options.length}`}
+                        selectedCountLabel={(count) => t("search.filter.selected", { count })}
                     />
                 )}
             />
