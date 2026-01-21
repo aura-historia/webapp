@@ -1,4 +1,8 @@
-# Copilot Onboarding Instructions
+---
+trigger: always_on
+---
+
+# Onboarding Instructions
 
 These instructions help an automated coding agent work efficiently in this repository. Trust these steps first; only
 search the codebase when something here is missing or proves inaccurate.

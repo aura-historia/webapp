@@ -3,7 +3,7 @@ import { Amplify } from "aws-amplify";
 import { I18n } from "aws-amplify/utils";
 import { env } from "@/env";
 
-Amplify.configure({
+export const amplifyConfig = {
     Auth: {
         Cognito: {
             userPoolId: env.VITE_USER_POOL_ID,
@@ -11,9 +11,13 @@ Amplify.configure({
             loginWith: {
                 email: true,
             },
-            signUpVerificationMethod: "code",
+            signUpVerificationMethod: "code" as const,
         },
     },
+};
+
+Amplify.configure(amplifyConfig, {
+    ssr: true,
 });
 
 I18n.putVocabularies(translations);
