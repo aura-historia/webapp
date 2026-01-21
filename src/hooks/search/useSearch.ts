@@ -13,6 +13,10 @@ import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
 import { useTranslation } from "react-i18next";
 import { parseLanguage } from "@/data/internal/Language.ts";
+import { mapToBackendAuthenticity } from "@/data/internal/Authenticity.ts";
+import { mapToBackendCondition } from "@/data/internal/Condition.ts";
+import { mapToBackendProvenance } from "@/data/internal/Provenance.ts";
+import { mapToBackendRestoration } from "@/data/internal/Restoration.ts";
 
 const PAGE_SIZE = 21;
 
@@ -62,6 +66,38 @@ export function useSearch(
                           }
                         : {}),
                     shopName: searchArgs.merchant?.length === 0 ? undefined : searchArgs.merchant,
+                    ...(searchArgs.originYearMin != null || searchArgs.originYearMax != null
+                        ? {
+                              originYear: {
+                                  min: searchArgs.originYearMin ?? undefined,
+                                  max: searchArgs.originYearMax ?? undefined,
+                              },
+                          }
+                        : {}),
+                    authenticity:
+                        searchArgs.authenticity?.length === 0
+                            ? []
+                            : searchArgs.authenticity?.map((authenticity) =>
+                                  mapToBackendAuthenticity(authenticity),
+                              ),
+                    condition:
+                        searchArgs.condition?.length === 0
+                            ? []
+                            : searchArgs.condition?.map((condition) =>
+                                  mapToBackendCondition(condition),
+                              ),
+                    provenance:
+                        searchArgs.provenance?.length === 0
+                            ? []
+                            : searchArgs.provenance?.map((provenance) =>
+                                  mapToBackendProvenance(provenance),
+                              ),
+                    restoration:
+                        searchArgs.restoration?.length === 0
+                            ? []
+                            : searchArgs.restoration?.map((restoration) =>
+                                  mapToBackendRestoration(restoration),
+                              ),
                 },
                 query: {
                     searchAfter: pageParam,
