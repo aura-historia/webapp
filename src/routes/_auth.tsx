@@ -1,12 +1,10 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { getCurrentUser } from "@aws-amplify/auth";
+import { getServerUser } from "@/lib/server/amplify.server";
 
 export const Route = createFileRoute("/_auth")({
     beforeLoad: async ({ location }) => {
-        try {
-            const user = await getCurrentUser();
-            return { user };
-        } catch {
+        const { user, authenticated } = await getServerUser();
+        if (!authenticated) {
             throw redirect({
                 to: "/login",
                 search: {
@@ -14,5 +12,6 @@ export const Route = createFileRoute("/_auth")({
                 },
             });
         }
+        return { user };
     },
 });
