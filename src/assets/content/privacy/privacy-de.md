@@ -95,6 +95,12 @@ Folgende funktionale Cookies werden eingesetzt:
   - Speicherdauer: 1 Jahr
   - Art: Funktional (erforderlich)
 
+- **AWS Amplify / Amazon Cognito Cookies**: Werden für Nutzer-Authentifizierung und Sitzungsverwaltung verwendet
+  - Zweck: Aufrechterhaltung der Nutzersitzung, Zugriffskontrolle und Authentifizierungsstatus
+  - Speicherdauer: Sitzungsbasiert (verfallen typischerweise beim Schließen des Browsers) oder basierend auf konfigurierter Sitzungsdauer
+  - Art: Funktional (erforderlich für Authentifizierung)
+  - Anbieter: Amazon Web Services (AWS Cognito)
+
 ### 6.2 Local Storage
 
 Zusätzlich zu funktionalen Cookies wird **Local Storage** für technisch notwendige Funktionen eingesetzt, insbesondere:

@@ -95,6 +95,12 @@ The following functional cookies are used:
   - Expiration: 1 year
   - Type: Functional (necessary)
 
+- **AWS Amplify / Amazon Cognito cookies**: Used for user authentication and session management
+  - Purpose: Maintaining user login sessions, access control, and authentication state
+  - Expiration: Session-based (typically expire when browser is closed) or based on configured session duration
+  - Type: Functional (necessary for authentication)
+  - Provider: Amazon Web Services (AWS Cognito)
+
 ### 6.2 Local Storage
 
 In addition to functional cookies, **local storage** is used for technically necessary functions, in particular:
