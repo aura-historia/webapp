@@ -1,8 +1,6 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Preview)",
-    "all": "All",
-    "select": "Select"
+    "auraHistoria": "Aura Historia (Preview)"
   },
   "validation": {
     "name": {
@@ -101,6 +99,8 @@
       "priceSpanAria": "Price Range",
       "updateDate": "Updated",
       "anyDate": "Any",
+      "all": "All",
+      "select": "Select",
       "resetTooltip": {
         "priceSpan": "Reset price range filter",
         "productState": "Reset status filter",

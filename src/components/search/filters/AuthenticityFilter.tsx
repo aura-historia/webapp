@@ -30,8 +30,8 @@ export function AuthenticityFilter() {
                         options={options}
                         value={field.value ?? []}
                         onChange={field.onChange}
-                        allSelectedLabel={t("common.all")}
-                        placeholder={t("common.select")}
+                        allSelectedLabel={t("search.filter.all")}
+                        placeholder={t("search.filter.select")}
                     />
                 )}
             />
