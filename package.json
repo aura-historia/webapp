@@ -17,6 +17,8 @@
         "prepare": "husky",
         "preview": "vite preview",
         "deploy": "wrangler deploy",
+        "deploy:production": "wrangler deploy --env production",
+        "deploy:staging": "wrangler deploy --env staging",
         "cf-typegen": "wrangler types"
     },
     "lint-staged": {
@@ -118,6 +120,6 @@
         "vite": "^7.3.0",
         "vitest": "^4.0.17",
         "web-vitals": "^5.1.0",
-        "wrangler": "^4.54.0"
+        "wrangler": "4.59.1"
     }
 }

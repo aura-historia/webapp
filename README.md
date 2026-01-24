@@ -15,6 +15,38 @@ To build this application for production:
 pnpm run build
 ```
 
+## Deployment
+
+This application is deployed to Cloudflare Workers using the GitHub integration. Deployments are automated based on the branch:
+
+### Automatic Deployments
+
+- **Production** (`main` branch) → https://aura-historia.com
+- **Staging** (`dev` branch) → https://stage.aura-historia.com
+- **Preview Deployments** (Pull Requests) → Automatic preview URLs
+
+### Manual Deployments
+
+You can also deploy manually using the following commands:
+
+```bash
+# Deploy to production
+pnpm run deploy:production
+
+# Deploy to staging
+pnpm run deploy:staging
+```
+
+**Note**: Manual deployments require the following environment variables to be set:
+- `CLOUDFLARE_API_TOKEN` - Your Cloudflare API token
+- `CLOUDFLARE_ACCOUNT_ID` - Your Cloudflare account ID
+
+### Secrets
+
+Required secrets in GitHub Actions:
+- `CLOUDFLARE_API_TOKEN` - Cloudflare API token with Workers deployment permissions
+- `CLOUDFLARE_ACCOUNT_ID` - Your Cloudflare account ID
+
 ## Testing
 
 This project uses [Vitest](https://vitest.dev/) for unit testing and [Playwright](https://playwright.dev/) for E2E testing.
