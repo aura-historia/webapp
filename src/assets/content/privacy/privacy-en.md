@@ -82,16 +82,35 @@ Processing is carried out on the basis of the following legal grounds:
 
 ---
 
-## 6. Use of Local Storage (No Use of Cookies)
+## 6. Use of Cookies and Local Storage
 
-Our platform uses **no cookies**.
+Our platform uses **functional cookies** that are technically necessary for the operation of the service.
 
-Instead, **local storage** is used exclusively for technically necessary functions, in particular:
+### 6.1 Functional Cookies
+
+The following functional cookies are used:
+
+- **i18next**: Stores the user's language preference
+  - Purpose: Remembering the selected language across sessions
+  - Expiration: 1 year
+  - Type: Functional (necessary)
+
+- **AWS Amplify / Amazon Cognito cookies**: Used for user authentication and session management
+  - Purpose: Maintaining user login sessions, access control, and authentication state
+  - Expiration: 1 year
+  - Type: Functional (necessary for authentication)
+  - Provider: Amazon Web Services (AWS Cognito)
+
+### 6.2 Local Storage
+
+In addition to functional cookies, **local storage** is used for technically necessary functions, in particular:
 
 - session management
 - storage of functional user preferences
 
-There is **no cross-user tracking**.
+### 6.3 No Tracking
+
+There is **no use of tracking or advertising cookies**. No cross-user tracking takes place.
 
 The legal basis is Section 25 (2) No. 2 TTDSG, as the use is technically necessary.
 

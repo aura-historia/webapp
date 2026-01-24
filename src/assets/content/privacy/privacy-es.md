@@ -82,16 +82,35 @@ El tratamiento se lleva a cabo sobre la base de las siguientes bases legales:
 
 ---
 
-## 6. Uso de Almacenamiento Local (Sin Uso de Cookies)
+## 6. Uso de Cookies y Almacenamiento Local
 
-Nuestra plataforma **no utiliza cookies**.
+Nuestra plataforma utiliza **cookies funcionales** que son técnicamente necesarias para el funcionamiento del servicio.
 
-En su lugar, se utiliza **almacenamiento local** exclusivamente para funciones técnicamente necesarias, en particular:
+### 6.1 Cookies Funcionales
+
+Se utilizan las siguientes cookies funcionales:
+
+- **i18next**: Almacena la preferencia de idioma del usuario
+  - Finalidad: Recordar el idioma seleccionado entre sesiones
+  - Expiración: 1 año
+  - Tipo: Funcional (necesaria)
+
+- **Cookies de AWS Amplify / Amazon Cognito**: Utilizadas para la autenticación de usuarios y gestión de sesiones
+  - Finalidad: Mantener las sesiones de usuario, control de acceso y estado de autenticación
+  - Expiración: 1 año
+  - Tipo: Funcional (necesaria para la autenticación)
+  - Proveedor: Amazon Web Services (AWS Cognito)
+
+### 6.2 Almacenamiento Local
+
+Además de las cookies funcionales, se utiliza **almacenamiento local** para funciones técnicamente necesarias, en particular:
 
 - gestión de sesiones
 - almacenamiento de preferencias funcionales del usuario
 
-No se realiza **ningún seguimiento entre usuarios**.
+### 6.3 Sin Seguimiento
+
+**No se utilizan cookies de seguimiento o publicidad**. No se realiza ningún seguimiento entre usuarios.
 
 La base jurídica es el § 25 apdo. 2 n.º 2 TTDSG, ya que el uso es técnicamente necesario.
 
