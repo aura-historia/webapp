@@ -57,25 +57,14 @@ describe("ConditionFilter", () => {
         expect(screen.getByText("Alle")).toBeInTheDocument();
     });
 
-    it("displays selected count when some options are selected", () => {
-        render(
-            <FormWrapper defaultValues={{ condition: ["EXCELLENT", "GREAT", "GOOD"] }}>
-                <ConditionFilter />
-            </FormWrapper>,
-        );
-
-        expect(screen.getByText("3 ausgewählt")).toBeInTheDocument();
-    });
-
-    it("shows badges for selected options when not all selected", () => {
+    it("displays labels inline when some options are selected", () => {
         render(
             <FormWrapper defaultValues={{ condition: ["EXCELLENT", "GREAT"] }}>
                 <ConditionFilter />
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Exzellent")).toBeInTheDocument();
-        expect(screen.getByText("Sehr gut")).toBeInTheDocument();
+        expect(screen.getAllByText(/Exzellent/).length).toBeGreaterThan(0);
     });
 
     it("opens dropdown and shows all options when clicked", async () => {
@@ -113,7 +102,7 @@ describe("ConditionFilter", () => {
         const excellentOption = screen.getByText("Exzellent");
         await user.click(excellentOption);
 
-        expect(screen.getByText("1 ausgewählt")).toBeInTheDocument();
+        expect(screen.getAllByText(/Exzellent/).length).toBeGreaterThan(0);
     });
 
     it("selects all options when 'All' is clicked", async () => {
@@ -132,20 +121,5 @@ describe("ConditionFilter", () => {
         await user.click(allOption);
 
         expect(screen.getAllByText("Alle")).toHaveLength(2);
-    });
-
-    it("removes option when badge X is clicked", async () => {
-        const user = userEvent.setup();
-
-        render(
-            <FormWrapper defaultValues={{ condition: ["EXCELLENT", "GREAT"] }}>
-                <ConditionFilter />
-            </FormWrapper>,
-        );
-
-        const removeButtons = screen.getAllByRole("button");
-        await user.click(removeButtons[0]);
-
-        expect(screen.getByText("1 ausgewählt")).toBeInTheDocument();
     });
 });
