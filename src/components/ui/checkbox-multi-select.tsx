@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Check, ChevronDown, X } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Check, ChevronDown } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -16,7 +15,6 @@ export type CheckboxMultiSelectProps = {
     readonly onChange: (value: string[]) => void;
     readonly placeholder?: string;
     readonly allSelectedLabel?: string;
-    readonly selectedCountLabel?: (count: number) => string;
 };
 
 export function CheckboxMultiSelect({
@@ -25,55 +23,107 @@ export function CheckboxMultiSelect({
     onChange,
     placeholder = "Select...",
     allSelectedLabel = "All",
-    selectedCountLabel = (count: number) => `${count} selected`,
 }: CheckboxMultiSelectProps) {
     const [open, setOpen] = React.useState(false);
+    const [visibleCount, setVisibleCount] = React.useState(1);
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const measureRef = React.useRef<HTMLDivElement>(null);
+
+    const selectedOptions = React.useMemo(
+        () => options.filter((opt) => value.includes(opt.value)),
+        [options, value],
+    );
+    const allSelected = value.length === options.length && options.length > 0;
+    const noneSelected = value.length === 0;
 
     const handleToggle = (optionValue: string) => {
-        if (value.includes(optionValue)) {
-            onChange(value.filter((v) => v !== optionValue));
-        } else {
-            onChange([...value, optionValue]);
-        }
+        onChange(
+            value.includes(optionValue)
+                ? value.filter((v) => v !== optionValue)
+                : [...value, optionValue],
+        );
     };
 
     const handleToggleAll = () => {
-        if (allSelected) {
-            onChange([]);
-        } else {
-            onChange(options.map((opt) => opt.value));
-        }
+        onChange(allSelected ? [] : options.map((opt) => opt.value));
     };
 
-    const handleRemove = (optionValue: string) => {
-        onChange(value.filter((v) => v !== optionValue));
-    };
+    React.useLayoutEffect(() => {
+        const container = containerRef.current;
+        const measure = measureRef.current;
+        if (noneSelected || allSelected || !container || !measure) return;
 
-    const selectedOptions = options.filter((opt) => value.includes(opt.value));
-    const allSelected = value.length === options.length;
-    const noneSelected = value.length === 0;
+        const calculate = () => {
+            const styles = window.getComputedStyle(container);
+            const availableWidth =
+                container.offsetWidth -
+                parseFloat(styles.paddingLeft) -
+                parseFloat(styles.paddingRight) -
+                24; // chevron + buffer
 
-    const getDisplayText = () => {
-        if (noneSelected) {
-            return placeholder;
-        }
-        if (allSelected) {
-            return allSelectedLabel;
-        }
-        return selectedCountLabel(value.length);
-    };
+            const labels = selectedOptions.map((opt) => opt.label);
+            let count = 0;
+
+            for (let i = 1; i <= labels.length; i++) {
+                const remaining = labels.length - i;
+                measure.textContent = labels.slice(0, i).join(", ");
+                let width = measure.offsetWidth;
+
+                if (remaining > 0) {
+                    measure.textContent = `+${remaining}`;
+                    width += 4 + measure.offsetWidth;
+                }
+
+                if (width <= availableWidth) count = i;
+                else break;
+            }
+
+            setVisibleCount(Math.max(1, count));
+        };
+
+        calculate();
+        const observer = new ResizeObserver(calculate);
+        observer.observe(container);
+        return () => observer.disconnect();
+    }, [selectedOptions, noneSelected, allSelected]);
+
+    const remainingCount = selectedOptions.length - visibleCount;
+
+    const displayContent = noneSelected ? (
+        <span className="text-muted-foreground">{placeholder}</span>
+    ) : allSelected ? (
+        <span>{allSelectedLabel}</span>
+    ) : (
+        <span className="flex items-center gap-1 min-w-0">
+            <span className="truncate">
+                {selectedOptions
+                    .slice(0, visibleCount)
+                    .map((opt) => opt.label)
+                    .join(", ")}
+            </span>
+            {remainingCount > 0 && (
+                <span className="shrink-0 text-muted-foreground">+{remainingCount}</span>
+            )}
+        </span>
+    );
 
     return (
         <div>
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <div
+                        ref={containerRef}
                         role="combobox"
                         aria-expanded={open}
                         tabIndex={0}
-                        className="flex h-9 w-full cursor-pointer items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs"
+                        className="relative flex h-9 w-full cursor-pointer items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs"
                     >
-                        <span className="truncate">{getDisplayText()}</span>
+                        <div
+                            ref={measureRef}
+                            className="pointer-events-none invisible absolute whitespace-nowrap"
+                            aria-hidden="true"
+                        />
+                        {displayContent}
                         <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
                     </div>
                 </PopoverTrigger>
@@ -82,7 +132,6 @@ export function CheckboxMultiSelect({
                     align="start"
                 >
                     <div className="max-h-60 overflow-auto p-1">
-                        {/* All option */}
                         <div
                             className={cn(
                                 "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
@@ -112,7 +161,6 @@ export function CheckboxMultiSelect({
                             <span>{allSelectedLabel}</span>
                         </div>
                         <Separator className="my-1" />
-                        {/* Individual options */}
                         {options.map((option) => {
                             const isSelected = value.includes(option.value);
                             return (
@@ -150,35 +198,6 @@ export function CheckboxMultiSelect({
                     </div>
                 </PopoverContent>
             </Popover>
-            {/* Selected items displayed below the dropdown */}
-            {!allSelected && !noneSelected && (
-                <div className="flex gap-1 flex-wrap mt-2">
-                    {selectedOptions.map((option) => (
-                        <Badge
-                            key={option.value}
-                            className="bg-background text-sm text-foreground border-muted-foreground/20 px-2 py-1"
-                        >
-                            {option.label}
-                            <button
-                                type="button"
-                                className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleRemove(option.value);
-                                }}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter") {
-                                        e.stopPropagation();
-                                        handleRemove(option.value);
-                                    }
-                                }}
-                            >
-                                <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-                            </button>
-                        </Badge>
-                    ))}
-                </div>
-            )}
         </div>
     );
 }

@@ -32,7 +32,6 @@ export function AuthenticityFilter() {
                         onChange={field.onChange}
                         allSelectedLabel={t("common.all")}
                         placeholder={t("common.select")}
-                        selectedCountLabel={(count) => t("search.filter.selected", { count })}
                     />
                 )}
             />
