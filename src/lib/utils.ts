@@ -96,34 +96,36 @@ export type SearchUrlParams = {
     restoration?: Restoration[];
 };
 
+function mapDateRangeToParams(range?: { from?: Date; to?: Date }) {
+    return {
+        from: formatToDateString(range?.from),
+        to: formatToDateString(range?.to),
+    };
+}
+
 /**
  * Converts filter form data to URL search parameters
  */
 export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
+    const creationDate = mapDateRangeToParams(data.creationDate);
+    const updateDate = mapDateRangeToParams(data.updateDate);
+
     return {
         q: data.query,
         priceFrom: data.priceSpan?.min,
         priceTo: data.priceSpan?.max,
-        allowedStates:
-            data.productState && data.productState.length > 0 ? data.productState : undefined,
-        creationDateFrom: data.creationDate?.from
-            ? formatToDateString(data.creationDate.from)
-            : undefined,
-        creationDateTo: data.creationDate?.to
-            ? formatToDateString(data.creationDate.to)
-            : undefined,
-        updateDateFrom: data.updateDate?.from
-            ? formatToDateString(data.updateDate.from)
-            : undefined,
-        updateDateTo: data.updateDate?.to ? formatToDateString(data.updateDate.to) : undefined,
-        merchant: data.merchant && data.merchant.length > 0 ? data.merchant : undefined,
+        allowedStates: data.productState?.length ? data.productState : undefined,
+        creationDateFrom: creationDate.from,
+        creationDateTo: creationDate.to,
+        updateDateFrom: updateDate.from,
+        updateDateTo: updateDate.to,
+        merchant: data.merchant?.length ? data.merchant : undefined,
         originYearMin: data.originYearSpan?.min,
         originYearMax: data.originYearSpan?.max,
-        authenticity:
-            data.authenticity && data.authenticity.length > 0 ? data.authenticity : undefined,
-        condition: data.condition && data.condition.length > 0 ? data.condition : undefined,
-        provenance: data.provenance && data.provenance.length > 0 ? data.provenance : undefined,
-        restoration: data.restoration && data.restoration.length > 0 ? data.restoration : undefined,
+        authenticity: data.authenticity?.length ? data.authenticity : undefined,
+        condition: data.condition?.length ? data.condition : undefined,
+        provenance: data.provenance?.length ? data.provenance : undefined,
+        restoration: data.restoration?.length ? data.restoration : undefined,
     };
 }
 
