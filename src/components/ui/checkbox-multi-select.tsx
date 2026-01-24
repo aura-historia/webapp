@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown, X } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -59,7 +59,7 @@ export function CheckboxMultiSelect({
                 container.offsetWidth -
                 parseFloat(styles.paddingLeft) -
                 parseFloat(styles.paddingRight) -
-                24; // chevron + buffer
+                48; // chevron + reset icon + buffer
 
             const labels = selectedOptions.map((opt) => opt.label);
             let count = 0;
@@ -124,7 +124,18 @@ export function CheckboxMultiSelect({
                             aria-hidden="true"
                         />
                         {displayContent}
-                        <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
+                        <div className="flex items-center gap-1 shrink-0">
+                            {!noneSelected && !allSelected && (
+                                <X
+                                    className="h-4 w-4 opacity-50 hover:opacity-100"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onChange(options.map((opt) => opt.value));
+                                    }}
+                                />
+                            )}
+                            <ChevronDown className="h-4 w-4 opacity-50" />
+                        </div>
                     </div>
                 </PopoverTrigger>
                 <PopoverContent

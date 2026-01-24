@@ -105,7 +105,8 @@
         "productState": "Filter für den Status zurücksetzen",
         "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
         "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
-        "merchant": "Filter für den Händler zurücksetzen"
+        "merchant": "Filter für den Händler zurücksetzen",
+        "qualityIndicators": "Filter für die Qualitätsmerkmale zurücksetzen"
       },
       "qualityIndicators": "Qualitätsmerkmale",
       "originYear": "Entstehungsjahr",

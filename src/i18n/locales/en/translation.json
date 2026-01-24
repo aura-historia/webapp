@@ -106,7 +106,8 @@
         "productState": "Reset status filter",
         "creationDate": "Reset creation date filter",
         "updateDate": "Reset update date filter",
-        "merchant": "Reset merchant filter"
+        "merchant": "Reset merchant filter",
+        "qualityIndicators": "Reset quality indicators filter"
       },
       "qualityIndicators": "Quality Indicators",
       "originYear": "Year of Origin",
