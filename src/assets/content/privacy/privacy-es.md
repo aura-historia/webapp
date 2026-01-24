@@ -97,7 +97,7 @@ Se utilizan las siguientes cookies funcionales:
 
 - **Cookies de AWS Amplify / Amazon Cognito**: Utilizadas para la autenticación de usuarios y gestión de sesiones
   - Finalidad: Mantener las sesiones de usuario, control de acceso y estado de autenticación
-  - Expiración: Basada en sesión (normalmente expiran al cerrar el navegador) o según la duración de sesión configurada
+  - Expiración: 1 año
   - Tipo: Funcional (necesaria para la autenticación)
   - Proveedor: Amazon Web Services (AWS Cognito)
 
