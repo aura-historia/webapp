@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { WatchlistResults } from "@/components/watchlist/WatchlistResults.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
-import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
+import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 vi.mock("@tanstack/react-query", async (importOriginal) => {

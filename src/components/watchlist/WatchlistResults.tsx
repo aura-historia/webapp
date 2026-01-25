@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { H1 } from "@/components/typography/H1.tsx";
 import { useTranslation } from "react-i18next";
-import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
+import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import Lottie from "lottie-react";
 import tick from "@/assets/lottie/tick.json";

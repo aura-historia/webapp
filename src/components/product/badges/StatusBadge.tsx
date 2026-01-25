@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge.tsx";
 import { cn } from "@/lib/utils.ts";
 import { Clock, HelpCircle, Package, ShoppingCart, Tag, XCircle } from "lucide-react";
-import type { ProductState } from "@/data/internal/ProductState.ts";
+import type { ProductState } from "@/data/internal/product/ProductState.ts";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { useMemo } from "react";

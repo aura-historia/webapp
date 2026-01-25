@@ -4,7 +4,10 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PersonalDataForm } from "../PersonalDataForm";
 import type { UseQueryResult, UseMutationResult } from "@tanstack/react-query";
-import type { UserAccountData, UserAccountPatchData } from "@/data/internal/UserAccountData";
+import type {
+    UserAccountData,
+    UserAccountPatchData,
+} from "@/data/internal/account/UserAccountData.ts";
 
 const mockToast = vi.hoisted(() => ({
     success: vi.fn(),

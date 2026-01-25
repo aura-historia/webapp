@@ -134,8 +134,18 @@
         "productState": "Réinitialiser le filtre de statut",
         "creationDate": "Réinitialiser le filtre de date de création",
         "updateDate": "Réinitialiser le filtre de date de mise à jour",
-        "merchant": "Réinitialiser le filtre de marchand"
-      }
+        "merchant": "Réinitialiser le filtre de marchand",
+        "qualityIndicators": "Réinitialiser le filtre des indicateurs de qualité"
+      },
+      "all": "Tous",
+      "select": "Sélectionner",
+      "qualityIndicators": "Indicateurs de Qualité",
+      "originYear": "Année d'Origine",
+      "authenticity": "Authenticité",
+      "condition": "État",
+      "provenance": "Provenance",
+      "restoration": "Restauration",
+      "selected": "{{count}} sélectionné(s)"
     },
     "messages": {
       "minQueryLength": "Veuillez saisir au moins 3 caractères pour lancer la recherche.",

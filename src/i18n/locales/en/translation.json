@@ -129,13 +129,23 @@
       "priceSpanAria": "Price Range",
       "updateDate": "Updated",
       "anyDate": "Any",
+      "all": "All",
+      "select": "Select",
       "resetTooltip": {
         "priceSpan": "Reset price range filter",
         "productState": "Reset status filter",
         "creationDate": "Reset creation date filter",
         "updateDate": "Reset update date filter",
-        "merchant": "Reset merchant filter"
-      }
+        "merchant": "Reset merchant filter",
+        "qualityIndicators": "Reset quality indicators filter"
+      },
+      "qualityIndicators": "Quality Indicators",
+      "originYear": "Year of Origin",
+      "authenticity": "Authenticity",
+      "condition": "Condition",
+      "provenance": "Provenance",
+      "restoration": "Restoration",
+      "selected": "{{count}} selected"
     },
     "messages": {
       "minQueryLength": "Please enter at least 3 characters to start the search.",

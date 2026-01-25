@@ -2,15 +2,15 @@ import { Badge } from "@/components/ui/badge.tsx";
 import { Calendar, ShieldCheck, Star } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils.ts";
-import type { ProductDetail } from "@/data/internal/ProductDetails.ts";
-import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
+import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
+import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import {
     formatOriginYear,
     getOriginYearColor,
     PRODUCT_ATTRIBUTE_COLORS,
 } from "@/components/product/detail/ProductQualityIndicator/ProductQualityIndicator.helpers.ts";
-import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/Authenticity.ts";
-import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/Condition.ts";
+import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Authenticity.ts";
+import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Condition.ts";
 
 export function ProductQualityBadges({
     product,

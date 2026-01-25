@@ -1,6 +1,6 @@
 import type { GetUserAccountData, PatchUserAccountData } from "@/client";
-import { type Language, parseLanguage, mapToBackendLanguage } from "./Language";
-import { type Currency, parseCurrency, mapToBackendCurrency } from "./Currency";
+import { type Language, parseLanguage, mapToBackendLanguage } from "../common/Language.ts";
+import { type Currency, parseCurrency, mapToBackendCurrency } from "../common/Currency.ts";
 
 export type UserAccountData = {
     readonly userId: string;

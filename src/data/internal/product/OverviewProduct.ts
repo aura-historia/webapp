@@ -4,19 +4,31 @@ import type {
     GetProductData,
     ProductUserStateData,
 } from "@/client";
-import { type ProductState, parseProductState } from "@/data/internal/ProductState.ts";
+import { type ProductState, parseProductState } from "@/data/internal/product/ProductState.ts";
 import {
     mapToInternalUserProductData,
     type UserProductData,
-} from "@/data/internal/UserProductData.ts";
-import { type Authenticity, parseAuthenticity } from "@/data/internal/Authenticity.ts";
-import { type Condition, parseCondition } from "@/data/internal/Condition.ts";
-import { type Provenance, parseProvenance } from "@/data/internal/Provenance.ts";
-import { type Restoration, parseRestoration } from "@/data/internal/Restoration.ts";
-import { mapToInternalProductImage, type ProductImage } from "@/data/internal/ProductImageData.ts";
-import { parseShopType, type ShopType } from "@/data/internal/ShopType.ts";
-import { parsePriceEstimate, type PriceEstimate } from "@/data/internal/PriceEstimate.ts";
-import { formatPrice } from "@/data/internal/Price.ts";
+} from "@/data/internal/product/UserProductData.ts";
+import {
+    type Authenticity,
+    parseAuthenticity,
+} from "@/data/internal/quality-indicators/Authenticity.ts";
+import { type Condition, parseCondition } from "@/data/internal/quality-indicators/Condition.ts";
+import { type Provenance, parseProvenance } from "@/data/internal/quality-indicators/Provenance.ts";
+import {
+    type Restoration,
+    parseRestoration,
+} from "@/data/internal/quality-indicators/Restoration.ts";
+import {
+    mapToInternalProductImage,
+    type ProductImage,
+} from "@/data/internal/product/ProductImageData.ts";
+import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
+import {
+    parsePriceEstimate,
+    type PriceEstimate,
+} from "@/data/internal/quality-indicators/PriceEstimate.ts";
+import { formatPrice } from "@/data/internal/price/Price.ts";
 
 export type OverviewProduct = {
     readonly productId: string;

@@ -134,8 +134,18 @@
         "productState": "Restablecer filtro de estado",
         "creationDate": "Restablecer filtro de fecha de creación",
         "updateDate": "Restablecer filtro de fecha de actualización",
-        "merchant": "Restablecer filtro de vendedor"
-      }
+        "merchant": "Restablecer filtro de vendedor",
+        "qualityIndicators": "Restablecer filtro de indicadores de calidad"
+      },
+      "all": "Todo",
+      "select": "Seleccionar",
+      "qualityIndicators": "Indicadores de Calidad",
+      "originYear": "Año de Origen",
+      "authenticity": "Autenticidad",
+      "condition": "Condición",
+      "provenance": "Proveniencia",
+      "restoration": "Restauración",
+      "selected": "{{count}} seleccionados"
     },
     "messages": {
       "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",

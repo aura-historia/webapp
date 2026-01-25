@@ -1,4 +1,4 @@
-import { formatPrice } from "@/data/internal/Price.ts";
+import { formatPrice } from "@/data/internal/price/Price.ts";
 
 describe("formatPrice", () => {
     const locale = "de-DE";

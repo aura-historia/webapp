@@ -5,7 +5,7 @@ import type {
     ProductPriceChangedPayload,
     ProductPriceDiscoveredPayload,
     ProductPriceRemovedPayload,
-} from "@/data/internal/ProductDetails";
+} from "@/data/internal/product/ProductDetails.ts";
 import type { StateEventType, PriceEventType } from "@/types/events";
 
 /**

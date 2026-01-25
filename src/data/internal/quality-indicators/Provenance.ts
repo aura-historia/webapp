@@ -1,7 +1,7 @@
 import type { ProvenanceData } from "@/client";
 
-export type Provenance = "COMPLETE" | "PARTIAL" | "CLAIMED" | "NONE" | "UNKNOWN";
-
+export const PROVENANCES = ["COMPLETE", "PARTIAL", "CLAIMED", "NONE", "UNKNOWN"] as const;
+export type Provenance = (typeof PROVENANCES)[number];
 export const PROVENANCE_TRANSLATION_CONFIG = {
     COMPLETE: {
         translationKey: "product.qualityIndicators.provenance.complete",

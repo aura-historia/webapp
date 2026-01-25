@@ -1,7 +1,14 @@
 import type { ProductStateData } from "@/client";
 
-export type ProductState = "LISTED" | "AVAILABLE" | "RESERVED" | "SOLD" | "REMOVED" | "UNKNOWN";
-
+export const PRODUCT_STATES = [
+    "LISTED",
+    "AVAILABLE",
+    "RESERVED",
+    "SOLD",
+    "REMOVED",
+    "UNKNOWN",
+] as const;
+export type ProductState = (typeof PRODUCT_STATES)[number];
 export function parseProductState(state?: string): ProductState {
     const uppercasedStateData = state?.toUpperCase() ?? "UNKNOWN";
 

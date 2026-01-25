@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parsePriceEstimate } from "../PriceEstimate";
+import { parsePriceEstimate } from "../quality-indicators/PriceEstimate.ts";
 import type { PriceData } from "@/client";
 
 describe("parsePriceEstimate", () => {

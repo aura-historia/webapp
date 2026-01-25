@@ -1,4 +1,4 @@
-import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
+import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 
 export type SearchResultData = {
     products: OverviewProduct[];

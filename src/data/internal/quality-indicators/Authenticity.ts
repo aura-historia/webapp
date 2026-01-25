@@ -1,7 +1,13 @@
 import type { AuthenticityData } from "@/client";
 
-export type Authenticity = "ORIGINAL" | "LATER_COPY" | "REPRODUCTION" | "QUESTIONABLE" | "UNKNOWN";
-
+export const AUTHENTICITIES = [
+    "ORIGINAL",
+    "LATER_COPY",
+    "REPRODUCTION",
+    "QUESTIONABLE",
+    "UNKNOWN",
+] as const;
+export type Authenticity = (typeof AUTHENTICITIES)[number];
 export const AUTHENTICITY_TRANSLATION_CONFIG = {
     ORIGINAL: {
         translationKey: "product.qualityIndicators.authenticity.original",

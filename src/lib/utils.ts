@@ -1,15 +1,20 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
-import type { ProductEvent } from "@/data/internal/ProductDetails.ts";
+import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
 import {
     isCreatedEvent,
     isPriceChangedEvent,
     isPriceDiscoveredEvent,
     isPriceRemovedEvent,
 } from "@/lib/eventFilters.ts";
-import type { ProductState } from "@/data/internal/ProductState.ts";
+import type { ProductState } from "@/data/internal/product/ProductState.ts";
 import type { TFunction } from "i18next";
+import type { Authenticity } from "@/data/internal/quality-indicators/Authenticity.ts";
+import type { Condition } from "@/data/internal/quality-indicators/Condition.ts";
+import type { Provenance } from "@/data/internal/quality-indicators/Provenance.ts";
+import type { Restoration } from "@/data/internal/quality-indicators/Restoration.ts";
+import type { CheckedState } from "@radix-ui/react-checkbox";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -63,6 +68,14 @@ export type SearchFilterData = {
         to?: Date;
     };
     merchant?: string[];
+    originYearSpan?: {
+        min?: number;
+        max?: number;
+    };
+    authenticity?: Authenticity[];
+    condition?: Condition[];
+    provenance?: Provenance[];
+    restoration?: Restoration[];
 };
 
 export type SearchUrlParams = {
@@ -75,29 +88,44 @@ export type SearchUrlParams = {
     updateDateFrom?: string;
     updateDateTo?: string;
     merchant?: string[];
+    originYearMin?: number;
+    originYearMax?: number;
+    authenticity?: Authenticity[];
+    condition?: Condition[];
+    provenance?: Provenance[];
+    restoration?: Restoration[];
 };
+
+function mapDateRangeToParams(range?: { from?: Date; to?: Date }) {
+    return {
+        from: formatToDateString(range?.from),
+        to: formatToDateString(range?.to),
+    };
+}
 
 /**
  * Converts filter form data to URL search parameters
  */
 export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
+    const creationDate = mapDateRangeToParams(data.creationDate);
+    const updateDate = mapDateRangeToParams(data.updateDate);
+
     return {
         q: data.query,
         priceFrom: data.priceSpan?.min,
         priceTo: data.priceSpan?.max,
-        allowedStates:
-            data.productState && data.productState.length > 0 ? data.productState : undefined,
-        creationDateFrom: data.creationDate?.from
-            ? formatToDateString(data.creationDate.from)
-            : undefined,
-        creationDateTo: data.creationDate?.to
-            ? formatToDateString(data.creationDate.to)
-            : undefined,
-        updateDateFrom: data.updateDate?.from
-            ? formatToDateString(data.updateDate.from)
-            : undefined,
-        updateDateTo: data.updateDate?.to ? formatToDateString(data.updateDate.to) : undefined,
-        merchant: data.merchant && data.merchant.length > 0 ? data.merchant : undefined,
+        allowedStates: data.productState?.length ? data.productState : undefined,
+        creationDateFrom: creationDate.from,
+        creationDateTo: creationDate.to,
+        updateDateFrom: updateDate.from,
+        updateDateTo: updateDate.to,
+        merchant: data.merchant?.length ? data.merchant : undefined,
+        originYearMin: data.originYearSpan?.min,
+        originYearMax: data.originYearSpan?.max,
+        authenticity: data.authenticity?.length ? data.authenticity : undefined,
+        condition: data.condition?.length ? data.condition : undefined,
+        provenance: data.provenance?.length ? data.provenance : undefined,
+        restoration: data.restoration?.length ? data.restoration : undefined,
     };
 }
 
@@ -157,5 +185,17 @@ export function formatStateName(state: ProductState, t: TFunction): string {
             return `'${t("productState.removed")}'`;
         case "UNKNOWN":
             return `'${t("productState.unknown")}'`;
+    }
+}
+
+export function handleCheckedChange(
+    field: { value: string[]; onChange: (value: string[]) => void },
+    state: string,
+    isChecked: CheckedState,
+): void {
+    if (isChecked) {
+        field.onChange([...field.value, state]);
+    } else {
+        field.onChange(field.value?.filter((value) => value !== state));
     }
 }

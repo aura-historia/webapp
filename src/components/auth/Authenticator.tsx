@@ -16,8 +16,8 @@ import {
     registrationStore,
     setUserAuthenticated,
 } from "@/stores/registrationStore";
-import { parseLanguage, LANGUAGES } from "@/data/internal/Language.ts";
-import { parseCurrency, CURRENCIES } from "@/data/internal/Currency.ts";
+import { parseLanguage, LANGUAGES } from "@/data/internal/common/Language.ts";
+import { parseCurrency, CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { validateCognitoNameFields } from "@/utils/nameValidation";
 import { useEffect } from "react";
 

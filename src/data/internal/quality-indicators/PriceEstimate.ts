@@ -1,5 +1,5 @@
 import type { PriceData } from "@/client";
-import { formatPrice, parsePrice } from "@/data/internal/Price.ts";
+import { formatPrice, parsePrice } from "@/data/internal/price/Price.ts";
 
 export type PriceEstimate = {
     readonly min?: string;

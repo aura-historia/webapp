@@ -5,7 +5,7 @@ import {
     type ProductPriceChangedPayload,
     type ProductStateChangedPayload,
     mapToDetailProduct,
-} from "../ProductDetails";
+} from "../product/ProductDetails.ts";
 
 describe("mapToDetailProduct", () => {
     it("should map product without history", () => {
