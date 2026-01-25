@@ -21,10 +21,13 @@ import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 import { useSearchQueryContext } from "@/hooks/search/useSearchQueryContext.tsx";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+import { env } from "@/env.ts";
 
 interface SearchBarProps {
     readonly type: "small" | "big";
 }
+
+const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 const createSearchFormSchema = (t: TFunction) =>
     z.object({
@@ -132,6 +135,7 @@ export function SearchBar({ type }: SearchBarProps) {
                                             ? t("search.bar.placeholder")
                                             : t("search.bar.placeholderShort")
                                     }
+                                    disabled={!isSearchEnabled}
                                     {...field}
                                 />
                             </FormControl>
@@ -143,7 +147,7 @@ export function SearchBar({ type }: SearchBarProps) {
                 <Button
                     type="submit"
                     className={type === "big" ? "mt-0 h-12" : "h-9"}
-                    disabled={showLoading}
+                    disabled={!isSearchEnabled || showLoading}
                 >
                     <span className={type === "big" ? "hidden sm:inline text-lg" : "hidden"}>
                         {t("search.bar.button")}

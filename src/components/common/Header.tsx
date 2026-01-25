@@ -23,8 +23,12 @@ import {
 } from "@/components/ui/navigation-menu.tsx";
 import { cn } from "@/lib/utils.ts";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
+import { env } from "@/env.ts";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
+
+const isLoginEnabled = env.VITE_FEATURE_LOGIN_ENABLED;
+const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 export function Header() {
     const { t } = useTranslation();
@@ -61,7 +65,7 @@ export function Header() {
 
     const isLandingPage = pathname === "/";
     const isHiddenRoute = SEARCH_BAR_HIDDEN_ROUTES.has(pathname);
-    const shouldShowSearchBar = !isHiddenRoute && (!isLandingPage || isScrolled);
+    const shouldShowSearchBar = isSearchEnabled && !isHiddenRoute && (!isLandingPage || isScrolled);
 
     const signOut = async () => {
         amplifySignOut();
@@ -122,24 +126,26 @@ export function Header() {
                                 </DropdownMenuItem>
                             </>
                         ) : (
-                            <>
-                                <DropdownMenuItem onClick={toSignUp} asChild>
-                                    <Link
-                                        to="/login"
-                                        search={{ redirect: pathname + searchString }}
-                                    >
-                                        {t("header.register")}
-                                    </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={toSignIn} asChild>
-                                    <Link
-                                        to="/login"
-                                        search={{ redirect: pathname + searchString }}
-                                    >
-                                        {t("header.login")}
-                                    </Link>
-                                </DropdownMenuItem>
-                            </>
+                            isLoginEnabled && (
+                                <>
+                                    <DropdownMenuItem onClick={toSignUp} asChild>
+                                        <Link
+                                            to="/login"
+                                            search={{ redirect: pathname + searchString }}
+                                        >
+                                            {t("header.register")}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={toSignIn} asChild>
+                                        <Link
+                                            to="/login"
+                                            search={{ redirect: pathname + searchString }}
+                                        >
+                                            {t("header.login")}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                </>
+                            )
                         )}
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -193,18 +199,20 @@ export function Header() {
                         </DropdownMenu>
                     </>
                 ) : (
-                    <>
-                        <Button asChild onClick={toSignUp} variant="default">
-                            <Link to="/login" search={{ redirect: pathname + searchString }}>
-                                {t("header.register")}
-                            </Link>
-                        </Button>
-                        <Button asChild onClick={toSignIn} variant="outline">
-                            <Link to="/login" search={{ redirect: pathname + searchString }}>
-                                {t("header.login")}
-                            </Link>
-                        </Button>
-                    </>
+                    isLoginEnabled && (
+                        <>
+                            <Button asChild onClick={toSignUp} variant="default">
+                                <Link to="/login" search={{ redirect: pathname + searchString }}>
+                                    {t("header.register")}
+                                </Link>
+                            </Button>
+                            <Button asChild onClick={toSignIn} variant="outline">
+                                <Link to="/login" search={{ redirect: pathname + searchString }}>
+                                    {t("header.login")}
+                                </Link>
+                            </Button>
+                        </>
+                    )
                 )}
             </div>
         </header>

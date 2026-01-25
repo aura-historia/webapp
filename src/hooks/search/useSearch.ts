@@ -17,8 +17,10 @@ import { mapToBackendAuthenticity } from "@/data/internal/quality-indicators/Aut
 import { mapToBackendCondition } from "@/data/internal/quality-indicators/Condition.ts";
 import { mapToBackendProvenance } from "@/data/internal/quality-indicators/Provenance.ts";
 import { mapToBackendRestoration } from "@/data/internal/quality-indicators/Restoration.ts";
+import { env } from "@/env.ts";
 
 const PAGE_SIZE = 21;
+const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 export function useSearch(
     searchArgs: SearchFilterArguments,
@@ -28,6 +30,7 @@ export function useSearch(
 
     return useInfiniteQuery({
         queryKey: ["search", searchArgs, i18n.language],
+        enabled: isSearchEnabled && searchArgs.q.length >= 3,
         queryFn: async ({ pageParam }) => {
             const result = await complexSearchProducts({
                 body: {
@@ -127,6 +130,5 @@ export function useSearch(
         getNextPageParam: (lastPage) => {
             return lastPage.searchAfter ?? undefined;
         },
-        enabled: searchArgs.q.length >= 3,
     });
 }

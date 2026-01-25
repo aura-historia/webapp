@@ -18,6 +18,16 @@ export const env = createEnv({
 
         VITE_USER_POOL_ID: z.string().min(1),
         VITE_CLIENT_ID: z.string().min(1),
+
+        // Feature flags - default to enabled if not set
+        VITE_FEATURE_LOGIN_ENABLED: z
+            .string()
+            .transform((val) => val !== "false")
+            .default(true),
+        VITE_FEATURE_SEARCH_ENABLED: z
+            .string()
+            .transform((val) => val !== "false")
+            .default(true),
     },
 
     /**
