@@ -3,18 +3,20 @@ name: Deploy
 on:
     pull_request:
         branches:
-            - 'dev'
-#  push:
-#    branches:
-#      - main
-#      - dev
+            - "dev"
+    workflow_run:
+        workflows: [ "CI" ]
+        branches: [ main, dev ]
+        types:
+            - completed
 
 permissions:
     contents: read
     deployments: write
+    actions: read
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
+    group: ${{ github.workflow }}-${{ github.event.workflow_run.head_branch }}
     cancel-in-progress: false
 
 jobs:
@@ -22,9 +24,13 @@ jobs:
         name: Deploy to Cloudflare
         runs-on: ubuntu-latest
         timeout-minutes: 10
+        # Only run if the triggering workflow succeeded
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         steps:
             -   name: Checkout code
                 uses: actions/checkout@v4
+                with:
+                    ref: ${{ github.event.workflow_run.head_branch }}
 
             -   name: Set up pnpm
                 uses: pnpm/action-setup@v4
@@ -46,7 +52,7 @@ jobs:
             -   name: Determine environment
                 id: env
                 run: |
-                    if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+                    if [ "${{ github.event.workflow_run.head_branch }}" == "main" ]; then
                       echo "environment=production" >> $GITHUB_OUTPUT
                       echo "url=https://aura-historia.com" >> $GITHUB_OUTPUT
                     else
