@@ -96,37 +96,37 @@ export function Header() {
                 </div>
             </div>
 
-            <div className="flex md:hidden items-center justify-end gap-2">
-                <div
-                    className={`transition-all duration-500 ${
-                        shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none"
-                    }`}
-                >
-                    <SearchBar type="small" />
-                </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button>
-                            <Menu />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        {user ? (
-                            <>
-                                <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild>
-                                    <Link to="/watchlist">{t("header.watchlist")}</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link to="/account">{t("header.editAccount")}</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onSelect={() => signOut()}>
-                                    {t("header.logout")}
-                                </DropdownMenuItem>
-                            </>
-                        ) : (
-                            isLoginEnabled && (
+            {isLoginEnabled && (
+                <div className="flex md:hidden items-center justify-end gap-2">
+                    <div
+                        className={`transition-all duration-500 ${
+                            shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none"
+                        }`}
+                    >
+                        <SearchBar type="small" />
+                    </div>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button>
+                                <Menu />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            {user ? (
+                                <>
+                                    <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem asChild>
+                                        <Link to="/watchlist">{t("header.watchlist")}</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link to="/account">{t("header.editAccount")}</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={() => signOut()}>
+                                        {t("header.logout")}
+                                    </DropdownMenuItem>
+                                </>
+                            ) : (
                                 <>
                                     <DropdownMenuItem onClick={toSignUp} asChild>
                                         <Link
@@ -145,61 +145,63 @@ export function Header() {
                                         </Link>
                                     </DropdownMenuItem>
                                 </>
-                            )
-                        )}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
+                            )}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            )}
 
-            <div className="hidden md:flex items-center justify-end gap-4 w-full">
-                {user ? (
-                    <>
-                        <NavigationMenu className={"md:inline flex-none"}>
-                            <NavigationMenuList>
-                                <NavigationMenuItem>
-                                    <NavigationMenuLink asChild>
-                                        <Link to="/watchlist">
-                                            <span
-                                                className={cn(
-                                                    pathname === "/watchlist" ? "underline" : "",
-                                                    "text-base",
-                                                )}
-                                            >
-                                                {t("header.watchlist")}
-                                            </span>
-                                        </Link>
-                                    </NavigationMenuLink>
-                                </NavigationMenuItem>
-                            </NavigationMenuList>
-                        </NavigationMenu>
+            {isLoginEnabled && (
+                <div className="hidden md:flex items-center justify-end gap-4 w-full">
+                    {user ? (
+                        <>
+                            <NavigationMenu className={"md:inline flex-none"}>
+                                <NavigationMenuList>
+                                    <NavigationMenuItem>
+                                        <NavigationMenuLink asChild>
+                                            <Link to="/watchlist">
+                                                <span
+                                                    className={cn(
+                                                        pathname === "/watchlist"
+                                                            ? "underline"
+                                                            : "",
+                                                        "text-base",
+                                                    )}
+                                                >
+                                                    {t("header.watchlist")}
+                                                </span>
+                                            </Link>
+                                        </NavigationMenuLink>
+                                    </NavigationMenuItem>
+                                </NavigationMenuList>
+                            </NavigationMenu>
 
-                        <DropdownMenu>
-                            <DropdownMenuTrigger className="flex items-center gap-4">
-                                {userAccount?.firstName && (
-                                    <span>
-                                        {t("header.hello")}, {userAccount.firstName}
-                                    </span>
-                                )}
-                                <AccountImage
-                                    firstName={userAccount?.firstName || ""}
-                                    lastName={userAccount?.lastName || ""}
-                                    isLoading={isLoading}
-                                />
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild>
-                                    <Link to="/account">{t("header.editAccount")}</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onSelect={() => signOut()}>
-                                    {t("header.logout")}
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </>
-                ) : (
-                    isLoginEnabled && (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger className="flex items-center gap-4">
+                                    {userAccount?.firstName && (
+                                        <span>
+                                            {t("header.hello")}, {userAccount.firstName}
+                                        </span>
+                                    )}
+                                    <AccountImage
+                                        firstName={userAccount?.firstName || ""}
+                                        lastName={userAccount?.lastName || ""}
+                                        isLoading={isLoading}
+                                    />
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem asChild>
+                                        <Link to="/account">{t("header.editAccount")}</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={() => signOut()}>
+                                        {t("header.logout")}
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </>
+                    ) : (
                         <>
                             <Button asChild onClick={toSignUp} variant="default">
                                 <Link to="/login" search={{ redirect: pathname + searchString }}>
@@ -212,9 +214,9 @@ export function Header() {
                                 </Link>
                             </Button>
                         </>
-                    )
-                )}
-            </div>
+                    )}
+                </div>
+            )}
         </header>
     );
 }
