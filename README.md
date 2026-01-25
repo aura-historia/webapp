@@ -17,13 +17,30 @@ pnpm run build
 
 ## Deployment
 
-This application is deployed to Cloudflare Workers using the GitHub integration. Deployments are automated based on the branch:
+This application is deployed to Cloudflare Workers as part of the CI workflow. Deployments happen automatically after all CI checks pass.
 
 ### Automatic Deployments
 
 - **Production** (`main` branch) → https://aura-historia.com
+  - Triggers: Push to `main` branch
+  - Requirements: All CI checks pass (lint, test, SonarQube, build)
+  
 - **Staging** (`dev` branch) → https://stage.aura-historia.com
-- **Preview Deployments** (Pull Requests) → Automatic preview URLs
+  - Triggers: Push to `dev` branch
+  - Requirements: All CI checks pass (lint, test, SonarQube, build)
+
+- **Preview Deployments** (Pull Requests) → Automatic preview URLs via Cloudflare
+  - CI runs on PRs but does **not** deploy
+  - Cloudflare's GitHub integration can create preview deployments
+
+### CI/CD Pipeline
+
+The CI workflow runs in this order:
+1. **Lint** - Code formatting and linting checks
+2. **Test** - TypeScript compilation and unit tests with coverage
+3. **SonarQube** - Code quality analysis
+4. **Build** - Production build
+5. **Deploy** - Deployment to Cloudflare (only on pushes to `main`/`dev`, not on PRs)
 
 ### Manual Deployments
 
@@ -46,6 +63,8 @@ pnpm run deploy:staging
 Required secrets in GitHub Actions:
 - `CLOUDFLARE_API_TOKEN` - Cloudflare API token with Workers deployment permissions
 - `CLOUDFLARE_ACCOUNT_ID` - Your Cloudflare account ID
+- `VITE_USER_POOL_ID` - AWS Cognito User Pool ID
+- `VITE_CLIENT_ID` - AWS Cognito Client ID
 
 ## Testing
 
