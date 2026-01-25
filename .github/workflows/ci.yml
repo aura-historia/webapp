@@ -145,9 +145,14 @@ jobs:
         timeout-minutes: 10
         needs: [ build ]
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+        environment:
+            name: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+            url: ${{ github.ref == 'refs/heads/main' && 'https://aura-historia.com' || 'https://stage.aura-historia.com' }}
         env:
             VITE_USER_POOL_ID: ${{ secrets.VITE_USER_POOL_ID }}
             VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
+            VITE_FEATURE_LOGIN_ENABLED: ${{ vars.VITE_FEATURE_LOGIN_ENABLED }}
+            VITE_FEATURE_SEARCH_ENABLED: ${{ vars.VITE_FEATURE_SEARCH_ENABLED }}
         steps:
             -   name: Checkout code
                 uses: actions/checkout@v4
@@ -166,25 +171,7 @@ jobs:
             -   name: Install dependencies
                 run: pnpm install --frozen-lockfile
 
-            -   name: Determine environment
-                id: env
-                run: |
-                    if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-                      echo "environment=production" >> $GITHUB_OUTPUT
-                      echo "url=https://aura-historia.com" >> $GITHUB_OUTPUT
-                      echo "login_enabled=false" >> $GITHUB_OUTPUT
-                      echo "search_enabled=false" >> $GITHUB_OUTPUT
-                    else
-                      echo "environment=staging" >> $GITHUB_OUTPUT
-                      echo "url=https://stage.aura-historia.com" >> $GITHUB_OUTPUT
-                      echo "login_enabled=true" >> $GITHUB_OUTPUT
-                      echo "search_enabled=true" >> $GITHUB_OUTPUT
-                    fi
-
             -   name: Build application
-                env:
-                    VITE_FEATURE_LOGIN_ENABLED: ${{ steps.env.outputs.login_enabled }}
-                    VITE_FEATURE_SEARCH_ENABLED: ${{ steps.env.outputs.search_enabled }}
                 run: pnpm run build
 
             -   name: Deploy to Cloudflare Workers
@@ -192,12 +179,4 @@ jobs:
                 with:
                     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-                    command: deploy --env ${{ steps.env.outputs.environment }}
-
-            -   name: Create deployment
-                uses: chrnorm/deployment-action@v2
-                with:
-                    token: ${{ secrets.GITHUB_TOKEN }}
-                    environment: ${{ steps.env.outputs.environment }}
-                    environment-url: ${{ steps.env.outputs.url }}
-                    initial-status: success
+                    command: deploy --env ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
