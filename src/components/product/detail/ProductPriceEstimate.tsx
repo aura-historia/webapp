@@ -1,8 +1,8 @@
-import type { PriceEstimate } from "@/data/internal/PriceEstimate.ts";
+import type { PriceEstimate } from "@/data/internal/quality-indicators/PriceEstimate.ts";
 import { useTranslation } from "react-i18next";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
 import { Info } from "lucide-react";
-import { SHOP_TYPE_TRANSLATION_CONFIG, type ShopType } from "@/data/internal/ShopType.ts";
+import { SHOP_TYPE_TRANSLATION_CONFIG, type ShopType } from "@/data/internal/shop/ShopType.ts";
 
 interface ProductPriceEstimateProps {
     readonly priceEstimate: PriceEstimate;

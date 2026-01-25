@@ -4,7 +4,10 @@ import { useMemo } from "react";
 import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { CheckboxMultiSelect } from "@/components/ui/checkbox-multi-select.tsx";
-import { AUTHENTICITIES, AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/Authenticity.ts";
+import {
+    AUTHENTICITIES,
+    AUTHENTICITY_TRANSLATION_CONFIG,
+} from "@/data/internal/quality-indicators/Authenticity.ts";
 
 export function AuthenticityFilter() {
     const { control } = useFormContext<FilterSchema>();

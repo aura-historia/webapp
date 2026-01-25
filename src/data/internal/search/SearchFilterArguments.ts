@@ -1,9 +1,9 @@
-import type { ProductState } from "@/data/internal/ProductState.ts";
-import type { SortMode } from "@/data/internal/SortMode.ts";
-import type { Authenticity } from "@/data/internal/Authenticity.ts";
-import type { Condition } from "@/data/internal/Condition.ts";
-import type { Provenance } from "@/data/internal/Provenance.ts";
-import type { Restoration } from "@/data/internal/Restoration.ts";
+import type { ProductState } from "@/data/internal/product/ProductState.ts";
+import type { SortMode } from "@/data/internal/search/SortMode.ts";
+import type { Authenticity } from "@/data/internal/quality-indicators/Authenticity.ts";
+import type { Condition } from "@/data/internal/quality-indicators/Condition.ts";
+import type { Provenance } from "@/data/internal/quality-indicators/Provenance.ts";
+import type { Restoration } from "@/data/internal/quality-indicators/Restoration.ts";
 
 export type SearchFilterArguments = {
     q: string;

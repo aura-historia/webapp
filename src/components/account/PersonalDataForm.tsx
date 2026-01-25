@@ -26,8 +26,8 @@ import { useUserAccount } from "@/hooks/account/useUserAccount";
 import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount";
 import { getAccountEditSchema, type AccountEditFormData } from "@/utils/nameValidation";
 import { PersonalDataFormSkeleton } from "@/components/account/PersonalDataFormSkeleton";
-import { LANGUAGES } from "@/data/internal/Language.ts";
-import { CURRENCIES } from "@/data/internal/Currency.ts";
+import { LANGUAGES } from "@/data/internal/common/Language.ts";
+import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 
 export function PersonalDataForm() {
     const { t } = useTranslation();

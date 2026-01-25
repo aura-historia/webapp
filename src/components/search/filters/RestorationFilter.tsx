@@ -4,7 +4,10 @@ import { useMemo } from "react";
 import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { CheckboxMultiSelect } from "@/components/ui/checkbox-multi-select.tsx";
-import { RESTORATIONS, RESTORATION_TRANSLATION_CONFIG } from "@/data/internal/Restoration.ts";
+import {
+    RESTORATIONS,
+    RESTORATION_TRANSLATION_CONFIG,
+} from "@/data/internal/quality-indicators/Restoration.ts";
 
 export function RestorationFilter() {
     const { control } = useFormContext<FilterSchema>();

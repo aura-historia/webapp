@@ -1,19 +1,19 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
-import type { ProductEvent } from "@/data/internal/ProductDetails.ts";
+import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
 import {
     isCreatedEvent,
     isPriceChangedEvent,
     isPriceDiscoveredEvent,
     isPriceRemovedEvent,
 } from "@/lib/eventFilters.ts";
-import type { ProductState } from "@/data/internal/ProductState.ts";
+import type { ProductState } from "@/data/internal/product/ProductState.ts";
 import type { TFunction } from "i18next";
-import type { Authenticity } from "@/data/internal/Authenticity.ts";
-import type { Condition } from "@/data/internal/Condition.ts";
-import type { Provenance } from "@/data/internal/Provenance.ts";
-import type { Restoration } from "@/data/internal/Restoration.ts";
+import type { Authenticity } from "@/data/internal/quality-indicators/Authenticity.ts";
+import type { Condition } from "@/data/internal/quality-indicators/Condition.ts";
+import type { Provenance } from "@/data/internal/quality-indicators/Provenance.ts";
+import type { Restoration } from "@/data/internal/quality-indicators/Restoration.ts";
 import type { CheckedState } from "@radix-ui/react-checkbox";
 
 export function cn(...inputs: ClassValue[]) {

@@ -11,9 +11,9 @@ import type {
 import {
     mapPersonalizedGetProductDataToOverviewProduct,
     type OverviewProduct,
-} from "@/data/internal/OverviewProduct";
-import { parseProductState, type ProductState } from "@/data/internal/ProductState";
-import { parsePrice, type Price } from "@/data/internal/Price.ts";
+} from "@/data/internal/product/OverviewProduct.ts";
+import { parseProductState, type ProductState } from "@/data/internal/product/ProductState.ts";
+import { parsePrice, type Price } from "@/data/internal/price/Price.ts";
 
 export type ProductCreatedPayload = {
     readonly state: ProductState;

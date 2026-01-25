@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import type { ApiErrorData } from "@/data/internal/ApiError.ts";
+import type { ApiErrorData } from "@/data/internal/hooks/ApiError.ts";
 
 export function useApiError() {
     const { t } = useTranslation();

@@ -1,9 +1,9 @@
 import type { FilterSchema } from "@/components/search/SearchFilters";
-import { RESTORATIONS } from "@/data/internal/Restoration.ts";
-import { PROVENANCES } from "@/data/internal/Provenance.ts";
-import { CONDITIONS } from "@/data/internal/Condition.ts";
-import { AUTHENTICITIES } from "@/data/internal/Authenticity.ts";
-import { PRODUCT_STATES } from "@/data/internal/ProductState.ts";
+import { RESTORATIONS } from "@/data/internal/quality-indicators/Restoration.ts";
+import { PROVENANCES } from "@/data/internal/quality-indicators/Provenance.ts";
+import { CONDITIONS } from "@/data/internal/quality-indicators/Condition.ts";
+import { AUTHENTICITIES } from "@/data/internal/quality-indicators/Authenticity.ts";
+import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
 
 /** Minimum number of characters required for a search query */
 export const MIN_SEARCH_QUERY_LENGTH = 3;

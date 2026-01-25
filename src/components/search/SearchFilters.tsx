@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MerchantFilter } from "@/components/search/filters/MerchantFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
-import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
+import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useCallback, useEffect, useMemo } from "react";
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
@@ -18,11 +18,11 @@ import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { FILTER_DEFAULTS, MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 import { useSearchQueryContext } from "@/hooks/search/useSearchQueryContext.tsx";
 import { toast } from "sonner";
-import { RESTORATIONS } from "@/data/internal/Restoration";
-import { PROVENANCES } from "@/data/internal/Provenance.ts";
-import { CONDITIONS } from "@/data/internal/Condition.ts";
-import { AUTHENTICITIES } from "@/data/internal/Authenticity.ts";
-import { PRODUCT_STATES } from "@/data/internal/ProductState.ts";
+import { RESTORATIONS } from "@/data/internal/quality-indicators/Restoration.ts";
+import { PROVENANCES } from "@/data/internal/quality-indicators/Provenance.ts";
+import { CONDITIONS } from "@/data/internal/quality-indicators/Condition.ts";
+import { AUTHENTICITIES } from "@/data/internal/quality-indicators/Authenticity.ts";
+import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
 
 const createFilterSchema = (t: TFunction) =>
     z

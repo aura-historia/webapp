@@ -4,7 +4,10 @@ import { useMemo } from "react";
 import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { CheckboxMultiSelect } from "@/components/ui/checkbox-multi-select.tsx";
-import { CONDITIONS, CONDITION_TRANSLATION_CONFIG } from "@/data/internal/Condition.ts";
+import {
+    CONDITIONS,
+    CONDITION_TRANSLATION_CONFIG,
+} from "@/data/internal/quality-indicators/Condition.ts";
 
 export function ConditionFilter() {
     const { control } = useFormContext<FilterSchema>();

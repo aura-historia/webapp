@@ -4,7 +4,10 @@ import { useMemo } from "react";
 import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { CheckboxMultiSelect } from "@/components/ui/checkbox-multi-select.tsx";
-import { PROVENANCES, PROVENANCE_TRANSLATION_CONFIG } from "@/data/internal/Provenance.ts";
+import {
+    PROVENANCES,
+    PROVENANCE_TRANSLATION_CONFIG,
+} from "@/data/internal/quality-indicators/Provenance.ts";
 
 export function ProvenanceFilter() {
     const { control } = useFormContext<FilterSchema>();

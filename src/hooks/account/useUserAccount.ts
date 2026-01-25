@@ -1,8 +1,11 @@
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
-import { mapToInternalUserAccount, type UserAccountData } from "@/data/internal/UserAccountData.ts";
+import {
+    mapToInternalUserAccount,
+    type UserAccountData,
+} from "@/data/internal/account/UserAccountData.ts";
 import { getUserAccount } from "@/client";
 import { useApiError } from "@/hooks/common/useApiError.ts";
-import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
+import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
 export function useUserAccount(enabled: boolean = true): UseQueryResult<UserAccountData> {

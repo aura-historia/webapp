@@ -1,11 +1,17 @@
 import type { SearchSchemaInput } from "@tanstack/react-router";
-import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
-import { type ProductState, parseProductState } from "@/data/internal/ProductState.ts";
-import { SEARCH_RESULT_SORT_FIELDS, type SortMode } from "@/data/internal/SortMode.ts";
-import { type Authenticity, parseAuthenticity } from "@/data/internal/Authenticity.ts";
-import { type Condition, parseCondition } from "@/data/internal/Condition.ts";
-import { type Provenance, parseProvenance } from "@/data/internal/Provenance.ts";
-import { type Restoration, parseRestoration } from "@/data/internal/Restoration.ts";
+import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import { type ProductState, parseProductState } from "@/data/internal/product/ProductState.ts";
+import { SEARCH_RESULT_SORT_FIELDS, type SortMode } from "@/data/internal/search/SortMode.ts";
+import {
+    type Authenticity,
+    parseAuthenticity,
+} from "@/data/internal/quality-indicators/Authenticity.ts";
+import { type Condition, parseCondition } from "@/data/internal/quality-indicators/Condition.ts";
+import { type Provenance, parseProvenance } from "@/data/internal/quality-indicators/Provenance.ts";
+import {
+    type Restoration,
+    parseRestoration,
+} from "@/data/internal/quality-indicators/Restoration.ts";
 
 export type RawSearchParams = {
     q: string;

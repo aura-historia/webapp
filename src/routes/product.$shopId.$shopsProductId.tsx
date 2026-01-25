@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getProductOptions } from "@/client/@tanstack/react-query.gen";
-import { mapToDetailProduct } from "@/data/internal/ProductDetails";
+import { mapToDetailProduct } from "@/data/internal/product/ProductDetails.ts";
 import { ProductDetailPage } from "@/components/product/detail/ProductDetailPage.tsx";
 import { ProductDetailPageSkeleton } from "@/components/product/detail/ProductDetailPageSkeleton.tsx";
-import { parseLanguage } from "@/data/internal/Language.ts";
+import { parseLanguage } from "@/data/internal/common/Language.ts";
 import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";

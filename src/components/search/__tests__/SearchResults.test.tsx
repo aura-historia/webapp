@@ -1,7 +1,7 @@
-import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
+import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { screen } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
-import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
+import type { SearchResultData } from "@/data/internal/search/SearchResultData.ts";
 import { useSearch } from "@/hooks/search/useSearch.ts";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
 import type React from "react";

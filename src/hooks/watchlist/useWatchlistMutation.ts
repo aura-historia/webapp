@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { getProductQueryKey } from "@/client/@tanstack/react-query.gen.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
-import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
+import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 
 export type WatchlistMutationType = "addToWatchlist" | "deleteFromWatchlist";
 

@@ -1,4 +1,4 @@
-import type { ProductDetail } from "@/data/internal/ProductDetails.ts";
+import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
 import { ProductPriceChart } from "@/components/product/detail/ProductPriceChart.tsx";
 import { ProductHistory } from "@/components/product/detail/ProductHistory.tsx";
 import { ProductInfo } from "@/components/product/detail/ProductInfo.tsx";

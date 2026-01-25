@@ -4,8 +4,8 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { getProductQueryKey } from "@/client/@tanstack/react-query.gen.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
-import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
-import { parseLanguage } from "@/data/internal/Language.ts";
+import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
+import { parseLanguage } from "@/data/internal/common/Language.ts";
 
 export function useWatchlistNotificationMutation(shopId: string, shopsProductId: string) {
     const queryClient = useQueryClient();

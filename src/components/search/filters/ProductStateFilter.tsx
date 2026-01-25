@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { FilterX } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
-import { PRODUCT_STATES } from "@/data/internal/ProductState.ts";
+import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
 import { handleCheckedChange } from "@/lib/utils.ts";
 
 export function ProductStateFilter() {

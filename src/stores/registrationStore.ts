@@ -1,6 +1,6 @@
 import { Store } from "@tanstack/react-store";
-import type { Language } from "@/data/internal/Language.ts";
-import type { Currency } from "@/data/internal/Currency.ts";
+import type { Language } from "@/data/internal/common/Language.ts";
+import type { Currency } from "@/data/internal/common/Currency.ts";
 
 type PendingUserData = {
     firstName?: string;

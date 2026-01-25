@@ -3,7 +3,7 @@ import {
     type SortMode,
     getSortModeFieldLabel,
     mapToBackendSortModeArguments,
-} from "../SortMode.ts";
+} from "../search/SortMode.ts";
 
 describe("getSortModeFieldLabel", () => {
     it("should return correct label for RELEVANCE", () => {

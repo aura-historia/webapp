@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseProductState } from "../ProductState";
+import { parseProductState } from "../product/ProductState.ts";
 
 describe("parseProductState", () => {
     it("should return the same state for a valid state 'LISTED'", () => {

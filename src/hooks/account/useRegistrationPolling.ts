@@ -6,8 +6,8 @@ import { updateUserAccount } from "@/client";
 import {
     mapToInternalUserAccount,
     mapToBackendUserAccountPatch,
-} from "@/data/internal/UserAccountData.ts";
-import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
+} from "@/data/internal/account/UserAccountData.ts";
+import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 
 export function useRegistrationPolling() {

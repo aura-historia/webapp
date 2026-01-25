@@ -1,4 +1,4 @@
-import type { ProductEvent } from "@/data/internal/ProductDetails.ts";
+import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
 import {
     TimelineItem,
     TimelineTitle,
@@ -17,7 +17,7 @@ import {
     isStateChangedEvent,
 } from "@/lib/eventFilters.ts";
 import { useTranslation } from "react-i18next";
-import { formatPrice } from "@/data/internal/Price.ts";
+import { formatPrice } from "@/data/internal/price/Price.ts";
 
 interface ProductEventHistoryProps {
     readonly event: ProductEvent;
