@@ -1,4 +1,4 @@
-import type { ProductEvent } from "@/data/internal/ProductDetails.ts";
+import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
 import { render, screen } from "@testing-library/react";
 import { ProductHistory } from "@/components/product/detail/ProductHistory.tsx";
 import { vi } from "vitest";

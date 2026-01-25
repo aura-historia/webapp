@@ -13,7 +13,7 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
-import type { ProductImage } from "@/data/internal/ProductImageData.ts";
+import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
 
 interface ProductImageGalleryProps {
     readonly images: readonly ProductImage[];

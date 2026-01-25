@@ -1,5 +1,5 @@
 import { ProductPriceEstimate } from "@/components/product/detail/ProductPriceEstimate.tsx";
-import type { PriceEstimate } from "@/data/internal/PriceEstimate.ts";
+import type { PriceEstimate } from "@/data/internal/quality-indicators/PriceEstimate.ts";
 import { render, screen } from "@testing-library/react";
 
 describe("ProductPriceEstimate", () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ProductImageData } from "@/client";
-import { mapToInternalProductImage } from "../ProductImageData";
+import { mapToInternalProductImage } from "../product/ProductImageData.ts";
 
 describe("mapToInternalProductImage", () => {
     describe("URL parsing", () => {

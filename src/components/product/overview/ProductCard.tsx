@@ -3,7 +3,7 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
-import type { OverviewProduct } from "@/data/internal/OverviewProduct.ts";
+import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { ArrowUpRight, Eye, ImageOff } from "lucide-react";
 import { H3 } from "../../typography/H3.tsx";
 import { Link } from "@tanstack/react-router";

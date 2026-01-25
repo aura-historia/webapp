@@ -1,18 +1,22 @@
 import { complexSearchProducts } from "@/client";
-import { mapPersonalizedGetProductDataToOverviewProduct } from "@/data/internal/OverviewProduct.ts";
+import { mapPersonalizedGetProductDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import {
     type InfiniteData,
     useInfiniteQuery,
     type UseInfiniteQueryResult,
 } from "@tanstack/react-query";
-import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
-import type { SearchResultData } from "@/data/internal/SearchResultData.ts";
-import { mapToBackendState } from "@/data/internal/ProductState.ts";
-import { mapToBackendSortModeArguments } from "@/data/internal/SortMode.ts";
+import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import type { SearchResultData } from "@/data/internal/search/SearchResultData.ts";
+import { mapToBackendState } from "@/data/internal/product/ProductState.ts";
+import { mapToBackendSortModeArguments } from "@/data/internal/search/SortMode.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
-import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
+import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useTranslation } from "react-i18next";
-import { parseLanguage } from "@/data/internal/Language.ts";
+import { parseLanguage } from "@/data/internal/common/Language.ts";
+import { mapToBackendAuthenticity } from "@/data/internal/quality-indicators/Authenticity.ts";
+import { mapToBackendCondition } from "@/data/internal/quality-indicators/Condition.ts";
+import { mapToBackendProvenance } from "@/data/internal/quality-indicators/Provenance.ts";
+import { mapToBackendRestoration } from "@/data/internal/quality-indicators/Restoration.ts";
 
 const PAGE_SIZE = 21;
 
@@ -62,6 +66,38 @@ export function useSearch(
                           }
                         : {}),
                     shopName: searchArgs.merchant?.length === 0 ? undefined : searchArgs.merchant,
+                    ...(searchArgs.originYearMin != null || searchArgs.originYearMax != null
+                        ? {
+                              originYear: {
+                                  min: searchArgs.originYearMin ?? undefined,
+                                  max: searchArgs.originYearMax ?? undefined,
+                              },
+                          }
+                        : {}),
+                    authenticity:
+                        searchArgs.authenticity?.length === 0
+                            ? []
+                            : searchArgs.authenticity?.map((authenticity) =>
+                                  mapToBackendAuthenticity(authenticity),
+                              ),
+                    condition:
+                        searchArgs.condition?.length === 0
+                            ? []
+                            : searchArgs.condition?.map((condition) =>
+                                  mapToBackendCondition(condition),
+                              ),
+                    provenance:
+                        searchArgs.provenance?.length === 0
+                            ? []
+                            : searchArgs.provenance?.map((provenance) =>
+                                  mapToBackendProvenance(provenance),
+                              ),
+                    restoration:
+                        searchArgs.restoration?.length === 0
+                            ? []
+                            : searchArgs.restoration?.map((restoration) =>
+                                  mapToBackendRestoration(restoration),
+                              ),
                 },
                 query: {
                     searchAfter: pageParam,

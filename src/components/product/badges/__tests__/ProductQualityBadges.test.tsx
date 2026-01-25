@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ProductQualityBadges } from "@/components/product/badges/ProductQualityBadges.tsx";
-import type { ProductDetail } from "@/data/internal/ProductDetails.ts";
+import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
 
 vi.mock("lucide-react", () => ({
     Calendar: () => <div data-testid="calendar-icon" />,

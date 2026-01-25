@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { TFunction } from "i18next";
-import { LANGUAGES } from "@/data/internal/Language.ts";
-import { CURRENCIES } from "@/data/internal/Currency.ts";
+import { LANGUAGES } from "@/data/internal/common/Language.ts";
+import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 
 type NameFormData = {
     firstName?: string;

@@ -1,7 +1,7 @@
 import type { RestorationData } from "@/client";
 
-export type Restoration = "NONE" | "MINOR" | "MAJOR" | "UNKNOWN";
-
+export const RESTORATIONS = ["NONE", "MINOR", "MAJOR", "UNKNOWN"] as const;
+export type Restoration = (typeof RESTORATIONS)[number];
 export const RESTORATION_TRANSLATION_CONFIG = {
     NONE: {
         translationKey: "product.qualityIndicators.restoration.none",

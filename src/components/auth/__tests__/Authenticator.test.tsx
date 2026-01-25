@@ -125,12 +125,12 @@ vi.mock("@/stores/registrationStore", () => ({
     setUserAuthenticated: mockSetUserAuthenticated,
 }));
 
-vi.mock("@/data/internal/Language.ts", () => ({
+vi.mock("@/data/internal/common/Language.ts", () => ({
     parseLanguage: mockParseLanguage,
     LANGUAGES: ["de", "en", "fr", "es"] as const,
 }));
 
-vi.mock("@/data/internal/Currency.ts", () => ({
+vi.mock("@/data/internal/common/Currency.ts", () => ({
     parseCurrency: mockParseCurrency,
     CURRENCIES: ["EUR", "GBP", "USD", "AUD", "CAD", "NZD"] as const,
 }));

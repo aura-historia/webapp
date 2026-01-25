@@ -1,4 +1,4 @@
-import type { ProductDetail } from "@/data/internal/ProductDetails.ts";
+import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
 import { Card } from "@/components/ui/card.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Calendar, ShieldCheck, Star, FileText, Paintbrush } from "lucide-react";
@@ -11,10 +11,10 @@ import {
     getOriginYearColor,
 } from "@/components/product/detail/ProductQualityIndicator/ProductQualityIndicator.helpers.ts";
 import { useMemo } from "react";
-import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/Authenticity";
-import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/Condition";
-import { PROVENANCE_TRANSLATION_CONFIG } from "@/data/internal/Provenance";
-import { RESTORATION_TRANSLATION_CONFIG } from "@/data/internal/Restoration";
+import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Authenticity.ts";
+import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Condition.ts";
+import { PROVENANCE_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Provenance.ts";
+import { RESTORATION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Restoration.ts";
 
 export function ProductQualityIndicators({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();

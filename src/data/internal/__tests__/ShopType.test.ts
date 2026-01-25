@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { mapToBackendShopType, parseShopType } from "../ShopType";
+import { mapToBackendShopType, parseShopType } from "../shop/ShopType.ts";
 
 describe("parseShopType", () => {
     it("should return AUCTION_HOUSE for 'AUCTION_HOUSE'", () => {

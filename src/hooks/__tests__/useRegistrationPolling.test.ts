@@ -28,12 +28,12 @@ vi.mock("@/hooks/common/useApiError", () => ({
     }),
 }));
 
-vi.mock("@/data/internal/UserAccountData", () => ({
+vi.mock("@/data/internal/account/UserAccountData", () => ({
     mapToInternalUserAccount: (data: unknown) => data,
     mapToBackendUserAccountPatch: (data: unknown) => data,
 }));
 
-vi.mock("@/data/internal/ApiError", () => ({
+vi.mock("@/data/internal/hooks/ApiError", () => ({
     mapToInternalApiError: (error: unknown) => error,
 }));
 

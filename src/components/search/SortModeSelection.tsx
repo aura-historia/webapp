@@ -2,7 +2,7 @@ import {
     getSortModeFieldLabel,
     SEARCH_RESULT_SORT_FIELDS,
     type SortMode,
-} from "@/data/internal/SortMode.ts";
+} from "@/data/internal/search/SortMode.ts";
 import {
     Select,
     SelectContent,

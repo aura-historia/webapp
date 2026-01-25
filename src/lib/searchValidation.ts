@@ -1,7 +1,17 @@
 import type { SearchSchemaInput } from "@tanstack/react-router";
-import type { SearchFilterArguments } from "@/data/internal/SearchFilterArguments.ts";
-import { type ProductState, parseProductState } from "@/data/internal/ProductState.ts";
-import { SEARCH_RESULT_SORT_FIELDS, type SortMode } from "@/data/internal/SortMode.ts";
+import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import { type ProductState, parseProductState } from "@/data/internal/product/ProductState.ts";
+import { SEARCH_RESULT_SORT_FIELDS, type SortMode } from "@/data/internal/search/SortMode.ts";
+import {
+    type Authenticity,
+    parseAuthenticity,
+} from "@/data/internal/quality-indicators/Authenticity.ts";
+import { type Condition, parseCondition } from "@/data/internal/quality-indicators/Condition.ts";
+import { type Provenance, parseProvenance } from "@/data/internal/quality-indicators/Provenance.ts";
+import {
+    type Restoration,
+    parseRestoration,
+} from "@/data/internal/quality-indicators/Restoration.ts";
 
 export type RawSearchParams = {
     q: string;
@@ -15,6 +25,12 @@ export type RawSearchParams = {
     merchant?: string | string[];
     sortField?: string;
     sortOrder?: string;
+    originYearMin?: number;
+    originYearMax?: number;
+    authenticity?: Authenticity[];
+    condition?: Condition[];
+    provenance?: Provenance[];
+    restoration?: Restoration[];
 } & SearchSchemaInput;
 
 function parseOptionalNumber(value: unknown): number | undefined {
@@ -51,6 +67,34 @@ function parseSortOrder(order: string | undefined): SortMode["order"] {
     return order === "ASC" || order === "DESC" ? order : "DESC";
 }
 
+function parseAuthenticities(values: unknown): Authenticity[] | undefined {
+    if (!Array.isArray(values)) return undefined;
+    return values
+        .map((authenticity) => parseAuthenticity(authenticity))
+        .filter((elem, index, self) => index === self.indexOf(elem));
+}
+
+function parseConditions(values: unknown): Condition[] | undefined {
+    if (!Array.isArray(values)) return undefined;
+    return values
+        .map((condition) => parseCondition(condition))
+        .filter((elem, index, self) => index === self.indexOf(elem));
+}
+
+function parseProvenances(values: unknown): Provenance[] | undefined {
+    if (!Array.isArray(values)) return undefined;
+    return values
+        .map((provenance) => parseProvenance(provenance))
+        .filter((elem, index, self) => index === self.indexOf(elem));
+}
+
+function parseRestorations(values: unknown): Restoration[] | undefined {
+    if (!Array.isArray(values)) return undefined;
+    return values
+        .map((restoration) => parseRestoration(restoration))
+        .filter((elem, index, self) => index === self.indexOf(elem));
+}
+
 export function validateSearchParams(search: RawSearchParams): SearchFilterArguments {
     return {
         q: (search.q as string) || "",
@@ -64,5 +108,11 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         merchant: parseMerchant(search.merchant),
         sortField: parseSortField(search.sortField),
         sortOrder: parseSortOrder(search.sortOrder),
+        originYearMin: parseOptionalNumber(search.originYearMin),
+        originYearMax: parseOptionalNumber(search.originYearMax),
+        authenticity: parseAuthenticities(search.authenticity),
+        condition: parseConditions(search.condition),
+        provenance: parseProvenances(search.provenance),
+        restoration: parseRestorations(search.restoration),
     };
 }

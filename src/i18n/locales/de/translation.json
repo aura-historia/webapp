@@ -128,13 +128,23 @@
       "priceSpanAria": "Preisspanne",
       "updateDate": "Aktualisiert",
       "anyDate": "Beliebig",
+      "all": "Alle",
+      "select": "Auswählen",
       "resetTooltip": {
         "priceSpan": "Filter für die Preisspanne zurücksetzen",
         "productState": "Filter für den Status zurücksetzen",
         "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
         "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
-        "merchant": "Filter für den Händler zurücksetzen"
-      }
+        "merchant": "Filter für den Händler zurücksetzen",
+        "qualityIndicators": "Filter für die Qualitätsmerkmale zurücksetzen"
+      },
+      "qualityIndicators": "Qualitätsmerkmale",
+      "originYear": "Entstehungsjahr",
+      "authenticity": "Authentizität",
+      "condition": "Zustand",
+      "provenance": "Herkunftsnachweis",
+      "restoration": "Restaurierung",
+      "selected": "{{count}} ausgewählt"
     },
     "messages": {
       "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",

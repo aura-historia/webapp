@@ -1,4 +1,4 @@
-import type { ProductDetail } from "@/data/internal/ProductDetails.ts";
+import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
 import { screen } from "@testing-library/react";
 import { ProductDetailPage } from "../ProductDetailPage.tsx";
 import { vi } from "vitest";

@@ -4,26 +4,13 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card.tsx";
 import { Checkbox } from "@/components/ui/checkbox";
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { Controller, useFormContext } from "react-hook-form";
-import type { CheckedState } from "@radix-ui/react-checkbox";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button.tsx";
 import { FilterX } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
-
-const productStates = ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"] as const;
-
-function handleCheckedChange(
-    field: { value: string[]; onChange: (value: string[]) => void },
-    state: string,
-    isChecked: CheckedState,
-) {
-    if (isChecked) {
-        field.onChange([...field.value, state]);
-    } else {
-        field.onChange(field.value?.filter((value) => value !== state));
-    }
-}
+import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
+import { handleCheckedChange } from "@/lib/utils.ts";
 
 export function ProductStateFilter() {
     const { control } = useFormContext<FilterSchema>();
@@ -53,7 +40,7 @@ export function ProductStateFilter() {
             </CardHeader>
             <CardContent>
                 <div className={"w-full grid grid-cols-1 sm:grid-cols-2 gap-4"}>
-                    {productStates.map((state) => (
+                    {PRODUCT_STATES.map((state) => (
                         <Controller
                             key={state}
                             name="productState"

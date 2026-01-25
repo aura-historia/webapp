@@ -2,11 +2,11 @@ import { getSimilarProducts } from "@/client";
 import {
     mapPersonalizedGetProductDataToOverviewProduct,
     type OverviewProduct,
-} from "@/data/internal/OverviewProduct";
+} from "@/data/internal/product/OverviewProduct.ts";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { useApiError } from "@/hooks/common/useApiError.ts";
-import { mapToInternalApiError } from "@/data/internal/ApiError.ts";
-import { parseLanguage } from "@/data/internal/Language.ts";
+import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
+import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { useTranslation } from "react-i18next";
 
 type SimilarProductsData = {
