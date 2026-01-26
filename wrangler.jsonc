@@ -1,37 +1,9 @@
 {
     "$schema": "node_modules/wrangler/config-schema.json",
-    "name": "aura-historia",
+    "name": "aura-historia-staging",
     "compatibility_date": "2025-09-02",
     "compatibility_flags": [
         "nodejs_compat"
     ],
-    "main": "@tanstack/react-start/server-entry",
-    "env": {
-        "production": {
-            "name": "aura-historia",
-            "route": {
-                "pattern": "aura-historia.com/*",
-                "custom_domain": true
-            },
-            "routes": [
-                {
-                    "pattern": "aura-historia.com/*",
-                    "custom_domain": true
-                }
-            ]
-        },
-        "staging": {
-            "name": "aura-historia-staging",
-            "route": {
-                "pattern": "stage.aura-historia.com/*",
-                "custom_domain": true
-            },
-            "routes": [
-                {
-                    "pattern": "stage.aura-historia.com/*",
-                    "custom_domain": true
-                }
-            ]
-        }
-    }
+    "main": "@tanstack/react-start/server-entry"
 }
