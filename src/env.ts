@@ -22,12 +22,14 @@ export const env = createEnv({
         // Feature flags - default to enabled if not set
         VITE_FEATURE_LOGIN_ENABLED: z
             .string()
-            .transform((val) => val !== "false")
-            .default(true),
+            .optional()
+            .default("false")
+            .transform((val) => val !== "false"),
         VITE_FEATURE_SEARCH_ENABLED: z
             .string()
-            .transform((val) => val !== "false")
-            .default(true),
+            .optional()
+            .default("true")
+            .transform((val) => val !== "false"),
     },
 
     /**

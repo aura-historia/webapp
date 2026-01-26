@@ -96,15 +96,15 @@ export function Header() {
                 </div>
             </div>
 
-            {isLoginEnabled && (
-                <div className="flex md:hidden items-center justify-end gap-2">
-                    <div
-                        className={`transition-all duration-500 ${
-                            shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none"
-                        }`}
-                    >
-                        <SearchBar type="small" />
-                    </div>
+            <div className="flex md:hidden items-center justify-end gap-2">
+                <div
+                    className={`transition-all duration-500 ${
+                        shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none"
+                    }`}
+                >
+                    <SearchBar type="small" />
+                </div>
+                {isLoginEnabled && (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button>
@@ -148,8 +148,8 @@ export function Header() {
                             )}
                         </DropdownMenuContent>
                     </DropdownMenu>
-                </div>
-            )}
+                )}
+            </div>
 
             {isLoginEnabled && (
                 <div className="hidden md:flex items-center justify-end gap-4 w-full">
