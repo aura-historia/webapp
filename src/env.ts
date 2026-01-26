@@ -23,7 +23,7 @@ export const env = createEnv({
         VITE_FEATURE_LOGIN_ENABLED: z
             .string()
             .optional()
-            .default("false")
+            .default("true")
             .transform((val) => val !== "false"),
         VITE_FEATURE_SEARCH_ENABLED: z
             .string()
