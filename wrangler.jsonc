@@ -5,5 +5,33 @@
     "compatibility_flags": [
         "nodejs_compat"
     ],
-    "main": "@tanstack/react-start/server-entry"
+    "main": "@tanstack/react-start/server-entry",
+    "env": {
+        "production": {
+            "name": "aura-historia",
+            "route": {
+                "pattern": "aura-historia.com/*",
+                "custom_domain": true
+            },
+            "routes": [
+                {
+                    "pattern": "aura-historia.com/*",
+                    "custom_domain": true
+                }
+            ]
+        },
+        "staging": {
+            "name": "aura-historia-staging",
+            "route": {
+                "pattern": "stage.aura-historia.com/*",
+                "custom_domain": true
+            },
+            "routes": [
+                {
+                    "pattern": "stage.aura-historia.com/*",
+                    "custom_domain": true
+                }
+            ]
+        }
+    }
 }

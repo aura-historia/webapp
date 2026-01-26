@@ -31,7 +31,7 @@ describe("DiscoverSection", () => {
             screen.getByText(/Wir durchsuchen täglich das unübersichtliche Angebot/),
         ).toBeInTheDocument();
         expect(
-            screen.getByText(/Wir erfassen nicht nur aktuelle und neu aufgetauchte Anitquitäten/),
+            screen.getByText(/Wir erfassen nicht nur aktuelle und neu aufgetauchte Antiquitäten/),
         ).toBeInTheDocument();
     });
 
