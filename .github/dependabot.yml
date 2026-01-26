@@ -9,10 +9,28 @@ updates:
   - package-ecosystem: "npm"
     directory: "/" # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
       time: "06:00"
-    # Group related updates together by common prefixes
+    # Limit open PRs to reduce noise
+    open-pull-requests-limit: 5
+    # Group related updates together to reduce PR count
     groups:
+      # Group all production dependencies (minor and patch only)
+      production-minor-patch:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+        exclude-patterns:
+          - "react"
+          - "react-dom"
+      # Group all development dependencies (minor and patch only)
+      development-minor-patch:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
       # Group all Radix UI components
       radix-ui:
         patterns:
@@ -43,3 +61,13 @@ updates:
         patterns:
           - "@tailwindcss/*"
           - "tailwindcss"
+      # Group React packages together
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+      # Group AWS Amplify packages
+      aws-amplify:
+        patterns:
+          - "@aws-amplify/*"
+          - "aws-amplify"

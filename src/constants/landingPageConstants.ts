@@ -1,0 +1,1 @@
+export const HERO_SEARCH_BAR_SCROLL_THRESHOLD = 600;

@@ -6,13 +6,16 @@ import * as TanstackQuery from "./integrations/tanstack-query/root-provider";
 import { routeTree } from "./routeTree.gen";
 
 // Create a new router instance
-export const createRouter = () => {
+export const getRouter = () => {
     const rqContext = TanstackQuery.getContext();
 
     const router = createTanstackRouter({
         routeTree,
         context: { ...rqContext },
         defaultPreload: "intent",
+        defaultPendingMs: 0,
+        defaultPendingMinMs: 200,
+        scrollRestoration: true,
         Wrap: (props: { children: React.ReactNode }) => {
             return <TanstackQuery.Provider {...rqContext}>{props.children}</TanstackQuery.Provider>;
         },
@@ -29,6 +32,6 @@ export const createRouter = () => {
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
     interface Register {
-        router: ReturnType<typeof createRouter>;
+        router: ReturnType<typeof getRouter>;
     }
 }

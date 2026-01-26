@@ -1,0 +1,647 @@
+{
+  "common": {
+    "auraHistoria": "Aura Historia (Vista previa)"
+  },
+  "meta": {
+    "siteName": "Aura Historia | Motor de búsqueda de antigüedades líder",
+    "defaultDescription": "Encuentra antigüedades con Aura Historia. Datos en tiempo real de más de 1000 casas de subastas, comerciantes y mercados.",
+    "home": {
+      "title": "Aura Historia | Motor de búsqueda de antigüedades líder",
+      "description": "Encuentra antigüedades con Aura Historia. Datos en tiempo real de más de 1000 casas de subastas, comerciantes y mercados."
+    },
+    "search": {
+      "title": "Buscar antigüedades | Aura Historia",
+      "description": "Busca y descubre antigüedades únicas de comerciantes de confianza en Aura Historia."
+    },
+    "login": {
+      "title": "Iniciar sesión | Aura Historia",
+      "description": "Inicia sesión en tu cuenta de Aura Historia para gestionar tu lista de seguimiento y preferencias."
+    },
+    "imprint": {
+      "title": "Aviso legal | Aura Historia",
+      "description": "Información legal y aviso legal para Aura Historia."
+    },
+    "privacy": {
+      "title": "Política de privacidad | Aura Historia",
+      "description": "Política de privacidad e información sobre protección de datos para Aura Historia."
+    },
+    "account": {
+      "title": "Mi cuenta | Aura Historia"
+    },
+    "watchlist": {
+      "title": "Mi lista de seguimiento | Aura Historia"
+    }
+  },
+  "validation": {
+    "name": {
+      "minLength": "Por favor, introduzca al menos {{min}} caracteres",
+      "maxLength": "Por favor, introduzca un máximo de {{max}} caracteres",
+      "invalidChars": "Solo se permiten letras, espacios, guiones y apóstrofes"
+    }
+  },
+  "imprint": {
+    "title": "Aviso legal"
+  },
+  "privacy": {
+    "title": "Política de privacidad"
+  },
+  "terms": {
+    "title": "Términos y condiciones"
+  },
+  "header": {
+    "watchlist": "Lista de seguimiento",
+    "myAccount": "Mi cuenta",
+    "editAccount": "Editar cuenta",
+    "logout": "Cerrar sesión",
+    "hello": "Hola",
+    "register": "Registrarse",
+    "login": "Iniciar sesión"
+  },
+  "footer": {
+    "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
+    "imprint": "Aviso legal",
+    "privacy": "Política de privacidad",
+    "terms": "Términos y condiciones",
+    "copyright": "© {{year}} Aura Historia"
+  },
+  "account": {
+    "title": "Mi cuenta",
+    "changePassword": {
+      "title": "Cambiar contraseña",
+      "currentPasswordLabel": "Contraseña actual",
+      "newPasswordLabel": "Nueva contraseña",
+      "confirmPasswordLabel": "Confirmar nueva contraseña",
+      "saveButton": "Guardar contraseña",
+      "successMessage": "¡Contraseña cambiada con éxito!",
+      "errorMessage": "Error al cambiar la contraseña."
+    },
+    "deleteAccount": {
+      "title": "Eliminar cuenta",
+      "deleteButton": "Eliminar cuenta",
+      "warningText": "¿Está seguro de que desea eliminar su cuenta?",
+      "cancelButton": "Cancelar",
+      "confirmButton": "Sí, eliminar cuenta",
+      "successMessage": "¡Cuenta eliminada con éxito!",
+      "errorMessage": "Error al eliminar la cuenta."
+    },
+    "personalData": {
+      "title": "Datos Personales",
+      "emailLabel": "Correo Electrónico",
+      "firstNameLabel": "Nombre",
+      "lastNameLabel": "Apellido",
+      "languageLabel": "Idioma",
+      "languagePlaceholder": "Seleccionar idioma",
+      "currencyLabel": "Moneda",
+      "currencyPlaceholder": "Seleccionar moneda",
+      "saveButton": "Guardar Cambios",
+      "successMessage": "Datos personales actualizados con éxito"
+    }
+  },
+  "search": {
+    "filters": "Filtros",
+    "resultsFor": "Resultados de búsqueda para:",
+    "resetAllFilters": "Restablecer todos los filtros",
+    "totalResults_one": "{{count}} artículo",
+    "totalResults_other": "{{count}} artículos",
+    "bar": {
+      "label": "Búsqueda",
+      "placeholder": "Estoy buscando...",
+      "placeholderShort": "Buscar",
+      "button": "Buscar"
+    },
+    "applyFilters": "Aplicar filtros",
+    "validation": {
+      "queryMinLength": "Por favor, introduzca al menos 3 caracteres",
+      "dateOrder": "La fecha de inicio debe ser anterior a la fecha de fin"
+    },
+    "filter": {
+      "creationDate": "Añadido",
+      "from": "Desde:",
+      "to": "Hasta:",
+      "productState": "Estado del anuncio",
+      "merchant": "Vendedor",
+      "anyMerchant": "Cualquier vendedor",
+      "searchMerchants": "Buscar vendedores...",
+      "noMerchantsFound": "No se encontraron vendedores",
+      "priceSpan": "Rango de precios",
+      "min": "Mín",
+      "max": "Máx",
+      "priceSpanAria": "Rango de precios",
+      "updateDate": "Actualizado",
+      "anyDate": "Cualquiera",
+      "resetTooltip": {
+        "priceSpan": "Restablecer filtro de rango de precios",
+        "productState": "Restablecer filtro de estado",
+        "creationDate": "Restablecer filtro de fecha de creación",
+        "updateDate": "Restablecer filtro de fecha de actualización",
+        "merchant": "Restablecer filtro de vendedor",
+        "qualityIndicators": "Restablecer filtro de indicadores de calidad"
+      },
+      "all": "Todo",
+      "select": "Seleccionar",
+      "qualityIndicators": "Indicadores de Calidad",
+      "originYear": "Año de Origen",
+      "authenticity": "Autenticidad",
+      "condition": "Condición",
+      "provenance": "Proveniencia",
+      "restoration": "Restauración",
+      "selected": "{{count}} seleccionados"
+    },
+    "messages": {
+      "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
+      "error": "Error al cargar los resultados de búsqueda. ¡Por favor, inténtelo de nuevo más tarde!",
+      "noResults": {
+        "title": "No se encontraron resultados",
+        "description": "Intente ajustar su término de búsqueda o filtros."
+      },
+      "loadingMore": "Cargando más resultados...",
+      "allLoaded_one": "Ha visto {{count}} resultado que coincide con sus filtros.",
+      "allLoaded_other": "Ha visto los {{count}} resultados que coinciden con sus filtros."
+    },
+    "sortMode": {
+      "relevance": "Relevancia",
+      "creationDate": "Fecha de creación",
+      "updateDate": "Última actualización",
+      "price": "Precio",
+      "order": {
+        "asc": "Ascendente",
+        "desc": "Descendente"
+      }
+    }
+  },
+  "product": {
+    "unknownPrice": "Precio desconocido",
+    "details": "Detalles",
+    "toMerchant": "Ir al vendedor",
+    "noDescription": "No hay descripción disponible",
+    "noImage": "No hay imagen disponible",
+    "similar": {
+      "title": "Artículos similares",
+      "error": {
+        "title": "Error de carga",
+        "description": "No se pudieron cargar los artículos similares."
+      },
+      "embeddingsPending": {
+        "title": "En preparación",
+        "description": "Los artículos similares se están preparando. Esto puede tardar hasta 24 horas para artículos nuevos."
+      },
+      "noData": {
+        "title": "Sin artículos similares",
+        "description": "No se encontraron productos similares para este artículo."
+      }
+    },
+    "history": {
+      "title": "Historial",
+      "noData": "No hay datos disponibles para este artículo.",
+      "noEvents": "No hay eventos disponibles para este filtro.",
+      "filters": {
+        "all": "Todos",
+        "price": "Precio",
+        "availability": "Disponibilidad"
+      },
+      "events": {
+        "statusChanged": "Estado cambiado de {{oldState}} a {{newState}}.",
+        "priceDiscovered": "Precio descubierto • {{price}}.",
+        "priceChanged": "El precio ha {{verb}} de {{oldPrice}} a {{newPrice}}.",
+        "priceFallen": "bajado",
+        "priceIncreased": "subido",
+        "priceRemoved": "Precio eliminado • Último precio: {{price}}.",
+        "created": "Añadido al sistema"
+      }
+    },
+    "priceEstimate": {
+      "tooltip": "Estimación de precio de {{shopType}}",
+      "tooltipUnknown": "Estimación de precio",
+      "minOnly": "Mín. {{min}}",
+      "maxOnly": "Máx. {{max}}",
+      "range": "{{min}} - {{max}}"
+    },
+    "priceChart": {
+      "title": "Historial de precios",
+      "noData": "No hay datos de precios disponibles para este artículo.",
+      "seriesName": "Precio",
+      "timeRanges": {
+        "1d": "1D",
+        "5d": "5D",
+        "1m": "1M",
+        "3m": "3M",
+        "6m": "6M",
+        "1y": "1A",
+        "all": "Todo"
+      }
+    },
+    "qualityIndicators": {
+      "title": "Indicadores de Calidad",
+      "noData": "No hay información adicional disponible",
+      "originYear": {
+        "label": "Año de Origen",
+        "range": "{{min}}–{{max}}",
+        "from": "desde {{year}}",
+        "until": "hasta {{year}}",
+        "unknown": "Desconocido",
+        "exactDescription": "Esta pieza data del año {{year}}.",
+        "rangeDescription": "Esta pieza fue fabricada entre {{min}} y {{max}}.",
+        "fromDescription": "Esta pieza fue fabricada a partir del año {{year}}.",
+        "untilDescription": "Esta pieza fue fabricada hasta el año {{year}}.",
+        "unknownDescription": "El año de fabricación de esta pieza es desconocido."
+      },
+      "authenticity": {
+        "label": "Autenticidad",
+        "original": "Original",
+        "originalDescription": "Un original verificado del período indicado.",
+        "later_copy": "Copia Posterior",
+        "later_copyDescription": "Una copia histórica realizada posteriormente al original.",
+        "reproduction": "Reproducción",
+        "reproductionDescription": "Una réplica moderna sin valor histórico.",
+        "questionable": "Cuestionable",
+        "questionableDescription": "La autenticidad de esta pieza está en duda o no puede ser confirmada claramente.",
+        "unknown": "Desconocido",
+        "unknownDescription": "La autenticidad aún no ha sido verificada."
+      },
+      "condition": {
+        "label": "Condición",
+        "excellent": "Excelente",
+        "excellentDescription": "Condición casi perfecta sin signos significativos de desgaste.",
+        "great": "Muy Buena",
+        "greatDescription": "Muy bien conservada con solo signos menores de envejecimiento.",
+        "good": "Buena",
+        "goodDescription": "Bien conservada con signos visibles pero aceptables de desgaste.",
+        "fair": "Regular",
+        "fairDescription": "Presenta signos notables de desgaste, pero sigue siendo completa y estable.",
+        "poor": "Mala",
+        "poorDescription": "Daños significativos o desgaste severo.",
+        "unknown": "Desconocido",
+        "unknownDescription": "La condición no ha sido evaluada."
+      },
+      "provenance": {
+        "label": "Procedencia",
+        "complete": "Completa",
+        "completeDescription": "La procedencia está completamente documentada desde su creación hasta la actualidad.",
+        "partial": "Parcial",
+        "partialDescription": "La procedencia está parcialmente documentada pero tiene lagunas.",
+        "claimed": "Reclamada",
+        "claimedDescription": "El vendedor declara una procedencia, pero no está respaldada por documentos.",
+        "none": "Ninguna",
+        "noneDescription": "No existe documentación de procedencia.",
+        "unknown": "Desconocido",
+        "unknownDescription": "La procedencia aún no ha podido determinarse."
+      },
+      "restoration": {
+        "label": "Restauración",
+        "none": "Ninguna",
+        "noneDescription": "No se ha realizado restauración, la pieza está en su estado original.",
+        "minor": "Menor",
+        "minorDescription": "Trabajo de restauración ligero, como limpieza o pequeñas reparaciones.",
+        "major": "Mayor",
+        "majorDescription": "Restauración extensa o reconstrucción parcial.",
+        "unknown": "Desconocido",
+        "unknownDescription": "No hay información disponible sobre restauraciones."
+      }
+    }
+  },
+  "priceBadge": {
+    "discovered": "Precio descubierto",
+    "dropped": "Precio rebajado",
+    "increased": "Precio aumentado",
+    "removed": "Precio eliminado"
+  },
+  "productState": {
+    "listed": "Listado",
+    "available": "Disponible",
+    "reserved": "Reservado",
+    "sold": "Vendido",
+    "removed": "Eliminado",
+    "unknown": "Desconocido"
+  },
+  "shopType": {
+    "auctionHouse": "Casa de subastas",
+    "commercialDealer": "Vendedor",
+    "marketplace": "Mercado",
+    "unknown": "Desconocido"
+  },
+  "discover": {
+    "title": "Traemos transparencia al opaco panorama de las antigüedades en línea",
+    "p1": "Buscamos entre las vastas ofertas de miles de anticuarios, casas de subastas y mercados dispersos en todo el mundo todos los días y agrupamos sus artículos en un solo lugar central.",
+    "p2": "No solo capturamos artículos actuales y próximos, sino que también rastreamos cambios de precio y disponibilidad. De esta manera, nunca te perderás una ganga y siempre estarás al tanto del mercado.",
+    "highlight1": {
+      "title": "Más de 500 anticuarios, casas de subastas y mercados",
+      "description": "Buscamos continuamente anticuarios, casas de subastas y mercados renombrados de toda Europa y más allá."
+    },
+    "highlight2": {
+      "title": "Monitoreo casi en tiempo real",
+      "description": "Las antigüedades recién ofrecidas, así como los cambios de precio o disponibilidad, se capturan automáticamente casi en tiempo real."
+    },
+    "highlight3": {
+      "title": "Completamente independiente del idioma",
+      "description": "Traducimos cada antigüedad a múltiples idiomas. El idioma en el que buscas no importa. Actualmente soportamos inglés, alemán, francés y español."
+    },
+    "stats": {
+      "shops": "500",
+      "shopsLabel": "Tiendas conectadas",
+      "items": "120.000",
+      "itemsLabel": "Artículos únicos",
+      "updates": "24/7",
+      "updatesLabel": "Actualizaciones casi en tiempo real",
+      "countries": "15",
+      "countriesLabel": "Países cubiertos"
+    }
+  },
+  "landingPage": {
+    "badge": "La plataforma líder para quienes buscan antigüedades altamente específicas",
+    "titleFirstLine": "Deja de perder tiempo buscando antigüedades que no puedes encontrar",
+    "titleSecondLine": "Un lugar central para encontrar las antigüedades que buscas",
+    "subtitle": "Buscamos en toda la web antigüedades y las ponemos a tu disposición en un motor de búsqueda especializado. Cubrimos tiendas de antigüedades y casas de subastas que incluso tú no conoces.",
+    "trustBadge1": "De coleccionistas de antigüedades",
+    "trustBadge2": "Para coleccionistas y comerciantes serios",
+    "trustBadge3": "Casi en tiempo real",
+    "features": {
+      "title": "Las antigüedades están dispersas por toda la web: tu búsqueda no debería estarlo",
+      "subtitle": "Somos el motor de búsqueda más sofisticado para antigüedades y te proporcionamos todas las herramientas para buscar eficientemente en el mercado de antigüedades.",
+      "previewBadge": "Próximamente",
+      "search": {
+        "title": "Búsqueda inteligente",
+        "description": "Busca entre cientos de miles de artículos con nuestro potente motor de búsqueda. Elimina todo el ruido filtrando por estado, precio, vendedor y mucho más."
+      },
+      "global": {
+        "title": "Cobertura mundial",
+        "description": "Te conectamos con anticuarios renombrados de más de 15 países, desde Alemania hasta Estados Unidos. No importa cuán pequeño sea el vendedor, si tiene una tienda en línea, lo estamos añadiendo."
+      },
+      "history": {
+        "title": "Historial de cambios",
+        "description": "Rastrea todos los cambios de un artículo, desde ajustes de precio hasta cambios de estado. Optamos por la máxima transparencia."
+      },
+      "watchlist": {
+        "title": "Lista de seguimiento personal",
+        "description": "Guarda artículos interesantes y sigue su desarrollo. Recibe notificaciones cuando cambien el precio o la disponibilidad."
+      },
+      "translations": {
+        "title": "Traducciones automáticas",
+        "description": "Busca y descubre todos los artículos en tu idioma preferido, sin barreras. Actualmente soportamos inglés, alemán, francés y español."
+      },
+      "personalFilter": {
+        "title": "Solicitudes de búsqueda",
+        "description": "Guarda tu solicitud de búsqueda y recibe notificaciones sobre nuevas ofertas o artículos actualizados. Las antigüedades que solías buscar ahora vienen a ti."
+      },
+      "aiSearchAgent": {
+        "title": "Agente de búsqueda personal con IA",
+        "description": "Tu agente personal de IA te ayuda a encontrar las antigüedades más específicas. En combinación con las solicitudes de búsqueda, describe lo que buscas en lenguaje sencillo, tan detallado como desees. Te notificaremos tan pronto como haya coincidencias con lo que describiste."
+      },
+      "communityWishes": {
+        "title": "Tus deseos",
+        "description": "¿Tienes críticas, te falta algo o tienes una idea de lo que deberíamos mejorar o añadir? Escucharemos muy atentamente. Contáctanos en contact@aura-historia.com y lo haremos realidad."
+      }
+    },
+    "howItWorks": {
+      "title": "Cómo funciona",
+      "subtitle": "Solo unos pocos pasos para tus piezas soñadas.",
+      "step1": {
+        "title": "Buscar",
+        "description": "Introduzca lo que busca – ya sean muebles, joyas, arte u objetos de colección."
+      },
+      "step2": {
+        "title": "Descubrir",
+        "description": "Explora resultados de miles de vendedores de un vistazo."
+      },
+      "step3": {
+        "title": "Guardar",
+        "description": "Guarde artículos interesantes en su lista de seguimiento personal. Le notificaremos de los cambios."
+      },
+      "step4": {
+        "title": "Comprar",
+        "description": "Le redirigimos directamente al vendedor donde puede asegurar su hallazgo."
+      }
+    },
+    "testimonials": {
+      "title": "Lo que dicen nuestros usuarios",
+      "subtitle": "Descubre cómo ayudamos a los coleccionistas a vivir su pasión.",
+      "testimonial1": {
+        "name": "Margarete W.",
+        "role": "Colecciona muebles Art Nouveau",
+        "quote": "Por fin una plataforma que facilita la búsqueda de piezas raras. Las alertas de precio me han ayudado varias veces a encontrar verdaderas gangas."
+      },
+      "testimonial2": {
+        "name": "Heinrich K.",
+        "role": "Anticuario",
+        "quote": "Como vendedor, uso Aura Historia para vigilar el mercado. Las evoluciones de precios me ayudan enormemente con mi propia fijación de precios."
+      },
+      "testimonial3": {
+        "name": "Elisabeth M.",
+        "role": "Coleccionista aficionada desde hace 20 años",
+        "quote": "Estoy asombrada por la claridad. Antes, pasaba horas buscando en diferentes sitios de vendedores. Ahora encuentro todo en un solo lugar."
+      }
+    },
+    "newsletter": {
+      "title": "Manténgase informado",
+      "description": "Reciba semanalmente hallazgos seleccionados, tendencias del mercado e información exclusiva directamente en su bandeja de entrada.",
+      "placeholder": "Su dirección de correo electrónico",
+      "button": "Suscribirse",
+      "privacy": "Al suscribirse, acepta nuestra política de privacidad. Puede darse de baja en cualquier momento.",
+      "successMessage": "¡Gracias por suscribirse! Por favor, confirme su dirección de correo electrónico.",
+      "benefit1": "Destacados semanales",
+      "benefit2": "Informes de mercado y tendencias",
+      "benefit3": "Cancelar en cualquier momento"
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "subtitle": "Aquí encontrará respuestas a las preguntas más importantes sobre Aura Historia.",
+      "items": {
+        "howItWorks": {
+          "question": "¿Cómo funciona Aura Historia?",
+          "answer": "Aura Historia busca continuamente en los sitios web de más de 500 anticuarios, casas de subastas y mercados en todo el mundo y recopila todas las ofertas en un solo lugar central. Nuestra búsqueda inteligente te permite encontrar exactamente lo que estás buscando."
+        },
+        "directPurchase": {
+          "question": "¿Puedo comprar artículos directamente a través de Aura Historia?",
+          "answer": "No, Aura Historia es una plataforma de búsqueda pura. Si desea comprar un artículo, será redirigido directamente al sitio web del vendedor correspondiente donde puede completar la compra."
+        },
+        "priceAlerts": {
+          "question": "¿Cómo funcionan las notificaciones de precio y disponibilidad?",
+          "answer": "Una vez que añades un artículo a tu lista de seguimiento, rastreamos automáticamente su desarrollo de precio y disponibilidad por ti. Tan pronto como algo cambie con tu artículo, recibirás una notificación por correo electrónico."
+        },
+        "updateFrequency": {
+          "question": "¿Con qué frecuencia se actualizan los datos?",
+          "answer": "Nuestros datos se actualizan continuamente. Operamos casi en tiempo real."
+        },
+        "dealers": {
+          "question": "¿Qué tiendas de antigüedades en línea están en Aura Historia?",
+          "answer": "Incluimos datos de más de 500 anticuarios renombrados de más de 15 países. Entre ellos encontrarás tanto grandes casas de subastas como vendedores especializados en todas las áreas de antigüedades."
+        },
+        "dealerRequest": {
+          "question": "Conozco un anticuario/casa de subastas/mercado en línea que aún no está en Aura Historia. ¿Podemos añadirlo?",
+          "answer": "¡Sí! Envíanos un correo electrónico a contact@aura-historia.com e incluye la URL/enlace de la tienda junto con cualquier información adicional que desees proporcionar. Verificaremos la tienda y la incluiremos en cuestión de horas."
+        },
+        "comparisonBarnebys": {
+          "question": "¿Cómo se compara Aura Historia con Barnebys?",
+          "answer": "Aunque Barnebys también es un motor de búsqueda de antigüedades, solo se enfoca en los jugadores más grandes: las grandes casas de subastas y anticuarios. Esto aumenta mucho las posibilidades de que te pierdas lo que realmente estás buscando. Pregúntate, ¿dónde encontré mis mayores tesoros? Probablemente fue en un pequeño anticuario local o incluso en una tienda de segunda mano."
+        },
+        "comparisonPriceDatabase": {
+          "question": "¿Cómo se compara Aura Historia con bases de datos de precios como WorthPoint y the saleroom?",
+          "answer": "Las bases de datos de precios aprovechan la gran cantidad de datos históricos con resultados de subastas que se remontan a los años 90. Si bien esto ayuda a encontrar comparaciones para piezas astronómicamente raras, a menudo no reflejan el valor de mercado actual ni la disponibilidad de las antigüedades. Si tu objetivo es encontrar antigüedades o investigar su valor actual, Aura Historia es el lugar adecuado. También queremos tomar una postura firme contra la monetización de los datos históricos de precios de antigüedades. No deberías tener que pagar para saber qué se vendió y a qué precio."
+        }
+      }
+    }
+  },
+  "apiErrors": {
+    "PRODUCT_NOT_FOUND": "Este artículo no fue encontrado.",
+    "UNAUTHORIZED": "Autenticación fallida. Por favor, inicie sesión.",
+    "INTERNAL_SERVER_ERROR": "Se produjo un error interno del servidor. Por favor, inténtelo de nuevo más tarde.",
+    "GATEWAY_TIMEOUT": "Tiempo de espera de la solicitud agotado. Por favor, inténtelo de nuevo más tarde.",
+    "WATCHLIST_ENTRY_NOT_FOUND": "Este artículo no está en su lista de seguimiento.",
+    "SEARCH_FILTER_NOT_FOUND": "Este filtro de búsqueda no existe.",
+    "TEXT_QUERY_TOO_SHORT": "La consulta de búsqueda debe contener al menos 3 caracteres.",
+    "BAD_PATH_PARAMETER_VALUE": "El enlace no es válido.",
+    "INVALID_UUID": "El enlace no es válido.",
+    "SERVICE_UNAVAILABLE": "El servicio no está disponible actualmente. Por favor, inténtelo de nuevo más tarde.",
+    "BAD_QUERY_PARAMETER_VALUE": "Su búsqueda contiene configuraciones no válidas.",
+    "SHOP_NOT_FOUND": "Esta tienda ya no está disponible.",
+    "INVALID_SHOP_IDENTIFIER": "El identificador de la tienda no es válido.",
+    "FORBIDDEN": "Esta acción no está disponible para usted.",
+    "BAD_BODY_VALUE": "Algunos detalles son incorrectos. Por favor, verifique su entrada.",
+    "MONETARY_AMOUNT_OVERFLOW": "El precio es demasiado alto y no se puede procesar.",
+    "BAD_PAGE_FROM_VALUE": "Número de página no válido.",
+    "BAD_PAGE_SIZE_VALUE": "Número de elementos por página no válido.",
+    "BAD_SORT_VALUE": "Ordenación no válida.",
+    "BAD_ORDER_VALUE": "Orden de clasificación no válido.",
+    "unknown": "Se produjo un error inesperado.",
+    "WATCHLIST_QUOTA_EXCEEDED": "Has alcanzado el número máximo de artículos en tu lista de seguimiento. Ya hay 5/5 entradas ocupadas en la lista de seguimiento."
+  },
+  "watchlist": {
+    "title": "Mi lista de seguimiento",
+    "loginRequired": "Por favor, inicie sesión para usar la lista de seguimiento.",
+    "totalElements": "{{count}} artículos",
+    "loadingError": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde.",
+    "loadingMore": "Cargando más resultados...",
+    "allLoaded_one": "Ha visto {{count}} artículo de su lista de seguimiento.",
+    "allLoaded_other": "Ha visto los {{count}} artículos de su lista de seguimiento.",
+    "noResults": {
+      "title": "No se encontraron artículos",
+      "description": "Añada artículos a su lista de seguimiento para verlos aquí."
+    }
+  },
+  "share": {
+    "copyLink": "Copiar enlace",
+    "copied": "¡Copiado!",
+    "shareProduct": "Compartir producto",
+    "foundOnAuraHistoria": "¡He encontrado {{title}} en Aura Historia! ¡Podría interesarte!"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "description": "La página que busca no fue encontrada.",
+    "goHome": "Ir a la página principal"
+  },
+  "error": {
+    "title": "Algo salió mal",
+    "description": "Se produjo un error inesperado. Por favor, inténtelo de nuevo más tarde.",
+    "goHome": "Ir a la página principal"
+  },
+  "auth": {
+    "subtitle": "Más de 120.000 antigüedades de 500 vendedores. Compare, guarde y siga precios en Aura Historia.",
+    "welcome": "Bienvenido",
+    "welcomeWithName": "¡Bienvenido, {{name}}!",
+    "welcomeBack": "Bienvenido de nuevo",
+    "welcomeBackWithName": "¡Bienvenido de nuevo, {{name}}!",
+    "completingRegistration": "El registro se está completando, ¡por favor espere un momento!",
+    "completingLogin": "El inicio de sesión se está completando, ¡por favor espere un momento!",
+    "retry": "Intentar de nuevo",
+    "backToLogin": "Volver al inicio de sesión",
+    "backToHomepage": "Volver a la página principal",
+    "errorTitle": "Datos de usuario no guardados",
+    "timeout": {
+      "title": "¡Registro exitoso!",
+      "message": "¡Su registro se completó con éxito! Los datos personales no pudieron guardarse debido al alto tráfico de usuarios.",
+      "hint": "Puede añadir esta información en cualquier momento en la configuración de su cuenta.",
+      "noteLabel": "Nota:"
+    },
+    "signUp": {
+      "firstName": "Nombre",
+      "firstNamePlaceholder": "Juan",
+      "lastName": "Apellido",
+      "lastNamePlaceholder": "García",
+      "email": "Correo electrónico*",
+      "emailPlaceholder": "su.correo@ejemplo.com",
+      "password": "Contraseña*",
+      "confirmPassword": "Confirmar contraseña*",
+      "language": "Idioma",
+      "currency": "Moneda",
+      "pleaseSelect": "Por favor seleccione"
+    },
+    "signIn": {
+      "email": "Correo electrónico",
+      "emailPlaceholder": "Introduzca su correo electrónico",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Introduzca su contraseña"
+    },
+    "languages": {
+      "de": "Alemán",
+      "en": "Inglés",
+      "fr": "Francés",
+      "es": "Español"
+    },
+    "currencies": {
+      "EUR": "EUR - Euro",
+      "GBP": "GBP - Libra esterlina",
+      "USD": "USD - Dólar estadounidense",
+      "AUD": "AUD - Dólar australiano",
+      "CAD": "CAD - Dólar canadiense",
+      "NZD": "NZD - Dólar neozelandés"
+    }
+  },
+  "amplify": {
+    "email": "Correo electrónico*",
+    "password": "Contraseña*",
+    "confirmPassword": "Confirmar contraseña*",
+    "signIn": "Iniciar sesión",
+    "signUp": "Registrarse",
+    "createAccount": "Crear cuenta",
+    "forgotYourPassword": "¿Olvidó su contraseña?",
+    "resetPassword": "Restablecer contraseña",
+    "backToSignIn": "Volver a iniciar sesión",
+    "sendCode": "Enviar código",
+    "confirm": "Confirmar",
+    "submit": "Enviar",
+    "verify": "Verificar",
+    "skip": "Omitir",
+    "code": "Código",
+    "newPassword": "Nueva contraseña",
+    "enterYourEmail": "Introduzca su correo electrónico",
+    "enterYourPassword": "Introduzca su contraseña",
+    "pleaseConfirmYourPassword": "Por favor confirme su contraseña",
+    "weEmailedYou": "Le enviamos un correo electrónico",
+    "weSentACode": "Enviamos un código",
+    "weTextedYou": "Le enviamos un SMS",
+    "codeOnTheWayEmail": "Su código está en camino. Para iniciar sesión, introduzca el código que enviamos a",
+    "codeOnTheWaySent": "Su código está en camino. Para iniciar sesión, introduzca el código que le enviamos",
+    "codeOnTheWayText": "Su código está en camino. Para iniciar sesión, introduzca el código que enviamos por SMS a",
+    "itMayTakeAMinuteToArrive": "Puede tardar un minuto en llegar",
+    "confirmationCode": "Código de confirmación",
+    "enterYourConfirmationCode": "Introduzca su código de confirmación",
+    "resendCode": "Reenviar código",
+    "incorrectUsernameOrPassword": "Nombre de usuario o contraseña incorrectos.",
+    "userDoesNotExist": "El usuario no existe.",
+    "userAlreadyExists": "El usuario ya existe.",
+    "invalidVerificationCode": "Código de verificación inválido, por favor intente de nuevo.",
+    "invalidPasswordFormat": "Formato de contraseña inválido.",
+    "passwordAttemptsExceeded": "Demasiados intentos. Por favor intente más tarde.",
+    "attemptLimitExceeded": "Límite de intentos excedido, por favor intente más tarde.",
+    "alreadySignedInUser": "Ya hay un usuario conectado.",
+    "passwordPolicyNotLongEnough": "La contraseña no es suficientemente larga.",
+    "passwordPolicyMustHaveLowercase": "La contraseña debe contener minúsculas.",
+    "passwordPolicyMustHaveUppercase": "La contraseña debe contener mayúsculas.",
+    "passwordPolicyMustHaveSymbol": "La contraseña debe contener caracteres especiales.",
+    "passwordMustHaveUppercase": "La contraseña debe contener mayúsculas.",
+    "passwordMustHaveLowercase": "La contraseña debe contener minúsculas.",
+    "passwordMustHaveNumeric": "La contraseña debe contener números.",
+    "passwordMustHaveSymbol": "La contraseña debe contener caracteres especiales.",
+    "passwordMustHaveAtLeast8Chars": "La contraseña debe tener al menos 8 caracteres.",
+    "yourPasswordsMustMatch": "Las contraseñas deben coincidir.",
+    "userIsNotConfirmed": "El usuario no está confirmado.",
+    "userIsDisabled": "El usuario está deshabilitado.",
+    "usernameCannotBeEmpty": "El nombre de usuario no puede estar vacío.",
+    "passwordCannotBeEmpty": "La contraseña no puede estar vacía.",
+    "networkError": "Error de red. Por favor verifique su conexión a Internet.",
+    "accountWithEmailAlreadyExists": "Ya existe una cuenta con este correo electrónico.",
+    "invalidEmailAddressFormat": "Formato de correo electrónico inválido.",
+    "codeMismatch": "El código introducido es incorrecto.",
+    "confirmationCodeCannotBeEmpty": "El código de confirmación no puede estar vacío.",
+    "invalidCodeProvidedRequestAgain": "Código inválido, por favor solicite uno nuevo."
+  }
+}

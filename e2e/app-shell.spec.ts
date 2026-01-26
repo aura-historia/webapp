@@ -5,7 +5,7 @@ test.describe('App Shell', () => {
     await page.goto('/');
 
     // Check basic HTML structure
-    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+      await expect(page.locator('html')).toHaveAttribute('lang', 'de');
     
     // Check that meta tags are present
     const viewport = page.locator('meta[name="viewport"]');

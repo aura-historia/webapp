@@ -1,59 +1,91 @@
-import type { OverviewItem } from "@/data/internal/OverviewItem.ts";
-import { render, screen } from "@testing-library/react";
+import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import { screen } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
-import { SearchResults } from "../SearchResults";
+import type { SearchResultData } from "@/data/internal/search/SearchResultData.ts";
+import { useSearch } from "@/hooks/search/useSearch.ts";
+import { SearchResults } from "@/components/search/SearchResults.tsx";
+import type React from "react";
+import { renderWithQueryClient } from "@/test/utils.tsx";
 
-vi.mock("@/hooks/useSimpleSearch.ts", () => ({
-    useSimpleSearch: vi.fn(),
+vi.mock("@/hooks/search/useSearch.ts", () => ({
+    useSearch: vi.fn(),
 }));
-import { useSimpleSearch } from "@/hooks/useSimpleSearch.ts";
 
-const mockUseSimpleSearch = vi.mocked(useSimpleSearch);
+vi.mock("@tanstack/react-router", async (importOriginal) => {
+    const actual = await importOriginal<typeof import("@tanstack/react-router")>();
+    return {
+        ...actual,
+        Link: ({ children, ...props }: { children: React.ReactNode }) => (
+            <a {...props}>{children}</a>
+        ),
+    };
+});
 
-const buildQueryPayload = (items: OverviewItem[]) => ({
-    data: { items },
-    error: undefined,
-    request: new Request("http://localhost/mock"),
-    response: new Response("{}", { status: 200 }),
+vi.mock("@/components/product/buttons/NotificationButton", () => ({
+    NotificationButton: () => (
+        <button type="button" data-testid="notification-button">
+            Notification
+        </button>
+    ),
+}));
+
+vi.mock("react-intersection-observer", () => ({
+    useInView: () => ({ ref: vi.fn(), inView: false }),
+}));
+
+vi.mock("lottie-react", () => ({
+    default: () => <div data-testid="lottie-animation" />,
+}));
+
+const mockUseSearch = vi.mocked(useSearch);
+
+const buildQueryPayload = (products: OverviewProduct[]): SearchResultData => ({
+    products,
+    size: products.length,
+    total: products.length,
+    searchAfter: undefined,
 });
 
 type SearchMockOptions = {
-    items?: OverviewItem[];
-    isLoading?: boolean;
+    products?: OverviewProduct[];
+    isPending?: boolean;
     error?: Error | null;
 };
 
-function setSearchMock({ items = [], isLoading = false, error = null }: SearchMockOptions = {}) {
-    const data = isLoading ? undefined : buildQueryPayload(items);
-    mockUseSimpleSearch.mockReturnValue({
-        data,
-        isLoading,
+function setSearchMock({ products = [], isPending = false, error = null }: SearchMockOptions = {}) {
+    const pages = isPending ? undefined : [buildQueryPayload(products)];
+    mockUseSearch.mockReturnValue({
+        data: pages ? { pages, pageParams: [undefined] } : undefined,
+        isPending,
         error,
-    } as ReturnType<typeof useSimpleSearch>);
+        fetchNextPage: vi.fn(),
+        hasNextPage: false,
+        isFetchingNextPage: false,
+    } as unknown as ReturnType<typeof useSearch>);
 }
 
 describe("SearchResults", () => {
     beforeEach(() => {
-        mockUseSimpleSearch.mockReset();
+        mockUseSearch.mockReset();
         setSearchMock();
     });
 
     it("renders a message when query length is less than 3 characters", () => {
-        render(<SearchResults query="ab" />);
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "ab" }} />);
         expect(
             screen.getByText("Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten."),
         ).toBeInTheDocument();
     });
 
     it("renders skeleton loaders while data is loading", () => {
-        setSearchMock({ isLoading: true });
-        render(<SearchResults query="test" />);
-        expect(screen.getAllByTestId("item-card-skeleton")).toHaveLength(4);
+        setSearchMock({ isPending: true });
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
+        expect(screen.getAllByTestId("product-card-skeleton")).toHaveLength(4);
     });
 
     it("renders an error message when there is an error", () => {
         setSearchMock({ error: new Error("API Error") });
-        render(<SearchResults query="test" />);
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
         expect(
             screen.getByText(
                 "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
@@ -61,18 +93,22 @@ describe("SearchResults", () => {
         ).toBeInTheDocument();
     });
 
-    it("renders a message when no items are found", () => {
-        setSearchMock({ items: [] });
-        render(<SearchResults query="test" />);
-        expect(screen.getByText("Keine Artikel gefunden!")).toBeInTheDocument();
+    it("renders a message when no products are found", () => {
+        setSearchMock({ products: [] });
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
+        expect(screen.getByText("Keine Ergebnisse gefunden")).toBeInTheDocument();
+        expect(
+            screen.getByText("Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen."),
+        ).toBeInTheDocument();
     });
 
-    it("renders a list of item cards when items are found", () => {
-        const base: Omit<OverviewItem, "itemId" | "title"> = {
+    it("renders a list of product cards when products are found", () => {
+        const base: Omit<OverviewProduct, "productId" | "title"> = {
             eventId: "e1",
             shopId: "s1",
-            shopsItemId: "si1",
+            shopsProductId: "si1",
             shopName: "Shop 1",
+            shopType: "AUCTION_HOUSE",
             description: undefined,
             price: "10 €",
             state: "AVAILABLE",
@@ -80,16 +116,23 @@ describe("SearchResults", () => {
             images: [],
             created: new Date(),
             updated: new Date(),
+            originYear: undefined,
+            originYearMin: undefined,
+            originYearMax: undefined,
+            authenticity: "UNKNOWN",
+            condition: "UNKNOWN",
+            provenance: "UNKNOWN",
+            restoration: "UNKNOWN",
         } as const;
 
         setSearchMock({
-            items: [
-                { ...base, itemId: "1", title: "Item 1" },
-                { ...base, itemId: "2", title: "Item 2" },
+            products: [
+                { ...base, productId: "1", title: "Product 1" },
+                { ...base, productId: "2", title: "Product 2" },
             ],
         });
-        render(<SearchResults query="test" />);
-        expect(screen.getByText("Item 1")).toBeInTheDocument();
-        expect(screen.getByText("Item 2")).toBeInTheDocument();
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
+        expect(screen.getByText("Product 1")).toBeInTheDocument();
+        expect(screen.getByText("Product 2")).toBeInTheDocument();
     });
 });

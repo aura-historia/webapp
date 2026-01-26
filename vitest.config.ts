@@ -37,6 +37,7 @@ export default defineConfig({
         '.tanstack/',
         'src/components/ui/',
         'src/client/',
+          'src/assets/',
           'e2e/',
       ],
     },

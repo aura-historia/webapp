@@ -1,0 +1,61 @@
+import type { SortProductFieldData } from "@/client";
+
+export const SEARCH_RESULT_SORT_FIELDS = [
+    "RELEVANCE",
+    "PRICE",
+    "CREATION_DATE",
+    "UPDATE_DATE",
+] as const;
+
+export type SortMode = {
+    field: (typeof SEARCH_RESULT_SORT_FIELDS)[number];
+    order: "ASC" | "DESC";
+};
+
+export function getSortModeFieldLabel(field: (typeof SEARCH_RESULT_SORT_FIELDS)[number]): string {
+    switch (field) {
+        case "RELEVANCE":
+            return "search.sortMode.relevance";
+        case "PRICE":
+            return "search.sortMode.price";
+        case "CREATION_DATE":
+            return "search.sortMode.creationDate";
+        case "UPDATE_DATE":
+            return "search.sortMode.updateDate";
+        default:
+            return "search.sortMode.relevance";
+    }
+}
+
+export function mapToBackendSortModeArguments(sortMode?: SortMode): {
+    sort: SortProductFieldData;
+    order: "asc" | "desc";
+} {
+    let sort: SortProductFieldData;
+    let order: "asc" | "desc";
+
+    switch (sortMode?.field) {
+        case "RELEVANCE":
+            sort = "score";
+            break;
+        case "PRICE":
+            sort = "price";
+            break;
+        case "CREATION_DATE":
+            sort = "created";
+            break;
+        case "UPDATE_DATE":
+            sort = "updated";
+            break;
+        default:
+            sort = "score";
+    }
+
+    if (sortMode?.order === "ASC") {
+        order = "asc";
+    } else {
+        order = "desc";
+    }
+
+    return { sort, order };
+}

@@ -7,7 +7,9 @@ import {
     createRouter,
 } from "@tanstack/react-router";
 import { render } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
+import { SearchQueryProvider } from "@/hooks/search/useSearchQueryContext.tsx";
 
 const rootRoute = createRootRouteWithContext()({
     component: () => <Outlet />, // entry point to render children
@@ -16,7 +18,7 @@ const rootRoute = createRootRouteWithContext()({
 const indexRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: "/",
-    component: () => <div>{"Index"}</div>,
+    component: () => <>{injectedChildren}</>,
 });
 
 let injectedChildren: ReactNode = null;
@@ -27,7 +29,13 @@ const testRoute = createRoute({
     component: () => <>{injectedChildren}</>,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, testRoute]);
+const searchRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/search",
+    component: () => <>{injectedChildren}</>,
+});
+
+const routeTree = rootRoute.addChildren([indexRoute, testRoute, searchRoute]);
 
 interface TestRouterWrapperProps {
     readonly children: ReactNode;
@@ -46,7 +54,24 @@ export function TestRouterWrapper({
         context: {},
     });
 
-    return <RouterProvider router={router} />;
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry: false,
+            },
+            mutations: {
+                retry: false,
+            },
+        },
+    });
+
+    return (
+        <SearchQueryProvider>
+            <QueryClientProvider client={queryClient}>
+                <RouterProvider router={router} />
+            </QueryClientProvider>
+        </SearchQueryProvider>
+    );
 }
 
 export function renderWithRouter(
@@ -54,4 +79,18 @@ export function renderWithRouter(
     options: Omit<TestRouterWrapperProps, "children"> = {},
 ) {
     return render(<TestRouterWrapper {...options}>{ui}</TestRouterWrapper>);
+}
+
+export function renderWithQueryClient(ui: React.ReactElement) {
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry: false,
+            },
+            mutations: {
+                retry: false,
+            },
+        },
+    });
+    return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
 }

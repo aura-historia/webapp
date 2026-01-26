@@ -17,6 +17,7 @@ search the codebase when something here is missing or proves inaccurate.
 - Unit tests: Vitest + @testing-library/react (jsdom).
 - E2E tests: Playwright (in `e2e/`).
 - Quality: SonarCloud (see `sonar-project.properties`).
+- Auth using AWS Amplify
 
 ---
 
