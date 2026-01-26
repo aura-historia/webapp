@@ -177,6 +177,11 @@ jobs:
             -   name: Build application
                 run: pnpm run build
 
+            -   name: Update wrangler config for production
+                if: github.ref == 'refs/heads/main'
+                run: |
+                    sed -i 's/"name": "aura-historia-staging"/"name": "aura-historia"/' wrangler.jsonc
+
             -   name: Deploy to Cloudflare Workers
                 uses: cloudflare/wrangler-action@v3
                 with:
