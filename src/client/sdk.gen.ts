@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateShopData, CreateShopErrors, CreateShopResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetProductData2, GetProductErrors, GetProductResponses, GetShopData2, GetShopErrors, GetShopResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PutProductsData, PutProductsErrors, PutProductsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, UpdateShopData, UpdateShopErrors, UpdateShopResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateShopData, CreateShopErrors, CreateShopResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetShopByDomainData, GetShopByDomainErrors, GetShopByDomainResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PutProductsData, PutProductsErrors, PutProductsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, UpdateShopByDomainData, UpdateShopByDomainErrors, UpdateShopByDomainResponses, UpdateShopByIdData, UpdateShopByIdErrors, UpdateShopByIdResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -23,7 +23,6 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
  *
  * Retrieves a single product by its shop ID and shop's product ID.
  * Returns localized content based on Accept-Language header and currency preferences.
- * Optionally includes product history when requested.
  *
  * **Personalization**: When authenticated (via optional Authorization header), the response includes
  * user-specific state such as whether the product is on the user's watchlist and notification preferences.
@@ -32,9 +31,44 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
  */
 export const getProduct = <ThrowOnError extends boolean = false>(options: Options<GetProductData2, ThrowOnError>) => (options.client ?? client).get<GetProductResponses, GetProductErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/api/v1/products/{shopId}/{shopsProductId}',
+    url: '/api/v1/shops/{shopId}/products/{shopsProductId}',
     ...options
 });
+
+/**
+ * Get a single product by slug
+ *
+ * Retrieves a single product by its shop slug ID and product slug ID.
+ * Returns localized content based on Accept-Language header and currency preferences.
+ *
+ * **Human-Readable Identifiers**: This endpoint uses slug-based identifiers which are human-readable
+ * kebab-case strings. Shop slugs are derived from the shop name (e.g., "tech-store-premium"),
+ * while product slugs combine the product title with a unique 6-character hexadecimal suffix
+ * (e.g., "amazing-product-fa87c4").
+ *
+ * **Personalization**: When authenticated (via optional Authorization header), the response includes
+ * user-specific state such as whether the product is on the user's watchlist and notification preferences.
+ * Anonymous requests receive product data without user state.
+ *
+ */
+export const getProductBySlug = <ThrowOnError extends boolean = false>(options: Options<GetProductBySlugData, ThrowOnError>) => (options.client ?? client).get<GetProductBySlugResponses, GetProductBySlugErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/by-slug/shops/{shopSlugId}/products/{productSlugId}',
+    ...options
+});
+
+/**
+ * Get product event history
+ *
+ * Retrieves the event history for a specific product by its shop ID and shop's product ID.
+ * Returns an array of events representing state changes, price changes, and other significant
+ * product lifecycle events, ordered chronologically.
+ *
+ * Returns localized content based on Accept-Language header and currency preferences for
+ * price information in the event payloads.
+ *
+ */
+export const getProductHistory = <ThrowOnError extends boolean = false>(options: Options<GetProductHistoryData, ThrowOnError>) => (options.client ?? client).get<GetProductHistoryResponses, GetProductHistoryErrors, ThrowOnError>({ url: '/api/v1/shops/{shopId}/products/{shopsProductId}/history', ...options });
 
 /**
  * Get similar products
@@ -53,7 +87,7 @@ export const getProduct = <ThrowOnError extends boolean = false>(options: Option
  */
 export const getSimilarProducts = <ThrowOnError extends boolean = false>(options: Options<GetSimilarProductsData, ThrowOnError>) => (options.client ?? client).get<GetSimilarProductsResponses, GetSimilarProductsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/api/v1/products/{shopId}/{shopsProductId}/similar',
+    url: '/api/v1/shops/{shopId}/products/{shopsProductId}/similar',
     ...options
 });
 
@@ -295,6 +329,12 @@ export const patchWatchlistProduct = <ThrowOnError extends boolean = false>(opti
  * The shop must include at least one domain and can have up to 100 domains.
  * Returns the created shop with generated ID and timestamps.
  *
+ * **Uniqueness Checks**:
+ * - The shop name must be unique (via slug normalization). A slug is automatically generated from the shop name.
+ * - All shop domains must be unique - no domain can be associated with multiple shops.
+ *
+ * If either uniqueness constraint is violated, a 409 Conflict error is returned.
+ *
  */
 export const createShop = <ThrowOnError extends boolean = false>(options: Options<CreateShopData, ThrowOnError>) => (options.client ?? client).post<CreateShopResponses, CreateShopErrors, ThrowOnError>({
     url: '/api/v1/shops',
@@ -306,33 +346,74 @@ export const createShop = <ThrowOnError extends boolean = false>(options: Option
 });
 
 /**
- * Get shop details
+ * Get shop details by ID
  *
- * Retrieves detailed information about a specific shop by its identifier.
- * The identifier can be either a shop ID (UUID) or a domain associated with the shop.
+ * Retrieves detailed information about a specific shop by its shop ID (UUID).
  * Returns complete shop metadata including name, domains, image, and timestamps.
  *
  */
-export const getShop = <ThrowOnError extends boolean = false>(options: Options<GetShopData2, ThrowOnError>) => (options.client ?? client).get<GetShopResponses, GetShopErrors, ThrowOnError>({ url: '/api/v1/shops/{shopIdentifier}', ...options });
+export const getShopById = <ThrowOnError extends boolean = false>(options: Options<GetShopByIdData, ThrowOnError>) => (options.client ?? client).get<GetShopByIdResponses, GetShopByIdErrors, ThrowOnError>({ url: '/api/v1/shops/{shopId}', ...options });
 
 /**
- * Update shop details
+ * Update shop details by ID
  *
- * Updates an existing shop's information by its identifier.
- * The identifier can be either a shop ID (UUID) or a domain associated with the shop.
+ * Updates an existing shop's information by its shop ID (UUID).
  * All fields in the request body are optional - only provided fields will be updated.
  * If the request body is empty or only contains null values, the shop is returned unchanged.
  * When updating domains, the complete new set of domains must be provided.
  *
+ * **Note**: The shop name cannot be updated as it determines the shop's slug identifier.
+ *
  */
-export const updateShop = <ThrowOnError extends boolean = false>(options: Options<UpdateShopData, ThrowOnError>) => (options.client ?? client).patch<UpdateShopResponses, UpdateShopErrors, ThrowOnError>({
-    url: '/api/v1/shops/{shopIdentifier}',
+export const updateShopById = <ThrowOnError extends boolean = false>(options: Options<UpdateShopByIdData, ThrowOnError>) => (options.client ?? client).patch<UpdateShopByIdResponses, UpdateShopByIdErrors, ThrowOnError>({
+    url: '/api/v1/shops/{shopId}',
     ...options,
     headers: {
         'Content-Type': 'application/json',
         ...options.headers
     }
 });
+
+/**
+ * Get shop details by domain
+ *
+ * Retrieves detailed information about a specific shop by its domain.
+ * Returns complete shop metadata including name, domains, image, and timestamps.
+ *
+ */
+export const getShopByDomain = <ThrowOnError extends boolean = false>(options: Options<GetShopByDomainData, ThrowOnError>) => (options.client ?? client).get<GetShopByDomainResponses, GetShopByDomainErrors, ThrowOnError>({ url: '/api/v1/by-domain/shops/{shopDomain}', ...options });
+
+/**
+ * Update shop details by domain
+ *
+ * Updates an existing shop's information by its domain.
+ * All fields in the request body are optional - only provided fields will be updated.
+ * If the request body is empty or only contains null values, the shop is returned unchanged.
+ * When updating domains, the complete new set of domains must be provided.
+ *
+ * **Note**: The shop name cannot be updated as it determines the shop's slug identifier.
+ *
+ */
+export const updateShopByDomain = <ThrowOnError extends boolean = false>(options: Options<UpdateShopByDomainData, ThrowOnError>) => (options.client ?? client).patch<UpdateShopByDomainResponses, UpdateShopByDomainErrors, ThrowOnError>({
+    url: '/api/v1/by-domain/shops/{shopDomain}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Get shop details by slug
+ *
+ * Retrieves detailed information about a specific shop by its human-readable slug identifier.
+ * Returns complete shop metadata including name, domains, image, and timestamps.
+ *
+ * **Human-Readable Identifiers**: This endpoint uses slug-based identifiers which are human-readable
+ * kebab-case strings derived from the shop name (e.g., "tech-store-premium" or "christies").
+ *
+ */
+export const getShopBySlug = <ThrowOnError extends boolean = false>(options: Options<GetShopBySlugData, ThrowOnError>) => (options.client ?? client).get<GetShopBySlugResponses, GetShopBySlugErrors, ThrowOnError>({ url: '/api/v1/by-slug/shops/{shopSlugId}', ...options });
 
 /**
  * Search shops

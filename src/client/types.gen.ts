@@ -13,6 +13,19 @@ export type GetProductData = {
      */
     productId: string;
     /**
+     * Human-readable slug identifier for the product (kebab-case with 6-character hex suffix).
+     * Format: {product-title}-{6-char-hex} where the title is derived from the product name.
+     * Example: "amazing-product-fa87c4"
+     *
+     */
+    productSlugId: string;
+    /**
+     * Human-readable slug identifier of the shop (kebab-case, derived from shop name).
+     * Example: "tech-store-premium" or "christies"
+     *
+     */
+    shopSlugId: string;
+    /**
      * Unique identifier for the current state/version of the product
      */
     eventId: string;
@@ -113,10 +126,71 @@ export type GetProductData = {
      * When the product was last updated (RFC3339 format)
      */
     updated: string;
+};
+
+/**
+ * Lightweight product summary information for use in search results and similar products listings.
+ * Contains essential product details without extended metadata fields like description, estimates,
+ * origin year details, authenticity, condition, provenance, restoration, auction times, or history.
+ *
+ */
+export type GetProductSummaryData = {
     /**
-     * Optional array of product history events
+     * Unique internal identifier for the product
      */
-    history?: Array<GetProductEventData> | null;
+    productId: string;
+    /**
+     * Human-readable slug identifier for the product (kebab-case with 6-character hex suffix).
+     * Format: {product-title}-{6-char-hex} where the title is derived from the product name.
+     * Example: "amazing-product-fa87c4"
+     *
+     */
+    productSlugId: string;
+    /**
+     * Human-readable slug identifier of the shop (kebab-case, derived from shop name).
+     * Example: "tech-store-premium" or "christies"
+     *
+     */
+    shopSlugId: string;
+    /**
+     * Unique identifier for the current state/version of the product
+     */
+    eventId: string;
+    /**
+     * Unique identifier of the shop
+     */
+    shopId: string;
+    /**
+     * Shop's unique identifier for the product. Can be any arbitrary string.
+     */
+    shopsProductId: string;
+    /**
+     * Display name of the shop
+     */
+    shopName: string;
+    shopType: ShopTypeData;
+    title: LocalizedTextData;
+    /**
+     * Optional product price
+     */
+    price?: PriceData | null;
+    state: ProductStateData;
+    /**
+     * URL to the product on the shop's website
+     */
+    url: string;
+    /**
+     * Array of product images with prohibited content classification
+     */
+    images: Array<ProductImageData>;
+    /**
+     * When the product was first created (RFC3339 format)
+     */
+    created: string;
+    /**
+     * When the product was last updated (RFC3339 format)
+     */
+    updated: string;
 };
 
 /**
@@ -134,15 +208,30 @@ export type PersonalizedGetProductData = {
 };
 
 /**
+ * Wrapper for lightweight product summary data with optional user-specific state.
+ * Used in search results and similar products listings.
+ * When user is authenticated, includes personalized information such as watchlist status.
+ * When user is anonymous, only the product summary data is present.
+ *
+ */
+export type PersonalizedGetProductSummaryData = {
+    item: GetProductSummaryData;
+    /**
+     * Optional user-specific state for this product (only present when authenticated)
+     */
+    userState?: ProductUserStateData | null;
+};
+
+/**
  * Paginated collection of personalized products using cursor-based pagination (search-after pattern).
  * Each product may include user-specific state when the request is authenticated.
  *
  */
 export type PersonalizedProductSearchResultData = {
     /**
-     * Array of personalized products in the current page
+     * Array of personalized product summaries in the current page
      */
-    items: Array<PersonalizedGetProductData>;
+    items: Array<PersonalizedGetProductSummaryData>;
     /**
      * Number of products returned in the current page
      */
@@ -361,11 +450,12 @@ export type ProhibitedContentData = 'UNKNOWN' | 'NONE' | 'NAZI_GERMANY';
 /**
  * Type of vendor or shop:
  * - AUCTION_HOUSE: Auction house selling items through auctions
+ * - AUCTION_PLATFORM: Auction platform hosting auctions for auction-houses
  * - COMMERCIAL_DEALER: Commercial dealer or shop selling items directly
  * - MARKETPLACE: Marketplace platform connecting buyers and sellers
  *
  */
-export type ShopTypeData = 'AUCTION_HOUSE' | 'COMMERCIAL_DEALER' | 'MARKETPLACE';
+export type ShopTypeData = 'AUCTION_HOUSE' | 'AUCTION_PLATFORM' | 'COMMERCIAL_DEALER' | 'MARKETPLACE';
 
 /**
  * Product image with prohibited content classification
@@ -459,6 +549,14 @@ export type ProductSearchData = {
      *
      */
     shopName?: Array<string>;
+    /**
+     * Optional filter to exclude products from specific shop names (keyword matching).
+     * Products from shops with names exactly matching one of the provided values will be excluded from results.
+     * This is an exact match filter, not a fuzzy text search.
+     * Empty array means no shops are excluded.
+     *
+     */
+    excludeShopName?: Array<string>;
     /**
      * Optional filter by shop types
      */
@@ -569,6 +667,13 @@ export type PatchProductSearchData = {
      *
      */
     shopName?: Array<string> | null;
+    /**
+     * Optional filter to exclude products from specific shop names (keyword matching).
+     * Products from shops with names exactly matching one of the provided values will be excluded from results.
+     * This is an exact match filter, not a fuzzy text search.
+     *
+     */
+    excludeShopName?: Array<string> | null;
     /**
      * Optional filter by shop types
      */
@@ -820,6 +925,12 @@ export type GetShopData = {
      */
     shopId: string;
     /**
+     * Human-readable slug identifier of the shop (kebab-case, derived from shop name).
+     * Example: "tech-store-premium" or "christies"
+     *
+     */
+    shopSlugId: string;
+    /**
      * Display name of the shop
      */
     name: string;
@@ -872,12 +983,10 @@ export type PostShopData = {
  * All fields are optional - only provided fields will be updated.
  * If the request body is empty or all fields are null, the shop is returned unchanged.
  *
+ * **Note**: The shop name cannot be updated after creation as it determines the shop slug identifier.
+ *
  */
 export type PatchShopData = {
-    /**
-     * New display name for the shop
-     */
-    name?: string | null;
     /**
      * New shop type classification
      */
@@ -902,7 +1011,7 @@ export type PatchShopData = {
  */
 export type ShopSearchData = {
     /**
-     * Optional text query for searching shops by name (minimum 3 characters)
+     * Optional text query for searching shops by name
      */
     shopNameQuery?: string;
     /**
@@ -1155,12 +1264,8 @@ export type GetProductData2 = {
          * Currency for price display
          */
         currency?: CurrencyData;
-        /**
-         * Whether to include product history in the response
-         */
-        history?: boolean;
     };
-    url: '/api/v1/products/{shopId}/{shopsProductId}';
+    url: '/api/v1/shops/{shopId}/products/{shopsProductId}';
 };
 
 export type GetProductErrors = {
@@ -1189,6 +1294,120 @@ export type GetProductResponses = {
 
 export type GetProductResponse = GetProductResponses[keyof GetProductResponses];
 
+export type GetProductBySlugData = {
+    body?: never;
+    headers?: {
+        /**
+         * Preferred language for localized content.
+         * Supports quality values and multiple languages.
+         * Supported languages: de, en, fr, es (with regional variants).
+         *
+         */
+        'Accept-Language'?: string;
+    };
+    path: {
+        /**
+         * Human-readable slug identifier of the shop (kebab-case, derived from shop name)
+         */
+        shopSlugId: string;
+        /**
+         * Human-readable slug identifier of the product (kebab-case with 6-character hex suffix).
+         * Format: {product-title}-{6-char-hex} where the title is derived from the product name.
+         *
+         */
+        productSlugId: string;
+    };
+    query?: {
+        /**
+         * Currency for price display
+         */
+        currency?: CurrencyData;
+    };
+    url: '/api/v1/by-slug/shops/{shopSlugId}/products/{productSlugId}';
+};
+
+export type GetProductBySlugErrors = {
+    /**
+     * Bad request - invalid parameters
+     */
+    400: ApiError;
+    /**
+     * Product not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetProductBySlugError = GetProductBySlugErrors[keyof GetProductBySlugErrors];
+
+export type GetProductBySlugResponses = {
+    /**
+     * Product found and returned successfully
+     */
+    200: PersonalizedGetProductData;
+};
+
+export type GetProductBySlugResponse = GetProductBySlugResponses[keyof GetProductBySlugResponses];
+
+export type GetProductHistoryData = {
+    body?: never;
+    headers?: {
+        /**
+         * Preferred language for localized content.
+         * Supports quality values and multiple languages.
+         * Supported languages: de, en, fr, es (with regional variants).
+         *
+         */
+        'Accept-Language'?: string;
+    };
+    path: {
+        /**
+         * Unique identifier of the shop
+         */
+        shopId: string;
+        /**
+         * Shop's unique identifier for the product. Can be any arbitrary string.
+         */
+        shopsProductId: string;
+    };
+    query?: {
+        /**
+         * Currency for price display in event payloads
+         */
+        currency?: CurrencyData;
+    };
+    url: '/api/v1/shops/{shopId}/products/{shopsProductId}/history';
+};
+
+export type GetProductHistoryErrors = {
+    /**
+     * Bad request - Invalid parameters
+     */
+    400: ApiError;
+    /**
+     * Product not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetProductHistoryError = GetProductHistoryErrors[keyof GetProductHistoryErrors];
+
+export type GetProductHistoryResponses = {
+    /**
+     * Product history retrieved successfully
+     */
+    200: Array<GetProductEventData>;
+};
+
+export type GetProductHistoryResponse = GetProductHistoryResponses[keyof GetProductHistoryResponses];
+
 export type GetSimilarProductsData = {
     body?: never;
     headers?: {
@@ -1216,7 +1435,7 @@ export type GetSimilarProductsData = {
          */
         currency?: CurrencyData;
     };
-    url: '/api/v1/products/{shopId}/{shopsProductId}/similar';
+    url: '/api/v1/shops/{shopId}/products/{shopsProductId}/similar';
 };
 
 export type GetSimilarProductsErrors = {
@@ -1240,7 +1459,7 @@ export type GetSimilarProductsResponses = {
     /**
      * Array of similar products, each with optional user state
      */
-    200: Array<PersonalizedGetProductData>;
+    200: Array<PersonalizedGetProductSummaryData>;
     /**
      * Accepted - Product embedding not yet computed.
      * The text embedding for this product has not been generated yet (typically for products less than 24 hours old).
@@ -1843,7 +2062,7 @@ export type CreateShopErrors = {
      */
     400: ApiError;
     /**
-     * Conflict - shop with this domain already exists
+     * Conflict - shop with this name/slug or domain already exists
      */
     409: ApiError;
     /**
@@ -1867,24 +2086,21 @@ export type CreateShopResponses = {
 
 export type CreateShopResponse = CreateShopResponses[keyof CreateShopResponses];
 
-export type GetShopData2 = {
+export type GetShopByIdData = {
     body?: never;
     path: {
         /**
-         * Identifier of the shop. Can be either:
-         * - A shop ID (UUID format)
-         * - A domain associated with the shop (e.g., "tech-store.com", "shop.example.com")
-         *
+         * Unique identifier of the shop (UUID format)
          */
-        shopIdentifier: string;
+        shopId: string;
     };
     query?: never;
-    url: '/api/v1/shops/{shopIdentifier}';
+    url: '/api/v1/shops/{shopId}';
 };
 
-export type GetShopErrors = {
+export type GetShopByIdErrors = {
     /**
-     * Bad request - invalid or missing shop identifier
+     * Bad request - invalid or missing shop ID
      */
     400: ApiError;
     /**
@@ -1897,38 +2113,36 @@ export type GetShopErrors = {
     500: ApiError;
 };
 
-export type GetShopError = GetShopErrors[keyof GetShopErrors];
+export type GetShopByIdError = GetShopByIdErrors[keyof GetShopByIdErrors];
 
-export type GetShopResponses = {
+export type GetShopByIdResponses = {
     /**
      * Shop found and returned successfully
      */
     200: GetShopData;
 };
 
-export type GetShopResponse = GetShopResponses[keyof GetShopResponses];
+export type GetShopByIdResponse = GetShopByIdResponses[keyof GetShopByIdResponses];
 
-export type UpdateShopData = {
+export type UpdateShopByIdData = {
     /**
      * Partial shop update data.
      * Only provided fields will be updated. All fields are optional.
+     * The shop name cannot be updated.
      *
      */
     body: PatchShopData;
     path: {
         /**
-         * Identifier of the shop to update. Can be either:
-         * - A shop ID (UUID format)
-         * - A domain associated with the shop (e.g., "tech-store.com", "shop.example.com")
-         *
+         * Unique identifier of the shop to update (UUID format)
          */
-        shopIdentifier: string;
+        shopId: string;
     };
     query?: never;
-    url: '/api/v1/shops/{shopIdentifier}';
+    url: '/api/v1/shops/{shopId}';
 };
 
-export type UpdateShopErrors = {
+export type UpdateShopByIdErrors = {
     /**
      * Bad request - invalid parameters or body
      */
@@ -1947,16 +2161,144 @@ export type UpdateShopErrors = {
     503: ApiError;
 };
 
-export type UpdateShopError = UpdateShopErrors[keyof UpdateShopErrors];
+export type UpdateShopByIdError = UpdateShopByIdErrors[keyof UpdateShopByIdErrors];
 
-export type UpdateShopResponses = {
+export type UpdateShopByIdResponses = {
     /**
      * Shop updated successfully
      */
     200: GetShopData;
 };
 
-export type UpdateShopResponse = UpdateShopResponses[keyof UpdateShopResponses];
+export type UpdateShopByIdResponse = UpdateShopByIdResponses[keyof UpdateShopByIdResponses];
+
+export type GetShopByDomainData = {
+    body?: never;
+    path: {
+        /**
+         * Domain associated with the shop (e.g., "tech-store.com", "shop.example.com").
+         * The domain is normalized (lowercased, www prefix removed).
+         *
+         */
+        shopDomain: string;
+    };
+    query?: never;
+    url: '/api/v1/by-domain/shops/{shopDomain}';
+};
+
+export type GetShopByDomainErrors = {
+    /**
+     * Bad request - invalid or missing domain
+     */
+    400: ApiError;
+    /**
+     * Shop not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetShopByDomainError = GetShopByDomainErrors[keyof GetShopByDomainErrors];
+
+export type GetShopByDomainResponses = {
+    /**
+     * Shop found and returned successfully
+     */
+    200: GetShopData;
+};
+
+export type GetShopByDomainResponse = GetShopByDomainResponses[keyof GetShopByDomainResponses];
+
+export type UpdateShopByDomainData = {
+    /**
+     * Partial shop update data.
+     * Only provided fields will be updated. All fields are optional.
+     * The shop name cannot be updated.
+     *
+     */
+    body: PatchShopData;
+    path: {
+        /**
+         * Domain associated with the shop to update (e.g., "tech-store.com", "shop.example.com").
+         * The domain is normalized (lowercased, www prefix removed).
+         *
+         */
+        shopDomain: string;
+    };
+    query?: never;
+    url: '/api/v1/by-domain/shops/{shopDomain}';
+};
+
+export type UpdateShopByDomainErrors = {
+    /**
+     * Bad request - invalid parameters or body
+     */
+    400: ApiError;
+    /**
+     * Shop not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+    /**
+     * Service temporarily unavailable
+     */
+    503: ApiError;
+};
+
+export type UpdateShopByDomainError = UpdateShopByDomainErrors[keyof UpdateShopByDomainErrors];
+
+export type UpdateShopByDomainResponses = {
+    /**
+     * Shop updated successfully
+     */
+    200: GetShopData;
+};
+
+export type UpdateShopByDomainResponse = UpdateShopByDomainResponses[keyof UpdateShopByDomainResponses];
+
+export type GetShopBySlugData = {
+    body?: never;
+    path: {
+        /**
+         * Human-readable slug identifier of the shop (kebab-case, derived from shop name)
+         */
+        shopSlugId: string;
+    };
+    query?: never;
+    url: '/api/v1/by-slug/shops/{shopSlugId}';
+};
+
+export type GetShopBySlugErrors = {
+    /**
+     * Bad request - invalid or missing shop slug identifier
+     */
+    400: ApiError;
+    /**
+     * Shop not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetShopBySlugError = GetShopBySlugErrors[keyof GetShopBySlugErrors];
+
+export type GetShopBySlugResponses = {
+    /**
+     * Shop found and returned successfully
+     */
+    200: GetShopData;
+};
+
+export type GetShopBySlugResponse = GetShopBySlugResponses[keyof GetShopBySlugResponses];
 
 export type SearchShopsData = {
     /**
