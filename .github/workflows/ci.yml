@@ -177,18 +177,9 @@ jobs:
             -   name: Build application
                 run: pnpm run build
 
-            -   name: Deploy to Cloudflare Pages (Production)
-                if: github.ref == 'refs/heads/main'
+            -   name: Deploy to Cloudflare Workers
                 uses: cloudflare/wrangler-action@v3
                 with:
                     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-                    command: pages deploy dist/client --project-name=aura-historia --branch=main
-
-            -   name: Deploy to Cloudflare Pages (Staging)
-                if: github.ref == 'refs/heads/develop'
-                uses: cloudflare/wrangler-action@v3
-                with:
-                    apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-                    accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-                    command: pages deploy dist/client --project-name=aura-historia --branch=develop
+                    command: deploy --name ${{ github.ref == 'refs/heads/main' && 'aura-historia' || 'aura-historia-staging' }}
