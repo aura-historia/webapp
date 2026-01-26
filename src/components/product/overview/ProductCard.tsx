@@ -20,10 +20,10 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
         <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
             <div className={"shrink-0 flex lg:justify-start justify-center"}>
                 <Link
-                    to="/product/$shopId/$shopsProductId"
+                    to="/shops/$shopSlugId/products/$productSlugId"
                     params={{
-                        shopId: product.shopId,
-                        shopsProductId: product.shopsProductId,
+                        shopSlugId: product.shopSlugId,
+                        productSlugId: product.productSlugId,
                     }}
                 >
                     {product.images.length > 0 ? (
