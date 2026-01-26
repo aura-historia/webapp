@@ -18,6 +18,7 @@ import { mapToBackendCondition } from "@/data/internal/quality-indicators/Condit
 import { mapToBackendProvenance } from "@/data/internal/quality-indicators/Provenance.ts";
 import { mapToBackendRestoration } from "@/data/internal/quality-indicators/Restoration.ts";
 import { env } from "@/env.ts";
+import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 
 const PAGE_SIZE = 21;
 const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
@@ -30,7 +31,7 @@ export function useSearch(
 
     return useInfiniteQuery({
         queryKey: ["search", searchArgs, i18n.language],
-        enabled: isSearchEnabled && searchArgs.q.length >= 3,
+        enabled: isSearchEnabled && searchArgs.q.length >= MIN_SEARCH_QUERY_LENGTH,
         queryFn: async ({ pageParam }) => {
             const result = await complexSearchProducts({
                 body: {
