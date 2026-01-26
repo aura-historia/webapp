@@ -182,4 +182,4 @@ jobs:
                 with:
                     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-                    command: deploy --env ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+                    command: deploy --name ${{ github.ref == 'refs/heads/main' && 'aura-historia' || 'aura-historia-staging' }}

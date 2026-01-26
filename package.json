@@ -17,8 +17,8 @@
         "prepare": "husky",
         "preview": "vite preview",
         "deploy": "wrangler deploy",
-        "deploy:production": "wrangler deploy --env production",
-        "deploy:staging": "wrangler deploy --env staging",
+        "deploy:production": "wrangler deploy --name aura-historia",
+        "deploy:staging": "wrangler deploy --name aura-historia-staging",
         "cf-typegen": "wrangler types"
     },
     "lint-staged": {
