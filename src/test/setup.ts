@@ -1,5 +1,17 @@
 import "@testing-library/jest-dom";
 import "@/i18n/i18nForTests";
+import { vi } from "vitest";
+
+// Mock the env module so tests don't require real secrets
+// This is especially important for Dependabot PRs which can't access repo secrets
+vi.mock("@/env", () => ({
+    env: {
+        VITE_USER_POOL_ID: "test-pool-id",
+        VITE_CLIENT_ID: "test-client-id",
+        VITE_FEATURE_LOGIN_ENABLED: true,
+        VITE_FEATURE_SEARCH_ENABLED: true,
+    },
+}));
 
 // Mock ResizeObserver which is not available in JSDOM
 class ResizeObserverMock {
