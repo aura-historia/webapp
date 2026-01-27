@@ -23,8 +23,12 @@ import {
 } from "@/components/ui/navigation-menu.tsx";
 import { cn } from "@/lib/utils.ts";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
+import { env } from "@/env.ts";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
+
+const isLoginEnabled = env.VITE_FEATURE_LOGIN_ENABLED;
+const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 export function Header() {
     const { t } = useTranslation();
@@ -61,7 +65,7 @@ export function Header() {
 
     const isLandingPage = pathname === "/";
     const isHiddenRoute = SEARCH_BAR_HIDDEN_ROUTES.has(pathname);
-    const shouldShowSearchBar = !isHiddenRoute && (!isLandingPage || isScrolled);
+    const shouldShowSearchBar = isSearchEnabled && !isHiddenRoute && (!isLandingPage || isScrolled);
 
     const signOut = async () => {
         amplifySignOut();
@@ -100,113 +104,119 @@ export function Header() {
                 >
                     <SearchBar type="small" />
                 </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button>
-                            <Menu />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        {user ? (
-                            <>
-                                <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild>
-                                    <Link to="/watchlist">{t("header.watchlist")}</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link to="/account">{t("header.editAccount")}</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onSelect={() => signOut()}>
-                                    {t("header.logout")}
-                                </DropdownMenuItem>
-                            </>
-                        ) : (
-                            <>
-                                <DropdownMenuItem onClick={toSignUp} asChild>
-                                    <Link
-                                        to="/login"
-                                        search={{ redirect: pathname + searchString }}
-                                    >
-                                        {t("header.register")}
-                                    </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={toSignIn} asChild>
-                                    <Link
-                                        to="/login"
-                                        search={{ redirect: pathname + searchString }}
-                                    >
-                                        {t("header.login")}
-                                    </Link>
-                                </DropdownMenuItem>
-                            </>
-                        )}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
-
-            <div className="hidden md:flex items-center justify-end gap-4 w-full">
-                {user ? (
-                    <>
-                        <NavigationMenu className={"md:inline flex-none"}>
-                            <NavigationMenuList>
-                                <NavigationMenuItem>
-                                    <NavigationMenuLink asChild>
-                                        <Link to="/watchlist">
-                                            <span
-                                                className={cn(
-                                                    pathname === "/watchlist" ? "underline" : "",
-                                                    "text-base",
-                                                )}
-                                            >
-                                                {t("header.watchlist")}
-                                            </span>
+                {isLoginEnabled && (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button>
+                                <Menu />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            {user ? (
+                                <>
+                                    <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem asChild>
+                                        <Link to="/watchlist">{t("header.watchlist")}</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link to="/account">{t("header.editAccount")}</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={() => signOut()}>
+                                        {t("header.logout")}
+                                    </DropdownMenuItem>
+                                </>
+                            ) : (
+                                <>
+                                    <DropdownMenuItem onClick={toSignUp} asChild>
+                                        <Link
+                                            to="/login"
+                                            search={{ redirect: pathname + searchString }}
+                                        >
+                                            {t("header.register")}
                                         </Link>
-                                    </NavigationMenuLink>
-                                </NavigationMenuItem>
-                            </NavigationMenuList>
-                        </NavigationMenu>
-
-                        <DropdownMenu>
-                            <DropdownMenuTrigger className="flex items-center gap-4">
-                                {userAccount?.firstName && (
-                                    <span>
-                                        {t("header.hello")}, {userAccount.firstName}
-                                    </span>
-                                )}
-                                <AccountImage
-                                    firstName={userAccount?.firstName || ""}
-                                    lastName={userAccount?.lastName || ""}
-                                    isLoading={isLoading}
-                                />
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild>
-                                    <Link to="/account">{t("header.editAccount")}</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onSelect={() => signOut()}>
-                                    {t("header.logout")}
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </>
-                ) : (
-                    <>
-                        <Button asChild onClick={toSignUp} variant="default">
-                            <Link to="/login" search={{ redirect: pathname + searchString }}>
-                                {t("header.register")}
-                            </Link>
-                        </Button>
-                        <Button asChild onClick={toSignIn} variant="outline">
-                            <Link to="/login" search={{ redirect: pathname + searchString }}>
-                                {t("header.login")}
-                            </Link>
-                        </Button>
-                    </>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={toSignIn} asChild>
+                                        <Link
+                                            to="/login"
+                                            search={{ redirect: pathname + searchString }}
+                                        >
+                                            {t("header.login")}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                </>
+                            )}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 )}
             </div>
+
+            {isLoginEnabled && (
+                <div className="hidden md:flex items-center justify-end gap-4 w-full">
+                    {user ? (
+                        <>
+                            <NavigationMenu className={"md:inline flex-none"}>
+                                <NavigationMenuList>
+                                    <NavigationMenuItem>
+                                        <NavigationMenuLink asChild>
+                                            <Link to="/watchlist">
+                                                <span
+                                                    className={cn(
+                                                        pathname === "/watchlist"
+                                                            ? "underline"
+                                                            : "",
+                                                        "text-base",
+                                                    )}
+                                                >
+                                                    {t("header.watchlist")}
+                                                </span>
+                                            </Link>
+                                        </NavigationMenuLink>
+                                    </NavigationMenuItem>
+                                </NavigationMenuList>
+                            </NavigationMenu>
+
+                            <DropdownMenu>
+                                <DropdownMenuTrigger className="flex items-center gap-4">
+                                    {userAccount?.firstName && (
+                                        <span>
+                                            {t("header.hello")}, {userAccount.firstName}
+                                        </span>
+                                    )}
+                                    <AccountImage
+                                        firstName={userAccount?.firstName || ""}
+                                        lastName={userAccount?.lastName || ""}
+                                        isLoading={isLoading}
+                                    />
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem asChild>
+                                        <Link to="/account">{t("header.editAccount")}</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={() => signOut()}>
+                                        {t("header.logout")}
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </>
+                    ) : (
+                        <>
+                            <Button asChild onClick={toSignUp} variant="default">
+                                <Link to="/login" search={{ redirect: pathname + searchString }}>
+                                    {t("header.register")}
+                                </Link>
+                            </Button>
+                            <Button asChild onClick={toSignIn} variant="outline">
+                                <Link to="/login" search={{ redirect: pathname + searchString }}>
+                                    {t("header.login")}
+                                </Link>
+                            </Button>
+                        </>
+                    )}
+                </div>
+            )}
         </header>
     );
 }

@@ -1,135 +1,190 @@
 name: CI
 
 on:
-  pull_request:
-    branches: [ main, develop ]
+    push:
+        branches: [ main, develop ]
+    pull_request:
+        branches: [ main, develop ]
 
 permissions:
-  contents: read
-  actions: read
+    contents: read
+    actions: read
+    deployments: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
 
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    lint:
+        name: Lint
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v4
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
+            -   name: Set up pnpm
+                uses: pnpm/action-setup@v4
+                with:
+                    version: 10
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
+            -   name: Set up Node.js
+                uses: actions/setup-node@v4
+                with:
+                    node-version: '20'
+                    cache: 'pnpm'
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+            -   name: Install dependencies
+                run: pnpm install --frozen-lockfile
 
-      - name: Run Biome lint
-        run: pnpm biome ci .
+            -   name: Run Biome lint
+                run: pnpm biome ci .
 
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run Typescript Compiler
-        run: pnpm exec tsc --noEmit
-
-      - name: Run tests with coverage
-        run: pnpm run test --coverage
-
-      - name: Upload coverage reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-reports
-          path: coverage/
-          retention-days: 5
-
-  sonarqube:
-    name: SonarQube Analysis
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    needs: [ test ]
-    steps:
-      - name: Checkout code
-        id: checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Download coverage artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage-reports
-          path: coverage/
-
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            VITE_USER_POOL_ID: ${{ secrets.VITE_USER_POOL_ID }}
+            VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v4
 
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    needs: [ lint, test, sonarqube ]
-    env:
-        VITE_USER_POOL_ID: ${{ secrets.VITE_USER_POOL_ID }}
-        VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+            -   name: Set up pnpm
+                uses: pnpm/action-setup@v4
+                with:
+                    version: 10
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
+            -   name: Set up Node.js
+                uses: actions/setup-node@v4
+                with:
+                    node-version: '20'
+                    cache: 'pnpm'
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
+            -   name: Install dependencies
+                run: pnpm install --frozen-lockfile
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+            -   name: Run Typescript Compiler
+                run: pnpm exec tsc --noEmit
 
-      - name: Build application
-        run: pnpm run build
+            -   name: Run tests with coverage
+                run: pnpm run test --coverage
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: |
-            .output
-            dist
-          retention-days: 1
+            -   name: Upload coverage reports
+                uses: actions/upload-artifact@v4
+                with:
+                    name: coverage-reports
+                    path: coverage/
+                    retention-days: 5
+
+    sonarqube:
+        name: SonarQube Analysis
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        needs: [ test ]
+        steps:
+            -   name: Checkout code
+                id: checkout
+                uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+            -   name: Download coverage artifact
+                uses: actions/download-artifact@v4
+                with:
+                    name: coverage-reports
+                    path: coverage/
+
+            -   name: SonarQube Scan
+                uses: SonarSource/sonarqube-scan-action@v6
+                env:
+                    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        needs: [ lint, test, sonarqube ]
+        env:
+            VITE_USER_POOL_ID: ${{ secrets.VITE_USER_POOL_ID }}
+            VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
+            # Feature flags - will be overridden per environment in deploy job
+            VITE_FEATURE_LOGIN_ENABLED: 'true'
+            VITE_FEATURE_SEARCH_ENABLED: 'true'
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v4
+
+            -   name: Set up pnpm
+                uses: pnpm/action-setup@v4
+                with:
+                    version: 10
+
+            -   name: Set up Node.js
+                uses: actions/setup-node@v4
+                with:
+                    node-version: '20'
+                    cache: 'pnpm'
+
+            -   name: Install dependencies
+                run: pnpm install --frozen-lockfile
+
+            -   name: Build application
+                run: pnpm run build
+
+            -   name: Upload build artifacts
+                uses: actions/upload-artifact@v4
+                with:
+                    name: build-artifacts
+                    path: |
+                        .output
+                        dist
+
+    deploy:
+        name: Deploy to Cloudflare
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        needs: [ build ]
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+        environment:
+            name: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+            url: ${{ github.ref == 'refs/heads/main' && 'https://aura-historia.com' || 'https://stage.aura-historia.com' }}
+        env:
+            VITE_USER_POOL_ID: ${{ secrets.VITE_USER_POOL_ID }}
+            VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
+            VITE_FEATURE_LOGIN_ENABLED: ${{ vars.VITE_FEATURE_LOGIN_ENABLED }}
+            VITE_FEATURE_SEARCH_ENABLED: ${{ vars.VITE_FEATURE_SEARCH_ENABLED }}
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v4
+
+            -   name: Set up pnpm
+                uses: pnpm/action-setup@v4
+                with:
+                    version: 10
+
+            -   name: Set up Node.js
+                uses: actions/setup-node@v4
+                with:
+                    node-version: '20'
+                    cache: 'pnpm'
+
+            -   name: Install dependencies
+                run: pnpm install --frozen-lockfile
+
+            -   name: Build application
+                run: pnpm run build
+
+            -   name: Update wrangler config for production
+                if: github.ref == 'refs/heads/main'
+                run: |
+                    sed -i 's/"name": "aura-historia-staging"/"name": "aura-historia"/' wrangler.jsonc
+
+            -   name: Deploy to Cloudflare Workers
+                uses: cloudflare/wrangler-action@v3
+                with:
+                    apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                    accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                    command: deploy --name ${{ github.ref == 'refs/heads/main' && 'aura-historia' || 'aura-historia-staging' }}
