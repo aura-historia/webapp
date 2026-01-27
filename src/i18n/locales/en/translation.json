@@ -494,6 +494,7 @@
     "BAD_QUERY_PARAMETER_VALUE": "Your search contains invalid settings.",
     "SHOP_NOT_FOUND": "This shop is no longer available.",
     "INVALID_SHOP_IDENTIFIER": "The shop identifier is invalid.",
+    "INVALID_DOMAIN": "The shop domain is invalid.",
     "FORBIDDEN": "This action is not available to you.",
     "BAD_BODY_VALUE": "Some details are incorrect. Please check your input.",
     "MONETARY_AMOUNT_OVERFLOW": "The price is too high and cannot be processed.",

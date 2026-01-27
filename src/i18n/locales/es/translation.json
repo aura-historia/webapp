@@ -494,6 +494,7 @@
     "BAD_QUERY_PARAMETER_VALUE": "Su búsqueda contiene configuraciones no válidas.",
     "SHOP_NOT_FOUND": "Esta tienda ya no está disponible.",
     "INVALID_SHOP_IDENTIFIER": "El identificador de la tienda no es válido.",
+    "INVALID_DOMAIN": "El dominio de la tienda no es válido.",
     "FORBIDDEN": "Esta acción no está disponible para usted.",
     "BAD_BODY_VALUE": "Algunos detalles son incorrectos. Por favor, verifique su entrada.",
     "MONETARY_AMOUNT_OVERFLOW": "El precio es demasiado alto y no se puede procesar.",
