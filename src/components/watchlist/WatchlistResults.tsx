@@ -1,8 +1,6 @@
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { H1 } from "@/components/typography/H1.tsx";
 import { useTranslation } from "react-i18next";
@@ -16,16 +14,9 @@ import { useWatchlist } from "@/hooks/watchlist/useWatchlist.ts";
 import { VirtualizedProductList } from "@/components/product/overview/VirtualizedProductList.tsx";
 
 export function WatchlistResults() {
-    const { ref, inView } = useInView();
     const { t } = useTranslation();
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useWatchlist();
-
-    useEffect(() => {
-        if (inView && hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
-        }
-    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     if (isPending) {
         return (
@@ -89,7 +80,7 @@ export function WatchlistResults() {
                     isFetchingNextPage={isFetchingNextPage}
                     fetchNextPage={fetchNextPage}
                 />
-                <Card className={"p-4 flex justify-center items-center shadow-md"} ref={ref}>
+                <Card className={"p-4 flex justify-center items-center shadow-md"}>
                     <CardContent className="flex justify-center items-center w-full px-2">
                         {isFetchingNextPage ? (
                             <div className={"flex flex-row items-center gap-2"}>

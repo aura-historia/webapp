@@ -1,7 +1,6 @@
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
-import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { SearchX } from "lucide-react";
@@ -22,7 +21,6 @@ type SearchResultsProps = {
 };
 
 export function SearchResults({ searchFilters, onTotalChange }: SearchResultsProps) {
-    const { ref, inView } = useInView();
     const { t } = useTranslation();
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useSearch(searchFilters);
@@ -32,12 +30,6 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
             onTotalChange(data.pages[0].total);
         }
     }, [data?.pages[0]?.total, onTotalChange]);
-
-    useEffect(() => {
-        if (inView && hasNextPage && !isFetchingNextPage && searchFilters.q.length >= 3) {
-            fetchNextPage();
-        }
-    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, searchFilters.q.length]);
 
     if (searchFilters.q.length < 3) {
         return <SectionInfoText>{t("search.messages.minQueryLength")}</SectionInfoText>;
@@ -84,7 +76,7 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
                 isFetchingNextPage={isFetchingNextPage}
                 fetchNextPage={fetchNextPage}
             />
-            <Card className={"p-4 flex justify-center items-center shadow-md"} ref={ref}>
+            <Card className={"p-4 flex justify-center items-center shadow-md"}>
                 <CardContent className="flex justify-center items-center w-full px-2">
                     {isFetchingNextPage ? (
                         <div className={"flex flex-row items-center gap-2"}>

@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { VirtualizedProductList } from "@/components/product/overview/VirtualizedProductList.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 
 // Mock the virtualizer to render all items in tests
 vi.mock("@tanstack/react-virtual", () => ({
@@ -102,9 +102,11 @@ describe("VirtualizedProductList", () => {
         expect(screen.getByText("Product 3")).toBeInTheDocument();
     });
 
-    it("should pass fetchNextPage function", () => {
+    it("should trigger fetchNextPage when scrolling near the end", async () => {
         const fetchNextPage = vi.fn();
-        const products = [createMockProduct()];
+        const products = Array.from({ length: 10 }, (_, i) =>
+            createMockProduct({ productId: `${i}`, title: `Product ${i}` }),
+        );
 
         renderWithQueryClient(
             <VirtualizedProductList
@@ -115,6 +117,64 @@ describe("VirtualizedProductList", () => {
             />,
         );
 
-        expect(screen.getByText("Test Product")).toBeInTheDocument();
+        // With our mock, all items are rendered, so the effect should trigger
+        // since the last virtual item (index 9) is >= products.length - 3 (7)
+        await waitFor(() => {
+            expect(fetchNextPage).toHaveBeenCalled();
+        });
+    });
+
+    it("should not trigger fetchNextPage when already fetching", () => {
+        const fetchNextPage = vi.fn();
+        const products = Array.from({ length: 10 }, (_, i) =>
+            createMockProduct({ productId: `${i}`, title: `Product ${i}` }),
+        );
+
+        renderWithQueryClient(
+            <VirtualizedProductList
+                products={products}
+                hasNextPage={true}
+                isFetchingNextPage={true}
+                fetchNextPage={fetchNextPage}
+            />,
+        );
+
+        expect(fetchNextPage).not.toHaveBeenCalled();
+    });
+
+    it("should not trigger fetchNextPage when no more pages", () => {
+        const fetchNextPage = vi.fn();
+        const products = Array.from({ length: 10 }, (_, i) =>
+            createMockProduct({ productId: `${i}`, title: `Product ${i}` }),
+        );
+
+        renderWithQueryClient(
+            <VirtualizedProductList
+                products={products}
+                hasNextPage={false}
+                isFetchingNextPage={false}
+                fetchNextPage={fetchNextPage}
+            />,
+        );
+
+        expect(fetchNextPage).not.toHaveBeenCalled();
+    });
+
+    it("should apply padding to all items except the last one", () => {
+        const products = [
+            createMockProduct({ productId: "1", title: "Product 1" }),
+            createMockProduct({ productId: "2", title: "Product 2" }),
+            createMockProduct({ productId: "3", title: "Product 3" }),
+        ];
+
+        renderWithQueryClient(<VirtualizedProductList products={products} />);
+
+        const firstCard = screen.getByTestId("product-card-1");
+        const secondCard = screen.getByTestId("product-card-2");
+        const lastCard = screen.getByTestId("product-card-3");
+
+        expect(firstCard).toHaveClass("pb-4");
+        expect(secondCard).toHaveClass("pb-4");
+        expect(lastCard).not.toHaveClass("pb-4");
     });
 });

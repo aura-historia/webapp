@@ -1,5 +1,5 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { ProductCard } from "./ProductCard.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 
@@ -16,8 +16,6 @@ export function VirtualizedProductList({
     isFetchingNextPage,
     fetchNextPage,
 }: VirtualizedProductListProps) {
-    const parentRef = useRef<HTMLDivElement>(null);
-
     const rowVirtualizer = useVirtualizer({
         count: products.length,
         getScrollElement: () => window,
@@ -33,20 +31,18 @@ export function VirtualizedProductList({
 
     // Trigger next page when scrolling near the end
     useEffect(() => {
+        if (virtualItems.length === 0 || !hasNextPage || isFetchingNextPage || !fetchNextPage) {
+            return;
+        }
+
         const lastItem = virtualItems[virtualItems.length - 1];
-        if (
-            lastItem &&
-            lastItem.index >= products.length - 3 &&
-            hasNextPage &&
-            !isFetchingNextPage &&
-            fetchNextPage
-        ) {
+        if (lastItem && lastItem.index >= products.length - 3) {
             fetchNextPage();
         }
     }, [virtualItems, products.length, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
-        <div ref={parentRef} className="flex flex-col">
+        <div className="flex flex-col">
             <div
                 style={{
                     height: `${rowVirtualizer.getTotalSize()}px`,
@@ -55,6 +51,7 @@ export function VirtualizedProductList({
             >
                 {virtualItems.map((virtualItem) => {
                     const product = products[virtualItem.index];
+                    const isLastItem = virtualItem.index === products.length - 1;
                     return (
                         <div
                             key={product.productId}
@@ -68,7 +65,7 @@ export function VirtualizedProductList({
                                 width: "100%",
                                 transform: `translateY(${virtualItem.start}px)`,
                             }}
-                            className="pb-4"
+                            className={isLastItem ? "" : "pb-4"}
                         >
                             <ProductCard product={product} />
                         </div>
