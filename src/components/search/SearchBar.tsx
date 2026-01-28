@@ -80,10 +80,11 @@ export function SearchBar({ type }: SearchBarProps) {
     }, [queryValue, setQuery]);
 
     // Get animated placeholder examples from i18n
-    const placeholderExamples = useMemo(
-        () => t("search.bar.placeholderExamples", { returnObjects: true }) as string[],
-        [t],
-    );
+    const placeholderExamples = useMemo(() => {
+        const examples = t("search.bar.placeholderExamples", { returnObjects: true });
+        // Validate that we received an array of strings, fallback to empty array
+        return Array.isArray(examples) ? examples : [];
+    }, [t]);
 
     // Use animated placeholder only for big variant and when input is empty
     const animatedText = useAnimatedPlaceholder({
@@ -148,6 +149,7 @@ export function SearchBar({ type }: SearchBarProps) {
                                             ? animatedText || t("search.bar.placeholder")
                                             : t("search.bar.placeholderShort")
                                     }
+                                    aria-label={t("search.bar.label")}
                                     disabled={!isSearchEnabled}
                                     {...field}
                                 />
