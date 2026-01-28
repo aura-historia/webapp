@@ -22,6 +22,7 @@ import { useSearchQueryContext } from "@/hooks/search/useSearchQueryContext.tsx"
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { env } from "@/env.ts";
+import { useAnimatedPlaceholder } from "@/hooks/useAnimatedPlaceholder";
 
 interface SearchBarProps {
     readonly type: "small" | "big";
@@ -78,6 +79,18 @@ export function SearchBar({ type }: SearchBarProps) {
         setQuery(queryValue);
     }, [queryValue, setQuery]);
 
+    // Get animated placeholder examples from i18n
+    const placeholderExamples = useMemo(
+        () => t("search.bar.placeholderExamples", { returnObjects: true }) as string[],
+        [t],
+    );
+
+    // Use animated placeholder only for big variant and when input is empty
+    const animatedText = useAnimatedPlaceholder({
+        examples: placeholderExamples,
+        enabled: type === "big" && !queryValue,
+    });
+
     function onSubmit(values: SearchFormSchema) {
         setIsSubmitting(true);
         navigate({
@@ -132,7 +145,7 @@ export function SearchBar({ type }: SearchBarProps) {
                                     type={"text"}
                                     placeholder={
                                         type === "big"
-                                            ? t("search.bar.placeholder")
+                                            ? animatedText || t("search.bar.placeholder")
                                             : t("search.bar.placeholderShort")
                                     }
                                     disabled={!isSearchEnabled}

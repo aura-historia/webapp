@@ -107,7 +107,29 @@
       "label": "Recherche",
       "placeholder": "Je recherche...",
       "placeholderShort": "Rechercher",
-      "button": "Rechercher"
+      "button": "Rechercher",
+      "placeholderExamples": [
+        "Machine à écrire vintage",
+        "Montre de gousset ancienne",
+        "Lampe Art Nouveau",
+        "Bureau victorien",
+        "Miroir baroque",
+        "Vase Art Déco",
+        "Gramophone antique",
+        "Appareil photo vintage",
+        "Figurine en porcelaine",
+        "Boussole ancienne",
+        "Lustre en cristal",
+        "Lampe Tiffany",
+        "Globe antique",
+        "Jumelles vintage",
+        "Chandeliers en argent",
+        "Sextant antique",
+        "Stylo plume vintage",
+        "Bijoux Art Nouveau",
+        "Télescope antique",
+        "Boîte à musique vintage"
+      ]
     },
     "applyFilters": "Appliquer les filtres",
     "validation": {

@@ -106,7 +106,29 @@
       "label": "Suche",
       "placeholder": "Ich suche nach...",
       "placeholderShort": "Suche",
-      "button": "Suchen"
+      "button": "Suchen",
+      "placeholderExamples": [
+        "Vintage Schreibmaschine",
+        "Antike Taschenuhr",
+        "Jugendstil Lampe",
+        "Viktorianischer Schreibtisch",
+        "Barocker Spiegel",
+        "Art Deco Vase",
+        "Antikes Grammophon",
+        "Vintage Kamera",
+        "Porzellanfigur",
+        "Antiker Kompass",
+        "Kristalllüster",
+        "Tiffany Lampe",
+        "Antiker Globus",
+        "Vintage Fernglas",
+        "Silberne Kerzenständer",
+        "Antiker Sextant",
+        "Vintage Füllfederhalter",
+        "Jugendstil Schmuck",
+        "Antikes Teleskop",
+        "Vintage Spieldose"
+      ]
     },
     "applyFilters": "Filter anwenden",
     "validation": {

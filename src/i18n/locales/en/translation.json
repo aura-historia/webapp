@@ -107,7 +107,29 @@
       "label": "Search",
       "placeholder": "I'm looking for...",
       "placeholderShort": "Search",
-      "button": "Search"
+      "button": "Search",
+      "placeholderExamples": [
+        "Vintage typewriter",
+        "Antique pocket watch",
+        "Art Nouveau lamp",
+        "Victorian writing desk",
+        "Baroque mirror",
+        "Art Deco vase",
+        "Antique gramophone",
+        "Vintage camera",
+        "Porcelain figurine",
+        "Antique compass",
+        "Crystal chandelier",
+        "Tiffany lamp",
+        "Antique globe",
+        "Vintage binoculars",
+        "Silver candlesticks",
+        "Antique sextant",
+        "Vintage fountain pen",
+        "Art Nouveau jewelry",
+        "Antique telescope",
+        "Vintage music box"
+      ]
     },
     "applyFilters": "Apply filters",
     "validation": {
