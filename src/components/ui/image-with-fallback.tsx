@@ -1,5 +1,5 @@
 import { ImageOff } from "lucide-react";
-import { type ImgHTMLAttributes, useState } from "react";
+import { type ImgHTMLAttributes, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils.ts";
 
@@ -22,6 +22,12 @@ export function ImageWithFallback({
 }: ImageWithFallbackProps) {
     const { t } = useTranslation();
     const [hasError, setHasError] = useState(false);
+
+    // Reset error state when src changes
+    // biome-ignore lint/correctness/useExhaustiveDependencies: We want to reset error when src changes
+    useEffect(() => {
+        setHasError(false);
+    }, [src]);
 
     if (hasError || !src) {
         return (

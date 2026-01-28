@@ -64,4 +64,27 @@ describe("ImageWithFallback", () => {
         const fallback = screen.getByRole("img", { name: "Test image" });
         expect(fallback).toHaveClass("custom-fallback-class");
     });
+
+    it("should reset error state when src changes", () => {
+        const { rerender } = render(
+            <ImageWithFallback src="https://example.com/broken.jpg" alt="Test image" />,
+        );
+        const image = screen.getByRole("img", { name: "Test image" }) as HTMLImageElement;
+
+        // Simulate image load error
+        act(() => {
+            image.dispatchEvent(new Event("error"));
+        });
+
+        expect(screen.getByText("Image could not be loaded")).toBeInTheDocument();
+
+        // Change src to a valid image
+        rerender(<ImageWithFallback src="https://example.com/valid.jpg" alt="Test image" />);
+
+        // Error state should be reset, showing the image again
+        const newImage = screen.queryByRole("img", { name: "Test image" }) as HTMLImageElement;
+        expect(newImage).toBeInTheDocument();
+        expect(newImage.tagName).toBe("IMG");
+        expect(screen.queryByText("Image could not be loaded")).not.toBeInTheDocument();
+    });
 });
