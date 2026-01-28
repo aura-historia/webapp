@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getProductOptions } from "@/client/@tanstack/react-query.gen";
+import { getProductOptions, getProductHistoryOptions } from "@/client/@tanstack/react-query.gen";
 import { mapToDetailProduct } from "@/data/internal/product/ProductDetails.ts";
 import { ProductDetailPage } from "@/components/product/detail/ProductDetailPage.tsx";
 import { ProductDetailPageSkeleton } from "@/components/product/detail/ProductDetailPageSkeleton.tsx";
@@ -11,16 +11,27 @@ import { generateProductHeadMeta } from "@/lib/productHeadMeta.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 
 export const Route = createFileRoute("/product/$shopId/$shopsProductId")({
-    loader: ({ context: { queryClient }, params: { shopId, shopsProductId } }) => {
-        return queryClient.ensureQueryData(
-            getProductOptions({
-                headers: {
-                    "Accept-Language": parseLanguage(i18n.language),
-                },
-                path: { shopId, shopsProductId },
-                query: { history: true },
-            }),
-        );
+    loader: async ({ context: { queryClient }, params: { shopId, shopsProductId } }) => {
+        // Fetch product and history in parallel
+        const [productData] = await Promise.all([
+            queryClient.ensureQueryData(
+                getProductOptions({
+                    headers: {
+                        "Accept-Language": parseLanguage(i18n.language),
+                    },
+                    path: { shopId, shopsProductId },
+                }),
+            ),
+            queryClient.ensureQueryData(
+                getProductHistoryOptions({
+                    headers: {
+                        "Accept-Language": parseLanguage(i18n.language),
+                    },
+                    path: { shopId, shopsProductId },
+                }),
+            ),
+        ]);
+        return productData;
     },
     head: ({ loaderData, params }) => generateProductHeadMeta(loaderData, params),
     pendingComponent: ProductDetailPageSkeleton,
@@ -38,11 +49,19 @@ function ProductDetailComponent() {
                 "Accept-Language": parseLanguage(i18n.language),
             },
             path: { shopId, shopsProductId },
-            query: { history: true },
         }),
     );
 
-    const product = mapToDetailProduct(apiData, i18n.language);
+    const { data: historyData } = useSuspenseQuery(
+        getProductHistoryOptions({
+            headers: {
+                "Accept-Language": parseLanguage(i18n.language),
+            },
+            path: { shopId, shopsProductId },
+        }),
+    );
+
+    const product = mapToDetailProduct(apiData, historyData, i18n.language);
 
     return <ProductDetailPage product={product} />;
 }

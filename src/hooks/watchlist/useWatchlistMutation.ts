@@ -50,9 +50,6 @@ export function useWatchlistMutation(shopId: string, shopsProductId: string) {
                 queryClient.invalidateQueries({
                     queryKey: getProductQueryKey({
                         path: { shopId: shopId, shopsProductId: shopsProductId },
-                        query: {
-                            history: true,
-                        },
                     }),
                 }),
             ]);
