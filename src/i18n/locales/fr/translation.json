@@ -175,6 +175,7 @@
     "toMerchant": "Voir chez le marchand",
     "noDescription": "Aucune description disponible",
     "noImage": "Aucune image disponible",
+    "imageLoadError": "L'image n'a pas pu être chargée",
     "similar": {
       "title": "Articles similaires",
       "error": {

@@ -175,6 +175,7 @@
     "toMerchant": "Ir al vendedor",
     "noDescription": "No hay descripción disponible",
     "noImage": "No hay imagen disponible",
+    "imageLoadError": "No se pudo cargar la imagen",
     "similar": {
       "title": "Artículos similares",
       "error": {

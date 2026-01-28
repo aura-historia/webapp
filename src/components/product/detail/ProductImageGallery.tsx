@@ -14,6 +14,7 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 
 interface ProductImageGalleryProps {
     readonly images: readonly ProductImage[];
@@ -89,10 +90,11 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                         onClick={() => setIsLightboxOpen(true)}
                         className="w-full block"
                     >
-                        <img
+                        <ImageWithFallback
                             src={images[currentImageIndex].url.href}
                             alt={`Produktbild von ${title}`}
                             className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
+                            fallbackClassName="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 rounded-lg"
                         />
                     </button>
 
@@ -150,10 +152,12 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                                                     } 
                                                 `}
                                         >
-                                            <img
+                                            <ImageWithFallback
                                                 src={img.url.href}
                                                 alt={`Thumbnail ${idx + 1}`}
                                                 className="w-full h-full object-cover"
+                                                fallbackClassName="w-full h-full"
+                                                showErrorMessage={false}
                                             />
                                         </button>
                                     </CarouselItem>
