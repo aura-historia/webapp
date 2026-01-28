@@ -24,7 +24,7 @@ describe("SearchBar", () => {
             await act(() => {
                 renderWithRouter(<SearchBar type={"big"} />);
             });
-            expect(screen.getByPlaceholderText("Ich suche nach...")).toBeInTheDocument();
+            expect(screen.getByLabelText("Suche")).toBeInTheDocument();
             expect(screen.getByRole("button", { name: /suchen/i })).toBeInTheDocument();
         });
 
@@ -32,7 +32,7 @@ describe("SearchBar", () => {
             await act(() => {
                 renderWithRouter(<SearchBar type={"big"} />);
             });
-            const input = screen.getByPlaceholderText("Ich suche nach...");
+            const input = screen.getByLabelText("Suche");
             const button = screen.getByRole("button", { name: /suchen/i });
 
             expect(input).toHaveClass("h-12");
@@ -52,7 +52,7 @@ describe("SearchBar", () => {
             await act(() => {
                 renderWithRouter(<SearchBar type={"big"} />);
             });
-            const input = screen.getByPlaceholderText("Ich suche nach...");
+            const input = screen.getByLabelText("Suche");
             const button = screen.getByRole("button", { name: /suchen/i });
 
             await user.type(input, "test query");
@@ -66,7 +66,7 @@ describe("SearchBar", () => {
                 renderWithRouter(<SearchBar type={"big"} />);
             });
 
-            const input = screen.getByPlaceholderText("Ich suche nach...");
+            const input = screen.getByLabelText("Suche");
             const button = screen.getByRole("button", { name: /suchen/i });
 
             await user.type(input, "ab");
@@ -83,7 +83,7 @@ describe("SearchBar", () => {
                 renderWithRouter(<SearchBar type={"big"} />);
             });
 
-            const input = screen.getByPlaceholderText("Ich suche nach...");
+            const input = screen.getByLabelText("Suche");
             const button = screen.getByRole("button", { name: /suchen/i });
 
             await user.type(input, "ab");
@@ -186,7 +186,7 @@ describe("SearchBar", () => {
                     initialEntries: ["/test?q=some+query"],
                 });
             });
-            const input = screen.getByPlaceholderText("Ich suche nach...") as HTMLInputElement;
+            const input = screen.getByLabelText("Suche") as HTMLInputElement;
             expect(input.value).toBe("");
         });
     });

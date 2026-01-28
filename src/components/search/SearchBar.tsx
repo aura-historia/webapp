@@ -146,7 +146,7 @@ export function SearchBar({ type }: SearchBarProps) {
                                     type={"text"}
                                     placeholder={
                                         type === "big"
-                                            ? animatedText || t("search.bar.placeholder")
+                                            ? animatedText
                                             : t("search.bar.placeholderShort")
                                     }
                                     aria-label={t("search.bar.label")}

@@ -31,7 +31,7 @@ describe("HeroSection", () => {
     });
 
     it("renders the search bar", () => {
-        expect(screen.getByPlaceholderText("Ich suche nach...")).toBeInTheDocument();
+        expect(screen.getByLabelText("Suche")).toBeInTheDocument();
     });
 
     it("renders all trust badges", () => {
