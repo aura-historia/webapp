@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getProductBySlugOptions } from "@/client/@tanstack/react-query.gen";
+import {
+    getProductBySlugOptions,
+    getProductHistoryOptions,
+} from "@/client/@tanstack/react-query.gen";
 import { mapToDetailProduct } from "@/data/internal/product/ProductDetails.ts";
 import { ProductDetailPage } from "@/components/product/detail/ProductDetailPage.tsx";
 import { ProductDetailPageSkeleton } from "@/components/product/detail/ProductDetailPageSkeleton.tsx";
@@ -11,8 +14,8 @@ import { generateProductHeadMeta } from "@/lib/productHeadMeta.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 
 export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId")({
-    loader: ({ context: { queryClient }, params: { shopSlugId, productSlugId } }) => {
-        return queryClient.ensureQueryData(
+    loader: async ({ context: { queryClient }, params: { shopSlugId, productSlugId } }) => {
+        const productData = await queryClient.ensureQueryData(
             getProductBySlugOptions({
                 headers: {
                     "Accept-Language": parseLanguage(i18n.language),
@@ -20,6 +23,20 @@ export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId
                 path: { shopSlugId, productSlugId },
             }),
         );
+
+        await queryClient.ensureQueryData(
+            getProductHistoryOptions({
+                headers: {
+                    "Accept-Language": parseLanguage(i18n.language),
+                },
+                path: {
+                    shopId: productData.item.shopId,
+                    shopsProductId: productData.item.shopsProductId,
+                },
+            }),
+        );
+
+        return productData;
     },
     head: ({ loaderData, params }) => generateProductHeadMeta(loaderData, params),
     pendingComponent: ProductDetailPageSkeleton,
@@ -40,7 +57,19 @@ function ProductDetailComponent() {
         }),
     );
 
-    const product = mapToDetailProduct(apiData, i18n.language);
+    const { data: historyData } = useSuspenseQuery(
+        getProductHistoryOptions({
+            headers: {
+                "Accept-Language": parseLanguage(i18n.language),
+            },
+            path: {
+                shopId: apiData.item.shopId,
+                shopsProductId: apiData.item.shopsProductId,
+            },
+        }),
+    );
+
+    const product = mapToDetailProduct(apiData, historyData, i18n.language);
 
     return <ProductDetailPage product={product} />;
 }
