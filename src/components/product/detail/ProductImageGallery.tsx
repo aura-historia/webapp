@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
 import {
     Carousel,
     type CarouselApi,
@@ -8,7 +7,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel.tsx";
-import { ChevronLeft, ChevronRight, ImageOff } from "lucide-react";
+import { ImageOff } from "lucide-react";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
@@ -26,12 +25,8 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const slides = useMemo(() => images.map((img) => ({ src: img.url.href })), [images]);
-    const [carouselApi, setCarouselApi] = useState<CarouselApi>();
-    const [mainCarouselRef, mainCarouselApi] = useEmblaCarousel({
-        axis: "x",
-        loop: true,
-        skipSnaps: false,
-    });
+    const [mainCarouselApi, setMainCarouselApi] = useState<CarouselApi>();
+    const [thumbnailCarouselApi, setThumbnailCarouselApi] = useState<CarouselApi>();
 
     /**
      * Resets the image index to 0 when the 'product' changes.
@@ -41,12 +36,16 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
     useEffect(() => {
         setCurrentImageIndex(0);
         mainCarouselApi?.scrollTo(0);
+        thumbnailCarouselApi?.scrollTo(0);
     }, [productId]);
 
+    /**
+     * Syncs both carousels when currentImageIndex changes.
+     */
     useEffect(() => {
-        carouselApi?.scrollTo(currentImageIndex);
         mainCarouselApi?.scrollTo(currentImageIndex);
-    }, [currentImageIndex, carouselApi, mainCarouselApi]);
+        thumbnailCarouselApi?.scrollTo(currentImageIndex);
+    }, [currentImageIndex, mainCarouselApi, thumbnailCarouselApi]);
 
     /**
      * Syncs the main carousel's selected index with the current image index state.
@@ -109,12 +108,18 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
     return (
         <>
             <div className="w-full md:w-80 lg:w-96 space-y-3">
-                <div className="relative">
-                    {/* Main image carousel container for swipe support */}
-                    <div ref={mainCarouselRef} className="overflow-hidden">
-                        <div className="flex touch-pan-y">
+                {/* Main image carousel - only visible with 2+ images */}
+                {images.length > 1 ? (
+                    <Carousel
+                        setApi={setMainCarouselApi}
+                        opts={{
+                            loop: true,
+                        }}
+                        className="w-full"
+                    >
+                        <CarouselContent>
                             {images.map((img) => (
-                                <div key={img.url.href} className="flex-[0_0_100%] min-w-0">
+                                <CarouselItem key={img.url.href}>
                                     <button
                                         type="button"
                                         onClick={() => setIsLightboxOpen(true)}
@@ -126,43 +131,31 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                                             className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
                                         />
                                     </button>
-                                </div>
+                                </CarouselItem>
                             ))}
-                        </div>
-                    </div>
-
-                    {/* Navigation buttons - only visible with 2+ images */}
-                    {images.length > 1 && (
-                        <>
-                            <button
-                                type="button"
-                                aria-label="Previous image"
-                                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
-                                onClick={() =>
-                                    setCurrentImageIndex((i) =>
-                                        i === 0 ? images.length - 1 : i - 1,
-                                    )
-                                }
-                            >
-                                <ChevronLeft className="w-5 h-5" />
-                            </button>
-                            <button
-                                type="button"
-                                aria-label="Next image"
-                                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
-                                onClick={() => setCurrentImageIndex((i) => (i + 1) % images.length)}
-                            >
-                                <ChevronRight className="w-5 h-5" />
-                            </button>
-                        </>
-                    )}
-                </div>
+                        </CarouselContent>
+                        <CarouselPrevious className="left-2" />
+                        <CarouselNext className="right-2" />
+                    </Carousel>
+                ) : (
+                    <button
+                        type="button"
+                        onClick={() => setIsLightboxOpen(true)}
+                        className="w-full block"
+                    >
+                        <img
+                            src={images[currentImageIndex].url.href}
+                            alt={`Produktbild von ${title}`}
+                            className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
+                        />
+                    </button>
+                )}
 
                 {/* Thumbnail carousel - only visible with 2+ images */}
                 {images.length > 1 && (
                     <div className="relative px-10">
                         <Carousel
-                            setApi={setCarouselApi}
+                            setApi={setThumbnailCarouselApi}
                             opts={{
                                 align: "start",
                                 containScroll: "trimSnaps",
