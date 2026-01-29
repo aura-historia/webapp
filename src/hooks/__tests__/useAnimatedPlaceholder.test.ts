@@ -152,4 +152,35 @@ describe("useAnimatedPlaceholder", () => {
         });
         expect(result.current).toBe("");
     });
+
+    it("should stop cursor flashing when disabled", () => {
+        const { result, rerender } = renderHook(
+            ({ enabled }) =>
+                useAnimatedPlaceholder({
+                    examples: ["Test"],
+                    enabled,
+                    typingSpeed: 5000,
+                }),
+            {
+                initialProps: { enabled: true },
+            },
+        );
+
+        // Initial state should have cursor
+        expect(result.current).toBe("|");
+
+        // Disable the hook
+        act(() => {
+            rerender({ enabled: false });
+        });
+
+        // Should return empty string (no text, no cursor)
+        expect(result.current).toBe("");
+
+        // Advance time - cursor should NOT flash since disabled
+        act(() => {
+            vi.advanceTimersByTime(1000);
+        });
+        expect(result.current).toBe("");
+    });
 });

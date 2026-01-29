@@ -97,7 +97,7 @@ export function useAnimatedPlaceholder({
 
     // Cursor flashing effect
     useEffect(() => {
-        if (!enabled) {
+        if (!enabled || examples.length === 0) {
             return;
         }
 
@@ -108,7 +108,7 @@ export function useAnimatedPlaceholder({
         return () => {
             clearInterval(cursorInterval);
         };
-    }, [enabled]);
+    }, [enabled, examples.length]);
 
     if (!enabled || examples.length === 0) {
         return "";
