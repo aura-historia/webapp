@@ -87,7 +87,7 @@ export function ProductCardImageCarousel({
             <div className="overflow-hidden rounded-lg" ref={emblaRef}>
                 <div className="flex touch-pan-y">
                     {images.map((image, index) => (
-                        <div key={image.url.href} className="flex-[0_0_100%] min-w-0">
+                        <div key={`${index}-${image.url.href}`} className="flex-[0_0_100%] min-w-0">
                             <Link
                                 to="/product/$shopId/$shopsProductId"
                                 params={{
@@ -107,29 +107,27 @@ export function ProductCardImageCarousel({
                 </div>
             </div>
 
-            {/* Dot indicators - only show when there are multiple images */}
-            {images.length > 1 && (
-                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/40 backdrop-blur-sm px-2 py-1 rounded-full">
-                    {images.map((image, index) => (
-                        <button
-                            key={image.url.href}
-                            type="button"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                scrollTo(index);
-                            }}
-                            className={cn(
-                                "w-1.5 h-1.5 rounded-full transition-all",
-                                index === selectedIndex
-                                    ? "bg-white w-4"
-                                    : "bg-white/60 hover:bg-white/80",
-                            )}
-                            aria-label={`Go to image ${index + 1}`}
-                        />
-                    ))}
-                </div>
-            )}
+            {/* Dot indicators */}
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/40 backdrop-blur-sm px-2 py-1 rounded-full">
+                {images.map((image, index) => (
+                    <button
+                        key={`${index}-${image.url.href}`}
+                        type="button"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            scrollTo(index);
+                        }}
+                        className={cn(
+                            "w-1.5 h-1.5 rounded-full transition-all",
+                            index === selectedIndex
+                                ? "bg-white w-4"
+                                : "bg-white/60 hover:bg-white/80",
+                        )}
+                        aria-label={`Go to image ${index + 1}`}
+                    />
+                ))}
+            </div>
         </div>
     );
 }
