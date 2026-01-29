@@ -12,6 +12,7 @@ import { ProductQualityBadges } from "@/components/product/badges/ProductQuality
 
 import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
+import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 
 export function ProductCard({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
@@ -27,12 +28,13 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
                     }}
                 >
                     {product.images.length > 0 ? (
-                        <img
+                        <ImageWithFallback
                             className={
                                 "w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
                             }
                             src={product.images[0].url.href}
                             alt=""
+                            fallbackClassName="size-48 rounded-lg"
                         />
                     ) : (
                         <div className="size-48 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
