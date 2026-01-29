@@ -37,11 +37,11 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
      * Resets the image index to 0 when the 'product' changes.
      * This prevents errors if the new 'product' has fewer images than the previous one.
      */
-    // biome-ignore lint/correctness/useExhaustiveDependencies: productId needed when product changes
+    // biome-ignore lint/correctness/useExhaustiveDependencies: only run when productId changes
     useEffect(() => {
         setCurrentImageIndex(0);
         mainCarouselApi?.scrollTo(0);
-    }, [productId, mainCarouselApi]);
+    }, [productId]);
 
     useEffect(() => {
         carouselApi?.scrollTo(currentImageIndex);
@@ -136,8 +136,8 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                         <>
                             <button
                                 type="button"
-                                className=" absolute left-2 top-1/2 -translate-y-1/2 bg-black/50
-                            hover:bg-black/70 text-white rounded-full p-2 transition-colors"
+                                aria-label="Previous image"
+                                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
                                 onClick={() =>
                                     setCurrentImageIndex((i) =>
                                         i === 0 ? images.length - 1 : i - 1,
@@ -148,6 +148,7 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                             </button>
                             <button
                                 type="button"
+                                aria-label="Next image"
                                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
                                 onClick={() => setCurrentImageIndex((i) => (i + 1) % images.length)}
                             >
