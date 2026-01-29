@@ -231,6 +231,8 @@ Ephemeral/Generated runtime build artifacts: `.output/`, `.tanstack/`, `.nitro/`
 6. (Optional) `pnpm test:e2e` if relevant UX changes
 7. (CI) Sonar scan (non-blocking) after coverage produced
 
+You may want to test locally with our development API hosted at `https://api.dev.aura-historia.com`.
+
 ---
 
 ## 15. Agent Guidance
@@ -243,4 +245,3 @@ Ephemeral/Generated runtime build artifacts: `.output/`, `.tanstack/`, `.nitro/`
 
 ---
 (End of instructions)
-
