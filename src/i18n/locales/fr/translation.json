@@ -107,7 +107,29 @@
       "label": "Recherche",
       "placeholder": "Je recherche...",
       "placeholderShort": "Rechercher",
-      "button": "Rechercher"
+      "button": "Rechercher",
+      "placeholderExamples": [
+        "Peinture à l'huile Marie-Madeleine",
+        "Service en porcelaine de Meissen",
+        "Commode Louis XVI",
+        "Horloge comtoise baroque",
+        "Secrétaire Biedermeier",
+        "Vitrine Art Nouveau",
+        "Tapis persan Tabriz",
+        "Chandeliers Rococo en argent",
+        "Sculpture en bronze antique",
+        "Console Empire",
+        "Bibliothèque Gründerzeit",
+        "Vase dynastie Ming chinois",
+        "Montre de poche en or Patek Philippe",
+        "Sculpture en bois baroque",
+        "Broche en diamants Art Déco",
+        "Lustre Murano vénitien",
+        "Astrolabe antique",
+        "Miroir Rococo",
+        "Miniature persane",
+        "Fauteuil Louis XV"
+      ]
     },
     "applyFilters": "Appliquer les filtres",
     "validation": {

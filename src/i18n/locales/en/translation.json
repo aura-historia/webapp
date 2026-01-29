@@ -107,7 +107,29 @@
       "label": "Search",
       "placeholder": "I'm looking for...",
       "placeholderShort": "Search",
-      "button": "Search"
+      "button": "Search",
+      "placeholderExamples": [
+        "Oil painting Mary Magdalene",
+        "Meissen porcelain service",
+        "Louis XVI commode",
+        "Baroque grandfather clock",
+        "Biedermeier secretary desk",
+        "Art Nouveau display cabinet",
+        "Persian Tabriz carpet",
+        "Silver Rococo candlesticks",
+        "Antique bronze sculpture",
+        "Empire console table",
+        "Gründerzeit bookcase",
+        "Chinese Ming dynasty vase",
+        "Gold pocket watch Patek Philippe",
+        "Baroque wooden sculpture",
+        "Art Deco diamond brooch",
+        "Venetian Murano chandelier",
+        "Antique astrolabe",
+        "Rococo mirror",
+        "Persian miniature painting",
+        "Louis XV armchair"
+      ]
     },
     "applyFilters": "Apply filters",
     "validation": {
