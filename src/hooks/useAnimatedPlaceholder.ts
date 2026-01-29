@@ -41,6 +41,7 @@ export function useAnimatedPlaceholder({
     const [currentText, setCurrentText] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [cursorVisible, setCursorVisible] = useState(true);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
     useEffect(() => {
@@ -94,5 +95,24 @@ export function useAnimatedPlaceholder({
         enabled,
     ]);
 
-    return currentText;
+    // Cursor flashing effect
+    useEffect(() => {
+        if (!enabled) {
+            return;
+        }
+
+        const cursorInterval = setInterval(() => {
+            setCursorVisible((prev) => !prev);
+        }, 500);
+
+        return () => {
+            clearInterval(cursorInterval);
+        };
+    }, [enabled]);
+
+    if (!enabled || examples.length === 0) {
+        return "";
+    }
+
+    return cursorVisible ? `${currentText}|` : currentText;
 }

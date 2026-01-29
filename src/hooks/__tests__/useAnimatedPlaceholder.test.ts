@@ -42,13 +42,14 @@ describe("useAnimatedPlaceholder", () => {
             }),
         );
 
-        expect(result.current).toBe("");
+        // Initial state should have cursor
+        expect(result.current).toBe("|");
 
         // After first typing step
         act(() => {
             vi.advanceTimersByTime(100);
         });
-        expect(result.current).toBe("H");
+        expect(result.current).toBe("H|");
 
         // After more typing
         act(() => {
@@ -91,14 +92,14 @@ describe("useAnimatedPlaceholder", () => {
             }),
         );
 
-        // Should not throw and should work with defaults
-        expect(result.current).toBe("");
+        // Should not throw and should work with defaults (initial cursor visible)
+        expect(result.current).toBe("|");
 
         // Verify it types with default timing (100ms)
         act(() => {
             vi.advanceTimersByTime(100);
         });
-        expect(result.current).toBe("T");
+        expect(result.current).toBe("T|");
     });
 
     it("should handle multiple examples", () => {
@@ -110,7 +111,8 @@ describe("useAnimatedPlaceholder", () => {
             }),
         );
 
-        expect(result.current).toBe("");
+        // Initial state should have cursor
+        expect(result.current).toBe("|");
 
         // After some time, should show text
         act(() => {
@@ -118,5 +120,36 @@ describe("useAnimatedPlaceholder", () => {
         });
 
         expect(result.current.length).toBeGreaterThan(0);
+    });
+
+    it("should flash cursor every 500ms", () => {
+        const { result } = renderHook(() =>
+            useAnimatedPlaceholder({
+                examples: ["Test"],
+                enabled: true,
+                typingSpeed: 5000, // Very slow typing to not interfere with cursor test
+            }),
+        );
+
+        // Initial state should have cursor
+        expect(result.current).toBe("|");
+
+        // After 500ms, cursor should disappear
+        act(() => {
+            vi.advanceTimersByTime(500);
+        });
+        expect(result.current).toBe("");
+
+        // After another 500ms, cursor should reappear
+        act(() => {
+            vi.advanceTimersByTime(500);
+        });
+        expect(result.current).toBe("|");
+
+        // After another 500ms, cursor should disappear again
+        act(() => {
+            vi.advanceTimersByTime(500);
+        });
+        expect(result.current).toBe("");
     });
 });
