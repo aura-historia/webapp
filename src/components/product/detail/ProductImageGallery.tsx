@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import {
     Carousel,
     type CarouselApi,
@@ -26,6 +27,11 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const slides = useMemo(() => images.map((img) => ({ src: img.url.href })), [images]);
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+    const [mainCarouselRef, mainCarouselApi] = useEmblaCarousel({
+        axis: "x",
+        loop: true,
+        skipSnaps: false,
+    });
 
     /**
      * Resets the image index to 0 when the 'product' changes.
@@ -34,11 +40,31 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
     // biome-ignore lint/correctness/useExhaustiveDependencies: productId needed when product changes
     useEffect(() => {
         setCurrentImageIndex(0);
-    }, [productId]);
+        mainCarouselApi?.scrollTo(0);
+    }, [productId, mainCarouselApi]);
 
     useEffect(() => {
         carouselApi?.scrollTo(currentImageIndex);
-    }, [currentImageIndex, carouselApi]);
+        mainCarouselApi?.scrollTo(currentImageIndex);
+    }, [currentImageIndex, carouselApi, mainCarouselApi]);
+
+    /**
+     * Syncs the main carousel's selected index with the current image index state.
+     * This ensures the state updates when user swipes/drags the main carousel.
+     */
+    useEffect(() => {
+        if (!mainCarouselApi) return;
+
+        const onSelect = () => {
+            const index = mainCarouselApi.selectedScrollSnap();
+            setCurrentImageIndex(index);
+        };
+
+        mainCarouselApi.on("select", onSelect);
+        return () => {
+            mainCarouselApi.off("select", onSelect);
+        };
+    }, [mainCarouselApi]);
 
     /**
      * Registers a `keydown` event listener for carousel image navigation.
@@ -84,17 +110,26 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
         <>
             <div className="w-full md:w-80 lg:w-96 space-y-3">
                 <div className="relative">
-                    <button
-                        type="button"
-                        onClick={() => setIsLightboxOpen(true)}
-                        className="w-full block"
-                    >
-                        <img
-                            src={images[currentImageIndex].url.href}
-                            alt={`Produktbild von ${title}`}
-                            className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
-                        />
-                    </button>
+                    {/* Main image carousel container for swipe support */}
+                    <div ref={mainCarouselRef} className="overflow-hidden">
+                        <div className="flex touch-pan-y">
+                            {images.map((img) => (
+                                <div key={img.url.href} className="flex-[0_0_100%] min-w-0">
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsLightboxOpen(true)}
+                                        className="w-full block"
+                                    >
+                                        <img
+                                            src={img.url.href}
+                                            alt={`Produktbild von ${title}`}
+                                            className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
+                                        />
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
 
                     {/* Navigation buttons - only visible with 2+ images */}
                     {images.length > 1 && (

@@ -21,6 +21,17 @@ beforeAll(() => {
             dispatchEvent: () => true,
         }),
     });
+    global.IntersectionObserver = class {
+        observe() {}
+
+        disconnect() {}
+
+        unobserve() {}
+
+        takeRecords() {
+            return [];
+        }
+    } as unknown as typeof IntersectionObserver;
 });
 
 describe("ProductInfo", () => {
