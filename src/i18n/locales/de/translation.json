@@ -493,6 +493,7 @@
     "BAD_QUERY_PARAMETER_VALUE": "Ihre Suche enthält ungültige Einstellungen.",
     "SHOP_NOT_FOUND": "Dieser Shop ist nicht mehr verfügbar.",
     "INVALID_SHOP_IDENTIFIER": "Die Shop-Kennung ist ungültig.",
+    "INVALID_DOMAIN": "Die Shop-Domain ist ungültig.",
     "FORBIDDEN": "Diese Aktion ist für Sie nicht verfügbar.",
     "BAD_BODY_VALUE": "Einige Angaben sind nicht korrekt. Bitte überprüfen Sie Ihre Eingaben.",
     "MONETARY_AMOUNT_OVERFLOW": "Der Preis ist zu hoch und kann nicht verarbeitet werden.",
