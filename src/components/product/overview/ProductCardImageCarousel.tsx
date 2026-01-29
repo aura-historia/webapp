@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/carousel.tsx";
 import { cn } from "@/lib/utils";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
-import { ImageOff } from "lucide-react";
+import { ImageOff, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 
@@ -25,18 +25,24 @@ export function ProductCardImageCarousel({
     const { t } = useTranslation();
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [canScrollPrev, setCanScrollPrev] = useState(false);
+    const [canScrollNext, setCanScrollNext] = useState(false);
 
     const onSelect = useCallback(() => {
         if (!carouselApi) return;
         setSelectedIndex(carouselApi.selectedScrollSnap());
+        setCanScrollPrev(carouselApi.canScrollPrev());
+        setCanScrollNext(carouselApi.canScrollNext());
     }, [carouselApi]);
 
     useEffect(() => {
         if (!carouselApi) return;
         onSelect();
         carouselApi.on("select", onSelect);
+        carouselApi.on("reInit", onSelect);
         return () => {
             carouselApi.off("select", onSelect);
+            carouselApi.off("reInit", onSelect);
         };
     }, [carouselApi, onSelect]);
 
@@ -47,6 +53,16 @@ export function ProductCardImageCarousel({
         },
         [carouselApi],
     );
+
+    const scrollPrev = useCallback(() => {
+        if (!carouselApi) return;
+        carouselApi.scrollPrev();
+    }, [carouselApi]);
+
+    const scrollNext = useCallback(() => {
+        if (!carouselApi) return;
+        carouselApi.scrollNext();
+    }, [carouselApi]);
 
     if (images.length === 0) {
         return (
@@ -88,7 +104,7 @@ export function ProductCardImageCarousel({
     }
 
     return (
-        <div className="relative w-full lg:w-48">
+        <div className="relative w-full lg:w-48 group">
             <Carousel
                 setApi={setCarouselApi}
                 opts={{
@@ -117,6 +133,36 @@ export function ProductCardImageCarousel({
                     ))}
                 </CarouselContent>
             </Carousel>
+
+            {/* Custom navigation buttons - visible on hover for desktop */}
+            {canScrollPrev && (
+                <button
+                    type="button"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors opacity-0 group-hover:opacity-100"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        scrollPrev();
+                    }}
+                    aria-label="Previous image"
+                >
+                    <ChevronLeft className="w-5 h-5" />
+                </button>
+            )}
+            {canScrollNext && (
+                <button
+                    type="button"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors opacity-0 group-hover:opacity-100"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        scrollNext();
+                    }}
+                    aria-label="Next image"
+                >
+                    <ChevronRight className="w-5 h-5" />
+                </button>
+            )}
 
             {/* Dot indicators */}
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/40 backdrop-blur-sm px-2 py-1 rounded-full">

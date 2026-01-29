@@ -10,8 +10,10 @@ vi.mock("@/components/ui/carousel.tsx", () => {
     const mockApi: CarouselApi = {
         on: vi.fn(),
         off: vi.fn(),
+        emit: vi.fn(),
         scrollTo: vi.fn(),
         selectedScrollSnap: () => 0,
+        previousScrollSnap: () => 0,
         canScrollPrev: () => false,
         canScrollNext: () => true,
         scrollPrev: vi.fn(),
@@ -22,11 +24,11 @@ vi.mock("@/components/ui/carousel.tsx", () => {
         scrollProgress: () => 0,
         slidesInView: () => [0],
         slidesNotInView: () => [],
-        containerNode: () => null,
+        containerNode: () => document.createElement("div"),
         slideNodes: () => [],
         internalEngine: () => ({}) as any,
         plugins: () => ({}) as any,
-        rootNode: () => null,
+        rootNode: () => document.createElement("div"),
     };
 
     return {
