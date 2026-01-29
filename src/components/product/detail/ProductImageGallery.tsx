@@ -7,7 +7,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel.tsx";
-import { ImageOff } from "lucide-react";
+import { ChevronLeft, ChevronRight, ImageOff } from "lucide-react";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
@@ -110,33 +110,61 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
             <div className="w-full md:w-80 lg:w-96 space-y-3">
                 {/* Main image carousel - only visible with 2+ images */}
                 {images.length > 1 ? (
-                    <Carousel
-                        setApi={setMainCarouselApi}
-                        opts={{
-                            loop: true,
-                        }}
-                        className="w-full"
-                    >
-                        <CarouselContent>
-                            {images.map((img) => (
-                                <CarouselItem key={img.url.href}>
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsLightboxOpen(true)}
-                                        className="w-full block"
-                                    >
-                                        <img
-                                            src={img.url.href}
-                                            alt={`Produktbild von ${title}`}
-                                            className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
-                                        />
-                                    </button>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        <CarouselPrevious className="left-2" />
-                        <CarouselNext className="right-2" />
-                    </Carousel>
+                    <div className="relative">
+                        <Carousel
+                            setApi={setMainCarouselApi}
+                            opts={{
+                                loop: false,
+                            }}
+                            className="w-full"
+                        >
+                            <CarouselContent>
+                                {images.map((img) => (
+                                    <CarouselItem key={img.url.href}>
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsLightboxOpen(true)}
+                                            className="w-full block"
+                                        >
+                                            <img
+                                                src={img.url.href}
+                                                alt={`Produktbild von ${title}`}
+                                                className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
+                                            />
+                                        </button>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                        </Carousel>
+
+                        {/* Custom navigation buttons */}
+                        <button
+                            type="button"
+                            aria-label="Previous image"
+                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            onClick={() => {
+                                if (currentImageIndex > 0) {
+                                    setCurrentImageIndex((i) => i - 1);
+                                }
+                            }}
+                            disabled={currentImageIndex === 0}
+                        >
+                            <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                            type="button"
+                            aria-label="Next image"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            onClick={() => {
+                                if (currentImageIndex < images.length - 1) {
+                                    setCurrentImageIndex((i) => i + 1);
+                                }
+                            }}
+                            disabled={currentImageIndex === images.length - 1}
+                        >
+                            <ChevronRight className="w-5 h-5" />
+                        </button>
+                    </div>
                 ) : (
                     <button
                         type="button"
