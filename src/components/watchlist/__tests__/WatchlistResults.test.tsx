@@ -35,8 +35,10 @@ const mockUseInfiniteQuery = vi.mocked(useInfiniteQuery);
 
 const createMockProduct = (overrides: Partial<OverviewProduct> = {}): OverviewProduct => ({
     productId: "item-1",
+    productSlugId: "test-product",
     eventId: "event-1",
     shopId: "shop-1",
+    shopSlugId: "test-shop",
     shopsProductId: "shops-item-1",
     shopName: "Test Shop",
     shopType: "AUCTION_HOUSE",
