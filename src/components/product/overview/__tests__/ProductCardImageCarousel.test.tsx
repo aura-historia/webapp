@@ -2,20 +2,53 @@ import { act, screen } from "@testing-library/react";
 import { ProductCardImageCarousel } from "../ProductCardImageCarousel.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+import type { ReactNode } from "react";
+import type { CarouselApi } from "@/components/ui/carousel.tsx";
 
-// Mock embla-carousel-react to avoid issues in test environment
-vi.mock("embla-carousel-react", () => ({
-    default: () => [
-        () => {}, // ref
-        {
-            // api
-            on: vi.fn(),
-            off: vi.fn(),
-            scrollTo: vi.fn(),
-            selectedScrollSnap: () => 0,
+// Mock the Carousel component to avoid issues in test environment
+vi.mock("@/components/ui/carousel.tsx", () => {
+    const mockApi: CarouselApi = {
+        on: vi.fn(),
+        off: vi.fn(),
+        scrollTo: vi.fn(),
+        selectedScrollSnap: () => 0,
+        canScrollPrev: () => false,
+        canScrollNext: () => true,
+        scrollPrev: vi.fn(),
+        scrollNext: vi.fn(),
+        reInit: vi.fn(),
+        destroy: vi.fn(),
+        scrollSnapList: () => [0],
+        scrollProgress: () => 0,
+        slidesInView: () => [0],
+        slidesNotInView: () => [],
+        containerNode: () => null,
+        slideNodes: () => [],
+        internalEngine: () => ({}) as any,
+        plugins: () => ({}) as any,
+        rootNode: () => null,
+    };
+
+    return {
+        Carousel: ({
+            children,
+            setApi,
+        }: {
+            children: ReactNode;
+            setApi?: (api: CarouselApi) => void;
+        }) => {
+            // Call setApi with the mock API when component mounts
+            if (setApi) {
+                setTimeout(() => setApi(mockApi), 0);
+            }
+            return <div>{children}</div>;
         },
-    ],
-}));
+        CarouselContent: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+        CarouselItem: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+        CarouselPrevious: () => <button type="button">Previous</button>,
+        CarouselNext: () => <button type="button">Next</button>,
+    };
+});
 
 describe("ProductCardImageCarousel", () => {
     const mockImages: ProductImage[] = [

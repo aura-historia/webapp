@@ -1,5 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
-import useEmblaCarousel from "embla-carousel-react";
+import {
+    Carousel,
+    type CarouselApi,
+    CarouselContent,
+    CarouselItem,
+} from "@/components/ui/carousel.tsx";
 import { cn } from "@/lib/utils";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
 import { ImageOff } from "lucide-react";
@@ -18,29 +23,29 @@ export function ProductCardImageCarousel({
     shopsProductId,
 }: ProductCardImageCarouselProps) {
     const { t } = useTranslation();
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+    const [carouselApi, setCarouselApi] = useState<CarouselApi>();
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const onSelect = useCallback(() => {
-        if (!emblaApi) return;
-        setSelectedIndex(emblaApi.selectedScrollSnap());
-    }, [emblaApi]);
+        if (!carouselApi) return;
+        setSelectedIndex(carouselApi.selectedScrollSnap());
+    }, [carouselApi]);
 
     useEffect(() => {
-        if (!emblaApi) return;
+        if (!carouselApi) return;
         onSelect();
-        emblaApi.on("select", onSelect);
+        carouselApi.on("select", onSelect);
         return () => {
-            emblaApi.off("select", onSelect);
+            carouselApi.off("select", onSelect);
         };
-    }, [emblaApi, onSelect]);
+    }, [carouselApi, onSelect]);
 
     const scrollTo = useCallback(
         (index: number) => {
-            if (!emblaApi) return;
-            emblaApi.scrollTo(index);
+            if (!carouselApi) return;
+            carouselApi.scrollTo(index);
         },
-        [emblaApi],
+        [carouselApi],
     );
 
     if (images.length === 0) {
@@ -84,10 +89,16 @@ export function ProductCardImageCarousel({
 
     return (
         <div className="relative w-full lg:w-48">
-            <div className="overflow-hidden rounded-lg" ref={emblaRef}>
-                <div className="flex touch-pan-y">
+            <Carousel
+                setApi={setCarouselApi}
+                opts={{
+                    loop: false,
+                }}
+                className="w-full"
+            >
+                <CarouselContent className="rounded-lg">
                     {images.map((image, index) => (
-                        <div key={`${index}-${image.url.href}`} className="flex-[0_0_100%] min-w-0">
+                        <CarouselItem key={`${index}-${image.url.href}`}>
                             <Link
                                 to="/product/$shopId/$shopsProductId"
                                 params={{
@@ -102,10 +113,10 @@ export function ProductCardImageCarousel({
                                     loading={index === 0 ? "eager" : "lazy"}
                                 />
                             </Link>
-                        </div>
+                        </CarouselItem>
                     ))}
-                </div>
-            </div>
+                </CarouselContent>
+            </Carousel>
 
             {/* Dot indicators */}
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/40 backdrop-blur-sm px-2 py-1 rounded-full">
