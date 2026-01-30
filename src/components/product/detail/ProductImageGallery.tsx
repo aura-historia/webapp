@@ -7,7 +7,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel.tsx";
-import { ChevronLeft, ChevronRight, ImageOff } from "lucide-react";
+import { ImageOff } from "lucide-react";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
@@ -29,14 +29,13 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
     const [thumbnailCarouselApi, setThumbnailCarouselApi] = useState<CarouselApi>();
 
     /**
-     * Resets the image index to 0 when the 'product' changes.
-     * This prevents errors if the new 'product' has fewer images than the previous one.
+     * Resets the image index to 0 when the product changes.
+     * This prevents errors if the new product has fewer images than the previous one.
+     * The carousel sync happens automatically via the second useEffect when currentImageIndex changes.
      */
-    // biome-ignore lint/correctness/useExhaustiveDependencies: only run when productId changes
     useEffect(() => {
+        if (!productId) return;
         setCurrentImageIndex(0);
-        mainCarouselApi?.scrollTo(0);
-        thumbnailCarouselApi?.scrollTo(0);
     }, [productId]);
 
     /**
@@ -66,10 +65,11 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
     }, [mainCarouselApi]);
 
     /**
-     * Registers a `keydown` event listener for carousel image navigation.
+     * Registers a keydown event listener for carousel image navigation.
      *
      * The handler function ignores arrow key events when the lightbox
      * is active or there are fewer than two images.
+     * Navigation stops at the beginning and end (no loop).
      *
      * The cleanup function reliably removes the listener before unmounting
      * or re-executing the effect to prevent memory leaks.
@@ -78,16 +78,16 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
         const handleKeyDown = (e: KeyboardEvent) => {
             if (isLightboxOpen || images.length <= 1) return;
 
-            if (e.key === "ArrowLeft") {
-                setCurrentImageIndex((i) => (i === 0 ? images.length - 1 : i - 1));
-            } else if (e.key === "ArrowRight") {
-                setCurrentImageIndex((i) => (i + 1) % images.length);
+            if (e.key === "ArrowLeft" && currentImageIndex > 0) {
+                setCurrentImageIndex((i) => i - 1);
+            } else if (e.key === "ArrowRight" && currentImageIndex < images.length - 1) {
+                setCurrentImageIndex((i) => i + 1);
             }
         };
 
         globalThis.addEventListener("keydown", handleKeyDown);
         return () => globalThis.removeEventListener("keydown", handleKeyDown);
-    }, [images.length, isLightboxOpen]);
+    }, [images.length, isLightboxOpen, currentImageIndex]);
 
     /**
      * Renders a fallback image if no images are provided.
@@ -105,79 +105,44 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
             </div>
         );
     }
+
     return (
         <>
             <div className="w-full md:w-80 lg:w-96 space-y-3">
-                {/* Main image carousel - only visible with 2+ images */}
-                {images.length > 1 ? (
-                    <div className="relative">
-                        <Carousel
-                            setApi={setMainCarouselApi}
-                            opts={{
-                                loop: false,
-                            }}
-                            className="w-full"
-                        >
-                            <CarouselContent>
-                                {images.map((img) => (
-                                    <CarouselItem key={img.url.href}>
-                                        <button
-                                            type="button"
-                                            onClick={() => setIsLightboxOpen(true)}
-                                            className="w-full block"
-                                        >
-                                            <img
-                                                src={img.url.href}
-                                                alt={`Produktbild von ${title}`}
-                                                className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
-                                            />
-                                        </button>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                        </Carousel>
-
-                        {/* Custom navigation buttons */}
-                        <button
-                            type="button"
-                            aria-label="Previous image"
-                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                            onClick={() => {
-                                if (currentImageIndex > 0) {
-                                    setCurrentImageIndex((i) => i - 1);
-                                }
-                            }}
-                            disabled={currentImageIndex === 0}
-                        >
-                            <ChevronLeft className="w-5 h-5" />
-                        </button>
-                        <button
-                            type="button"
-                            aria-label="Next image"
-                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                            onClick={() => {
-                                if (currentImageIndex < images.length - 1) {
-                                    setCurrentImageIndex((i) => i + 1);
-                                }
-                            }}
-                            disabled={currentImageIndex === images.length - 1}
-                        >
-                            <ChevronRight className="w-5 h-5" />
-                        </button>
-                    </div>
-                ) : (
-                    <button
-                        type="button"
-                        onClick={() => setIsLightboxOpen(true)}
-                        className="w-full block"
-                    >
-                        <img
-                            src={images[currentImageIndex].url.href}
-                            alt={`Produktbild von ${title}`}
-                            className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
-                        />
-                    </button>
-                )}
+                {/* Main image carousel with swipe support */}
+                <Carousel
+                    setApi={setMainCarouselApi}
+                    opts={{
+                        loop: false,
+                    }}
+                    className="w-full"
+                >
+                    <CarouselContent>
+                        {images.map((img, idx) => (
+                            <CarouselItem key={img.url.href}>
+                                <button
+                                    type="button"
+                                    onClick={() => setIsLightboxOpen(true)}
+                                    className="w-full block"
+                                >
+                                    <img
+                                        src={img.url.href}
+                                        alt={`Produktbild von ${title}`}
+                                        loading={idx === 0 ? "eager" : "lazy"}
+                                        className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
+                                    />
+                                </button>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    {/* Library navigation buttons - only visible with 2+ images */}
+                    {images.length > 1 && (
+                        <>
+                            <CarouselPrevious />
+                            <CarouselNext />
+                        </>
+                    )}
+                </Carousel>
 
                 {/* Thumbnail carousel - only visible with 2+ images */}
                 {images.length > 1 && (
@@ -199,13 +164,13 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                                             type="button"
                                             onClick={() => setCurrentImageIndex(idx)}
                                             className={`
-                                                    aspect-square w-full rounded-md overflow-hidden transition-all
-                                                    ${
-                                                        idx === currentImageIndex
-                                                            ? "border-2 border-primary"
-                                                            : "opacity-60 hover:opacity-100 border-2 border-transparent"
-                                                    } 
-                                                `}
+                                                aspect-square w-full rounded-md overflow-hidden transition-all
+                                                ${
+                                                    idx === currentImageIndex
+                                                        ? "border-2 border-primary"
+                                                        : "opacity-60 hover:opacity-100 border-2 border-transparent"
+                                                } 
+                                            `}
                                         >
                                             <img
                                                 src={img.url.href}
@@ -216,12 +181,13 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                                     </CarouselItem>
                                 ))}
                             </CarouselContent>
-                            <CarouselPrevious className="absolute -left-10 top-1/2 -translate-y-1/2" />
-                            <CarouselNext className="absolute -right-10 top-1/2 -translate-y-1/2" />
+                            <CarouselPrevious className="-left-10" />
+                            <CarouselNext className="-right-10" />
                         </Carousel>
                     </div>
                 )}
             </div>
+
             <Lightbox
                 open={isLightboxOpen}
                 close={() => setIsLightboxOpen(false)}
