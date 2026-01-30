@@ -141,6 +141,7 @@
       "to": "Bis:",
       "productState": "Anzeigenstatus",
       "merchant": "Händler",
+      "merchants": "Händler",
       "anyMerchant": "Beliebiger Händler",
       "searchMerchants": "Händler suchen...",
       "noMerchantsFound": "Keine Händler gefunden",
@@ -162,6 +163,7 @@
         "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
         "merchant": "Filter für den Händler zurücksetzen",
         "excludeMerchant": "Filter für ausgeschlossene Händler zurücksetzen",
+        "merchants": "Filter für die Händler zurücksetzen",
         "shopType": "Filter für den Shop-Typ zurücksetzen",
         "qualityIndicators": "Filter für die Qualitätsmerkmale zurücksetzen"
       },

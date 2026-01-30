@@ -1,4 +1,4 @@
-import { ExcludeMerchantFilter } from "@/components/search/filters/ExcludeMerchantFilter";
+import { MerchantExcludeFilter } from "@/components/search/filters/MerchantExcludeFilter";
 import { FormProvider, useForm } from "react-hook-form";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -48,7 +48,7 @@ const FormWrapper = ({
     );
 };
 
-describe("ExcludeMerchantFilter", () => {
+describe("MerchantExcludeFilter", () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });
@@ -56,7 +56,7 @@ describe("ExcludeMerchantFilter", () => {
     it("renders with correct heading and placeholder", () => {
         render(
             <FormWrapper>
-                <ExcludeMerchantFilter />
+                <MerchantExcludeFilter />
             </FormWrapper>,
         );
 
@@ -69,7 +69,7 @@ describe("ExcludeMerchantFilter", () => {
     it("allows entering search text in the input", async () => {
         render(
             <FormWrapper>
-                <ExcludeMerchantFilter />
+                <MerchantExcludeFilter />
             </FormWrapper>,
         );
 
@@ -84,7 +84,7 @@ describe("ExcludeMerchantFilter", () => {
     it("shows pre-populated excludeMerchant values as badges when provided", () => {
         render(
             <FormWrapper defaultValues={{ excludeMerchant: ["Existing Merchant"] }}>
-                <ExcludeMerchantFilter />
+                <MerchantExcludeFilter />
             </FormWrapper>,
         );
 
@@ -94,7 +94,7 @@ describe("ExcludeMerchantFilter", () => {
     it("handles special characters in search input", async () => {
         render(
             <FormWrapper>
-                <ExcludeMerchantFilter />
+                <MerchantExcludeFilter />
             </FormWrapper>,
         );
 
@@ -109,7 +109,7 @@ describe("ExcludeMerchantFilter", () => {
     it("clears search input correctly", async () => {
         render(
             <FormWrapper>
-                <ExcludeMerchantFilter />
+                <MerchantExcludeFilter />
             </FormWrapper>,
         );
 
@@ -125,7 +125,7 @@ describe("ExcludeMerchantFilter", () => {
     it("displays multiple selected merchants as badges", () => {
         render(
             <FormWrapper defaultValues={{ excludeMerchant: ["Merchant One", "Merchant Two"] }}>
-                <ExcludeMerchantFilter />
+                <MerchantExcludeFilter />
             </FormWrapper>,
         );
 

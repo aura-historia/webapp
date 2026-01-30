@@ -142,6 +142,7 @@
       "to": "To:",
       "productState": "Listing Status",
       "merchant": "Merchant",
+      "merchants": "Merchants",
       "anyMerchant": "Any Merchant",
       "searchMerchants": "Search merchants...",
       "noMerchantsFound": "No merchants found",
@@ -163,6 +164,7 @@
         "updateDate": "Reset update date filter",
         "merchant": "Reset merchant filter",
         "excludeMerchant": "Reset exclude merchant filter",
+        "merchants": "Reset merchant filters",
         "shopType": "Reset shop type filter",
         "qualityIndicators": "Reset quality indicators filter"
       },

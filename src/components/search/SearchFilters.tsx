@@ -7,8 +7,7 @@ import { Form } from "@/components/ui/form.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { MerchantFilter } from "@/components/search/filters/MerchantFilter.tsx";
-import { ExcludeMerchantFilter } from "@/components/search/filters/ExcludeMerchantFilter.tsx";
+import { MerchantFilters } from "@/components/search/filters/MerchantFilters.tsx";
 import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
@@ -252,8 +251,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                     <QualityIndicatorsFilter />
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />
-                    <MerchantFilter />
-                    <ExcludeMerchantFilter />
+                    <MerchantFilters />
                     <ShopTypeFilter />
                 </div>
                 <div className="flex flex-col gap-2">
