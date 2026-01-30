@@ -219,11 +219,12 @@ function mapEventPayload(
  */
 export function mapToDetailProduct(
     apiData: PersonalizedGetProductData,
+    historyData: GetProductEventData[] | undefined,
     locale: string,
 ): ProductDetail {
     return {
         ...mapPersonalizedGetProductDataToOverviewProduct(apiData, locale),
-        history: apiData.item.history?.map(
+        history: historyData?.map(
             (apiEvent: GetProductEventData): ProductEvent => ({
                 eventType: apiEvent.eventType,
                 productId: apiEvent.productId,

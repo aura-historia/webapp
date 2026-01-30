@@ -42,7 +42,6 @@ export function useWatchlistNotificationMutation(shopId: string, shopsProductId:
                 getProductQueryKey({
                     headers: { "Accept-Language": parseLanguage(i18n.language) },
                     path: { shopId, shopsProductId },
-                    query: { history: true },
                 }),
                 (old: PersonalizedGetProductData | undefined) =>
                     old && {

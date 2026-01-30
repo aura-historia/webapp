@@ -107,7 +107,29 @@
       "label": "Búsqueda",
       "placeholder": "Estoy buscando...",
       "placeholderShort": "Buscar",
-      "button": "Buscar"
+      "button": "Buscar",
+      "placeholderExamples": [
+        "Óleo de María Magdalena",
+        "Servicio de porcelana Meissen",
+        "Cómoda Luis XVI",
+        "Reloj de pie barroco",
+        "Escritorio Biedermeier",
+        "Vitrina Art Nouveau",
+        "Alfombra persa Tabriz",
+        "Candelabros rococó de plata",
+        "Escultura de bronce antigua",
+        "Consola Imperio",
+        "Librería Gründerzeit",
+        "Jarrón dinastía Ming china",
+        "Reloj de bolsillo oro Patek Philippe",
+        "Escultura de madera barroca",
+        "Broche de diamantes Art Deco",
+        "Lámpara de araña Murano veneciana",
+        "Astrolabio antiguo",
+        "Espejo rococó",
+        "Miniatura persa",
+        "Sillón Luis XV"
+      ]
     },
     "applyFilters": "Aplicar filtros",
     "validation": {
@@ -494,6 +516,7 @@
     "BAD_QUERY_PARAMETER_VALUE": "Su búsqueda contiene configuraciones no válidas.",
     "SHOP_NOT_FOUND": "Esta tienda ya no está disponible.",
     "INVALID_SHOP_IDENTIFIER": "El identificador de la tienda no es válido.",
+    "INVALID_DOMAIN": "El dominio de la tienda no es válido.",
     "FORBIDDEN": "Esta acción no está disponible para usted.",
     "BAD_BODY_VALUE": "Algunos detalles son incorrectos. Por favor, verifique su entrada.",
     "MONETARY_AMOUNT_OVERFLOW": "El precio es demasiado alto y no se puede procesar.",
