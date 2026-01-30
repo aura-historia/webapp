@@ -152,6 +152,29 @@ describe("validateSearchParams", () => {
         });
     });
 
+    describe("excludeMerchant parameter", () => {
+        it("should handle excludeMerchant as array", () => {
+            const result = validateSearchParams({
+                q: "test",
+                excludeMerchant: ["Shop A", "Shop B"],
+            } as RawSearchParams);
+            expect(result.excludeMerchant).toEqual(["Shop A", "Shop B"]);
+        });
+
+        it("should convert single excludeMerchant string to array", () => {
+            const result = validateSearchParams({
+                q: "test",
+                excludeMerchant: "Single Shop",
+            } as RawSearchParams);
+            expect(result.excludeMerchant).toEqual(["Single Shop"]);
+        });
+
+        it("should return undefined when excludeMerchant is undefined", () => {
+            const result = validateSearchParams({ q: "test" } as RawSearchParams);
+            expect(result.excludeMerchant).toBeUndefined();
+        });
+    });
+
     describe("sort parameters", () => {
         it("should parse valid sortField", () => {
             const result = validateSearchParams({
@@ -216,6 +239,7 @@ describe("validateSearchParams", () => {
                 updateDateFrom: "2024-06-01",
                 updateDateTo: "2024-06-30",
                 merchant: ["Antique Shop", "Vintage Store"],
+                excludeMerchant: ["Excluded Shop"],
                 sortField: "PRICE",
                 sortOrder: "ASC",
             } as RawSearchParams);
@@ -230,6 +254,7 @@ describe("validateSearchParams", () => {
                 updateDateFrom: new Date("2024-06-01"),
                 updateDateTo: new Date("2024-06-30"),
                 merchant: ["Antique Shop", "Vintage Store"],
+                excludeMerchant: ["Excluded Shop"],
                 sortField: "PRICE",
                 sortOrder: "ASC",
             });
