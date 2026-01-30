@@ -144,6 +144,8 @@
       "anyMerchant": "Beliebiger Händler",
       "searchMerchants": "Händler suchen...",
       "noMerchantsFound": "Keine Händler gefunden",
+      "excludeMerchant": "Händler ausschließen",
+      "searchExcludeMerchants": "Auszuschließende Händler suchen...",
       "priceSpan": "Preisspanne",
       "min": "Min",
       "max": "Max",
@@ -158,6 +160,7 @@
         "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
         "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
         "merchant": "Filter für den Händler zurücksetzen",
+        "excludeMerchant": "Filter für ausgeschlossene Händler zurücksetzen",
         "qualityIndicators": "Filter für die Qualitätsmerkmale zurücksetzen"
       },
       "qualityIndicators": "Qualitätsmerkmale",

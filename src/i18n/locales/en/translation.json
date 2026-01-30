@@ -145,6 +145,8 @@
       "anyMerchant": "Any Merchant",
       "searchMerchants": "Search merchants...",
       "noMerchantsFound": "No merchants found",
+      "excludeMerchant": "Exclude Merchant",
+      "searchExcludeMerchants": "Search merchants to exclude...",
       "priceSpan": "Price Range",
       "min": "Min",
       "max": "Max",
@@ -159,6 +161,7 @@
         "creationDate": "Reset creation date filter",
         "updateDate": "Reset update date filter",
         "merchant": "Reset merchant filter",
+        "excludeMerchant": "Reset exclude merchant filter",
         "qualityIndicators": "Reset quality indicators filter"
       },
       "qualityIndicators": "Quality Indicators",
