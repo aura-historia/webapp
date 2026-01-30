@@ -11,12 +11,16 @@ import { useTranslation } from "react-i18next";
 
 export function DatePicker({
     fieldName,
+    disabled = false,
 }: {
     readonly fieldName:
         | "creationDate.from"
         | "creationDate.to"
         | "updateDate.from"
-        | "updateDate.to";
+        | "updateDate.to"
+        | "auctionDate.from"
+        | "auctionDate.to";
+    readonly disabled?: boolean;
 }) {
     const { control, setValue } = useFormContext<FilterSchema>();
     const [calendarOpen, setCalendarOpen] = useState(false);
@@ -34,6 +38,7 @@ export function DatePicker({
                                 variant="default"
                                 data-empty={!field.value}
                                 className="justify-start text-left font-normal bg-background text-foreground hover:bg-background"
+                                disabled={disabled}
                             >
                                 <CalendarIcon />
                                 {field.value ? (
@@ -47,6 +52,7 @@ export function DatePicker({
                             type="button"
                             variant={"ghost"}
                             className="h-8 w-8 p-0 ml-auto"
+                            disabled={disabled}
                             onClick={() =>
                                 setValue(fieldName, undefined, {
                                     shouldDirty: false,
