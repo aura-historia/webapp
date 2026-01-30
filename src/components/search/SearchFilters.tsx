@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MerchantFilter } from "@/components/search/filters/MerchantFilter.tsx";
+import { ExcludeMerchantFilter } from "@/components/search/filters/ExcludeMerchantFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useCallback, useEffect, useMemo } from "react";
@@ -43,6 +44,7 @@ const createFilterSchema = (t: TFunction) =>
                 to: z.date().optional(),
             }),
             merchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
+            excludeMerchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
             originYearSpan: z
                 .object({
                     min: z.number().optional().or(z.undefined()),
@@ -151,6 +153,9 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         if (searchFilters.merchant) {
             form.setValue("merchant", searchFilters.merchant, { shouldDirty: false });
         }
+        if (searchFilters.excludeMerchant) {
+            form.setValue("excludeMerchant", searchFilters.excludeMerchant, { shouldDirty: false });
+        }
         if (searchFilters.allowedStates) {
             form.setValue("productState", searchFilters.allowedStates, { shouldDirty: false });
         }
@@ -184,6 +189,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         searchFilters.updateDateFrom,
         searchFilters.updateDateTo,
         searchFilters.merchant,
+        searchFilters.excludeMerchant,
         searchFilters.allowedStates,
         searchFilters.originYearMin,
         searchFilters.originYearMax,
@@ -205,6 +211,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                     creationDate: data.creationDate,
                     updateDate: data.updateDate,
                     merchant: data.merchant,
+                    excludeMerchant: data.excludeMerchant,
                     originYearSpan: data.originYearSpan,
                     authenticity: data.authenticity,
                     condition: data.condition,
@@ -238,6 +245,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />
                     <MerchantFilter />
+                    <ExcludeMerchantFilter />
                 </div>
                 <div className="flex flex-col gap-2">
                     <Button className="w-full shadow-sm" type="submit">

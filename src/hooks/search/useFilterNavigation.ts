@@ -55,6 +55,7 @@ export function useFilterNavigation() {
                 updateDateFrom: updateDateRange?.from,
                 updateDateTo: updateDateRange?.to,
                 merchant: data.merchant || undefined,
+                excludeMerchant: data.excludeMerchant || undefined,
             },
         });
     };

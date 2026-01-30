@@ -14,6 +14,7 @@ export const FILTER_DEFAULTS: FilterSchema = {
     creationDate: { from: undefined, to: undefined },
     updateDate: { from: undefined, to: undefined },
     merchant: undefined,
+    excludeMerchant: undefined,
     originYearSpan: { min: undefined, max: undefined },
     authenticity: [...AUTHENTICITIES],
     condition: [...CONDITIONS],

@@ -23,6 +23,7 @@ export type RawSearchParams = {
     updateDateFrom?: string;
     updateDateTo?: string;
     merchant?: string | string[];
+    excludeMerchant?: string | string[];
     sortField?: string;
     sortOrder?: string;
     originYearMin?: number;
@@ -54,6 +55,14 @@ function parseProductStates(states: unknown): ProductState[] | undefined {
 function parseMerchant(merchant: string | string[] | undefined): string[] | undefined {
     if (Array.isArray(merchant)) return merchant;
     if (typeof merchant === "string") return [merchant];
+    return undefined;
+}
+
+function parseExcludeMerchant(
+    excludeMerchant: string | string[] | undefined,
+): string[] | undefined {
+    if (Array.isArray(excludeMerchant)) return excludeMerchant;
+    if (typeof excludeMerchant === "string") return [excludeMerchant];
     return undefined;
 }
 
@@ -106,6 +115,7 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         updateDateFrom: parseOptionalDate(search.updateDateFrom),
         updateDateTo: parseOptionalDate(search.updateDateTo),
         merchant: parseMerchant(search.merchant),
+        excludeMerchant: parseExcludeMerchant(search.excludeMerchant),
         sortField: parseSortField(search.sortField),
         sortOrder: parseSortOrder(search.sortOrder),
         originYearMin: parseOptionalNumber(search.originYearMin),

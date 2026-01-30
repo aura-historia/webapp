@@ -70,6 +70,10 @@ export function useSearch(
                           }
                         : {}),
                     shopName: searchArgs.merchant?.length === 0 ? undefined : searchArgs.merchant,
+                    excludeShopName:
+                        searchArgs.excludeMerchant?.length === 0
+                            ? undefined
+                            : searchArgs.excludeMerchant,
                     ...(searchArgs.originYearMin != null || searchArgs.originYearMax != null
                         ? {
                               originYear: {

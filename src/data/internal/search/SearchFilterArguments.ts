@@ -15,6 +15,7 @@ export type SearchFilterArguments = {
     updateDateFrom?: Date;
     updateDateTo?: Date;
     merchant?: string[];
+    excludeMerchant?: string[];
     sortField?: SortMode["field"];
     sortOrder?: SortMode["order"];
     originYearMin?: number;

@@ -68,6 +68,7 @@ export type SearchFilterData = {
         to?: Date;
     };
     merchant?: string[];
+    excludeMerchant?: string[];
     originYearSpan?: {
         min?: number;
         max?: number;
@@ -88,6 +89,7 @@ export type SearchUrlParams = {
     updateDateFrom?: string;
     updateDateTo?: string;
     merchant?: string[];
+    excludeMerchant?: string[];
     originYearMin?: number;
     originYearMax?: number;
     authenticity?: Authenticity[];
@@ -120,6 +122,7 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
         updateDateFrom: updateDate.from,
         updateDateTo: updateDate.to,
         merchant: data.merchant?.length ? data.merchant : undefined,
+        excludeMerchant: data.excludeMerchant?.length ? data.excludeMerchant : undefined,
         originYearMin: data.originYearSpan?.min,
         originYearMax: data.originYearSpan?.max,
         authenticity: data.authenticity?.length ? data.authenticity : undefined,
