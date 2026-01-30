@@ -68,6 +68,10 @@ export type SearchFilterData = {
         from?: Date;
         to?: Date;
     };
+    auctionDate?: {
+        from?: Date;
+        to?: Date;
+    };
     merchant?: string[];
     excludeMerchant?: string[];
     shopType?: ShopType[];
@@ -90,6 +94,8 @@ export type SearchUrlParams = {
     creationDateTo?: string;
     updateDateFrom?: string;
     updateDateTo?: string;
+    auctionDateFrom?: string;
+    auctionDateTo?: string;
     merchant?: string[];
     excludeMerchant?: string[];
     shopType?: ShopType[];
@@ -114,6 +120,7 @@ function mapDateRangeToParams(range?: { from?: Date; to?: Date }) {
 export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
     const creationDate = mapDateRangeToParams(data.creationDate);
     const updateDate = mapDateRangeToParams(data.updateDate);
+    const auctionDate = mapDateRangeToParams(data.auctionDate);
 
     return {
         q: data.query,
@@ -124,6 +131,8 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
         creationDateTo: creationDate.to,
         updateDateFrom: updateDate.from,
         updateDateTo: updateDate.to,
+        auctionDateFrom: auctionDate.from,
+        auctionDateTo: auctionDate.to,
         merchant: data.merchant?.length ? data.merchant : undefined,
         excludeMerchant: data.excludeMerchant?.length ? data.excludeMerchant : undefined,
         shopType: data.shopType?.length ? data.shopType : undefined,

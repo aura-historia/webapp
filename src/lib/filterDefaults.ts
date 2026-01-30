@@ -14,6 +14,7 @@ export const FILTER_DEFAULTS: FilterSchema = {
     productState: [...PRODUCT_STATES],
     creationDate: { from: undefined, to: undefined },
     updateDate: { from: undefined, to: undefined },
+    auctionDate: { from: undefined, to: undefined },
     merchant: undefined,
     excludeMerchant: undefined,
     shopType: [...SHOP_TYPES],

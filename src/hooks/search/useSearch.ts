@@ -70,6 +70,14 @@ export function useSearch(
                               },
                           }
                         : {}),
+                    ...(searchArgs.auctionDateFrom != null || searchArgs.auctionDateTo != null
+                        ? {
+                              auctionStart: {
+                                  min: searchArgs.auctionDateFrom?.toISOString() || undefined,
+                                  max: searchArgs.auctionDateTo?.toISOString() || undefined,
+                              },
+                          }
+                        : {}),
                     shopName: searchArgs.merchant?.length === 0 ? undefined : searchArgs.merchant,
                     excludeShopName:
                         searchArgs.excludeMerchant?.length === 0

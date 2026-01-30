@@ -13,6 +13,7 @@ import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useCallback, useEffect, useMemo } from "react";
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
+import { AuctionDateSpanFilter } from "@/components/search/filters/AuctionDateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
@@ -41,6 +42,10 @@ const createFilterSchema = (t: TFunction) =>
                 to: z.date().optional(),
             }),
             updateDate: z.object({
+                from: z.date().optional(),
+                to: z.date().optional(),
+            }),
+            auctionDate: z.object({
                 from: z.date().optional(),
                 to: z.date().optional(),
             }),
@@ -79,6 +84,17 @@ const createFilterSchema = (t: TFunction) =>
                     code: "custom",
                     message: t("search.validation.dateOrder"),
                     path: ["updateDate", "to"],
+                });
+            }
+            if (
+                data.auctionDate.from &&
+                data.auctionDate.to &&
+                data.auctionDate.from > data.auctionDate.to
+            ) {
+                ctx.addIssue({
+                    code: "custom",
+                    message: t("search.validation.dateOrder"),
+                    path: ["auctionDate", "to"],
                 });
             }
             if (
@@ -152,6 +168,16 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                 shouldDirty: false,
             });
         }
+        if (searchFilters.auctionDateFrom) {
+            form.setValue("auctionDate.from", new Date(searchFilters.auctionDateFrom), {
+                shouldDirty: false,
+            });
+        }
+        if (searchFilters.auctionDateTo) {
+            form.setValue("auctionDate.to", new Date(searchFilters.auctionDateTo), {
+                shouldDirty: false,
+            });
+        }
         if (searchFilters.merchant) {
             form.setValue("merchant", searchFilters.merchant, { shouldDirty: false });
         }
@@ -193,6 +219,8 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         searchFilters.creationDateTo,
         searchFilters.updateDateFrom,
         searchFilters.updateDateTo,
+        searchFilters.auctionDateFrom,
+        searchFilters.auctionDateTo,
         searchFilters.merchant,
         searchFilters.excludeMerchant,
         searchFilters.shopType,
@@ -216,6 +244,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                     productState: data.productState,
                     creationDate: data.creationDate,
                     updateDate: data.updateDate,
+                    auctionDate: data.auctionDate,
                     merchant: data.merchant,
                     excludeMerchant: data.excludeMerchant,
                     shopType: data.shopType,
@@ -251,6 +280,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                     <QualityIndicatorsFilter />
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />
+                    <AuctionDateSpanFilter />
                     <MerchantFilters />
                     <ShopTypeFilter />
                 </div>

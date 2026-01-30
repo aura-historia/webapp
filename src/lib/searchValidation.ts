@@ -23,6 +23,8 @@ export type RawSearchParams = {
     creationDateTo?: string;
     updateDateFrom?: string;
     updateDateTo?: string;
+    auctionDateFrom?: string;
+    auctionDateTo?: string;
     merchant?: string | string[];
     excludeMerchant?: string | string[];
     shopType?: ShopType[];
@@ -123,6 +125,8 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         creationDateTo: parseOptionalDate(search.creationDateTo),
         updateDateFrom: parseOptionalDate(search.updateDateFrom),
         updateDateTo: parseOptionalDate(search.updateDateTo),
+        auctionDateFrom: parseOptionalDate(search.auctionDateFrom),
+        auctionDateTo: parseOptionalDate(search.auctionDateTo),
         merchant: parseMerchant(search.merchant),
         excludeMerchant: parseExcludeMerchant(search.excludeMerchant),
         shopType: parseShopTypes(search.shopType),

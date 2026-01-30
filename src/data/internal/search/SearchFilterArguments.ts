@@ -15,6 +15,8 @@ export type SearchFilterArguments = {
     creationDateTo?: Date;
     updateDateFrom?: Date;
     updateDateTo?: Date;
+    auctionDateFrom?: Date;
+    auctionDateTo?: Date;
     merchant?: string[];
     excludeMerchant?: string[];
     shopType?: ShopType[];

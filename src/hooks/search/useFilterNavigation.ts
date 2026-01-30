@@ -47,6 +47,7 @@ export function useFilterNavigation() {
             data.priceSpan?.min !== undefined || data.priceSpan?.max !== undefined;
         const creationDateRange = formatDateRangeForUrl(data.creationDate);
         const updateDateRange = formatDateRangeForUrl(data.updateDate);
+        const auctionDateRange = formatDateRangeForUrl(data.auctionDate);
 
         await navigate({
             to: "/search",
@@ -61,6 +62,8 @@ export function useFilterNavigation() {
                 creationDateTo: creationDateRange?.to,
                 updateDateFrom: updateDateRange?.from,
                 updateDateTo: updateDateRange?.to,
+                auctionDateFrom: auctionDateRange?.from,
+                auctionDateTo: auctionDateRange?.to,
                 merchant: data.merchant || undefined,
                 excludeMerchant: data.excludeMerchant || undefined,
                 shopType: isDefaultShopType(data.shopType) ? undefined : data.shopType,
