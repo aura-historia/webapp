@@ -30,6 +30,24 @@ class ResizeObserverMock {
 
 globalThis.ResizeObserver = ResizeObserverMock;
 
+// Mock IntersectionObserver which is not available in JSDOM but used by embla-carousel
+class IntersectionObserverMock {
+    observe() {
+        // No-op
+    }
+
+    unobserve() {
+        // No-op
+    }
+
+    disconnect() {
+        // No-op
+    }
+}
+
+globalThis.IntersectionObserver =
+    IntersectionObserverMock as unknown as typeof IntersectionObserver;
+
 // Mock pointer capture methods which are not available in JSDOM but used by Radix UI
 if (!Element.prototype.hasPointerCapture) {
     Element.prototype.hasPointerCapture = () => false;
