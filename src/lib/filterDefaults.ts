@@ -4,6 +4,7 @@ import { PROVENANCES } from "@/data/internal/quality-indicators/Provenance.ts";
 import { CONDITIONS } from "@/data/internal/quality-indicators/Condition.ts";
 import { AUTHENTICITIES } from "@/data/internal/quality-indicators/Authenticity.ts";
 import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
+import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 
 /** Minimum number of characters required for a search query */
 export const MIN_SEARCH_QUERY_LENGTH = 3;
@@ -15,6 +16,7 @@ export const FILTER_DEFAULTS: FilterSchema = {
     updateDate: { from: undefined, to: undefined },
     merchant: undefined,
     excludeMerchant: undefined,
+    shopType: [...SHOP_TYPES],
     originYearSpan: { min: undefined, max: undefined },
     authenticity: [...AUTHENTICITIES],
     condition: [...CONDITIONS],

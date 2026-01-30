@@ -1,4 +1,6 @@
-export type ShopType = "AUCTION_HOUSE" | "COMMERCIAL_DEALER" | "MARKETPLACE" | "UNKNOWN";
+export const SHOP_TYPES = ["AUCTION_HOUSE", "COMMERCIAL_DEALER", "MARKETPLACE", "UNKNOWN"] as const;
+
+export type ShopType = (typeof SHOP_TYPES)[number];
 
 export const SHOP_TYPE_TRANSLATION_CONFIG = {
     AUCTION_HOUSE: {
@@ -36,5 +38,7 @@ export function mapToBackendShopType(shopType?: ShopType): ShopType | undefined 
         case "COMMERCIAL_DEALER":
         case "MARKETPLACE":
             return shopType;
+        case "UNKNOWN":
+            return undefined;
     }
 }

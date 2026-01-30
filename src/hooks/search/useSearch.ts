@@ -17,6 +17,7 @@ import { mapToBackendAuthenticity } from "@/data/internal/quality-indicators/Aut
 import { mapToBackendCondition } from "@/data/internal/quality-indicators/Condition.ts";
 import { mapToBackendProvenance } from "@/data/internal/quality-indicators/Provenance.ts";
 import { mapToBackendRestoration } from "@/data/internal/quality-indicators/Restoration.ts";
+import { mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
 import { env } from "@/env.ts";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 
@@ -74,6 +75,12 @@ export function useSearch(
                         searchArgs.excludeMerchant?.length === 0
                             ? undefined
                             : searchArgs.excludeMerchant,
+                    shopType:
+                        searchArgs.shopType?.length === 0
+                            ? []
+                            : searchArgs.shopType
+                                  ?.map((type) => mapToBackendShopType(type))
+                                  .filter((t) => t !== undefined),
                     ...(searchArgs.originYearMin != null || searchArgs.originYearMax != null
                         ? {
                               originYear: {

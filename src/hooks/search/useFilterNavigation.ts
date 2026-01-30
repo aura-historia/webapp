@@ -11,6 +11,13 @@ function isDefaultProductState(states: FilterSchema["productState"]): boolean {
     );
 }
 
+function isDefaultShopType(types: FilterSchema["shopType"]): boolean {
+    return (
+        types.length === FILTER_DEFAULTS.shopType.length &&
+        types.every((t) => FILTER_DEFAULTS.shopType.includes(t))
+    );
+}
+
 function isDefaultDateRange(range: { from?: Date; to?: Date }): boolean {
     return range.from === undefined && range.to === undefined;
 }
@@ -56,6 +63,7 @@ export function useFilterNavigation() {
                 updateDateTo: updateDateRange?.to,
                 merchant: data.merchant || undefined,
                 excludeMerchant: data.excludeMerchant || undefined,
+                shopType: isDefaultShopType(data.shopType) ? undefined : data.shopType,
             },
         });
     };

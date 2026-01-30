@@ -12,6 +12,7 @@ import {
     type Restoration,
     parseRestoration,
 } from "@/data/internal/quality-indicators/Restoration.ts";
+import { type ShopType, parseShopType } from "@/data/internal/shop/ShopType.ts";
 
 export type RawSearchParams = {
     q: string;
@@ -24,6 +25,7 @@ export type RawSearchParams = {
     updateDateTo?: string;
     merchant?: string | string[];
     excludeMerchant?: string | string[];
+    shopType?: ShopType[];
     sortField?: string;
     sortOrder?: string;
     originYearMin?: number;
@@ -104,6 +106,13 @@ function parseRestorations(values: unknown): Restoration[] | undefined {
         .filter((elem, index, self) => index === self.indexOf(elem));
 }
 
+function parseShopTypes(values: unknown): ShopType[] | undefined {
+    if (!Array.isArray(values)) return undefined;
+    return values
+        .map((shopType) => parseShopType(shopType))
+        .filter((elem, index, self) => index === self.indexOf(elem));
+}
+
 export function validateSearchParams(search: RawSearchParams): SearchFilterArguments {
     return {
         q: (search.q as string) || "",
@@ -116,6 +125,7 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         updateDateTo: parseOptionalDate(search.updateDateTo),
         merchant: parseMerchant(search.merchant),
         excludeMerchant: parseExcludeMerchant(search.excludeMerchant),
+        shopType: parseShopTypes(search.shopType),
         sortField: parseSortField(search.sortField),
         sortOrder: parseSortOrder(search.sortOrder),
         originYearMin: parseOptionalNumber(search.originYearMin),

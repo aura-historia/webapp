@@ -4,6 +4,7 @@ import type { Authenticity } from "@/data/internal/quality-indicators/Authentici
 import type { Condition } from "@/data/internal/quality-indicators/Condition.ts";
 import type { Provenance } from "@/data/internal/quality-indicators/Provenance.ts";
 import type { Restoration } from "@/data/internal/quality-indicators/Restoration.ts";
+import type { ShopType } from "@/data/internal/shop/ShopType.ts";
 
 export type SearchFilterArguments = {
     q: string;
@@ -16,6 +17,7 @@ export type SearchFilterArguments = {
     updateDateTo?: Date;
     merchant?: string[];
     excludeMerchant?: string[];
+    shopType?: ShopType[];
     sortField?: SortMode["field"];
     sortOrder?: SortMode["order"];
     originYearMin?: number;
