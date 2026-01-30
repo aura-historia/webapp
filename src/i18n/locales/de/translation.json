@@ -146,6 +146,7 @@
       "noMerchantsFound": "Keine Händler gefunden",
       "excludeMerchant": "Händler ausschließen",
       "searchExcludeMerchants": "Auszuschließende Händler suchen...",
+      "shopType": "Shop-Typ",
       "priceSpan": "Preisspanne",
       "min": "Min",
       "max": "Max",
@@ -161,6 +162,7 @@
         "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
         "merchant": "Filter für den Händler zurücksetzen",
         "excludeMerchant": "Filter für ausgeschlossene Händler zurücksetzen",
+        "shopType": "Filter für den Shop-Typ zurücksetzen",
         "qualityIndicators": "Filter für die Qualitätsmerkmale zurücksetzen"
       },
       "qualityIndicators": "Qualitätsmerkmale",

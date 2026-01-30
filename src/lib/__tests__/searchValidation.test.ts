@@ -175,6 +175,45 @@ describe("validateSearchParams", () => {
         });
     });
 
+    describe("shopType parameter", () => {
+        it("should parse valid shop types array", () => {
+            const result = validateSearchParams({
+                q: "test",
+                shopType: ["AUCTION_HOUSE", "COMMERCIAL_DEALER"],
+            } as RawSearchParams);
+            expect(result.shopType).toEqual(["AUCTION_HOUSE", "COMMERCIAL_DEALER"]);
+        });
+
+        it("should deduplicate shop types", () => {
+            const result = validateSearchParams({
+                q: "test",
+                shopType: ["AUCTION_HOUSE", "AUCTION_HOUSE", "MARKETPLACE"],
+            } as RawSearchParams);
+            expect(result.shopType).toEqual(["AUCTION_HOUSE", "MARKETPLACE"]);
+        });
+
+        it("should parse shop types case-insensitively", () => {
+            const result = validateSearchParams({
+                q: "test",
+                shopType: ["auction_house", "COMMERCIAL_DEALER"] as any,
+            } as RawSearchParams);
+            expect(result.shopType).toEqual(["AUCTION_HOUSE", "COMMERCIAL_DEALER"]);
+        });
+
+        it("should return undefined when shopType is not an array", () => {
+            const result = validateSearchParams({
+                q: "test",
+                shopType: "AUCTION_HOUSE" as any,
+            } as RawSearchParams);
+            expect(result.shopType).toBeUndefined();
+        });
+
+        it("should return undefined when shopType is undefined", () => {
+            const result = validateSearchParams({ q: "test" } as RawSearchParams);
+            expect(result.shopType).toBeUndefined();
+        });
+    });
+
     describe("sort parameters", () => {
         it("should parse valid sortField", () => {
             const result = validateSearchParams({
@@ -240,6 +279,7 @@ describe("validateSearchParams", () => {
                 updateDateTo: "2024-06-30",
                 merchant: ["Antique Shop", "Vintage Store"],
                 excludeMerchant: ["Excluded Shop"],
+                shopType: ["AUCTION_HOUSE", "COMMERCIAL_DEALER"],
                 sortField: "PRICE",
                 sortOrder: "ASC",
             } as RawSearchParams);
@@ -255,6 +295,7 @@ describe("validateSearchParams", () => {
                 updateDateTo: new Date("2024-06-30"),
                 merchant: ["Antique Shop", "Vintage Store"],
                 excludeMerchant: ["Excluded Shop"],
+                shopType: ["AUCTION_HOUSE", "COMMERCIAL_DEALER"],
                 sortField: "PRICE",
                 sortOrder: "ASC",
             });
