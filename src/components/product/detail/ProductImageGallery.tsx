@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
     Carousel,
     type CarouselApi,
@@ -8,12 +8,52 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel.tsx";
 import { ImageOff } from "lucide-react";
-import Lightbox from "yet-another-react-lightbox";
+import { Lightbox } from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+
+interface ThumbnailButtonProps {
+    readonly image: ProductImage;
+    readonly index: number;
+    readonly isSelected: boolean;
+    readonly onSelect: (index: number) => void;
+}
+
+/**
+ * Memoized thumbnail button to prevent re-renders when other thumbnails change.
+ * Only re-renders when isSelected changes for this specific thumbnail.
+ */
+const ThumbnailButton = memo(function ThumbnailButton({
+    image,
+    index,
+    isSelected,
+    onSelect,
+}: ThumbnailButtonProps) {
+    return (
+        <CarouselItem className="pl-2 basis-1/3">
+            <button
+                type="button"
+                onClick={() => onSelect(index)}
+                className={`aspect-square w-full rounded-md overflow-hidden border-2 transition-[opacity,border-color] duration-150 ${
+                    isSelected
+                        ? "border-primary"
+                        : "border-transparent opacity-60 hover:opacity-100"
+                }`}
+            >
+                <img
+                    src={image.url.href}
+                    alt={`Thumbnail ${index + 1}`}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover will-change-transform"
+                />
+            </button>
+        </CarouselItem>
+    );
+});
 
 interface ProductImageGalleryProps {
     readonly images: readonly ProductImage[];
@@ -27,35 +67,38 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
     const slides = useMemo(() => images.map((img) => ({ src: img.url.href })), [images]);
     const [mainCarouselApi, setMainCarouselApi] = useState<CarouselApi>();
     const [thumbnailCarouselApi, setThumbnailCarouselApi] = useState<CarouselApi>();
+    const prevLightboxOpen = useRef(false);
 
-    /**
-     * Resets the image index to 0 when the product changes.
-     * This prevents errors if the new product has fewer images than the previous one.
-     * The carousel sync happens automatically via the second useEffect when currentImageIndex changes.
-     */
+    /** Stable callback for thumbnail selection */
+    const handleThumbnailSelect = useCallback((index: number) => {
+        setCurrentImageIndex(index);
+    }, []);
+
+    /** Reset index when product changes */
     useEffect(() => {
-        if (!productId) return;
-        setCurrentImageIndex(0);
+        if (productId) setCurrentImageIndex(0);
     }, [productId]);
 
-    /**
-     * Syncs both carousels when currentImageIndex changes.
-     */
+    /** Sync carousels when index changes or lightbox closes */
     useEffect(() => {
-        mainCarouselApi?.scrollTo(currentImageIndex);
-        thumbnailCarouselApi?.scrollTo(currentImageIndex);
-    }, [currentImageIndex, mainCarouselApi, thumbnailCarouselApi]);
+        const lightboxJustClosed = prevLightboxOpen.current && !isLightboxOpen;
+        prevLightboxOpen.current = isLightboxOpen;
 
-    /**
-     * Syncs the main carousel's selected index with the current image index state.
-     * This ensures the state updates when user swipes/drags the main carousel.
-     */
+        if (!isLightboxOpen || lightboxJustClosed) {
+            requestAnimationFrame(() => {
+                mainCarouselApi?.scrollTo(currentImageIndex);
+                thumbnailCarouselApi?.scrollTo(currentImageIndex);
+            });
+        }
+    }, [currentImageIndex, isLightboxOpen, mainCarouselApi, thumbnailCarouselApi]);
+
+    /** Sync state when user swipes the main carousel */
     useEffect(() => {
         if (!mainCarouselApi) return;
 
         const onSelect = () => {
             const index = mainCarouselApi.selectedScrollSnap();
-            setCurrentImageIndex(index);
+            setCurrentImageIndex((prev) => (prev !== index ? index : prev));
         };
 
         mainCarouselApi.on("select", onSelect);
@@ -64,30 +107,21 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
         };
     }, [mainCarouselApi]);
 
-    /**
-     * Registers a keydown event listener for carousel image navigation.
-     *
-     * The handler function ignores arrow key events when the lightbox
-     * is active or there are fewer than two images.
-     * Navigation stops at the beginning and end (no loop).
-     *
-     * The cleanup function reliably removes the listener before unmounting
-     * or re-executing the effect to prevent memory leaks.
-     */
+    /** Keyboard navigation (uses functional updater to avoid stale closures) */
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (isLightboxOpen || images.length <= 1) return;
 
-            if (e.key === "ArrowLeft" && currentImageIndex > 0) {
-                setCurrentImageIndex((i) => i - 1);
-            } else if (e.key === "ArrowRight" && currentImageIndex < images.length - 1) {
-                setCurrentImageIndex((i) => i + 1);
+            if (e.key === "ArrowLeft") {
+                setCurrentImageIndex((i) => Math.max(0, i - 1));
+            } else if (e.key === "ArrowRight") {
+                setCurrentImageIndex((i) => Math.min(images.length - 1, i + 1));
             }
         };
 
         globalThis.addEventListener("keydown", handleKeyDown);
         return () => globalThis.removeEventListener("keydown", handleKeyDown);
-    }, [images.length, isLightboxOpen, currentImageIndex]);
+    }, [images.length, isLightboxOpen]);
 
     /**
      * Renders a fallback image if no images are provided.
@@ -129,7 +163,8 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                                         src={img.url.href}
                                         alt={`Produktbild von ${title}`}
                                         loading={idx === 0 ? "eager" : "lazy"}
-                                        className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
+                                        decoding="async"
+                                        className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg will-change-transform hover:opacity-95 transition-opacity duration-150"
                                     />
                                 </button>
                             </CarouselItem>
@@ -159,26 +194,13 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                                 className={`-ml-2 ${images.length <= 2 ? "justify-center" : ""}`}
                             >
                                 {images.map((img, idx) => (
-                                    <CarouselItem key={img.url.href} className="pl-2 basis-1/3">
-                                        <button
-                                            type="button"
-                                            onClick={() => setCurrentImageIndex(idx)}
-                                            className={`
-                                                aspect-square w-full rounded-md overflow-hidden transition-all
-                                                ${
-                                                    idx === currentImageIndex
-                                                        ? "border-2 border-primary"
-                                                        : "opacity-60 hover:opacity-100 border-2 border-transparent"
-                                                } 
-                                            `}
-                                        >
-                                            <img
-                                                src={img.url.href}
-                                                alt={`Thumbnail ${idx + 1}`}
-                                                className="w-full h-full object-cover"
-                                            />
-                                        </button>
-                                    </CarouselItem>
+                                    <ThumbnailButton
+                                        key={img.url.href}
+                                        image={img}
+                                        index={idx}
+                                        isSelected={idx === currentImageIndex}
+                                        onSelect={handleThumbnailSelect}
+                                    />
                                 ))}
                             </CarouselContent>
                             <CarouselPrevious className="-left-10" />
