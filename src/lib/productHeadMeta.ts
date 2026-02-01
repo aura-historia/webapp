@@ -12,8 +12,8 @@ type HeadMeta = {
 };
 
 type ProductHeadParams = {
-    shopId: string;
-    shopsProductId: string;
+    shopSlugId: string;
+    productSlugId: string;
 };
 
 /**
@@ -29,7 +29,7 @@ export function generateProductHeadMeta(
     const productImage = loaderData?.item.images?.find(
         (img) => img.prohibitedContent === "NONE",
     )?.url;
-    const productUrl = `https://aura-historia.com/product/${params.shopId}/${params.shopsProductId}`;
+    const productUrl = `https://aura-historia.com/shops/${params.shopSlugId}/products/${params.productSlugId}`;
 
     return {
         meta: [

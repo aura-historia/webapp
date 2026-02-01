@@ -62,6 +62,8 @@ describe("ProductCardImageCarousel", () => {
     const defaultProps = {
         shopId: "shop-1",
         shopsProductId: "product-1",
+        shopSlugId: "test-shop-abc123",
+        productSlugId: "test-product-def456",
     };
 
     it("should render a placeholder when no images are provided", async () => {
@@ -119,6 +121,9 @@ describe("ProductCardImageCarousel", () => {
             renderWithRouter(<ProductCardImageCarousel images={mockImages} {...defaultProps} />);
         });
         const links = screen.getAllByRole("link");
-        expect(links[0]).toHaveAttribute("href", "/product/shop-1/product-1");
+        expect(links[0]).toHaveAttribute(
+            "href",
+            "/shops/test-shop-abc123/products/test-product-def456",
+        );
     });
 });

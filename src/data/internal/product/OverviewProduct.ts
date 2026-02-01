@@ -32,8 +32,10 @@ import { formatPrice } from "@/data/internal/price/Price.ts";
 
 export type OverviewProduct = {
     readonly productId: string;
+    readonly productSlugId: string;
     readonly eventId: string;
     readonly shopId: string;
+    readonly shopSlugId: string;
     readonly shopsProductId: string;
     readonly shopName: string;
     readonly title: string;
@@ -64,8 +66,10 @@ function mapProductDataToOverviewProduct(
 ): OverviewProduct {
     return {
         productId: productData.productId,
+        productSlugId: productData.productSlugId,
         eventId: productData.eventId,
         shopId: productData.shopId,
+        shopSlugId: productData.shopSlugId,
         shopsProductId: productData.shopsProductId,
         shopName: productData.shopName,
         shopType: parseShopType(productData.shopType),

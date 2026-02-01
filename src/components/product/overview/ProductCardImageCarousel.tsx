@@ -13,14 +13,14 @@ import { Link } from "@tanstack/react-router";
 
 interface ProductCardImageCarouselProps {
     readonly images: readonly ProductImage[];
-    readonly shopId: string;
-    readonly shopsProductId: string;
+    readonly shopSlugId: string;
+    readonly productSlugId: string;
 }
 
 export function ProductCardImageCarousel({
     images,
-    shopId,
-    shopsProductId,
+    shopSlugId,
+    productSlugId,
 }: ProductCardImageCarouselProps) {
     const { t } = useTranslation();
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
@@ -67,10 +67,10 @@ export function ProductCardImageCarousel({
     if (images.length === 0) {
         return (
             <Link
-                to="/product/$shopId/$shopsProductId"
+                to="/shops/$shopSlugId/products/$productSlugId"
                 params={{
-                    shopId,
-                    shopsProductId,
+                    shopSlugId,
+                    productSlugId,
                 }}
             >
                 <div className="size-48 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
@@ -88,10 +88,10 @@ export function ProductCardImageCarousel({
         // Simple single image display without carousel complexity
         return (
             <Link
-                to="/product/$shopId/$shopsProductId"
+                to="/shops/$shopSlugId/products/$productSlugId"
                 params={{
-                    shopId,
-                    shopsProductId,
+                    shopSlugId,
+                    productSlugId,
                 }}
             >
                 <img
@@ -116,10 +116,10 @@ export function ProductCardImageCarousel({
                     {images.map((image, index) => (
                         <CarouselItem key={`${index}-${image.url.href}`}>
                             <Link
-                                to="/product/$shopId/$shopsProductId"
+                                to="/shops/$shopSlugId/products/$productSlugId"
                                 params={{
-                                    shopId,
-                                    shopsProductId,
+                                    shopSlugId,
+                                    productSlugId,
                                 }}
                             >
                                 <img

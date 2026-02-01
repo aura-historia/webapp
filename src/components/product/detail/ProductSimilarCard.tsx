@@ -16,10 +16,10 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
         <Card className={"flex flex-col h-full p-0 shadow-md overflow-hidden min-w-0"}>
             <div className={"flex-shrink-0 flex justify-center"}>
                 <Link
-                    to="/product/$shopId/$shopsProductId"
+                    to="/shops/$shopSlugId/products/$productSlugId"
                     params={{
-                        shopId: product.shopId,
-                        shopsProductId: product.shopsProductId,
+                        shopSlugId: product.shopSlugId,
+                        productSlugId: product.productSlugId,
                     }}
                     className={"block w-full"}
                 >
@@ -45,10 +45,10 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
             <div className={"flex flex-col min-w-0 flex-1 justify-between p-4"}>
                 <div className={"flex flex-col gap-2 min-w-0 overflow-hidden"}>
                     <Link
-                        to="/product/$shopId/$shopsProductId"
+                        to="/shops/$shopSlugId/products/$productSlugId"
                         params={{
-                            shopId: product.shopId,
-                            shopsProductId: product.shopsProductId,
+                            shopSlugId: product.shopSlugId,
+                            productSlugId: product.productSlugId,
                         }}
                         className="min-w-0 overflow-hidden"
                     >
@@ -84,10 +84,10 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                         className="w-full sm:w-auto sm:flex-shrink-0"
                     >
                         <Link
-                            to="/product/$shopId/$shopsProductId"
+                            to="/shops/$shopSlugId/products/$productSlugId"
                             params={{
-                                shopId: product.shopId,
-                                shopsProductId: product.shopsProductId,
+                                shopSlugId: product.shopSlugId,
+                                productSlugId: product.productSlugId,
                             }}
                         >
                             <Eye />
