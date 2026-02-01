@@ -82,7 +82,8 @@ describe("ProductImageGallery", () => {
             <ProductImageGallery images={multipleImages} title="Test Product" productId="2" />,
         );
 
-        const mainImage = screen.getByAltText("Produktbild von Test Product");
-        expect(mainImage).toHaveAttribute("src", "https://example.com/image1.jpg");
+        // With carousel, all images are in DOM but first one should be visible
+        const mainImages = screen.getAllByAltText("Produktbild von Test Product");
+        expect(mainImages[0]).toHaveAttribute("src", "https://example.com/image1.jpg");
     });
 });

@@ -106,7 +106,29 @@
       "label": "Suche",
       "placeholder": "Ich suche nach...",
       "placeholderShort": "Suche",
-      "button": "Suchen"
+      "button": "Suchen",
+      "placeholderExamples": [
+        "Ölgemälde Maria Magdalena",
+        "Meissener Porzellanservice",
+        "Louis XVI Kommode",
+        "Barocke Standuhr",
+        "Biedermeier Sekretär",
+        "Jugendstil-Vitrine",
+        "Perserteppich Täbris",
+        "Silberne Rokoko-Leuchter",
+        "Antike Bronzeskulptur",
+        "Empire-Konsole",
+        "Gründerzeit-Bücherschrank",
+        "Chinesische Ming-Vase",
+        "Goldene Taschenuhr Patek Philippe",
+        "Barocke Holzskulptur",
+        "Art-Déco-Diamantbrosche",
+        "Venezianischer Murano-Kronleuchter",
+        "Antikes Astrolabium",
+        "Rokoko-Spiegel",
+        "Persische Miniaturmalerei",
+        "Louis XV Fauteuil"
+      ]
     },
     "applyFilters": "Filter anwenden",
     "validation": {

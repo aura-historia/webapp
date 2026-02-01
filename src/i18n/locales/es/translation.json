@@ -107,7 +107,29 @@
       "label": "Búsqueda",
       "placeholder": "Estoy buscando...",
       "placeholderShort": "Buscar",
-      "button": "Buscar"
+      "button": "Buscar",
+      "placeholderExamples": [
+        "Óleo de María Magdalena",
+        "Servicio de porcelana Meissen",
+        "Cómoda Luis XVI",
+        "Reloj de pie barroco",
+        "Escritorio Biedermeier",
+        "Vitrina Art Nouveau",
+        "Alfombra persa Tabriz",
+        "Candelabros rococó de plata",
+        "Escultura de bronce antigua",
+        "Consola Imperio",
+        "Librería Gründerzeit",
+        "Jarrón dinastía Ming china",
+        "Reloj de bolsillo oro Patek Philippe",
+        "Escultura de madera barroca",
+        "Broche de diamantes Art Deco",
+        "Lámpara de araña Murano veneciana",
+        "Astrolabio antiguo",
+        "Espejo rococó",
+        "Miniatura persa",
+        "Sillón Luis XV"
+      ]
     },
     "applyFilters": "Aplicar filtros",
     "validation": {
