@@ -1,4 +1,3 @@
-import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
@@ -15,6 +14,7 @@ import tick from "@/assets/lottie/tick.json";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { useTranslation } from "react-i18next";
 import { H3 } from "@/components/typography/H3.tsx";
+import { VirtualizedProductList } from "@/components/product/overview/VirtualizedProductList.tsx";
 
 type SearchResultsProps = {
     readonly searchFilters: SearchFilterArguments;
@@ -78,9 +78,12 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
 
     return (
         <div className="flex flex-col gap-4">
-            {allProducts.map((product: OverviewProduct) => (
-                <ProductCard key={product.productId} product={product} />
-            ))}
+            <VirtualizedProductList
+                products={allProducts}
+                hasNextPage={hasNextPage}
+                isFetchingNextPage={isFetchingNextPage}
+                fetchNextPage={fetchNextPage}
+            />
             <Card className={"p-4 flex justify-center items-center shadow-md"} ref={ref}>
                 <CardContent className="flex justify-center items-center w-full px-2">
                     {isFetchingNextPage ? (

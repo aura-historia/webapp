@@ -31,6 +31,22 @@ vi.mock("lottie-react", () => ({
     default: () => <div data-testid="lottie-animation" />,
 }));
 
+// Mock the virtualizer to render all items in tests
+vi.mock("@tanstack/react-virtual", () => ({
+    useVirtualizer: ({ count }: { count: number }) => ({
+        getVirtualItems: () =>
+            Array.from({ length: count }, (_, index) => ({
+                index,
+                start: index * 250,
+                size: 250,
+                end: (index + 1) * 250,
+                key: index,
+            })),
+        getTotalSize: () => count * 250,
+        measureElement: () => {},
+    }),
+}));
+
 const mockUseInfiniteQuery = vi.mocked(useInfiniteQuery);
 
 const createMockProduct = (overrides: Partial<OverviewProduct> = {}): OverviewProduct => ({

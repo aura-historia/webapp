@@ -1,4 +1,3 @@
-import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
@@ -14,6 +13,7 @@ import tick from "@/assets/lottie/tick.json";
 import { SearchX } from "lucide-react";
 import { H3 } from "@/components/typography/H3.tsx";
 import { useWatchlist } from "@/hooks/watchlist/useWatchlist.ts";
+import { VirtualizedProductList } from "@/components/product/overview/VirtualizedProductList.tsx";
 
 export function WatchlistResults() {
     const { ref, inView } = useInView();
@@ -83,9 +83,12 @@ export function WatchlistResults() {
                 </span>
             </div>
             <div className="flex flex-col gap-4">
-                {allProducts.map((watchlistProduct: OverviewProduct) => (
-                    <ProductCard key={watchlistProduct.productId} product={watchlistProduct} />
-                ))}
+                <VirtualizedProductList
+                    products={allProducts}
+                    hasNextPage={hasNextPage}
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
+                />
                 <Card className={"p-4 flex justify-center items-center shadow-md"} ref={ref}>
                     <CardContent className="flex justify-center items-center w-full px-2">
                         {isFetchingNextPage ? (
