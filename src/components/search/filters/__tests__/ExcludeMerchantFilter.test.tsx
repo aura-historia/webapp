@@ -1,4 +1,4 @@
-import { MerchantIncludeFilter } from "@/components/search/filters/MerchantIncludeFilter";
+import { MerchantExcludeFilter } from "@/components/search/filters/MerchantExcludeFilter";
 import { FormProvider, useForm } from "react-hook-form";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -37,7 +37,7 @@ const FormWrapper = ({
     const queryClient = createTestQueryClient();
     const methods = useForm({
         defaultValues: {
-            merchant: [],
+            excludeMerchant: [],
             ...defaultValues,
         },
     });
@@ -48,7 +48,7 @@ const FormWrapper = ({
     );
 };
 
-describe("MerchantIncludeFilter", () => {
+describe("MerchantExcludeFilter", () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });
@@ -56,33 +56,35 @@ describe("MerchantIncludeFilter", () => {
     it("renders with correct heading and placeholder", () => {
         render(
             <FormWrapper>
-                <MerchantIncludeFilter />
+                <MerchantExcludeFilter />
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Händler")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Händler suchen...")).toBeInTheDocument();
+        expect(screen.getByText("Händler ausschließen")).toBeInTheDocument();
+        expect(
+            screen.getByPlaceholderText("Auszuschließende Händler suchen..."),
+        ).toBeInTheDocument();
     });
 
     it("allows entering search text in the input", async () => {
         render(
             <FormWrapper>
-                <MerchantIncludeFilter />
+                <MerchantExcludeFilter />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Händler suchen...");
+        const input = screen.getByPlaceholderText("Auszuschließende Händler suchen...");
 
         await user.type(input, "Test");
 
         expect(input).toHaveValue("Test");
     });
 
-    it("shows pre-populated merchant values as badges when provided", () => {
+    it("shows pre-populated excludeMerchant values as badges when provided", () => {
         render(
-            <FormWrapper defaultValues={{ merchant: ["Existing Merchant"] }}>
-                <MerchantIncludeFilter />
+            <FormWrapper defaultValues={{ excludeMerchant: ["Existing Merchant"] }}>
+                <MerchantExcludeFilter />
             </FormWrapper>,
         );
 
@@ -92,12 +94,12 @@ describe("MerchantIncludeFilter", () => {
     it("handles special characters in search input", async () => {
         render(
             <FormWrapper>
-                <MerchantIncludeFilter />
+                <MerchantExcludeFilter />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Händler suchen...");
+        const input = screen.getByPlaceholderText("Auszuschließende Händler suchen...");
 
         await user.type(input, "Special & Chars");
 
@@ -107,12 +109,12 @@ describe("MerchantIncludeFilter", () => {
     it("clears search input correctly", async () => {
         render(
             <FormWrapper>
-                <MerchantIncludeFilter />
+                <MerchantExcludeFilter />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Händler suchen...");
+        const input = screen.getByPlaceholderText("Auszuschließende Händler suchen...");
 
         await user.type(input, "Initial Value");
         await user.clear(input);
@@ -122,8 +124,8 @@ describe("MerchantIncludeFilter", () => {
 
     it("displays multiple selected merchants as badges", () => {
         render(
-            <FormWrapper defaultValues={{ merchant: ["Merchant One", "Merchant Two"] }}>
-                <MerchantIncludeFilter />
+            <FormWrapper defaultValues={{ excludeMerchant: ["Merchant One", "Merchant Two"] }}>
+                <MerchantExcludeFilter />
             </FormWrapper>,
         );
 

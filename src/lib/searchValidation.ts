@@ -12,6 +12,7 @@ import {
     type Restoration,
     parseRestoration,
 } from "@/data/internal/quality-indicators/Restoration.ts";
+import { type ShopType, parseShopType } from "@/data/internal/shop/ShopType.ts";
 
 export type RawSearchParams = {
     q: string;
@@ -22,7 +23,11 @@ export type RawSearchParams = {
     creationDateTo?: string;
     updateDateFrom?: string;
     updateDateTo?: string;
+    auctionDateFrom?: string;
+    auctionDateTo?: string;
     merchant?: string | string[];
+    excludeMerchant?: string | string[];
+    shopType?: ShopType[];
     sortField?: string;
     sortOrder?: string;
     originYearMin?: number;
@@ -54,6 +59,14 @@ function parseProductStates(states: unknown): ProductState[] | undefined {
 function parseMerchant(merchant: string | string[] | undefined): string[] | undefined {
     if (Array.isArray(merchant)) return merchant;
     if (typeof merchant === "string") return [merchant];
+    return undefined;
+}
+
+function parseExcludeMerchant(
+    excludeMerchant: string | string[] | undefined,
+): string[] | undefined {
+    if (Array.isArray(excludeMerchant)) return excludeMerchant;
+    if (typeof excludeMerchant === "string") return [excludeMerchant];
     return undefined;
 }
 
@@ -95,6 +108,13 @@ function parseRestorations(values: unknown): Restoration[] | undefined {
         .filter((elem, index, self) => index === self.indexOf(elem));
 }
 
+function parseShopTypes(values: unknown): ShopType[] | undefined {
+    if (!Array.isArray(values)) return undefined;
+    return values
+        .map((shopType) => parseShopType(shopType))
+        .filter((elem, index, self) => index === self.indexOf(elem));
+}
+
 export function validateSearchParams(search: RawSearchParams): SearchFilterArguments {
     return {
         q: (search.q as string) || "",
@@ -105,7 +125,11 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         creationDateTo: parseOptionalDate(search.creationDateTo),
         updateDateFrom: parseOptionalDate(search.updateDateFrom),
         updateDateTo: parseOptionalDate(search.updateDateTo),
+        auctionDateFrom: parseOptionalDate(search.auctionDateFrom),
+        auctionDateTo: parseOptionalDate(search.auctionDateTo),
         merchant: parseMerchant(search.merchant),
+        excludeMerchant: parseExcludeMerchant(search.excludeMerchant),
+        shopType: parseShopTypes(search.shopType),
         sortField: parseSortField(search.sortField),
         sortOrder: parseSortOrder(search.sortOrder),
         originYearMin: parseOptionalNumber(search.originYearMin),

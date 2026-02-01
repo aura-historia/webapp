@@ -7,11 +7,13 @@ import { Form } from "@/components/ui/form.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { MerchantFilter } from "@/components/search/filters/MerchantFilter.tsx";
+import { MerchantFilters } from "@/components/search/filters/MerchantFilters.tsx";
+import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useCallback, useEffect, useMemo } from "react";
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
+import { AuctionDateSpanFilter } from "@/components/search/filters/AuctionDateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
@@ -23,6 +25,7 @@ import { PROVENANCES } from "@/data/internal/quality-indicators/Provenance.ts";
 import { CONDITIONS } from "@/data/internal/quality-indicators/Condition.ts";
 import { AUTHENTICITIES } from "@/data/internal/quality-indicators/Authenticity.ts";
 import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
+import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 
 const createFilterSchema = (t: TFunction) =>
     z
@@ -42,7 +45,13 @@ const createFilterSchema = (t: TFunction) =>
                 from: z.date().optional(),
                 to: z.date().optional(),
             }),
+            auctionDate: z.object({
+                from: z.date().optional(),
+                to: z.date().optional(),
+            }),
             merchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
+            excludeMerchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
+            shopType: z.array(z.enum(SHOP_TYPES)),
             originYearSpan: z
                 .object({
                     min: z.number().optional().or(z.undefined()),
@@ -75,6 +84,17 @@ const createFilterSchema = (t: TFunction) =>
                     code: "custom",
                     message: t("search.validation.dateOrder"),
                     path: ["updateDate", "to"],
+                });
+            }
+            if (
+                data.auctionDate.from &&
+                data.auctionDate.to &&
+                data.auctionDate.from > data.auctionDate.to
+            ) {
+                ctx.addIssue({
+                    code: "custom",
+                    message: t("search.validation.dateOrder"),
+                    path: ["auctionDate", "to"],
                 });
             }
             if (
@@ -148,8 +168,24 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                 shouldDirty: false,
             });
         }
+        if (searchFilters.auctionDateFrom) {
+            form.setValue("auctionDate.from", new Date(searchFilters.auctionDateFrom), {
+                shouldDirty: false,
+            });
+        }
+        if (searchFilters.auctionDateTo) {
+            form.setValue("auctionDate.to", new Date(searchFilters.auctionDateTo), {
+                shouldDirty: false,
+            });
+        }
         if (searchFilters.merchant) {
             form.setValue("merchant", searchFilters.merchant, { shouldDirty: false });
+        }
+        if (searchFilters.excludeMerchant) {
+            form.setValue("excludeMerchant", searchFilters.excludeMerchant, { shouldDirty: false });
+        }
+        if (searchFilters.shopType) {
+            form.setValue("shopType", searchFilters.shopType, { shouldDirty: false });
         }
         if (searchFilters.allowedStates) {
             form.setValue("productState", searchFilters.allowedStates, { shouldDirty: false });
@@ -183,7 +219,11 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         searchFilters.creationDateTo,
         searchFilters.updateDateFrom,
         searchFilters.updateDateTo,
+        searchFilters.auctionDateFrom,
+        searchFilters.auctionDateTo,
         searchFilters.merchant,
+        searchFilters.excludeMerchant,
+        searchFilters.shopType,
         searchFilters.allowedStates,
         searchFilters.originYearMin,
         searchFilters.originYearMax,
@@ -204,7 +244,10 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                     productState: data.productState,
                     creationDate: data.creationDate,
                     updateDate: data.updateDate,
+                    auctionDate: data.auctionDate,
                     merchant: data.merchant,
+                    excludeMerchant: data.excludeMerchant,
+                    shopType: data.shopType,
                     originYearSpan: data.originYearSpan,
                     authenticity: data.authenticity,
                     condition: data.condition,
@@ -237,7 +280,9 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                     <QualityIndicatorsFilter />
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />
-                    <MerchantFilter />
+                    <AuctionDateSpanFilter />
+                    <MerchantFilters />
+                    <ShopTypeFilter />
                 </div>
                 <div className="flex flex-col gap-2">
                     <Button className="w-full shadow-sm" type="submit">
