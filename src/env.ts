@@ -16,8 +16,8 @@ export const env = createEnv({
         VITE_APP_TITLE: z.string().min(1).optional(),
         VITE_API_URL: z.url().optional(),
 
-        VITE_USER_POOL_ID: z.string().min(1),
-        VITE_CLIENT_ID: z.string().min(1),
+        VITE_USER_POOL_ID: z.string().min(1).optional().default(""),
+        VITE_CLIENT_ID: z.string().min(1).optional().default(""),
 
         // Feature flags - default to enabled if not set
         VITE_FEATURE_LOGIN_ENABLED: z
