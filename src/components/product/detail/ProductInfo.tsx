@@ -23,11 +23,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
         <>
             <Card className="flex flex-col md:flex-row p-8 gap-4 shadow-md min-w-0">
                 <div className="shrink-0 flex sm:justify-start justify-center">
-                    <ProductImageGallery
-                        images={product.images}
-                        title={product.title}
-                        productId={product.productId}
-                    />
+                    <ProductImageGallery images={product.images} productId={product.productId} />
                 </div>
                 <div className="flex flex-col min-w-0 flex-1">
                     <div className="flex flex-row justify-between w-full">
@@ -63,7 +59,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                             />
                         </div>
                     </div>
-                    <p className="mask-linear-[to_bottom,transparent_0%,black_10%,black_90%,transparent_100%] py-2 text-base text-muted-foreground overflow-y-auto max-h-[250px] md:max-h-[130px] lg:max-h-[200px] w-full pr-3">
+                    <p className="mask-linear-[to_bottom,transparent_0%,black_10%,black_90%,transparent_100%] py-2 text-base text-muted-foreground overflow-y-auto max-h-62.5 md:max-h-32.5 lg:max-h-50 w-full pr-3">
                         {product.description ?? t("product.noDescription")}
                     </p>
 
