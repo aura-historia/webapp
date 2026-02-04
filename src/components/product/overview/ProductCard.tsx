@@ -13,8 +13,9 @@ import { ProductQualityBadges } from "@/components/product/badges/ProductQuality
 import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
 import { ProductCardImageCarousel } from "@/components/product/overview/ProductCardImageCarousel.tsx";
+import { memo } from "react";
 
-export function ProductCard({ product }: { readonly product: OverviewProduct }) {
+function ProductCardComponent({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
 
     return (
@@ -106,3 +107,5 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
         </Card>
     );
 }
+
+export const ProductCard = memo(ProductCardComponent);

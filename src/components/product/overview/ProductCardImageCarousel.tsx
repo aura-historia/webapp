@@ -98,6 +98,8 @@ export function ProductCardImageCarousel({
                     className="w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
                     src={images[0].url.href}
                     alt=""
+                    loading="eager"
+                    decoding="async"
                 />
             </Link>
         );
@@ -127,6 +129,7 @@ export function ProductCardImageCarousel({
                                     src={image.url.href}
                                     alt=""
                                     loading={index === 0 ? "eager" : "lazy"}
+                                    decoding="async"
                                 />
                             </Link>
                         </CarouselItem>

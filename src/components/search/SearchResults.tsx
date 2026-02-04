@@ -116,10 +116,9 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
     return (
         <div ref={listRef}>
             <div
+                className="w-full relative"
                 style={{
                     height: `${virtualizer.getTotalSize()}px`,
-                    width: "100%",
-                    position: "relative",
                 }}
             >
                 {virtualItems.map((virtualItem) => {
@@ -131,14 +130,10 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
                             key={virtualItem.key}
                             data-index={virtualItem.index}
                             ref={virtualizer.measureElement}
+                            className="absolute top-0 left-0 w-full pb-4"
                             style={{
-                                position: "absolute",
-                                top: 0,
-                                left: 0,
-                                width: "100%",
                                 transform: `translateY(${virtualItem.start - scrollMargin}px)`,
                             }}
-                            className="pb-4"
                         >
                             {isLoaderRow ? (
                                 <ListLoaderRow
