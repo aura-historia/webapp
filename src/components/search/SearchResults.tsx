@@ -1,43 +1,84 @@
 import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
-import { Card, CardContent } from "@/components/ui/card.tsx";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { SearchX } from "lucide-react";
 import type { SearchResultData } from "@/data/internal/search/SearchResultData.ts";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useSearch } from "@/hooks/search/useSearch.ts";
-import Lottie from "lottie-react";
-import tick from "@/assets/lottie/tick.json";
-import { Spinner } from "@/components/ui/spinner.tsx";
 import { useTranslation } from "react-i18next";
 import { H3 } from "@/components/typography/H3.tsx";
+import { useWindowVirtualizer } from "@tanstack/react-virtual";
+import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
 
 type SearchResultsProps = {
     readonly searchFilters: SearchFilterArguments;
     readonly onTotalChange?: (total: number) => void;
 };
 
+const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as const;
+const ESTIMATED_PRODUCT_CARD_HEIGHT = 280;
+const ESTIMATED_LOADER_ROW_HEIGHT = 100;
+const VIRTUALIZER_OVERSCAN = 5;
+
 export function SearchResults({ searchFilters, onTotalChange }: SearchResultsProps) {
-    const { ref, inView } = useInView();
+    const listRef = useRef<HTMLDivElement>(null);
+    const [scrollMargin, setScrollMargin] = useState(0);
     const { t } = useTranslation();
-    const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useSearch(searchFilters);
+    const { data, isPending, error, fetchNextPage, isFetchingNextPage } = useSearch(searchFilters);
 
-    useEffect(() => {
-        if (data?.pages[0]?.total !== undefined && onTotalChange) {
-            onTotalChange(data.pages[0].total);
+    const allProducts = data?.pages.flatMap((page: SearchResultData) => page.products) ?? [];
+
+    const totalProducts = data?.pages[0]?.total ?? 0;
+    const allLoaded = allProducts.length >= totalProducts && totalProducts > 0;
+    const showLoaderRow = isFetchingNextPage || allLoaded;
+    const itemCount = allProducts.length > 0 ? allProducts.length + (showLoaderRow ? 1 : 0) : 0;
+
+    const virtualizer = useWindowVirtualizer({
+        count: itemCount,
+        estimateSize: (index) =>
+            index >= allProducts.length
+                ? ESTIMATED_LOADER_ROW_HEIGHT
+                : ESTIMATED_PRODUCT_CARD_HEIGHT,
+        overscan: VIRTUALIZER_OVERSCAN,
+        scrollMargin,
+    });
+
+    const virtualItems = virtualizer.getVirtualItems();
+
+    useLayoutEffect(() => {
+        if (listRef.current) {
+            setScrollMargin(listRef.current.offsetTop);
         }
-    }, [data?.pages[0]?.total, onTotalChange]);
+    }, []);
 
     useEffect(() => {
-        if (inView && hasNextPage && !isFetchingNextPage && searchFilters.q.length >= 3) {
+        if (totalProducts > 0 && onTotalChange) {
+            onTotalChange(totalProducts);
+        }
+    }, [totalProducts, onTotalChange]);
+
+    useEffect(() => {
+        const lastItem = virtualItems[virtualItems.length - 1];
+        if (!lastItem) return;
+
+        const shouldFetch =
+            lastItem.index >= allProducts.length - 1 &&
+            !allLoaded &&
+            !isFetchingNextPage &&
+            searchFilters.q.length >= 3;
+
+        if (shouldFetch) {
             fetchNextPage();
         }
-    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, searchFilters.q.length]);
+    }, [
+        virtualItems,
+        allLoaded,
+        isFetchingNextPage,
+        fetchNextPage,
+        allProducts.length,
+        searchFilters.q.length,
+    ]);
 
     if (searchFilters.q.length < 3) {
         return <SectionInfoText>{t("search.messages.minQueryLength")}</SectionInfoText>;
@@ -46,8 +87,8 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
     if (isPending) {
         return (
             <div className="flex flex-col gap-4">
-                {Array.from({ length: 4 }, () => (
-                    <ProductCardSkeleton key={uuidv4()} />
+                {SKELETON_IDS.map((id) => (
+                    <ProductCardSkeleton key={id} />
                 ))}
             </div>
         );
@@ -55,12 +96,8 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
 
     if (error) {
         console.error(error);
-
         return <SectionInfoText>{t("search.messages.error")}</SectionInfoText>;
     }
-
-    const allProducts: OverviewProduct[] =
-        data?.pages.flatMap((page: SearchResultData) => page.products) ?? [];
 
     if (allProducts.length === 0) {
         return (
@@ -77,31 +114,44 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
     }
 
     return (
-        <div className="flex flex-col gap-4">
-            {allProducts.map((product: OverviewProduct) => (
-                <ProductCard key={product.productId} product={product} />
-            ))}
-            <Card className={"p-4 flex justify-center items-center shadow-md"} ref={ref}>
-                <CardContent className="flex justify-center items-center w-full px-2">
-                    {isFetchingNextPage ? (
-                        <div className={"flex flex-row items-center gap-2"}>
-                            <Spinner />
-                            <SectionInfoText>{t("search.messages.loadingMore")}</SectionInfoText>
+        <div ref={listRef}>
+            <div
+                style={{
+                    height: `${virtualizer.getTotalSize()}px`,
+                    width: "100%",
+                    position: "relative",
+                }}
+            >
+                {virtualItems.map((virtualItem) => {
+                    const isLoaderRow = virtualItem.index >= allProducts.length;
+                    const product = allProducts[virtualItem.index];
+
+                    return (
+                        <div
+                            key={virtualItem.key}
+                            data-index={virtualItem.index}
+                            ref={virtualizer.measureElement}
+                            style={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                transform: `translateY(${virtualItem.start - scrollMargin}px)`,
+                            }}
+                            className="pb-4"
+                        >
+                            {isLoaderRow ? (
+                                <ListLoaderRow
+                                    isFetchingNextPage={isFetchingNextPage}
+                                    totalCount={totalProducts}
+                                />
+                            ) : (
+                                <ProductCard product={product} />
+                            )}
                         </div>
-                    ) : hasNextPage ? (
-                        ""
-                    ) : (
-                        <div className={"flex flex-row items-center gap-2"}>
-                            <div className={"h-12 w-12 shrink-0"}>
-                                <Lottie className={"h-12 w-12"} animationData={tick} loop={false} />
-                            </div>
-                            <SectionInfoText>
-                                {t("search.messages.allLoaded", { count: data?.pages[0]?.total })}
-                            </SectionInfoText>
-                        </div>
-                    )}
-                </CardContent>
-            </Card>
+                    );
+                })}
+            </div>
         </div>
     );
 }
