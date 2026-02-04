@@ -31,11 +31,10 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
 
     const totalProducts = data?.pages[0]?.total ?? 0;
     const allLoaded = allProducts.length >= totalProducts && totalProducts > 0;
-    const showLoaderRow = isFetchingNextPage || allLoaded;
-    const itemCount = allProducts.length > 0 ? allProducts.length + (showLoaderRow ? 1 : 0) : 0;
 
     const virtualizer = useWindowVirtualizer({
-        count: itemCount,
+        // +1 to account for the loader row
+        count: allProducts.length + 1,
         estimateSize: (index) =>
             index >= allProducts.length
                 ? ESTIMATED_LOADER_ROW_HEIGHT
