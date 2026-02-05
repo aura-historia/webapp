@@ -26,8 +26,10 @@ beforeAll(() => {
 describe("ProductInfo", () => {
     const mockProduct: ProductDetail = {
         productId: "1",
+        productSlugId: "test-product-title",
         eventId: "",
         shopId: "",
+        shopSlugId: "test-shop",
         shopsProductId: "",
         shopName: "Test Shop",
         shopType: "AUCTION_HOUSE",

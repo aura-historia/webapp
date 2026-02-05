@@ -53,8 +53,10 @@ describe("ProductSimilar", () => {
     const mockProducts: OverviewProduct[] = [
         {
             productId: "1",
+            productSlugId: "similar-product-1",
             eventId: "",
             shopId: "shop1",
+            shopSlugId: "shop-1",
             shopsProductId: "item1",
             shopName: "Shop 1",
             shopType: "AUCTION_HOUSE",
@@ -78,8 +80,10 @@ describe("ProductSimilar", () => {
         },
         {
             productId: "2",
+            productSlugId: "similar-product-2",
             eventId: "",
             shopId: "shop2",
+            shopSlugId: "shop-2",
             shopsProductId: "item2",
             shopName: "Shop 2",
             shopType: "AUCTION_HOUSE",
@@ -103,8 +107,10 @@ describe("ProductSimilar", () => {
         },
         {
             productId: "3",
+            productSlugId: "similar-product-3",
             eventId: "",
             shopId: "shop3",
+            shopSlugId: "shop-3",
             shopsProductId: "item3",
             shopName: "Shop 3",
             shopType: "AUCTION_HOUSE",
@@ -146,8 +152,8 @@ describe("ProductSimilar", () => {
         render(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText("Ähnliche Artikel")).toBeInTheDocument();
-        const spinner = document.querySelector(".animate-spin");
-        expect(spinner).toBeInTheDocument();
+        const skeleton = document.querySelector(".animate-pulse");
+        expect(skeleton).toBeInTheDocument();
     });
 
     it("should render error state correctly", () => {

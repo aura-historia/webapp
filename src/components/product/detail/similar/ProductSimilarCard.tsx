@@ -15,12 +15,12 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
 
     return (
         <Card className={"flex flex-col h-full p-0 shadow-md overflow-hidden min-w-0"}>
-            <div className={"flex-shrink-0 flex justify-center"}>
+            <div className={"shrink-0 flex justify-center"}>
                 <Link
-                    to="/product/$shopId/$shopsProductId"
+                    to="/shops/$shopSlugId/products/$productSlugId"
                     params={{
-                        shopId: product.shopId,
-                        shopsProductId: product.shopsProductId,
+                        shopSlugId: product.shopSlugId,
+                        productSlugId: product.productSlugId,
                     }}
                     className={"block w-full"}
                 >
@@ -47,22 +47,22 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
             <div className={"flex flex-col min-w-0 flex-1 justify-between p-4"}>
                 <div className={"flex flex-col gap-2 min-w-0 overflow-hidden"}>
                     <Link
-                        to="/product/$shopId/$shopsProductId"
+                        to="/shops/$shopSlugId/products/$productSlugId"
                         params={{
-                            shopId: product.shopId,
-                            shopsProductId: product.shopsProductId,
+                            shopSlugId: product.shopSlugId,
+                            productSlugId: product.productSlugId,
                         }}
                         className="min-w-0 overflow-hidden"
                     >
                         <H2
                             className={
-                                "overflow-ellipsis line-clamp-2 hover:underline !text-base !font-semibold"
+                                "overflow-ellipsis line-clamp-2 hover:underline text-base! font-semibold!"
                             }
                         >
                             {product.title}
                         </H2>
                     </Link>
-                    <H3 variant={"muted"} className={"line-clamp-1 overflow-ellipsis !text-sm"}>
+                    <H3 variant={"muted"} className={"line-clamp-1 overflow-ellipsis text-sm!"}>
                         {product.shopName}
                     </H3>
                 </div>
@@ -72,9 +72,9 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                         "flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-end w-full mt-4"
                     }
                 >
-                    <div className={"flex flex-col gap-2 flex-shrink-0"}>
+                    <div className={"flex flex-col gap-2 shrink-0"}>
                         <StatusBadge status={product.state} />
-                        <PriceText className="min-w-0 overflow-hidden text-ellipsis !text-xl sm:!text-2xl !font-bold">
+                        <PriceText className="min-w-0 overflow-hidden text-ellipsis text-xl! sm:text-2xl! font-bold!">
                             {product.price ?? t("product.unknownPrice")}
                         </PriceText>
                     </div>
@@ -83,13 +83,13 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                         variant={"secondary"}
                         size={"sm"}
                         asChild
-                        className="w-full sm:w-auto sm:flex-shrink-0"
+                        className="w-full sm:w-auto sm:shrink-0"
                     >
                         <Link
-                            to="/product/$shopId/$shopsProductId"
+                            to="/shops/$shopSlugId/products/$productSlugId"
                             params={{
-                                shopId: product.shopId,
-                                shopsProductId: product.shopsProductId,
+                                shopSlugId: product.shopSlugId,
+                                productSlugId: product.productSlugId,
                             }}
                         >
                             <Eye />

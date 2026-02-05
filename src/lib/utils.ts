@@ -14,6 +14,7 @@ import type { Authenticity } from "@/data/internal/quality-indicators/Authentici
 import type { Condition } from "@/data/internal/quality-indicators/Condition.ts";
 import type { Provenance } from "@/data/internal/quality-indicators/Provenance.ts";
 import type { Restoration } from "@/data/internal/quality-indicators/Restoration.ts";
+import type { ShopType } from "@/data/internal/shop/ShopType.ts";
 import type { CheckedState } from "@radix-ui/react-checkbox";
 
 export function cn(...inputs: ClassValue[]) {
@@ -67,7 +68,13 @@ export type SearchFilterData = {
         from?: Date;
         to?: Date;
     };
+    auctionDate?: {
+        from?: Date;
+        to?: Date;
+    };
     merchant?: string[];
+    excludeMerchant?: string[];
+    shopType?: ShopType[];
     originYearSpan?: {
         min?: number;
         max?: number;
@@ -87,7 +94,11 @@ export type SearchUrlParams = {
     creationDateTo?: string;
     updateDateFrom?: string;
     updateDateTo?: string;
+    auctionDateFrom?: string;
+    auctionDateTo?: string;
     merchant?: string[];
+    excludeMerchant?: string[];
+    shopType?: ShopType[];
     originYearMin?: number;
     originYearMax?: number;
     authenticity?: Authenticity[];
@@ -109,6 +120,7 @@ function mapDateRangeToParams(range?: { from?: Date; to?: Date }) {
 export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
     const creationDate = mapDateRangeToParams(data.creationDate);
     const updateDate = mapDateRangeToParams(data.updateDate);
+    const auctionDate = mapDateRangeToParams(data.auctionDate);
 
     return {
         q: data.query,
@@ -119,7 +131,11 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
         creationDateTo: creationDate.to,
         updateDateFrom: updateDate.from,
         updateDateTo: updateDate.to,
+        auctionDateFrom: auctionDate.from,
+        auctionDateTo: auctionDate.to,
         merchant: data.merchant?.length ? data.merchant : undefined,
+        excludeMerchant: data.excludeMerchant?.length ? data.excludeMerchant : undefined,
+        shopType: data.shopType?.length ? data.shopType : undefined,
         originYearMin: data.originYearSpan?.min,
         originYearMax: data.originYearSpan?.max,
         authenticity: data.authenticity?.length ? data.authenticity : undefined,

@@ -13,8 +13,9 @@ import { ProductQualityBadges } from "@/components/product/badges/ProductQuality
 import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
 import { ProductCardImageCarousel } from "@/components/product/overview/ProductCardImageCarousel.tsx";
+import { memo } from "react";
 
-export function ProductCard({ product }: { readonly product: OverviewProduct }) {
+function ProductCardComponent({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
 
     return (
@@ -22,18 +23,18 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
             <div className={"shrink-0 flex lg:justify-start justify-center"}>
                 <ProductCardImageCarousel
                     images={product.images}
-                    shopId={product.shopId}
-                    shopsProductId={product.shopsProductId}
+                    shopSlugId={product.shopSlugId}
+                    productSlugId={product.productSlugId}
                 />
             </div>
             <div className={"flex flex-col min-w-0 flex-1 justify-between"}>
                 <div className={"flex flex-row justify-between w-full"}>
                     <div className={"flex flex-col gap-2 min-w-0 overflow-hidden"}>
                         <Link
-                            to="/product/$shopId/$shopsProductId"
+                            to="/shops/$shopSlugId/products/$productSlugId"
                             params={{
-                                shopId: product.shopId,
-                                shopsProductId: product.shopsProductId,
+                                shopSlugId: product.shopSlugId,
+                                productSlugId: product.productSlugId,
                             }}
                             className="min-w-0 overflow-hidden"
                         >
@@ -84,10 +85,10 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
                     <div className={"flex flex-col gap-2 lg:items-end shrink-0 lg:ml-2"}>
                         <Button variant={"default"} asChild>
                             <Link
-                                to="/product/$shopId/$shopsProductId"
+                                to="/shops/$shopSlugId/products/$productSlugId"
                                 params={{
-                                    shopId: product.shopId,
-                                    shopsProductId: product.shopsProductId,
+                                    shopSlugId: product.shopSlugId,
+                                    productSlugId: product.productSlugId,
                                 }}
                             >
                                 <Eye />
@@ -106,3 +107,5 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
         </Card>
     );
 }
+
+export const ProductCard = memo(ProductCardComponent);

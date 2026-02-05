@@ -157,7 +157,11 @@
         "creationDate": "Réinitialiser le filtre de date de création",
         "updateDate": "Réinitialiser le filtre de date de mise à jour",
         "merchant": "Réinitialiser le filtre de marchand",
-        "qualityIndicators": "Réinitialiser le filtre des indicateurs de qualité"
+        "qualityIndicators": "Réinitialiser le filtre des indicateurs de qualité",
+        "auctionDate": "Réinitialiser le filtre de date de vente aux enchères",
+        "excludeMerchant": "Réinitialiser le filtre d'exclusion de marchand",
+        "merchants": "Réinitialiser les filtres de marchands",
+        "shopType": "Réinitialiser le filtre de type de boutique"
       },
       "all": "Tous",
       "select": "Sélectionner",
@@ -167,7 +171,13 @@
       "condition": "État",
       "provenance": "Provenance",
       "restoration": "Restauration",
-      "selected": "{{count}} sélectionné(s)"
+      "selected": "{{count}} sélectionné(s)",
+      "merchants": "Marchands",
+      "excludeMerchant": "Exclure le marchand",
+      "searchExcludeMerchants": "Rechercher des marchands à exclure...",
+      "shopType": "Type de boutique",
+      "auctionDate": "Date de vente aux enchères",
+      "auctionDateDisabledTooltip": "Disponible uniquement pour les maisons de vente aux enchères"
     },
     "messages": {
       "minQueryLength": "Veuillez saisir au moins 3 caractères pour lancer la recherche.",
@@ -340,7 +350,8 @@
     "auctionHouse": "Maison de vente aux enchères",
     "commercialDealer": "Marchand",
     "marketplace": "Place de marché",
-    "unknown": "Inconnu"
+    "unknown": "Inconnu",
+    "auctionPlatform": "Plateforme d'enchères"
   },
   "discover": {
     "title": "Nous apportons de la transparence dans le paysage opaque des antiquités en ligne",

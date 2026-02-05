@@ -157,7 +157,11 @@
         "creationDate": "Restablecer filtro de fecha de creación",
         "updateDate": "Restablecer filtro de fecha de actualización",
         "merchant": "Restablecer filtro de vendedor",
-        "qualityIndicators": "Restablecer filtro de indicadores de calidad"
+        "qualityIndicators": "Restablecer filtro de indicadores de calidad",
+        "auctionDate": "Restablecer filtro de fecha de subasta",
+        "excludeMerchant": "Restablecer filtro de exclusión de comerciante",
+        "merchants": "Restablecer filtros de comerciantes",
+        "shopType": "Restablecer filtro de tipo de tienda"
       },
       "all": "Todo",
       "select": "Seleccionar",
@@ -167,7 +171,13 @@
       "condition": "Condición",
       "provenance": "Proveniencia",
       "restoration": "Restauración",
-      "selected": "{{count}} seleccionados"
+      "selected": "{{count}} seleccionados",
+      "merchants": "Comerciantes",
+      "excludeMerchant": "Excluir comerciante",
+      "searchExcludeMerchants": "Buscar comerciantes para excluir...",
+      "shopType": "Tipo de tienda",
+      "auctionDate": "Fecha de subasta",
+      "auctionDateDisabledTooltip": "Solo disponible para casas de subastas"
     },
     "messages": {
       "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
@@ -340,7 +350,8 @@
     "auctionHouse": "Casa de subastas",
     "commercialDealer": "Vendedor",
     "marketplace": "Mercado",
-    "unknown": "Desconocido"
+    "unknown": "Desconocido",
+    "auctionPlatform": "Plataforma de subastas"
   },
   "discover": {
     "title": "Traemos transparencia al opaco panorama de las antigüedades en línea",
