@@ -1,7 +1,7 @@
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ProductSimilar } from "../similar/ProductSimilar.tsx";
+import { ProductSimilar } from "../ProductSimilar.tsx";
 import { vi } from "vitest";
 import type React from "react";
 
@@ -152,8 +152,8 @@ describe("ProductSimilar", () => {
         render(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText("Ähnliche Artikel")).toBeInTheDocument();
-        const spinner = document.querySelector(".animate-spin");
-        expect(spinner).toBeInTheDocument();
+        const skeleton = document.querySelector(".animate-pulse");
+        expect(skeleton).toBeInTheDocument();
     });
 
     it("should render error state correctly", () => {

@@ -1,6 +1,6 @@
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { render, screen } from "@testing-library/react";
-import { ProductSimilarCard } from "../similar/ProductSimilarCard.tsx";
+import { ProductSimilarCard } from "../ProductSimilarCard.tsx";
 import { vi } from "vitest";
 import type React from "react";
 
