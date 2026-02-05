@@ -152,8 +152,8 @@ describe("ProductSimilar", () => {
         render(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText("Ähnliche Artikel")).toBeInTheDocument();
-        const spinner = document.querySelector(".animate-spin");
-        expect(spinner).toBeInTheDocument();
+        const skeleton = document.querySelector(".animate-pulse");
+        expect(skeleton).toBeInTheDocument();
     });
 
     it("should render error state correctly", () => {

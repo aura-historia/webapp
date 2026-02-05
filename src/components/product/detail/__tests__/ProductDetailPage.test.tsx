@@ -18,7 +18,7 @@ vi.mock("@/components/product/detail/ProductHistory.tsx", () => ({
     ProductHistory: () => <div data-testid="product-history">ProductHistory</div>,
 }));
 
-vi.mock("@/components/product/ProductSimilar", () => ({
+vi.mock("@/components/product/detail/similar/ProductSimilar.tsx", () => ({
     ProductSimilar: () => <div data-testid="product-similar">ProductSimilar</div>,
 }));
 
