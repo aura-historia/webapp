@@ -24,6 +24,8 @@ import {
 import { cn } from "@/lib/utils.ts";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
 import { env } from "@/env.ts";
+import logo from "@/assets/logo/aura-historia.svg";
+import logoCompact from "@/assets/logo/aura-historia-compact.svg";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
@@ -81,7 +83,9 @@ export function Header() {
                     to="/"
                     className="text-md lg:text-xl line-clamp-2 lg:line-clamp-1 xl:text-2xl font-bold text-center lg:text-left"
                 >
-                    {t("common.auraHistoria")}
+                    <img src={logo} alt="" className={"w-48 md:w-64 sm:inline hidden"} />
+                    <img src={logoCompact} alt="" className={"h-12 sm:h-16 sm:hidden"} />
+                    {/*{t("common.auraHistoria")}*/}
                 </Link>
                 {/* Additional Navigation Items can be placed here */}
             </div>
