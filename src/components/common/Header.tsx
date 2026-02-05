@@ -77,7 +77,7 @@ export function Header() {
     };
 
     return (
-        <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 bg-background/50 backdrop-blur-sm items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
+        <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 bg-background items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
             <div className="flex items-center justify-start gap-4">
                 <Link to="/">
                     <img
