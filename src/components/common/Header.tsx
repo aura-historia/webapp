@@ -90,7 +90,6 @@ export function Header() {
                         alt=""
                         className={"h-12 sm:h-16 md:hidden translate-y-1"}
                     />
-                    {/*{t("common.auraHistoria")}*/}
                 </Link>
                 {/* Additional Navigation Items can be placed here */}
             </div>
