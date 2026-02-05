@@ -86,7 +86,8 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
 
     return (
         <Card className="flex flex-col py-8 md:p-8 gap-4 shadow-md min-w-0">
-            <div className="relative md:px-12">
+            <H2 className="px-8 md:px-0">{t("product.similar.title")}</H2>
+            <div className="relative">
                 <Carousel
                     opts={{
                         align: "center",
@@ -95,8 +96,6 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
                     className="w-full"
                 >
                     <div className="flex justify-between items-center mb-4 px-8 md:px-0">
-                        <H2>{t("product.similar.title")}</H2>
-
                         <div className="flex gap-2 md:hidden">
                             <CarouselPrevious className="static translate-y-0" />
                             <CarouselNext className="static translate-y-0" />
