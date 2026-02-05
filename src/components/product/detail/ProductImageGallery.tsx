@@ -14,6 +14,7 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 
 interface ThumbnailButtonProps {
     readonly image: ProductImage;
@@ -43,11 +44,12 @@ const ThumbnailButton = memo(function ThumbnailButton({
                         : "border-transparent opacity-60 hover:opacity-100"
                 }`}
             >
-                <img
+                <ImageWithFallback
                     src={image.url.href}
                     alt={`Thumbnail ${index + 1}`}
                     loading="lazy"
                     decoding="async"
+                    showErrorMessage={false}
                     className="w-full h-full object-cover will-change-transform"
                 />
             </button>
@@ -57,11 +59,10 @@ const ThumbnailButton = memo(function ThumbnailButton({
 
 interface ProductImageGalleryProps {
     readonly images: readonly ProductImage[];
-    readonly title: string;
     readonly productId: string;
 }
 
-export function ProductImageGallery({ images, title, productId }: ProductImageGalleryProps) {
+export function ProductImageGallery({ images, productId }: ProductImageGalleryProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const slides = useMemo(() => images.map((img) => ({ src: img.url.href })), [images]);
@@ -132,7 +133,7 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
     if (images.length === 0) {
         return (
             <div className="w-full md:w-80 lg:w-96">
-                <div className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
+                <div className="w-full aspect-square md:aspect-auto min-h-50 max-h-87.5 md:h-64 lg:h-80 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
                     <ImageOff className="w-12 h-12 text-muted-foreground" />
                     <p className="text-sm text-muted-foreground">Kein Bild verfügbar</p>
                 </div>
@@ -159,12 +160,13 @@ export function ProductImageGallery({ images, title, productId }: ProductImageGa
                                     onClick={() => setIsLightboxOpen(true)}
                                     className="w-full block"
                                 >
-                                    <img
+                                    <ImageWithFallback
                                         src={img.url.href}
-                                        alt={`Produktbild von ${title}`}
                                         loading={idx === 0 ? "eager" : "lazy"}
                                         decoding="async"
-                                        className="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 object-cover rounded-lg will-change-transform hover:opacity-95 transition-opacity duration-150"
+                                        alt={""}
+                                        className="w-full aspect-square md:aspect-auto min-h-50 max-h-87.5 md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
+                                        fallbackClassName="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 rounded-lg"
                                     />
                                 </button>
                             </CarouselItem>

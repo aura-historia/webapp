@@ -10,6 +10,7 @@ import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
 import { ImageOff, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
+import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 
 interface ProductCardImageCarouselProps {
     readonly images: readonly ProductImage[];
@@ -94,10 +95,11 @@ export function ProductCardImageCarousel({
                     productSlugId,
                 }}
             >
-                <img
+                <ImageWithFallback
                     className="w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
                     src={images[0].url.href}
                     alt=""
+                    fallbackClassName="size-48 rounded-lg"
                     loading="eager"
                     decoding="async"
                 />
@@ -124,11 +126,12 @@ export function ProductCardImageCarousel({
                                     productSlugId,
                                 }}
                             >
-                                <img
+                                <ImageWithFallback
                                     className="w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
                                     src={image.url.href}
                                     alt=""
                                     loading={index === 0 ? "eager" : "lazy"}
+                                    fallbackClassName="size-48 rounded-lg"
                                     decoding="async"
                                 />
                             </Link>
