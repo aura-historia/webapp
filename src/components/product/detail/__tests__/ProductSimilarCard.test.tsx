@@ -17,8 +17,10 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
 describe("ProductSimilarCard", () => {
     const mockProduct: OverviewProduct = {
         productId: "1",
+        productSlugId: "test-product-title",
         eventId: "",
         shopId: "shop-123",
+        shopSlugId: "test-shop",
         shopsProductId: "item-456",
         shopName: "Test Shop",
         shopType: "AUCTION_HOUSE",

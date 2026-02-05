@@ -106,7 +106,9 @@ describe("SearchResults", () => {
         const base: Omit<OverviewProduct, "productId" | "title"> = {
             eventId: "e1",
             shopId: "s1",
+            shopSlugId: "shop-1",
             shopsProductId: "si1",
+            productSlugId: "product-1",
             shopName: "Shop 1",
             shopType: "AUCTION_HOUSE",
             description: undefined,
