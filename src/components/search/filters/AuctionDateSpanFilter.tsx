@@ -8,30 +8,43 @@ import { Button } from "@/components/ui/button.tsx";
 import { FilterX } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
+import { useMemo } from "react";
 
-export function CreationDateSpanFilter() {
-    const { control } = useFormContext<FilterSchema>();
-    const { errors } = useFormState({ control, name: ["creationDate.to"] });
+export function AuctionDateSpanFilter() {
+    const { control, watch } = useFormContext<FilterSchema>();
+    const { errors } = useFormState({ control, name: ["auctionDate.from", "auctionDate.to"] });
     const { t } = useTranslation();
     const resetAndNavigate = useFilterNavigation();
+
+    const selectedShopTypes = watch("shopType");
+
+    const isDisabled = useMemo(() => {
+        return selectedShopTypes?.length > 0 && !selectedShopTypes.includes("AUCTION_HOUSE");
+    }, [selectedShopTypes]);
+
     return (
-        <Card>
+        <Card className={isDisabled ? "opacity-50" : undefined}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
-                <H2>{t("search.filter.creationDate")}</H2>
+                <H2>{t("search.filter.auctionDate")}</H2>
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <Button
                             type="button"
                             variant="ghost"
                             size="sm"
-                            onClick={() => resetAndNavigate("creationDate")}
+                            onClick={() => resetAndNavigate("auctionDate")}
                             className="h-8 w-8 p-0"
+                            disabled={isDisabled}
                         >
                             <FilterX className="h-5 w-5" />
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                        <p>{t("search.filter.resetTooltip.creationDate")}</p>
+                        <p>
+                            {!isDisabled
+                                ? t("search.filter.resetTooltip.auctionDate")
+                                : t("search.filter.auctionDateDisabledTooltip")}
+                        </p>
                     </TooltipContent>
                 </Tooltip>
             </CardHeader>
@@ -39,15 +52,17 @@ export function CreationDateSpanFilter() {
                 <div className={"flex flex-col w-full gap-2"}>
                     <div className={"flex flex-row gap-2 items-center justify-between"}>
                         <span>{t("search.filter.from")}</span>
-                        <DatePicker fieldName="creationDate.from" />
+                        <DatePicker fieldName="auctionDate.from" disabled={isDisabled} />
                     </div>
                     <div className={"flex flex-row gap-2 items-center justify-between"}>
                         <span>{t("search.filter.to")}</span>
-                        <DatePicker fieldName="creationDate.to" />
+                        <DatePicker fieldName="auctionDate.to" disabled={isDisabled} />
                     </div>
-                    {errors?.creationDate?.to && (
+                    {(errors?.auctionDate?.from || errors?.auctionDate?.to) && (
                         <p className="text-destructive text-sm mt-1">
-                            {errors.creationDate.to.message ?? ""}
+                            {errors.auctionDate.from?.message ??
+                                errors.auctionDate.to?.message ??
+                                ""}
                         </p>
                     )}
                 </div>
