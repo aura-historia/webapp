@@ -10,7 +10,7 @@ type ProhibitedContentType = "UNKNOWN" | "NONE" | "NAZI_GERMANY";
 export function mapToInternalProductImage(apiData: ProductImageData): ProductImage | undefined {
     if (!URL.canParse(apiData.url)) return undefined;
 
-    const url = URL.parse(apiData.url + "asdf");
+    const url = URL.parse(apiData.url);
     if (!url) return undefined;
 
     return {
