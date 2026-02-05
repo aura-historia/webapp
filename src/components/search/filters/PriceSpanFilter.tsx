@@ -22,6 +22,7 @@ export function PriceSpanFilter() {
     const sliderMin = typeof watchedMin === "number" ? watchedMin : PRICE_MIN;
     const sliderMax = typeof watchedMax === "number" ? watchedMax : PRICE_MAX;
 
+    // Prevent unnecessary form writes when slider values haven't logically changed
     const lastSlider = useRef<[number, number]>([sliderMin, sliderMax]);
 
     useEffect(() => {

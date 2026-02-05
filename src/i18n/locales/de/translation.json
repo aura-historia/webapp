@@ -346,6 +346,7 @@
   },
   "shopType": {
     "auctionHouse": "Auktionshaus",
+    "auctionPlatform": "Auktionsplattform",
     "commercialDealer": "Händler",
     "marketplace": "Marktplatz",
     "unknown": "Unbekannt"

@@ -12,19 +12,18 @@ import { useMemo } from "react";
 
 export function AuctionDateSpanFilter() {
     const { control, watch } = useFormContext<FilterSchema>();
-    const { errors } = useFormState({ control, name: ["auctionDate.to"] });
+    const { errors } = useFormState({ control, name: ["auctionDate.from", "auctionDate.to"] });
     const { t } = useTranslation();
     const resetAndNavigate = useFilterNavigation();
 
     const selectedShopTypes = watch("shopType");
 
-    const isEnabled = useMemo(
-        () => !selectedShopTypes?.length || selectedShopTypes.includes("AUCTION_HOUSE"),
-        [selectedShopTypes],
-    );
+    const isDisabled = useMemo(() => {
+        return selectedShopTypes?.length > 0 && !selectedShopTypes.includes("AUCTION_HOUSE");
+    }, [selectedShopTypes]);
 
     return (
-        <Card className={!isEnabled ? "opacity-50" : undefined}>
+        <Card className={isDisabled ? "opacity-50" : undefined}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <H2>{t("search.filter.auctionDate")}</H2>
                 <Tooltip>
@@ -35,14 +34,14 @@ export function AuctionDateSpanFilter() {
                             size="sm"
                             onClick={() => resetAndNavigate("auctionDate")}
                             className="h-8 w-8 p-0"
-                            disabled={!isEnabled}
+                            disabled={isDisabled}
                         >
                             <FilterX className="h-5 w-5" />
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>
                         <p>
-                            {isEnabled
+                            {!isDisabled
                                 ? t("search.filter.resetTooltip.auctionDate")
                                 : t("search.filter.auctionDateDisabledTooltip")}
                         </p>
@@ -53,15 +52,17 @@ export function AuctionDateSpanFilter() {
                 <div className={"flex flex-col w-full gap-2"}>
                     <div className={"flex flex-row gap-2 items-center justify-between"}>
                         <span>{t("search.filter.from")}</span>
-                        <DatePicker fieldName="auctionDate.from" disabled={!isEnabled} />
+                        <DatePicker fieldName="auctionDate.from" disabled={isDisabled} />
                     </div>
                     <div className={"flex flex-row gap-2 items-center justify-between"}>
                         <span>{t("search.filter.to")}</span>
-                        <DatePicker fieldName="auctionDate.to" disabled={!isEnabled} />
+                        <DatePicker fieldName="auctionDate.to" disabled={isDisabled} />
                     </div>
-                    {errors?.auctionDate?.to && (
+                    {(errors?.auctionDate?.from || errors?.auctionDate?.to) && (
                         <p className="text-destructive text-sm mt-1">
-                            {String(errors.auctionDate.to.message ?? "")}
+                            {errors.auctionDate.from?.message ??
+                                errors.auctionDate.to?.message ??
+                                ""}
                         </p>
                     )}
                 </div>

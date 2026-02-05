@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import type { MultiSelectOption } from "@/components/ui/multi-select.tsx";
 
-const DEBOUNCE_DELAY_MS = 300;
+const DEBOUNCE_DELAY_MS = 500;
 
 export function useMerchantSearch() {
     const [searchQuery, setSearchQuery] = useState("");

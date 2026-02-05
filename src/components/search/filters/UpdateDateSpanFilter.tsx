@@ -28,7 +28,7 @@ export function UpdateDateSpanFilter() {
                 </div>
                 {errors?.updateDate?.to && (
                     <p className="text-destructive text-sm mt-1">
-                        {String(errors.updateDate.to.message ?? "")}
+                        {errors.updateDate.to.message ?? ""}
                     </p>
                 )}
             </div>

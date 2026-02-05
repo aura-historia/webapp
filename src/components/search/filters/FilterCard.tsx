@@ -6,10 +6,10 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import type { ReactNode } from "react";
 
 interface FilterCardProps {
-    title: string;
-    resetTooltip: string;
-    onReset: () => void;
-    children: ReactNode;
+    readonly title: string;
+    readonly resetTooltip: string;
+    readonly onReset: () => void;
+    readonly children: ReactNode;
 }
 
 export function FilterCard({ title, resetTooltip, onReset, children }: FilterCardProps) {

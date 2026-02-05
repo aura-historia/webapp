@@ -38,9 +38,7 @@ export function MerchantIncludeFilter() {
                 }}
             />
             {errors?.merchant && (
-                <p className="text-destructive text-sm mt-1">
-                    {String(errors.merchant.message ?? "")}
-                </p>
+                <p className="text-destructive text-sm mt-1">{errors.merchant.message ?? ""}</p>
             )}
         </div>
     );

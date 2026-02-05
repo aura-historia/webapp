@@ -39,7 +39,7 @@ export function MerchantExcludeFilter() {
             />
             {errors?.excludeMerchant && (
                 <p className="text-destructive text-sm mt-1">
-                    {String(errors.excludeMerchant.message ?? "")}
+                    {errors.excludeMerchant.message ?? ""}
                 </p>
             )}
         </div>
