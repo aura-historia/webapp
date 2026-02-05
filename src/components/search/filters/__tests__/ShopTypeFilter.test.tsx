@@ -51,7 +51,13 @@ describe("ShopTypeFilter", () => {
         render(
             <FormWrapper
                 defaultValues={{
-                    shopType: ["AUCTION_HOUSE", "COMMERCIAL_DEALER", "MARKETPLACE", "UNKNOWN"],
+                    shopType: [
+                        "AUCTION_HOUSE",
+                        "AUCTION_PLATFORM",
+                        "COMMERCIAL_DEALER",
+                        "MARKETPLACE",
+                        "UNKNOWN",
+                    ],
                 }}
             >
                 <ShopTypeFilter />
@@ -84,6 +90,7 @@ describe("ShopTypeFilter", () => {
         await user.click(trigger);
 
         expect(screen.getByText("Auktionshaus")).toBeInTheDocument();
+        expect(screen.getByText("Auktionsplattform")).toBeInTheDocument();
         expect(screen.getByText("Händler")).toBeInTheDocument();
         expect(screen.getByText("Marktplatz")).toBeInTheDocument();
         expect(screen.getByText("Unbekannt")).toBeInTheDocument();
