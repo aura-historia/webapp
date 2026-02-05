@@ -24,6 +24,8 @@ import {
 import { cn } from "@/lib/utils.ts";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
 import { env } from "@/env.ts";
+import logo from "@/assets/logo/aura-historia.svg";
+import logoCompact from "@/assets/logo/aura-historia-compact.svg";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
@@ -75,13 +77,19 @@ export function Header() {
     };
 
     return (
-        <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 bg-background/50 backdrop-blur-sm items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
+        <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 bg-background items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
             <div className="flex items-center justify-start gap-4">
-                <Link
-                    to="/"
-                    className="text-md lg:text-xl line-clamp-2 lg:line-clamp-1 xl:text-2xl font-bold text-center lg:text-left"
-                >
-                    {t("common.auraHistoria")}
+                <Link to="/">
+                    <img
+                        src={logo}
+                        alt=""
+                        className={"w-48 lg:w-64 md:inline hidden translate-y-1"}
+                    />
+                    <img
+                        src={logoCompact}
+                        alt=""
+                        className={"h-12 sm:h-16 md:hidden translate-y-1"}
+                    />
                 </Link>
                 {/* Additional Navigation Items can be placed here */}
             </div>

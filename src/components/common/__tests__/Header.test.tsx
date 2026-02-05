@@ -40,7 +40,7 @@ describe("Header Component", () => {
         });
 
         it("should render webapp logo link", () => {
-            const logoLink = screen.getByText("Aura Historia (Preview)");
+            const logoLink = screen.getAllByRole("presentation")[0];
             expect(logoLink).toBeInTheDocument();
             expect(logoLink.closest("a")).toHaveAttribute("href", "/");
         });
@@ -67,7 +67,7 @@ describe("Header Component", () => {
         });
 
         it("should render webapp logo link", () => {
-            const logoLink = screen.getByText("Aura Historia (Preview)");
+            const logoLink = screen.getAllByRole("presentation")[0];
             expect(logoLink).toBeInTheDocument();
             expect(logoLink.closest("a")).toHaveAttribute("href", "/");
         });
@@ -225,12 +225,12 @@ describe("Header Component", () => {
             expect(header).toHaveClass("sticky", "top-0");
         });
 
-        it("should have backdrop blur and border", async () => {
+        it("should have a solid background and border", async () => {
             await act(() => {
                 renderWithRouter(<Header />);
             });
             const header = screen.getByRole("banner");
-            expect(header).toHaveClass("backdrop-blur-sm", "border-b");
+            expect(header).toHaveClass("bg-background", "border-b");
         });
     });
 
