@@ -1,5 +1,5 @@
 import { useSimilarProducts } from "@/hooks/useSimilarProducts.ts";
-import { ProductSimilarCard } from "@/components/product/detail/ProductSimilarCard.tsx";
+import { ProductSimilarCard } from "@/components/product/detail/similar/ProductSimilarCard.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/carousel.tsx";
 import { useTranslation } from "react-i18next";
 import { AlertCircle, SearchX, RefreshCw } from "lucide-react";
+import { ProductSimilarCardSkeleton } from "@/components/product/detail/similar/ProductSimilarCardSkeleton.tsx";
 
 interface ProductSimilarProps {
     readonly shopId: string;
@@ -24,10 +25,37 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
 
     if (isLoading) {
         return (
-            <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
-                <H2>{t("product.similar.title")}</H2>
-                <div className="flex items-center justify-center py-12">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+            <Card className="flex flex-col py-8 md:p-8 gap-4 shadow-md min-w-0">
+                <H2 className="px-8 md:px-0">{t("product.similar.title")}</H2>
+                <div className="relative">
+                    <Carousel
+                        opts={{
+                            align: "center",
+                            containScroll: "trimSnaps",
+                        }}
+                        className="w-full"
+                    >
+                        <div className="flex justify-between items-center mb-4 px-8 md:px-0">
+                            <div className="flex gap-2 md:hidden">
+                                <CarouselPrevious className="static translate-y-0" disabled />
+                                <CarouselNext className="static translate-y-0" disabled />
+                            </div>
+                        </div>
+
+                        <CarouselContent className="pb-4">
+                            {["skeleton-1", "skeleton-2", "skeleton-3"].map((skeletonId) => (
+                                <CarouselItem
+                                    key={skeletonId}
+                                    className="pl-4 first:pl-12 md:first:pl-4 last:pr-8 md:last:pr-0 basis-[calc(100vw-80px)] md:basis-1/2 xl:basis-1/3"
+                                >
+                                    <ProductSimilarCardSkeleton />
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+
+                        <CarouselPrevious className="hidden md:flex" disabled />
+                        <CarouselNext className="hidden md:flex" disabled />
+                    </Carousel>
                 </div>
             </Card>
         );

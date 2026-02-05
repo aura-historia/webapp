@@ -1,7 +1,7 @@
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ProductSimilar } from "../ProductSimilar.tsx";
+import { ProductSimilar } from "../similar/ProductSimilar.tsx";
 import { vi } from "vitest";
 import type React from "react";
 
