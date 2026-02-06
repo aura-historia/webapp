@@ -1,7 +1,7 @@
 import { SearchFilters } from "@/components/search/SearchFilters.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { createFileRoute } from "@tanstack/react-router";
-import { mapFiltersToUrlParams } from "@/lib/utils.ts";
+import { serializeSearchParams } from "@/lib/searchValidation.ts";
 import { useTranslation } from "react-i18next";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
@@ -45,10 +45,7 @@ function RouteComponent() {
     const updateSortMode = (newSortMode: SortMode) => {
         navigate({
             search: (prev) => ({
-                ...mapFiltersToUrlParams({
-                    query: prev.q,
-                    ...prev,
-                }),
+                ...serializeSearchParams(prev),
                 sortField: newSortMode.field,
                 sortOrder: newSortMode.order,
             }),
