@@ -26,6 +26,7 @@ import { CONDITIONS } from "@/data/internal/quality-indicators/Condition.ts";
 import { AUTHENTICITIES } from "@/data/internal/quality-indicators/Authenticity.ts";
 import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
+import { serializeSearchParams } from "@/lib/searchValidation.ts";
 
 const createFilterSchema = (t: TFunction) =>
     z
@@ -238,24 +239,26 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         (data: FilterSchema) => {
             navigate({
                 to: "/search",
-                search: mapFiltersToUrlParams({
-                    query: getEffectiveQuery(),
-                    priceSpan: data.priceSpan,
-                    productState: data.productState,
-                    creationDate: data.creationDate,
-                    updateDate: data.updateDate,
-                    auctionDate: data.auctionDate,
-                    merchant: data.merchant,
-                    excludeMerchant: data.excludeMerchant,
-                    shopType: data.shopType,
-                    originYearSpan: data.originYearSpan,
-                    authenticity: data.authenticity,
-                    condition: data.condition,
-                    provenance: data.provenance,
-                    restoration: data.restoration,
+                search: (prev) => ({
+                    ...serializeSearchParams(prev),
+                    ...mapFiltersToUrlParams({
+                        query: getEffectiveQuery(),
+                        priceSpan: data.priceSpan,
+                        productState: data.productState,
+                        creationDate: data.creationDate,
+                        updateDate: data.updateDate,
+                        auctionDate: data.auctionDate,
+                        merchant: data.merchant,
+                        excludeMerchant: data.excludeMerchant,
+                        shopType: data.shopType,
+                        originYearSpan: data.originYearSpan,
+                        authenticity: data.authenticity,
+                        condition: data.condition,
+                        provenance: data.provenance,
+                        restoration: data.restoration,
+                    }),
                 }),
-            });
-            onFiltersApplied?.();
+            }).then(() => onFiltersApplied?.());
         },
         [navigate, onFiltersApplied, getEffectiveQuery],
     );
