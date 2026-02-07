@@ -140,3 +140,39 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         restoration: parseRestorations(search.restoration),
     };
 }
+
+function serializeOptionalDate(date: Date | undefined): string | undefined {
+    return date?.toISOString();
+}
+
+/**
+ * Converts validated SearchFilterArguments back to RawSearchParams format.
+ * This is useful when updating search params in functional updates.
+ */
+export function serializeSearchParams(
+    params: SearchFilterArguments,
+): Omit<RawSearchParams, keyof SearchSchemaInput> {
+    return {
+        q: params.q,
+        priceFrom: params.priceFrom,
+        priceTo: params.priceTo,
+        allowedStates: params.allowedStates,
+        creationDateFrom: serializeOptionalDate(params.creationDateFrom),
+        creationDateTo: serializeOptionalDate(params.creationDateTo),
+        updateDateFrom: serializeOptionalDate(params.updateDateFrom),
+        updateDateTo: serializeOptionalDate(params.updateDateTo),
+        auctionDateFrom: serializeOptionalDate(params.auctionDateFrom),
+        auctionDateTo: serializeOptionalDate(params.auctionDateTo),
+        merchant: params.merchant,
+        excludeMerchant: params.excludeMerchant,
+        shopType: params.shopType,
+        sortField: params.sortField,
+        sortOrder: params.sortOrder,
+        originYearMin: params.originYearMin,
+        originYearMax: params.originYearMax,
+        authenticity: params.authenticity,
+        condition: params.condition,
+        provenance: params.provenance,
+        restoration: params.restoration,
+    };
+}
