@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { validateSearchParams, type RawSearchParams } from "@/lib/searchValidation.ts";
+import {
+    validateSearchParams,
+    serializeSearchParams,
+    type RawSearchParams,
+} from "@/lib/searchValidation.ts";
 
 describe("validateSearchParams", () => {
     describe("query parameter (q)", () => {
@@ -299,6 +303,194 @@ describe("validateSearchParams", () => {
                 sortField: "PRICE",
                 sortOrder: "ASC",
             });
+        });
+    });
+});
+
+describe("serializeSearchParams", () => {
+    describe("date serialization", () => {
+        it("should convert Date objects to ISO strings", () => {
+            const validated = validateSearchParams({
+                q: "test",
+                creationDateFrom: "2024-01-15T00:00:00.000Z",
+                creationDateTo: "2024-12-31T00:00:00.000Z",
+            } as RawSearchParams);
+
+            const serialized = serializeSearchParams(validated);
+
+            expect(typeof serialized.creationDateFrom).toBe("string");
+            expect(typeof serialized.creationDateTo).toBe("string");
+            expect(serialized.creationDateFrom).toContain("2024-01-15");
+            expect(serialized.creationDateTo).toContain("2024-12-31");
+        });
+
+        it("should handle undefined date fields", () => {
+            const validated = validateSearchParams({
+                q: "test",
+            } as RawSearchParams);
+
+            const serialized = serializeSearchParams(validated);
+
+            expect(serialized.creationDateFrom).toBeUndefined();
+            expect(serialized.creationDateTo).toBeUndefined();
+            expect(serialized.updateDateFrom).toBeUndefined();
+            expect(serialized.updateDateTo).toBeUndefined();
+            expect(serialized.auctionDateFrom).toBeUndefined();
+            expect(serialized.auctionDateTo).toBeUndefined();
+        });
+
+        it("should serialize all date fields correctly", () => {
+            const validated = validateSearchParams({
+                q: "test",
+                creationDateFrom: "2024-01-01T00:00:00.000Z",
+                creationDateTo: "2024-01-31T00:00:00.000Z",
+                updateDateFrom: "2024-02-01T00:00:00.000Z",
+                updateDateTo: "2024-02-28T00:00:00.000Z",
+                auctionDateFrom: "2024-03-01T00:00:00.000Z",
+                auctionDateTo: "2024-03-31T00:00:00.000Z",
+            } as RawSearchParams);
+
+            const serialized = serializeSearchParams(validated);
+
+            expect(serialized.creationDateFrom).toContain("2024-01-01");
+            expect(serialized.creationDateTo).toContain("2024-01-31");
+            expect(serialized.updateDateFrom).toContain("2024-02-01");
+            expect(serialized.updateDateTo).toContain("2024-02-28");
+            expect(serialized.auctionDateFrom).toContain("2024-03-01");
+            expect(serialized.auctionDateTo).toContain("2024-03-31");
+        });
+    });
+
+    describe("non-date field preservation", () => {
+        it("should preserve query parameter", () => {
+            const validated = validateSearchParams({
+                q: "antique furniture",
+            } as RawSearchParams);
+
+            const serialized = serializeSearchParams(validated);
+
+            expect(serialized.q).toBe("antique furniture");
+        });
+
+        it("should preserve price parameters", () => {
+            const validated = validateSearchParams({
+                q: "test",
+                priceFrom: 100,
+                priceTo: 5000,
+            } as RawSearchParams);
+
+            const serialized = serializeSearchParams(validated);
+
+            expect(serialized.priceFrom).toBe(100);
+            expect(serialized.priceTo).toBe(5000);
+        });
+
+        it("should preserve sort parameters", () => {
+            const validated = validateSearchParams({
+                q: "test",
+                sortField: "PRICE",
+                sortOrder: "ASC",
+            } as RawSearchParams);
+
+            const serialized = serializeSearchParams(validated);
+
+            expect(serialized.sortField).toBe("PRICE");
+            expect(serialized.sortOrder).toBe("ASC");
+        });
+
+        it("should preserve array parameters", () => {
+            const validated = validateSearchParams({
+                q: "test",
+                allowedStates: ["LISTED", "SOLD"],
+                merchant: ["Shop A", "Shop B"],
+                excludeMerchant: ["Excluded Shop"],
+                shopType: ["AUCTION_HOUSE"],
+                authenticity: ["ORIGINAL"],
+                condition: ["EXCELLENT"],
+            } as RawSearchParams);
+
+            const serialized = serializeSearchParams(validated);
+
+            expect(serialized.allowedStates).toEqual(["LISTED", "SOLD"]);
+            expect(serialized.merchant).toEqual(["Shop A", "Shop B"]);
+            expect(serialized.excludeMerchant).toEqual(["Excluded Shop"]);
+            expect(serialized.shopType).toEqual(["AUCTION_HOUSE"]);
+            expect(serialized.authenticity).toEqual(["ORIGINAL"]);
+            expect(serialized.condition).toEqual(["EXCELLENT"]);
+        });
+    });
+
+    describe("round-trip validation (the original bug scenario)", () => {
+        it("should preserve all filters when updating only sort mode", () => {
+            // This test covers the bug where changing sort mode would lose filters
+            const original = {
+                q: "antique vase",
+                priceFrom: 100,
+                priceTo: 1000,
+                allowedStates: ["LISTED", "AVAILABLE"],
+                creationDateFrom: "2024-01-01T00:00:00.000Z",
+                creationDateTo: "2024-12-31T00:00:00.000Z",
+                merchant: ["Antique Shop"],
+                shopType: ["AUCTION_HOUSE"],
+                sortField: "RELEVANCE",
+                sortOrder: "DESC",
+            } as unknown as RawSearchParams;
+
+            // Simulate what happens when validateSearch runs (like in TanStack Router)
+            const validated = validateSearchParams(original);
+
+            // Simulate updating sort mode (spread serialized prev + new sort)
+            const updated = {
+                ...serializeSearchParams(validated),
+                sortField: "PRICE" as const,
+                sortOrder: "ASC" as const,
+            };
+
+            // Verify all original filters are preserved
+            expect(updated.q).toBe("antique vase");
+            expect(updated.priceFrom).toBe(100);
+            expect(updated.priceTo).toBe(1000);
+            expect(updated.allowedStates).toEqual(["LISTED", "AVAILABLE"]);
+            expect(updated.creationDateFrom).toContain("2024-01-01");
+            expect(updated.creationDateTo).toContain("2024-12-31");
+            expect(updated.merchant).toEqual(["Antique Shop"]);
+            expect(updated.shopType).toEqual(["AUCTION_HOUSE"]);
+
+            // Verify sort mode is updated
+            expect(updated.sortField).toBe("PRICE");
+            expect(updated.sortOrder).toBe("ASC");
+        });
+
+        it("should produce params that can be re-validated correctly", () => {
+            // Ensure the serialized params can go through validation again
+            const original = {
+                q: "test",
+                creationDateFrom: "2024-06-15T12:00:00.000Z",
+                priceFrom: 500,
+                sortField: "CREATION_DATE",
+                sortOrder: "ASC",
+            } as unknown as RawSearchParams;
+
+            const validated = validateSearchParams(original);
+            const serialized = serializeSearchParams(validated);
+            const revalidated = validateSearchParams(serialized as RawSearchParams);
+
+            expect(revalidated.q).toBe("test");
+            expect(revalidated.priceFrom).toBe(500);
+            expect(revalidated.sortField).toBe("CREATION_DATE");
+            expect(revalidated.sortOrder).toBe("ASC");
+            // Date should be parsed correctly again
+            expect(revalidated.creationDateFrom).toBeInstanceOf(Date);
+            expect(revalidated.creationDateFrom?.toISOString()).toContain("2024-06-15");
+        });
+
+        it("should handle empty/minimal params", () => {
+            const validated = validateSearchParams({ q: "" } as RawSearchParams);
+            const serialized = serializeSearchParams(validated);
+
+            expect(serialized.q).toBe("");
+            expect(serialized.sortField).toBe("RELEVANCE");
+            expect(serialized.sortOrder).toBe("DESC");
         });
     });
 });
