@@ -16,6 +16,7 @@ export function UpdateDateSpanFilter() {
             title={t("search.filter.updateDate")}
             resetTooltip={t("search.filter.resetTooltip.updateDate")}
             onReset={() => resetAndNavigate("updateDate")}
+            defaultOpen={false}
         >
             <div className="flex flex-col w-full gap-2">
                 <div className="flex flex-row gap-2 items-center justify-between">

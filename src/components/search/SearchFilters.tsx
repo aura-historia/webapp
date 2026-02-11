@@ -277,15 +277,15 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <div className={"flex flex-col gap-4"}>
-                    <PriceSpanFilter />
+                <div className="flex flex-col gap-4 min-w-[350px]">
                     <ProductStateFilter />
+                    <PriceSpanFilter />
                     <QualityIndicatorsFilter />
+                    <ShopTypeFilter />
+                    <MerchantFilters />
+                    <AuctionDateSpanFilter />
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />
-                    <AuctionDateSpanFilter />
-                    <MerchantFilters />
-                    <ShopTypeFilter />
                 </div>
                 <div className="flex flex-col gap-2">
                     <Button className="w-full shadow-sm" type="submit">
