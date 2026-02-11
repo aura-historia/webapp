@@ -27,6 +27,7 @@ import { AUTHENTICITIES } from "@/data/internal/quality-indicators/Authenticity.
 import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 import { serializeSearchParams } from "@/lib/searchValidation.ts";
+import { useDebouncedCallback } from "use-debounce";
 
 const createFilterSchema = (t: TFunction) =>
     z
@@ -123,6 +124,14 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
     const { t } = useTranslation();
     const { getQuery } = useSearchQueryContext();
 
+    const DEBOUNCE_DELAY_MS = 500;
+    const DEBOUNCED_FIELDS = [
+        "priceSpan.min",
+        "priceSpan.max",
+        "originYearSpan.min",
+        "originYearSpan.max",
+    ];
+
     const getEffectiveQuery = useCallback((): string => {
         const currentQuery = getQuery()?.trim();
 
@@ -139,7 +148,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
     const form = useForm<FilterSchema>({
         resolver: zodResolver(filterSchema),
         defaultValues: FILTER_DEFAULTS,
-        mode: "onSubmit",
+        mode: "onChange",
     });
 
     useEffect(() => {
@@ -235,7 +244,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         form,
     ]);
 
-    const onSubmit = useCallback(
+    const applyFilters = useCallback(
         (data: FilterSchema) => {
             navigate({
                 to: "/search",
@@ -263,6 +272,29 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         [navigate, onFiltersApplied, getEffectiveQuery],
     );
 
+    const debouncedApplyFilters = useDebouncedCallback((data) => {
+        const result = filterSchema.safeParse(data);
+        if (result.success) {
+            applyFilters(result.data);
+        }
+    }, DEBOUNCE_DELAY_MS);
+
+    useEffect(() => {
+        const subscription = form.watch((data, { name }) => {
+            if (name && DEBOUNCED_FIELDS.includes(name)) {
+                debouncedApplyFilters(data);
+            } else {
+                debouncedApplyFilters.cancel();
+                const result = filterSchema.safeParse(data);
+                if (result.success) applyFilters(result.data);
+            }
+        });
+        return () => {
+            subscription.unsubscribe();
+            debouncedApplyFilters.cancel();
+        };
+    }, [form, debouncedApplyFilters, filterSchema, applyFilters]);
+
     const handleResetAll = useCallback(() => {
         form.reset(FILTER_DEFAULTS);
         navigate({
@@ -276,7 +308,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form className="space-y-4">
                 <div className="flex flex-col gap-4 min-w-[350px]">
                     <ProductStateFilter />
                     <PriceSpanFilter />
@@ -287,19 +319,9 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />
                 </div>
-                <div className="flex flex-col gap-2">
-                    <Button className="w-full shadow-sm" type="submit">
-                        {t("search.applyFilters")}
-                    </Button>
-                    <Button
-                        type="button"
-                        variant="outline"
-                        className="w-full shadow-sm"
-                        onClick={handleResetAll}
-                    >
-                        {t("search.resetAllFilters")}
-                    </Button>
-                </div>
+                <Button type="button" className="w-full shadow-sm" onClick={handleResetAll}>
+                    {t("search.resetAllFilters")}
+                </Button>
             </form>
         </Form>
     );
