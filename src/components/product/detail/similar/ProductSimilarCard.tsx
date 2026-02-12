@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { H2 } from "@/components/typography/H2.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
+import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 
 export function ProductSimilarCard({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
@@ -24,12 +25,13 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                     className={"block w-full"}
                 >
                     {product.images.length > 0 ? (
-                        <img
+                        <ImageWithFallback
                             className={
                                 "w-full aspect-video object-cover hover:opacity-90 transition-opacity"
                             }
                             src={product.images[0].url.href}
                             alt=""
+                            fallbackClassName="w-full aspect-video"
                         />
                     ) : (
                         <div className="w-full aspect-video bg-muted flex flex-col items-center justify-center gap-2">

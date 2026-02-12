@@ -207,6 +207,7 @@
     "toMerchant": "Go to merchant",
     "noDescription": "No description available",
     "noImage": "No image available",
+    "imageLoadError": "Image could not be loaded",
     "qualityIndicators": {
       "title": "Quality Indicators",
       "noData": "No additional information available",
