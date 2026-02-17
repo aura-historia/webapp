@@ -96,7 +96,11 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                             </Link>
                         </Button>
                         <Button variant={"secondary"} className="whitespace-nowrap" asChild>
-                            <a href={product.url?.href} target="_blank">
+                            <a
+                                href={product.url?.href}
+                                target="_blank"
+                                rel="nofollow noopener noreferrer"
+                            >
                                 <ArrowUpRight />
                                 <span>{t("product.toMerchant")}</span>
                             </a>

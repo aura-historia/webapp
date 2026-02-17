@@ -82,7 +82,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                                 <a
                                     href={product.url?.href}
                                     target="_blank"
-                                    rel="noopener noreferrer"
+                                    rel="nofollow noopener noreferrer"
                                 >
                                     <ArrowUpRight />
                                     <span>{t("product.toMerchant")}</span>
