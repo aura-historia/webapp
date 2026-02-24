@@ -19,8 +19,8 @@ export default function CategoriesSection() {
                 <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
                 <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10" />
 
-                {/* Scrolling track */}
-                <div className="flex animate-scroll gap-6 w-max">
+                {/* Scrolling track — animation duration (30s in CSS) is tuned for ~10 cards */}
+                <div className="flex animate-scroll motion-reduce:animate-none gap-6 w-max">
                     {duplicatedCards.map((category, index) => (
                         <div
                             key={`${category.titleKey}-${index}`}
