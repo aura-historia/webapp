@@ -20,15 +20,15 @@ export default function HeroSection() {
 
     return (
         <section className="min-h-[calc(100vh-5rem)] flex items-center justify-center relative overflow-hidden">
-            {/* Painting background with overlay */}
+            {/* Painting background — prominently visible behind the CTA */}
             <div className="absolute inset-0">
                 <img
                     src={HERO_PAINTING_URL}
                     alt=""
-                    className="w-full h-full object-cover opacity-[0.07]"
+                    className="w-full h-full object-cover"
                     loading="eager"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
+                <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/70 to-background/90" />
             </div>
 
             {/* Decorative radial gradient */}
