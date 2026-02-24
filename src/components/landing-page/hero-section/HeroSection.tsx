@@ -27,7 +27,7 @@ export default function HeroSection() {
                 <img
                     src={HERO_PAINTING_URL}
                     alt=""
-                    className="w-full h-full object-cover opacity-8"
+                    className="w-full h-full object-cover opacity-5"
                     aria-hidden="true"
                     loading="eager"
                 />
