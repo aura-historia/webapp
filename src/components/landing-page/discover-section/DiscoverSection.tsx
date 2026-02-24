@@ -32,14 +32,21 @@ export default function DiscoverSection() {
     return (
         <section className="py-20 px-4">
             <div className="max-w-6xl mx-auto">
+                {/* Decorative divider */}
+                <div className="flex items-center gap-4 mb-16 max-w-md mx-auto">
+                    <div className="flex-1 h-px bg-gradient-to-r from-transparent to-primary/30" />
+                    <div className="w-2 h-2 rounded-full bg-primary/40" />
+                    <div className="flex-1 h-px bg-gradient-to-l from-transparent to-primary/30" />
+                </div>
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
                         <H2 className="mb-6">{t("discover.title")}</H2>
-                        <div className="space-y-4 text-lg text-muted-foreground">
+                        <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
                             <p>{t("discover.p1")}</p>
                             <p>{t("discover.p2")}</p>
                         </div>
-                        <div className="mt-8 space-y-4">
+                        <div className="mt-8 space-y-5">
                             {DISCOVER_HIGHLIGHTS.map((highlight) => (
                                 <div key={highlight.titleKey} className="flex items-start gap-4">
                                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
@@ -59,12 +66,12 @@ export default function DiscoverSection() {
                     </div>
                     {/* Visual/Stats */}
                     <div className="relative" ref={statsRef}>
-                        <div className="bg-linear-to-br from-primary/10 via-primary/5 to-transparent rounded-2xl p-4 md:p-8">
+                        <div className="bg-linear-to-br from-primary/10 via-primary/5 to-transparent rounded-2xl p-4 md:p-8 border border-primary/5">
                             <div className="grid grid-cols-2 md:gap-6 gap-4">
                                 {DISCOVER_STATS.map((stat) => (
                                     <div
                                         key={stat.labelKey}
-                                        className="bg-card/80 rounded-xl p-6 text-center shadow-sm"
+                                        className="bg-card/80 rounded-xl p-6 text-center shadow-sm border border-primary/5"
                                     >
                                         {stat.amount ? (
                                             <span className="text-xl md:text-4xl font-bold text-primary mb-2 text-ellipsis overflow-hidden">

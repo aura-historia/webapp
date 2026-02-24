@@ -8,7 +8,10 @@ export default function TestimonialsSection() {
     const { t } = useTranslation();
 
     return (
-        <section className="py-20 px-4 bg-muted/30">
+        <section className="py-20 px-4 bg-muted/30 relative">
+            {/* Subtle top border */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+
             <div className="max-w-6xl mx-auto">
                 <SectionHeading
                     headline={t("landingPage.testimonials.title")}
@@ -19,16 +22,16 @@ export default function TestimonialsSection() {
                     {TESTIMONIALS.map((testimonial) => (
                         <Card
                             key={testimonial.nameKey}
-                            className="relative overflow-hidden border-primary/10"
+                            className="relative overflow-hidden border-primary/10 hover:border-primary/20 transition-colors"
                         >
                             <CardContent className="pt-8 pb-6 flex flex-col justify-between h-full">
                                 <div>
-                                    <Quote className="w-10 h-10 text-primary/50 mb-4" />
+                                    <Quote className="w-10 h-10 text-primary/30 mb-4" />
                                     <p className="text-muted-foreground mb-6 italic leading-relaxed">
                                         "{t(testimonial.quoteKey)}"
                                     </p>
                                 </div>
-                                <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-4 pt-4 border-t border-primary/10">
                                     <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
                                         {testimonial.image ? (
                                             <img

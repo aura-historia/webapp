@@ -7,7 +7,10 @@ export default function FeaturesSection() {
     const { t } = useTranslation();
 
     return (
-        <section className="py-20 px-4 bg-muted/30">
+        <section className="py-20 px-4 bg-muted/30 relative">
+            {/* Subtle top border */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+
             <div className="max-w-6xl mx-auto">
                 <SectionHeading
                     headline={t("landingPage.features.title")}
@@ -33,7 +36,9 @@ export default function FeaturesSection() {
                                 <CardTitle className="text-xl">{t(feature.titleKey)}</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-muted-foreground">{t(feature.descKey)}</p>
+                                <p className="text-muted-foreground leading-relaxed">
+                                    {t(feature.descKey)}
+                                </p>
                             </CardContent>
                         </Card>
                     ))}

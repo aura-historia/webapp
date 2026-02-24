@@ -17,16 +17,18 @@ export default function HowItWorksSection() {
                         <div key={step.number} className="relative">
                             {/* Connector line */}
                             {index < HOW_IT_WORKS_STEPS.length - 1 && (
-                                <div className="hidden lg:block absolute top-8 left-[60%] w-full h-0.5 bg-linear-to-r from-primary/10 via-primary/50 to-primary/10 " />
+                                <div className="hidden lg:block absolute top-8 left-[60%] w-full h-0.5 bg-gradient-to-r from-primary/30 via-primary/50 to-primary/30" />
                             )}
                             <div className="relative z-10 text-center">
-                                <div className="inline-flex items-center justify-center rounded-full w-16 h-16 border-2 border-primary/30 mb-6 bg-card">
+                                <div className="inline-flex items-center justify-center rounded-full w-16 h-16 border-2 border-primary/30 mb-6 bg-card shadow-sm">
                                     <span className="relative text-2xl font-bold text-primary">
                                         {step.number}
                                     </span>
                                 </div>
                                 <h3 className="text-xl font-semibold mb-3">{t(step.titleKey)}</h3>
-                                <p className="text-muted-foreground">{t(step.descKey)}</p>
+                                <p className="text-muted-foreground leading-relaxed">
+                                    {t(step.descKey)}
+                                </p>
                             </div>
                         </div>
                     ))}
