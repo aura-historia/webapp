@@ -357,6 +357,8 @@
     "title": "We bring transparency into the opaque landscape of online antiques",
     "p1": "We search through the vast offerings of thousands of scattered antique dealers, auction houses and marketplaces worldwide every day and bundle their items in one central place.",
     "p2": "We not only capture current and upcoming items but also track price changes and availability. This way, you never miss a bargain and always keep an eye on the market.",
+    "paintingAlt": "The Embarkation of the Queen of Sheba by Claude Lorrain, 1648",
+    "paintingCaption": "Claude Lorrain — The Embarkation of the Queen of Sheba, 1648 · National Gallery, London",
     "highlight1": {
       "title": "Over 500 Dealers, Auction Houses & Marketplaces",
       "description": "We continuously search renowned antique dealers, auction houses and marketplaces from all over Europe and beyond."
@@ -388,6 +390,19 @@
     "trustBadge1": "From antique collectors",
     "trustBadge2": "For serious collectors and dealers",
     "trustBadge3": "Near Real-Time",
+    "categories": {
+      "heading": "Explore by category",
+      "furniture": "Furniture",
+      "paintings": "Paintings & Art",
+      "porcelain": "Porcelain & Ceramics",
+      "silver": "Silver & Metalwork",
+      "jewelry": "Jewelry & Watches",
+      "books": "Books & Manuscripts",
+      "clocks": "Clocks",
+      "maps": "Maps & Prints",
+      "sculptures": "Sculptures",
+      "lighting": "Lighting"
+    },
     "features": {
       "title": "Antiques are scattered everywhere online - your search shouldn't be",
       "subtitle": "We are the most sophisticated search engine for antiques and provide you with all the tools to efficiently search the antiques market.",

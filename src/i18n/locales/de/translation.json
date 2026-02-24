@@ -356,6 +356,8 @@
     "title": "Wir bringen Transparenz in die undurchsichtige Welt der Online-Antiquitäten",
     "p1": "Wir durchsuchen täglich das unübersichtliche Angebot tausender verstreuter Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit und bündeln deren Artikel zentral an einem Ort.",
     "p2": "Wir erfassen nicht nur aktuelle und neu aufgetauchte Antiquitäten, sondern verfolgen auch Preisänderungen und Verfügbarkeiten. So verpassen Sie nie wieder ein Schnäppchen und behalten den Markt stets im Blick.",
+    "paintingAlt": "Die Einschiffung der Königin von Saba von Claude Lorrain, 1648",
+    "paintingCaption": "Claude Lorrain — Die Einschiffung der Königin von Saba, 1648 · National Gallery, London",
     "highlight1": {
       "title": "Über 500 Händler, Auktionshäuser und Marktplätze",
       "description": "Wir durchsuchen kontinuierlich renommierte Antiquitätenhändler, Auktionshäuser und Marktplätze aus ganz Europa und darüber hinaus."
@@ -387,6 +389,19 @@
     "trustBadge1": "Von Antiquitätensammlern",
     "trustBadge2": "Für ernsthafte Sammler und Händler",
     "trustBadge3": "Nahezu Echtzeit",
+    "categories": {
+      "heading": "Nach Kategorie entdecken",
+      "furniture": "Möbel",
+      "paintings": "Gemälde & Kunst",
+      "porcelain": "Porzellan & Keramik",
+      "silver": "Silber & Metallarbeiten",
+      "jewelry": "Schmuck & Uhren",
+      "books": "Bücher & Manuskripte",
+      "clocks": "Uhren",
+      "maps": "Karten & Drucke",
+      "sculptures": "Skulpturen",
+      "lighting": "Beleuchtung"
+    },
     "features": {
       "title": "Antiquitäten sind überall im Internet verstreut - Ihre Suche sollte es nicht sein",
       "subtitle": "Wir sind die fortgeschrittenste Suchmaschine für Antiquitäten und bieten Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen.",

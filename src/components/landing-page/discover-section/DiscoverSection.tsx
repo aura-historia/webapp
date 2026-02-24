@@ -4,6 +4,7 @@ import {
     DISCOVER_HIGHLIGHTS,
     DISCOVER_STATS,
 } from "@/components/landing-page/discover-section/DiscoverSection.data.ts";
+import { HERO_PAINTING_URL } from "@/components/landing-page/hero-section/HeroSection.constants.ts";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { ClientOnly } from "@tanstack/react-router";
 
@@ -35,7 +36,7 @@ export default function DiscoverSection() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
                         <H2 className="mb-6">{t("discover.title")}</H2>
-                        <div className="space-y-4 text-lg text-muted-foreground">
+                        <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
                             <p>{t("discover.p1")}</p>
                             <p>{t("discover.p2")}</p>
                         </div>
@@ -59,6 +60,19 @@ export default function DiscoverSection() {
                     </div>
                     {/* Visual/Stats */}
                     <div className="relative" ref={statsRef}>
+                        {/* Painting accent */}
+                        <div className="relative rounded-2xl overflow-hidden mb-6 shadow-lg">
+                            <img
+                                src={HERO_PAINTING_URL}
+                                alt={t("discover.paintingAlt")}
+                                className="w-full h-48 md:h-56 object-cover"
+                                loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+                            <p className="absolute bottom-3 left-4 right-4 text-xs text-muted-foreground italic">
+                                {t("discover.paintingCaption")}
+                            </p>
+                        </div>
                         <div className="bg-linear-to-br from-primary/10 via-primary/5 to-transparent rounded-2xl p-4 md:p-8">
                             <div className="grid grid-cols-2 md:gap-6 gap-4">
                                 {DISCOVER_STATS.map((stat) => (
