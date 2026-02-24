@@ -3,8 +3,9 @@
  * Public domain work housed in the National Gallery, London.
  * Highly recognizable to art and antiques connoisseurs.
  *
- * Placeholder asset representing the painting's warm golden palette.
- * Replace with the full artwork from Wikimedia Commons when available:
+ * TODO: The current asset is a generated image approximating the painting's
+ * warm golden palette. Download the actual artwork from Wikimedia Commons
+ * and replace src/assets/claude-lorrain-embarkation.jpg:
  * https://commons.wikimedia.org/wiki/File:Claude_Lorrain_008.jpg
  */
 import heroPainting from "@/assets/claude-lorrain-embarkation.jpg";
