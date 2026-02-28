@@ -161,11 +161,14 @@
         "auctionDate": "Restablecer filtro de fecha de subasta",
         "excludeMerchant": "Restablecer filtro de exclusión de comerciante",
         "merchants": "Restablecer filtros de comerciantes",
-        "shopType": "Restablecer filtro de tipo de tienda"
+        "shopType": "Restablecer filtro de tipo de tienda",
+        "periodId": "Restablecer filtro de período"
       },
       "all": "Todo",
       "select": "Seleccionar",
       "qualityIndicators": "Indicadores de Calidad",
+      "periodId": "Período / Estilo",
+      "searchPeriods": "Buscar períodos...",
       "originYear": "Año de Origen",
       "authenticity": "Autenticidad",
       "condition": "Condición",

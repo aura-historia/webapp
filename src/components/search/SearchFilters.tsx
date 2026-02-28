@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MerchantFilters } from "@/components/search/filters/MerchantFilters.tsx";
 import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter.tsx";
+import { PeriodFilter } from "@/components/search/filters/PeriodFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useCallback, useEffect, useMemo } from "react";
@@ -53,6 +54,7 @@ const createFilterSchema = (t: TFunction) =>
             merchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
             excludeMerchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
             shopType: z.array(z.enum(SHOP_TYPES)),
+            periodId: z.array(z.string()),
             originYearSpan: z
                 .object({
                     min: z.number().optional().or(z.undefined()),
@@ -188,6 +190,9 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         if (searchFilters.shopType) {
             form.setValue("shopType", searchFilters.shopType, { shouldDirty: false });
         }
+        if (searchFilters.periodId) {
+            form.setValue("periodId", searchFilters.periodId, { shouldDirty: false });
+        }
         if (searchFilters.allowedStates) {
             form.setValue("productState", searchFilters.allowedStates, { shouldDirty: false });
         }
@@ -225,6 +230,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         searchFilters.merchant,
         searchFilters.excludeMerchant,
         searchFilters.shopType,
+        searchFilters.periodId,
         searchFilters.allowedStates,
         searchFilters.originYearMin,
         searchFilters.originYearMax,
@@ -251,6 +257,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                         merchant: data.merchant,
                         excludeMerchant: data.excludeMerchant,
                         shopType: data.shopType,
+                        periodId: data.periodId,
                         originYearSpan: data.originYearSpan,
                         authenticity: data.authenticity,
                         condition: data.condition,
@@ -280,6 +287,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                 <div className={"flex flex-col gap-4"}>
                     <PriceSpanFilter />
                     <ProductStateFilter />
+                    <PeriodFilter />
                     <QualityIndicatorsFilter />
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />

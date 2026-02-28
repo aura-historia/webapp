@@ -161,11 +161,14 @@
         "auctionDate": "Réinitialiser le filtre de date de vente aux enchères",
         "excludeMerchant": "Réinitialiser le filtre d'exclusion de marchand",
         "merchants": "Réinitialiser les filtres de marchands",
-        "shopType": "Réinitialiser le filtre de type de boutique"
+        "shopType": "Réinitialiser le filtre de type de boutique",
+        "periodId": "Réinitialiser le filtre de période"
       },
       "all": "Tous",
       "select": "Sélectionner",
       "qualityIndicators": "Indicateurs de Qualité",
+      "periodId": "Période / Style",
+      "searchPeriods": "Rechercher des périodes...",
       "originYear": "Année d'Origine",
       "authenticity": "Authenticité",
       "condition": "État",

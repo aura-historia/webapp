@@ -89,6 +89,7 @@ export function useSearch(
                             : searchArgs.shopType
                                   ?.map((type) => mapToBackendShopType(type))
                                   .filter((t) => t !== undefined),
+                    periodId: searchArgs.periodId?.length === 0 ? undefined : searchArgs.periodId,
                     ...(searchArgs.originYearMin != null || searchArgs.originYearMax != null
                         ? {
                               originYear: {
