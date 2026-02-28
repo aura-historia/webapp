@@ -3,13 +3,11 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { getPeriodByIdOptions } from "@/client/@tanstack/react-query.gen";
 import { PeriodPage } from "@/components/period/PeriodPage.tsx";
 import { PeriodPageSkeleton } from "@/components/period/PeriodPageSkeleton.tsx";
+import { PERIOD_BANNER_URL } from "@/components/period/PeriodBanner.tsx";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
-
-const PERIOD_BANNER_URL =
-    "https://aura-historia-public.s3.eu-central-1.amazonaws.com/branding/banner_twitter_slogan.png";
 
 export const Route = createFileRoute("/periods/$periodId")({
     loader: async ({ context: { queryClient }, params: { periodId } }) => {

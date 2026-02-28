@@ -23,7 +23,7 @@ const mockProduct: OverviewProduct = {
     images: [],
     created: new Date("2025-01-01"),
     updated: new Date("2025-01-02"),
-    shopType: "AUCTION",
+    shopType: "AUCTION_HOUSE",
     authenticity: "UNKNOWN",
     condition: "UNKNOWN",
     provenance: "UNKNOWN",

@@ -1,4 +1,4 @@
-const PERIOD_BANNER_URL =
+export const PERIOD_BANNER_URL =
     "https://aura-historia-public.s3.eu-central-1.amazonaws.com/branding/banner_twitter_slogan.png";
 
 type PeriodBannerProps = {
