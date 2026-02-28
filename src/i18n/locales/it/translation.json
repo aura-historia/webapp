@@ -30,6 +30,10 @@
     },
     "watchlist": {
       "title": "La mia lista dei preferiti | Aura Historia"
+    },
+    "period": {
+      "title": "{{name}} | Aura Historia",
+      "description": "Scopri le antichità del periodo {{name}}. Esplora collezioni curate da commercianti di fiducia su Aura Historia."
     }
   },
   "validation": {
@@ -687,5 +691,17 @@
     "codeMismatch": "Il codice inserito non è corretto.",
     "confirmationCodeCannotBeEmpty": "Il codice di conferma non può essere vuoto.",
     "invalidCodeProvidedRequestAgain": "Codice non valido, richiedi un nuovo codice."
+  },
+  "period": {
+    "breadcrumbs": {
+      "home": "Home",
+      "periods": "Periodi e Stili"
+    },
+    "latestProducts": "Ultimi Prodotti",
+    "mostExpensive": "I Più Preziosi",
+    "exploreProducts": "Esplora i prodotti {{name}}",
+    "noProducts": "Nessun prodotto trovato per questo periodo.",
+    "loading": "Caricamento prodotti...",
+    "viewDetails": "Vedi Dettagli"
   }
 }
