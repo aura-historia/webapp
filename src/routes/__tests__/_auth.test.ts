@@ -5,7 +5,8 @@ describe("_auth route", () => {
     it("adds noindex robots meta tag for private pages", () => {
         const head = Route.options.head;
         expect(head).toBeDefined();
-        expect(head?.({} as never)).toEqual({
+        const context = {} as Parameters<NonNullable<typeof head>>[0];
+        expect(head?.(context)).toEqual({
             meta: [{ name: "robots", content: "noindex, nofollow" }],
         });
     });
