@@ -17,7 +17,11 @@ describe("api-config user-agent header behavior", () => {
             fetchAuthSession: vi.fn(),
         }));
 
-        const fetchMock = vi.fn(async () => new Response(null, { status: 204 }));
+        const fetchMock = vi.fn(async (request: RequestInfo | URL, init?: RequestInit) => {
+            const forwardedRequest = new Request(request, init);
+            expect(forwardedRequest.headers.get("user-agent")).toBe("browser-user-agent");
+            return new Response(null, { status: 204 });
+        });
 
         const apiConfigModule = await import("@/api-config.ts");
         expect(apiConfigModule).toBeDefined();
@@ -32,7 +36,6 @@ describe("api-config user-agent header behavior", () => {
             url: "/test",
         });
 
-        const request = fetchMock.mock.calls[0][0] as Request;
-        expect(request.headers.get("user-agent")).toBe("browser-user-agent");
+        expect(fetchMock).toHaveBeenCalledOnce();
     });
 });
