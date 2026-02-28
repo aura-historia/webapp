@@ -71,6 +71,10 @@ function buildFilterQuery(searchArgs: SearchFilterArguments): Record<string, unk
         filters.shopName = searchArgs.merchant;
     }
 
+    if (searchArgs.periodId && searchArgs.periodId.length > 0) {
+        filters.periodId = searchArgs.periodId;
+    }
+
     if (searchArgs.excludeMerchant && searchArgs.excludeMerchant.length > 0) {
         filters.excludeShopName = searchArgs.excludeMerchant;
     }
