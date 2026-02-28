@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateShopData, CreateShopErrors, CreateShopResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetShopByDomainData, GetShopByDomainErrors, GetShopByDomainResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PutProductsData, PutProductsErrors, PutProductsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, UpdateShopByDomainData, UpdateShopByDomainErrors, UpdateShopByDomainResponses, UpdateShopByIdData, UpdateShopByIdErrors, UpdateShopByIdResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateShopData, CreateShopErrors, CreateShopResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetShopByDomainData, GetShopByDomainErrors, GetShopByDomainResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PutProductsData, PutProductsErrors, PutProductsResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateShopByDomainData, UpdateShopByDomainErrors, UpdateShopByDomainResponses, UpdateShopByIdData, UpdateShopByIdErrors, UpdateShopByIdResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -22,7 +22,7 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
  * Get a single product
  *
  * Retrieves a single product by its shop ID and shop's product ID.
- * Returns localized content based on Accept-Language header and currency preferences.
+ * Returns localized content based on the optional `language` query parameter and currency preferences.
  *
  * **Personalization**: When authenticated (via optional Authorization header), the response includes
  * user-specific state such as whether the product is on the user's watchlist and notification preferences.
@@ -64,7 +64,7 @@ export const getProductBySlug = <ThrowOnError extends boolean = false>(options: 
  * Returns an array of events representing state changes, price changes, and other significant
  * product lifecycle events, ordered chronologically.
  *
- * Returns localized content based on Accept-Language header and currency preferences for
+ * Returns localized content based on the optional `language` query parameter and currency preferences for
  * price information in the event payloads.
  *
  */
@@ -74,7 +74,7 @@ export const getProductHistory = <ThrowOnError extends boolean = false>(options:
  * Get similar products
  *
  * Retrieves products similar to the specified product using semantic search based on text embeddings.
- * Returns localized content based on Accept-Language header and currency preferences.
+ * Returns localized content based on the optional `language` query parameter and currency preferences.
  *
  * **Personalization**: When authenticated (via optional Authorization header), the response includes
  * user-specific state for each similar product (watchlist status, notifications).
@@ -88,6 +88,44 @@ export const getProductHistory = <ThrowOnError extends boolean = false>(options:
 export const getSimilarProducts = <ThrowOnError extends boolean = false>(options: Options<GetSimilarProductsData, ThrowOnError>) => (options.client ?? client).get<GetSimilarProductsResponses, GetSimilarProductsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/shops/{shopId}/products/{shopsProductId}/similar',
+    ...options
+});
+
+/**
+ * Simple product search via query parameters
+ *
+ * Performs product search using query parameters instead of a JSON request body.
+ * This is the cache-friendly equivalent of `POST /api/v1/products/search`.
+ * It supports sorting, cursor pagination, and product personalization (when authenticated).
+ *
+ * Required query parameters for this simple-search mode are:
+ * - `language`
+ * - `currency`
+ * - `productQuery`
+ *
+ * Additional optional filters from `ProductSearchData` are also supported as query parameters
+ * using the same field names:
+ * - `categoryId`
+ * - `periodId`
+ * - `shopName`
+ * - `excludeShopName`
+ * - `shopType`
+ * - `price[min]`, `price[max]`
+ * - `state`
+ * - `originYear[min]`, `originYear[max]`
+ * - `authenticity`
+ * - `condition`
+ * - `provenance`
+ * - `restoration`
+ * - `created[min]`, `created[max]`
+ * - `updated[min]`, `updated[max]`
+ * - `auctionStart[min]`, `auctionStart[max]`
+ * - `auctionEnd[min]`, `auctionEnd[max]`
+ *
+ */
+export const simpleSearchProducts = <ThrowOnError extends boolean = false>(options: Options<SimpleSearchProductsData, ThrowOnError>) => (options.client ?? client).get<SimpleSearchProductsResponses, SimpleSearchProductsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/products',
     ...options
 });
 
@@ -323,6 +361,22 @@ export const patchWatchlistProduct = <ThrowOnError extends boolean = false>(opti
 });
 
 /**
+ * Simple shop search via query parameters
+ *
+ * Performs shop search using query parameters instead of a JSON request body.
+ * This is the cache-friendly equivalent of `POST /api/v1/shops/search`.
+ *
+ * All optional filters from `ShopSearchData` are supported as query parameters
+ * using the same field names:
+ * - `shopNameQuery`
+ * - `shopType`
+ * - `created[min]`, `created[max]`
+ * - `updated[min]`, `updated[max]`
+ *
+ */
+export const simpleSearchShops = <ThrowOnError extends boolean = false>(options?: Options<SimpleSearchShopsData, ThrowOnError>) => (options?.client ?? client).get<SimpleSearchShopsResponses, SimpleSearchShopsErrors, ThrowOnError>({ url: '/api/v1/shops', ...options });
+
+/**
  * Create a new shop
  *
  * Creates a new shop in the system with the provided details.
@@ -426,6 +480,86 @@ export const getShopBySlug = <ThrowOnError extends boolean = false>(options: Opt
  */
 export const searchShops = <ThrowOnError extends boolean = false>(options: Options<SearchShopsData, ThrowOnError>) => (options.client ?? client).post<SearchShopsResponses, SearchShopsErrors, ThrowOnError>({
     url: '/api/v1/shops/search',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Get all categories or simple-search categories
+ *
+ * Retrieves all product categories with localized names when no query parameters are supplied.
+ * When query parameters are present, this endpoint performs simple category search and behaves
+ * like `POST /api/v1/categories/search` using query-string input instead of a JSON body.
+ *
+ * For simple-search mode, use:
+ * - `language` (optional, defaults to `en`)
+ * - `nameQuery` (optional)
+ * - `sort` and `order` (optional)
+ *
+ */
+export const getCategories = <ThrowOnError extends boolean = false>(options?: Options<GetCategoriesData, ThrowOnError>) => (options?.client ?? client).get<GetCategoriesResponses, GetCategoriesErrors, ThrowOnError>({ url: '/api/v1/categories', ...options });
+
+/**
+ * Get category details by ID
+ *
+ * Retrieves detailed category information by its kebab-case category ID.
+ * Localization is based on the optional `language` query parameter (defaults to `en`).
+ *
+ */
+export const getCategoryById = <ThrowOnError extends boolean = false>(options: Options<GetCategoryByIdData, ThrowOnError>) => (options.client ?? client).get<GetCategoryByIdResponses, GetCategoryByIdErrors, ThrowOnError>({ url: '/api/v1/categories/{categoryId}', ...options });
+
+/**
+ * Search categories
+ *
+ * Searches categories using a localized name query.
+ * Provide an optional language and optionally a nameQuery to filter results.
+ *
+ */
+export const searchCategories = <ThrowOnError extends boolean = false>(options: Options<SearchCategoriesData, ThrowOnError>) => (options.client ?? client).post<SearchCategoriesResponses, SearchCategoriesErrors, ThrowOnError>({
+    url: '/api/v1/categories/search',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Get all periods or simple-search periods
+ *
+ * Retrieves all product periods with localized names when no query parameters are supplied.
+ * When query parameters are present, this endpoint performs simple period search and behaves
+ * like `POST /api/v1/periods/search` using query-string input instead of a JSON body.
+ *
+ * For simple-search mode, use:
+ * - `language` (optional, defaults to `en`)
+ * - `nameQuery` (optional)
+ * - `sort` and `order` (optional)
+ *
+ */
+export const getPeriods = <ThrowOnError extends boolean = false>(options?: Options<GetPeriodsData, ThrowOnError>) => (options?.client ?? client).get<GetPeriodsResponses, GetPeriodsErrors, ThrowOnError>({ url: '/api/v1/periods', ...options });
+
+/**
+ * Get period details by ID
+ *
+ * Retrieves detailed period information by its kebab-case period ID.
+ * Localization is based on the optional `language` query parameter (defaults to `en`).
+ *
+ */
+export const getPeriodById = <ThrowOnError extends boolean = false>(options: Options<GetPeriodByIdData, ThrowOnError>) => (options.client ?? client).get<GetPeriodByIdResponses, GetPeriodByIdErrors, ThrowOnError>({ url: '/api/v1/periods/{periodId}', ...options });
+
+/**
+ * Search periods
+ *
+ * Searches periods using a localized name query.
+ * Provide an optional language and optionally a nameQuery to filter results.
+ *
+ */
+export const searchPeriods = <ThrowOnError extends boolean = false>(options: Options<SearchPeriodsData, ThrowOnError>) => (options.client ?? client).post<SearchPeriodsResponses, SearchPeriodsErrors, ThrowOnError>({
+    url: '/api/v1/periods/search',
     ...options,
     headers: {
         'Content-Type': 'application/json',

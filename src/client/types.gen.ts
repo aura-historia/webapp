@@ -42,23 +42,29 @@ export type GetProductData = {
      */
     shopName: string;
     shopType: ShopTypeData;
+    /**
+     * Optional kebab-case identifier for the level-one category the product has been classified into.
+     * Categories are automatically classified by the system. Examples: "musical-instruments", "antique-furniture", "antique-clocks"
+     *
+     */
+    categoryId?: string | null;
+    /**
+     * Optional localized display name for the product's level-one category.
+     * Language matches the product's primary content language. Examples: "Musikinstrumente" (de), "Antique Musical Instruments" (en)
+     *
+     */
+    category?: LocalizedTextData | null;
     title: LocalizedTextData;
     /**
      * Optional product description
      */
     description?: LocalizedTextData | null;
     /**
-     * Optional product price
+     * Complete pricing information including offer price and optional estimates.
+     * When null, no pricing information is available for this product.
+     *
      */
-    price?: PriceData | null;
-    /**
-     * Optional minimum estimated price for the product
-     */
-    priceEstimateMin?: PriceData | null;
-    /**
-     * Optional maximum estimated price for the product
-     */
-    priceEstimateMax?: PriceData | null;
+    price?: PricingData | null;
     state: ProductStateData;
     /**
      * URL to the product on the shop's website
@@ -69,55 +75,22 @@ export type GetProductData = {
      */
     images: Array<ProductImageData>;
     /**
-     * Lower end of the year range when the antique is estimated to have originated.
-     * Only present when the origin year is expressed as a range (originYear will be null).
-     * Can be present alone (without originYearMax) to indicate "after this year".
+     * Origin year information for the antique product.
+     * Can be an exact year or a year range.
      *
      */
-    originYearMin?: number | null;
+    originYear?: OriginYearData | null;
+    authenticity: AuthenticityData;
+    condition: ConditionData;
+    provenance: ProvenanceData;
+    restoration: RestorationData;
     /**
-     * Exact year the antique is estimated to have originated.
-     * When this value is present, both originYearMin and originYearMax will be null.
-     *
-     */
-    originYear?: number | null;
-    /**
-     * Upper end of the year range when the antique is estimated to have originated.
-     * Only present when the origin year is expressed as a range (originYear will be null).
-     * Can be present alone (without originYearMin) to indicate "before this year".
-     *
-     */
-    originYearMax?: number | null;
-    /**
-     * Authenticity classification of the antique product
-     */
-    authenticity?: AuthenticityData | null;
-    /**
-     * Physical condition assessment of the antique product
-     */
-    condition?: ConditionData | null;
-    /**
-     * Documentation trail and ownership history of the antique product
-     */
-    provenance?: ProvenanceData | null;
-    /**
-     * Level of restoration work performed on the antique product
-     */
-    restoration?: RestorationData | null;
-    /**
-     * Start datetime of the auction window for this product (RFC3339 format).
+     * Optional auction time window information.
      * Only present for products from auction houses with scheduled auction times.
-     * Used to indicate when bidding begins or when the item will be auctioned.
+     * Contains start and/or end timestamps for the auction.
      *
      */
-    auctionStart?: string | null;
-    /**
-     * End datetime of the auction window for this product (RFC3339 format).
-     * Only present for products from auction houses with scheduled auction times.
-     * Used to indicate when bidding ends or when the auction session concludes.
-     *
-     */
-    auctionEnd?: string | null;
+    auction?: AuctionData | null;
     /**
      * When the product was first created (RFC3339 format)
      */
@@ -131,7 +104,7 @@ export type GetProductData = {
 /**
  * Lightweight product summary information for use in search results and similar products listings.
  * Contains essential product details without extended metadata fields like description, estimates,
- * origin year details, authenticity, condition, provenance, restoration, auction times, or history.
+ * origin year details, authenticity, condition, provenance, restoration, or history.
  *
  */
 export type GetProductSummaryData = {
@@ -169,6 +142,18 @@ export type GetProductSummaryData = {
      */
     shopName: string;
     shopType: ShopTypeData;
+    /**
+     * Optional kebab-case identifier for the level-one category the product has been classified into.
+     * Categories are automatically classified by the system. Examples: "musical-instruments", "antique-furniture", "antique-clocks"
+     *
+     */
+    categoryId?: string | null;
+    /**
+     * Optional localized display name for the product's level-one category.
+     * Language matches the product's primary content language. Examples: "Musikinstrumente" (de), "Antique Musical Instruments" (en)
+     *
+     */
+    category?: LocalizedTextData | null;
     title: LocalizedTextData;
     /**
      * Optional product price
@@ -183,6 +168,13 @@ export type GetProductSummaryData = {
      * Array of product images with prohibited content classification
      */
     images: Array<ProductImageData>;
+    /**
+     * Optional auction time window information.
+     * Only present for products from auction houses with scheduled auction times.
+     * Contains start and/or end timestamps for the auction.
+     *
+     */
+    auction?: AuctionData | null;
     /**
      * When the product was first created (RFC3339 format)
      */
@@ -366,9 +358,10 @@ export type GetProductEventData = {
  * - en: English (includes en-US, en-GB, en-AU, en-CA, en-NZ, en-IE)
  * - fr: French (includes fr-FR, fr-CA, fr-BE, fr-CH, fr-LU)
  * - es: Spanish (includes es-ES, es-MX, es-AR, es-CO, es-CL, es-PE, es-VE)
+ * - it: Italian (includes it-IT, it-CH)
  *
  */
-export type LanguageData = 'de' | 'en' | 'fr' | 'es';
+export type LanguageData = 'de' | 'en' | 'fr' | 'es' | 'it';
 
 /**
  * Supported currencies (ISO 4217 codes):
@@ -406,6 +399,29 @@ export type ProductStateData = 'LISTED' | 'AVAILABLE' | 'RESERVED' | 'SOLD' | 'R
 export type AuthenticityData = 'ORIGINAL' | 'LATER_COPY' | 'REPRODUCTION' | 'QUESTIONABLE' | 'UNKNOWN';
 
 /**
+ * Auction time window information for products from auction houses.
+ * Contains optional start and end timestamps for scheduled auctions.
+ * At least one of the fields (start or end) must be present when this object is included.
+ *
+ */
+export type AuctionData = {
+    /**
+     * Start datetime of the auction window for this product (RFC3339 format).
+     * Only present for products from auction houses with scheduled auction start times.
+     * Used to indicate when bidding begins or when the item will be auctioned.
+     *
+     */
+    start?: string | null;
+    /**
+     * End datetime of the auction window for this product (RFC3339 format).
+     * Only present for products from auction houses with scheduled auction end times.
+     * Used to indicate when bidding ends or when the auction session concludes.
+     *
+     */
+    end?: string | null;
+};
+
+/**
  * Physical condition assessment of the antique product:
  * - EXCELLENT: Near-perfect condition with minimal wear
  * - GREAT: Very good condition with minor signs of age
@@ -416,6 +432,71 @@ export type AuthenticityData = 'ORIGINAL' | 'LATER_COPY' | 'REPRODUCTION' | 'QUE
  *
  */
 export type ConditionData = 'EXCELLENT' | 'GREAT' | 'GOOD' | 'FAIR' | 'POOR' | 'UNKNOWN';
+
+/**
+ * Origin year information for antique products.
+ * Can represent either an exact year or a year range.
+ * At least one of the fields (min, year, or max) will be present when this object is included.
+ *
+ */
+export type OriginYearData = {
+    /**
+     * Lower end of the year range when the antique is estimated to have originated.
+     * Only present when the origin year is expressed as a range (year will be null).
+     * Can be present alone (without max) to indicate "after this year".
+     *
+     */
+    min?: number | null;
+    /**
+     * Exact year the antique is estimated to have originated.
+     * When this value is present, both min and max will typically be null.
+     *
+     */
+    year?: number | null;
+    /**
+     * Upper end of the year range when the antique is estimated to have originated.
+     * Only present when the origin year is expressed as a range (year will be null).
+     * Can be present alone (without min) to indicate "before this year".
+     *
+     */
+    max?: number | null;
+};
+
+/**
+ * Price estimate range for a product.
+ * Contains optional minimum and maximum estimated prices.
+ *
+ */
+export type PriceEstimateData = {
+    /**
+     * Optional minimum estimated price for the product
+     */
+    min?: PriceData | null;
+    /**
+     * Optional maximum estimated price for the product
+     */
+    max?: PriceData | null;
+};
+
+/**
+ * Complete pricing information for a product.
+ * Contains both the offer price and optional price estimates.
+ *
+ */
+export type PricingData = {
+    /**
+     * The actual offer or asking price for the product.
+     * This is the price at which the product is currently being sold.
+     *
+     */
+    offer?: PriceData | null;
+    /**
+     * Optional price estimate range.
+     * Common for auction items where an estimated value range is provided.
+     *
+     */
+    estimate?: PriceEstimateData | null;
+};
 
 /**
  * Documentation trail and ownership history of the antique product:
@@ -536,12 +617,26 @@ export type ApiErrorSource = {
  * Product search configuration with query parameters and filtering options
  */
 export type ProductSearchData = {
-    language: LanguageData;
-    currency: CurrencyData;
+    language?: LanguageData;
+    currency?: CurrencyData;
     /**
      * Text query for searching products (minimum 3 characters)
      */
     productQuery: string;
+    /**
+     * Optional set of kebab-case level-one category identifiers to filter products by.
+     * When provided, products matching any of the categories are returned.
+     * Examples: ["musical-instruments"], ["antique-furniture", "antique-clocks"]
+     *
+     */
+    categoryId?: Array<string>;
+    /**
+     * Optional set of kebab-case level-one period identifiers to filter products by.
+     * When provided, products matching any of the periods are returned.
+     * Examples: ["renaissance"], ["baroque", "decorative-objects"]
+     *
+     */
+    periodId?: Array<string>;
     /**
      * Optional filter by exact shop names (keyword matching).
      * Filters products to only those from shops with names exactly matching one of the provided values.
@@ -660,6 +755,20 @@ export type PatchProductSearchData = {
      * Text query for searching products (minimum 3 characters when provided)
      */
     productQuery?: string | null;
+    /**
+     * Optional set of kebab-case level-one category identifiers to filter products by.
+     * When provided, products matching any of the categories are returned.
+     * Examples: ["musical-instruments"], ["antique-furniture", "antique-clocks"]
+     *
+     */
+    categoryId?: Array<string> | null;
+    /**
+     * Optional set of kebab-case level-one period identifiers to filter products by.
+     * When provided, products matching any of the periods are returned.
+     * Examples: ["renaissance"], ["baroque", "decorative-objects"]
+     *
+     */
+    periodId?: Array<string> | null;
     /**
      * Optional filter by exact shop names (keyword matching).
      * Filters products to only those from shops with names exactly matching one of the provided values.
@@ -1065,6 +1174,160 @@ export type ShopSearchResultData = {
 };
 
 /**
+ * Search configuration for categories
+ */
+export type CategorySearchData = {
+    language?: LanguageData;
+    /**
+     * Optional localized name query for categories
+     */
+    nameQuery?: string;
+};
+
+/**
+ * Fields available for sorting categories:
+ * - score: Sort by relevance score (default, only available when searching with text query)
+ * - name: Sort by localized category name
+ * - updated: Sort by last updated timestamp
+ * - created: Sort by creation timestamp
+ *
+ */
+export type SortCategoryFieldData = 'score' | 'name' | 'updated' | 'created';
+
+/**
+ * Summary information about a category
+ */
+export type GetCategorySummaryData = {
+    /**
+     * Kebab-case identifier of the category
+     */
+    categoryId: string;
+    /**
+     * Stable key for the category
+     */
+    categoryKey: string;
+    /**
+     * Localized display name
+     */
+    name: LocalizedTextData;
+    /**
+     * When the category was created (RFC3339 format)
+     */
+    created: string;
+    /**
+     * When the category was last updated (RFC3339 format)
+     */
+    updated: string;
+};
+
+/**
+ * Detailed category information
+ */
+export type GetCategoryData = {
+    /**
+     * Kebab-case identifier of the category
+     */
+    categoryId: string;
+    /**
+     * Stable key for the category
+     */
+    categoryKey: string;
+    /**
+     * Localized display name
+     */
+    name: LocalizedTextData;
+    /**
+     * Localized description
+     */
+    description: LocalizedTextData;
+    /**
+     * When the category was created (RFC3339 format)
+     */
+    created: string;
+    /**
+     * When the category was last updated (RFC3339 format)
+     */
+    updated: string;
+};
+
+/**
+ * Search configuration for periods
+ */
+export type PeriodSearchData = {
+    language?: LanguageData;
+    /**
+     * Optional localized name query for periods
+     */
+    nameQuery?: string;
+};
+
+/**
+ * Fields available for sorting periods:
+ * - score: Sort by relevance score (default, only available when searching with text query)
+ * - name: Sort by localized period name
+ * - updated: Sort by last updated timestamp
+ * - created: Sort by creation timestamp
+ *
+ */
+export type SortPeriodFieldData = 'score' | 'name' | 'updated' | 'created';
+
+/**
+ * Summary information about a period
+ */
+export type GetPeriodSummaryData = {
+    /**
+     * Kebab-case identifier of the period
+     */
+    periodId: string;
+    /**
+     * Stable key for the period
+     */
+    periodKey: string;
+    /**
+     * Localized display name
+     */
+    name: LocalizedTextData;
+    /**
+     * When the period was created (RFC3339 format)
+     */
+    created: string;
+    /**
+     * When the period was last updated (RFC3339 format)
+     */
+    updated: string;
+};
+
+/**
+ * Detailed period information
+ */
+export type GetPeriodData = {
+    /**
+     * Kebab-case identifier of the period
+     */
+    periodId: string;
+    /**
+     * Stable key for the period
+     */
+    periodKey: string;
+    /**
+     * Localized display name
+     */
+    name: LocalizedTextData;
+    /**
+     * Localized description
+     */
+    description: LocalizedTextData;
+    /**
+     * When the period was created (RFC3339 format)
+     */
+    created: string;
+    /**
+     * When the period was last updated (RFC3339 format)
+     */
+    updated: string;
+};
+
+/**
  * Identifier for a product using shop ID and shop's product ID
  */
 export type ProductKeyData = {
@@ -1240,15 +1503,6 @@ export type PatchUserAccountData = {
 
 export type GetProductData2 = {
     body?: never;
-    headers?: {
-        /**
-         * Preferred language for localized content.
-         * Supports quality values and multiple languages.
-         * Supported languages: de, en, fr, es (with regional variants).
-         *
-         */
-        'Accept-Language'?: string;
-    };
     path: {
         /**
          * Unique identifier of the shop
@@ -1264,6 +1518,12 @@ export type GetProductData2 = {
          * Currency for price display
          */
         currency?: CurrencyData;
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
     };
     url: '/api/v1/shops/{shopId}/products/{shopsProductId}';
 };
@@ -1300,7 +1560,7 @@ export type GetProductBySlugData = {
         /**
          * Preferred language for localized content.
          * Supports quality values and multiple languages.
-         * Supported languages: de, en, fr, es (with regional variants).
+         * Supported languages: de, en, fr, es, it (with regional variants).
          *
          */
         'Accept-Language'?: string;
@@ -1354,15 +1614,6 @@ export type GetProductBySlugResponse = GetProductBySlugResponses[keyof GetProduc
 
 export type GetProductHistoryData = {
     body?: never;
-    headers?: {
-        /**
-         * Preferred language for localized content.
-         * Supports quality values and multiple languages.
-         * Supported languages: de, en, fr, es (with regional variants).
-         *
-         */
-        'Accept-Language'?: string;
-    };
     path: {
         /**
          * Unique identifier of the shop
@@ -1378,6 +1629,12 @@ export type GetProductHistoryData = {
          * Currency for price display in event payloads
          */
         currency?: CurrencyData;
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
     };
     url: '/api/v1/shops/{shopId}/products/{shopsProductId}/history';
 };
@@ -1410,15 +1667,6 @@ export type GetProductHistoryResponse = GetProductHistoryResponses[keyof GetProd
 
 export type GetSimilarProductsData = {
     body?: never;
-    headers?: {
-        /**
-         * Preferred language for localized content.
-         * Supports quality values and multiple languages.
-         * Supported languages: de, en, fr, es (with regional variants).
-         *
-         */
-        'Accept-Language'?: string;
-    };
     path: {
         /**
          * Unique identifier of the shop
@@ -1434,6 +1682,12 @@ export type GetSimilarProductsData = {
          * Currency for price display
          */
         currency?: CurrencyData;
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
     };
     url: '/api/v1/shops/{shopId}/products/{shopsProductId}/similar';
 };
@@ -1471,6 +1725,66 @@ export type GetSimilarProductsResponses = {
 };
 
 export type GetSimilarProductsResponse = GetSimilarProductsResponses[keyof GetSimilarProductsResponses];
+
+export type SimpleSearchProductsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Language used for search matching and localized response fields
+         */
+        language: LanguageData;
+        /**
+         * Currency used for price normalization in search
+         */
+        currency: CurrencyData;
+        /**
+         * Text query for products (minimum 3 characters)
+         */
+        productQuery: string;
+        /**
+         * Field to sort results by
+         */
+        sort?: SortProductFieldData;
+        /**
+         * Sort order (only valid when sort is specified)
+         */
+        order?: 'asc' | 'desc';
+        /**
+         * Cursor value for pagination (search-after pattern).
+         * This is a JSON value returned as `searchAfter` in the previous response.
+         *
+         */
+        searchAfter?: Array<unknown>;
+        /**
+         * Number of products to return per page
+         */
+        size?: number;
+    };
+    url: '/api/v1/products';
+};
+
+export type SimpleSearchProductsErrors = {
+    /**
+     * Bad request - invalid query parameters
+     */
+    400: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type SimpleSearchProductsError = SimpleSearchProductsErrors[keyof SimpleSearchProductsErrors];
+
+export type SimpleSearchProductsResponses = {
+    /**
+     * Simple search results returned successfully
+     */
+    200: PersonalizedProductSearchResultData;
+};
+
+export type SimpleSearchProductsResponse = SimpleSearchProductsResponses[keyof SimpleSearchProductsResponses];
 
 export type PutProductsData = {
     /**
@@ -1772,15 +2086,6 @@ export type UpdateUserSearchFilterResponse = UpdateUserSearchFilterResponses[key
 
 export type GetWatchlistProductsData = {
     body?: never;
-    headers?: {
-        /**
-         * Preferred language for localized content.
-         * Supports quality values and multiple languages.
-         * Supported languages: de, en, fr, es (with regional variants).
-         *
-         */
-        'Accept-Language'?: string;
-    };
     path?: never;
     query?: {
         /**
@@ -1806,6 +2111,12 @@ export type GetWatchlistProductsData = {
          * Number of products to return per page
          */
         size?: number;
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
     };
     url: '/api/v1/me/watchlist';
 };
@@ -2045,6 +2356,58 @@ export type PatchWatchlistProductResponses = {
 };
 
 export type PatchWatchlistProductResponse = PatchWatchlistProductResponses[keyof PatchWatchlistProductResponses];
+
+export type SimpleSearchShopsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Optional text query for searching shops by name
+         */
+        shopNameQuery?: string;
+        /**
+         * Field to sort results by
+         */
+        sort?: SortShopFieldData;
+        /**
+         * Sort order (only valid when sort is specified)
+         */
+        order?: 'asc' | 'desc';
+        /**
+         * Cursor value for keyset pagination (search-after pattern).
+         * This is a JSON array value returned as `searchAfter` in the previous response.
+         *
+         */
+        searchAfter?: Array<unknown>;
+        /**
+         * Number of shops to return per page
+         */
+        size?: number;
+    };
+    url: '/api/v1/shops';
+};
+
+export type SimpleSearchShopsErrors = {
+    /**
+     * Bad request - invalid query parameters
+     */
+    400: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type SimpleSearchShopsError = SimpleSearchShopsErrors[keyof SimpleSearchShopsErrors];
+
+export type SimpleSearchShopsResponses = {
+    /**
+     * Shop search results returned successfully
+     */
+    200: ShopSearchResultData;
+};
+
+export type SimpleSearchShopsResponse = SimpleSearchShopsResponses[keyof SimpleSearchShopsResponses];
 
 export type CreateShopData = {
     /**
@@ -2356,3 +2719,271 @@ export type SearchShopsResponses = {
 };
 
 export type SearchShopsResponse = SearchShopsResponses[keyof SearchShopsResponses];
+
+export type GetCategoriesData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Optional language for localization and simple-search matching (defaults to `en`)
+         */
+        language?: LanguageData;
+        /**
+         * Optional localized name query (simple-search mode)
+         */
+        nameQuery?: string;
+        /**
+         * Field to sort results by in simple-search mode
+         */
+        sort?: SortCategoryFieldData;
+        /**
+         * Sort order (only valid when sort is specified)
+         */
+        order?: 'asc' | 'desc';
+    };
+    url: '/api/v1/categories';
+};
+
+export type GetCategoriesErrors = {
+    /**
+     * Bad request - invalid query parameters in simple-search mode
+     */
+    400: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetCategoriesError = GetCategoriesErrors[keyof GetCategoriesErrors];
+
+export type GetCategoriesResponses = {
+    /**
+     * Categories returned successfully
+     */
+    200: Array<GetCategorySummaryData>;
+};
+
+export type GetCategoriesResponse = GetCategoriesResponses[keyof GetCategoriesResponses];
+
+export type GetCategoryByIdData = {
+    body?: never;
+    path: {
+        /**
+         * Kebab-case identifier of the category
+         */
+        categoryId: string;
+    };
+    query?: {
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+    };
+    url: '/api/v1/categories/{categoryId}';
+};
+
+export type GetCategoryByIdErrors = {
+    /**
+     * Bad request - missing category ID
+     */
+    400: ApiError;
+    /**
+     * Category not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetCategoryByIdError = GetCategoryByIdErrors[keyof GetCategoryByIdErrors];
+
+export type GetCategoryByIdResponses = {
+    /**
+     * Category found and returned successfully
+     */
+    200: GetCategoryData;
+};
+
+export type GetCategoryByIdResponse = GetCategoryByIdResponses[keyof GetCategoryByIdResponses];
+
+export type SearchCategoriesData = {
+    /**
+     * Category search configuration.
+     * Omit `language` to default to `en`. Omit `nameQuery` to return all categories.
+     *
+     */
+    body: CategorySearchData;
+    path?: never;
+    query?: {
+        /**
+         * Field to sort results by
+         */
+        sort?: SortCategoryFieldData;
+        /**
+         * Sort order (only valid when sort is specified)
+         */
+        order?: 'asc' | 'desc';
+    };
+    url: '/api/v1/categories/search';
+};
+
+export type SearchCategoriesErrors = {
+    /**
+     * Bad request - invalid parameters or body
+     */
+    400: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type SearchCategoriesError = SearchCategoriesErrors[keyof SearchCategoriesErrors];
+
+export type SearchCategoriesResponses = {
+    /**
+     * Category search results returned successfully
+     */
+    200: Array<GetCategorySummaryData>;
+};
+
+export type SearchCategoriesResponse = SearchCategoriesResponses[keyof SearchCategoriesResponses];
+
+export type GetPeriodsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Optional language for localization and simple-search matching (defaults to `en`)
+         */
+        language?: LanguageData;
+        /**
+         * Optional localized name query (simple-search mode)
+         */
+        nameQuery?: string;
+        /**
+         * Field to sort results by in simple-search mode
+         */
+        sort?: SortPeriodFieldData;
+        /**
+         * Sort order (only valid when sort is specified)
+         */
+        order?: 'asc' | 'desc';
+    };
+    url: '/api/v1/periods';
+};
+
+export type GetPeriodsErrors = {
+    /**
+     * Bad request - invalid query parameters in simple-search mode
+     */
+    400: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetPeriodsError = GetPeriodsErrors[keyof GetPeriodsErrors];
+
+export type GetPeriodsResponses = {
+    /**
+     * Periods returned successfully
+     */
+    200: Array<GetPeriodSummaryData>;
+};
+
+export type GetPeriodsResponse = GetPeriodsResponses[keyof GetPeriodsResponses];
+
+export type GetPeriodByIdData = {
+    body?: never;
+    path: {
+        /**
+         * Kebab-case identifier of the period
+         */
+        periodId: string;
+    };
+    query?: {
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+    };
+    url: '/api/v1/periods/{periodId}';
+};
+
+export type GetPeriodByIdErrors = {
+    /**
+     * Bad request - missing period ID
+     */
+    400: ApiError;
+    /**
+     * Period not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetPeriodByIdError = GetPeriodByIdErrors[keyof GetPeriodByIdErrors];
+
+export type GetPeriodByIdResponses = {
+    /**
+     * Period found and returned successfully
+     */
+    200: GetPeriodData;
+};
+
+export type GetPeriodByIdResponse = GetPeriodByIdResponses[keyof GetPeriodByIdResponses];
+
+export type SearchPeriodsData = {
+    /**
+     * Period search configuration.
+     * Omit `language` to default to `en`. Omit `nameQuery` to return all periods.
+     *
+     */
+    body: PeriodSearchData;
+    path?: never;
+    query?: {
+        /**
+         * Field to sort results by
+         */
+        sort?: SortPeriodFieldData;
+        /**
+         * Sort order (only valid when sort is specified)
+         */
+        order?: 'asc' | 'desc';
+    };
+    url: '/api/v1/periods/search';
+};
+
+export type SearchPeriodsErrors = {
+    /**
+     * Bad request - invalid parameters or body
+     */
+    400: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type SearchPeriodsError = SearchPeriodsErrors[keyof SearchPeriodsErrors];
+
+export type SearchPeriodsResponses = {
+    /**
+     * Period search results returned successfully
+     */
+    200: Array<GetPeriodSummaryData>;
+};
+
+export type SearchPeriodsResponse = SearchPeriodsResponses[keyof SearchPeriodsResponses];
