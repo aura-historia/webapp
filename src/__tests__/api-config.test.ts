@@ -71,4 +71,22 @@ describe("api-config", () => {
         expect(configCall.auth).toBeDefined();
         expect(typeof configCall.auth).toBe("function");
     });
+
+    it("should always set default user-agent header", async () => {
+        vi.doMock("@/env.ts", () => ({
+            env: {
+                VITE_API_URL: "https://test.com",
+            },
+        }));
+
+        await import("@/api-config.ts");
+
+        expect(mockSetConfig).toHaveBeenCalledWith(
+            expect.objectContaining({
+                headers: expect.objectContaining({
+                    "user-agent": "aura-historia-client-default",
+                }),
+            }),
+        );
+    });
 });

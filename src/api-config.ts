@@ -4,6 +4,9 @@ import { env } from "@/env.ts";
 
 client.setConfig({
     baseUrl: env.VITE_API_URL ?? "https://api.dev.aura-historia.com",
+    headers: {
+        "user-agent": "aura-historia-client-default",
+    },
     auth: async () => {
         const session = await fetchAuthSession();
         return session.tokens?.accessToken.toString();
