@@ -366,7 +366,7 @@
     },
     "highlight3": {
       "title": "Vollständig Sprach-unabhängig",
-      "description": "Wir übersetzen jeden Artikel in verschiedene Sprachen. Damit ist es egal, in welcher Sprache Sie suchen. Derzeit unterstützen wir Deutsch, Englisch, Französisch und Spanisch."
+      "description": "Wir übersetzen jeden Artikel in verschiedene Sprachen. Damit ist es egal, in welcher Sprache Sie suchen. Derzeit unterstützen wir Deutsch, Englisch, Französisch, Spanisch und Italienisch."
     },
     "stats": {
       "shops": "500",
@@ -409,7 +409,7 @@
       },
       "translations": {
         "title": "Automatische Übersetzungen",
-        "description": "Suchen und entdecken Sie alle Artikel in Ihrer bevorzugten Sprache, ohne Barrieren. Wir unterstützen derzeit Deutsch. Englisch, Französisch und Spanisch."
+        "description": "Suchen und entdecken Sie alle Artikel in Ihrer bevorzugten Sprache, ohne Barrieren. Wir unterstützen derzeit Deutsch, Englisch, Französisch, Spanisch und Italienisch."
       },
       "personalFilter": {
         "title": "Suchaufträge",
@@ -608,7 +608,8 @@
       "de": "Deutsch",
       "en": "Englisch",
       "fr": "Französisch",
-      "es": "Spanisch"
+      "es": "Spanisch",
+      "it": "Italienisch"
     },
     "currencies": {
       "EUR": "EUR - Euro",

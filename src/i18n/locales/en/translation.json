@@ -367,7 +367,7 @@
     },
     "highlight3": {
       "title": "Fully Language-agnostic",
-      "description": "We translate every antique into multiple languages. The language in which you search does not matter. We currently support English, German, French and Spanish."
+      "description": "We translate every antique into multiple languages. The language in which you search does not matter. We currently support English, German, French, Spanish and Italian."
     },
     "stats": {
       "shops": "500",
@@ -410,7 +410,7 @@
       },
       "translations": {
         "title": "Automatic Translations",
-        "description": "Search and discover all items in your preferred language, without any barriers. We currently support English, German, French and Spanish."
+        "description": "Search and discover all items in your preferred language, without any barriers. We currently support English, German, French, Spanish and Italian."
       },
       "personalFilter": {
         "title": "Search Requests",
@@ -609,7 +609,8 @@
       "de": "German",
       "en": "English",
       "fr": "French",
-      "es": "Spanish"
+      "es": "Spanish",
+      "it": "Italian"
     },
     "currencies": {
       "EUR": "EUR - Euro",
