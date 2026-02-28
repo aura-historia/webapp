@@ -169,9 +169,11 @@
         "excludeMerchant": "Reimposta filtro escludi commerciante",
         "merchants": "Reimposta filtri commercianti",
         "shopType": "Reimposta filtro tipo di negozio",
+        "periodId": "Reimposta filtro periodo",
         "qualityIndicators": "Reimposta filtro indicatori di qualità"
       },
       "qualityIndicators": "Indicatori di qualità",
+      "periodId": "Periodo / Stile",
       "originYear": "Anno di origine",
       "authenticity": "Autenticità",
       "condition": "Condizione",

@@ -20,6 +20,7 @@ export type SearchFilterArguments = {
     merchant?: string[];
     excludeMerchant?: string[];
     shopType?: ShopType[];
+    periodId?: string[];
     sortField?: SortMode["field"];
     sortOrder?: SortMode["order"];
     originYearMin?: number;

@@ -169,9 +169,11 @@
         "excludeMerchant": "Reset exclude merchant filter",
         "merchants": "Reset merchant filters",
         "shopType": "Reset shop type filter",
+        "periodId": "Reset period filter",
         "qualityIndicators": "Reset quality indicators filter"
       },
       "qualityIndicators": "Quality Indicators",
+      "periodId": "Period / Style",
       "originYear": "Year of Origin",
       "authenticity": "Authenticity",
       "condition": "Condition",
