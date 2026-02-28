@@ -62,7 +62,12 @@
     "imprint": "Mentions légales",
     "privacy": "Politique de confidentialité",
     "terms": "CGV",
-    "copyright": "© {{year}} Aura Historia"
+    "copyright": "© {{year}} Aura Historia",
+    "sections": {
+      "company": "Entreprise",
+      "followUs": "Suivez-nous",
+      "contact": "Contact"
+    }
   },
   "account": {
     "title": "Mon compte",

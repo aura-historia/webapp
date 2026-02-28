@@ -39,6 +39,8 @@ describe("Footer Component", () => {
 
     it("should render all navigation links with correct text", () => {
         expect(screen.getByText("Impressum")).toBeInTheDocument();
+        expect(screen.getByText("Datenschutzerklärung")).toBeInTheDocument();
+        expect(screen.getByText("AGB")).toBeInTheDocument();
     });
 
     it("should render copyright text with correct year", () => {
@@ -47,6 +49,43 @@ describe("Footer Component", () => {
 
     it("should render navigation links with correct href attributes", () => {
         expect(screen.getByText("Impressum").closest("a")).toHaveAttribute("href", "/imprint");
+        expect(screen.getByText("Datenschutzerklärung").closest("a")).toHaveAttribute(
+            "href",
+            "/privacy",
+        );
+        expect(screen.getByText("AGB").closest("a")).toHaveAttribute("href", "/terms");
+    });
+
+    it("should render social media icons with correct links", () => {
+        const xLink = screen.getByLabelText("X");
+        expect(xLink).toHaveAttribute("href", "https://x.com/aurahistoria");
+        expect(xLink).toHaveAttribute("target", "_blank");
+
+        const instagramLink = screen.getByLabelText("Instagram");
+        expect(instagramLink).toHaveAttribute("href", "https://www.instagram.com/aura_historia/");
+
+        const youtubeLink = screen.getByLabelText("YouTube");
+        expect(youtubeLink).toHaveAttribute("href", "https://www.youtube.com/@aurahistoria");
+    });
+
+    it("should render social media text links in follow us section", () => {
+        const socialLinks = screen.getAllByText("X");
+        expect(socialLinks.length).toBeGreaterThanOrEqual(1);
+
+        expect(screen.getByText("Instagram")).toBeInTheDocument();
+        expect(screen.getByText("YouTube")).toBeInTheDocument();
+        expect(screen.getByText("TikTok")).toBeInTheDocument();
+    });
+
+    it("should render footer section headings", () => {
+        expect(screen.getByText("Unternehmen")).toBeInTheDocument();
+        expect(screen.getByText("Folge uns")).toBeInTheDocument();
+        expect(screen.getByText("Kontakt")).toBeInTheDocument();
+    });
+
+    it("should render contact email", () => {
+        const emailLink = screen.getByText("contact@aura-historia.com");
+        expect(emailLink).toHaveAttribute("href", "mailto:contact@aura-historia.com");
     });
 
     it("should change language", async () => {

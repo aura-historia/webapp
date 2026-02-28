@@ -66,6 +66,15 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                     name: "twitter:card",
                     content: "summary",
                 },
+                {
+                    name: "twitter:site",
+                    content: "@aurahistoria",
+                },
+                // Additional Open Graph defaults
+                {
+                    property: "og:type",
+                    content: "website",
+                },
             ],
             links: [
                 {
