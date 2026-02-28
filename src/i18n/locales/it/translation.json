@@ -62,7 +62,12 @@
     "imprint": "Note legali",
     "privacy": "Informativa sulla privacy",
     "terms": "Termini e condizioni",
-    "copyright": "© {{year}} Aura Historia"
+    "copyright": "© {{year}} Aura Historia",
+    "sections": {
+      "company": "Azienda",
+      "followUs": "Seguici",
+      "contact": "Contatto"
+    }
   },
   "account": {
     "title": "Il mio account",
@@ -169,9 +174,12 @@
         "excludeMerchant": "Reimposta filtro escludi commerciante",
         "merchants": "Reimposta filtri commercianti",
         "shopType": "Reimposta filtro tipo di negozio",
+        "periodId": "Reimposta filtro periodo",
         "qualityIndicators": "Reimposta filtro indicatori di qualità"
       },
       "qualityIndicators": "Indicatori di qualità",
+      "periodId": "Periodo / Stile",
+      "searchPeriods": "Cerca periodi...",
       "originYear": "Anno di origine",
       "authenticity": "Autenticità",
       "condition": "Condizione",

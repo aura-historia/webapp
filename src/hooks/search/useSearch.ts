@@ -84,6 +84,10 @@ function buildFilterQuery(searchArgs: SearchFilterArguments): Record<string, unk
         }
     }
 
+    if (searchArgs.periodId && searchArgs.periodId.length > 0) {
+        filters.periodId = searchArgs.periodId;
+    }
+
     if (searchArgs.originYearMin != null || searchArgs.originYearMax != null) {
         filters.originYear = {
             min: searchArgs.originYearMin ?? undefined,
