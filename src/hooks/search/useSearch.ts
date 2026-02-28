@@ -28,7 +28,9 @@ const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
  * Builds additional filter query parameters from search arguments.
  * These filters are supported by the GET /api/v1/products endpoint as query params
  * (using the same field names as ProductSearchData) but are not formally defined
- * in the OpenAPI spec as individual parameters.
+ * in the OpenAPI spec as individual parameters. The type assertion at the call site
+ * is required because the generated types only include the explicitly defined params.
+ * See: internal-api CHANGELOG 2026-02-20 "Cacheable GET Simple-Search Endpoints"
  */
 function buildFilterQuery(searchArgs: SearchFilterArguments): Record<string, unknown> {
     const filters: Record<string, unknown> = {};
