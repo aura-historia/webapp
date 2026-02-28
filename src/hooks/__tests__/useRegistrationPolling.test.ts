@@ -384,7 +384,7 @@ describe("useRegistrationPolling", () => {
             });
 
             await waitFor(() => {
-                expect(result.current.isLoading).toBe(true);
+                expect(mockUpdateUserAccount).toHaveBeenCalledTimes(1);
             });
         });
     });
