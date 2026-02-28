@@ -69,8 +69,13 @@ describe("Footer Component", () => {
     });
 
     it("should render social media text links in follow us section", () => {
-        const socialLinks = screen.getAllByText("X");
-        expect(socialLinks.length).toBeGreaterThanOrEqual(1);
+        const followUsSection = screen.getByText("Folge uns").closest("div");
+        expect(followUsSection).not.toBeNull();
+
+        const socialTextLink = followUsSection!.querySelector(
+            'a[href="https://x.com/aurahistoria"]',
+        );
+        expect(socialTextLink).toBeInTheDocument();
 
         expect(screen.getByText("Instagram")).toBeInTheDocument();
         expect(screen.getByText("YouTube")).toBeInTheDocument();
