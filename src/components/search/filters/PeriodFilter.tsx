@@ -45,6 +45,8 @@ export function PeriodFilter() {
                         onChange={field.onChange}
                         allSelectedLabel={t("search.filter.all")}
                         placeholder={t("search.filter.select")}
+                        searchable
+                        searchPlaceholder={t("search.filter.searchPeriods")}
                     />
                 )}
             />

@@ -120,6 +120,69 @@ describe("PeriodFilter", () => {
         expect(screen.getByText("Jugendstil")).toBeInTheDocument();
     });
 
+    it("filters options when typing in search input", async () => {
+        const user = userEvent.setup();
+
+        render(
+            <FormWrapper>
+                <PeriodFilter />
+            </FormWrapper>,
+        );
+
+        await screen.findByRole("combobox");
+        await user.click(screen.getByRole("combobox"));
+
+        const searchInput = screen.getByPlaceholderText("Epochen suchen...");
+        await user.type(searchInput, "Ren");
+
+        expect(screen.getByText("Renaissance")).toBeInTheDocument();
+        expect(screen.queryByText("Barock")).not.toBeInTheDocument();
+        expect(screen.queryByText("Jugendstil")).not.toBeInTheDocument();
+    });
+
+    it("shows all options again when search is cleared", async () => {
+        const user = userEvent.setup();
+
+        render(
+            <FormWrapper>
+                <PeriodFilter />
+            </FormWrapper>,
+        );
+
+        await screen.findByRole("combobox");
+        await user.click(screen.getByRole("combobox"));
+
+        const searchInput = screen.getByPlaceholderText("Epochen suchen...");
+        await user.type(searchInput, "Ren");
+
+        expect(screen.queryByText("Barock")).not.toBeInTheDocument();
+
+        await user.clear(searchInput);
+
+        expect(screen.getByText("Renaissance")).toBeInTheDocument();
+        expect(screen.getByText("Barock")).toBeInTheDocument();
+        expect(screen.getByText("Jugendstil")).toBeInTheDocument();
+    });
+
+    it("performs case-insensitive search", async () => {
+        const user = userEvent.setup();
+
+        render(
+            <FormWrapper>
+                <PeriodFilter />
+            </FormWrapper>,
+        );
+
+        await screen.findByRole("combobox");
+        await user.click(screen.getByRole("combobox"));
+
+        const searchInput = screen.getByPlaceholderText("Epochen suchen...");
+        await user.type(searchInput, "barock");
+
+        expect(screen.getByText("Barock")).toBeInTheDocument();
+        expect(screen.queryByText("Renaissance")).not.toBeInTheDocument();
+    });
+
     it("selects an option when clicked in dropdown", async () => {
         const user = userEvent.setup();
 
