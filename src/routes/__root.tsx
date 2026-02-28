@@ -29,6 +29,11 @@ interface MyRouterContext {
     queryClient: QueryClient;
 }
 
+const COMPANY_LOGO_URL =
+    "https://aura-historia-public.s3.eu-central-1.amazonaws.com/branding/1080x1080_icon.png";
+const COMPANY_BANNER_URL =
+    "https://aura-historia-public.s3.eu-central-1.amazonaws.com/branding/banner_twitter_slogan.png";
+
 export const Route = createRootRouteWithContext<MyRouterContext>()({
     head: () => {
         const locale = i18n.language || "en";
@@ -64,16 +69,32 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 // Twitter Card defaults
                 {
                     name: "twitter:card",
-                    content: "summary",
+                    content: "summary_large_image",
                 },
                 {
                     name: "twitter:site",
                     content: "@aurahistoria",
                 },
+                {
+                    name: "twitter:image",
+                    content: COMPANY_BANNER_URL,
+                },
+                {
+                    name: "twitter:image:alt",
+                    content: i18n.t("meta.siteName"),
+                },
                 // Additional Open Graph defaults
                 {
                     property: "og:type",
                     content: "website",
+                },
+                {
+                    property: "og:image",
+                    content: COMPANY_BANNER_URL,
+                },
+                {
+                    property: "og:image:alt",
+                    content: i18n.t("meta.siteName"),
                 },
             ],
             links: [
@@ -87,6 +108,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                     as: "font",
                     type: "font/woff2",
                     crossOrigin: "anonymous",
+                },
+                {
+                    rel: "icon",
+                    href: COMPANY_LOGO_URL,
+                    type: "image/png",
                 },
             ],
         };
