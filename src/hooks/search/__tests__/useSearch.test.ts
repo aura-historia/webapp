@@ -88,6 +88,10 @@ describe("useSearch", () => {
     it("uses simpleSearchProducts GET with mapped query filters", async () => {
         const createdFrom = new Date("2024-01-01T00:00:00.000Z");
         const createdTo = new Date("2024-12-31T23:59:59.999Z");
+        const updatedFrom = new Date("2025-01-01T00:00:00.000Z");
+        const updatedTo = new Date("2025-06-30T23:59:59.999Z");
+        const auctionFrom = new Date("2026-01-01T00:00:00.000Z");
+        const auctionTo = new Date("2026-02-01T00:00:00.000Z");
 
         const args: SearchFilterArguments = {
             q: "renaissance",
@@ -96,12 +100,22 @@ describe("useSearch", () => {
             allowedStates: ["AVAILABLE"],
             creationDateFrom: createdFrom,
             creationDateTo: createdTo,
+            updateDateFrom: updatedFrom,
+            updateDateTo: updatedTo,
+            auctionDateFrom: auctionFrom,
+            auctionDateTo: auctionTo,
             merchant: ["Aurora Gallery"],
             excludeMerchant: ["Other Shop"],
-            shopType: ["AUCTION_HOUSE"],
+            shopType: ["UNKNOWN", "AUCTION_HOUSE"],
             periodId: ["renaissance"],
             sortField: "PRICE",
             sortOrder: "ASC",
+            originYearMin: 1500,
+            originYearMax: 1650,
+            authenticity: ["ORIGINAL", "UNKNOWN"],
+            condition: ["GREAT", "UNKNOWN"],
+            provenance: ["COMPLETE", "UNKNOWN"],
+            restoration: ["MINOR", "UNKNOWN"],
         };
 
         renderHook(() => useSearch(args), {
@@ -126,10 +140,23 @@ describe("useSearch", () => {
                     min: "2024-01-01T00:00:00.000Z",
                     max: "2024-12-31T23:59:59.999Z",
                 },
+                updated: {
+                    min: "2025-01-01T00:00:00.000Z",
+                    max: "2025-06-30T23:59:59.999Z",
+                },
+                auctionStart: {
+                    min: "2026-01-01T00:00:00.000Z",
+                    max: "2026-02-01T00:00:00.000Z",
+                },
                 shopName: ["Aurora Gallery"],
                 excludeShopName: ["Other Shop"],
                 shopType: ["AUCTION_HOUSE"],
                 periodId: ["renaissance"],
+                originYear: { min: 1500, max: 1650 },
+                authenticity: ["ORIGINAL", "UNKNOWN"],
+                condition: ["GREAT", "UNKNOWN"],
+                provenance: ["COMPLETE", "UNKNOWN"],
+                restoration: ["MINOR", "UNKNOWN"],
             }),
         });
     });
