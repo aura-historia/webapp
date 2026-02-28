@@ -30,6 +30,10 @@
     },
     "watchlist": {
       "title": "Mi lista de seguimiento | Aura Historia"
+    },
+    "category": {
+      "title": "{{name}} | Aura Historia",
+      "description": "Descubre {{name}} en Aura Historia. Explora antigüedades únicas de comerciantes de confianza de todo el mundo."
     }
   },
   "validation": {
@@ -687,5 +691,22 @@
     "codeMismatch": "El código introducido es incorrecto.",
     "confirmationCodeCannotBeEmpty": "El código de confirmación no puede estar vacío.",
     "invalidCodeProvidedRequestAgain": "Código inválido, por favor solicite uno nuevo."
+  },
+  "category": {
+    "latestProducts": "Últimos productos",
+    "mostExpensive": "Más valiosos",
+    "viewDetails": "Ver detalles",
+    "exploreCategory": "Explorar {{category}}",
+    "loadingMore": "Cargando más productos...",
+    "allLoaded_one": "Has visto {{count}} producto en esta categoría.",
+    "allLoaded_other": "Has visto los {{count}} productos de esta categoría.",
+    "noProducts": {
+      "title": "No se encontraron productos",
+      "description": "Actualmente no hay productos en esta categoría."
+    },
+    "error": {
+      "title": "Error al cargar productos",
+      "description": "No se pudieron cargar los productos. Inténtelo de nuevo más tarde."
+    }
   }
 }

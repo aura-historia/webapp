@@ -30,6 +30,10 @@
     },
     "watchlist": {
       "title": "Ma liste de surveillance | Aura Historia"
+    },
+    "category": {
+      "title": "{{name}} | Aura Historia",
+      "description": "Découvrez {{name}} sur Aura Historia. Parcourez des antiquités uniques de marchands de confiance du monde entier."
     }
   },
   "validation": {
@@ -687,5 +691,22 @@
     "codeMismatch": "Le code entré est incorrect.",
     "confirmationCodeCannotBeEmpty": "Le code de confirmation ne peut pas être vide.",
     "invalidCodeProvidedRequestAgain": "Code invalide, veuillez en demander un nouveau."
+  },
+  "category": {
+    "latestProducts": "Derniers produits",
+    "mostExpensive": "Les plus précieux",
+    "viewDetails": "Voir les détails",
+    "exploreCategory": "Découvrir {{category}}",
+    "loadingMore": "Chargement de plus de produits...",
+    "allLoaded_one": "Vous avez vu {{count}} produit dans cette catégorie.",
+    "allLoaded_other": "Vous avez vu les {{count}} produits de cette catégorie.",
+    "noProducts": {
+      "title": "Aucun produit trouvé",
+      "description": "Il n'y a actuellement aucun produit dans cette catégorie."
+    },
+    "error": {
+      "title": "Erreur de chargement des produits",
+      "description": "Les produits n'ont pas pu être chargés. Veuillez réessayer plus tard."
+    }
   }
 }

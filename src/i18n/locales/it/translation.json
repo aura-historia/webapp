@@ -30,6 +30,10 @@
     },
     "watchlist": {
       "title": "La mia lista dei preferiti | Aura Historia"
+    },
+    "category": {
+      "title": "{{name}} | Aura Historia",
+      "description": "Scopri {{name}} su Aura Historia. Sfoglia antiquariato unico da commercianti fidati di tutto il mondo."
     }
   },
   "validation": {
@@ -687,5 +691,22 @@
     "codeMismatch": "Il codice inserito non è corretto.",
     "confirmationCodeCannotBeEmpty": "Il codice di conferma non può essere vuoto.",
     "invalidCodeProvidedRequestAgain": "Codice non valido, richiedi un nuovo codice."
+  },
+  "category": {
+    "latestProducts": "Ultimi prodotti",
+    "mostExpensive": "I più preziosi",
+    "viewDetails": "Vedi dettagli",
+    "exploreCategory": "Esplora {{category}}",
+    "loadingMore": "Caricamento di altri prodotti...",
+    "allLoaded_one": "Hai visto {{count}} prodotto in questa categoria.",
+    "allLoaded_other": "Hai visto tutti i {{count}} prodotti di questa categoria.",
+    "noProducts": {
+      "title": "Nessun prodotto trovato",
+      "description": "Al momento non ci sono prodotti in questa categoria."
+    },
+    "error": {
+      "title": "Errore nel caricamento dei prodotti",
+      "description": "Non è stato possibile caricare i prodotti. Riprovare più tardi."
+    }
   }
 }

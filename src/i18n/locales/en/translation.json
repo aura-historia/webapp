@@ -30,6 +30,10 @@
     },
     "watchlist": {
       "title": "My Watchlist | Aura Historia"
+    },
+    "category": {
+      "title": "{{name}} | Aura Historia",
+      "description": "Discover {{name}} on Aura Historia. Browse unique antiques from trusted dealers worldwide."
     }
   },
   "validation": {
@@ -687,5 +691,22 @@
     "codeMismatch": "The code entered is incorrect.",
     "confirmationCodeCannotBeEmpty": "Confirmation code cannot be empty.",
     "invalidCodeProvidedRequestAgain": "Invalid code provided, please request a code again."
+  },
+  "category": {
+    "latestProducts": "Latest Products",
+    "mostExpensive": "Most Valuable",
+    "viewDetails": "View Details",
+    "exploreCategory": "Explore {{category}}",
+    "loadingMore": "Loading more products...",
+    "allLoaded_one": "You have seen {{count}} product in this category.",
+    "allLoaded_other": "You have seen all {{count}} products in this category.",
+    "noProducts": {
+      "title": "No Products Found",
+      "description": "There are currently no products in this category."
+    },
+    "error": {
+      "title": "Error Loading Products",
+      "description": "Products could not be loaded. Please try again later."
+    }
   }
 }
