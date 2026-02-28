@@ -40,7 +40,7 @@ export function useWatchlistNotificationMutation(shopId: string, shopsProductId:
             // Update product detail query
             queryClient.setQueryData(
                 getProductQueryKey({
-                    headers: { "Accept-Language": parseLanguage(i18n.language) },
+                    query: { language: parseLanguage(i18n.language) },
                     path: { shopId, shopsProductId },
                 }),
                 (old: PersonalizedGetProductData | undefined) =>
