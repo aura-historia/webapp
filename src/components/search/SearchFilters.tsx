@@ -287,13 +287,13 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                 <div className={"flex flex-col gap-4"}>
                     <PriceSpanFilter />
                     <ProductStateFilter />
+                    <PeriodFilter />
                     <QualityIndicatorsFilter />
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />
                     <AuctionDateSpanFilter />
                     <MerchantFilters />
                     <ShopTypeFilter />
-                    <PeriodFilter />
                 </div>
                 <div className="flex flex-col gap-2">
                     <Button className="w-full shadow-sm" type="submit">
