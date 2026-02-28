@@ -1,6 +1,6 @@
 import { getSimilarProducts } from "@/client";
 import {
-    mapPersonalizedGetProductDataToOverviewProduct,
+    mapPersonalizedGetProductSummaryDataToOverviewProduct,
     type OverviewProduct,
 } from "@/data/internal/product/OverviewProduct.ts";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
@@ -25,14 +25,12 @@ export function useSimilarProducts(
         queryKey: ["similarProducts", shopId, shopsProductId, i18n.language],
         queryFn: async () => {
             const result = await getSimilarProducts({
-                headers: {
-                    "Accept-Language": parseLanguage(i18n.language),
-                },
-                path: { shopId, shopsProductId },
                 query: {
+                    language: parseLanguage(i18n.language),
                     // TODO: Make currency configurable
                     currency: "EUR",
                 },
+                path: { shopId, shopsProductId },
             });
 
             if (result.error) {
@@ -55,7 +53,7 @@ export function useSimilarProducts(
 
             return {
                 products: result.data.map((product) =>
-                    mapPersonalizedGetProductDataToOverviewProduct(product, i18n.language),
+                    mapPersonalizedGetProductSummaryDataToOverviewProduct(product, i18n.language),
                 ),
                 isEmbeddingsPending: false,
             };

@@ -1,5 +1,5 @@
 import { complexSearchProducts } from "@/client";
-import { mapPersonalizedGetProductDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import {
     type InfiniteData,
     useInfiniteQuery,
@@ -139,7 +139,10 @@ export function useSearch(
             return {
                 products:
                     result.data?.items?.map((product) =>
-                        mapPersonalizedGetProductDataToOverviewProduct(product, i18n.language),
+                        mapPersonalizedGetProductSummaryDataToOverviewProduct(
+                            product,
+                            i18n.language,
+                        ),
                     ) ?? [],
                 size: result.data?.size,
                 total: result.data?.total,

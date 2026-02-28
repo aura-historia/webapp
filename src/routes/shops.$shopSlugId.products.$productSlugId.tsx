@@ -26,8 +26,8 @@ export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId
 
         await queryClient.ensureQueryData(
             getProductHistoryOptions({
-                headers: {
-                    "Accept-Language": parseLanguage(i18n.language),
+                query: {
+                    language: parseLanguage(i18n.language),
                 },
                 path: {
                     shopId: productData.item.shopId,
@@ -59,8 +59,8 @@ function ProductDetailComponent() {
 
     const { data: historyData } = useSuspenseQuery(
         getProductHistoryOptions({
-            headers: {
-                "Accept-Language": parseLanguage(i18n.language),
+            query: {
+                language: parseLanguage(i18n.language),
             },
             path: {
                 shopId: apiData.item.shopId,

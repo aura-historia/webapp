@@ -7,8 +7,8 @@ export const Route = createFileRoute("/product/$shopId/$shopsProductId")({
     loader: async ({ context: { queryClient }, params: { shopId, shopsProductId } }) => {
         const productData = await queryClient.ensureQueryData(
             getProductOptions({
-                headers: {
-                    "Accept-Language": parseLanguage(i18n.language),
+                query: {
+                    language: parseLanguage(i18n.language),
                 },
                 path: { shopId, shopsProductId },
             }),

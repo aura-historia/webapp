@@ -52,7 +52,7 @@ export function generateProductJsonLd(apiData: PersonalizedGetProductData): Prod
         jsonLd.url = product.url;
     }
 
-    if (product.price) {
+    if (product.price?.offer) {
         let availability: string;
         if (product.state === "LISTED" || product.state === "AVAILABLE") {
             availability = "https://schema.org/InStock";
@@ -66,8 +66,8 @@ export function generateProductJsonLd(apiData: PersonalizedGetProductData): Prod
 
         jsonLd.offers = {
             "@type": "Offer",
-            priceCurrency: product.price.currency,
-            price: product.price.amount / 100,
+            priceCurrency: product.price.offer.currency,
+            price: product.price.offer.amount / 100,
             availability,
             url: product.url,
             seller: {
