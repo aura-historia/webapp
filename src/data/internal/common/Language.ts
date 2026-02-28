@@ -1,6 +1,6 @@
 import type { LanguageData } from "@/client";
 
-export const LANGUAGES = ["de", "en", "fr", "es"] as const;
+export const LANGUAGES = ["de", "en", "fr", "es", "it"] as const;
 export type Language = (typeof LANGUAGES)[number]; // Create something like that: "de" | "en" | ....
 
 export function parseLanguage(language?: string): Language {
@@ -11,6 +11,7 @@ export function parseLanguage(language?: string): Language {
         case "en":
         case "fr":
         case "es":
+        case "it":
             return lowercasedLanguage;
         default:
             return "en";
@@ -25,6 +26,7 @@ export function mapToBackendLanguage(language?: Language): LanguageData | null {
         case "en":
         case "fr":
         case "es":
+        case "it":
             return language;
     }
 }

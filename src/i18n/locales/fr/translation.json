@@ -367,7 +367,7 @@
     },
     "highlight3": {
       "title": "Entièrement indépendant de la langue",
-      "description": "Nous traduisons chaque antiquité dans plusieurs langues. La langue dans laquelle vous effectuez votre recherche n'a pas d'importance. Nous prenons actuellement en charge l'anglais, l'allemand, le français et l'espagnol."
+      "description": "Nous traduisons chaque antiquité dans plusieurs langues. La langue dans laquelle vous effectuez votre recherche n'a pas d'importance. Nous prenons actuellement en charge l'anglais, l'allemand, le français, l'espagnol et l'italien."
     },
     "stats": {
       "shops": "500",
@@ -410,7 +410,7 @@
       },
       "translations": {
         "title": "Traductions automatiques",
-        "description": "Recherchez et découvrez tous les articles dans votre langue préférée, sans aucune barrière. Nous prenons actuellement en charge l'anglais, l'allemand, le français et l'espagnol."
+        "description": "Recherchez et découvrez tous les articles dans votre langue préférée, sans aucune barrière. Nous prenons actuellement en charge l'anglais, l'allemand, le français, l'espagnol et l'italien."
       },
       "personalFilter": {
         "title": "Requêtes de recherche",
@@ -609,7 +609,8 @@
       "de": "Allemand",
       "en": "Anglais",
       "fr": "Français",
-      "es": "Espagnol"
+      "es": "Espagnol",
+      "it": "Italien"
     },
     "currencies": {
       "EUR": "EUR - Euro",

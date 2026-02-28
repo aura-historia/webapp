@@ -367,7 +367,7 @@
     },
     "highlight3": {
       "title": "Completamente independiente del idioma",
-      "description": "Traducimos cada antigüedad a múltiples idiomas. El idioma en el que buscas no importa. Actualmente soportamos inglés, alemán, francés y español."
+      "description": "Traducimos cada antigüedad a múltiples idiomas. El idioma en el que buscas no importa. Actualmente soportamos inglés, alemán, francés, español e italiano."
     },
     "stats": {
       "shops": "500",
@@ -410,7 +410,7 @@
       },
       "translations": {
         "title": "Traducciones automáticas",
-        "description": "Busca y descubre todos los artículos en tu idioma preferido, sin barreras. Actualmente soportamos inglés, alemán, francés y español."
+        "description": "Busca y descubre todos los artículos en tu idioma preferido, sin barreras. Actualmente soportamos inglés, alemán, francés, español e italiano."
       },
       "personalFilter": {
         "title": "Solicitudes de búsqueda",
@@ -609,7 +609,8 @@
       "de": "Alemán",
       "en": "Inglés",
       "fr": "Francés",
-      "es": "Español"
+      "es": "Español",
+      "it": "Italiano"
     },
     "currencies": {
       "EUR": "EUR - Euro",

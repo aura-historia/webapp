@@ -127,7 +127,7 @@ vi.mock("@/stores/registrationStore", () => ({
 
 vi.mock("@/data/internal/common/Language.ts", () => ({
     parseLanguage: mockParseLanguage,
-    LANGUAGES: ["de", "en", "fr", "es"] as const,
+    LANGUAGES: ["de", "en", "fr", "es", "it"] as const,
 }));
 
 vi.mock("@/data/internal/common/Currency.ts", () => ({
@@ -567,6 +567,7 @@ describe("Authenticator", () => {
             expect(screen.getByText("auth.languages.en")).toBeInTheDocument();
             expect(screen.getByText("auth.languages.fr")).toBeInTheDocument();
             expect(screen.getByText("auth.languages.es")).toBeInTheDocument();
+            expect(screen.getByText("auth.languages.it")).toBeInTheDocument();
         });
     });
 
