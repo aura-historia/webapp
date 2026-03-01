@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { H3 } from "@/components/typography/H3.tsx";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
+import { cn } from "@/lib/utils";
 
 type SearchResultsProps = {
     readonly searchFilters: SearchFilterArguments;
@@ -128,8 +129,13 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
                         <div
                             key={virtualItem.key}
                             data-index={virtualItem.index}
+                            data-testid={isLoaderRow ? undefined : "search-result-card-animation"}
                             ref={virtualizer.measureElement}
-                            className="absolute top-0 left-0 w-full pb-4"
+                            className={cn(
+                                "absolute top-0 left-0 w-full pb-4",
+                                !isLoaderRow &&
+                                    "motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-1 motion-safe:duration-200",
+                            )}
                             style={{
                                 transform: `translateY(${virtualItem.start - scrollMargin}px)`,
                             }}
@@ -140,9 +146,7 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
                                     totalCount={totalProducts}
                                 />
                             ) : (
-                                <div className="motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-1 motion-safe:duration-200">
-                                    <ProductCard product={product} />
-                                </div>
+                                <ProductCard product={product} />
                             )}
                         </div>
                     );

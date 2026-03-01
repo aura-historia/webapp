@@ -153,11 +153,9 @@ describe("SearchResults", () => {
                 { ...base, productId: "2", title: "Product 2" },
             ],
         });
-        const { container } = renderWithQueryClient(
-            <SearchResults searchFilters={{ q: "test" }} />,
-        );
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
         expect(screen.getByText("Product 1")).toBeInTheDocument();
         expect(screen.getByText("Product 2")).toBeInTheDocument();
-        expect(container.querySelector('[class*="motion-safe:animate-in"]')).toBeInTheDocument();
+        expect(screen.getAllByTestId("search-result-card-animation")).toHaveLength(2);
     });
 });
