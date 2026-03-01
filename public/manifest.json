@@ -1,9 +1,9 @@
 {
-    "short_name": "Aura Historia",
-    "name": "Aura Historia",
+  "short_name": "Aura Historia",
+  "name": "Aura Historia",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }
