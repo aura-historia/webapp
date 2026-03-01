@@ -140,7 +140,9 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
                                     totalCount={totalProducts}
                                 />
                             ) : (
-                                <ProductCard product={product} />
+                                <div className="motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-1 motion-safe:duration-200">
+                                    <ProductCard product={product} />
+                                </div>
                             )}
                         </div>
                     );
