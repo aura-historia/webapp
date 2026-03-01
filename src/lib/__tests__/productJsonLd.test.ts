@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { PersonalizedGetProductData, ProductStateData } from "@/client";
 import { generateProductJsonLd, generateProductJsonLdScript } from "../productJsonLd.ts";
+import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
 
 describe("productJsonLd", () => {
     describe("generateProductJsonLd", () => {
@@ -240,7 +241,7 @@ describe("productJsonLd", () => {
 
             const result = generateProductJsonLd(apiData);
 
-            expect(result.image).toBeUndefined();
+            expect(result.image).toEqual([BANNER_IMAGE_URL]);
         });
 
         it("should handle empty images array", () => {
@@ -266,7 +267,7 @@ describe("productJsonLd", () => {
 
             const result = generateProductJsonLd(apiData);
 
-            expect(result.image).toBeUndefined();
+            expect(result.image).toEqual([BANNER_IMAGE_URL]);
         });
 
         it("should filter out images with prohibited content", () => {

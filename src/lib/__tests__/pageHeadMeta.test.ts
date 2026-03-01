@@ -1,6 +1,7 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { generatePageHeadMeta } from "../pageHeadMeta.ts";
 import i18n from "@/i18n/i18n.ts";
+import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
 
 describe("pageHeadMeta", () => {
     beforeAll(async () => {
@@ -181,22 +182,23 @@ describe("pageHeadMeta", () => {
                 });
             });
 
-            it("should not include Open Graph image when not provided", () => {
+            it("should include default banner image as Open Graph image when none provided", () => {
                 const result = generatePageHeadMeta({ pageKey: "home" });
 
-                expect(
-                    result.meta.find((tag) => "property" in tag && tag.property === "og:image"),
-                ).toBeUndefined();
+                expect(result.meta).toContainEqual({
+                    property: "og:image",
+                    content: BANNER_IMAGE_URL,
+                });
             });
         });
 
         describe("Twitter Card tags", () => {
-            it("should include summary card type when no image", () => {
+            it("should include summary_large_image card type when no image explicitly provided (banner fallback)", () => {
                 const result = generatePageHeadMeta({ pageKey: "home" });
 
                 expect(result.meta).toContainEqual({
                     name: "twitter:card",
-                    content: "summary",
+                    content: "summary_large_image",
                 });
             });
 
@@ -271,12 +273,13 @@ describe("pageHeadMeta", () => {
                 });
             });
 
-            it("should not include Twitter image when not provided", () => {
+            it("should include default banner image as Twitter image when none provided", () => {
                 const result = generatePageHeadMeta({ pageKey: "home" });
 
-                expect(
-                    result.meta.find((tag) => "name" in tag && tag.name === "twitter:image"),
-                ).toBeUndefined();
+                expect(result.meta).toContainEqual({
+                    name: "twitter:image",
+                    content: BANNER_IMAGE_URL,
+                });
             });
         });
 

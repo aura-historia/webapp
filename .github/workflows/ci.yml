@@ -107,6 +107,7 @@ jobs:
         env:
             VITE_USER_POOL_ID: ${{ secrets.VITE_USER_POOL_ID }}
             VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
+            VITE_APP_URL: ${{ vars.VITE_APP_URL }}
             # Feature flags - will be overridden per environment in deploy job
             VITE_FEATURE_LOGIN_ENABLED: 'true'
             VITE_FEATURE_SEARCH_ENABLED: 'true'
@@ -152,6 +153,7 @@ jobs:
             VITE_USER_POOL_ID: ${{ secrets.VITE_USER_POOL_ID }}
             VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
             VITE_API_URL: ${{ vars.VITE_API_URL }}
+            VITE_APP_URL: ${{ vars.VITE_APP_URL }}
             VITE_FEATURE_LOGIN_ENABLED: ${{ vars.VITE_FEATURE_LOGIN_ENABLED }}
             VITE_FEATURE_SEARCH_ENABLED: ${{ vars.VITE_FEATURE_SEARCH_ENABLED }}
         steps:
