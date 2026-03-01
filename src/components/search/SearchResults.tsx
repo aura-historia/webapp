@@ -52,7 +52,7 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
     }, []);
 
     useEffect(() => {
-        if (totalProducts > 0 && onTotalChange) {
+        if (onTotalChange) {
             onTotalChange(totalProducts);
         }
     }, [totalProducts, onTotalChange]);
