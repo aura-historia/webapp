@@ -105,7 +105,7 @@ function AuthenticatorContent({ user }: { user: unknown }) {
 function FormFields() {
     const { tokens } = useTheme();
     const { validationErrors } = useAuthenticator();
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (!registrationStore.state.isSignUpFlow) {
@@ -152,7 +152,30 @@ function FormFields() {
                 </SelectField>
             </Grid>
 
-            <AmplifyAuthenticator.SignUp.FormFields key={i18n.language} />
+            <TextField
+                name="email"
+                type="email"
+                label={t("amplify.email")}
+                placeholder={t("amplify.enterYourEmail")}
+                errorMessage={validationErrors.email}
+                hasError={!!validationErrors.email}
+            />
+            <TextField
+                name="password"
+                type="password"
+                label={t("amplify.password")}
+                placeholder={t("amplify.enterYourPassword")}
+                errorMessage={validationErrors.password}
+                hasError={!!validationErrors.password}
+            />
+            <TextField
+                name="confirm_password"
+                type="password"
+                label={t("amplify.confirmPassword")}
+                placeholder={t("amplify.pleaseConfirmYourPassword")}
+                errorMessage={validationErrors.confirm_password}
+                hasError={!!validationErrors.confirm_password}
+            />
         </>
     );
 }
