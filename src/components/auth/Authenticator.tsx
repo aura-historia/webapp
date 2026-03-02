@@ -20,6 +20,7 @@ import { parseLanguage, LANGUAGES } from "@/data/internal/common/Language.ts";
 import { parseCurrency, CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { validateCognitoNameFields } from "@/utils/nameValidation";
 import { useEffect } from "react";
+import { z } from "zod";
 
 export function Authenticator() {
     const { t, i18n } = useTranslation();
@@ -61,10 +62,7 @@ export function Authenticator() {
                     );
 
                     const email = formData.email?.trim();
-                    const isInvalidEmail =
-                        typeof email === "string" &&
-                        email.length > 0 &&
-                        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+                    const isInvalidEmail = !!email && !z.string().email().safeParse(email).success;
 
                     if (errors || isInvalidEmail) {
                         return {
