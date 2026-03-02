@@ -60,7 +60,20 @@ export function Authenticator() {
                         t,
                     );
 
-                    if (errors) return errors;
+                    const email = formData.email?.trim();
+                    const isInvalidEmail =
+                        typeof email === "string" &&
+                        email.length > 0 &&
+                        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+                    if (errors || isInvalidEmail) {
+                        return {
+                            ...errors,
+                            ...(isInvalidEmail
+                                ? { email: t("amplify.invalidEmailAddressFormat") }
+                                : {}),
+                        };
+                    }
 
                     const customData = {
                         firstName: formData.firstName || undefined,

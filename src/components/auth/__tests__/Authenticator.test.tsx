@@ -389,6 +389,41 @@ describe("Authenticator", () => {
             });
         });
 
+        it("should return email validation error for invalid email format", async () => {
+            mockValidateCognitoNameFields.mockReturnValue(null);
+
+            render(<Authenticator />);
+
+            const props = (
+                globalThis as {
+                    __mockAuthenticatorProps?: {
+                        services?: {
+                            validateCustomSignUp?: (formData: {
+                                firstName: string;
+                                lastName: string;
+                                email: string;
+                                language: string;
+                                currency: string;
+                            }) => unknown;
+                        };
+                    };
+                }
+            ).__mockAuthenticatorProps;
+
+            const result = await props?.services?.validateCustomSignUp?.({
+                firstName: "John",
+                lastName: "Doe",
+                email: "invalid-email",
+                language: "en",
+                currency: "USD",
+            });
+
+            expect(result).toEqual({
+                email: "amplify.invalidEmailAddressFormat",
+            });
+            expect(mockSetPendingUserData).not.toHaveBeenCalled();
+        });
+
         it("should handle undefined form fields correctly", async () => {
             mockValidateCognitoNameFields.mockReturnValue(null);
 
