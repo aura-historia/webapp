@@ -1,4 +1,5 @@
 import type { PersonalizedGetProductData } from "@/client";
+import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
 
 type ProductJsonLd = {
     "@context": "https://schema.org/";
@@ -43,9 +44,12 @@ export function generateProductJsonLd(apiData: PersonalizedGetProductData): Prod
     }
 
     if (product.images && product.images.length > 0) {
-        jsonLd.image = product.images
+        const validImages = product.images
             .filter((img) => img.prohibitedContent === "NONE")
             .map((img) => img.url);
+        jsonLd.image = validImages.length > 0 ? validImages : [BANNER_IMAGE_URL];
+    } else {
+        jsonLd.image = [BANNER_IMAGE_URL];
     }
 
     if (product.url) {
