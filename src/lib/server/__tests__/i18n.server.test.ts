@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getLocale } from "../i18n.server.ts";
+import { getLocale } from "../i18n.ts";
 import { getCookie, getRequestHeaders } from "@tanstack/react-start/server";
 
 vi.mock("@tanstack/react-start", () => ({
