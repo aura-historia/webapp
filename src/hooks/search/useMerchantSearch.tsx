@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/react-query";
-import { searchShopsMutation } from "@/client/@tanstack/react-query.gen.ts";
+import { useQuery } from "@tanstack/react-query";
+import { simpleSearchShopsOptions } from "@/client/@tanstack/react-query.gen.ts";
 import { useState, useCallback, useMemo } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import type { MultiSelectOption } from "@/components/ui/multi-select.tsx";
@@ -8,12 +8,15 @@ const DEBOUNCE_DELAY_MS = 500;
 
 export function useMerchantSearch() {
     const [searchQuery, setSearchQuery] = useState("");
-    const { mutate: searchShops, data: shopsData, isPending } = useMutation(searchShopsMutation());
+    const [debouncedQuery, setDebouncedQuery] = useState("");
+
+    const { data: shopsData, isFetching } = useQuery({
+        ...simpleSearchShopsOptions({ query: { shopNameQuery: debouncedQuery } }),
+        enabled: debouncedQuery.length > 0,
+    });
 
     const debouncedSearch = useDebouncedCallback((query: string) => {
-        if (query.length > 0) {
-            searchShops({ body: { shopNameQuery: query } });
-        }
+        setDebouncedQuery(query);
     }, DEBOUNCE_DELAY_MS);
 
     const handleSearchChange = useCallback(
@@ -35,7 +38,7 @@ export function useMerchantSearch() {
     return {
         shopOptions,
         handleSearchChange,
-        isPending,
+        isPending: isFetching,
         searchQuery,
     };
 }

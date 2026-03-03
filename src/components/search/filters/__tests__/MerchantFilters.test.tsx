@@ -5,10 +5,12 @@ import { describe, expect, it, vi } from "vitest";
 import type React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-// Mock the searchShops API
+// Mock the simpleSearchShops API
 vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
-    searchShopsMutation: () => ({
-        mutationFn: vi.fn(),
+    simpleSearchShopsOptions: () => ({
+        queryKey: ["simpleSearchShops"],
+        queryFn: vi.fn().mockResolvedValue({ items: [] }),
+        enabled: false,
     }),
 }));
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { Route } from "../_auth.tsx";
+import { Route } from "../../routes/_auth.tsx";
 
 describe("_auth route", () => {
     it("adds noindex robots meta tag for private pages", () => {
