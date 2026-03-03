@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Footer } from "../Footer.tsx";
 import { t } from "i18next";
 import userEvent from "@testing-library/user-event";
+import { act } from "react";
 
 const { changeLanguageMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
@@ -27,9 +28,11 @@ vi.mock("react-i18next", async () => {
 });
 
 describe("Footer Component", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
         changeLanguageMock.mockClear();
-        renderWithRouter(<Footer />);
+        await act(async () => {
+            renderWithRouter(<Footer />);
+        });
     });
 
     afterEach(() => {
@@ -70,7 +73,7 @@ describe("Footer Component", () => {
         const followUsSection = screen.getByText("Folge uns").closest("div");
         expect(followUsSection).not.toBeNull();
 
-        const socialTextLink = followUsSection!.querySelector(
+        const socialTextLink = followUsSection?.querySelector(
             'a[href="https://x.com/aurahistoria"]',
         );
         expect(socialTextLink).toBeInTheDocument();

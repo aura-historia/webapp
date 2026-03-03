@@ -61,5 +61,5 @@ export const setUserAuthenticated = () => {
 };
 
 export const resetAuth = () => {
-    registrationStore.setState(INITIAL_STATE);
+    registrationStore.setState(() => INITIAL_STATE);
 };
