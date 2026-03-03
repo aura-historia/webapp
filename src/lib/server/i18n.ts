@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import acceptLanguage from "accept-language";
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
-import { getRequestHeaders, getCookie } from "@tanstack/react-start/server";
+import { getCookie, getRequestHeaders } from "@tanstack/react-start/server";
 
 export const getLocale = createServerFn({ method: "GET" }).handler(async () => {
     const supportedLanguageCodes = SUPPORTED_LANGUAGES.map((lang) => lang.code);

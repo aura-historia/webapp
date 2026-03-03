@@ -19,20 +19,16 @@ import "@/lib/polyfills/url";
 import "@/amplify-config.ts";
 import "@/api-config.ts";
 import { useTranslation } from "react-i18next";
-import { getLocale } from "@/lib/server/i18n.server.ts";
+import { getLocale } from "@/lib/server/i18n.ts";
 import i18n from "@/i18n/i18n.ts";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
+import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seoConstants.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
 }
-
-const COMPANY_LOGO_URL =
-    "https://aura-historia-public.s3.eu-central-1.amazonaws.com/branding/1080x1080_icon.png";
-const COMPANY_BANNER_URL =
-    "https://aura-historia-public.s3.eu-central-1.amazonaws.com/branding/banner_twitter_slogan.png";
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
     head: () => {
@@ -77,7 +73,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 },
                 {
                     name: "twitter:image",
-                    content: COMPANY_BANNER_URL,
+                    content: BANNER_IMAGE_URL,
                 },
                 {
                     name: "twitter:image:alt",
@@ -90,7 +86,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 },
                 {
                     property: "og:image",
-                    content: COMPANY_BANNER_URL,
+                    content: BANNER_IMAGE_URL,
                 },
                 {
                     property: "og:image:alt",
@@ -116,7 +112,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 },
                 {
                     rel: "icon",
-                    href: COMPANY_LOGO_URL,
+                    href: ICON_IMAGE_URL,
                     type: "image/png",
                 },
             ],

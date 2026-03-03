@@ -6,3 +6,4 @@ import { env } from "@/env";
  * The file is served from /public/logo-banner-slogan.png.
  */
 export const BANNER_IMAGE_URL = `${env.VITE_APP_URL}/logo-banner.png`;
+export const ICON_IMAGE_URL = `${env.VITE_APP_URL}/icon1080x1080.png`;
