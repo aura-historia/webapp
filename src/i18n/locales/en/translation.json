@@ -560,6 +560,21 @@
       "description": "Add items to your watchlist to see them here."
     }
   },
+  "category": {
+    "products": {
+      "loadingMore": "Loading more items...",
+      "allLoaded_one": "You have seen {{count}} item in this category.",
+      "allLoaded_other": "You have seen all {{count}} items in this category.",
+      "noResults": {
+        "title": "No items found",
+        "description": "There are currently no items in this category."
+      },
+      "error": {
+        "title": "Could not load items",
+        "description": "An error occurred while loading items. Please try again later."
+      }
+    }
+  },
   "share": {
     "copyLink": "Copy link",
     "copied": "Copied!",

@@ -560,6 +560,21 @@
       "description": "Ajoutez des articles à votre liste de favoris pour les retrouver ici."
     }
   },
+  "category": {
+    "products": {
+      "loadingMore": "Chargement d'autres articles...",
+      "allLoaded_one": "Vous avez consulté {{count}} article dans cette catégorie.",
+      "allLoaded_other": "Vous avez consulté les {{count}} articles de cette catégorie.",
+      "noResults": {
+        "title": "Aucun article trouvé",
+        "description": "Il n'y a actuellement aucun article dans cette catégorie."
+      },
+      "error": {
+        "title": "Impossible de charger les articles",
+        "description": "Une erreur s'est produite lors du chargement des articles. Veuillez réessayer plus tard."
+      }
+    }
+  },
   "share": {
     "copyLink": "Copier le lien",
     "copied": "Copié !",

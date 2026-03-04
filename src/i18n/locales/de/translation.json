@@ -559,6 +559,21 @@
       "description": "Fügen Sie Artikel zur Merkliste hinzu, um sie hier anzusehen."
     }
   },
+  "category": {
+    "products": {
+      "loadingMore": "Weitere Artikel werden geladen...",
+      "allLoaded_one": "Sie haben {{count}} Artikel in dieser Kategorie gesehen.",
+      "allLoaded_other": "Sie haben alle {{count}} Artikel dieser Kategorie gesehen.",
+      "noResults": {
+        "title": "Keine Artikel gefunden",
+        "description": "In dieser Kategorie sind derzeit keine Artikel vorhanden."
+      },
+      "error": {
+        "title": "Artikel konnten nicht geladen werden",
+        "description": "Beim Laden der Artikel ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
+      }
+    }
+  },
   "share": {
     "copyLink": "Link kopieren",
     "copied": "Kopiert!",
