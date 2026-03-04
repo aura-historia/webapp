@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { ProductQualityIndicatorItem } from "@/components/product/detail/ProductQualityIndicator/ProductQualityIndicatorItem.tsx";
 import { Calendar } from "lucide-react";
 import userEvent from "@testing-library/user-event";
+import { ProductQualityIndicatorItem } from "@/components/product/detail/quality-indicator/ProductQualityIndicatorItem.tsx";
 
 describe("ProductQualityIndicatorItem", () => {
     const defaultProps = {

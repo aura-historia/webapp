@@ -26,8 +26,10 @@ beforeAll(() => {
 describe("ProductInfo", () => {
     const mockProduct: ProductDetail = {
         productId: "1",
+        productSlugId: "test-product-title",
         eventId: "",
         shopId: "",
+        shopSlugId: "test-shop",
         shopsProductId: "",
         shopName: "Test Shop",
         shopType: "AUCTION_HOUSE",
@@ -80,6 +82,15 @@ describe("ProductInfo", () => {
     it("should render the button to the shop", () => {
         renderWithQueryClient(<ProductInfo product={mockProduct} />);
         expect(screen.getByText("Zur Seite des Händlers")).toBeInTheDocument();
+    });
+
+    it("should add nofollow rel to external merchant link", () => {
+        renderWithQueryClient(<ProductInfo product={mockProduct} />);
+
+        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
+            "rel",
+            "nofollow noopener noreferrer",
+        );
     });
 
     it("should render floating action buttons (Share and Heart)", () => {

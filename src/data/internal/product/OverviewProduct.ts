@@ -1,7 +1,9 @@
 import type {
     PersonalizedGetProductData,
+    PersonalizedGetProductSummaryData,
     WatchlistProductData,
     GetProductData,
+    GetProductSummaryData,
     ProductUserStateData,
 } from "@/client";
 import { type ProductState, parseProductState } from "@/data/internal/product/ProductState.ts";
@@ -32,8 +34,10 @@ import { formatPrice } from "@/data/internal/price/Price.ts";
 
 export type OverviewProduct = {
     readonly productId: string;
+    readonly productSlugId: string;
     readonly eventId: string;
     readonly shopId: string;
+    readonly shopSlugId: string;
     readonly shopsProductId: string;
     readonly shopName: string;
     readonly title: string;
@@ -64,17 +68,19 @@ function mapProductDataToOverviewProduct(
 ): OverviewProduct {
     return {
         productId: productData.productId,
+        productSlugId: productData.productSlugId,
         eventId: productData.eventId,
         shopId: productData.shopId,
+        shopSlugId: productData.shopSlugId,
         shopsProductId: productData.shopsProductId,
         shopName: productData.shopName,
         shopType: parseShopType(productData.shopType),
         title: productData.title.text,
         description: productData.description?.text,
-        price: productData.price ? formatPrice(productData.price, locale) : undefined,
+        price: productData.price?.offer ? formatPrice(productData.price.offer, locale) : undefined,
         priceEstimate: parsePriceEstimate(
-            productData.priceEstimateMin ?? undefined,
-            productData.priceEstimateMax ?? undefined,
+            productData.price?.estimate?.min ?? undefined,
+            productData.price?.estimate?.max ?? undefined,
             locale,
         ),
         state: parseProductState(productData.state),
@@ -89,13 +95,47 @@ function mapProductDataToOverviewProduct(
         updated: new Date(productData.updated),
         userData: userData ? mapToInternalUserProductData(userData) : undefined,
 
-        originYear: productData.originYear ?? undefined,
-        originYearMin: productData.originYearMin ?? undefined,
-        originYearMax: productData.originYearMax ?? undefined,
+        originYear: productData.originYear?.year ?? undefined,
+        originYearMin: productData.originYear?.min ?? undefined,
+        originYearMax: productData.originYear?.max ?? undefined,
         authenticity: parseAuthenticity(productData.authenticity),
         condition: parseCondition(productData.condition),
         provenance: parseProvenance(productData.provenance),
         restoration: parseRestoration(productData.restoration),
+    };
+}
+
+function mapProductSummaryDataToOverviewProduct(
+    productData: GetProductSummaryData,
+    locale: string,
+    userData?: ProductUserStateData | null,
+): OverviewProduct {
+    return {
+        productId: productData.productId,
+        productSlugId: productData.productSlugId,
+        eventId: productData.eventId,
+        shopId: productData.shopId,
+        shopSlugId: productData.shopSlugId,
+        shopsProductId: productData.shopsProductId,
+        shopName: productData.shopName,
+        shopType: parseShopType(productData.shopType),
+        title: productData.title.text,
+        price: productData.price ? formatPrice(productData.price, locale) : undefined,
+        state: parseProductState(productData.state),
+        url: URL.parse(productData.url),
+        images:
+            productData.images == null
+                ? []
+                : productData.images
+                      .map(mapToInternalProductImage)
+                      .filter((image) => image !== undefined),
+        created: new Date(productData.created),
+        updated: new Date(productData.updated),
+        userData: userData ? mapToInternalUserProductData(userData) : undefined,
+        authenticity: parseAuthenticity("UNKNOWN"),
+        condition: parseCondition("UNKNOWN"),
+        provenance: parseProvenance("UNKNOWN"),
+        restoration: parseRestoration("UNKNOWN"),
     };
 }
 
@@ -104,6 +144,13 @@ export function mapPersonalizedGetProductDataToOverviewProduct(
     locale: string,
 ): OverviewProduct {
     return mapProductDataToOverviewProduct(apiData.item, locale, apiData.userState);
+}
+
+export function mapPersonalizedGetProductSummaryDataToOverviewProduct(
+    apiData: PersonalizedGetProductSummaryData,
+    locale: string,
+): OverviewProduct {
+    return mapProductSummaryDataToOverviewProduct(apiData.item, locale, apiData.userState);
 }
 
 export function mapWatchlistProductDataToOverviewProduct(

@@ -1,5 +1,7 @@
 import type { PersonalizedGetProductData } from "@/client";
 import { generateProductJsonLdScript } from "@/lib/productJsonLd.ts";
+import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
+import { env } from "@/env";
 
 type HeadMeta = {
     meta: Array<
@@ -12,8 +14,8 @@ type HeadMeta = {
 };
 
 type ProductHeadParams = {
-    shopId: string;
-    shopsProductId: string;
+    shopSlugId: string;
+    productSlugId: string;
 };
 
 /**
@@ -26,10 +28,10 @@ export function generateProductHeadMeta(
 ): HeadMeta {
     const productTitle = loaderData?.item.title.text ?? "Product";
     const productDescription = loaderData?.item.description?.text;
-    const productImage = loaderData?.item.images?.find(
-        (img) => img.prohibitedContent === "NONE",
-    )?.url;
-    const productUrl = `https://aura-historia.com/product/${params.shopId}/${params.shopsProductId}`;
+    const productImage =
+        loaderData?.item.images?.find((img) => img.prohibitedContent === "NONE")?.url ??
+        BANNER_IMAGE_URL;
+    const productUrl = `${env.VITE_APP_URL}/shops/${params.shopSlugId}/products/${params.productSlugId}`;
 
     return {
         meta: [
@@ -65,18 +67,14 @@ export function generateProductHeadMeta(
                 property: "og:url",
                 content: productUrl,
             },
-            ...(productImage
-                ? [
-                      {
-                          property: "og:image",
-                          content: productImage,
-                      },
-                  ]
-                : []),
+            {
+                property: "og:image",
+                content: productImage,
+            },
             // Twitter Card tags
             {
                 name: "twitter:card",
-                content: productImage ? "summary_large_image" : "summary",
+                content: "summary_large_image",
             },
             {
                 name: "twitter:url",
@@ -94,14 +92,10 @@ export function generateProductHeadMeta(
                       },
                   ]
                 : []),
-            ...(productImage
-                ? [
-                      {
-                          name: "twitter:image",
-                          content: productImage,
-                      },
-                  ]
-                : []),
+            {
+                name: "twitter:image",
+                content: productImage,
+            },
         ],
         links: [{ rel: "canonical", href: productUrl }],
         scripts: loaderData

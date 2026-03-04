@@ -16,10 +16,8 @@ export function useWatchlist() {
         queryKey: ["watchlist", i18n.language],
         queryFn: async ({ pageParam }) => {
             const result = await getWatchlistProducts({
-                headers: {
-                    "Accept-Language": parseLanguage(i18n.language),
-                },
                 query: {
+                    language: parseLanguage(i18n.language),
                     searchAfter: pageParam,
                     size: PAGE_SIZE,
                 },

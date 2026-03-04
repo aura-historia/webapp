@@ -4,7 +4,7 @@ import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import { ArrowUpRight, Eye, ImageOff } from "lucide-react";
+import { ArrowUpRight, Eye } from "lucide-react";
 import { H3 } from "../../typography/H3.tsx";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
@@ -12,47 +12,29 @@ import { ProductQualityBadges } from "@/components/product/badges/ProductQuality
 
 import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
+import { ProductCardImageCarousel } from "@/components/product/overview/ProductCardImageCarousel.tsx";
+import { memo } from "react";
 
-export function ProductCard({ product }: { readonly product: OverviewProduct }) {
+function ProductCardComponent({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
 
     return (
         <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
             <div className={"shrink-0 flex lg:justify-start justify-center"}>
-                <Link
-                    to="/product/$shopId/$shopsProductId"
-                    params={{
-                        shopId: product.shopId,
-                        shopsProductId: product.shopsProductId,
-                    }}
-                >
-                    {product.images.length > 0 ? (
-                        <img
-                            className={
-                                "w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
-                            }
-                            src={product.images[0].url.href}
-                            alt=""
-                        />
-                    ) : (
-                        <div className="size-48 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
-                            <ImageOff
-                                data-testid="placeholder-image"
-                                className="w-12 h-12 text-muted-foreground"
-                            />
-                            <p className="text-sm text-muted-foreground">{t("product.noImage")}</p>
-                        </div>
-                    )}
-                </Link>
+                <ProductCardImageCarousel
+                    images={product.images}
+                    shopSlugId={product.shopSlugId}
+                    productSlugId={product.productSlugId}
+                />
             </div>
             <div className={"flex flex-col min-w-0 flex-1 justify-between"}>
                 <div className={"flex flex-row justify-between w-full"}>
                     <div className={"flex flex-col gap-2 min-w-0 overflow-hidden"}>
                         <Link
-                            to="/product/$shopId/$shopsProductId"
+                            to="/shops/$shopSlugId/products/$productSlugId"
                             params={{
-                                shopId: product.shopId,
-                                shopsProductId: product.shopsProductId,
+                                shopSlugId: product.shopSlugId,
+                                productSlugId: product.productSlugId,
                             }}
                             className="min-w-0 overflow-hidden"
                         >
@@ -103,10 +85,10 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
                     <div className={"flex flex-col gap-2 lg:items-end shrink-0 lg:ml-2"}>
                         <Button variant={"default"} asChild>
                             <Link
-                                to="/product/$shopId/$shopsProductId"
+                                to="/shops/$shopSlugId/products/$productSlugId"
                                 params={{
-                                    shopId: product.shopId,
-                                    shopsProductId: product.shopsProductId,
+                                    shopSlugId: product.shopSlugId,
+                                    productSlugId: product.productSlugId,
                                 }}
                             >
                                 <Eye />
@@ -114,7 +96,11 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
                             </Link>
                         </Button>
                         <Button variant={"secondary"} className="whitespace-nowrap" asChild>
-                            <a href={product.url?.href} target="_blank">
+                            <a
+                                href={product.url?.href}
+                                target="_blank"
+                                rel="nofollow noopener noreferrer"
+                            >
                                 <ArrowUpRight />
                                 <span>{t("product.toMerchant")}</span>
                             </a>
@@ -125,3 +111,5 @@ export function ProductCard({ product }: { readonly product: OverviewProduct }) 
         </Card>
     );
 }
+
+export const ProductCard = memo(ProductCardComponent);

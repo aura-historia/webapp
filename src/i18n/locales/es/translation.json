@@ -62,7 +62,12 @@
     "imprint": "Aviso legal",
     "privacy": "Política de privacidad",
     "terms": "Términos y condiciones",
-    "copyright": "© {{year}} Aura Historia"
+    "copyright": "© {{year}} Aura Historia",
+    "sections": {
+      "company": "Empresa",
+      "followUs": "Síguenos",
+      "contact": "Contacto"
+    }
   },
   "account": {
     "title": "Mi cuenta",
@@ -157,17 +162,30 @@
         "creationDate": "Restablecer filtro de fecha de creación",
         "updateDate": "Restablecer filtro de fecha de actualización",
         "merchant": "Restablecer filtro de vendedor",
-        "qualityIndicators": "Restablecer filtro de indicadores de calidad"
+        "qualityIndicators": "Restablecer filtro de indicadores de calidad",
+        "auctionDate": "Restablecer filtro de fecha de subasta",
+        "excludeMerchant": "Restablecer filtro de exclusión de comerciante",
+        "merchants": "Restablecer filtros de comerciantes",
+        "shopType": "Restablecer filtro de tipo de tienda",
+        "periodId": "Restablecer filtro de período"
       },
       "all": "Todo",
       "select": "Seleccionar",
       "qualityIndicators": "Indicadores de Calidad",
+      "periodId": "Período / Estilo",
+      "searchPeriods": "Buscar períodos...",
       "originYear": "Año de Origen",
       "authenticity": "Autenticidad",
       "condition": "Condición",
       "provenance": "Proveniencia",
       "restoration": "Restauración",
-      "selected": "{{count}} seleccionados"
+      "selected": "{{count}} seleccionados",
+      "merchants": "Comerciantes",
+      "excludeMerchant": "Excluir comerciante",
+      "searchExcludeMerchants": "Buscar comerciantes para excluir...",
+      "shopType": "Tipo de tienda",
+      "auctionDate": "Fecha de subasta",
+      "auctionDateDisabledTooltip": "Solo disponible para casas de subastas"
     },
     "messages": {
       "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
@@ -197,6 +215,7 @@
     "toMerchant": "Ir al vendedor",
     "noDescription": "No hay descripción disponible",
     "noImage": "No hay imagen disponible",
+    "imageLoadError": "No se pudo cargar la imagen",
     "similar": {
       "title": "Artículos similares",
       "error": {
@@ -339,7 +358,8 @@
     "auctionHouse": "Casa de subastas",
     "commercialDealer": "Vendedor",
     "marketplace": "Mercado",
-    "unknown": "Desconocido"
+    "unknown": "Desconocido",
+    "auctionPlatform": "Plataforma de subastas"
   },
   "discover": {
     "title": "Traemos transparencia al opaco panorama de las antigüedades en línea",
@@ -355,7 +375,7 @@
     },
     "highlight3": {
       "title": "Completamente independiente del idioma",
-      "description": "Traducimos cada antigüedad a múltiples idiomas. El idioma en el que buscas no importa. Actualmente soportamos inglés, alemán, francés y español."
+      "description": "Traducimos cada antigüedad a múltiples idiomas. El idioma en el que busques no importa. Actualmente, soportamos inglés, alemán, francés, español e italiano."
     },
     "stats": {
       "shops": "500",
@@ -398,7 +418,7 @@
       },
       "translations": {
         "title": "Traducciones automáticas",
-        "description": "Busca y descubre todos los artículos en tu idioma preferido, sin barreras. Actualmente soportamos inglés, alemán, francés y español."
+        "description": "Busca y descubre todos los artículos en tu idioma preferido, sin barreras. Actualmente, soportamos inglés, alemán, francés, español e italiano."
       },
       "personalFilter": {
         "title": "Solicitudes de búsqueda",
@@ -597,7 +617,8 @@
       "de": "Alemán",
       "en": "Inglés",
       "fr": "Francés",
-      "es": "Español"
+      "es": "Español",
+      "it": "Italiano"
     },
     "currencies": {
       "EUR": "EUR - Euro",

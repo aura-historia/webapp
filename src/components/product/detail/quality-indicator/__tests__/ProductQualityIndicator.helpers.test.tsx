@@ -5,7 +5,7 @@ import {
     formatOriginYearDescription,
     getOriginYearColor,
     PRODUCT_ATTRIBUTE_COLORS,
-} from "@/components/product/detail/ProductQualityIndicator/ProductQualityIndicator.helpers.ts";
+} from "@/components/product/detail/quality-indicator/ProductQualityIndicator.helpers.ts";
 
 describe("ProductQualityIndicator.helpers", () => {
     let mockT: TFunction;

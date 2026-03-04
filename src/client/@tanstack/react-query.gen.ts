@@ -3,8 +3,8 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistProduct, complexSearchProducts, createShop, createUserSearchFilter, deleteUserSearchFilter, deleteWatchlistProduct, getProduct, getProductBySlug, getProductHistory, getShopByDomain, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchWatchlistProduct, putProducts, searchShops, updateShopByDomain, updateShopById, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateShopData, CreateShopError, CreateShopResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetShopByDomainData, GetShopByDomainError, GetShopByDomainResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PutProductsData, PutProductsError, PutProductsResponse2, SearchShopsData, SearchShopsError, SearchShopsResponse, UpdateShopByDomainData, UpdateShopByDomainError, UpdateShopByDomainResponse, UpdateShopByIdData, UpdateShopByIdError, UpdateShopByIdResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import { addWatchlistProduct, complexSearchProducts, createShop, createUserSearchFilter, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getShopByDomain, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchWatchlistProduct, putProducts, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateShopByDomain, updateShopById, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateShopData, CreateShopError, CreateShopResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetShopByDomainData, GetShopByDomainError, GetShopByDomainResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PutProductsData, PutProductsError, PutProductsResponse2, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateShopByDomainData, UpdateShopByDomainError, UpdateShopByDomainResponse, UpdateShopByIdData, UpdateShopByIdError, UpdateShopByIdResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -45,7 +45,7 @@ export const getProductQueryKey = (options: Options<GetProductData2>) => createQ
  * Get a single product
  *
  * Retrieves a single product by its shop ID and shop's product ID.
- * Returns localized content based on Accept-Language header and currency preferences.
+ * Returns localized content based on the optional `language` query parameter and currency preferences.
  *
  * **Personalization**: When authenticated (via optional Authorization header), the response includes
  * user-specific state such as whether the product is on the user's watchlist and notification preferences.
@@ -105,7 +105,7 @@ export const getProductHistoryQueryKey = (options: Options<GetProductHistoryData
  * Returns an array of events representing state changes, price changes, and other significant
  * product lifecycle events, ordered chronologically.
  *
- * Returns localized content based on Accept-Language header and currency preferences for
+ * Returns localized content based on the optional `language` query parameter and currency preferences for
  * price information in the event payloads.
  *
  */
@@ -128,7 +128,7 @@ export const getSimilarProductsQueryKey = (options: Options<GetSimilarProductsDa
  * Get similar products
  *
  * Retrieves products similar to the specified product using semantic search based on text embeddings.
- * Returns localized content based on Accept-Language header and currency preferences.
+ * Returns localized content based on the optional `language` query parameter and currency preferences.
  *
  * **Personalization**: When authenticated (via optional Authorization header), the response includes
  * user-specific state for each similar product (watchlist status, notifications).
@@ -150,6 +150,53 @@ export const getSimilarProductsOptions = (options: Options<GetSimilarProductsDat
         return data;
     },
     queryKey: getSimilarProductsQueryKey(options)
+});
+
+export const simpleSearchProductsQueryKey = (options: Options<SimpleSearchProductsData>) => createQueryKey('simpleSearchProducts', options);
+
+/**
+ * Simple product search via query parameters
+ *
+ * Performs product search using query parameters instead of a JSON request body.
+ * This is the cache-friendly equivalent of `POST /api/v1/products/search`.
+ * It supports sorting, cursor pagination, and product personalization (when authenticated).
+ *
+ * Required query parameters for this simple-search mode are:
+ * - `language`
+ * - `currency`
+ * - `productQuery`
+ *
+ * Additional optional filters from `ProductSearchData` are also supported as query parameters
+ * using the same field names:
+ * - `categoryId`
+ * - `periodId`
+ * - `shopName`
+ * - `excludeShopName`
+ * - `shopType`
+ * - `price[min]`, `price[max]`
+ * - `state`
+ * - `originYear[min]`, `originYear[max]`
+ * - `authenticity`
+ * - `condition`
+ * - `provenance`
+ * - `restoration`
+ * - `created[min]`, `created[max]`
+ * - `updated[min]`, `updated[max]`
+ * - `auctionStart[min]`, `auctionStart[max]`
+ * - `auctionEnd[min]`, `auctionEnd[max]`
+ *
+ */
+export const simpleSearchProductsOptions = (options: Options<SimpleSearchProductsData>) => queryOptions<SimpleSearchProductsResponse, SimpleSearchProductsError, SimpleSearchProductsResponse, ReturnType<typeof simpleSearchProductsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await simpleSearchProducts({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: simpleSearchProductsQueryKey(options)
 });
 
 /**
@@ -464,6 +511,35 @@ export const patchWatchlistProductMutation = (options?: Partial<Options<PatchWat
     return mutationOptions;
 };
 
+export const simpleSearchShopsQueryKey = (options?: Options<SimpleSearchShopsData>) => createQueryKey('simpleSearchShops', options);
+
+/**
+ * Simple shop search via query parameters
+ *
+ * Performs shop search using query parameters instead of a JSON request body.
+ * This is the cache-friendly equivalent of `POST /api/v1/shops/search`.
+ *
+ * All optional filters from `ShopSearchData` are supported as query parameters
+ * using the same field names:
+ * - `shopNameQuery`
+ * - `shopType`
+ * - `created[min]`, `created[max]`
+ * - `updated[min]`, `updated[max]`
+ *
+ */
+export const simpleSearchShopsOptions = (options?: Options<SimpleSearchShopsData>) => queryOptions<SimpleSearchShopsResponse, SimpleSearchShopsError, SimpleSearchShopsResponse, ReturnType<typeof simpleSearchShopsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await simpleSearchShops({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: simpleSearchShopsQueryKey(options)
+});
+
 /**
  * Create a new shop
  *
@@ -624,6 +700,148 @@ export const searchShopsMutation = (options?: Partial<Options<SearchShopsData>>)
     const mutationOptions: UseMutationOptions<SearchShopsResponse, SearchShopsError, Options<SearchShopsData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await searchShops({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getCategoriesQueryKey = (options?: Options<GetCategoriesData>) => createQueryKey('getCategories', options);
+
+/**
+ * Get all categories or simple-search categories
+ *
+ * Retrieves all product categories with localized names when no query parameters are supplied.
+ * When query parameters are present, this endpoint performs simple category search and behaves
+ * like `POST /api/v1/categories/search` using query-string input instead of a JSON body.
+ *
+ * For simple-search mode, use:
+ * - `language` (optional, defaults to `en`)
+ * - `nameQuery` (optional)
+ * - `sort` and `order` (optional)
+ *
+ */
+export const getCategoriesOptions = (options?: Options<GetCategoriesData>) => queryOptions<GetCategoriesResponse, GetCategoriesError, GetCategoriesResponse, ReturnType<typeof getCategoriesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getCategories({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getCategoriesQueryKey(options)
+});
+
+export const getCategoryByIdQueryKey = (options: Options<GetCategoryByIdData>) => createQueryKey('getCategoryById', options);
+
+/**
+ * Get category details by ID
+ *
+ * Retrieves detailed category information by its kebab-case category ID.
+ * Localization is based on the optional `language` query parameter (defaults to `en`).
+ *
+ */
+export const getCategoryByIdOptions = (options: Options<GetCategoryByIdData>) => queryOptions<GetCategoryByIdResponse, GetCategoryByIdError, GetCategoryByIdResponse, ReturnType<typeof getCategoryByIdQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getCategoryById({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getCategoryByIdQueryKey(options)
+});
+
+/**
+ * Search categories
+ *
+ * Searches categories using a localized name query.
+ * Provide an optional language and optionally a nameQuery to filter results.
+ *
+ */
+export const searchCategoriesMutation = (options?: Partial<Options<SearchCategoriesData>>): UseMutationOptions<SearchCategoriesResponse, SearchCategoriesError, Options<SearchCategoriesData>> => {
+    const mutationOptions: UseMutationOptions<SearchCategoriesResponse, SearchCategoriesError, Options<SearchCategoriesData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await searchCategories({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getPeriodsQueryKey = (options?: Options<GetPeriodsData>) => createQueryKey('getPeriods', options);
+
+/**
+ * Get all periods or simple-search periods
+ *
+ * Retrieves all product periods with localized names when no query parameters are supplied.
+ * When query parameters are present, this endpoint performs simple period search and behaves
+ * like `POST /api/v1/periods/search` using query-string input instead of a JSON body.
+ *
+ * For simple-search mode, use:
+ * - `language` (optional, defaults to `en`)
+ * - `nameQuery` (optional)
+ * - `sort` and `order` (optional)
+ *
+ */
+export const getPeriodsOptions = (options?: Options<GetPeriodsData>) => queryOptions<GetPeriodsResponse, GetPeriodsError, GetPeriodsResponse, ReturnType<typeof getPeriodsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getPeriods({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getPeriodsQueryKey(options)
+});
+
+export const getPeriodByIdQueryKey = (options: Options<GetPeriodByIdData>) => createQueryKey('getPeriodById', options);
+
+/**
+ * Get period details by ID
+ *
+ * Retrieves detailed period information by its kebab-case period ID.
+ * Localization is based on the optional `language` query parameter (defaults to `en`).
+ *
+ */
+export const getPeriodByIdOptions = (options: Options<GetPeriodByIdData>) => queryOptions<GetPeriodByIdResponse, GetPeriodByIdError, GetPeriodByIdResponse, ReturnType<typeof getPeriodByIdQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getPeriodById({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getPeriodByIdQueryKey(options)
+});
+
+/**
+ * Search periods
+ *
+ * Searches periods using a localized name query.
+ * Provide an optional language and optionally a nameQuery to filter results.
+ *
+ */
+export const searchPeriodsMutation = (options?: Partial<Options<SearchPeriodsData>>): UseMutationOptions<SearchPeriodsResponse, SearchPeriodsError, Options<SearchPeriodsData>> => {
+    const mutationOptions: UseMutationOptions<SearchPeriodsResponse, SearchPeriodsError, Options<SearchPeriodsData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await searchPeriods({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

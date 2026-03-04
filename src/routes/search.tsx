@@ -1,7 +1,7 @@
 import { SearchFilters } from "@/components/search/SearchFilters.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { createFileRoute } from "@tanstack/react-router";
-import { mapFiltersToUrlParams } from "@/lib/utils.ts";
+import { serializeSearchParams, validateSearchParams } from "@/lib/searchValidation.ts";
 import { useTranslation } from "react-i18next";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
@@ -13,14 +13,14 @@ import { useState } from "react";
 import type { SortMode } from "@/data/internal/search/SortMode.ts";
 import { SortModeSelection } from "@/components/search/SortModeSelection.tsx";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
-import { validateSearchParams } from "@/lib/searchValidation.ts";
 import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
+import { env } from "@/env";
 
 export const Route = createFileRoute("/search")({
     head: () =>
         generatePageHeadMeta({
             pageKey: "search",
-            url: "https://aura-historia.com/search",
+            url: `${env.VITE_APP_URL}/search`,
         }),
     validateSearch: validateSearchParams,
     component: RouteComponent,
@@ -45,10 +45,7 @@ function RouteComponent() {
     const updateSortMode = (newSortMode: SortMode) => {
         navigate({
             search: (prev) => ({
-                ...mapFiltersToUrlParams({
-                    query: prev.q,
-                    ...prev,
-                }),
+                ...serializeSearchParams(prev),
                 sortField: newSortMode.field,
                 sortOrder: newSortMode.order,
             }),

@@ -47,7 +47,7 @@ export function CreationDateSpanFilter() {
                     </div>
                     {errors?.creationDate?.to && (
                         <p className="text-destructive text-sm mt-1">
-                            {String(errors.creationDate.to.message ?? "")}
+                            {errors.creationDate.to.message ?? ""}
                         </p>
                     )}
                 </div>

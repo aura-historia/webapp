@@ -15,6 +15,8 @@ export type CheckboxMultiSelectProps = {
     readonly onChange: (value: string[]) => void;
     readonly placeholder?: string;
     readonly allSelectedLabel?: string;
+    readonly searchable?: boolean;
+    readonly searchPlaceholder?: string;
 };
 
 export function CheckboxMultiSelect({
@@ -23,11 +25,15 @@ export function CheckboxMultiSelect({
     onChange,
     placeholder = "Select...",
     allSelectedLabel = "All",
+    searchable = false,
+    searchPlaceholder = "Search...",
 }: CheckboxMultiSelectProps) {
     const [open, setOpen] = React.useState(false);
     const [visibleCount, setVisibleCount] = React.useState(1);
+    const [search, setSearch] = React.useState("");
     const containerRef = React.useRef<HTMLDivElement>(null);
     const measureRef = React.useRef<HTMLDivElement>(null);
+    const searchInputRef = React.useRef<HTMLInputElement>(null);
 
     const selectedOptions = React.useMemo(
         () => options.filter((opt) => value.includes(opt.value)),
@@ -35,6 +41,17 @@ export function CheckboxMultiSelect({
     );
     const allSelected = value.length === options.length && options.length > 0;
     const noneSelected = value.length === 0;
+
+    const filteredOptions = React.useMemo(() => {
+        if (!search) return options;
+        const lowerSearch = search.toLowerCase();
+        return options.filter((opt) => opt.label.toLowerCase().includes(lowerSearch));
+    }, [options, search]);
+
+    const handleOpenChange = (isOpen: boolean) => {
+        setOpen(isOpen);
+        if (!isOpen) setSearch("");
+    };
 
     const handleToggle = (optionValue: string) => {
         onChange(
@@ -109,7 +126,7 @@ export function CheckboxMultiSelect({
 
     return (
         <div>
-            <Popover open={open} onOpenChange={setOpen}>
+            <Popover open={open} onOpenChange={handleOpenChange}>
                 <PopoverTrigger asChild>
                     <div
                         ref={containerRef}
@@ -141,38 +158,60 @@ export function CheckboxMultiSelect({
                 <PopoverContent
                     className="w-[var(--radix-popover-trigger-width)] p-0"
                     align="start"
+                    onOpenAutoFocus={(e) => {
+                        if (searchable) {
+                            e.preventDefault();
+                            searchInputRef.current?.focus();
+                        }
+                    }}
                 >
-                    <div className="max-h-60 overflow-auto p-1">
-                        <div
-                            className={cn(
-                                "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
-                                allSelected && "bg-accent/50",
-                            )}
-                            onClick={handleToggleAll}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                    e.preventDefault();
-                                    handleToggleAll();
-                                }
-                            }}
-                            tabIndex={0}
-                            role="option"
-                            aria-selected={allSelected}
-                        >
-                            <div
-                                className={cn(
-                                    "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
-                                    allSelected
-                                        ? "bg-primary text-primary-foreground"
-                                        : "opacity-50",
-                                )}
-                            >
-                                {allSelected && <Check className="h-3 w-3" />}
-                            </div>
-                            <span>{allSelectedLabel}</span>
+                    {searchable && (
+                        <div className="p-1 pb-0">
+                            <input
+                                ref={searchInputRef}
+                                type="text"
+                                className="flex h-8 w-full rounded-sm border border-input bg-background px-2 py-1 text-sm outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+                                placeholder={searchPlaceholder}
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
                         </div>
-                        <Separator className="my-1" />
-                        {options.map((option) => {
+                    )}
+                    <div className="max-h-60 overflow-auto p-1">
+                        {!search && (
+                            <>
+                                <div
+                                    className={cn(
+                                        "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
+                                        allSelected && "bg-accent/50",
+                                    )}
+                                    onClick={handleToggleAll}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter" || e.key === " ") {
+                                            e.preventDefault();
+                                            handleToggleAll();
+                                        }
+                                    }}
+                                    tabIndex={0}
+                                    role="option"
+                                    aria-selected={allSelected}
+                                >
+                                    <div
+                                        className={cn(
+                                            "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                                            allSelected
+                                                ? "bg-primary text-primary-foreground"
+                                                : "opacity-50",
+                                        )}
+                                    >
+                                        {allSelected && <Check className="h-3 w-3" />}
+                                    </div>
+                                    <span>{allSelectedLabel}</span>
+                                </div>
+                                <Separator className="my-1" />
+                            </>
+                        )}
+                        {filteredOptions.map((option) => {
                             const isSelected = value.includes(option.value);
                             return (
                                 <div

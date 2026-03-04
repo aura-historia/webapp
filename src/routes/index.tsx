@@ -6,12 +6,13 @@ import HowItWorksSection from "@/components/landing-page/how-it-works-section/Ho
 import TestimonialsSection from "@/components/landing-page/testimonials-section/TestimonialsSection.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
+import { env } from "@/env";
 
 export const Route = createFileRoute("/")({
     head: () =>
         generatePageHeadMeta({
             pageKey: "home",
-            url: "https://aura-historia.com/",
+            url: `${env.VITE_APP_URL}/`,
         }),
     component: LandingPage,
 });

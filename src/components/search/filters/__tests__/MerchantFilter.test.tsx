@@ -1,4 +1,4 @@
-import { MerchantFilter } from "@/components/search/filters/MerchantFilter";
+import { MerchantIncludeFilter } from "@/components/search/filters/MerchantIncludeFilter";
 import { FormProvider, useForm } from "react-hook-form";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -10,10 +10,12 @@ vi.mock("@/hooks/search/useFilterNavigation", () => ({
     useFilterNavigation: () => vi.fn(),
 }));
 
-// Mock the searchShops API
+// Mock the simpleSearchShops API
 vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
-    searchShopsMutation: () => ({
-        mutationFn: vi.fn(),
+    simpleSearchShopsOptions: () => ({
+        queryKey: ["simpleSearchShops"],
+        queryFn: vi.fn().mockResolvedValue({ items: [] }),
+        enabled: false,
     }),
 }));
 
@@ -48,7 +50,7 @@ const FormWrapper = ({
     );
 };
 
-describe("MerchantFilter", () => {
+describe("MerchantIncludeFilter", () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });
@@ -56,7 +58,7 @@ describe("MerchantFilter", () => {
     it("renders with correct heading and placeholder", () => {
         render(
             <FormWrapper>
-                <MerchantFilter />
+                <MerchantIncludeFilter />
             </FormWrapper>,
         );
 
@@ -67,7 +69,7 @@ describe("MerchantFilter", () => {
     it("allows entering search text in the input", async () => {
         render(
             <FormWrapper>
-                <MerchantFilter />
+                <MerchantIncludeFilter />
             </FormWrapper>,
         );
 
@@ -82,7 +84,7 @@ describe("MerchantFilter", () => {
     it("shows pre-populated merchant values as badges when provided", () => {
         render(
             <FormWrapper defaultValues={{ merchant: ["Existing Merchant"] }}>
-                <MerchantFilter />
+                <MerchantIncludeFilter />
             </FormWrapper>,
         );
 
@@ -92,7 +94,7 @@ describe("MerchantFilter", () => {
     it("handles special characters in search input", async () => {
         render(
             <FormWrapper>
-                <MerchantFilter />
+                <MerchantIncludeFilter />
             </FormWrapper>,
         );
 
@@ -107,7 +109,7 @@ describe("MerchantFilter", () => {
     it("clears search input correctly", async () => {
         render(
             <FormWrapper>
-                <MerchantFilter />
+                <MerchantIncludeFilter />
             </FormWrapper>,
         );
 
@@ -123,7 +125,7 @@ describe("MerchantFilter", () => {
     it("displays multiple selected merchants as badges", () => {
         render(
             <FormWrapper defaultValues={{ merchant: ["Merchant One", "Merchant Two"] }}>
-                <MerchantFilter />
+                <MerchantIncludeFilter />
             </FormWrapper>,
         );
 

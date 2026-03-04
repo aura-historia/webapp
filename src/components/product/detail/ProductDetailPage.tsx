@@ -2,8 +2,8 @@ import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
 import { ProductPriceChart } from "@/components/product/detail/ProductPriceChart.tsx";
 import { ProductHistory } from "@/components/product/detail/ProductHistory.tsx";
 import { ProductInfo } from "@/components/product/detail/ProductInfo.tsx";
-import { ProductSimilar } from "@/components/product/detail/ProductSimilar.tsx";
-import { ProductQualityIndicators } from "@/components/product/detail/ProductQualityIndicator/ProductQualityIndicators.tsx";
+import { ProductSimilar } from "@/components/product/detail/similar/ProductSimilar.tsx";
+import { ProductQualityIndicators } from "@/components/product/detail/quality-indicator/ProductQualityIndicators.tsx";
 
 export function ProductDetailPage({ product }: { readonly product: ProductDetail }) {
     return (

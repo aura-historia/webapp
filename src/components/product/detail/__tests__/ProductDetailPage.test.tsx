@@ -18,15 +18,17 @@ vi.mock("@/components/product/detail/ProductHistory.tsx", () => ({
     ProductHistory: () => <div data-testid="product-history">ProductHistory</div>,
 }));
 
-vi.mock("@/components/product/ProductSimilar", () => ({
+vi.mock("@/components/product/detail/similar/ProductSimilar.tsx", () => ({
     ProductSimilar: () => <div data-testid="product-similar">ProductSimilar</div>,
 }));
 
 describe("ProductDetailPage", () => {
     const mockProduct: ProductDetail = {
         productId: "1",
+        productSlugId: "test-product",
         eventId: "",
         shopId: "",
+        shopSlugId: "test-shop",
         shopsProductId: "",
         shopName: "Test Shop",
         shopType: "AUCTION_HOUSE",

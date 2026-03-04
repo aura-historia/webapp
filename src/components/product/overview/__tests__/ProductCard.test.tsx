@@ -8,10 +8,12 @@ describe("ProductCard", () => {
         created: new Date(),
         eventId: "",
         shopId: "",
+        shopSlugId: "sample-shop",
         shopsProductId: "",
+        productId: "1",
+        productSlugId: "sample-product",
         updated: new Date(),
         url: new URL("https://example.com"),
-        productId: "1",
         title: "Sample Product",
         shopName: "Sample Shop",
         shopType: "AUCTION_HOUSE",
@@ -65,5 +67,16 @@ describe("ProductCard", () => {
         });
         expect(screen.getByText("Details")).toBeInTheDocument();
         expect(screen.getByText("Zur Seite des Händlers")).toBeInTheDocument();
+    });
+
+    it("should add nofollow rel to external merchant link", async () => {
+        await act(() => {
+            renderWithRouter(<ProductCard product={mockProduct} />);
+        });
+
+        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
+            "rel",
+            "nofollow noopener noreferrer",
+        );
     });
 });

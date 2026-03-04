@@ -4,13 +4,14 @@ import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils.ts";
 import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+
+import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Authenticity.ts";
+import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Condition.ts";
 import {
     formatOriginYear,
     getOriginYearColor,
     PRODUCT_ATTRIBUTE_COLORS,
-} from "@/components/product/detail/ProductQualityIndicator/ProductQualityIndicator.helpers.ts";
-import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Authenticity.ts";
-import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Condition.ts";
+} from "@/components/product/detail/quality-indicator/ProductQualityIndicator.helpers.ts";
 
 export function ProductQualityBadges({
     product,

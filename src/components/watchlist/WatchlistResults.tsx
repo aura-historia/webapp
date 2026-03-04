@@ -1,19 +1,17 @@
 import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
-import { Card, CardContent } from "@/components/ui/card.tsx";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { H1 } from "@/components/typography/H1.tsx";
 import { useTranslation } from "react-i18next";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import { Spinner } from "@/components/ui/spinner.tsx";
-import Lottie from "lottie-react";
-import tick from "@/assets/lottie/tick.json";
 import { SearchX } from "lucide-react";
 import { H3 } from "@/components/typography/H3.tsx";
 import { useWatchlist } from "@/hooks/watchlist/useWatchlist.ts";
+import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
+
+const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as const;
 
 export function WatchlistResults() {
     const { ref, inView } = useInView();
@@ -30,8 +28,8 @@ export function WatchlistResults() {
     if (isPending) {
         return (
             <div className="flex flex-col gap-4">
-                {Array.from({ length: 4 }, () => (
-                    <ProductCardSkeleton key={uuidv4()} />
+                {SKELETON_IDS.map((id) => (
+                    <ProductCardSkeleton key={id} />
                 ))}
             </div>
         );
@@ -58,6 +56,10 @@ export function WatchlistResults() {
             }),
         ) ?? [];
 
+    const totalProducts = data?.pages[0]?.total ?? 0;
+    const allLoaded = allProducts.length >= totalProducts && totalProducts > 0;
+    const showLoaderRow = isFetchingNextPage || allLoaded;
+
     if (allProducts.length === 0) {
         return (
             <div className="flex flex-col items-center gap-4 py-16">
@@ -78,7 +80,7 @@ export function WatchlistResults() {
                 <H1>{t("watchlist.title")}</H1>
                 <span className={"text-2xl font-semibold whitespace-nowrap"}>
                     {t("watchlist.totalElements", {
-                        count: data.pages[0].total ?? 0,
+                        count: totalProducts,
                     })}
                 </span>
             </div>
@@ -86,33 +88,16 @@ export function WatchlistResults() {
                 {allProducts.map((watchlistProduct: OverviewProduct) => (
                     <ProductCard key={watchlistProduct.productId} product={watchlistProduct} />
                 ))}
-                <Card className={"p-4 flex justify-center items-center shadow-md"} ref={ref}>
-                    <CardContent className="flex justify-center items-center w-full px-2">
-                        {isFetchingNextPage ? (
-                            <div className={"flex flex-row items-center gap-2"}>
-                                <Spinner />
-                                <SectionInfoText>{t("watchlist.loadingMore")}</SectionInfoText>
-                            </div>
-                        ) : hasNextPage ? (
-                            ""
-                        ) : (
-                            <div className={"flex flex-row items-center gap-2"}>
-                                <div className={"h-12 w-12 shrink-0"}>
-                                    <Lottie
-                                        className={"h-12 w-12"}
-                                        animationData={tick}
-                                        loop={false}
-                                    />
-                                </div>
-                                <SectionInfoText>
-                                    {t("watchlist.allLoaded", {
-                                        count: data?.pages[0]?.total,
-                                    })}
-                                </SectionInfoText>
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
+                {showLoaderRow && (
+                    <div ref={ref}>
+                        <ListLoaderRow
+                            isFetchingNextPage={isFetchingNextPage}
+                            totalCount={totalProducts}
+                            loadingMoreKey="watchlist.loadingMore"
+                            allLoadedKey="watchlist.allLoaded"
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );

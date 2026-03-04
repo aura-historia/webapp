@@ -62,7 +62,12 @@
     "imprint": "Imprint",
     "privacy": "Privacy Policy",
     "terms": "Terms & Conditions",
-    "copyright": "© {{year}} Aura Historia"
+    "copyright": "© {{year}} Aura Historia",
+    "sections": {
+      "company": "Company",
+      "followUs": "Follow Us",
+      "contact": "Contact"
+    }
   },
   "account": {
     "title": "My Account",
@@ -142,14 +147,20 @@
       "to": "To:",
       "productState": "Listing Status",
       "merchant": "Merchant",
+      "merchants": "Merchants",
       "anyMerchant": "Any Merchant",
       "searchMerchants": "Search merchants...",
       "noMerchantsFound": "No merchants found",
+      "excludeMerchant": "Exclude Merchant",
+      "searchExcludeMerchants": "Search merchants to exclude...",
+      "shopType": "Shop Type",
       "priceSpan": "Price Range",
       "min": "Min",
       "max": "Max",
       "priceSpanAria": "Price Range",
       "updateDate": "Updated",
+      "auctionDate": "Auction Date",
+      "auctionDateDisabledTooltip": "Only available for auction houses",
       "anyDate": "Any",
       "all": "All",
       "select": "Select",
@@ -158,10 +169,17 @@
         "productState": "Reset status filter",
         "creationDate": "Reset creation date filter",
         "updateDate": "Reset update date filter",
+        "auctionDate": "Reset auction date filter",
         "merchant": "Reset merchant filter",
+        "excludeMerchant": "Reset exclude merchant filter",
+        "merchants": "Reset merchant filters",
+        "shopType": "Reset shop type filter",
+        "periodId": "Reset period filter",
         "qualityIndicators": "Reset quality indicators filter"
       },
       "qualityIndicators": "Quality Indicators",
+      "periodId": "Period / Style",
+      "searchPeriods": "Search periods...",
       "originYear": "Year of Origin",
       "authenticity": "Authenticity",
       "condition": "Condition",
@@ -197,6 +215,7 @@
     "toMerchant": "Go to merchant",
     "noDescription": "No description available",
     "noImage": "No image available",
+    "imageLoadError": "Image could not be loaded",
     "qualityIndicators": {
       "title": "Quality Indicators",
       "noData": "No additional information available",
@@ -337,6 +356,7 @@
   },
   "shopType": {
     "auctionHouse": "Auction House",
+    "auctionPlatform": "Auktionsplattform",
     "commercialDealer": "Dealer",
     "marketplace": "Marketplace",
     "unknown": "Unknown"
@@ -355,7 +375,7 @@
     },
     "highlight3": {
       "title": "Fully Language-agnostic",
-      "description": "We translate every antique into multiple languages. The language in which you search does not matter. We currently support English, German, French and Spanish."
+      "description": "We translate every antique into multiple languages. The language in which you search does not matter. We currently support English, German, French, Spanish and Italian."
     },
     "stats": {
       "shops": "500",
@@ -398,7 +418,7 @@
       },
       "translations": {
         "title": "Automatic Translations",
-        "description": "Search and discover all items in your preferred language, without any barriers. We currently support English, German, French and Spanish."
+        "description": "Search and discover all items in your preferred language, without any barriers. We currently support English, German, French, Spanish and Italian."
       },
       "personalFilter": {
         "title": "Search Requests",
@@ -597,7 +617,8 @@
       "de": "German",
       "en": "English",
       "fr": "French",
-      "es": "Spanish"
+      "es": "Spanish",
+      "it": "Italian"
     },
     "currencies": {
       "EUR": "EUR - Euro",

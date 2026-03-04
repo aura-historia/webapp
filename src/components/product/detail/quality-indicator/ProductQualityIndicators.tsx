@@ -4,17 +4,18 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { Calendar, ShieldCheck, Star, FileText, Paintbrush } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { ProductQualityIndicatorItem } from "./ProductQualityIndicatorItem.tsx";
-import {
-    PRODUCT_ATTRIBUTE_COLORS,
-    formatOriginYear,
-    formatOriginYearDescription,
-    getOriginYearColor,
-} from "@/components/product/detail/ProductQualityIndicator/ProductQualityIndicator.helpers.ts";
+
 import { useMemo } from "react";
 import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Authenticity.ts";
 import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Condition.ts";
 import { PROVENANCE_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Provenance.ts";
 import { RESTORATION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Restoration.ts";
+import {
+    formatOriginYear,
+    formatOriginYearDescription,
+    getOriginYearColor,
+    PRODUCT_ATTRIBUTE_COLORS,
+} from "@/components/product/detail/quality-indicator/ProductQualityIndicator.helpers.ts";
 
 export function ProductQualityIndicators({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();

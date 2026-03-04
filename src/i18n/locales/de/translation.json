@@ -62,7 +62,12 @@
     "imprint": "Impressum",
     "privacy": "Datenschutzerklärung",
     "terms": "AGB",
-    "copyright": "© {{year}} Aura Historia"
+    "copyright": "© {{year}} Aura Historia",
+    "sections": {
+      "company": "Unternehmen",
+      "followUs": "Folge uns",
+      "contact": "Kontakt"
+    }
   },
   "account": {
     "title": "Mein Account",
@@ -141,14 +146,20 @@
       "to": "Bis:",
       "productState": "Anzeigenstatus",
       "merchant": "Händler",
+      "merchants": "Händler",
       "anyMerchant": "Beliebiger Händler",
       "searchMerchants": "Händler suchen...",
       "noMerchantsFound": "Keine Händler gefunden",
+      "excludeMerchant": "Händler ausschließen",
+      "searchExcludeMerchants": "Auszuschließende Händler suchen...",
+      "shopType": "Shop-Typ",
       "priceSpan": "Preisspanne",
       "min": "Min",
       "max": "Max",
       "priceSpanAria": "Preisspanne",
       "updateDate": "Aktualisiert",
+      "auctionDate": "Auktionsdatum",
+      "auctionDateDisabledTooltip": "Nur für Auktionshäuser verfügbar",
       "anyDate": "Beliebig",
       "all": "Alle",
       "select": "Auswählen",
@@ -157,10 +168,17 @@
         "productState": "Filter für den Status zurücksetzen",
         "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
         "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
+        "auctionDate": "Filter für das Auktionsdatum zurücksetzen",
         "merchant": "Filter für den Händler zurücksetzen",
+        "excludeMerchant": "Filter für ausgeschlossene Händler zurücksetzen",
+        "merchants": "Filter für die Händler zurücksetzen",
+        "shopType": "Filter für den Shop-Typ zurücksetzen",
+        "periodId": "Filter für Epoche zurücksetzen",
         "qualityIndicators": "Filter für die Qualitätsmerkmale zurücksetzen"
       },
       "qualityIndicators": "Qualitätsmerkmale",
+      "periodId": "Epoche / Stil",
+      "searchPeriods": "Epochen suchen...",
       "originYear": "Entstehungsjahr",
       "authenticity": "Authentizität",
       "condition": "Zustand",
@@ -196,6 +214,7 @@
     "toMerchant": "Zur Seite des Händlers",
     "noDescription": "Keine Beschreibung verfügbar",
     "noImage": "Kein Bild verfügbar",
+    "imageLoadError": "Bild konnte nicht geladen werden",
     "qualityIndicators": {
       "title": "Qualitätsmerkmale",
       "noData": "Keine zusätzlichen Informationen verfügbar",
@@ -336,6 +355,7 @@
   },
   "shopType": {
     "auctionHouse": "Auktionshaus",
+    "auctionPlatform": "Auktionsplattform",
     "commercialDealer": "Händler",
     "marketplace": "Marktplatz",
     "unknown": "Unbekannt"
@@ -354,7 +374,7 @@
     },
     "highlight3": {
       "title": "Vollständig Sprach-unabhängig",
-      "description": "Wir übersetzen jeden Artikel in verschiedene Sprachen. Damit ist es egal, in welcher Sprache Sie suchen. Derzeit unterstützen wir Deutsch, Englisch, Französisch und Spanisch."
+      "description": "Wir übersetzen jeden Artikel in verschiedene Sprachen. Damit ist es egal, in welcher Sprache Sie suchen. Derzeit unterstützen wir Deutsch, Englisch, Französisch, Spanisch und Italienisch."
     },
     "stats": {
       "shops": "500",
@@ -397,7 +417,7 @@
       },
       "translations": {
         "title": "Automatische Übersetzungen",
-        "description": "Suchen und entdecken Sie alle Artikel in Ihrer bevorzugten Sprache, ohne Barrieren. Wir unterstützen derzeit Deutsch. Englisch, Französisch und Spanisch."
+        "description": "Suchen und entdecken Sie alle Artikel in Ihrer bevorzugten Sprache, ohne Barrieren. Wir unterstützen derzeit Deutsch, Englisch, Französisch, Spanisch und Italienisch."
       },
       "personalFilter": {
         "title": "Suchaufträge",
@@ -596,7 +616,8 @@
       "de": "Deutsch",
       "en": "Englisch",
       "fr": "Französisch",
-      "es": "Spanisch"
+      "es": "Spanisch",
+      "it": "Italienisch"
     },
     "currencies": {
       "EUR": "EUR - Euro",
