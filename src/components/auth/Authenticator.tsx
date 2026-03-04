@@ -62,7 +62,7 @@ export function Authenticator() {
                     );
 
                     const email = formData.email?.trim();
-                    const isInvalidEmail = !!email && !z.string().email().safeParse(email).success;
+                    const isInvalidEmail = !!email && !z.email().safeParse(email).success;
 
                     if (errors || isInvalidEmail) {
                         return {
