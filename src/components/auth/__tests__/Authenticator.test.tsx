@@ -179,9 +179,11 @@ describe("Authenticator", () => {
             expect(screen.getByTestId("selectfield-currency")).toBeInTheDocument();
         });
 
-        it("should render default Amplify SignUp FormFields", () => {
+        it("should render Cognito sign up fields as TextField components", () => {
             render(<Authenticator />);
-            expect(screen.getByTestId("amplify-signup-formfields")).toBeInTheDocument();
+            expect(screen.getByTestId("textfield-email")).toBeInTheDocument();
+            expect(screen.getByTestId("textfield-password")).toBeInTheDocument();
+            expect(screen.getByTestId("textfield-confirm_password")).toBeInTheDocument();
         });
 
         it("should display loading spinner by default", () => {
@@ -277,6 +279,20 @@ describe("Authenticator", () => {
             expect(lastNameField).toHaveAttribute("aria-invalid", "true");
             expect(lastNameField).toHaveAttribute("aria-errormessage", "Last name is required");
         });
+
+        it("should display validation errors for email", () => {
+            mockUseAuthenticator.mockReturnValue({
+                validationErrors: {
+                    email: "Email is required",
+                },
+            });
+
+            render(<Authenticator />);
+
+            const emailField = screen.getByTestId("textfield-email");
+            expect(emailField).toHaveAttribute("aria-invalid", "true");
+            expect(emailField).toHaveAttribute("aria-errormessage", "Email is required");
+        });
     });
 
     describe("useEffect - clearPendingUserData", () => {
@@ -371,6 +387,41 @@ describe("Authenticator", () => {
                 language: "EN",
                 currency: "USD",
             });
+        });
+
+        it("should return email validation error for invalid email format", async () => {
+            mockValidateCognitoNameFields.mockReturnValue(null);
+
+            render(<Authenticator />);
+
+            const props = (
+                globalThis as {
+                    __mockAuthenticatorProps?: {
+                        services?: {
+                            validateCustomSignUp?: (formData: {
+                                firstName: string;
+                                lastName: string;
+                                email: string;
+                                language: string;
+                                currency: string;
+                            }) => unknown;
+                        };
+                    };
+                }
+            ).__mockAuthenticatorProps;
+
+            const result = await props?.services?.validateCustomSignUp?.({
+                firstName: "John",
+                lastName: "Doe",
+                email: "invalid-email",
+                language: "en",
+                currency: "USD",
+            });
+
+            expect(result).toEqual({
+                email: "amplify.invalidEmailAddressFormat",
+            });
+            expect(mockSetPendingUserData).not.toHaveBeenCalled();
         });
 
         it("should handle undefined form fields correctly", async () => {
