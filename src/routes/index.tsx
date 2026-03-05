@@ -8,7 +8,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
 import { env } from "@/env";
 import CategoriesSection from "@/components/landing-page/categories-section/CategoriesSection";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getCategoriesOptions } from "@/client/@tanstack/react-query.gen";
 import { mapToCategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
@@ -16,9 +16,15 @@ import i18n from "@/i18n/i18n.ts";
 
 export const Route = createFileRoute("/")({
     loader: async ({ context: { queryClient } }) => {
-        await queryClient.ensureQueryData(
-            getCategoriesOptions({ query: { language: parseLanguage(i18n.language) } }),
-        );
+        try {
+            await queryClient.ensureQueryData(
+                getCategoriesOptions({
+                    query: { language: parseLanguage(i18n.language) },
+                }),
+            );
+        } catch {
+            // Swallow errors – the page component handles missing categories gracefully
+        }
     },
     head: () =>
         generatePageHeadMeta({
@@ -29,13 +35,13 @@ export const Route = createFileRoute("/")({
 });
 
 function LandingPage() {
-    const { data: categoriesData } = useSuspenseQuery(getCategoriesOptions());
-    const categories = categoriesData.map(mapToCategoryOverview);
+    const { data: categoriesData, isError: categoriesError } = useQuery(getCategoriesOptions());
+    const categories = categoriesData?.map(mapToCategoryOverview);
 
     return (
         <>
             <HeroSection />
-            <CategoriesSection categories={categories} />
+            {!categoriesError && categories && <CategoriesSection categories={categories} />}
             <DiscoverSection />
             <FeaturesSection />
             <HowItWorksSection />
