@@ -396,6 +396,9 @@
     "trustBadge1": "From antique collectors",
     "trustBadge2": "For serious collectors and dealers",
     "trustBadge3": "Near Real-Time",
+    "categories": {
+      "title": "Discover Categories"
+    },
     "features": {
       "title": "Antiques are scattered everywhere online - your search shouldn't be",
       "subtitle": "We are the most sophisticated search engine for antiques and provide you with all the tools to efficiently search the antiques market.",

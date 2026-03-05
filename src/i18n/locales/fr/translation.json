@@ -396,6 +396,9 @@
     "trustBadge1": "Par des collectionneurs d'antiquités",
     "trustBadge2": "Pour les collectionneurs et marchands sérieux",
     "trustBadge3": "Quasi en temps réel",
+    "categories": {
+      "title": "Découvrir les catégories"
+    },
     "features": {
       "title": "Les antiquités sont dispersées partout en ligne - votre recherche ne devrait pas l'être",
       "subtitle": "Nous sommes le moteur de recherche le plus sophistiqué pour les antiquités et vous fournissons tous les outils nécessaires pour explorer efficacement le marché des antiquités.",

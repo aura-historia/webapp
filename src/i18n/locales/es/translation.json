@@ -396,6 +396,9 @@
     "trustBadge1": "De coleccionistas de antigüedades",
     "trustBadge2": "Para coleccionistas y comerciantes serios",
     "trustBadge3": "Casi en tiempo real",
+    "categories": {
+      "title": "Descubrir categorías"
+    },
     "features": {
       "title": "Las antigüedades están dispersas por toda la web: tu búsqueda no debería estarlo",
       "subtitle": "Somos el motor de búsqueda más sofisticado para antigüedades y te proporcionamos todas las herramientas para buscar eficientemente en el mercado de antigüedades.",

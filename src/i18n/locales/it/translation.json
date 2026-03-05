@@ -396,6 +396,9 @@
     "trustBadge1": "Da collezionisti di antiquariato",
     "trustBadge2": "Per collezionisti e commercianti seri",
     "trustBadge3": "Quasi in tempo reale",
+    "categories": {
+      "title": "Scopri le categorie"
+    },
     "features": {
       "title": "L'antiquariato è sparso ovunque online - la tua ricerca non dovrebbe esserlo",
       "subtitle": "Siamo il motore di ricerca più sofisticato per l'antiquariato e ti forniamo tutti gli strumenti per cercare in modo efficiente nel mercato antiquario.",
