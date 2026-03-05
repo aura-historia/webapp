@@ -3,6 +3,7 @@ import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carouse
 import Autoplay from "embla-carousel-autoplay";
 import { getCategoryIcon } from "@/components/landing-page/categories-section/CategoriesSection.data.ts";
 import type { CategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
+import { Link } from "@tanstack/react-router";
 
 type CategoriesSectionProps = {
     readonly categories: CategoryOverview[];
@@ -42,14 +43,18 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                                     key={category.categoryId}
                                     className="pl-3 basis-1/3 sm:basis-1/4 md:basis-1/5 lg:basis-1/6"
                                 >
-                                    <div className="group relative rounded-xl border border-primary/10 bg-card p-4 text-center transition-all duration-300 hover:border-primary/30 hover:shadow-md">
+                                    <Link
+                                        to="/categories/$categoryId"
+                                        params={{ categoryId: category.categoryId }}
+                                        className="block group relative rounded-xl border border-primary/10 bg-card p-4 text-center transition-all duration-300 hover:border-primary/30 hover:shadow-md"
+                                    >
                                         <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 transition-colors group-hover:bg-primary/20">
                                             <Icon className="h-6 w-6 text-primary" />
                                         </div>
                                         <p className="text-xs font-medium leading-tight">
                                             {category.name}
                                         </p>
-                                    </div>
+                                    </Link>
                                 </CarouselItem>
                             );
                         })}
