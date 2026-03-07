@@ -13,6 +13,7 @@ import { getCategoriesOptions } from "@/client/@tanstack/react-query.gen";
 import { mapToCategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import i18n from "@/i18n/i18n.ts";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/")({
     loader: async ({ context: { queryClient } }) => {
@@ -35,7 +36,12 @@ export const Route = createFileRoute("/")({
 });
 
 function LandingPage() {
-    const { data: categoriesData, isError: categoriesError } = useQuery(getCategoriesOptions());
+    const { i18n } = useTranslation();
+    const { data: categoriesData, isError: categoriesError } = useQuery(
+        getCategoriesOptions({
+            query: { language: parseLanguage(i18n.language) },
+        }),
+    );
     const categories = categoriesData?.map(mapToCategoryOverview);
 
     return (
