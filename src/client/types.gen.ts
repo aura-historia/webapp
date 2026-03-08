@@ -620,9 +620,9 @@ export type ProductSearchData = {
     language?: LanguageData;
     currency?: CurrencyData;
     /**
-     * Text query for searching products (minimum 3 characters)
+     * Optional text query for searching products (minimum 1 character when provided)
      */
-    productQuery: string;
+    productQuery?: string | null;
     /**
      * Optional set of kebab-case level-one category identifiers to filter products by.
      * When provided, products matching any of the categories are returned.
@@ -752,7 +752,7 @@ export type PatchProductSearchData = {
      */
     currency?: CurrencyData | null;
     /**
-     * Text query for searching products (minimum 3 characters when provided)
+     * Text query for searching products (minimum 1 character when provided)
      */
     productQuery?: string | null;
     /**
@@ -1739,9 +1739,9 @@ export type SimpleSearchProductsData = {
          */
         currency: CurrencyData;
         /**
-         * Text query for products (minimum 3 characters)
+         * Optional text query for products (minimum 1 character when provided)
          */
-        productQuery: string;
+        productQuery?: string;
         /**
          * Field to sort results by
          */

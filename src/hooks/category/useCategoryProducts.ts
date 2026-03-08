@@ -33,16 +33,13 @@ export function useCategoryProducts(
                     language: parseLanguage(i18n.language),
                     // TODO: Make currency dynamic
                     currency: "EUR",
-                    // TODO: Remove once api is updated
-                    productQuery: "Test",
                     searchAfter: pageParam,
                     size: PAGE_SIZE,
                     sort: "updated",
                     order: "desc",
                     // categoryId is supported by the endpoint as an extra filter param
                     // but is not formally typed — same pattern as useSearch.ts buildFilterQuery
-                    // TODO: Add back once api is updated
-                    categoryId: [],
+                    categoryId: [categoryId],
                 } as SimpleSearchProductsData["query"],
             });
 
