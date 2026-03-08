@@ -46,7 +46,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                                     <Link
                                         to="/categories/$categoryId"
                                         params={{ categoryId: category.categoryId }}
-                                        className="block group relative rounded-xl border border-primary/10 bg-card p-4 text-center transition-all duration-300 hover:border-primary/30 hover:shadow-md"
+                                        className="mx-1 block group relative rounded-xl border border-primary/10 bg-card p-4 text-center transition-all duration-300 hover:border-primary/30 hover:shadow-md"
                                     >
                                         <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 transition-colors group-hover:bg-primary/20">
                                             <Icon className="h-6 w-6 text-primary" />
