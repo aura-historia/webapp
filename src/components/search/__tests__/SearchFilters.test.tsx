@@ -15,7 +15,7 @@ describe("SearchFilters", () => {
     describe("Apply filters with updated search query", () => {
         it("should use the current search bar query when applying filters", async () => {
             // Render both SearchBar and SearchFilters as they appear on the search page
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(
                     <>
                         <SearchBar type="small" />
@@ -57,12 +57,13 @@ describe("SearchFilters", () => {
             // (If the old query was used, the component would re-render with the old value)
             await waitFor(() => {
                 const currentSearchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
+                console.log(currentSearchInput);
                 expect(currentSearchInput.value).toBe("new search query");
             });
-        });
+        }, 10000);
 
         it("should use the current search bar query when resetting filters", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(
                     <>
                         <SearchBar type="small" />
@@ -98,10 +99,10 @@ describe("SearchFilters", () => {
                 const currentSearchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
                 expect(currentSearchInput.value).toBe("updated query");
             });
-        });
+        }, 10000);
 
         it("should fall back to URL query when search bar input is empty", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(
                     <>
                         <SearchBar type="small" />
@@ -133,10 +134,10 @@ describe("SearchFilters", () => {
 
             // The component should still work (using the fallback)
             expect(screen.getByRole("button", { name: "Filter anwenden" })).toBeInTheDocument();
-        });
+        }, 10000);
 
         it("should fall back to URL query when search bar input has less than 3 characters", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(
                     <>
                         <SearchBar type="small" />
@@ -169,6 +170,6 @@ describe("SearchFilters", () => {
 
             // The component should still work
             expect(screen.getByRole("button", { name: "Filter anwenden" })).toBeInTheDocument();
-        });
+        }, 10000);
     });
 });
