@@ -199,16 +199,16 @@ describe("validateSearchParams", () => {
         it("should parse shop types case-insensitively", () => {
             const result = validateSearchParams({
                 q: "test",
-                shopType: ["auction_house", "COMMERCIAL_DEALER"] as any,
-            } as RawSearchParams);
+                shopType: ["auction_house", "COMMERCIAL_DEALER"],
+            } as unknown as RawSearchParams);
             expect(result.shopType).toEqual(["AUCTION_HOUSE", "COMMERCIAL_DEALER"]);
         });
 
         it("should return undefined when shopType is not an array", () => {
             const result = validateSearchParams({
                 q: "test",
-                shopType: "AUCTION_HOUSE" as any,
-            } as RawSearchParams);
+                shopType: "AUCTION_HOUSE",
+            } as unknown as RawSearchParams);
             expect(result.shopType).toBeUndefined();
         });
 
