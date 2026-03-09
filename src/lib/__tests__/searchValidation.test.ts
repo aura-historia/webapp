@@ -246,16 +246,16 @@ describe("validateSearchParams", () => {
         it("should filter out non-string values", () => {
             const result = validateSearchParams({
                 q: "test",
-                periodId: ["renaissance", 123, null, "baroque"] as any,
-            } as RawSearchParams);
+                periodId: ["renaissance", 123, null, "baroque"],
+            } as unknown as RawSearchParams);
             expect(result.periodId).toEqual(["renaissance", "baroque"]);
         });
 
         it("should return undefined when periodId is not an array", () => {
             const result = validateSearchParams({
                 q: "test",
-                periodId: "renaissance" as any,
-            } as RawSearchParams);
+                periodId: "renaissance",
+            } as unknown as RawSearchParams);
             expect(result.periodId).toBeUndefined();
         });
 

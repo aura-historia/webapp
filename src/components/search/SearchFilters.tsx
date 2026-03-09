@@ -159,18 +159,18 @@ function mapSearchFiltersToFormValues(filters: SearchFilterArguments): FilterSch
     };
 }
 
+const DEBOUNCE_DELAY_MS = 500;
+const DEBOUNCED_FIELDS = [
+    "priceSpan.min",
+    "priceSpan.max",
+    "originYearSpan.min",
+    "originYearSpan.max",
+];
+
 export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
     const { t } = useTranslation();
     const { getQuery } = useSearchQueryContext();
-
-    const DEBOUNCE_DELAY_MS = 500;
-    const DEBOUNCED_FIELDS = [
-        "priceSpan.min",
-        "priceSpan.max",
-        "originYearSpan.min",
-        "originYearSpan.max",
-    ];
 
     const getEffectiveQuery = useCallback((): string => {
         const currentQuery = getQuery()?.trim();
