@@ -29,23 +29,37 @@ export function CheckboxMultiSelect({
     const containerRef = React.useRef<HTMLDivElement>(null);
     const measureRef = React.useRef<HTMLDivElement>(null);
 
+    // Buffer changes while the popover is open, apply on close.
+    const [pendingValue, setPendingValue] = React.useState(value);
+
+    const handleOpenChange = (isOpen: boolean) => {
+        if (!isOpen) {
+            onChange(pendingValue);
+        } else {
+            setPendingValue(value);
+        }
+        setOpen(isOpen);
+    };
+
+    const displayValue = open ? pendingValue : value;
+
     const selectedOptions = React.useMemo(
-        () => options.filter((opt) => value.includes(opt.value)),
-        [options, value],
+        () => options.filter((opt) => displayValue.includes(opt.value)),
+        [options, displayValue],
     );
-    const allSelected = value.length === options.length && options.length > 0;
-    const noneSelected = value.length === 0;
+    const allSelected = displayValue.length === options.length && options.length > 0;
+    const noneSelected = displayValue.length === 0;
 
     const handleToggle = (optionValue: string) => {
-        onChange(
-            value.includes(optionValue)
-                ? value.filter((v) => v !== optionValue)
-                : [...value, optionValue],
+        setPendingValue((prev) =>
+            prev.includes(optionValue)
+                ? prev.filter((v) => v !== optionValue)
+                : [...prev, optionValue],
         );
     };
 
     const handleToggleAll = () => {
-        onChange(allSelected ? [] : options.map((opt) => opt.value));
+        setPendingValue(allSelected ? [] : options.map((opt) => opt.value));
     };
 
     React.useLayoutEffect(() => {
@@ -109,7 +123,7 @@ export function CheckboxMultiSelect({
 
     return (
         <div>
-            <Popover open={open} onOpenChange={setOpen}>
+            <Popover open={open} onOpenChange={handleOpenChange}>
                 <PopoverTrigger asChild>
                     <div
                         ref={containerRef}
@@ -130,7 +144,12 @@ export function CheckboxMultiSelect({
                                     className="h-4 w-4 opacity-50 hover:opacity-100"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        onChange(options.map((opt) => opt.value));
+                                        const allValues = options.map((opt) => opt.value);
+                                        if (open) {
+                                            setPendingValue(allValues);
+                                        } else {
+                                            onChange(allValues);
+                                        }
                                     }}
                                 />
                             )}
@@ -173,7 +192,7 @@ export function CheckboxMultiSelect({
                         </div>
                         <Separator className="my-1" />
                         {options.map((option) => {
-                            const isSelected = value.includes(option.value);
+                            const isSelected = displayValue.includes(option.value);
                             return (
                                 <div
                                     key={option.value}
