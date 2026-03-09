@@ -22,9 +22,9 @@ export function AuctionDateSpanFilter() {
         <FilterCard
             title={t("search.filter.auctionDate")}
             resetTooltip={
-                !isDisabled
-                    ? t("search.filter.resetTooltip.auctionDate")
-                    : t("search.filter.auctionDateDisabledTooltip")
+                isDisabled
+                    ? t("search.filter.auctionDateDisabledTooltip")
+                    : t("search.filter.resetTooltip.auctionDate")
             }
             onReset={() => resetAndNavigate("auctionDate")}
             defaultOpen={false}

@@ -6,8 +6,7 @@ import {
     createRoute,
     createRouter,
 } from "@tanstack/react-router";
-import { render, screen } from "@testing-library/react";
-import { fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { SearchQueryProvider } from "@/hooks/search/useSearchQueryContext.tsx";

@@ -160,12 +160,12 @@ function mapSearchFiltersToFormValues(filters: SearchFilterArguments): FilterSch
 }
 
 const DEBOUNCE_DELAY_MS = 500;
-const DEBOUNCED_FIELDS = [
+const DEBOUNCED_FIELDS = new Set([
     "priceSpan.min",
     "priceSpan.max",
     "originYearSpan.min",
     "originYearSpan.max",
-];
+]);
 
 export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
@@ -241,7 +241,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         const subscription = form.watch((data, { name }) => {
             if (!name) return;
 
-            if (DEBOUNCED_FIELDS.includes(name)) {
+            if (DEBOUNCED_FIELDS.has(name)) {
                 debouncedApplyFilters(data);
             } else {
                 debouncedApplyFilters.cancel();
