@@ -84,6 +84,15 @@ describe("ProductInfo", () => {
         expect(screen.getByText("Zur Seite des Händlers")).toBeInTheDocument();
     });
 
+    it("should add nofollow rel to external merchant link", () => {
+        renderWithQueryClient(<ProductInfo product={mockProduct} />);
+
+        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
+            "rel",
+            "nofollow noopener noreferrer",
+        );
+    });
+
     it("should render floating action buttons (Share and Heart)", () => {
         renderWithQueryClient(<ProductInfo product={mockProduct} />);
         const shareButtons = screen.getAllByRole("button");

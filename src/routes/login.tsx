@@ -11,6 +11,7 @@ import "../amplify-config";
 import { useQueryClient } from "@tanstack/react-query";
 import { CompleteRegistration } from "@/components/auth/CompleteRegistration.tsx";
 import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
+import { env } from "@/env";
 
 type LoginSearch = {
     redirect?: string;
@@ -29,7 +30,7 @@ export const Route = createFileRoute("/login")({
     head: () =>
         generatePageHeadMeta({
             pageKey: "login",
-            url: "https://aura-historia.com/login",
+            url: `${env.VITE_APP_URL}/login`,
             noIndex: true,
         }),
     component: LoginPage,

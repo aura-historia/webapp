@@ -45,9 +45,13 @@ export function PriceSpanFilter() {
     };
 
     function sortInputFields() {
-        if (sliderMin > sliderMax && sliderMin && sliderMax) {
-            setValue("priceSpan.min", sliderMax, { shouldDirty: true, shouldValidate: true });
-            setValue("priceSpan.max", sliderMin, { shouldDirty: true, shouldValidate: true });
+        if (
+            typeof watchedMin === "number" &&
+            typeof watchedMax === "number" &&
+            watchedMin > watchedMax
+        ) {
+            setValue("priceSpan.min", watchedMax, { shouldDirty: true, shouldValidate: true });
+            setValue("priceSpan.max", watchedMin, { shouldDirty: true, shouldValidate: true });
         }
     }
 

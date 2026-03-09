@@ -62,7 +62,12 @@
     "imprint": "Mentions légales",
     "privacy": "Politique de confidentialité",
     "terms": "CGV",
-    "copyright": "© {{year}} Aura Historia"
+    "copyright": "© {{year}} Aura Historia",
+    "sections": {
+      "company": "Entreprise",
+      "followUs": "Suivez-nous",
+      "contact": "Contact"
+    }
   },
   "account": {
     "title": "Mon compte",
@@ -161,11 +166,14 @@
         "auctionDate": "Réinitialiser le filtre de date de vente aux enchères",
         "excludeMerchant": "Réinitialiser le filtre d'exclusion de marchand",
         "merchants": "Réinitialiser les filtres de marchands",
-        "shopType": "Réinitialiser le filtre de type de boutique"
+        "shopType": "Réinitialiser le filtre de type de boutique",
+        "periodId": "Réinitialiser le filtre de période"
       },
       "all": "Tous",
       "select": "Sélectionner",
       "qualityIndicators": "Indicateurs de Qualité",
+      "periodId": "Période / Style",
+      "searchPeriods": "Rechercher des périodes...",
       "originYear": "Année d'Origine",
       "authenticity": "Authenticité",
       "condition": "État",
@@ -207,6 +215,7 @@
     "toMerchant": "Voir chez le marchand",
     "noDescription": "Aucune description disponible",
     "noImage": "Aucune image disponible",
+    "imageLoadError": "L'image n'a pas pu être chargée",
     "similar": {
       "title": "Articles similaires",
       "error": {
@@ -366,7 +375,7 @@
     },
     "highlight3": {
       "title": "Entièrement indépendant de la langue",
-      "description": "Nous traduisons chaque antiquité dans plusieurs langues. La langue dans laquelle vous effectuez votre recherche n'a pas d'importance. Nous prenons actuellement en charge l'anglais, l'allemand, le français et l'espagnol."
+      "description": "Nous traduisons chaque antiquité en plusieurs langues. La langue dans laquelle vous effectuez votre recherche n'a pas d'importance. Nous prenons actuellement en charge l'anglais, l'allemand, le français, l'espagnol et l'italien."
     },
     "stats": {
       "shops": "500",
@@ -409,7 +418,7 @@
       },
       "translations": {
         "title": "Traductions automatiques",
-        "description": "Recherchez et découvrez tous les articles dans votre langue préférée, sans aucune barrière. Nous prenons actuellement en charge l'anglais, l'allemand, le français et l'espagnol."
+        "description": "Recherchez et découvrez tous les articles dans votre langue préférée, sans aucun obstacle. Nous prenons actuellement en charge l'anglais, l'allemand, le français, l'espagnol et l'italien."
       },
       "personalFilter": {
         "title": "Requêtes de recherche",
@@ -608,7 +617,8 @@
       "de": "Allemand",
       "en": "Anglais",
       "fr": "Français",
-      "es": "Espagnol"
+      "es": "Espagnol",
+      "it": "Italien"
     },
     "currencies": {
       "EUR": "EUR - Euro",

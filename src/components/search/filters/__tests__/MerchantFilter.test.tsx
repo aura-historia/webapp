@@ -10,10 +10,12 @@ vi.mock("@/hooks/search/useFilterNavigation", () => ({
     useFilterNavigation: () => vi.fn(),
 }));
 
-// Mock the searchShops API
+// Mock the simpleSearchShops API
 vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
-    searchShopsMutation: () => ({
-        mutationFn: vi.fn(),
+    simpleSearchShopsOptions: () => ({
+        queryKey: ["simpleSearchShops"],
+        queryFn: vi.fn().mockResolvedValue({ items: [] }),
+        enabled: false,
     }),
 }));
 

@@ -68,4 +68,15 @@ describe("ProductCard", () => {
         expect(screen.getByText("Details")).toBeInTheDocument();
         expect(screen.getByText("Zur Seite des Händlers")).toBeInTheDocument();
     });
+
+    it("should add nofollow rel to external merchant link", async () => {
+        await act(() => {
+            renderWithRouter(<ProductCard product={mockProduct} />);
+        });
+
+        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
+            "rel",
+            "nofollow noopener noreferrer",
+        );
+    });
 });

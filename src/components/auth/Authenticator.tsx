@@ -20,6 +20,7 @@ import { parseLanguage, LANGUAGES } from "@/data/internal/common/Language.ts";
 import { parseCurrency, CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { validateCognitoNameFields } from "@/utils/nameValidation";
 import { useEffect } from "react";
+import { z } from "zod";
 
 export function Authenticator() {
     const { t, i18n } = useTranslation();
@@ -60,7 +61,17 @@ export function Authenticator() {
                         t,
                     );
 
-                    if (errors) return errors;
+                    const email = formData.email?.trim();
+                    const isInvalidEmail = !!email && !z.email().safeParse(email).success;
+
+                    if (errors || isInvalidEmail) {
+                        return {
+                            ...errors,
+                            ...(isInvalidEmail
+                                ? { email: t("amplify.invalidEmailAddressFormat") }
+                                : {}),
+                        };
+                    }
 
                     const customData = {
                         firstName: formData.firstName || undefined,
@@ -105,7 +116,7 @@ function AuthenticatorContent({ user }: { user: unknown }) {
 function FormFields() {
     const { tokens } = useTheme();
     const { validationErrors } = useAuthenticator();
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (!registrationStore.state.isSignUpFlow) {
@@ -152,7 +163,30 @@ function FormFields() {
                 </SelectField>
             </Grid>
 
-            <AmplifyAuthenticator.SignUp.FormFields key={i18n.language} />
+            <TextField
+                name="email"
+                type="email"
+                label={t("amplify.email")}
+                placeholder={t("amplify.enterYourEmail")}
+                errorMessage={validationErrors.email}
+                hasError={!!validationErrors.email}
+            />
+            <TextField
+                name="password"
+                type="password"
+                label={t("amplify.password")}
+                placeholder={t("amplify.enterYourPassword")}
+                errorMessage={validationErrors.password}
+                hasError={!!validationErrors.password}
+            />
+            <TextField
+                name="confirm_password"
+                type="password"
+                label={t("amplify.confirmPassword")}
+                placeholder={t("amplify.pleaseConfirmYourPassword")}
+                errorMessage={validationErrors.confirm_password}
+                hasError={!!validationErrors.confirm_password}
+            />
         </>
     );
 }

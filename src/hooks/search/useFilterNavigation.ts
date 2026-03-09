@@ -67,6 +67,7 @@ export function useFilterNavigation() {
                 merchant: data.merchant || undefined,
                 excludeMerchant: data.excludeMerchant || undefined,
                 shopType: isDefaultShopType(data.shopType) ? undefined : data.shopType,
+                periodId: data.periodId?.length ? data.periodId : undefined,
             },
         });
     };

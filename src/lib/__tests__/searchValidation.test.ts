@@ -218,6 +218,53 @@ describe("validateSearchParams", () => {
         });
     });
 
+    describe("periodId parameter", () => {
+        it("should parse valid period IDs array", () => {
+            const result = validateSearchParams({
+                q: "test",
+                periodId: ["renaissance", "baroque"],
+            } as RawSearchParams);
+            expect(result.periodId).toEqual(["renaissance", "baroque"]);
+        });
+
+        it("should deduplicate period IDs", () => {
+            const result = validateSearchParams({
+                q: "test",
+                periodId: ["renaissance", "renaissance", "baroque"],
+            } as RawSearchParams);
+            expect(result.periodId).toEqual(["renaissance", "baroque"]);
+        });
+
+        it("should filter out empty strings", () => {
+            const result = validateSearchParams({
+                q: "test",
+                periodId: ["renaissance", "", "baroque"],
+            } as RawSearchParams);
+            expect(result.periodId).toEqual(["renaissance", "baroque"]);
+        });
+
+        it("should filter out non-string values", () => {
+            const result = validateSearchParams({
+                q: "test",
+                periodId: ["renaissance", 123, null, "baroque"] as any,
+            } as RawSearchParams);
+            expect(result.periodId).toEqual(["renaissance", "baroque"]);
+        });
+
+        it("should return undefined when periodId is not an array", () => {
+            const result = validateSearchParams({
+                q: "test",
+                periodId: "renaissance" as any,
+            } as RawSearchParams);
+            expect(result.periodId).toBeUndefined();
+        });
+
+        it("should return undefined when periodId is undefined", () => {
+            const result = validateSearchParams({ q: "test" } as RawSearchParams);
+            expect(result.periodId).toBeUndefined();
+        });
+    });
+
     describe("sort parameters", () => {
         it("should parse valid sortField", () => {
             const result = validateSearchParams({

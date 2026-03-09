@@ -14,12 +14,13 @@ import type { SortMode } from "@/data/internal/search/SortMode.ts";
 import { SortModeSelection } from "@/components/search/SortModeSelection.tsx";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
 import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
+import { env } from "@/env";
 
 export const Route = createFileRoute("/search")({
     head: () =>
         generatePageHeadMeta({
             pageKey: "search",
-            url: "https://aura-historia.com/search",
+            url: `${env.VITE_APP_URL}/search`,
         }),
     validateSearch: validateSearchParams,
     component: RouteComponent,

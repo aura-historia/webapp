@@ -1,4 +1,5 @@
 import i18n from "@/i18n/i18n.ts";
+import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
 
 type HeadMeta = {
     meta: Array<
@@ -60,7 +61,7 @@ type PageMetaOptions = {
  * Uses i18n translations for title and description.
  */
 export function generatePageHeadMeta(options: PageMetaOptions): HeadMeta {
-    const { pageKey, url, image, type = "website", noIndex = false } = options;
+    const { pageKey, url, image = BANNER_IMAGE_URL, type = "website", noIndex = false } = options;
 
     const keys = PAGE_META_KEYS[pageKey];
     const title = i18n.t(keys.title);

@@ -39,21 +39,30 @@ vi.mock("lottie-react", () => ({
 
 const mockUseSearch = vi.mocked(useSearch);
 
-const buildQueryPayload = (products: OverviewProduct[]): SearchResultData => ({
+const buildQueryPayload = (
+    products: OverviewProduct[],
+    total = products.length,
+): SearchResultData => ({
     products,
     size: products.length,
-    total: products.length,
+    total,
     searchAfter: undefined,
 });
 
 type SearchMockOptions = {
     products?: OverviewProduct[];
+    total?: number;
     isPending?: boolean;
     error?: Error | null;
 };
 
-function setSearchMock({ products = [], isPending = false, error = null }: SearchMockOptions = {}) {
-    const pages = isPending ? undefined : [buildQueryPayload(products)];
+function setSearchMock({
+    products = [],
+    total,
+    isPending = false,
+    error = null,
+}: SearchMockOptions = {}) {
+    const pages = isPending ? undefined : [buildQueryPayload(products, total)];
     mockUseSearch.mockReturnValue({
         data: pages ? { pages, pageParams: [undefined] } : undefined,
         isPending,
@@ -100,6 +109,17 @@ describe("SearchResults", () => {
         expect(
             screen.getByText("Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen."),
         ).toBeInTheDocument();
+    });
+
+    it("reports zero results when API total is zero", () => {
+        const onTotalChange = vi.fn();
+
+        setSearchMock({ products: [], total: 0 });
+        renderWithQueryClient(
+            <SearchResults searchFilters={{ q: "test" }} onTotalChange={onTotalChange} />,
+        );
+
+        expect(onTotalChange).toHaveBeenCalledWith(0);
     });
 
     it("renders a list of product cards when products are found", () => {

@@ -62,7 +62,12 @@
     "imprint": "Aviso legal",
     "privacy": "Política de privacidad",
     "terms": "Términos y condiciones",
-    "copyright": "© {{year}} Aura Historia"
+    "copyright": "© {{year}} Aura Historia",
+    "sections": {
+      "company": "Empresa",
+      "followUs": "Síguenos",
+      "contact": "Contacto"
+    }
   },
   "account": {
     "title": "Mi cuenta",
@@ -161,11 +166,14 @@
         "auctionDate": "Restablecer filtro de fecha de subasta",
         "excludeMerchant": "Restablecer filtro de exclusión de comerciante",
         "merchants": "Restablecer filtros de comerciantes",
-        "shopType": "Restablecer filtro de tipo de tienda"
+        "shopType": "Restablecer filtro de tipo de tienda",
+        "periodId": "Restablecer filtro de período"
       },
       "all": "Todo",
       "select": "Seleccionar",
       "qualityIndicators": "Indicadores de Calidad",
+      "periodId": "Período / Estilo",
+      "searchPeriods": "Buscar períodos...",
       "originYear": "Año de Origen",
       "authenticity": "Autenticidad",
       "condition": "Condición",
@@ -207,6 +215,7 @@
     "toMerchant": "Ir al vendedor",
     "noDescription": "No hay descripción disponible",
     "noImage": "No hay imagen disponible",
+    "imageLoadError": "No se pudo cargar la imagen",
     "similar": {
       "title": "Artículos similares",
       "error": {
@@ -366,7 +375,7 @@
     },
     "highlight3": {
       "title": "Completamente independiente del idioma",
-      "description": "Traducimos cada antigüedad a múltiples idiomas. El idioma en el que buscas no importa. Actualmente soportamos inglés, alemán, francés y español."
+      "description": "Traducimos cada antigüedad a múltiples idiomas. El idioma en el que busques no importa. Actualmente, soportamos inglés, alemán, francés, español e italiano."
     },
     "stats": {
       "shops": "500",
@@ -409,7 +418,7 @@
       },
       "translations": {
         "title": "Traducciones automáticas",
-        "description": "Busca y descubre todos los artículos en tu idioma preferido, sin barreras. Actualmente soportamos inglés, alemán, francés y español."
+        "description": "Busca y descubre todos los artículos en tu idioma preferido, sin barreras. Actualmente, soportamos inglés, alemán, francés, español e italiano."
       },
       "personalFilter": {
         "title": "Solicitudes de búsqueda",
@@ -608,7 +617,8 @@
       "de": "Alemán",
       "en": "Inglés",
       "fr": "Francés",
-      "es": "Español"
+      "es": "Español",
+      "it": "Italiano"
     },
     "currencies": {
       "EUR": "EUR - Euro",

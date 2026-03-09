@@ -28,6 +28,7 @@ export type RawSearchParams = {
     merchant?: string | string[];
     excludeMerchant?: string | string[];
     shopType?: ShopType[];
+    periodId?: string[];
     sortField?: string;
     sortOrder?: string;
     originYearMin?: number;
@@ -115,6 +116,13 @@ function parseShopTypes(values: unknown): ShopType[] | undefined {
         .filter((elem, index, self) => index === self.indexOf(elem));
 }
 
+function parsePeriodIds(values: unknown): string[] | undefined {
+    if (!Array.isArray(values)) return undefined;
+    return values
+        .filter((v): v is string => typeof v === "string" && v.length > 0)
+        .filter((elem, index, self) => index === self.indexOf(elem));
+}
+
 export function validateSearchParams(search: RawSearchParams): SearchFilterArguments {
     return {
         q: (search.q as string) || "",
@@ -130,6 +138,7 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         merchant: parseMerchant(search.merchant),
         excludeMerchant: parseExcludeMerchant(search.excludeMerchant),
         shopType: parseShopTypes(search.shopType),
+        periodId: parsePeriodIds(search.periodId),
         sortField: parseSortField(search.sortField),
         sortOrder: parseSortOrder(search.sortOrder),
         originYearMin: parseOptionalNumber(search.originYearMin),
@@ -166,6 +175,7 @@ export function serializeSearchParams(
         merchant: params.merchant,
         excludeMerchant: params.excludeMerchant,
         shopType: params.shopType,
+        periodId: params.periodId,
         sortField: params.sortField,
         sortOrder: params.sortOrder,
         originYearMin: params.originYearMin,
