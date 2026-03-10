@@ -30,6 +30,10 @@
     },
     "watchlist": {
       "title": "Meine Merkliste | Aura Historia"
+    },
+    "period": {
+      "title": "{{name}} | Aura Historia",
+      "description": "Entdecken Sie Antiquitäten aus der Epoche {{name}}. Durchstöbern Sie kuratierte Sammlungen vertrauenswürdiger Händler auf Aura Historia."
     }
   },
   "validation": {
@@ -685,5 +689,17 @@
     "codeMismatch": "Der eingegebene Code ist falsch.",
     "confirmationCodeCannotBeEmpty": "Bestätigungscode darf nicht leer sein.",
     "invalidCodeProvidedRequestAgain": "Ungültiger Code. Bitte fordern Sie einen neuen Code an."
+  },
+  "period": {
+    "breadcrumbs": {
+      "home": "Startseite",
+      "periods": "Epochen & Stile"
+    },
+    "latestProducts": "Neueste Produkte",
+    "mostExpensive": "Wertvollste Stücke",
+    "exploreProducts": "Entdecken Sie {{name}}-Produkte",
+    "noProducts": "Noch keine Produkte für diese Epoche gefunden.",
+    "loading": "Produkte werden geladen...",
+    "viewDetails": "Details ansehen"
   }
 }
