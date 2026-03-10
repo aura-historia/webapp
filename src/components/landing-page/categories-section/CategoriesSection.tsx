@@ -51,7 +51,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                                         <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 transition-colors group-hover:bg-primary/20">
                                             <Icon className="h-6 w-6 text-primary" />
                                         </div>
-                                        <p className="text-sm font-medium leading-tight">
+                                        <p className="text-sm font-medium leading-tight hyphens-auto">
                                             {category.name}
                                         </p>
                                     </Link>
