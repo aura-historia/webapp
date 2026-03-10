@@ -389,12 +389,12 @@
     }
   },
   "landingPage": {
-    "badge": "Cherchez au-delà des places de marché habituelles",
-    "titleFirstLine": "Découvrez des antiquités rares à travers le marché mondial",
-    "subtitle": "Aura Historia explore les antiquaires, maisons de vente et places de marché du monde entier — pour vous aider à découvrir des pièces que d’autres ne voient jamais.",
-    "trustBadge1": "Par des collectionneurs d'antiquités",
-    "trustBadge2": "Pour les collectionneurs et marchands sérieux",
-    "trustBadge3": "Quasi en temps réel",
+    "badge": "Recherchez au-delà des marchés habituels",
+    "titleFirstLine": "Découvrez des antiquités rares sur le marché mondial",
+    "subtitle": "Aura Historia explore les antiquaires, les maisons de vente aux enchères et les marketplaces du monde entier — vous aidant à dénicher des pièces que les autres ne voient jamais.",
+    "trustBadge1": "Antiquaires et maisons de vente aux enchères dans le monde entier",
+    "trustBadge2": "Annonces mises à jour en continu",
+    "trustBadge3": "Conçu pour les collectionneurs sérieux",
     "features": {
       "title": "Les antiquités sont dispersées partout en ligne - votre recherche ne devrait pas l'être",
       "subtitle": "Nous sommes le moteur de recherche le plus sophistiqué pour les antiquités et vous fournissons tous les outils nécessaires pour explorer efficacement le marché des antiquités.",
