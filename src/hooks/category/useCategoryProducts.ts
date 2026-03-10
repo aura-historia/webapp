@@ -1,4 +1,4 @@
-import { simpleSearchProducts, type SimpleSearchProductsData } from "@/client";
+import { simpleSearchProducts } from "@/client";
 import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import {
@@ -37,10 +37,8 @@ export function useCategoryProducts(
                     size: PAGE_SIZE,
                     sort: "updated",
                     order: "desc",
-                    // categoryId is supported by the endpoint as an extra filter param
-                    // but is not formally typed — same pattern as useSearch.ts buildFilterQuery
                     categoryId: [categoryId],
-                } as SimpleSearchProductsData["query"],
+                },
             });
 
             if (result.error) {

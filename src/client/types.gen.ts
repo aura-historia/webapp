@@ -1743,6 +1743,146 @@ export type SimpleSearchProductsData = {
          */
         productQuery?: string;
         /**
+         * Optional set of kebab-case level-one category identifiers to filter products by.
+         * When provided, products matching any of the given categories are returned.
+         *
+         */
+        categoryId?: Array<string>;
+        /**
+         * Optional set of kebab-case level-one period identifiers to filter products by.
+         * When provided, products matching any of the given periods are returned.
+         *
+         */
+        periodId?: Array<string>;
+        /**
+         * Optional filter by exact shop names (keyword matching).
+         * Products are filtered to those from shops whose names exactly match one of the provided values.
+         *
+         */
+        shopName?: Array<string>;
+        /**
+         * Optional filter to exclude products from specific shops (keyword matching).
+         * Products from shops whose names exactly match one of the provided values are excluded from results.
+         *
+         */
+        excludeShopName?: Array<string>;
+        /**
+         * Optional filter by shop types. When provided, only products from shops of the given types are returned.
+         */
+        shopType?: Array<ShopTypeData>;
+        /**
+         * Optional price range filter in minor currency units (e.g. cents).
+         * Use `price[min]` and/or `price[max]` to specify the range bounds.
+         *
+         */
+        price?: {
+            /**
+             * Minimum price (inclusive) in minor currency units
+             */
+            min?: number;
+            /**
+             * Maximum price (inclusive) in minor currency units
+             */
+            max?: number;
+        };
+        /**
+         * Optional filter by product states. When provided, only products in the given states are returned.
+         */
+        state?: Array<ProductStateData>;
+        /**
+         * Optional filter by product origin year range.
+         * Use `originYear[min]` and/or `originYear[max]` to specify the year bounds.
+         *
+         */
+        originYear?: {
+            /**
+             * Minimum origin year (inclusive)
+             */
+            min?: number;
+            /**
+             * Maximum origin year (inclusive)
+             */
+            max?: number;
+        };
+        /**
+         * Optional filter by authenticity classifications. When provided, only products with the given authenticity values are returned.
+         */
+        authenticity?: Array<AuthenticityData>;
+        /**
+         * Optional filter by product condition assessments. When provided, only products with the given condition values are returned.
+         */
+        condition?: Array<ConditionData>;
+        /**
+         * Optional filter by provenance documentation levels. When provided, only products with the given provenance values are returned.
+         */
+        provenance?: Array<ProvenanceData>;
+        /**
+         * Optional filter by restoration work levels. When provided, only products with the given restoration values are returned.
+         */
+        restoration?: Array<RestorationData>;
+        /**
+         * Optional filter by product creation date range (RFC3339 format).
+         * Use `created[min]` and/or `created[max]` to specify the datetime bounds.
+         *
+         */
+        created?: {
+            /**
+             * Minimum creation datetime (inclusive, RFC3339 format)
+             */
+            min?: string;
+            /**
+             * Maximum creation datetime (inclusive, RFC3339 format)
+             */
+            max?: string;
+        };
+        /**
+         * Optional filter by product last-updated date range (RFC3339 format).
+         * Use `updated[min]` and/or `updated[max]` to specify the datetime bounds.
+         *
+         */
+        updated?: {
+            /**
+             * Minimum last-updated datetime (inclusive, RFC3339 format)
+             */
+            min?: string;
+            /**
+             * Maximum last-updated datetime (inclusive, RFC3339 format)
+             */
+            max?: string;
+        };
+        /**
+         * Optional filter by auction start datetime range (RFC3339 format).
+         * Use `auctionStart[min]` and/or `auctionStart[max]` to specify the bounds.
+         * Only matches products that have an auction start time set.
+         *
+         */
+        auctionStart?: {
+            /**
+             * Minimum auction start datetime (inclusive, RFC3339 format)
+             */
+            min?: string;
+            /**
+             * Maximum auction start datetime (inclusive, RFC3339 format)
+             */
+            max?: string;
+        };
+        /**
+         * Optional filter by auction end datetime range (RFC3339 format).
+         * Use `auctionEnd[min]` and/or `auctionEnd[max]` to specify the bounds.
+         * Only matches products that have an auction end time set.
+         *
+         */
+        auctionEnd?: {
+            /**
+             * Minimum auction end datetime (inclusive, RFC3339 format)
+             */
+            min?: string;
+            /**
+             * Maximum auction end datetime (inclusive, RFC3339 format)
+             */
+            max?: string;
+        };
+        /**
          * Field to sort results by
          */
         sort?: SortProductFieldData;
