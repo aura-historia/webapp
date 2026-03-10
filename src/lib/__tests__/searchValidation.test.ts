@@ -199,7 +199,7 @@ describe("validateSearchParams", () => {
         it("should parse shop types case-insensitively", () => {
             const result = validateSearchParams({
                 q: "test",
-                shopType: ["auction_house", "COMMERCIAL_DEALER"] as any,
+                shopType: ["auction_house", "COMMERCIAL_DEALER"] as unknown,
             } as RawSearchParams);
             expect(result.shopType).toEqual(["AUCTION_HOUSE", "COMMERCIAL_DEALER"]);
         });
@@ -207,7 +207,7 @@ describe("validateSearchParams", () => {
         it("should return undefined when shopType is not an array", () => {
             const result = validateSearchParams({
                 q: "test",
-                shopType: "AUCTION_HOUSE" as any,
+                shopType: "AUCTION_HOUSE" as unknown,
             } as RawSearchParams);
             expect(result.shopType).toBeUndefined();
         });
@@ -246,7 +246,7 @@ describe("validateSearchParams", () => {
         it("should filter out non-string values", () => {
             const result = validateSearchParams({
                 q: "test",
-                periodId: ["renaissance", 123, null, "baroque"] as any,
+                periodId: ["renaissance", 123, null, "baroque"] as unknown,
             } as RawSearchParams);
             expect(result.periodId).toEqual(["renaissance", "baroque"]);
         });
@@ -254,7 +254,7 @@ describe("validateSearchParams", () => {
         it("should return undefined when periodId is not an array", () => {
             const result = validateSearchParams({
                 q: "test",
-                periodId: "renaissance" as any,
+                periodId: "renaissance" as unknown,
             } as RawSearchParams);
             expect(result.periodId).toBeUndefined();
         });

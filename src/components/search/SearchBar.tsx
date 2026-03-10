@@ -23,7 +23,8 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { env } from "@/env.ts";
 import { useAnimatedPlaceholder } from "@/hooks/useAnimatedPlaceholder";
-
+import { serializeSearchParams } from "@/lib/searchValidation.ts";
+import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 interface SearchBarProps {
     readonly type: "small" | "big";
 }
@@ -96,23 +97,29 @@ export function SearchBar({ type }: SearchBarProps) {
         setIsSubmitting(true);
         navigate({
             to: "/search",
-            search: mapFiltersToUrlParams({
-                query: values.query,
-                priceSpan: {
-                    min: searchParams.priceFrom,
-                    max: searchParams.priceTo,
-                },
-                productState: searchParams.allowedStates,
-                creationDate: {
-                    from: searchParams.creationDateFrom,
-                    to: searchParams.creationDateTo,
-                },
-                updateDate: {
-                    from: searchParams.updateDateFrom,
-                    to: searchParams.updateDateTo,
-                },
-                merchant: searchParams.merchant,
-            }),
+            search: (prev) => {
+                const currentParams = serializeSearchParams(prev as SearchFilterArguments);
+                return {
+                    ...currentParams,
+                    ...mapFiltersToUrlParams({
+                        query: values.query,
+                        priceSpan: {
+                            min: searchParams.priceFrom,
+                            max: searchParams.priceTo,
+                        },
+                        productState: searchParams.allowedStates,
+                        creationDate: {
+                            from: searchParams.creationDateFrom,
+                            to: searchParams.creationDateTo,
+                        },
+                        updateDate: {
+                            from: searchParams.updateDateFrom,
+                            to: searchParams.updateDateTo,
+                        },
+                        merchant: searchParams.merchant,
+                    }),
+                };
+            },
         });
     }
 
