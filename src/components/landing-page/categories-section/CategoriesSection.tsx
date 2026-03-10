@@ -14,8 +14,8 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
 
     return (
         <section className="py-10" aria-label={t("landingPage.categories.title")}>
-            <div className="max-w-6xl mx-auto px-4 mb-6">
-                <p className="text-center text-sm font-medium uppercase tracking-widest text-muted-foreground">
+            <div className="max-w-6xl mx-auto px-4 mb-2">
+                <p className="text-2xl text-center sm:text-2xl font-bold hyphens-auto">
                     {t("landingPage.categories.title")}
                 </p>
             </div>

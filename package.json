@@ -121,6 +121,6 @@
         "vite": "^7.3.0",
         "vitest": "^4.0.18",
         "web-vitals": "^5.1.0",
-        "wrangler": "4.69.0"
+        "wrangler": "4.71.0"
     }
 }

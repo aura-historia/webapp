@@ -38,7 +38,6 @@ export function CategoryProductGrid({ categoryId }: CategoryProductGridProps) {
     }
 
     if (error) {
-        console.error(error);
         return (
             <div className="flex flex-col items-center gap-4 py-16">
                 <SearchX className="h-16 w-16 text-muted-foreground" />
@@ -54,7 +53,6 @@ export function CategoryProductGrid({ categoryId }: CategoryProductGridProps) {
 
     const allProducts = data?.pages.flatMap((page) => page.products) ?? [];
     const totalProducts = data?.pages[0]?.total ?? 0;
-    const allLoaded = allProducts.length >= totalProducts && totalProducts > 0;
 
     if (allProducts.length === 0) {
         return (
@@ -77,7 +75,7 @@ export function CategoryProductGrid({ categoryId }: CategoryProductGridProps) {
                     <ProductGridItem key={product.productId} product={product} />
                 ))}
             </div>
-            {(isFetchingNextPage || allLoaded) && (
+            {(isFetchingNextPage || !hasNextPage) && (
                 <ListLoaderRow
                     isFetchingNextPage={isFetchingNextPage}
                     totalCount={totalProducts}
@@ -85,7 +83,7 @@ export function CategoryProductGrid({ categoryId }: CategoryProductGridProps) {
                     allLoadedKey="category.products.allLoaded"
                 />
             )}
-            {!allLoaded && !isFetchingNextPage && <div ref={ref} className="h-1" />}
+            {hasNextPage && !isFetchingNextPage && <div ref={ref} className="h-1" />}
         </div>
     );
 }
