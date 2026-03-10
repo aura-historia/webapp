@@ -389,13 +389,12 @@
     }
   },
   "landingPage": {
-    "badge": "La plateforme leader pour ceux qui recherchent des antiquités très spécifiques",
-    "titleFirstLine": "Arrêtez de perdre du temps à chercher des antiquités introuvables",
-    "titleSecondLine": "Un endroit central pour trouver les antiquités que vous recherchez",
-    "subtitle": "Nous explorons tout le web à la recherche d'antiquités et les rendons disponibles dans une recherche spécialisée. Nous couvrons des boutiques d'antiquités et des maisons de vente aux enchères que même vous ne connaissez pas.",
-    "trustBadge1": "Par des collectionneurs d'antiquités",
-    "trustBadge2": "Pour les collectionneurs et marchands sérieux",
-    "trustBadge3": "Quasi en temps réel",
+    "badge": "Recherchez au-delà des marchés habituels",
+    "titleFirstLine": "Découvrez des antiquités rares sur le marché mondial",
+    "subtitle": "Aura Historia explore les antiquaires, les maisons de vente aux enchères et les marketplaces du monde entier — vous aidant à dénicher des pièces que les autres ne voient jamais.",
+    "trustBadge1": "Antiquaires et maisons de vente aux enchères dans le monde entier",
+    "trustBadge2": "Annonces mises à jour en continu",
+    "trustBadge3": "Conçu pour les collectionneurs sérieux",
     "categories": {
       "title": "Découvrir les catégories"
     },
