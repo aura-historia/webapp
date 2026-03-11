@@ -70,7 +70,7 @@ const mockCategories: CategoryOverview[] = [
 describe("CategoriesSection", () => {
     it("renders the section with the categories title", () => {
         render(<CategoriesSection categories={mockCategories} />);
-        expect(screen.getByText("Kategorien entdecken")).toBeInTheDocument();
+        expect(screen.getByText("Kategorien durchstöbern")).toBeInTheDocument();
     });
 
     it("renders a carousel item for each category", () => {
@@ -91,13 +91,13 @@ describe("CategoriesSection", () => {
 
     it("renders the section element with the correct aria-label", () => {
         render(<CategoriesSection categories={mockCategories} />);
-        const section = screen.getByRole("region", { name: "Kategorien entdecken" });
+        const section = screen.getByRole("region", { name: "Kategorien durchstöbern" });
         expect(section).toBeInTheDocument();
     });
 
     it("renders an empty carousel when categories list is empty", () => {
         render(<CategoriesSection categories={[]} />);
-        expect(screen.getByText("Kategorien entdecken")).toBeInTheDocument();
+        expect(screen.getByText("Kategorien durchstöbern")).toBeInTheDocument();
         expect(screen.queryAllByRole("link")).toHaveLength(0);
     });
 
