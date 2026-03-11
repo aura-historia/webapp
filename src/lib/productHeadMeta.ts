@@ -2,6 +2,7 @@ import type { PersonalizedGetProductData } from "@/client";
 import { generateProductJsonLdScript } from "@/lib/productJsonLd.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
 import { env } from "@/env";
+import { generateHreflangLinks } from "@/lib/hreflangLinks.ts";
 
 type HeadMeta = {
     meta: Array<
@@ -9,7 +10,7 @@ type HeadMeta = {
         | { name: string; content: string }
         | { property: string; content: string }
     >;
-    links: Array<{ rel: string; href: string }>;
+    links: Array<{ rel: string; href: string; hreflang?: string }>;
     scripts: Array<{ type: string; children: string }>;
 };
 
@@ -97,7 +98,12 @@ export function generateProductHeadMeta(
                 content: productImage,
             },
         ],
-        links: [{ rel: "canonical", href: productUrl }],
+        links: [
+            { rel: "canonical", href: productUrl },
+            ...generateHreflangLinks(
+                `/shops/${params.shopSlugId}/products/${params.productSlugId}`,
+            ),
+        ],
         scripts: loaderData
             ? [
                   {

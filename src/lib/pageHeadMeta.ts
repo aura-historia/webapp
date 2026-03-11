@@ -1,5 +1,6 @@
 import i18n from "@/i18n/i18n.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
+import { generateHreflangLinks } from "@/lib/hreflangLinks.ts";
 
 type HeadMeta = {
     meta: Array<
@@ -8,7 +9,7 @@ type HeadMeta = {
         | { property: string; content: string }
         | { charSet: string }
     >;
-    links?: Array<{ rel: string; href: string }>;
+    links?: Array<{ rel: string; href: string; hreflang?: string }>;
     scripts?: Array<{ type: string; children: string }>;
 };
 
@@ -85,8 +86,15 @@ export function generatePageHeadMeta(options: PageMetaOptions): HeadMeta {
         ...(image ? [{ name: "twitter:image" as const, content: image }] : []),
     ];
 
-    // Build links array with canonical URL if provided
-    const links: HeadMeta["links"] = url ? [{ rel: "canonical", href: url }] : [];
+    // Build links array: canonical + hreflang alternates for indexable pages
+    const links: HeadMeta["links"] = url
+        ? [
+              { rel: "canonical", href: url },
+              // Only emit hreflang on pages that are actually indexed.
+              // noIndex pages (imprint, privacy, …) are already excluded via robots.txt.
+              ...(!noIndex ? generateHreflangLinks(new URL(url).pathname) : []),
+          ]
+        : [];
 
     return { meta, links };
 }
