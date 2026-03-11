@@ -150,7 +150,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                 <NavigationProgress />
                 <div className={"min-h-screen flex flex-col"}>
                     <Header />
-                    <main className="flex-1">{children}</main>
+                    <main className={isLandingPage ? "flex-1 -mt-20" : "flex-1"}>{children}</main>
                     <Footer />
                 </div>
                 <Toaster position="top-center" richColors />
