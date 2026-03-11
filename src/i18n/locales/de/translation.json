@@ -30,6 +30,9 @@
     },
     "watchlist": {
       "title": "Meine Merkliste | Aura Historia"
+    },
+    "category": {
+      "defaultName": "Kategorie"
     }
   },
   "validation": {

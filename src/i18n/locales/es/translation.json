@@ -30,6 +30,9 @@
     },
     "watchlist": {
       "title": "Mi lista de seguimiento | Aura Historia"
+    },
+    "category": {
+      "defaultName": "Categoría"
     }
   },
   "validation": {

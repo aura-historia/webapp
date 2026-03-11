@@ -1,7 +1,9 @@
 import type { GetCategoryData } from "@/client";
 import { generateCategoryJsonLdScript } from "@/lib/categoryJsonLd.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
+import { generateHreflangLinks } from "@/lib/hreflangLinks.ts";
 import { env } from "@/env";
+import i18n from "@/i18n/i18n.ts";
 
 type HeadMeta = {
     meta: Array<
@@ -9,7 +11,7 @@ type HeadMeta = {
         | { name: string; content: string }
         | { property: string; content: string }
     >;
-    links: Array<{ rel: string; href: string }>;
+    links: Array<{ rel: string; href: string; hreflang?: string }>;
     scripts: Array<{ type: string; children: string }>;
 };
 
@@ -18,8 +20,8 @@ type CategoryHeadParams = {
 };
 
 /**
- * Generates head metadata (meta tags, Open Graph, Twitter Cards, canonical link, and JSON-LD)
- * for a category detail page.
+ * Generates head metadata (meta tags, Open Graph, Twitter Cards, canonical link, hreflang, and JSON-LD)
+ * for a category detail page using i18n for translations.
  *
  * When `loaderData` is undefined (SSR fallback / error state) sensible defaults are used so
  * the page always emits valid, non-empty meta tags.
@@ -29,13 +31,15 @@ export function generateCategoryHeadMeta(
     params: CategoryHeadParams,
 ): HeadMeta {
     const categoryUrl = `${env.VITE_APP_URL}/categories/${params.categoryId}`;
+    const categoryPath = `/categories/${params.categoryId}`;
 
-    const name = loaderData?.name.text ?? "Category";
+    const name = loaderData?.name.text ?? i18n.t("meta.category.defaultName");
     const description = loaderData?.description.text;
+    const siteName = i18n.t("meta.siteName");
 
     return {
         meta: [
-            { title: `${name} | Aura Historia` },
+            { title: `${name} | ${siteName}` },
             ...(description ? [{ name: "description", content: description }] : []),
             // Open Graph
             { property: "og:title", content: name },
@@ -52,7 +56,7 @@ export function generateCategoryHeadMeta(
             { name: "twitter:image", content: BANNER_IMAGE_URL },
             { name: "twitter:image:alt", content: name },
         ],
-        links: [{ rel: "canonical", href: categoryUrl }],
+        links: [{ rel: "canonical", href: categoryUrl }, ...generateHreflangLinks(categoryPath)],
         scripts: loaderData
             ? [
                   {
