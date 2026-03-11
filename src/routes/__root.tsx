@@ -121,9 +121,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                     src: "https://www.googletagmanager.com/gtag/js?id=G-HL1MJKQBZR",
                     async: true,
                 },
-                {
-                    children: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-HL1MJKQBZR');`,
-                },
             ],
         };
     },
@@ -148,6 +145,12 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
         <html lang={i18n.language || "en"}>
             <head>
                 <HeadContent />
+                <script
+                    // biome-ignore lint/security/noDangerouslySetInnerHtml: This is required for Google Analytics setup
+                    dangerouslySetInnerHTML={{
+                        __html: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-HL1MJKQBZR');`,
+                    }}
+                />
             </head>
             <body
                 className={
