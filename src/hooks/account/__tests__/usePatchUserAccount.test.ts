@@ -1,6 +1,6 @@
 import { renderHook, waitFor, act } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { useUpdateUserAccount } from "../account/usePatchUserAccount.ts";
+import { useUpdateUserAccount } from "../usePatchUserAccount.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
 

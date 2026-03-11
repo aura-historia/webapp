@@ -395,6 +395,9 @@
     "trustBadge1": "Antiquari e case d'asta in tutto il mondo",
     "trustBadge2": "Inserzioni continuamente aggiornate",
     "trustBadge3": "Creato per collezionisti seri",
+    "categories": {
+      "title": "Scopri le categorie"
+    },
     "features": {
       "title": "L'antiquariato è sparso ovunque online - la tua ricerca non dovrebbe esserlo",
       "subtitle": "Siamo il motore di ricerca più sofisticato per l'antiquariato e ti forniamo tutti gli strumenti per cercare in modo efficiente nel mercato antiquario.",
@@ -557,6 +560,21 @@
     "noResults": {
       "title": "Nessun articolo trovato",
       "description": "Aggiungi articoli alla tua lista dei preferiti per vederli qui."
+    }
+  },
+  "category": {
+    "products": {
+      "loadingMore": "Caricamento di altri articoli...",
+      "allLoaded_one": "Hai visualizzato {{count}} articolo in questa categoria.",
+      "allLoaded_other": "Hai visualizzato tutti i {{count}} articoli di questa categoria.",
+      "noResults": {
+        "title": "Nessun articolo trovato",
+        "description": "Al momento non ci sono articoli in questa categoria."
+      },
+      "error": {
+        "title": "Impossibile caricare gli articoli",
+        "description": "Si è verificato un errore durante il caricamento degli articoli. Riprova più tardi."
+      }
     }
   },
   "share": {

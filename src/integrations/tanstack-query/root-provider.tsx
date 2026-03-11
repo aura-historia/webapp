@@ -6,7 +6,13 @@ import { I18nextProvider } from "react-i18next";
 import { SearchQueryProvider } from "@/hooks/search/useSearchQueryContext.tsx";
 
 export function getContext() {
-    const queryClient = new QueryClient();
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                staleTime: 1000 * 60 * 5,
+            },
+        },
+    });
     return {
         queryClient,
     };

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
     mapPersonalizedGetProductDataToOverviewProduct,
     mapWatchlistProductDataToOverviewProduct,
-} from "../product/OverviewProduct.ts";
+} from "../OverviewProduct.ts";
 
 describe("OverviewProduct mappers", () => {
     describe("mapToInternalOverviewProduct", () => {
