@@ -29,11 +29,11 @@ export default function HeroSection() {
             />
 
             {/* Overlay */}
-            <div className="absolute inset-0 bg-background/70" />
+            <div className="absolute inset-0 bg-background/60" />
 
             <div className="w-full max-w-4xl px-4 pt-8 relative z-10">
                 <div className="text-center">
-                    <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-medium mt-0 mb-6">
+                    <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-card text-foreground text-sm font-medium mt-0 mb-6">
                         <Shield className="w-4 h-4 hidden sm:inline" aria-hidden="true" />{" "}
                         {t("landingPage.badge")}
                     </span>
@@ -41,7 +41,7 @@ export default function HeroSection() {
                 <H1 className="text-center hyphens-none text-4xl md:text-5xl lg:text-6xl leading-tight">
                     {t("landingPage.titleFirstLine")}
                 </H1>
-                <p className="text-center text-lg md:text-xl text-muted-foreground mt-6 max-w-2xl mx-auto">
+                <p className="text-center text-lg md:text-xl text-foreground mt-6 max-w-2xl mx-auto">
                     {t("landingPage.subtitle")}
                 </p>
                 <Card
