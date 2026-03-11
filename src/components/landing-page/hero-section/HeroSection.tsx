@@ -30,8 +30,6 @@ export default function HeroSection() {
                 </div>
                 <H1 className="text-center hyphens-none text-4xl md:text-5xl lg:text-6xl leading-tight">
                     {t("landingPage.titleFirstLine")}
-                    <br />
-                    <span className="text-primary">{t("landingPage.titleSecondLine")}</span>
                 </H1>
                 <p className="text-center text-lg md:text-xl text-muted-foreground mt-6 max-w-2xl mx-auto">
                     {t("landingPage.subtitle")}

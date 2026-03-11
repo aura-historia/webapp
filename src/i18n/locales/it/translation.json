@@ -389,13 +389,12 @@
     }
   },
   "landingPage": {
-    "badge": "La piattaforma leader per chi cerca oggetti d'antiquariato altamente specifici",
-    "titleFirstLine": "Smetti di perdere tempo a cercare antiquariato che non riesci a trovare",
-    "titleSecondLine": "Un unico posto per trovare gli oggetti d'antiquariato che cerchi",
-    "subtitle": "Cerchiamo in tutto il web oggetti d'antiquariato e li rendiamo disponibili in una ricerca specializzata. Copriamo negozi di antiquariato e case d'aste che nemmeno tu conosci.",
-    "trustBadge1": "Da collezionisti di antiquariato",
-    "trustBadge2": "Per collezionisti e commercianti seri",
-    "trustBadge3": "Quasi in tempo reale",
+    "badge": "Cerca oltre i soliti mercati",
+    "titleFirstLine": "Scopri antichità rare nel mercato globale",
+    "subtitle": "Aura Historia cerca tra antiquari, case d'asta e mercati in tutto il mondo — aiutandoti a scoprire pezzi che altri non vedono mai.",
+    "trustBadge1": "Antiquari e case d'asta in tutto il mondo",
+    "trustBadge2": "Inserzioni continuamente aggiornate",
+    "trustBadge3": "Creato per collezionisti seri",
     "features": {
       "title": "L'antiquariato è sparso ovunque online - la tua ricerca non dovrebbe esserlo",
       "subtitle": "Siamo il motore di ricerca più sofisticato per l'antiquariato e ti forniamo tutti gli strumenti per cercare in modo efficiente nel mercato antiquario.",
