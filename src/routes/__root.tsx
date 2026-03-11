@@ -116,6 +116,15 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                     type: "image/png",
                 },
             ],
+            scripts: [
+                {
+                    src: "https://www.googletagmanager.com/gtag/js?id=G-HL1MJKQBZR",
+                    async: true,
+                },
+                {
+                    children: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-HL1MJKQBZR');`,
+                },
+            ],
         };
     },
     beforeLoad: async () => {
