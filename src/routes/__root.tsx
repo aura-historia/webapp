@@ -3,6 +3,7 @@ import {
     createRootRouteWithContext,
     HeadContent,
     Scripts,
+    useLocation,
     useMatches,
 } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
@@ -14,10 +15,12 @@ import { Header } from "@/components/common/Header.tsx";
 import { NavigationProgress } from "@/components/common/NavigationProgress.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
+import { useEffect } from "react";
 import { Toaster } from "sonner";
 import "@/lib/polyfills/url";
 import "@/amplify-config.ts";
 import "@/api-config.ts";
+import "@/lib/tracking/googleAnalytics";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/server/i18n.ts";
 import i18n from "@/i18n/i18n.ts";
@@ -25,6 +28,7 @@ import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
 import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seoConstants.ts";
+import ReactGA from "react-ga4";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -116,12 +120,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                     type: "image/png",
                 },
             ],
-            scripts: [
-                {
-                    src: "https://www.googletagmanager.com/gtag/js?id=G-HL1MJKQBZR",
-                    async: true,
-                },
-            ],
         };
     },
     beforeLoad: async () => {
@@ -138,19 +136,38 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const matches = useMatches();
+    const location = useLocation();
     const isLandingPage = matches.some((match) => match.routeId === "/");
     const { i18n } = useTranslation();
+
+    useEffect(() => {
+        const currentPath = location.pathname;
+        const searchParams = location.search as Record<string, unknown>;
+
+        // These shouldn't be contained - but we filter anyway to make sure we never leak them to GA
+        const FORBIDDEN_PARAMS = ["token", "password", "email", "reset_key", "session_id"];
+        const safeParams = Object.keys(searchParams).reduce(
+            (acc, key) => {
+                if (!FORBIDDEN_PARAMS.includes(key.toLowerCase())) {
+                    acc[key] = searchParams[key];
+                }
+                return acc;
+            },
+            {} as Record<string, unknown>,
+        );
+
+        console.log("GA Event --> ", currentPath);
+        ReactGA.send({
+            hitType: "pageview",
+            page: currentPath,
+            ...safeParams,
+        });
+    }, [location.pathname, location.search]);
 
     return (
         <html lang={i18n.language || "en"}>
             <head>
                 <HeadContent />
-                <script
-                    // biome-ignore lint/security/noDangerouslySetInnerHtml: This is required for Google Analytics setup
-                    dangerouslySetInnerHTML={{
-                        __html: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-HL1MJKQBZR');`,
-                    }}
-                />
             </head>
             <body
                 className={
