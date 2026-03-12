@@ -9,6 +9,7 @@ export type UserAccountData = {
     readonly lastName?: string;
     readonly language?: Language;
     readonly currency?: Currency;
+    readonly prohibitedContentConsent: boolean;
     readonly created: Date;
     readonly updated: Date;
 };
@@ -18,6 +19,7 @@ export type UserAccountPatchData = {
     readonly lastName?: string;
     readonly language?: Language;
     readonly currency?: Currency;
+    readonly prohibitedContentConsent?: boolean;
 };
 
 export function mapToInternalUserAccount(apiData: GetUserAccountData): UserAccountData {
@@ -28,6 +30,7 @@ export function mapToInternalUserAccount(apiData: GetUserAccountData): UserAccou
         lastName: apiData.lastName ?? undefined,
         language: apiData.language ? parseLanguage(apiData.language) : undefined,
         currency: apiData.currency ? parseCurrency(apiData.currency) : undefined,
+        prohibitedContentConsent: apiData.prohibitedContentConsent,
         created: new Date(apiData.created),
         updated: new Date(apiData.updated),
     };
@@ -39,5 +42,6 @@ export function mapToBackendUserAccountPatch(data: UserAccountPatchData): PatchU
         lastName: data.lastName ?? null,
         language: mapToBackendLanguage(data.language),
         currency: mapToBackendCurrency(data.currency),
+        prohibitedContentConsent: data.prohibitedContentConsent ?? null,
     };
 }
