@@ -1440,7 +1440,7 @@ export type SortWatchlistProductFieldData = 'created';
 export type PutProductError = 'SHOP_NOT_FOUND' | 'MONETARY_AMOUNT_OVERFLOW' | 'PRODUCT_ENRICHMENT_FAILED' | 'NO_DOMAIN';
 
 /**
- * Complete user account information
+ * Complete user account information including prohibited content consent
  */
 export type GetUserAccountData = {
     /**
@@ -1467,6 +1467,10 @@ export type GetUserAccountData = {
      * User's preferred currency (optional)
      */
     currency?: CurrencyData | null;
+    /**
+     * Whether the user has consented to viewing prohibited content
+     */
+    prohibitedContentConsent: boolean;
     /**
      * When the user account was created (RFC3339 format)
      */
@@ -1499,6 +1503,10 @@ export type PatchUserAccountData = {
      * New preferred currency
      */
     currency?: CurrencyData | null;
+    /**
+     * New consent state for displaying prohibited content
+     */
+    prohibitedContentConsent?: boolean | null;
 };
 
 export type GetProductData2 = {
@@ -1556,15 +1564,6 @@ export type GetProductResponse = GetProductResponses[keyof GetProductResponses];
 
 export type GetProductBySlugData = {
     body?: never;
-    headers?: {
-        /**
-         * Preferred language for localized content.
-         * Supports quality values and multiple languages.
-         * Supported languages: de, en, fr, es, it (with regional variants).
-         *
-         */
-        'Accept-Language'?: string;
-    };
     path: {
         /**
          * Human-readable slug identifier of the shop (kebab-case, derived from shop name)
@@ -1582,6 +1581,12 @@ export type GetProductBySlugData = {
          * Currency for price display
          */
         currency?: CurrencyData;
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
     };
     url: '/api/v1/by-slug/shops/{shopSlugId}/products/{productSlugId}';
 };
