@@ -28,7 +28,7 @@ import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
 import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seoConstants.ts";
-import ReactGA from "react-ga4";
+import { sendPageViewEvent } from "@/lib/tracking/gaTrackingHelpers.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -144,25 +144,8 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
         const currentPath = location.pathname;
         const searchParams = location.search as Record<string, unknown>;
 
-        // These shouldn't be contained - but we filter anyway to make sure we never leak them to GA
-        const FORBIDDEN_PARAMS = ["token", "password", "email", "reset_key", "session_id"];
-        const safeParams = Object.keys(searchParams).reduce(
-            (acc, key) => {
-                if (!FORBIDDEN_PARAMS.includes(key.toLowerCase())) {
-                    acc[key] = searchParams[key];
-                }
-                return acc;
-            },
-            {} as Record<string, unknown>,
-        );
-
-        console.log("GA Event --> ", currentPath);
-        ReactGA.send({
-            hitType: "pageview",
-            page: currentPath,
-            ...safeParams,
-        });
-    }, [location.pathname, location.search]);
+        sendPageViewEvent(currentPath, i18n.language, searchParams);
+    }, [location, i18n.language]);
 
     return (
         <html lang={i18n.language || "en"}>
