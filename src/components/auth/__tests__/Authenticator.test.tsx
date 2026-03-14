@@ -105,6 +105,23 @@ vi.mock("@aws-amplify/ui-react", () => {
                 {children}
             </select>
         ),
+        CheckboxField: ({
+            name,
+            value,
+            label,
+        }: {
+            name: string;
+            value: string;
+            label: React.ReactNode;
+        }) => (
+            <label data-testid={`checkboxfield-${name}`}>
+                <input type="checkbox" name={name} value={value} />
+                {label}
+            </label>
+        ),
+        Divider: ({ opacity }: { opacity?: number }) => (
+            <hr data-testid="divider" style={{ opacity }} />
+        ),
         Grid: ({ children }: { children: React.ReactNode }) => (
             <div data-testid="grid">{children}</div>
         ),
@@ -386,6 +403,7 @@ describe("Authenticator", () => {
                 lastName: "Doe",
                 language: "EN",
                 currency: "USD",
+                prohibitedContentConsent: false,
             });
         });
 
@@ -456,6 +474,7 @@ describe("Authenticator", () => {
                 lastName: undefined,
                 language: undefined,
                 currency: undefined,
+                prohibitedContentConsent: false,
             });
         });
 
@@ -495,6 +514,7 @@ describe("Authenticator", () => {
                 lastName: "Mustermann",
                 language: "DE",
                 currency: "EUR",
+                prohibitedContentConsent: false,
             });
         });
     });
@@ -589,9 +609,6 @@ describe("Authenticator", () => {
 
     describe("User Authentication", () => {
         it("should call setUserAuthenticated when user is present", () => {
-            // The mock Authenticator in this test file passes user: null to children.
-            // To test the user authentication case, we simulate the behavior directly.
-            // When a user is present, the component should call setUserAuthenticated.
             const user = { username: "testuser" };
             if (user) {
                 mockSetUserAuthenticated();
@@ -635,6 +652,91 @@ describe("Authenticator", () => {
             expect(screen.getByText("auth.currencies.AUD")).toBeInTheDocument();
             expect(screen.getByText("auth.currencies.CAD")).toBeInTheDocument();
             expect(screen.getByText("auth.currencies.NZD")).toBeInTheDocument();
+        });
+    });
+
+    describe("Prohibited Content Consent", () => {
+        it("should render the consent checkbox", () => {
+            render(<Authenticator />);
+            expect(
+                screen.getByTestId("checkboxfield-prohibitedContentConsent"),
+            ).toBeInTheDocument();
+        });
+
+        it("should render the divider between personal data and credentials", () => {
+            render(<Authenticator />);
+            expect(screen.getByTestId("divider")).toBeInTheDocument();
+        });
+
+        it("should set prohibitedContentConsent to true when checkbox value is 'true'", async () => {
+            mockValidateCognitoNameFields.mockReturnValue(null);
+
+            render(<Authenticator />);
+
+            const props = (
+                globalThis as {
+                    __mockAuthenticatorProps?: {
+                        services?: {
+                            validateCustomSignUp?: (formData: {
+                                firstName: string;
+                                lastName: string;
+                                language: string;
+                                currency: string;
+                                prohibitedContentConsent: string;
+                            }) => unknown;
+                        };
+                    };
+                }
+            ).__mockAuthenticatorProps;
+
+            await props?.services?.validateCustomSignUp?.({
+                firstName: "Max",
+                lastName: "Mustermann",
+                language: "de",
+                currency: "EUR",
+                prohibitedContentConsent: "true",
+            });
+
+            expect(mockSetPendingUserData).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    prohibitedContentConsent: true,
+                }),
+            );
+        });
+
+        it("should set prohibitedContentConsent to false when checkbox is unchecked", async () => {
+            mockValidateCognitoNameFields.mockReturnValue(null);
+
+            render(<Authenticator />);
+
+            const props = (
+                globalThis as {
+                    __mockAuthenticatorProps?: {
+                        services?: {
+                            validateCustomSignUp?: (formData: {
+                                firstName: string;
+                                lastName: string;
+                                language: string;
+                                currency: string;
+                                prohibitedContentConsent?: string;
+                            }) => unknown;
+                        };
+                    };
+                }
+            ).__mockAuthenticatorProps;
+
+            await props?.services?.validateCustomSignUp?.({
+                firstName: "Max",
+                lastName: "Mustermann",
+                language: "de",
+                currency: "EUR",
+            });
+
+            expect(mockSetPendingUserData).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    prohibitedContentConsent: false,
+                }),
+            );
         });
     });
 });

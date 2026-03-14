@@ -69,19 +69,21 @@
       "contact": "Kontakt"
     }
   },
-  "account": {
-    "title": "Mein Account",
-    "personalData": {
-      "title": "Persönliche Daten",
-      "firstNameLabel": "Vorname",
-      "lastNameLabel": "Nachname",
-      "languageLabel": "Sprache",
-      "currencyLabel": "Währung",
-      "languagePlaceholder": "Sprache auswählen",
-      "currencyPlaceholder": "Währung auswählen",
-      "saveButton": "Änderungen speichern",
-      "successMessage": "Persönliche Daten erfolgreich aktualisiert"
-    },
+    "account": {
+      "title": "Mein Account",
+      "personalData": {
+        "title": "Persönliche Daten",
+        "firstNameLabel": "Vorname",
+        "lastNameLabel": "Nachname",
+        "languageLabel": "Sprache",
+        "currencyLabel": "Währung",
+        "languagePlaceholder": "Sprache auswählen",
+        "currencyPlaceholder": "Währung auswählen",
+        "saveButton": "Änderungen speichern",
+        "successMessage": "Persönliche Daten erfolgreich aktualisiert",
+        "prohibitedContentConsentLabel": "Produkte mit möglicherweise verbotenen Kennzeichen (§ 86a StGB) anzeigen",
+        "prohibitedContentConsentTooltip": "Einige Produkte können Kennzeichen verfassungswidriger oder terroristischer Organisationen (§ 86a StGB) enthalten, insbesondere Symbole aus der Zeit des Nationalsozialismus."
+      },
     "changePassword": {
       "title": "Passwort ändern",
       "currentPasswordLabel": "Aktuelles Passwort",
@@ -621,7 +623,9 @@
       "confirmPassword": "Passwort bestätigen*",
       "language": "Sprache",
       "currency": "Währung",
-      "pleaseSelect": "Bitte wählen"
+      "pleaseSelect": "Bitte wählen",
+      "prohibitedContentConsentLabel": "Produkte mit § 86a-Kennzeichen anzeigen",
+      "prohibitedContentConsentTooltip": "Einige Produkte können Kennzeichen verfassungswidriger oder terroristischer Organisationen (§ 86a StGB) enthalten, insbesondere Symbole aus der Zeit des Nationalsozialismus."
     },
     "signIn": {
       "email": "E-Mail",
