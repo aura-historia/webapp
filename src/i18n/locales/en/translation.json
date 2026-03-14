@@ -389,13 +389,15 @@
     }
   },
   "landingPage": {
-    "badge": "The leading platform for those searching highly specific antiques",
-    "titleFirstLine": "Stop wasting time searching for antiques you cannot find",
-    "titleSecondLine": "One central place to find the antiques you're looking for",
-    "subtitle": "We search the entire web for antiques and make them available in a specialized search. We cover antique shops and auction houses that even you don't know.",
-    "trustBadge1": "From antique collectors",
-    "trustBadge2": "For serious collectors and dealers",
-    "trustBadge3": "Near Real-Time",
+    "badge": "Search beyond the usual marketplaces",
+    "titleFirstLine": "Discover rare antiques across the global market",
+    "subtitle": "Aura Historia searches antique dealers, auction houses, and marketplaces worldwide — helping you uncover pieces others never see.",
+    "trustBadge1": "Dealers and auction houses worldwide",
+    "trustBadge2": "Continuously updated listings",
+    "trustBadge3": "Built for serious collectors",
+    "categories": {
+      "title": "Discover Categories"
+    },
     "features": {
       "title": "Antiques are scattered everywhere online - your search shouldn't be",
       "subtitle": "We are the most sophisticated search engine for antiques and provide you with all the tools to efficiently search the antiques market.",
@@ -558,6 +560,21 @@
     "noResults": {
       "title": "No items found",
       "description": "Add items to your watchlist to see them here."
+    }
+  },
+  "category": {
+    "products": {
+      "loadingMore": "Loading more items...",
+      "allLoaded_one": "You have seen {{count}} item in this category.",
+      "allLoaded_other": "You have seen all {{count}} items in this category.",
+      "noResults": {
+        "title": "No items found",
+        "description": "There are currently no items in this category."
+      },
+      "error": {
+        "title": "Could not load items",
+        "description": "An error occurred while loading items. Please try again later."
+      }
     }
   },
   "share": {

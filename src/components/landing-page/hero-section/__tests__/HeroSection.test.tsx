@@ -10,23 +10,20 @@ describe("HeroSection", () => {
     });
 
     it("renders the badge", () => {
-        expect(
-            screen.getByText(
-                "Die führende Plattform für alle, die nach ganz bestimmten Antiquitäten suchen",
-            ),
-        ).toBeInTheDocument();
+        expect(screen.getByText("Suche jenseits der üblichen Marktplätze")).toBeInTheDocument();
     });
 
     it("renders the main heading", () => {
         expect(
-            screen.getByText("Hören Sie auf, Zeit bei der Suche nach Antiquitäten zu verschwenden"),
+            screen.getByText(
+                "Aura Historia durchsucht Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit – und hilft Ihnen, Stücke zu entdecken, die andere nie sehen.",
+            ),
         ).toBeInTheDocument();
-        expect(screen.getByText("Der zentrale Ort, um Antiquitäten zu finden")).toBeInTheDocument();
     });
 
     it("renders the subtitle", () => {
         expect(
-            screen.getByText(/Wir durchsuchen das gesamte Web nach Antiquitäten/),
+            screen.getByText(/Aura Historia durchsucht Antiquitätenhändler/),
         ).toBeInTheDocument();
     });
 

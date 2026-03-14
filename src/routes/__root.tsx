@@ -116,6 +116,12 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                     type: "image/png",
                 },
             ],
+            scripts: [
+                {
+                    src: "https://www.googletagmanager.com/gtag/js?id=G-HL1MJKQBZR",
+                    async: true,
+                },
+            ],
         };
     },
     beforeLoad: async () => {
@@ -139,6 +145,12 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
         <html lang={i18n.language || "en"}>
             <head>
                 <HeadContent />
+                <script
+                    // biome-ignore lint/security/noDangerouslySetInnerHtml: This is required for Google Analytics setup
+                    dangerouslySetInnerHTML={{
+                        __html: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-HL1MJKQBZR');`,
+                    }}
+                />
             </head>
             <body
                 className={
@@ -150,7 +162,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                 <NavigationProgress />
                 <div className={"min-h-screen flex flex-col"}>
                     <Header />
-                    <main className="flex-1">{children}</main>
+                    <main className={isLandingPage ? "flex-1 -mt-20" : "flex-1"}>{children}</main>
                     <Footer />
                 </div>
                 <Toaster position="top-center" richColors />

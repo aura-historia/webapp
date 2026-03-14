@@ -101,7 +101,6 @@ export const getSimilarProducts = <ThrowOnError extends boolean = false>(options
  * Required query parameters for this simple-search mode are:
  * - `language`
  * - `currency`
- * - `productQuery`
  *
  * Additional optional filters from `ProductSearchData` are also supported as query parameters
  * using the same field names:

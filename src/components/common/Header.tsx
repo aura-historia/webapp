@@ -68,6 +68,7 @@ export function Header() {
     const isLandingPage = pathname === "/";
     const isHiddenRoute = SEARCH_BAR_HIDDEN_ROUTES.has(pathname);
     const shouldShowSearchBar = isSearchEnabled && !isHiddenRoute && (!isLandingPage || isScrolled);
+    const isFloating = isLandingPage && !isScrolled;
 
     const signOut = async () => {
         amplifySignOut();
@@ -77,88 +78,134 @@ export function Header() {
     };
 
     return (
-        <header className="flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 bg-background items-center z-50 sticky top-0 md:px-8 px-4 py-4 border-b h-20 w-full">
+        <header
+            className={cn(
+                "flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 items-center z-50 sticky top-0 md:px-8 px-4 py-4 h-20 w-full transition-all duration-300",
+                isFloating
+                    ? "bg-transparent border-transparent"
+                    : "bg-background border-b border-border",
+            )}
+        >
             <div className="flex items-center justify-start gap-4">
                 <Link to="/">
-                    <img
-                        src={logo}
-                        alt=""
-                        className={"w-48 lg:w-64 md:inline hidden translate-y-1"}
-                    />
-                    <img src={logoCompact} alt="" className={"h-30 md:hidden translate-y-1"} />
+                    <div
+                        className={cn(
+                            "transition-all duration-300",
+                            isFloating
+                                ? "bg-card backdrop-blur-sm rounded-xl px-2 md:px-4 py-2 shadow-sm"
+                                : "",
+                        )}
+                    >
+                        <img
+                            src={logo}
+                            alt=""
+                            className={"w-48 lg:w-64 md:inline hidden translate-y-1"}
+                        />
+                        <div className="h-10 overflow-hidden md:hidden">
+                            <img src={logoCompact} alt="" className="h-30 -translate-y-10" />
+                        </div>
+                    </div>
                 </Link>
                 {/* Additional Navigation Items can be placed here */}
             </div>
 
+            {/* Desktop Search bar */}
             <div className="hidden justify-center md:flex">
                 <div
-                    className={`w-full transition-all duration-500 ${
-                        shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none"
-                    }`}
+                    className={cn(
+                        "w-full transition-all duration-500",
+                        shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none",
+                        isFloating && shouldShowSearchBar
+                            ? "bg-card backdrop-blur-sm rounded-xl px-3 py-1.5 shadow-sm"
+                            : "",
+                    )}
                 >
                     <SearchBar type="small" />
                 </div>
             </div>
 
             <div className="flex md:hidden items-center justify-end gap-2">
+                {/* Mobile Search bar */}
                 <div
-                    className={`transition-all duration-500 ${
-                        shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none"
-                    }`}
+                    className={cn(
+                        "transition-all duration-500",
+                        shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none",
+                        isFloating && shouldShowSearchBar
+                            ? "bg-card backdrop-blur-sm rounded-xl px-3 py-1.5 shadow-sm"
+                            : "",
+                    )}
                 >
                     <SearchBar type="small" />
                 </div>
+
+                {/* Mobile Menu */}
                 {isLoginEnabled && (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button>
-                                <Menu />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            {user ? (
-                                <>
-                                    <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem asChild>
-                                        <Link to="/watchlist">{t("header.watchlist")}</Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem asChild>
-                                        <Link to="/account">{t("header.editAccount")}</Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onSelect={() => signOut()}>
-                                        {t("header.logout")}
-                                    </DropdownMenuItem>
-                                </>
-                            ) : (
-                                <>
-                                    <DropdownMenuItem onClick={toSignUp} asChild>
-                                        <Link
-                                            to="/login"
-                                            search={{ redirect: pathname + searchString }}
-                                        >
-                                            {t("header.register")}
-                                        </Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={toSignIn} asChild>
-                                        <Link
-                                            to="/login"
-                                            search={{ redirect: pathname + searchString }}
-                                        >
-                                            {t("header.login")}
-                                        </Link>
-                                    </DropdownMenuItem>
-                                </>
-                            )}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <div
+                        className={cn(
+                            isFloating ? "bg-card backdrop-blur-sm rounded-xl p-2 shadow-sm" : "",
+                        )}
+                    >
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button>
+                                    <Menu />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                {user ? (
+                                    <>
+                                        <DropdownMenuLabel>
+                                            {t("header.myAccount")}
+                                        </DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem asChild>
+                                            <Link to="/watchlist">{t("header.watchlist")}</Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem asChild>
+                                            <Link to="/account">{t("header.editAccount")}</Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onSelect={() => signOut()}>
+                                            {t("header.logout")}
+                                        </DropdownMenuItem>
+                                    </>
+                                ) : (
+                                    <>
+                                        <DropdownMenuItem onClick={toSignUp} asChild>
+                                            <Link
+                                                to="/login"
+                                                search={{ redirect: pathname + searchString }}
+                                            >
+                                                {t("header.register")}
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={toSignIn} asChild>
+                                            <Link
+                                                to="/login"
+                                                search={{ redirect: pathname + searchString }}
+                                            >
+                                                {t("header.login")}
+                                            </Link>
+                                        </DropdownMenuItem>
+                                    </>
+                                )}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
                 )}
             </div>
 
+            {/* Desktop Menu */}
             {isLoginEnabled && (
                 <div className="hidden md:flex items-center justify-end gap-4 w-full">
                     {user ? (
-                        <>
+                        <div
+                            className={cn(
+                                "flex items-center gap-4 transition-all duration-300",
+                                isFloating
+                                    ? "bg-card backdrop-blur-sm rounded-xl px-4 py-2 shadow-sm"
+                                    : "",
+                            )}
+                        >
                             <NavigationMenu className={"md:inline flex-none"}>
                                 <NavigationMenuList>
                                     <NavigationMenuItem>
@@ -204,9 +251,16 @@ export function Header() {
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
-                        </>
+                        </div>
                     ) : (
-                        <>
+                        <div
+                            className={cn(
+                                "flex items-center gap-3 transition-all duration-300",
+                                isFloating
+                                    ? "bg-card backdrop-blur-sm rounded-xl px-4 py-4 shadow-sm"
+                                    : "",
+                            )}
+                        >
                             <Button asChild onClick={toSignUp} variant="default">
                                 <Link to="/login" search={{ redirect: pathname + searchString }}>
                                     {t("header.register")}
@@ -217,7 +271,7 @@ export function Header() {
                                     {t("header.login")}
                                 </Link>
                             </Button>
-                        </>
+                        </div>
                     )}
                 </div>
             )}

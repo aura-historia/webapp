@@ -1,5 +1,5 @@
-import testimonialImage1 from "@/assets/testimonials/testimonial1.webp";
-import testimonialImage2 from "@/assets/testimonials/testimonial2.webp";
+import testimonialImage1 from "@/assets/landing-page/testimonials/testimonial1.webp";
+import testimonialImage2 from "@/assets/landing-page/testimonials/testimonial2.webp";
 
 export const TESTIMONIALS = [
     {

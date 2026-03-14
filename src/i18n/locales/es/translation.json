@@ -389,13 +389,15 @@
     }
   },
   "landingPage": {
-    "badge": "La plataforma líder para quienes buscan antigüedades altamente específicas",
-    "titleFirstLine": "Deja de perder tiempo buscando antigüedades que no puedes encontrar",
-    "titleSecondLine": "Un lugar central para encontrar las antigüedades que buscas",
-    "subtitle": "Buscamos en toda la web antigüedades y las ponemos a tu disposición en un motor de búsqueda especializado. Cubrimos tiendas de antigüedades y casas de subastas que incluso tú no conoces.",
-    "trustBadge1": "De coleccionistas de antigüedades",
-    "trustBadge2": "Para coleccionistas y comerciantes serios",
-    "trustBadge3": "Casi en tiempo real",
+    "badge": "Busca más allá de los mercados habituales",
+    "titleFirstLine": "Descubre antigüedades raras en el mercado global",
+    "subtitle": "Aura Historia busca en anticuarios, casas de subastas y mercados de todo el mundo, ayudándote a encontrar piezas que otros nunca ven.",
+    "trustBadge1": "Anticuarios y casas de subastas en todo el mundo",
+    "trustBadge2": "Listados actualizados continuamente",
+    "trustBadge3": "Diseñado para coleccionistas serios",
+    "categories": {
+      "title": "Descubrir categorías"
+    },
     "features": {
       "title": "Las antigüedades están dispersas por toda la web: tu búsqueda no debería estarlo",
       "subtitle": "Somos el motor de búsqueda más sofisticado para antigüedades y te proporcionamos todas las herramientas para buscar eficientemente en el mercado de antigüedades.",
@@ -558,6 +560,21 @@
     "noResults": {
       "title": "No se encontraron artículos",
       "description": "Añada artículos a su lista de seguimiento para verlos aquí."
+    }
+  },
+  "category": {
+    "products": {
+      "loadingMore": "Cargando más artículos...",
+      "allLoaded_one": "Ha visto {{count}} artículo en esta categoría.",
+      "allLoaded_other": "Ha visto los {{count}} artículos de esta categoría.",
+      "noResults": {
+        "title": "No se encontraron artículos",
+        "description": "Actualmente no hay artículos en esta categoría."
+      },
+      "error": {
+        "title": "No se pudieron cargar los artículos",
+        "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
+      }
     }
   },
   "share": {
