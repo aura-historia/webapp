@@ -3,7 +3,7 @@ import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "../Header.tsx";
-import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
+import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
 
 const mockUseAuthenticator = vi.hoisted(() => vi.fn());
 const mockUseUserAccount = vi.hoisted(() => vi.fn());

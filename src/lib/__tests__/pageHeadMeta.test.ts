@@ -290,18 +290,74 @@ describe("pageHeadMeta", () => {
                     url: "https://example.com/home",
                 });
 
-                expect(result.links).toEqual([
-                    {
-                        rel: "canonical",
-                        href: "https://example.com/home",
-                    },
-                ]);
+                expect(result.links).toContainEqual({
+                    rel: "canonical",
+                    href: "https://example.com/home",
+                });
             });
 
             it("should return empty links array when URL not provided", () => {
                 const result = generatePageHeadMeta({ pageKey: "home" });
 
                 expect(result.links).toEqual([]);
+            });
+
+            it("should include hreflang alternate links for all supported languages when URL provided and page is indexable", () => {
+                const result = generatePageHeadMeta({
+                    pageKey: "home",
+                    url: "https://example.com/home",
+                });
+
+                // One canonical + 5 language alternates + x-default = 7 total
+                expect(result.links?.length).toBe(7);
+
+                expect(result.links).toContainEqual({
+                    rel: "alternate",
+                    hreflang: "de",
+                    href: expect.stringContaining("?lng=de"),
+                });
+                expect(result.links).toContainEqual({
+                    rel: "alternate",
+                    hreflang: "en",
+                    href: expect.stringContaining("?lng=en"),
+                });
+                expect(result.links).toContainEqual({
+                    rel: "alternate",
+                    hreflang: "fr",
+                    href: expect.stringContaining("?lng=fr"),
+                });
+                expect(result.links).toContainEqual({
+                    rel: "alternate",
+                    hreflang: "es",
+                    href: expect.stringContaining("?lng=es"),
+                });
+                expect(result.links).toContainEqual({
+                    rel: "alternate",
+                    hreflang: "it",
+                    href: expect.stringContaining("?lng=it"),
+                });
+                expect(result.links).toContainEqual({
+                    rel: "alternate",
+                    hreflang: "x-default",
+                    href: expect.stringContaining("?lng=en"),
+                });
+            });
+
+            it("should NOT include hreflang links when noIndex is true", () => {
+                const result = generatePageHeadMeta({
+                    pageKey: "imprint",
+                    url: "https://example.com/imprint",
+                    noIndex: true,
+                });
+
+                // Only the canonical link, no hreflang alternates
+                expect(result.links?.length).toBe(1);
+                expect(result.links).toContainEqual({
+                    rel: "canonical",
+                    href: "https://example.com/imprint",
+                });
+                const hasAlternate = result.links?.some((l) => l.rel === "alternate");
+                expect(hasAlternate).toBe(false);
             });
         });
 
@@ -360,10 +416,10 @@ describe("pageHeadMeta", () => {
                 expect(Array.isArray(result.meta)).toBe(true);
                 expect(result.meta.length).toBeGreaterThan(0);
 
-                // Verify links array structure
+                // Verify links array structure (canonical + hreflang alternates)
                 expect(result.links).toBeDefined();
                 expect(Array.isArray(result.links)).toBe(true);
-                expect(result.links?.length).toBe(1);
+                expect(result.links?.length).toBeGreaterThanOrEqual(1);
 
                 // Verify title is first
                 expect(result.meta[0]).toHaveProperty("title");
