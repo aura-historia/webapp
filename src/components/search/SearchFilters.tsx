@@ -28,6 +28,7 @@ import { AUTHENTICITIES } from "@/data/internal/quality-indicators/Authenticity.
 import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 import { serializeSearchParams } from "@/lib/searchValidation.ts";
+import { useDebouncedCallback } from "use-debounce";
 
 const createFilterSchema = (t: TFunction) =>
     z
@@ -120,6 +121,52 @@ type SearchFilterProps = {
     readonly onFiltersApplied?: () => void;
 };
 
+/**
+ * Maps URL search params (SearchFilterArguments) to the form's value shape (FilterSchema).
+ * Used by the RHF `values` prop for declarative URL→Form synchronization.
+ */
+function mapSearchFiltersToFormValues(filters: SearchFilterArguments): FilterSchema {
+    return {
+        priceSpan: {
+            min: filters.priceFrom,
+            max: filters.priceTo,
+        },
+        productState: filters.allowedStates ?? FILTER_DEFAULTS.productState,
+        creationDate: {
+            from: filters.creationDateFrom,
+            to: filters.creationDateTo,
+        },
+        updateDate: {
+            from: filters.updateDateFrom,
+            to: filters.updateDateTo,
+        },
+        auctionDate: {
+            from: filters.auctionDateFrom,
+            to: filters.auctionDateTo,
+        },
+        merchant: filters.merchant,
+        excludeMerchant: filters.excludeMerchant,
+        shopType: filters.shopType ?? FILTER_DEFAULTS.shopType,
+        periodId: filters.periodId ?? [],
+        originYearSpan: {
+            min: filters.originYearMin,
+            max: filters.originYearMax,
+        },
+        authenticity: filters.authenticity ?? FILTER_DEFAULTS.authenticity,
+        condition: filters.condition ?? FILTER_DEFAULTS.condition,
+        provenance: filters.provenance ?? FILTER_DEFAULTS.provenance,
+        restoration: filters.restoration ?? FILTER_DEFAULTS.restoration,
+    };
+}
+
+const DEBOUNCE_DELAY_MS = 500;
+const DEBOUNCED_FIELDS = new Set([
+    "priceSpan.min",
+    "priceSpan.max",
+    "originYearSpan.min",
+    "originYearSpan.max",
+]);
+
 export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
     const { t } = useTranslation();
@@ -138,110 +185,23 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
 
     const filterSchema = useMemo(() => createFilterSchema(t), [t]);
 
+    // Problem: The old approach used useEffect + setValue to sync URL→Form.
+    // Each setValue triggered form.watch, which called navigate, which changed the URL,
+    // which re-triggered the useEffect — causing an infinite loop (especially with Date fields,
+    // since new Date("...") !== new Date("...") by reference).
+    //
+    // Solution: The `values` prop syncs URL→Form via an internal reset() call.
+    // reset() fires watch with {name: undefined}, which our guard in the watch handler skips.
+    // RHF's deepEqual compares Dates by getTime(), so identical dates don't trigger a reset.
+    // `keepDirtyValues` preserves in-progress user edits in debounced fields (price, year).
     const form = useForm<FilterSchema>({
         resolver: zodResolver(filterSchema),
-        defaultValues: FILTER_DEFAULTS,
-        mode: "onSubmit",
+        values: mapSearchFiltersToFormValues(searchFilters),
+        resetOptions: { keepDirtyValues: true },
+        mode: "onChange",
     });
 
-    useEffect(() => {
-        if (searchFilters.priceFrom !== undefined) {
-            form.setValue("priceSpan.min", searchFilters.priceFrom, { shouldDirty: false });
-        }
-        if (searchFilters.priceTo !== undefined) {
-            form.setValue("priceSpan.max", searchFilters.priceTo, { shouldDirty: false });
-        }
-        if (searchFilters.creationDateFrom) {
-            form.setValue("creationDate.from", new Date(searchFilters.creationDateFrom), {
-                shouldDirty: false,
-            });
-        }
-        if (searchFilters.creationDateTo) {
-            form.setValue("creationDate.to", new Date(searchFilters.creationDateTo), {
-                shouldDirty: false,
-            });
-        }
-        if (searchFilters.updateDateFrom) {
-            form.setValue("updateDate.from", new Date(searchFilters.updateDateFrom), {
-                shouldDirty: false,
-            });
-        }
-        if (searchFilters.updateDateTo) {
-            form.setValue("updateDate.to", new Date(searchFilters.updateDateTo), {
-                shouldDirty: false,
-            });
-        }
-        if (searchFilters.auctionDateFrom) {
-            form.setValue("auctionDate.from", new Date(searchFilters.auctionDateFrom), {
-                shouldDirty: false,
-            });
-        }
-        if (searchFilters.auctionDateTo) {
-            form.setValue("auctionDate.to", new Date(searchFilters.auctionDateTo), {
-                shouldDirty: false,
-            });
-        }
-        if (searchFilters.merchant) {
-            form.setValue("merchant", searchFilters.merchant, { shouldDirty: false });
-        }
-        if (searchFilters.excludeMerchant) {
-            form.setValue("excludeMerchant", searchFilters.excludeMerchant, { shouldDirty: false });
-        }
-        if (searchFilters.shopType) {
-            form.setValue("shopType", searchFilters.shopType, { shouldDirty: false });
-        }
-        if (searchFilters.periodId) {
-            form.setValue("periodId", searchFilters.periodId, { shouldDirty: false });
-        }
-        if (searchFilters.allowedStates) {
-            form.setValue("productState", searchFilters.allowedStates, { shouldDirty: false });
-        }
-        if (searchFilters.originYearMin !== undefined) {
-            form.setValue("originYearSpan.min", searchFilters.originYearMin, {
-                shouldDirty: false,
-            });
-        }
-        if (searchFilters.originYearMax !== undefined) {
-            form.setValue("originYearSpan.max", searchFilters.originYearMax, {
-                shouldDirty: false,
-            });
-        }
-        if (searchFilters.authenticity) {
-            form.setValue("authenticity", searchFilters.authenticity, { shouldDirty: false });
-        }
-        if (searchFilters.condition) {
-            form.setValue("condition", searchFilters.condition, { shouldDirty: false });
-        }
-        if (searchFilters.provenance) {
-            form.setValue("provenance", searchFilters.provenance, { shouldDirty: false });
-        }
-        if (searchFilters.restoration) {
-            form.setValue("restoration", searchFilters.restoration, { shouldDirty: false });
-        }
-    }, [
-        searchFilters.priceFrom,
-        searchFilters.priceTo,
-        searchFilters.creationDateFrom,
-        searchFilters.creationDateTo,
-        searchFilters.updateDateFrom,
-        searchFilters.updateDateTo,
-        searchFilters.auctionDateFrom,
-        searchFilters.auctionDateTo,
-        searchFilters.merchant,
-        searchFilters.excludeMerchant,
-        searchFilters.shopType,
-        searchFilters.periodId,
-        searchFilters.allowedStates,
-        searchFilters.originYearMin,
-        searchFilters.originYearMax,
-        searchFilters.authenticity,
-        searchFilters.condition,
-        searchFilters.provenance,
-        searchFilters.restoration,
-        form,
-    ]);
-
-    const onSubmit = useCallback(
+    const applyFilters = useCallback(
         (data: FilterSchema) => {
             navigate({
                 to: "/search",
@@ -270,6 +230,31 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
         [navigate, onFiltersApplied, getEffectiveQuery],
     );
 
+    const debouncedApplyFilters = useDebouncedCallback((data) => {
+        const result = filterSchema.safeParse(data);
+        if (result.success) {
+            applyFilters(result.data);
+        }
+    }, DEBOUNCE_DELAY_MS);
+
+    useEffect(() => {
+        const subscription = form.watch((data, { name }) => {
+            if (!name) return;
+
+            if (DEBOUNCED_FIELDS.has(name)) {
+                debouncedApplyFilters(data);
+            } else {
+                debouncedApplyFilters.cancel();
+                const result = filterSchema.safeParse(data);
+                if (result.success) applyFilters(result.data);
+            }
+        });
+        return () => {
+            subscription.unsubscribe();
+            debouncedApplyFilters.cancel();
+        };
+    }, [form, debouncedApplyFilters, filterSchema, applyFilters]);
+
     const handleResetAll = useCallback(() => {
         form.reset(FILTER_DEFAULTS);
         navigate({
@@ -283,31 +268,21 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <div className={"flex flex-col gap-4"}>
-                    <PriceSpanFilter />
+            <form className="space-y-4">
+                <div className="flex flex-col gap-4 min-w-[350px]">
                     <ProductStateFilter />
+                    <PriceSpanFilter />
                     <PeriodFilter />
                     <QualityIndicatorsFilter />
+                    <ShopTypeFilter />
+                    <MerchantFilters />
+                    <AuctionDateSpanFilter />
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />
-                    <AuctionDateSpanFilter />
-                    <MerchantFilters />
-                    <ShopTypeFilter />
                 </div>
-                <div className="flex flex-col gap-2">
-                    <Button className="w-full shadow-sm" type="submit">
-                        {t("search.applyFilters")}
-                    </Button>
-                    <Button
-                        type="button"
-                        variant="outline"
-                        className="w-full shadow-sm"
-                        onClick={handleResetAll}
-                    >
-                        {t("search.resetAllFilters")}
-                    </Button>
-                </div>
+                <Button type="button" className="w-full shadow-sm" onClick={handleResetAll}>
+                    {t("search.resetAllFilters")}
+                </Button>
             </form>
         </Form>
     );

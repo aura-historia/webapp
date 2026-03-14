@@ -4,6 +4,7 @@ import {
     serializeSearchParams,
     type RawSearchParams,
 } from "@/lib/searchValidation.ts";
+import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 
 describe("validateSearchParams", () => {
     describe("query parameter (q)", () => {
@@ -119,17 +120,17 @@ describe("validateSearchParams", () => {
             expect(result.allowedStates).toEqual(["LISTED", "SOLD"]);
         });
 
-        it("should return undefined when allowedStates is not an array", () => {
+        it("should fall back to defaults when allowedStates is not an array", () => {
             const result = validateSearchParams({
                 q: "test",
                 allowedStates: "LISTED" as unknown as [],
             } as unknown as RawSearchParams);
-            expect(result.allowedStates).toBeUndefined();
+            expect(result.allowedStates).toEqual(FILTER_DEFAULTS.productState);
         });
 
-        it("should return undefined when allowedStates is undefined", () => {
+        it("should fall back to defaults when allowedStates is undefined", () => {
             const result = validateSearchParams({ q: "test" } as RawSearchParams);
-            expect(result.allowedStates).toBeUndefined();
+            expect(result.allowedStates).toEqual(FILTER_DEFAULTS.productState);
         });
     });
 
@@ -199,16 +200,16 @@ describe("validateSearchParams", () => {
         it("should parse shop types case-insensitively", () => {
             const result = validateSearchParams({
                 q: "test",
-                shopType: ["auction_house", "COMMERCIAL_DEALER"] as unknown,
-            } as RawSearchParams);
+                shopType: ["auction_house", "COMMERCIAL_DEALER"],
+            } as unknown as RawSearchParams);
             expect(result.shopType).toEqual(["AUCTION_HOUSE", "COMMERCIAL_DEALER"]);
         });
 
         it("should return undefined when shopType is not an array", () => {
             const result = validateSearchParams({
                 q: "test",
-                shopType: "AUCTION_HOUSE" as unknown,
-            } as RawSearchParams);
+                shopType: "AUCTION_HOUSE",
+            } as unknown as RawSearchParams);
             expect(result.shopType).toBeUndefined();
         });
 
@@ -246,16 +247,16 @@ describe("validateSearchParams", () => {
         it("should filter out non-string values", () => {
             const result = validateSearchParams({
                 q: "test",
-                periodId: ["renaissance", 123, null, "baroque"] as unknown,
-            } as RawSearchParams);
+                periodId: ["renaissance", 123, null, "baroque"],
+            } as unknown as RawSearchParams);
             expect(result.periodId).toEqual(["renaissance", "baroque"]);
         });
 
         it("should return undefined when periodId is not an array", () => {
             const result = validateSearchParams({
                 q: "test",
-                periodId: "renaissance" as unknown,
-            } as RawSearchParams);
+                periodId: "renaissance",
+            } as unknown as RawSearchParams);
             expect(result.periodId).toBeUndefined();
         });
 
@@ -335,7 +336,7 @@ describe("validateSearchParams", () => {
                 sortOrder: "ASC",
             } as RawSearchParams);
 
-            expect(result).toEqual({
+            expect(result).toMatchObject({
                 q: "antique vase",
                 priceFrom: 100,
                 priceTo: 1000,
@@ -350,6 +351,26 @@ describe("validateSearchParams", () => {
                 sortField: "PRICE",
                 sortOrder: "ASC",
             });
+        });
+    });
+
+    describe("default filters for initial search", () => {
+        it("should apply default allowedStates and authenticity when not provided in URL", () => {
+            const result = validateSearchParams({ q: "vase" } as RawSearchParams);
+
+            expect(result.allowedStates).toEqual(FILTER_DEFAULTS.productState);
+            expect(result.authenticity).toEqual(FILTER_DEFAULTS.authenticity);
+        });
+
+        it("should not override explicitly provided allowedStates or authenticity", () => {
+            const result = validateSearchParams({
+                q: "vase",
+                allowedStates: ["SOLD"],
+                authenticity: ["REPRODUCTION"],
+            } as RawSearchParams);
+
+            expect(result.allowedStates).toEqual(["SOLD"]);
+            expect(result.authenticity).toEqual(["REPRODUCTION"]);
         });
     });
 });

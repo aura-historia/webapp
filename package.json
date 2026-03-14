@@ -80,6 +80,7 @@
         "lottie-react": "^2.4.1",
         "lucide-react": "^0.576.0",
         "motion": "^12.34.4",
+        "radix-ui": "^1.4.3",
         "react": "^19.2.4",
         "react-apexcharts": "^1.9.0",
         "react-day-picker": "^9.14.0",

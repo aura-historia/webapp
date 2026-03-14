@@ -125,11 +125,11 @@ function RouteComponent() {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col lg:flex-row items-start gap-8">
-                    <div className="w-full lg:w-[30%] min-w-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300 hidden lg:block">
+                <div className="flex flex-col lg:flex-row items-start gap-4">
+                    <div className="w-full lg:w-[350px] lg:flex-shrink-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300 hidden lg:block">
                         <SearchFilters searchFilters={searchArgs} />
                     </div>
-                    <div className={"flex-col w-full lg:w-[70%] min-w-0"}>
+                    <div className="flex-col w-full lg:flex-1 min-w-0">
                         <SearchResults searchFilters={searchArgs} onTotalChange={setTotalResults} />
                     </div>
                 </div>
