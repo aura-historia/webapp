@@ -177,6 +177,7 @@ code {
     --amplify-components-button-primary-focus-box-shadow: 0 0 0 3px rgba(var(--ring) / 0.5);
     --amplify-components-button-primary-focus-color: var(--primary-foreground);
     --amplify-components-button-primary-focus-background-color: var(--primary);
+    --amplify-components-authenticator-container-width-max: 500px;
 
     /* Forgot password link */
     --amplify-components-button-link-color: var(--foreground);
