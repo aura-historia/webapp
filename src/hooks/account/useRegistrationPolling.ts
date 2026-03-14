@@ -55,7 +55,8 @@ export function useRegistrationPolling() {
                 (pendingData.firstName ||
                     pendingData.lastName ||
                     pendingData.language ||
-                    pendingData.currency)
+                    pendingData.currency ||
+                    pendingData.prohibitedContentConsent)
             ),
 
         // Retry only on 404, max 20 attempts (initial + 19 retries = 20 total)
@@ -82,7 +83,8 @@ export function useRegistrationPolling() {
             (pendingData.firstName ||
                 pendingData.lastName ||
                 pendingData.language ||
-                pendingData.currency)
+                pendingData.currency ||
+                pendingData.prohibitedContentConsent)
         );
 
         // No custom fields to patch - registration complete without PATCH
