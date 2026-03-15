@@ -83,7 +83,9 @@
       "languagePlaceholder": "Sprache auswählen",
       "currencyPlaceholder": "Währung auswählen",
       "saveButton": "Änderungen speichern",
-      "successMessage": "Persönliche Daten erfolgreich aktualisiert"
+      "successMessage": "Persönliche Daten erfolgreich aktualisiert",
+      "prohibitedContentConsentLabel": "Produkte mit § 86a StGB-Kennzeichnungen anzeigen",
+      "prohibitedContentConsentTooltip": "Bilder von Produkten können Kennzeichen verfassungswidriger oder terroristischer Organisationen, insbesondere solcher aus der Zeit des Nationalsozialismus, nach § 86a StGB enthalten. Hiermit stimmen Sie zu, dass wir Ihnen solche Inhalte anzeigen dürfen."
     },
     "changePassword": {
       "title": "Passwort ändern",
@@ -624,7 +626,9 @@
       "confirmPassword": "Passwort bestätigen*",
       "language": "Sprache",
       "currency": "Währung",
-      "pleaseSelect": "Bitte wählen"
+      "pleaseSelect": "Bitte wählen",
+      "prohibitedContentConsentLabel": "Produkte mit § 86a StGB-Kennzeichnungen anzeigen",
+      "prohibitedContentConsentTooltip": "Bilder von Produkten können Kennzeichen verfassungswidriger oder terroristischer Organisationen, insbesondere solcher aus der Zeit des Nationalsozialismus, nach § 86a StGB enthalten. Hiermit stimmen Sie zu, dass wir Ihnen solche Inhalte anzeigen dürfen."
     },
     "signIn": {
       "email": "E-Mail",

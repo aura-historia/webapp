@@ -39,7 +39,7 @@ export const getProduct = <ThrowOnError extends boolean = false>(options: Option
  * Get a single product by slug
  *
  * Retrieves a single product by its shop slug ID and product slug ID.
- * Returns localized content based on Accept-Language header and currency preferences.
+ * Returns localized content based on the optional `language` query parameter and currency preferences.
  *
  * **Human-Readable Identifiers**: This endpoint uses slug-based identifiers which are human-readable
  * kebab-case strings. Shop slugs are derived from the shop name (e.g., "tech-store-premium"),
@@ -298,7 +298,8 @@ export const addWatchlistProduct = <ThrowOnError extends boolean = false>(option
 /**
  * Get user account data
  *
- * Retrieves the authenticated user's account information including email, name, language, and currency preferences.
+ * Retrieves the authenticated user's account information including email, name, language and currency preferences,
+ * and the consent flag for displaying prohibited content.
  * Requires valid Cognito JWT authentication.
  *
  */

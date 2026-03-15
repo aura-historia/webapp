@@ -50,6 +50,7 @@ export function getAccountEditSchema(t: TFunction) {
         lastName: nameSchema,
         language: z.enum(LANGUAGES).optional(),
         currency: z.enum(CURRENCIES).optional(),
+        prohibitedContentConsent: z.boolean(),
     });
 }
 
