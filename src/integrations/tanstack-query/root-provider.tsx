@@ -4,9 +4,16 @@ import type React from "react";
 import i18n from "@/i18n/i18n.ts";
 import { I18nextProvider } from "react-i18next";
 import { SearchQueryProvider } from "@/hooks/search/useSearchQueryContext.tsx";
+import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
 
 export function getContext() {
-    const queryClient = new QueryClient();
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                staleTime: 1000 * 60 * 5,
+            },
+        },
+    });
     return {
         queryClient,
     };
@@ -22,9 +29,11 @@ export function Provider({
     return (
         <Authenticator.Provider>
             <QueryClientProvider client={queryClient}>
-                <SearchQueryProvider>
-                    <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
-                </SearchQueryProvider>
+                <UserPreferencesProvider>
+                    <SearchQueryProvider>
+                        <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
+                    </SearchQueryProvider>
+                </UserPreferencesProvider>
             </QueryClientProvider>
         </Authenticator.Provider>
     );

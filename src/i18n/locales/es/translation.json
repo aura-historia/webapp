@@ -30,6 +30,9 @@
     },
     "watchlist": {
       "title": "Mi lista de seguimiento | Aura Historia"
+    },
+    "category": {
+      "defaultName": "Categoría"
     }
   },
   "validation": {
@@ -395,6 +398,9 @@
     "trustBadge1": "Anticuarios y casas de subastas en todo el mundo",
     "trustBadge2": "Listados actualizados continuamente",
     "trustBadge3": "Diseñado para coleccionistas serios",
+    "categories": {
+      "title": "Descubrir categorías"
+    },
     "features": {
       "title": "Las antigüedades están dispersas por toda la web: tu búsqueda no debería estarlo",
       "subtitle": "Somos el motor de búsqueda más sofisticado para antigüedades y te proporcionamos todas las herramientas para buscar eficientemente en el mercado de antigüedades.",
@@ -559,6 +565,21 @@
       "description": "Añada artículos a su lista de seguimiento para verlos aquí."
     }
   },
+  "category": {
+    "products": {
+      "loadingMore": "Cargando más artículos...",
+      "allLoaded_one": "Ha visto {{count}} artículo en esta categoría.",
+      "allLoaded_other": "Ha visto los {{count}} artículos de esta categoría.",
+      "noResults": {
+        "title": "No se encontraron artículos",
+        "description": "Actualmente no hay artículos en esta categoría."
+      },
+      "error": {
+        "title": "No se pudieron cargar los artículos",
+        "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
+      }
+    }
+  },
   "share": {
     "copyLink": "Copiar enlace",
     "copied": "¡Copiado!",
@@ -686,5 +707,11 @@
     "codeMismatch": "El código introducido es incorrecto.",
     "confirmationCodeCannotBeEmpty": "El código de confirmación no puede estar vacío.",
     "invalidCodeProvidedRequestAgain": "Código inválido, por favor solicite uno nuevo."
+  },
+  "consent": {
+    "title": "Valoramos tu privacidad",
+    "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Al hacer clic en 'Aceptar', das tu consentimiento para el uso de cookies con estos fines. Puede encontrar más información en nuestra <1>política de privacidad</1>.",
+    "accept": "Aceptar",
+    "reject": "Rechazar"
   }
 }

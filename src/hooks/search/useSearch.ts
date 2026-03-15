@@ -25,15 +25,14 @@ const PAGE_SIZE = 21;
 const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 /**
- * Builds additional filter query parameters from search arguments.
- * These filters are supported by the GET /api/v1/products endpoint as query params
- * (using the same field names as ProductSearchData) but are not formally defined
- * in the OpenAPI spec as individual parameters. The type assertion at the call site
- * is required because the generated types only include the explicitly defined params.
- * See: internal-api CHANGELOG 2026-02-20 "Cacheable GET Simple-Search Endpoints"
+ * Builds filter query parameters from search arguments.
+ * Returns a strongly typed Partial of SimpleSearchProductsData's query object,
+ * ensuring all field names and values conform to the API contract.
  */
-function buildFilterQuery(searchArgs: SearchFilterArguments): Record<string, unknown> {
-    const filters: Record<string, unknown> = {};
+function buildFilterQuery(
+    searchArgs: SearchFilterArguments,
+): Partial<SimpleSearchProductsData["query"]> {
+    const filters: Partial<SimpleSearchProductsData["query"]> = {};
 
     if (searchArgs.priceFrom != null || searchArgs.priceTo != null) {
         filters.price = {
@@ -69,10 +68,6 @@ function buildFilterQuery(searchArgs: SearchFilterArguments): Record<string, unk
 
     if (searchArgs.merchant && searchArgs.merchant.length > 0) {
         filters.shopName = searchArgs.merchant;
-    }
-
-    if (searchArgs.periodId && searchArgs.periodId.length > 0) {
-        filters.periodId = searchArgs.periodId;
     }
 
     if (searchArgs.excludeMerchant && searchArgs.excludeMerchant.length > 0) {
@@ -141,7 +136,7 @@ export function useSearch(
                         order: searchArgs.sortOrder ?? "DESC",
                     }),
                     ...buildFilterQuery(searchArgs),
-                } as SimpleSearchProductsData["query"],
+                },
             });
 
             if (result.error) {
