@@ -170,17 +170,16 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                  * This function intercepts such an attempt and resets the zoom to the
                  * entire available data range instead, ensuring the chart display remains stable.
                  */
-                beforeZoom: (_chartContext, { xaxis }) => {
+                beforeZoom: (chartContext, options) => {
+                    const xaxis = options?.xaxis;
+                    if (!xaxis) return;
+
                     const isCompletelyOutside =
                         xaxis.max < minTimestamp || xaxis.min > maxTimestamp;
 
                     if (isCompletelyOutside) {
-                        return {
-                            xaxis: {
-                                min: minTimestamp,
-                                max: maxTimestamp,
-                            },
-                        };
+                        chartContext.zoomX(minTimestamp, maxTimestamp);
+                        return false;
                     }
                 },
             },
