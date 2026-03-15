@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ConsentBanner } from "../ConsentBanner";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 
-vi.mock("@/hooks/useUserPreferences.tsx", () => ({
+vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
     useUserPreferences: vi.fn(),
 }));
 
