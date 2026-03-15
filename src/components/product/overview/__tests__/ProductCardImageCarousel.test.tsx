@@ -70,7 +70,7 @@ describe("ProductCardImageCarousel", () => {
     };
 
     it("should render a placeholder when no images are provided", async () => {
-        await act(() => {
+        await act(async () => {
             renderWithRouter(<ProductCardImageCarousel images={[]} {...defaultProps} />);
         });
         expect(screen.getByTestId("placeholder-image")).toBeInTheDocument();
@@ -78,7 +78,7 @@ describe("ProductCardImageCarousel", () => {
 
     it("should render a single image without carousel when only one image is provided", async () => {
         const singleImage = [mockImages[0]];
-        await act(() => {
+        await act(async () => {
             renderWithRouter(<ProductCardImageCarousel images={singleImage} {...defaultProps} />);
         });
         const image = screen.getByRole("presentation");
@@ -86,7 +86,7 @@ describe("ProductCardImageCarousel", () => {
     });
 
     it("should render the first image by default in carousel mode", async () => {
-        await act(() => {
+        await act(async () => {
             renderWithRouter(<ProductCardImageCarousel images={mockImages} {...defaultProps} />);
         });
         const images = screen.getAllByRole("presentation");
@@ -95,7 +95,7 @@ describe("ProductCardImageCarousel", () => {
     });
 
     it("should render dot indicators when multiple images are provided", async () => {
-        await act(() => {
+        await act(async () => {
             renderWithRouter(<ProductCardImageCarousel images={mockImages} {...defaultProps} />);
         });
         const dots = screen.getAllByLabelText(/Go to image/);
@@ -104,7 +104,7 @@ describe("ProductCardImageCarousel", () => {
 
     it("should not render dot indicators when only one image is provided", async () => {
         const singleImage = [mockImages[0]];
-        await act(() => {
+        await act(async () => {
             renderWithRouter(<ProductCardImageCarousel images={singleImage} {...defaultProps} />);
         });
         const dots = screen.queryAllByLabelText(/Go to image/);
@@ -112,7 +112,7 @@ describe("ProductCardImageCarousel", () => {
     });
 
     it("should render all images in the carousel", async () => {
-        await act(() => {
+        await act(async () => {
             renderWithRouter(<ProductCardImageCarousel images={mockImages} {...defaultProps} />);
         });
         const images = screen.getAllByRole("presentation");
@@ -120,7 +120,7 @@ describe("ProductCardImageCarousel", () => {
     });
 
     it("should have proper link to product detail page", async () => {
-        await act(() => {
+        await act(async () => {
             renderWithRouter(<ProductCardImageCarousel images={mockImages} {...defaultProps} />);
         });
         const links = screen.getAllByRole("link");
