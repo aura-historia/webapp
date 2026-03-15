@@ -17,10 +17,12 @@ vi.mock("@/env.ts", () => ({
 }));
 
 /**
- * Re-imports the module fresh so each describe block gets a clean singleton.
+ * Re-imports the module fresh so each test gets a clean singleton and
+ * ReactGA.isInitialized is reset to false.
  */
 async function freshGA() {
     vi.resetModules();
+    (ReactGA as unknown as { isInitialized: boolean }).isInitialized = false;
     const mod = await import("@/lib/tracking/googleAnalytics.ts");
     return mod.googleAnalytics;
 }
@@ -28,8 +30,6 @@ async function freshGA() {
 describe("GoogleAnalytics.init", () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        // Simulate ReactGA not yet initialized
-        (ReactGA as unknown as { isInitialized: boolean }).isInitialized = false;
     });
 
     it("sets default consent to denied and initialises ReactGA when consent is false", async () => {
@@ -67,7 +67,6 @@ describe("GoogleAnalytics.init", () => {
         const ga = await freshGA();
 
         ga.init(false);
-        // Simulate ReactGA being marked as initialized after first call
         (ReactGA as unknown as { isInitialized: boolean }).isInitialized = true;
         ga.init(true);
 
@@ -78,7 +77,7 @@ describe("GoogleAnalytics.init", () => {
         import.meta.env.SSR = true;
         const ga = await freshGA();
 
-        ga.init(false);
+        ga.init(true);
 
         expect(ReactGA.gtag).not.toHaveBeenCalled();
         expect(ReactGA.initialize).not.toHaveBeenCalled();
@@ -88,7 +87,6 @@ describe("GoogleAnalytics.init", () => {
 describe("GoogleAnalytics.setConsent", () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        (ReactGA as unknown as { isInitialized: boolean }).isInitialized = false;
     });
 
     it("sends a consent update with granted when called with true", async () => {
@@ -132,24 +130,12 @@ describe("GoogleAnalytics.setConsent", () => {
 describe("GoogleAnalytics.sendPageView", () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        (ReactGA as unknown as { isInitialized: boolean }).isInitialized = false;
     });
 
-    it("does not send a pageview when consent has not been granted", async () => {
+    it("sends a basic pageview with path and language", async () => {
         import.meta.env.SSR = false;
         const ga = await freshGA();
 
-        // consent is false by default — do not call init
-        ga.sendPageView("/", "en", {});
-
-        expect(ReactGA.send).not.toHaveBeenCalled();
-    });
-
-    it("sends a pageview after init with consent granted", async () => {
-        import.meta.env.SSR = false;
-        const ga = await freshGA();
-
-        ga.init(true);
         ga.sendPageView("/", "en", {});
 
         expect(ReactGA.send).toHaveBeenCalledWith({
@@ -159,36 +145,10 @@ describe("GoogleAnalytics.sendPageView", () => {
         });
     });
 
-    it("sends a pageview after setConsent(true)", async () => {
-        import.meta.env.SSR = false;
-        const ga = await freshGA();
-
-        ga.setConsent(true);
-        ga.sendPageView("/about", "de", {});
-
-        expect(ReactGA.send).toHaveBeenCalledWith({
-            hitType: "pageview",
-            page: "/about",
-            language: "de",
-        });
-    });
-
-    it("stops sending pageviews after setConsent(false)", async () => {
-        import.meta.env.SSR = false;
-        const ga = await freshGA();
-
-        ga.init(true);
-        ga.setConsent(false);
-        ga.sendPageView("/", "en", {});
-
-        expect(ReactGA.send).not.toHaveBeenCalled();
-    });
-
     it("includes safe search parameters in the payload", async () => {
         import.meta.env.SSR = false;
         const ga = await freshGA();
 
-        ga.init(true);
         ga.sendPageView("/search", "de", { q: "table", sortField: "RELEVANCE" });
 
         expect(ReactGA.send).toHaveBeenCalledWith({
@@ -204,7 +164,6 @@ describe("GoogleAnalytics.sendPageView", () => {
         import.meta.env.SSR = false;
         const ga = await freshGA();
 
-        ga.init(true);
         ga.sendPageView("/reset-password", "en", {
             token: "12345abc",
             password: "my_secret_password",
@@ -222,7 +181,6 @@ describe("GoogleAnalytics.sendPageView", () => {
         import.meta.env.SSR = false;
         const ga = await freshGA();
 
-        ga.init(true);
         ga.sendPageView("/checkout", "fr", {
             SESSION_ID: "xyz987",
             PassWord: "secret_password",

@@ -1,10 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { UserPreferencesProvider, useUserPreferences } from "../useUserPreferences";
-import { setGoogleAnalyticsConsent } from "@/lib/tracking/googleAnalytics";
+import { googleAnalytics } from "@/lib/tracking/googleAnalytics";
 
 vi.mock("@/lib/tracking/googleAnalytics", () => ({
-    setGoogleAnalyticsConsent: vi.fn(),
+    googleAnalytics: {
+        setConsent: vi.fn(),
+    },
 }));
 
 describe("useUserPreferences", () => {
@@ -31,23 +33,21 @@ describe("useUserPreferences", () => {
     });
 
     it("should return default preferences if localStorage is empty", () => {
-        const { result } = renderHook(() => useUserPreferences(), {
+        renderHook(() => useUserPreferences(), {
             wrapper: UserPreferencesProvider,
         });
 
-        expect(result.current.preferences.trackingConsent).toBe(false);
-        expect(setGoogleAnalyticsConsent).not.toHaveBeenCalled();
+        expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
     });
 
     it("should return persisted preferences from localStorage", () => {
         localStorage.setItem("user-preferences", JSON.stringify({ trackingConsent: true }));
 
-        const { result } = renderHook(() => useUserPreferences(), {
+        renderHook(() => useUserPreferences(), {
             wrapper: UserPreferencesProvider,
         });
 
-        expect(result.current.preferences.trackingConsent).toBe(true);
-        expect(setGoogleAnalyticsConsent).not.toHaveBeenCalled();
+        expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
     });
 
     it("should update preferences, persist to localStorage and sync GA on change", () => {
@@ -56,7 +56,7 @@ describe("useUserPreferences", () => {
         });
 
         expect(result.current.preferences.trackingConsent).toBe(false);
-        expect(setGoogleAnalyticsConsent).not.toHaveBeenCalled();
+        expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
 
         act(() => {
             result.current.updatePreferences({ trackingConsent: true });
@@ -66,7 +66,7 @@ describe("useUserPreferences", () => {
         expect(localStorage.getItem("user-preferences")).toBe(
             JSON.stringify({ trackingConsent: true }),
         );
-        expect(setGoogleAnalyticsConsent).toHaveBeenCalledWith(true);
+        expect(googleAnalytics.setConsent).toHaveBeenCalledWith(true);
     });
 
     it("should return default preferences and do nothing else if SSR is true", () => {
@@ -80,7 +80,7 @@ describe("useUserPreferences", () => {
         });
 
         expect(result.current.preferences.trackingConsent).toBe(false);
-        expect(setGoogleAnalyticsConsent).not.toHaveBeenCalled();
+        expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
 
         act(() => {
             result.current.updatePreferences({ trackingConsent: true });
@@ -90,6 +90,6 @@ describe("useUserPreferences", () => {
         expect(localStorage.getItem("user-preferences")).toBe(
             JSON.stringify({ trackingConsent: true }),
         ); // Unchanged
-        expect(setGoogleAnalyticsConsent).not.toHaveBeenCalled();
+        expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
     });
 });

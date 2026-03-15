@@ -9,10 +9,10 @@ const FORBIDDEN_PARAMS = new Set(["token", "password", "email", "reset_key", "se
 const isRunningInProd = env.VITE_APP_URL === "https://aura-historia.com";
 
 class GoogleAnalytics {
-    private consent = false;
-
     /**
      * Initialises Google Analytics with the user's initial consent value.
+     * GA is always loaded — consent mode handles what data is sent internally:
+     * "denied" → cookieless anonymised pings; "granted" → full cookie-based tracking.
      * Must be called once on the client side; subsequent calls are no-ops.
      * @param initialConsent True if the user has granted tracking consent.
      */
@@ -20,7 +20,6 @@ class GoogleAnalytics {
         if (import.meta.env.SSR) return;
         if (ReactGA.isInitialized) return;
 
-        this.consent = initialConsent;
         const consentState = initialConsent ? "granted" : "denied";
 
         // According to Google Analytics 4 docs, the default consent command must run before initialization
@@ -43,7 +42,6 @@ class GoogleAnalytics {
     setConsent(granted: boolean): void {
         if (import.meta.env.SSR) return;
 
-        this.consent = granted;
         const consentState = granted ? "granted" : "denied";
 
         ReactGA.gtag("consent", "update", {
@@ -55,7 +53,10 @@ class GoogleAnalytics {
     }
 
     /**
-     * Sends a page-view event. Silently skips when consent has not been granted.
+     * Sends a page-view event.
+     * No consent guard is applied here — page path and language are not personal
+     * data, and GA4 Consent Mode handles compliance internally based on the
+     * consent state set via init() / setConsent().
      * Sensitive search parameters are stripped before sending.
      * @param path The current page path.
      * @param language The active UI language.
@@ -63,9 +64,6 @@ class GoogleAnalytics {
      */
     sendPageView(path: string, language: string, searchParams: Record<string, unknown>): void {
         if (import.meta.env.SSR) return;
-        if (!this.consent) return;
-
-        console.log("Sending page view...");
 
         const safeParams = Object.keys(searchParams).reduce(
             (acc, key) => {
