@@ -1,7 +1,8 @@
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 
 export function ConsentBanner() {
     const { preferences, updatePreferences } = useUserPreferences();
@@ -37,7 +38,17 @@ export function ConsentBanner() {
                             {t("consent.title")}
                         </span>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                            {t("consent.description")}
+                            <Trans
+                                i18nKey="consent.description"
+                                components={{
+                                    1: (
+                                        <Link
+                                            to="/privacy"
+                                            className="underline hover:text-foreground"
+                                        />
+                                    ),
+                                }}
+                            />
                         </p>
                     </div>
                     <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">

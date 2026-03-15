@@ -20,7 +20,7 @@ We process personal data exclusively:
 - in compliance with the principles of **data minimization**, **purpose limitation**, and **integrity**
 - only to the extent necessary for the respective purpose
 
-Processing for advertising, tracking, or profiling purposes **does not** take place.
+Statistical analysis of website use is performed in anonymized form. Personalized tracking and the use of cookies for analysis purposes only take place with your explicit consent (see section 6.3).
 
 ---
 
@@ -108,13 +108,20 @@ In addition to functional cookies, **local storage** is used for technically nec
 - session management
 - storage of functional user preferences
 
-### 6.3 No Tracking
+### 6.3 Google Analytics
 
-There is **no use of tracking or advertising cookies**. No cross-user tracking takes place.
+This website uses Google Analytics, a web analysis service from Google Ireland Limited ("Google"). Google Analytics uses "cookies", text files that are stored on your computer and enable an analysis of your use of the website.
 
-The legal basis is Section 25 (2) No. 2 TTDSG, as the use is technically necessary.
+#### 6.3.1 IP Anonymization
 
----
+We have activated the IP anonymization function on this website. As a result, your IP address will be truncated by Google within member states of the European Union or in other contracting states of the Agreement on the European Economic Area before it is transmitted to the USA. The IP address transmitted by your browser within the scope of Google Analytics will not be merged with other Google data.
+
+#### 6.3.2 Legal Basis and Opt-Out
+
+The legal basis for the use of cookies and personalized tracking is your consent pursuant to Art. 6 para. 1 lit. a GDPR and § 25 para. 1 TTDSG. The processing of anonymized tracking events (without cookies) for the purpose of statistical analysis is carried out on the basis of our legitimate interest in the needs-based design and optimization of our website pursuant to Art. 6 para. 1 lit. f GDPR.
+
+You can prevent the storage of cookies by setting your browser software accordingly; however, please note that if you do this you may not be able to use all the functions of this website to their full extent. You can also revoke your consent at any time and deactivate Google Analytics by modifying your consent preferences in the cookie banner.
+
 
 ## 7. Web Scraping and Processing of External Content
 

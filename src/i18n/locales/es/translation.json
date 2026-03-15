@@ -707,7 +707,7 @@
   },
   "consent": {
     "title": "Valoramos tu privacidad",
-    "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Al hacer clic en 'Aceptar', das tu consentimiento para el uso de cookies con estos fines.",
+    "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Al hacer clic en 'Aceptar', das tu consentimiento para el uso de cookies con estos fines. Puede encontrar más información en nuestra <1>política de privacidad</1>.",
     "accept": "Aceptar",
     "reject": "Rechazar"
   }

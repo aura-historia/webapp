@@ -706,7 +706,7 @@
   },
   "consent": {
     "title": "Wir schätzen Ihre Privatsphäre",
-    "description": "Wir verwenden Cookies, um den Webverkehr zu analysieren und Ihr Benutzererlebnis zu verbessern. Mit Klick auf 'Zustimmen' willigen Sie in die Verwendung von Cookies für diese Zwecke ein.",
+    "description": "Wir verwenden Cookies, um den Webverkehr zu analysieren und Ihr Benutzererlebnis zu verbessern. Mit Klick auf 'Zustimmen' willigen Sie in die Verwendung von Cookies für diese Zwecke ein. Weitere Informationen finden Sie in unserer <1>Datenschutzerklärung</1>.",
     "accept": "Zustimmen",
     "reject": "Ablehnen"
   }
