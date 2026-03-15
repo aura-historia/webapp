@@ -1,12 +1,10 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import type { UserPreferences } from "@/types/UserPreferences";
+import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
 import { googleAnalytics } from "@/lib/tracking/googleAnalytics";
 
 const PREFERENCES_STORAGE_KEY = "user-preferences";
 
-const DEFAULT_PREFERENCES: UserPreferences = {
-    trackingConsent: false,
-};
+const DEFAULT_PREFERENCES: UserPreferences = {};
 
 type UserPreferencesContextValue = {
     preferences: UserPreferences;
@@ -47,7 +45,7 @@ export function UserPreferencesProvider({ children }: { readonly children: React
                 }
 
                 if (prev.trackingConsent !== next.trackingConsent) {
-                    googleAnalytics.setConsent(next.trackingConsent);
+                    googleAnalytics.setConsent(next.trackingConsent ?? false);
                 }
             }
 

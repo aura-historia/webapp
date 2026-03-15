@@ -704,5 +704,11 @@
     "codeMismatch": "Il codice inserito non è corretto.",
     "confirmationCodeCannotBeEmpty": "Il codice di conferma non può essere vuoto.",
     "invalidCodeProvidedRequestAgain": "Codice non valido, richiedi un nuovo codice."
+  },
+  "consent": {
+    "title": "Rispettiamo la tua privacy",
+    "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Cliccando su 'Accetta', acconsenti all'uso dei cookie per questi scopi.",
+    "accept": "Accetta",
+    "reject": "Rifiuta"
   }
 }

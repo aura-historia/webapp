@@ -55,7 +55,7 @@ describe("useUserPreferences", () => {
             wrapper: UserPreferencesProvider,
         });
 
-        expect(result.current.preferences.trackingConsent).toBe(false);
+        expect(result.current.preferences.trackingConsent).toBeUndefined();
         expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
 
         act(() => {
@@ -79,7 +79,7 @@ describe("useUserPreferences", () => {
             wrapper: UserPreferencesProvider,
         });
 
-        expect(result.current.preferences.trackingConsent).toBe(false);
+        expect(result.current.preferences.trackingConsent).toBeUndefined();
         expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
 
         act(() => {

@@ -29,6 +29,7 @@ import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
 import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seoConstants.ts";
+import { ConsentBanner } from "@/components/common/ConsentBanner.tsx";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -173,6 +174,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                     <Footer />
                 </div>
                 <Toaster position="top-center" richColors />
+                <ConsentBanner />
                 <TanStackDevtools
                     config={{
                         position: "bottom-left",

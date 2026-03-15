@@ -16,7 +16,7 @@ class GoogleAnalytics {
      * Must be called once on the client side; subsequent calls are no-ops.
      * @param initialConsent True if the user has granted tracking consent.
      */
-    init(initialConsent: boolean): void {
+    init(initialConsent?: boolean): void {
         if (import.meta.env.SSR) return;
         if (ReactGA.isInitialized) return;
 
