@@ -20,7 +20,8 @@ import { Toaster } from "sonner";
 import "@/lib/polyfills/url";
 import "@/amplify-config.ts";
 import "@/api-config.ts";
-import "@/lib/tracking/googleAnalytics";
+import { initGoogleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
+import { useUserPreferences } from "@/hooks/useUserPreferences.tsx";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/server/i18n.ts";
 import i18n from "@/i18n/i18n.ts";
@@ -139,6 +140,11 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const location = useLocation();
     const isLandingPage = matches.some((match) => match.routeId === "/");
     const { i18n } = useTranslation();
+    const { preferences } = useUserPreferences();
+
+    useEffect(() => {
+        initGoogleAnalytics(preferences.trackingConsent);
+    }, [preferences.trackingConsent]);
 
     useEffect(() => {
         const currentPath = location.pathname;

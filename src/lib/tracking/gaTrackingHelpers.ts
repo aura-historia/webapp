@@ -5,6 +5,8 @@ export function sendPageViewEvent(
     language: string,
     searchParams: Record<string, unknown>,
 ) {
+    if (import.meta.env.SSR) return;
+
     // These shouldn't be contained - but we filter anyway to make sure we never leak them to GA
     const FORBIDDEN_PARAMS = new Set(["token", "password", "email", "reset_key", "session_id"]);
     const safeParams = Object.keys(searchParams).reduce(
