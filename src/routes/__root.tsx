@@ -15,12 +15,12 @@ import { Header } from "@/components/common/Header.tsx";
 import { NavigationProgress } from "@/components/common/NavigationProgress.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Toaster } from "sonner";
 import "@/lib/polyfills/url";
 import "@/amplify-config.ts";
 import "@/api-config.ts";
-import { initGoogleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
+import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
 import { useUserPreferences } from "@/hooks/useUserPreferences.tsx";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/server/i18n.ts";
@@ -29,7 +29,6 @@ import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
 import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seoConstants.ts";
-import { sendPageViewEvent } from "@/lib/tracking/gaTrackingHelpers.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -142,15 +141,17 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
 
+    // Capture the consent value at first render so init runs only once.
+    const initialConsentRef = useRef(preferences.trackingConsent);
     useEffect(() => {
-        initGoogleAnalytics(preferences.trackingConsent);
-    }, [preferences.trackingConsent]);
+        googleAnalytics.init(initialConsentRef.current);
+    }, []);
 
     useEffect(() => {
         const currentPath = location.pathname;
         const searchParams = location.search as Record<string, unknown>;
 
-        sendPageViewEvent(currentPath, i18n.language, searchParams);
+        googleAnalytics.sendPageView(currentPath, i18n.language, searchParams);
     }, [location, i18n.language]);
 
     return (
