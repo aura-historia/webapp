@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
-import { UserPreferencesProvider, useUserPreferences } from "../useUserPreferences";
-import { googleAnalytics } from "@/lib/tracking/googleAnalytics";
+import { UserPreferencesProvider, useUserPreferences } from "../useUserPreferences.tsx";
+import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
 
 vi.mock("@/lib/tracking/googleAnalytics", () => ({
     googleAnalytics: {
@@ -10,7 +10,7 @@ vi.mock("@/lib/tracking/googleAnalytics", () => ({
 }));
 
 describe("useUserPreferences", () => {
-    let originalEnvSSR: any;
+    let originalEnvSSR: boolean;
 
     beforeEach(() => {
         vi.clearAllMocks();

@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ConsentBanner } from "../ConsentBanner";
-import { useUserPreferences } from "@/hooks/useUserPreferences";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 
 vi.mock("@/hooks/useUserPreferences.tsx", () => ({
     useUserPreferences: vi.fn(),

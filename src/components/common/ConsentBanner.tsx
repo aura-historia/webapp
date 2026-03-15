@@ -1,4 +1,4 @@
-import { useUserPreferences } from "@/hooks/useUserPreferences.tsx";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";

@@ -21,7 +21,7 @@ import "@/lib/polyfills/url";
 import "@/amplify-config.ts";
 import "@/api-config.ts";
 import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
-import { useUserPreferences } from "@/hooks/useUserPreferences.tsx";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/server/i18n.ts";
 import i18n from "@/i18n/i18n.ts";

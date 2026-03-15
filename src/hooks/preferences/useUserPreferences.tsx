@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
-import { googleAnalytics } from "@/lib/tracking/googleAnalytics";
+import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
 
 const PREFERENCES_STORAGE_KEY = "user-preferences";
 
@@ -33,7 +33,7 @@ function loadPreferences(): UserPreferences {
 export function UserPreferencesProvider({ children }: { readonly children: ReactNode }) {
     const [preferences, setPreferences] = useState<UserPreferences>(() => loadPreferences());
 
-    const updatePreferences = (updates: Partial<UserPreferences>) => {
+    const updatePreferences = useCallback((updates: Partial<UserPreferences>) => {
         setPreferences((prev) => {
             const next = { ...prev, ...updates };
 
@@ -51,10 +51,15 @@ export function UserPreferencesProvider({ children }: { readonly children: React
 
             return next;
         });
-    };
+    }, []);
+
+    const contextValue = useMemo(
+        () => ({ preferences, updatePreferences }),
+        [preferences, updatePreferences],
+    );
 
     return (
-        <UserPreferencesContext.Provider value={{ preferences, updatePreferences }}>
+        <UserPreferencesContext.Provider value={contextValue}>
             {children}
         </UserPreferencesContext.Provider>
     );
