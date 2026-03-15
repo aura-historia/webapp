@@ -707,5 +707,11 @@
     "codeMismatch": "Le code entré est incorrect.",
     "confirmationCodeCannotBeEmpty": "Le code de confirmation ne peut pas être vide.",
     "invalidCodeProvidedRequestAgain": "Code invalide, veuillez en demander un nouveau."
+  },
+  "consent": {
+    "title": "Nous respectons votre vie privée",
+    "description": "Nous utilisons des cookies pour analyser le trafic web et améliorer votre expérience utilisateur. En cliquant sur 'Accepter', vous consentez à notre utilisation de cookies à ces fins. Vous trouverez plus d'informations dans notre <1>politique de confidentialité</1>.",
+    "accept": "Accepter",
+    "reject": "Refuser"
   }
 }

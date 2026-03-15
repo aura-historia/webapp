@@ -3,6 +3,7 @@ import {
     createRootRouteWithContext,
     HeadContent,
     Scripts,
+    useLocation,
     useMatches,
 } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
@@ -14,10 +15,13 @@ import { Header } from "@/components/common/Header.tsx";
 import { NavigationProgress } from "@/components/common/NavigationProgress.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 import type React from "react";
+import { useEffect, useRef } from "react";
 import { Toaster } from "sonner";
 import "@/lib/polyfills/url";
 import "@/amplify-config.ts";
 import "@/api-config.ts";
+import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/server/i18n.ts";
 import i18n from "@/i18n/i18n.ts";
@@ -25,6 +29,7 @@ import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
 import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seoConstants.ts";
+import { ConsentBanner } from "@/components/common/ConsentBanner.tsx";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -116,12 +121,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                     type: "image/png",
                 },
             ],
-            scripts: [
-                {
-                    src: "https://www.googletagmanager.com/gtag/js?id=G-HL1MJKQBZR",
-                    async: true,
-                },
-            ],
         };
     },
     beforeLoad: async () => {
@@ -138,19 +137,28 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const matches = useMatches();
+    const location = useLocation();
     const isLandingPage = matches.some((match) => match.routeId === "/");
     const { i18n } = useTranslation();
+    const { preferences } = useUserPreferences();
+
+    // Capture the consent value at first render so init runs only once.
+    const initialConsentRef = useRef(preferences.trackingConsent);
+    useEffect(() => {
+        googleAnalytics.init(initialConsentRef.current);
+    }, []);
+
+    useEffect(() => {
+        const currentPath = location.pathname;
+        const searchParams = location.search as Record<string, unknown>;
+
+        googleAnalytics.sendPageView(currentPath, i18n.language, searchParams);
+    }, [location, i18n.language]);
 
     return (
         <html lang={i18n.language || "en"}>
             <head>
                 <HeadContent />
-                <script
-                    // biome-ignore lint/security/noDangerouslySetInnerHtml: This is required for Google Analytics setup
-                    dangerouslySetInnerHTML={{
-                        __html: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-HL1MJKQBZR');`,
-                    }}
-                />
             </head>
             <body
                 className={
@@ -166,6 +174,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                     <Footer />
                 </div>
                 <Toaster position="top-center" richColors />
+                <ConsentBanner />
                 <TanStackDevtools
                     config={{
                         position: "bottom-left",

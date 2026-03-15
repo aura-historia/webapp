@@ -20,7 +20,7 @@ Trattiamo i dati personali esclusivamente:
 - nel rispetto dei principi di **minimizzazione dei dati**, **limitazione delle finalità** e **integrità**
 - solo nella misura necessaria per la rispettiva finalità
 
-Il trattamento per scopi pubblicitari, di tracciamento o di profilazione **non** ha luogo.
+L'analisi statistica dell'uso del sito web viene effettuata in forma anonima. Il tracciamento personalizzato e l'uso di cookie per scopi di analisi avvengono solo con il tuo consenso esplicito (vedi sezione 6.3).
 
 ---
 
@@ -108,13 +108,20 @@ Oltre ai cookie funzionali, viene utilizzata l'**archiviazione locale** per funz
 - Gestione delle sessioni
 - Memorizzazione delle preferenze funzionali dell'utente
 
-### 6.3 Nessun tracciamento
+### 6.3 Google Analytics
 
-**Non vengono utilizzati cookie di tracciamento o pubblicitari**. Non avviene alcun tracciamento tra utenti.
+Questo sito web utilizza Google Analytics, un servizio di analisi web fornito da Google Ireland Limited ("Google"). Google Analytics utilizza i cosiddetti "cookie", file di testo che vengono memorizzati sul vostro computer e che consentono un'analisi del vostro utilizzo del sito web.
 
-La base giuridica è la Sezione 25 (2) n. 2 TTDSG, poiché l'utilizzo è tecnicamente necessario.
+#### 6.3.1 Anonimizzazione dell'IP
 
----
+Abbiamo attivato la funzione di anonimizzazione dell'IP su questo sito web. Di conseguenza, il vostro indirizzo IP verrà troncato da Google all'interno degli Stati membri dell'Unione Europea o in altri Stati contraenti dell'Accordo sullo Spazio Economico Europeo prima di essere trasmesso negli Stati Uniti. L' indirizzo IP trasmesso dal vostro browser nell'ambito di Google Analytics non verrà unito ad altri dati di Google.
+
+#### 6.3.2 Base giuridica e Revoca
+
+La base giuridica per l'utilizzo di cookie e il tracciamento personalizzato è il vostro consenso ai sensi dell'Art. 6 par. 1 lett. a del GDPR e del § 25 par. 1 del TTDSG. Il trattamento di eventi di tracciamento anonimi (senza cookie) a scopo di analisi statistica viene effettuato sulla base del nostro legittimo interesse alla progettazione e all'ottimizzazione del nostro sito web in base alle necessità, ai sensi dell'Art. 6 par. 1 lett. f del GDPR.
+
+Potete impedire la memorizzazione dei cookie impostando il software del vostro browser in modo appropriato; tuttavia, vi facciamo presente che, in questo caso, potreste non essere in grado di utilizzare appieno tutte le funzioni di questo sito web. Potete inoltre revocare il vostro consenso in qualsiasi momento e disattivare Google Analytics modificando le vostre preferenze nel banner dei cookie.
+
 
 ## 7. Web scraping e trattamento di contenuti esterni
 
