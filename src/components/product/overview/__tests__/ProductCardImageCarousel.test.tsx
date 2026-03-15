@@ -4,7 +4,9 @@ import { renderWithRouter } from "@/test/utils.tsx";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
 import type { ReactNode } from "react";
 import type { CarouselApi } from "@/components/ui/carousel.tsx";
-import type { EmblaPluginsType, EngineType } from "embla-carousel";
+
+type EngineType = ReturnType<NonNullable<CarouselApi>["internalEngine"]>;
+type EmblaPluginsType = ReturnType<NonNullable<CarouselApi>["plugins"]>;
 
 // Mock the Carousel component to avoid issues in test environment
 vi.mock("@/components/ui/carousel.tsx", () => {

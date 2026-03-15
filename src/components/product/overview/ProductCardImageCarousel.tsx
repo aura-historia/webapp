@@ -118,7 +118,7 @@ export function ProductCardImageCarousel({
             >
                 <CarouselContent className="rounded-lg">
                     {images.map((image, index) => (
-                        <CarouselItem key={`${index}-${image.url.href}`}>
+                        <CarouselItem key={image.url.href}>
                             <Link
                                 to="/shops/$shopSlugId/products/$productSlugId"
                                 params={{
@@ -174,7 +174,7 @@ export function ProductCardImageCarousel({
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/40 backdrop-blur-sm px-2 py-1 rounded-full">
                 {images.map((image, index) => (
                     <button
-                        key={`${index}-${image.url.href}`}
+                        key={image.url.href}
                         type="button"
                         onClick={(e) => {
                             e.preventDefault();
