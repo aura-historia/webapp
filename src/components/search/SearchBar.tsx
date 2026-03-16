@@ -150,7 +150,7 @@ export function SearchBar({ type }: SearchBarProps) {
                                 <Input
                                     autoFocus={type === "big"}
                                     className={type === "big" ? "h-12 font-medium text-lg" : "h-9"}
-                                    type={"text"}
+                                    type="search"
                                     placeholder={
                                         type === "big"
                                             ? animatedText
@@ -159,6 +159,8 @@ export function SearchBar({ type }: SearchBarProps) {
                                     aria-label={t("search.bar.label")}
                                     disabled={!isSearchEnabled}
                                     {...field}
+                                    inputMode="search"
+                                    enterKeyHint="search"
                                 />
                             </FormControl>
                             {type === "big" && <FormMessage />}
