@@ -340,3 +340,13 @@ button.amplify-button.amplify-field-group__control.amplify-button--warning.ampli
 .amplify-icon {
     color: var(--text-foreground);
 }
+
+/* Older mobile Safari can initially render the hero under the sticky header. */
+@supports (-webkit-touch-callout: none) {
+    @media (hover: none) and (pointer: coarse) {
+        .hero-section-safari-offset {
+            padding-top: calc(5rem + env(safe-area-inset-top));
+        }
+    }
+}
+
