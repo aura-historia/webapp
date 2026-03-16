@@ -169,7 +169,7 @@ export function PersonalDataForm() {
                                                 className="text-muted-foreground cursor-help"
                                             />
                                         </TooltipTrigger>
-                                        <TooltipContent>
+                                        <TooltipContent className="max-w-xs">
                                             <p>
                                                 {t(
                                                     "account.personalData.prohibitedContentConsentTooltip",
