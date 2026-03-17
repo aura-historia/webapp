@@ -5,7 +5,7 @@ export function ProductGridItemSkeleton() {
     return (
         <Card
             data-testid="product-grid-item-skeleton"
-            className="flex flex-col h-full p-0 shadow-md overflow-hidden min-w-0"
+            className="flex flex-col w-full p-0 shadow-md overflow-hidden min-w-0"
         >
             <Skeleton className="w-full aspect-4/3 rounded-none" />
             <div className="flex flex-col min-w-0 flex-1 justify-between p-4 gap-3">

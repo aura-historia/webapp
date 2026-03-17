@@ -313,32 +313,32 @@ describe("pageHeadMeta", () => {
 
                 expect(result.links).toContainEqual({
                     rel: "alternate",
-                    hreflang: "de",
+                    hrefLang: "de",
                     href: expect.stringContaining("?lng=de"),
                 });
                 expect(result.links).toContainEqual({
                     rel: "alternate",
-                    hreflang: "en",
+                    hrefLang: "en",
                     href: expect.stringContaining("?lng=en"),
                 });
                 expect(result.links).toContainEqual({
                     rel: "alternate",
-                    hreflang: "fr",
+                    hrefLang: "fr",
                     href: expect.stringContaining("?lng=fr"),
                 });
                 expect(result.links).toContainEqual({
                     rel: "alternate",
-                    hreflang: "es",
+                    hrefLang: "es",
                     href: expect.stringContaining("?lng=es"),
                 });
                 expect(result.links).toContainEqual({
                     rel: "alternate",
-                    hreflang: "it",
+                    hrefLang: "it",
                     href: expect.stringContaining("?lng=it"),
                 });
                 expect(result.links).toContainEqual({
                     rel: "alternate",
-                    hreflang: "x-default",
+                    hrefLang: "x-default",
                     href: expect.stringContaining("?lng=en"),
                 });
             });

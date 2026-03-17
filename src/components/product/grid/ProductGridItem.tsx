@@ -14,7 +14,7 @@ function ProductGridItemComponent({ product }: { readonly product: OverviewProdu
     const { t } = useTranslation();
 
     return (
-        <Card className="flex flex-col h-full p-0 shadow-md overflow-hidden min-w-0">
+        <Card className="flex flex-col w-full p-0 shadow-md overflow-hidden min-w-0">
             <div className="shrink-0">
                 <Link
                     to="/shops/$shopSlugId/products/$productSlugId"

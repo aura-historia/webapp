@@ -41,17 +41,17 @@ describe("generateHreflangLinks", () => {
 
         expect(links).toContainEqual({
             rel: "alternate",
-            hreflang: "de",
+            hrefLang: "de",
             href: "https://aura-historia.com/search?lng=de",
         });
         expect(links).toContainEqual({
             rel: "alternate",
-            hreflang: "en",
+            hrefLang: "en",
             href: "https://aura-historia.com/search?lng=en",
         });
         expect(links).toContainEqual({
             rel: "alternate",
-            hreflang: "fr",
+            hrefLang: "fr",
             href: "https://aura-historia.com/search?lng=fr",
         });
     });
@@ -61,7 +61,7 @@ describe("generateHreflangLinks", () => {
 
         expect(links).toContainEqual({
             rel: "alternate",
-            hreflang: "x-default",
+            hrefLang: "x-default",
             href: "https://aura-historia.com/?lng=en",
         });
     });
@@ -71,7 +71,7 @@ describe("generateHreflangLinks", () => {
 
         expect(links).toContainEqual({
             rel: "alternate",
-            hreflang: "de",
+            hrefLang: "de",
             href: "https://aura-historia.com/shops/antique-shop-1/products/vase-123?lng=de",
         });
     });

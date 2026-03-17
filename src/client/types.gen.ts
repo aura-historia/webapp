@@ -1440,7 +1440,7 @@ export type SortWatchlistProductFieldData = 'created';
 export type PutProductError = 'SHOP_NOT_FOUND' | 'MONETARY_AMOUNT_OVERFLOW' | 'PRODUCT_ENRICHMENT_FAILED' | 'NO_DOMAIN';
 
 /**
- * Complete user account information
+ * Complete user account information including prohibited content consent
  */
 export type GetUserAccountData = {
     /**
@@ -1467,6 +1467,10 @@ export type GetUserAccountData = {
      * User's preferred currency (optional)
      */
     currency?: CurrencyData | null;
+    /**
+     * Whether the user has consented to viewing prohibited content
+     */
+    prohibitedContentConsent: boolean;
     /**
      * When the user account was created (RFC3339 format)
      */
@@ -1499,6 +1503,165 @@ export type PatchUserAccountData = {
      * New preferred currency
      */
     currency?: CurrencyData | null;
+    /**
+     * New consent state for displaying prohibited content
+     */
+    prohibitedContentConsent?: boolean | null;
+};
+
+/**
+ * A single user notification, fully localized for the requested language and currency.
+ */
+export type GetNotificationData = {
+    /**
+     * The ID of the domain event that triggered this notification.
+     */
+    originEventId: string;
+    /**
+     * Unique identifier of this notification record.
+     */
+    notificationId: string;
+    payload: NotificationPayloadData;
+    /**
+     * Whether the user has seen this notification.
+     */
+    seen: boolean;
+    /**
+     * Whether the notification has been sent externally to the user via a third-party medium (e.g. mail, SMS). `true` means it was sent externally; `false` means it was not.
+     */
+    external: boolean;
+    /**
+     * When the notification was created (RFC3339 format).
+     */
+    created: string;
+    /**
+     * When the notification was last updated (RFC3339 format).
+     */
+    updated: string;
+};
+
+/**
+ * The notification payload. The structure depends on the `type` discriminator field:
+ * - `WATCHLIST`: Notification triggered by a watchlist event (price change or state change).
+ *
+ */
+export type NotificationPayloadData = {
+    type: 'WATCHLIST';
+} & WatchlistNotificationPayloadData;
+
+/**
+ * Notification payload for a watchlist event.
+ */
+export type WatchlistNotificationPayloadData = {
+    /**
+     * Discriminator field identifying this as a watchlist notification.
+     */
+    type: 'WATCHLIST';
+    /**
+     * Internal product identifier.
+     */
+    productId: string;
+    /**
+     * Unique identifier of the shop.
+     */
+    shopId: string;
+    /**
+     * Shop's own identifier for the product.
+     */
+    shopsProductId: string;
+    /**
+     * URL-friendly slug identifier for the shop.
+     */
+    shopSlugId: string;
+    /**
+     * URL-friendly slug identifier for the product (6-character suffix).
+     */
+    productSlugId: string;
+    /**
+     * Display name of the shop.
+     */
+    shopName: string;
+    title: LocalizedTextData;
+    watchlistPayload: WatchlistPayloadData;
+};
+
+/**
+ * The watchlist-specific sub-payload. The structure depends on the `type` discriminator field:
+ * - `PRICE_CHANGE`: A price change event. Both `oldPrice` and `newPrice` are optional (absent when the price was not available in the requested currency).
+ * - `STATE_CHANGE`: A product state change event. Both `oldState` and `newState` are always present.
+ *
+ */
+export type WatchlistPayloadData = ({
+    type: 'PRICE_CHANGE';
+} & PriceChangeWatchlistPayloadData) | ({
+    type: 'STATE_CHANGE';
+} & StateChangeWatchlistPayloadData);
+
+/**
+ * Watchlist payload for a price change notification.
+ */
+export type PriceChangeWatchlistPayloadData = {
+    /**
+     * Discriminator field identifying this as a price-change watchlist payload.
+     */
+    type: 'PRICE_CHANGE';
+    /**
+     * Previous price in the requested currency. Absent when price was unavailable in that currency.
+     */
+    oldPrice?: PriceData | null;
+    /**
+     * New price in the requested currency. Absent when price is unavailable in that currency.
+     */
+    newPrice?: PriceData | null;
+};
+
+/**
+ * Watchlist payload for a product state change notification.
+ */
+export type StateChangeWatchlistPayloadData = {
+    /**
+     * Discriminator field identifying this as a state-change watchlist payload.
+     */
+    type: 'STATE_CHANGE';
+    oldState: ProductStateData;
+    newState: ProductStateData;
+};
+
+/**
+ * Patch body for updating notification fields. All fields are optional.
+ * Only provided (non-null) fields are applied.
+ *
+ */
+export type PatchNotificationData = {
+    /**
+     * Set to `true` to mark the notification as seen, `false` to mark it unseen.
+     */
+    seen?: boolean | null;
+};
+
+/**
+ * Cursor-paginated collection of notifications, sorted latest-first.
+ */
+export type NotificationCollectionData = {
+    /**
+     * Notifications in the current page.
+     */
+    items: Array<GetNotificationData>;
+    /**
+     * Number of notifications in the current page.
+     */
+    size: number;
+    /**
+     * Event ID cursor for the next page (UUID string).
+     * Present only when more results are available.
+     * Pass this value as the `searchAfter` query parameter to retrieve the next page.
+     *
+     */
+    searchAfter?: string | null;
+    /**
+     * Total number of notifications for the user. May be absent in some cases.
+     */
+    total?: number | null;
 };
 
 export type GetProductData2 = {
@@ -1556,15 +1719,6 @@ export type GetProductResponse = GetProductResponses[keyof GetProductResponses];
 
 export type GetProductBySlugData = {
     body?: never;
-    headers?: {
-        /**
-         * Preferred language for localized content.
-         * Supports quality values and multiple languages.
-         * Supported languages: de, en, fr, es, it (with regional variants).
-         *
-         */
-        'Accept-Language'?: string;
-    };
     path: {
         /**
          * Human-readable slug identifier of the shop (kebab-case, derived from shop name)
@@ -1582,6 +1736,12 @@ export type GetProductBySlugData = {
          * Currency for price display
          */
         currency?: CurrencyData;
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
     };
     url: '/api/v1/by-slug/shops/{shopSlugId}/products/{productSlugId}';
 };
@@ -2496,6 +2656,237 @@ export type PatchWatchlistProductResponses = {
 };
 
 export type PatchWatchlistProductResponse = PatchWatchlistProductResponses[keyof PatchWatchlistProductResponses];
+
+export type DeleteAllNotificationsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/notifications';
+};
+
+export type DeleteAllNotificationsErrors = {
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type DeleteAllNotificationsError = DeleteAllNotificationsErrors[keyof DeleteAllNotificationsErrors];
+
+export type DeleteAllNotificationsResponses = {
+    /**
+     * All notifications deleted successfully.
+     */
+    204: void;
+};
+
+export type DeleteAllNotificationsResponse = DeleteAllNotificationsResponses[keyof DeleteAllNotificationsResponses];
+
+export type GetNotificationsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+        /**
+         * Currency for price display in notification payloads.
+         */
+        currency?: CurrencyData;
+        /**
+         * Event ID cursor for pagination (UUID string).
+         * Pass the `searchAfter` value from the previous response to retrieve the next page.
+         *
+         */
+        searchAfter?: string;
+        /**
+         * Maximum number of notifications to return per page (capped at 100).
+         */
+        size?: number;
+    };
+    url: '/api/v1/me/notifications';
+};
+
+export type GetNotificationsErrors = {
+    /**
+     * Bad request – invalid query parameters.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type GetNotificationsError = GetNotificationsErrors[keyof GetNotificationsErrors];
+
+export type GetNotificationsResponses = {
+    /**
+     * Notifications retrieved successfully.
+     */
+    200: NotificationCollectionData;
+};
+
+export type GetNotificationsResponse = GetNotificationsResponses[keyof GetNotificationsResponses];
+
+export type PatchAllNotificationsData = {
+    /**
+     * Optional patch fields to apply to all notifications.
+     * If the body is omitted entirely, all fields default to their zero/null values
+     * (for `seen`: no change is applied).
+     *
+     */
+    body?: PatchNotificationData;
+    path?: never;
+    query?: {
+        /**
+         * Preferred language for localized content in the response.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+        /**
+         * Currency for price display in notification payloads of the response.
+         */
+        currency?: CurrencyData;
+    };
+    url: '/api/v1/me/notifications';
+};
+
+export type PatchAllNotificationsErrors = {
+    /**
+     * Bad request – malformed request body or invalid query parameters.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type PatchAllNotificationsError = PatchAllNotificationsErrors[keyof PatchAllNotificationsErrors];
+
+export type PatchAllNotificationsResponses = {
+    /**
+     * Notifications updated successfully. Returns the first page of updated notifications.
+     */
+    200: NotificationCollectionData;
+};
+
+export type PatchAllNotificationsResponse = PatchAllNotificationsResponses[keyof PatchAllNotificationsResponses];
+
+export type DeleteNotificationData = {
+    body?: never;
+    path: {
+        /**
+         * The event ID (UUID) of the notification to delete.
+         */
+        eventId: string;
+    };
+    query?: never;
+    url: '/api/v1/me/notifications/{eventId}';
+};
+
+export type DeleteNotificationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Not found – no notification with the given event ID exists for this user.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type DeleteNotificationError = DeleteNotificationErrors[keyof DeleteNotificationErrors];
+
+export type DeleteNotificationResponses = {
+    /**
+     * Notification deleted successfully.
+     */
+    204: void;
+};
+
+export type DeleteNotificationResponse = DeleteNotificationResponses[keyof DeleteNotificationResponses];
+
+export type PatchNotificationData2 = {
+    /**
+     * Patch fields to apply to the notification.
+     */
+    body: PatchNotificationData;
+    path: {
+        /**
+         * The event ID (UUID) of the notification to update.
+         */
+        eventId: string;
+    };
+    query?: {
+        /**
+         * Preferred language for localized content in the response.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+        /**
+         * Currency for price display in notification payloads of the response.
+         */
+        currency?: CurrencyData;
+    };
+    url: '/api/v1/me/notifications/{eventId}';
+};
+
+export type PatchNotificationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter or request body.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Not found – no notification with the given event ID exists for this user.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type PatchNotificationError = PatchNotificationErrors[keyof PatchNotificationErrors];
+
+export type PatchNotificationResponses = {
+    /**
+     * Notification updated successfully. Returns the updated notification.
+     */
+    200: GetNotificationData;
+};
+
+export type PatchNotificationResponse = PatchNotificationResponses[keyof PatchNotificationResponses];
 
 export type SimpleSearchShopsData = {
     body?: never;

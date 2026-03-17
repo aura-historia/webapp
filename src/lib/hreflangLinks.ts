@@ -3,7 +3,7 @@ import { env } from "@/env";
 
 export type HreflangLink = {
     rel: "alternate";
-    hreflang: string;
+    hrefLang: string;
     href: string;
 };
 
@@ -26,7 +26,7 @@ export function generateHreflangLinks(path: string): HreflangLink[] {
 
     const languageLinks: HreflangLink[] = SUPPORTED_LANGUAGES.map(({ code }) => ({
         rel: "alternate" as const,
-        hreflang: code,
+        hrefLang: code,
         href: `${baseUrl}${path}?lng=${code}`,
     }));
 
@@ -36,7 +36,7 @@ export function generateHreflangLinks(path: string): HreflangLink[] {
         // the default language version so bots have a clear fallback.
         {
             rel: "alternate" as const,
-            hreflang: "x-default",
+            hrefLang: "x-default",
             href: `${baseUrl}${path}?lng=${DEFAULT_LANGUAGE}`,
         },
     ];
