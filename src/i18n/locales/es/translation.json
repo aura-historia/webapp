@@ -33,6 +33,9 @@
     },
     "category": {
       "defaultName": "Categoría"
+    },
+    "period": {
+      "defaultName": "Período"
     }
   },
   "validation": {
@@ -401,6 +404,9 @@
     "categories": {
       "title": "Descubrir categorías"
     },
+    "periods": {
+      "title": "Descubrir períodos"
+    },
     "features": {
       "title": "Las antigüedades están dispersas por toda la web: tu búsqueda no debería estarlo",
       "subtitle": "Somos el motor de búsqueda más sofisticado para antigüedades y te proporcionamos todas las herramientas para buscar eficientemente en el mercado de antigüedades.",
@@ -573,6 +579,21 @@
       "noResults": {
         "title": "No se encontraron artículos",
         "description": "Actualmente no hay artículos en esta categoría."
+      },
+      "error": {
+        "title": "No se pudieron cargar los artículos",
+        "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
+      }
+    }
+  },
+  "period": {
+    "products": {
+      "loadingMore": "Cargando más artículos...",
+      "allLoaded_one": "Ha visto {{count}} artículo en este período.",
+      "allLoaded_other": "Ha visto los {{count}} artículos de este período.",
+      "noResults": {
+        "title": "No se encontraron artículos",
+        "description": "Actualmente no hay artículos en este período."
       },
       "error": {
         "title": "No se pudieron cargar los artículos",

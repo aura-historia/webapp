@@ -15,6 +15,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ImprintRouteImport } from './routes/imprint'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PeriodsPeriodIdRouteImport } from './routes/periods.$periodId'
 import { Route as CategoriesCategoryIdRouteImport } from './routes/categories.$categoryId'
 import { Route as AuthWatchlistRouteImport } from './routes/_auth.watchlist'
 import { Route as AuthAccountRouteImport } from './routes/_auth.account'
@@ -48,6 +49,11 @@ const AuthRoute = AuthRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PeriodsPeriodIdRoute = PeriodsPeriodIdRouteImport.update({
+  id: '/periods/$periodId',
+  path: '/periods/$periodId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CategoriesCategoryIdRoute = CategoriesCategoryIdRouteImport.update({
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
+  '/periods/$periodId': typeof PeriodsPeriodIdRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
+  '/periods/$periodId': typeof PeriodsPeriodIdRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/_auth/account': typeof AuthAccountRoute
   '/_auth/watchlist': typeof AuthWatchlistRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
+  '/periods/$periodId': typeof PeriodsPeriodIdRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -127,6 +136,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/watchlist'
     | '/categories/$categoryId'
+    | '/periods/$periodId'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesByTo: FileRoutesByTo
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/watchlist'
     | '/categories/$categoryId'
+    | '/periods/$periodId'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/products/$productSlugId'
   id:
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/_auth/account'
     | '/_auth/watchlist'
     | '/categories/$categoryId'
+    | '/periods/$periodId'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesById: FileRoutesById
@@ -164,6 +176,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   CategoriesCategoryIdRoute: typeof CategoriesCategoryIdRoute
+  PeriodsPeriodIdRoute: typeof PeriodsPeriodIdRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
   ShopsShopSlugIdProductsProductSlugIdRoute: typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -210,6 +223,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/periods/$periodId': {
+      id: '/periods/$periodId'
+      path: '/periods/$periodId'
+      fullPath: '/periods/$periodId'
+      preLoaderRoute: typeof PeriodsPeriodIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/categories/$categoryId': {
@@ -270,6 +290,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   CategoriesCategoryIdRoute: CategoriesCategoryIdRoute,
+  PeriodsPeriodIdRoute: PeriodsPeriodIdRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
   ShopsShopSlugIdProductsProductSlugIdRoute:
     ShopsShopSlugIdProductsProductSlugIdRoute,

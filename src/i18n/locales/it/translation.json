@@ -33,6 +33,9 @@
     },
     "category": {
       "defaultName": "Categoria"
+    },
+    "period": {
+      "defaultName": "Periodo"
     }
   },
   "validation": {
@@ -401,6 +404,9 @@
     "categories": {
       "title": "Scopri le categorie"
     },
+    "periods": {
+      "title": "Scopri i periodi"
+    },
     "features": {
       "title": "L'antiquariato è sparso ovunque online - la tua ricerca non dovrebbe esserlo",
       "subtitle": "Siamo il motore di ricerca più sofisticato per l'antiquariato e ti forniamo tutti gli strumenti per cercare in modo efficiente nel mercato antiquario.",
@@ -573,6 +579,21 @@
       "noResults": {
         "title": "Nessun articolo trovato",
         "description": "Al momento non ci sono articoli in questa categoria."
+      },
+      "error": {
+        "title": "Impossibile caricare gli articoli",
+        "description": "Si è verificato un errore durante il caricamento degli articoli. Riprova più tardi."
+      }
+    }
+  },
+  "period": {
+    "products": {
+      "loadingMore": "Caricamento di altri articoli...",
+      "allLoaded_one": "Hai visualizzato {{count}} articolo in questo periodo.",
+      "allLoaded_other": "Hai visualizzato tutti i {{count}} articoli di questo periodo.",
+      "noResults": {
+        "title": "Nessun articolo trovato",
+        "description": "Al momento non ci sono articoli in questo periodo."
       },
       "error": {
         "title": "Impossibile caricare gli articoli",
