@@ -10,6 +10,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import type { PeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
 import { getPeriodIcon } from "./PeriodsSection.data.ts";
+import { CAROUSEL_AUTOPLAY_DELAY_MS } from "@/components/landing-page/common/landingPageConstants.ts";
 
 type PeriodsSectionProps = {
     readonly periods: PeriodOverview[];
@@ -29,7 +30,7 @@ export default function PeriodsSection({ periods }: PeriodsSectionProps) {
                     }}
                     plugins={[
                         Autoplay({
-                            delay: 2000,
+                            delay: CAROUSEL_AUTOPLAY_DELAY_MS,
                             stopOnInteraction: false,
                             stopOnMouseEnter: true,
                         }),
