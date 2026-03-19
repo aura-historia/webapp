@@ -29,8 +29,7 @@ export function FilterCard({
     return (
         <Collapsible open={isOpen} onOpenChange={setIsOpen} disabled={disabled}>
             <Card className={disabled ? "opacity-50" : undefined}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-                    {" "}
+                <CardHeader className="flex flex-row items-center justify-between space-y-0">
                     <CollapsibleTrigger asChild disabled={disabled}>
                         <button
                             type="button"
@@ -64,7 +63,7 @@ export function FilterCard({
                         </TooltipContent>
                     </Tooltip>
                 </CardHeader>
-                <CollapsibleContent className="overflow-hidden data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up">
+                <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up">
                     <CardContent>{children}</CardContent>
                 </CollapsibleContent>
             </Card>

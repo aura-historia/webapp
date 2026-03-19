@@ -185,12 +185,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
 
     const filterSchema = useMemo(() => createFilterSchema(t), [t]);
 
-    // Problem: The old approach used useEffect + setValue to sync URL→Form.
-    // Each setValue triggered form.watch, which called navigate, which changed the URL,
-    // which re-triggered the useEffect — causing an infinite loop (especially with Date fields,
-    // since new Date("...") !== new Date("...") by reference).
-    //
-    // Solution: The `values` prop syncs URL→Form via an internal reset() call.
+    // The `values` prop syncs URL→Form via an internal reset() call.
     // reset() fires watch with {name: undefined}, which our guard in the watch handler skips.
     // RHF's deepEqual compares Dates by getTime(), so identical dates don't trigger a reset.
     // `keepDirtyValues` preserves in-progress user edits in debounced fields (price, year).
@@ -280,7 +275,12 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />
                 </div>
-                <Button type="button" className="w-full shadow-sm" onClick={handleResetAll}>
+                <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full shadow-sm"
+                    onClick={handleResetAll}
+                >
                     {t("search.resetAllFilters")}
                 </Button>
             </form>
