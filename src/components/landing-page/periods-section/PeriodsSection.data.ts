@@ -5,11 +5,14 @@ import {
     History,
     Landmark,
     Library,
-    Mountain,
     type LucideIcon,
     Palette,
     Scroll,
     Sword,
+    Hammer,
+    Gem,
+    Compass,
+    AppWindow,
 } from "lucide-react";
 
 /**
@@ -17,19 +20,26 @@ import {
  * This is used to display a representative icon for each period in the carousel.
  */
 export const PERIOD_ICON_MAP: Record<string, LucideIcon> = {
-    RENAISSANCE: Palette,
-    BAROQUE: Crown,
-    ROCOCO: Landmark,
-    NEOCLASSICISM: Landmark,
-    ROMANTICISM: Mountain,
-    REALISM: Scroll,
-    IMPRESSIONISM: Palette,
-    ART_NOUVEAU: Flame,
+    ANTIQUITY: Landmark,
     ART_DECO: Castle,
+    ARTS_AND_CRAFTS: Hammer,
+    BAROQUE: Crown,
+    BIEDERMEIER: Scroll,
+    EMPIRE: Gem,
+    EARLY_MODERN: Library,
+    EARLY_MEDIEVAL: Sword,
+    GOTHIC: Castle,
+    HISTORICISM: History,
+    ART_NOUVEAU: Flame,
+    NEOCLASSICISM: Landmark,
+    MANNERISM: Palette,
+    MID_CENTURY_MODERN: AppWindow,
     MODERNISM: Library,
-    POSTMODERNISM: History,
-    MEDIEVAL: Sword,
-    ANCIENT: Landmark,
+    POSTMODERN: History,
+    RENAISSANCE: Palette,
+    ROCOCO: Landmark,
+    ROMANESQUE: Landmark,
+    CONTEMPORARY: Compass,
 };
 
 /**
