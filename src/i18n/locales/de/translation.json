@@ -217,6 +217,7 @@
     "toMerchant": "Zur Seite des Händlers",
     "noDescription": "Keine Beschreibung verfügbar",
     "noImage": "Kein Bild verfügbar",
+    "unseenNotification": "Neu",
     "imageLoadError": "Bild konnte nicht geladen werden",
     "qualityIndicators": {
       "title": "Qualitätsmerkmale",

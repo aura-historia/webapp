@@ -15,6 +15,10 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     };
 });
 
+vi.mock("@/hooks/notification/useMarkNotificationSeen.ts", () => ({
+    useMarkNotificationSeen: () => ({ mutate: vi.fn() }),
+}));
+
 vi.mock("@/hooks/useSimilarProducts.ts", () => ({
     useSimilarProducts: vi.fn(),
 }));

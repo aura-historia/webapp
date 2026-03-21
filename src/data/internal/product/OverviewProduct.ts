@@ -162,5 +162,11 @@ export function mapWatchlistProductDataToOverviewProduct(
             watching: true,
             notifications: apiData.notifications,
         },
+        prohibitedContent: {
+            consent: false,
+        },
+        notification: {
+            seen: true,
+        },
     });
 }

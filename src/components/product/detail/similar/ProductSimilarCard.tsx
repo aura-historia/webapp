@@ -1,4 +1,5 @@
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
+import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotificationBadge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
@@ -9,12 +10,30 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
+import { useCallback } from "react";
+import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
+import { cn } from "@/lib/utils.ts";
 
 export function ProductSimilarCard({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
+    const hasUnseenNotification =
+        product.userData?.notificationData?.hasUnseenNotification ?? false;
+    const originEventId = product.userData?.notificationData?.originEventId;
+    const markSeen = useMarkNotificationSeen();
+
+    const handleProductClick = useCallback(() => {
+        if (hasUnseenNotification && originEventId) {
+            markSeen.mutate(originEventId);
+        }
+    }, [hasUnseenNotification, originEventId, markSeen]);
 
     return (
-        <Card className={"flex flex-col h-full p-0 shadow-md overflow-hidden min-w-0"}>
+        <Card
+            className={cn(
+                "flex flex-col h-full p-0 shadow-md overflow-hidden min-w-0",
+                hasUnseenNotification && "border-2 border-primary",
+            )}
+        >
             <div className={"shrink-0 flex justify-center"}>
                 <Link
                     to="/shops/$shopSlugId/products/$productSlugId"
@@ -23,6 +42,7 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                         productSlugId: product.productSlugId,
                     }}
                     className={"block w-full"}
+                    onClick={handleProductClick}
                 >
                     {product.images.length > 0 ? (
                         <ImageWithFallback
@@ -53,6 +73,7 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                             productSlugId: product.productSlugId,
                         }}
                         className="min-w-0 overflow-hidden"
+                        onClick={handleProductClick}
                     >
                         <H2
                             className={
@@ -73,7 +94,10 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                     }
                 >
                     <div className={"flex flex-col gap-2 shrink-0"}>
-                        <StatusBadge status={product.state} />
+                        <div className="flex flex-wrap gap-2">
+                            <StatusBadge status={product.state} />
+                            {hasUnseenNotification && <UnseenNotificationBadge />}
+                        </div>
                         <PriceText className="min-w-0 overflow-hidden text-ellipsis text-xl! sm:text-2xl! font-bold!">
                             {product.price ?? t("product.unknownPrice")}
                         </PriceText>
@@ -91,6 +115,7 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                                 shopSlugId: product.shopSlugId,
                                 productSlugId: product.productSlugId,
                             }}
+                            onClick={handleProductClick}
                         >
                             <Eye />
                             <span>{t("product.details")}</span>

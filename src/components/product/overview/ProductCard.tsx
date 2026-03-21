@@ -1,4 +1,5 @@
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
+import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotificationBadge.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -13,13 +14,30 @@ import { ProductQualityBadges } from "@/components/product/badges/ProductQuality
 import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
 import { ProductCardImageCarousel } from "@/components/product/overview/ProductCardImageCarousel.tsx";
-import { memo } from "react";
+import { memo, useCallback } from "react";
+import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
+import { cn } from "@/lib/utils.ts";
 
 function ProductCardComponent({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
+    const hasUnseenNotification =
+        product.userData?.notificationData?.hasUnseenNotification ?? false;
+    const originEventId = product.userData?.notificationData?.originEventId;
+    const markSeen = useMarkNotificationSeen();
+
+    const handleProductClick = useCallback(() => {
+        if (hasUnseenNotification && originEventId) {
+            markSeen.mutate(originEventId);
+        }
+    }, [hasUnseenNotification, originEventId, markSeen]);
 
     return (
-        <Card className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0"}>
+        <Card
+            className={cn(
+                "flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0",
+                hasUnseenNotification && "border-2 border-primary",
+            )}
+        >
             <div className={"shrink-0 flex lg:justify-start justify-center"}>
                 <ProductCardImageCarousel
                     images={product.images}
@@ -37,6 +55,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                                 productSlugId: product.productSlugId,
                             }}
                             className="min-w-0 overflow-hidden"
+                            onClick={handleProductClick}
                         >
                             <H2 className={"overflow-ellipsis line-clamp-1 hover:underline"}>
                                 {product.title}
@@ -48,6 +67,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                         <div className="flex flex-wrap gap-2">
                             <StatusBadge status={product.state} />
                             <ProductQualityBadges product={product} />
+                            {hasUnseenNotification && <UnseenNotificationBadge />}
                         </div>
                     </div>
 
@@ -90,6 +110,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                                     shopSlugId: product.shopSlugId,
                                     productSlugId: product.productSlugId,
                                 }}
+                                onClick={handleProductClick}
                             >
                                 <Eye />
                                 <span>{t("product.details")}</span>
