@@ -246,6 +246,8 @@ export type PersonalizedProductSearchResultData = {
  */
 export type ProductUserStateData = {
     watchlist: WatchlistUserStateData;
+    prohibitedContent: ProhibitedContentUserStateData;
+    notification: NotificationUserStateData;
 };
 
 /**
@@ -260,6 +262,41 @@ export type WatchlistUserStateData = {
      * Whether notifications are enabled for this watchlist product
      */
     notifications: boolean;
+};
+
+/**
+ * User's consent state for viewing prohibited content on a product.
+ * When `consent` is `true`, image URLs for images with prohibited content are included in the response.
+ * When `consent` is `false`, image URLs for images with prohibited content are omitted.
+ *
+ */
+export type ProhibitedContentUserStateData = {
+    /**
+     * Whether the user has consented to view prohibited content
+     */
+    consent: boolean;
+};
+
+/**
+ * User's notification seen-state for a product.
+ * When `seen` is `false`, the product has at least one unseen notification for the authenticated user.
+ * When `seen` is `true`, there are no unseen notifications (or no notifications at all) for the user on this product.
+ * Defaults to `true`.
+ * `originEventId` is present whenever at least one notification exists for the user on this product (regardless of `seen` status), and absent when there are no notifications.
+ *
+ */
+export type NotificationUserStateData = {
+    /**
+     * Whether the latest notification for this product has been seen by the user. Defaults to `true` when no notifications exist.
+     */
+    seen: boolean;
+    /**
+     * The ID of the domain event that triggered the latest notification for this product.
+     * Present whenever at least one notification exists for the user on this product (seen or unseen).
+     * Absent (`undefined` / omitted) when no notifications exist for this product.
+     *
+     */
+    originEventId?: string;
 };
 
 /**
@@ -539,13 +576,18 @@ export type ProhibitedContentData = 'UNKNOWN' | 'NONE' | 'NAZI_GERMANY';
 export type ShopTypeData = 'AUCTION_HOUSE' | 'AUCTION_PLATFORM' | 'COMMERCIAL_DEALER' | 'MARKETPLACE';
 
 /**
- * Product image with prohibited content classification
+ * Product image with prohibited content classification.
+ * The `url` field is omitted when the image contains prohibited content and the authenticated user has not consented to view such content.
+ * For unauthenticated users the `url` is always omitted for any image whose `prohibitedContent` is not `NONE`.
+ *
  */
 export type ProductImageData = {
     /**
-     * URL to the product image
+     * URL to the product image.
+     * Absent when the image has prohibited content (`prohibitedContent != "NONE"`) and the user has not given consent (`prohibitedContent.consent == false`).
+     *
      */
-    url: string;
+    url?: string;
     prohibitedContent: ProhibitedContentData;
 };
 
@@ -722,7 +764,7 @@ export type PostUserSearchFilterData = {
 /**
  * Partial search filter update data.
  * All fields are optional and only provided fields will be updated.
- * Can update the search filter name and/or the search filter criteria.
+ * Can update the search filter name, notifications preference, and/or the search filter criteria.
  *
  */
 export type PatchUserSearchFilterData = {
@@ -730,6 +772,14 @@ export type PatchUserSearchFilterData = {
      * User-defined name for the search filter (max 255 characters, will be truncated if longer)
      */
     name?: string | null;
+    /**
+     * Whether to enable or disable email/push notifications for new products matching this search filter.
+     * When `true`, the user will be notified when a new product matches this filter.
+     * When `false`, no notifications are sent for this filter.
+     * Omit to leave unchanged.
+     *
+     */
+    notifications?: boolean | null;
     /**
      * Partial search filter criteria to update
      */
@@ -855,6 +905,14 @@ export type UserSearchFilterData = {
      * User-defined name for the search filter
      */
     name: string;
+    /**
+     * Whether notifications are enabled for this search filter.
+     * When `true`, the user will be notified when a new product matches this filter.
+     * When `false`, no notifications are sent for this filter.
+     * Defaults to `true` for newly created filters.
+     *
+     */
+    notifications: boolean;
     productSearch: ProductSearchData;
     /**
      * When the search filter was created (RFC3339 format)
@@ -1543,11 +1601,14 @@ export type GetNotificationData = {
 /**
  * The notification payload. The structure depends on the `type` discriminator field:
  * - `WATCHLIST`: Notification triggered by a watchlist event (price change or state change).
+ * - `SEARCH_FILTER`: Notification triggered when a new product matches a user's search filter.
  *
  */
-export type NotificationPayloadData = {
+export type NotificationPayloadData = ({
     type: 'WATCHLIST';
-} & WatchlistNotificationPayloadData;
+} & WatchlistNotificationPayloadData) | ({
+    type: 'SEARCH_FILTER';
+} & SearchFilterNotificationPayloadData);
 
 /**
  * Notification payload for a watchlist event.
@@ -1625,6 +1686,56 @@ export type StateChangeWatchlistPayloadData = {
     type: 'STATE_CHANGE';
     oldState: ProductStateData;
     newState: ProductStateData;
+};
+
+/**
+ * Notification payload for a search filter match event. Triggered when a new or updated product matches a user's saved search filter.
+ */
+export type SearchFilterNotificationPayloadData = {
+    /**
+     * Discriminator field identifying this as a search filter notification.
+     */
+    type: 'SEARCH_FILTER';
+    /**
+     * Internal product identifier.
+     */
+    productId: string;
+    /**
+     * Unique identifier of the shop.
+     */
+    shopId: string;
+    /**
+     * Shop's own identifier for the product.
+     */
+    shopsProductId: string;
+    /**
+     * URL-friendly slug identifier for the shop.
+     */
+    shopSlugId: string;
+    /**
+     * URL-friendly slug identifier for the product (6-character suffix).
+     */
+    productSlugId: string;
+    /**
+     * Display name of the shop.
+     */
+    shopName: string;
+    title: LocalizedTextData;
+    searchFilterPayload: SearchFilterPayloadData;
+};
+
+/**
+ * Search-filter-specific sub-payload identifying which saved filter matched the product.
+ */
+export type SearchFilterPayloadData = {
+    /**
+     * Unique identifier of the user's search filter that matched the product.
+     */
+    userSearchFilterId: string;
+    /**
+     * User-defined name of the search filter that matched the product.
+     */
+    userSearchFilterName: string;
 };
 
 /**
