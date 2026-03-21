@@ -25,7 +25,7 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
         if (hasUnseenNotification && originEventId) {
             markSeen.mutate(originEventId);
         }
-    }, [hasUnseenNotification, originEventId, markSeen]);
+    }, [hasUnseenNotification, originEventId, markSeen.mutate]);
 
     return (
         <Card

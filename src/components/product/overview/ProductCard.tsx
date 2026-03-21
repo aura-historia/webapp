@@ -29,7 +29,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
         if (hasUnseenNotification && originEventId) {
             markSeen.mutate(originEventId);
         }
-    }, [hasUnseenNotification, originEventId, markSeen]);
+    }, [hasUnseenNotification, originEventId, markSeen.mutate]);
 
     return (
         <Card

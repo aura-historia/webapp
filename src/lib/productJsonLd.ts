@@ -46,7 +46,8 @@ export function generateProductJsonLd(apiData: PersonalizedGetProductData): Prod
     if (product.images && product.images.length > 0) {
         const validImages = product.images
             .filter((img) => img.prohibitedContent === "NONE" && img.url)
-            .map((img) => img.url) as string[];
+            .map((img) => img.url)
+            .filter((url): url is string => url !== undefined);
         jsonLd.image = validImages.length > 0 ? validImages : [BANNER_IMAGE_URL];
     } else {
         jsonLd.image = [BANNER_IMAGE_URL];

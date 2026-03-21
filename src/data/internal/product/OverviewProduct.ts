@@ -165,6 +165,7 @@ export function mapWatchlistProductDataToOverviewProduct(
         prohibitedContent: {
             consent: false,
         },
+        // Watchlist endpoint does not carry per-product notification seen-state; default to seen
         notification: {
             seen: true,
         },
