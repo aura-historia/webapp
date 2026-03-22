@@ -264,7 +264,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
     return (
         <Form {...form}>
             <form className="space-y-4">
-                <div className="flex flex-col gap-4 min-w-[350px]">
+                <div className="flex flex-col gap-4 min-w-87.5">
                     <ProductStateFilter />
                     <PriceSpanFilter />
                     <PeriodFilter />

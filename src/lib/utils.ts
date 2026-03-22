@@ -2,7 +2,6 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
 import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
-import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
 import {
     isCreatedEvent,
     isPriceChangedEvent,
@@ -129,7 +128,7 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
         q: data.query,
         priceFrom: data.priceSpan?.min,
         priceTo: data.priceSpan?.max,
-        allowedStates: data.productState?.length ? data.productState : [...PRODUCT_STATES],
+        allowedStates: data.productState?.length ? data.productState : [],
         creationDateFrom: creationDate.from,
         creationDateTo: creationDate.to,
         updateDateFrom: updateDate.from,
