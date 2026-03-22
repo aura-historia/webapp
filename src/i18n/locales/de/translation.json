@@ -33,6 +33,9 @@
     },
     "category": {
       "defaultName": "Kategorie"
+    },
+    "period": {
+      "defaultName": "Epoche"
     }
   },
   "validation": {
@@ -76,6 +79,7 @@
     "title": "Mein Account",
     "personalData": {
       "title": "Persönliche Daten",
+      "emailLabel": "E-Mail",
       "firstNameLabel": "Vorname",
       "lastNameLabel": "Nachname",
       "languageLabel": "Sprache",
@@ -400,6 +404,9 @@
     "categories": {
       "title": "Kategorien durchstöbern"
     },
+    "periods": {
+      "title": "Epochen und Stile entdecken"
+    },
     "features": {
       "title": "Antiquitäten sind überall im Internet verstreut - Ihre Suche sollte es nicht sein",
       "subtitle": "Wir sind die fortgeschrittenste Suchmaschine für Antiquitäten und bieten Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen.",
@@ -572,6 +579,21 @@
       "noResults": {
         "title": "Keine Artikel gefunden",
         "description": "In dieser Kategorie sind derzeit keine Artikel vorhanden."
+      },
+      "error": {
+        "title": "Artikel konnten nicht geladen werden",
+        "description": "Beim Laden der Artikel ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
+      }
+    }
+  },
+  "period": {
+    "products": {
+      "loadingMore": "Weitere Artikel werden geladen...",
+      "allLoaded_one": "Sie haben {{count}} Artikel in dieser Epoche gesehen.",
+      "allLoaded_other": "Sie haben alle {{count}} Artikel dieser Epoche gesehen.",
+      "noResults": {
+        "title": "Keine Artikel gefunden",
+        "description": "In dieser Epoche sind derzeit keine Artikel vorhanden."
       },
       "error": {
         "title": "Artikel konnten nicht geladen werden",

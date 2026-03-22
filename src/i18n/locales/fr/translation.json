@@ -33,6 +33,9 @@
     },
     "category": {
       "defaultName": "Catégorie"
+    },
+    "period": {
+      "defaultName": "Période"
     }
   },
   "validation": {
@@ -399,7 +402,10 @@
     "trustBadge2": "Annonces mises à jour en continu",
     "trustBadge3": "Conçu pour les collectionneurs sérieux",
     "categories": {
-      "title": "Découvrir les catégories"
+      "title": "Parcourir les catégories"
+    },
+    "periods": {
+      "title": "Découvrir les époques et les styles"
     },
     "features": {
       "title": "Les antiquités sont dispersées partout en ligne - votre recherche ne devrait pas l'être",
@@ -573,6 +579,21 @@
       "noResults": {
         "title": "Aucun article trouvé",
         "description": "Il n'y a actuellement aucun article dans cette catégorie."
+      },
+      "error": {
+        "title": "Impossible de charger les articles",
+        "description": "Une erreur s'est produite lors du chargement des articles. Veuillez réessayer plus tard."
+      }
+    }
+  },
+  "period": {
+    "products": {
+      "loadingMore": "Chargement d'autres articles...",
+      "allLoaded_one": "Vous avez consulté {{count}} article dans cette période.",
+      "allLoaded_other": "Vous avez consulté les {{count}} articles de cette période.",
+      "noResults": {
+        "title": "Aucun article trouvé",
+        "description": "Il n'y a actuellement aucun article dans cette période."
       },
       "error": {
         "title": "Impossible de charger les articles",

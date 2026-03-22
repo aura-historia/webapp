@@ -33,6 +33,9 @@
     },
     "category": {
       "defaultName": "Category"
+    },
+    "period": {
+      "defaultName": "Period"
     }
   },
   "validation": {
@@ -399,7 +402,10 @@
     "trustBadge2": "Continuously updated listings",
     "trustBadge3": "Built for serious collectors",
     "categories": {
-      "title": "Discover Categories"
+      "title": "Browse Categories"
+    },
+    "periods": {
+      "title": "Discover Periods and Styles"
     },
     "features": {
       "title": "Antiques are scattered everywhere online - your search shouldn't be",
@@ -573,6 +579,21 @@
       "noResults": {
         "title": "No items found",
         "description": "There are currently no items in this category."
+      },
+      "error": {
+        "title": "Could not load items",
+        "description": "An error occurred while loading items. Please try again later."
+      }
+    }
+  },
+  "period": {
+    "products": {
+      "loadingMore": "Loading more items...",
+      "allLoaded_one": "You have seen {{count}} item in this period.",
+      "allLoaded_other": "You have seen all {{count}} items in this period.",
+      "noResults": {
+        "title": "No items found",
+        "description": "There are currently no items in this period."
       },
       "error": {
         "title": "Could not load items",
