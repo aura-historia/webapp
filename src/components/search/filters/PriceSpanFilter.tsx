@@ -61,7 +61,7 @@ export function PriceSpanFilter() {
             resetTooltip={t("search.filter.resetTooltip.priceSpan")}
             onReset={() => resetAndNavigate("priceSpan")}
         >
-            <div className="flex flex-col gap-4">
+            <div className="flex mt-4 flex-col gap-4">
                 <Slider
                     className="z-0"
                     value={[sliderMin, sliderMax]}

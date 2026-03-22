@@ -16,6 +16,7 @@ import type { Provenance } from "@/data/internal/quality-indicators/Provenance.t
 import type { Restoration } from "@/data/internal/quality-indicators/Restoration.ts";
 import type { ShopType } from "@/data/internal/shop/ShopType.ts";
 import type { CheckedState } from "@radix-ui/react-checkbox";
+import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -128,7 +129,7 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
         q: data.query,
         priceFrom: data.priceSpan?.min,
         priceTo: data.priceSpan?.max,
-        allowedStates: data.productState?.length ? data.productState : undefined,
+        allowedStates: data.productState ?? FILTER_DEFAULTS.productState,
         creationDateFrom: creationDate.from,
         creationDateTo: creationDate.to,
         updateDateFrom: updateDate.from,
@@ -141,7 +142,7 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
         periodId: data.periodId?.length ? data.periodId : undefined,
         originYearMin: data.originYearSpan?.min,
         originYearMax: data.originYearSpan?.max,
-        authenticity: data.authenticity?.length ? data.authenticity : undefined,
+        authenticity: data.authenticity?.length ? data.authenticity : FILTER_DEFAULTS.authenticity,
         condition: data.condition?.length ? data.condition : undefined,
         provenance: data.provenance?.length ? data.provenance : undefined,
         restoration: data.restoration?.length ? data.restoration : undefined,

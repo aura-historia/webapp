@@ -6,7 +6,7 @@ import {
     createRoute,
     createRouter,
 } from "@tanstack/react-router";
-import { render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { SearchQueryProvider } from "@/hooks/search/useSearchQueryContext.tsx";
@@ -93,4 +93,8 @@ export function renderWithQueryClient(ui: React.ReactElement) {
         },
     });
     return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
+}
+
+export function expandFilterCard(title: string) {
+    fireEvent.click(screen.getByText(title));
 }

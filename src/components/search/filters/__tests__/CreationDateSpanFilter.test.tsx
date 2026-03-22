@@ -3,6 +3,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
+import { expandFilterCard } from "@/test/utils.tsx";
 
 vi.mock("@/hooks/search/useFilterNavigation", () => ({
     useFilterNavigation: () => vi.fn(),
@@ -29,6 +30,7 @@ describe("CreationDateSpanFilter", () => {
         );
 
         expect(screen.getByText("Hinzugefügt")).toBeInTheDocument();
+        expandFilterCard("Hinzugefügt");
         expect(screen.getAllByText("Beliebig")).toHaveLength(2);
     });
 
@@ -40,6 +42,7 @@ describe("CreationDateSpanFilter", () => {
         );
 
         const user = userEvent.setup();
+        expandFilterCard("Hinzugefügt");
         const datePickers = screen.getAllByText("Beliebig");
 
         await user.click(datePickers[0]);
@@ -55,6 +58,7 @@ describe("CreationDateSpanFilter", () => {
         );
 
         const user = userEvent.setup();
+        expandFilterCard("Hinzugefügt");
         const datePickers = screen.getAllByText("Beliebig");
 
         await user.click(datePickers[1]);
@@ -70,6 +74,7 @@ describe("CreationDateSpanFilter", () => {
         );
 
         const user = userEvent.setup();
+        expandFilterCard("Hinzugefügt");
         const datePickers = screen.getAllByText("Beliebig");
 
         await user.click(datePickers[0]);
@@ -91,6 +96,7 @@ describe("CreationDateSpanFilter", () => {
         );
 
         const user = userEvent.setup();
+        expandFilterCard("Hinzugefügt");
         const datePickers = screen.getAllByText("Beliebig");
 
         await user.click(datePickers[1]);
@@ -112,6 +118,7 @@ describe("CreationDateSpanFilter", () => {
         );
 
         const user = userEvent.setup();
+        expandFilterCard("Hinzugefügt");
         const datePickers = screen.getAllByText("Beliebig");
 
         await user.click(datePickers[0]);
