@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card.tsx";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { Check, Shield } from "lucide-react";
-import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
+import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
 import { TRUST_BADGE_KEYS } from "@/components/landing-page/hero-section/HeroSection.data.ts";
 import claudeLorrain from "@/assets/landing-page/claude-lorrain.webp";
 
@@ -19,7 +19,7 @@ export default function HeroSection() {
     }, []);
 
     return (
-        <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <section className="hero-section-safari-offset min-h-screen flex items-center justify-center relative overflow-hidden">
             {/* Background image */}
             <img
                 src={claudeLorrain}

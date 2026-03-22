@@ -20,7 +20,7 @@ Tratamos datos personales exclusivamente:
 - de acuerdo con los principios de **minimización de datos**, **limitación de la finalidad** e **integridad**
 - únicamente en la medida necesaria para la finalidad correspondiente
 
-No se realiza tratamiento con fines publicitarios, de seguimiento o de elaboración de perfiles.
+El análisis estadístico del uso del sitio web se realiza de forma anonimizada. El seguimiento personalizado y el uso de cookies con fines de análisis solo se llevan a cabo con su consentimiento explícito (véase la sección 6.3).
 
 ---
 
@@ -108,13 +108,20 @@ Además de las cookies funcionales, se utiliza **almacenamiento local** para fun
 - gestión de sesiones
 - almacenamiento de preferencias funcionales del usuario
 
-### 6.3 Sin Seguimiento
+### 6.3 Google Analytics
 
-**No se utilizan cookies de seguimiento o publicidad**. No se realiza ningún seguimiento entre usuarios.
+Este sitio web utiliza Google Analytics, un servicio de análisis web prestado por Google Ireland Limited ("Google"). Google Analytics utiliza "cookies", archivos de texto que se almacenan en su ordenador y que permiten un análisis de su uso del sitio web.
 
-La base jurídica es el § 25 apdo. 2 n.º 2 TTDSG, ya que el uso es técnicamente necesario.
+#### 6.3.1 Anonimización de la IP
 
----
+Hemos activado la función de anonimización de la IP en este sitio web. Como resultado, su dirección IP será truncada por Google dentro de los Estados miembros de la Unión Europea o in otros Estados contratantes del Acuerdo sobre el Espacio Económico Europeo antes de ser transmitida a los EE. UU. La dirección IP transmitida por su navegador en el contexto de Google Analytics no se fusionará con otros datos de Google.
+
+#### 6.3.2 Base Jurídica y Revocación
+
+La base jurídica para el uso de cookies y el seguimiento personalizado es su consentimiento de conformidad con el Art. 6 apdo. 1 letra a del RGPD y el § 25 apdo. 1 de la TTDSG. El tratamiento de eventos de seguimiento anonimizados (sin cookies) con fines de análisis estadístico se lleva a cabo sobre la base de nuestro interés legítimo en el diseño y la optimización de nuestro sitio web en función de las necesidades, de conformidad con el Art. 6 apdo. 1 letra f del RGPD.
+
+Puede evitar el almacenamiento de cookies configurando el software de su navegador de forma correspondiente; sin embargo, le informamos que, en este caso, es posible que no pueda utilizar todas las funciones de este sitio web en toda su extensión. Además, puede revocar su consentimiento en cualquier momento y desactivar Google Analytics modificando sus preferencias de consentimiento en el banner de cookies.
+
 
 ## 7. Web Scraping y Tratamiento de Contenidos Externos
 

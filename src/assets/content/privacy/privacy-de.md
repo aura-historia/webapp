@@ -20,7 +20,7 @@ Wir verarbeiten personenbezogene Daten ausschließlich:
 - nach den Grundsätzen der **Datenminimierung**, **Zweckbindung** und **Integrität**
 - nur in dem Umfang, der für den jeweiligen Zweck erforderlich ist
 
-Eine Verarbeitung zu Werbe-, Tracking- oder Profilingzwecken findet **nicht** statt.
+Die statistische Analyse der Website-Nutzung erfolgt in anonymisierter Form. Ein personalisiertes Tracking sowie der Einsatz von Cookies zu Analysezwecken erfolgen nur mit Ihrer ausdrücklichen Einwilligung (siehe Abschnitt 6.3).
 
 ---
 
@@ -108,13 +108,20 @@ Zusätzlich zu funktionalen Cookies wird **Local Storage** für technisch notwen
 - Sitzungsverwaltung
 - Speicherung funktionaler Nutzerpräferenzen
 
-### 6.3 Kein Tracking
+### 6.3 Google Analytics
 
-Es findet **kein Einsatz von Tracking- oder Werbe-Cookies** statt. Eine nutzerübergreifende Nachverfolgung findet nicht statt.
+Diese Website nutzt Funktionen des Webanalysedienstes Google Analytics. Anbieter ist die Google Ireland Limited („Google“). Google Analytics verwendet so genannte „Cookies“. Das sind Textdateien, die auf Ihrem Computer gespeichert werden und die eine Analyse der Benutzung der Website durch Sie ermöglichen.
 
-Rechtsgrundlage ist § 25 Abs. 2 Nr. 2 TTDSG, da der Einsatz technisch erforderlich ist.
+#### 6.3.1 IP-Anonymisierung
 
----
+Wir haben auf dieser Website die Funktion IP-Anonymisierung aktiviert. Dadurch wird Ihre IP-Adresse von Google innerhalb von Mitgliedstaaten der Europäischen Union oder in anderen Vertragsstaaten des Abkommens über den Europäischen Wirtschaftsraum vor der Übermittlung in die USA gekürzt. Die im Rahmen von Google Analytics von Ihrem Browser übermittelte IP-Adresse wird nicht mit anderen Daten von Google zusammengeführt.
+
+#### 6.3.2 Rechtsgrundlage und Widerruf
+
+Die Rechtsgrundlage für den Einsatz von Cookies und personalisiertem Tracking ist Ihre Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TTDSG. Die Verarbeitung anonymisierter Tracking-Events (ohne Cookies) zum Zwecke der statistischen Analyse erfolgt auf Grundlage unseres berechtigten Interesses an der bedarfsgerechten Gestaltung und Optimierung unserer Website gemäß Art. 6 Abs. 1 lit. f DSGVO.
+
+Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihrer Browser-Software verhindern; wir weisen Sie darauf hin, dass Sie in diesem Fall gegebenenfalls nicht sämtliche Funktionen dieser Website vollumfänglich werden nutzen können. Sie können Ihre Einwilligung jederzeit widerrufen und Google Analytics deaktivieren, indem Sie Ihre Präferenzen im Cookie-Banner anpassen.
+
 
 ## 7. Web-Scraping und Verarbeitung externer Inhalte
 

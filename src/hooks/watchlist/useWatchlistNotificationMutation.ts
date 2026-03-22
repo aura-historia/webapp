@@ -2,15 +2,20 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { patchWatchlistProduct, type PersonalizedGetProductData } from "@/client";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { getProductQueryKey } from "@/client/@tanstack/react-query.gen.ts";
+import {
+    getProductBySlugQueryKey,
+    getProductQueryKey,
+} from "@/client/@tanstack/react-query.gen.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
+import { useParams } from "@tanstack/react-router";
 
 export function useWatchlistNotificationMutation(shopId: string, shopsProductId: string) {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
 
+    const routeParams = useParams({ strict: false, shouldThrow: false });
     const { t, i18n } = useTranslation();
 
     return useMutation({
@@ -55,6 +60,30 @@ export function useWatchlistNotificationMutation(shopId: string, shopsProductId:
                         },
                     },
             );
+
+            if (routeParams?.shopSlugId !== undefined && routeParams?.productSlugId !== undefined) {
+                // Update product detail query
+                queryClient.setQueryData(
+                    getProductBySlugQueryKey({
+                        query: { language: parseLanguage(i18n.language) },
+                        path: {
+                            shopSlugId: routeParams.shopSlugId,
+                            productSlugId: routeParams.productSlugId,
+                        },
+                    }),
+                    (old: PersonalizedGetProductData | undefined) =>
+                        old && {
+                            ...old,
+                            userState: {
+                                ...old.userState,
+                                watchlist: {
+                                    watching: old.userState?.watchlist?.watching ?? true,
+                                    notifications: data.notifications,
+                                },
+                            },
+                        },
+                );
+            }
 
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ["watchlist"] }),

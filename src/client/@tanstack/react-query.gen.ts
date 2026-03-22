@@ -3,8 +3,8 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistProduct, complexSearchProducts, createShop, createUserSearchFilter, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getShopByDomain, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchWatchlistProduct, putProducts, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateShopByDomain, updateShopById, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateShopData, CreateShopError, CreateShopResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetShopByDomainData, GetShopByDomainError, GetShopByDomainResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PutProductsData, PutProductsError, PutProductsResponse2, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateShopByDomainData, UpdateShopByDomainError, UpdateShopByDomainResponse, UpdateShopByIdData, UpdateShopByIdError, UpdateShopByIdResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import { addWatchlistProduct, complexSearchProducts, createShop, createUserSearchFilter, deleteAllNotifications, deleteNotification, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getShopByDomain, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchWatchlistProduct, putProducts, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateShopByDomain, updateShopById, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateShopData, CreateShopError, CreateShopResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetShopByDomainData, GetShopByDomainError, GetShopByDomainResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PutProductsData, PutProductsError, PutProductsResponse2, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateShopByDomainData, UpdateShopByDomainError, UpdateShopByDomainResponse, UpdateShopByIdData, UpdateShopByIdError, UpdateShopByIdResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -71,7 +71,7 @@ export const getProductBySlugQueryKey = (options: Options<GetProductBySlugData>)
  * Get a single product by slug
  *
  * Retrieves a single product by its shop slug ID and product slug ID.
- * Returns localized content based on Accept-Language header and currency preferences.
+ * Returns localized content based on the optional `language` query parameter and currency preferences.
  *
  * **Human-Readable Identifiers**: This endpoint uses slug-based identifiers which are human-readable
  * kebab-case strings. Shop slugs are derived from the shop name (e.g., "tech-store-premium"),
@@ -426,7 +426,8 @@ export const getUserAccountQueryKey = (options?: Options<GetUserAccountData2>) =
 /**
  * Get user account data
  *
- * Retrieves the authenticated user's account information including email, name, language, and currency preferences.
+ * Retrieves the authenticated user's account information including email, name, language and currency preferences,
+ * and the consent flag for displaying prohibited content.
  * Requires valid Cognito JWT authentication.
  *
  */
@@ -500,6 +501,121 @@ export const patchWatchlistProductMutation = (options?: Partial<Options<PatchWat
     const mutationOptions: UseMutationOptions<PatchWatchlistProductResponse, PatchWatchlistProductError, Options<PatchWatchlistProductData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await patchWatchlistProduct({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Delete all notifications
+ *
+ * Deletes all notifications for the authenticated user.
+ * Returns 204 No Content on success.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const deleteAllNotificationsMutation = (options?: Partial<Options<DeleteAllNotificationsData>>): UseMutationOptions<DeleteAllNotificationsResponse, DeleteAllNotificationsError, Options<DeleteAllNotificationsData>> => {
+    const mutationOptions: UseMutationOptions<DeleteAllNotificationsResponse, DeleteAllNotificationsError, Options<DeleteAllNotificationsData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deleteAllNotifications({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getNotificationsQueryKey = (options?: Options<GetNotificationsData>) => createQueryKey('getNotifications', options);
+
+/**
+ * List user notifications
+ *
+ * Retrieves the authenticated user's notifications, sorted latest-first.
+ * Results are paginated using search-after cursor-based pagination with an event ID cursor.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getNotificationsOptions = (options?: Options<GetNotificationsData>) => queryOptions<GetNotificationsResponse, GetNotificationsError, GetNotificationsResponse, ReturnType<typeof getNotificationsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getNotifications({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getNotificationsQueryKey(options)
+});
+
+/**
+ * Update all notifications
+ *
+ * Updates all notifications for the authenticated user.
+ * Accepts an optional `PatchNotificationData` body. If the body is omitted or empty,
+ * the update command defaults to no-op field values (e.g. `seen` remains unchanged).
+ * Returns the first page of the updated notifications, localized by the given `language` and `currency` query parameters.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const patchAllNotificationsMutation = (options?: Partial<Options<PatchAllNotificationsData>>): UseMutationOptions<PatchAllNotificationsResponse, PatchAllNotificationsError, Options<PatchAllNotificationsData>> => {
+    const mutationOptions: UseMutationOptions<PatchAllNotificationsResponse, PatchAllNotificationsError, Options<PatchAllNotificationsData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await patchAllNotifications({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Delete a single notification
+ *
+ * Deletes the notification identified by `eventId` for the authenticated user.
+ * Returns 204 No Content on success.
+ * Returns 404 if no notification with the given event ID exists for this user.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const deleteNotificationMutation = (options?: Partial<Options<DeleteNotificationData>>): UseMutationOptions<DeleteNotificationResponse, DeleteNotificationError, Options<DeleteNotificationData>> => {
+    const mutationOptions: UseMutationOptions<DeleteNotificationResponse, DeleteNotificationError, Options<DeleteNotificationData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deleteNotification({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Update a single notification
+ *
+ * Updates the fields of a single notification identified by `eventId`.
+ * The request body is required and must contain at least one field.
+ * Returns the updated, localized notification.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const patchNotificationMutation = (options?: Partial<Options<PatchNotificationData2>>): UseMutationOptions<PatchNotificationResponse, PatchNotificationError, Options<PatchNotificationData2>> => {
+    const mutationOptions: UseMutationOptions<PatchNotificationResponse, PatchNotificationError, Options<PatchNotificationData2>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await patchNotification({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

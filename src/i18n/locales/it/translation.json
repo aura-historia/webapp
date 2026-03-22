@@ -30,6 +30,9 @@
     },
     "watchlist": {
       "title": "La mia lista dei preferiti | Aura Historia"
+    },
+    "category": {
+      "defaultName": "Categoria"
     }
   },
   "validation": {
@@ -704,5 +707,11 @@
     "codeMismatch": "Il codice inserito non è corretto.",
     "confirmationCodeCannotBeEmpty": "Il codice di conferma non può essere vuoto.",
     "invalidCodeProvidedRequestAgain": "Codice non valido, richiedi un nuovo codice."
+  },
+  "consent": {
+    "title": "Rispettiamo la tua privacy",
+    "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Cliccando su 'Accetta', acconsenti all'uso dei cookie per questi scopi. Puoi trovare maggiori informazioni nella nostra <1>informativa sulla privacy</1>.",
+    "accept": "Accetta",
+    "reject": "Rifiuta"
   }
 }

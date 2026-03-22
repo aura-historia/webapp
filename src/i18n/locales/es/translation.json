@@ -30,6 +30,9 @@
     },
     "watchlist": {
       "title": "Mi lista de seguimiento | Aura Historia"
+    },
+    "category": {
+      "defaultName": "Categoría"
     }
   },
   "validation": {
@@ -704,5 +707,11 @@
     "codeMismatch": "El código introducido es incorrecto.",
     "confirmationCodeCannotBeEmpty": "El código de confirmación no puede estar vacío.",
     "invalidCodeProvidedRequestAgain": "Código inválido, por favor solicite uno nuevo."
+  },
+  "consent": {
+    "title": "Valoramos tu privacidad",
+    "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Al hacer clic en 'Aceptar', das tu consentimiento para el uso de cookies con estos fines. Puede encontrar más información en nuestra <1>política de privacidad</1>.",
+    "accept": "Aceptar",
+    "reject": "Rechazar"
   }
 }
