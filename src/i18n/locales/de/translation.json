@@ -79,6 +79,7 @@
     "title": "Mein Account",
     "personalData": {
       "title": "Persönliche Daten",
+      "emailLabel": "E-Mail",
       "firstNameLabel": "Vorname",
       "lastNameLabel": "Nachname",
       "languageLabel": "Sprache",
@@ -404,7 +405,7 @@
       "title": "Kategorien durchstöbern"
     },
     "periods": {
-      "title": "Epochen durchstöbern"
+      "title": "Epochen und Stile entdecken"
     },
     "features": {
       "title": "Antiquitäten sind überall im Internet verstreut - Ihre Suche sollte es nicht sein",
