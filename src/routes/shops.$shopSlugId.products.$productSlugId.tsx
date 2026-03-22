@@ -17,8 +17,8 @@ export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId
     loader: async ({ context: { queryClient }, params: { shopSlugId, productSlugId } }) => {
         const productData = await queryClient.ensureQueryData(
             getProductBySlugOptions({
-                headers: {
-                    "Accept-Language": parseLanguage(i18n.language),
+                query: {
+                    language: parseLanguage(i18n.language),
                 },
                 path: { shopSlugId, productSlugId },
             }),
@@ -50,8 +50,8 @@ function ProductDetailComponent() {
 
     const { data: apiData } = useSuspenseQuery(
         getProductBySlugOptions({
-            headers: {
-                "Accept-Language": parseLanguage(i18n.language),
+            query: {
+                language: parseLanguage(i18n.language),
             },
             path: { shopSlugId, productSlugId },
         }),

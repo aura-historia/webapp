@@ -30,6 +30,12 @@
     },
     "watchlist": {
       "title": "My Watchlist | Aura Historia"
+    },
+    "category": {
+      "defaultName": "Category"
+    },
+    "period": {
+      "defaultName": "Period"
     }
   },
   "validation": {
@@ -398,7 +404,10 @@
     "trustBadge2": "Continuously updated listings",
     "trustBadge3": "Built for serious collectors",
     "categories": {
-      "title": "Discover Categories"
+      "title": "Browse Categories"
+    },
+    "periods": {
+      "title": "Discover Periods and Styles"
     },
     "features": {
       "title": "Antiques are scattered everywhere online - your search shouldn't be",
@@ -579,6 +588,21 @@
       }
     }
   },
+  "period": {
+    "products": {
+      "loadingMore": "Loading more items...",
+      "allLoaded_one": "You have seen {{count}} item in this period.",
+      "allLoaded_other": "You have seen all {{count}} items in this period.",
+      "noResults": {
+        "title": "No items found",
+        "description": "There are currently no items in this period."
+      },
+      "error": {
+        "title": "Could not load items",
+        "description": "An error occurred while loading items. Please try again later."
+      }
+    }
+  },
   "share": {
     "copyLink": "Copy link",
     "copied": "Copied!",
@@ -708,5 +732,11 @@
     "codeMismatch": "The code entered is incorrect.",
     "confirmationCodeCannotBeEmpty": "Confirmation code cannot be empty.",
     "invalidCodeProvidedRequestAgain": "Invalid code provided, please request a code again."
+  },
+  "consent": {
+    "title": "We value your privacy",
+    "description": "We use cookies to analyze web traffic and improve your user experience. By clicking 'Accept', you consent to our use of cookies for these purposes. You can find more information in our <1>privacy policy</1>.",
+    "accept": "Accept",
+    "reject": "Reject"
   }
 }

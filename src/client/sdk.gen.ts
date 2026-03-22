@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateShopData, CreateShopErrors, CreateShopResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetShopByDomainData, GetShopByDomainErrors, GetShopByDomainResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PutProductsData, PutProductsErrors, PutProductsResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateShopByDomainData, UpdateShopByDomainErrors, UpdateShopByDomainResponses, UpdateShopByIdData, UpdateShopByIdErrors, UpdateShopByIdResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateShopData, CreateShopErrors, CreateShopResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAllNotificationsData, DeleteAllNotificationsErrors, DeleteAllNotificationsResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetNotificationsData, GetNotificationsErrors, GetNotificationsResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetShopByDomainData, GetShopByDomainErrors, GetShopByDomainResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchAllNotificationsData, PatchAllNotificationsErrors, PatchAllNotificationsResponses, PatchNotificationData2, PatchNotificationErrors, PatchNotificationResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PutProductsData, PutProductsErrors, PutProductsResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateShopByDomainData, UpdateShopByDomainErrors, UpdateShopByDomainResponses, UpdateShopByIdData, UpdateShopByIdErrors, UpdateShopByIdResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -353,6 +353,88 @@ export const deleteWatchlistProduct = <ThrowOnError extends boolean = false>(opt
 export const patchWatchlistProduct = <ThrowOnError extends boolean = false>(options: Options<PatchWatchlistProductData, ThrowOnError>) => (options.client ?? client).patch<PatchWatchlistProductResponses, PatchWatchlistProductErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/me/watchlist/{shopId}/{shopsProductId}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Delete all notifications
+ *
+ * Deletes all notifications for the authenticated user.
+ * Returns 204 No Content on success.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const deleteAllNotifications = <ThrowOnError extends boolean = false>(options?: Options<DeleteAllNotificationsData, ThrowOnError>) => (options?.client ?? client).delete<DeleteAllNotificationsResponses, DeleteAllNotificationsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/notifications',
+    ...options
+});
+
+/**
+ * List user notifications
+ *
+ * Retrieves the authenticated user's notifications, sorted latest-first.
+ * Results are paginated using search-after cursor-based pagination with an event ID cursor.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getNotifications = <ThrowOnError extends boolean = false>(options?: Options<GetNotificationsData, ThrowOnError>) => (options?.client ?? client).get<GetNotificationsResponses, GetNotificationsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/notifications',
+    ...options
+});
+
+/**
+ * Update all notifications
+ *
+ * Updates all notifications for the authenticated user.
+ * Accepts an optional `PatchNotificationData` body. If the body is omitted or empty,
+ * the update command defaults to no-op field values (e.g. `seen` remains unchanged).
+ * Returns the first page of the updated notifications, localized by the given `language` and `currency` query parameters.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const patchAllNotifications = <ThrowOnError extends boolean = false>(options?: Options<PatchAllNotificationsData, ThrowOnError>) => (options?.client ?? client).patch<PatchAllNotificationsResponses, PatchAllNotificationsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/notifications',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers
+    }
+});
+
+/**
+ * Delete a single notification
+ *
+ * Deletes the notification identified by `eventId` for the authenticated user.
+ * Returns 204 No Content on success.
+ * Returns 404 if no notification with the given event ID exists for this user.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const deleteNotification = <ThrowOnError extends boolean = false>(options: Options<DeleteNotificationData, ThrowOnError>) => (options.client ?? client).delete<DeleteNotificationResponses, DeleteNotificationErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/notifications/{eventId}',
+    ...options
+});
+
+/**
+ * Update a single notification
+ *
+ * Updates the fields of a single notification identified by `eventId`.
+ * The request body is required and must contain at least one field.
+ * Returns the updated, localized notification.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const patchNotification = <ThrowOnError extends boolean = false>(options: Options<PatchNotificationData2, ThrowOnError>) => (options.client ?? client).patch<PatchNotificationResponses, PatchNotificationErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/notifications/{eventId}',
     ...options,
     headers: {
         'Content-Type': 'application/json',

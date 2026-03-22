@@ -30,6 +30,12 @@
     },
     "watchlist": {
       "title": "Meine Merkliste | Aura Historia"
+    },
+    "category": {
+      "defaultName": "Kategorie"
+    },
+    "period": {
+      "defaultName": "Epoche"
     }
   },
   "validation": {
@@ -73,6 +79,7 @@
     "title": "Mein Account",
     "personalData": {
       "title": "Persönliche Daten",
+      "emailLabel": "E-Mail",
       "firstNameLabel": "Vorname",
       "lastNameLabel": "Nachname",
       "languageLabel": "Sprache",
@@ -399,6 +406,9 @@
     "categories": {
       "title": "Kategorien durchstöbern"
     },
+    "periods": {
+      "title": "Epochen und Stile entdecken"
+    },
     "features": {
       "title": "Antiquitäten sind überall im Internet verstreut - Ihre Suche sollte es nicht sein",
       "subtitle": "Wir sind die fortgeschrittenste Suchmaschine für Antiquitäten und bieten Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen.",
@@ -578,6 +588,21 @@
       }
     }
   },
+  "period": {
+    "products": {
+      "loadingMore": "Weitere Artikel werden geladen...",
+      "allLoaded_one": "Sie haben {{count}} Artikel in dieser Epoche gesehen.",
+      "allLoaded_other": "Sie haben alle {{count}} Artikel dieser Epoche gesehen.",
+      "noResults": {
+        "title": "Keine Artikel gefunden",
+        "description": "In dieser Epoche sind derzeit keine Artikel vorhanden."
+      },
+      "error": {
+        "title": "Artikel konnten nicht geladen werden",
+        "description": "Beim Laden der Artikel ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
+      }
+    }
+  },
   "share": {
     "copyLink": "Link kopieren",
     "copied": "Kopiert!",
@@ -707,5 +732,11 @@
     "codeMismatch": "Der eingegebene Code ist falsch.",
     "confirmationCodeCannotBeEmpty": "Bestätigungscode darf nicht leer sein.",
     "invalidCodeProvidedRequestAgain": "Ungültiger Code. Bitte fordern Sie einen neuen Code an."
+  },
+  "consent": {
+    "title": "Wir schätzen Ihre Privatsphäre",
+    "description": "Wir verwenden Cookies, um den Webverkehr zu analysieren und Ihr Benutzererlebnis zu verbessern. Mit Klick auf 'Zustimmen' willigen Sie in die Verwendung von Cookies für diese Zwecke ein. Weitere Informationen finden Sie in unserer <1>Datenschutzerklärung</1>.",
+    "accept": "Zustimmen",
+    "reject": "Ablehnen"
   }
 }

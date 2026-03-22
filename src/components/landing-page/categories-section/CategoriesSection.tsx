@@ -10,6 +10,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { getCategoryIcon } from "@/components/landing-page/categories-section/CategoriesSection.data.ts";
 import type { CategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
 import { Link } from "@tanstack/react-router";
+import { CAROUSEL_AUTOPLAY_DELAY_MS } from "@/components/landing-page/common/landingPageConstants.ts";
 
 type CategoriesSectionProps = {
     readonly categories: CategoryOverview[];
@@ -29,7 +30,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                     }}
                     plugins={[
                         Autoplay({
-                            delay: 2000,
+                            delay: CAROUSEL_AUTOPLAY_DELAY_MS,
                             stopOnInteraction: false,
                             stopOnMouseEnter: true,
                         }),

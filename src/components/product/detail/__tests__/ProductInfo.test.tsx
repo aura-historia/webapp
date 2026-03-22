@@ -2,6 +2,16 @@ vi.mock("lottie-react", () => ({
     default: () => null,
 }));
 
+vi.mock("@tanstack/react-router", async () => {
+    const actual =
+        await vi.importActual<typeof import("@tanstack/react-router")>("@tanstack/react-router");
+
+    return {
+        ...actual,
+        useParams: () => ({}),
+    };
+});
+
 import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
 import { screen } from "@testing-library/react";
 import { ProductInfo } from "../ProductInfo.tsx";

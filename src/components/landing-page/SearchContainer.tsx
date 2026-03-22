@@ -3,7 +3,7 @@ import { H1 } from "@/components/typography/H1.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
+import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
 
 export default function SearchContainer() {
     const { t } = useTranslation();

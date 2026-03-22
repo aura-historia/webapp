@@ -30,6 +30,12 @@
     },
     "watchlist": {
       "title": "La mia lista dei preferiti | Aura Historia"
+    },
+    "category": {
+      "defaultName": "Categoria"
+    },
+    "period": {
+      "defaultName": "Periodo"
     }
   },
   "validation": {
@@ -396,7 +402,10 @@
     "trustBadge2": "Inserzioni continuamente aggiornate",
     "trustBadge3": "Creato per collezionisti seri",
     "categories": {
-      "title": "Scopri le categorie"
+      "title": "Sfoglia Categorie"
+    },
+    "periods": {
+      "title": "Scopri periodi e stili"
     },
     "features": {
       "title": "L'antiquariato è sparso ovunque online - la tua ricerca non dovrebbe esserlo",
@@ -577,6 +586,21 @@
       }
     }
   },
+  "period": {
+    "products": {
+      "loadingMore": "Caricamento di altri articoli...",
+      "allLoaded_one": "Hai visualizzato {{count}} articolo in questo periodo.",
+      "allLoaded_other": "Hai visualizzato tutti i {{count}} articoli di questo periodo.",
+      "noResults": {
+        "title": "Nessun articolo trovato",
+        "description": "Al momento non ci sono articoli in questo periodo."
+      },
+      "error": {
+        "title": "Impossibile caricare gli articoli",
+        "description": "Si è verificato un errore durante il caricamento degli articoli. Riprova più tardi."
+      }
+    }
+  },
   "share": {
     "copyLink": "Copia link",
     "copied": "Copiato!",
@@ -704,5 +728,11 @@
     "codeMismatch": "Il codice inserito non è corretto.",
     "confirmationCodeCannotBeEmpty": "Il codice di conferma non può essere vuoto.",
     "invalidCodeProvidedRequestAgain": "Codice non valido, richiedi un nuovo codice."
+  },
+  "consent": {
+    "title": "Rispettiamo la tua privacy",
+    "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Cliccando su 'Accetta', acconsenti all'uso dei cookie per questi scopi. Puoi trovare maggiori informazioni nella nostra <1>informativa sulla privacy</1>.",
+    "accept": "Accetta",
+    "reject": "Rifiuta"
   }
 }

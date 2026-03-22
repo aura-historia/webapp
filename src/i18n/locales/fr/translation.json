@@ -30,6 +30,12 @@
     },
     "watchlist": {
       "title": "Ma liste de surveillance | Aura Historia"
+    },
+    "category": {
+      "defaultName": "Catégorie"
+    },
+    "period": {
+      "defaultName": "Période"
     }
   },
   "validation": {
@@ -396,7 +402,10 @@
     "trustBadge2": "Annonces mises à jour en continu",
     "trustBadge3": "Conçu pour les collectionneurs sérieux",
     "categories": {
-      "title": "Découvrir les catégories"
+      "title": "Parcourir les catégories"
+    },
+    "periods": {
+      "title": "Découvrir les époques et les styles"
     },
     "features": {
       "title": "Les antiquités sont dispersées partout en ligne - votre recherche ne devrait pas l'être",
@@ -577,6 +586,21 @@
       }
     }
   },
+  "period": {
+    "products": {
+      "loadingMore": "Chargement d'autres articles...",
+      "allLoaded_one": "Vous avez consulté {{count}} article dans cette période.",
+      "allLoaded_other": "Vous avez consulté les {{count}} articles de cette période.",
+      "noResults": {
+        "title": "Aucun article trouvé",
+        "description": "Il n'y a actuellement aucun article dans cette période."
+      },
+      "error": {
+        "title": "Impossible de charger les articles",
+        "description": "Une erreur s'est produite lors du chargement des articles. Veuillez réessayer plus tard."
+      }
+    }
+  },
   "share": {
     "copyLink": "Copier le lien",
     "copied": "Copié !",
@@ -704,5 +728,11 @@
     "codeMismatch": "Le code entré est incorrect.",
     "confirmationCodeCannotBeEmpty": "Le code de confirmation ne peut pas être vide.",
     "invalidCodeProvidedRequestAgain": "Code invalide, veuillez en demander un nouveau."
+  },
+  "consent": {
+    "title": "Nous respectons votre vie privée",
+    "description": "Nous utilisons des cookies pour analyser le trafic web et améliorer votre expérience utilisateur. En cliquant sur 'Accepter', vous consentez à notre utilisation de cookies à ces fins. Vous trouverez plus d'informations dans notre <1>politique de confidentialité</1>.",
+    "accept": "Accepter",
+    "reject": "Refuser"
   }
 }

@@ -40,6 +40,16 @@ vi.mock("react-i18next", () => ({
     }),
 }));
 
+vi.mock("@tanstack/react-router", async () => {
+    const actual =
+        await vi.importActual<typeof import("@tanstack/react-router")>("@tanstack/react-router");
+
+    return {
+        ...actual,
+        useParams: () => ({}),
+    };
+});
+
 describe("useWatchlistNotificationMutation", () => {
     let queryClient: QueryClient;
     const shopId = "test-shop-id";

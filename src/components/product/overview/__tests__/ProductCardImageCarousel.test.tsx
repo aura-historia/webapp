@@ -5,6 +5,9 @@ import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
 import type { ReactNode } from "react";
 import type { CarouselApi } from "@/components/ui/carousel.tsx";
 
+type EngineType = ReturnType<NonNullable<CarouselApi>["internalEngine"]>;
+type EmblaPluginsType = ReturnType<NonNullable<CarouselApi>["plugins"]>;
+
 // Mock the Carousel component to avoid issues in test environment
 vi.mock("@/components/ui/carousel.tsx", () => {
     const mockApi: CarouselApi = {
@@ -26,8 +29,8 @@ vi.mock("@/components/ui/carousel.tsx", () => {
         slidesNotInView: () => [],
         containerNode: () => document.createElement("div"),
         slideNodes: () => [],
-        internalEngine: () => ({}) as any,
-        plugins: () => ({}) as any,
+        internalEngine: () => ({}) as EngineType,
+        plugins: () => ({}) as EmblaPluginsType,
         rootNode: () => document.createElement("div"),
     };
 

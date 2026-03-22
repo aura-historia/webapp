@@ -22,7 +22,7 @@ import {
     NavigationMenuList,
 } from "@/components/ui/navigation-menu.tsx";
 import { cn } from "@/lib/utils.ts";
-import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/constants/landingPageConstants.ts";
+import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
 import { env } from "@/env.ts";
 import logo from "@/assets/logo/logo.svg";
 import logoCompact from "@/assets/logo/logo-compact.svg";

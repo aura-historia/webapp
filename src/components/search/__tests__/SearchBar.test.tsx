@@ -20,8 +20,18 @@ describe("SearchBar", () => {
     });
 
     describe("Big variant", () => {
+        it("should disable browser autofill heuristics for the search input", async () => {
+            await act(async () => {
+                renderWithRouter(<SearchBar type={"big"} />);
+            });
+
+            const input = screen.getByLabelText("Suche");
+
+            expect(input).toHaveAttribute("type", "search");
+        });
+
         it("should render the search bar with input and button", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(<SearchBar type={"big"} />);
             });
             expect(screen.getByLabelText("Suche")).toBeInTheDocument();
@@ -29,7 +39,7 @@ describe("SearchBar", () => {
         });
 
         it("should render with larger input height and text size", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(<SearchBar type={"big"} />);
             });
             const input = screen.getByLabelText("Suche");
@@ -40,7 +50,7 @@ describe("SearchBar", () => {
         });
 
         it("should show button text on larger screens", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(<SearchBar type={"big"} />);
             });
             const buttonText = screen.getByText("Suchen");
@@ -49,7 +59,7 @@ describe("SearchBar", () => {
         });
 
         it("should navigate to the search page with the correct query when input is valid", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(<SearchBar type={"big"} />);
             });
             const input = screen.getByLabelText("Suche");
@@ -62,7 +72,7 @@ describe("SearchBar", () => {
         });
 
         it("should not navigate when the input is less than 3 characters", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(<SearchBar type={"big"} />);
             });
 
@@ -79,7 +89,7 @@ describe("SearchBar", () => {
         });
 
         it("should clear the error message when the input becomes valid", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(<SearchBar type={"big"} />);
             });
 
@@ -105,7 +115,7 @@ describe("SearchBar", () => {
 
     describe("Small variant", () => {
         it("should render the small search bar with input and button", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
             });
             expect(screen.getByPlaceholderText("Suche")).toBeInTheDocument();
@@ -113,7 +123,7 @@ describe("SearchBar", () => {
         });
 
         it("should render with smaller input height", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
             });
             const input = screen.getByPlaceholderText("Suche");
@@ -124,7 +134,7 @@ describe("SearchBar", () => {
         });
 
         it("should not show button text", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
             });
             const buttonText = screen.queryByText("Suchen");
@@ -135,7 +145,7 @@ describe("SearchBar", () => {
         });
 
         it("should navigate to the search page when form is submitted", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
             });
             const input = screen.getByPlaceholderText("Suche");
@@ -148,7 +158,7 @@ describe("SearchBar", () => {
         });
 
         it("should show toast warning for input less than 3 characters", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
             });
 
@@ -169,7 +179,7 @@ describe("SearchBar", () => {
         });
 
         it("should populate input with current query from search params on /search page", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(<SearchBar type={"small"} />, {
                     initialEntries: ["/search?q=existing+query"],
                 });
@@ -181,7 +191,7 @@ describe("SearchBar", () => {
 
     describe("Behavior across routes", () => {
         it("should not populate input with query when not on /search page", async () => {
-            await act(() => {
+            await act(async () => {
                 renderWithRouter(<SearchBar type={"big"} />, {
                     initialEntries: ["/test?q=some+query"],
                 });
