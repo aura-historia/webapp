@@ -118,7 +118,6 @@ export type FilterSchema = z.infer<ReturnType<typeof createFilterSchema>>;
 
 type SearchFilterProps = {
     readonly searchFilters: SearchFilterArguments;
-    readonly onFiltersApplied?: () => void;
 };
 
 /**
@@ -167,7 +166,7 @@ const DEBOUNCED_FIELDS = new Set([
     "originYearSpan.max",
 ]);
 
-export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterProps) {
+export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
     const { t } = useTranslation();
     const { getQuery } = useSearchQueryContext();
@@ -220,9 +219,9 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                         restoration: data.restoration,
                     }),
                 }),
-            }).then(() => onFiltersApplied?.());
+            });
         },
-        [navigate, onFiltersApplied, getEffectiveQuery],
+        [navigate, getEffectiveQuery],
     );
 
     const debouncedApplyFilters = useDebouncedCallback((data) => {
@@ -258,8 +257,7 @@ export function SearchFilters({ searchFilters, onFiltersApplied }: SearchFilterP
                 q: getEffectiveQuery(),
             },
         });
-        onFiltersApplied?.();
-    }, [form, navigate, onFiltersApplied, getEffectiveQuery]);
+    }, [form, navigate, getEffectiveQuery]);
 
     return (
         <Form {...form}>

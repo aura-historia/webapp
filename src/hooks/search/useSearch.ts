@@ -124,7 +124,7 @@ export function useSearch(
         enabled: isSearchEnabled && searchArgs.q.length >= MIN_SEARCH_QUERY_LENGTH,
         queryFn: async ({ pageParam }) => {
             // Api treats no allowed states as "all states allowed", we don't want that
-            if (searchArgs.allowedStates != null && searchArgs.allowedStates.length === 0) {
+            if (searchArgs.allowedStates?.length === 0) {
                 return {
                     products: [],
                     size: 0,

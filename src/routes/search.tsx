@@ -31,11 +31,6 @@ function RouteComponent() {
     const navigate = Route.useNavigate();
     const { t } = useTranslation();
     const [totalResults, setTotalResults] = useState<number | null>(null);
-    const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
-
-    const closeFilterSheet = () => {
-        setIsFilterSheetOpen(false);
-    };
 
     const sortMode = {
         field: searchArgs.sortField ?? "RELEVANCE",
@@ -54,7 +49,7 @@ function RouteComponent() {
 
     return (
         <>
-            <div className="max-w-6xl mx-auto flex flex-col gap-4 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto">
+            <div className="max-w-6xl mx-auto flex flex-col gap-4 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto lg:px-4">
                 <div className="flex flex-row items-end gap-8">
                     <div className="hidden lg:block lg:w-[30%] min-w-0">
                         <H2>{t("search.filters")}</H2>
@@ -63,7 +58,7 @@ function RouteComponent() {
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
                             <div className="flex flex-col min-w-0">
                                 <H1>{t("search.resultsFor")}</H1>
-                                <div className="text-3xl sm:text-4xl font-bold text-ellipsis overflow-hidden break-words">
+                                <div className="text-3xl sm:text-4xl font-bold text-ellipsis overflow-hidden wrap-break-word">
                                     "{searchArgs.q}"
                                 </div>
                             </div>
@@ -90,11 +85,7 @@ function RouteComponent() {
                         )}
 
                         <div className="flex flex-row gap-2 mt-2 lg:hidden">
-                            <Drawer
-                                direction="left"
-                                open={isFilterSheetOpen}
-                                onOpenChange={setIsFilterSheetOpen}
-                            >
+                            <Drawer direction="left">
                                 <DrawerTrigger asChild>
                                     <Button variant="filter">
                                         <Filter className="h-4 w-4" />
@@ -109,10 +100,7 @@ function RouteComponent() {
                                         {t("search.filters")}
                                     </DrawerTitle>
                                     <div className="flex-1 overflow-y-auto p-4">
-                                        <SearchFilters
-                                            searchFilters={searchArgs}
-                                            onFiltersApplied={closeFilterSheet}
-                                        />
+                                        <SearchFilters searchFilters={searchArgs} />
                                     </div>
                                 </DrawerContent>
                             </Drawer>
@@ -126,7 +114,7 @@ function RouteComponent() {
                     </div>
                 </div>
                 <div className="flex flex-col lg:flex-row items-start gap-4">
-                    <div className="w-full lg:w-[350px] lg:flex-shrink-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300 hidden lg:block">
+                    <div className="w-full lg:w-87.5 lg:shrink-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300 hidden lg:block">
                         <SearchFilters searchFilters={searchArgs} />
                     </div>
                     <div className="flex-col w-full lg:flex-1 min-w-0">
