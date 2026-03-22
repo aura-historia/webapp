@@ -63,7 +63,7 @@ export function FilterCard({
                         </TooltipContent>
                     </Tooltip>
                 </CardHeader>
-                <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up">
+                <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-y-hidden">
                     <CardContent>{children}</CardContent>
                 </CollapsibleContent>
             </Card>
