@@ -70,7 +70,7 @@ const mockPeriods: PeriodOverview[] = [
 describe("PeriodsSection", () => {
     it("renders the section with the periods title", () => {
         render(<PeriodsSection periods={mockPeriods} />);
-        expect(screen.getByText("Epochen durchstöbern")).toBeInTheDocument();
+        expect(screen.getByText("Epochen und Stile entdecken")).toBeInTheDocument();
     });
 
     it("renders a carousel item for each period", () => {
@@ -91,13 +91,13 @@ describe("PeriodsSection", () => {
 
     it("renders the section element with the correct aria-label", () => {
         render(<PeriodsSection periods={mockPeriods} />);
-        const section = screen.getByRole("region", { name: "Epochen durchstöbern" });
+        const section = screen.getByRole("region", { name: "Epochen und Stile entdecken" });
         expect(section).toBeInTheDocument();
     });
 
     it("renders an empty carousel when periods list is empty", () => {
         render(<PeriodsSection periods={[]} />);
-        expect(screen.getByText("Epochen durchstöbern")).toBeInTheDocument();
+        expect(screen.getByText("Epochen und Stile entdecken")).toBeInTheDocument();
         expect(screen.queryAllByRole("link")).toHaveLength(0);
     });
 });
