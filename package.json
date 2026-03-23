@@ -104,8 +104,8 @@
         "zod": "^4.3.6"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.4.7",
-        "@hey-api/openapi-ts": "0.94.2",
+        "@biomejs/biome": "2.4.8",
+        "@hey-api/openapi-ts": "0.94.4",
         "@playwright/test": "^1.58.2",
         "@tanstack/devtools-vite": "^0.6.0",
         "@testing-library/dom": "^10.4.0",
@@ -118,12 +118,12 @@
         "@vitejs/plugin-react": "^5.2.0",
         "@vitest/coverage-v8": "4.1.0",
         "husky": "^9.1.7",
-        "jsdom": "^29.0.0",
+        "jsdom": "^29.0.1",
         "lint-staged": "^16.4.0",
         "typescript": "^5.9.3",
         "vite": "^7.3.0",
         "vitest": "^4.1.0",
         "web-vitals": "^5.1.0",
-        "wrangler": "4.74.0"
+        "wrangler": "4.76.0"
     }
 }
