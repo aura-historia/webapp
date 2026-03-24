@@ -20,7 +20,7 @@ export default function PeriodsSection({ periods }: PeriodsSectionProps) {
     const { t } = useTranslation();
 
     return (
-        <section className="py-10" aria-label={t("landingPage.periods.title")}>
+        <section className="py-10 bg-muted/30" aria-label={t("landingPage.periods.title")}>
             <div className="w-full max-w-6xl mx-auto px-4 py-2">
                 <Carousel
                     opts={{
