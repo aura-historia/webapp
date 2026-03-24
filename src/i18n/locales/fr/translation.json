@@ -105,7 +105,9 @@
       "currencyLabel": "Devise",
       "currencyPlaceholder": "Sélectionnez la devise",
       "saveButton": "Enregistrer les modifications",
-      "successMessage": "Données personnelles mises à jour avec succès"
+      "successMessage": "Données personnelles mises à jour avec succès",
+      "prohibitedContentConsentLabel": "Afficher les produits avec des marquages § 86a StGB",
+      "prohibitedContentConsentTooltip": "Les images des produits peuvent contenir des symboles d'organisations anticonstitutionnelles ou terroristes, en particulier ceux de l'époque nationale-socialiste, tels que définis par le § 86a StGB. En acceptant, vous consentez à ce que nous vous affichions ce contenu."
     }
   },
   "search": {
@@ -646,7 +648,9 @@
       "confirmPassword": "Confirmer le mot de passe*",
       "language": "Langue",
       "currency": "Devise",
-      "pleaseSelect": "Veuillez sélectionner"
+      "pleaseSelect": "Veuillez sélectionner",
+      "prohibitedContentConsentLabel": "Afficher les produits avec des marquages § 86a StGB",
+      "prohibitedContentConsentTooltip": "Les images des produits peuvent contenir des symboles d'organisations anticonstitutionnelles ou terroristes, en particulier ceux de l'époque nationale-socialiste, tels que définis par le § 86a StGB. En acceptant, vous consentez à ce que nous vous affichions ce contenu."
     },
     "signIn": {
       "email": "E-mail",
