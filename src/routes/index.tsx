@@ -9,10 +9,16 @@ import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
 import { env } from "@/env";
 import CategoriesSection from "@/components/landing-page/categories-section/CategoriesSection.tsx";
 import PeriodsSection from "@/components/landing-page/periods-section/PeriodsSection.tsx";
+import RecentlyAddedSection from "@/components/landing-page/recently-added-section/RecentlyAddedSection.tsx";
 import { useQuery } from "@tanstack/react-query";
-import { getCategoriesOptions, getPeriodsOptions } from "@/client/@tanstack/react-query.gen.ts";
+import {
+    getCategoriesOptions,
+    getPeriodsOptions,
+    simpleSearchProductsOptions,
+} from "@/client/@tanstack/react-query.gen.ts";
 import { mapToCategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
 import { mapToPeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
+import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
@@ -31,6 +37,19 @@ export const Route = createFileRoute("/")({
                 .ensureQueryData(
                     getPeriodsOptions({
                         query: { language: parseLanguage(i18n.language) },
+                    }),
+                )
+                .catch(() => null),
+            queryClient
+                .ensureQueryData(
+                    simpleSearchProductsOptions({
+                        query: {
+                            sort: "created",
+                            order: "desc",
+                            size: 12,
+                            language: parseLanguage(i18n.language),
+                            currency: "EUR",
+                        },
                     }),
                 )
                 .catch(() => null),
@@ -56,14 +75,29 @@ function LandingPage() {
             query: { language: parseLanguage(i18n.language) },
         }),
     );
+    const { data: recentlyAddedData } = useQuery(
+        simpleSearchProductsOptions({
+            query: {
+                sort: "created",
+                order: "desc",
+                size: 12,
+                language: parseLanguage(i18n.language),
+                currency: "EUR",
+            },
+        }),
+    );
 
     const categories = (categoriesData ?? []).map(mapToCategoryOverview);
     const periods = (periodsData ?? []).map(mapToPeriodOverview);
+    const recentlyAdded = (recentlyAddedData?.items ?? []).map((p) =>
+        mapPersonalizedGetProductSummaryDataToOverviewProduct(p, i18n.language),
+    );
 
     return (
         <div className="flex flex-col min-h-screen">
             <HeroSection />
             {categories.length > 0 && <CategoriesSection categories={categories} />}
+            {recentlyAdded.length > 0 && <RecentlyAddedSection products={recentlyAdded} />}
             {periods.length > 0 && <PeriodsSection periods={periods} />}
             <DiscoverSection />
             <FeaturesSection />
