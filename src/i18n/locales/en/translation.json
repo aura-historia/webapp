@@ -87,7 +87,9 @@
       "currencyLabel": "Currency",
       "currencyPlaceholder": "Select currency",
       "saveButton": "Save Changes",
-      "successMessage": "Personal data updated successfully"
+      "successMessage": "Personal data updated successfully",
+      "prohibitedContentConsentLabel": "Show products with § 86a StGB markings",
+      "prohibitedContentConsentTooltip": "Product images may contain symbols of unconstitutional or terrorist organizations, particularly those from the National Socialist era, as defined under § 86a StGB. By agreeing, you consent to us displaying such content to you."
     },
     "changePassword": {
       "title": "Change Password",
@@ -646,7 +648,9 @@
       "confirmPassword": "Confirm password*",
       "language": "Language",
       "currency": "Currency",
-      "pleaseSelect": "Please select"
+      "pleaseSelect": "Please select",
+      "prohibitedContentConsentLabel": "Show products with § 86a StGB markings",
+      "prohibitedContentConsentTooltip": "Product images may contain symbols of unconstitutional or terrorist organizations, particularly those from the National Socialist era, as defined under § 86a StGB. By agreeing, you consent to us displaying such content to you."
     },
     "signIn": {
       "email": "Email",

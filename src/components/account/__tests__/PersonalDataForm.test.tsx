@@ -39,6 +39,7 @@ describe("PersonalDataForm", () => {
         lastName: "Doe",
         language: "en",
         currency: "EUR",
+        prohibitedContentConsent: false,
         created: new Date("2024-01-01T00:00:00Z"),
         updated: new Date("2024-01-01T00:00:00Z"),
     };
@@ -121,6 +122,7 @@ describe("PersonalDataForm", () => {
                     lastName: "Doe",
                     language: "en",
                     currency: "EUR",
+                    prohibitedContentConsent: false,
                 },
                 expect.objectContaining({
                     onSuccess: expect.any(Function),
