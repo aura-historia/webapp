@@ -88,6 +88,7 @@ describe("useWatchlistMutation", () => {
             await waitFor(() => {
                 expect(mockAddWatchlistProduct).toHaveBeenCalledWith({
                     body: { shopId, shopsProductId },
+                    query: { language: "en" },
                 });
             });
         });

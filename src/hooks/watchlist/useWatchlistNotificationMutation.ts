@@ -55,7 +55,7 @@ export function useWatchlistNotificationMutation(shopId: string, shopsProductId:
                             ...old.userState,
                             watchlist: {
                                 watching: old.userState?.watchlist?.watching ?? true,
-                                notifications: data.notifications,
+                                notifications: data.userState?.watchlist.notifications,
                             },
                         },
                     },
@@ -78,7 +78,7 @@ export function useWatchlistNotificationMutation(shopId: string, shopsProductId:
                                 ...old.userState,
                                 watchlist: {
                                     watching: old.userState?.watchlist?.watching ?? true,
-                                    notifications: data.notifications,
+                                    notifications: data.userState?.watchlist.notifications,
                                 },
                             },
                         },

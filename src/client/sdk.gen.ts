@@ -281,7 +281,7 @@ export const getWatchlistProducts = <ThrowOnError extends boolean = false>(optio
  * The request body must contain the shop ID and shop's product ID.
  * Each user is limited to a maximum of 5 watchlist products. If the user already has 5 products
  * in their watchlist, adding another will result in a 422 Unprocessable Entity error.
- * Returns a 201 Created response with a Location header pointing to the created resource.
+ * Returns a 201 Created response with a Location header pointing to the created resource and the full personalized product data.
  * Requires valid Cognito JWT authentication.
  *
  */
@@ -346,7 +346,7 @@ export const deleteWatchlistProduct = <ThrowOnError extends boolean = false>(opt
  * Update watchlist product settings
  *
  * Updates settings for a specific watchlist product (e.g., toggle notifications).
- * Returns the updated watchlist product data with core identifiers and settings.
+ * Returns the full personalized product data after applying the update.
  * Requires valid Cognito JWT authentication.
  *
  */
