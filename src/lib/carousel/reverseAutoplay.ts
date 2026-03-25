@@ -201,7 +201,7 @@ export function ReverseAutoplay(userOptions: ReverseAutoplayOptionsType = {}): R
     // ------------------------------------------------------------------
 
     function play(jumpOverride?: boolean): void {
-        if (typeof jumpOverride !== "undefined") jump = jumpOverride;
+        if (jumpOverride !== undefined) jump = jumpOverride;
         startAutoplay();
     }
 
@@ -217,7 +217,7 @@ export function ReverseAutoplay(userOptions: ReverseAutoplayOptionsType = {}): R
         return autoplayActive;
     }
 
-    const self: ReverseAutoplayType = {
+    return {
         name: "reverseAutoplay",
         options: userOptions,
         init,
@@ -227,8 +227,6 @@ export function ReverseAutoplay(userOptions: ReverseAutoplayOptionsType = {}): R
         reset,
         isPlaying,
     };
-
-    return self;
 }
 
 ReverseAutoplay.globalOptions = undefined as ReverseAutoplayOptionsType | undefined;
