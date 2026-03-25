@@ -3,6 +3,7 @@ import { Switch } from "@/components/ui/switch.tsx";
 import { useTranslation, Trans } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
+import { H1 } from "@/components/typography/H1.tsx";
 
 export function ConsentSettings() {
     const { preferences, updatePreferences } = useUserPreferences();
@@ -16,10 +17,8 @@ export function ConsentSettings() {
     };
 
     return (
-        <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">
-                {t("consentSettings.title")}
-            </h1>
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+            <H1 className="mb-2">{t("consentSettings.title")}</H1>
             <p className="text-sm text-muted-foreground leading-relaxed mb-8">
                 <Trans
                     i18nKey="consentSettings.description"

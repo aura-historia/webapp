@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { UserPreferencesProvider, useUserPreferences } from "../useUserPreferences.tsx";
 import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
+import type React from "react";
 
 vi.mock("@/lib/tracking/googleAnalytics", () => ({
     googleAnalytics: {
@@ -15,6 +16,8 @@ describe("useUserPreferences", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         localStorage.clear();
+        // biome-ignore lint/suspicious/noDocumentCookie: Test cleanup uses direct cookie API
+        document.cookie = "user-preferences=; max-age=0";
         originalEnvSSR = import.meta.env.SSR;
         import.meta.env.SSR = false;
     });
@@ -50,7 +53,7 @@ describe("useUserPreferences", () => {
         expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
     });
 
-    it("should update preferences, persist to localStorage and sync GA on change", () => {
+    it("should update preferences, persist to localStorage and sync GA on change", async () => {
         const { result } = renderHook(() => useUserPreferences(), {
             wrapper: UserPreferencesProvider,
         });
@@ -58,7 +61,7 @@ describe("useUserPreferences", () => {
         expect(result.current.preferences.trackingConsent).toBeUndefined();
         expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
 
-        act(() => {
+        await act(async () => {
             result.current.updatePreferences({ trackingConsent: true });
         });
 
@@ -67,6 +70,45 @@ describe("useUserPreferences", () => {
             JSON.stringify({ trackingConsent: true }),
         );
         expect(googleAnalytics.setConsent).toHaveBeenCalledWith(true);
+    });
+
+    it("should write a cookie when preferences are updated", async () => {
+        const { result } = renderHook(() => useUserPreferences(), {
+            wrapper: UserPreferencesProvider,
+        });
+
+        await act(async () => {
+            result.current.updatePreferences({ trackingConsent: true });
+        });
+
+        expect(document.cookie).toContain("user-preferences");
+    });
+
+    it("should initialise with initialPreferences overriding defaults", () => {
+        const wrapper = ({ children }: { children: React.ReactNode }) => (
+            <UserPreferencesProvider initialPreferences={{ trackingConsent: true }}>
+                {children}
+            </UserPreferencesProvider>
+        );
+
+        const { result } = renderHook(() => useUserPreferences(), { wrapper });
+
+        expect(result.current.preferences.trackingConsent).toBe(true);
+    });
+
+    it("should merge initialPreferences on top of localStorage values", () => {
+        localStorage.setItem("user-preferences", JSON.stringify({ trackingConsent: false }));
+
+        const wrapper = ({ children }: { children: React.ReactNode }) => (
+            <UserPreferencesProvider initialPreferences={{ trackingConsent: true }}>
+                {children}
+            </UserPreferencesProvider>
+        );
+
+        const { result } = renderHook(() => useUserPreferences(), { wrapper });
+
+        // initialPreferences (from server/cookie) wins over localStorage
+        expect(result.current.preferences.trackingConsent).toBe(true);
     });
 
     it("should return default preferences and do nothing else if SSR is true", () => {

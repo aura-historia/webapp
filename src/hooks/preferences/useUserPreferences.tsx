@@ -3,6 +3,7 @@ import type { UserPreferences } from "@/data/internal/preferences/UserPreference
 import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
 
 const PREFERENCES_STORAGE_KEY = "user-preferences";
+const PREFERENCES_COOKIE_MAX_AGE = 365 * 24 * 60 * 60; // 1 year in seconds
 
 const DEFAULT_PREFERENCES: UserPreferences = {};
 
@@ -15,7 +16,6 @@ const UserPreferencesContext = createContext<UserPreferencesContextValue | null>
 
 function loadPreferences(): UserPreferences {
     if (import.meta.env.SSR) {
-        // TODO: Properly sync this to server when we need to access these in SSR environment
         return DEFAULT_PREFERENCES;
     }
 
@@ -30,8 +30,32 @@ function loadPreferences(): UserPreferences {
     return DEFAULT_PREFERENCES;
 }
 
-export function UserPreferencesProvider({ children }: { readonly children: ReactNode }) {
-    const [preferences, setPreferences] = useState<UserPreferences>(() => loadPreferences());
+async function syncPreferencesCookie(preferences: UserPreferences) {
+    const value = JSON.stringify(preferences);
+    if ("cookieStore" in globalThis) {
+        await globalThis.cookieStore.set({
+            name: PREFERENCES_STORAGE_KEY,
+            value,
+            path: "/",
+            expires: Date.now() + PREFERENCES_COOKIE_MAX_AGE * 1000,
+        });
+    } else {
+        // biome-ignore lint/suspicious/noDocumentCookie: Not all browsers support cookieStore API yet
+        document.cookie = `${PREFERENCES_STORAGE_KEY}=${encodeURIComponent(value)}; path=/; max-age=${PREFERENCES_COOKIE_MAX_AGE}; SameSite=Lax`;
+    }
+}
+
+export function UserPreferencesProvider({
+    children,
+    initialPreferences,
+}: {
+    readonly children: ReactNode;
+    readonly initialPreferences?: Partial<UserPreferences>;
+}) {
+    const [preferences, setPreferences] = useState<UserPreferences>(() => ({
+        ...loadPreferences(),
+        ...initialPreferences,
+    }));
 
     const updatePreferences = useCallback((updates: Partial<UserPreferences>) => {
         setPreferences((prev) => {
@@ -43,6 +67,10 @@ export function UserPreferencesProvider({ children }: { readonly children: React
                 } catch (e) {
                     console.error("Failed to save user preferences to localStorage", e);
                 }
+
+                syncPreferencesCookie(next).catch((e) => {
+                    console.error("Failed to sync user preferences cookie", e);
+                });
 
                 if (prev.trackingConsent !== next.trackingConsent) {
                     googleAnalytics.setConsent(next.trackingConsent ?? false);
