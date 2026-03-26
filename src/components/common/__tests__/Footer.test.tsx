@@ -43,6 +43,7 @@ describe("Footer Component", () => {
     it("should render all navigation links with correct text", () => {
         expect(screen.getByText("Impressum")).toBeInTheDocument();
         expect(screen.getByText("Datenschutzerklärung")).toBeInTheDocument();
+        expect(screen.getByText("Cookie-Einstellungen")).toBeInTheDocument();
     });
 
     it("should render copyright text with correct year", () => {
@@ -54,6 +55,10 @@ describe("Footer Component", () => {
         expect(screen.getByText("Datenschutzerklärung").closest("a")).toHaveAttribute(
             "href",
             "/privacy",
+        );
+        expect(screen.getByText("Cookie-Einstellungen").closest("a")).toHaveAttribute(
+            "href",
+            "/consent-settings",
         );
     });
 

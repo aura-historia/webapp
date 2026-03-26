@@ -25,6 +25,10 @@
       "title": "Informativa sulla privacy | Aura Historia",
       "description": "Informativa sulla privacy e informazioni sulla protezione dei dati di Aura Historia."
     },
+    "consentSettings": {
+      "title": "Impostazioni cookie | Aura Historia",
+      "description": "Gestisci le tue preferenze sui cookie e sul tracciamento su Aura Historia."
+    },
     "account": {
       "title": "Il mio account | Aura Historia"
     },
@@ -67,6 +71,7 @@
     "ariaSwitchToLanguage": "Cambia lingua in {{language}}",
     "imprint": "Note legali",
     "privacy": "Informativa sulla privacy",
+    "cookieSettings": "Impostazioni cookie",
     "terms": "Termini e condizioni",
     "copyright": "© {{year}} Aura Historia",
     "sections": {
@@ -738,5 +743,12 @@
     "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Cliccando su 'Accetta', acconsenti all'uso dei cookie per questi scopi. Puoi trovare maggiori informazioni nella nostra <1>informativa sulla privacy</1>.",
     "accept": "Accetta",
     "reject": "Rifiuta"
+  },
+  "consentSettings": {
+    "title": "Impostazioni cookie",
+    "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Puoi trovare maggiori informazioni nella nostra <1>informativa sulla privacy</1>.",
+    "analyticsLabel": "Analisi & Tracciamento",
+    "analyticsDescription": "Ci permette di analizzare l'utilizzo e migliorare la tua esperienza tramite Google Analytics. Include archiviazione annunci, archiviazione analytics, dati utente annunci e personalizzazione annunci.",
+    "saved": "Le tue preferenze sui cookie sono state salvate."
   }
 }

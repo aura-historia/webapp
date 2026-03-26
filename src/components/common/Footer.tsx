@@ -49,6 +49,14 @@ export function Footer() {
                                     {t("footer.privacy")}
                                 </Link>
                             </li>
+                            <li>
+                                <Link
+                                    to="/consent-settings"
+                                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                    {t("footer.cookieSettings")}
+                                </Link>
+                            </li>
                         </ul>
                     </div>
 
