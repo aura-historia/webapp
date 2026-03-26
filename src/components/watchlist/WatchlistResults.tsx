@@ -54,8 +54,7 @@ export function WatchlistResults() {
                         notificationData: {
                             hasUnseenNotification:
                                 product.userData?.notificationData?.hasUnseenNotification ?? false,
-                            originEventId:
-                                product.userData?.notificationData?.originEventId,
+                            originEventId: product.userData?.notificationData?.originEventId,
                         },
                     },
                 };

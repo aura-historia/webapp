@@ -225,11 +225,11 @@ describe("ProductSimilarCard", () => {
             expect(card).toBeInTheDocument();
         });
 
-        it("should render the unseen notification badge with text 'Neu'", () => {
+        it("should render the unseen notification badge with text 'Aktualisiert'", () => {
             render(<ProductSimilarCard product={mockProductWithUnseenNotification} />);
 
             expect(screen.getByTestId("unseen-notification-badge")).toBeInTheDocument();
-            expect(screen.getByText("Neu")).toBeInTheDocument();
+            expect(screen.getByText("Aktualisiert")).toBeInTheDocument();
         });
 
         it("should NOT render border-primary class when product has no unseen notification", () => {

@@ -102,22 +102,20 @@ describe("ProductCard", () => {
 
         it("should render border-primary class when product has unseen notification", async () => {
             const { container } = await act(() =>
-                renderWithRouter(
-                    <ProductCard product={mockProductWithUnseenNotification} />,
-                ),
+                renderWithRouter(<ProductCard product={mockProductWithUnseenNotification} />),
             );
 
             const card = container.querySelector(".border-primary");
             expect(card).toBeInTheDocument();
         });
 
-        it("should render the unseen notification badge with text 'Neu'", async () => {
+        it("should render the unseen notification badge with text 'Aktualisiert'", async () => {
             await act(() => {
                 renderWithRouter(<ProductCard product={mockProductWithUnseenNotification} />);
             });
 
             expect(screen.getByTestId("unseen-notification-badge")).toBeInTheDocument();
-            expect(screen.getByText("Neu")).toBeInTheDocument();
+            expect(screen.getByText("Aktualisiert")).toBeInTheDocument();
         });
 
         it("should NOT render border-primary class when product has no unseen notification", async () => {
