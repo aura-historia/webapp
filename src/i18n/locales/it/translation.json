@@ -351,7 +351,8 @@
         "1y": "1A",
         "all": "Tutto"
       }
-    }
+    },
+    "unseenNotification": "Aggiornato"
   },
   "priceBadge": {
     "discovered": "Prezzo rilevato",
