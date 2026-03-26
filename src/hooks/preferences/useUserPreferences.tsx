@@ -31,17 +31,18 @@ function loadPreferences(): UserPreferences {
 }
 
 async function syncPreferencesCookie(preferences: UserPreferences) {
-    const value = JSON.stringify(preferences);
+    const rawValue = JSON.stringify(preferences);
+    const encodedValue = encodeURIComponent(rawValue);
     if ("cookieStore" in globalThis) {
         await globalThis.cookieStore.set({
             name: PREFERENCES_STORAGE_KEY,
-            value,
+            value: encodedValue,
             path: "/",
             expires: Date.now() + PREFERENCES_COOKIE_MAX_AGE * 1000,
         });
     } else {
         // biome-ignore lint/suspicious/noDocumentCookie: Not all browsers support cookieStore API yet
-        document.cookie = `${PREFERENCES_STORAGE_KEY}=${encodeURIComponent(value)}; path=/; max-age=${PREFERENCES_COOKIE_MAX_AGE}; SameSite=Lax`;
+        document.cookie = `${PREFERENCES_STORAGE_KEY}=${encodedValue}; path=/; max-age=${PREFERENCES_COOKIE_MAX_AGE}; SameSite=Lax`;
     }
 }
 

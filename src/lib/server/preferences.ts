@@ -16,7 +16,18 @@ export const getServerPreferences = createServerFn({ method: "GET" }).handler(
             return {};
         }
         try {
-            return JSON.parse(raw) as Partial<UserPreferences>;
+            const decoded = decodeURIComponent(raw);
+            const parsed = JSON.parse(decoded) as unknown;
+            if (parsed === null || typeof parsed !== "object") {
+                return {};
+            }
+            const prefs = parsed as Partial<UserPreferences> & {
+                trackingConsent?: unknown;
+            };
+            if ("trackingConsent" in prefs) {
+                prefs.trackingConsent = prefs.trackingConsent === true;
+            }
+            return prefs;
         } catch {
             return {};
         }
