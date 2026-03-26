@@ -25,6 +25,10 @@
       "title": "Informativa sulla privacy | Aura Historia",
       "description": "Informativa sulla privacy e informazioni sulla protezione dei dati di Aura Historia."
     },
+    "consentSettings": {
+      "title": "Impostazioni cookie | Aura Historia",
+      "description": "Gestisci le tue preferenze sui cookie e sul tracciamento su Aura Historia."
+    },
     "account": {
       "title": "Il mio account | Aura Historia"
     },
@@ -33,6 +37,9 @@
     },
     "category": {
       "defaultName": "Categoria"
+    },
+    "period": {
+      "defaultName": "Periodo"
     }
   },
   "validation": {
@@ -64,6 +71,7 @@
     "ariaSwitchToLanguage": "Cambia lingua in {{language}}",
     "imprint": "Note legali",
     "privacy": "Informativa sulla privacy",
+    "cookieSettings": "Impostazioni cookie",
     "terms": "Termini e condizioni",
     "copyright": "© {{year}} Aura Historia",
     "sections": {
@@ -84,7 +92,9 @@
       "currencyLabel": "Valuta",
       "currencyPlaceholder": "Seleziona valuta",
       "saveButton": "Salva modifiche",
-      "successMessage": "Dati personali aggiornati con successo"
+      "successMessage": "Dati personali aggiornati con successo",
+      "prohibitedContentConsentLabel": "Mostra prodotti con simboli ai sensi del § 86a StGB",
+      "prohibitedContentConsentTooltip": "Le immagini dei prodotti possono contenere simboli di organizzazioni incostituzionali o terroristiche, in particolare quelli dell'era nazionalsocialista, come definito dal § 86a StGB. Accettando, acconsenti alla visualizzazione di tali contenuti."
     },
     "changePassword": {
       "title": "Cambia password",
@@ -399,7 +409,10 @@
     "trustBadge2": "Inserzioni continuamente aggiornate",
     "trustBadge3": "Creato per collezionisti seri",
     "categories": {
-      "title": "Scopri le categorie"
+      "title": "Sfoglia Categorie"
+    },
+    "periods": {
+      "title": "Scopri periodi e stili"
     },
     "features": {
       "title": "L'antiquariato è sparso ovunque online - la tua ricerca non dovrebbe esserlo",
@@ -580,6 +593,21 @@
       }
     }
   },
+  "period": {
+    "products": {
+      "loadingMore": "Caricamento di altri articoli...",
+      "allLoaded_one": "Hai visualizzato {{count}} articolo in questo periodo.",
+      "allLoaded_other": "Hai visualizzato tutti i {{count}} articoli di questo periodo.",
+      "noResults": {
+        "title": "Nessun articolo trovato",
+        "description": "Al momento non ci sono articoli in questo periodo."
+      },
+      "error": {
+        "title": "Impossibile caricare gli articoli",
+        "description": "Si è verificato un errore durante il caricamento degli articoli. Riprova più tardi."
+      }
+    }
+  },
   "share": {
     "copyLink": "Copia link",
     "copied": "Copiato!",
@@ -625,7 +653,9 @@
       "confirmPassword": "Conferma password*",
       "language": "Lingua",
       "currency": "Valuta",
-      "pleaseSelect": "Seleziona"
+      "pleaseSelect": "Seleziona",
+      "prohibitedContentConsentLabel": "Mostra prodotti con simboli ai sensi del § 86a StGB",
+      "prohibitedContentConsentTooltip": "Le immagini dei prodotti possono contenere simboli di organizzazioni incostituzionali o terroristiche, in particolare quelli dell'era nazionalsocialista, come definito dal § 86a StGB. Accettando, acconsenti alla visualizzazione di tali contenuti."
     },
     "signIn": {
       "email": "Email",
@@ -713,5 +743,12 @@
     "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Cliccando su 'Accetta', acconsenti all'uso dei cookie per questi scopi. Puoi trovare maggiori informazioni nella nostra <1>informativa sulla privacy</1>.",
     "accept": "Accetta",
     "reject": "Rifiuta"
+  },
+  "consentSettings": {
+    "title": "Impostazioni cookie",
+    "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Puoi trovare maggiori informazioni nella nostra <1>informativa sulla privacy</1>.",
+    "analyticsLabel": "Analisi & Tracciamento",
+    "analyticsDescription": "Ci permette di analizzare l'utilizzo e migliorare la tua esperienza tramite Google Analytics. Include archiviazione annunci, archiviazione analytics, dati utente annunci e personalizzazione annunci.",
+    "saved": "Le tue preferenze sui cookie sono state salvate."
   }
 }

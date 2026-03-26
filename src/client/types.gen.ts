@@ -1400,32 +1400,13 @@ export type ProductKeyData = {
 };
 
 /**
- * Watchlist product containing the product data and when it was added to the watchlist
- */
-export type WatchlistProductData = {
-    product: GetProductData;
-    /**
-     * Whether notifications are enabled for this watchlist product
-     */
-    notifications: boolean;
-    /**
-     * When the product was added to the watchlist (RFC3339 format)
-     */
-    created: string;
-    /**
-     * When the watchlist product was last updated (RFC3339 format)
-     */
-    updated: string;
-};
-
-/**
- * Paginated collection of watchlist products using cursor-based pagination
+ * Paginated collection of personalized watchlist products using cursor-based pagination
  */
 export type WatchlistCollectionData = {
     /**
-     * Array of watchlist products in the current page
+     * Array of personalized watchlist products in the current page
      */
-    items: Array<WatchlistProductData>;
+    items: Array<PersonalizedGetProductData>;
     /**
      * Number of products in the current page
      */
@@ -1448,36 +1429,6 @@ export type WatchlistProductPatch = {
      * Whether to enable or disable notifications for this watchlist product
      */
     notifications?: boolean;
-};
-
-/**
- * Response after patching a watchlist product, containing core product identifiers and notification settings
- */
-export type WatchlistProductPatchResponse = {
-    /**
-     * Unique identifier of the shop
-     */
-    shopId: string;
-    /**
-     * Shop's unique identifier for the product
-     */
-    shopsProductId: string;
-    /**
-     * Internal product identifier
-     */
-    productId: string;
-    /**
-     * Current notification setting for this watchlist product
-     */
-    notifications: boolean;
-    /**
-     * When the product was added to the watchlist (RFC3339 format)
-     */
-    created: string;
-    /**
-     * When the watchlist product was last updated (RFC3339 format)
-     */
-    updated: string;
 };
 
 /**
@@ -2564,7 +2515,18 @@ export type AddWatchlistProductData = {
      */
     body: ProductKeyData;
     path?: never;
-    query?: never;
+    query?: {
+        /**
+         * Preferred language for localized content in the response.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+        /**
+         * Currency for price display in the response.
+         */
+        currency?: CurrencyData;
+    };
     url: '/api/v1/me/watchlist';
 };
 
@@ -2593,7 +2555,7 @@ export type AddWatchlistProductResponses = {
     /**
      * Product added to watchlist successfully
      */
-    201: WatchlistProductPatchResponse;
+    201: PersonalizedGetProductData;
 };
 
 export type AddWatchlistProductResponse = AddWatchlistProductResponses[keyof AddWatchlistProductResponses];
@@ -2734,7 +2696,18 @@ export type PatchWatchlistProductData = {
          */
         shopsProductId: string;
     };
-    query?: never;
+    query?: {
+        /**
+         * Preferred language for localized content in the response.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+        /**
+         * Currency for price display in the response.
+         */
+        currency?: CurrencyData;
+    };
     url: '/api/v1/me/watchlist/{shopId}/{shopsProductId}';
 };
 
@@ -2763,7 +2736,7 @@ export type PatchWatchlistProductResponses = {
     /**
      * Watchlist product updated successfully
      */
-    200: WatchlistProductPatchResponse;
+    200: PersonalizedGetProductData;
 };
 
 export type PatchWatchlistProductResponse = PatchWatchlistProductResponses[keyof PatchWatchlistProductResponses];

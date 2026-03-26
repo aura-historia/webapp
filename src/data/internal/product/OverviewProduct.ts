@@ -1,7 +1,6 @@
 import type {
     PersonalizedGetProductData,
     PersonalizedGetProductSummaryData,
-    WatchlistProductData,
     GetProductData,
     GetProductSummaryData,
     ProductUserStateData,
@@ -151,23 +150,4 @@ export function mapPersonalizedGetProductSummaryDataToOverviewProduct(
     locale: string,
 ): OverviewProduct {
     return mapProductSummaryDataToOverviewProduct(apiData.item, locale, apiData.userState);
-}
-
-export function mapWatchlistProductDataToOverviewProduct(
-    apiData: WatchlistProductData,
-    locale: string,
-): OverviewProduct {
-    return mapProductDataToOverviewProduct(apiData.product, locale, {
-        watchlist: {
-            watching: true,
-            notifications: apiData.notifications,
-        },
-        prohibitedContent: {
-            consent: false,
-        },
-        // Watchlist endpoint does not carry per-product notification seen-state; default to seen
-        notification: {
-            seen: true,
-        },
-    });
 }

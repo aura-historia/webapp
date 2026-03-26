@@ -14,7 +14,6 @@ describe("SearchFilters", () => {
 
     describe("Apply filters with updated search query", () => {
         it("should use the current search bar query when applying filters", async () => {
-            // Render both SearchBar and SearchFilters as they appear on the search page
             await act(async () => {
                 renderWithRouter(
                     <>
@@ -37,24 +36,17 @@ describe("SearchFilters", () => {
                 );
             });
 
-            // Verify initial state - the SearchBar should have the original query
             const searchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
             expect(searchInput.value).toBe("original query");
 
-            // Update the search query in the input without submitting
             await user.clear(searchInput);
             await user.type(searchInput, "new search query");
-
-            // Verify the input now has the new value
             expect(searchInput.value).toBe("new search query");
 
-            // Click Apply filters button
-            const applyButton = screen.getByRole("button", { name: "Filter anwenden" });
-            await user.click(applyButton);
+            // Toggle a filter checkbox to trigger auto-apply with the new query
+            const checkboxes = screen.getAllByRole("checkbox");
+            await user.click(checkboxes[0]);
 
-            // The navigation should use the new query, not the original
-            // We can verify this by checking that the search input still has the new value
-            // (If the old query was used, the component would re-render with the old value)
             await waitFor(() => {
                 const currentSearchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
                 console.log(currentSearchInput);
@@ -85,16 +77,13 @@ describe("SearchFilters", () => {
                 );
             });
 
-            // Update the search query in the input without submitting
             const searchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
             await user.clear(searchInput);
             await user.type(searchInput, "updated query");
 
-            // Click Reset all filters button
             const resetButton = screen.getByRole("button", { name: "Alle Filter zurücksetzen" });
             await user.click(resetButton);
 
-            // Verify the search input kept the new query
             await waitFor(() => {
                 const currentSearchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
                 expect(currentSearchInput.value).toBe("updated query");
@@ -124,16 +113,16 @@ describe("SearchFilters", () => {
                 );
             });
 
-            // Clear the search input completely
             const searchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
             await user.clear(searchInput);
 
-            // Click Apply filters - should use fallback query
-            const applyButton = screen.getByRole("button", { name: "Filter anwenden" });
-            await user.click(applyButton);
+            // Toggle a filter checkbox to trigger auto-apply with empty search bar
+            const checkboxes = screen.getAllByRole("checkbox");
+            await user.click(checkboxes[0]);
 
-            // The component should still work (using the fallback)
-            expect(screen.getByRole("button", { name: "Filter anwenden" })).toBeInTheDocument();
+            expect(
+                screen.getByRole("button", { name: "Alle Filter zurücksetzen" }),
+            ).toBeInTheDocument();
         }, 10000);
 
         it("should fall back to URL query when search bar input has less than 3 characters", async () => {
@@ -159,17 +148,17 @@ describe("SearchFilters", () => {
                 );
             });
 
-            // Set search input to only 2 characters
             const searchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
             await user.clear(searchInput);
             await user.type(searchInput, "ab");
 
-            // Click Apply filters - should use fallback (original query)
-            const applyButton = screen.getByRole("button", { name: "Filter anwenden" });
-            await user.click(applyButton);
+            // Toggle a filter checkbox to trigger auto-apply with short query
+            const checkboxes = screen.getAllByRole("checkbox");
+            await user.click(checkboxes[0]);
 
-            // The component should still work
-            expect(screen.getByRole("button", { name: "Filter anwenden" })).toBeInTheDocument();
+            expect(
+                screen.getByRole("button", { name: "Alle Filter zurücksetzen" }),
+            ).toBeInTheDocument();
         }, 10000);
     });
 });

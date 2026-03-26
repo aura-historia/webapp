@@ -13,6 +13,7 @@ import {
     parseRestoration,
 } from "@/data/internal/quality-indicators/Restoration.ts";
 import { type ShopType, parseShopType } from "@/data/internal/shop/ShopType.ts";
+import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 
 export type RawSearchParams = {
     q: string;
@@ -128,7 +129,7 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         q: (search.q as string) || "",
         priceFrom: parseOptionalNumber(search.priceFrom),
         priceTo: parseOptionalNumber(search.priceTo),
-        allowedStates: parseProductStates(search.allowedStates),
+        allowedStates: parseProductStates(search.allowedStates) ?? FILTER_DEFAULTS.productState,
         creationDateFrom: parseOptionalDate(search.creationDateFrom),
         creationDateTo: parseOptionalDate(search.creationDateTo),
         updateDateFrom: parseOptionalDate(search.updateDateFrom),
@@ -143,7 +144,7 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         sortOrder: parseSortOrder(search.sortOrder),
         originYearMin: parseOptionalNumber(search.originYearMin),
         originYearMax: parseOptionalNumber(search.originYearMax),
-        authenticity: parseAuthenticities(search.authenticity),
+        authenticity: parseAuthenticities(search.authenticity) ?? FILTER_DEFAULTS.authenticity,
         condition: parseConditions(search.condition),
         provenance: parseProvenances(search.provenance),
         restoration: parseRestorations(search.restoration),

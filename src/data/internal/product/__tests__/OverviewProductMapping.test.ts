@@ -1,9 +1,6 @@
-import type { PersonalizedGetProductData, WatchlistProductData } from "@/client";
+import type { PersonalizedGetProductData } from "@/client";
 import { describe, expect, it } from "vitest";
-import {
-    mapPersonalizedGetProductDataToOverviewProduct,
-    mapWatchlistProductDataToOverviewProduct,
-} from "../OverviewProduct.ts";
+import { mapPersonalizedGetProductDataToOverviewProduct } from "../OverviewProduct.ts";
 
 describe("OverviewProduct mappers", () => {
     describe("mapToInternalOverviewProduct", () => {
@@ -141,118 +138,6 @@ describe("OverviewProduct mappers", () => {
 
             const result = mapPersonalizedGetProductDataToOverviewProduct(apiData, "de");
 
-            expect(result.images).toEqual([]);
-        });
-    });
-
-    describe("mapWatchlistToOverview", () => {
-        it("should create OverviewProduct from WatchlistProductData", () => {
-            const apiData: WatchlistProductData = {
-                product: {
-                    productId: "item-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    shopName: "Watchlist Shop",
-                    shopType: "AUCTION_HOUSE",
-                    title: { text: "Watched Item", language: "de" },
-                    description: { text: "Item on watchlist", language: "de" },
-                    price: { offer: { amount: 2500, currency: "EUR" } },
-                    state: "AVAILABLE",
-                    url: "https://example.com/watchlist-item",
-                    images: [{ url: "https://example.com/image1.jpg", prohibitedContent: "NONE" }],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
-                    created: "2023-01-01T00:00:00Z",
-                    updated: "2023-01-02T00:00:00Z",
-                },
-                notifications: true,
-                created: "2023-01-03T00:00:00Z",
-                updated: "2023-01-04T00:00:00Z",
-            };
-
-            const result = mapWatchlistProductDataToOverviewProduct(apiData, "en");
-
-            expect(result.productId).toBe("item-123");
-            expect(result.shopName).toBe("Watchlist Shop");
-            expect(result.title).toBe("Watched Item");
-            expect(result.price).toBe("€25.00");
-            expect(result.userData?.watchlistData.isWatching).toBe(true);
-            expect(result.userData?.watchlistData.isNotificationEnabled).toBe(true);
-        });
-
-        it("should handle watchlist item with notifications disabled", () => {
-            const apiData: WatchlistProductData = {
-                product: {
-                    productId: "item-789",
-                    eventId: "event-999",
-                    shopId: "shop-555",
-                    shopsProductId: "shop-item-202",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    shopName: "Test Shop",
-                    shopType: "AUCTION_HOUSE",
-                    title: { text: "Test Item", language: "en" },
-                    price: { offer: { amount: 1000, currency: "USD" } },
-                    state: "LISTED",
-                    url: "https://example.com/test",
-                    images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
-                    created: "2023-01-01T00:00:00Z",
-                    updated: "2023-01-02T00:00:00Z",
-                },
-                notifications: false,
-                created: "2023-01-03T00:00:00Z",
-                updated: "2023-01-04T00:00:00Z",
-            };
-
-            const result = mapWatchlistProductDataToOverviewProduct(apiData, "de");
-
-            expect(result.userData?.watchlistData.isWatching).toBe(true);
-            expect(result.userData?.watchlistData.isNotificationEnabled).toBe(false);
-        });
-
-        it("should handle missing optional fields", () => {
-            const apiData: WatchlistProductData = {
-                product: {
-                    productId: "item-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    shopName: "Shop",
-                    shopType: "AUCTION_HOUSE",
-                    title: { text: "Item", language: "de" },
-                    description: null,
-                    price: null,
-                    state: "REMOVED",
-                    url: "",
-                    images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
-                    created: "2023-01-01T00:00:00Z",
-                    updated: "2023-01-02T00:00:00Z",
-                },
-                notifications: false,
-                created: "2023-01-03T00:00:00Z",
-                updated: "2023-01-04T00:00:00Z",
-            };
-
-            const result = mapWatchlistProductDataToOverviewProduct(apiData, "de");
-
-            expect(result.description).toBeUndefined();
-            expect(result.price).toBeUndefined();
-            expect(result.url).toBeNull();
             expect(result.images).toEqual([]);
         });
     });

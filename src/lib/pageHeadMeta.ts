@@ -13,7 +13,15 @@ type HeadMeta = {
     scripts?: Array<{ type: string; children: string }>;
 };
 
-type PageMetaKey = "home" | "search" | "login" | "imprint" | "privacy" | "account" | "watchlist";
+type PageMetaKey =
+    | "home"
+    | "search"
+    | "login"
+    | "imprint"
+    | "privacy"
+    | "account"
+    | "watchlist"
+    | "consentSettings";
 
 const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string }> = {
     home: {
@@ -41,6 +49,10 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     },
     watchlist: {
         title: "meta.watchlist.title",
+    },
+    consentSettings: {
+        title: "meta.consentSettings.title",
+        description: "meta.consentSettings.description",
     },
 };
 

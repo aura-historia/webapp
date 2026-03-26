@@ -4,6 +4,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import type { ShopType } from "@/data/internal/shop/ShopType.ts";
+import { expandFilterCard } from "@/test/utils.tsx";
 
 vi.mock("@/hooks/search/useFilterNavigation", () => ({
     useFilterNavigation: () => vi.fn(),
@@ -38,6 +39,7 @@ describe("AuctionDateSpanFilter", () => {
         );
 
         expect(screen.getByText("Auktionsdatum")).toBeInTheDocument();
+        expandFilterCard("Auktionsdatum");
         expect(screen.getAllByText("Beliebig")).toHaveLength(2);
     });
 
@@ -48,12 +50,12 @@ describe("AuctionDateSpanFilter", () => {
             </FormWrapper>,
         );
 
-        const buttons = screen.getAllByRole("button");
-        const datePickerButtons = buttons.filter((btn) => btn.textContent?.includes("Beliebig"));
+        expandFilterCard("Auktionsdatum");
+        const datePickers = screen.getAllByText("Beliebig");
 
-        datePickerButtons.forEach((btn) => {
-            expect(btn).not.toBeDisabled();
-        });
+        for (const picker of datePickers) {
+            expect(picker.closest("button")).not.toBeDisabled();
+        }
     });
 
     it("is enabled when AUCTION_HOUSE is selected", () => {
@@ -63,27 +65,12 @@ describe("AuctionDateSpanFilter", () => {
             </FormWrapper>,
         );
 
-        const buttons = screen.getAllByRole("button");
-        const datePickerButtons = buttons.filter((btn) => btn.textContent?.includes("Beliebig"));
+        expandFilterCard("Auktionsdatum");
+        const datePickers = screen.getAllByText("Beliebig");
 
-        datePickerButtons.forEach((btn) => {
-            expect(btn).not.toBeDisabled();
-        });
-    });
-
-    it("is disabled when other shop types are selected", () => {
-        render(
-            <FormWrapper shopType={["COMMERCIAL_DEALER", "MARKETPLACE"]}>
-                <AuctionDateSpanFilter />
-            </FormWrapper>,
-        );
-
-        const buttons = screen.getAllByRole("button");
-        const datePickerButtons = buttons.filter((btn) => btn.textContent?.includes("Beliebig"));
-
-        datePickerButtons.forEach((btn) => {
-            expect(btn).toBeDisabled();
-        });
+        for (const picker of datePickers) {
+            expect(picker.closest("button")).not.toBeDisabled();
+        }
     });
 
     it("has visual indication when disabled", () => {
@@ -106,6 +93,7 @@ describe("AuctionDateSpanFilter", () => {
         );
 
         const user = userEvent.setup();
+        expandFilterCard("Auktionsdatum");
         const datePickers = screen.getAllByText("Beliebig");
 
         await user.click(datePickers[0]);

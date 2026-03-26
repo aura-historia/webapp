@@ -13,8 +13,10 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ImprintRouteImport } from './routes/imprint'
+import { Route as ConsentSettingsRouteImport } from './routes/consent-settings'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PeriodsPeriodIdRouteImport } from './routes/periods.$periodId'
 import { Route as CategoriesCategoryIdRouteImport } from './routes/categories.$categoryId'
 import { Route as AuthWatchlistRouteImport } from './routes/_auth.watchlist'
 import { Route as AuthAccountRouteImport } from './routes/_auth.account'
@@ -41,6 +43,11 @@ const ImprintRoute = ImprintRouteImport.update({
   path: '/imprint',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConsentSettingsRoute = ConsentSettingsRouteImport.update({
+  id: '/consent-settings',
+  path: '/consent-settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
@@ -48,6 +55,11 @@ const AuthRoute = AuthRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PeriodsPeriodIdRoute = PeriodsPeriodIdRouteImport.update({
+  id: '/periods/$periodId',
+  path: '/periods/$periodId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CategoriesCategoryIdRoute = CategoriesCategoryIdRouteImport.update({
@@ -80,6 +92,7 @@ const ShopsShopSlugIdProductsProductSlugIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
@@ -87,11 +100,13 @@ export interface FileRoutesByFullPath {
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
+  '/periods/$periodId': typeof PeriodsPeriodIdRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
@@ -99,6 +114,7 @@ export interface FileRoutesByTo {
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
+  '/periods/$periodId': typeof PeriodsPeriodIdRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -106,6 +122,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
+  '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
@@ -113,6 +130,7 @@ export interface FileRoutesById {
   '/_auth/account': typeof AuthAccountRoute
   '/_auth/watchlist': typeof AuthWatchlistRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
+  '/periods/$periodId': typeof PeriodsPeriodIdRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -120,6 +138,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/consent-settings'
     | '/imprint'
     | '/login'
     | '/privacy'
@@ -127,11 +146,13 @@ export interface FileRouteTypes {
     | '/account'
     | '/watchlist'
     | '/categories/$categoryId'
+    | '/periods/$periodId'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/consent-settings'
     | '/imprint'
     | '/login'
     | '/privacy'
@@ -139,12 +160,14 @@ export interface FileRouteTypes {
     | '/account'
     | '/watchlist'
     | '/categories/$categoryId'
+    | '/periods/$periodId'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/products/$productSlugId'
   id:
     | '__root__'
     | '/'
     | '/_auth'
+    | '/consent-settings'
     | '/imprint'
     | '/login'
     | '/privacy'
@@ -152,6 +175,7 @@ export interface FileRouteTypes {
     | '/_auth/account'
     | '/_auth/watchlist'
     | '/categories/$categoryId'
+    | '/periods/$periodId'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesById: FileRoutesById
@@ -159,11 +183,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
+  ConsentSettingsRoute: typeof ConsentSettingsRoute
   ImprintRoute: typeof ImprintRoute
   LoginRoute: typeof LoginRoute
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   CategoriesCategoryIdRoute: typeof CategoriesCategoryIdRoute
+  PeriodsPeriodIdRoute: typeof PeriodsPeriodIdRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
   ShopsShopSlugIdProductsProductSlugIdRoute: typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -198,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ImprintRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/consent-settings': {
+      id: '/consent-settings'
+      path: '/consent-settings'
+      fullPath: '/consent-settings'
+      preLoaderRoute: typeof ConsentSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
@@ -210,6 +243,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/periods/$periodId': {
+      id: '/periods/$periodId'
+      path: '/periods/$periodId'
+      fullPath: '/periods/$periodId'
+      preLoaderRoute: typeof PeriodsPeriodIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/categories/$categoryId': {
@@ -265,11 +305,13 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
+  ConsentSettingsRoute: ConsentSettingsRoute,
   ImprintRoute: ImprintRoute,
   LoginRoute: LoginRoute,
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   CategoriesCategoryIdRoute: CategoriesCategoryIdRoute,
+  PeriodsPeriodIdRoute: PeriodsPeriodIdRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
   ShopsShopSlugIdProductsProductSlugIdRoute:
     ShopsShopSlugIdProductsProductSlugIdRoute,

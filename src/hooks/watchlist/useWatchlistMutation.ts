@@ -31,6 +31,7 @@ export function useWatchlistMutation(shopId: string, shopsProductId: string) {
                       })
                     : await addWatchlistProduct({
                           body: { shopId: shopId, shopsProductId: shopsProductId },
+                          query: { language: parseLanguage(i18n.language) },
                       });
 
             if (result.error) {

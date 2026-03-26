@@ -2,8 +2,6 @@ import type { FilterSchema } from "@/components/search/SearchFilters";
 import { RESTORATIONS } from "@/data/internal/quality-indicators/Restoration.ts";
 import { PROVENANCES } from "@/data/internal/quality-indicators/Provenance.ts";
 import { CONDITIONS } from "@/data/internal/quality-indicators/Condition.ts";
-import { AUTHENTICITIES } from "@/data/internal/quality-indicators/Authenticity.ts";
-import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 
 /** Minimum number of characters required for a search query */
@@ -11,7 +9,7 @@ export const MIN_SEARCH_QUERY_LENGTH = 3;
 
 export const FILTER_DEFAULTS: FilterSchema = {
     priceSpan: { min: undefined, max: undefined },
-    productState: [...PRODUCT_STATES],
+    productState: ["AVAILABLE", "LISTED", "UNKNOWN"],
     creationDate: { from: undefined, to: undefined },
     updateDate: { from: undefined, to: undefined },
     auctionDate: { from: undefined, to: undefined },
@@ -20,7 +18,7 @@ export const FILTER_DEFAULTS: FilterSchema = {
     shopType: [...SHOP_TYPES],
     periodId: [],
     originYearSpan: { min: undefined, max: undefined },
-    authenticity: [...AUTHENTICITIES],
+    authenticity: ["ORIGINAL", "UNKNOWN"],
     condition: [...CONDITIONS],
     provenance: [...PROVENANCES],
     restoration: [...RESTORATIONS],
