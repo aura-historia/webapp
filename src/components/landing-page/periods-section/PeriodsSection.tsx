@@ -11,6 +11,7 @@ import Autoplay from "embla-carousel-autoplay";
 import type { PeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
 import { getPeriodIcon } from "./PeriodsSection.data.ts";
 import { CAROUSEL_AUTOPLAY_DELAY_MS } from "@/components/landing-page/common/landingPageConstants.ts";
+import { H2 } from "@/components/typography/H2.tsx";
 
 type PeriodsSectionProps = {
     readonly periods: PeriodOverview[];
@@ -20,7 +21,7 @@ export default function PeriodsSection({ periods }: PeriodsSectionProps) {
     const { t } = useTranslation();
 
     return (
-        <section className="py-10" aria-label={t("landingPage.periods.title")}>
+        <section className="py-10 bg-muted/30" aria-label={t("landingPage.periods.title")}>
             <div className="w-full max-w-6xl mx-auto px-4 py-2">
                 <Carousel
                     opts={{
@@ -38,9 +39,7 @@ export default function PeriodsSection({ periods }: PeriodsSectionProps) {
                     className="w-full overflow-visible"
                 >
                     <div className="flex items-center justify-between mb-2">
-                        <p className="text-2xl font-bold hyphens-auto">
-                            {t("landingPage.periods.title")}
-                        </p>
+                        <H2>{t("landingPage.periods.title")}</H2>
                         <div className="flex gap-2">
                             <CarouselPrevious className="static translate-y-0 bg-card border border-primary/20 text-primary hover:bg-card/80 hover:border-primary/40" />
                             <CarouselNext className="static translate-y-0 bg-card border border-primary/20 text-primary hover:bg-card/80 hover:border-primary/40" />
