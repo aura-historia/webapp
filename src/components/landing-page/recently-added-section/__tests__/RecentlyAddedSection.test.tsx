@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import RecentlyAddedSection from "../RecentlyAddedSection.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
@@ -8,7 +8,8 @@ import { parseAuthenticity } from "@/data/internal/quality-indicators/Authentici
 import { parseCondition } from "@/data/internal/quality-indicators/Condition.ts";
 import { parseProvenance } from "@/data/internal/quality-indicators/Provenance.ts";
 import { parseRestoration } from "@/data/internal/quality-indicators/Restoration.ts";
-import type React from "react";
+import { renderWithRouter } from "@/test/utils.tsx";
+import { act } from "react";
 
 // Mock the entire embla carousel to avoid plugin comparison errors in jsdom
 vi.mock("embla-carousel-react", () => ({
@@ -39,37 +40,6 @@ vi.mock("@/lib/carousel/reverseAutoplay.ts", () => ({
     })),
 }));
 
-vi.mock("@tanstack/react-router", async (importOriginal) => {
-    const actual = await importOriginal<typeof import("@tanstack/react-router")>();
-    return {
-        ...actual,
-        Link: ({
-            children,
-            to,
-            params,
-            ...props
-        }: {
-            children: React.ReactNode;
-            to: string;
-            params?: Record<string, string>;
-            className?: string;
-            "aria-label"?: string;
-        }) => {
-            const href = params
-                ? Object.entries(params).reduce(
-                      (acc, [key, val]) => acc.replace(`$${key}`, val),
-                      to,
-                  )
-                : to;
-            return (
-                <a href={href} {...props}>
-                    {children}
-                </a>
-            );
-        },
-    };
-});
-
 const createMockProduct = (id: string, title: string): OverviewProduct => ({
     productId: id,
     productSlugId: `slug-${id}`,
@@ -97,25 +67,25 @@ const mockProducts: OverviewProduct[] = [
 ];
 
 describe("RecentlyAddedSection", () => {
-    it("renders the section with the recently added title", () => {
-        render(<RecentlyAddedSection products={mockProducts} />);
+    it("renders the section with the recently added title", async () => {
+        await act(async () => renderWithRouter(<RecentlyAddedSection products={mockProducts} />));
         expect(screen.getByText("Kürzlich hinzugefügt")).toBeInTheDocument();
     });
 
-    it("renders a product grid item for each product", () => {
-        render(<RecentlyAddedSection products={mockProducts} />);
+    it("renders a product grid item for each product", async () => {
+        await act(async () => renderWithRouter(<RecentlyAddedSection products={mockProducts} />));
         expect(screen.getByText("Product A")).toBeInTheDocument();
         expect(screen.getByText("Product B")).toBeInTheDocument();
     });
 
-    it("renders the section element with the correct aria-label", () => {
-        render(<RecentlyAddedSection products={mockProducts} />);
+    it("renders the section element with the correct aria-label", async () => {
+        await act(async () => renderWithRouter(<RecentlyAddedSection products={mockProducts} />));
         const section = screen.getByRole("region", { name: "Kürzlich hinzugefügt" });
         expect(section).toBeInTheDocument();
     });
 
-    it("handles an empty product list without crashing", () => {
-        render(<RecentlyAddedSection products={[]} />);
+    it("handles an empty product list without crashing", async () => {
+        await act(async () => renderWithRouter(<RecentlyAddedSection products={[]} />));
         expect(screen.getByText("Kürzlich hinzugefügt")).toBeInTheDocument();
         // Since there are no products, there should be no links with 'Details'
         // Note: The UI fallback text depends on translation, we just test it doesn't crash

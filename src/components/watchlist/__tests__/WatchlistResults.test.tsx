@@ -63,6 +63,9 @@ const createMockProduct = (overrides: Partial<OverviewProduct> = {}): OverviewPr
             isWatching: true,
             isNotificationEnabled: false,
         },
+        notificationData: {
+            hasUnseenNotification: false,
+        },
     },
     ...overrides,
 });
@@ -189,6 +192,9 @@ describe("WatchlistResults", () => {
                         isWatching: false,
                         isNotificationEnabled: false,
                     },
+                    notificationData: {
+                        hasUnseenNotification: false,
+                    },
                 },
             });
             setInfiniteQueryMock({ products: [productWithoutWatchlistData] });
@@ -205,6 +211,9 @@ describe("WatchlistResults", () => {
                     watchlistData: {
                         isWatching: true,
                         isNotificationEnabled: true,
+                    },
+                    notificationData: {
+                        hasUnseenNotification: false,
                     },
                 },
             });
