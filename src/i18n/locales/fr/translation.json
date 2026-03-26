@@ -351,7 +351,8 @@
         "unknown": "Inconnue",
         "unknownDescription": "Aucune information sur la restauration n'est disponible."
       }
-    }
+    },
+    "unseenNotification": "Mis à jour"
   },
   "priceBadge": {
     "discovered": "Prix découvert",
