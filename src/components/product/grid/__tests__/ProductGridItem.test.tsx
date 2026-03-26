@@ -93,4 +93,16 @@ describe("ProductGridItem", () => {
 
         expect(mockMutate).not.toHaveBeenCalled();
     });
+
+    it("uses full-height layout classes for consistent card heights", async () => {
+        const { container } = await act(() =>
+            renderWithRouter(<ProductGridItem product={mockProduct} />),
+        );
+
+        const wrapper = container.firstElementChild;
+        const card = container.querySelector(".shadow-md");
+
+        expect(wrapper).toHaveClass("h-full");
+        expect(card).toHaveClass("h-full");
+    });
 });

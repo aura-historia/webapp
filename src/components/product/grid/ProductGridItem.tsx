@@ -27,7 +27,7 @@ function ProductGridItemComponent({ product }: { readonly product: OverviewProdu
     }, [hasUnseenNotification, originEventId, markSeen.mutate]);
 
     return (
-        <div className="relative pt-2">
+        <div className="relative pt-2 h-full">
             {hasUnseenNotification && (
                 <div className="absolute left-4 top-2 z-10 -translate-y-1/2">
                     <UnseenNotificationBadge />
@@ -36,7 +36,7 @@ function ProductGridItemComponent({ product }: { readonly product: OverviewProdu
 
             <Card
                 className={cn(
-                    "flex flex-col w-full p-0 shadow-md overflow-hidden min-w-0",
+                    "flex flex-col w-full h-full p-0 shadow-md overflow-hidden min-w-0",
                     hasUnseenNotification && "border-2 border-primary",
                 )}
             >
