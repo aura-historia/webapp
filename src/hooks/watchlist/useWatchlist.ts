@@ -20,6 +20,8 @@ export function useWatchlist() {
                     language: parseLanguage(i18n.language),
                     searchAfter: pageParam,
                     size: PAGE_SIZE,
+                    sort: "created",
+                    order: "desc",
                 },
             });
 

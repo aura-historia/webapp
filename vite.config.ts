@@ -7,6 +7,8 @@ import {cloudflare} from '@cloudflare/vite-plugin'
 import {devtools} from '@tanstack/devtools-vite'
 
 
+const EXCLUDED_ROUTES = new Set(['/account', '/watchlist', '/search', '/api/', '/login'])
+
 export default defineConfig({
     plugins: [
         // this is the plugin that enables path aliases
@@ -22,17 +24,10 @@ export default defineConfig({
                 enabled: true,
                 crawlLinks: true,
                 filter: ({path}) => {
-                    // Exclude authenticated routes
-                    if (path.startsWith('/account') || path.startsWith('/watchlist')) {
-                        return false
-                    }
-                    // Exclude search routes (dynamic query params)
-                    if (path.startsWith('/search')) {
-                        return false
-                    }
-                    // Exclude API routes
-                    return !path.startsWith('/api/');
-                },
+                    const isExcludedRoute = [...EXCLUDED_ROUTES].some((route) => path.includes(route))
+
+                    return !isExcludedRoute
+                }
             },
             sitemap: {
                 enabled: true,
@@ -43,4 +38,3 @@ export default defineConfig({
         cloudflare({viteEnvironment: {name: 'ssr'}}),
     ],
 })
-
