@@ -34,10 +34,15 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
     return (
         <Card
             className={cn(
-                "flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0",
+                "relative flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0",
                 hasUnseenNotification && "border-2 border-primary",
             )}
         >
+            {hasUnseenNotification && (
+                <div className="absolute left-8 top-0 z-10 -translate-y-1/2">
+                    <UnseenNotificationBadge />
+                </div>
+            )}
             <div className={"shrink-0 flex lg:justify-start justify-center"}>
                 <ProductCardImageCarousel
                     images={product.images}
@@ -67,7 +72,6 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                         <div className="flex flex-wrap gap-2">
                             <StatusBadge status={product.state} />
                             <ProductQualityBadges product={product} />
-                            {hasUnseenNotification && <UnseenNotificationBadge />}
                         </div>
                     </div>
 
