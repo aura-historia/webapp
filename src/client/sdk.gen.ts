@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateShopData, CreateShopErrors, CreateShopResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAllNotificationsData, DeleteAllNotificationsErrors, DeleteAllNotificationsResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetNotificationsData, GetNotificationsErrors, GetNotificationsResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetShopByDomainData, GetShopByDomainErrors, GetShopByDomainResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchAllNotificationsData, PatchAllNotificationsErrors, PatchAllNotificationsResponses, PatchNotificationData2, PatchNotificationErrors, PatchNotificationResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PutProductsData, PutProductsErrors, PutProductsResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateShopByDomainData, UpdateShopByDomainErrors, UpdateShopByDomainResponses, UpdateShopByIdData, UpdateShopByIdErrors, UpdateShopByIdResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAllNotificationsData, DeleteAllNotificationsErrors, DeleteAllNotificationsResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetNotificationsData, GetNotificationsErrors, GetNotificationsResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsErrors, GetSearchFilterMatchedProductsResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchAllNotificationsData, PatchAllNotificationsErrors, PatchAllNotificationsResponses, PatchNotificationData2, PatchNotificationErrors, PatchNotificationResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -129,35 +129,6 @@ export const simpleSearchProducts = <ThrowOnError extends boolean = false>(optio
 });
 
 /**
- * Bulk create or update products
- *
- * Creates or updates multiple products in a single batch request.
- * This endpoint accepts a collection of product data and processes them asynchronously.
- *
- * **Shop Enrichment**: The shop information (shopId and shopName) is automatically
- * enriched based on the product's URL. The domain is extracted from the product URL
- * and must match a shop that is already registered in the system. If the shop is not
- * found, the product will fail with a SHOP_NOT_FOUND error. If the URL does not contain
- * a valid extractable domain, the product will fail with a NO_DOMAIN error.
- *
- * **Response Structure**:
- * - `skipped`: Number of products that had no changes and were skipped
- * - `unprocessed`: URLs of products that could not be processed due to temporary issues (can be retried)
- * - `failed`: Map of product URLs to error codes for products that permanently failed processing
- *
- * Returns information about any products that could not be processed or failed during enrichment.
- *
- */
-export const putProducts = <ThrowOnError extends boolean = false>(options: Options<PutProductsData, ThrowOnError>) => (options.client ?? client).put<PutProductsResponses, PutProductsErrors, ThrowOnError>({
-    url: '/api/v1/products',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
  * Complex product search
  *
  * Performs an advanced search for products using a comprehensive search filter.
@@ -258,6 +229,21 @@ export const updateUserSearchFilter = <ThrowOnError extends boolean = false>(opt
         'Content-Type': 'application/json',
         ...options.headers
     }
+});
+
+/**
+ * List products matched by a search filter
+ *
+ * Retrieves all products that have been matched by the given search filter for the authenticated user.
+ * Results are paginated using search-after cursor-based pagination sorted by match creation time.
+ * Mirrors the behavior of `GET /api/v1/me/watchlist`.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getSearchFilterMatchedProducts = <ThrowOnError extends boolean = false>(options: Options<GetSearchFilterMatchedProductsData, ThrowOnError>) => (options.client ?? client).get<GetSearchFilterMatchedProductsResponses, GetSearchFilterMatchedProductsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/search-filters/{userSearchFilterId}/products',
+    ...options
 });
 
 /**
@@ -459,29 +445,6 @@ export const patchNotification = <ThrowOnError extends boolean = false>(options:
 export const simpleSearchShops = <ThrowOnError extends boolean = false>(options?: Options<SimpleSearchShopsData, ThrowOnError>) => (options?.client ?? client).get<SimpleSearchShopsResponses, SimpleSearchShopsErrors, ThrowOnError>({ url: '/api/v1/shops', ...options });
 
 /**
- * Create a new shop
- *
- * Creates a new shop in the system with the provided details.
- * The shop must include at least one domain and can have up to 100 domains.
- * Returns the created shop with generated ID and timestamps.
- *
- * **Uniqueness Checks**:
- * - The shop name must be unique (via slug normalization). A slug is automatically generated from the shop name.
- * - All shop domains must be unique - no domain can be associated with multiple shops.
- *
- * If either uniqueness constraint is violated, a 409 Conflict error is returned.
- *
- */
-export const createShop = <ThrowOnError extends boolean = false>(options: Options<CreateShopData, ThrowOnError>) => (options.client ?? client).post<CreateShopResponses, CreateShopErrors, ThrowOnError>({
-    url: '/api/v1/shops',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
  * Get shop details by ID
  *
  * Retrieves detailed information about a specific shop by its shop ID (UUID).
@@ -489,55 +452,6 @@ export const createShop = <ThrowOnError extends boolean = false>(options: Option
  *
  */
 export const getShopById = <ThrowOnError extends boolean = false>(options: Options<GetShopByIdData, ThrowOnError>) => (options.client ?? client).get<GetShopByIdResponses, GetShopByIdErrors, ThrowOnError>({ url: '/api/v1/shops/{shopId}', ...options });
-
-/**
- * Update shop details by ID
- *
- * Updates an existing shop's information by its shop ID (UUID).
- * All fields in the request body are optional - only provided fields will be updated.
- * If the request body is empty or only contains null values, the shop is returned unchanged.
- * When updating domains, the complete new set of domains must be provided.
- *
- * **Note**: The shop name cannot be updated as it determines the shop's slug identifier.
- *
- */
-export const updateShopById = <ThrowOnError extends boolean = false>(options: Options<UpdateShopByIdData, ThrowOnError>) => (options.client ?? client).patch<UpdateShopByIdResponses, UpdateShopByIdErrors, ThrowOnError>({
-    url: '/api/v1/shops/{shopId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
- * Get shop details by domain
- *
- * Retrieves detailed information about a specific shop by its domain.
- * Returns complete shop metadata including name, domains, image, and timestamps.
- *
- */
-export const getShopByDomain = <ThrowOnError extends boolean = false>(options: Options<GetShopByDomainData, ThrowOnError>) => (options.client ?? client).get<GetShopByDomainResponses, GetShopByDomainErrors, ThrowOnError>({ url: '/api/v1/by-domain/shops/{shopDomain}', ...options });
-
-/**
- * Update shop details by domain
- *
- * Updates an existing shop's information by its domain.
- * All fields in the request body are optional - only provided fields will be updated.
- * If the request body is empty or only contains null values, the shop is returned unchanged.
- * When updating domains, the complete new set of domains must be provided.
- *
- * **Note**: The shop name cannot be updated as it determines the shop's slug identifier.
- *
- */
-export const updateShopByDomain = <ThrowOnError extends boolean = false>(options: Options<UpdateShopByDomainData, ThrowOnError>) => (options.client ?? client).patch<UpdateShopByDomainResponses, UpdateShopByDomainErrors, ThrowOnError>({
-    url: '/api/v1/by-domain/shops/{shopDomain}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
 
 /**
  * Get shop details by slug

@@ -3,8 +3,8 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistProduct, complexSearchProducts, createShop, createUserSearchFilter, deleteAllNotifications, deleteNotification, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getShopByDomain, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchWatchlistProduct, putProducts, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateShopByDomain, updateShopById, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateShopData, CreateShopError, CreateShopResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetShopByDomainData, GetShopByDomainError, GetShopByDomainResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PutProductsData, PutProductsError, PutProductsResponse2, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateShopByDomainData, UpdateShopByDomainError, UpdateShopByDomainResponse, UpdateShopByIdData, UpdateShopByIdError, UpdateShopByIdResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import { addWatchlistProduct, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterMatchedProducts, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchWatchlistProduct, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -199,40 +199,6 @@ export const simpleSearchProductsOptions = (options: Options<SimpleSearchProduct
 });
 
 /**
- * Bulk create or update products
- *
- * Creates or updates multiple products in a single batch request.
- * This endpoint accepts a collection of product data and processes them asynchronously.
- *
- * **Shop Enrichment**: The shop information (shopId and shopName) is automatically
- * enriched based on the product's URL. The domain is extracted from the product URL
- * and must match a shop that is already registered in the system. If the shop is not
- * found, the product will fail with a SHOP_NOT_FOUND error. If the URL does not contain
- * a valid extractable domain, the product will fail with a NO_DOMAIN error.
- *
- * **Response Structure**:
- * - `skipped`: Number of products that had no changes and were skipped
- * - `unprocessed`: URLs of products that could not be processed due to temporary issues (can be retried)
- * - `failed`: Map of product URLs to error codes for products that permanently failed processing
- *
- * Returns information about any products that could not be processed or failed during enrichment.
- *
- */
-export const putProductsMutation = (options?: Partial<Options<PutProductsData>>): UseMutationOptions<PutProductsResponse2, PutProductsError, Options<PutProductsData>> => {
-    const mutationOptions: UseMutationOptions<PutProductsResponse2, PutProductsError, Options<PutProductsData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await putProducts({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
  * Complex product search
  *
  * Performs an advanced search for products using a comprehensive search filter.
@@ -372,6 +338,30 @@ export const updateUserSearchFilterMutation = (options?: Partial<Options<UpdateU
     };
     return mutationOptions;
 };
+
+export const getSearchFilterMatchedProductsQueryKey = (options: Options<GetSearchFilterMatchedProductsData>) => createQueryKey('getSearchFilterMatchedProducts', options);
+
+/**
+ * List products matched by a search filter
+ *
+ * Retrieves all products that have been matched by the given search filter for the authenticated user.
+ * Results are paginated using search-after cursor-based pagination sorted by match creation time.
+ * Mirrors the behavior of `GET /api/v1/me/watchlist`.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getSearchFilterMatchedProductsOptions = (options: Options<GetSearchFilterMatchedProductsData>) => queryOptions<GetSearchFilterMatchedProductsResponse, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, ReturnType<typeof getSearchFilterMatchedProductsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getSearchFilterMatchedProducts({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getSearchFilterMatchedProductsQueryKey(options)
+});
 
 export const getWatchlistProductsQueryKey = (options?: Options<GetWatchlistProductsData>) => createQueryKey('getWatchlistProducts', options);
 
@@ -655,34 +645,6 @@ export const simpleSearchShopsOptions = (options?: Options<SimpleSearchShopsData
     queryKey: simpleSearchShopsQueryKey(options)
 });
 
-/**
- * Create a new shop
- *
- * Creates a new shop in the system with the provided details.
- * The shop must include at least one domain and can have up to 100 domains.
- * Returns the created shop with generated ID and timestamps.
- *
- * **Uniqueness Checks**:
- * - The shop name must be unique (via slug normalization). A slug is automatically generated from the shop name.
- * - All shop domains must be unique - no domain can be associated with multiple shops.
- *
- * If either uniqueness constraint is violated, a 409 Conflict error is returned.
- *
- */
-export const createShopMutation = (options?: Partial<Options<CreateShopData>>): UseMutationOptions<CreateShopResponse, CreateShopError, Options<CreateShopData>> => {
-    const mutationOptions: UseMutationOptions<CreateShopResponse, CreateShopError, Options<CreateShopData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await createShop({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
 export const getShopByIdQueryKey = (options: Options<GetShopByIdData>) => createQueryKey('getShopById', options);
 
 /**
@@ -704,78 +666,6 @@ export const getShopByIdOptions = (options: Options<GetShopByIdData>) => queryOp
     },
     queryKey: getShopByIdQueryKey(options)
 });
-
-/**
- * Update shop details by ID
- *
- * Updates an existing shop's information by its shop ID (UUID).
- * All fields in the request body are optional - only provided fields will be updated.
- * If the request body is empty or only contains null values, the shop is returned unchanged.
- * When updating domains, the complete new set of domains must be provided.
- *
- * **Note**: The shop name cannot be updated as it determines the shop's slug identifier.
- *
- */
-export const updateShopByIdMutation = (options?: Partial<Options<UpdateShopByIdData>>): UseMutationOptions<UpdateShopByIdResponse, UpdateShopByIdError, Options<UpdateShopByIdData>> => {
-    const mutationOptions: UseMutationOptions<UpdateShopByIdResponse, UpdateShopByIdError, Options<UpdateShopByIdData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await updateShopById({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const getShopByDomainQueryKey = (options: Options<GetShopByDomainData>) => createQueryKey('getShopByDomain', options);
-
-/**
- * Get shop details by domain
- *
- * Retrieves detailed information about a specific shop by its domain.
- * Returns complete shop metadata including name, domains, image, and timestamps.
- *
- */
-export const getShopByDomainOptions = (options: Options<GetShopByDomainData>) => queryOptions<GetShopByDomainResponse, GetShopByDomainError, GetShopByDomainResponse, ReturnType<typeof getShopByDomainQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getShopByDomain({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getShopByDomainQueryKey(options)
-});
-
-/**
- * Update shop details by domain
- *
- * Updates an existing shop's information by its domain.
- * All fields in the request body are optional - only provided fields will be updated.
- * If the request body is empty or only contains null values, the shop is returned unchanged.
- * When updating domains, the complete new set of domains must be provided.
- *
- * **Note**: The shop name cannot be updated as it determines the shop's slug identifier.
- *
- */
-export const updateShopByDomainMutation = (options?: Partial<Options<UpdateShopByDomainData>>): UseMutationOptions<UpdateShopByDomainResponse, UpdateShopByDomainError, Options<UpdateShopByDomainData>> => {
-    const mutationOptions: UseMutationOptions<UpdateShopByDomainResponse, UpdateShopByDomainError, Options<UpdateShopByDomainData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await updateShopByDomain({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
 
 export const getShopBySlugQueryKey = (options: Options<GetShopBySlugData>) => createQueryKey('getShopBySlug', options);
 

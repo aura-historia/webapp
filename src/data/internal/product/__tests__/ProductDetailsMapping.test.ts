@@ -42,7 +42,7 @@ describe("mapToDetailProduct", () => {
     it("should map state event correctly", () => {
         const historyData: GetProductEventData[] = [
             {
-                eventType: "STATE_AVAILABLE",
+                eventType: "STATE_CHANGED",
                 productId: "item-123",
                 eventId: "event-1",
                 shopId: "shop-789",
@@ -83,7 +83,7 @@ describe("mapToDetailProduct", () => {
         expect(result.history).toHaveLength(1);
 
         const firstEvent = result.history?.[0];
-        expect(firstEvent?.eventType).toBe("STATE_AVAILABLE");
+        expect(firstEvent?.eventType).toBe("STATE_CHANGED");
 
         const payload = firstEvent?.payload as ProductStateChangedPayload;
         expect(payload.oldState).toBe("LISTED");
@@ -94,7 +94,7 @@ describe("mapToDetailProduct", () => {
     it("should map price event correctly", () => {
         const historyData: GetProductEventData[] = [
             {
-                eventType: "PRICE_DROPPED",
+                eventType: "PRICE_CHANGED",
                 productId: "item-123",
                 eventId: "event-2",
                 shopId: "shop-789",
@@ -135,7 +135,7 @@ describe("mapToDetailProduct", () => {
         expect(result.history).toHaveLength(1);
 
         const firstEvent = result.history?.[0];
-        expect(firstEvent?.eventType).toBe("PRICE_DROPPED");
+        expect(firstEvent?.eventType).toBe("PRICE_CHANGED");
         expect(typeof firstEvent?.payload).toBe("object");
 
         const payload = firstEvent?.payload as ProductPriceChangedPayload;
@@ -255,7 +255,7 @@ describe("mapToDetailProduct", () => {
                 timestamp: "2023-01-01T08:00:00Z",
             },
             {
-                eventType: "STATE_AVAILABLE",
+                eventType: "STATE_CHANGED",
                 productId: "item-123",
                 eventId: "event-1",
                 shopId: "shop-789",
@@ -267,7 +267,7 @@ describe("mapToDetailProduct", () => {
                 timestamp: "2023-01-01T10:00:00Z",
             },
             {
-                eventType: "PRICE_DROPPED",
+                eventType: "PRICE_CHANGED",
                 productId: "item-123",
                 eventId: "event-2",
                 shopId: "shop-789",
@@ -279,7 +279,7 @@ describe("mapToDetailProduct", () => {
                 timestamp: "2023-01-02T10:00:00Z",
             },
             {
-                eventType: "STATE_SOLD",
+                eventType: "STATE_CHANGED",
                 productId: "item-123",
                 eventId: "event-3",
                 shopId: "shop-789",
@@ -319,8 +319,8 @@ describe("mapToDetailProduct", () => {
 
         expect(result.history).toHaveLength(4);
         expect(result.history?.[0]?.eventType).toBe("CREATED");
-        expect(result.history?.[1]?.eventType).toBe("STATE_AVAILABLE");
-        expect(result.history?.[2]?.eventType).toBe("PRICE_DROPPED");
-        expect(result.history?.[3]?.eventType).toBe("STATE_SOLD");
+        expect(result.history?.[1]?.eventType).toBe("STATE_CHANGED");
+        expect(result.history?.[2]?.eventType).toBe("PRICE_CHANGED");
+        expect(result.history?.[3]?.eventType).toBe("STATE_CHANGED");
     });
 });

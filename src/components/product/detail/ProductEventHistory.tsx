@@ -61,7 +61,7 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
                         </span>
                     </TimelineTime>
                     <TimelineTitle>
-                        <PriceBadge eventType={event.eventType} />
+                        <PriceBadge eventType="PRICE_DISCOVERED" />
                     </TimelineTitle>
                 </TimelineHeader>
                 <TimelineDescription>
@@ -74,7 +74,7 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
     }
 
     if (isPriceChangedEvent(event)) {
-        const isDropped = event.eventType === "PRICE_DROPPED";
+        const isDropped = event.payload.newPrice.amount < event.payload.oldPrice.amount;
         const verb = isDropped
             ? t("product.history.events.priceFallen")
             : t("product.history.events.priceIncreased");
@@ -89,7 +89,7 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
                         </span>
                     </TimelineTime>
                     <TimelineTitle>
-                        <PriceBadge eventType={event.eventType} />
+                        <PriceBadge eventType={isDropped ? "PRICE_DROPPED" : "PRICE_INCREASED"} />
                     </TimelineTitle>
                 </TimelineHeader>
                 <TimelineDescription>
@@ -114,7 +114,7 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
                         </span>
                     </TimelineTime>
                     <TimelineTitle>
-                        <PriceBadge eventType={event.eventType} />
+                        <PriceBadge eventType="PRICE_REMOVED" />
                     </TimelineTitle>
                 </TimelineHeader>
                 <TimelineDescription>

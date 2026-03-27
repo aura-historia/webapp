@@ -4,8 +4,7 @@ import type {
     ProductCreatedEventPayloadData,
     ProductEventStateChangedPayloadData,
     ProductEventPriceChangedPayloadData,
-    ProductEventPriceDiscoveredPayloadData,
-    ProductEventPriceRemovedPayloadData,
+    PriceData,
     PersonalizedGetProductData,
 } from "@/client";
 import {
@@ -91,12 +90,14 @@ function isCreatedPayload(
  */
 function isPriceChangedPayload(
     payload: ProductEventPayloadData,
-): payload is ProductEventPriceChangedPayloadData {
+): payload is ProductEventPriceChangedPayloadData & { oldPrice: PriceData; newPrice: PriceData } {
     return (
         typeof payload === "object" &&
         payload !== null &&
         "oldPrice" in payload &&
-        "newPrice" in payload
+        payload.oldPrice != null &&
+        "newPrice" in payload &&
+        payload.newPrice != null
     );
 }
 
@@ -105,23 +106,25 @@ function isPriceChangedPayload(
  */
 function isPriceDiscoveredPayload(
     payload: ProductEventPayloadData,
-): payload is ProductEventPriceDiscoveredPayloadData {
+): payload is ProductEventPriceChangedPayloadData & { newPrice: PriceData } {
     return (
         typeof payload === "object" &&
         payload !== null &&
         "newPrice" in payload &&
-        !("oldPrice" in payload)
+        payload.newPrice != null &&
+        !("oldPrice" in payload && payload.oldPrice != null)
     );
 }
 
 function isPriceRemovedPayload(
     payload: ProductEventPayloadData,
-): payload is ProductEventPriceRemovedPayloadData {
+): payload is ProductEventPriceChangedPayloadData & { oldPrice: PriceData } {
     return (
         typeof payload === "object" &&
         payload !== null &&
         "oldPrice" in payload &&
-        !("newPrice" in payload)
+        payload.oldPrice != null &&
+        !("newPrice" in payload && payload.newPrice != null)
     );
 }
 
@@ -141,7 +144,7 @@ function mapStateChangedPayload(
  * Converts price data from the API to our internal Price type
  */
 function mapPriceChangedPayload(
-    apiPayload: ProductEventPriceChangedPayloadData,
+    apiPayload: ProductEventPriceChangedPayloadData & { oldPrice: PriceData; newPrice: PriceData },
 ): ProductPriceChangedPayload {
     return {
         oldPrice: parsePrice(apiPayload.oldPrice),
@@ -150,7 +153,7 @@ function mapPriceChangedPayload(
 }
 
 function mapPriceDiscoveredPayload(
-    apiPayload: ProductEventPriceDiscoveredPayloadData,
+    apiPayload: ProductEventPriceChangedPayloadData & { newPrice: PriceData },
 ): ProductPriceDiscoveredPayload {
     return {
         newPrice: parsePrice(apiPayload.newPrice),
@@ -158,7 +161,7 @@ function mapPriceDiscoveredPayload(
 }
 
 function mapPriceRemovedPayload(
-    apiPayload: ProductEventPriceRemovedPayloadData,
+    apiPayload: ProductEventPriceChangedPayloadData & { oldPrice: PriceData },
 ): ProductPriceRemovedPayload {
     return {
         oldPrice: parsePrice(apiPayload.oldPrice),
