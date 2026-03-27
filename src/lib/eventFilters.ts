@@ -6,7 +6,7 @@ import type {
     ProductPriceDiscoveredPayload,
     ProductPriceRemovedPayload,
 } from "@/data/internal/product/ProductDetails.ts";
-import type { StateEventType, PriceEventType } from "@/types/events";
+import type { StateEventType } from "@/types/events";
 
 /**
  * Filter only CREATED events (where payload has state field and optional price)
@@ -35,6 +35,7 @@ export function isStateChangedEvent(event: ProductEvent): event is ProductEvent 
     eventType: StateEventType;
 } {
     return (
+        event.eventType === "STATE_CHANGED" &&
         typeof event.payload === "object" &&
         event.payload !== null &&
         "oldState" in event.payload &&
@@ -48,14 +49,16 @@ export function isStateChangedEvent(event: ProductEvent): event is ProductEvent 
  */
 export function isPriceChangedEvent(event: ProductEvent): event is ProductEvent & {
     payload: ProductPriceChangedPayload;
-    eventType: "PRICE_DROPPED" | "PRICE_INCREASED";
+    eventType: "PRICE_CHANGED";
 } {
     return (
-        (event.eventType === "PRICE_DROPPED" || event.eventType === "PRICE_INCREASED") &&
+        event.eventType === "PRICE_CHANGED" &&
         typeof event.payload === "object" &&
         event.payload !== null &&
         "oldPrice" in event.payload &&
-        "newPrice" in event.payload
+        event.payload.oldPrice != null &&
+        "newPrice" in event.payload &&
+        event.payload.newPrice != null
     );
 }
 
@@ -65,14 +68,15 @@ export function isPriceChangedEvent(event: ProductEvent): event is ProductEvent 
  */
 export function isPriceDiscoveredEvent(event: ProductEvent): event is ProductEvent & {
     payload: ProductPriceDiscoveredPayload;
-    eventType: "PRICE_DISCOVERED";
+    eventType: "PRICE_CHANGED";
 } {
     return (
-        event.eventType === "PRICE_DISCOVERED" &&
+        event.eventType === "PRICE_CHANGED" &&
         typeof event.payload === "object" &&
         event.payload !== null &&
         "newPrice" in event.payload &&
-        !("oldPrice" in event.payload)
+        event.payload.newPrice != null &&
+        !("oldPrice" in event.payload && event.payload.oldPrice != null)
     );
 }
 
@@ -82,14 +86,15 @@ export function isPriceDiscoveredEvent(event: ProductEvent): event is ProductEve
  */
 export function isPriceRemovedEvent(event: ProductEvent): event is ProductEvent & {
     payload: ProductPriceRemovedPayload;
-    eventType: "PRICE_REMOVED";
+    eventType: "PRICE_CHANGED";
 } {
     return (
-        event.eventType === "PRICE_REMOVED" &&
+        event.eventType === "PRICE_CHANGED" &&
         typeof event.payload === "object" &&
         event.payload !== null &&
         "oldPrice" in event.payload &&
-        !("newPrice" in event.payload)
+        event.payload.oldPrice != null &&
+        !("newPrice" in event.payload && event.payload.newPrice != null)
     );
 }
 
@@ -103,7 +108,7 @@ export function isPriceEvent(event: ProductEvent): event is ProductEvent & {
         | ProductPriceChangedPayload
         | ProductPriceDiscoveredPayload
         | ProductPriceRemovedPayload;
-    eventType: PriceEventType;
+    eventType: "PRICE_CHANGED" | "CREATED";
 } {
     return (
         isCreatedEvent(event) ||
