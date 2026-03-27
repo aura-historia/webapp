@@ -77,7 +77,9 @@
     "sections": {
       "company": "Azienda",
       "followUs": "Seguici",
-      "contact": "Contatto"
+      "contact": "Contatto",
+      "categories": "Categorie",
+      "periodsAndStyles": "Periodi e Stili"
     }
   },
   "account": {
