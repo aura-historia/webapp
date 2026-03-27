@@ -340,25 +340,21 @@ export type ProductEventStateChangedPayloadData = {
 };
 
 /**
- * Payload for price discovered events when a product's price is first detected
- */
-export type ProductEventPriceDiscoveredPayloadData = {
-    newPrice: PriceData;
-};
-
-/**
- * Payload for price change events (dropped or increased), containing both old and new price
+ * Payload for price change events. Both `oldPrice` and `newPrice` are optional:
+ * - `oldPrice` absent, `newPrice` present: price was first discovered (initial price detection)
+ * - `oldPrice` present, `newPrice` present: price changed (dropped or increased)
+ * - `oldPrice` present, `newPrice` absent: price was removed
+ *
  */
 export type ProductEventPriceChangedPayloadData = {
-    oldPrice: PriceData;
-    newPrice: PriceData;
-};
-
-/**
- * Payload for price removed events when a product's price is removed
- */
-export type ProductEventPriceRemovedPayloadData = {
-    oldPrice: PriceData;
+    /**
+     * The previous price. Absent when this is the first price discovery.
+     */
+    oldPrice?: PriceData | null;
+    /**
+     * The new price. Absent when the price is removed.
+     */
+    newPrice?: PriceData | null;
 };
 
 /**
@@ -603,20 +599,22 @@ export type ProductImageData = {
 export type SortProductFieldData = 'score' | 'price' | 'originYear' | 'updated' | 'created';
 
 /**
- * Types of events that can occur for a product
+ * Types of events that can occur for a product:
+ * - CREATED: Product was created
+ * - STATE_CHANGED: Product state transitioned (e.g. listed → available, available → sold)
+ * - PRICE_CHANGED: Product price was discovered, updated, or removed
+ *
  */
-export type ProductEventTypeData = 'CREATED' | 'STATE_LISTED' | 'STATE_AVAILABLE' | 'STATE_RESERVED' | 'STATE_SOLD' | 'STATE_REMOVED' | 'STATE_UNKNOWN' | 'PRICE_DISCOVERED' | 'PRICE_DROPPED' | 'PRICE_INCREASED' | 'PRICE_REMOVED';
+export type ProductEventTypeData = 'CREATED' | 'STATE_CHANGED' | 'PRICE_CHANGED';
 
 /**
  * Event-specific payload data. The structure varies depending on the event type:
  * - CREATED: ProductCreatedEventPayloadData (initial product state and optional price)
- * - STATE_LISTED, STATE_AVAILABLE, STATE_RESERVED, STATE_SOLD, STATE_REMOVED, STATE_UNKNOWN: ProductEventStateChangedPayloadData (old and new state)
- * - PRICE_DISCOVERED: ProductEventPriceDiscoveredPayloadData (new price only, when price is first detected)
- * - PRICE_DROPPED, PRICE_INCREASED: ProductEventPriceChangedPayloadData (old and new price)
- * - PRICE_REMOVED: ProductEventPriceRemovedPayloadData (old price only, when price is removed)
+ * - STATE_CHANGED: ProductEventStateChangedPayloadData (old and new state)
+ * - PRICE_CHANGED: ProductEventPriceChangedPayloadData (old and/or new price; see schema for semantics)
  *
  */
-export type ProductEventPayloadData = ProductCreatedEventPayloadData | ProductEventStateChangedPayloadData | ProductEventPriceDiscoveredPayloadData | ProductEventPriceChangedPayloadData | ProductEventPriceRemovedPayloadData;
+export type ProductEventPayloadData = ProductCreatedEventPayloadData | ProductEventStateChangedPayloadData | ProductEventPriceChangedPayloadData;
 
 /**
  * Standard error response format (RFC 9457)
@@ -996,94 +994,6 @@ export type UserSearchFilterCollectionData = {
 };
 
 /**
- * Collection of products to create or update
- */
-export type PutProductsCollectionData = {
-    /**
-     * Array of products to process
-     */
-    items: Array<PutProductData>;
-};
-
-/**
- * Data required to create or update a product.
- * Shop information (shopId and shopName) is automatically enriched based on the product's URL.
- *
- */
-export type PutProductData = {
-    /**
-     * Shop's unique identifier for the product. Can be any arbitrary string.
-     */
-    shopsProductId: string;
-    title: LocalizedTextData;
-    /**
-     * Optional product description
-     */
-    description?: LocalizedTextData | null;
-    /**
-     * Optional product price
-     */
-    price?: PriceData | null;
-    /**
-     * Optional minimum estimated price for the product
-     */
-    priceEstimateMin?: PriceData | null;
-    /**
-     * Optional maximum estimated price for the product
-     */
-    priceEstimateMax?: PriceData | null;
-    state: ProductStateData;
-    /**
-     * URL to the product on the shop's website.
-     * The shop will be automatically identified and enriched based on the domain extracted from this URL.
-     *
-     */
-    url: string;
-    /**
-     * Array of image URLs for the product
-     */
-    images?: Array<string>;
-    /**
-     * Start datetime of the auction window for this product (RFC3339 format).
-     * Only applicable for products from auction houses with scheduled auction times.
-     * Used to indicate when bidding begins or when the item will be auctioned.
-     *
-     */
-    auctionStart?: string | null;
-    /**
-     * End datetime of the auction window for this product (RFC3339 format).
-     * Only applicable for products from auction houses with scheduled auction times.
-     * Used to indicate when bidding ends or when the auction session concludes.
-     *
-     */
-    auctionEnd?: string | null;
-};
-
-/**
- * Response from bulk product creation/update operation with enrichment
- */
-export type PutProductsResponse = {
-    /**
-     * Product URLs that could not be processed due to temporary issues.
-     * These products may succeed if retried.
-     *
-     */
-    unprocessed?: Array<string>;
-    /**
-     * Map of product URLs to error codes for products that failed processing.
-     * The key is the product URL, and the value is the error code explaining why it failed.
-     *
-     */
-    failed?: {
-        [key: string]: PutProductError;
-    };
-    /**
-     * Number of products that were skipped during processing because they had no changes
-     */
-    skipped: number;
-};
-
-/**
  * Complete shop information including metadata
  */
 export type GetShopData = {
@@ -1120,57 +1030,6 @@ export type GetShopData = {
      * When the shop was last updated (RFC3339 format)
      */
     updated: string;
-};
-
-/**
- * Data required to create a new shop
- */
-export type PostShopData = {
-    /**
-     * Display name of the shop
-     */
-    name: string;
-    shopType: ShopTypeData;
-    /**
-     * All domains associated with the shop.
-     * Can be provided as full URLs (will be normalized) or as domain strings.
-     * Domains are normalized to lowercase without scheme, www prefix, or path/query/fragment.
-     * At least one domain is required, maximum 100 domains allowed.
-     *
-     */
-    domains: Array<string>;
-    /**
-     * Optional URL to the shop's logo or image
-     */
-    image?: string | null;
-};
-
-/**
- * Partial update data for a shop.
- * All fields are optional - only provided fields will be updated.
- * If the request body is empty or all fields are null, the shop is returned unchanged.
- *
- * **Note**: The shop name cannot be updated after creation as it determines the shop slug identifier.
- *
- */
-export type PatchShopData = {
-    /**
-     * New shop type classification
-     */
-    shopType?: ShopTypeData | null;
-    /**
-     * Complete new set of domains for the shop.
-     * Can be provided as full URLs (will be normalized) or as domain strings.
-     * When updating domains, the complete new set must be provided (not a diff).
-     * Domains are normalized to lowercase without scheme, www prefix, or path/query/fragment.
-     * Minimum 1 domain, maximum 100 domains.
-     *
-     */
-    domains?: Array<string> | null;
-    /**
-     * New URL to the shop's logo or image
-     */
-    image?: string | null;
 };
 
 /**
@@ -1439,14 +1298,33 @@ export type WatchlistProductPatch = {
 export type SortWatchlistProductFieldData = 'created';
 
 /**
- * Error codes for products that failed during processing:
- * - SHOP_NOT_FOUND: The shop associated with the product's domain is not registered in the system
- * - MONETARY_AMOUNT_OVERFLOW: The price amount exceeds the maximum supported value during currency conversion
- * - PRODUCT_ENRICHMENT_FAILED: Failed to enrich the product with additional shop and price information
- * - NO_DOMAIN: The product URL does not contain a valid domain that can be extracted
+ * Fields available for sorting search filter matched products:
+ * - created: Sort by when the product was matched by the search filter
  *
  */
-export type PutProductError = 'SHOP_NOT_FOUND' | 'MONETARY_AMOUNT_OVERFLOW' | 'PRODUCT_ENRICHMENT_FAILED' | 'NO_DOMAIN';
+export type SortSearchFilterMatchFieldData = 'created';
+
+/**
+ * Paginated collection of personalized products matched by a search filter, using cursor-based pagination
+ */
+export type SearchFilterMatchProductCollectionData = {
+    /**
+     * Array of personalized matched products in the current page
+     */
+    items: Array<PersonalizedGetProductData>;
+    /**
+     * Number of products in the current page
+     */
+    size: number;
+    /**
+     * Cursor for the next page (RFC3339 timestamp). Present when there are more results.
+     */
+    searchAfter?: string | null;
+    /**
+     * Total number of matched products
+     */
+    total?: number | null;
+};
 
 /**
  * Complete user account information including prohibited content consent
@@ -2148,38 +2026,6 @@ export type SimpleSearchProductsResponses = {
 
 export type SimpleSearchProductsResponse = SimpleSearchProductsResponses[keyof SimpleSearchProductsResponses];
 
-export type PutProductsData = {
-    /**
-     * Collection of products to create or update
-     */
-    body: PutProductsCollectionData;
-    path?: never;
-    query?: never;
-    url: '/api/v1/products';
-};
-
-export type PutProductsErrors = {
-    /**
-     * Bad request - invalid request body
-     */
-    400: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-};
-
-export type PutProductsError = PutProductsErrors[keyof PutProductsErrors];
-
-export type PutProductsResponses = {
-    /**
-     * Products processed successfully
-     */
-    200: PutProductsResponse;
-};
-
-export type PutProductsResponse2 = PutProductsResponses[keyof PutProductsResponses];
-
 export type ComplexSearchProductsData = {
     /**
      * Search filter configuration with all filtering criteria.
@@ -2445,6 +2291,78 @@ export type UpdateUserSearchFilterResponses = {
 };
 
 export type UpdateUserSearchFilterResponse = UpdateUserSearchFilterResponses[keyof UpdateUserSearchFilterResponses];
+
+export type GetSearchFilterMatchedProductsData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the search filter
+         */
+        userSearchFilterId: string;
+    };
+    query?: {
+        /**
+         * Currency for price display
+         */
+        currency?: CurrencyData;
+        /**
+         * Field to sort results by
+         */
+        sort?: SortSearchFilterMatchFieldData;
+        /**
+         * Sort order (only valid when sort is specified)
+         */
+        order?: 'asc' | 'desc';
+        /**
+         * RFC3339 timestamp for cursor-based pagination (search-after).
+         * Depending on sort-order, returns matched products created either after this timestamp for asc (oldest first) or before this timestamp for desc (latest first).
+         * In general you do not have to worry about determining this key. It's given with `searchAfter` in the preceding response if more entries are present.
+         *
+         */
+        searchAfter?: string;
+        /**
+         * Number of products to return per page
+         */
+        size?: number;
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+    };
+    url: '/api/v1/me/search-filters/{userSearchFilterId}/products';
+};
+
+export type GetSearchFilterMatchedProductsErrors = {
+    /**
+     * Bad request - invalid parameters
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * Search filter not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetSearchFilterMatchedProductsError = GetSearchFilterMatchedProductsErrors[keyof GetSearchFilterMatchedProductsErrors];
+
+export type GetSearchFilterMatchedProductsResponses = {
+    /**
+     * Matched products retrieved successfully
+     */
+    200: SearchFilterMatchProductCollectionData;
+};
+
+export type GetSearchFilterMatchedProductsResponse = GetSearchFilterMatchedProductsResponses[keyof GetSearchFilterMatchedProductsResponses];
 
 export type GetWatchlistProductsData = {
     body?: never;
@@ -3024,46 +2942,6 @@ export type SimpleSearchShopsResponses = {
 
 export type SimpleSearchShopsResponse = SimpleSearchShopsResponses[keyof SimpleSearchShopsResponses];
 
-export type CreateShopData = {
-    /**
-     * Shop data for creating a new shop
-     */
-    body: PostShopData;
-    path?: never;
-    query?: never;
-    url: '/api/v1/shops';
-};
-
-export type CreateShopErrors = {
-    /**
-     * Bad request - invalid request body
-     */
-    400: ApiError;
-    /**
-     * Conflict - shop with this name/slug or domain already exists
-     */
-    409: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-    /**
-     * Service temporarily unavailable
-     */
-    503: ApiError;
-};
-
-export type CreateShopError = CreateShopErrors[keyof CreateShopErrors];
-
-export type CreateShopResponses = {
-    /**
-     * Shop created successfully
-     */
-    201: GetShopData;
-};
-
-export type CreateShopResponse = CreateShopResponses[keyof CreateShopResponses];
-
 export type GetShopByIdData = {
     body?: never;
     path: {
@@ -3101,144 +2979,6 @@ export type GetShopByIdResponses = {
 };
 
 export type GetShopByIdResponse = GetShopByIdResponses[keyof GetShopByIdResponses];
-
-export type UpdateShopByIdData = {
-    /**
-     * Partial shop update data.
-     * Only provided fields will be updated. All fields are optional.
-     * The shop name cannot be updated.
-     *
-     */
-    body: PatchShopData;
-    path: {
-        /**
-         * Unique identifier of the shop to update (UUID format)
-         */
-        shopId: string;
-    };
-    query?: never;
-    url: '/api/v1/shops/{shopId}';
-};
-
-export type UpdateShopByIdErrors = {
-    /**
-     * Bad request - invalid parameters or body
-     */
-    400: ApiError;
-    /**
-     * Shop not found
-     */
-    404: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-    /**
-     * Service temporarily unavailable
-     */
-    503: ApiError;
-};
-
-export type UpdateShopByIdError = UpdateShopByIdErrors[keyof UpdateShopByIdErrors];
-
-export type UpdateShopByIdResponses = {
-    /**
-     * Shop updated successfully
-     */
-    200: GetShopData;
-};
-
-export type UpdateShopByIdResponse = UpdateShopByIdResponses[keyof UpdateShopByIdResponses];
-
-export type GetShopByDomainData = {
-    body?: never;
-    path: {
-        /**
-         * Domain associated with the shop (e.g., "tech-store.com", "shop.example.com").
-         * The domain is normalized (lowercased, www prefix removed).
-         *
-         */
-        shopDomain: string;
-    };
-    query?: never;
-    url: '/api/v1/by-domain/shops/{shopDomain}';
-};
-
-export type GetShopByDomainErrors = {
-    /**
-     * Bad request - invalid or missing domain
-     */
-    400: ApiError;
-    /**
-     * Shop not found
-     */
-    404: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-};
-
-export type GetShopByDomainError = GetShopByDomainErrors[keyof GetShopByDomainErrors];
-
-export type GetShopByDomainResponses = {
-    /**
-     * Shop found and returned successfully
-     */
-    200: GetShopData;
-};
-
-export type GetShopByDomainResponse = GetShopByDomainResponses[keyof GetShopByDomainResponses];
-
-export type UpdateShopByDomainData = {
-    /**
-     * Partial shop update data.
-     * Only provided fields will be updated. All fields are optional.
-     * The shop name cannot be updated.
-     *
-     */
-    body: PatchShopData;
-    path: {
-        /**
-         * Domain associated with the shop to update (e.g., "tech-store.com", "shop.example.com").
-         * The domain is normalized (lowercased, www prefix removed).
-         *
-         */
-        shopDomain: string;
-    };
-    query?: never;
-    url: '/api/v1/by-domain/shops/{shopDomain}';
-};
-
-export type UpdateShopByDomainErrors = {
-    /**
-     * Bad request - invalid parameters or body
-     */
-    400: ApiError;
-    /**
-     * Shop not found
-     */
-    404: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-    /**
-     * Service temporarily unavailable
-     */
-    503: ApiError;
-};
-
-export type UpdateShopByDomainError = UpdateShopByDomainErrors[keyof UpdateShopByDomainErrors];
-
-export type UpdateShopByDomainResponses = {
-    /**
-     * Shop updated successfully
-     */
-    200: GetShopData;
-};
-
-export type UpdateShopByDomainResponse = UpdateShopByDomainResponses[keyof UpdateShopByDomainResponses];
 
 export type GetShopBySlugData = {
     body?: never;
