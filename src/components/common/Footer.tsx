@@ -38,21 +38,24 @@ export function Footer() {
         }),
     );
 
+    const categoryKeyPositions = new Map(POPULAR_CATEGORY_KEYS.map((key, i) => [key, i]));
     const popularCategories = (categoriesData ?? [])
         .map(mapToCategoryOverview)
-        .filter((c) => POPULAR_CATEGORY_KEYS.includes(c.categoryKey))
+        .filter((c) => categoryKeyPositions.has(c.categoryKey))
         .sort(
             (a, b) =>
-                POPULAR_CATEGORY_KEYS.indexOf(a.categoryKey) -
-                POPULAR_CATEGORY_KEYS.indexOf(b.categoryKey),
+                (categoryKeyPositions.get(a.categoryKey) ?? 0) -
+                (categoryKeyPositions.get(b.categoryKey) ?? 0),
         );
 
+    const periodKeyPositions = new Map(POPULAR_PERIOD_KEYS.map((key, i) => [key, i]));
     const popularPeriods = (periodsData ?? [])
         .map(mapToPeriodOverview)
-        .filter((p) => POPULAR_PERIOD_KEYS.includes(p.periodKey))
+        .filter((p) => periodKeyPositions.has(p.periodKey))
         .sort(
             (a, b) =>
-                POPULAR_PERIOD_KEYS.indexOf(a.periodKey) - POPULAR_PERIOD_KEYS.indexOf(b.periodKey),
+                (periodKeyPositions.get(a.periodKey) ?? 0) -
+                (periodKeyPositions.get(b.periodKey) ?? 0),
         );
 
     return (
