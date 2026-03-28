@@ -79,8 +79,8 @@ export function ProductImageGallery({ images, productId }: ProductImageGalleryPr
     const lightboxSlides = useMemo(
         () =>
             images
-                .filter((img) => !isRestrictedImage(img))
-                .map((img) => ({ src: img.url?.href ?? "" })),
+                .filter((img): img is ProductImage & { url: URL } => !isRestrictedImage(img))
+                .map((img) => ({ src: img.url.href })),
         [images],
     );
 
@@ -174,6 +174,21 @@ export function ProductImageGallery({ images, productId }: ProductImageGalleryPr
         return lightboxIdx;
     };
 
+    /**
+     * Converts a lightbox slide index back to the corresponding carousel index.
+     * Needed because the lightbox only contains non-restricted images.
+     */
+    const getCarouselIndex = (lightboxIndex: number): number => {
+        let count = 0;
+        for (let i = 0; i < images.length; i++) {
+            if (!isRestrictedImage(images[i])) {
+                if (count === lightboxIndex) return i;
+                count++;
+            }
+        }
+        return 0;
+    };
+
     const handleMainImageClick = (carouselIndex: number) => {
         const lightboxIdx = getLightboxIndex(carouselIndex);
         if (lightboxIdx >= 0) {
@@ -262,7 +277,7 @@ export function ProductImageGallery({ images, productId }: ProductImageGalleryPr
                 slides={lightboxSlides}
                 index={getLightboxIndex(currentImageIndex)}
                 plugins={[Zoom, Thumbnails]}
-                on={{ view: ({ index }) => setCurrentImageIndex(index) }}
+                on={{ view: ({ index }) => setCurrentImageIndex(getCarouselIndex(index)) }}
             />
         </>
     );
