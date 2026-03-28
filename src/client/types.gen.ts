@@ -1358,6 +1358,7 @@ export type GetUserAccountData = {
      * Whether the user has consented to viewing prohibited content
      */
     prohibitedContentConsent: boolean;
+    tier: UserTierData;
     /**
      * When the user account was created (RFC3339 format)
      */
@@ -1395,6 +1396,13 @@ export type PatchUserAccountData = {
      */
     prohibitedContentConsent?: boolean | null;
 };
+
+/**
+ * The user's subscription tier, which determines limits and quotas (e.g. max watchlist entries, max search filters).
+ * - `FREE`: Default tier for all users. Allows up to 5 watchlist entries and up to 5 search filters.
+ *
+ */
+export type UserTierData = 'FREE';
 
 /**
  * A single user notification, fully localized for the requested language and currency.
@@ -2145,6 +2153,14 @@ export type CreateUserSearchFilterErrors = {
      */
     401: ApiError;
     /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Unprocessable Entity - search filter quota exceeded
+     */
+    422: ApiError;
+    /**
      * Internal server error
      */
     500: ApiError;
@@ -2457,6 +2473,10 @@ export type AddWatchlistProductErrors = {
      * Unauthorized - invalid or missing JWT token
      */
     401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
     /**
      * Unprocessable Entity - watchlist quota exceeded
      */
