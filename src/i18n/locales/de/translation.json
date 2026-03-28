@@ -232,6 +232,7 @@
     "noImage": "Kein Bild verfügbar",
     "unseenNotification": "Aktualisiert",
     "imageLoadError": "Bild konnte nicht geladen werden",
+    "prohibitedImage": "Bild aufgrund von Inhaltsbeschränkungen ausgeblendet",
     "qualityIndicators": {
       "title": "Qualitätsmerkmale",
       "noData": "Keine zusätzlichen Informationen verfügbar",

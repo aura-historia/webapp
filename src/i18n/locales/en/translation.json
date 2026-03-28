@@ -232,6 +232,7 @@
     "noImage": "No image available",
     "unseenNotification": "Updated",
     "imageLoadError": "Image could not be loaded",
+    "prohibitedImage": "Image hidden due to content restrictions",
     "qualityIndicators": {
       "title": "Quality Indicators",
       "noData": "No additional information available",

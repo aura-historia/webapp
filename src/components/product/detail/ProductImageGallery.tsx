@@ -13,8 +13,9 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
-import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+import { type ProductImage, isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
+import { ProhibitedImagePlaceholder } from "@/components/product/ProhibitedImagePlaceholder.tsx";
 
 interface ThumbnailButtonProps {
     readonly image: ProductImage;
@@ -44,18 +45,26 @@ const ThumbnailButton = memo(function ThumbnailButton({
                         : "border-transparent opacity-60 hover:opacity-100"
                 }`}
             >
-                <ImageWithFallback
-                    src={image.url.href}
-                    alt={`Thumbnail ${index + 1}`}
-                    loading="lazy"
-                    decoding="async"
-                    showErrorMessage={false}
-                    className="w-full h-full object-cover will-change-transform"
-                />
+                {isRestrictedImage(image) ? (
+                    <ProhibitedImagePlaceholder className="w-full h-full" showLabel={false} />
+                ) : (
+                    <ImageWithFallback
+                        src={image.url?.href}
+                        alt={`Thumbnail ${index + 1}`}
+                        loading="lazy"
+                        decoding="async"
+                        showErrorMessage={false}
+                        className="w-full h-full object-cover will-change-transform"
+                    />
+                )}
             </button>
         </CarouselItem>
     );
 });
+
+function imageKey(image: ProductImage, index: number): string {
+    return image.url?.href ?? `restricted-${index}`;
+}
 
 interface ProductImageGalleryProps {
     readonly images: readonly ProductImage[];
@@ -65,7 +74,16 @@ interface ProductImageGalleryProps {
 export function ProductImageGallery({ images, productId }: ProductImageGalleryProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-    const slides = useMemo(() => images.map((img) => ({ src: img.url.href })), [images]);
+
+    /** Only images with actual URLs can be shown in the lightbox */
+    const lightboxSlides = useMemo(
+        () =>
+            images
+                .filter((img) => !isRestrictedImage(img))
+                .map((img) => ({ src: img.url?.href ?? "" })),
+        [images],
+    );
+
     const [mainCarouselApi, setMainCarouselApi] = useState<CarouselApi>();
     const [thumbnailCarouselApi, setThumbnailCarouselApi] = useState<CarouselApi>();
     const prevLightboxOpen = useRef(false);
@@ -141,6 +159,28 @@ export function ProductImageGallery({ images, productId }: ProductImageGalleryPr
         );
     }
 
+    /**
+     * Computes the lightbox slide index for a given carousel index.
+     * Restricted images are excluded from the lightbox, so the index mapping
+     * skips over them. Returns -1 if the current image is restricted.
+     */
+    const getLightboxIndex = (carouselIndex: number): number => {
+        const img = images[carouselIndex];
+        if (!img || isRestrictedImage(img)) return -1;
+        let lightboxIdx = 0;
+        for (let i = 0; i < carouselIndex; i++) {
+            if (!isRestrictedImage(images[i])) lightboxIdx++;
+        }
+        return lightboxIdx;
+    };
+
+    const handleMainImageClick = (carouselIndex: number) => {
+        const lightboxIdx = getLightboxIndex(carouselIndex);
+        if (lightboxIdx >= 0) {
+            setIsLightboxOpen(true);
+        }
+    };
+
     return (
         <>
             <div className="w-full md:w-80 lg:w-96 space-y-3">
@@ -154,21 +194,25 @@ export function ProductImageGallery({ images, productId }: ProductImageGalleryPr
                 >
                     <CarouselContent>
                         {images.map((img, idx) => (
-                            <CarouselItem key={img.url.href}>
-                                <button
-                                    type="button"
-                                    onClick={() => setIsLightboxOpen(true)}
-                                    className="w-full block"
-                                >
-                                    <ImageWithFallback
-                                        src={img.url.href}
-                                        loading={idx === 0 ? "eager" : "lazy"}
-                                        decoding="async"
-                                        alt={""}
-                                        className="w-full aspect-square md:aspect-auto min-h-50 max-h-87.5 md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
-                                        fallbackClassName="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 rounded-lg"
-                                    />
-                                </button>
+                            <CarouselItem key={imageKey(img, idx)}>
+                                {isRestrictedImage(img) ? (
+                                    <ProhibitedImagePlaceholder className="w-full aspect-square md:aspect-auto min-h-50 max-h-87.5 md:h-64 lg:h-80 rounded-lg" />
+                                ) : (
+                                    <button
+                                        type="button"
+                                        onClick={() => handleMainImageClick(idx)}
+                                        className="w-full block"
+                                    >
+                                        <ImageWithFallback
+                                            src={img.url?.href}
+                                            loading={idx === 0 ? "eager" : "lazy"}
+                                            decoding="async"
+                                            alt={""}
+                                            className="w-full aspect-square md:aspect-auto min-h-50 max-h-87.5 md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
+                                            fallbackClassName="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 rounded-lg"
+                                        />
+                                    </button>
+                                )}
                             </CarouselItem>
                         ))}
                     </CarouselContent>
@@ -197,7 +241,7 @@ export function ProductImageGallery({ images, productId }: ProductImageGalleryPr
                             >
                                 {images.map((img, idx) => (
                                     <ThumbnailButton
-                                        key={img.url.href}
+                                        key={imageKey(img, idx)}
                                         image={img}
                                         index={idx}
                                         isSelected={idx === currentImageIndex}
@@ -215,8 +259,8 @@ export function ProductImageGallery({ images, productId }: ProductImageGalleryPr
             <Lightbox
                 open={isLightboxOpen}
                 close={() => setIsLightboxOpen(false)}
-                slides={slides}
-                index={currentImageIndex}
+                slides={lightboxSlides}
+                index={getLightboxIndex(currentImageIndex)}
                 plugins={[Zoom, Thumbnails]}
                 on={{ view: ({ index }) => setCurrentImageIndex(index) }}
             />

@@ -13,6 +13,8 @@ import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 import { useCallback } from "react";
 import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
 import { cn } from "@/lib/utils.ts";
+import { isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
+import { ProhibitedImagePlaceholder } from "@/components/product/ProhibitedImagePlaceholder.tsx";
 
 export function ProductSimilarCard({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
@@ -45,14 +47,18 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                     onClick={handleProductClick}
                 >
                     {product.images.length > 0 ? (
-                        <ImageWithFallback
-                            className={
-                                "w-full aspect-video object-cover hover:opacity-90 transition-opacity"
-                            }
-                            src={product.images[0].url.href}
-                            alt=""
-                            fallbackClassName="w-full aspect-video"
-                        />
+                        isRestrictedImage(product.images[0]) ? (
+                            <ProhibitedImagePlaceholder className="w-full aspect-video" />
+                        ) : (
+                            <ImageWithFallback
+                                className={
+                                    "w-full aspect-video object-cover hover:opacity-90 transition-opacity"
+                                }
+                                src={product.images[0].url?.href}
+                                alt=""
+                                fallbackClassName="w-full aspect-video"
+                            />
+                        )
                     ) : (
                         <div className="w-full aspect-video bg-muted flex flex-col items-center justify-center gap-2">
                             <ImageOff

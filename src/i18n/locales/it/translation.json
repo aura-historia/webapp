@@ -231,6 +231,7 @@
     "noDescription": "Nessuna descrizione disponibile",
     "noImage": "Nessuna immagine disponibile",
     "imageLoadError": "Impossibile caricare l'immagine",
+    "prohibitedImage": "Immagine nascosta per restrizioni sui contenuti",
     "qualityIndicators": {
       "title": "Indicatori di qualità",
       "noData": "Nessuna informazione aggiuntiva disponibile",

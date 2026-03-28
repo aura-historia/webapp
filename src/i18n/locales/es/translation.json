@@ -231,6 +231,7 @@
     "noDescription": "No hay descripción disponible",
     "noImage": "No hay imagen disponible",
     "imageLoadError": "No se pudo cargar la imagen",
+    "prohibitedImage": "Imagen oculta por restricciones de contenido",
     "similar": {
       "title": "Artículos similares",
       "error": {
