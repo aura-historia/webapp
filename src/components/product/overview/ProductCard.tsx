@@ -1,4 +1,6 @@
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
+import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
+import { AuctionWindowBadge } from "@/components/product/badges/AuctionWindowBadge.tsx";
 import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotificationBadge.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
@@ -71,7 +73,9 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                         </H3>
                         <div className="flex flex-wrap gap-2">
                             <StatusBadge status={product.state} />
+                            <ShopTypeBadge shopType={product.shopType} />
                             <ProductQualityBadges product={product} />
+                            {product.auction && <AuctionWindowBadge auction={product.auction} />}
                         </div>
                     </div>
 

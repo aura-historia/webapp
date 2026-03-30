@@ -334,6 +334,12 @@
         "created": "Im System erfasst"
       }
     },
+    "auction": {
+      "title": "Auktionszeitraum",
+      "start": "ab {{date}}",
+      "end": "bis {{date}}",
+      "range": "{{start}} – {{end}}"
+    },
     "priceEstimate": {
       "tooltip": "Preisschätzung vom {{shopType}}",
       "tooltipUnknown": "Preisschätzung",
