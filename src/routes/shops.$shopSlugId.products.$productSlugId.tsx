@@ -10,7 +10,7 @@ import { ProductDetailPageSkeleton } from "@/components/product/detail/ProductDe
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
-import { generateProductHeadMeta } from "@/lib/productHeadMeta.ts";
+import { generateProductHeadMeta } from "@/lib/seo/productHeadMeta.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 
 export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId")({

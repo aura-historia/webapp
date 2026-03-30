@@ -1,6 +1,6 @@
 import i18n from "@/i18n/i18n.ts";
-import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
-import { generateHreflangLinks } from "@/lib/hreflangLinks.ts";
+import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
+import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
 
 type HeadMeta = {
     meta: Array<

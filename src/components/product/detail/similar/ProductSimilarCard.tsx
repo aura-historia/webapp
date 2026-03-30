@@ -14,7 +14,7 @@ import { useCallback } from "react";
 import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
 import { cn } from "@/lib/utils.ts";
 import { isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
-import { ProhibitedImagePlaceholder } from "@/components/product/ProhibitedImagePlaceholder.tsx";
+import { ProhibitedImagePlaceholder } from "@/components/common/ProhibitedImagePlaceholder.tsx";
 
 export function ProductSimilarCard({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
@@ -47,7 +47,10 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                     onClick={handleProductClick}
                 >
                     {product.images.length > 0 ? (
-                        isRestrictedImage(product.images[0]) ? (
+                        isRestrictedImage(
+                            product.images[0],
+                            product.userData?.restrictedContentData.consentGiven ?? false,
+                        ) ? (
                             <ProhibitedImagePlaceholder className="w-full aspect-video" />
                         ) : (
                             <ImageWithFallback

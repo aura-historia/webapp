@@ -5,7 +5,7 @@ import FeaturesSection from "@/components/landing-page/features-section/Features
 import HowItWorksSection from "@/components/landing-page/how-it-works-section/HowItWorksSection.tsx";
 import TestimonialsSection from "@/components/landing-page/testimonials-section/TestimonialsSection.tsx";
 import { createFileRoute } from "@tanstack/react-router";
-import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
+import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
 import CategoriesSection from "@/components/landing-page/categories-section/CategoriesSection.tsx";
 import PeriodsSection from "@/components/landing-page/periods-section/PeriodsSection.tsx";

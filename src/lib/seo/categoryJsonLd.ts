@@ -1,7 +1,7 @@
-import type { GetPeriodData } from "@/client";
-import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
+import type { GetCategoryData } from "@/client";
+import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 
-type PeriodCollectionPageJsonLd = {
+type CategoryCollectionPageJsonLd = {
     "@context": "https://schema.org/";
     "@type": "CollectionPage";
     name: string;
@@ -14,18 +14,18 @@ type PeriodCollectionPageJsonLd = {
 
 /**
  * Generates a Schema.org {@link https://schema.org/CollectionPage CollectionPage} JSON-LD object
- * for a period page. Represents the period as a curated collection of antique items.
+ * for a category page. Represents the category as a curated collection of antique items.
  */
-export function generatePeriodJsonLd(
-    data: GetPeriodData,
-    periodUrl: string,
-): PeriodCollectionPageJsonLd {
+export function generateCategoryJsonLd(
+    data: GetCategoryData,
+    categoryUrl: string,
+): CategoryCollectionPageJsonLd {
     return {
         "@context": "https://schema.org/",
         "@type": "CollectionPage",
         name: data.name.text,
         description: data.description.text,
-        url: periodUrl,
+        url: categoryUrl,
         image: BANNER_IMAGE_URL,
         dateCreated: data.created,
         dateModified: data.updated,
@@ -33,9 +33,9 @@ export function generatePeriodJsonLd(
 }
 
 /**
- * Serialises the period JSON-LD to a string suitable for embedding in a
+ * Serialises the category JSON-LD to a string suitable for embedding in a
  * `<script type="application/ld+json">` tag.
  */
-export function generatePeriodJsonLdScript(data: GetPeriodData, periodUrl: string): string {
-    return JSON.stringify(generatePeriodJsonLd(data, periodUrl));
+export function generateCategoryJsonLdScript(data: GetCategoryData, categoryUrl: string): string {
+    return JSON.stringify(generateCategoryJsonLd(data, categoryUrl));
 }

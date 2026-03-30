@@ -209,6 +209,7 @@ describe("ProductSimilarCard", () => {
             userData: {
                 watchlistData: { isWatching: true, isNotificationEnabled: true },
                 notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
+                restrictedContentData: { consentGiven: false },
             },
         };
 

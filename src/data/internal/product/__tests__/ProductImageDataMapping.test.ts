@@ -206,7 +206,7 @@ describe("isRestrictedImage", () => {
             prohibitedContentType: "NAZI_GERMANY",
         };
 
-        expect(isRestrictedImage(image)).toBe(true);
+        expect(isRestrictedImage(image, false)).toBe(true);
     });
 
     it("should return false for images with URL", () => {
@@ -215,16 +215,16 @@ describe("isRestrictedImage", () => {
             prohibitedContentType: "NONE",
         };
 
-        expect(isRestrictedImage(image)).toBe(false);
+        expect(isRestrictedImage(image, false)).toBe(false);
     });
 
-    it("should return false for images with URL and prohibited content type", () => {
+    it("should return true for images with URL and prohibited content type", () => {
         const image: ProductImage = {
             url: new URL("https://example.com/image.jpg"),
             prohibitedContentType: "NAZI_GERMANY",
         };
 
-        expect(isRestrictedImage(image)).toBe(false);
+        expect(isRestrictedImage(image, false)).toBe(true);
     });
 });
 
@@ -237,7 +237,7 @@ describe("sortImagesRestrictedLast", () => {
             { url: new URL("https://example.com/image2.jpg"), prohibitedContentType: "NONE" },
         ];
 
-        const sorted = sortImagesRestrictedLast(images);
+        const sorted = sortImagesRestrictedLast(images, false);
 
         expect(sorted[0].url?.href).toBe("https://example.com/image1.jpg");
         expect(sorted[1].url?.href).toBe("https://example.com/image2.jpg");
@@ -251,7 +251,7 @@ describe("sortImagesRestrictedLast", () => {
             { url: new URL("https://example.com/b.jpg"), prohibitedContentType: "NONE" },
         ];
 
-        const sorted = sortImagesRestrictedLast(images);
+        const sorted = sortImagesRestrictedLast(images, false);
 
         expect(sorted[0].url?.href).toBe("https://example.com/a.jpg");
         expect(sorted[1].url?.href).toBe("https://example.com/b.jpg");
@@ -263,14 +263,14 @@ describe("sortImagesRestrictedLast", () => {
             { url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" },
         ];
 
-        sortImagesRestrictedLast(images);
+        sortImagesRestrictedLast(images, false);
 
         expect(images[0].url).toBeUndefined();
         expect(images[1].url?.href).toBe("https://example.com/image.jpg");
     });
 
     it("should handle empty array", () => {
-        expect(sortImagesRestrictedLast([])).toEqual([]);
+        expect(sortImagesRestrictedLast([], false)).toEqual([]);
     });
 
     it("should handle array with only restricted images", () => {
@@ -279,7 +279,7 @@ describe("sortImagesRestrictedLast", () => {
             { url: undefined, prohibitedContentType: "UNKNOWN" },
         ];
 
-        const sorted = sortImagesRestrictedLast(images);
+        const sorted = sortImagesRestrictedLast(images, false);
 
         expect(sorted).toHaveLength(2);
         expect(sorted[0].url).toBeUndefined();

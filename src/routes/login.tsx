@@ -10,7 +10,7 @@ import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import "../amplify-config";
 import { useQueryClient } from "@tanstack/react-query";
 import { CompleteRegistration } from "@/components/auth/CompleteRegistration.tsx";
-import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
+import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
 
 type LoginSearch = {

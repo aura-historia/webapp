@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getCategoryByIdOptions } from "@/client/@tanstack/react-query.gen";
 import { mapToCategoryDetail } from "@/data/internal/category/CategoryDetail.ts";
-import { generateCategoryHeadMeta } from "@/lib/categoryHeadMeta.ts";
+import { generateCategoryHeadMeta } from "@/lib/seo/categoryHeadMeta.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { CategoryPageSkeleton } from "@/components/category/CategoryPageSkeleton.tsx";
 import { CategoryHeader } from "@/components/category/CategoryHeader.tsx";

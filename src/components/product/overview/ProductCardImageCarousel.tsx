@@ -11,24 +11,29 @@ import { ImageOff, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
-import { ProhibitedImagePlaceholder } from "@/components/product/ProhibitedImagePlaceholder.tsx";
+import { ProhibitedImagePlaceholder } from "@/components/common/ProhibitedImagePlaceholder.tsx";
+import type { UserProductData } from "@/data/internal/product/UserProductData.ts";
 
 interface ProductCardImageCarouselProps {
     readonly images: readonly ProductImage[];
     readonly shopSlugId: string;
     readonly productSlugId: string;
+    readonly userData?: UserProductData;
 }
 
 export function ProductCardImageCarousel({
     images,
     shopSlugId,
     productSlugId,
+    userData,
 }: ProductCardImageCarouselProps) {
     const { t } = useTranslation();
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [canScrollPrev, setCanScrollPrev] = useState(false);
     const [canScrollNext, setCanScrollNext] = useState(false);
+
+    const isRestrictedConsentGiven = userData?.restrictedContentData.consentGiven ?? false;
 
     const onSelect = useCallback(() => {
         if (!carouselApi) return;
@@ -96,7 +101,7 @@ export function ProductCardImageCarousel({
                     productSlugId,
                 }}
             >
-                {isRestrictedImage(images[0]) ? (
+                {isRestrictedImage(images[0], isRestrictedConsentGiven) ? (
                     <ProhibitedImagePlaceholder className="w-full aspect-video lg:size-48 lg:aspect-auto rounded-lg" />
                 ) : (
                     <ImageWithFallback
@@ -131,7 +136,7 @@ export function ProductCardImageCarousel({
                                     productSlugId,
                                 }}
                             >
-                                {isRestrictedImage(image) ? (
+                                {isRestrictedImage(image, isRestrictedConsentGiven) ? (
                                     <ProhibitedImagePlaceholder className="w-full aspect-video lg:size-48 lg:aspect-auto rounded-lg" />
                                 ) : (
                                     <ImageWithFallback

@@ -13,7 +13,7 @@ import { useState } from "react";
 import type { SortMode } from "@/data/internal/search/SortMode.ts";
 import { SortModeSelection } from "@/components/search/SortModeSelection.tsx";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
-import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
+import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
 
 export const Route = createFileRoute("/search")({

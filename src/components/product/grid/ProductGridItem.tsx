@@ -13,7 +13,7 @@ import { memo, useCallback } from "react";
 import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
 import { cn } from "@/lib/utils.ts";
 import { isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
-import { ProhibitedImagePlaceholder } from "@/components/product/ProhibitedImagePlaceholder.tsx";
+import { ProhibitedImagePlaceholder } from "@/components/common/ProhibitedImagePlaceholder.tsx";
 
 function ProductGridItemComponent({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
@@ -27,6 +27,8 @@ function ProductGridItemComponent({ product }: { readonly product: OverviewProdu
             markSeen.mutate(originEventId);
         }
     }, [hasUnseenNotification, originEventId, markSeen.mutate]);
+
+    const isRestrictedConsentGiven = product.userData?.restrictedContentData.consentGiven ?? false;
 
     return (
         <div className="relative pt-2 h-full">
@@ -53,7 +55,7 @@ function ProductGridItemComponent({ product }: { readonly product: OverviewProdu
                         onClick={handleProductClick}
                     >
                         {product.images.length > 0 ? (
-                            isRestrictedImage(product.images[0]) ? (
+                            isRestrictedImage(product.images[0], isRestrictedConsentGiven) ? (
                                 <ProhibitedImagePlaceholder className="w-full aspect-4/3" />
                             ) : (
                                 <ImageWithFallback

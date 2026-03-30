@@ -56,6 +56,10 @@ export function WatchlistResults() {
                                 product.userData?.notificationData?.hasUnseenNotification ?? false,
                             originEventId: product.userData?.notificationData?.originEventId,
                         },
+                        restrictedContentData: {
+                            consentGiven:
+                                product.userData?.restrictedContentData.consentGiven ?? false,
+                        },
                     },
                 };
             }),

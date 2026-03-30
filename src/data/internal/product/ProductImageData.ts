@@ -7,17 +7,20 @@ export type ProductImage = {
 
 type ProhibitedContentType = "UNKNOWN" | "NONE" | "NAZI_GERMANY";
 
-export function isRestrictedImage(image: ProductImage): boolean {
-    return image.url === undefined;
+export function isRestrictedImage(image: ProductImage, consentGiven: boolean): boolean {
+    return image.prohibitedContentType !== "NONE" && !consentGiven;
 }
 
 /**
  * Sorts images so that restricted images (without URL) appear last.
  */
-export function sortImagesRestrictedLast(images: readonly ProductImage[]): readonly ProductImage[] {
+export function sortImagesRestrictedLast(
+    images: readonly ProductImage[],
+    consentGiven: boolean,
+): readonly ProductImage[] {
     return [...images].sort((a, b) => {
-        const aRestricted = isRestrictedImage(a) ? 1 : 0;
-        const bRestricted = isRestrictedImage(b) ? 1 : 0;
+        const aRestricted = isRestrictedImage(a, consentGiven) ? 1 : 0;
+        const bRestricted = isRestrictedImage(b, consentGiven) ? 1 : 0;
         return aRestricted - bRestricted;
     });
 }

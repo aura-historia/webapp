@@ -91,6 +91,7 @@ function mapProductDataToOverviewProduct(
                 : productData.images
                       .map(mapToInternalProductImage)
                       .filter((image) => image !== undefined),
+            userData?.prohibitedContent?.consent ?? false,
         ),
         created: new Date(productData.created),
         updated: new Date(productData.updated),
@@ -130,6 +131,7 @@ function mapProductSummaryDataToOverviewProduct(
                 : productData.images
                       .map(mapToInternalProductImage)
                       .filter((image) => image !== undefined),
+            userData?.prohibitedContent.consent ?? false,
         ),
         created: new Date(productData.created),
         updated: new Date(productData.updated),

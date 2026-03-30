@@ -15,10 +15,12 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { type ProductImage, isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
-import { ProhibitedImagePlaceholder } from "@/components/product/ProhibitedImagePlaceholder.tsx";
+import { ProhibitedImagePlaceholder } from "@/components/common/ProhibitedImagePlaceholder.tsx";
+import type { UserProductData } from "@/data/internal/product/UserProductData.ts";
 
 interface ThumbnailButtonProps {
     readonly image: ProductImage;
+    readonly isRestrictedImageConsentGiven: boolean;
     readonly index: number;
     readonly isSelected: boolean;
     readonly onSelect: (index: number) => void;
@@ -30,6 +32,7 @@ interface ThumbnailButtonProps {
  */
 const ThumbnailButton = memo(function ThumbnailButton({
     image,
+    isRestrictedImageConsentGiven,
     index,
     isSelected,
     onSelect,
@@ -45,7 +48,7 @@ const ThumbnailButton = memo(function ThumbnailButton({
                         : "border-transparent opacity-60 hover:opacity-100"
                 }`}
             >
-                {isRestrictedImage(image) ? (
+                {isRestrictedImage(image, isRestrictedImageConsentGiven) ? (
                     <ProhibitedImagePlaceholder className="w-full h-full" showLabel={false} />
                 ) : (
                     <ImageWithFallback
@@ -69,19 +72,25 @@ function imageKey(image: ProductImage, index: number): string {
 interface ProductImageGalleryProps {
     readonly images: readonly ProductImage[];
     readonly productId: string;
+    readonly userData?: UserProductData;
 }
 
-export function ProductImageGallery({ images, productId }: ProductImageGalleryProps) {
+export function ProductImageGallery({ images, productId, userData }: ProductImageGalleryProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+
+    const isRestrictedConsentGiven = userData?.restrictedContentData.consentGiven ?? false;
 
     /** Only images with actual URLs can be shown in the lightbox */
     const lightboxSlides = useMemo(
         () =>
             images
-                .filter((img): img is ProductImage & { url: URL } => !isRestrictedImage(img))
+                .filter(
+                    (img): img is ProductImage & { url: URL } =>
+                        !isRestrictedImage(img, isRestrictedConsentGiven),
+                )
                 .map((img) => ({ src: img.url.href })),
-        [images],
+        [images, isRestrictedConsentGiven],
     );
 
     const [mainCarouselApi, setMainCarouselApi] = useState<CarouselApi>();
@@ -164,12 +173,12 @@ export function ProductImageGallery({ images, productId }: ProductImageGalleryPr
      * Restricted images are excluded from the lightbox, so the index mapping
      * skips over them. Returns -1 if the current image is restricted.
      */
-    const getLightboxIndex = (carouselIndex: number): number => {
+    const getLightboxIndex = (carouselIndex: number, consent: boolean): number => {
         const img = images[carouselIndex];
-        if (!img || isRestrictedImage(img)) return -1;
+        if (!img || isRestrictedImage(img, consent)) return -1;
         let lightboxIdx = 0;
         for (let i = 0; i < carouselIndex; i++) {
-            if (!isRestrictedImage(images[i])) lightboxIdx++;
+            if (!isRestrictedImage(images[i], consent)) lightboxIdx++;
         }
         return lightboxIdx;
     };
@@ -178,10 +187,10 @@ export function ProductImageGallery({ images, productId }: ProductImageGalleryPr
      * Converts a lightbox slide index back to the corresponding carousel index.
      * Needed because the lightbox only contains non-restricted images.
      */
-    const getCarouselIndex = (lightboxIndex: number): number => {
+    const getCarouselIndex = (lightboxIndex: number, consent: boolean): number => {
         let count = 0;
         for (let i = 0; i < images.length; i++) {
-            if (!isRestrictedImage(images[i])) {
+            if (!isRestrictedImage(images[i], consent)) {
                 if (count === lightboxIndex) return i;
                 count++;
             }
@@ -189,8 +198,8 @@ export function ProductImageGallery({ images, productId }: ProductImageGalleryPr
         return 0;
     };
 
-    const handleMainImageClick = (carouselIndex: number) => {
-        const lightboxIdx = getLightboxIndex(carouselIndex);
+    const handleMainImageClick = (carouselIndex: number, consent: boolean) => {
+        const lightboxIdx = getLightboxIndex(carouselIndex, consent);
         if (lightboxIdx >= 0) {
             setIsLightboxOpen(true);
         }
@@ -210,12 +219,14 @@ export function ProductImageGallery({ images, productId }: ProductImageGalleryPr
                     <CarouselContent>
                         {images.map((img, idx) => (
                             <CarouselItem key={imageKey(img, idx)}>
-                                {isRestrictedImage(img) ? (
+                                {isRestrictedImage(img, isRestrictedConsentGiven) ? (
                                     <ProhibitedImagePlaceholder className="w-full aspect-square md:aspect-auto min-h-50 max-h-87.5 md:h-64 lg:h-80 rounded-lg" />
                                 ) : (
                                     <button
                                         type="button"
-                                        onClick={() => handleMainImageClick(idx)}
+                                        onClick={() =>
+                                            handleMainImageClick(idx, isRestrictedConsentGiven)
+                                        }
                                         className="w-full block"
                                     >
                                         <ImageWithFallback
@@ -257,6 +268,7 @@ export function ProductImageGallery({ images, productId }: ProductImageGalleryPr
                                 {images.map((img, idx) => (
                                     <ThumbnailButton
                                         key={imageKey(img, idx)}
+                                        isRestrictedImageConsentGiven={isRestrictedConsentGiven}
                                         image={img}
                                         index={idx}
                                         isSelected={idx === currentImageIndex}
@@ -275,9 +287,12 @@ export function ProductImageGallery({ images, productId }: ProductImageGalleryPr
                 open={isLightboxOpen}
                 close={() => setIsLightboxOpen(false)}
                 slides={lightboxSlides}
-                index={getLightboxIndex(currentImageIndex)}
+                index={getLightboxIndex(currentImageIndex, isRestrictedConsentGiven)}
                 plugins={[Zoom, Thumbnails]}
-                on={{ view: ({ index }) => setCurrentImageIndex(getCarouselIndex(index)) }}
+                on={{
+                    view: ({ index }) =>
+                        setCurrentImageIndex(getCarouselIndex(index, isRestrictedConsentGiven)),
+                }}
             />
         </>
     );

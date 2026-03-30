@@ -13,8 +13,9 @@ import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import { Footer } from "@/components/common/Footer.tsx";
 import { Header } from "@/components/common/Header.tsx";
 import { NavigationProgress } from "@/components/common/NavigationProgress.tsx";
-import type { QueryClient } from "@tanstack/react-query";
+import { type QueryClient, useQueryClient } from "@tanstack/react-query";
 import type React from "react";
+import { Hub } from "aws-amplify/utils";
 import { useEffect, useRef } from "react";
 import { Toaster } from "sonner";
 import "@/lib/polyfills/url";
@@ -30,7 +31,7 @@ import i18n from "@/i18n/i18n.ts";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
-import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seoConstants.ts";
+import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { ConsentBanner } from "@/components/common/ConsentBanner.tsx";
 
 interface MyRouterContext {
@@ -147,6 +148,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const isLandingPage = matches.some((match) => match.routeId === "/");
     const { i18n } = useTranslation();
     const { initialPreferences } = Route.useRouteContext();
+    const queryClient = useQueryClient();
 
     // Capture the consent value at first render so init runs only once.
     const initialConsentRef = useRef(initialPreferences.trackingConsent);
@@ -160,6 +162,16 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
 
         googleAnalytics.sendPageView(currentPath, i18n.language, searchParams);
     }, [location, i18n.language]);
+
+    useEffect(() => {
+        const hubListenerCancelToken = Hub.listen("auth", ({ payload }) => {
+            if (payload.event === "signedIn" || payload.event === "signedOut") {
+                queryClient.refetchQueries();
+            }
+        });
+
+        return () => hubListenerCancelToken();
+    }, [queryClient.refetchQueries]);
 
     return (
         <UserPreferencesProvider initialPreferences={initialPreferences}>

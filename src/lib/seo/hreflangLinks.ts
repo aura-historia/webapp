@@ -1,5 +1,5 @@
-import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/i18n/languages";
-import { env } from "@/env";
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
+import { env } from "@/env.ts";
 
 export type HreflangLink = {
     rel: "alternate";

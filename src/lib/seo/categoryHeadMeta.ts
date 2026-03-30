@@ -1,8 +1,8 @@
 import type { GetCategoryData } from "@/client";
-import { generateCategoryJsonLdScript } from "@/lib/categoryJsonLd.ts";
-import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
-import { generateHreflangLinks } from "@/lib/hreflangLinks.ts";
-import { env } from "@/env";
+import { generateCategoryJsonLdScript } from "@/lib/seo/categoryJsonLd.ts";
+import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
+import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
+import { env } from "@/env.ts";
 import i18n from "@/i18n/i18n.ts";
 
 type HeadMeta = {

@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getPeriodByIdOptions } from "@/client/@tanstack/react-query.gen.ts";
 import { mapToPeriodDetail } from "@/data/internal/period/PeriodDetail.ts";
-import { generatePeriodHeadMeta } from "@/lib/periodHeadMeta.ts";
+import { generatePeriodHeadMeta } from "@/lib/seo/periodHeadMeta.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { PeriodPageSkeleton } from "@/components/period/PeriodPageSkeleton.tsx";
 import { PeriodHeader } from "@/components/period/PeriodHeader.tsx";

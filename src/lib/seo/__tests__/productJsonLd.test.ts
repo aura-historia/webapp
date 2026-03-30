@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { PersonalizedGetProductData, ProductStateData } from "@/client";
 import { generateProductJsonLd, generateProductJsonLdScript } from "../productJsonLd.ts";
-import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
+import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 
 describe("productJsonLd", () => {
     describe("generateProductJsonLd", () => {
