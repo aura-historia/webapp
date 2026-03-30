@@ -78,6 +78,26 @@ describe("ProductInfo", () => {
         expect(screen.getByText("Keine Beschreibung verfügbar")).toBeInTheDocument();
     });
 
+    it("should render the shop type badge", () => {
+        renderWithQueryClient(<ProductInfo product={mockProduct} />);
+        expect(screen.getByText("Auktionshaus")).toBeInTheDocument();
+    });
+
+    it("should render the auction window badge when auction start is set", () => {
+        const productWithAuction = {
+            ...mockProduct,
+            auction: { start: new Date("2025-06-15T10:00:00Z") },
+        };
+        renderWithQueryClient(<ProductInfo product={productWithAuction} />);
+        expect(screen.getByText(/^ab /)).toBeInTheDocument();
+    });
+
+    it("should not render the auction window badge when no auction is set", () => {
+        renderWithQueryClient(<ProductInfo product={mockProduct} />);
+        expect(screen.queryByText(/^ab /)).not.toBeInTheDocument();
+        expect(screen.queryByText(/^bis /)).not.toBeInTheDocument();
+    });
+
     it("should render 'Preis unbekannt' when price is not provided", () => {
         const productWithoutPrice = { ...mockProduct, price: undefined };
         renderWithQueryClient(<ProductInfo product={productWithoutPrice} />);

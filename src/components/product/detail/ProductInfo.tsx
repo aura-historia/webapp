@@ -74,7 +74,6 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
 
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between sm:items-end w-full pt-4">
                         <div className="flex flex-col gap-1 shrink-0">
-                            {/* Purchase decision: status + price only */}
                             <StatusBadge status={product.state} />
                             <PriceText>{product.price ?? t("product.unknownPrice")}</PriceText>
                             {product.priceEstimate && (

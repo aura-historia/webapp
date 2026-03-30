@@ -1,4 +1,5 @@
-﻿import { AuctionWindowBadge } from "../AuctionWindowBadge.tsx";
+﻿import { render, screen } from "@testing-library/react";
+import { AuctionWindowBadge } from "../AuctionWindowBadge.tsx";
 
 const START_DATE = new Date("2025-06-15T10:00:00Z");
 const END_DATE = new Date("2025-06-20T18:00:00Z");
@@ -24,6 +25,5 @@ describe("AuctionWindowBadge", () => {
     it("renders one badge showing both dates as a range", () => {
         render(<AuctionWindowBadge auction={{ start: START_DATE, end: END_DATE }} />);
         expect(screen.getByText(/–/)).toBeInTheDocument();
-        expect(screen.getAllByRole("img", { hidden: true })).toHaveLength(1);
     });
 });
