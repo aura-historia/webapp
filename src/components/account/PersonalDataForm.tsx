@@ -99,9 +99,13 @@ export function PersonalDataForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>{t("account.personalData.languageLabel")}</FormLabel>
-                            <Select onValueChange={field.onChange} value={field.value}>
+                            <Select
+                                onValueChange={field.onChange}
+                                value={field.value}
+                                key={field.value}
+                            >
                                 <FormControl>
-                                    <SelectTrigger className="w-full !h-12">
+                                    <SelectTrigger className="w-full h-12!">
                                         <SelectValue
                                             placeholder={t(
                                                 "account.personalData.languagePlaceholder",
@@ -128,9 +132,13 @@ export function PersonalDataForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>{t("account.personalData.currencyLabel")}</FormLabel>
-                            <Select onValueChange={field.onChange} value={field.value}>
+                            <Select
+                                onValueChange={field.onChange}
+                                value={field.value}
+                                key={field.value}
+                            >
                                 <FormControl>
-                                    <SelectTrigger className="w-full !h-12">
+                                    <SelectTrigger className="w-full h-12!">
                                         <SelectValue
                                             placeholder={t(
                                                 "account.personalData.currencyPlaceholder",

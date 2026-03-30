@@ -46,8 +46,8 @@ export function getAccountEditSchema(t: TFunction) {
     const nameSchema = createNameSchema(t);
 
     return z.object({
-        firstName: nameSchema,
-        lastName: nameSchema,
+        firstName: nameSchema.or(z.string().max(0)),
+        lastName: nameSchema.or(z.string().max(0)),
         language: z.enum(LANGUAGES).optional(),
         currency: z.enum(CURRENCIES).optional(),
         prohibitedContentConsent: z.boolean(),
