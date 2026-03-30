@@ -570,6 +570,7 @@
     "BAD_SORT_VALUE": "Ordinamento non valido.",
     "BAD_ORDER_VALUE": "Ordine di ordinamento non valido.",
     "WATCHLIST_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di articoli nella tua lista dei preferiti. Ci sono già 5/5 voci occupate.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di filtri di ricerca salvati. Ci sono già 5/5 filtri di ricerca occupati.",
     "unknown": "Si è verificato un errore imprevisto."
   },
   "watchlist": {
