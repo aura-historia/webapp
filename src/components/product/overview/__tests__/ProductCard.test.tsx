@@ -68,6 +68,32 @@ describe("ProductCard", () => {
         expect(screen.getByText("Verfügbar")).toBeInTheDocument();
     });
 
+    it("should render the shop type badge", async () => {
+        await act(() => {
+            renderWithRouter(<ProductCard product={mockProduct} />);
+        });
+        expect(screen.getByText("Auktionshaus")).toBeInTheDocument();
+    });
+
+    it("should render the auction window badge when auction start is set", async () => {
+        const productWithAuction = {
+            ...mockProduct,
+            auction: { start: new Date("2025-06-15T10:00:00Z") },
+        };
+        await act(() => {
+            renderWithRouter(<ProductCard product={productWithAuction} />);
+        });
+        expect(screen.getByText(/^ab /)).toBeInTheDocument();
+    });
+
+    it("should not render the auction window badge when no auction is set", async () => {
+        await act(() => {
+            renderWithRouter(<ProductCard product={mockProduct} />);
+        });
+        expect(screen.queryByText(/^ab /)).not.toBeInTheDocument();
+        expect(screen.queryByText(/^bis /)).not.toBeInTheDocument();
+    });
+
     it("should render the buttons for details and external link", async () => {
         await act(() => {
             renderWithRouter(<ProductCard product={mockProduct} />);
