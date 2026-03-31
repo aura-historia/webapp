@@ -99,7 +99,6 @@
         "use-debounce": "^10.1.0",
         "usehooks-ts": "^3.1.1",
         "vaul": "^1.1.2",
-        "vite-tsconfig-paths": "^6.1.1",
         "yet-another-react-lightbox": "^3.29.2",
         "zod": "^4.3.6"
     },
