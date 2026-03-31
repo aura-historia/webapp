@@ -208,6 +208,14 @@ export function formatStateName(state: ProductState, t: TFunction): string {
     }
 }
 
+export function formatShortDate(date: Date, locale?: string): string {
+    return new Intl.DateTimeFormat(locale ?? navigator.language, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+    }).format(date);
+}
+
 export function handleCheckedChange(
     field: { value: string[]; onChange: (value: string[]) => void },
     state: string,

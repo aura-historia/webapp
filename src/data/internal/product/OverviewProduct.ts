@@ -27,6 +27,10 @@ import {
 } from "@/data/internal/product/ProductImageData.ts";
 import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import {
+    mapToInternalAuctionWindow,
+    type AuctionWindow,
+} from "@/data/internal/product/AuctionWindow.ts";
+import {
     parsePriceEstimate,
     type PriceEstimate,
 } from "@/data/internal/quality-indicators/PriceEstimate.ts";
@@ -51,6 +55,7 @@ export type OverviewProduct = {
     readonly updated: Date;
     readonly userData?: UserProductData;
     readonly shopType: ShopType;
+    readonly auction?: AuctionWindow;
 
     readonly originYear?: number;
     readonly originYearMin?: number;
@@ -75,6 +80,7 @@ function mapProductDataToOverviewProduct(
         shopsProductId: productData.shopsProductId,
         shopName: productData.shopName,
         shopType: parseShopType(productData.shopType),
+        auction: productData.auction ? mapToInternalAuctionWindow(productData.auction) : undefined,
         title: productData.title.text,
         description: productData.description?.text,
         price: productData.price?.offer ? formatPrice(productData.price.offer, locale) : undefined,
@@ -121,6 +127,7 @@ function mapProductSummaryDataToOverviewProduct(
         shopsProductId: productData.shopsProductId,
         shopName: productData.shopName,
         shopType: parseShopType(productData.shopType),
+        auction: productData.auction ? mapToInternalAuctionWindow(productData.auction) : undefined,
         title: productData.title.text,
         price: productData.price ? formatPrice(productData.price, locale) : undefined,
         state: parseProductState(productData.state),

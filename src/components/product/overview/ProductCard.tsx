@@ -1,4 +1,6 @@
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
+import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
+import { AuctionWindowBadge } from "@/components/product/badges/AuctionWindowBadge.tsx";
 import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotificationBadge.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
@@ -6,11 +8,10 @@ import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { ArrowUpRight, Eye } from "lucide-react";
-import { H3 } from "../../typography/H3.tsx";
+import { H3 } from "@/components/typography/H3.tsx";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { ProductQualityBadges } from "@/components/product/badges/ProductQualityBadges.tsx";
-
 import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
 import { ProductCardImageCarousel } from "@/components/product/overview/ProductCardImageCarousel.tsx";
@@ -72,6 +73,8 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                         </H3>
                         <div className="flex flex-wrap gap-2">
                             <StatusBadge status={product.state} />
+                            <ShopTypeBadge shopType={product.shopType} />
+                            {product.auction && <AuctionWindowBadge auction={product.auction} />}
                             <ProductQualityBadges product={product} />
                         </div>
                     </div>

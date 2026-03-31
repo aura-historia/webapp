@@ -335,6 +335,12 @@
         "created": "Added to system"
       }
     },
+    "auction": {
+      "title": "Auction period",
+      "start": "from {{date}}",
+      "end": "until {{date}}",
+      "range": "{{start}} – {{end}}"
+    },
     "priceEstimate": {
       "tooltip": "Price estimate from {{shopType}}",
       "tooltipUnknown": "Price estimate",
