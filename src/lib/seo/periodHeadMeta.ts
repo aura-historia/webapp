@@ -1,8 +1,8 @@
 import type { GetPeriodData } from "@/client";
-import { generatePeriodJsonLdScript } from "@/lib/periodJsonLd.ts";
-import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
-import { generateHreflangLinks } from "@/lib/hreflangLinks.ts";
-import { env } from "@/env";
+import { generatePeriodJsonLdScript } from "@/lib/seo/periodJsonLd.ts";
+import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
+import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
+import { env } from "@/env.ts";
 import i18n from "@/i18n/i18n.ts";
 
 type HeadMeta = {

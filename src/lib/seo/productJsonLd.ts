@@ -1,5 +1,5 @@
 import type { PersonalizedGetProductData } from "@/client";
-import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
+import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 
 type ProductJsonLd = {
     "@context": "https://schema.org/";

@@ -232,6 +232,7 @@
     "noImage": "Kein Bild verfügbar",
     "unseenNotification": "Aktualisiert",
     "imageLoadError": "Bild konnte nicht geladen werden",
+    "prohibitedImage": "Bild aufgrund von Inhaltsbeschränkungen ausgeblendet",
     "qualityIndicators": {
       "title": "Qualitätsmerkmale",
       "noData": "Keine zusätzlichen Informationen verfügbar",
@@ -570,7 +571,8 @@
     "BAD_ORDER_VALUE": "Ungültige Sortierreihenfolge.",
     "WATCHLIST_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an Artikeln auf Ihrer Merkliste erreicht. Es können maximal 5 Artikel gespeichert werden.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an gespeicherten Suchaufträgen erreicht. Es können maximal 5 Suchaufträge gespeichert werden.",
-    "unknown": "Ein unerwarteter Fehler ist aufgetreten."
+    "unknown": "Ein unerwarteter Fehler ist aufgetreten.",
+    "undefined": "Ein unerwarteter Fehler ist aufgetreten."
   },
   "watchlist": {
     "title": "Meine Merkliste",

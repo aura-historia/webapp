@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import type { ProductImageData } from "@/client";
-import { mapToInternalProductImage } from "../ProductImageData.ts";
+import {
+    mapToInternalProductImage,
+    isRestrictedImage,
+    sortImagesRestrictedLast,
+    type ProductImage,
+} from "../ProductImageData.ts";
 
 describe("mapToInternalProductImage", () => {
     describe("URL parsing", () => {
@@ -15,7 +20,7 @@ describe("mapToInternalProductImage", () => {
             expect(result).toBeUndefined();
         });
 
-        it("should return undefined for empty URL", () => {
+        it("should return ProductImage without url for empty URL", () => {
             const apiData: ProductImageData = {
                 url: "",
                 prohibitedContent: "NONE",
@@ -23,7 +28,9 @@ describe("mapToInternalProductImage", () => {
 
             const result = mapToInternalProductImage(apiData);
 
-            expect(result).toBeUndefined();
+            expect(result).toBeDefined();
+            expect(result?.url).toBeUndefined();
+            expect(result?.prohibitedContentType).toBe("NONE");
         });
 
         it("should parse valid HTTP URL", () => {
@@ -162,5 +169,120 @@ describe("mapToInternalProductImage", () => {
             );
             expect(result?.prohibitedContentType).toBe("NONE");
         });
+    });
+
+    describe("missing URL (prohibited content)", () => {
+        it("should return ProductImage with undefined url when url is not provided", () => {
+            const apiData: ProductImageData = {
+                prohibitedContent: "NAZI_GERMANY",
+            };
+
+            const result = mapToInternalProductImage(apiData);
+
+            expect(result).toBeDefined();
+            expect(result?.url).toBeUndefined();
+            expect(result?.prohibitedContentType).toBe("NAZI_GERMANY");
+        });
+
+        it("should return ProductImage with undefined url when url is undefined", () => {
+            const apiData: ProductImageData = {
+                url: undefined,
+                prohibitedContent: "UNKNOWN",
+            };
+
+            const result = mapToInternalProductImage(apiData);
+
+            expect(result).toBeDefined();
+            expect(result?.url).toBeUndefined();
+            expect(result?.prohibitedContentType).toBe("UNKNOWN");
+        });
+    });
+});
+
+describe("isRestrictedImage", () => {
+    it("should return true for images without URL", () => {
+        const image: ProductImage = {
+            url: undefined,
+            prohibitedContentType: "NAZI_GERMANY",
+        };
+
+        expect(isRestrictedImage(image, false)).toBe(true);
+    });
+
+    it("should return false for images with URL", () => {
+        const image: ProductImage = {
+            url: new URL("https://example.com/image.jpg"),
+            prohibitedContentType: "NONE",
+        };
+
+        expect(isRestrictedImage(image, false)).toBe(false);
+    });
+
+    it("should return true for images with URL and prohibited content type", () => {
+        const image: ProductImage = {
+            url: new URL("https://example.com/image.jpg"),
+            prohibitedContentType: "NAZI_GERMANY",
+        };
+
+        expect(isRestrictedImage(image, false)).toBe(true);
+    });
+});
+
+describe("sortImagesRestrictedLast", () => {
+    it("should place restricted images after normal images", () => {
+        const images: ProductImage[] = [
+            { url: undefined, prohibitedContentType: "NAZI_GERMANY" },
+            { url: new URL("https://example.com/image1.jpg"), prohibitedContentType: "NONE" },
+            { url: undefined, prohibitedContentType: "UNKNOWN" },
+            { url: new URL("https://example.com/image2.jpg"), prohibitedContentType: "NONE" },
+        ];
+
+        const sorted = sortImagesRestrictedLast(images, false);
+
+        expect(sorted[0].url?.href).toBe("https://example.com/image1.jpg");
+        expect(sorted[1].url?.href).toBe("https://example.com/image2.jpg");
+        expect(sorted[2].url).toBeUndefined();
+        expect(sorted[3].url).toBeUndefined();
+    });
+
+    it("should preserve order within same category", () => {
+        const images: ProductImage[] = [
+            { url: new URL("https://example.com/a.jpg"), prohibitedContentType: "NONE" },
+            { url: new URL("https://example.com/b.jpg"), prohibitedContentType: "NONE" },
+        ];
+
+        const sorted = sortImagesRestrictedLast(images, false);
+
+        expect(sorted[0].url?.href).toBe("https://example.com/a.jpg");
+        expect(sorted[1].url?.href).toBe("https://example.com/b.jpg");
+    });
+
+    it("should not modify the original array", () => {
+        const images: ProductImage[] = [
+            { url: undefined, prohibitedContentType: "NAZI_GERMANY" },
+            { url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" },
+        ];
+
+        sortImagesRestrictedLast(images, false);
+
+        expect(images[0].url).toBeUndefined();
+        expect(images[1].url?.href).toBe("https://example.com/image.jpg");
+    });
+
+    it("should handle empty array", () => {
+        expect(sortImagesRestrictedLast([], false)).toEqual([]);
+    });
+
+    it("should handle array with only restricted images", () => {
+        const images: ProductImage[] = [
+            { url: undefined, prohibitedContentType: "NAZI_GERMANY" },
+            { url: undefined, prohibitedContentType: "UNKNOWN" },
+        ];
+
+        const sorted = sortImagesRestrictedLast(images, false);
+
+        expect(sorted).toHaveLength(2);
+        expect(sorted[0].url).toBeUndefined();
+        expect(sorted[1].url).toBeUndefined();
     });
 });

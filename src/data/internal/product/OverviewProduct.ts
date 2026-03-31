@@ -22,6 +22,7 @@ import {
 } from "@/data/internal/quality-indicators/Restoration.ts";
 import {
     mapToInternalProductImage,
+    sortImagesRestrictedLast,
     type ProductImage,
 } from "@/data/internal/product/ProductImageData.ts";
 import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
@@ -84,12 +85,14 @@ function mapProductDataToOverviewProduct(
         ),
         state: parseProductState(productData.state),
         url: URL.parse(productData.url),
-        images:
+        images: sortImagesRestrictedLast(
             productData.images == null
                 ? []
                 : productData.images
                       .map(mapToInternalProductImage)
                       .filter((image) => image !== undefined),
+            userData?.prohibitedContent?.consent ?? false,
+        ),
         created: new Date(productData.created),
         updated: new Date(productData.updated),
         userData: userData ? mapToInternalUserProductData(userData) : undefined,
@@ -122,12 +125,14 @@ function mapProductSummaryDataToOverviewProduct(
         price: productData.price ? formatPrice(productData.price, locale) : undefined,
         state: parseProductState(productData.state),
         url: URL.parse(productData.url),
-        images:
+        images: sortImagesRestrictedLast(
             productData.images == null
                 ? []
                 : productData.images
                       .map(mapToInternalProductImage)
                       .filter((image) => image !== undefined),
+            userData?.prohibitedContent.consent ?? false,
+        ),
         created: new Date(productData.created),
         updated: new Date(productData.updated),
         userData: userData ? mapToInternalUserProductData(userData) : undefined,

@@ -12,6 +12,8 @@ import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 import { memo, useCallback } from "react";
 import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
 import { cn } from "@/lib/utils.ts";
+import { isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
+import { ProhibitedImagePlaceholder } from "@/components/common/ProhibitedImagePlaceholder.tsx";
 
 function ProductGridItemComponent({ product }: { readonly product: OverviewProduct }) {
     const { t } = useTranslation();
@@ -25,6 +27,8 @@ function ProductGridItemComponent({ product }: { readonly product: OverviewProdu
             markSeen.mutate(originEventId);
         }
     }, [hasUnseenNotification, originEventId, markSeen.mutate]);
+
+    const isRestrictedConsentGiven = product.userData?.restrictedContentData.consentGiven ?? false;
 
     return (
         <div className="relative pt-2 h-full">
@@ -51,12 +55,16 @@ function ProductGridItemComponent({ product }: { readonly product: OverviewProdu
                         onClick={handleProductClick}
                     >
                         {product.images.length > 0 ? (
-                            <ImageWithFallback
-                                className="w-full aspect-4/3 object-cover hover:opacity-90 transition-opacity"
-                                src={product.images[0].url.href}
-                                alt={product.title}
-                                fallbackClassName="w-full aspect-[4/3]"
-                            />
+                            isRestrictedImage(product.images[0], isRestrictedConsentGiven) ? (
+                                <ProhibitedImagePlaceholder className="w-full aspect-4/3" />
+                            ) : (
+                                <ImageWithFallback
+                                    className="w-full aspect-4/3 object-cover hover:opacity-90 transition-opacity"
+                                    src={product.images[0].url?.href}
+                                    alt={product.title}
+                                    fallbackClassName="w-full aspect-[4/3]"
+                                />
+                            )
                         ) : (
                             <div className="w-full aspect-4/3 bg-muted flex flex-col items-center justify-center gap-2">
                                 <ImageOff

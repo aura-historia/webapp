@@ -23,7 +23,11 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
         <>
             <Card className="flex flex-col md:flex-row p-8 gap-4 shadow-md min-w-0">
                 <div className="shrink-0 flex sm:justify-start justify-center">
-                    <ProductImageGallery images={product.images} productId={product.productId} />
+                    <ProductImageGallery
+                        images={product.images}
+                        productId={product.productId}
+                        userData={product.userData}
+                    />
                 </div>
                 <div className="flex flex-col min-w-0 flex-1">
                     <div className="flex flex-row justify-between w-full">

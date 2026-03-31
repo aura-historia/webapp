@@ -3,6 +3,7 @@ import type { ProductUserStateData } from "@/client";
 export type UserProductData = {
     readonly watchlistData: WatchlistProductData;
     readonly notificationData: NotificationProductData;
+    readonly restrictedContentData: UserRestrictedContentData;
 };
 
 type WatchlistProductData = {
@@ -15,6 +16,10 @@ type NotificationProductData = {
     originEventId?: string;
 };
 
+type UserRestrictedContentData = {
+    consentGiven: boolean;
+};
+
 export function mapToInternalUserProductData(apiData: ProductUserStateData): UserProductData {
     return {
         watchlistData: {
@@ -24,6 +29,9 @@ export function mapToInternalUserProductData(apiData: ProductUserStateData): Use
         notificationData: {
             hasUnseenNotification: !(apiData.notification?.seen ?? true),
             originEventId: apiData.notification?.originEventId,
+        },
+        restrictedContentData: {
+            consentGiven: apiData.prohibitedContent.consent ?? false,
         },
     };
 }

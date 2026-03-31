@@ -1,4 +1,4 @@
-import { env } from "@/env";
+import { env } from "@/env.ts";
 
 /**
  * Absolute URL of the default Open Graph / Twitter Card banner image.

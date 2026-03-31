@@ -46,6 +46,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
             <div className={"shrink-0 flex lg:justify-start justify-center"}>
                 <ProductCardImageCarousel
                     images={product.images}
+                    userData={product.userData}
                     shopSlugId={product.shopSlugId}
                     productSlugId={product.productSlugId}
                 />

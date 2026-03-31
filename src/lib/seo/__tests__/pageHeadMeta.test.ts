@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { generatePageHeadMeta } from "../pageHeadMeta.ts";
 import i18n from "@/i18n/i18n.ts";
-import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
+import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 
 describe("pageHeadMeta", () => {
     beforeAll(async () => {
