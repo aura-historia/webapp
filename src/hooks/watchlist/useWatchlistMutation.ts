@@ -2,15 +2,23 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addWatchlistProduct, deleteWatchlistProduct } from "@/client";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { getProductQueryKey } from "@/client/@tanstack/react-query.gen.ts";
+import {
+    getProductBySlugQueryKey,
+    getProductQueryKey,
+} from "@/client/@tanstack/react-query.gen.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
+import { parseLanguage } from "@/data/internal/common/Language.ts";
+import { useParams } from "@tanstack/react-router";
 
 export type WatchlistMutationType = "addToWatchlist" | "deleteFromWatchlist";
 
 export function useWatchlistMutation(shopId: string, shopsProductId: string) {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
+
+    const { i18n } = useTranslation();
+    const routeParams = useParams({ strict: false, shouldThrow: false });
 
     const { t } = useTranslation();
 
@@ -23,6 +31,7 @@ export function useWatchlistMutation(shopId: string, shopsProductId: string) {
                       })
                     : await addWatchlistProduct({
                           body: { shopId: shopId, shopsProductId: shopsProductId },
+                          query: { language: parseLanguage(i18n.language) },
                       });
 
             if (result.error) {
@@ -50,9 +59,26 @@ export function useWatchlistMutation(shopId: string, shopsProductId: string) {
                 queryClient.invalidateQueries({
                     queryKey: getProductQueryKey({
                         path: { shopId: shopId, shopsProductId: shopsProductId },
+                        query: {
+                            language: parseLanguage(i18n.language),
+                        },
                     }),
                 }),
             ]);
+
+            if (routeParams?.shopSlugId !== undefined && routeParams?.productSlugId !== undefined) {
+                await queryClient.invalidateQueries({
+                    queryKey: getProductBySlugQueryKey({
+                        path: {
+                            shopSlugId: routeParams.shopSlugId,
+                            productSlugId: routeParams.productSlugId,
+                        },
+                        query: {
+                            language: parseLanguage(i18n.language),
+                        },
+                    }),
+                });
+            }
         },
     });
 }

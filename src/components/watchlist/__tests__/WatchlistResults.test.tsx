@@ -17,6 +17,7 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     const actual = await importOriginal<typeof import("@tanstack/react-router")>();
     return {
         ...actual,
+        useParams: () => ({}),
         Link: ({ children, ...props }: { children: React.ReactNode }) => (
             <a {...props}>{children}</a>
         ),
@@ -61,6 +62,12 @@ const createMockProduct = (overrides: Partial<OverviewProduct> = {}): OverviewPr
         watchlistData: {
             isWatching: true,
             isNotificationEnabled: false,
+        },
+        notificationData: {
+            hasUnseenNotification: false,
+        },
+        restrictedContentData: {
+            consentGiven: false,
         },
     },
     ...overrides,
@@ -188,6 +195,12 @@ describe("WatchlistResults", () => {
                         isWatching: false,
                         isNotificationEnabled: false,
                     },
+                    notificationData: {
+                        hasUnseenNotification: false,
+                    },
+                    restrictedContentData: {
+                        consentGiven: false,
+                    },
                 },
             });
             setInfiniteQueryMock({ products: [productWithoutWatchlistData] });
@@ -204,6 +217,12 @@ describe("WatchlistResults", () => {
                     watchlistData: {
                         isWatching: true,
                         isNotificationEnabled: true,
+                    },
+                    notificationData: {
+                        hasUnseenNotification: false,
+                    },
+                    restrictedContentData: {
+                        consentGiven: false,
                     },
                 },
             });

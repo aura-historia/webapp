@@ -33,7 +33,7 @@ describe("ProductPriceChart", () => {
         productId: "item-1",
         shopId: "shop-1",
         shopsProductId: "shops-item-1",
-        eventType: "PRICE_INCREASED",
+        eventType: "PRICE_CHANGED",
         timestamp: new Date("2024-01-15T10:00:00Z"),
         payload: {
             oldPrice: { amount: 8999, currency: "EUR" },
@@ -46,7 +46,7 @@ describe("ProductPriceChart", () => {
         productId: "item-1",
         shopId: "shop-1",
         shopsProductId: "shops-item-1",
-        eventType: "STATE_AVAILABLE",
+        eventType: "STATE_CHANGED",
         timestamp: new Date("2024-01-16T11:00:00Z"),
         payload: {
             oldState: "LISTED",

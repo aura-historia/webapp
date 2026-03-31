@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Privacy } from "@/components/privacy/Privacy.tsx";
-import { generatePageHeadMeta } from "@/lib/pageHeadMeta.ts";
+import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
 
 export const Route = createFileRoute("/privacy")({

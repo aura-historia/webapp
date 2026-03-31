@@ -2,6 +2,8 @@ import {
     Authenticator as AmplifyAuthenticator,
     TextField,
     SelectField,
+    CheckboxField,
+    Divider,
     Grid,
     useTheme,
     useAuthenticator,
@@ -20,7 +22,9 @@ import { parseLanguage, LANGUAGES } from "@/data/internal/common/Language.ts";
 import { parseCurrency, CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { validateCognitoNameFields } from "@/utils/nameValidation";
 import { useEffect } from "react";
+import { Info } from "lucide-react";
 import { z } from "zod";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function Authenticator() {
     const { t, i18n } = useTranslation();
@@ -78,6 +82,7 @@ export function Authenticator() {
                         lastName: formData.lastName || undefined,
                         language: formData.language ? parseLanguage(formData.language) : undefined,
                         currency: formData.currency ? parseCurrency(formData.currency) : undefined,
+                        prohibitedContentConsent: formData.prohibitedContentConsent === "true",
                     };
 
                     setPendingUserData(customData);
@@ -162,6 +167,28 @@ function FormFields() {
                     ))}
                 </SelectField>
             </Grid>
+
+            <CheckboxField
+                name="prohibitedContentConsent"
+                value="true"
+                label={
+                    <span className="inline-flex items-center gap-1.5">
+                        {t("auth.signUp.prohibitedContentConsentLabel")}
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Info size={16} className="text-muted-foreground cursor-help" />
+                                </TooltipTrigger>
+                                <TooltipContent className="max-w-xs">
+                                    <p>{t("auth.signUp.prohibitedContentConsentTooltip")}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    </span>
+                }
+            />
+
+            <Divider opacity={0.2} />
 
             <TextField
                 name="email"

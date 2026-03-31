@@ -1,8 +1,8 @@
 import type { PersonalizedGetProductData } from "@/client";
-import { generateProductJsonLdScript } from "@/lib/productJsonLd.ts";
-import { BANNER_IMAGE_URL } from "@/lib/seoConstants.ts";
-import { env } from "@/env";
-import { generateHreflangLinks } from "@/lib/hreflangLinks.ts";
+import { generateProductJsonLdScript } from "@/lib/seo/productJsonLd.ts";
+import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
+import { env } from "@/env.ts";
+import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
 
 type HeadMeta = {
     meta: Array<

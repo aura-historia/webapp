@@ -1,6 +1,7 @@
 import { createRouter as createTanstackRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 import * as TanstackQuery from "./integrations/tanstack-query/root-provider";
+import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
@@ -11,8 +12,8 @@ export const getRouter = () => {
 
     const router = createTanstackRouter({
         routeTree,
-        context: { ...rqContext },
-        defaultPreload: "intent",
+        context: { ...rqContext, initialPreferences: {} as Partial<UserPreferences> },
+        defaultPreload: false,
         defaultPendingMs: 0,
         defaultPendingMinMs: 200,
         scrollRestoration: true,

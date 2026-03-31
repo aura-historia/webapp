@@ -12,6 +12,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import {
     Select,
@@ -28,6 +29,8 @@ import { getAccountEditSchema, type AccountEditFormData } from "@/utils/nameVali
 import { PersonalDataFormSkeleton } from "@/components/account/PersonalDataFormSkeleton";
 import { LANGUAGES } from "@/data/internal/common/Language.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
+import { Info } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function PersonalDataForm() {
     const { t } = useTranslation();
@@ -43,6 +46,7 @@ export function PersonalDataForm() {
             lastName: userAccount?.lastName ?? "",
             language: userAccount?.language,
             currency: userAccount?.currency,
+            prohibitedContentConsent: userAccount?.prohibitedContentConsent ?? false,
         },
     });
 
@@ -95,9 +99,13 @@ export function PersonalDataForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>{t("account.personalData.languageLabel")}</FormLabel>
-                            <Select onValueChange={field.onChange} value={field.value}>
+                            <Select
+                                onValueChange={field.onChange}
+                                value={field.value}
+                                key={field.value}
+                            >
                                 <FormControl>
-                                    <SelectTrigger className="w-full !h-12">
+                                    <SelectTrigger className="w-full h-12!">
                                         <SelectValue
                                             placeholder={t(
                                                 "account.personalData.languagePlaceholder",
@@ -124,9 +132,13 @@ export function PersonalDataForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>{t("account.personalData.currencyLabel")}</FormLabel>
-                            <Select onValueChange={field.onChange} value={field.value}>
+                            <Select
+                                onValueChange={field.onChange}
+                                value={field.value}
+                                key={field.value}
+                            >
                                 <FormControl>
-                                    <SelectTrigger className="w-full !h-12">
+                                    <SelectTrigger className="w-full h-12!">
                                         <SelectValue
                                             placeholder={t(
                                                 "account.personalData.currencyPlaceholder",
@@ -143,6 +155,38 @@ export function PersonalDataForm() {
                                 </SelectContent>
                             </Select>
                             <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={accountEditForm.control}
+                    name="prohibitedContentConsent"
+                    render={({ field }) => (
+                        <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4">
+                            <FormControl>
+                                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                            </FormControl>
+                            <FormLabel className="inline-flex items-center gap-1.5 font-normal">
+                                {t("account.personalData.prohibitedContentConsentLabel")}
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Info
+                                                size={16}
+                                                className="text-muted-foreground cursor-help"
+                                            />
+                                        </TooltipTrigger>
+                                        <TooltipContent className="max-w-xs">
+                                            <p>
+                                                {t(
+                                                    "account.personalData.prohibitedContentConsentTooltip",
+                                                )}
+                                            </p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            </FormLabel>
                         </FormItem>
                     )}
                 />

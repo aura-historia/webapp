@@ -85,15 +85,13 @@ export const getServerUser = createServerFn({ method: "GET" }).handler(async () 
 /**
  * Server function to check if the user has a valid session.
  */
-export const getAuthSession = createServerFn({ method: "GET" }).handler(async () => {
+export const getAuthToken = createServerFn({ method: "GET" }).handler(async () => {
     return runAmplifyServerContext(async (contextSpec) => {
         try {
             const session = await fetchAuthSession(contextSpec);
-            return {
-                authenticated: session.tokens !== undefined,
-            };
+            return session.tokens?.accessToken?.toString();
         } catch {
-            return { authenticated: false as const };
+            return undefined;
         }
     });
 });

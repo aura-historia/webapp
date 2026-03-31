@@ -6,28 +6,34 @@ import {
     CarouselItem,
 } from "@/components/ui/carousel.tsx";
 import { cn } from "@/lib/utils";
-import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+import { type ProductImage, isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
 import { ImageOff, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
+import { ProhibitedImagePlaceholder } from "@/components/common/ProhibitedImagePlaceholder.tsx";
+import type { UserProductData } from "@/data/internal/product/UserProductData.ts";
 
 interface ProductCardImageCarouselProps {
     readonly images: readonly ProductImage[];
     readonly shopSlugId: string;
     readonly productSlugId: string;
+    readonly userData?: UserProductData;
 }
 
 export function ProductCardImageCarousel({
     images,
     shopSlugId,
     productSlugId,
+    userData,
 }: ProductCardImageCarouselProps) {
     const { t } = useTranslation();
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [canScrollPrev, setCanScrollPrev] = useState(false);
     const [canScrollNext, setCanScrollNext] = useState(false);
+
+    const isRestrictedConsentGiven = userData?.restrictedContentData.consentGiven ?? false;
 
     const onSelect = useCallback(() => {
         if (!carouselApi) return;
@@ -95,14 +101,18 @@ export function ProductCardImageCarousel({
                     productSlugId,
                 }}
             >
-                <ImageWithFallback
-                    className="w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
-                    src={images[0].url.href}
-                    alt=""
-                    fallbackClassName="size-48 rounded-lg"
-                    loading="eager"
-                    decoding="async"
-                />
+                {isRestrictedImage(images[0], isRestrictedConsentGiven) ? (
+                    <ProhibitedImagePlaceholder className="w-full aspect-video lg:size-48 lg:aspect-auto rounded-lg" />
+                ) : (
+                    <ImageWithFallback
+                        className="w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
+                        src={images[0].url?.href}
+                        alt=""
+                        fallbackClassName="size-48 rounded-lg"
+                        loading="eager"
+                        decoding="async"
+                    />
+                )}
             </Link>
         );
     }
@@ -118,7 +128,7 @@ export function ProductCardImageCarousel({
             >
                 <CarouselContent className="rounded-lg">
                     {images.map((image, index) => (
-                        <CarouselItem key={`${index}-${image.url.href}`}>
+                        <CarouselItem key={image.url?.href ?? `restricted-${index}`}>
                             <Link
                                 to="/shops/$shopSlugId/products/$productSlugId"
                                 params={{
@@ -126,14 +136,18 @@ export function ProductCardImageCarousel({
                                     productSlugId,
                                 }}
                             >
-                                <ImageWithFallback
-                                    className="w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
-                                    src={image.url.href}
-                                    alt=""
-                                    loading={index === 0 ? "eager" : "lazy"}
-                                    fallbackClassName="size-48 rounded-lg"
-                                    decoding="async"
-                                />
+                                {isRestrictedImage(image, isRestrictedConsentGiven) ? (
+                                    <ProhibitedImagePlaceholder className="w-full aspect-video lg:size-48 lg:aspect-auto rounded-lg" />
+                                ) : (
+                                    <ImageWithFallback
+                                        className="w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
+                                        src={image.url?.href}
+                                        alt=""
+                                        loading={index === 0 ? "eager" : "lazy"}
+                                        fallbackClassName="size-48 rounded-lg"
+                                        decoding="async"
+                                    />
+                                )}
                             </Link>
                         </CarouselItem>
                     ))}
@@ -174,7 +188,7 @@ export function ProductCardImageCarousel({
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/40 backdrop-blur-sm px-2 py-1 rounded-full">
                 {images.map((image, index) => (
                     <button
-                        key={`${index}-${image.url.href}`}
+                        key={image.url?.href ?? `restricted-${index}`}
                         type="button"
                         onClick={(e) => {
                             e.preventDefault();

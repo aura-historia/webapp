@@ -10,6 +10,8 @@ import Autoplay from "embla-carousel-autoplay";
 import { getCategoryIcon } from "@/components/landing-page/categories-section/CategoriesSection.data.ts";
 import type { CategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
 import { Link } from "@tanstack/react-router";
+import { CAROUSEL_AUTOPLAY_DELAY_MS } from "@/components/landing-page/common/landingPageConstants.ts";
+import { H2 } from "@/components/typography/H2.tsx";
 
 type CategoriesSectionProps = {
     readonly categories: CategoryOverview[];
@@ -19,7 +21,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
     const { t } = useTranslation();
 
     return (
-        <section className="py-10" aria-label={t("landingPage.categories.title")}>
+        <section className="py-10 bg-muted/30" aria-label={t("landingPage.categories.title")}>
             <div className="w-full max-w-6xl mx-auto px-4 py-2">
                 <Carousel
                     opts={{
@@ -29,7 +31,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                     }}
                     plugins={[
                         Autoplay({
-                            delay: 2000,
+                            delay: CAROUSEL_AUTOPLAY_DELAY_MS,
                             stopOnInteraction: false,
                             stopOnMouseEnter: true,
                         }),
@@ -37,9 +39,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                     className="w-full overflow-visible"
                 >
                     <div className="flex items-center justify-between mb-2">
-                        <p className="text-2xl font-bold hyphens-auto">
-                            {t("landingPage.categories.title")}
-                        </p>
+                        <H2>{t("landingPage.categories.title")}</H2>
                         <div className="flex gap-2">
                             <CarouselPrevious className="static translate-y-0 bg-card border border-primary/20 text-primary hover:bg-card/80 hover:border-primary/40" />
                             <CarouselNext className="static translate-y-0 bg-card border border-primary/20 text-primary hover:bg-card/80 hover:border-primary/40" />

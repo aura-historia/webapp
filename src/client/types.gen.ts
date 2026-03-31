@@ -246,6 +246,8 @@ export type PersonalizedProductSearchResultData = {
  */
 export type ProductUserStateData = {
     watchlist: WatchlistUserStateData;
+    prohibitedContent: ProhibitedContentUserStateData;
+    notification: NotificationUserStateData;
 };
 
 /**
@@ -260,6 +262,41 @@ export type WatchlistUserStateData = {
      * Whether notifications are enabled for this watchlist product
      */
     notifications: boolean;
+};
+
+/**
+ * User's consent state for viewing prohibited content on a product.
+ * When `consent` is `true`, image URLs for images with prohibited content are included in the response.
+ * When `consent` is `false`, image URLs for images with prohibited content are omitted.
+ *
+ */
+export type ProhibitedContentUserStateData = {
+    /**
+     * Whether the user has consented to view prohibited content
+     */
+    consent: boolean;
+};
+
+/**
+ * User's notification seen-state for a product.
+ * When `seen` is `false`, the product has at least one unseen notification for the authenticated user.
+ * When `seen` is `true`, there are no unseen notifications (or no notifications at all) for the user on this product.
+ * Defaults to `true`.
+ * `originEventId` is present whenever at least one notification exists for the user on this product (regardless of `seen` status), and absent when there are no notifications.
+ *
+ */
+export type NotificationUserStateData = {
+    /**
+     * Whether the latest notification for this product has been seen by the user. Defaults to `true` when no notifications exist.
+     */
+    seen: boolean;
+    /**
+     * The ID of the domain event that triggered the latest notification for this product.
+     * Present whenever at least one notification exists for the user on this product (seen or unseen).
+     * Absent (`undefined` / omitted) when no notifications exist for this product.
+     *
+     */
+    originEventId?: string;
 };
 
 /**
@@ -303,25 +340,21 @@ export type ProductEventStateChangedPayloadData = {
 };
 
 /**
- * Payload for price discovered events when a product's price is first detected
- */
-export type ProductEventPriceDiscoveredPayloadData = {
-    newPrice: PriceData;
-};
-
-/**
- * Payload for price change events (dropped or increased), containing both old and new price
+ * Payload for price change events. Both `oldPrice` and `newPrice` are optional:
+ * - `oldPrice` absent, `newPrice` present: price was first discovered (initial price detection)
+ * - `oldPrice` present, `newPrice` present: price changed (dropped or increased)
+ * - `oldPrice` present, `newPrice` absent: price was removed
+ *
  */
 export type ProductEventPriceChangedPayloadData = {
-    oldPrice: PriceData;
-    newPrice: PriceData;
-};
-
-/**
- * Payload for price removed events when a product's price is removed
- */
-export type ProductEventPriceRemovedPayloadData = {
-    oldPrice: PriceData;
+    /**
+     * The previous price. Absent when this is the first price discovery.
+     */
+    oldPrice?: PriceData | null;
+    /**
+     * The new price. Absent when the price is removed.
+     */
+    newPrice?: PriceData | null;
 };
 
 /**
@@ -539,13 +572,18 @@ export type ProhibitedContentData = 'UNKNOWN' | 'NONE' | 'NAZI_GERMANY';
 export type ShopTypeData = 'AUCTION_HOUSE' | 'AUCTION_PLATFORM' | 'COMMERCIAL_DEALER' | 'MARKETPLACE';
 
 /**
- * Product image with prohibited content classification
+ * Product image with prohibited content classification.
+ * The `url` field is omitted when the image contains prohibited content and the authenticated user has not consented to view such content.
+ * For unauthenticated users the `url` is always omitted for any image whose `prohibitedContent` is not `NONE`.
+ *
  */
 export type ProductImageData = {
     /**
-     * URL to the product image
+     * URL to the product image.
+     * Absent when the image has prohibited content (`prohibitedContent != "NONE"`) and the user has not given consent (`prohibitedContent.consent == false`).
+     *
      */
-    url: string;
+    url?: string;
     prohibitedContent: ProhibitedContentData;
 };
 
@@ -561,20 +599,22 @@ export type ProductImageData = {
 export type SortProductFieldData = 'score' | 'price' | 'originYear' | 'updated' | 'created';
 
 /**
- * Types of events that can occur for a product
+ * Types of events that can occur for a product:
+ * - CREATED: Product was created
+ * - STATE_CHANGED: Product state transitioned (e.g. listed → available, available → sold)
+ * - PRICE_CHANGED: Product price was discovered, updated, or removed
+ *
  */
-export type ProductEventTypeData = 'CREATED' | 'STATE_LISTED' | 'STATE_AVAILABLE' | 'STATE_RESERVED' | 'STATE_SOLD' | 'STATE_REMOVED' | 'STATE_UNKNOWN' | 'PRICE_DISCOVERED' | 'PRICE_DROPPED' | 'PRICE_INCREASED' | 'PRICE_REMOVED';
+export type ProductEventTypeData = 'CREATED' | 'STATE_CHANGED' | 'PRICE_CHANGED';
 
 /**
  * Event-specific payload data. The structure varies depending on the event type:
  * - CREATED: ProductCreatedEventPayloadData (initial product state and optional price)
- * - STATE_LISTED, STATE_AVAILABLE, STATE_RESERVED, STATE_SOLD, STATE_REMOVED, STATE_UNKNOWN: ProductEventStateChangedPayloadData (old and new state)
- * - PRICE_DISCOVERED: ProductEventPriceDiscoveredPayloadData (new price only, when price is first detected)
- * - PRICE_DROPPED, PRICE_INCREASED: ProductEventPriceChangedPayloadData (old and new price)
- * - PRICE_REMOVED: ProductEventPriceRemovedPayloadData (old price only, when price is removed)
+ * - STATE_CHANGED: ProductEventStateChangedPayloadData (old and new state)
+ * - PRICE_CHANGED: ProductEventPriceChangedPayloadData (old and/or new price; see schema for semantics)
  *
  */
-export type ProductEventPayloadData = ProductCreatedEventPayloadData | ProductEventStateChangedPayloadData | ProductEventPriceDiscoveredPayloadData | ProductEventPriceChangedPayloadData | ProductEventPriceRemovedPayloadData;
+export type ProductEventPayloadData = ProductCreatedEventPayloadData | ProductEventStateChangedPayloadData | ProductEventPriceChangedPayloadData;
 
 /**
  * Standard error response format (RFC 9457)
@@ -722,7 +762,7 @@ export type PostUserSearchFilterData = {
 /**
  * Partial search filter update data.
  * All fields are optional and only provided fields will be updated.
- * Can update the search filter name and/or the search filter criteria.
+ * Can update the search filter name, notifications preference, and/or the search filter criteria.
  *
  */
 export type PatchUserSearchFilterData = {
@@ -730,6 +770,14 @@ export type PatchUserSearchFilterData = {
      * User-defined name for the search filter (max 255 characters, will be truncated if longer)
      */
     name?: string | null;
+    /**
+     * Whether to enable or disable email/push notifications for new products matching this search filter.
+     * When `true`, the user will be notified when a new product matches this filter.
+     * When `false`, no notifications are sent for this filter.
+     * Omit to leave unchanged.
+     *
+     */
+    notifications?: boolean | null;
     /**
      * Partial search filter criteria to update
      */
@@ -855,6 +903,14 @@ export type UserSearchFilterData = {
      * User-defined name for the search filter
      */
     name: string;
+    /**
+     * Whether notifications are enabled for this search filter.
+     * When `true`, the user will be notified when a new product matches this filter.
+     * When `false`, no notifications are sent for this filter.
+     * Defaults to `true` for newly created filters.
+     *
+     */
+    notifications: boolean;
     productSearch: ProductSearchData;
     /**
      * When the search filter was created (RFC3339 format)
@@ -938,94 +994,6 @@ export type UserSearchFilterCollectionData = {
 };
 
 /**
- * Collection of products to create or update
- */
-export type PutProductsCollectionData = {
-    /**
-     * Array of products to process
-     */
-    items: Array<PutProductData>;
-};
-
-/**
- * Data required to create or update a product.
- * Shop information (shopId and shopName) is automatically enriched based on the product's URL.
- *
- */
-export type PutProductData = {
-    /**
-     * Shop's unique identifier for the product. Can be any arbitrary string.
-     */
-    shopsProductId: string;
-    title: LocalizedTextData;
-    /**
-     * Optional product description
-     */
-    description?: LocalizedTextData | null;
-    /**
-     * Optional product price
-     */
-    price?: PriceData | null;
-    /**
-     * Optional minimum estimated price for the product
-     */
-    priceEstimateMin?: PriceData | null;
-    /**
-     * Optional maximum estimated price for the product
-     */
-    priceEstimateMax?: PriceData | null;
-    state: ProductStateData;
-    /**
-     * URL to the product on the shop's website.
-     * The shop will be automatically identified and enriched based on the domain extracted from this URL.
-     *
-     */
-    url: string;
-    /**
-     * Array of image URLs for the product
-     */
-    images?: Array<string>;
-    /**
-     * Start datetime of the auction window for this product (RFC3339 format).
-     * Only applicable for products from auction houses with scheduled auction times.
-     * Used to indicate when bidding begins or when the item will be auctioned.
-     *
-     */
-    auctionStart?: string | null;
-    /**
-     * End datetime of the auction window for this product (RFC3339 format).
-     * Only applicable for products from auction houses with scheduled auction times.
-     * Used to indicate when bidding ends or when the auction session concludes.
-     *
-     */
-    auctionEnd?: string | null;
-};
-
-/**
- * Response from bulk product creation/update operation with enrichment
- */
-export type PutProductsResponse = {
-    /**
-     * Product URLs that could not be processed due to temporary issues.
-     * These products may succeed if retried.
-     *
-     */
-    unprocessed?: Array<string>;
-    /**
-     * Map of product URLs to error codes for products that failed processing.
-     * The key is the product URL, and the value is the error code explaining why it failed.
-     *
-     */
-    failed?: {
-        [key: string]: PutProductError;
-    };
-    /**
-     * Number of products that were skipped during processing because they had no changes
-     */
-    skipped: number;
-};
-
-/**
  * Complete shop information including metadata
  */
 export type GetShopData = {
@@ -1062,57 +1030,6 @@ export type GetShopData = {
      * When the shop was last updated (RFC3339 format)
      */
     updated: string;
-};
-
-/**
- * Data required to create a new shop
- */
-export type PostShopData = {
-    /**
-     * Display name of the shop
-     */
-    name: string;
-    shopType: ShopTypeData;
-    /**
-     * All domains associated with the shop.
-     * Can be provided as full URLs (will be normalized) or as domain strings.
-     * Domains are normalized to lowercase without scheme, www prefix, or path/query/fragment.
-     * At least one domain is required, maximum 100 domains allowed.
-     *
-     */
-    domains: Array<string>;
-    /**
-     * Optional URL to the shop's logo or image
-     */
-    image?: string | null;
-};
-
-/**
- * Partial update data for a shop.
- * All fields are optional - only provided fields will be updated.
- * If the request body is empty or all fields are null, the shop is returned unchanged.
- *
- * **Note**: The shop name cannot be updated after creation as it determines the shop slug identifier.
- *
- */
-export type PatchShopData = {
-    /**
-     * New shop type classification
-     */
-    shopType?: ShopTypeData | null;
-    /**
-     * Complete new set of domains for the shop.
-     * Can be provided as full URLs (will be normalized) or as domain strings.
-     * When updating domains, the complete new set must be provided (not a diff).
-     * Domains are normalized to lowercase without scheme, www prefix, or path/query/fragment.
-     * Minimum 1 domain, maximum 100 domains.
-     *
-     */
-    domains?: Array<string> | null;
-    /**
-     * New URL to the shop's logo or image
-     */
-    image?: string | null;
 };
 
 /**
@@ -1342,32 +1259,13 @@ export type ProductKeyData = {
 };
 
 /**
- * Watchlist product containing the product data and when it was added to the watchlist
- */
-export type WatchlistProductData = {
-    product: GetProductData;
-    /**
-     * Whether notifications are enabled for this watchlist product
-     */
-    notifications: boolean;
-    /**
-     * When the product was added to the watchlist (RFC3339 format)
-     */
-    created: string;
-    /**
-     * When the watchlist product was last updated (RFC3339 format)
-     */
-    updated: string;
-};
-
-/**
- * Paginated collection of watchlist products using cursor-based pagination
+ * Paginated collection of personalized watchlist products using cursor-based pagination
  */
 export type WatchlistCollectionData = {
     /**
-     * Array of watchlist products in the current page
+     * Array of personalized watchlist products in the current page
      */
-    items: Array<WatchlistProductData>;
+    items: Array<PersonalizedGetProductData>;
     /**
      * Number of products in the current page
      */
@@ -1393,36 +1291,6 @@ export type WatchlistProductPatch = {
 };
 
 /**
- * Response after patching a watchlist product, containing core product identifiers and notification settings
- */
-export type WatchlistProductPatchResponse = {
-    /**
-     * Unique identifier of the shop
-     */
-    shopId: string;
-    /**
-     * Shop's unique identifier for the product
-     */
-    shopsProductId: string;
-    /**
-     * Internal product identifier
-     */
-    productId: string;
-    /**
-     * Current notification setting for this watchlist product
-     */
-    notifications: boolean;
-    /**
-     * When the product was added to the watchlist (RFC3339 format)
-     */
-    created: string;
-    /**
-     * When the watchlist product was last updated (RFC3339 format)
-     */
-    updated: string;
-};
-
-/**
  * Fields available for sorting watchlist products:
  * - created: Sort by when product was added to watchlist
  *
@@ -1430,17 +1298,36 @@ export type WatchlistProductPatchResponse = {
 export type SortWatchlistProductFieldData = 'created';
 
 /**
- * Error codes for products that failed during processing:
- * - SHOP_NOT_FOUND: The shop associated with the product's domain is not registered in the system
- * - MONETARY_AMOUNT_OVERFLOW: The price amount exceeds the maximum supported value during currency conversion
- * - PRODUCT_ENRICHMENT_FAILED: Failed to enrich the product with additional shop and price information
- * - NO_DOMAIN: The product URL does not contain a valid domain that can be extracted
+ * Fields available for sorting search filter matched products:
+ * - created: Sort by when the product was matched by the search filter
  *
  */
-export type PutProductError = 'SHOP_NOT_FOUND' | 'MONETARY_AMOUNT_OVERFLOW' | 'PRODUCT_ENRICHMENT_FAILED' | 'NO_DOMAIN';
+export type SortSearchFilterMatchFieldData = 'created';
 
 /**
- * Complete user account information
+ * Paginated collection of personalized products matched by a search filter, using cursor-based pagination
+ */
+export type SearchFilterMatchProductCollectionData = {
+    /**
+     * Array of personalized matched products in the current page
+     */
+    items: Array<PersonalizedGetProductData>;
+    /**
+     * Number of products in the current page
+     */
+    size: number;
+    /**
+     * Cursor for the next page (RFC3339 timestamp). Present when there are more results.
+     */
+    searchAfter?: string | null;
+    /**
+     * Total number of matched products
+     */
+    total?: number | null;
+};
+
+/**
+ * Complete user account information including prohibited content consent
  */
 export type GetUserAccountData = {
     /**
@@ -1467,6 +1354,11 @@ export type GetUserAccountData = {
      * User's preferred currency (optional)
      */
     currency?: CurrencyData | null;
+    /**
+     * Whether the user has consented to viewing prohibited content
+     */
+    prohibitedContentConsent: boolean;
+    tier: UserTierData;
     /**
      * When the user account was created (RFC3339 format)
      */
@@ -1499,6 +1391,225 @@ export type PatchUserAccountData = {
      * New preferred currency
      */
     currency?: CurrencyData | null;
+    /**
+     * New consent state for displaying prohibited content
+     */
+    prohibitedContentConsent?: boolean | null;
+};
+
+/**
+ * The user's subscription tier, which determines limits and quotas (e.g. max watchlist entries, max search filters).
+ * - `FREE`: Default tier for all users. Allows up to 5 watchlist entries and up to 5 search filters.
+ *
+ */
+export type UserTierData = 'FREE';
+
+/**
+ * A single user notification, fully localized for the requested language and currency.
+ */
+export type GetNotificationData = {
+    /**
+     * The ID of the domain event that triggered this notification.
+     */
+    originEventId: string;
+    /**
+     * Unique identifier of this notification record.
+     */
+    notificationId: string;
+    payload: NotificationPayloadData;
+    /**
+     * Whether the user has seen this notification.
+     */
+    seen: boolean;
+    /**
+     * Whether the notification has been sent externally to the user via a third-party medium (e.g. mail, SMS). `true` means it was sent externally; `false` means it was not.
+     */
+    external: boolean;
+    /**
+     * When the notification was created (RFC3339 format).
+     */
+    created: string;
+    /**
+     * When the notification was last updated (RFC3339 format).
+     */
+    updated: string;
+};
+
+/**
+ * The notification payload. The structure depends on the `type` discriminator field:
+ * - `WATCHLIST`: Notification triggered by a watchlist event (price change or state change).
+ * - `SEARCH_FILTER`: Notification triggered when a new product matches a user's search filter.
+ *
+ */
+export type NotificationPayloadData = ({
+    type: 'WATCHLIST';
+} & WatchlistNotificationPayloadData) | ({
+    type: 'SEARCH_FILTER';
+} & SearchFilterNotificationPayloadData);
+
+/**
+ * Notification payload for a watchlist event.
+ */
+export type WatchlistNotificationPayloadData = {
+    /**
+     * Discriminator field identifying this as a watchlist notification.
+     */
+    type: 'WATCHLIST';
+    /**
+     * Internal product identifier.
+     */
+    productId: string;
+    /**
+     * Unique identifier of the shop.
+     */
+    shopId: string;
+    /**
+     * Shop's own identifier for the product.
+     */
+    shopsProductId: string;
+    /**
+     * URL-friendly slug identifier for the shop.
+     */
+    shopSlugId: string;
+    /**
+     * URL-friendly slug identifier for the product (6-character suffix).
+     */
+    productSlugId: string;
+    /**
+     * Display name of the shop.
+     */
+    shopName: string;
+    title: LocalizedTextData;
+    watchlistPayload: WatchlistPayloadData;
+};
+
+/**
+ * The watchlist-specific sub-payload. The structure depends on the `type` discriminator field:
+ * - `PRICE_CHANGE`: A price change event. Both `oldPrice` and `newPrice` are optional (absent when the price was not available in the requested currency).
+ * - `STATE_CHANGE`: A product state change event. Both `oldState` and `newState` are always present.
+ *
+ */
+export type WatchlistPayloadData = ({
+    type: 'PRICE_CHANGE';
+} & PriceChangeWatchlistPayloadData) | ({
+    type: 'STATE_CHANGE';
+} & StateChangeWatchlistPayloadData);
+
+/**
+ * Watchlist payload for a price change notification.
+ */
+export type PriceChangeWatchlistPayloadData = {
+    /**
+     * Discriminator field identifying this as a price-change watchlist payload.
+     */
+    type: 'PRICE_CHANGE';
+    /**
+     * Previous price in the requested currency. Absent when price was unavailable in that currency.
+     */
+    oldPrice?: PriceData | null;
+    /**
+     * New price in the requested currency. Absent when price is unavailable in that currency.
+     */
+    newPrice?: PriceData | null;
+};
+
+/**
+ * Watchlist payload for a product state change notification.
+ */
+export type StateChangeWatchlistPayloadData = {
+    /**
+     * Discriminator field identifying this as a state-change watchlist payload.
+     */
+    type: 'STATE_CHANGE';
+    oldState: ProductStateData;
+    newState: ProductStateData;
+};
+
+/**
+ * Notification payload for a search filter match event. Triggered when a new or updated product matches a user's saved search filter.
+ */
+export type SearchFilterNotificationPayloadData = {
+    /**
+     * Discriminator field identifying this as a search filter notification.
+     */
+    type: 'SEARCH_FILTER';
+    /**
+     * Internal product identifier.
+     */
+    productId: string;
+    /**
+     * Unique identifier of the shop.
+     */
+    shopId: string;
+    /**
+     * Shop's own identifier for the product.
+     */
+    shopsProductId: string;
+    /**
+     * URL-friendly slug identifier for the shop.
+     */
+    shopSlugId: string;
+    /**
+     * URL-friendly slug identifier for the product (6-character suffix).
+     */
+    productSlugId: string;
+    /**
+     * Display name of the shop.
+     */
+    shopName: string;
+    title: LocalizedTextData;
+    searchFilterPayload: SearchFilterPayloadData;
+};
+
+/**
+ * Search-filter-specific sub-payload identifying which saved filter matched the product.
+ */
+export type SearchFilterPayloadData = {
+    /**
+     * Unique identifier of the user's search filter that matched the product.
+     */
+    userSearchFilterId: string;
+    /**
+     * User-defined name of the search filter that matched the product.
+     */
+    userSearchFilterName: string;
+};
+
+/**
+ * Patch body for updating notification fields. All fields are optional.
+ * Only provided (non-null) fields are applied.
+ *
+ */
+export type PatchNotificationData = {
+    /**
+     * Set to `true` to mark the notification as seen, `false` to mark it unseen.
+     */
+    seen?: boolean | null;
+};
+
+/**
+ * Cursor-paginated collection of notifications, sorted latest-first.
+ */
+export type NotificationCollectionData = {
+    /**
+     * Notifications in the current page.
+     */
+    items: Array<GetNotificationData>;
+    /**
+     * Number of notifications in the current page.
+     */
+    size: number;
+    /**
+     * Event ID cursor for the next page (UUID string).
+     * Present only when more results are available.
+     * Pass this value as the `searchAfter` query parameter to retrieve the next page.
+     *
+     */
+    searchAfter?: string | null;
+    /**
+     * Total number of notifications for the user. May be absent in some cases.
+     */
+    total?: number | null;
 };
 
 export type GetProductData2 = {
@@ -1556,15 +1667,6 @@ export type GetProductResponse = GetProductResponses[keyof GetProductResponses];
 
 export type GetProductBySlugData = {
     body?: never;
-    headers?: {
-        /**
-         * Preferred language for localized content.
-         * Supports quality values and multiple languages.
-         * Supported languages: de, en, fr, es, it (with regional variants).
-         *
-         */
-        'Accept-Language'?: string;
-    };
     path: {
         /**
          * Human-readable slug identifier of the shop (kebab-case, derived from shop name)
@@ -1582,6 +1684,12 @@ export type GetProductBySlugData = {
          * Currency for price display
          */
         currency?: CurrencyData;
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
     };
     url: '/api/v1/by-slug/shops/{shopSlugId}/products/{productSlugId}';
 };
@@ -1926,38 +2034,6 @@ export type SimpleSearchProductsResponses = {
 
 export type SimpleSearchProductsResponse = SimpleSearchProductsResponses[keyof SimpleSearchProductsResponses];
 
-export type PutProductsData = {
-    /**
-     * Collection of products to create or update
-     */
-    body: PutProductsCollectionData;
-    path?: never;
-    query?: never;
-    url: '/api/v1/products';
-};
-
-export type PutProductsErrors = {
-    /**
-     * Bad request - invalid request body
-     */
-    400: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-};
-
-export type PutProductsError = PutProductsErrors[keyof PutProductsErrors];
-
-export type PutProductsResponses = {
-    /**
-     * Products processed successfully
-     */
-    200: PutProductsResponse;
-};
-
-export type PutProductsResponse2 = PutProductsResponses[keyof PutProductsResponses];
-
 export type ComplexSearchProductsData = {
     /**
      * Search filter configuration with all filtering criteria.
@@ -2076,6 +2152,14 @@ export type CreateUserSearchFilterErrors = {
      * Unauthorized - invalid or missing JWT token
      */
     401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Unprocessable Entity - search filter quota exceeded
+     */
+    422: ApiError;
     /**
      * Internal server error
      */
@@ -2224,6 +2308,78 @@ export type UpdateUserSearchFilterResponses = {
 
 export type UpdateUserSearchFilterResponse = UpdateUserSearchFilterResponses[keyof UpdateUserSearchFilterResponses];
 
+export type GetSearchFilterMatchedProductsData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the search filter
+         */
+        userSearchFilterId: string;
+    };
+    query?: {
+        /**
+         * Currency for price display
+         */
+        currency?: CurrencyData;
+        /**
+         * Field to sort results by
+         */
+        sort?: SortSearchFilterMatchFieldData;
+        /**
+         * Sort order (only valid when sort is specified)
+         */
+        order?: 'asc' | 'desc';
+        /**
+         * RFC3339 timestamp for cursor-based pagination (search-after).
+         * Depending on sort-order, returns matched products created either after this timestamp for asc (oldest first) or before this timestamp for desc (latest first).
+         * In general you do not have to worry about determining this key. It's given with `searchAfter` in the preceding response if more entries are present.
+         *
+         */
+        searchAfter?: string;
+        /**
+         * Number of products to return per page
+         */
+        size?: number;
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+    };
+    url: '/api/v1/me/search-filters/{userSearchFilterId}/products';
+};
+
+export type GetSearchFilterMatchedProductsErrors = {
+    /**
+     * Bad request - invalid parameters
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * Search filter not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetSearchFilterMatchedProductsError = GetSearchFilterMatchedProductsErrors[keyof GetSearchFilterMatchedProductsErrors];
+
+export type GetSearchFilterMatchedProductsResponses = {
+    /**
+     * Matched products retrieved successfully
+     */
+    200: SearchFilterMatchProductCollectionData;
+};
+
+export type GetSearchFilterMatchedProductsResponse = GetSearchFilterMatchedProductsResponses[keyof GetSearchFilterMatchedProductsResponses];
+
 export type GetWatchlistProductsData = {
     body?: never;
     path?: never;
@@ -2293,7 +2449,18 @@ export type AddWatchlistProductData = {
      */
     body: ProductKeyData;
     path?: never;
-    query?: never;
+    query?: {
+        /**
+         * Preferred language for localized content in the response.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+        /**
+         * Currency for price display in the response.
+         */
+        currency?: CurrencyData;
+    };
     url: '/api/v1/me/watchlist';
 };
 
@@ -2306,6 +2473,10 @@ export type AddWatchlistProductErrors = {
      * Unauthorized - invalid or missing JWT token
      */
     401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
     /**
      * Unprocessable Entity - watchlist quota exceeded
      */
@@ -2322,7 +2493,7 @@ export type AddWatchlistProductResponses = {
     /**
      * Product added to watchlist successfully
      */
-    201: WatchlistProductPatchResponse;
+    201: PersonalizedGetProductData;
 };
 
 export type AddWatchlistProductResponse = AddWatchlistProductResponses[keyof AddWatchlistProductResponses];
@@ -2463,7 +2634,18 @@ export type PatchWatchlistProductData = {
          */
         shopsProductId: string;
     };
-    query?: never;
+    query?: {
+        /**
+         * Preferred language for localized content in the response.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+        /**
+         * Currency for price display in the response.
+         */
+        currency?: CurrencyData;
+    };
     url: '/api/v1/me/watchlist/{shopId}/{shopsProductId}';
 };
 
@@ -2492,10 +2674,241 @@ export type PatchWatchlistProductResponses = {
     /**
      * Watchlist product updated successfully
      */
-    200: WatchlistProductPatchResponse;
+    200: PersonalizedGetProductData;
 };
 
 export type PatchWatchlistProductResponse = PatchWatchlistProductResponses[keyof PatchWatchlistProductResponses];
+
+export type DeleteAllNotificationsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/notifications';
+};
+
+export type DeleteAllNotificationsErrors = {
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type DeleteAllNotificationsError = DeleteAllNotificationsErrors[keyof DeleteAllNotificationsErrors];
+
+export type DeleteAllNotificationsResponses = {
+    /**
+     * All notifications deleted successfully.
+     */
+    204: void;
+};
+
+export type DeleteAllNotificationsResponse = DeleteAllNotificationsResponses[keyof DeleteAllNotificationsResponses];
+
+export type GetNotificationsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+        /**
+         * Currency for price display in notification payloads.
+         */
+        currency?: CurrencyData;
+        /**
+         * Event ID cursor for pagination (UUID string).
+         * Pass the `searchAfter` value from the previous response to retrieve the next page.
+         *
+         */
+        searchAfter?: string;
+        /**
+         * Maximum number of notifications to return per page (capped at 100).
+         */
+        size?: number;
+    };
+    url: '/api/v1/me/notifications';
+};
+
+export type GetNotificationsErrors = {
+    /**
+     * Bad request – invalid query parameters.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type GetNotificationsError = GetNotificationsErrors[keyof GetNotificationsErrors];
+
+export type GetNotificationsResponses = {
+    /**
+     * Notifications retrieved successfully.
+     */
+    200: NotificationCollectionData;
+};
+
+export type GetNotificationsResponse = GetNotificationsResponses[keyof GetNotificationsResponses];
+
+export type PatchAllNotificationsData = {
+    /**
+     * Optional patch fields to apply to all notifications.
+     * If the body is omitted entirely, all fields default to their zero/null values
+     * (for `seen`: no change is applied).
+     *
+     */
+    body?: PatchNotificationData;
+    path?: never;
+    query?: {
+        /**
+         * Preferred language for localized content in the response.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+        /**
+         * Currency for price display in notification payloads of the response.
+         */
+        currency?: CurrencyData;
+    };
+    url: '/api/v1/me/notifications';
+};
+
+export type PatchAllNotificationsErrors = {
+    /**
+     * Bad request – malformed request body or invalid query parameters.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type PatchAllNotificationsError = PatchAllNotificationsErrors[keyof PatchAllNotificationsErrors];
+
+export type PatchAllNotificationsResponses = {
+    /**
+     * Notifications updated successfully. Returns the first page of updated notifications.
+     */
+    200: NotificationCollectionData;
+};
+
+export type PatchAllNotificationsResponse = PatchAllNotificationsResponses[keyof PatchAllNotificationsResponses];
+
+export type DeleteNotificationData = {
+    body?: never;
+    path: {
+        /**
+         * The event ID (UUID) of the notification to delete.
+         */
+        eventId: string;
+    };
+    query?: never;
+    url: '/api/v1/me/notifications/{eventId}';
+};
+
+export type DeleteNotificationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Not found – no notification with the given event ID exists for this user.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type DeleteNotificationError = DeleteNotificationErrors[keyof DeleteNotificationErrors];
+
+export type DeleteNotificationResponses = {
+    /**
+     * Notification deleted successfully.
+     */
+    204: void;
+};
+
+export type DeleteNotificationResponse = DeleteNotificationResponses[keyof DeleteNotificationResponses];
+
+export type PatchNotificationData2 = {
+    /**
+     * Patch fields to apply to the notification.
+     */
+    body: PatchNotificationData;
+    path: {
+        /**
+         * The event ID (UUID) of the notification to update.
+         */
+        eventId: string;
+    };
+    query?: {
+        /**
+         * Preferred language for localized content in the response.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+        /**
+         * Currency for price display in notification payloads of the response.
+         */
+        currency?: CurrencyData;
+    };
+    url: '/api/v1/me/notifications/{eventId}';
+};
+
+export type PatchNotificationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter or request body.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Not found – no notification with the given event ID exists for this user.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type PatchNotificationError = PatchNotificationErrors[keyof PatchNotificationErrors];
+
+export type PatchNotificationResponses = {
+    /**
+     * Notification updated successfully. Returns the updated notification.
+     */
+    200: GetNotificationData;
+};
+
+export type PatchNotificationResponse = PatchNotificationResponses[keyof PatchNotificationResponses];
 
 export type SimpleSearchShopsData = {
     body?: never;
@@ -2549,46 +2962,6 @@ export type SimpleSearchShopsResponses = {
 
 export type SimpleSearchShopsResponse = SimpleSearchShopsResponses[keyof SimpleSearchShopsResponses];
 
-export type CreateShopData = {
-    /**
-     * Shop data for creating a new shop
-     */
-    body: PostShopData;
-    path?: never;
-    query?: never;
-    url: '/api/v1/shops';
-};
-
-export type CreateShopErrors = {
-    /**
-     * Bad request - invalid request body
-     */
-    400: ApiError;
-    /**
-     * Conflict - shop with this name/slug or domain already exists
-     */
-    409: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-    /**
-     * Service temporarily unavailable
-     */
-    503: ApiError;
-};
-
-export type CreateShopError = CreateShopErrors[keyof CreateShopErrors];
-
-export type CreateShopResponses = {
-    /**
-     * Shop created successfully
-     */
-    201: GetShopData;
-};
-
-export type CreateShopResponse = CreateShopResponses[keyof CreateShopResponses];
-
 export type GetShopByIdData = {
     body?: never;
     path: {
@@ -2626,144 +2999,6 @@ export type GetShopByIdResponses = {
 };
 
 export type GetShopByIdResponse = GetShopByIdResponses[keyof GetShopByIdResponses];
-
-export type UpdateShopByIdData = {
-    /**
-     * Partial shop update data.
-     * Only provided fields will be updated. All fields are optional.
-     * The shop name cannot be updated.
-     *
-     */
-    body: PatchShopData;
-    path: {
-        /**
-         * Unique identifier of the shop to update (UUID format)
-         */
-        shopId: string;
-    };
-    query?: never;
-    url: '/api/v1/shops/{shopId}';
-};
-
-export type UpdateShopByIdErrors = {
-    /**
-     * Bad request - invalid parameters or body
-     */
-    400: ApiError;
-    /**
-     * Shop not found
-     */
-    404: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-    /**
-     * Service temporarily unavailable
-     */
-    503: ApiError;
-};
-
-export type UpdateShopByIdError = UpdateShopByIdErrors[keyof UpdateShopByIdErrors];
-
-export type UpdateShopByIdResponses = {
-    /**
-     * Shop updated successfully
-     */
-    200: GetShopData;
-};
-
-export type UpdateShopByIdResponse = UpdateShopByIdResponses[keyof UpdateShopByIdResponses];
-
-export type GetShopByDomainData = {
-    body?: never;
-    path: {
-        /**
-         * Domain associated with the shop (e.g., "tech-store.com", "shop.example.com").
-         * The domain is normalized (lowercased, www prefix removed).
-         *
-         */
-        shopDomain: string;
-    };
-    query?: never;
-    url: '/api/v1/by-domain/shops/{shopDomain}';
-};
-
-export type GetShopByDomainErrors = {
-    /**
-     * Bad request - invalid or missing domain
-     */
-    400: ApiError;
-    /**
-     * Shop not found
-     */
-    404: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-};
-
-export type GetShopByDomainError = GetShopByDomainErrors[keyof GetShopByDomainErrors];
-
-export type GetShopByDomainResponses = {
-    /**
-     * Shop found and returned successfully
-     */
-    200: GetShopData;
-};
-
-export type GetShopByDomainResponse = GetShopByDomainResponses[keyof GetShopByDomainResponses];
-
-export type UpdateShopByDomainData = {
-    /**
-     * Partial shop update data.
-     * Only provided fields will be updated. All fields are optional.
-     * The shop name cannot be updated.
-     *
-     */
-    body: PatchShopData;
-    path: {
-        /**
-         * Domain associated with the shop to update (e.g., "tech-store.com", "shop.example.com").
-         * The domain is normalized (lowercased, www prefix removed).
-         *
-         */
-        shopDomain: string;
-    };
-    query?: never;
-    url: '/api/v1/by-domain/shops/{shopDomain}';
-};
-
-export type UpdateShopByDomainErrors = {
-    /**
-     * Bad request - invalid parameters or body
-     */
-    400: ApiError;
-    /**
-     * Shop not found
-     */
-    404: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-    /**
-     * Service temporarily unavailable
-     */
-    503: ApiError;
-};
-
-export type UpdateShopByDomainError = UpdateShopByDomainErrors[keyof UpdateShopByDomainErrors];
-
-export type UpdateShopByDomainResponses = {
-    /**
-     * Shop updated successfully
-     */
-    200: GetShopData;
-};
-
-export type UpdateShopByDomainResponse = UpdateShopByDomainResponses[keyof UpdateShopByDomainResponses];
 
 export type GetShopBySlugData = {
     body?: never;

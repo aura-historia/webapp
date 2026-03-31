@@ -27,6 +27,38 @@ vi.mock("react-i18next", async () => {
     };
 });
 
+const mockCategoriesData = [
+    {
+        categoryId: "jewelry-personal-adornment",
+        categoryKey: "JEWELRY_PERSONAL_ADORNMENT",
+        name: { text: "Schmuck" },
+    },
+    { categoryId: "furniture", categoryKey: "FURNITURE", name: { text: "Möbel" } },
+    { categoryId: "visual-art", categoryKey: "VISUAL_ART", name: { text: "Bildende Kunst" } },
+];
+
+const mockPeriodsData = [
+    { periodId: "baroque", periodKey: "BAROQUE", name: { text: "Barock" } },
+    { periodId: "art-nouveau", periodKey: "ART_NOUVEAU", name: { text: "Jugendstil" } },
+    { periodId: "art-deco", periodKey: "ART_DECO", name: { text: "Art Déco" } },
+];
+
+vi.mock("@tanstack/react-query", async () => {
+    const actual = await vi.importActual("@tanstack/react-query");
+    return {
+        ...actual,
+        useQuery: vi.fn(({ queryKey }: { queryKey: Array<{ _id?: string }> }) => {
+            if (queryKey[0]?._id === "getCategories") {
+                return { data: mockCategoriesData };
+            }
+            if (queryKey[0]?._id === "getPeriods") {
+                return { data: mockPeriodsData };
+            }
+            return { data: undefined };
+        }),
+    };
+});
+
 describe("Footer Component", () => {
     beforeEach(async () => {
         changeLanguageMock.mockClear();
@@ -43,6 +75,7 @@ describe("Footer Component", () => {
     it("should render all navigation links with correct text", () => {
         expect(screen.getByText("Impressum")).toBeInTheDocument();
         expect(screen.getByText("Datenschutzerklärung")).toBeInTheDocument();
+        expect(screen.getByText("Cookie-Einstellungen")).toBeInTheDocument();
     });
 
     it("should render copyright text with correct year", () => {
@@ -54,6 +87,10 @@ describe("Footer Component", () => {
         expect(screen.getByText("Datenschutzerklärung").closest("a")).toHaveAttribute(
             "href",
             "/privacy",
+        );
+        expect(screen.getByText("Cookie-Einstellungen").closest("a")).toHaveAttribute(
+            "href",
+            "/consent-settings",
         );
     });
 
@@ -87,11 +124,54 @@ describe("Footer Component", () => {
         expect(screen.getByText("Unternehmen")).toBeInTheDocument();
         expect(screen.getByText("Folge uns")).toBeInTheDocument();
         expect(screen.getByText("Kontakt")).toBeInTheDocument();
+        expect(screen.getByText("Kategorien")).toBeInTheDocument();
+        expect(screen.getByText("Epochen & Stile")).toBeInTheDocument();
     });
 
     it("should render contact email", () => {
         const emailLink = screen.getByText("contact@aura-historia.com");
         expect(emailLink).toHaveAttribute("href", "mailto:contact@aura-historia.com");
+    });
+
+    it("should render popular category links", () => {
+        const categoriesSection = screen.getByText("Kategorien").closest("div");
+        expect(categoriesSection).not.toBeNull();
+
+        expect(screen.getByText("Schmuck")).toBeInTheDocument();
+        expect(screen.getByText("Möbel")).toBeInTheDocument();
+        expect(screen.getByText("Bildende Kunst")).toBeInTheDocument();
+
+        expect(screen.getByText("Schmuck").closest("a")).toHaveAttribute(
+            "href",
+            "/categories/jewelry-personal-adornment",
+        );
+        expect(screen.getByText("Möbel").closest("a")).toHaveAttribute(
+            "href",
+            "/categories/furniture",
+        );
+    });
+
+    it("should render popular period links", () => {
+        const periodsSection = screen.getByText("Epochen & Stile").closest("div");
+        expect(periodsSection).not.toBeNull();
+
+        expect(screen.getByText("Barock")).toBeInTheDocument();
+        expect(screen.getByText("Jugendstil")).toBeInTheDocument();
+        expect(screen.getByText("Art Déco")).toBeInTheDocument();
+
+        expect(screen.getByText("Barock").closest("a")).toHaveAttribute("href", "/periods/baroque");
+        expect(screen.getByText("Jugendstil").closest("a")).toHaveAttribute(
+            "href",
+            "/periods/art-nouveau",
+        );
+    });
+
+    it("should render company and contact sections stacked", () => {
+        const companyHeading = screen.getByText("Unternehmen");
+        const contactHeading = screen.getByText("Kontakt");
+        const companyContainer = companyHeading.closest("div")?.parentElement;
+        const contactContainer = contactHeading.closest("div")?.parentElement;
+        expect(companyContainer).toBe(contactContainer);
     });
 
     it("should change language", async () => {

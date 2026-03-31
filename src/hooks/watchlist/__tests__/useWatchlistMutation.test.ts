@@ -35,8 +35,19 @@ vi.mock("@/data/internal/hooks/ApiError.ts", () => ({
 vi.mock("react-i18next", () => ({
     useTranslation: () => ({
         t: (key: string) => key,
+        i18n: { language: "en" },
     }),
 }));
+
+vi.mock("@tanstack/react-router", async () => {
+    const actual =
+        await vi.importActual<typeof import("@tanstack/react-router")>("@tanstack/react-router");
+
+    return {
+        ...actual,
+        useParams: () => ({}),
+    };
+});
 
 describe("useWatchlistMutation", () => {
     let queryClient: QueryClient;
@@ -77,6 +88,7 @@ describe("useWatchlistMutation", () => {
             await waitFor(() => {
                 expect(mockAddWatchlistProduct).toHaveBeenCalledWith({
                     body: { shopId, shopsProductId },
+                    query: { language: "en" },
                 });
             });
         });

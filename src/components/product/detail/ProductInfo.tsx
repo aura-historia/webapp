@@ -1,16 +1,17 @@
 import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
+import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
+import { AuctionWindowBadge } from "@/components/product/badges/AuctionWindowBadge.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { ArrowUpRight } from "lucide-react";
-import { H3 } from "../../typography/H3.tsx";
+import { H3 } from "@/components/typography/H3.tsx";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { ProductImageGallery } from "@/components/product/detail/ProductImageGallery.tsx";
 import { useTranslation } from "react-i18next";
-
 import { ProductSharer } from "@/components/product/detail/ProductSharer.tsx";
 import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
@@ -23,17 +24,30 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
         <>
             <Card className="flex flex-col md:flex-row p-8 gap-4 shadow-md min-w-0">
                 <div className="shrink-0 flex sm:justify-start justify-center">
-                    <ProductImageGallery images={product.images} productId={product.productId} />
+                    <ProductImageGallery
+                        images={product.images}
+                        productId={product.productId}
+                        userData={product.userData}
+                    />
                 </div>
                 <div className="flex flex-col min-w-0 flex-1">
                     <div className="flex flex-row justify-between w-full">
-                        <div className="flex flex-col gap-2 min-w-0 overflow-hidden">
+                        <div className="flex flex-col gap-1 min-w-0 overflow-hidden">
                             <H2 className="overflow-hidden line-clamp-3 md:line-clamp-2 lg:line-clamp-2 text-[26px]">
                                 {product.title}
                             </H2>
-                            <H3 variant="muted" className="overflow-hidden line-clamp-1 text-lg">
-                                {product.shopName}
-                            </H3>
+                            <div className="flex flex-wrap items-center gap-2">
+                                <H3
+                                    variant="muted"
+                                    className="overflow-hidden line-clamp-1 text-lg"
+                                >
+                                    {product.shopName}
+                                </H3>
+                                <ShopTypeBadge shopType={product.shopType} />
+                                {product.auction && (
+                                    <AuctionWindowBadge auction={product.auction} />
+                                )}
+                            </div>
                         </div>
                         <div className="hidden md:flex gap-2 ml-auto shrink-0 self-start">
                             <ProductSharer title={product.title} />

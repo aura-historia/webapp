@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateShopData, CreateShopErrors, CreateShopResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetShopByDomainData, GetShopByDomainErrors, GetShopByDomainResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PutProductsData, PutProductsErrors, PutProductsResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateShopByDomainData, UpdateShopByDomainErrors, UpdateShopByDomainResponses, UpdateShopByIdData, UpdateShopByIdErrors, UpdateShopByIdResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAllNotificationsData, DeleteAllNotificationsErrors, DeleteAllNotificationsResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetNotificationsData, GetNotificationsErrors, GetNotificationsResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsErrors, GetSearchFilterMatchedProductsResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchAllNotificationsData, PatchAllNotificationsErrors, PatchAllNotificationsResponses, PatchNotificationData2, PatchNotificationErrors, PatchNotificationResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -39,7 +39,7 @@ export const getProduct = <ThrowOnError extends boolean = false>(options: Option
  * Get a single product by slug
  *
  * Retrieves a single product by its shop slug ID and product slug ID.
- * Returns localized content based on Accept-Language header and currency preferences.
+ * Returns localized content based on the optional `language` query parameter and currency preferences.
  *
  * **Human-Readable Identifiers**: This endpoint uses slug-based identifiers which are human-readable
  * kebab-case strings. Shop slugs are derived from the shop name (e.g., "tech-store-premium"),
@@ -126,35 +126,6 @@ export const simpleSearchProducts = <ThrowOnError extends boolean = false>(optio
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/products',
     ...options
-});
-
-/**
- * Bulk create or update products
- *
- * Creates or updates multiple products in a single batch request.
- * This endpoint accepts a collection of product data and processes them asynchronously.
- *
- * **Shop Enrichment**: The shop information (shopId and shopName) is automatically
- * enriched based on the product's URL. The domain is extracted from the product URL
- * and must match a shop that is already registered in the system. If the shop is not
- * found, the product will fail with a SHOP_NOT_FOUND error. If the URL does not contain
- * a valid extractable domain, the product will fail with a NO_DOMAIN error.
- *
- * **Response Structure**:
- * - `skipped`: Number of products that had no changes and were skipped
- * - `unprocessed`: URLs of products that could not be processed due to temporary issues (can be retried)
- * - `failed`: Map of product URLs to error codes for products that permanently failed processing
- *
- * Returns information about any products that could not be processed or failed during enrichment.
- *
- */
-export const putProducts = <ThrowOnError extends boolean = false>(options: Options<PutProductsData, ThrowOnError>) => (options.client ?? client).put<PutProductsResponses, PutProductsErrors, ThrowOnError>({
-    url: '/api/v1/products',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
 });
 
 /**
@@ -261,6 +232,21 @@ export const updateUserSearchFilter = <ThrowOnError extends boolean = false>(opt
 });
 
 /**
+ * List products matched by a search filter
+ *
+ * Retrieves all products that have been matched by the given search filter for the authenticated user.
+ * Results are paginated using search-after cursor-based pagination sorted by match creation time.
+ * Mirrors the behavior of `GET /api/v1/me/watchlist`.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getSearchFilterMatchedProducts = <ThrowOnError extends boolean = false>(options: Options<GetSearchFilterMatchedProductsData, ThrowOnError>) => (options.client ?? client).get<GetSearchFilterMatchedProductsResponses, GetSearchFilterMatchedProductsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/search-filters/{userSearchFilterId}/products',
+    ...options
+});
+
+/**
  * List user's watchlist products
  *
  * Retrieves all products in the authenticated user's watchlist.
@@ -281,7 +267,7 @@ export const getWatchlistProducts = <ThrowOnError extends boolean = false>(optio
  * The request body must contain the shop ID and shop's product ID.
  * Each user is limited to a maximum of 5 watchlist products. If the user already has 5 products
  * in their watchlist, adding another will result in a 422 Unprocessable Entity error.
- * Returns a 201 Created response with a Location header pointing to the created resource.
+ * Returns a 201 Created response with a Location header pointing to the created resource and the full personalized product data.
  * Requires valid Cognito JWT authentication.
  *
  */
@@ -298,7 +284,8 @@ export const addWatchlistProduct = <ThrowOnError extends boolean = false>(option
 /**
  * Get user account data
  *
- * Retrieves the authenticated user's account information including email, name, language, and currency preferences.
+ * Retrieves the authenticated user's account information including email, name, language and currency preferences,
+ * and the consent flag for displaying prohibited content.
  * Requires valid Cognito JWT authentication.
  *
  */
@@ -345,13 +332,95 @@ export const deleteWatchlistProduct = <ThrowOnError extends boolean = false>(opt
  * Update watchlist product settings
  *
  * Updates settings for a specific watchlist product (e.g., toggle notifications).
- * Returns the updated watchlist product data with core identifiers and settings.
+ * Returns the full personalized product data after applying the update.
  * Requires valid Cognito JWT authentication.
  *
  */
 export const patchWatchlistProduct = <ThrowOnError extends boolean = false>(options: Options<PatchWatchlistProductData, ThrowOnError>) => (options.client ?? client).patch<PatchWatchlistProductResponses, PatchWatchlistProductErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/me/watchlist/{shopId}/{shopsProductId}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Delete all notifications
+ *
+ * Deletes all notifications for the authenticated user.
+ * Returns 204 No Content on success.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const deleteAllNotifications = <ThrowOnError extends boolean = false>(options?: Options<DeleteAllNotificationsData, ThrowOnError>) => (options?.client ?? client).delete<DeleteAllNotificationsResponses, DeleteAllNotificationsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/notifications',
+    ...options
+});
+
+/**
+ * List user notifications
+ *
+ * Retrieves the authenticated user's notifications, sorted latest-first.
+ * Results are paginated using search-after cursor-based pagination with an event ID cursor.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getNotifications = <ThrowOnError extends boolean = false>(options?: Options<GetNotificationsData, ThrowOnError>) => (options?.client ?? client).get<GetNotificationsResponses, GetNotificationsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/notifications',
+    ...options
+});
+
+/**
+ * Update all notifications
+ *
+ * Updates all notifications for the authenticated user.
+ * Accepts an optional `PatchNotificationData` body. If the body is omitted or empty,
+ * the update command defaults to no-op field values (e.g. `seen` remains unchanged).
+ * Returns the first page of the updated notifications, localized by the given `language` and `currency` query parameters.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const patchAllNotifications = <ThrowOnError extends boolean = false>(options?: Options<PatchAllNotificationsData, ThrowOnError>) => (options?.client ?? client).patch<PatchAllNotificationsResponses, PatchAllNotificationsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/notifications',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers
+    }
+});
+
+/**
+ * Delete a single notification
+ *
+ * Deletes the notification identified by `eventId` for the authenticated user.
+ * Returns 204 No Content on success.
+ * Returns 404 if no notification with the given event ID exists for this user.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const deleteNotification = <ThrowOnError extends boolean = false>(options: Options<DeleteNotificationData, ThrowOnError>) => (options.client ?? client).delete<DeleteNotificationResponses, DeleteNotificationErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/notifications/{eventId}',
+    ...options
+});
+
+/**
+ * Update a single notification
+ *
+ * Updates the fields of a single notification identified by `eventId`.
+ * The request body is required and must contain at least one field.
+ * Returns the updated, localized notification.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const patchNotification = <ThrowOnError extends boolean = false>(options: Options<PatchNotificationData2, ThrowOnError>) => (options.client ?? client).patch<PatchNotificationResponses, PatchNotificationErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/notifications/{eventId}',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -376,29 +445,6 @@ export const patchWatchlistProduct = <ThrowOnError extends boolean = false>(opti
 export const simpleSearchShops = <ThrowOnError extends boolean = false>(options?: Options<SimpleSearchShopsData, ThrowOnError>) => (options?.client ?? client).get<SimpleSearchShopsResponses, SimpleSearchShopsErrors, ThrowOnError>({ url: '/api/v1/shops', ...options });
 
 /**
- * Create a new shop
- *
- * Creates a new shop in the system with the provided details.
- * The shop must include at least one domain and can have up to 100 domains.
- * Returns the created shop with generated ID and timestamps.
- *
- * **Uniqueness Checks**:
- * - The shop name must be unique (via slug normalization). A slug is automatically generated from the shop name.
- * - All shop domains must be unique - no domain can be associated with multiple shops.
- *
- * If either uniqueness constraint is violated, a 409 Conflict error is returned.
- *
- */
-export const createShop = <ThrowOnError extends boolean = false>(options: Options<CreateShopData, ThrowOnError>) => (options.client ?? client).post<CreateShopResponses, CreateShopErrors, ThrowOnError>({
-    url: '/api/v1/shops',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
  * Get shop details by ID
  *
  * Retrieves detailed information about a specific shop by its shop ID (UUID).
@@ -406,55 +452,6 @@ export const createShop = <ThrowOnError extends boolean = false>(options: Option
  *
  */
 export const getShopById = <ThrowOnError extends boolean = false>(options: Options<GetShopByIdData, ThrowOnError>) => (options.client ?? client).get<GetShopByIdResponses, GetShopByIdErrors, ThrowOnError>({ url: '/api/v1/shops/{shopId}', ...options });
-
-/**
- * Update shop details by ID
- *
- * Updates an existing shop's information by its shop ID (UUID).
- * All fields in the request body are optional - only provided fields will be updated.
- * If the request body is empty or only contains null values, the shop is returned unchanged.
- * When updating domains, the complete new set of domains must be provided.
- *
- * **Note**: The shop name cannot be updated as it determines the shop's slug identifier.
- *
- */
-export const updateShopById = <ThrowOnError extends boolean = false>(options: Options<UpdateShopByIdData, ThrowOnError>) => (options.client ?? client).patch<UpdateShopByIdResponses, UpdateShopByIdErrors, ThrowOnError>({
-    url: '/api/v1/shops/{shopId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
- * Get shop details by domain
- *
- * Retrieves detailed information about a specific shop by its domain.
- * Returns complete shop metadata including name, domains, image, and timestamps.
- *
- */
-export const getShopByDomain = <ThrowOnError extends boolean = false>(options: Options<GetShopByDomainData, ThrowOnError>) => (options.client ?? client).get<GetShopByDomainResponses, GetShopByDomainErrors, ThrowOnError>({ url: '/api/v1/by-domain/shops/{shopDomain}', ...options });
-
-/**
- * Update shop details by domain
- *
- * Updates an existing shop's information by its domain.
- * All fields in the request body are optional - only provided fields will be updated.
- * If the request body is empty or only contains null values, the shop is returned unchanged.
- * When updating domains, the complete new set of domains must be provided.
- *
- * **Note**: The shop name cannot be updated as it determines the shop's slug identifier.
- *
- */
-export const updateShopByDomain = <ThrowOnError extends boolean = false>(options: Options<UpdateShopByDomainData, ThrowOnError>) => (options.client ?? client).patch<UpdateShopByDomainResponses, UpdateShopByDomainErrors, ThrowOnError>({
-    url: '/api/v1/by-domain/shops/{shopDomain}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
 
 /**
  * Get shop details by slug

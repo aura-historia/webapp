@@ -33,6 +33,7 @@ export function useUpdateUserAccount(): UseMutationResult<
 
         onSuccess: (updatedData) => {
             queryClient.setQueryData(["userAccount"], updatedData);
+            queryClient.invalidateQueries();
         },
 
         onError: (error) => {

@@ -7,6 +7,7 @@ type PendingUserData = {
     lastName?: string;
     language?: Language;
     currency?: Currency;
+    prohibitedContentConsent?: boolean;
 };
 
 type RegistrationState = {

@@ -25,6 +25,10 @@
       "title": "Política de privacidad | Aura Historia",
       "description": "Política de privacidad e información sobre protección de datos para Aura Historia."
     },
+    "consentSettings": {
+      "title": "Configuración de cookies | Aura Historia",
+      "description": "Administra tus preferencias de cookies y seguimiento en Aura Historia."
+    },
     "account": {
       "title": "Mi cuenta | Aura Historia"
     },
@@ -33,6 +37,9 @@
     },
     "category": {
       "defaultName": "Categoría"
+    },
+    "period": {
+      "defaultName": "Período"
     }
   },
   "validation": {
@@ -64,12 +71,15 @@
     "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
     "imprint": "Aviso legal",
     "privacy": "Política de privacidad",
+    "cookieSettings": "Configuración de cookies",
     "terms": "Términos y condiciones",
     "copyright": "© {{year}} Aura Historia",
     "sections": {
       "company": "Empresa",
       "followUs": "Síguenos",
-      "contact": "Contacto"
+      "contact": "Contacto",
+      "categories": "Categorías",
+      "periodsAndStyles": "Períodos y Estilos"
     }
   },
   "account": {
@@ -102,7 +112,9 @@
       "currencyLabel": "Moneda",
       "currencyPlaceholder": "Seleccionar moneda",
       "saveButton": "Guardar Cambios",
-      "successMessage": "Datos personales actualizados con éxito"
+      "successMessage": "Datos personales actualizados con éxito",
+      "prohibitedContentConsentLabel": "Mostrar productos con marcas del § 86a StGB",
+      "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el § 86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido."
     }
   },
   "search": {
@@ -219,6 +231,7 @@
     "noDescription": "No hay descripción disponible",
     "noImage": "No hay imagen disponible",
     "imageLoadError": "No se pudo cargar la imagen",
+    "prohibitedImage": "Imagen oculta por restricciones de contenido",
     "similar": {
       "title": "Artículos similares",
       "error": {
@@ -341,6 +354,13 @@
         "unknown": "Desconocido",
         "unknownDescription": "No hay información disponible sobre restauraciones."
       }
+    },
+    "unseenNotification": "Actualizado",
+    "auction": {
+      "title": "Período de subasta",
+      "start": "desde {{date}}",
+      "end": "hasta {{date}}",
+      "range": "{{start}} – {{end}}"
     }
   },
   "priceBadge": {
@@ -399,7 +419,13 @@
     "trustBadge2": "Listados actualizados continuamente",
     "trustBadge3": "Diseñado para coleccionistas serios",
     "categories": {
-      "title": "Descubrir categorías"
+      "title": "Explorar Categorías"
+    },
+    "periods": {
+      "title": "Descubrir épocas y estilos"
+    },
+    "recentlyAdded": {
+      "title": "Añadidos recientemente"
     },
     "features": {
       "title": "Las antigüedades están dispersas por toda la web: tu búsqueda no debería estarlo",
@@ -550,7 +576,8 @@
     "BAD_SORT_VALUE": "Ordenación no válida.",
     "BAD_ORDER_VALUE": "Orden de clasificación no válido.",
     "unknown": "Se produjo un error inesperado.",
-    "WATCHLIST_QUOTA_EXCEEDED": "Has alcanzado el número máximo de artículos en tu lista de seguimiento. Ya hay 5/5 entradas ocupadas en la lista de seguimiento."
+    "WATCHLIST_QUOTA_EXCEEDED": "Has alcanzado el número máximo de artículos en tu lista de seguimiento. Ya hay 5/5 entradas ocupadas en la lista de seguimiento.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Has alcanzado el número máximo de filtros de búsqueda guardados. Ya hay 5/5 filtros de búsqueda ocupados."
   },
   "watchlist": {
     "title": "Mi lista de seguimiento",
@@ -573,6 +600,21 @@
       "noResults": {
         "title": "No se encontraron artículos",
         "description": "Actualmente no hay artículos en esta categoría."
+      },
+      "error": {
+        "title": "No se pudieron cargar los artículos",
+        "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
+      }
+    }
+  },
+  "period": {
+    "products": {
+      "loadingMore": "Cargando más artículos...",
+      "allLoaded_one": "Ha visto {{count}} artículo en este período.",
+      "allLoaded_other": "Ha visto los {{count}} artículos de este período.",
+      "noResults": {
+        "title": "No se encontraron artículos",
+        "description": "Actualmente no hay artículos en este período."
       },
       "error": {
         "title": "No se pudieron cargar los artículos",
@@ -625,7 +667,9 @@
       "confirmPassword": "Confirmar contraseña*",
       "language": "Idioma",
       "currency": "Moneda",
-      "pleaseSelect": "Por favor seleccione"
+      "pleaseSelect": "Por favor seleccione",
+      "prohibitedContentConsentLabel": "Mostrar productos con marcas del § 86a StGB",
+      "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el § 86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido."
     },
     "signIn": {
       "email": "Correo electrónico",
@@ -713,5 +757,12 @@
     "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Al hacer clic en 'Aceptar', das tu consentimiento para el uso de cookies con estos fines. Puede encontrar más información en nuestra <1>política de privacidad</1>.",
     "accept": "Aceptar",
     "reject": "Rechazar"
+  },
+  "consentSettings": {
+    "title": "Configuración de cookies",
+    "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Puede encontrar más información en nuestra <1>política de privacidad</1>.",
+    "analyticsLabel": "Análisis y seguimiento",
+    "analyticsDescription": "Nos permite analizar el uso y mejorar tu experiencia a través de Google Analytics. Incluye almacenamiento de anuncios, almacenamiento de analíticas, datos de usuario de anuncios y personalización de anuncios.",
+    "saved": "Tus preferencias de cookies han sido guardadas."
   }
 }

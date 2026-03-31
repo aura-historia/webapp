@@ -3,8 +3,8 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistProduct, complexSearchProducts, createShop, createUserSearchFilter, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getShopByDomain, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchWatchlistProduct, putProducts, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateShopByDomain, updateShopById, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateShopData, CreateShopError, CreateShopResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetShopByDomainData, GetShopByDomainError, GetShopByDomainResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PutProductsData, PutProductsError, PutProductsResponse2, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateShopByDomainData, UpdateShopByDomainError, UpdateShopByDomainResponse, UpdateShopByIdData, UpdateShopByIdError, UpdateShopByIdResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import { addWatchlistProduct, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterMatchedProducts, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchWatchlistProduct, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -71,7 +71,7 @@ export const getProductBySlugQueryKey = (options: Options<GetProductBySlugData>)
  * Get a single product by slug
  *
  * Retrieves a single product by its shop slug ID and product slug ID.
- * Returns localized content based on Accept-Language header and currency preferences.
+ * Returns localized content based on the optional `language` query parameter and currency preferences.
  *
  * **Human-Readable Identifiers**: This endpoint uses slug-based identifiers which are human-readable
  * kebab-case strings. Shop slugs are derived from the shop name (e.g., "tech-store-premium"),
@@ -197,40 +197,6 @@ export const simpleSearchProductsOptions = (options: Options<SimpleSearchProduct
     },
     queryKey: simpleSearchProductsQueryKey(options)
 });
-
-/**
- * Bulk create or update products
- *
- * Creates or updates multiple products in a single batch request.
- * This endpoint accepts a collection of product data and processes them asynchronously.
- *
- * **Shop Enrichment**: The shop information (shopId and shopName) is automatically
- * enriched based on the product's URL. The domain is extracted from the product URL
- * and must match a shop that is already registered in the system. If the shop is not
- * found, the product will fail with a SHOP_NOT_FOUND error. If the URL does not contain
- * a valid extractable domain, the product will fail with a NO_DOMAIN error.
- *
- * **Response Structure**:
- * - `skipped`: Number of products that had no changes and were skipped
- * - `unprocessed`: URLs of products that could not be processed due to temporary issues (can be retried)
- * - `failed`: Map of product URLs to error codes for products that permanently failed processing
- *
- * Returns information about any products that could not be processed or failed during enrichment.
- *
- */
-export const putProductsMutation = (options?: Partial<Options<PutProductsData>>): UseMutationOptions<PutProductsResponse2, PutProductsError, Options<PutProductsData>> => {
-    const mutationOptions: UseMutationOptions<PutProductsResponse2, PutProductsError, Options<PutProductsData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await putProducts({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
 
 /**
  * Complex product search
@@ -373,6 +339,30 @@ export const updateUserSearchFilterMutation = (options?: Partial<Options<UpdateU
     return mutationOptions;
 };
 
+export const getSearchFilterMatchedProductsQueryKey = (options: Options<GetSearchFilterMatchedProductsData>) => createQueryKey('getSearchFilterMatchedProducts', options);
+
+/**
+ * List products matched by a search filter
+ *
+ * Retrieves all products that have been matched by the given search filter for the authenticated user.
+ * Results are paginated using search-after cursor-based pagination sorted by match creation time.
+ * Mirrors the behavior of `GET /api/v1/me/watchlist`.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getSearchFilterMatchedProductsOptions = (options: Options<GetSearchFilterMatchedProductsData>) => queryOptions<GetSearchFilterMatchedProductsResponse, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, ReturnType<typeof getSearchFilterMatchedProductsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getSearchFilterMatchedProducts({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getSearchFilterMatchedProductsQueryKey(options)
+});
+
 export const getWatchlistProductsQueryKey = (options?: Options<GetWatchlistProductsData>) => createQueryKey('getWatchlistProducts', options);
 
 /**
@@ -403,7 +393,7 @@ export const getWatchlistProductsOptions = (options?: Options<GetWatchlistProduc
  * The request body must contain the shop ID and shop's product ID.
  * Each user is limited to a maximum of 5 watchlist products. If the user already has 5 products
  * in their watchlist, adding another will result in a 422 Unprocessable Entity error.
- * Returns a 201 Created response with a Location header pointing to the created resource.
+ * Returns a 201 Created response with a Location header pointing to the created resource and the full personalized product data.
  * Requires valid Cognito JWT authentication.
  *
  */
@@ -426,7 +416,8 @@ export const getUserAccountQueryKey = (options?: Options<GetUserAccountData2>) =
 /**
  * Get user account data
  *
- * Retrieves the authenticated user's account information including email, name, language, and currency preferences.
+ * Retrieves the authenticated user's account information including email, name, language and currency preferences,
+ * and the consent flag for displaying prohibited content.
  * Requires valid Cognito JWT authentication.
  *
  */
@@ -492,7 +483,7 @@ export const deleteWatchlistProductMutation = (options?: Partial<Options<DeleteW
  * Update watchlist product settings
  *
  * Updates settings for a specific watchlist product (e.g., toggle notifications).
- * Returns the updated watchlist product data with core identifiers and settings.
+ * Returns the full personalized product data after applying the update.
  * Requires valid Cognito JWT authentication.
  *
  */
@@ -500,6 +491,121 @@ export const patchWatchlistProductMutation = (options?: Partial<Options<PatchWat
     const mutationOptions: UseMutationOptions<PatchWatchlistProductResponse, PatchWatchlistProductError, Options<PatchWatchlistProductData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await patchWatchlistProduct({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Delete all notifications
+ *
+ * Deletes all notifications for the authenticated user.
+ * Returns 204 No Content on success.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const deleteAllNotificationsMutation = (options?: Partial<Options<DeleteAllNotificationsData>>): UseMutationOptions<DeleteAllNotificationsResponse, DeleteAllNotificationsError, Options<DeleteAllNotificationsData>> => {
+    const mutationOptions: UseMutationOptions<DeleteAllNotificationsResponse, DeleteAllNotificationsError, Options<DeleteAllNotificationsData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deleteAllNotifications({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getNotificationsQueryKey = (options?: Options<GetNotificationsData>) => createQueryKey('getNotifications', options);
+
+/**
+ * List user notifications
+ *
+ * Retrieves the authenticated user's notifications, sorted latest-first.
+ * Results are paginated using search-after cursor-based pagination with an event ID cursor.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getNotificationsOptions = (options?: Options<GetNotificationsData>) => queryOptions<GetNotificationsResponse, GetNotificationsError, GetNotificationsResponse, ReturnType<typeof getNotificationsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getNotifications({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getNotificationsQueryKey(options)
+});
+
+/**
+ * Update all notifications
+ *
+ * Updates all notifications for the authenticated user.
+ * Accepts an optional `PatchNotificationData` body. If the body is omitted or empty,
+ * the update command defaults to no-op field values (e.g. `seen` remains unchanged).
+ * Returns the first page of the updated notifications, localized by the given `language` and `currency` query parameters.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const patchAllNotificationsMutation = (options?: Partial<Options<PatchAllNotificationsData>>): UseMutationOptions<PatchAllNotificationsResponse, PatchAllNotificationsError, Options<PatchAllNotificationsData>> => {
+    const mutationOptions: UseMutationOptions<PatchAllNotificationsResponse, PatchAllNotificationsError, Options<PatchAllNotificationsData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await patchAllNotifications({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Delete a single notification
+ *
+ * Deletes the notification identified by `eventId` for the authenticated user.
+ * Returns 204 No Content on success.
+ * Returns 404 if no notification with the given event ID exists for this user.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const deleteNotificationMutation = (options?: Partial<Options<DeleteNotificationData>>): UseMutationOptions<DeleteNotificationResponse, DeleteNotificationError, Options<DeleteNotificationData>> => {
+    const mutationOptions: UseMutationOptions<DeleteNotificationResponse, DeleteNotificationError, Options<DeleteNotificationData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deleteNotification({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Update a single notification
+ *
+ * Updates the fields of a single notification identified by `eventId`.
+ * The request body is required and must contain at least one field.
+ * Returns the updated, localized notification.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const patchNotificationMutation = (options?: Partial<Options<PatchNotificationData2>>): UseMutationOptions<PatchNotificationResponse, PatchNotificationError, Options<PatchNotificationData2>> => {
+    const mutationOptions: UseMutationOptions<PatchNotificationResponse, PatchNotificationError, Options<PatchNotificationData2>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await patchNotification({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -539,34 +645,6 @@ export const simpleSearchShopsOptions = (options?: Options<SimpleSearchShopsData
     queryKey: simpleSearchShopsQueryKey(options)
 });
 
-/**
- * Create a new shop
- *
- * Creates a new shop in the system with the provided details.
- * The shop must include at least one domain and can have up to 100 domains.
- * Returns the created shop with generated ID and timestamps.
- *
- * **Uniqueness Checks**:
- * - The shop name must be unique (via slug normalization). A slug is automatically generated from the shop name.
- * - All shop domains must be unique - no domain can be associated with multiple shops.
- *
- * If either uniqueness constraint is violated, a 409 Conflict error is returned.
- *
- */
-export const createShopMutation = (options?: Partial<Options<CreateShopData>>): UseMutationOptions<CreateShopResponse, CreateShopError, Options<CreateShopData>> => {
-    const mutationOptions: UseMutationOptions<CreateShopResponse, CreateShopError, Options<CreateShopData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await createShop({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
 export const getShopByIdQueryKey = (options: Options<GetShopByIdData>) => createQueryKey('getShopById', options);
 
 /**
@@ -588,78 +666,6 @@ export const getShopByIdOptions = (options: Options<GetShopByIdData>) => queryOp
     },
     queryKey: getShopByIdQueryKey(options)
 });
-
-/**
- * Update shop details by ID
- *
- * Updates an existing shop's information by its shop ID (UUID).
- * All fields in the request body are optional - only provided fields will be updated.
- * If the request body is empty or only contains null values, the shop is returned unchanged.
- * When updating domains, the complete new set of domains must be provided.
- *
- * **Note**: The shop name cannot be updated as it determines the shop's slug identifier.
- *
- */
-export const updateShopByIdMutation = (options?: Partial<Options<UpdateShopByIdData>>): UseMutationOptions<UpdateShopByIdResponse, UpdateShopByIdError, Options<UpdateShopByIdData>> => {
-    const mutationOptions: UseMutationOptions<UpdateShopByIdResponse, UpdateShopByIdError, Options<UpdateShopByIdData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await updateShopById({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const getShopByDomainQueryKey = (options: Options<GetShopByDomainData>) => createQueryKey('getShopByDomain', options);
-
-/**
- * Get shop details by domain
- *
- * Retrieves detailed information about a specific shop by its domain.
- * Returns complete shop metadata including name, domains, image, and timestamps.
- *
- */
-export const getShopByDomainOptions = (options: Options<GetShopByDomainData>) => queryOptions<GetShopByDomainResponse, GetShopByDomainError, GetShopByDomainResponse, ReturnType<typeof getShopByDomainQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getShopByDomain({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getShopByDomainQueryKey(options)
-});
-
-/**
- * Update shop details by domain
- *
- * Updates an existing shop's information by its domain.
- * All fields in the request body are optional - only provided fields will be updated.
- * If the request body is empty or only contains null values, the shop is returned unchanged.
- * When updating domains, the complete new set of domains must be provided.
- *
- * **Note**: The shop name cannot be updated as it determines the shop's slug identifier.
- *
- */
-export const updateShopByDomainMutation = (options?: Partial<Options<UpdateShopByDomainData>>): UseMutationOptions<UpdateShopByDomainResponse, UpdateShopByDomainError, Options<UpdateShopByDomainData>> => {
-    const mutationOptions: UseMutationOptions<UpdateShopByDomainResponse, UpdateShopByDomainError, Options<UpdateShopByDomainData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await updateShopByDomain({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
 
 export const getShopBySlugQueryKey = (options: Options<GetShopBySlugData>) => createQueryKey('getShopBySlug', options);
 

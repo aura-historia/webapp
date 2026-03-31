@@ -25,6 +25,10 @@
       "title": "Datenschutzerklärung | Aura Historia",
       "description": "Datenschutzrichtlinie und Datenschutzinformationen für Aura Historia."
     },
+    "consentSettings": {
+      "title": "Cookie-Einstellungen | Aura Historia",
+      "description": "Verwalten Sie Ihre Cookie- und Tracking-Einstellungen auf Aura Historia."
+    },
     "account": {
       "title": "Mein Konto | Aura Historia"
     },
@@ -33,6 +37,9 @@
     },
     "category": {
       "defaultName": "Kategorie"
+    },
+    "period": {
+      "defaultName": "Epoche"
     }
   },
   "validation": {
@@ -64,18 +71,22 @@
     "ariaSwitchToLanguage": "Zu {{language}} wechseln",
     "imprint": "Impressum",
     "privacy": "Datenschutzerklärung",
+    "cookieSettings": "Cookie-Einstellungen",
     "terms": "AGB",
     "copyright": "© {{year}} Aura Historia",
     "sections": {
       "company": "Unternehmen",
       "followUs": "Folge uns",
-      "contact": "Kontakt"
+      "contact": "Kontakt",
+      "categories": "Kategorien",
+      "periodsAndStyles": "Epochen & Stile"
     }
   },
   "account": {
     "title": "Mein Account",
     "personalData": {
       "title": "Persönliche Daten",
+      "emailLabel": "E-Mail",
       "firstNameLabel": "Vorname",
       "lastNameLabel": "Nachname",
       "languageLabel": "Sprache",
@@ -83,7 +94,9 @@
       "languagePlaceholder": "Sprache auswählen",
       "currencyPlaceholder": "Währung auswählen",
       "saveButton": "Änderungen speichern",
-      "successMessage": "Persönliche Daten erfolgreich aktualisiert"
+      "successMessage": "Persönliche Daten erfolgreich aktualisiert",
+      "prohibitedContentConsentLabel": "Produkte mit § 86a StGB-Kennzeichnungen anzeigen",
+      "prohibitedContentConsentTooltip": "Bilder von Produkten können Kennzeichen verfassungswidriger oder terroristischer Organisationen, insbesondere solcher aus der Zeit des Nationalsozialismus, nach § 86a StGB enthalten. Hiermit stimmen Sie zu, dass wir Ihnen solche Inhalte anzeigen dürfen."
     },
     "changePassword": {
       "title": "Passwort ändern",
@@ -217,7 +230,9 @@
     "toMerchant": "Zur Seite des Händlers",
     "noDescription": "Keine Beschreibung verfügbar",
     "noImage": "Kein Bild verfügbar",
+    "unseenNotification": "Aktualisiert",
     "imageLoadError": "Bild konnte nicht geladen werden",
+    "prohibitedImage": "Bild aufgrund von Inhaltsbeschränkungen ausgeblendet",
     "qualityIndicators": {
       "title": "Qualitätsmerkmale",
       "noData": "Keine zusätzlichen Informationen verfügbar",
@@ -320,6 +335,12 @@
         "created": "Im System erfasst"
       }
     },
+    "auction": {
+      "title": "Auktionszeitraum",
+      "start": "ab {{date}}",
+      "end": "bis {{date}}",
+      "range": "{{start}} – {{end}}"
+    },
     "priceEstimate": {
       "tooltip": "Preisschätzung vom {{shopType}}",
       "tooltipUnknown": "Preisschätzung",
@@ -399,6 +420,12 @@
     "trustBadge3": "Nahezu Echtzeit",
     "categories": {
       "title": "Kategorien durchstöbern"
+    },
+    "periods": {
+      "title": "Epochen und Stile entdecken"
+    },
+    "recentlyAdded": {
+      "title": "Kürzlich hinzugefügt"
     },
     "features": {
       "title": "Antiquitäten sind überall im Internet verstreut - Ihre Suche sollte es nicht sein",
@@ -549,7 +576,9 @@
     "BAD_SORT_VALUE": "Ungültige Sortierung.",
     "BAD_ORDER_VALUE": "Ungültige Sortierreihenfolge.",
     "WATCHLIST_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an Artikeln auf Ihrer Merkliste erreicht. Es können maximal 5 Artikel gespeichert werden.",
-    "unknown": "Ein unerwarteter Fehler ist aufgetreten."
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an gespeicherten Suchaufträgen erreicht. Es können maximal 5 Suchaufträge gespeichert werden.",
+    "unknown": "Ein unerwarteter Fehler ist aufgetreten.",
+    "undefined": "Ein unerwarteter Fehler ist aufgetreten."
   },
   "watchlist": {
     "title": "Meine Merkliste",
@@ -572,6 +601,21 @@
       "noResults": {
         "title": "Keine Artikel gefunden",
         "description": "In dieser Kategorie sind derzeit keine Artikel vorhanden."
+      },
+      "error": {
+        "title": "Artikel konnten nicht geladen werden",
+        "description": "Beim Laden der Artikel ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
+      }
+    }
+  },
+  "period": {
+    "products": {
+      "loadingMore": "Weitere Artikel werden geladen...",
+      "allLoaded_one": "Sie haben {{count}} Artikel in dieser Epoche gesehen.",
+      "allLoaded_other": "Sie haben alle {{count}} Artikel dieser Epoche gesehen.",
+      "noResults": {
+        "title": "Keine Artikel gefunden",
+        "description": "In dieser Epoche sind derzeit keine Artikel vorhanden."
       },
       "error": {
         "title": "Artikel konnten nicht geladen werden",
@@ -624,7 +668,9 @@
       "confirmPassword": "Passwort bestätigen*",
       "language": "Sprache",
       "currency": "Währung",
-      "pleaseSelect": "Bitte wählen"
+      "pleaseSelect": "Bitte wählen",
+      "prohibitedContentConsentLabel": "Produkte mit § 86a StGB-Kennzeichnungen anzeigen",
+      "prohibitedContentConsentTooltip": "Bilder von Produkten können Kennzeichen verfassungswidriger oder terroristischer Organisationen, insbesondere solcher aus der Zeit des Nationalsozialismus, nach § 86a StGB enthalten. Hiermit stimmen Sie zu, dass wir Ihnen solche Inhalte anzeigen dürfen."
     },
     "signIn": {
       "email": "E-Mail",
@@ -712,5 +758,12 @@
     "description": "Wir verwenden Cookies, um den Webverkehr zu analysieren und Ihr Benutzererlebnis zu verbessern. Mit Klick auf 'Zustimmen' willigen Sie in die Verwendung von Cookies für diese Zwecke ein. Weitere Informationen finden Sie in unserer <1>Datenschutzerklärung</1>.",
     "accept": "Zustimmen",
     "reject": "Ablehnen"
+  },
+  "consentSettings": {
+    "title": "Cookie-Einstellungen",
+    "description": "Wir verwenden Cookies, um den Webverkehr zu analysieren und Ihr Benutzererlebnis zu verbessern. Weitere Informationen finden Sie in unserer <1>Datenschutzerklärung</1>.",
+    "analyticsLabel": "Analyse & Tracking",
+    "analyticsDescription": "Ermöglicht uns die Analyse der Nutzung und die Verbesserung Ihres Erlebnisses über Google Analytics. Beinhaltet Anzeigenspeicher, Analysespeicher, Anzeigenbenutzerdaten und Anzeigenpersonalisierung.",
+    "saved": "Ihre Cookie-Einstellungen wurden gespeichert."
   }
 }

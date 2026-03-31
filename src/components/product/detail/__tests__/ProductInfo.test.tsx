@@ -2,6 +2,16 @@ vi.mock("lottie-react", () => ({
     default: () => null,
 }));
 
+vi.mock("@tanstack/react-router", async () => {
+    const actual =
+        await vi.importActual<typeof import("@tanstack/react-router")>("@tanstack/react-router");
+
+    return {
+        ...actual,
+        useParams: () => ({}),
+    };
+});
+
 import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
 import { screen } from "@testing-library/react";
 import { ProductInfo } from "../ProductInfo.tsx";
@@ -66,6 +76,26 @@ describe("ProductInfo", () => {
         const productWithoutDescription = { ...mockProduct, description: undefined };
         renderWithQueryClient(<ProductInfo product={productWithoutDescription} />);
         expect(screen.getByText("Keine Beschreibung verfügbar")).toBeInTheDocument();
+    });
+
+    it("should render the shop type badge", () => {
+        renderWithQueryClient(<ProductInfo product={mockProduct} />);
+        expect(screen.getByText("Auktionshaus")).toBeInTheDocument();
+    });
+
+    it("should render the auction window badge when auction start is set", () => {
+        const productWithAuction = {
+            ...mockProduct,
+            auction: { start: new Date("2025-06-15T10:00:00Z") },
+        };
+        renderWithQueryClient(<ProductInfo product={productWithAuction} />);
+        expect(screen.getByText(/^ab /)).toBeInTheDocument();
+    });
+
+    it("should not render the auction window badge when no auction is set", () => {
+        renderWithQueryClient(<ProductInfo product={mockProduct} />);
+        expect(screen.queryByText(/^ab /)).not.toBeInTheDocument();
+        expect(screen.queryByText(/^bis /)).not.toBeInTheDocument();
     });
 
     it("should render 'Preis unbekannt' when price is not provided", () => {

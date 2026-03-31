@@ -16,6 +16,28 @@ export interface SocialLink {
     icon: ComponentType<SVGProps<SVGSVGElement>>;
 }
 
+export const POPULAR_CATEGORY_KEYS: string[] = [
+    "JEWELRY_PERSONAL_ADORNMENT",
+    "FURNITURE",
+    "VISUAL_ART",
+    "COINS_CURRENCY_MEDALS",
+    "CLOCKS_TIMEKEEPING",
+    "BOOKS_MANUSCRIPTS_PRINTED_MEDIA",
+    "DECORATIVE_OBJECTS",
+    "WEAPONS",
+];
+
+export const POPULAR_PERIOD_KEYS: string[] = [
+    "BAROQUE",
+    "ART_NOUVEAU",
+    "ART_DECO",
+    "ANTIQUITY",
+    "RENAISSANCE",
+    "HISTORICISM",
+    "BIEDERMEIER",
+    "MID_CENTURY_MODERN",
+];
+
 export const SOCIAL_LINKS: SocialLink[] = [
     {
         name: "X",

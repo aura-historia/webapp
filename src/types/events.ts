@@ -1,10 +1,4 @@
-export type StateEventType =
-    | "STATE_LISTED"
-    | "STATE_AVAILABLE"
-    | "STATE_RESERVED"
-    | "STATE_SOLD"
-    | "STATE_REMOVED"
-    | "STATE_UNKNOWN";
+export type StateEventType = "STATE_CHANGED";
 
 export type PriceEventType =
     | "PRICE_DISCOVERED"

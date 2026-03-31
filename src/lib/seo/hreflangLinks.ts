@@ -1,9 +1,9 @@
-import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/i18n/languages";
-import { env } from "@/env";
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
+import { env } from "@/env.ts";
 
 export type HreflangLink = {
     rel: "alternate";
-    hreflang: string;
+    hrefLang: string;
     href: string;
 };
 
@@ -26,7 +26,7 @@ export function generateHreflangLinks(path: string): HreflangLink[] {
 
     const languageLinks: HreflangLink[] = SUPPORTED_LANGUAGES.map(({ code }) => ({
         rel: "alternate" as const,
-        hreflang: code,
+        hrefLang: code,
         href: `${baseUrl}${path}?lng=${code}`,
     }));
 
@@ -36,7 +36,7 @@ export function generateHreflangLinks(path: string): HreflangLink[] {
         // the default language version so bots have a clear fallback.
         {
             rel: "alternate" as const,
-            hreflang: "x-default",
+            hrefLang: "x-default",
             href: `${baseUrl}${path}?lng=${DEFAULT_LANGUAGE}`,
         },
     ];

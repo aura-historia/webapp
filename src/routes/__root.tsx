@@ -13,26 +13,30 @@ import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import { Footer } from "@/components/common/Footer.tsx";
 import { Header } from "@/components/common/Header.tsx";
 import { NavigationProgress } from "@/components/common/NavigationProgress.tsx";
-import type { QueryClient } from "@tanstack/react-query";
+import { type QueryClient, useQueryClient } from "@tanstack/react-query";
 import type React from "react";
+import { Hub } from "aws-amplify/utils";
 import { useEffect, useRef } from "react";
 import { Toaster } from "sonner";
 import "@/lib/polyfills/url";
 import "@/amplify-config.ts";
 import "@/api-config.ts";
 import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
+import { getServerPreferences } from "@/lib/server/preferences.ts";
+import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/server/i18n.ts";
 import i18n from "@/i18n/i18n.ts";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
-import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seoConstants.ts";
+import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { ConsentBanner } from "@/components/common/ConsentBanner.tsx";
 
 interface MyRouterContext {
     queryClient: QueryClient;
+    initialPreferences: Partial<UserPreferences>;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
@@ -124,11 +128,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         };
     },
     beforeLoad: async () => {
-        // Set locale for initial server side rendering based on browsers pref
+        // Set locale for initial server side rendering based on browsers preference
         const locale = await getLocale();
         if (i18n.language !== locale) {
             await i18n.changeLanguage(locale);
         }
+        // Load persisted user preferences so SSR renders with correct initial state
+        const initialPreferences = await getServerPreferences();
+        return { initialPreferences };
     },
     shellComponent: RootDocument,
     notFoundComponent: NotFoundComponent,
@@ -140,10 +147,11 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const location = useLocation();
     const isLandingPage = matches.some((match) => match.routeId === "/");
     const { i18n } = useTranslation();
-    const { preferences } = useUserPreferences();
+    const { initialPreferences } = Route.useRouteContext();
+    const queryClient = useQueryClient();
 
     // Capture the consent value at first render so init runs only once.
-    const initialConsentRef = useRef(preferences.trackingConsent);
+    const initialConsentRef = useRef(initialPreferences.trackingConsent);
     useEffect(() => {
         googleAnalytics.init(initialConsentRef.current);
     }, []);
@@ -155,40 +163,54 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
         googleAnalytics.sendPageView(currentPath, i18n.language, searchParams);
     }, [location, i18n.language]);
 
+    useEffect(() => {
+        const hubListenerCancelToken = Hub.listen("auth", ({ payload }) => {
+            if (payload.event === "signedIn" || payload.event === "signedOut") {
+                queryClient.refetchQueries();
+            }
+        });
+
+        return () => hubListenerCancelToken();
+    }, [queryClient.refetchQueries]);
+
     return (
-        <html lang={i18n.language || "en"}>
-            <head>
-                <HeadContent />
-            </head>
-            <body
-                className={
-                    isLandingPage
-                        ? "[background:var(--linear-gradient-main)]"
-                        : "bg-[repeating-linear-gradient(45deg,var(--border)_0,var(--border)_1px,transparent_1px,transparent_40px)] bg-fixed"
-                }
-            >
-                <NavigationProgress />
-                <div className={"min-h-screen flex flex-col"}>
-                    <Header />
-                    <main className={isLandingPage ? "flex-1 -mt-20" : "flex-1"}>{children}</main>
-                    <Footer />
-                </div>
-                <Toaster position="top-center" richColors />
-                <ConsentBanner />
-                <TanStackDevtools
-                    config={{
-                        position: "bottom-left",
-                    }}
-                    plugins={[
-                        {
-                            name: "Tanstack Router",
-                            render: <TanStackRouterDevtoolsPanel />,
-                        },
-                        TanStackQueryDevtools,
-                    ]}
-                />
-                <Scripts />
-            </body>
-        </html>
+        <UserPreferencesProvider initialPreferences={initialPreferences}>
+            <html lang={i18n.language || "en"}>
+                <head>
+                    <HeadContent />
+                </head>
+                <body
+                    className={
+                        isLandingPage
+                            ? "[background:var(--linear-gradient-main)]"
+                            : "bg-[repeating-linear-gradient(45deg,var(--border)_0,var(--border)_1px,transparent_1px,transparent_40px)] bg-fixed"
+                    }
+                >
+                    <NavigationProgress />
+                    <div className={"min-h-screen flex flex-col"}>
+                        <Header />
+                        <main className={isLandingPage ? "flex-1 -mt-20" : "flex-1"}>
+                            {children}
+                        </main>
+                        <Footer />
+                    </div>
+                    <Toaster position="top-center" richColors />
+                    <ConsentBanner />
+                    <TanStackDevtools
+                        config={{
+                            position: "bottom-left",
+                        }}
+                        plugins={[
+                            {
+                                name: "Tanstack Router",
+                                render: <TanStackRouterDevtoolsPanel />,
+                            },
+                            TanStackQueryDevtools,
+                        ]}
+                    />
+                    <Scripts />
+                </body>
+            </html>
+        </UserPreferencesProvider>
     );
 }

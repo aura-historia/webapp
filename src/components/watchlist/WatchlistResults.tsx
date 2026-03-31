@@ -51,6 +51,15 @@ export function WatchlistResults() {
                             isNotificationEnabled:
                                 product.userData?.watchlistData.isNotificationEnabled ?? false,
                         },
+                        notificationData: {
+                            hasUnseenNotification:
+                                product.userData?.notificationData?.hasUnseenNotification ?? false,
+                            originEventId: product.userData?.notificationData?.originEventId,
+                        },
+                        restrictedContentData: {
+                            consentGiven:
+                                product.userData?.restrictedContentData.consentGiven ?? false,
+                        },
                     },
                 };
             }),

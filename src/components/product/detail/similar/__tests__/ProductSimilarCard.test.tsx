@@ -4,6 +4,12 @@ import { ProductSimilarCard } from "../ProductSimilarCard.tsx";
 import { vi } from "vitest";
 import type React from "react";
 
+const mockMutate = vi.fn();
+
+vi.mock("@/hooks/notification/useMarkNotificationSeen.ts", () => ({
+    useMarkNotificationSeen: () => ({ mutate: mockMutate }),
+}));
+
 vi.mock("@tanstack/react-router", async (importOriginal) => {
     const actual = await importOriginal<typeof import("@tanstack/react-router")>();
     return {
@@ -195,5 +201,67 @@ describe("ProductSimilarCard", () => {
 
         const eyeIcon = container.querySelector(".lucide-eye");
         expect(eyeIcon).toBeInTheDocument();
+    });
+
+    describe("unseen notification highlight", () => {
+        const mockProductWithUnseenNotification: OverviewProduct = {
+            ...mockProduct,
+            userData: {
+                watchlistData: { isWatching: true, isNotificationEnabled: true },
+                notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
+                restrictedContentData: { consentGiven: false },
+            },
+        };
+
+        beforeEach(() => {
+            mockMutate.mockClear();
+        });
+
+        it("should render border-primary class when product has unseen notification", () => {
+            const { container } = render(
+                <ProductSimilarCard product={mockProductWithUnseenNotification} />,
+            );
+
+            const card = container.querySelector(".border-primary");
+            expect(card).toBeInTheDocument();
+        });
+
+        it("should render the unseen notification badge with text 'Aktualisiert'", () => {
+            render(<ProductSimilarCard product={mockProductWithUnseenNotification} />);
+
+            expect(screen.getByTestId("unseen-notification-badge")).toBeInTheDocument();
+            expect(screen.getByText("Aktualisiert")).toBeInTheDocument();
+        });
+
+        it("should NOT render border-primary class when product has no unseen notification", () => {
+            const { container } = render(<ProductSimilarCard product={mockProduct} />);
+
+            const card = container.querySelector(".border-primary");
+            expect(card).not.toBeInTheDocument();
+        });
+
+        it("should NOT render the unseen notification badge when product has no unseen notification", () => {
+            render(<ProductSimilarCard product={mockProduct} />);
+
+            expect(screen.queryByTestId("unseen-notification-badge")).not.toBeInTheDocument();
+        });
+
+        it("should call markSeen mutate when clicking a product link with unseen notification", () => {
+            render(<ProductSimilarCard product={mockProductWithUnseenNotification} />);
+
+            const detailsLink = screen.getByText("Details").closest("a");
+            detailsLink?.click();
+
+            expect(mockMutate).toHaveBeenCalledWith("event-123");
+        });
+
+        it("should NOT call markSeen mutate when clicking a product link without unseen notification", () => {
+            render(<ProductSimilarCard product={mockProduct} />);
+
+            const detailsLink = screen.getByText("Details").closest("a");
+            detailsLink?.click();
+
+            expect(mockMutate).not.toHaveBeenCalled();
+        });
     });
 });

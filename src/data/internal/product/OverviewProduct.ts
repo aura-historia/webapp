@@ -1,7 +1,6 @@
 import type {
     PersonalizedGetProductData,
     PersonalizedGetProductSummaryData,
-    WatchlistProductData,
     GetProductData,
     GetProductSummaryData,
     ProductUserStateData,
@@ -23,9 +22,14 @@ import {
 } from "@/data/internal/quality-indicators/Restoration.ts";
 import {
     mapToInternalProductImage,
+    sortImagesRestrictedLast,
     type ProductImage,
 } from "@/data/internal/product/ProductImageData.ts";
 import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
+import {
+    mapToInternalAuctionWindow,
+    type AuctionWindow,
+} from "@/data/internal/product/AuctionWindow.ts";
 import {
     parsePriceEstimate,
     type PriceEstimate,
@@ -51,6 +55,7 @@ export type OverviewProduct = {
     readonly updated: Date;
     readonly userData?: UserProductData;
     readonly shopType: ShopType;
+    readonly auction?: AuctionWindow;
 
     readonly originYear?: number;
     readonly originYearMin?: number;
@@ -75,6 +80,7 @@ function mapProductDataToOverviewProduct(
         shopsProductId: productData.shopsProductId,
         shopName: productData.shopName,
         shopType: parseShopType(productData.shopType),
+        auction: productData.auction ? mapToInternalAuctionWindow(productData.auction) : undefined,
         title: productData.title.text,
         description: productData.description?.text,
         price: productData.price?.offer ? formatPrice(productData.price.offer, locale) : undefined,
@@ -85,12 +91,14 @@ function mapProductDataToOverviewProduct(
         ),
         state: parseProductState(productData.state),
         url: URL.parse(productData.url),
-        images:
+        images: sortImagesRestrictedLast(
             productData.images == null
                 ? []
                 : productData.images
                       .map(mapToInternalProductImage)
                       .filter((image) => image !== undefined),
+            userData?.prohibitedContent?.consent ?? false,
+        ),
         created: new Date(productData.created),
         updated: new Date(productData.updated),
         userData: userData ? mapToInternalUserProductData(userData) : undefined,
@@ -119,16 +127,19 @@ function mapProductSummaryDataToOverviewProduct(
         shopsProductId: productData.shopsProductId,
         shopName: productData.shopName,
         shopType: parseShopType(productData.shopType),
+        auction: productData.auction ? mapToInternalAuctionWindow(productData.auction) : undefined,
         title: productData.title.text,
         price: productData.price ? formatPrice(productData.price, locale) : undefined,
         state: parseProductState(productData.state),
         url: URL.parse(productData.url),
-        images:
+        images: sortImagesRestrictedLast(
             productData.images == null
                 ? []
                 : productData.images
                       .map(mapToInternalProductImage)
                       .filter((image) => image !== undefined),
+            userData?.prohibitedContent.consent ?? false,
+        ),
         created: new Date(productData.created),
         updated: new Date(productData.updated),
         userData: userData ? mapToInternalUserProductData(userData) : undefined,
@@ -151,16 +162,4 @@ export function mapPersonalizedGetProductSummaryDataToOverviewProduct(
     locale: string,
 ): OverviewProduct {
     return mapProductSummaryDataToOverviewProduct(apiData.item, locale, apiData.userState);
-}
-
-export function mapWatchlistProductDataToOverviewProduct(
-    apiData: WatchlistProductData,
-    locale: string,
-): OverviewProduct {
-    return mapProductDataToOverviewProduct(apiData.product, locale, {
-        watchlist: {
-            watching: true,
-            notifications: apiData.notifications,
-        },
-    });
 }
