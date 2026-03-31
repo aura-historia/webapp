@@ -7,7 +7,7 @@ import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { ArrowUpRight } from "lucide-react";
-import { H3 } from "../../typography/H3.tsx";
+import { H3 } from "@/components/typography/H3.tsx";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { ProductImageGallery } from "@/components/product/detail/ProductImageGallery.tsx";
@@ -32,10 +32,13 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                             <H2 className="overflow-hidden line-clamp-3 md:line-clamp-2 lg:line-clamp-2 text-[26px]">
                                 {product.title}
                             </H2>
-                            <H3 variant="muted" className="overflow-hidden line-clamp-1 text-lg">
-                                {product.shopName}
-                            </H3>
-                            <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                            <div className="flex flex-wrap items-center gap-2">
+                                <H3
+                                    variant="muted"
+                                    className="overflow-hidden line-clamp-1 text-lg"
+                                >
+                                    {product.shopName}
+                                </H3>
                                 <ShopTypeBadge shopType={product.shopType} />
                                 {product.auction && (
                                     <AuctionWindowBadge auction={product.auction} />
