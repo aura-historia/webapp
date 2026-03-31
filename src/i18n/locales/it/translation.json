@@ -355,7 +355,13 @@
         "all": "Tutto"
       }
     },
-    "unseenNotification": "Aggiornato"
+    "unseenNotification": "Aggiornato",
+    "auction": {
+      "title": "Periodo d'asta",
+      "start": "da {{date}}",
+      "end": "fino a {{date}}",
+      "range": "{{start}} – {{end}}"
+    }
   },
   "priceBadge": {
     "discovered": "Prezzo rilevato",

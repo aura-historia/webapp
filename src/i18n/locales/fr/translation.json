@@ -355,7 +355,13 @@
         "unknownDescription": "Aucune information sur la restauration n'est disponible."
       }
     },
-    "unseenNotification": "Mis à jour"
+    "unseenNotification": "Mis à jour",
+    "auction": {
+      "title": "Période de vente aux enchères",
+      "start": "à partir du {{date}}",
+      "end": "jusqu'au {{date}}",
+      "range": "{{start}} – {{end}}"
+    }
   },
   "priceBadge": {
     "discovered": "Prix découvert",

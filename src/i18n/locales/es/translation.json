@@ -355,7 +355,13 @@
         "unknownDescription": "No hay información disponible sobre restauraciones."
       }
     },
-    "unseenNotification": "Actualizado"
+    "unseenNotification": "Actualizado",
+    "auction": {
+      "title": "Período de subasta",
+      "start": "desde {{date}}",
+      "end": "hasta {{date}}",
+      "range": "{{start}} – {{end}}"
+    }
   },
   "priceBadge": {
     "discovered": "Precio descubierto",
