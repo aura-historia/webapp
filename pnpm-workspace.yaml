@@ -1,0 +1,3 @@
+# Prevent packages from being released until they have been in the registry for at least 24 hours (1440 minutes)
+# This protects against supply chain attacks, since infected packages are usually found within the first 24 hours of being published.
+minimumReleaseAge: 1440
