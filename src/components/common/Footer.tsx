@@ -16,6 +16,7 @@ import { getCategoriesOptions, getPeriodsOptions } from "@/client/@tanstack/reac
 import { mapToCategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
 import { mapToPeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
+import { CurrencySelector } from "@/components/common/CurrencySelector.tsx";
 
 export function Footer() {
     const { t, i18n } = useTranslation();
@@ -205,6 +206,7 @@ export function Footer() {
                         })}
                     </p>
                     <div className="flex items-center gap-4">
+                        <CurrencySelector />
                         <Select
                             defaultValue={i18n.language}
                             value={i18n.language}
