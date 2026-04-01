@@ -1,8 +1,9 @@
 import { CURRENCIES, type Currency, parseCurrency } from "@/data/internal/common/Currency.ts";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount.ts";
+import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
     Select,
@@ -24,8 +25,16 @@ const CURRENCY_SYMBOLS: Record<Currency, string> = {
 export function CurrencySelector() {
     const { preferences, updatePreferences } = useUserPreferences();
     const { mutate: updateAccount } = useUpdateUserAccount();
+    const { data: account } = useUserAccount();
     const { user } = useAuthenticator((context) => [context.user]);
     const { i18n } = useTranslation();
+
+    // On login: backend currency overwrites local preference to stay in sync across devices
+    useEffect(() => {
+        if (account?.currency) {
+            updatePreferences({ currency: account.currency });
+        }
+    }, [account?.currency, updatePreferences]);
 
     const currency = preferences.currency ?? "EUR";
     const displayNames = useMemo(
