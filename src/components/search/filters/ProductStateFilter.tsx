@@ -4,9 +4,14 @@ import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
-import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
+import {
+    PRODUCT_STATES,
+    PRODUCT_STATE_TRANSLATION_CONFIG,
+} from "@/data/internal/product/ProductState.ts";
 import { handleCheckedChange } from "@/lib/utils.ts";
 import { FilterCard } from "./FilterCard.tsx";
+import { Info } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function ProductStateFilter() {
     const { control } = useFormContext<FilterSchema>();
@@ -28,11 +33,11 @@ export function ProductStateFilter() {
                         render={({ field }) => {
                             const isChecked = field.value?.includes(state);
                             return (
-                                <div className="flex flex-row gap-4 items-center">
+                                <div className="flex flex-row gap-2 items-center">
                                     <Checkbox
                                         id={`checkbox-${state}`}
                                         checked={isChecked}
-                                        className="cursor-pointer"
+                                        className="cursor-pointer shrink-0"
                                         onCheckedChange={(checked) =>
                                             handleCheckedChange(field, state, checked)
                                         }
@@ -49,6 +54,25 @@ export function ProductStateFilter() {
                                             className={isChecked ? "" : "opacity-35"}
                                         />
                                     </button>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <button
+                                                type="button"
+                                                className="ml-auto shrink-0 text-muted-foreground hover:text-foreground focus:outline-none"
+                                                aria-label={t("common.infoButton")}
+                                            >
+                                                <Info className="size-3.5" />
+                                            </button>
+                                        </TooltipTrigger>
+                                        <TooltipContent side="right" className="max-w-xs">
+                                            <p>
+                                                {t(
+                                                    PRODUCT_STATE_TRANSLATION_CONFIG[state]
+                                                        .descriptionKey,
+                                                )}
+                                            </p>
+                                        </TooltipContent>
+                                    </Tooltip>
                                 </div>
                             );
                         }}

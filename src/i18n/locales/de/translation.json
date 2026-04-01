@@ -1,6 +1,7 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Preview)"
+    "auraHistoria": "Aura Historia (Preview)",
+    "infoButton": "Weitere Informationen"
   },
   "meta": {
     "siteName": "Aura Historia | Führende Suchmaschine für Antiquitäten",
@@ -370,18 +371,29 @@
   },
   "productState": {
     "listed": "Gelistet",
+    "listedDescription": "Dieser Artikel wurde vom Händler veröffentlicht und ist in seinem Shop sichtbar.",
     "available": "Verfügbar",
+    "availableDescription": "Dieser Artikel ist kaufbereit — du kannst den Händler direkt kontaktieren.",
     "reserved": "Reserviert",
+    "reservedDescription": "Ein Käufer hat diesen Artikel bereits reserviert. Er könnte wieder verfügbar werden.",
     "sold": "Verkauft",
+    "soldDescription": "Dieser Artikel wurde bereits verkauft und ist nicht mehr verfügbar.",
     "removed": "Gelöscht",
-    "unknown": "Unbekannt"
+    "removedDescription": "Dieser Artikel wurde vom Händler entfernt und kann nicht mehr verfolgt werden.",
+    "unknown": "Unbekannt",
+    "unknownDescription": "Der aktuelle Verfügbarkeitsstatus dieses Artikels ist unklar."
   },
   "shopType": {
     "auctionHouse": "Auktionshaus",
+    "auctionHouseDescription": "Ein traditionelles Auktionshaus, bei dem Artikel an den Meistbietenden versteigert werden.",
     "auctionPlatform": "Auktionsplattform",
+    "auctionPlatformDescription": "Eine Online-Plattform, die Auktionen für mehrere Auktionshäuser ausrichtet und verwaltet.",
     "commercialDealer": "Händler",
+    "commercialDealerDescription": "Ein Shop oder Händler, der Artikel zu Festpreisen verkauft.",
     "marketplace": "Marktplatz",
-    "unknown": "Unbekannt"
+    "marketplaceDescription": "Eine Plattform, auf der verschiedene Händler ihre Artikel anbieten – wie ein großer Online-Marktplatz.",
+    "unknown": "Unbekannt",
+    "unknownDescription": "Der Händlertyp konnte nicht ermittelt werden."
   },
   "discover": {
     "title": "Wir bringen Transparenz in die undurchsichtige Welt der Online-Antiquitäten",
