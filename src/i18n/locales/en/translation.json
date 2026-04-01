@@ -1,6 +1,7 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Preview)"
+    "auraHistoria": "Aura Historia (Preview)",
+    "infoButton": "More information"
   },
   "meta": {
     "siteName": "Aura Historia | Leading Antiques Search Engine",
@@ -371,18 +372,29 @@
   },
   "productState": {
     "listed": "Listed",
+    "listedDescription": "This item has been published by the seller and is visible in their shop.",
     "available": "Available",
+    "availableDescription": "This item is ready to purchase — you can contact the seller directly.",
     "reserved": "Reserved",
+    "reservedDescription": "A buyer has already reserved this item. It may become available again.",
     "sold": "Sold",
+    "soldDescription": "This item has already been sold and is no longer available.",
     "removed": "Removed",
-    "unknown": "Unknown"
+    "removedDescription": "This item was removed by the seller and can no longer be tracked.",
+    "unknown": "Unknown",
+    "unknownDescription": "The current availability of this item is unclear."
   },
   "shopType": {
     "auctionHouse": "Auction House",
-    "auctionPlatform": "Auktionsplattform",
+    "auctionHouseDescription": "A traditional auction house where items are sold to the highest bidder.",
+    "auctionPlatform": "Auction Platform",
+    "auctionPlatformDescription": "An online platform that hosts and manages auctions on behalf of multiple auction houses.",
     "commercialDealer": "Dealer",
+    "commercialDealerDescription": "A shop or dealer selling items at fixed prices.",
     "marketplace": "Marketplace",
-    "unknown": "Unknown"
+    "marketplaceDescription": "A platform where multiple sellers offer their items — like a large online marketplace.",
+    "unknown": "Unknown",
+    "unknownDescription": "The type of seller could not be determined."
   },
   "discover": {
     "title": "We bring transparency into the opaque landscape of online antiques",
