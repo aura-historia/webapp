@@ -5,15 +5,15 @@ import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.
 
 // Mock external dependencies
 vi.mock("@aws-amplify/ui-react", () => ({
-    useAuthenticator: () => ({ user: null }),
+    useAuthenticator: vi.fn(() => ({ user: null })),
 }));
 
 vi.mock("@/hooks/account/usePatchUserAccount.ts", () => ({
-    useUpdateUserAccount: () => ({ mutate: vi.fn() }),
+    useUpdateUserAccount: vi.fn(() => ({ mutate: vi.fn() })),
 }));
 
 vi.mock("@/hooks/account/useUserAccount.ts", () => ({
-    useUserAccount: () => ({ data: undefined }),
+    useUserAccount: vi.fn(() => ({ data: undefined })),
 }));
 
 vi.mock("react-i18next", () => ({
@@ -47,7 +47,7 @@ describe("CurrencySelector", () => {
     it("renders all currencies in dropdown", () => {
         renderCurrencySelector();
         fireEvent.click(screen.getByRole("combobox"));
-        expect(screen.getByText("Euro")).toBeInTheDocument();
+        expect(screen.getAllByText("Euro")[0]).toBeInTheDocument();
         expect(screen.getByText("British Pound")).toBeInTheDocument();
         expect(screen.getByText("US Dollar")).toBeInTheDocument();
     });

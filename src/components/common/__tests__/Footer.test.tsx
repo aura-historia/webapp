@@ -10,6 +10,22 @@ const { changeLanguageMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
 }));
 
+vi.mock("@aws-amplify/ui-react", () => ({
+    useAuthenticator: vi.fn(() => ({ user: null })),
+}));
+
+vi.mock("@/hooks/account/usePatchUserAccount.ts", () => ({
+    useUpdateUserAccount: vi.fn(() => ({ mutate: vi.fn() })),
+}));
+
+vi.mock("@/hooks/account/useUserAccount.ts", () => ({
+    useUserAccount: vi.fn(() => ({ data: undefined })),
+}));
+
+vi.mock("@/components/common/CurrencySelector.tsx", () => ({
+    CurrencySelector: () => null,
+}));
+
 vi.mock("react-i18next", async () => {
     const actual = await vi.importActual("react-i18next");
     return {
