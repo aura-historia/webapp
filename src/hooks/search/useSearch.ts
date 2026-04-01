@@ -12,6 +12,7 @@ import { mapToBackendSortModeArguments } from "@/data/internal/search/SortMode.t
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useTranslation } from "react-i18next";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { mapToBackendAuthenticity } from "@/data/internal/quality-indicators/Authenticity.ts";
 import { mapToBackendCondition } from "@/data/internal/quality-indicators/Condition.ts";
@@ -118,9 +119,11 @@ export function useSearch(
 ): UseInfiniteQueryResult<InfiniteData<SearchResultData>> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
+    const { preferences } = useUserPreferences();
+    const currency = preferences.currency ?? "EUR";
 
     return useInfiniteQuery({
-        queryKey: ["search", searchArgs, i18n.language],
+        queryKey: ["search", searchArgs, i18n.language, currency],
         enabled: isSearchEnabled && searchArgs.q.length >= MIN_SEARCH_QUERY_LENGTH,
         queryFn: async ({ pageParam }) => {
             // Api treats no allowed states as "all states allowed", we don't want that
@@ -135,8 +138,7 @@ export function useSearch(
             const result = await simpleSearchProducts({
                 query: {
                     language: parseLanguage(i18n.language),
-                    // TODO: Make currency dynamic
-                    currency: "EUR",
+                    currency: currency,
                     productQuery: searchArgs.q,
                     searchAfter: pageParam,
                     size: PAGE_SIZE,

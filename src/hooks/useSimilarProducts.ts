@@ -8,6 +8,7 @@ import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { useTranslation } from "react-i18next";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 
 type SimilarProductsData = {
     products: OverviewProduct[];
@@ -20,15 +21,16 @@ export function useSimilarProducts(
 ): UseQueryResult<SimilarProductsData> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
+    const { preferences } = useUserPreferences();
+    const currency = preferences.currency ?? "EUR";
 
     return useQuery({
-        queryKey: ["similarProducts", shopId, shopsProductId, i18n.language],
+        queryKey: ["similarProducts", shopId, shopsProductId, i18n.language, currency],
         queryFn: async () => {
             const result = await getSimilarProducts({
                 query: {
                     language: parseLanguage(i18n.language),
-                    // TODO: Make currency configurable
-                    currency: "EUR",
+                    currency: currency,
                 },
                 path: { shopId, shopsProductId },
             });
