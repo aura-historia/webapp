@@ -60,7 +60,7 @@ code {
     /* Borders / Inputs */
     --border: #d8c1bf;
     --input: #d8c1bf;
-    --ring: #857371;
+    --ring: #d8c1bf;
 
     /* Surface hierarchy */
     --surface-container-lowest: #ffffff;
@@ -137,8 +137,7 @@ code {
     /* Borders / Inputs */
     --border: #534341;
     --input: #534341;
-    --ring: #857371;
-
+    --ring: #d8c1bf;
     /* Surface hierarchy */
     --surface-container-lowest: #1c1c16;
     --surface-container-low: #252520;

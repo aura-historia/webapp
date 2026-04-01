@@ -182,7 +182,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                 <body
                     className={
                         isLandingPage
-                            ? "[background:var(--linear-gradient-main)]"
+                            ? "bg-background"
                             : "bg-[repeating-linear-gradient(45deg,var(--border)_0,var(--border)_1px,transparent_1px,transparent_40px)] bg-fixed"
                     }
                 >

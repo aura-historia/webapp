@@ -21,15 +21,16 @@ export default function HeroSection() {
     return (
         <section className="hero-section-safari-offset min-h-screen flex items-center justify-center relative overflow-hidden">
             {/* Background image */}
+            {/* TODO: Replace with better quality image and migrate to s3*/}
             <img
                 src={claudeLorrain}
                 alt=""
                 aria-hidden="true"
-                className="absolute inset-0 w-full h-full object-cover object-center"
+                className="absolute inset-0 w-full h-full object-cover object-center opacity-40"
             />
 
             {/* Overlay */}
-            <div className="absolute inset-0 bg-background/60" />
+            <div className="absolute inset-0 bg-linear-to-b from-background/00 via-background/50 to-background" />
 
             <div className="w-full max-w-4xl px-4 pt-8 relative z-10">
                 <div className="text-center">
@@ -38,7 +39,7 @@ export default function HeroSection() {
                         {t("landingPage.badge")}
                     </span>
                 </div>
-                <H1 className="text-center hyphens-none text-4xl md:text-5xl lg:text-6xl leading-tight">
+                <H1 className="text-center hyphens-none text-4xl md:text-5xl lg:text-7xl leading-tight">
                     <Trans i18nKey={"landingPage.titleFirstLine"} components={{ 1: <br /> }} />
                 </H1>
                 <p className="text-center text-lg md:text-xl text-foreground mt-6 max-w-2xl mx-auto">

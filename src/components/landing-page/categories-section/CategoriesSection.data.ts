@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
+// TODO: Replace with image link map
 export const CATEGORY_ICON_MAP: Record<string, LucideIcon> = {
     STORAGE_CONTAINERS: Box,
     LIGHTING_OBJECTS: Lamp,
