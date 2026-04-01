@@ -93,6 +93,7 @@ describe("ProductHistory", () => {
         expect(screen.getByText("Alle")).toBeInTheDocument();
         expect(screen.getByText("Preis")).toBeInTheDocument();
         expect(screen.getByText("Verfügbarkeit")).toBeInTheDocument();
+        expect(screen.getByText("Details")).toBeInTheDocument();
     });
 
     it("should render state events correctly", () => {
@@ -156,5 +157,61 @@ describe("ProductHistory", () => {
         await user.click(preisButton);
 
         expect(screen.getByText("Keine Events für diesen Filter verfügbar.")).toBeInTheDocument();
+    });
+
+    it("should render details filter button", () => {
+        render(<ProductHistory history={[mockStateEvent]} />);
+        expect(screen.getByText("Details")).toBeInTheDocument();
+    });
+
+    it("should filter to show only details events when Details is clicked", async () => {
+        const user = userEvent.setup();
+        const mockConditionEvent: ProductEvent = {
+            eventId: "4",
+            productId: "item-1",
+            shopId: "shop-1",
+            shopsProductId: "shops-item-1",
+            eventType: "CONDITION_CHANGED",
+            timestamp: new Date("2024-01-17T12:00:00Z"),
+            payload: { condition: "EXCELLENT" },
+        };
+
+        render(<ProductHistory history={[mockStateEvent, mockPriceEvent, mockConditionEvent]} />);
+
+        const detailsButtons = screen.getAllByText("Details");
+        await user.click(detailsButtons[0]);
+
+        const timelineItems = screen.getAllByTestId("timeline-item");
+        expect(timelineItems).toHaveLength(1);
+    });
+
+    it("should show empty state when no details events and Details filter is active", async () => {
+        const user = userEvent.setup();
+        render(<ProductHistory history={[mockStateEvent, mockPriceEvent]} />);
+
+        await user.click(screen.getByText("Details"));
+
+        expect(screen.getByText("Keine Events für diesen Filter verfügbar.")).toBeInTheDocument();
+    });
+
+    it("should show all events including details events when Alle filter is active", async () => {
+        const mockConditionEvent: ProductEvent = {
+            eventId: "4",
+            productId: "item-1",
+            shopId: "shop-1",
+            shopsProductId: "shops-item-1",
+            eventType: "CONDITION_CHANGED",
+            timestamp: new Date("2024-01-17T12:00:00Z"),
+            payload: { condition: "EXCELLENT" },
+        };
+
+        render(
+            <ProductHistory
+                history={[mockStateEvent, mockPriceEvent, mockCreatedEvent, mockConditionEvent]}
+            />,
+        );
+
+        const timelineItems = screen.getAllByTestId("timeline-item");
+        expect(timelineItems).toHaveLength(4);
     });
 });
