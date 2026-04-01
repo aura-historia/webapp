@@ -46,7 +46,7 @@ export default function DiscoverSection() {
                                         <highlight.icon className="w-5 h-5 text-primary" />
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold mb-1">
+                                        <h3 className="font-semibold font-display mb-1">
                                             {t(highlight.titleKey)}
                                         </h3>
                                         <p className="text-sm text-muted-foreground">
@@ -67,7 +67,7 @@ export default function DiscoverSection() {
                                         className="bg-card/80 rounded-xl p-6 text-center shadow-sm"
                                     >
                                         {stat.amount ? (
-                                            <span className="text-xl md:text-4xl font-bold text-primary mb-2 text-ellipsis overflow-hidden">
+                                            <span className="text-xl md:text-4xl font-bold font-display text-primary mb-2 text-ellipsis overflow-hidden">
                                                 <ClientOnly fallback={<>0</>}>
                                                     <Suspense fallback={<>0</>}>
                                                         <NumberFlow
@@ -78,7 +78,7 @@ export default function DiscoverSection() {
                                                 </ClientOnly>
                                             </span>
                                         ) : (
-                                            <p className="text-xl md:text-4xl font-bold text-primary mb-2 text-ellipsis overflow-hidden">
+                                            <p className="text-xl md:text-4xl font-bold font-display text-primary mb-2 text-ellipsis overflow-hidden">
                                                 {t(stat.valueKey)}+
                                             </p>
                                         )}

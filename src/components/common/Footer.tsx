@@ -68,7 +68,7 @@ export function Footer() {
                     <div className="flex flex-col gap-6">
                         {/* Company */}
                         <div>
-                            <h3 className="text-sm font-semibold text-foreground">
+                            <h3 className="text-sm font-semibold font-display text-foreground">
                                 {t("footer.sections.company")}
                             </h3>
                             <ul className="mt-3 space-y-2">
@@ -101,7 +101,7 @@ export function Footer() {
 
                         {/* Contact */}
                         <div>
-                            <h3 className="text-sm font-semibold text-foreground">
+                            <h3 className="text-sm font-semibold font-display text-foreground">
                                 {t("footer.sections.contact")}
                             </h3>
                             <ul className="mt-3 space-y-2">
@@ -119,7 +119,7 @@ export function Footer() {
 
                     {/* Categories */}
                     <div>
-                        <h3 className="text-sm font-semibold text-foreground">
+                        <h3 className="text-sm font-semibold font-display text-foreground">
                             {t("footer.sections.categories")}
                         </h3>
                         <ul className="mt-3 space-y-2">
@@ -139,7 +139,7 @@ export function Footer() {
 
                     {/* Periods & Styles */}
                     <div>
-                        <h3 className="text-sm font-semibold text-foreground">
+                        <h3 className="text-sm font-semibold font-display text-foreground">
                             {t("footer.sections.periodsAndStyles")}
                         </h3>
                         <ul className="mt-3 space-y-2">
@@ -159,7 +159,7 @@ export function Footer() {
 
                     {/* Follow Us */}
                     <div>
-                        <h3 className="text-sm font-semibold text-foreground">
+                        <h3 className="text-sm font-semibold font-display text-foreground">
                             {t("footer.sections.followUs")}
                         </h3>
                         <ul className="mt-3 space-y-2">

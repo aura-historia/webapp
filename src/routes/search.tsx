@@ -58,14 +58,14 @@ function RouteComponent() {
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
                             <div className="flex flex-col min-w-0">
                                 <H1>{t("search.resultsFor")}</H1>
-                                <div className="text-3xl sm:text-4xl font-bold text-ellipsis overflow-hidden wrap-break-word">
+                                <div className="text-3xl sm:text-4xl font-medium font-display text-ellipsis overflow-hidden wrap-break-word">
                                     "{searchArgs.q}"
                                 </div>
                             </div>
 
                             <div className="flex flex-col items-end gap-2">
                                 {totalResults !== null && (
-                                    <span className="text-2xl font-semibold whitespace-nowrap hidden md:block ">
+                                    <span className="text-2xl font-semibold whitespace-nowrap font-display hidden md:block ">
                                         {t("search.totalResults", { count: totalResults })}
                                     </span>
                                 )}

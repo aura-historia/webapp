@@ -25,7 +25,9 @@ export default function HowItWorksSection() {
                                         {step.number}
                                     </span>
                                 </div>
-                                <h3 className="text-xl font-semibold mb-3">{t(step.titleKey)}</h3>
+                                <h3 className="text-xl font-semibold font-display mb-3">
+                                    {t(step.titleKey)}
+                                </h3>
                                 <p className="text-muted-foreground">{t(step.descKey)}</p>
                             </div>
                         </div>

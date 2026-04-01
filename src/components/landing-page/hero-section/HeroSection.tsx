@@ -1,7 +1,7 @@
 import { SearchBar } from "@/components/search/SearchBar.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Card } from "@/components/ui/card.tsx";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { Check, Shield } from "lucide-react";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
@@ -39,13 +39,13 @@ export default function HeroSection() {
                     </span>
                 </div>
                 <H1 className="text-center hyphens-none text-4xl md:text-5xl lg:text-6xl leading-tight">
-                    {t("landingPage.titleFirstLine")}
+                    <Trans i18nKey={"landingPage.titleFirstLine"} components={{ 1: <br /> }} />
                 </H1>
                 <p className="text-center text-lg md:text-xl text-foreground mt-6 max-w-2xl mx-auto">
                     {t("landingPage.subtitle")}
                 </p>
                 <Card
-                    className={`p-6 sm:mt-8 mt-6 transition-all duration-500 ease-in-out ${
+                    className={`p-4 sm:mt-8 mt-6 transition-all duration-500 ease-in-out ${
                         isScrolled ? "opacity-0 pointer-events-none" : "opacity-100"
                     }`}
                 >
