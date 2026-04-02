@@ -1,4 +1,5 @@
 import type { CurrencyData } from "@/client";
+import { getCurrency } from "locale-currency";
 
 export const CURRENCIES = ["EUR", "GBP", "USD", "AUD", "CAD", "NZD"] as const;
 export type Currency = (typeof CURRENCIES)[number]; // Create something like that: "EUR" | "GBP" | "USD" | ....
@@ -17,6 +18,10 @@ export function parseCurrency(currency?: string): Currency {
         default:
             return "EUR";
     }
+}
+
+export function inferCurrencyFromLocale(locale: string): Currency {
+    return parseCurrency(getCurrency(locale) ?? undefined);
 }
 
 export function mapToBackendCurrency(currency?: Currency): CurrencyData | null {

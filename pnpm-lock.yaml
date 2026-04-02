@@ -161,6 +161,9 @@ importers:
       i18next-browser-languagedetector:
         specifier: ^8.2.1
         version: 8.2.1
+      locale-currency:
+        specifier: ^1.0.0
+        version: 1.0.0
       lottie-react:
         specifier: ^2.4.1
         version: 2.4.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -3910,6 +3913,10 @@ packages:
   listr2@9.0.5:
     resolution: {integrity: sha512-ME4Fb83LgEgwNw96RKNvKV4VTLuXfoKudAmm2lP8Kk87KaMK0/Xrx/aAkMWmT8mDb+3MlFDspfbCs7adjRxA2g==}
     engines: {node: '>=20.0.0'}
+
+  locale-currency@1.0.0:
+    resolution: {integrity: sha512-OPw/KpjqAQdk36fbBHzJxPVpFx7DGU4jFYjmJoinkvbgS/QeKtsykiXszgS/EB458eieVppo/gbP1CbtJN4E9g==}
+    engines: {node: '>=14.0.0'}
 
   locate-path@5.0.0:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==}
@@ -8973,6 +8980,8 @@ snapshots:
       log-update: 6.1.0
       rfdc: 1.4.1
       wrap-ansi: 9.0.2
+
+  locale-currency@1.0.0: {}
 
   locate-path@5.0.0:
     dependencies:

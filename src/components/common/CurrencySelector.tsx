@@ -1,4 +1,9 @@
-import { CURRENCIES, type Currency, parseCurrency } from "@/data/internal/common/Currency.ts";
+import {
+    CURRENCIES,
+    type Currency,
+    inferCurrencyFromLocale,
+    parseCurrency,
+} from "@/data/internal/common/Currency.ts";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount.ts";
 import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
@@ -36,7 +41,7 @@ export function CurrencySelector() {
         }
     }, [account?.currency, updatePreferences]);
 
-    const currency = preferences.currency ?? "EUR";
+    const currency = preferences.currency ?? inferCurrencyFromLocale(i18n.language);
     const displayNames = useMemo(
         () => new Intl.DisplayNames([i18n.language], { type: "currency" }),
         [i18n.language],
