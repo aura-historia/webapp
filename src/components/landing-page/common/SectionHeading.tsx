@@ -9,8 +9,10 @@ export function SectionHeading({
 }) {
     return (
         <div className="text-center mb-16">
-            <H2 className="mb-4">{headline}</H2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{description}</p>
+            <H2 className="sm:text-5xl font-normal mb-8">{headline}</H2>
+            <p className="sm:text-lg text-md text-muted-foreground max-w-2xl mx-auto">
+                {description}
+            </p>
         </div>
     );
 }
