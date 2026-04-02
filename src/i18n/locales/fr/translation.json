@@ -425,7 +425,7 @@
       "title": "Découvrir les époques et les styles"
     },
     "recentlyAdded": {
-      "eyebrow": "Récemment indexés",
+      "eyebrow": "Ajoutés récemment",
       "title": "Les dernières acquisitions",
       "foundAt": "Trouvé chez {{shopName}}.",
       "foundAtWithYear": "Trouvé chez {{shopName}}. Vers {{year}}."

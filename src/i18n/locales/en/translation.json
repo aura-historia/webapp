@@ -425,7 +425,7 @@
       "title": "Discover Periods and Styles"
     },
     "recentlyAdded": {
-      "eyebrow": "Recently Indexed",
+      "eyebrow": "Recently Added",
       "title": "The Latest Acquisitions",
       "foundAt": "Found at {{shopName}}.",
       "foundAtWithYear": "Found at {{shopName}}. Circa {{year}}."
