@@ -1,8 +1,11 @@
-import { act, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { screen, waitFor } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import CategoriesSection from "../CategoriesSection.tsx";
 import type { CategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
+
+let mockSelectedScrollSnap = 0;
+let mockScrollSnapList = [0, 1, 2];
 
 // Mock the entire embla carousel to avoid plugin comparison errors in jsdom
 vi.mock("embla-carousel-react", () => ({
@@ -14,8 +17,8 @@ vi.mock("embla-carousel-react", () => ({
             scrollTo: vi.fn(),
             canScrollNext: vi.fn(() => false),
             canScrollPrev: vi.fn(() => false),
-            selectedScrollSnap: vi.fn(() => 0),
-            scrollSnapList: vi.fn(() => []),
+            selectedScrollSnap: vi.fn(() => mockSelectedScrollSnap),
+            scrollSnapList: vi.fn(() => mockScrollSnapList),
         },
     ],
 }));
@@ -38,21 +41,26 @@ const mockCategories: CategoryOverview[] = [
 ];
 
 describe("CategoriesSection", () => {
+    beforeEach(() => {
+        mockSelectedScrollSnap = 0;
+        mockScrollSnapList = [0, 1, 2];
+    });
+
     it("renders the section with the categories title", async () => {
-        await act(async () => renderWithRouter(<CategoriesSection categories={mockCategories} />));
-        expect(screen.getByText("Kategorien durchstöbern")).toBeInTheDocument();
+        renderWithRouter(<CategoriesSection categories={mockCategories} />);
+        expect(await screen.findByText("Kategorien durchstöbern")).toBeInTheDocument();
     });
 
     it("renders a carousel item for each category", async () => {
-        await act(async () => renderWithRouter(<CategoriesSection categories={mockCategories} />));
-        expect(screen.getByText("Möbel")).toBeInTheDocument();
-        expect(screen.getByText("Schmuck")).toBeInTheDocument();
-        expect(screen.getByText("Sonstiges")).toBeInTheDocument();
+        renderWithRouter(<CategoriesSection categories={mockCategories} />);
+        expect(await screen.findByText("Möbel")).toBeInTheDocument();
+        expect(await screen.findByText("Schmuck")).toBeInTheDocument();
+        expect(await screen.findByText("Sonstiges")).toBeInTheDocument();
     });
 
     it("renders links to the correct category routes", async () => {
-        await act(async () => renderWithRouter(<CategoriesSection categories={mockCategories} />));
-        const links = screen.getAllByRole("link");
+        renderWithRouter(<CategoriesSection categories={mockCategories} />);
+        const links = await screen.findAllByRole("link");
         const hrefs = links.map((l) => l.getAttribute("href"));
         expect(hrefs).toContain("/categories/furniture-1");
         expect(hrefs).toContain("/categories/jewelry-2");
@@ -60,21 +68,69 @@ describe("CategoriesSection", () => {
     });
 
     it("renders the section element with the correct aria-label", async () => {
-        await act(async () => renderWithRouter(<CategoriesSection categories={mockCategories} />));
-        const section = screen.getByRole("region", { name: "Kategorien durchstöbern" });
+        renderWithRouter(<CategoriesSection categories={mockCategories} />);
+        const section = await screen.findByRole("region", { name: "Kategorien durchstöbern" });
         expect(section).toBeInTheDocument();
     });
 
-    it("renders an empty carousel when categories list is empty", async () => {
-        await act(async () => renderWithRouter(<CategoriesSection categories={[]} />));
-        expect(screen.getByText("Kategorien durchstöbern")).toBeInTheDocument();
+    it("renders carousel page bars with the first page active by default", async () => {
+        renderWithRouter(<CategoriesSection categories={mockCategories} />);
+
+        await waitFor(() => {
+            const indicators = screen.getAllByTestId("carousel-page-indicator");
+            expect(indicators).toHaveLength(3);
+            expect(indicators[0]).toHaveAttribute("aria-current", "true");
+            expect(indicators[1]).toHaveAttribute("aria-current", "false");
+            expect(indicators[2]).toHaveAttribute("aria-current", "false");
+        });
+    });
+
+    it("renders the selected carousel page bar from embla pagination", async () => {
+        mockSelectedScrollSnap = 1;
+        renderWithRouter(<CategoriesSection categories={mockCategories} />);
+
+        await waitFor(() => {
+            const indicators = screen.getAllByTestId("carousel-page-indicator");
+            expect(indicators).toHaveLength(3);
+            expect(indicators[0]).toHaveAttribute("aria-current", "false");
+            expect(indicators[1]).toHaveAttribute("aria-current", "true");
+            expect(indicators[2]).toHaveAttribute("aria-current", "false");
+        });
+    });
+
+    it("renders the mobile numeric page indicator fallback", async () => {
+        renderWithRouter(<CategoriesSection categories={mockCategories} />);
+
+        await waitFor(() => {
+            expect(screen.getByTestId("carousel-page-indicator-mobile")).toHaveTextContent("1 / 3");
+        });
+    });
+
+    it("updates the mobile numeric fallback from embla pagination", async () => {
+        mockSelectedScrollSnap = 1;
+        renderWithRouter(<CategoriesSection categories={mockCategories} />);
+
+        await waitFor(() => {
+            expect(screen.getByTestId("carousel-page-indicator-mobile")).toHaveTextContent("2 / 3");
+        });
+    });
+
+    it("renders one page bar for an empty categories list", async () => {
+        mockScrollSnapList = [];
+        renderWithRouter(<CategoriesSection categories={[]} />);
+
+        expect(await screen.findByText("Kategorien durchstöbern")).toBeInTheDocument();
+        const indicators = await screen.findAllByTestId("carousel-page-indicator");
+        expect(indicators).toHaveLength(1);
+        expect(indicators[0]).toHaveAttribute("aria-current", "true");
+        expect(await screen.findByTestId("carousel-page-indicator-mobile")).toHaveTextContent(
+            "1 / 1",
+        );
         expect(screen.queryAllByRole("link")).toHaveLength(0);
     });
 
     it("uses the fallback icon for unknown category keys without crashing", async () => {
-        await act(async () =>
-            renderWithRouter(<CategoriesSection categories={[mockCategories[2]]} />),
-        );
-        expect(screen.getByText("Sonstiges")).toBeInTheDocument();
+        renderWithRouter(<CategoriesSection categories={[mockCategories[2]]} />);
+        expect(await screen.findByText("Sonstiges")).toBeInTheDocument();
     });
 });

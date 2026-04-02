@@ -123,7 +123,7 @@
         "lint-staged": "^16.4.0",
         "typescript": "^5.9.3",
         "vite": "^8.0.3",
-        "vitest": "^4.1.0",
+        "vitest": "^4.1.2",
         "web-vitals": "^5.1.0",
         "wrangler": "4.77.0"
     }
