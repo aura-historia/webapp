@@ -18,7 +18,6 @@ export function ProvenanceFilter() {
             PROVENANCES.map((provenance) => ({
                 value: provenance,
                 label: t(PROVENANCE_TRANSLATION_CONFIG[provenance].translationKey),
-                description: t(PROVENANCE_TRANSLATION_CONFIG[provenance].descriptionKey),
             })),
         [t],
     );
@@ -36,7 +35,6 @@ export function ProvenanceFilter() {
                         onChange={field.onChange}
                         allSelectedLabel={t("search.filter.all")}
                         placeholder={t("search.filter.select")}
-                        infoButtonLabel={t("common.infoButton")}
                     />
                 )}
             />

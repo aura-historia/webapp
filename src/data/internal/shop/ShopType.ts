@@ -13,23 +13,18 @@ export type ShopType = (typeof SHOP_TYPES)[number];
 export const SHOP_TYPE_TRANSLATION_CONFIG = {
     AUCTION_HOUSE: {
         translationKey: "shopType.auctionHouse",
-        descriptionKey: "shopType.auctionHouseDescription",
     },
     AUCTION_PLATFORM: {
         translationKey: "shopType.auctionPlatform",
-        descriptionKey: "shopType.auctionPlatformDescription",
     },
     COMMERCIAL_DEALER: {
         translationKey: "shopType.commercialDealer",
-        descriptionKey: "shopType.commercialDealerDescription",
     },
     MARKETPLACE: {
         translationKey: "shopType.marketplace",
-        descriptionKey: "shopType.marketplaceDescription",
     },
     UNKNOWN: {
         translationKey: "shopType.unknown",
-        descriptionKey: "shopType.unknownDescription",
     },
 } as const;
 

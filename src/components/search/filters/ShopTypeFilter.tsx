@@ -17,7 +17,6 @@ export function ShopTypeFilter() {
             SHOP_TYPES.map((shopType) => ({
                 value: shopType,
                 label: t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].translationKey),
-                description: t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].descriptionKey),
             })),
         [t],
     );
@@ -38,7 +37,6 @@ export function ShopTypeFilter() {
                         onChange={field.onChange}
                         allSelectedLabel={t("search.filter.all")}
                         placeholder={t("search.filter.select")}
-                        infoButtonLabel={t("common.infoButton")}
                     />
                 )}
             />
