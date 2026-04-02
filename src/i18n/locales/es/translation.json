@@ -422,7 +422,19 @@
       "title": "Explorar Categorías"
     },
     "periods": {
-      "title": "Descubrir épocas y estilos"
+      "title": "Explorar epocas historicas",
+      "eyebrow": "Archivo de epocas",
+      "titleLineOne": "Explorar por",
+      "titleLineTwo": "Epocas historicas",
+      "description": "Recorre el tiempo con colecciones de los movimientos de diseno mas significativos del mundo.",
+      "cta": "Ver cronologia",
+      "previous": "Epocas anteriores",
+      "next": "Siguientes epocas",
+      "rangeUnknown": "Rango historico",
+      "rangeToday": "Hoy",
+      "rangeBc": "a. C.",
+      "rangeBce": "a. C.",
+      "rangeCe": "d. C."
     },
     "recentlyAdded": {
       "eyebrow": "Agregado recientemente",

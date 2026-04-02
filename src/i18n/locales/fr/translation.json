@@ -422,7 +422,19 @@
       "title": "Parcourir les catégories"
     },
     "periods": {
-      "title": "Découvrir les époques et les styles"
+      "title": "Explorer les epoques historiques",
+      "eyebrow": "Archives des epoques",
+      "titleLineOne": "Explorer par",
+      "titleLineTwo": "Epoques historiques",
+      "description": "Parcourez le temps a travers des collections des mouvements de design les plus marquants du monde.",
+      "cta": "Voir la chronologie",
+      "previous": "Epoques precedentes",
+      "next": "Epoques suivantes",
+      "rangeUnknown": "Periode",
+      "rangeToday": "Aujourd'hui",
+      "rangeBc": "av. J.-C.",
+      "rangeBce": "av. J.-C.",
+      "rangeCe": "apr. J.-C."
     },
     "recentlyAdded": {
       "eyebrow": "Ajoutés récemment",

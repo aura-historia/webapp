@@ -422,7 +422,19 @@
       "title": "Browse Categories"
     },
     "periods": {
-      "title": "Discover Periods and Styles"
+      "title": "Browse historical eras",
+      "eyebrow": "Era Archives",
+      "titleLineOne": "Browse by",
+      "titleLineTwo": "Historical Eras",
+      "description": "Navigate time through collections of the world's most significant design movements.",
+      "cta": "View Timeline",
+      "previous": "Previous eras",
+      "next": "Next eras",
+      "rangeUnknown": "Era range",
+      "rangeToday": "Today",
+      "rangeBc": "BC",
+      "rangeBce": "BCE",
+      "rangeCe": "CE"
     },
     "recentlyAdded": {
       "eyebrow": "Recently Added",

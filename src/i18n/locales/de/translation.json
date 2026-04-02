@@ -422,7 +422,19 @@
       "title": "Kategorien durchstöbern"
     },
     "periods": {
-      "title": "Epochen und Stile entdecken"
+      "title": "Historische Epochen entdecken",
+      "eyebrow": "Epochen-Archiv",
+      "titleLineOne": "Entdecken nach",
+      "titleLineTwo": "Historischen Epochen",
+      "description": "Reisen Sie durch die Zeit mit Kollektionen der wichtigsten Designbewegungen der Welt.",
+      "cta": "Zeitleiste ansehen",
+      "previous": "Vorherige Epochen",
+      "next": "Naechste Epochen",
+      "rangeUnknown": "Epochenzeitraum",
+      "rangeToday": "Heute",
+      "rangeBc": "v. Chr.",
+      "rangeBce": "v. Chr.",
+      "rangeCe": "n. Chr."
     },
     "recentlyAdded": {
       "eyebrow": "Kürzlich hinzugefügt",
