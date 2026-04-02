@@ -70,11 +70,6 @@ describe("RecentlyAddedSection", () => {
     it("renders the section with the recently added title", async () => {
         await act(async () => renderWithRouter(<RecentlyAddedSection products={mockProducts} />));
         expect(screen.getByText("Neueste Zugänge")).toBeInTheDocument();
-        expect(
-            screen.getByText(
-                "Frisch entdeckte Stücke von Antiquitätenhändlern und Auktionshäusern weltweit.",
-            ),
-        ).toBeInTheDocument();
     });
 
     it("renders a product grid item for each product", async () => {

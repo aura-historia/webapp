@@ -21,7 +21,7 @@ export default function RecentlyAddedSection({ products }: RecentlyAddedSectionP
 
     return (
         <section className="py-16 bg-muted/30" aria-label={t("landingPage.recentlyAdded.title")}>
-            <div className="w-full max-w-6xl mx-auto px-4 py-2">
+            <div className="w-full max-w-7xl mx-auto px-4 py-2">
                 <Carousel
                     opts={{
                         align: "start",
@@ -37,7 +37,7 @@ export default function RecentlyAddedSection({ products }: RecentlyAddedSectionP
                     ]}
                     className="w-full overflow-visible"
                 >
-                    <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-start justify-between gap-4">
                         <div className="flex flex-col gap-2">
                             <span className="text-[10px] uppercase tracking-[2px] text-primary">
                                 {t("landingPage.recentlyAdded.eyebrow")}
@@ -46,10 +46,13 @@ export default function RecentlyAddedSection({ products }: RecentlyAddedSectionP
                                 {t("landingPage.recentlyAdded.title")}
                             </H2>
                         </div>
+
+                        <div className="flex shrink-0 items-center gap-2">
+                            <CarouselPrevious className="static top-auto left-auto translate-y-0 size-12 rounded-xl border border-primary/20 bg-card p-px text-primary hover:border-primary/40 hover:bg-card/80" />
+                            <CarouselNext className="static top-auto right-auto translate-y-0 size-12 rounded-xl border border-primary/20 bg-card p-px text-primary hover:border-primary/40 hover:bg-card/80" />
+                        </div>
                     </div>
                     <div className="relative">
-                        <CarouselPrevious className="left-2 top-1/2 z-20 -translate-y-1/2 bg-card border border-primary/20 text-primary hover:bg-card/80 hover:border-primary/40 xl:-left-12" />
-                        <CarouselNext className="right-2 top-1/2 z-20 -translate-y-1/2 bg-card border border-primary/20 text-primary hover:bg-card/80 hover:border-primary/40 xl:-right-12" />
                         <CarouselContent className="-ml-3 py-2 overflow-visible items-stretch [&>div]:overflow-visible cursor-grab active:cursor-grabbing">
                             {products.map((product) => (
                                 <CarouselItem
