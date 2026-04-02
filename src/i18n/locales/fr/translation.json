@@ -68,6 +68,7 @@
     "login": "Se connecter"
   },
   "footer": {
+    "brandName": "Aura Historia",
     "ariaSwitchToLanguage": "Changer de langue vers {{language}}",
     "imprint": "Mentions légales",
     "privacy": "Politique de confidentialité",
