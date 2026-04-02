@@ -258,7 +258,7 @@ export function Header() {
                         <div
                             className={cn(
                                 "flex items-center gap-3 transition-all duration-300",
-                                isFloating ? "rounded-xs p-2 hero-search-shadow" : "",
+                                isFloating ? "bg-background rounded-xs p-2 hero-search-shadow" : "",
                             )}
                         >
                             <Button asChild onClick={toSignUp} variant="default">
