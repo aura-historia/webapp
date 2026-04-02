@@ -92,7 +92,7 @@ export function Header() {
                         className={cn(
                             "transition-all duration-300",
                             isFloating
-                                ? "bg-card backdrop-blur-sm rounded-xl px-2 md:px-4 py-2 shadow-sm"
+                                ? "bg-background rounded-xs px-2 md:px-4 py-2 hero-search-shadow"
                                 : "",
                         )}
                     >
@@ -116,7 +116,7 @@ export function Header() {
                         "w-full transition-all duration-500",
                         shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none",
                         isFloating && shouldShowSearchBar
-                            ? "bg-card backdrop-blur-sm rounded-xl px-3 py-1.5 shadow-sm"
+                            ? "bg-background backdrop-blur-sm rounded-xs px-3 py-1.5 shadow-sm"
                             : "",
                     )}
                 >
@@ -131,7 +131,7 @@ export function Header() {
                         "transition-all duration-500",
                         shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none",
                         isFloating && shouldShowSearchBar
-                            ? "bg-card backdrop-blur-sm rounded-xl px-3 py-1.5 shadow-sm"
+                            ? "bg-background backdrop-blur-sm rounded-xs px-3 py-1.5 shadow-sm"
                             : "",
                     )}
                 >
@@ -142,7 +142,9 @@ export function Header() {
                 {isLoginEnabled && (
                     <div
                         className={cn(
-                            isFloating ? "bg-card backdrop-blur-sm rounded-xl p-2 shadow-sm" : "",
+                            isFloating
+                                ? "bg-background backdrop-blur-sm rounded-xs p-2 shadow-sm"
+                                : "",
                         )}
                     >
                         <DropdownMenu>
@@ -202,7 +204,7 @@ export function Header() {
                             className={cn(
                                 "flex items-center gap-4 transition-all duration-300",
                                 isFloating
-                                    ? "bg-card backdrop-blur-sm rounded-xl px-4 py-2 shadow-sm"
+                                    ? "bg-background rounded-xs px-4 py-2 hero-search-shadow"
                                     : "",
                             )}
                         >
@@ -256,9 +258,7 @@ export function Header() {
                         <div
                             className={cn(
                                 "flex items-center gap-3 transition-all duration-300",
-                                isFloating
-                                    ? "bg-card backdrop-blur-sm rounded-xl px-4 py-4 shadow-sm"
-                                    : "",
+                                isFloating ? "rounded-xs p-2 hero-search-shadow" : "",
                             )}
                         >
                             <Button asChild onClick={toSignUp} variant="default">

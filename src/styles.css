@@ -436,6 +436,15 @@ button.amplify-button.amplify-field-group__control.amplify-button--warning.ampli
     color: var(--text-foreground);
 }
 
+@layer utilities {
+    .hero-search-shadow {
+        box-shadow:
+            0 0 0 1px rgb(from var(--color-primary) r g b / 0.05),
+            0 20px 25px -5px rgb(from var(--color-black) r g b / 0.1),
+            0 8px 10px -6px rgb(from var(--color-black) r g b / 0.1);
+    }
+}
+
 /* Older mobile Safari can initially render the hero under the sticky header. */
 @supports (-webkit-touch-callout: none) {
     @media (hover: none) and (pointer: coarse) {

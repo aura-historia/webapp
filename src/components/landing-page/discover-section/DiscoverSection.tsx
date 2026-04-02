@@ -71,7 +71,7 @@ export default function DiscoverSection() {
                                         className="flex flex-col justify-center bg-white border border-outline-variant/10 p-8 text-center"
                                     >
                                         {stat.amount ? (
-                                            <span className="text-4xl font-display text-primary block">
+                                            <span className="text-2xl sm:text-4xl font-display text-primary block">
                                                 <ClientOnly fallback={<>0</>}>
                                                     <Suspense fallback={<>0</>}>
                                                         <NumberFlow
@@ -82,7 +82,7 @@ export default function DiscoverSection() {
                                                 </ClientOnly>
                                             </span>
                                         ) : (
-                                            <p className="text-4xl font-display text-primary mb-2">
+                                            <p className="text-2xl sm:text-4xl font-display text-primary mb-2">
                                                 {t(stat.valueKey)}+
                                             </p>
                                         )}
