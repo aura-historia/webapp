@@ -17,6 +17,7 @@ export default function FAQSection() {
                 <SectionHeading
                     headline={t("landingPage.faq.title")}
                     description={t("landingPage.faq.subtitle")}
+                    showDivider={true}
                 />
                 <Accordion type="single" collapsible className="w-full">
                     {FAQ_DATA.map((item, index) => (
