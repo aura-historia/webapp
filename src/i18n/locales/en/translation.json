@@ -372,13 +372,13 @@
   },
   "productState": {
     "listed": "Listed",
-    "listedDescription": "This item has been published by the seller and is visible in their shop.",
+    "listedDescription": "This item is visible but is not yet available for purchase.",
     "available": "Available",
-    "availableDescription": "This item is ready to purchase — you can contact the seller directly.",
+    "availableDescription": "This item is available for purchase.",
     "reserved": "Reserved",
-    "reservedDescription": "A buyer has already reserved this item. It may become available again.",
+    "reservedDescription": "This item is currently reserved. It may become available again.",
     "sold": "Sold",
-    "soldDescription": "This item has already been sold and is no longer available.",
+    "soldDescription": "This item has already been sold.",
     "removed": "Removed",
     "removedDescription": "This item was removed by the seller and can no longer be tracked.",
     "unknown": "Unknown",
@@ -386,15 +386,10 @@
   },
   "shopType": {
     "auctionHouse": "Auction House",
-    "auctionHouseDescription": "A traditional auction house where items are sold to the highest bidder.",
     "auctionPlatform": "Auction Platform",
-    "auctionPlatformDescription": "An online platform that hosts and manages auctions on behalf of multiple auction houses.",
     "commercialDealer": "Dealer",
-    "commercialDealerDescription": "A shop or dealer selling items at fixed prices.",
     "marketplace": "Marketplace",
-    "marketplaceDescription": "A platform where multiple sellers offer their items — like a large online marketplace.",
-    "unknown": "Unknown",
-    "unknownDescription": "The type of seller could not be determined."
+    "unknown": "Unknown"
   },
   "discover": {
     "title": "We bring transparency into the opaque landscape of online antiques",

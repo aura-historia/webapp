@@ -17,7 +17,6 @@ export function ShopTypeFilter() {
             SHOP_TYPES.map((shopType) => ({
                 value: shopType,
                 label: t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].translationKey),
-                description: t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].descriptionKey),
             })),
         [t],
     );
