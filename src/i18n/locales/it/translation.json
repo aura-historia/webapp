@@ -425,7 +425,10 @@
       "title": "Scopri epoche e stili"
     },
     "recentlyAdded": {
-      "title": "Aggiunti di recente"
+      "eyebrow": "Indicizzati di recente",
+      "title": "Le ultime acquisizioni",
+      "foundAt": "Trovato presso {{shopName}}.",
+      "foundAtWithYear": "Trovato presso {{shopName}}. Circa {{year}}."
     },
     "features": {
       "title": "L'antiquariato è sparso ovunque online - la tua ricerca non dovrebbe esserlo",

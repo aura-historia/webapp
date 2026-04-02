@@ -425,7 +425,10 @@
       "title": "Discover Periods and Styles"
     },
     "recentlyAdded": {
-      "title": "Recently Added"
+      "eyebrow": "Recently Indexed",
+      "title": "The Latest Acquisitions",
+      "foundAt": "Found at {{shopName}}.",
+      "foundAtWithYear": "Found at {{shopName}}. Circa {{year}}."
     },
     "features": {
       "title": "Antiques are scattered everywhere online - your search shouldn't be",

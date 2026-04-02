@@ -20,7 +20,7 @@ export default function RecentlyAddedSection({ products }: RecentlyAddedSectionP
     const { t } = useTranslation();
 
     return (
-        <section className="py-10 bg-muted/30" aria-label={t("landingPage.recentlyAdded.title")}>
+        <section className="py-16 bg-muted/30" aria-label={t("landingPage.recentlyAdded.title")}>
             <div className="w-full max-w-6xl mx-auto px-4 py-2">
                 <Carousel
                     opts={{
@@ -37,8 +37,15 @@ export default function RecentlyAddedSection({ products }: RecentlyAddedSectionP
                     ]}
                     className="w-full overflow-visible"
                 >
-                    <div className="flex items-center justify-center mb-4">
-                        <H2>{t("landingPage.recentlyAdded.title")}</H2>
+                    <div className="flex items-center justify-between gap-4">
+                        <div className="flex flex-col gap-2">
+                            <span className="text-[10px] uppercase tracking-[2px] text-primary">
+                                {t("landingPage.recentlyAdded.eyebrow")}
+                            </span>
+                            <H2 className="text-4xl font-normal sm:text-5xl">
+                                {t("landingPage.recentlyAdded.title")}
+                            </H2>
+                        </div>
                     </div>
                     <div className="relative">
                         <CarouselPrevious className="left-2 top-1/2 z-20 -translate-y-1/2 bg-card border border-primary/20 text-primary hover:bg-card/80 hover:border-primary/40 xl:-left-12" />
@@ -47,10 +54,13 @@ export default function RecentlyAddedSection({ products }: RecentlyAddedSectionP
                             {products.map((product) => (
                                 <CarouselItem
                                     key={product.productId}
-                                    className="pl-3 h-auto self-stretch basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+                                    className="pl-3 h-auto self-stretch basis-full sm:basis-1/2 lg:basis-1/3"
                                 >
                                     <div className="p-1 flex h-full w-full *:h-full *:w-full">
-                                        <ProductGridItem product={product} />
+                                        <ProductGridItem
+                                            product={product}
+                                            variant="recentlyAdded"
+                                        />
                                     </div>
                                 </CarouselItem>
                             ))}

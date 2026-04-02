@@ -425,7 +425,10 @@
       "title": "Epochen und Stile entdecken"
     },
     "recentlyAdded": {
-      "title": "Kürzlich hinzugefügt"
+      "eyebrow": "Kürzlich indexiert",
+      "title": "Neueste Zugänge",
+      "foundAt": "Gefunden bei {{shopName}}.",
+      "foundAtWithYear": "Gefunden bei {{shopName}}. Um {{year}}."
     },
     "features": {
       "title": "Antiquitäten sind überall im Internet verstreut - Ihre Suche sollte es nicht sein",

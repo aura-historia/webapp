@@ -425,7 +425,10 @@
       "title": "Découvrir les époques et les styles"
     },
     "recentlyAdded": {
-      "title": "Ajoutés récemment"
+      "eyebrow": "Récemment indexés",
+      "title": "Les dernières acquisitions",
+      "foundAt": "Trouvé chez {{shopName}}.",
+      "foundAtWithYear": "Trouvé chez {{shopName}}. Vers {{year}}."
     },
     "features": {
       "title": "Les antiquités sont dispersées partout en ligne - votre recherche ne devrait pas l'être",

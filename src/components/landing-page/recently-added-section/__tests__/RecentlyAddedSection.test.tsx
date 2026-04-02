@@ -69,7 +69,12 @@ const mockProducts: OverviewProduct[] = [
 describe("RecentlyAddedSection", () => {
     it("renders the section with the recently added title", async () => {
         await act(async () => renderWithRouter(<RecentlyAddedSection products={mockProducts} />));
-        expect(screen.getByText("Kürzlich hinzugefügt")).toBeInTheDocument();
+        expect(screen.getByText("Neueste Zugänge")).toBeInTheDocument();
+        expect(
+            screen.getByText(
+                "Frisch entdeckte Stücke von Antiquitätenhändlern und Auktionshäusern weltweit.",
+            ),
+        ).toBeInTheDocument();
     });
 
     it("renders a product grid item for each product", async () => {
@@ -80,13 +85,13 @@ describe("RecentlyAddedSection", () => {
 
     it("renders the section element with the correct aria-label", async () => {
         await act(async () => renderWithRouter(<RecentlyAddedSection products={mockProducts} />));
-        const section = screen.getByRole("region", { name: "Kürzlich hinzugefügt" });
+        const section = screen.getByRole("region", { name: "Neueste Zugänge" });
         expect(section).toBeInTheDocument();
     });
 
     it("handles an empty product list without crashing", async () => {
         await act(async () => renderWithRouter(<RecentlyAddedSection products={[]} />));
-        expect(screen.getByText("Kürzlich hinzugefügt")).toBeInTheDocument();
+        expect(screen.getByText("Neueste Zugänge")).toBeInTheDocument();
         // Since there are no products, there should be no links with 'Details'
         // Note: The UI fallback text depends on translation, we just test it doesn't crash
     });
