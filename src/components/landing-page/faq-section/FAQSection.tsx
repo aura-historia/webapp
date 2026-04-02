@@ -12,14 +12,14 @@ export default function FAQSection() {
     const { t } = useTranslation();
 
     return (
-        <section className="py-20 px-4">
-            <div className="max-w-3xl mx-auto">
+        <section className="py-20 px-4 bg-surface-container-high">
+            <div className="max-w-4xl mx-auto">
                 <SectionHeading
                     headline={t("landingPage.faq.title")}
                     description={t("landingPage.faq.subtitle")}
                     showDivider={true}
                 />
-                <Accordion type="single" collapsible className="w-full">
+                <Accordion type="single" collapsible className="w-full mt-12">
                     {FAQ_DATA.map((item, index) => (
                         <AccordionItem key={item.questionKey} value={`item-${index}`}>
                             <AccordionTrigger className="text-left">
