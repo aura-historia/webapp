@@ -10,7 +10,7 @@ export function H1({ variant = "default", className, children, ...props }: H1Pro
     return (
         <h1
             className={cn(
-                "text-4xl font-medium tracking-tight sm:text-4xl font-display hyphens-auto",
+                "text-4xl font-medium tracking-tight text-primary font-display hyphens-auto",
                 variant === "muted" && "text-muted-foreground",
                 className,
             )}
