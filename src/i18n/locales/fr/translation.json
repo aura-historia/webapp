@@ -254,7 +254,8 @@
       "filters": {
         "all": "Tous",
         "price": "Prix",
-        "availability": "Disponibilité"
+        "availability": "Disponibilité",
+        "details": "Détails"
       },
       "events": {
         "statusChanged": "Le statut est passé de {{oldState}} à {{newState}}.",
@@ -263,7 +264,16 @@
         "priceFallen": "passé",
         "priceIncreased": "passé",
         "priceRemoved": "Prix supprimé • Dernier prix : {{price}}.",
-        "created": "Enregistré dans le système"
+        "created": "Enregistré dans le système",
+        "estimatePriceChanged": "Fourchette de prix estimée mise à jour.",
+        "urlChanged": "URL du produit mise à jour.",
+        "imagesChanged": "Images mises à jour • {{count}} image(s).",
+        "auctionTimeChanged": "Période de vente aux enchères mise à jour.",
+        "originYearChanged": "Année d'origine mise à jour.",
+        "authenticityChanged": "Authenticité mise à jour • {{value}}.",
+        "conditionChanged": "État mis à jour • {{value}}.",
+        "provenanceChanged": "Provenance mise à jour • {{value}}.",
+        "restorationChanged": "Restauration mise à jour • {{value}}."
       }
     },
     "priceEstimate": {
