@@ -93,6 +93,7 @@ describe("ProductHistory", () => {
         expect(screen.getByText("Alle")).toBeInTheDocument();
         expect(screen.getByText("Preis")).toBeInTheDocument();
         expect(screen.getByText("Verfügbarkeit")).toBeInTheDocument();
+        expect(screen.queryByText("Details")).not.toBeInTheDocument();
     });
 
     it("should render state events correctly", () => {
@@ -154,6 +155,45 @@ describe("ProductHistory", () => {
 
         const preisButton = screen.getByText("Preis");
         await user.click(preisButton);
+
+        expect(screen.getByText("Keine Events für diesen Filter verfügbar.")).toBeInTheDocument();
+    });
+
+    it("should show new detail events in All filter", () => {
+        const mockConditionEvent: ProductEvent = {
+            eventId: "4",
+            productId: "item-1",
+            shopId: "shop-1",
+            shopsProductId: "shops-item-1",
+            eventType: "CONDITION_CHANGED",
+            timestamp: new Date("2024-01-17T12:00:00Z"),
+            payload: { condition: "EXCELLENT" },
+        };
+
+        render(
+            <ProductHistory
+                history={[mockStateEvent, mockPriceEvent, mockCreatedEvent, mockConditionEvent]}
+            />,
+        );
+
+        const timelineItems = screen.getAllByTestId("timeline-item");
+        expect(timelineItems).toHaveLength(4);
+    });
+
+    it("should not show new detail events in Price filter", async () => {
+        const user = userEvent.setup();
+        const mockConditionEvent: ProductEvent = {
+            eventId: "4",
+            productId: "item-1",
+            shopId: "shop-1",
+            shopsProductId: "shops-item-1",
+            eventType: "CONDITION_CHANGED",
+            timestamp: new Date("2024-01-17T12:00:00Z"),
+            payload: { condition: "EXCELLENT" },
+        };
+
+        render(<ProductHistory history={[mockStateEvent, mockConditionEvent]} />);
+        await user.click(screen.getByText("Preis"));
 
         expect(screen.getByText("Keine Events für diesen Filter verfügbar.")).toBeInTheDocument();
     });
