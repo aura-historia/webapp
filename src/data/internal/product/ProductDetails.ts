@@ -242,7 +242,7 @@ function mapPriceRemovedPayload(
 function mapCreatedPayload(apiPayload: ProductCreatedEventPayloadData): ProductCreatedPayload {
     return {
         state: parseProductState(apiPayload.state),
-        price: apiPayload.price != null ? parsePrice(apiPayload.price) : undefined,
+        price: apiPayload.price ? parsePrice(apiPayload.price) : undefined,
     };
 }
 
@@ -250,14 +250,12 @@ function mapEstimatePriceChangedPayload(
     apiPayload: ProductEventEstimatePriceChangedPayloadData,
 ): ProductEstimatePriceChangedPayload {
     return {
-        priceEstimateMin:
-            apiPayload.priceEstimateMin != null
-                ? parsePrice(apiPayload.priceEstimateMin)
-                : undefined,
-        priceEstimateMax:
-            apiPayload.priceEstimateMax != null
-                ? parsePrice(apiPayload.priceEstimateMax)
-                : undefined,
+        priceEstimateMin: apiPayload.priceEstimateMin
+            ? parsePrice(apiPayload.priceEstimateMin)
+            : undefined,
+        priceEstimateMax: apiPayload.priceEstimateMax
+            ? parsePrice(apiPayload.priceEstimateMax)
+            : undefined,
     };
 }
 
@@ -277,9 +275,8 @@ function mapAuctionTimeChangedPayload(
     apiPayload: ProductEventAuctionTimeChangedPayloadData,
 ): ProductAuctionTimeChangedPayload {
     return {
-        auctionStart:
-            apiPayload.auctionStart != null ? new Date(apiPayload.auctionStart) : undefined,
-        auctionEnd: apiPayload.auctionEnd != null ? new Date(apiPayload.auctionEnd) : undefined,
+        auctionStart: apiPayload.auctionStart ? new Date(apiPayload.auctionStart) : undefined,
+        auctionEnd: apiPayload.auctionEnd ? new Date(apiPayload.auctionEnd) : undefined,
     };
 }
 
