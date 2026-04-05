@@ -34,7 +34,8 @@ export function generateCategoryHeadMeta(
     const categoryPath = `/categories/${params.categoryId}`;
 
     const name = loaderData?.name.text ?? i18n.t("meta.category.defaultName");
-    const description = loaderData?.description.text ?? "";
+    // TODO: load form i18n depending on category id
+    const description = "";
     const siteName = i18n.t("meta.siteName");
 
     return {

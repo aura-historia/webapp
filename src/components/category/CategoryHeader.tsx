@@ -15,7 +15,7 @@ export function CategoryHeader({ category }: CategoryHeaderProps) {
                 <IconComponent className="w-8 h-8" />
                 <H1>{category.name}</H1>
             </div>
-            <p className="text-base text-muted-foreground">{category.description}</p>
+            <p className="text-base text-muted-foreground">{/* TODO: Add description */}</p>
         </div>
     );
 }

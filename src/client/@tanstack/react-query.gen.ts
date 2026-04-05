@@ -3,8 +3,102 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistProduct, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterMatchedProducts, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchWatchlistProduct, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import { addWatchlistProduct, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterMatchedProducts, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchPartnerProducts, patchWatchlistProduct, postPartnerProducts, putPartnerProducts, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchPartnerProductsData, PatchPartnerProductsError, PatchPartnerProductsResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostPartnerProductsData, PostPartnerProductsError, PostPartnerProductsResponse, PutPartnerProductsData, PutPartnerProductsError, PutPartnerProductsResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+
+/**
+ * Batch update products (Partner API)
+ *
+ * Updates one or more existing products for a shop using API key authentication.
+ * This endpoint is intended for partner shops — shops that have been granted partner status
+ * and have an API key configured. It does **not** use Cognito JWT authentication.
+ *
+ * The request body is an array of `PatchProductData` objects. Only the fields provided in
+ * each entry are updated; omitted optional fields are left unchanged. Products are processed
+ * individually: if some products fail to update, the response still returns HTTP 200 with
+ * a partial-failure map in the `errors` field. Only entries that failed are present in the map.
+ *
+ * An empty `errors` map in the response indicates all products were updated successfully.
+ *
+ */
+export const patchPartnerProductsMutation = (options?: Partial<Options<PatchPartnerProductsData>>): UseMutationOptions<PatchPartnerProductsResponse, PatchPartnerProductsError, Options<PatchPartnerProductsData>> => {
+    const mutationOptions: UseMutationOptions<PatchPartnerProductsResponse, PatchPartnerProductsError, Options<PatchPartnerProductsData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await patchPartnerProducts({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Batch create products (Partner API)
+ *
+ * Creates one or more products for a shop using API key authentication.
+ * This endpoint is intended for partner shops — shops that have been granted partner status
+ * and have an API key configured. It does **not** use Cognito JWT authentication.
+ *
+ * The request body is an array of `PostProductData` objects. Products are processed
+ * individually: if some products fail to create, the response still returns HTTP 200 with
+ * a partial-failure map in the `errors` field. Only entries that failed are present in the map.
+ *
+ * An empty `errors` map in the response indicates all products were created successfully.
+ *
+ */
+export const postPartnerProductsMutation = (options?: Partial<Options<PostPartnerProductsData>>): UseMutationOptions<PostPartnerProductsResponse, PostPartnerProductsError, Options<PostPartnerProductsData>> => {
+    const mutationOptions: UseMutationOptions<PostPartnerProductsResponse, PostPartnerProductsError, Options<PostPartnerProductsData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await postPartnerProducts({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Batch upsert products (Partner API)
+ *
+ * Creates new products or updates existing ones for a shop in a single batch call,
+ * using API key authentication. This endpoint is intended for partner shops — shops
+ * that have been granted partner status and have an API key configured. It does **not**
+ * use Cognito JWT authentication.
+ *
+ * The request body is an array of `PutProductData` objects. For each entry the backend
+ * checks whether a product with the given `shopsProductId` already exists in the shop:
+ * - **Existing product** — only `state` and `price` are updated (other fields are ignored).
+ * - **New product** — a full product is created using all provided fields.
+ *
+ * Products are processed individually: if some products fail to upsert, the response
+ * still returns HTTP 200 with a partial-failure map in the `errors` field. Only entries
+ * that failed are present in the map.
+ *
+ * An empty `errors` map in the response indicates all products were upserted successfully.
+ *
+ * All fields except `shopsProductId` are optional. The `authenticity`, `condition`,
+ * `provenance`, and `restoration` fields each default to `UNKNOWN` when omitted.
+ *
+ */
+export const putPartnerProductsMutation = (options?: Partial<Options<PutPartnerProductsData>>): UseMutationOptions<PutPartnerProductsResponse, PutPartnerProductsError, Options<PutPartnerProductsData>> => {
+    const mutationOptions: UseMutationOptions<PutPartnerProductsResponse, PutPartnerProductsError, Options<PutPartnerProductsData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await putPartnerProducts({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -256,6 +350,11 @@ export const getUserSearchFiltersOptions = (options?: Options<GetUserSearchFilte
  * Returns the created search filter with generated ID and metadata.
  * Requires valid Cognito JWT authentication.
  *
+ * The number of allowed search filters and the set of usable search filter fields depend on the user's tier:
+ * - `FREE`: Up to 1 search filter. Only the following filter fields are allowed: `productQuery`, `categoryId`, `periodId`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+ * - `PRO`: Up to 5 search filters. All filter fields are allowed.
+ * - `ULTIMATE`: Unlimited search filters. All filter fields are allowed.
+ *
  */
 export const createUserSearchFilterMutation = (options?: Partial<Options<CreateUserSearchFilterData>>): UseMutationOptions<CreateUserSearchFilterResponse, CreateUserSearchFilterError, Options<CreateUserSearchFilterData>> => {
     const mutationOptions: UseMutationOptions<CreateUserSearchFilterResponse, CreateUserSearchFilterError, Options<CreateUserSearchFilterData>> = {
@@ -323,6 +422,11 @@ export const getUserSearchFilterOptions = (options: Options<GetUserSearchFilterD
  * Allows partial updates - only provided fields will be modified.
  * If no fields are provided in the request body, returns the existing search filter unchanged.
  * Requires valid Cognito JWT authentication.
+ *
+ * The set of usable search filter fields depends on the user's tier:
+ * - `FREE`: Only the following filter fields are allowed: `productQuery`, `categoryId`, `periodId`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+ * - `PRO`: All filter fields are allowed.
+ * - `ULTIMATE`: All filter fields are allowed.
  *
  */
 export const updateUserSearchFilterMutation = (options?: Partial<Options<UpdateUserSearchFilterData>>): UseMutationOptions<UpdateUserSearchFilterResponse, UpdateUserSearchFilterError, Options<UpdateUserSearchFilterData>> => {
@@ -401,6 +505,28 @@ export const addWatchlistProductMutation = (options?: Partial<Options<AddWatchli
     const mutationOptions: UseMutationOptions<AddWatchlistProductResponse, AddWatchlistProductError, Options<AddWatchlistProductData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await addWatchlistProduct({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Delete authenticated user
+ *
+ * Permanently deletes the authenticated user's account.
+ * The deletion is performed synchronously and the access token is immediately invalidated upon success.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const deleteUserMutation = (options?: Partial<Options<DeleteUserData>>): UseMutationOptions<DeleteUserResponse, DeleteUserError, Options<DeleteUserData>> => {
+    const mutationOptions: UseMutationOptions<DeleteUserResponse, DeleteUserError, Options<DeleteUserData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deleteUser({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
