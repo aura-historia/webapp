@@ -20,7 +20,7 @@ type CategoriesSectionProps = {
 };
 
 export default function CategoriesSection({ categories }: CategoriesSectionProps) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -102,6 +102,16 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                                         <p className="font-display text-2xl leading-8 text-primary">
                                             {category.name}
                                         </p>
+                                        {category.productCount && (
+                                            <p className="uppercase text-xs text-secondary">
+                                                {t("landingPage.categories.objectCount", {
+                                                    count: category.productCount,
+                                                    formattedCount: new Intl.NumberFormat(
+                                                        i18n.language,
+                                                    ).format(category.productCount),
+                                                })}
+                                            </p>
+                                        )}
                                     </Link>
                                 </CarouselItem>
                             );

@@ -420,7 +420,9 @@
     "trustBadge2": "Listados actualizados continuamente",
     "trustBadge3": "Diseñado para coleccionistas serios",
     "categories": {
-      "title": "Explorar Categorías"
+      "title": "Explorar Categorías",
+      "objectCount_one": "{{formattedCount}} Objeto",
+      "objectCount_other": "{{formattedCount}} Objetos"
     },
     "periods": {
       "title": "Explorar epocas historicas",

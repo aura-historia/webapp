@@ -420,7 +420,9 @@
     "trustBadge2": "Inserzioni continuamente aggiornate",
     "trustBadge3": "Creato per collezionisti seri",
     "categories": {
-      "title": "Sfoglia Categorie"
+      "title": "Sfoglia Categorie",
+      "objectCount_one": "{{formattedCount}} Oggetto",
+      "objectCount_other": "{{formattedCount}} Oggetti"
     },
     "periods": {
       "title": "Esplora epoche storiche",

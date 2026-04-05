@@ -420,7 +420,9 @@
     "trustBadge2": "Continuously updated listings",
     "trustBadge3": "Built for serious collectors",
     "categories": {
-      "title": "Browse Categories"
+      "title": "Browse Categories",
+      "objectCount_one": "{{formattedCount}} Object",
+      "objectCount_other": "{{formattedCount}} Objects"
     },
     "periods": {
       "title": "Browse historical eras",

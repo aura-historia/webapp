@@ -420,7 +420,9 @@
     "trustBadge2": "Für ernsthafte Sammler und Händler",
     "trustBadge3": "Nahezu Echtzeit",
     "categories": {
-      "title": "Kategorien durchstöbern"
+      "title": "Kategorien durchstöbern",
+      "objectCount_one": "{{formattedCount}} Objekt",
+      "objectCount_other": "{{formattedCount}} Objekte"
     },
     "periods": {
       "title": "Historische Epochen entdecken",

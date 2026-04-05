@@ -420,7 +420,9 @@
     "trustBadge2": "Annonces mises à jour en continu",
     "trustBadge3": "Conçu pour les collectionneurs sérieux",
     "categories": {
-      "title": "Parcourir les catégories"
+      "title": "Parcourir les catégories",
+      "objectCount_one": "{{formattedCount}} Objet",
+      "objectCount_other": "{{formattedCount}} Objets"
     },
     "periods": {
       "title": "Explorer les epoques historiques",

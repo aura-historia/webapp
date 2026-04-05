@@ -35,9 +35,14 @@ vi.mock("embla-carousel-autoplay", () => ({
 }));
 
 const mockCategories: CategoryOverview[] = [
-    { categoryId: "furniture-1", categoryKey: "FURNITURE", name: "Möbel" },
-    { categoryId: "jewelry-2", categoryKey: "JEWELRY_PERSONAL_ADORNMENT", name: "Schmuck" },
-    { categoryId: "unknown-3", categoryKey: "UNKNOWN_KEY", name: "Sonstiges" },
+    { categoryId: "furniture-1", categoryKey: "FURNITURE", name: "Möbel", productCount: 18000 },
+    {
+        categoryId: "jewelry-2",
+        categoryKey: "JEWELRY_PERSONAL_ADORNMENT",
+        name: "Schmuck",
+        productCount: 1250,
+    },
+    { categoryId: "unknown-3", categoryKey: "UNKNOWN_KEY", name: "Sonstiges", productCount: 1 },
 ];
 
 describe("CategoriesSection", () => {
@@ -56,6 +61,9 @@ describe("CategoriesSection", () => {
         expect(await screen.findByText("Möbel")).toBeInTheDocument();
         expect(await screen.findByText("Schmuck")).toBeInTheDocument();
         expect(await screen.findByText("Sonstiges")).toBeInTheDocument();
+        expect(await screen.findByText("18.000 Objekte")).toBeInTheDocument();
+        expect(await screen.findByText("1.250 Objekte")).toBeInTheDocument();
+        expect(await screen.findByText("1 Objekt")).toBeInTheDocument();
     });
 
     it("renders links to the correct category routes", async () => {
