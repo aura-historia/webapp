@@ -67,13 +67,11 @@ export function TestRouterWrapper({
     });
 
     return (
-        <UserPreferencesProvider>
-            <SearchQueryProvider>
-                <QueryClientProvider client={queryClient}>
-                    <RouterProvider router={router} />
-                </QueryClientProvider>
-            </SearchQueryProvider>
-        </UserPreferencesProvider>
+        <SearchQueryProvider>
+            <QueryClientProvider client={queryClient}>
+                <RouterProvider router={router} />
+            </QueryClientProvider>
+        </SearchQueryProvider>
     );
 }
 
