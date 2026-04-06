@@ -1,15 +1,11 @@
-import {
-    CURRENCIES,
-    type Currency,
-    inferCurrencyFromLocale,
-    parseCurrency,
-} from "@/data/internal/common/Currency.ts";
+import { CURRENCIES, type Currency, parseCurrency } from "@/data/internal/common/Currency.ts";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount.ts";
 import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useCurrency } from "@/hooks/preferences/useCurrency.ts";
 import {
     Select,
     SelectContent,
@@ -69,8 +65,8 @@ export function CurrencySelector() {
             <SelectContent align="end">
                 {CURRENCIES.map((code) => (
                     <SelectItem key={code} value={code}>
-                        <span>{CURRENCY_SYMBOLS[code]}</span>
-                        <span className="pl-2">{displayNames.of(code)}</span>
+                        <span className="inline-block w-8 shrink-0">{CURRENCY_SYMBOLS[code]}</span>
+                        <span>{displayNames.of(code)}</span>
                     </SelectItem>
                 ))}
             </SelectContent>
