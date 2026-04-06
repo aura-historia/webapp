@@ -37,7 +37,7 @@ export function CurrencySelector() {
         }
     }, [account?.currency, updatePreferences]);
 
-    const currency = preferences.currency ?? inferCurrencyFromLocale(i18n.language);
+    const currency = useCurrency();
     const displayNames = useMemo(
         () => new Intl.DisplayNames([i18n.language], { type: "currency" }),
         [i18n.language],

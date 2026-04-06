@@ -23,7 +23,7 @@ import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { parseCurrency } from "@/data/internal/common/Currency.ts";
 import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useCurrency } from "@/hooks/preferences/useCurrency.ts";
 
 export const Route = createFileRoute("/")({
     loader: async ({ context: { queryClient, initialPreferences } }) => {
@@ -68,8 +68,7 @@ export const Route = createFileRoute("/")({
 
 function LandingPage() {
     const { i18n } = useTranslation();
-    const { preferences } = useUserPreferences();
-    const currency = preferences.currency ?? "EUR";
+    const currency = useCurrency();
     const { data: categoriesData } = useQuery(
         getCategoriesOptions({
             query: { language: parseLanguage(i18n.language) },

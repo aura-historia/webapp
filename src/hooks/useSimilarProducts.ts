@@ -8,7 +8,7 @@ import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { useTranslation } from "react-i18next";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useCurrency } from "@/hooks/preferences/useCurrency.ts";
 
 type SimilarProductsData = {
     products: OverviewProduct[];
@@ -21,8 +21,7 @@ export function useSimilarProducts(
 ): UseQueryResult<SimilarProductsData> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
-    const { preferences } = useUserPreferences();
-    const currency = preferences.currency ?? "EUR";
+    const currency = useCurrency();
 
     return useQuery({
         queryKey: ["similarProducts", shopId, shopsProductId, i18n.language, currency],
