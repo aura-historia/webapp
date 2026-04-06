@@ -323,7 +323,8 @@
       "filters": {
         "all": "All",
         "price": "Price",
-        "availability": "Availability"
+        "availability": "Availability",
+        "details": "Details"
       },
       "events": {
         "statusChanged": "Status changed from {{oldState}} to {{newState}}.",
@@ -332,7 +333,16 @@
         "priceFallen": "dropped",
         "priceIncreased": "increased",
         "priceRemoved": "Price removed • Last price: {{price}}.",
-        "created": "Added to system"
+        "created": "Added to system",
+        "estimatePriceChanged": "Estimated price range updated.",
+        "urlChanged": "Product URL updated.",
+        "imagesChanged": "Images updated • {{count}} image(s).",
+        "auctionTimeChanged": "Auction period updated.",
+        "originYearChanged": "Year of origin updated.",
+        "authenticityChanged": "Authenticity updated • {{value}}.",
+        "conditionChanged": "Condition updated • {{value}}.",
+        "provenanceChanged": "Provenance updated • {{value}}.",
+        "restorationChanged": "Restoration updated • {{value}}."
       }
     },
     "auction": {

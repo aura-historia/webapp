@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAllNotificationsData, DeleteAllNotificationsErrors, DeleteAllNotificationsResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetNotificationsData, GetNotificationsErrors, GetNotificationsResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsErrors, GetSearchFilterMatchedProductsResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchAllNotificationsData, PatchAllNotificationsErrors, PatchAllNotificationsResponses, PatchNotificationData2, PatchNotificationErrors, PatchNotificationResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAllNotificationsData, DeleteAllNotificationsErrors, DeleteAllNotificationsResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetNotificationsData, GetNotificationsErrors, GetNotificationsResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsErrors, GetSearchFilterMatchedProductsResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchAllNotificationsData, PatchAllNotificationsErrors, PatchAllNotificationsResponses, PatchNotificationData2, PatchNotificationErrors, PatchNotificationResponses, PatchPartnerProductsData, PatchPartnerProductsErrors, PatchPartnerProductsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostPartnerProductsData, PostPartnerProductsErrors, PostPartnerProductsResponses, PutPartnerProductsData, PutPartnerProductsErrors, PutPartnerProductsResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -17,6 +17,88 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
      */
     meta?: Record<string, unknown>;
 };
+
+/**
+ * Batch update products (Partner API)
+ *
+ * Updates one or more existing products for a shop using API key authentication.
+ * This endpoint is intended for partner shops — shops that have been granted partner status
+ * and have an API key configured. It does **not** use Cognito JWT authentication.
+ *
+ * The request body is an array of `PatchProductData` objects. Only the fields provided in
+ * each entry are updated; omitted optional fields are left unchanged. Products are processed
+ * individually: if some products fail to update, the response still returns HTTP 200 with
+ * a partial-failure map in the `errors` field. Only entries that failed are present in the map.
+ *
+ * An empty `errors` map in the response indicates all products were updated successfully.
+ *
+ */
+export const patchPartnerProducts = <ThrowOnError extends boolean = false>(options: Options<PatchPartnerProductsData, ThrowOnError>) => (options.client ?? client).patch<PatchPartnerProductsResponses, PatchPartnerProductsErrors, ThrowOnError>({
+    security: [{ name: 'x-api-key', type: 'apiKey' }],
+    url: '/api/v1/shops/{shopId}/products',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Batch create products (Partner API)
+ *
+ * Creates one or more products for a shop using API key authentication.
+ * This endpoint is intended for partner shops — shops that have been granted partner status
+ * and have an API key configured. It does **not** use Cognito JWT authentication.
+ *
+ * The request body is an array of `PostProductData` objects. Products are processed
+ * individually: if some products fail to create, the response still returns HTTP 200 with
+ * a partial-failure map in the `errors` field. Only entries that failed are present in the map.
+ *
+ * An empty `errors` map in the response indicates all products were created successfully.
+ *
+ */
+export const postPartnerProducts = <ThrowOnError extends boolean = false>(options: Options<PostPartnerProductsData, ThrowOnError>) => (options.client ?? client).post<PostPartnerProductsResponses, PostPartnerProductsErrors, ThrowOnError>({
+    security: [{ name: 'x-api-key', type: 'apiKey' }],
+    url: '/api/v1/shops/{shopId}/products',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Batch upsert products (Partner API)
+ *
+ * Creates new products or updates existing ones for a shop in a single batch call,
+ * using API key authentication. This endpoint is intended for partner shops — shops
+ * that have been granted partner status and have an API key configured. It does **not**
+ * use Cognito JWT authentication.
+ *
+ * The request body is an array of `PutProductData` objects. For each entry the backend
+ * checks whether a product with the given `shopsProductId` already exists in the shop:
+ * - **Existing product** — only `state` and `price` are updated (other fields are ignored).
+ * - **New product** — a full product is created using all provided fields.
+ *
+ * Products are processed individually: if some products fail to upsert, the response
+ * still returns HTTP 200 with a partial-failure map in the `errors` field. Only entries
+ * that failed are present in the map.
+ *
+ * An empty `errors` map in the response indicates all products were upserted successfully.
+ *
+ * All fields except `shopsProductId` are optional. The `authenticity`, `condition`,
+ * `provenance`, and `restoration` fields each default to `UNKNOWN` when omitted.
+ *
+ */
+export const putPartnerProducts = <ThrowOnError extends boolean = false>(options: Options<PutPartnerProductsData, ThrowOnError>) => (options.client ?? client).put<PutPartnerProductsResponses, PutPartnerProductsErrors, ThrowOnError>({
+    security: [{ name: 'x-api-key', type: 'apiKey' }],
+    url: '/api/v1/shops/{shopId}/products',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Get a single product

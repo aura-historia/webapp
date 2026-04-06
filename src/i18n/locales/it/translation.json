@@ -322,7 +322,8 @@
       "filters": {
         "all": "Tutti",
         "price": "Prezzo",
-        "availability": "Disponibilità"
+        "availability": "Disponibilità",
+        "details": "Dettagli"
       },
       "events": {
         "statusChanged": "Stato cambiato da {{oldState}} a {{newState}}.",
@@ -331,7 +332,16 @@
         "priceFallen": "diminuito",
         "priceIncreased": "aumentato",
         "priceRemoved": "Prezzo rimosso • Ultimo prezzo: {{price}}.",
-        "created": "Aggiunto al sistema"
+        "created": "Aggiunto al sistema",
+        "estimatePriceChanged": "Fascia di prezzo stimata aggiornata.",
+        "urlChanged": "URL del prodotto aggiornato.",
+        "imagesChanged": "Immagini aggiornate • {{count}} immagine/i.",
+        "auctionTimeChanged": "Periodo d'asta aggiornato.",
+        "originYearChanged": "Anno di origine aggiornato.",
+        "authenticityChanged": "Autenticità aggiornata • {{value}}.",
+        "conditionChanged": "Condizione aggiornata • {{value}}.",
+        "provenanceChanged": "Provenienza aggiornata • {{value}}.",
+        "restorationChanged": "Restauro aggiornato • {{value}}."
       }
     },
     "priceEstimate": {
