@@ -35,6 +35,9 @@
     "watchlist": {
       "title": "Meine Merkliste | Aura Historia"
     },
+    "notifications": {
+      "title": "Benachrichtigungen | Aura Historia"
+    },
     "category": {
       "defaultName": "Kategorie"
     },
@@ -765,5 +768,18 @@
     "analyticsLabel": "Analyse & Tracking",
     "analyticsDescription": "Ermöglicht uns die Analyse der Nutzung und die Verbesserung Ihres Erlebnisses über Google Analytics. Beinhaltet Anzeigenspeicher, Analysespeicher, Anzeigenbenutzerdaten und Anzeigenpersonalisierung.",
     "saved": "Ihre Cookie-Einstellungen wurden gespeichert."
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "markAllRead": "Alle als gelesen markieren",
+    "noNotifications": "Keine Benachrichtigungen",
+    "ariaLabel": "Benachrichtigungen öffnen",
+    "types": {
+      "priceChange": "Preisänderung",
+      "stateChange": "Statusänderung",
+      "newMatch": "Suchergebnis: Neuer Treffer"
+    },
+    "delete": "Löschen",
+    "showAll": "Alle Benachrichtigungen anzeigen"
   }
 }

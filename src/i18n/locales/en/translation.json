@@ -35,6 +35,9 @@
     "watchlist": {
       "title": "My Watchlist | Aura Historia"
     },
+    "notifications": {
+      "title": "Notifications | Aura Historia"
+    },
     "category": {
       "defaultName": "Category"
     },
@@ -764,5 +767,18 @@
     "analyticsLabel": "Analytics & Tracking",
     "analyticsDescription": "Allows us to analyze usage and improve your experience via Google Analytics. Includes ad storage, analytics storage, ad user data, and ad personalization.",
     "saved": "Your cookie preferences have been saved."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "noNotifications": "No notifications",
+    "ariaLabel": "Open notifications",
+    "types": {
+      "priceChange": "Price change",
+      "stateChange": "Status change",
+      "newMatch": "Search result: New match"
+    },
+    "delete": "Delete",
+    "showAll": "Show all notifications"
   }
 }
