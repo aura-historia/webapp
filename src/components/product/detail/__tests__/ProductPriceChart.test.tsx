@@ -2,6 +2,10 @@ import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
 import { render, screen } from "@testing-library/react";
 import { ProductPriceChart } from "../ProductPriceChart.tsx";
 import { vi } from "vitest";
+
+vi.mock("@/hooks/preferences/useCurrency.ts", () => ({
+    useCurrency: () => "EUR",
+}));
 import userEvent from "@testing-library/user-event";
 
 const mockZoomX = vi.fn();

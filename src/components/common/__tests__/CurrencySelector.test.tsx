@@ -16,9 +16,13 @@ vi.mock("@/hooks/account/useUserAccount.ts", () => ({
     useUserAccount: vi.fn(() => ({ data: undefined })),
 }));
 
-vi.mock("react-i18next", () => ({
-    useTranslation: () => ({ i18n: { language: "en" } }),
-}));
+vi.mock("react-i18next", async () => {
+    const actual = await vi.importActual("react-i18next");
+    return {
+        ...actual,
+        useTranslation: () => ({ i18n: { language: "en" } }),
+    };
+});
 
 function renderCurrencySelector(initialPreferences: Record<string, unknown> = {}) {
     return render(
