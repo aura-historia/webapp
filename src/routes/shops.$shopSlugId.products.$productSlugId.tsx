@@ -34,6 +34,7 @@ export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId
             getProductHistoryOptions({
                 query: {
                     language: parseLanguage(i18n.language),
+                    currency: currency,
                 },
                 path: {
                     shopId: productData.item.shopId,
@@ -69,6 +70,7 @@ function ProductDetailComponent() {
         getProductHistoryOptions({
             query: {
                 language: parseLanguage(i18n.language),
+                currency: currency,
             },
             path: {
                 shopId: apiData.item.shopId,
