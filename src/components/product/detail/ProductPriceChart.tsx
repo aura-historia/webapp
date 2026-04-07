@@ -13,6 +13,7 @@ import {
 } from "@/lib/utils.ts";
 import { isPriceEvent } from "@/lib/eventFilters.ts";
 import { useTranslation } from "react-i18next";
+import { useCurrency } from "@/hooks/preferences/useCurrency.ts";
 import type { TFunction } from "i18next";
 import Chart from "react-apexcharts";
 import { ClientOnly } from "@tanstack/react-router";
@@ -39,7 +40,8 @@ const createTimeRanges = (t: TFunction) => {
 };
 
 export function ProductPriceChart({ history }: { readonly history?: readonly ProductEvent[] }) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const currency = useCurrency();
     const chartRef = useRef<ApexCharts | null>(null);
     const [selectedTimeRange, setSelectedTimeRange] = useState<number | null>(null);
 
@@ -242,7 +244,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
         },
         yaxis: {
             labels: {
-                formatter: (val: number) => formatCompactCurrency(val),
+                formatter: (val: number) => formatCompactCurrency(val, currency, i18n.language),
                 style: {
                     fontSize: "15px",
                     fontWeight: 500,
@@ -266,7 +268,8 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                     },
                     yaxis: {
                         labels: {
-                            formatter: (val: number) => formatCompactCurrency(val),
+                            formatter: (val: number) =>
+                                formatCompactCurrency(val, currency, i18n.language),
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,
@@ -292,7 +295,8 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                     },
                     yaxis: {
                         labels: {
-                            formatter: (val: number) => formatCompactCurrency(val),
+                            formatter: (val: number) =>
+                                formatCompactCurrency(val, currency, i18n.language),
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,

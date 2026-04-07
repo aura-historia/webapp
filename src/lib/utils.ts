@@ -182,13 +182,14 @@ export function formatTimeWithSeconds(date: Date, locale?: string): string {
     }).format(date);
 }
 
-export function formatCompactCurrency(value: number): string {
-    const formatted = new Intl.NumberFormat("en-US", {
+export function formatCompactCurrency(value: number, currency: string, locale: string): string {
+    return new Intl.NumberFormat(locale, {
+        style: "currency",
+        currency,
         notation: "compact",
         compactDisplay: "short",
         maximumFractionDigits: 1,
     }).format(value);
-    return `${formatted} €`;
 }
 
 export function formatStateName(state: ProductState, t: TFunction): string {
