@@ -9,7 +9,7 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel.tsx";
 import Autoplay from "embla-carousel-autoplay";
-import { getCategoryIcon } from "@/components/landing-page/categories-section/CategoriesSection.data.ts";
+import { getCategoryAssetUrl } from "@/components/landing-page/categories-section/CategoriesSection.data.ts";
 import type { CategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
 import { Link } from "@tanstack/react-router";
 import { CAROUSEL_AUTOPLAY_DELAY_MS } from "@/components/landing-page/common/landingPageConstants.ts";
@@ -85,7 +85,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                     </div>
                     <CarouselContent className="-ml-6 overflow-visible py-2 [&>div]:overflow-visible">
                         {categories.map((category) => {
-                            const Icon = getCategoryIcon(category.categoryKey);
+                            const categoryAssetUrl = getCategoryAssetUrl(category.categoryKey);
                             return (
                                 <CarouselItem
                                     key={category.categoryId}
@@ -96,8 +96,13 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                                         params={{ categoryId: category.categoryId }}
                                         className="group block"
                                     >
-                                        <div className="mb-4 flex aspect-square items-center justify-center bg-surface-container-high transition-colors duration-300 group-hover:bg-surface-container">
-                                            <Icon className="h-16 w-16 text-primary/70" />
+                                        <div className="mb-4 aspect-square overflow-hidden bg-surface-container-high transition-colors duration-300 group-hover:bg-surface-container">
+                                            <img
+                                                src={categoryAssetUrl}
+                                                alt=""
+                                                loading="lazy"
+                                                className="h-full w-full object-cover transition-transform duration-300"
+                                            />
                                         </div>
                                         <p className="font-display text-2xl leading-8 text-primary">
                                             {category.name}

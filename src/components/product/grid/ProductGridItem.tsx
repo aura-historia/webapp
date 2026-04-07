@@ -108,7 +108,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                     </Link>
 
                     <div className="flex flex-1 flex-col gap-3 px-1 pt-4">
-                        <span className="w-fit bg-[#efdfd8] px-2 py-0.5 text-[10px] font-medium uppercase tracking-[1.2px] text-[#6d625d]">
+                        <span className="w-fit bg-accent px-2 py-0.5 text-[10px] font-medium uppercase tracking-[1.2px] text-accent-foreground">
                             {shopTypeLabel}
                         </span>
 
