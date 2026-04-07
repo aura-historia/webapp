@@ -41,6 +41,10 @@ export type GetProductData = {
      * Display name of the shop
      */
     shopName: string;
+    /**
+     * Display name of the seller associated with the product
+     */
+    sellerName: string;
     shopType: ShopTypeData;
     /**
      * Optional kebab-case identifier for the level-one category the product has been classified into.
@@ -141,6 +145,10 @@ export type GetProductSummaryData = {
      * Display name of the shop
      */
     shopName: string;
+    /**
+     * Display name of the seller associated with the product
+     */
+    sellerName: string;
     shopType: ShopTypeData;
     /**
      * Optional kebab-case identifier for the level-one category the product has been classified into.
@@ -248,6 +256,7 @@ export type ProductUserStateData = {
     watchlist: WatchlistUserStateData;
     prohibitedContent: ProhibitedContentUserStateData;
     notification: NotificationUserStateData;
+    searchFilter: SearchFilterUserStateData;
 };
 
 /**
@@ -297,6 +306,39 @@ export type NotificationUserStateData = {
      *
      */
     originEventId?: string;
+};
+
+/**
+ * User's saved-search-filter match state for a product.
+ * When `matched` is `true`, at least one of the user's saved search filters matched this product.
+ * `userSearchFilterId`, `userSearchFilterName` and `matchReason` are only present when `matched` is `true`.
+ * Defaults to `matched: false` when the user has no saved search filters or none of them matched.
+ *
+ */
+export type SearchFilterUserStateData = {
+    /**
+     * Whether any of the user's saved search filters matched this product. Defaults to `false`.
+     */
+    matched: boolean;
+    /**
+     * The ID of the saved search filter that matched this product.
+     * Present only when `matched` is `true`; omitted otherwise.
+     *
+     */
+    userSearchFilterId?: string;
+    /**
+     * The user-defined name of the saved search filter that matched this product.
+     * Present only when `matched` is `true`; omitted otherwise.
+     *
+     */
+    userSearchFilterName?: string;
+    /**
+     * A human-readable explanation of why the saved search filter matched this product.
+     * Only set for AI-enhanced filters (i.e. those with an `enhancedSearchDescription`).
+     * Present only when `matched` is `true` and an enhanced match reason exists; omitted otherwise.
+     *
+     */
+    matchReason?: string;
 };
 
 /**
@@ -355,6 +397,93 @@ export type ProductEventPriceChangedPayloadData = {
      * The new price. Absent when the price is removed.
      */
     newPrice?: PriceData | null;
+};
+
+/**
+ * Payload for estimate price change events. Both `priceEstimateMin` and `priceEstimateMax` are optional:
+ * only the fields that actually changed are present.
+ *
+ */
+export type ProductEventEstimatePriceChangedPayloadData = {
+    /**
+     * The updated lower bound of the estimated price range. Absent if this field was not changed.
+     */
+    priceEstimateMin?: PriceData | null;
+    /**
+     * The updated upper bound of the estimated price range. Absent if this field was not changed.
+     */
+    priceEstimateMax?: PriceData | null;
+};
+
+/**
+ * Payload for URL change events, containing the new product URL.
+ */
+export type ProductEventUrlChangedPayloadData = {
+    /**
+     * The new URL of the product on the shop's website.
+     */
+    url: string;
+};
+
+/**
+ * Payload for image list change events, containing the complete updated image list.
+ */
+export type ProductEventImagesChangedPayloadData = {
+    /**
+     * The complete updated list of product images.
+     */
+    images: Array<ProductImageData>;
+};
+
+/**
+ * Payload for auction time change events. Both `auctionStart` and `auctionEnd` are optional:
+ * only the fields that actually changed are present.
+ *
+ */
+export type ProductEventAuctionTimeChangedPayloadData = {
+    /**
+     * Updated RFC3339 auction start timestamp. Absent if this field was not changed.
+     */
+    auctionStart?: string | null;
+    /**
+     * Updated RFC3339 auction end timestamp. Absent if this field was not changed.
+     */
+    auctionEnd?: string | null;
+};
+
+/**
+ * Payload for origin year change events, containing the new origin year.
+ */
+export type ProductEventOriginYearChangedPayloadData = {
+    originYear: OriginYearData;
+};
+
+/**
+ * Payload for authenticity change events, containing the new authenticity classification.
+ */
+export type ProductEventAuthenticityChangedPayloadData = {
+    authenticity: AuthenticityData;
+};
+
+/**
+ * Payload for condition change events, containing the new condition classification.
+ */
+export type ProductEventConditionChangedPayloadData = {
+    condition: ConditionData;
+};
+
+/**
+ * Payload for provenance change events, containing the new provenance classification.
+ */
+export type ProductEventProvenanceChangedPayloadData = {
+    provenance: ProvenanceData;
+};
+
+/**
+ * Payload for restoration change events, containing the new restoration classification.
+ */
+export type ProductEventRestorationChangedPayloadData = {
+    restoration: RestorationData;
 };
 
 /**
@@ -603,18 +732,36 @@ export type SortProductFieldData = 'score' | 'price' | 'originYear' | 'updated' 
  * - CREATED: Product was created
  * - STATE_CHANGED: Product state transitioned (e.g. listed → available, available → sold)
  * - PRICE_CHANGED: Product price was discovered, updated, or removed
+ * - ESTIMATE_PRICE_CHANGED: Product estimated price range was updated
+ * - URL_CHANGED: Product URL was updated
+ * - IMAGES_CHANGED: Product image list was updated
+ * - AUCTION_TIME_CHANGED: Product auction start or end time was updated
+ * - ORIGIN_YEAR_CHANGED: Product origin year was updated
+ * - AUTHENTICITY_CHANGED: Product authenticity classification was updated
+ * - CONDITION_CHANGED: Product condition classification was updated
+ * - PROVENANCE_CHANGED: Product provenance classification was updated
+ * - RESTORATION_CHANGED: Product restoration classification was updated
  *
  */
-export type ProductEventTypeData = 'CREATED' | 'STATE_CHANGED' | 'PRICE_CHANGED';
+export type ProductEventTypeData = 'CREATED' | 'STATE_CHANGED' | 'PRICE_CHANGED' | 'ESTIMATE_PRICE_CHANGED' | 'URL_CHANGED' | 'IMAGES_CHANGED' | 'AUCTION_TIME_CHANGED' | 'ORIGIN_YEAR_CHANGED' | 'AUTHENTICITY_CHANGED' | 'CONDITION_CHANGED' | 'PROVENANCE_CHANGED' | 'RESTORATION_CHANGED';
 
 /**
  * Event-specific payload data. The structure varies depending on the event type:
  * - CREATED: ProductCreatedEventPayloadData (initial product state and optional price)
  * - STATE_CHANGED: ProductEventStateChangedPayloadData (old and new state)
  * - PRICE_CHANGED: ProductEventPriceChangedPayloadData (old and/or new price; see schema for semantics)
+ * - ESTIMATE_PRICE_CHANGED: ProductEventEstimatePriceChangedPayloadData (updated min/max estimate prices)
+ * - URL_CHANGED: ProductEventUrlChangedPayloadData (new URL)
+ * - IMAGES_CHANGED: ProductEventImagesChangedPayloadData (new image list)
+ * - AUCTION_TIME_CHANGED: ProductEventAuctionTimeChangedPayloadData (new auction start/end times)
+ * - ORIGIN_YEAR_CHANGED: ProductEventOriginYearChangedPayloadData (new origin year)
+ * - AUTHENTICITY_CHANGED: ProductEventAuthenticityChangedPayloadData (new authenticity classification)
+ * - CONDITION_CHANGED: ProductEventConditionChangedPayloadData (new condition classification)
+ * - PROVENANCE_CHANGED: ProductEventProvenanceChangedPayloadData (new provenance classification)
+ * - RESTORATION_CHANGED: ProductEventRestorationChangedPayloadData (new restoration classification)
  *
  */
-export type ProductEventPayloadData = ProductCreatedEventPayloadData | ProductEventStateChangedPayloadData | ProductEventPriceChangedPayloadData;
+export type ProductEventPayloadData = ProductCreatedEventPayloadData | ProductEventStateChangedPayloadData | ProductEventPriceChangedPayloadData | ProductEventEstimatePriceChangedPayloadData | ProductEventUrlChangedPayloadData | ProductEventImagesChangedPayloadData | ProductEventAuctionTimeChangedPayloadData | ProductEventOriginYearChangedPayloadData | ProductEventAuthenticityChangedPayloadData | ProductEventConditionChangedPayloadData | ProductEventProvenanceChangedPayloadData | ProductEventRestorationChangedPayloadData;
 
 /**
  * Standard error response format (RFC 9457)
@@ -693,6 +840,23 @@ export type ProductSearchData = {
      */
     excludeShopName?: Array<string>;
     /**
+     * Optional filter by exact seller names (keyword matching).
+     * Filters products to only those from sellers with names exactly matching one of the provided values.
+     * This is an exact match filter, not a fuzzy text search.
+     * Applied independently from `shopName` filters.
+     *
+     */
+    sellerName?: Array<string>;
+    /**
+     * Optional filter to exclude products from specific seller names (keyword matching).
+     * Products from sellers with names exactly matching one of the provided values will be excluded from results.
+     * This is an exact match filter, not a fuzzy text search.
+     * Applied independently from `excludeShopName` filters.
+     * Empty array means no sellers are excluded.
+     *
+     */
+    excludeSellerName?: Array<string>;
+    /**
      * Optional filter by shop types
      */
     shopType?: Array<ShopTypeData> | null;
@@ -756,13 +920,21 @@ export type PostUserSearchFilterData = {
      * User-defined name for the search filter (max 255 characters, will be truncated if longer)
      */
     name: string;
+    /**
+     * Optional natural-language description used by the AI-enhanced search filter matching service.
+     * When provided, a language model evaluates each matched product against this description and only
+     * keeps products that are a true match, attaching a user-facing reason to every confirmed hit.
+     * Whitespace is trimmed and the value is silently truncated to 500 characters if longer.
+     *
+     */
+    enhancedSearchDescription?: string;
     productSearch: ProductSearchData;
 };
 
 /**
  * Partial search filter update data.
  * All fields are optional and only provided fields will be updated.
- * Can update the search filter name, notifications preference, and/or the search filter criteria.
+ * Can update the search filter name, enhanced search description, notifications preference, and/or the search filter criteria.
  *
  */
 export type PatchUserSearchFilterData = {
@@ -770,6 +942,15 @@ export type PatchUserSearchFilterData = {
      * User-defined name for the search filter (max 255 characters, will be truncated if longer)
      */
     name?: string | null;
+    /**
+     * Optional natural-language description used by the AI-enhanced search filter matching service.
+     * When provided, a language model evaluates each matched product against this description and only
+     * keeps products that are a true match, attaching a user-facing reason to every confirmed hit.
+     * Whitespace is trimmed and the value is silently truncated to 500 characters if longer.
+     * Omit to leave unchanged.
+     *
+     */
+    enhancedSearchDescription?: string | null;
     /**
      * Whether to enable or disable email/push notifications for new products matching this search filter.
      * When `true`, the user will be notified when a new product matches this filter.
@@ -831,6 +1012,22 @@ export type PatchProductSearchData = {
      *
      */
     excludeShopName?: Array<string> | null;
+    /**
+     * Optional filter by exact seller names (keyword matching).
+     * Filters products to only those from sellers with names exactly matching one of the provided values.
+     * This is an exact match filter, not a fuzzy text search.
+     * Applied independently from `shopName` filters.
+     *
+     */
+    sellerName?: Array<string> | null;
+    /**
+     * Optional filter to exclude products from specific seller names (keyword matching).
+     * Products from sellers with names exactly matching one of the provided values will be excluded from results.
+     * This is an exact match filter, not a fuzzy text search.
+     * Applied independently from `excludeShopName` filters.
+     *
+     */
+    excludeSellerName?: Array<string> | null;
     /**
      * Optional filter by shop types
      */
@@ -903,6 +1100,12 @@ export type UserSearchFilterData = {
      * User-defined name for the search filter
      */
     name: string;
+    /**
+     * Optional natural-language description used by the AI-enhanced search filter matching service.
+     * Present only when an enhanced search description was set on this filter.
+     *
+     */
+    enhancedSearchDescription?: string;
     /**
      * Whether notifications are enabled for this search filter.
      * When `true`, the user will be notified when a new product matches this filter.
@@ -1128,6 +1331,10 @@ export type GetCategorySummaryData = {
      */
     name: LocalizedTextData;
     /**
+     * Total number of products associated with this category
+     */
+    products: number;
+    /**
      * When the category was created (RFC3339 format)
      */
     created: string;
@@ -1154,9 +1361,9 @@ export type GetCategoryData = {
      */
     name: LocalizedTextData;
     /**
-     * Localized description
+     * Total number of products associated with this category
      */
-    description: LocalizedTextData;
+    products: number;
     /**
      * When the category was created (RFC3339 format)
      */
@@ -1205,6 +1412,10 @@ export type GetPeriodSummaryData = {
      */
     name: LocalizedTextData;
     /**
+     * Total number of products associated with this period
+     */
+    products: number;
+    /**
      * When the period was created (RFC3339 format)
      */
     created: string;
@@ -1231,9 +1442,9 @@ export type GetPeriodData = {
      */
     name: LocalizedTextData;
     /**
-     * Localized description
+     * Total number of products associated with this period
      */
-    description: LocalizedTextData;
+    products: number;
     /**
      * When the period was created (RFC3339 format)
      */
@@ -1398,11 +1609,13 @@ export type PatchUserAccountData = {
 };
 
 /**
- * The user's subscription tier, which determines limits and quotas (e.g. max watchlist entries, max search filters).
- * - `FREE`: Default tier for all users. Allows up to 5 watchlist entries and up to 5 search filters.
+ * The user's subscription tier, which determines limits and feature access (e.g. max watchlist entries, max search filters, allowed search filter fields).
+ * - `FREE`: Default tier for all users. Allows up to 20 watchlist entries, up to 1 search filter (limited to `productQuery`, `categoryId`, `periodId`, `price`, and `state` filter fields), and up to 10 product matches per filter.
+ * - `PRO`: Premium tier. Allows up to 100 watchlist entries, up to 5 search filters with access to all filter fields, and unlimited product matches per filter.
+ * - `ULTIMATE`: Highest tier. Allows unlimited watchlist entries, unlimited search filters with access to all filter fields, and unlimited product matches per filter.
  *
  */
-export type UserTierData = 'FREE';
+export type UserTierData = 'FREE' | 'PRO' | 'ULTIMATE';
 
 /**
  * A single user notification, fully localized for the requested language and currency.
@@ -1480,6 +1693,12 @@ export type WatchlistNotificationPayloadData = {
      */
     shopName: string;
     title: LocalizedTextData;
+    /**
+     * The first image of the product at the time the notification was generated.
+     * Absent when the product had no images. The URL is always included (prohibited content filtering is skipped for notifications).
+     *
+     */
+    image?: ProductImageData | null;
     watchlistPayload: WatchlistPayloadData;
 };
 
@@ -1558,6 +1777,12 @@ export type SearchFilterNotificationPayloadData = {
      */
     shopName: string;
     title: LocalizedTextData;
+    /**
+     * The first image of the product at the time the notification was generated.
+     * Absent when the product had no images. The URL is always included (prohibited content filtering is skipped for notifications).
+     *
+     */
+    image?: ProductImageData | null;
     searchFilterPayload: SearchFilterPayloadData;
 };
 
@@ -1611,6 +1836,454 @@ export type NotificationCollectionData = {
      */
     total?: number | null;
 };
+
+/**
+ * Data for creating a single product via the partner batch-create endpoint.
+ * `authenticity`, `condition`, `provenance`, and `restoration` each default to `UNKNOWN`
+ * when omitted from the request.
+ *
+ */
+export type PostProductData = {
+    /**
+     * The shop's own identifier for the product. Must be unique within the shop.
+     */
+    shopsProductId: string;
+    title: LocalizedTextData;
+    description: LocalizedTextData;
+    /**
+     * Optional asking price for the product
+     */
+    price?: PriceData | null;
+    /**
+     * Optional lower bound of the estimated price range
+     */
+    priceEstimateMin?: PriceData | null;
+    /**
+     * Optional upper bound of the estimated price range
+     */
+    priceEstimateMax?: PriceData | null;
+    state: ProductStateData;
+    /**
+     * URL to the product on the shop's website
+     */
+    url: string;
+    /**
+     * List of image URLs for the product. May be empty.
+     */
+    images: Array<string>;
+    /**
+     * RFC3339 timestamp of when the auction for this product starts.
+     * Only relevant for auction-house shop types. Omit for non-auction products.
+     *
+     */
+    auctionStart?: string | null;
+    /**
+     * RFC3339 timestamp of when the auction for this product ends.
+     * Only relevant for auction-house shop types. Omit for non-auction products.
+     *
+     */
+    auctionEnd?: string | null;
+    /**
+     * Optional origin year information for the antique product
+     */
+    originYear?: OriginYearData | null;
+    /**
+     * Optional raw name of the secondary seller for this product.
+     * Only applicable for `AUCTION_PLATFORM` and `MARKETPLACE` shop types.
+     * When provided, the backend resolves the seller shop by this name and associates the product with that seller.
+     * When omitted, or when the shop type is neither `AUCTION_PLATFORM` nor `MARKETPLACE`, the partner shop itself is used as the seller.
+     *
+     */
+    sellerName?: string | null;
+    /**
+     * Authenticity classification. Defaults to `UNKNOWN` when omitted.
+     */
+    authenticity?: AuthenticityData;
+    /**
+     * Condition classification. Defaults to `UNKNOWN` when omitted.
+     */
+    condition?: ConditionData;
+    /**
+     * Provenance classification. Defaults to `UNKNOWN` when omitted.
+     */
+    provenance?: ProvenanceData;
+    /**
+     * Restoration classification. Defaults to `UNKNOWN` when omitted.
+     */
+    restoration?: RestorationData;
+};
+
+/**
+ * Response for the batch product-creation endpoint.
+ * The `errors` map contains entries only for products that failed to create.
+ * An empty map indicates that all products were created successfully.
+ *
+ */
+export type PostProductsResponse = {
+    /**
+     * Map of `shopsProductId` to error key for products that failed to create.
+     * An empty object indicates full success.
+     *
+     */
+    errors: {
+        [key: string]: string;
+    };
+};
+
+/**
+ * Data for updating a single existing product via the partner batch-update endpoint.
+ * Only `shopsProductId` is required; all other fields are optional and, when omitted,
+ * the corresponding product attribute is left unchanged.
+ *
+ */
+export type PatchProductData = {
+    /**
+     * The shop's own identifier for the product to update. Must reference an existing product within the shop.
+     */
+    shopsProductId: string;
+    /**
+     * Optional updated asking price for the product. Omit to leave the current price unchanged.
+     */
+    price?: PriceData | null;
+    /**
+     * Optional updated product state. Omit to leave the current state unchanged.
+     */
+    state?: ProductStateData;
+    /**
+     * Optional updated lower bound of the estimated price range. Omit to leave the current value unchanged.
+     */
+    priceEstimateMin?: PriceData | null;
+    /**
+     * Optional updated upper bound of the estimated price range. Omit to leave the current value unchanged.
+     */
+    priceEstimateMax?: PriceData | null;
+    /**
+     * Optional updated URL to the product on the shop's website. Omit to leave the current URL unchanged.
+     */
+    url?: string | null;
+    /**
+     * Optional updated list of image URLs for the product. Omit to leave the current images unchanged.
+     */
+    images?: Array<string> | null;
+    /**
+     * Optional updated RFC3339 timestamp of when the auction starts. Omit to leave the current value unchanged.
+     */
+    auctionStart?: string | null;
+    /**
+     * Optional updated RFC3339 timestamp of when the auction ends. Omit to leave the current value unchanged.
+     */
+    auctionEnd?: string | null;
+    /**
+     * Optional updated origin year information. Omit to leave the current value unchanged.
+     */
+    originYear?: OriginYearData | null;
+    /**
+     * Optional updated authenticity classification. Omit to leave the current value unchanged.
+     */
+    authenticity?: AuthenticityData | null;
+    /**
+     * Optional updated condition classification. Omit to leave the current value unchanged.
+     */
+    condition?: ConditionData | null;
+    /**
+     * Optional updated provenance classification. Omit to leave the current value unchanged.
+     */
+    provenance?: ProvenanceData | null;
+    /**
+     * Optional updated restoration classification. Omit to leave the current value unchanged.
+     */
+    restoration?: RestorationData | null;
+};
+
+/**
+ * Response for the batch product-update endpoint.
+ * The `errors` map contains entries only for products that failed to update.
+ * An empty map indicates that all products were updated successfully.
+ *
+ */
+export type PatchProductsResponse = {
+    /**
+     * Map of `shopsProductId` to error key for products that failed to update.
+     * An empty object indicates full success. The only possible error value is `UPDATE_FAILED`.
+     *
+     */
+    errors: {
+        [key: string]: string;
+    };
+};
+
+/**
+ * Data for upserting a single product via the partner batch-upsert endpoint.
+ * Only `shopsProductId` is required. All other fields are optional.
+ *
+ * - If the product **does not yet exist**, it is created using all provided fields.
+ * Omitting `title`, `url`, or `state` will result in placeholder defaults being applied
+ * internally (empty title, a placeholder URL, and `LISTED` state respectively).
+ * - If the product **already exists**, only `state` and `price` are updated; all other
+ * fields are ignored for the update path.
+ *
+ * The `authenticity`, `condition`, `provenance`, and `restoration` fields each default
+ * to `UNKNOWN` when omitted.
+ *
+ */
+export type PutProductData = {
+    /**
+     * The shop's own identifier for the product. Must be unique within the shop.
+     */
+    shopsProductId: string;
+    /**
+     * Optional localized title for the product. Used only when creating a new product.
+     */
+    title?: LocalizedTextData | null;
+    /**
+     * Optional localized description of the product. Used only when creating a new product.
+     */
+    description?: LocalizedTextData | null;
+    /**
+     * Optional asking price for the product. Applied on both create and update paths.
+     */
+    price?: PriceData | null;
+    /**
+     * Optional lower bound of the estimated price range. Used only when creating a new product.
+     */
+    priceEstimateMin?: PriceData | null;
+    /**
+     * Optional upper bound of the estimated price range. Used only when creating a new product.
+     */
+    priceEstimateMax?: PriceData | null;
+    /**
+     * Optional product state. Applied on both create and update paths.
+     */
+    state?: ProductStateData | null;
+    /**
+     * URL to the product on the shop's website. Used only when creating a new product.
+     */
+    url?: string | null;
+    /**
+     * List of image URLs for the product. Used only when creating a new product.
+     */
+    images?: Array<string> | null;
+    /**
+     * RFC3339 timestamp of when the auction for this product starts.
+     * Only relevant for auction-house shop types. Used only when creating a new product.
+     *
+     */
+    auctionStart?: string | null;
+    /**
+     * RFC3339 timestamp of when the auction for this product ends.
+     * Only relevant for auction-house shop types. Used only when creating a new product.
+     *
+     */
+    auctionEnd?: string | null;
+    /**
+     * Optional origin year information for the antique product. Used only when creating a new product.
+     */
+    originYear?: OriginYearData | null;
+    /**
+     * Optional raw name of the secondary seller for this product.
+     * Only applicable for `AUCTION_PLATFORM` and `MARKETPLACE` shop types.
+     * When provided, the backend resolves the seller shop by this name and associates the product with that seller.
+     * When omitted, or when the shop type is neither `AUCTION_PLATFORM` nor `MARKETPLACE`, the partner shop itself is used as the seller.
+     * Used only when creating a new product.
+     *
+     */
+    sellerName?: string | null;
+    /**
+     * Authenticity classification. Defaults to `UNKNOWN` when omitted. Used only when creating a new product.
+     */
+    authenticity?: AuthenticityData;
+    /**
+     * Condition classification. Defaults to `UNKNOWN` when omitted. Used only when creating a new product.
+     */
+    condition?: ConditionData;
+    /**
+     * Provenance classification. Defaults to `UNKNOWN` when omitted. Used only when creating a new product.
+     */
+    provenance?: ProvenanceData;
+    /**
+     * Restoration classification. Defaults to `UNKNOWN` when omitted. Used only when creating a new product.
+     */
+    restoration?: RestorationData;
+};
+
+/**
+ * Response for the batch product-upsert endpoint.
+ * The `errors` map contains entries only for products that failed to upsert.
+ * An empty map indicates that all products were upserted successfully.
+ *
+ */
+export type PutProductsResponse = {
+    /**
+     * Map of `shopsProductId` to error key for products that failed to upsert.
+     * An empty object indicates full success. The only possible error value is `UPSERT_FAILED`.
+     *
+     */
+    errors: {
+        [key: string]: string;
+    };
+};
+
+export type PatchPartnerProductsData = {
+    /**
+     * Array of product updates to apply. Must not be empty.
+     */
+    body: Array<PatchProductData>;
+    path: {
+        /**
+         * Unique identifier of the partner shop
+         */
+        shopId: string;
+    };
+    query?: never;
+    url: '/api/v1/shops/{shopId}/products';
+};
+
+export type PatchPartnerProductsErrors = {
+    /**
+     * Bad request — request body is missing, empty, or contains invalid JSON
+     */
+    400: ApiError;
+    /**
+     * Unauthorized — the `x-api-key` header is missing, malformed, or the API key does not
+     * match the key stored for the shop.
+     *
+     */
+    401: ApiError;
+    /**
+     * Forbidden — the shop exists but has not been granted partner status
+     */
+    403: ApiError;
+    /**
+     * Not found — the specified shop does not exist
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PatchPartnerProductsError = PatchPartnerProductsErrors[keyof PatchPartnerProductsErrors];
+
+export type PatchPartnerProductsResponses = {
+    /**
+     * Batch update request processed. Returns a map of `shopsProductId` to error key for
+     * any products that failed to update. An empty `errors` map means all products
+     * were updated successfully.
+     *
+     */
+    200: PatchProductsResponse;
+};
+
+export type PatchPartnerProductsResponse = PatchPartnerProductsResponses[keyof PatchPartnerProductsResponses];
+
+export type PostPartnerProductsData = {
+    /**
+     * Array of products to create. Must not be empty.
+     */
+    body: Array<PostProductData>;
+    path: {
+        /**
+         * Unique identifier of the partner shop
+         */
+        shopId: string;
+    };
+    query?: never;
+    url: '/api/v1/shops/{shopId}/products';
+};
+
+export type PostPartnerProductsErrors = {
+    /**
+     * Bad request — request body is missing, empty, or contains invalid JSON
+     */
+    400: ApiError;
+    /**
+     * Unauthorized — the `x-api-key` header is missing, malformed, or the API key does not
+     * match the key stored for the shop.
+     *
+     */
+    401: ApiError;
+    /**
+     * Forbidden — the shop exists but has not been granted partner status
+     */
+    403: ApiError;
+    /**
+     * Not found — the specified shop does not exist
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PostPartnerProductsError = PostPartnerProductsErrors[keyof PostPartnerProductsErrors];
+
+export type PostPartnerProductsResponses = {
+    /**
+     * Batch create request processed. Returns a map of `shopsProductId` to error key for
+     * any products that failed to create. An empty `errors` map means all products
+     * were created successfully.
+     *
+     */
+    200: PostProductsResponse;
+};
+
+export type PostPartnerProductsResponse = PostPartnerProductsResponses[keyof PostPartnerProductsResponses];
+
+export type PutPartnerProductsData = {
+    /**
+     * Array of products to upsert. Must not be empty.
+     */
+    body: Array<PutProductData>;
+    path: {
+        /**
+         * Unique identifier of the partner shop
+         */
+        shopId: string;
+    };
+    query?: never;
+    url: '/api/v1/shops/{shopId}/products';
+};
+
+export type PutPartnerProductsErrors = {
+    /**
+     * Bad request — request body is missing, empty, or contains invalid JSON
+     */
+    400: ApiError;
+    /**
+     * Unauthorized — the `x-api-key` header is missing, malformed, or the API key does not
+     * match the key stored for the shop.
+     *
+     */
+    401: ApiError;
+    /**
+     * Forbidden — the shop exists but has not been granted partner status
+     */
+    403: ApiError;
+    /**
+     * Not found — the specified shop does not exist
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PutPartnerProductsError = PutPartnerProductsErrors[keyof PutPartnerProductsErrors];
+
+export type PutPartnerProductsResponses = {
+    /**
+     * Batch upsert request processed. Returns a map of `shopsProductId` to error key for
+     * any products that failed to upsert. An empty `errors` map means all products
+     * were upserted successfully.
+     *
+     */
+    200: PutProductsResponse;
+};
+
+export type PutPartnerProductsResponse = PutPartnerProductsResponses[keyof PutPartnerProductsResponses];
 
 export type GetProductData2 = {
     body?: never;
@@ -2157,7 +2830,7 @@ export type CreateUserSearchFilterErrors = {
      */
     404: ApiError;
     /**
-     * Unprocessable Entity - search filter quota exceeded
+     * Unprocessable Entity - search filter quota exceeded or restricted feature used
      */
     422: ApiError;
     /**
@@ -2288,9 +2961,13 @@ export type UpdateUserSearchFilterErrors = {
      */
     401: ApiError;
     /**
-     * Search filter not found
+     * Search filter or user not found
      */
     404: ApiError;
+    /**
+     * Unprocessable Entity - restricted feature used for the user's tier
+     */
+    422: ApiError;
     /**
      * Internal server error
      */
@@ -2497,6 +3174,39 @@ export type AddWatchlistProductResponses = {
 };
 
 export type AddWatchlistProductResponse = AddWatchlistProductResponses[keyof AddWatchlistProductResponses];
+
+export type DeleteUserData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me';
+};
+
+export type DeleteUserErrors = {
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type DeleteUserError = DeleteUserErrors[keyof DeleteUserErrors];
+
+export type DeleteUserResponses = {
+    /**
+     * User deleted successfully
+     */
+    204: void;
+};
+
+export type DeleteUserResponse = DeleteUserResponses[keyof DeleteUserResponses];
 
 export type GetUserAccountData2 = {
     body?: never;
