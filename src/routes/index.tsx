@@ -20,14 +20,13 @@ import { mapToCategoryOverview } from "@/data/internal/category/CategoryOverview
 import { mapToPeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
 import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { parseCurrency } from "@/data/internal/common/Currency.ts";
 import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "@/hooks/preferences/useCurrency.ts";
 
 export const Route = createFileRoute("/")({
     loader: async ({ context: { queryClient, initialPreferences } }) => {
-        const currency = parseCurrency(initialPreferences.currency);
+        const currency = initialPreferences.currency;
         await Promise.all([
             queryClient
                 .ensureQueryData(

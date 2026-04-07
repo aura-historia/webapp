@@ -24,7 +24,7 @@ const CURRENCY_SYMBOLS: Record<Currency, string> = {
 };
 
 export function CurrencySelector() {
-    const { preferences, updatePreferences } = useUserPreferences();
+    const { updatePreferences } = useUserPreferences();
     const { mutate: updateAccount } = useUpdateUserAccount();
     const { data: account } = useUserAccount();
     const { user } = useAuthenticator((context) => [context.user]);
