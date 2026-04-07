@@ -8,8 +8,12 @@ import type {
     WatchlistNotificationPayloadData,
     WatchlistPayloadData,
 } from "@/client";
-import {parsePrice, type Price} from "@/data/internal/price/Price.ts";
-import {parseProductState, type ProductState} from "@/data/internal/product/ProductState.ts";
+import { parsePrice, type Price } from "@/data/internal/price/Price.ts";
+import {
+    mapToInternalProductImage,
+    type ProductImage,
+} from "@/data/internal/product/ProductImageData.ts";
+import { parseProductState, type ProductState } from "@/data/internal/product/ProductState.ts";
 
 export type NotificationWatchlistPriceChangePayload = {
     readonly type: "PRICE_CHANGE";
@@ -36,6 +40,7 @@ export type NotificationWatchlist = {
     readonly productSlugId: string;
     readonly shopName: string;
     readonly productTitle: string;
+    readonly image?: ProductImage;
     readonly watchlistPayload: NotificationWatchlistPayload;
 };
 
@@ -48,6 +53,7 @@ export type NotificationSearchFilter = {
     readonly productSlugId: string;
     readonly shopName: string;
     readonly productTitle: string;
+    readonly image?: ProductImage;
     readonly searchFilterId: string;
     readonly searchFilterName: string;
 };
@@ -112,6 +118,7 @@ function mapToNotificationWatchlist(
         productSlugId: apiData.productSlugId,
         shopName: apiData.shopName,
         productTitle: apiData.title.text,
+        image: apiData.image ? mapToInternalProductImage(apiData.image) : undefined,
         watchlistPayload: mapToWatchlistPayload(apiData.watchlistPayload),
     };
 }
@@ -128,6 +135,7 @@ function mapToNotificationSearchFilter(
         productSlugId: apiData.productSlugId,
         shopName: apiData.shopName,
         productTitle: apiData.title.text,
+        image: apiData.image ? mapToInternalProductImage(apiData.image) : undefined,
         searchFilterId: apiData.searchFilterPayload.userSearchFilterId,
         searchFilterName: apiData.searchFilterPayload.userSearchFilterName,
     };
@@ -142,7 +150,6 @@ function mapToNotificationPayload(apiData: NotificationPayloadData): Notificatio
     }
 }
 
-
 export function mapToInternalNotification(apiData: GetNotificationData): Notification {
     return {
         originEventId: apiData.originEventId,
@@ -154,7 +161,6 @@ export function mapToInternalNotification(apiData: GetNotificationData): Notific
         updated: new Date(apiData.updated),
     };
 }
-
 
 export function mapToInternalNotificationCollection(
     apiData: NotificationCollectionData,
