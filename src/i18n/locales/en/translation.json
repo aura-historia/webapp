@@ -1,6 +1,7 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Preview)"
+    "auraHistoria": "Aura Historia (Preview)",
+    "infoButton": "More information"
   },
   "meta": {
     "siteName": "Aura Historia | Leading Antiques Search Engine",
@@ -381,15 +382,21 @@
   },
   "productState": {
     "listed": "Listed",
+    "listedDescription": "This item is visible but is not yet available for purchase.",
     "available": "Available",
+    "availableDescription": "This item is available for purchase.",
     "reserved": "Reserved",
+    "reservedDescription": "This item is currently reserved. It may become available again.",
     "sold": "Sold",
+    "soldDescription": "This item has already been sold.",
     "removed": "Removed",
-    "unknown": "Unknown"
+    "removedDescription": "This item was removed by the seller and can no longer be tracked.",
+    "unknown": "Unknown",
+    "unknownDescription": "The current availability of this item is unclear."
   },
   "shopType": {
     "auctionHouse": "Auction House",
-    "auctionPlatform": "Auktionsplattform",
+    "auctionPlatform": "Auction Platform",
     "commercialDealer": "Dealer",
     "marketplace": "Marketplace",
     "unknown": "Unknown"

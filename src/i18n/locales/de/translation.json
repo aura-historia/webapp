@@ -1,6 +1,7 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Preview)"
+    "auraHistoria": "Aura Historia (Preview)",
+    "infoButton": "Weitere Informationen"
   },
   "meta": {
     "siteName": "Aura Historia | Führende Suchmaschine für Antiquitäten",
@@ -381,11 +382,17 @@
   },
   "productState": {
     "listed": "Gelistet",
+    "listedDescription": "Dieser Artikel ist sichtbar, steht aber noch nicht zum Kauf bereit.",
     "available": "Verfügbar",
+    "availableDescription": "Dieser Artikel steht zum Kauf zur Verfügung.",
     "reserved": "Reserviert",
+    "reservedDescription": "Dieser Artikel ist reserviert. Er könnte wieder verfügbar werden.",
     "sold": "Verkauft",
+    "soldDescription": "Dieser Artikel wurde bereits verkauft.",
     "removed": "Gelöscht",
-    "unknown": "Unbekannt"
+    "removedDescription": "Dieser Artikel wurde vom Händler entfernt und kann nicht mehr verfolgt werden.",
+    "unknown": "Unbekannt",
+    "unknownDescription": "Der aktuelle Verfügbarkeitsstatus dieses Artikels ist unklar."
   },
   "shopType": {
     "auctionHouse": "Auktionshaus",
