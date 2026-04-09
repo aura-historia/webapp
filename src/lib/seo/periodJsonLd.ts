@@ -20,11 +20,14 @@ export function generatePeriodJsonLd(
     data: GetPeriodData,
     periodUrl: string,
 ): PeriodCollectionPageJsonLd {
+    // TODO: Load from i18n depending on period id
+    const description = "";
+
     return {
         "@context": "https://schema.org/",
         "@type": "CollectionPage",
         name: data.name.text,
-        description: data.description.text,
+        description: description,
         url: periodUrl,
         image: BANNER_IMAGE_URL,
         dateCreated: data.created,

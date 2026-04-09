@@ -24,6 +24,7 @@ const baseApiItem: PersonalizedGetProductData["item"] = {
     productSlugId: "test-product-slug",
     shopSlugId: "test-shop-slug",
     shopName: "Test Shop",
+    sellerName: "",
     shopType: "AUCTION_HOUSE",
     title: { text: "Test Product", language: "de" },
     price: { offer: { amount: 1000, currency: "EUR" } },

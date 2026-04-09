@@ -1,13 +1,15 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
     Carousel,
+    type CarouselApi,
     CarouselContent,
     CarouselItem,
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel.tsx";
 import Autoplay from "embla-carousel-autoplay";
-import { getCategoryIcon } from "@/components/landing-page/categories-section/CategoriesSection.data.ts";
+import { getCategoryAssetUrl } from "@/components/landing-page/categories-section/CategoriesSection.data.ts";
 import type { CategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
 import { Link } from "@tanstack/react-router";
 import { CAROUSEL_AUTOPLAY_DELAY_MS } from "@/components/landing-page/common/landingPageConstants.ts";
@@ -18,16 +20,48 @@ type CategoriesSectionProps = {
 };
 
 export default function CategoriesSection({ categories }: CategoriesSectionProps) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+
+    useEffect(() => {
+        if (!carouselApi) return;
+
+        const updatePagination = () => {
+            const snapCount =
+                categories.length === 0 ? 1 : Math.max(carouselApi.scrollSnapList().length, 1);
+            const selectedPage =
+                snapCount === 1 ? 1 : Math.min(carouselApi.selectedScrollSnap() + 1, snapCount);
+
+            setTotalPages(snapCount);
+            setCurrentPage(selectedPage);
+        };
+
+        updatePagination();
+        carouselApi.on("select", updatePagination);
+        carouselApi.on("reInit", updatePagination);
+
+        return () => {
+            carouselApi.off("select", updatePagination);
+            carouselApi.off("reInit", updatePagination);
+        };
+    }, [carouselApi, categories.length]);
+
+    const carouselPositionLabel = `${currentPage} / ${totalPages}`;
 
     return (
-        <section className="py-10 bg-muted/30" aria-label={t("landingPage.categories.title")}>
-            <div className="w-full max-w-6xl mx-auto px-4 py-2">
+        <section
+            className="bg-background py-16 lg:py-24"
+            aria-label={t("landingPage.categories.title")}
+        >
+            <div className="mx-auto w-full max-w-7xl px-4 lg:px-8">
                 <Carousel
+                    setApi={setCarouselApi}
                     opts={{
                         align: "start",
-                        loop: true,
-                        dragFree: true,
+                        loop: false,
+                        slidesToScroll: "auto",
                     }}
                     plugins={[
                         Autoplay({
@@ -38,37 +72,82 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                     ]}
                     className="w-full overflow-visible"
                 >
-                    <div className="flex items-center justify-between mb-2">
-                        <H2>{t("landingPage.categories.title")}</H2>
-                        <div className="flex gap-2">
-                            <CarouselPrevious className="static translate-y-0 bg-card border border-primary/20 text-primary hover:bg-card/80 hover:border-primary/40" />
-                            <CarouselNext className="static translate-y-0 bg-card border border-primary/20 text-primary hover:bg-card/80 hover:border-primary/40" />
+                    <div className="mb-8 flex items-end justify-between gap-6">
+                        <H2 className="text-4xl font-normal italic leading-none text-primary lg:text-5xl">
+                            {t("landingPage.categories.title")}
+                        </H2>
+                        <div className="flex items-center gap-3">
+                            <div className="flex gap-2">
+                                <CarouselPrevious className="static size-10 translate-y-0 rounded-xl border-border/30 bg-transparent text-primary hover:border-border hover:bg-card" />
+                                <CarouselNext className="static size-10 translate-y-0 rounded-xl border-border/30 bg-transparent text-primary hover:border-border hover:bg-card" />
+                            </div>
                         </div>
                     </div>
-                    <CarouselContent className="-ml-3 py-2 overflow-visible [&>div]:overflow-visible">
+                    <CarouselContent className="-ml-6 overflow-visible py-2 [&>div]:overflow-visible">
                         {categories.map((category) => {
-                            const Icon = getCategoryIcon(category.categoryKey);
+                            const categoryAssetUrl = getCategoryAssetUrl(category.categoryKey);
                             return (
                                 <CarouselItem
                                     key={category.categoryId}
-                                    className="pl-3 basis-1/2 sm:basis-1/4 md:basis-1/5 lg:basis-1/6"
+                                    className="basis-[80%] pl-6 sm:basis-1/2 lg:basis-70"
                                 >
                                     <Link
                                         to="/categories/$categoryId"
                                         params={{ categoryId: category.categoryId }}
-                                        className="grow flex flex-col mx-1 group relative rounded-xl border border-primary/10 bg-card p-4 text-center transition-all duration-300 hover:border-primary/30 hover:shadow-md"
+                                        className="group block"
                                     >
-                                        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 transition-colors group-hover:bg-primary/20">
-                                            <Icon className="h-6 w-6 text-primary" />
+                                        <div className="mb-4 aspect-square overflow-hidden bg-surface-container-high transition-colors duration-300 group-hover:bg-surface-container">
+                                            <img
+                                                src={categoryAssetUrl}
+                                                alt=""
+                                                loading="lazy"
+                                                className="h-full w-full object-cover transition-transform duration-300"
+                                            />
                                         </div>
-                                        <p className="text-sm font-medium leading-tight hyphens-auto">
+                                        <p className="font-display text-2xl leading-8 text-primary">
                                             {category.name}
                                         </p>
+                                        {!!category.productCount && (
+                                            <p className="uppercase text-xs text-secondary">
+                                                {t("landingPage.categories.objectCount", {
+                                                    count: category.productCount,
+                                                    formattedCount: new Intl.NumberFormat(
+                                                        i18n.language,
+                                                    ).format(category.productCount),
+                                                })}
+                                            </p>
+                                        )}
                                     </Link>
                                 </CarouselItem>
                             );
                         })}
                     </CarouselContent>
+                    <div className="mt-6 flex items-center justify-center gap-2">
+                        <span
+                            className="text-sm tabular-nums text-muted-foreground sm:hidden"
+                            aria-live="polite"
+                            data-testid="carousel-page-indicator-mobile"
+                        >
+                            {carouselPositionLabel}
+                        </span>
+                        <div className="hidden items-center justify-center gap-2 sm:flex">
+                            {Array.from({ length: totalPages }, (_, index) => {
+                                const isActive = currentPage === index + 1;
+
+                                return (
+                                    <span
+                                        key={`carousel-page-indicator-${
+                                            // biome-ignore lint/suspicious/noArrayIndexKey: index is fine for static list
+                                            index + 1
+                                        }`}
+                                        className={`h-2 w-2 rounded-full transition-colors duration-200 ${isActive ? "bg-primary" : "bg-muted"}`}
+                                        aria-current={isActive ? "true" : "false"}
+                                        data-testid="carousel-page-indicator"
+                                    />
+                                );
+                            })}
+                        </div>
+                    </div>
                 </Carousel>
             </div>
         </section>

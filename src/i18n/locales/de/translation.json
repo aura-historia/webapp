@@ -69,6 +69,7 @@
     "login": "Einloggen"
   },
   "footer": {
+    "brandName": "Aura Historia",
     "ariaSwitchToLanguage": "Zu {{language}} wechseln",
     "imprint": "Impressum",
     "privacy": "Datenschutzerklärung",
@@ -430,19 +431,36 @@
   },
   "landingPage": {
     "badge": "Suche jenseits der üblichen Marktplätze",
-    "titleFirstLine": "Seltene Antiquitäten weltweit entdecken",
+    "titleFirstLine": "Seltene Antiquitäten<1/>weltweit entdecken",
     "subtitle": "Aura Historia durchsucht Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit – und hilft Ihnen, Stücke zu entdecken, die andere nie sehen.",
     "trustBadge1": "Von Antiquitätensammlern",
     "trustBadge2": "Für ernsthafte Sammler und Händler",
     "trustBadge3": "Nahezu Echtzeit",
     "categories": {
-      "title": "Kategorien durchstöbern"
+      "title": "Kategorien durchstöbern",
+      "objectCount_one": "{{formattedCount}} Objekt",
+      "objectCount_other": "{{formattedCount}} Objekte"
     },
     "periods": {
-      "title": "Epochen und Stile entdecken"
+      "title": "Historische Epochen entdecken",
+      "eyebrow": "Epochen-Archiv",
+      "titleLineOne": "Entdecken nach",
+      "titleLineTwo": "Historischen Epochen",
+      "description": "Reisen Sie durch die Zeit mit Kollektionen der wichtigsten Designbewegungen der Welt.",
+      "cta": "Zeitleiste ansehen",
+      "previous": "Vorherige Epochen",
+      "next": "Naechste Epochen",
+      "rangeUnknown": "Epochenzeitraum",
+      "rangeToday": "Heute",
+      "rangeBc": "v. Chr.",
+      "rangeBce": "v. Chr.",
+      "rangeCe": "n. Chr."
     },
     "recentlyAdded": {
-      "title": "Kürzlich hinzugefügt"
+      "eyebrow": "Kürzlich hinzugefügt",
+      "title": "Neueste Zugänge",
+      "foundAt": "Gefunden bei {{shopName}}.",
+      "foundAtWithYear": "Gefunden bei {{shopName}}. Um {{year}}."
     },
     "features": {
       "title": "Antiquitäten sind überall im Internet verstreut - Ihre Suche sollte es nicht sein",

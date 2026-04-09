@@ -7,13 +7,14 @@ export default function FeaturesSection() {
     const { t } = useTranslation();
 
     return (
-        <section className="py-20 px-4 bg-muted/30">
-            <div className="max-w-6xl mx-auto">
+        <section className="py-20 px-4 bg-surface-bright">
+            <div className="max-w-7xl mx-auto">
                 <SectionHeading
                     headline={t("landingPage.features.title")}
                     description={t("landingPage.features.subtitle")}
+                    showDivider={false}
                 />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
                     {FEATURES_CARD_DATA.map((feature) => (
                         <Card
                             key={feature.titleKey}
@@ -21,16 +22,18 @@ export default function FeaturesSection() {
                         >
                             <CardHeader>
                                 <div className="flex items-center justify-between flex-row gap-4 mb-4">
-                                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                    <div className="w-12 h-12 bg-surface-container-high flex items-center justify-center transition-colors">
                                         <feature.icon className="w-6 h-6 text-primary" />
                                     </div>
                                     {feature.isPreview && (
-                                        <span className="inline-block px-4 py-2 grow-0 text-xs font-medium bg-primary/10 rounded-full">
+                                        <span className="uppercase inline-block px-2 py-1 grow-0 text-xs font-medium bg-surface-container-highest">
                                             {t("landingPage.features.previewBadge")}
                                         </span>
                                     )}
                                 </div>
-                                <CardTitle className="text-xl">{t(feature.titleKey)}</CardTitle>
+                                <CardTitle className="text-2xl font-display text-primary font-normal">
+                                    {t(feature.titleKey)}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <p className="text-muted-foreground">{t(feature.descKey)}</p>

@@ -69,6 +69,7 @@
     "login": "Accedi"
   },
   "footer": {
+    "brandName": "Aura Historia",
     "ariaSwitchToLanguage": "Cambia lingua in {{language}}",
     "imprint": "Note legali",
     "privacy": "Informativa sulla privacy",
@@ -430,19 +431,36 @@
   },
   "landingPage": {
     "badge": "Cerca oltre i soliti mercati",
-    "titleFirstLine": "Scopri antichità rare nel mercato globale",
+    "titleFirstLine": "Scopri antichità rare<1/>nel mercato globale",
     "subtitle": "Aura Historia cerca tra antiquari, case d'asta e mercati in tutto il mondo — aiutandoti a scoprire pezzi che altri non vedono mai.",
     "trustBadge1": "Antiquari e case d'asta in tutto il mondo",
     "trustBadge2": "Inserzioni continuamente aggiornate",
     "trustBadge3": "Creato per collezionisti seri",
     "categories": {
-      "title": "Sfoglia Categorie"
+      "title": "Sfoglia Categorie",
+      "objectCount_one": "{{formattedCount}} Oggetto",
+      "objectCount_other": "{{formattedCount}} Oggetti"
     },
     "periods": {
-      "title": "Scopri epoche e stili"
+      "title": "Esplora epoche storiche",
+      "eyebrow": "Archivio delle epoche",
+      "titleLineOne": "Esplora per",
+      "titleLineTwo": "Epoche storiche",
+      "description": "Attraversa il tempo con collezioni dei movimenti di design piu significativi al mondo.",
+      "cta": "Vedi cronologia",
+      "previous": "Epoche precedenti",
+      "next": "Epoche successive",
+      "rangeUnknown": "Periodo",
+      "rangeToday": "Oggi",
+      "rangeBc": "a.C.",
+      "rangeBce": "a.C.",
+      "rangeCe": "d.C."
     },
     "recentlyAdded": {
-      "title": "Aggiunti di recente"
+      "eyebrow": "Aggiunti di recente",
+      "title": "Le ultime acquisizioni",
+      "foundAt": "Trovato presso {{shopName}}.",
+      "foundAtWithYear": "Trovato presso {{shopName}}. Circa {{year}}."
     },
     "features": {
       "title": "L'antiquariato è sparso ovunque online - la tua ricerca non dovrebbe esserlo",

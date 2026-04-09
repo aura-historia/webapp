@@ -6,30 +6,52 @@ export default function HowItWorksSection() {
     const { t } = useTranslation();
 
     return (
-        <section className="py-20 px-4">
-            <div className="max-w-6xl mx-auto">
+        <section
+            className="bg-surface-container-high px-4 py-24 sm:px-8"
+            aria-labelledby="how-it-works-title"
+        >
+            <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-20">
                 <SectionHeading
                     headline={t("landingPage.howItWorks.title")}
                     description={t("landingPage.howItWorks.subtitle")}
+                    showDivider={true}
                 />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {HOW_IT_WORKS_STEPS.map((step, index) => (
-                        <div key={step.number} className="relative">
-                            {/* Connector line */}
-                            {index < HOW_IT_WORKS_STEPS.length - 1 && (
-                                <div className="hidden lg:block absolute top-8 left-[60%] w-full h-0.5 bg-linear-to-r from-primary/10 via-primary/50 to-primary/10 " />
-                            )}
-                            <div className="relative z-10 text-center">
-                                <div className="inline-flex items-center justify-center rounded-full w-16 h-16 border-2 border-primary/30 mb-6 bg-card">
-                                    <span className="relative text-2xl font-bold text-primary">
-                                        {step.number}
-                                    </span>
-                                </div>
-                                <h3 className="text-xl font-semibold mb-3">{t(step.titleKey)}</h3>
-                                <p className="text-muted-foreground">{t(step.descKey)}</p>
-                            </div>
-                        </div>
-                    ))}
+
+                <div className="relative w-full">
+                    <div
+                        className="pointer-events-none absolute left-[12.5%] right-[12.5%] top-10 hidden h-px bg-outline-variant/70 lg:block"
+                        aria-hidden
+                    />
+                    <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
+                        {HOW_IT_WORKS_STEPS.map((step, index) => {
+                            const isLastStep = index === HOW_IT_WORKS_STEPS.length - 1;
+
+                            return (
+                                <article
+                                    key={step.number}
+                                    className="flex flex-col items-center px-6 pb-12 text-center"
+                                >
+                                    <div
+                                        className={`relative mb-4 grid h-20 w-20 place-items-center shadow-[0_0_0_8px_var(--color-surface-container-high)] ${
+                                            isLastStep
+                                                ? "bg-primary text-primary-foreground"
+                                                : "bg-surface-bright text-primary"
+                                        }`}
+                                    >
+                                        <span className="font-display text-[1.875rem] italic leading-none">
+                                            {step.number}
+                                        </span>
+                                    </div>
+                                    <h3 className="mb-3 pt-4 font-display text-2xl font-normal leading-8 text-primary">
+                                        {t(step.titleKey)}
+                                    </h3>
+                                    <p className="text-sm leading-6.5 text-secondary">
+                                        {t(step.descKey)}
+                                    </p>
+                                </article>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </section>

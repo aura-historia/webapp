@@ -69,6 +69,7 @@
     "login": "Iniciar sesión"
   },
   "footer": {
+    "brandName": "Aura Historia",
     "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
     "imprint": "Aviso legal",
     "privacy": "Política de privacidad",
@@ -430,19 +431,36 @@
   },
   "landingPage": {
     "badge": "Busca más allá de los mercados habituales",
-    "titleFirstLine": "Descubre antigüedades raras en el mercado global",
+    "titleFirstLine": "Descubre antigüedades raras<1/>en el mercado global",
     "subtitle": "Aura Historia busca en anticuarios, casas de subastas y mercados de todo el mundo, ayudándote a encontrar piezas que otros nunca ven.",
     "trustBadge1": "Anticuarios y casas de subastas en todo el mundo",
     "trustBadge2": "Listados actualizados continuamente",
     "trustBadge3": "Diseñado para coleccionistas serios",
     "categories": {
-      "title": "Explorar Categorías"
+      "title": "Explorar Categorías",
+      "objectCount_one": "{{formattedCount}} Objeto",
+      "objectCount_other": "{{formattedCount}} Objetos"
     },
     "periods": {
-      "title": "Descubrir épocas y estilos"
+      "title": "Explorar epocas historicas",
+      "eyebrow": "Archivo de epocas",
+      "titleLineOne": "Explorar por",
+      "titleLineTwo": "Epocas historicas",
+      "description": "Recorre el tiempo con colecciones de los movimientos de diseno mas significativos del mundo.",
+      "cta": "Ver cronologia",
+      "previous": "Epocas anteriores",
+      "next": "Siguientes epocas",
+      "rangeUnknown": "Rango historico",
+      "rangeToday": "Hoy",
+      "rangeBc": "a. C.",
+      "rangeBce": "a. C.",
+      "rangeCe": "d. C."
     },
     "recentlyAdded": {
-      "title": "Añadidos recientemente"
+      "eyebrow": "Agregado recientemente",
+      "title": "Las últimas adquisiciones",
+      "foundAt": "Encontrado en {{shopName}}.",
+      "foundAtWithYear": "Encontrado en {{shopName}}. Hacia {{year}}."
     },
     "features": {
       "title": "Las antigüedades están dispersas por toda la web: tu búsqueda no debería estarlo",

@@ -69,6 +69,7 @@
     "login": "Se connecter"
   },
   "footer": {
+    "brandName": "Aura Historia",
     "ariaSwitchToLanguage": "Changer de langue vers {{language}}",
     "imprint": "Mentions légales",
     "privacy": "Politique de confidentialité",
@@ -430,19 +431,36 @@
   },
   "landingPage": {
     "badge": "Recherchez au-delà des marchés habituels",
-    "titleFirstLine": "Découvrez des antiquités rares sur le marché mondial",
+    "titleFirstLine": "Découvrez des antiquités rares<1/>sur le marché mondial",
     "subtitle": "Aura Historia explore les antiquaires, les maisons de vente aux enchères et les marketplaces du monde entier — vous aidant à dénicher des pièces que les autres ne voient jamais.",
     "trustBadge1": "Antiquaires et maisons de vente aux enchères dans le monde entier",
     "trustBadge2": "Annonces mises à jour en continu",
     "trustBadge3": "Conçu pour les collectionneurs sérieux",
     "categories": {
-      "title": "Parcourir les catégories"
+      "title": "Parcourir les catégories",
+      "objectCount_one": "{{formattedCount}} Objet",
+      "objectCount_other": "{{formattedCount}} Objets"
     },
     "periods": {
-      "title": "Découvrir les époques et les styles"
+      "title": "Explorer les epoques historiques",
+      "eyebrow": "Archives des epoques",
+      "titleLineOne": "Explorer par",
+      "titleLineTwo": "Epoques historiques",
+      "description": "Parcourez le temps a travers des collections des mouvements de design les plus marquants du monde.",
+      "cta": "Voir la chronologie",
+      "previous": "Epoques precedentes",
+      "next": "Epoques suivantes",
+      "rangeUnknown": "Periode",
+      "rangeToday": "Aujourd'hui",
+      "rangeBc": "av. J.-C.",
+      "rangeBce": "av. J.-C.",
+      "rangeCe": "apr. J.-C."
     },
     "recentlyAdded": {
-      "title": "Ajoutés récemment"
+      "eyebrow": "Ajoutés récemment",
+      "title": "Les dernières acquisitions",
+      "foundAt": "Trouvé chez {{shopName}}.",
+      "foundAtWithYear": "Trouvé chez {{shopName}}. Vers {{year}}."
     },
     "features": {
       "title": "Les antiquités sont dispersées partout en ligne - votre recherche ne devrait pas l'être",

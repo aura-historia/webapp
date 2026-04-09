@@ -31,7 +31,7 @@ export function ConsentBanner() {
 
     return (
         <div className="fixed bottom-0 left-0 right-0 z-50 p-4 pb-safe animate-in slide-in-from-bottom-full duration-500 ease-out">
-            <div className="mx-auto max-w-4xl overflow-hidden rounded-2xl border bg-background/95 p-6 shadow-2xl backdrop-blur-xl dark:bg-slate-900/90 dark:border-slate-800">
+            <div className="mx-auto max-w-4xl overflow-hidden border bg-background/95 p-6 shadow-2xl backdrop-blur-xl dark:bg-slate-900/90 dark:border-slate-800">
                 <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
                     <div className="flex-1 space-y-2 text-center sm:text-left">
                         <span className="text-lg font-semibold tracking-tight text-foreground">

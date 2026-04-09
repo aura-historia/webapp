@@ -34,7 +34,8 @@ export function generatePeriodHeadMeta(
     const periodPath = `/periods/${params.periodId}`;
 
     const name = loaderData?.name.text || i18n.t("meta.period.defaultName");
-    const description = loaderData?.description.text;
+    // TODO: load from i18n depending on period id
+    const description = "";
     const siteName = i18n.t("meta.siteName");
 
     return {

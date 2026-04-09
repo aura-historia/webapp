@@ -6,6 +6,7 @@ const mockPeriodSummaryData: GetPeriodSummaryData = {
     periodId: "renaissance",
     periodKey: "RENAISSANCE",
     name: { text: "Renaissance", language: "en" },
+    products: 200,
     created: "2024-01-15T08:00:00Z",
     updated: "2024-06-20T12:30:00Z",
 };

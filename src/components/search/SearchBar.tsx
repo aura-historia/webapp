@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useLocation, useNavigate, useRouterState, useSearch } from "@tanstack/react-router";
 import { Search, Loader2 } from "lucide-react";
-import { mapFiltersToUrlParams } from "@/lib/utils.ts";
+import { cn, mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { z } from "zod";
@@ -149,7 +149,12 @@ export function SearchBar({ type }: SearchBarProps) {
                             <FormControl>
                                 <Input
                                     autoFocus={type === "big"}
-                                    className={type === "big" ? "h-12 font-medium text-lg" : "h-9"}
+                                    className={cn(
+                                        "rounded-sm focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
+                                        type === "big"
+                                            ? "h-12 font-medium text-lg border-0"
+                                            : "h-9 ",
+                                    )}
                                     type="search"
                                     placeholder={
                                         type === "big"

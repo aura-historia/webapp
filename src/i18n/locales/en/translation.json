@@ -69,6 +69,7 @@
     "login": "Login"
   },
   "footer": {
+    "brandName": "Aura Historia",
     "ariaSwitchToLanguage": "Switch to language {{language}}",
     "imprint": "Imprint",
     "privacy": "Privacy Policy",
@@ -430,19 +431,36 @@
   },
   "landingPage": {
     "badge": "Search beyond the usual marketplaces",
-    "titleFirstLine": "Discover rare antiques across the global market",
+    "titleFirstLine": "Discover rare antiques<1/>across the global market",
     "subtitle": "Aura Historia searches antique dealers, auction houses, and marketplaces worldwide — helping you uncover pieces others never see.",
     "trustBadge1": "Dealers and auction houses worldwide",
     "trustBadge2": "Continuously updated listings",
     "trustBadge3": "Built for serious collectors",
     "categories": {
-      "title": "Browse Categories"
+      "title": "Browse Categories",
+      "objectCount_one": "{{formattedCount}} Object",
+      "objectCount_other": "{{formattedCount}} Objects"
     },
     "periods": {
-      "title": "Discover Periods and Styles"
+      "title": "Browse historical eras",
+      "eyebrow": "Era Archives",
+      "titleLineOne": "Browse by",
+      "titleLineTwo": "Historical Eras",
+      "description": "Navigate time through collections of the world's most significant design movements.",
+      "cta": "View Timeline",
+      "previous": "Previous eras",
+      "next": "Next eras",
+      "rangeUnknown": "Era range",
+      "rangeToday": "Today",
+      "rangeBc": "BC",
+      "rangeBce": "BCE",
+      "rangeCe": "CE"
     },
     "recentlyAdded": {
-      "title": "Recently Added"
+      "eyebrow": "Recently Added",
+      "title": "The Latest Acquisitions",
+      "foundAt": "Found at {{shopName}}.",
+      "foundAtWithYear": "Found at {{shopName}}. Circa {{year}}."
     },
     "features": {
       "title": "Antiques are scattered everywhere online - your search shouldn't be",

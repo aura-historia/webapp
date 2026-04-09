@@ -41,6 +41,10 @@ export type GetProductData = {
      * Display name of the shop
      */
     shopName: string;
+    /**
+     * Display name of the seller associated with the product
+     */
+    sellerName: string;
     shopType: ShopTypeData;
     /**
      * Optional kebab-case identifier for the level-one category the product has been classified into.
@@ -141,6 +145,10 @@ export type GetProductSummaryData = {
      * Display name of the shop
      */
     shopName: string;
+    /**
+     * Display name of the seller associated with the product
+     */
+    sellerName: string;
     shopType: ShopTypeData;
     /**
      * Optional kebab-case identifier for the level-one category the product has been classified into.
@@ -248,6 +256,7 @@ export type ProductUserStateData = {
     watchlist: WatchlistUserStateData;
     prohibitedContent: ProhibitedContentUserStateData;
     notification: NotificationUserStateData;
+    searchFilter: SearchFilterUserStateData;
 };
 
 /**
@@ -297,6 +306,53 @@ export type NotificationUserStateData = {
      *
      */
     originEventId?: string;
+};
+
+/**
+ * User's saved-search-filter match state for a product.
+ * When `matched` is `true`, at least one of the user's saved search filters matched this product.
+ * `userSearchFilterId`, `userSearchFilterName` and `matchReason` are only present when `matched` is `true`.
+ * Defaults to `matched: false` when the user has no saved search filters or none of them matched.
+ * When `hidden` is `true`, the match exceeds the user's monthly search-filter match quota and the
+ * product data is anonymized (nil IDs, placeholder title, unknown enums, nulled timestamps).
+ * Only matches ranked beyond the quota (by ascending match creation time) are hidden;
+ * the first N matches (where N is the user's tier quota) remain fully visible.
+ *
+ */
+export type SearchFilterUserStateData = {
+    /**
+     * Whether any of the user's saved search filters matched this product. Defaults to `false`.
+     */
+    matched: boolean;
+    /**
+     * Whether this match is hidden because the user has exceeded their monthly search-filter match quota.
+     * When `true`, the product data in the response is anonymized: the `productId` is set to a nil UUID,
+     * the title becomes a language-specific placeholder, `condition` is set to `Unknown`, all other UUID
+     * fields are nil, enum fields are set to their unknown variants, optional fields are omitted, and
+     * timestamps are set to the Unix epoch.
+     * Defaults to `false`.
+     *
+     */
+    hidden: boolean;
+    /**
+     * The ID of the saved search filter that matched this product.
+     * Present only when `matched` is `true`; omitted otherwise.
+     *
+     */
+    userSearchFilterId?: string;
+    /**
+     * The user-defined name of the saved search filter that matched this product.
+     * Present only when `matched` is `true`; omitted otherwise.
+     *
+     */
+    userSearchFilterName?: string;
+    /**
+     * A human-readable explanation of why the saved search filter matched this product.
+     * Only set for AI-enhanced filters (i.e. those with an `enhancedSearchDescription`).
+     * Present only when `matched` is `true` and an enhanced match reason exists; omitted otherwise.
+     *
+     */
+    matchReason?: string;
 };
 
 /**
@@ -798,6 +854,23 @@ export type ProductSearchData = {
      */
     excludeShopName?: Array<string>;
     /**
+     * Optional filter by exact seller names (keyword matching).
+     * Filters products to only those from sellers with names exactly matching one of the provided values.
+     * This is an exact match filter, not a fuzzy text search.
+     * Applied independently from `shopName` filters.
+     *
+     */
+    sellerName?: Array<string>;
+    /**
+     * Optional filter to exclude products from specific seller names (keyword matching).
+     * Products from sellers with names exactly matching one of the provided values will be excluded from results.
+     * This is an exact match filter, not a fuzzy text search.
+     * Applied independently from `excludeShopName` filters.
+     * Empty array means no sellers are excluded.
+     *
+     */
+    excludeSellerName?: Array<string>;
+    /**
      * Optional filter by shop types
      */
     shopType?: Array<ShopTypeData> | null;
@@ -861,13 +934,21 @@ export type PostUserSearchFilterData = {
      * User-defined name for the search filter (max 255 characters, will be truncated if longer)
      */
     name: string;
+    /**
+     * Optional natural-language description used by the AI-enhanced search filter matching service.
+     * When provided, a language model evaluates each matched product against this description and only
+     * keeps products that are a true match, attaching a user-facing reason to every confirmed hit.
+     * Whitespace is trimmed and the value is silently truncated to 500 characters if longer.
+     *
+     */
+    enhancedSearchDescription?: string;
     productSearch: ProductSearchData;
 };
 
 /**
  * Partial search filter update data.
  * All fields are optional and only provided fields will be updated.
- * Can update the search filter name, notifications preference, and/or the search filter criteria.
+ * Can update the search filter name, enhanced search description, notifications preference, and/or the search filter criteria.
  *
  */
 export type PatchUserSearchFilterData = {
@@ -875,6 +956,15 @@ export type PatchUserSearchFilterData = {
      * User-defined name for the search filter (max 255 characters, will be truncated if longer)
      */
     name?: string | null;
+    /**
+     * Optional natural-language description used by the AI-enhanced search filter matching service.
+     * When provided, a language model evaluates each matched product against this description and only
+     * keeps products that are a true match, attaching a user-facing reason to every confirmed hit.
+     * Whitespace is trimmed and the value is silently truncated to 500 characters if longer.
+     * Omit to leave unchanged.
+     *
+     */
+    enhancedSearchDescription?: string | null;
     /**
      * Whether to enable or disable email/push notifications for new products matching this search filter.
      * When `true`, the user will be notified when a new product matches this filter.
@@ -936,6 +1026,22 @@ export type PatchProductSearchData = {
      *
      */
     excludeShopName?: Array<string> | null;
+    /**
+     * Optional filter by exact seller names (keyword matching).
+     * Filters products to only those from sellers with names exactly matching one of the provided values.
+     * This is an exact match filter, not a fuzzy text search.
+     * Applied independently from `shopName` filters.
+     *
+     */
+    sellerName?: Array<string> | null;
+    /**
+     * Optional filter to exclude products from specific seller names (keyword matching).
+     * Products from sellers with names exactly matching one of the provided values will be excluded from results.
+     * This is an exact match filter, not a fuzzy text search.
+     * Applied independently from `excludeShopName` filters.
+     *
+     */
+    excludeSellerName?: Array<string> | null;
     /**
      * Optional filter by shop types
      */
@@ -1008,6 +1114,12 @@ export type UserSearchFilterData = {
      * User-defined name for the search filter
      */
     name: string;
+    /**
+     * Optional natural-language description used by the AI-enhanced search filter matching service.
+     * Present only when an enhanced search description was set on this filter.
+     *
+     */
+    enhancedSearchDescription?: string;
     /**
      * Whether notifications are enabled for this search filter.
      * When `true`, the user will be notified when a new product matches this filter.
@@ -1233,6 +1345,10 @@ export type GetCategorySummaryData = {
      */
     name: LocalizedTextData;
     /**
+     * Total number of products associated with this category
+     */
+    products: number;
+    /**
      * When the category was created (RFC3339 format)
      */
     created: string;
@@ -1259,9 +1375,9 @@ export type GetCategoryData = {
      */
     name: LocalizedTextData;
     /**
-     * Localized description
+     * Total number of products associated with this category
      */
-    description: LocalizedTextData;
+    products: number;
     /**
      * When the category was created (RFC3339 format)
      */
@@ -1310,6 +1426,10 @@ export type GetPeriodSummaryData = {
      */
     name: LocalizedTextData;
     /**
+     * Total number of products associated with this period
+     */
+    products: number;
+    /**
      * When the period was created (RFC3339 format)
      */
     created: string;
@@ -1336,9 +1456,9 @@ export type GetPeriodData = {
      */
     name: LocalizedTextData;
     /**
-     * Localized description
+     * Total number of products associated with this period
      */
-    description: LocalizedTextData;
+    products: number;
     /**
      * When the period was created (RFC3339 format)
      */
@@ -1503,11 +1623,13 @@ export type PatchUserAccountData = {
 };
 
 /**
- * The user's subscription tier, which determines limits and quotas (e.g. max watchlist entries, max search filters).
- * - `FREE`: Default tier for all users. Allows up to 5 watchlist entries and up to 5 search filters.
+ * The user's subscription tier, which determines limits and feature access (e.g. max watchlist entries, max search filters, allowed search filter fields).
+ * - `FREE`: Default tier for all users. Allows up to 20 watchlist entries, up to 1 search filter (limited to `productQuery`, `categoryId`, `periodId`, `price`, and `state` filter fields), and up to 10 product matches per filter.
+ * - `PRO`: Premium tier. Allows up to 100 watchlist entries, up to 5 search filters with access to all filter fields, and unlimited product matches per filter.
+ * - `ULTIMATE`: Highest tier. Allows unlimited watchlist entries, unlimited search filters with access to all filter fields, and unlimited product matches per filter.
  *
  */
-export type UserTierData = 'FREE';
+export type UserTierData = 'FREE' | 'PRO' | 'ULTIMATE';
 
 /**
  * A single user notification, fully localized for the requested language and currency.
@@ -1585,6 +1707,12 @@ export type WatchlistNotificationPayloadData = {
      */
     shopName: string;
     title: LocalizedTextData;
+    /**
+     * The first image of the product at the time the notification was generated.
+     * Absent when the product had no images. The URL is always included (prohibited content filtering is skipped for notifications).
+     *
+     */
+    image?: ProductImageData | null;
     watchlistPayload: WatchlistPayloadData;
 };
 
@@ -1663,6 +1791,12 @@ export type SearchFilterNotificationPayloadData = {
      */
     shopName: string;
     title: LocalizedTextData;
+    /**
+     * The first image of the product at the time the notification was generated.
+     * Absent when the product had no images. The URL is always included (prohibited content filtering is skipped for notifications).
+     *
+     */
+    image?: ProductImageData | null;
     searchFilterPayload: SearchFilterPayloadData;
 };
 
@@ -1767,6 +1901,14 @@ export type PostProductData = {
      * Optional origin year information for the antique product
      */
     originYear?: OriginYearData | null;
+    /**
+     * Optional raw name of the secondary seller for this product.
+     * Only applicable for `AUCTION_PLATFORM` and `MARKETPLACE` shop types.
+     * When provided, the backend resolves the seller shop by this name and associates the product with that seller.
+     * When omitted, or when the shop type is neither `AUCTION_PLATFORM` nor `MARKETPLACE`, the partner shop itself is used as the seller.
+     *
+     */
+    sellerName?: string | null;
     /**
      * Authenticity classification. Defaults to `UNKNOWN` when omitted.
      */
@@ -1952,6 +2094,15 @@ export type PutProductData = {
      */
     originYear?: OriginYearData | null;
     /**
+     * Optional raw name of the secondary seller for this product.
+     * Only applicable for `AUCTION_PLATFORM` and `MARKETPLACE` shop types.
+     * When provided, the backend resolves the seller shop by this name and associates the product with that seller.
+     * When omitted, or when the shop type is neither `AUCTION_PLATFORM` nor `MARKETPLACE`, the partner shop itself is used as the seller.
+     * Used only when creating a new product.
+     *
+     */
+    sellerName?: string | null;
+    /**
      * Authenticity classification. Defaults to `UNKNOWN` when omitted. Used only when creating a new product.
      */
     authenticity?: AuthenticityData;
@@ -1984,6 +2135,141 @@ export type PutProductsResponse = {
     errors: {
         [key: string]: string;
     };
+};
+
+/**
+ * The review state of a partner shop application:
+ * - `SUBMITTED`: Application has been submitted and is awaiting review.
+ * - `IN_REVIEW`: Application is currently being reviewed by the team.
+ * - `REJECTED`: Application was reviewed and rejected.
+ * - `APPROVED`: Application was reviewed and approved.
+ * The state is read-only from the client perspective and can only be changed internally.
+ *
+ */
+export type PartnerShopApplicationStateData = 'SUBMITTED' | 'IN_REVIEW' | 'REJECTED' | 'APPROVED';
+
+/**
+ * The payload of a partner shop application. Discriminated by the `type` field.
+ * - `EXISTING`: The application targets an existing shop identified by `shopId`.
+ * - `NEW`: The application targets a new shop described by name, type, domains, and optional image.
+ *
+ */
+export type GetPartnerShopApplicationPayloadData = {
+    /**
+     * Discriminator value indicating this payload targets an existing shop.
+     */
+    type: 'EXISTING';
+    /**
+     * Unique identifier of the existing shop.
+     */
+    shopId: string;
+} | {
+    /**
+     * Discriminator value indicating this payload describes a new shop.
+     */
+    type: 'NEW';
+    /**
+     * Display name of the new shop.
+     */
+    shopName: string;
+    shopType: ShopTypeData;
+    /**
+     * Domains associated with the new shop.
+     * Domains are normalized (lowercase, no scheme, no www prefix, no path/query/fragment).
+     *
+     */
+    shopDomains: Array<string>;
+    /**
+     * Optional URL to the new shop's logo or image.
+     */
+    shopImage?: string | null;
+};
+
+/**
+ * Full representation of a partner shop application.
+ */
+export type GetPartnerShopApplicationData = {
+    /**
+     * Unique identifier of the partner shop application.
+     */
+    id: string;
+    state: PartnerShopApplicationStateData;
+    payload: GetPartnerShopApplicationPayloadData;
+    /**
+     * When the application was created (RFC3339 format).
+     */
+    created: string;
+    /**
+     * When the application was last updated (RFC3339 format).
+     */
+    updated: string;
+};
+
+/**
+ * Request payload for creating a new partner shop application. Discriminated by the `type` field.
+ * - `EXISTING`: Apply for partnership for an existing shop identified by `shopId`.
+ * - `NEW`: Apply for partnership for a new shop described by name, type, domains, and optional image.
+ * The application state is always initialized to `SUBMITTED` and cannot be set by the client.
+ *
+ */
+export type PostPartnerShopApplicationPayloadData = {
+    /**
+     * Discriminator value indicating this payload targets an existing shop.
+     */
+    type: 'EXISTING';
+    /**
+     * Unique identifier of the existing shop to apply for.
+     */
+    shopId: string;
+} | {
+    /**
+     * Discriminator value indicating this payload describes a new shop.
+     */
+    type: 'NEW';
+    /**
+     * Display name of the new shop.
+     */
+    shopName: string;
+    shopType: ShopTypeData;
+    /**
+     * Domains associated with the new shop.
+     * Domains are normalized (lowercase, no scheme, no www prefix, no path/query/fragment).
+     *
+     */
+    shopDomains: Array<string>;
+    /**
+     * Optional URL to the new shop's logo or image.
+     */
+    shopImage?: string | null;
+};
+
+/**
+ * Partial update for a partner shop application.
+ * Only the fields present in the request body are applied; omitted fields are left unchanged.
+ * All fields are optional. The `state` field is read-only and cannot be modified through this endpoint.
+ * Note: These fields only apply to applications with a `NEW` payload type.
+ * Sending patch fields for an application with `EXISTING` payload type is accepted but has no effect.
+ *
+ */
+export type PatchPartnerShopApplicationData = {
+    /**
+     * Updated display name of the shop.
+     */
+    shopName?: string;
+    /**
+     * Updated shop type classification.
+     */
+    shopType?: ShopTypeData;
+    /**
+     * Updated set of domains for the shop. Replaces the existing domains entirely.
+     * Domains are normalized (lowercase, no scheme, no www prefix, no path/query/fragment).
+     *
+     */
+    shopDomains?: Array<string>;
+    /**
+     * Updated URL to the shop's logo or image. Set to `null` to remove the image.
+     */
+    shopImage?: string | null;
 };
 
 export type PatchPartnerProductsData = {
@@ -2693,7 +2979,7 @@ export type CreateUserSearchFilterErrors = {
      */
     404: ApiError;
     /**
-     * Unprocessable Entity - search filter quota exceeded
+     * Unprocessable Entity - search filter quota exceeded or restricted feature used
      */
     422: ApiError;
     /**
@@ -2824,9 +3110,13 @@ export type UpdateUserSearchFilterErrors = {
      */
     401: ApiError;
     /**
-     * Search filter not found
+     * Search filter or user not found
      */
     404: ApiError;
+    /**
+     * Unprocessable Entity - restricted feature used for the user's tier
+     */
+    422: ApiError;
     /**
      * Internal server error
      */
@@ -3033,6 +3323,39 @@ export type AddWatchlistProductResponses = {
 };
 
 export type AddWatchlistProductResponse = AddWatchlistProductResponses[keyof AddWatchlistProductResponses];
+
+export type DeleteUserData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me';
+};
+
+export type DeleteUserErrors = {
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type DeleteUserError = DeleteUserErrors[keyof DeleteUserErrors];
+
+export type DeleteUserResponses = {
+    /**
+     * User deleted successfully
+     */
+    204: void;
+};
+
+export type DeleteUserResponse = DeleteUserResponses[keyof DeleteUserResponses];
 
 export type GetUserAccountData2 = {
     body?: never;
@@ -3898,3 +4221,202 @@ export type SearchPeriodsResponses = {
 };
 
 export type SearchPeriodsResponse = SearchPeriodsResponses[keyof SearchPeriodsResponses];
+
+export type GetPartnerApplicationsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/partner-applications';
+};
+
+export type GetPartnerApplicationsErrors = {
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type GetPartnerApplicationsError = GetPartnerApplicationsErrors[keyof GetPartnerApplicationsErrors];
+
+export type GetPartnerApplicationsResponses = {
+    /**
+     * Partner shop applications retrieved successfully.
+     */
+    200: Array<GetPartnerShopApplicationData>;
+};
+
+export type GetPartnerApplicationsResponse = GetPartnerApplicationsResponses[keyof GetPartnerApplicationsResponses];
+
+export type PostPartnerApplicationData = {
+    /**
+     * The partner shop application payload. Must specify either an existing shop (`type: "EXISTING"`)
+     * or a new shop (`type: "NEW"`).
+     *
+     */
+    body: PostPartnerShopApplicationPayloadData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/partner-applications';
+};
+
+export type PostPartnerApplicationErrors = {
+    /**
+     * Bad request – missing or invalid request body.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type PostPartnerApplicationError = PostPartnerApplicationErrors[keyof PostPartnerApplicationErrors];
+
+export type PostPartnerApplicationResponses = {
+    /**
+     * Partner shop application created successfully.
+     */
+    201: GetPartnerShopApplicationData;
+};
+
+export type PostPartnerApplicationResponse = PostPartnerApplicationResponses[keyof PostPartnerApplicationResponses];
+
+export type DeletePartnerApplicationData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier (UUID) of the partner shop application to delete.
+         */
+        partnerApplicationId: string;
+    };
+    query?: never;
+    url: '/api/v1/me/partner-applications/{partnerApplicationId}';
+};
+
+export type DeletePartnerApplicationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Not found – no partner shop application with the given ID exists for this user.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type DeletePartnerApplicationError = DeletePartnerApplicationErrors[keyof DeletePartnerApplicationErrors];
+
+export type DeletePartnerApplicationResponses = {
+    /**
+     * Partner shop application deleted successfully.
+     */
+    204: void;
+};
+
+export type DeletePartnerApplicationResponse = DeletePartnerApplicationResponses[keyof DeletePartnerApplicationResponses];
+
+export type GetPartnerApplicationData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier (UUID) of the partner shop application.
+         */
+        partnerApplicationId: string;
+    };
+    query?: never;
+    url: '/api/v1/me/partner-applications/{partnerApplicationId}';
+};
+
+export type GetPartnerApplicationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Not found – no partner shop application with the given ID exists for this user.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type GetPartnerApplicationError = GetPartnerApplicationErrors[keyof GetPartnerApplicationErrors];
+
+export type GetPartnerApplicationResponses = {
+    /**
+     * Partner shop application found and returned successfully.
+     */
+    200: GetPartnerShopApplicationData;
+};
+
+export type GetPartnerApplicationResponse = GetPartnerApplicationResponses[keyof GetPartnerApplicationResponses];
+
+export type PatchPartnerApplicationData = {
+    /**
+     * Partial update for a partner shop application.
+     * Only the provided fields are updated. All fields are optional.
+     * Note: `state` is read-only and cannot be set by the client.
+     *
+     */
+    body: PatchPartnerShopApplicationData;
+    path: {
+        /**
+         * Unique identifier (UUID) of the partner shop application to update.
+         */
+        partnerApplicationId: string;
+    };
+    query?: never;
+    url: '/api/v1/me/partner-applications/{partnerApplicationId}';
+};
+
+export type PatchPartnerApplicationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter or request body.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Not found – no partner shop application with the given ID exists for this user.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type PatchPartnerApplicationError = PatchPartnerApplicationErrors[keyof PatchPartnerApplicationErrors];
+
+export type PatchPartnerApplicationResponses = {
+    /**
+     * Partner shop application updated successfully. Returns the updated application.
+     */
+    200: GetPartnerShopApplicationData;
+};
+
+export type PatchPartnerApplicationResponse = PatchPartnerApplicationResponses[keyof PatchPartnerApplicationResponses];

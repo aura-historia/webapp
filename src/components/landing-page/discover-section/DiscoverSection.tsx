@@ -30,26 +30,29 @@ export default function DiscoverSection() {
     }, []);
 
     return (
-        <section className="py-20 px-4">
-            <div className="max-w-6xl mx-auto">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <H2 className="mb-6">{t("discover.title")}</H2>
-                        <div className="space-y-4 text-lg text-muted-foreground">
+        <section className="bg-surface-container-low border-t border-b border-outline-variant/10 py-24 px-4">
+            <div className="max-w-7xl mx-auto">
+                <div className="flex flex-col lg:flex-row gap-16 items-stretch">
+                    {/* Left Column */}
+                    <div className="flex-1">
+                        <H2 className="sm:text-4xl font-normal mb-6 text-primary">
+                            {t("discover.title")}
+                        </H2>
+                        <div className="space-y-4 text-base text-secondary mb-8">
                             <p>{t("discover.p1")}</p>
                             <p>{t("discover.p2")}</p>
                         </div>
-                        <div className="mt-8 space-y-4">
+                        <div className="space-y-6">
                             {DISCOVER_HIGHLIGHTS.map((highlight) => (
                                 <div key={highlight.titleKey} className="flex items-start gap-4">
-                                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                                    <div className="w-12 h-12 bg-surface-container-high flex items-center justify-center shrink-0">
                                         <highlight.icon className="w-5 h-5 text-primary" />
                                     </div>
-                                    <div>
-                                        <h3 className="font-semibold mb-1">
+                                    <div className="flex-1">
+                                        <h3 className="font-display font-normal text-primary mb-1 text-xl">
                                             {t(highlight.titleKey)}
                                         </h3>
-                                        <p className="text-sm text-muted-foreground">
+                                        <p className="text-sm text-secondary">
                                             {t(highlight.descKey)}
                                         </p>
                                     </div>
@@ -57,17 +60,18 @@ export default function DiscoverSection() {
                             ))}
                         </div>
                     </div>
-                    {/* Visual/Stats */}
-                    <div className="relative" ref={statsRef}>
-                        <div className="bg-linear-to-br from-primary/10 via-primary/5 to-transparent rounded-2xl p-4 md:p-8">
-                            <div className="grid grid-cols-2 md:gap-6 gap-4">
+
+                    {/* Right Column - Stats */}
+                    <div className="flex-1" ref={statsRef}>
+                        <div className="bg-surface-container-highest/30 backdrop-blur-sm border border-outline-variant/10 rounded p-8">
+                            <div className="grid grid-cols-2 gap-6">
                                 {DISCOVER_STATS.map((stat) => (
                                     <div
                                         key={stat.labelKey}
-                                        className="bg-card/80 rounded-xl p-6 text-center shadow-sm"
+                                        className="flex flex-col justify-center bg-white border border-outline-variant/10 p-8 text-center"
                                     >
                                         {stat.amount ? (
-                                            <span className="text-xl md:text-4xl font-bold text-primary mb-2 text-ellipsis overflow-hidden">
+                                            <span className="text-2xl sm:text-4xl font-display text-primary block">
                                                 <ClientOnly fallback={<>0</>}>
                                                     <Suspense fallback={<>0</>}>
                                                         <NumberFlow
@@ -78,11 +82,11 @@ export default function DiscoverSection() {
                                                 </ClientOnly>
                                             </span>
                                         ) : (
-                                            <p className="text-xl md:text-4xl font-bold text-primary mb-2 text-ellipsis overflow-hidden">
+                                            <p className="text-2xl sm:text-4xl font-display text-primary mb-2">
                                                 {t(stat.valueKey)}+
                                             </p>
                                         )}
-                                        <p className="text-xs md:text-sm text-muted-foreground">
+                                        <p className="text-xs font-medium text-secondary uppercase tracking-widest">
                                             {t(stat.labelKey)}
                                         </p>
                                     </div>

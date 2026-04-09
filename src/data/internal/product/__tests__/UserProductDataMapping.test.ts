@@ -15,6 +15,10 @@ describe("mapToInternalUserProductData", () => {
             seen: false,
             originEventId: "event-123",
         },
+        searchFilter: {
+            matched: false,
+            hidden: false,
+        },
     };
 
     it("should map notification seen=false to hasUnseenNotification=true with originEventId", () => {
