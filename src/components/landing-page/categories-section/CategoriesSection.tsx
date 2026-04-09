@@ -107,7 +107,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                                         <p className="font-display text-2xl leading-8 text-primary">
                                             {category.name}
                                         </p>
-                                        {category.productCount && (
+                                        {!!category.productCount && (
                                             <p className="uppercase text-xs text-secondary">
                                                 {t("landingPage.categories.objectCount", {
                                                     count: category.productCount,

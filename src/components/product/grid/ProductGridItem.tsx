@@ -59,6 +59,32 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
 
     if (variant === "recentlyAdded") {
         const recentlyAddedMeta = getRecentlyAddedMetaText(t, product);
+        const recentlyAddedImage = (() => {
+            if (product.images.length === 0) {
+                return (
+                    <div className="w-full aspect-4/5 bg-muted flex flex-col items-center justify-center gap-2">
+                        <ImageOff
+                            data-testid="placeholder-image"
+                            className="w-12 h-12 text-muted-foreground"
+                        />
+                        <p className="text-xs text-muted-foreground">{t("product.noImage")}</p>
+                    </div>
+                );
+            }
+
+            if (isRestrictedImage(product.images[0], isRestrictedConsentGiven)) {
+                return <ProhibitedImagePlaceholder className="w-full aspect-4/5" />;
+            }
+
+            return (
+                <ImageWithFallback
+                    className="aspect-4/5 w-full object-cover transition-opacity duration-300 group-hover:opacity-90"
+                    src={product.images[0].url?.href}
+                    alt={product.title}
+                    fallbackClassName="w-full aspect-4/5"
+                />
+            );
+        })();
 
         return (
             <div className="relative h-full pt-2">
@@ -83,28 +109,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                         className="block w-full overflow-hidden bg-muted"
                         onClick={handleProductClick}
                     >
-                        {product.images.length > 0 ? (
-                            isRestrictedImage(product.images[0], isRestrictedConsentGiven) ? (
-                                <ProhibitedImagePlaceholder className="w-full aspect-4/5" />
-                            ) : (
-                                <ImageWithFallback
-                                    className="aspect-4/5 w-full object-cover transition-opacity duration-300 group-hover:opacity-90"
-                                    src={product.images[0].url?.href}
-                                    alt={product.title}
-                                    fallbackClassName="w-full aspect-4/5"
-                                />
-                            )
-                        ) : (
-                            <div className="w-full aspect-4/5 bg-muted flex flex-col items-center justify-center gap-2">
-                                <ImageOff
-                                    data-testid="placeholder-image"
-                                    className="w-12 h-12 text-muted-foreground"
-                                />
-                                <p className="text-xs text-muted-foreground">
-                                    {t("product.noImage")}
-                                </p>
-                            </div>
-                        )}
+                        {recentlyAddedImage}
                     </Link>
 
                     <div className="flex flex-1 flex-col gap-3 px-1 pt-4">
