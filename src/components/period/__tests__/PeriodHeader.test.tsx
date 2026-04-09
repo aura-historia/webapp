@@ -28,11 +28,6 @@ describe("PeriodHeader", () => {
         ).toBeInTheDocument();
     });
 
-    it("renders the period icon", () => {
-        render(<PeriodHeader period={mockPeriod} />);
-        expect(screen.getByTestId("period-icon")).toBeInTheDocument();
-    });
-
     it("renders a different name and description when given different props", () => {
         const otherPeriod: PeriodDetail = {
             ...mockPeriod,

@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { Shield } from "lucide-react";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
 import { TRUST_BADGE_KEYS } from "@/components/landing-page/hero-section/HeroSection.data.ts";
-import claudeLorrain from "@/assets/landing-page/claude-lorrain.webp";
 
 export default function HeroSection() {
     const { t } = useTranslation();
@@ -21,9 +20,8 @@ export default function HeroSection() {
     return (
         <section className="hero-section-safari-offset min-h-screen flex items-center justify-center relative overflow-hidden">
             {/* Background image */}
-            {/* TODO: Replace with better quality image and migrate to s3*/}
             <img
-                src={claudeLorrain}
+                src="https://assets.aura-historia.com/webapp/landing-page/lorrain.webp"
                 alt=""
                 aria-hidden="true"
                 className="absolute inset-0 w-full h-full object-cover object-center opacity-40"

@@ -6,7 +6,7 @@ import type { PeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
 import {
     createLocalizedPeriodDateRangeMap,
     getPeriodDateRange,
-    getPeriodIcon,
+    getPeriodAssetUrl,
 } from "./PeriodsSection.data.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -59,7 +59,7 @@ export default function PeriodsSection({ periods }: PeriodsSectionProps) {
         return (
             <div className="absolute inset-0 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {page.map((period, index) => {
-                    const Icon = getPeriodIcon(period.periodKey);
+                    const periodImageUrl = getPeriodAssetUrl(period.periodKey);
                     const range =
                         getPeriodDateRange(period.periodKey, localizedPeriodDateRangeMap) ??
                         t("landingPage.periods.rangeUnknown");
@@ -75,11 +75,15 @@ export default function PeriodsSection({ periods }: PeriodsSectionProps) {
                             )}
                         >
                             <article className="relative h-80 overflow-hidden bg-muted transition-transform duration-300 ease-out group-hover:-translate-y-1 sm:h-85 lg:h-90">
-                                <div className="absolute inset-0 bg-linear-to-br from-primary/25 via-primary/15 to-primary/10" />
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <Icon className="h-14 w-14 text-primary/80" />
+                                <div className="absolute inset-0">
+                                    <img
+                                        src={periodImageUrl}
+                                        alt=""
+                                        className="h-full w-full object-cover"
+                                    />
                                 </div>
 
+                                <div className="absolute inset-0 bg-linear-to-br from-primary/25 via-primary/15 to-primary/10" />
                                 <div className="absolute inset-0 bg-linear-to-t from-primary/80 via-primary/35 to-transparent" />
                                 <div className="absolute inset-x-0 bottom-0 p-6 text-primary-foreground">
                                     <H3 className="text-3xl font-normal leading-9">

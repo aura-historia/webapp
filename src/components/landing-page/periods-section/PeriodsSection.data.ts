@@ -1,53 +1,39 @@
-import {
-    Castle,
-    Crown,
-    Flame,
-    History,
-    Landmark,
-    Library,
-    type LucideIcon,
-    Palette,
-    Scroll,
-    Sword,
-    Hammer,
-    Gem,
-    Compass,
-    AppWindow,
-} from "lucide-react";
 import type { TFunction } from "i18next";
 
 /**
- * Mapping of period keys to Lucide icons.
- * This is used to display a representative icon for each period in the carousel.
+ * Mapping of period keys to period image assets.
  */
-// TODO: Replace with s3 links to generated images
-export const PERIOD_ICON_MAP: Record<string, LucideIcon> = {
-    ANTIQUITY: Landmark,
-    ART_DECO: Castle,
-    ARTS_AND_CRAFTS: Hammer,
-    BAROQUE: Crown,
-    BIEDERMEIER: Scroll,
-    EMPIRE: Gem,
-    EARLY_MODERN: Library,
-    EARLY_MEDIEVAL: Sword,
-    GOTHIC: Castle,
-    HISTORICISM: History,
-    ART_NOUVEAU: Flame,
-    NEOCLASSICISM: Landmark,
-    MANNERISM: Palette,
-    MID_CENTURY_MODERN: AppWindow,
-    MODERNISM: Library,
-    POSTMODERN: History,
-    RENAISSANCE: Palette,
-    ROCOCO: Landmark,
-    ROMANESQUE: Landmark,
-    CONTEMPORARY: Compass,
+const PERIOD_ASSET_BASE_URL = "https://assets.aura-historia.com/webapp/periods";
+
+const buildPeriodAssetUrl = (slug: string) => `${PERIOD_ASSET_BASE_URL}/${slug}.webp`;
+
+export const PERIOD_ASSET_MAP: Record<string, string> = {
+    ANTIQUITY: buildPeriodAssetUrl("antiquity"),
+    ART_DECO: buildPeriodAssetUrl("art-deco"),
+    ARTS_AND_CRAFTS: buildPeriodAssetUrl("arts-and-crafts"),
+    BAROQUE: buildPeriodAssetUrl("baroque"),
+    BIEDERMEIER: buildPeriodAssetUrl("biedermeier"),
+    EMPIRE: buildPeriodAssetUrl("empire"),
+    EARLY_MODERN: buildPeriodAssetUrl("early-modern"),
+    EARLY_MEDIEVAL: buildPeriodAssetUrl("early-medieval"),
+    GOTHIC: buildPeriodAssetUrl("gothic"),
+    HISTORICISM: buildPeriodAssetUrl("historicism"),
+    ART_NOUVEAU: buildPeriodAssetUrl("art-nouveau"),
+    NEOCLASSICISM: buildPeriodAssetUrl("neoclassicism"),
+    MANNERISM: buildPeriodAssetUrl("mannerism"),
+    MID_CENTURY_MODERN: buildPeriodAssetUrl("mid-century-modern"),
+    MODERNISM: buildPeriodAssetUrl("modernism"),
+    POSTMODERN: buildPeriodAssetUrl("postmodern"),
+    RENAISSANCE: buildPeriodAssetUrl("renaissance"),
+    ROCOCO: buildPeriodAssetUrl("rococo"),
+    ROMANESQUE: buildPeriodAssetUrl("romanesque"),
+    CONTEMPORARY: buildPeriodAssetUrl("contemporary"),
 };
 
 /**
- * Fallback icon for periods without a specific mapping.
+ * Fallback period image for unknown period keys.
  */
-export const FALLBACK_PERIOD_ICON = History;
+export const FALLBACK_PERIOD_ASSET_URL = buildPeriodAssetUrl("contemporary");
 
 /**
  * Approximate date ranges used in the landing page period cards.
@@ -92,14 +78,14 @@ export const createLocalizedPeriodDateRangeMap = (t: TFunction): Record<string, 
 };
 
 /**
- * Returns the Lucide icon associated with a given period key.
- * If no specific mapping is found, returns the fallback icon.
+ * Returns the period image asset URL for a given period key.
+ * If no specific mapping is found, returns the fallback period image URL.
  *
  * @param periodKey - The stable key of the period.
- * @returns The Lucide icon component.
+ * @returns The period image URL.
  */
-export const getPeriodIcon = (periodKey: string): LucideIcon => {
-    return PERIOD_ICON_MAP[periodKey] || FALLBACK_PERIOD_ICON;
+export const getPeriodAssetUrl = (periodKey: string): string => {
+    return PERIOD_ASSET_MAP[periodKey] || FALLBACK_PERIOD_ASSET_URL;
 };
 
 /**
