@@ -18,6 +18,6 @@ describe("CategoryHeaderSkeleton", () => {
     it("wraps skeletons in a flex column container", () => {
         const { container } = render(<CategoryHeaderSkeleton />);
         const wrapper = container.firstChild as HTMLElement;
-        expect(wrapper).toHaveClass("flex", "flex-col", "gap-2");
+        expect(wrapper).toHaveClass("flex", "flex-col");
     });
 });

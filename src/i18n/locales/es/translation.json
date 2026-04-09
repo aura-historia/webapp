@@ -628,6 +628,42 @@
     }
   },
   "category": {
+    "header": {
+      "archiveLabel": "Archivo de categoria",
+      "overviewTitle": "Perspectiva curatorial",
+      "indexedItems": "Objetos indexados",
+      "imageAlt": "Imagen representativa de {{category}}"
+    },
+    "descriptions": {
+      "default": "Explore objetos cuidadosamente seleccionados de esta categoria, con pistas de procedencia, detalles de oficio y visibilidad actual del mercado.",
+      "ANCIENT_POTTERY": "Vasijas, piezas votivas y ceramica antigua que documentan rituales, comercio y vida cotidiana de civilizaciones pasadas.",
+      "STORAGE_CONTAINERS": "Arcones, armarios, cofres y contenedores historicos donde la funcion practica se une al trabajo artesanal.",
+      "LIGHTING_OBJECTS": "Candelabros, faroles, lamparas y primeras luminarias electricas que definieron ambientes interiores.",
+      "BOOKS_MANUSCRIPTS_PRINTED_MEDIA": "Libros raros, manuscritos, grabados y medios impresos que conservan historia intelectual y artistica.",
+      "FURNITURE": "Mesas, asientos y muebles de guardado de grandes movimientos de diseno y talleres de epoca.",
+      "TOYS_GAMES_RECREATIONAL": "Juguetes, juegos de mesa y piezas mecanicas que reflejan cultura infantil y ocio social.",
+      "TEXTILES": "Textiles historicos, tapices, indumentaria y bordados valorados por tejido, tinte, tecnica y procedencia.",
+      "CLOCKS_TIMEKEEPING": "Relojes de pie, de viaje, de bolsillo e instrumentos de medicion del tiempo de gran precision historica.",
+      "JEWELRY_PERSONAL_ADORNMENT": "Anillos, broches, cadenas y adornos donde materiales preciosos y simbolismo cultural convergen.",
+      "ARCHITECTURAL_ELEMENTS": "Puertas, paneles, herrajes y fragmentos tallados recuperados de interiores y fachadas historicas.",
+      "ARCHAEOLOGICAL_ARTIFACTS": "Objetos excavados y hallazgos documentados que aportan evidencia material directa del pasado.",
+      "VISUAL_ART": "Pinturas, dibujos, grabados y esculturas seleccionadas por relevancia artistica, autoria y estado.",
+      "DECORATIVE_OBJECTS": "Ceramica, vidrio, bronce y piezas decorativas que enriquecen espacios domesticos y ceremoniales.",
+      "EPHEMERA_MEMORABILIA": "Carteles, entradas, cartas y recuerdos en papel que registran hechos y memoria social.",
+      "PHOTOGRAPHY_OPTICAL_MEDIA": "Fotografias vintage, camaras, vistas estereoscopicas y medios opticos de la cultura visual temprana.",
+      "MUSICAL_INSTRUMENTS": "Instrumentos de cuerda, viento, teclado y tradicion popular valorados por fabricante y construccion.",
+      "WEAPONS": "Armas historicas estudiadas como objetos de oficio, estatus y contexto de conflicto.",
+      "TOOLS_IMPLEMENTS": "Herramientas e implementos de taller y hogar que muestran saberes practicos entre generaciones.",
+      "INDUSTRIAL_TRADE_EQUIPMENT": "Maquinaria, mobiliario comercial y equipamiento de oficio de la historia industrial.",
+      "CULTURAL_ETHNOGRAPHIC": "Objetos de practica cultural e identidad documentados con contexto y enfoque responsable.",
+      "MILITARIA": "Uniformes, insignias, equipo de campana y documentos vinculados a estructuras militares e historia vivida.",
+      "COINS_CURRENCY_MEDALS": "Monedas, billetes, medallas y fichas que reflejan autoridad politica, economia y memoria.",
+      "NATURAL_HISTORY_CURIOSITIES": "Fosiles, especimenes y curiosidades de gabinete ligados a la historia de la ciencia natural.",
+      "TRANSPORTATION_TRAVEL_OBJECTS": "Baules, instrumentos de navegacion, automovilismo historico y objetos de viaje.",
+      "RELIGIOUS_RITUAL_CEREMONIAL": "Objetos liturgicos y ceremoniales vinculados con devocion, ritos y tradiciones sagradas.",
+      "WRITING_COMMUNICATION_INSTRUMENTS": "Plumas, tinteros, sellos e instrumentos de oficina y comunicacion de epocas anteriores.",
+      "SCIENTIFIC_MEDICAL_TECHNICAL": "Instrumentos cientificos, medicos y tecnicos que muestran la evolucion de la practica experimental."
+    },
     "products": {
       "loadingMore": "Cargando más artículos...",
       "allLoaded_one": "Ha visto {{count}} artículo en esta categoría.",

@@ -54,7 +54,7 @@ describe("ProductGridItem", () => {
             renderWithRouter(<ProductGridItem product={mockProductWithUnseenNotification} />),
         );
 
-        expect(container.querySelector(".border-primary")).toBeInTheDocument();
+        expect(container.querySelector(".ring-primary")).toBeInTheDocument();
         expect(screen.getByTestId("unseen-notification-badge")).toBeInTheDocument();
     });
 
@@ -63,7 +63,7 @@ describe("ProductGridItem", () => {
             renderWithRouter(<ProductGridItem product={mockProduct} />),
         );
 
-        expect(container.querySelector(".border-primary")).not.toBeInTheDocument();
+        expect(container.querySelector(".ring-primary")).not.toBeInTheDocument();
         expect(screen.queryByTestId("unseen-notification-badge")).not.toBeInTheDocument();
     });
 
@@ -72,10 +72,10 @@ describe("ProductGridItem", () => {
             renderWithRouter(<ProductGridItem product={mockProductWithUnseenNotification} />);
         });
 
-        const detailsLink = screen.getByText("Details").closest("a");
+        const titleLink = screen.getByRole("link", { name: "Sample Product" });
 
         await act(() => {
-            detailsLink?.click();
+            titleLink.click();
         });
 
         expect(mockMutate).toHaveBeenCalledWith("event-123");
@@ -86,10 +86,10 @@ describe("ProductGridItem", () => {
             renderWithRouter(<ProductGridItem product={mockProduct} />);
         });
 
-        const detailsLink = screen.getByText("Details").closest("a");
+        const titleLink = screen.getByRole("link", { name: "Sample Product" });
 
         await act(() => {
-            detailsLink?.click();
+            titleLink.click();
         });
 
         expect(mockMutate).not.toHaveBeenCalled();
@@ -101,7 +101,7 @@ describe("ProductGridItem", () => {
         );
 
         const wrapper = container.firstElementChild;
-        const card = container.querySelector(".shadow-md");
+        const card = container.querySelector('[data-slot="card"]');
 
         expect(wrapper).toHaveClass("h-full");
         expect(card).toHaveClass("h-full");

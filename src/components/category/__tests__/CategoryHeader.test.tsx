@@ -18,13 +18,14 @@ describe("CategoryHeader", () => {
         expect(screen.getByRole("heading", { name: "Ancient Pottery" })).toBeInTheDocument();
     });
 
-    // TODO: Add back
-    // it("renders the category description", () => {
-    //     render(<CategoryHeader category={mockCategory} />);
-    //     expect(
-    //         screen.getByText("Ceramics and pottery from ancient civilisations."),
-    //     ).toBeInTheDocument();
-    // });
+    it("renders the translated category description", () => {
+        render(<CategoryHeader category={mockCategory} />);
+        expect(
+            screen.getByText(
+                "Gefaesse, Vasen und Tonobjekte aus antiken Kulturen, die Alltag, Handel und Rituale dokumentieren.",
+            ),
+        ).toBeInTheDocument();
+    });
 
     it("renders a different name when given different props", () => {
         const otherCategory: CategoryDetail = {

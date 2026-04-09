@@ -628,6 +628,42 @@
     }
   },
   "category": {
+    "header": {
+      "archiveLabel": "Category Archive",
+      "overviewTitle": "Curatorial Perspective",
+      "indexedItems": "Indexed Items",
+      "imageAlt": "Representative image for {{category}}"
+    },
+    "descriptions": {
+      "default": "Explore carefully selected objects from this category, each documented with provenance clues, craftsmanship details, and current market visibility.",
+      "ANCIENT_POTTERY": "Vessels, votive pieces, and ceramic fragments that reveal the rituals, trade routes, and daily life of ancient civilizations.",
+      "STORAGE_CONTAINERS": "Chests, cabinets, caskets, and utilitarian cases that combine practical function with period craftsmanship.",
+      "LIGHTING_OBJECTS": "Candlesticks, lanterns, chandeliers, and early electric fixtures that shaped interior atmosphere across eras.",
+      "BOOKS_MANUSCRIPTS_PRINTED_MEDIA": "Rare books, handwritten manuscripts, engravings, and printed ephemera preserving intellectual and artistic history.",
+      "FURNITURE": "Tables, seating, and case pieces spanning major design movements, from regional workshops to master ateliers.",
+      "TOYS_GAMES_RECREATIONAL": "Playthings, board games, and mechanical amusements that capture childhood culture and social leisure.",
+      "TEXTILES": "Historic fabrics, tapestries, garments, and needlework valued for weave, dye, technique, and provenance.",
+      "CLOCKS_TIMEKEEPING": "Longcase clocks, carriage clocks, pocket watches, and horological instruments tracing centuries of precision craft.",
+      "JEWELRY_PERSONAL_ADORNMENT": "Rings, brooches, chains, and adornments where precious materials meet cultural symbolism and design.",
+      "ARCHITECTURAL_ELEMENTS": "Doors, panels, ironwork, and carved fragments salvaged from historic interiors and facades.",
+      "ARCHAEOLOGICAL_ARTIFACTS": "Excavated objects and documented finds that provide direct material evidence of past societies.",
+      "VISUAL_ART": "Paintings, drawings, prints, and sculpture selected for artistic significance, authorship, and condition.",
+      "DECORATIVE_OBJECTS": "Ceramics, glass, bronzes, and curated decorative pieces that elevate domestic and ceremonial spaces.",
+      "EPHEMERA_MEMORABILIA": "Posters, tickets, letters, and collectible paper traces that document social memory and events.",
+      "PHOTOGRAPHY_OPTICAL_MEDIA": "Vintage photographs, cameras, stereoscopic views, and optical media from early image culture.",
+      "MUSICAL_INSTRUMENTS": "String, wind, keyboard, and folk instruments valued for maker, period construction, and sonic heritage.",
+      "WEAPONS": "Historical blades and arms studied as artifacts of craftsmanship, status, and conflict history.",
+      "TOOLS_IMPLEMENTS": "Workshop tools, domestic implements, and craft equipment reflecting practical knowledge across generations.",
+      "INDUSTRIAL_TRADE_EQUIPMENT": "Machine-age devices, shop fixtures, and trade apparatus from manufacturing and commercial life.",
+      "CULTURAL_ETHNOGRAPHIC": "Objects of cultural practice and identity sourced with attention to context and responsible documentation.",
+      "MILITARIA": "Uniform items, insignia, field equipment, and documents tied to military structures and lived history.",
+      "COINS_CURRENCY_MEDALS": "Coins, banknotes, medals, and tokens charting political authority, economy, and commemorative culture.",
+      "NATURAL_HISTORY_CURIOSITIES": "Fossils, specimens, cabinet curiosities, and educational objects from the history of natural science.",
+      "TRANSPORTATION_TRAVEL_OBJECTS": "Travel trunks, navigation pieces, motoring artifacts, and transport relics from journeys past.",
+      "RELIGIOUS_RITUAL_CEREMONIAL": "Liturgical objects and ceremonial works linked to devotion, rites, and sacred traditions.",
+      "WRITING_COMMUNICATION_INSTRUMENTS": "Pens, inkwells, seals, telegraph and office instruments that shaped written and transmitted communication.",
+      "SCIENTIFIC_MEDICAL_TECHNICAL": "Surveying, laboratory, and medical instruments representing the evolution of scientific practice."
+    },
     "products": {
       "loadingMore": "Loading more items...",
       "allLoaded_one": "You have seen {{count}} item in this category.",

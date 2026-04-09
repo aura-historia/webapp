@@ -629,6 +629,42 @@
     }
   },
   "category": {
+    "header": {
+      "archiveLabel": "Kategoriearchiv",
+      "overviewTitle": "Kuratorische Einordnung",
+      "indexedItems": "Erfasste Objekte",
+      "imageAlt": "Repraesentatives Bild fuer {{category}}"
+    },
+    "descriptions": {
+      "default": "Entdecken Sie sorgfaeltig kuratierte Objekte dieser Kategorie mit Hinweisen zu Herkunft, Handwerk und aktueller Marktsichtbarkeit.",
+      "ANCIENT_POTTERY": "Gefaesse, Vasen und Tonobjekte aus antiken Kulturen, die Alltag, Handel und Rituale dokumentieren.",
+      "STORAGE_CONTAINERS": "Truhen, Schrankmoebel, Kassetten und Aufbewahrungsobjekte, in denen Funktion auf historische Handwerkskunst trifft.",
+      "LIGHTING_OBJECTS": "Leuchter, Laternen, Kronleuchter und fruehe elektrische Leuchten, die Atmosphaere und Innenraeume praegten.",
+      "BOOKS_MANUSCRIPTS_PRINTED_MEDIA": "Seltene Buecher, Handschriften, Druckgrafiken und Druckerzeugnisse als Zeugnisse von Wissen und Kultur.",
+      "FURNITURE": "Tische, Sitzmoebel und Korpusmoebel aus bedeutenden Stilphasen - von regionalen Werkstaetten bis zu Meisterateliers.",
+      "TOYS_GAMES_RECREATIONAL": "Spielzeuge, Gesellschaftsspiele und mechanische Kuriositaeten als Spiegel von Kindheit und Freizeitkultur.",
+      "TEXTILES": "Historische Stoffe, Tapisserien, Kleidung und Stickarbeiten mit Fokus auf Technik, Material und Provenienz.",
+      "CLOCKS_TIMEKEEPING": "Standuhren, Reiseuhren, Taschenuhren und Zeitmessinstrumente aus Jahrhunderten feinster Praezisionsarbeit.",
+      "JEWELRY_PERSONAL_ADORNMENT": "Ringe, Broschen, Ketten und Schmuckobjekte, in denen Materialwert und kulturelle Symbolik zusammenkommen.",
+      "ARCHITECTURAL_ELEMENTS": "Tueren, Paneele, Beschlaege und geschnitzte Fragmente aus historischen Gebaeuden und Innenraeumen.",
+      "ARCHAEOLOGICAL_ARTIFACTS": "Archaeologische Funde mit dokumentiertem Kontext als direkte materielle Spuren vergangener Gesellschaften.",
+      "VISUAL_ART": "Gemaelde, Zeichnungen, Drucke und Skulpturen mit Augenmerk auf kuenstlerische Bedeutung, Urheberschaft und Zustand.",
+      "DECORATIVE_OBJECTS": "Keramik, Glas, Bronzen und dekorative Sammlerstuecke zur Gestaltung repraesentativer und privater Raeume.",
+      "EPHEMERA_MEMORABILIA": "Plakate, Briefe, Tickets und Sammelobjekte aus Papier, die Ereignisse und Erinnerungskultur greifbar machen.",
+      "PHOTOGRAPHY_OPTICAL_MEDIA": "Vintage-Fotografien, Kameras, Stereoansichten und optische Medien aus der fruehen Bildkultur.",
+      "MUSICAL_INSTRUMENTS": "Saiten-, Blas-, Tasten- und Volksinstrumente mit Relevanz fuer Werkstatttradition und Klanggeschichte.",
+      "WEAPONS": "Historische Blank- und Schusswaffen als Zeugnisse von Handwerk, Repraesentation und Konfliktgeschichte.",
+      "TOOLS_IMPLEMENTS": "Werkzeuge und Gebrauchsgeraete aus Handwerk und Haushalt, die praktisches Wissen ueber Generationen zeigen.",
+      "INDUSTRIAL_TRADE_EQUIPMENT": "Maschinennahe Geraete, Ladeninventar und Handelsausstattung aus Industrie- und Wirtschaftsgeschichte.",
+      "CULTURAL_ETHNOGRAPHIC": "Objekte kultureller Praxis und Identitaet, dokumentiert mit Blick auf Kontext und verantwortungsvolle Einordnung.",
+      "MILITARIA": "Uniformteile, Abzeichen, Ausruestung und Dokumente mit Bezug zu militaerischen Strukturen und Biografien.",
+      "COINS_CURRENCY_MEDALS": "Muenzen, Banknoten, Medaillen und Marken, die Herrschaft, Wirtschaft und Erinnerungspolitik sichtbar machen.",
+      "NATURAL_HISTORY_CURIOSITIES": "Fossilien, Praeparate und Kuriositaetenkabinett-Objekte aus der Geschichte der Naturforschung.",
+      "TRANSPORTATION_TRAVEL_OBJECTS": "Reisekoffer, Navigationshilfen, Automobilia und Transportobjekte aus vergangenen Mobilitaetskulturen.",
+      "RELIGIOUS_RITUAL_CEREMONIAL": "Liturgische und zeremonielle Objekte aus religioesen Praktiken, Festen und rituellen Traditionen.",
+      "WRITING_COMMUNICATION_INSTRUMENTS": "Schreibgeraete, Tintenfaesser, Siegel sowie Buero- und Kommunikationsinstrumente historischer Epochen.",
+      "SCIENTIFIC_MEDICAL_TECHNICAL": "Mess-, Labor- und Medizin-Instrumente als Zeugnisse technischer und wissenschaftlicher Entwicklung."
+    },
     "products": {
       "loadingMore": "Weitere Artikel werden geladen...",
       "allLoaded_one": "Sie haben {{count}} Artikel in dieser Kategorie gesehen.",

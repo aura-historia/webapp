@@ -628,6 +628,42 @@
     }
   },
   "category": {
+    "header": {
+      "archiveLabel": "Archivio categorie",
+      "overviewTitle": "Prospettiva curatoriale",
+      "indexedItems": "Oggetti indicizzati",
+      "imageAlt": "Immagine rappresentativa per {{category}}"
+    },
+    "descriptions": {
+      "default": "Esplora oggetti selezionati con cura in questa categoria, con indizi su provenienza, tecnica artigianale e visibilita nel mercato attuale.",
+      "ANCIENT_POTTERY": "Vasi, pezzi votivi e ceramiche antiche che raccontano rituali, commerci e vita quotidiana delle civilta passate.",
+      "STORAGE_CONTAINERS": "Bauli, armadi, cassette e contenitori storici dove funzione pratica e maestria artigianale si incontrano.",
+      "LIGHTING_OBJECTS": "Candelieri, lanterne, lampadari e prime luci elettriche che hanno definito l'atmosfera degli interni.",
+      "BOOKS_MANUSCRIPTS_PRINTED_MEDIA": "Libri rari, manoscritti, incisioni e materiali a stampa che conservano storia intellettuale e artistica.",
+      "FURNITURE": "Tavoli, sedute e mobili contenitori attraverso i grandi stili, dalle botteghe locali agli atelier di pregio.",
+      "TOYS_GAMES_RECREATIONAL": "Giocattoli, giochi da tavolo e curiosita meccaniche che riflettono cultura infantile e tempo libero.",
+      "TEXTILES": "Tessuti storici, arazzi, abiti e ricami valutati per trama, tintura, tecnica e provenienza.",
+      "CLOCKS_TIMEKEEPING": "Pendole, orologi da viaggio, orologi da tasca e strumenti di misura del tempo della tradizione orologiera.",
+      "JEWELRY_PERSONAL_ADORNMENT": "Anelli, spille, catene e ornamenti dove materiali preziosi e simbolismo culturale convergono.",
+      "ARCHITECTURAL_ELEMENTS": "Porte, pannelli, ferri decorativi e frammenti scolpiti recuperati da interni e facciate storiche.",
+      "ARCHAEOLOGICAL_ARTIFACTS": "Reperti di scavo e ritrovamenti documentati che offrono prove materiali dirette del passato.",
+      "VISUAL_ART": "Dipinti, disegni, stampe e sculture selezionati per rilevanza artistica, attribuzione e stato conservativo.",
+      "DECORATIVE_OBJECTS": "Ceramiche, vetri, bronzi e oggetti decorativi che valorizzano spazi domestici e cerimoniali.",
+      "EPHEMERA_MEMORABILIA": "Manifesti, biglietti, lettere e memorabilia cartacee che preservano memoria sociale ed eventi.",
+      "PHOTOGRAPHY_OPTICAL_MEDIA": "Fotografie d'epoca, fotocamere, vedute stereoscopiche e media ottici della prima cultura visuale.",
+      "MUSICAL_INSTRUMENTS": "Strumenti a corda, fiato, tastiera e tradizione popolare apprezzati per liuteria, epoca e costruzione.",
+      "WEAPONS": "Armi storiche studiate come testimonianze di artigianato, status e storia dei conflitti.",
+      "TOOLS_IMPLEMENTS": "Utensili da bottega e strumenti d'uso domestico che mostrano saperi pratici tramandati nel tempo.",
+      "INDUSTRIAL_TRADE_EQUIPMENT": "Macchinari, arredi commerciali e attrezzature di mestiere della storia industriale ed economica.",
+      "CULTURAL_ETHNOGRAPHIC": "Oggetti di pratica culturale e identita documentati con attenzione al contesto e alla responsabilita.",
+      "MILITARIA": "Uniformi, insegne, equipaggiamento da campo e documenti legati a strutture militari e storie personali.",
+      "COINS_CURRENCY_MEDALS": "Monete, banconote, medaglie e gettoni che raccontano autorita politica, economia e memoria pubblica.",
+      "NATURAL_HISTORY_CURIOSITIES": "Fossili, esemplari e curiosita da gabinetto connesse alla storia delle scienze naturali.",
+      "TRANSPORTATION_TRAVEL_OBJECTS": "Bauli da viaggio, strumenti di navigazione, oggetti automobilistici e reperti del trasporto.",
+      "RELIGIOUS_RITUAL_CEREMONIAL": "Oggetti liturgici e cerimoniali legati a devozione, riti e tradizioni sacre.",
+      "WRITING_COMMUNICATION_INSTRUMENTS": "Penne, calamai, sigilli e strumenti da ufficio che hanno modellato scrittura e comunicazione.",
+      "SCIENTIFIC_MEDICAL_TECHNICAL": "Strumenti scientifici, medici e tecnici che mostrano l'evoluzione della pratica sperimentale."
+    },
     "products": {
       "loadingMore": "Caricamento di altri articoli...",
       "allLoaded_one": "Hai visualizzato {{count}} articolo in questa categoria.",

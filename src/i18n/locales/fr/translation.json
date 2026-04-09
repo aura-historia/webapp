@@ -628,6 +628,42 @@
     }
   },
   "category": {
+    "header": {
+      "archiveLabel": "Archives des categories",
+      "overviewTitle": "Perspective curatoriale",
+      "indexedItems": "Objets indexes",
+      "imageAlt": "Image representative de {{category}}"
+    },
+    "descriptions": {
+      "default": "Explorez des objets soigneusement selectionnes dans cette categorie, avec des indices de provenance, de technique et de visibilite sur le marche actuel.",
+      "ANCIENT_POTTERY": "Vases, pieces votives et ceramiques anciennes qui revelent rituels, echanges et vie quotidienne des civilisations passees.",
+      "STORAGE_CONTAINERS": "Coffres, armoires, boites et contenants historiques ou fonctionnalite et savoir-faire se rejoignent.",
+      "LIGHTING_OBJECTS": "Bougeoirs, lanternes, lustres et premiers luminaires electriques qui ont modele l'ambiance des interieurs.",
+      "BOOKS_MANUSCRIPTS_PRINTED_MEDIA": "Livres rares, manuscrits, gravures et imprimes preservant l'histoire intellectuelle et artistique.",
+      "FURNITURE": "Tables, sieges et meubles de rangement couvrant les grands styles, des ateliers regionaux aux grands ebenistes.",
+      "TOYS_GAMES_RECREATIONAL": "Jouets, jeux de societe et curiosites mecaniques temoignant de la culture de l'enfance et du loisir.",
+      "TEXTILES": "Textiles historiques, tapisseries, vetements et broderies evalues pour tissage, teinture, technique et provenance.",
+      "CLOCKS_TIMEKEEPING": "Pendules, horloges de voyage, montres et instruments de mesure du temps issus de la tradition horlogere.",
+      "JEWELRY_PERSONAL_ADORNMENT": "Bagues, broches, chaines et ornements ou matieres precieuses et symbolique culturelle se rencontrent.",
+      "ARCHITECTURAL_ELEMENTS": "Portes, panneaux, ferronneries et fragments sculptes provenant d'interieurs et de facades historiques.",
+      "ARCHAEOLOGICAL_ARTIFACTS": "Objets de fouille et decouvertes documentees offrant des preuves materielles directes du passe.",
+      "VISUAL_ART": "Peintures, dessins, estampes et sculptures choisis pour leur importance artistique, leur attribution et leur etat.",
+      "DECORATIVE_OBJECTS": "Ceramiques, verres, bronzes et objets decoratifs qui enrichissent espaces domestiques et ceremoniels.",
+      "EPHEMERA_MEMORABILIA": "Affiches, billets, lettres et souvenirs en papier qui conservent la memoire sociale des evenements.",
+      "PHOTOGRAPHY_OPTICAL_MEDIA": "Photographies anciennes, appareils, vues stereoscopiques et medias optiques de la culture visuelle naissante.",
+      "MUSICAL_INSTRUMENTS": "Instruments a cordes, vents, claviers et traditions populaires valorises pour luthier, epoque et facture.",
+      "WEAPONS": "Armes historiques et pieces de defense etudiees comme temoins de savoir-faire, de statut et de conflits.",
+      "TOOLS_IMPLEMENTS": "Outils d'atelier et instruments domestiques illustrant les savoirs pratiques transmis entre generations.",
+      "INDUSTRIAL_TRADE_EQUIPMENT": "Appareils industriels, mobilier de commerce et equipements de metier issus de l'histoire economique.",
+      "CULTURAL_ETHNOGRAPHIC": "Objets de pratiques culturelles et d'identite documentes avec attention au contexte et a l'ethique.",
+      "MILITARIA": "Uniformes, insignes, equipements de terrain et documents lies aux structures militaires et aux parcours de vie.",
+      "COINS_CURRENCY_MEDALS": "Monnaies, billets, medailles et jetons qui racontent autorite politique, economie et memoire.",
+      "NATURAL_HISTORY_CURIOSITIES": "Fossiles, specimens et curiosites de cabinet lies a l'histoire des sciences naturelles.",
+      "TRANSPORTATION_TRAVEL_OBJECTS": "Malles de voyage, instruments de navigation, objets automobiles et souvenirs de transport.",
+      "RELIGIOUS_RITUAL_CEREMONIAL": "Objets liturgiques et ceremoniels associes a la devotion, aux rites et aux traditions sacrees.",
+      "WRITING_COMMUNICATION_INSTRUMENTS": "Plumes, encriers, sceaux et instruments de bureau qui ont faconne l'ecrit et la communication.",
+      "SCIENTIFIC_MEDICAL_TECHNICAL": "Instruments scientifiques, medicaux et techniques representant l'evolution de la pratique experimentale."
+    },
     "products": {
       "loadingMore": "Chargement d'autres articles...",
       "allLoaded_one": "Vous avez consulté {{count}} article dans cette catégorie.",
