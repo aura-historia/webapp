@@ -1,6 +1,7 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Preview)"
+    "auraHistoria": "Aura Historia (Preview)",
+    "infoButton": "Weitere Informationen"
   },
   "meta": {
     "siteName": "Aura Historia | Führende Suchmaschine für Antiquitäten",
@@ -324,7 +325,8 @@
       "filters": {
         "all": "Alle",
         "price": "Preis",
-        "availability": "Verfügbarkeit"
+        "availability": "Verfügbarkeit",
+        "details": "Details"
       },
       "events": {
         "statusChanged": "Der Status wurde von {{oldState}} auf {{newState}} geändert.",
@@ -333,7 +335,16 @@
         "priceFallen": "gefallen",
         "priceIncreased": "gestiegen",
         "priceRemoved": "Preis entfernt • Letzter Preis: {{price}}.",
-        "created": "Im System erfasst"
+        "created": "Im System erfasst",
+        "estimatePriceChanged": "Geschätzter Preisbereich aktualisiert.",
+        "urlChanged": "Produkt-URL aktualisiert.",
+        "imagesChanged": "Bilder aktualisiert • {{count}} Bild(er).",
+        "auctionTimeChanged": "Auktionszeitraum aktualisiert.",
+        "originYearChanged": "Entstehungsjahr aktualisiert.",
+        "authenticityChanged": "Echtheit aktualisiert • {{value}}.",
+        "conditionChanged": "Zustand aktualisiert • {{value}}.",
+        "provenanceChanged": "Provenienz aktualisiert • {{value}}.",
+        "restorationChanged": "Restaurierung aktualisiert • {{value}}."
       }
     },
     "auction": {
@@ -372,11 +383,17 @@
   },
   "productState": {
     "listed": "Gelistet",
+    "listedDescription": "Dieser Artikel ist sichtbar, steht aber noch nicht zum Kauf bereit.",
     "available": "Verfügbar",
+    "availableDescription": "Dieser Artikel steht zum Kauf zur Verfügung.",
     "reserved": "Reserviert",
+    "reservedDescription": "Dieser Artikel ist reserviert. Er könnte wieder verfügbar werden.",
     "sold": "Verkauft",
+    "soldDescription": "Dieser Artikel wurde bereits verkauft.",
     "removed": "Gelöscht",
-    "unknown": "Unbekannt"
+    "removedDescription": "Dieser Artikel wurde vom Händler entfernt und kann nicht mehr verfolgt werden.",
+    "unknown": "Unbekannt",
+    "unknownDescription": "Der aktuelle Verfügbarkeitsstatus dieses Artikels ist unklar."
   },
   "shopType": {
     "auctionHouse": "Auktionshaus",

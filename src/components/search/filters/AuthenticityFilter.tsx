@@ -18,6 +18,7 @@ export function AuthenticityFilter() {
             AUTHENTICITIES.map((authenticity) => ({
                 value: authenticity,
                 label: t(AUTHENTICITY_TRANSLATION_CONFIG[authenticity].translationKey),
+                description: t(AUTHENTICITY_TRANSLATION_CONFIG[authenticity].descriptionKey),
             })),
         [t],
     );
@@ -35,6 +36,7 @@ export function AuthenticityFilter() {
                         onChange={field.onChange}
                         allSelectedLabel={t("search.filter.all")}
                         placeholder={t("search.filter.select")}
+                        infoButtonLabel={t("common.infoButton")}
                     />
                 )}
             />

@@ -1,6 +1,7 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Preview)"
+    "auraHistoria": "Aura Historia (Preview)",
+    "infoButton": "More information"
   },
   "meta": {
     "siteName": "Aura Historia | Leading Antiques Search Engine",
@@ -324,7 +325,8 @@
       "filters": {
         "all": "All",
         "price": "Price",
-        "availability": "Availability"
+        "availability": "Availability",
+        "details": "Details"
       },
       "events": {
         "statusChanged": "Status changed from {{oldState}} to {{newState}}.",
@@ -333,7 +335,16 @@
         "priceFallen": "dropped",
         "priceIncreased": "increased",
         "priceRemoved": "Price removed • Last price: {{price}}.",
-        "created": "Added to system"
+        "created": "Added to system",
+        "estimatePriceChanged": "Estimated price range updated.",
+        "urlChanged": "Product URL updated.",
+        "imagesChanged": "Images updated • {{count}} image(s).",
+        "auctionTimeChanged": "Auction period updated.",
+        "originYearChanged": "Year of origin updated.",
+        "authenticityChanged": "Authenticity updated • {{value}}.",
+        "conditionChanged": "Condition updated • {{value}}.",
+        "provenanceChanged": "Provenance updated • {{value}}.",
+        "restorationChanged": "Restoration updated • {{value}}."
       }
     },
     "auction": {
@@ -372,15 +383,21 @@
   },
   "productState": {
     "listed": "Listed",
+    "listedDescription": "This item is visible but is not yet available for purchase.",
     "available": "Available",
+    "availableDescription": "This item is available for purchase.",
     "reserved": "Reserved",
+    "reservedDescription": "This item is currently reserved. It may become available again.",
     "sold": "Sold",
+    "soldDescription": "This item has already been sold.",
     "removed": "Removed",
-    "unknown": "Unknown"
+    "removedDescription": "This item was removed by the seller and can no longer be tracked.",
+    "unknown": "Unknown",
+    "unknownDescription": "The current availability of this item is unclear."
   },
   "shopType": {
     "auctionHouse": "Auction House",
-    "auctionPlatform": "Auktionsplattform",
+    "auctionPlatform": "Auction Platform",
     "commercialDealer": "Dealer",
     "marketplace": "Marketplace",
     "unknown": "Unknown"

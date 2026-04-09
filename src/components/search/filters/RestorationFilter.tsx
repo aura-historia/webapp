@@ -18,6 +18,7 @@ export function RestorationFilter() {
             RESTORATIONS.map((restoration) => ({
                 value: restoration,
                 label: t(RESTORATION_TRANSLATION_CONFIG[restoration].translationKey),
+                description: t(RESTORATION_TRANSLATION_CONFIG[restoration].descriptionKey),
             })),
         [t],
     );
@@ -35,6 +36,7 @@ export function RestorationFilter() {
                         onChange={field.onChange}
                         allSelectedLabel={t("search.filter.all")}
                         placeholder={t("search.filter.select")}
+                        infoButtonLabel={t("common.infoButton")}
                     />
                 )}
             />

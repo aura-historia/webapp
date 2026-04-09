@@ -1,6 +1,7 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Aperçu)"
+    "auraHistoria": "Aura Historia (Aperçu)",
+    "infoButton": "Plus d'informations"
   },
   "meta": {
     "siteName": "Aura Historia | Moteur de recherche d'antiquités leader",
@@ -255,7 +256,8 @@
       "filters": {
         "all": "Tous",
         "price": "Prix",
-        "availability": "Disponibilité"
+        "availability": "Disponibilité",
+        "details": "Détails"
       },
       "events": {
         "statusChanged": "Le statut est passé de {{oldState}} à {{newState}}.",
@@ -264,7 +266,16 @@
         "priceFallen": "passé",
         "priceIncreased": "passé",
         "priceRemoved": "Prix supprimé • Dernier prix : {{price}}.",
-        "created": "Enregistré dans le système"
+        "created": "Enregistré dans le système",
+        "estimatePriceChanged": "Fourchette de prix estimée mise à jour.",
+        "urlChanged": "URL du produit mise à jour.",
+        "imagesChanged": "Images mises à jour • {{count}} image(s).",
+        "auctionTimeChanged": "Période de vente aux enchères mise à jour.",
+        "originYearChanged": "Année d'origine mise à jour.",
+        "authenticityChanged": "Authenticité mise à jour • {{value}}.",
+        "conditionChanged": "État mis à jour • {{value}}.",
+        "provenanceChanged": "Provenance mise à jour • {{value}}.",
+        "restorationChanged": "Restauration mise à jour • {{value}}."
       }
     },
     "priceEstimate": {
@@ -376,7 +387,13 @@
     "reserved": "Réservé",
     "sold": "Vendu",
     "removed": "Supprimé",
-    "unknown": "Inconnu"
+    "unknown": "Inconnu",
+    "listedDescription": "Cet article est visible mais n'est pas encore disponible à l'achat.",
+    "availableDescription": "Cet article est disponible à l'achat.",
+    "reservedDescription": "Cet article est actuellement réservé. Il pourrait redevenir disponible.",
+    "soldDescription": "Cet article a déjà été vendu.",
+    "removedDescription": "Cet article a été retiré par le vendeur et ne peut plus être suivi.",
+    "unknownDescription": "La disponibilité actuelle de cet article est incertaine."
   },
   "shopType": {
     "auctionHouse": "Maison de vente aux enchères",

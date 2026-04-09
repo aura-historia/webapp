@@ -18,6 +18,7 @@ export function ConditionFilter() {
             CONDITIONS.map((condition) => ({
                 value: condition,
                 label: t(CONDITION_TRANSLATION_CONFIG[condition].translationKey),
+                description: t(CONDITION_TRANSLATION_CONFIG[condition].descriptionKey),
             })),
         [t],
     );
@@ -35,6 +36,7 @@ export function ConditionFilter() {
                         onChange={field.onChange}
                         allSelectedLabel={t("search.filter.all")}
                         placeholder={t("search.filter.select")}
+                        infoButtonLabel={t("common.infoButton")}
                     />
                 )}
             />

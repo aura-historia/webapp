@@ -1,6 +1,7 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Vista previa)"
+    "auraHistoria": "Aura Historia (Vista previa)",
+    "infoButton": "Más información"
   },
   "meta": {
     "siteName": "Aura Historia | Motor de búsqueda de antigüedades líder",
@@ -255,7 +256,8 @@
       "filters": {
         "all": "Todos",
         "price": "Precio",
-        "availability": "Disponibilidad"
+        "availability": "Disponibilidad",
+        "details": "Detalles"
       },
       "events": {
         "statusChanged": "Estado cambiado de {{oldState}} a {{newState}}.",
@@ -264,7 +266,16 @@
         "priceFallen": "bajado",
         "priceIncreased": "subido",
         "priceRemoved": "Precio eliminado • Último precio: {{price}}.",
-        "created": "Añadido al sistema"
+        "created": "Añadido al sistema",
+        "estimatePriceChanged": "Rango de precio estimado actualizado.",
+        "urlChanged": "URL del producto actualizada.",
+        "imagesChanged": "Imágenes actualizadas • {{count}} imagen(es).",
+        "auctionTimeChanged": "Período de subasta actualizado.",
+        "originYearChanged": "Año de origen actualizado.",
+        "authenticityChanged": "Autenticidad actualizada • {{value}}.",
+        "conditionChanged": "Condición actualizada • {{value}}.",
+        "provenanceChanged": "Procedencia actualizada • {{value}}.",
+        "restorationChanged": "Restauración actualizada • {{value}}."
       }
     },
     "priceEstimate": {
@@ -376,7 +387,13 @@
     "reserved": "Reservado",
     "sold": "Vendido",
     "removed": "Eliminado",
-    "unknown": "Desconocido"
+    "unknown": "Desconocido",
+    "listedDescription": "Este artículo es visible pero aún no está disponible para la compra.",
+    "availableDescription": "Este artículo está disponible para la compra.",
+    "reservedDescription": "Este artículo está actualmente reservado. Podría estar disponible nuevamente.",
+    "soldDescription": "Este artículo ya ha sido vendido.",
+    "removedDescription": "Este artículo fue retirado por el vendedor y ya no puede ser rastreado.",
+    "unknownDescription": "La disponibilidad actual de este artículo no está clara."
   },
   "shopType": {
     "auctionHouse": "Casa de subastas",
