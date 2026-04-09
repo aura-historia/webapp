@@ -4,6 +4,7 @@ import { useNotifications } from "@/hooks/notification/useNotifications.ts";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
 import { Bell, BellRing } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Link } from "@tanstack/react-router";
 import { NotificationItem } from "./NotificationItem.tsx";
 
 const SKELETON_IDS = Array.from({ length: 3 }, (_, i) => `skeleton-${i}`);
@@ -84,8 +85,9 @@ export function NotificationBell() {
                             variant="ghost"
                             size="sm"
                             className="w-full text-xs text-muted-foreground hover:text-foreground"
+                            asChild
                         >
-                            {t("notifications.showAll")}
+                            <Link to="/notifications">{t("notifications.showAll")}</Link>
                         </Button>
                     </div>
                 )}
