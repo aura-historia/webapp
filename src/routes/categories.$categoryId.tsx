@@ -43,7 +43,10 @@ function CategoryDetailComponent() {
         <div className="bg-background">
             <CategoryHeader category={category} />
             <div className="mx-auto w-full max-w-7xl px-4 pb-16 md:px-10">
-                <CategoryProductGrid categoryId={categoryId} />
+                <div aria-hidden="true" className="border-t border-border/30 hidden md:block" />
+                <div className="pt-8">
+                    <CategoryProductGrid categoryId={categoryId} />
+                </div>
             </div>
         </div>
     );
