@@ -1,4 +1,5 @@
 import type { GetCategoryData } from "@/client";
+import { getCategoryDescription } from "@/lib/seo/categoryDescription.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 
 type CategoryCollectionPageJsonLd = {
@@ -20,8 +21,7 @@ export function generateCategoryJsonLd(
     data: GetCategoryData,
     categoryUrl: string,
 ): CategoryCollectionPageJsonLd {
-    // TODO: load from i18n depending on category id
-    const description = "";
+    const description = getCategoryDescription(data.categoryKey);
 
     return {
         "@context": "https://schema.org/",

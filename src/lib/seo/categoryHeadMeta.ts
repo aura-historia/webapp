@@ -1,5 +1,6 @@
 import type { GetCategoryData } from "@/client";
 import { generateCategoryJsonLdScript } from "@/lib/seo/categoryJsonLd.ts";
+import { getCategoryDescription } from "@/lib/seo/categoryDescription.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
 import { env } from "@/env.ts";
@@ -34,8 +35,7 @@ export function generateCategoryHeadMeta(
     const categoryPath = `/categories/${params.categoryId}`;
 
     const name = loaderData?.name.text ?? i18n.t("meta.category.defaultName");
-    // TODO: load form i18n depending on category id
-    const description = "";
+    const description = getCategoryDescription(loaderData?.categoryKey ?? params.categoryId);
     const siteName = i18n.t("meta.siteName");
 
     return {
