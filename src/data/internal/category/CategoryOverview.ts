@@ -4,6 +4,7 @@ export type CategoryOverview = {
     readonly categoryId: string;
     readonly categoryKey: string;
     readonly name: string;
+    readonly productCount: number;
 };
 
 /**
@@ -15,5 +16,6 @@ export function mapToCategoryOverview(data: GetCategorySummaryData): CategoryOve
         categoryId: data.categoryId,
         categoryKey: data.categoryKey,
         name: data.name.text,
+        productCount: data.products,
     };
 }

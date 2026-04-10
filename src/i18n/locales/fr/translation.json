@@ -1,6 +1,7 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Aperçu)"
+    "auraHistoria": "Aura Historia (Aperçu)",
+    "infoButton": "Plus d'informations"
   },
   "meta": {
     "siteName": "Aura Historia | Moteur de recherche d'antiquités leader",
@@ -68,6 +69,7 @@
     "login": "Se connecter"
   },
   "footer": {
+    "brandName": "Aura Historia",
     "ariaSwitchToLanguage": "Changer de langue vers {{language}}",
     "imprint": "Mentions légales",
     "privacy": "Politique de confidentialité",
@@ -254,7 +256,8 @@
       "filters": {
         "all": "Tous",
         "price": "Prix",
-        "availability": "Disponibilité"
+        "availability": "Disponibilité",
+        "details": "Détails"
       },
       "events": {
         "statusChanged": "Le statut est passé de {{oldState}} à {{newState}}.",
@@ -263,7 +266,16 @@
         "priceFallen": "passé",
         "priceIncreased": "passé",
         "priceRemoved": "Prix supprimé • Dernier prix : {{price}}.",
-        "created": "Enregistré dans le système"
+        "created": "Enregistré dans le système",
+        "estimatePriceChanged": "Fourchette de prix estimée mise à jour.",
+        "urlChanged": "URL du produit mise à jour.",
+        "imagesChanged": "Images mises à jour • {{count}} image(s).",
+        "auctionTimeChanged": "Période de vente aux enchères mise à jour.",
+        "originYearChanged": "Année d'origine mise à jour.",
+        "authenticityChanged": "Authenticité mise à jour • {{value}}.",
+        "conditionChanged": "État mis à jour • {{value}}.",
+        "provenanceChanged": "Provenance mise à jour • {{value}}.",
+        "restorationChanged": "Restauration mise à jour • {{value}}."
       }
     },
     "priceEstimate": {
@@ -375,7 +387,13 @@
     "reserved": "Réservé",
     "sold": "Vendu",
     "removed": "Supprimé",
-    "unknown": "Inconnu"
+    "unknown": "Inconnu",
+    "listedDescription": "Cet article est visible mais n'est pas encore disponible à l'achat.",
+    "availableDescription": "Cet article est disponible à l'achat.",
+    "reservedDescription": "Cet article est actuellement réservé. Il pourrait redevenir disponible.",
+    "soldDescription": "Cet article a déjà été vendu.",
+    "removedDescription": "Cet article a été retiré par le vendeur et ne peut plus être suivi.",
+    "unknownDescription": "La disponibilité actuelle de cet article est incertaine."
   },
   "shopType": {
     "auctionHouse": "Maison de vente aux enchères",
@@ -413,19 +431,36 @@
   },
   "landingPage": {
     "badge": "Recherchez au-delà des marchés habituels",
-    "titleFirstLine": "Découvrez des antiquités rares sur le marché mondial",
+    "titleFirstLine": "Découvrez des antiquités rares<1/>sur le marché mondial",
     "subtitle": "Aura Historia explore les antiquaires, les maisons de vente aux enchères et les marketplaces du monde entier — vous aidant à dénicher des pièces que les autres ne voient jamais.",
     "trustBadge1": "Antiquaires et maisons de vente aux enchères dans le monde entier",
     "trustBadge2": "Annonces mises à jour en continu",
     "trustBadge3": "Conçu pour les collectionneurs sérieux",
     "categories": {
-      "title": "Parcourir les catégories"
+      "title": "Parcourir les catégories",
+      "objectCount_one": "{{formattedCount}} Objet",
+      "objectCount_other": "{{formattedCount}} Objets"
     },
     "periods": {
-      "title": "Découvrir les époques et les styles"
+      "title": "Explorez les époques historiques",
+      "eyebrow": "Archives des epoques",
+      "titleLineOne": "Explorer par",
+      "titleLineTwo": "Epoques historiques",
+      "description": "Parcourez le temps a travers des collections des mouvements de design les plus marquants du monde.",
+      "cta": "Voir la chronologie",
+      "previous": "Epoques precedentes",
+      "next": "Epoques suivantes",
+      "rangeUnknown": "Periode",
+      "rangeToday": "Aujourd'hui",
+      "rangeBc": "av. J.-C.",
+      "rangeBce": "av. J.-C.",
+      "rangeCe": "apr. J.-C."
     },
     "recentlyAdded": {
-      "title": "Ajoutés récemment"
+      "eyebrow": "Ajoutés récemment",
+      "title": "Les dernières acquisitions",
+      "foundAt": "Trouvé chez {{shopName}}.",
+      "foundAtWithYear": "Trouvé chez {{shopName}}. Vers {{year}}."
     },
     "features": {
       "title": "Les antiquités sont dispersées partout en ligne - votre recherche ne devrait pas l'être",

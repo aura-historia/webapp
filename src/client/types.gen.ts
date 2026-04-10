@@ -313,6 +313,10 @@ export type NotificationUserStateData = {
  * When `matched` is `true`, at least one of the user's saved search filters matched this product.
  * `userSearchFilterId`, `userSearchFilterName` and `matchReason` are only present when `matched` is `true`.
  * Defaults to `matched: false` when the user has no saved search filters or none of them matched.
+ * When `hidden` is `true`, the match exceeds the user's monthly search-filter match quota and the
+ * product data is anonymized (nil IDs, placeholder title, unknown enums, nulled timestamps).
+ * Only matches ranked beyond the quota (by ascending match creation time) are hidden;
+ * the first N matches (where N is the user's tier quota) remain fully visible.
  *
  */
 export type SearchFilterUserStateData = {
@@ -320,6 +324,16 @@ export type SearchFilterUserStateData = {
      * Whether any of the user's saved search filters matched this product. Defaults to `false`.
      */
     matched: boolean;
+    /**
+     * Whether this match is hidden because the user has exceeded their monthly search-filter match quota.
+     * When `true`, the product data in the response is anonymized: the `productId` is set to a nil UUID,
+     * the title becomes a language-specific placeholder, `condition` is set to `Unknown`, all other UUID
+     * fields are nil, enum fields are set to their unknown variants, optional fields are omitted, and
+     * timestamps are set to the Unix epoch.
+     * Defaults to `false`.
+     *
+     */
+    hidden: boolean;
     /**
      * The ID of the saved search filter that matched this product.
      * Present only when `matched` is `true`; omitted otherwise.
@@ -1570,6 +1584,7 @@ export type GetUserAccountData = {
      */
     prohibitedContentConsent: boolean;
     tier: UserTierData;
+    role: UserRoleData;
     /**
      * When the user account was created (RFC3339 format)
      */
@@ -1616,6 +1631,14 @@ export type PatchUserAccountData = {
  *
  */
 export type UserTierData = 'FREE' | 'PRO' | 'ULTIMATE';
+
+/**
+ * The user's role used for API authorization.
+ * - `USER`: Standard authenticated user.
+ * - `ADMIN`: Administrator with access to admin-only endpoints.
+ *
+ */
+export type UserRoleData = 'USER' | 'ADMIN';
 
 /**
  * A single user notification, fully localized for the requested language and currency.
@@ -2121,6 +2144,169 @@ export type PutProductsResponse = {
     errors: {
         [key: string]: string;
     };
+};
+
+/**
+ * The review state of a partner shop application:
+ * - `SUBMITTED`: Application has been submitted and is awaiting review.
+ * - `IN_REVIEW`: Application is currently being reviewed by the team.
+ * - `REJECTED`: Application was reviewed and rejected.
+ * - `APPROVED`: Application was reviewed and approved.
+ * The state is read-only from the client perspective and can only be changed internally.
+ *
+ */
+export type PartnerShopApplicationStateData = 'SUBMITTED' | 'IN_REVIEW' | 'REJECTED' | 'APPROVED';
+
+/**
+ * The payload of a partner shop application. Discriminated by the `type` field.
+ * - `EXISTING`: The application targets an existing shop identified by `shopId`.
+ * - `NEW`: The application targets a new shop described by name, type, domains, and optional image.
+ *
+ */
+export type GetPartnerShopApplicationPayloadData = {
+    /**
+     * Discriminator value indicating this payload targets an existing shop.
+     */
+    type: 'EXISTING';
+    /**
+     * Unique identifier of the existing shop.
+     */
+    shopId: string;
+} | {
+    /**
+     * Discriminator value indicating this payload describes a new shop.
+     */
+    type: 'NEW';
+    /**
+     * Display name of the new shop.
+     */
+    shopName: string;
+    shopType: ShopTypeData;
+    /**
+     * Domains associated with the new shop.
+     * Domains are normalized (lowercase, no scheme, no www prefix, no path/query/fragment).
+     *
+     */
+    shopDomains: Array<string>;
+    /**
+     * Optional URL to the new shop's logo or image.
+     */
+    shopImage?: string | null;
+};
+
+/**
+ * Full representation of a partner shop application.
+ */
+export type GetPartnerShopApplicationData = {
+    /**
+     * Unique identifier of the partner shop application.
+     */
+    id: string;
+    state: PartnerShopApplicationStateData;
+    payload: GetPartnerShopApplicationPayloadData;
+    /**
+     * When the application was created (RFC3339 format).
+     */
+    created: string;
+    /**
+     * When the application was last updated (RFC3339 format).
+     */
+    updated: string;
+};
+
+/**
+ * Request payload for creating a new partner shop application. Discriminated by the `type` field.
+ * - `EXISTING`: Apply for partnership for an existing shop identified by `shopId`.
+ * - `NEW`: Apply for partnership for a new shop described by name, type, domains, and optional image.
+ * The application state is always initialized to `SUBMITTED` and cannot be set by the client.
+ *
+ */
+export type PostPartnerShopApplicationPayloadData = {
+    /**
+     * Discriminator value indicating this payload targets an existing shop.
+     */
+    type: 'EXISTING';
+    /**
+     * Unique identifier of the existing shop to apply for.
+     */
+    shopId: string;
+} | {
+    /**
+     * Discriminator value indicating this payload describes a new shop.
+     */
+    type: 'NEW';
+    /**
+     * Display name of the new shop.
+     */
+    shopName: string;
+    shopType: ShopTypeData;
+    /**
+     * Domains associated with the new shop.
+     * Domains are normalized (lowercase, no scheme, no www prefix, no path/query/fragment).
+     *
+     */
+    shopDomains: Array<string>;
+    /**
+     * Optional URL to the new shop's logo or image.
+     */
+    shopImage?: string | null;
+};
+
+/**
+ * Partial update for a partner shop application.
+ * Only the fields present in the request body are applied; omitted fields are left unchanged.
+ * All fields are optional. The `state` field is read-only and cannot be modified through this endpoint.
+ * Note: These fields only apply to applications with a `NEW` payload type.
+ * Sending patch fields for an application with `EXISTING` payload type is accepted but has no effect.
+ *
+ */
+export type PatchPartnerShopApplicationData = {
+    /**
+     * Updated display name of the shop.
+     */
+    shopName?: string;
+    /**
+     * Updated shop type classification.
+     */
+    shopType?: ShopTypeData;
+    /**
+     * Updated set of domains for the shop. Replaces the existing domains entirely.
+     * Domains are normalized (lowercase, no scheme, no www prefix, no path/query/fragment).
+     *
+     */
+    shopDomains?: Array<string>;
+    /**
+     * Updated URL to the shop's logo or image. Set to `null` to remove the image.
+     */
+    shopImage?: string | null;
+};
+
+/**
+ * Partial update for a partner shop application performed by an administrator.
+ * Only the fields present in the request body are applied; omitted fields are left unchanged.
+ * All fields are optional, including the review `state`.
+ *
+ */
+export type AdminPatchPartnerShopApplicationData = {
+    state?: PartnerShopApplicationStateData;
+    /**
+     * Updated display name of the shop.
+     */
+    shopName?: string;
+    /**
+     * Updated shop type classification.
+     */
+    shopType?: ShopTypeData;
+    /**
+     * Updated set of domains for the shop. Replaces the existing domains entirely.
+     * Domains are normalized (lowercase, no scheme, no www prefix, no path/query/fragment).
+     *
+     */
+    shopDomains?: Array<string>;
+    /**
+     * Updated URL to the shop's logo or image.
+     */
+    shopImage?: string | null;
 };
 
 export type PatchPartnerProductsData = {
@@ -4072,3 +4258,333 @@ export type SearchPeriodsResponses = {
 };
 
 export type SearchPeriodsResponse = SearchPeriodsResponses[keyof SearchPeriodsResponses];
+
+export type GetPartnerApplicationsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/partner-applications';
+};
+
+export type GetPartnerApplicationsErrors = {
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type GetPartnerApplicationsError = GetPartnerApplicationsErrors[keyof GetPartnerApplicationsErrors];
+
+export type GetPartnerApplicationsResponses = {
+    /**
+     * Partner shop applications retrieved successfully.
+     */
+    200: Array<GetPartnerShopApplicationData>;
+};
+
+export type GetPartnerApplicationsResponse = GetPartnerApplicationsResponses[keyof GetPartnerApplicationsResponses];
+
+export type PostPartnerApplicationData = {
+    /**
+     * The partner shop application payload. Must specify either an existing shop (`type: "EXISTING"`)
+     * or a new shop (`type: "NEW"`).
+     *
+     */
+    body: PostPartnerShopApplicationPayloadData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/partner-applications';
+};
+
+export type PostPartnerApplicationErrors = {
+    /**
+     * Bad request – missing or invalid request body.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type PostPartnerApplicationError = PostPartnerApplicationErrors[keyof PostPartnerApplicationErrors];
+
+export type PostPartnerApplicationResponses = {
+    /**
+     * Partner shop application created successfully.
+     */
+    201: GetPartnerShopApplicationData;
+};
+
+export type PostPartnerApplicationResponse = PostPartnerApplicationResponses[keyof PostPartnerApplicationResponses];
+
+export type DeletePartnerApplicationData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier (UUID) of the partner shop application to delete.
+         */
+        partnerApplicationId: string;
+    };
+    query?: never;
+    url: '/api/v1/me/partner-applications/{partnerApplicationId}';
+};
+
+export type DeletePartnerApplicationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Not found – no partner shop application with the given ID exists for this user.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type DeletePartnerApplicationError = DeletePartnerApplicationErrors[keyof DeletePartnerApplicationErrors];
+
+export type DeletePartnerApplicationResponses = {
+    /**
+     * Partner shop application deleted successfully.
+     */
+    204: void;
+};
+
+export type DeletePartnerApplicationResponse = DeletePartnerApplicationResponses[keyof DeletePartnerApplicationResponses];
+
+export type GetPartnerApplicationData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier (UUID) of the partner shop application.
+         */
+        partnerApplicationId: string;
+    };
+    query?: never;
+    url: '/api/v1/me/partner-applications/{partnerApplicationId}';
+};
+
+export type GetPartnerApplicationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Not found – no partner shop application with the given ID exists for this user.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type GetPartnerApplicationError = GetPartnerApplicationErrors[keyof GetPartnerApplicationErrors];
+
+export type GetPartnerApplicationResponses = {
+    /**
+     * Partner shop application found and returned successfully.
+     */
+    200: GetPartnerShopApplicationData;
+};
+
+export type GetPartnerApplicationResponse = GetPartnerApplicationResponses[keyof GetPartnerApplicationResponses];
+
+export type PatchPartnerApplicationData = {
+    /**
+     * Partial update for a partner shop application.
+     * Only the provided fields are updated. All fields are optional.
+     * Note: `state` is read-only and cannot be set by the client.
+     *
+     */
+    body: PatchPartnerShopApplicationData;
+    path: {
+        /**
+         * Unique identifier (UUID) of the partner shop application to update.
+         */
+        partnerApplicationId: string;
+    };
+    query?: never;
+    url: '/api/v1/me/partner-applications/{partnerApplicationId}';
+};
+
+export type PatchPartnerApplicationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter or request body.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Not found – no partner shop application with the given ID exists for this user.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type PatchPartnerApplicationError = PatchPartnerApplicationErrors[keyof PatchPartnerApplicationErrors];
+
+export type PatchPartnerApplicationResponses = {
+    /**
+     * Partner shop application updated successfully. Returns the updated application.
+     */
+    200: GetPartnerShopApplicationData;
+};
+
+export type PatchPartnerApplicationResponse = PatchPartnerApplicationResponses[keyof PatchPartnerApplicationResponses];
+
+export type AdminGetPartnerApplicationsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/partner-applications';
+};
+
+export type AdminGetPartnerApplicationsErrors = {
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden – this endpoint requires the `ADMIN` role.
+     */
+    403: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type AdminGetPartnerApplicationsError = AdminGetPartnerApplicationsErrors[keyof AdminGetPartnerApplicationsErrors];
+
+export type AdminGetPartnerApplicationsResponses = {
+    /**
+     * Partner shop applications retrieved successfully.
+     */
+    200: Array<GetPartnerShopApplicationData>;
+};
+
+export type AdminGetPartnerApplicationsResponse = AdminGetPartnerApplicationsResponses[keyof AdminGetPartnerApplicationsResponses];
+
+export type AdminGetPartnerApplicationData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier (UUID) of the partner shop application.
+         */
+        partnerApplicationId: string;
+    };
+    query?: never;
+    url: '/api/v1/partner-applications/{partnerApplicationId}';
+};
+
+export type AdminGetPartnerApplicationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden – this endpoint requires the `ADMIN` role.
+     */
+    403: ApiError;
+    /**
+     * Not found – no partner shop application with the given ID exists.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type AdminGetPartnerApplicationError = AdminGetPartnerApplicationErrors[keyof AdminGetPartnerApplicationErrors];
+
+export type AdminGetPartnerApplicationResponses = {
+    /**
+     * Partner shop application found and returned successfully.
+     */
+    200: GetPartnerShopApplicationData;
+};
+
+export type AdminGetPartnerApplicationResponse = AdminGetPartnerApplicationResponses[keyof AdminGetPartnerApplicationResponses];
+
+export type AdminPatchPartnerApplicationData = {
+    /**
+     * Partial update for a partner shop application.
+     * All fields are optional, but the request body itself must be present and non-empty.
+     * Admins may update both review state and payload fields.
+     *
+     */
+    body: AdminPatchPartnerShopApplicationData;
+    path: {
+        /**
+         * Unique identifier (UUID) of the partner shop application to update.
+         */
+        partnerApplicationId: string;
+    };
+    query?: never;
+    url: '/api/v1/partner-applications/{partnerApplicationId}';
+};
+
+export type AdminPatchPartnerApplicationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter or request body.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden – this endpoint requires the `ADMIN` role.
+     */
+    403: ApiError;
+    /**
+     * Not found – no partner shop application with the given ID exists.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type AdminPatchPartnerApplicationError = AdminPatchPartnerApplicationErrors[keyof AdminPatchPartnerApplicationErrors];
+
+export type AdminPatchPartnerApplicationResponses = {
+    /**
+     * Partner shop application updated successfully. Returns the updated application.
+     */
+    200: GetPartnerShopApplicationData;
+};
+
+export type AdminPatchPartnerApplicationResponse = AdminPatchPartnerApplicationResponses[keyof AdminPatchPartnerApplicationResponses];

@@ -7,7 +7,8 @@ import {
     useMatches,
 } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
-import geistFontUrl from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
+import manropeFontUrl from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
+import newsreaderFontUrl from "@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import { Footer } from "@/components/common/Footer.tsx";
@@ -114,7 +115,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 },
                 {
                     rel: "preload",
-                    href: geistFontUrl,
+                    href: manropeFontUrl,
+                    as: "font",
+                    type: "font/woff2",
+                    crossOrigin: "anonymous",
+                },
+                {
+                    rel: "preload",
+                    href: newsreaderFontUrl,
                     as: "font",
                     type: "font/woff2",
                     crossOrigin: "anonymous",
@@ -182,7 +190,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                 <body
                     className={
                         isLandingPage
-                            ? "[background:var(--linear-gradient-main)]"
+                            ? "bg-background"
                             : "bg-[repeating-linear-gradient(45deg,var(--border)_0,var(--border)_1px,transparent_1px,transparent_40px)] bg-fixed"
                     }
                 >

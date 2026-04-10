@@ -1,6 +1,7 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Preview)"
+    "auraHistoria": "Aura Historia (Preview)",
+    "infoButton": "More information"
   },
   "meta": {
     "siteName": "Aura Historia | Leading Antiques Search Engine",
@@ -71,6 +72,7 @@
     "login": "Login"
   },
   "footer": {
+    "brandName": "Aura Historia",
     "ariaSwitchToLanguage": "Switch to language {{language}}",
     "imprint": "Imprint",
     "privacy": "Privacy Policy",
@@ -326,7 +328,8 @@
       "filters": {
         "all": "All",
         "price": "Price",
-        "availability": "Availability"
+        "availability": "Availability",
+        "details": "Details"
       },
       "events": {
         "statusChanged": "Status changed from {{oldState}} to {{newState}}.",
@@ -335,7 +338,16 @@
         "priceFallen": "dropped",
         "priceIncreased": "increased",
         "priceRemoved": "Price removed • Last price: {{price}}.",
-        "created": "Added to system"
+        "created": "Added to system",
+        "estimatePriceChanged": "Estimated price range updated.",
+        "urlChanged": "Product URL updated.",
+        "imagesChanged": "Images updated • {{count}} image(s).",
+        "auctionTimeChanged": "Auction period updated.",
+        "originYearChanged": "Year of origin updated.",
+        "authenticityChanged": "Authenticity updated • {{value}}.",
+        "conditionChanged": "Condition updated • {{value}}.",
+        "provenanceChanged": "Provenance updated • {{value}}.",
+        "restorationChanged": "Restoration updated • {{value}}."
       }
     },
     "auction": {
@@ -374,15 +386,21 @@
   },
   "productState": {
     "listed": "Listed",
+    "listedDescription": "This item is visible but is not yet available for purchase.",
     "available": "Available",
+    "availableDescription": "This item is available for purchase.",
     "reserved": "Reserved",
+    "reservedDescription": "This item is currently reserved. It may become available again.",
     "sold": "Sold",
+    "soldDescription": "This item has already been sold.",
     "removed": "Removed",
-    "unknown": "Unknown"
+    "removedDescription": "This item was removed by the seller and can no longer be tracked.",
+    "unknown": "Unknown",
+    "unknownDescription": "The current availability of this item is unclear."
   },
   "shopType": {
     "auctionHouse": "Auction House",
-    "auctionPlatform": "Auktionsplattform",
+    "auctionPlatform": "Auction Platform",
     "commercialDealer": "Dealer",
     "marketplace": "Marketplace",
     "unknown": "Unknown"
@@ -416,19 +434,36 @@
   },
   "landingPage": {
     "badge": "Search beyond the usual marketplaces",
-    "titleFirstLine": "Discover rare antiques across the global market",
+    "titleFirstLine": "Discover rare antiques<1/>across the global market",
     "subtitle": "Aura Historia searches antique dealers, auction houses, and marketplaces worldwide — helping you uncover pieces others never see.",
     "trustBadge1": "Dealers and auction houses worldwide",
     "trustBadge2": "Continuously updated listings",
     "trustBadge3": "Built for serious collectors",
     "categories": {
-      "title": "Browse Categories"
+      "title": "Browse Categories",
+      "objectCount_one": "{{formattedCount}} Object",
+      "objectCount_other": "{{formattedCount}} Objects"
     },
     "periods": {
-      "title": "Discover Periods and Styles"
+      "title": "Browse historical eras",
+      "eyebrow": "Era Archives",
+      "titleLineOne": "Browse by",
+      "titleLineTwo": "Historical Eras",
+      "description": "Navigate time through collections of the world's most significant design movements.",
+      "cta": "View Timeline",
+      "previous": "Previous eras",
+      "next": "Next eras",
+      "rangeUnknown": "Era range",
+      "rangeToday": "Today",
+      "rangeBc": "BC",
+      "rangeBce": "BCE",
+      "rangeCe": "CE"
     },
     "recentlyAdded": {
-      "title": "Recently Added"
+      "eyebrow": "Recently Added",
+      "title": "The Latest Acquisitions",
+      "foundAt": "Found at {{shopName}}.",
+      "foundAtWithYear": "Found at {{shopName}}. Circa {{year}}."
     },
     "features": {
       "title": "Antiques are scattered everywhere online - your search shouldn't be",

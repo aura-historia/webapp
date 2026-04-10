@@ -5,6 +5,15 @@ import type {
     ProductPriceChangedPayload,
     ProductPriceDiscoveredPayload,
     ProductPriceRemovedPayload,
+    ProductEstimatePriceChangedPayload,
+    ProductUrlChangedPayload,
+    ProductImagesChangedPayload,
+    ProductAuctionTimeChangedPayload,
+    ProductOriginYearChangedPayload,
+    ProductAuthenticityChangedPayload,
+    ProductConditionChangedPayload,
+    ProductProvenanceChangedPayload,
+    ProductRestorationChangedPayload,
 } from "@/data/internal/product/ProductDetails.ts";
 import type { StateEventType } from "@/types/events";
 
@@ -127,4 +136,111 @@ export function isStateEvent(event: ProductEvent): event is ProductEvent & {
     eventType: StateEventType | "CREATED";
 } {
     return isCreatedEvent(event) || isStateChangedEvent(event);
+}
+
+/**
+ * Filter ESTIMATE_PRICE_CHANGED events
+ */
+export function isEstimatePriceChangedEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductEstimatePriceChangedPayload;
+    eventType: "ESTIMATE_PRICE_CHANGED";
+} {
+    return event.eventType === "ESTIMATE_PRICE_CHANGED";
+}
+
+/**
+ * Filter URL_CHANGED events
+ */
+export function isUrlChangedEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductUrlChangedPayload;
+    eventType: "URL_CHANGED";
+} {
+    return event.eventType === "URL_CHANGED";
+}
+
+/**
+ * Filter IMAGES_CHANGED events
+ */
+export function isImagesChangedEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductImagesChangedPayload;
+    eventType: "IMAGES_CHANGED";
+} {
+    return event.eventType === "IMAGES_CHANGED";
+}
+
+/**
+ * Filter AUCTION_TIME_CHANGED events
+ */
+export function isAuctionTimeChangedEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductAuctionTimeChangedPayload;
+    eventType: "AUCTION_TIME_CHANGED";
+} {
+    return event.eventType === "AUCTION_TIME_CHANGED";
+}
+
+/**
+ * Filter ORIGIN_YEAR_CHANGED events
+ */
+export function isOriginYearChangedEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductOriginYearChangedPayload;
+    eventType: "ORIGIN_YEAR_CHANGED";
+} {
+    return event.eventType === "ORIGIN_YEAR_CHANGED";
+}
+
+/**
+ * Filter AUTHENTICITY_CHANGED events
+ */
+export function isAuthenticityChangedEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductAuthenticityChangedPayload;
+    eventType: "AUTHENTICITY_CHANGED";
+} {
+    return event.eventType === "AUTHENTICITY_CHANGED";
+}
+
+/**
+ * Filter CONDITION_CHANGED events
+ */
+export function isConditionChangedEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductConditionChangedPayload;
+    eventType: "CONDITION_CHANGED";
+} {
+    return event.eventType === "CONDITION_CHANGED";
+}
+
+/**
+ * Filter PROVENANCE_CHANGED events
+ */
+export function isProvenanceChangedEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductProvenanceChangedPayload;
+    eventType: "PROVENANCE_CHANGED";
+} {
+    return event.eventType === "PROVENANCE_CHANGED";
+}
+
+/**
+ * Filter RESTORATION_CHANGED events
+ */
+export function isRestorationChangedEvent(event: ProductEvent): event is ProductEvent & {
+    payload: ProductRestorationChangedPayload;
+    eventType: "RESTORATION_CHANGED";
+} {
+    return event.eventType === "RESTORATION_CHANGED";
+}
+
+/**
+ * Filter all detail events (the 9 new event types for product attributes)
+ */
+export function isDetailsEvent(event: ProductEvent): boolean {
+    return (
+        isEstimatePriceChangedEvent(event) ||
+        isUrlChangedEvent(event) ||
+        isImagesChangedEvent(event) ||
+        isAuctionTimeChangedEvent(event) ||
+        isOriginYearChangedEvent(event) ||
+        isAuthenticityChangedEvent(event) ||
+        isConditionChangedEvent(event) ||
+        isProvenanceChangedEvent(event) ||
+        isRestorationChangedEvent(event)
+    );
 }

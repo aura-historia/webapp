@@ -99,7 +99,7 @@ function LoginPage() {
                 }}
                 transition={{ duration: 0.8 }}
             >
-                <span className="text-3xl lg:text-4xl font-bold text-center">
+                <span className="text-3xl lg:text-4xl font-bold font-display text-center">
                     {t("common.auraHistoria")}
                 </span>
                 <div
