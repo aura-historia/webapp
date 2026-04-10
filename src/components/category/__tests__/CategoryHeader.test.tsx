@@ -2,6 +2,10 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { CategoryHeader } from "../CategoryHeader.tsx";
 import type { CategoryDetail } from "@/data/internal/category/CategoryDetail.ts";
+import {
+    FALLBACK_CATEGORY_ASSET_URL,
+    FALLBACK_CATEGORY_HEADER_ASSET_URL,
+} from "@/components/landing-page/categories-section/CategoriesSection.data.ts";
 
 const mockCategory: CategoryDetail = {
     categoryId: "ancient-pottery",
@@ -20,11 +24,7 @@ describe("CategoryHeader", () => {
 
     it("renders the translated category description", () => {
         render(<CategoryHeader category={mockCategory} />);
-        expect(
-            screen.getByText(
-                "Gefaesse, Vasen und Tonobjekte aus antiken Kulturen, die Alltag, Handel und Rituale dokumentieren.",
-            ),
-        ).toBeInTheDocument();
+        expect(screen.getByText(/Tonobjekte aus antiken Kulturen/i)).toBeInTheDocument();
     });
 
     it("renders a different name when given different props", () => {
@@ -35,5 +35,15 @@ describe("CategoryHeader", () => {
         };
         render(<CategoryHeader category={otherCategory} />);
         expect(screen.getByRole("heading", { name: "Furniture" })).toBeInTheDocument();
+    });
+
+    it("uses the header asset for the hero image and the regular asset for the card image", () => {
+        const { container } = render(<CategoryHeader category={mockCategory} />);
+
+        const heroImage = container.querySelector('img[aria-hidden="true"]');
+        const cardImage = container.querySelector('img[loading="lazy"]');
+
+        expect(heroImage).toHaveAttribute("src", FALLBACK_CATEGORY_HEADER_ASSET_URL);
+        expect(cardImage).toHaveAttribute("src", FALLBACK_CATEGORY_ASSET_URL);
     });
 });

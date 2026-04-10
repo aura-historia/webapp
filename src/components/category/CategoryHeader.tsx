@@ -1,6 +1,9 @@
 import { H1 } from "@/components/typography/H1.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
-import { getCategoryAssetUrl } from "@/components/landing-page/categories-section/CategoriesSection.data.ts";
+import {
+    getCategoryAssetUrl,
+    getCategoryHeaderAssetUrl,
+} from "@/components/landing-page/categories-section/CategoriesSection.data.ts";
 import type { CategoryDetail } from "@/data/internal/category/CategoryDetail.ts";
 import { useTranslation } from "react-i18next";
 
@@ -11,6 +14,7 @@ type CategoryHeaderProps = {
 export function CategoryHeader({ category }: CategoryHeaderProps) {
     const { t, i18n } = useTranslation();
     const categoryAssetUrl = getCategoryAssetUrl(category.categoryKey);
+    const categoryHeaderAssetUrl = getCategoryHeaderAssetUrl(category.categoryKey);
     const description = t(`category.descriptions.${category.categoryKey}`, {
         defaultValue: t("category.descriptions.default"),
     });
@@ -22,7 +26,7 @@ export function CategoryHeader({ category }: CategoryHeaderProps) {
         <header className="flex flex-col">
             <div className="relative isolate overflow-hidden bg-primary">
                 <img
-                    src={categoryAssetUrl}
+                    src={categoryHeaderAssetUrl}
                     alt=""
                     aria-hidden="true"
                     className="absolute inset-0 h-full w-full object-cover"
