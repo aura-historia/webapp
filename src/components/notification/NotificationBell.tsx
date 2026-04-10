@@ -6,6 +6,7 @@ import { Bell, BellRing } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { NotificationItem } from "./NotificationItem.tsx";
+import { useState } from "react";
 
 const SKELETON_IDS = Array.from({ length: 3 }, (_, i) => `skeleton-${i}`);
 
@@ -25,13 +26,14 @@ export function NotificationBell() {
     const { t } = useTranslation();
     const { data, isLoading } = useNotifications();
     const markAllAsSeen = useMarkAllNotificationsSeen();
+    const [open, setOpen] = useState(false);
 
     const allNotifications = data?.pages[0]?.items ?? [];
     const notifications = allNotifications.slice(0, 5);
     const hasUnseenNotifications = allNotifications.some((n) => !n.seen);
 
     return (
-        <Popover>
+        <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
                 <Button
                     variant="ghost"
@@ -87,7 +89,9 @@ export function NotificationBell() {
                             className="w-full text-xs text-muted-foreground hover:text-foreground"
                             asChild
                         >
-                            <Link to="/notifications">{t("notifications.showAll")}</Link>
+                            <Link to="/notifications" onClick={() => setOpen(false)}>
+                                {t("notifications.showAll")}
+                            </Link>
                         </Button>
                     </div>
                 )}
