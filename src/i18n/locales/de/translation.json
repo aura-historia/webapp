@@ -589,8 +589,8 @@
     "totalElements": "{{count}} Artikel",
     "loadingError": "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
     "loadingMore": "Lade neue Ergebnisse...",
-    "allLoaded_one": "Sie haben {{count}} Artikel Ihrer Merkliste gesehen.",
-    "allLoaded_other": "Sie haben alle {{count}} Artikel Ihrer Merkliste gesehen.",
+    "allLoaded_one": "{{count}} Artikel geladen",
+    "allLoaded_other": "Alle {{count}} Artikel geladen",
     "noResults": {
       "title": "Keine Artikel gefunden",
       "description": "Fügen Sie Artikel zur Merkliste hinzu, um sie hier anzusehen."
@@ -777,9 +777,21 @@
     "types": {
       "priceChange": "Preisänderung",
       "stateChange": "Statusänderung",
-      "newMatch": "Suchergebnis: Neuer Treffer"
+      "newMatch": "Neuer Treffer"
     },
     "delete": "Löschen",
+    "deleteAll": "Alle löschen",
+    "markRead": "Als gelesen markieren",
+    "loadingError": "Benachrichtigungen konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+    "loadingMore": "Lade weitere Benachrichtigungen...",
+    "allLoaded_one": "{{count}} Benachrichtigung geladen",
+    "allLoaded_other": "Alle {{count}} Benachrichtigungen geladen",
+    "noResults": {
+      "title": "Keine Benachrichtigungen",
+      "description": "Sie haben noch keine Benachrichtigungen erhalten."
+    },
+    "totalElements_one": "{{count}} Benachrichtigung",
+    "totalElements_other": "{{count}} Benachrichtigungen",
     "showAll": "Alle Benachrichtigungen anzeigen"
   }
 }

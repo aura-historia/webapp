@@ -588,8 +588,8 @@
     "totalElements": "{{count}} items",
     "loadingError": "The watchlist cannot be reached at this time. Please try again later.",
     "loadingMore": "Loading more results...",
-    "allLoaded_one": "You have seen {{count}} item from your watchlist.",
-    "allLoaded_other": "You have seen all {{count}} items from your watchlist.",
+    "allLoaded_one": "{{count}} item loaded",
+    "allLoaded_other": "All {{count}} items loaded",
     "noResults": {
       "title": "No items found",
       "description": "Add items to your watchlist to see them here."
@@ -776,9 +776,21 @@
     "types": {
       "priceChange": "Price change",
       "stateChange": "Status change",
-      "newMatch": "Search result: New match"
+      "newMatch": "New match"
     },
     "delete": "Delete",
+    "deleteAll": "Delete all",
+    "markRead": "Mark as read",
+    "loadingError": "Notifications could not be loaded. Please try again later.",
+    "loadingMore": "Loading more notifications...",
+    "allLoaded_one": "{{count}} notification loaded",
+    "allLoaded_other": "All {{count}} notifications loaded",
+    "noResults": {
+      "title": "No notifications",
+      "description": "You haven't received any notifications yet."
+    },
+    "totalElements_one": "{{count}} notification",
+    "totalElements_other": "{{count}} notifications",
     "showAll": "Show all notifications"
   }
 }

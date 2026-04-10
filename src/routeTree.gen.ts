@@ -19,6 +19,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PeriodsPeriodIdRouteImport } from './routes/periods.$periodId'
 import { Route as CategoriesCategoryIdRouteImport } from './routes/categories.$categoryId'
 import { Route as AuthWatchlistRouteImport } from './routes/_auth.watchlist'
+import { Route as AuthNotificationsRouteImport } from './routes/_auth.notifications'
 import { Route as AuthAccountRouteImport } from './routes/_auth.account'
 import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
@@ -72,6 +73,11 @@ const AuthWatchlistRoute = AuthWatchlistRouteImport.update({
   path: '/watchlist',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthNotificationsRoute = AuthNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthAccountRoute = AuthAccountRouteImport.update({
   id: '/account',
   path: '/account',
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/account': typeof AuthAccountRoute
+  '/notifications': typeof AuthNotificationsRoute
   '/watchlist': typeof AuthWatchlistRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/account': typeof AuthAccountRoute
+  '/notifications': typeof AuthNotificationsRoute
   '/watchlist': typeof AuthWatchlistRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/_auth/account': typeof AuthAccountRoute
+  '/_auth/notifications': typeof AuthNotificationsRoute
   '/_auth/watchlist': typeof AuthWatchlistRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
@@ -144,6 +153,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/search'
     | '/account'
+    | '/notifications'
     | '/watchlist'
     | '/categories/$categoryId'
     | '/periods/$periodId'
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/search'
     | '/account'
+    | '/notifications'
     | '/watchlist'
     | '/categories/$categoryId'
     | '/periods/$periodId'
@@ -173,6 +184,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/search'
     | '/_auth/account'
+    | '/_auth/notifications'
     | '/_auth/watchlist'
     | '/categories/$categoryId'
     | '/periods/$periodId'
@@ -266,6 +278,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthWatchlistRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/notifications': {
+      id: '/_auth/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthNotificationsRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/account': {
       id: '/_auth/account'
       path: '/account'
@@ -292,11 +311,13 @@ declare module '@tanstack/react-router' {
 
 interface AuthRouteChildren {
   AuthAccountRoute: typeof AuthAccountRoute
+  AuthNotificationsRoute: typeof AuthNotificationsRoute
   AuthWatchlistRoute: typeof AuthWatchlistRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthAccountRoute: AuthAccountRoute,
+  AuthNotificationsRoute: AuthNotificationsRoute,
   AuthWatchlistRoute: AuthWatchlistRoute,
 }
 

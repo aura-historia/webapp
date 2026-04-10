@@ -1,6 +1,6 @@
 import type { Notification } from "@/data/internal/notification/Notification.ts";
 import {
-    getNotificationInfoText,
+    getNotificationChangeText,
     getNotificationTypeLabel,
 } from "@/components/notification/notificationUtils.ts";
 import { useDeleteNotification } from "@/hooks/notification/useDeleteNotification.ts";
@@ -16,7 +16,7 @@ export function NotificationItem({ notification }: { readonly notification: Noti
     const markAsSeen = useMarkNotificationSeen();
     const deleteNotification = useDeleteNotification();
     const { payload, seen } = notification;
-    const infoText = getNotificationInfoText(payload, t, i18n.language);
+    const changeText = getNotificationChangeText(payload, t, i18n.language);
 
     return (
         <div className={cn("transition-colors hover:bg-accent", !seen && "bg-primary/5")}>
@@ -69,9 +69,9 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                         {payload.productTitle}
                     </span>
                     <span className="text-xs text-muted-foreground">{payload.shopName}</span>
-                    {infoText && (
+                    {changeText && (
                         <span className="mt-1.5 line-clamp-1 text-xs text-muted-foreground">
-                            {infoText}
+                            {changeText}
                         </span>
                     )}
                 </div>

@@ -1,6 +1,14 @@
 import type { NotificationPayload } from "@/data/internal/notification/Notification.ts";
 import { formatPrice } from "@/data/internal/price/Price.ts";
 
+/**
+ * Returns the display label for the notification type.
+ *
+ * Examples:
+ * - WATCHLIST + PRICE_CHANGE  → "Preisänderung"
+ * - WATCHLIST + STATE_CHANGE  → "Statusänderung"
+ * - SEARCH_FILTER             → "Neuer Treffer"
+ */
 export function getNotificationTypeLabel(
     payload: NotificationPayload,
     t: (key: string) => string,
@@ -11,20 +19,48 @@ export function getNotificationTypeLabel(
     return t("notifications.types.stateChange");
 }
 
-export function getNotificationInfoText(
+/**
+ * Returns the change as a single formatted string, used in compact views (e.g. the popover).
+ * Returns an empty string for SEARCH_FILTER notifications (no change to display).
+ *
+ * Examples:
+ * - PRICE_CHANGE  → "3.800,00 € → 2.950,00 €"
+ * - STATE_CHANGE  → "Gelistet → Verfügbar"
+ * - SEARCH_FILTER → ""
+ */
+export function getNotificationChangeText(
     payload: NotificationPayload,
     t: (key: string) => string,
     language: string,
 ): string {
-    if (payload.type === "SEARCH_FILTER") return payload.searchFilterName;
+    const changeParts = getNotificationChangeParts(payload, t, language);
+    return changeParts ? `${changeParts.from} → ${changeParts.to}` : "";
+}
+
+/**
+ * Returns the change split into { from, to } parts, used where old and new values
+ * need to be styled separately (e.g. old value with strikethrough in the notification card).
+ *
+ * Returns null for SEARCH_FILTER notifications, as they have no from/to change.
+ */
+export function getNotificationChangeParts(
+    payload: NotificationPayload,
+    t: (key: string) => string,
+    language: string,
+): { from: string; to: string } | null {
+    if (payload.type === "SEARCH_FILTER") return null;
 
     if (payload.watchlistPayload.type === "PRICE_CHANGE") {
         const { oldPrice, newPrice } = payload.watchlistPayload;
         const unknown = t("product.unknownPrice");
-        const old = oldPrice ? formatPrice(oldPrice, language) : unknown;
-        const current = newPrice ? formatPrice(newPrice, language) : unknown;
-        return `${old} → ${current}`;
+        return {
+            from: oldPrice ? formatPrice(oldPrice, language) : unknown,
+            to: newPrice ? formatPrice(newPrice, language) : unknown,
+        };
     }
 
-    return `${t(`productState.${payload.watchlistPayload.oldState.toLowerCase()}`)} → ${t(`productState.${payload.watchlistPayload.newState.toLowerCase()}`)}`;
+    return {
+        from: t(`productState.${payload.watchlistPayload.oldState.toLowerCase()}`),
+        to: t(`productState.${payload.watchlistPayload.newState.toLowerCase()}`),
+    };
 }
