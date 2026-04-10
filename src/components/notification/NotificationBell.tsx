@@ -1,14 +1,16 @@
 import { Button } from "@/components/ui/button.tsx";
 import { useMarkAllNotificationsSeen } from "@/hooks/notification/useMarkAllNotificationsSeen.ts";
+import { useDeleteAllNotifications } from "@/hooks/notification/useDeleteAllNotifications.ts";
 import { useNotifications } from "@/hooks/notification/useNotifications.ts";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
-import { Bell, BellRing } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
+import { Bell, BellRing, CheckCheck, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { NotificationItem } from "./NotificationItem.tsx";
 import { useState } from "react";
 
-const SKELETON_IDS = Array.from({ length: 3 }, (_, i) => `skeleton-${i}`);
+const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3"] as const;
 
 function NotificationSkeleton() {
     return (
@@ -26,6 +28,7 @@ export function NotificationBell() {
     const { t } = useTranslation();
     const { data, isLoading } = useNotifications();
     const markAllAsSeen = useMarkAllNotificationsSeen();
+    const deleteAllNotifications = useDeleteAllNotifications();
     const [open, setOpen] = useState(false);
 
     const allNotifications = data?.pages[0]?.items ?? [];
@@ -54,16 +57,43 @@ export function NotificationBell() {
             <PopoverContent align="end" className="w-96 overflow-hidden p-0">
                 <div className="flex items-center justify-between border-b px-4 py-3">
                     <span className="text-sm font-semibold">{t("notifications.title")}</span>
-                    {hasUnseenNotifications && (
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
-                            onClick={() => markAllAsSeen.mutate()}
-                            disabled={markAllAsSeen.isPending}
-                        >
-                            {t("notifications.markAllRead")}
-                        </Button>
+                    {allNotifications.length > 0 && (
+                        <div className="flex items-center gap-1">
+                            {hasUnseenNotifications && (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="size-7 text-muted-foreground hover:text-primary"
+                                            onClick={() => markAllAsSeen.mutate()}
+                                            disabled={markAllAsSeen.isPending}
+                                            aria-label={t("notifications.markAllRead")}
+                                        >
+                                            <CheckCheck className="size-4" />
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        {t("notifications.markAllRead")}
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="size-7 text-muted-foreground hover:text-destructive"
+                                        onClick={() => deleteAllNotifications.mutate()}
+                                        disabled={deleteAllNotifications.isPending}
+                                        aria-label={t("notifications.deleteAll")}
+                                    >
+                                        <Trash2 className="size-4" />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>{t("notifications.deleteAll")}</TooltipContent>
+                            </Tooltip>
+                        </div>
                     )}
                 </div>
                 <div className="max-h-[400px] divide-y overflow-y-auto">

@@ -20,24 +20,6 @@ export function getNotificationTypeLabel(
 }
 
 /**
- * Returns the change as a single formatted string, used in compact views (e.g. the popover).
- * Returns an empty string for SEARCH_FILTER notifications (no change to display).
- *
- * Examples:
- * - PRICE_CHANGE  → "3.800,00 € → 2.950,00 €"
- * - STATE_CHANGE  → "Gelistet → Verfügbar"
- * - SEARCH_FILTER → ""
- */
-export function getNotificationChangeText(
-    payload: NotificationPayload,
-    t: (key: string) => string,
-    language: string,
-): string {
-    const changeParts = getNotificationChangeParts(payload, t, language);
-    return changeParts ? `${changeParts.from} → ${changeParts.to}` : "";
-}
-
-/**
  * Returns the change split into { from, to } parts, used where old and new values
  * need to be styled separately (e.g. old value with strikethrough in the notification card).
  *

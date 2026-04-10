@@ -1,14 +1,15 @@
 import type { Notification } from "@/data/internal/notification/Notification.ts";
 import {
-    getNotificationChangeText,
+    getNotificationChangeParts,
     getNotificationTypeLabel,
 } from "@/components/notification/notificationUtils.ts";
 import { useDeleteNotification } from "@/hooks/notification/useDeleteNotification.ts";
 import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
 import { cn } from "@/lib/utils.ts";
 import { intlFormatDistance } from "date-fns";
 import { Link } from "@tanstack/react-router";
-import { Trash2 } from "lucide-react";
+import { CheckCheck, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export function NotificationItem({ notification }: { readonly notification: Notification }) {
@@ -16,7 +17,7 @@ export function NotificationItem({ notification }: { readonly notification: Noti
     const markAsSeen = useMarkNotificationSeen();
     const deleteNotification = useDeleteNotification();
     const { payload, seen } = notification;
-    const changeText = getNotificationChangeText(payload, t, i18n.language);
+    const changeParts = getNotificationChangeParts(payload, t, i18n.language);
 
     return (
         <div className={cn("transition-colors hover:bg-accent", !seen && "bg-primary/5")}>
@@ -46,19 +47,44 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                                 locale: i18n.language,
                             })}
                         </span>
-                        <button
-                            type="button"
-                            aria-label={t("notifications.delete")}
-                            disabled={deleteNotification.isPending}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                deleteNotification.mutate(notification.originEventId);
-                            }}
-                            className="-mr-1 shrink-0 rounded p-1 text-muted-foreground transition-colors hover:text-destructive"
-                        >
-                            <Trash2 className="size-3" />
-                        </button>
+                        {!seen && (
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <button
+                                        type="button"
+                                        aria-label={t("notifications.markRead")}
+                                        disabled={markAsSeen.isPending}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            markAsSeen.mutate(notification.originEventId);
+                                        }}
+                                        className="shrink-0 rounded p-1 text-muted-foreground transition-colors hover:text-primary"
+                                    >
+                                        <CheckCheck className="size-3" />
+                                    </button>
+                                </TooltipTrigger>
+                                <TooltipContent>{t("notifications.markRead")}</TooltipContent>
+                            </Tooltip>
+                        )}
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    type="button"
+                                    aria-label={t("notifications.delete")}
+                                    disabled={deleteNotification.isPending}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        deleteNotification.mutate(notification.originEventId);
+                                    }}
+                                    className="-mr-1 shrink-0 rounded p-1 text-muted-foreground transition-colors hover:text-destructive"
+                                >
+                                    <Trash2 className="size-3" />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent>{t("notifications.delete")}</TooltipContent>
+                        </Tooltip>
                     </div>
                     <span
                         className={cn(
@@ -69,9 +95,11 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                         {payload.productTitle}
                     </span>
                     <span className="text-xs text-muted-foreground">{payload.shopName}</span>
-                    {changeText && (
-                        <span className="mt-1.5 line-clamp-1 text-xs text-muted-foreground">
-                            {changeText}
+                    {changeParts && (
+                        <span className="mt-1.5 flex items-baseline gap-1 text-xs text-muted-foreground">
+                            <span className="line-through">{changeParts.from}</span>
+                            <span>→</span>
+                            <span>{changeParts.to}</span>
                         </span>
                     )}
                 </div>
