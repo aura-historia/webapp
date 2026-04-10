@@ -55,13 +55,13 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                             src={image.url?.href}
                             alt=""
                             loading="lazy"
-                            className="size-48 shrink-0 rounded-lg object-cover"
-                            fallbackClassName="size-48 shrink-0 rounded-lg"
+                            className="size-48 shrink-0 object-cover"
+                            fallbackClassName="size-48 shrink-0"
                             showErrorMessage={false}
                         />
                     )
                 ) : (
-                    <div className="size-48 shrink-0 rounded-lg bg-muted flex items-center justify-center">
+                    <div className="size-48 shrink-0 bg-muted flex items-center justify-center">
                         <ImageOff className="size-8 text-muted-foreground" />
                     </div>
                 )}
@@ -70,7 +70,7 @@ export function NotificationCard({ notification }: { readonly notification: Noti
             <div className="flex flex-col min-w-0 flex-1 justify-between">
                 <div className="flex flex-row justify-between w-full">
                     <div className="flex flex-col gap-2 min-w-0 overflow-hidden">
-                        <span className="text-lg font-medium text-muted-foreground">
+                        <span className="text-xs uppercase tracking-wide text-muted-foreground">
                             {getNotificationTypeLabel(payload, t)}
                         </span>
                         <Link
@@ -100,7 +100,7 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                                         aria-label={t("notifications.markRead")}
                                         disabled={markAsSeen.isPending}
                                         onClick={() => markAsSeen.mutate(originEventId)}
-                                        className="size-10 flex items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
+                                        className="size-10 flex items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
                                     >
                                         <CheckCheck className="size-5" />
                                     </button>

@@ -5,7 +5,7 @@ export function NotificationCardSkeleton() {
     return (
         <Card className="flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0">
             <div className="shrink-0 flex lg:justify-start justify-center">
-                <Skeleton className="size-48 rounded-lg" />
+                <Skeleton className="size-48" />
             </div>
             <div className="flex flex-col min-w-0 flex-1 justify-between">
                 <div className="flex flex-col gap-2 overflow-hidden">

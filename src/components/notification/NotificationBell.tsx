@@ -15,10 +15,11 @@ const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3"] as const;
 function NotificationSkeleton() {
     return (
         <div className="flex animate-pulse items-start gap-3 px-4 py-3">
-            <div className="mt-1.5 size-2 rounded-full bg-muted" />
+            <div className="mt-1.5 size-1.5 shrink-0 rounded-full bg-border" />
             <div className="flex flex-1 flex-col gap-1.5">
-                <div className="h-3.5 w-3/4 rounded bg-muted" />
-                <div className="h-3 w-1/3 rounded bg-muted" />
+                <div className="h-3 w-3/4 bg-surface-container-highest" />
+                <div className="h-3 w-1/2 bg-surface-container-high" />
+                <div className="h-3 w-1/3 bg-surface-container-high" />
             </div>
         </div>
     );
@@ -54,9 +55,11 @@ export function NotificationBell() {
                     )}
                 </Button>
             </PopoverTrigger>
-            <PopoverContent align="end" className="w-96 overflow-hidden p-0">
-                <div className="flex items-center justify-between border-b px-4 py-3">
-                    <span className="text-sm font-semibold">{t("notifications.title")}</span>
+            <PopoverContent align="end" className="w-96 overflow-hidden rounded-none p-0">
+                <div className="flex items-center justify-between border-b bg-surface-container-low px-4 py-3">
+                    <span className="font-display italic text-base text-primary">
+                        {t("notifications.title")}
+                    </span>
                     {allNotifications.length > 0 && (
                         <div className="flex items-center gap-1">
                             {hasUnseenNotifications && (
@@ -112,11 +115,11 @@ export function NotificationBell() {
                         ))}
                 </div>
                 {!isLoading && allNotifications.length > 0 && (
-                    <div className="border-t px-4 py-2">
+                    <div className="border-t bg-surface-container-low px-4 py-3">
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="w-full text-xs text-muted-foreground hover:text-foreground"
+                            className="w-full text-xs tracking-wide text-primary/60 uppercase hover:bg-transparent hover:text-primary"
                             asChild
                         >
                             <Link to="/notifications" onClick={() => setOpen(false)}>
