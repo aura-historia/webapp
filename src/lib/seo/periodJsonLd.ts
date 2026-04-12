@@ -1,4 +1,5 @@
 import type { GetPeriodData } from "@/client";
+import { getPeriodDescription } from "@/lib/seo/periodDescription.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 
 type PeriodCollectionPageJsonLd = {
@@ -20,8 +21,7 @@ export function generatePeriodJsonLd(
     data: GetPeriodData,
     periodUrl: string,
 ): PeriodCollectionPageJsonLd {
-    // TODO: Load from i18n depending on period id
-    const description = "";
+    const description = getPeriodDescription(data.periodKey);
 
     return {
         "@context": "https://schema.org/",

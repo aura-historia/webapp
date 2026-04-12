@@ -1,4 +1,5 @@
 import type { GetPeriodData } from "@/client";
+import { getPeriodDescription } from "@/lib/seo/periodDescription.ts";
 import { generatePeriodJsonLdScript } from "@/lib/seo/periodJsonLd.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
@@ -34,8 +35,7 @@ export function generatePeriodHeadMeta(
     const periodPath = `/periods/${params.periodId}`;
 
     const name = loaderData?.name.text || i18n.t("meta.period.defaultName");
-    // TODO: load from i18n depending on period id
-    const description = "";
+    const description = getPeriodDescription(loaderData?.periodKey ?? params.periodId);
     const siteName = i18n.t("meta.siteName");
 
     return {
