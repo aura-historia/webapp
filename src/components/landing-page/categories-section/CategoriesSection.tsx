@@ -100,7 +100,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                                             <img
                                                 src={categoryAssetUrl}
                                                 alt=""
-                                                loading="lazy"
+                                                loading="eager"
                                                 className="h-full w-full object-cover transition-transform duration-300"
                                             />
                                         </div>

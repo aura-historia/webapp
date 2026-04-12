@@ -40,26 +40,26 @@ export const FALLBACK_PERIOD_ASSET_URL = buildPeriodAssetUrl("contemporary");
  * These ranges are placeholders for visual context and can be refined later.
  */
 export const PERIOD_DATE_RANGE_MAP: Record<string, string> = {
-    ANTIQUITY: "3000 BCE-500 CE",
-    EARLY_MEDIEVAL: "500-1000",
-    ROMANESQUE: "1000-1200",
-    GOTHIC: "1200-1500",
-    RENAISSANCE: "1400-1600",
-    MANNERISM: "1520-1600",
-    BAROQUE: "1600-1750",
-    ROCOCO: "1730-1780",
-    NEOCLASSICISM: "1750-1830",
-    BIEDERMEIER: "1815-1848",
-    HISTORICISM: "1830-1900",
-    ARTS_AND_CRAFTS: "1860-1910",
-    ART_NOUVEAU: "1890-1910",
-    EARLY_MODERN: "1500-1800",
-    EMPIRE: "1800-1815",
-    ART_DECO: "1920-1940",
-    MODERNISM: "1910-1970",
-    MID_CENTURY_MODERN: "1945-1970",
-    POSTMODERN: "1970-2000",
-    CONTEMPORARY: "2000-Today",
+    ANTIQUITY: "3000 BCE - 500 CE",
+    EARLY_MEDIEVAL: "500 - 1000",
+    ROMANESQUE: "1000 - 1200",
+    GOTHIC: "1200 - 1500",
+    RENAISSANCE: "1400 - 1600",
+    MANNERISM: "1520 - 1600",
+    BAROQUE: "1600 - 1750",
+    ROCOCO: "1730 - 1780",
+    NEOCLASSICISM: "1750 - 1830",
+    BIEDERMEIER: "1815 - 1848",
+    HISTORICISM: "1830 - 1900",
+    ARTS_AND_CRAFTS: "1860 - 1910",
+    ART_NOUVEAU: "1890 - 1910",
+    EARLY_MODERN: "1500 - 1800",
+    EMPIRE: "1800 - 1815",
+    ART_DECO: "1920 - 1940",
+    MODERNISM: "1910 - 1970",
+    MID_CENTURY_MODERN: "1945 - 1970",
+    POSTMODERN: "1970 - 2000",
+    CONTEMPORARY: "2000 - Today",
 };
 
 /**
@@ -72,8 +72,8 @@ export const createLocalizedPeriodDateRangeMap = (t: TFunction): Record<string, 
 
     return {
         ...PERIOD_DATE_RANGE_MAP,
-        ANTIQUITY: `3000 ${bce}-500 ${ce}`,
-        CONTEMPORARY: `2000-${today}`,
+        ANTIQUITY: `3000 ${bce} - 500 ${ce}`,
+        CONTEMPORARY: `2000 - ${today}`,
     };
 };
 

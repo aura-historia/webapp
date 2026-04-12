@@ -679,6 +679,12 @@
     }
   },
   "period": {
+    "header": {
+      "archiveLabel": "Période",
+      "overviewTitle": "Perspective historique",
+      "periodRange": "Période approximative",
+      "defaultDescription": "Explorez des objets soigneusement sélectionnés de cette période et découvrez leur contexte historique, leur culture matérielle et leurs indices de provenance."
+    },
     "products": {
       "loadingMore": "Chargement d'autres articles...",
       "allLoaded_one": "Vous avez consulté {{count}} article dans cette période.",

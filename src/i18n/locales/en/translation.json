@@ -679,6 +679,12 @@
     }
   },
   "period": {
+    "header": {
+      "archiveLabel": "Period",
+      "overviewTitle": "Historical Perspective",
+      "periodRange": "Approximate Period Range",
+      "defaultDescription": "Explore curated objects from this era and discover their historical context, material culture, and provenance clues."
+    },
     "products": {
       "loadingMore": "Loading more items...",
       "allLoaded_one": "You have seen {{count}} item in this period.",

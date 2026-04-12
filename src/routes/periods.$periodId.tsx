@@ -40,9 +40,14 @@ function PeriodDetailComponent() {
     const period = mapToPeriodDetail(data);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col gap-8">
+        <div className="bg-background">
             <PeriodHeader period={period} />
-            <PeriodProductGrid periodId={periodId} />
+            <div className="mx-auto w-full max-w-7xl px-4 pb-16 md:px-10">
+                <div aria-hidden="true" className="border-t border-border/30 hidden md:block" />
+                <div className="pt-8">
+                    <PeriodProductGrid periodId={periodId} />
+                </div>
+            </div>
         </div>
     );
 }

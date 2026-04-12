@@ -679,6 +679,12 @@
     }
   },
   "period": {
+    "header": {
+      "archiveLabel": "Periodo",
+      "overviewTitle": "Prospettiva storica",
+      "periodRange": "Intervallo temporale approssimativo",
+      "defaultDescription": "Esplora oggetti selezionati di questo periodo e scopri il loro contesto storico, la loro cultura materiale e gli indizi di provenienza."
+    },
     "products": {
       "loadingMore": "Caricamento di altri articoli...",
       "allLoaded_one": "Hai visualizzato {{count}} articolo in questo periodo.",
