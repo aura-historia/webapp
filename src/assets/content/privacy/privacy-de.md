@@ -198,8 +198,6 @@ Alle personenbezogenen Daten werden **ausschließlich innerhalb Deutschlands** v
 
 ### 10.2 Auftragsverarbeitung
 
-[//]: <> (Mit Amazon Web Services (AWS), Cloudflare und Hetzner Online GmbH bestehen **Auftragsverarbeitungsverträge gemäß Art. 28 DSGVO**.)
-
 Die Plattform wird bei externen Hosting- und Infrastruktur-Anbietern betrieben.
 Mit Amazon Web Services (AWS), Cloudflare und Hetzner Online GmbH bestehen abgeschlossene Auftragsverarbeitungsverträge gemäß Art. 28 DSGVO.
 

@@ -198,8 +198,6 @@ Todos los datos personales se tratan **exclusivamente dentro de Alemania**.
 
 ### 10.2 Tratamiento por Cuenta de Terceros
 
-[//]: <> (Existen contratos de tratamiento de datos conforme al art. 28 RGPD con Amazon Web Services (AWS), Cloudflare y Hetzner Online GmbH.)
-
 La plataforma se opera con proveedores externos de alojamiento e infraestructura.
 Se han celebrado acuerdos de tratamiento de datos conforme al art. 28 RGPD con Amazon Web Services (AWS), Cloudflare y Hetzner Online GmbH.
 

@@ -113,6 +113,14 @@ describe("Privacy Page Logic", () => {
                 expect(PRIVACY_LOCALE_MAP[key]).toContain("Hetzner Online GmbH");
             }
         });
+
+        it("should not include markdown comment placeholders in any locale", () => {
+            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
+
+            for (const key of localeKeys) {
+                expect(PRIVACY_LOCALE_MAP[key]).not.toContain("[//]: <>");
+            }
+        });
     });
 
     describe("Locale key extraction", () => {
@@ -123,6 +131,7 @@ describe("Privacy Page Logic", () => {
             expect(localeKeys).toContain("en");
             expect(localeKeys).toContain("es");
             expect(localeKeys).toContain("fr");
+            expect(localeKeys).toContain("it");
         });
 
         it("should not have file extension in locale keys", () => {

@@ -198,8 +198,6 @@ Toutes les données à caractère personnel sont traitées **exclusivement en Al
 
 ### 10.2 Traitement pour le Compte de Tiers
 
-[//]: <> (Des contrats de traitement des données conformément à l’art. 28 RGPD existent avec Amazon Web Services (AWS), Cloudflare et Hetzner Online GmbH.)
-
 La plateforme est exploitée avec des fournisseurs externes d’hébergement et d’infrastructure.
 Des accords de traitement des données conformément à l’art. 28 RGPD ont été conclus avec Amazon Web Services (AWS), Cloudflare et Hetzner Online GmbH.
 
