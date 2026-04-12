@@ -198,10 +198,8 @@ Tutti i dati personali vengono trattati **esclusivamente in Germania**.
 
 ### 10.2 Trattamento dei dati per conto
 
-[//]: <> (Esistono accordi per il trattamento dei dati ai sensi dell'art. 28 GDPR con i fornitori di hosting.)
-
 La piattaforma è gestita con fornitori esterni di hosting e infrastruttura.
-Gli accordi per la protezione dei dati ai sensi dell'art. 28 GDPR sono in fase di preparazione o sono forniti nell'ambito delle rispettive condizioni del fornitore.
+Sono stati conclusi accordi per il trattamento dei dati ai sensi dell'art. 28 GDPR con Amazon Web Services (AWS), Cloudflare e Hetzner Online GmbH.
 
 ---
 
