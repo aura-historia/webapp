@@ -39,7 +39,8 @@ describe("Imprint Component", () => {
     });
 
     it("renders the owner name", () => {
-        expect(screen.getByText(/Julian Bruder/)).toBeInTheDocument();
+        const elements = screen.queryAllByText(/Julian Bruder/);
+        expect(elements.length).toBeGreaterThan(0);
     });
 
     it("renders personal email link", () => {
