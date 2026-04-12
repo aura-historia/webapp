@@ -30,13 +30,11 @@ export const FEATURES_CARD_DATA = [
         icon: Funnel,
         titleKey: "landingPage.features.personalFilter.title",
         descKey: "landingPage.features.personalFilter.description",
-        isPreview: true,
     },
     {
         icon: Bot,
         titleKey: "landingPage.features.aiSearchAgent.title",
         descKey: "landingPage.features.aiSearchAgent.description",
-        isPreview: true,
     },
     {
         icon: UserStar,

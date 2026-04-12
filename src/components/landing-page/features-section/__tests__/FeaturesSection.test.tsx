@@ -46,8 +46,7 @@ describe("FeaturesSection", () => {
         ).toBeInTheDocument();
     });
 
-    it("renders preview badges for preview features", () => {
-        const previewBadges = screen.getAllByText("Bald verfügbar");
-        expect(previewBadges).toHaveLength(2);
+    it("does not render preview badges", () => {
+        expect(screen.queryByText("Bald verfügbar")).not.toBeInTheDocument();
     });
 });

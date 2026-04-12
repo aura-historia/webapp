@@ -25,11 +25,6 @@ export default function FeaturesSection() {
                                     <div className="w-12 h-12 bg-surface-container-high flex items-center justify-center transition-colors">
                                         <feature.icon className="w-6 h-6 text-primary" />
                                     </div>
-                                    {feature.isPreview && (
-                                        <span className="uppercase inline-block px-2 py-1 grow-0 text-xs font-medium bg-surface-container-highest">
-                                            {t("landingPage.features.previewBadge")}
-                                        </span>
-                                    )}
                                 </div>
                                 <CardTitle className="text-2xl font-display text-primary font-normal">
                                     {t(feature.titleKey)}
