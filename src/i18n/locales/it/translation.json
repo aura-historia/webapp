@@ -512,11 +512,11 @@
       },
       "step3": {
         "title": "Salva",
-        "description": "Salva gli articoli interessanti nella tua lista dei preferiti personale. Ti avviseremo delle modifiche."
+        "description": "Salva gli articoli interessanti nella tua watchlist oppure salva i tuoi criteri di ricerca come avviso."
       },
       "step4": {
-        "title": "Acquista",
-        "description": "Ti reindirizziamo direttamente al commerciante dove puoi assicurarti il tuo ritrovamento."
+        "title": "Ricevi notifiche",
+        "description": "Ricevi un’e-mail non appena cambia un articolo nella tua watchlist o ne compare uno nuovo che corrisponde ai tuoi criteri."
       }
     },
     "testimonials": {

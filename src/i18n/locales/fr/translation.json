@@ -512,11 +512,11 @@
       },
       "step3": {
         "title": "Sauvegarder",
-        "description": "Enregistrez les articles intéressants dans votre liste de favoris personnelle. Nous vous préviendrons en cas de changement."
+        "description": "Enregistrez les objets intéressants dans votre liste de suivi ou sauvegardez vos critères de recherche sous forme d’alerte."
       },
       "step4": {
-        "title": "Acheter",
-        "description": "Nous vous redirigeons directement vers le marchand où vous pouvez acquérir votre trouvaille."
+        "title": "Être averti",
+        "description": "Recevez un e-mail dès qu’un objet de votre liste de suivi change ou qu’un nouveau correspond à vos critères."
       }
     },
     "testimonials": {

@@ -512,11 +512,11 @@
       },
       "step3": {
         "title": "Save",
-        "description": "Save interesting items to your personal watchlist. We'll notify you of changes."
+        "description": "Save interesting items to your watchlist or save your search criteria as an alert."
       },
       "step4": {
-        "title": "Buy",
-        "description": "We redirect you directly to the dealer where you can secure your find."
+        "title": "Get notified",
+        "description": "Get notified by email as soon as an item on your watchlist changes or a new one matches your criteria."
       }
     },
     "testimonials": {

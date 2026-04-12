@@ -511,12 +511,12 @@
         "description": "Durchstöbern Sie Ergebnisse von tausenden Händlern auf einen Blick."
       },
       "step3": {
-        "title": "Merken",
-        "description": "Speichern Sie interessante Artikel auf Ihrer persönlichen Merkliste. Wir benachrichtigen Sie bei Änderungen."
+        "title": "Speichern",
+        "description": "Speichern Sie interessante Artikel auf Ihrer Merkliste oder legen Sie Ihre Suchkriterien als Alert an."
       },
       "step4": {
-        "title": "Kaufen",
-        "description": "Wir leiten Sie direkt zum Händler weiter, wo Sie Ihren Fund sichern können."
+        "title": "Benachrichtigt werden",
+        "description": "Erhalten Sie eine E-Mail, sobald sich ein Artikel auf Ihrer Merkliste ändert oder ein neuer Treffer zu Ihren Kriterien passt."
       }
     },
     "testimonials": {
