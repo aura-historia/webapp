@@ -17,14 +17,6 @@ describe("mapToPeriodDetail", () => {
         expect(result.name).toBe("Renaissance");
     });
 
-    // TODO: Add back
-    // it("extracts the text from the localized description field", () => {
-    //     const result = mapToPeriodDetail(mockPeriodData);
-    //     expect(result.description).toBe(
-    //         "The Renaissance was a fervent period of European cultural, artistic, political and economic rebirth.",
-    //     );
-    // });
-
     it("passes periodId and periodKey through unchanged", () => {
         const result = mapToPeriodDetail(mockPeriodData);
         expect(result.periodId).toBe("renaissance");

@@ -4,9 +4,16 @@ import type { GetPeriodData } from "@/client";
 
 vi.mock("@/i18n/i18n.ts", () => ({
     default: {
+        exists: (key: string) => key === "period.descriptions.RENAISSANCE",
         t: (key: string) => {
             if (key === "meta.period.defaultName") return "Epoche";
             if (key === "meta.siteName") return "Aura Historia";
+            if (key === "period.descriptions.RENAISSANCE") {
+                return "Buyers searching for authentic Renaissance antiques for sale and early humanist art can discover period-defining artifacts from specialized dealers.";
+            }
+            if (key === "period.header.defaultDescription") {
+                return "Explore curated objects from this era and discover their historical context.";
+            }
             return key;
         },
     },
@@ -35,12 +42,11 @@ describe("generatePeriodHeadMeta", () => {
             title: "Renaissance | Aura Historia",
         });
 
-        // TODO: Add back
-        // expect(result.meta).toContainEqual({
-        //     name: "description",
-        //     content:
-        //         "The Renaissance was a fervent period of European cultural, artistic, political and economic rebirth.",
-        // });
+        expect(result.meta).toContainEqual({
+            name: "description",
+            content:
+                "Buyers searching for authentic Renaissance antiques for sale and early humanist art can discover period-defining artifacts from specialized dealers.",
+        });
     });
 
     it("includes Open Graph tags", () => {
@@ -51,15 +57,20 @@ describe("generatePeriodHeadMeta", () => {
             content: "Renaissance",
         });
 
-        // TODO: Add back
-        // expect(result.meta).toContainEqual({
-        //     property: "og:description",
-        //     content:
-        //         "The Renaissance was a fervent period of European cultural, artistic, political and economic rebirth.",
-        // });
+        expect(result.meta).toContainEqual({
+            property: "og:description",
+            content:
+                "Buyers searching for authentic Renaissance antiques for sale and early humanist art can discover period-defining artifacts from specialized dealers.",
+        });
         expect(result.meta).toContainEqual({
             property: "og:url",
             content: "https://aura-historia.com/periods/renaissance",
+        });
+
+        expect(result.meta).toContainEqual({
+            name: "twitter:description",
+            content:
+                "Buyers searching for authentic Renaissance antiques for sale and early humanist art can discover period-defining artifacts from specialized dealers.",
         });
     });
 

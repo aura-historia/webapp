@@ -187,13 +187,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                 <head>
                     <HeadContent />
                 </head>
-                <body
-                    className={
-                        isLandingPage
-                            ? "bg-background"
-                            : "bg-[repeating-linear-gradient(45deg,var(--border)_0,var(--border)_1px,transparent_1px,transparent_40px)] bg-fixed"
-                    }
-                >
+                <body className="bg-background">
                     <NavigationProgress />
                     <div className={"min-h-screen flex flex-col"}>
                         <Header />

@@ -1,9 +1,8 @@
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotificationBadge.tsx";
-import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import { Eye, ImageOff } from "lucide-react";
+import { ImageOff } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { H3 } from "@/components/typography/H3.tsx";
@@ -56,6 +55,10 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
 
     const isRestrictedConsentGiven = product.userData?.restrictedContentData.consentGiven ?? false;
     const shopTypeLabel = t(SHOP_TYPE_TRANSLATION_CONFIG[product.shopType].translationKey);
+    const productLinkParams = {
+        shopSlugId: product.shopSlugId,
+        productSlugId: product.productSlugId,
+    };
 
     if (variant === "recentlyAdded") {
         const recentlyAddedMeta = getRecentlyAddedMetaText(t, product);
@@ -102,10 +105,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                 >
                     <Link
                         to="/shops/$shopSlugId/products/$productSlugId"
-                        params={{
-                            shopSlugId: product.shopSlugId,
-                            productSlugId: product.productSlugId,
-                        }}
+                        params={productLinkParams}
                         className="block w-full overflow-hidden bg-muted"
                         onClick={handleProductClick}
                     >
@@ -119,10 +119,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
 
                         <Link
                             to="/shops/$shopSlugId/products/$productSlugId"
-                            params={{
-                                shopSlugId: product.shopSlugId,
-                                productSlugId: product.productSlugId,
-                            }}
+                            params={productLinkParams}
                             className="min-w-0 overflow-hidden"
                             onClick={handleProductClick}
                         >
@@ -141,94 +138,75 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
     }
 
     return (
-        <div className="relative pt-2 h-full">
+        <div className="relative h-full">
             {hasUnseenNotification && (
-                <div className="absolute left-4 top-2 z-10 -translate-y-1/2">
+                <div className="absolute right-3 top-3 z-20">
                     <UnseenNotificationBadge />
                 </div>
             )}
 
             <Card
                 className={cn(
-                    "flex flex-col w-full h-full p-0 shadow-md overflow-hidden min-w-0",
-                    hasUnseenNotification && "border-2 border-primary",
+                    "group flex h-full w-full min-w-0 flex-col gap-3 border-0 bg-transparent p-0 shadow-none",
+                    hasUnseenNotification && "ring-1 ring-primary",
                 )}
             >
-                <div className="shrink-0">
-                    <Link
-                        to="/shops/$shopSlugId/products/$productSlugId"
-                        params={{
-                            shopSlugId: product.shopSlugId,
-                            productSlugId: product.productSlugId,
-                        }}
-                        className="block w-full"
-                        onClick={handleProductClick}
-                    >
-                        {product.images.length > 0 ? (
-                            isRestrictedImage(product.images[0], isRestrictedConsentGiven) ? (
-                                <ProhibitedImagePlaceholder className="w-full aspect-4/3" />
-                            ) : (
-                                <ImageWithFallback
-                                    className="w-full aspect-4/3 object-cover hover:opacity-90 transition-opacity"
-                                    src={product.images[0].url?.href}
-                                    alt={product.title}
-                                    fallbackClassName="w-full aspect-[4/3]"
-                                />
-                            )
-                        ) : (
-                            <div className="w-full aspect-4/3 bg-muted flex flex-col items-center justify-center gap-2">
-                                <ImageOff
-                                    data-testid="placeholder-image"
-                                    className="w-12 h-12 text-muted-foreground"
-                                />
-                                <p className="text-xs text-muted-foreground">
-                                    {t("product.noImage")}
-                                </p>
-                            </div>
-                        )}
-                    </Link>
-                </div>
+                <Link
+                    to="/shops/$shopSlugId/products/$productSlugId"
+                    params={productLinkParams}
+                    className="relative block w-full overflow-hidden bg-surface-container-low"
+                    onClick={handleProductClick}
+                >
+                    <StatusBadge
+                        status={product.state}
+                        variant="editorial"
+                        showIcon={false}
+                        className="absolute left-3 top-3 z-10"
+                    />
 
-                <div className="flex flex-col min-w-0 flex-1 justify-between p-4 gap-3">
-                    <div className="flex flex-col gap-1.5 min-w-0 overflow-hidden">
-                        <Link
-                            to="/shops/$shopSlugId/products/$productSlugId"
-                            params={{
-                                shopSlugId: product.shopSlugId,
-                                productSlugId: product.productSlugId,
-                            }}
-                            className="min-w-0 overflow-hidden"
-                            onClick={handleProductClick}
-                        >
-                            <H3 className="overflow-ellipsis line-clamp-2 hover:underline text-base! font-semibold!">
-                                {product.title}
-                            </H3>
-                        </Link>
-                        <span className="text-sm text-muted-foreground line-clamp-1 overflow-ellipsis">
+                    {product.images.length > 0 ? (
+                        isRestrictedImage(product.images[0], isRestrictedConsentGiven) ? (
+                            <ProhibitedImagePlaceholder className="w-full aspect-4/5" />
+                        ) : (
+                            <ImageWithFallback
+                                className="aspect-4/5 w-full object-cover transition-opacity duration-300 ease-out group-hover:opacity-90"
+                                src={product.images[0].url?.href}
+                                alt={product.title}
+                                fallbackClassName="w-full aspect-4/5"
+                            />
+                        )
+                    ) : (
+                        <div className="flex aspect-4/5 w-full flex-col items-center justify-center gap-2 bg-surface-container-low">
+                            <ImageOff
+                                data-testid="placeholder-image"
+                                className="h-12 w-12 text-muted-foreground"
+                            />
+                            <p className="text-xs text-muted-foreground">{t("product.noImage")}</p>
+                        </div>
+                    )}
+                </Link>
+
+                <div className="flex min-w-0 flex-1 flex-col gap-2">
+                    <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1">
+                        <span className="min-w-0 flex-1 truncate text-xs uppercase tracking-widest text-muted-foreground/80">
                             {product.shopName}
                         </span>
-                    </div>
 
-                    <div className="flex flex-col gap-2">
-                        <StatusBadge status={product.state} />
-                        <PriceText className="text-lg! font-bold!">
+                        <PriceText className="ml-auto shrink-0 line-clamp-none overflow-visible text-xl leading-7 font-normal italic whitespace-nowrap font-display text-primary">
                             {product.price ?? t("product.unknownPrice")}
                         </PriceText>
                     </div>
 
-                    <Button variant="secondary" size="sm" asChild className="w-full">
-                        <Link
-                            to="/shops/$shopSlugId/products/$productSlugId"
-                            params={{
-                                shopSlugId: product.shopSlugId,
-                                productSlugId: product.productSlugId,
-                            }}
-                            onClick={handleProductClick}
-                        >
-                            <Eye />
-                            <span>{t("product.details")}</span>
-                        </Link>
-                    </Button>
+                    <Link
+                        to="/shops/$shopSlugId/products/$productSlugId"
+                        params={productLinkParams}
+                        className="min-w-0"
+                        onClick={handleProductClick}
+                    >
+                        <H3 className="line-clamp-2 text-xl leading-tight font-normal transition-colors duration-300 ease-out group-hover:text-primary">
+                            {product.title}
+                        </H3>
+                    </Link>
                 </div>
             </Card>
         </div>

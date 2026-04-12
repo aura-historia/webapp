@@ -3,10 +3,13 @@ import type { TFunction } from "i18next";
 import {
     createLocalizedPeriodDateRangeMap,
     FALLBACK_PERIOD_ASSET_URL,
+    FALLBACK_PERIOD_HEADER_ASSET_URL,
     PERIOD_DATE_RANGE_MAP,
     PERIOD_ASSET_MAP,
+    PERIOD_HEADER_ASSET_MAP,
     getPeriodDateRange,
     getPeriodAssetUrl,
+    getPeriodHeaderAssetUrl,
 } from "../PeriodsSection.data.ts";
 
 describe("getPeriodAssetUrl", () => {
@@ -23,6 +26,16 @@ describe("getPeriodAssetUrl", () => {
     it("returns the fallback URL for an empty string", () => {
         const assetUrl = getPeriodAssetUrl("");
         expect(assetUrl).toBe(FALLBACK_PERIOD_ASSET_URL);
+    });
+
+    it("returns the correct header image URL for a known period key", () => {
+        const headerAssetUrl = getPeriodHeaderAssetUrl("RENAISSANCE");
+        expect(headerAssetUrl).toBe(PERIOD_HEADER_ASSET_MAP.RENAISSANCE);
+    });
+
+    it("returns the header fallback URL for an unknown period key", () => {
+        const headerAssetUrl = getPeriodHeaderAssetUrl("UNKNOWN_PERIOD_XYZ");
+        expect(headerAssetUrl).toBe(FALLBACK_PERIOD_HEADER_ASSET_URL);
     });
 
     it("returns correct URLs for all known period keys", () => {
@@ -52,8 +65,8 @@ describe("getPeriodAssetUrl", () => {
         };
 
         const localizedMap = createLocalizedPeriodDateRangeMap(t as TFunction);
-        expect(localizedMap.ANTIQUITY).toBe("3000 v. Chr.-500 n. Chr.");
-        expect(localizedMap.CONTEMPORARY).toBe("2000-Heute");
-        expect(getPeriodDateRange("EARLY_MODERN", localizedMap)).toBe("1500-1800");
+        expect(localizedMap.ANTIQUITY).toBe("3000 v. Chr. - 500 n. Chr.");
+        expect(localizedMap.CONTEMPORARY).toBe("2000 - Heute");
+        expect(getPeriodDateRange("EARLY_MODERN", localizedMap)).toBe("1500 - 1800");
     });
 });

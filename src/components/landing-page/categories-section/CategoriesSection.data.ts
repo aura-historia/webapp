@@ -1,6 +1,10 @@
 const CATEGORY_ASSET_BASE_URL = "https://assets.aura-historia.com/webapp/categories";
 
 const buildCategoryAssetUrl = (slug: string) => `${CATEGORY_ASSET_BASE_URL}/${slug}.webp`;
+const buildCategoryHeaderAssetUrl = (slug: string) =>
+    `${CATEGORY_ASSET_BASE_URL}/${slug}-header.webp`;
+
+const toHeaderAssetUrl = (assetUrl: string) => assetUrl.replace(/\.webp$/, "-header.webp");
 
 export const CATEGORY_ASSET_MAP: Record<string, string> = {
     STORAGE_CONTAINERS: buildCategoryAssetUrl("storage-containers"),
@@ -31,8 +35,21 @@ export const CATEGORY_ASSET_MAP: Record<string, string> = {
     SCIENTIFIC_MEDICAL_TECHNICAL: buildCategoryAssetUrl("scientific-medical-technical-instruments"),
 } as const;
 
+export const CATEGORY_HEADER_ASSET_MAP: Record<string, string> = Object.fromEntries(
+    Object.entries(CATEGORY_ASSET_MAP).map(([categoryKey, assetUrl]) => [
+        categoryKey,
+        toHeaderAssetUrl(assetUrl),
+    ]),
+);
+
 export const FALLBACK_CATEGORY_ASSET_URL = buildCategoryAssetUrl("decorative-antiques");
+export const FALLBACK_CATEGORY_HEADER_ASSET_URL =
+    buildCategoryHeaderAssetUrl("decorative-antiques");
 
 export function getCategoryAssetUrl(categoryKey: string): string {
     return CATEGORY_ASSET_MAP[categoryKey] ?? FALLBACK_CATEGORY_ASSET_URL;
+}
+
+export function getCategoryHeaderAssetUrl(categoryKey: string): string {
+    return CATEGORY_HEADER_ASSET_MAP[categoryKey] ?? FALLBACK_CATEGORY_HEADER_ASSET_URL;
 }

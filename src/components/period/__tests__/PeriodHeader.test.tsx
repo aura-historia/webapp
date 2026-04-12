@@ -2,13 +2,15 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { PeriodHeader } from "../PeriodHeader.tsx";
 import type { PeriodDetail } from "@/data/internal/period/PeriodDetail.ts";
+import {
+    getPeriodAssetUrl,
+    getPeriodHeaderAssetUrl,
+} from "@/components/landing-page/periods-section/PeriodsSection.data.ts";
 
 const mockPeriod: PeriodDetail = {
     periodId: "renaissance",
     periodKey: "RENAISSANCE",
     name: "Renaissance",
-    description:
-        "The Renaissance was a fervent period of European cultural, artistic, political and economic rebirth.",
     created: new Date("2024-01-15T08:00:00Z"),
     updated: new Date("2024-06-20T12:30:00Z"),
 };
@@ -19,28 +21,40 @@ describe("PeriodHeader", () => {
         expect(screen.getByRole("heading", { name: "Renaissance" })).toBeInTheDocument();
     });
 
-    it("renders the period description", () => {
+    it("renders the localized period description", () => {
         render(<PeriodHeader period={mockPeriod} />);
+        expect(screen.getByText(/renaissance-antiqu/i)).toBeInTheDocument();
+    });
+
+    it("renders a fallback description when no period-specific i18n description exists", () => {
+        render(<PeriodHeader period={{ ...mockPeriod, periodKey: "UNKNOWN_PERIOD" }} />);
+
         expect(
-            screen.getByText(
-                "The Renaissance was a fervent period of European cultural, artistic, political and economic rebirth.",
-            ),
+            screen.getByText(/entdecken sie kuratierte objekte dieser epoche/i),
         ).toBeInTheDocument();
+    });
+
+    it("uses the period header asset for hero and period asset for card image", () => {
+        const { container } = render(<PeriodHeader period={mockPeriod} />);
+
+        const heroImage = container.querySelector('img[aria-hidden="true"]');
+        const cardImage = container.querySelector('img[loading="lazy"]');
+        const expectedAssetUrl = getPeriodAssetUrl(mockPeriod.periodKey);
+        const expectedHeaderAssetUrl = getPeriodHeaderAssetUrl(mockPeriod.periodKey);
+
+        expect(heroImage).toHaveAttribute("src", expectedHeaderAssetUrl);
+        expect(cardImage).toHaveAttribute("src", expectedAssetUrl);
+        expect(cardImage).toHaveClass("aspect-[9/16]");
     });
 
     it("renders a different name and description when given different props", () => {
         const otherPeriod: PeriodDetail = {
             ...mockPeriod,
             name: "Baroque",
-            description:
-                "The Baroque is a style of architecture, music, dance, painting, sculpture, poetry, and other arts.",
+            periodKey: "BAROQUE",
         };
         render(<PeriodHeader period={otherPeriod} />);
         expect(screen.getByRole("heading", { name: "Baroque" })).toBeInTheDocument();
-        expect(
-            screen.getByText(
-                "The Baroque is a style of architecture, music, dance, painting, sculpture, poetry, and other arts.",
-            ),
-        ).toBeInTheDocument();
+        expect(screen.getByText(/barock-antiqu/i)).toBeInTheDocument();
     });
 });

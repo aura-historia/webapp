@@ -55,9 +55,7 @@ export default function HeroSection() {
                         {TRUST_BADGE_KEYS.map((badgeKey) => (
                             <div key={badgeKey} className={"flex gap-2 sm:gap-6"}>
                                 <span key={badgeKey}>{t(badgeKey)}</span>
-                                {badgeKey !== TRUST_BADGE_KEYS.at(TRUST_BADGE_KEYS.length) && (
-                                    <span>•</span>
-                                )}
+                                {badgeKey !== TRUST_BADGE_KEYS.at(-1) && <span>•</span>}
                             </div>
                         ))}
                     </div>
