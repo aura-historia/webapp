@@ -198,10 +198,10 @@ All personal data are processed **exclusively within Germany**.
 
 ### 10.2 Data Processing on Behalf
 
-[//]: <> (Data processing agreements pursuant to Art. 28 GDPR exist with the hosting providers.)
+[//]: <> (Data processing agreements pursuant to Art. 28 GDPR exist with Amazon Web Services (AWS), Cloudflare, and Hetzner Online GmbH.)
 
 The platform is operated with external hosting and infrastructure providers.
-The data protection agreements pursuant to Art. 28 GDPR are in preparation or are provided within the framework of the respective provider terms.
+Data processing agreements pursuant to Art. 28 GDPR have been concluded with Amazon Web Services (AWS), Cloudflare, and Hetzner Online GmbH.
 
 ---
 

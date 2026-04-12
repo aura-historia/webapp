@@ -103,6 +103,16 @@ describe("Privacy Page Logic", () => {
                 expect(PRIVACY_LOCALE_MAP[key]).toContain("contact@aura-historia.com");
             }
         });
+
+        it("should state that DPAs exist with AWS, Cloudflare, and Hetzner in all locales", () => {
+            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
+
+            for (const key of localeKeys) {
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Amazon Web Services (AWS)");
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Cloudflare");
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Hetzner Online GmbH");
+            }
+        });
     });
 
     describe("Locale key extraction", () => {
