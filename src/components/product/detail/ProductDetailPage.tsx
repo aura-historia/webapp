@@ -3,24 +3,26 @@ import { ProductPriceChart } from "@/components/product/detail/ProductPriceChart
 import { ProductHistory } from "@/components/product/detail/ProductHistory.tsx";
 import { ProductInfo } from "@/components/product/detail/ProductInfo.tsx";
 import { ProductSimilar } from "@/components/product/detail/similar/ProductSimilar.tsx";
-import { ProductQualityIndicators } from "@/components/product/detail/quality-indicator/ProductQualityIndicators.tsx";
 
 export function ProductDetailPage({ product }: { readonly product: ProductDetail }) {
     return (
-        <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="mx-auto w-full max-w-[1280px] px-4 pb-20 pt-8 md:px-8">
             <ProductInfo product={product} />
 
-            <div className="mt-6 md:mt-8">
-                <ProductQualityIndicators product={product} />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-4 sm:gap-6 lg:gap-8 mt-6 md:mt-8 md:grid-rows-[575px] lg:grid-rows-[575px] xl:grid-rows-[550px]">
+            <div className="mt-16">
                 <ProductPriceChart history={product.history} />
-                <ProductHistory history={product.history} />
             </div>
 
-            <div className="mt-6 md:mt-8">
-                <ProductSimilar shopId={product.shopId} shopsProductId={product.shopsProductId} />
+            <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
+                <div className="lg:col-span-4">
+                    <ProductHistory history={product.history} />
+                </div>
+                <div className="lg:col-span-8">
+                    <ProductSimilar
+                        shopId={product.shopId}
+                        shopsProductId={product.shopsProductId}
+                    />
+                </div>
             </div>
         </div>
     );

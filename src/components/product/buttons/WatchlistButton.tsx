@@ -12,6 +12,8 @@ interface WatchlistButtonProps extends Omit<ComponentProps<typeof Button>, "onCl
     readonly shopsProductId: string;
     readonly isWatching: boolean;
     readonly className?: string;
+    readonly label?: string;
+    readonly showIcon?: boolean;
 }
 
 export function WatchlistButton({
@@ -19,6 +21,8 @@ export function WatchlistButton({
     shopsProductId,
     isWatching,
     className,
+    label,
+    showIcon = true,
     ...buttonProps
 }: WatchlistButtonProps) {
     const watchlistMutation = useWatchlistMutation(shopId, shopsProductId);
@@ -30,17 +34,20 @@ export function WatchlistButton({
     return (
         <Button
             {...buttonProps}
-            className={cn("ml-auto shrink-0", className)}
+            className={cn("shrink-0", !label && "ml-auto", className)}
             onClick={() => {
                 if (watchlistMutation.isPending) return;
                 watchlistMutation.mutate(mutationType);
             }}
         >
-            <HeartIcon
-                className={`size-5 transition-all duration-300 ease-in-out ${
-                    isWatching ? "fill-heart text-heart" : "fill-transparent"
-                } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
-            />
+            {showIcon && (
+                <HeartIcon
+                    className={`size-5 transition-all duration-300 ease-in-out ${
+                        isWatching ? "fill-heart text-heart" : "fill-transparent"
+                    } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
+                />
+            )}
+            {label && <span>{label}</span>}
         </Button>
     );
 }

@@ -38,14 +38,14 @@ const ThumbnailButton = memo(function ThumbnailButton({
     onSelect,
 }: ThumbnailButtonProps) {
     return (
-        <CarouselItem className="pl-2 basis-1/3">
+        <CarouselItem className="pl-0 basis-1/4">
             <button
                 type="button"
                 onClick={() => onSelect(index)}
-                className={`aspect-square w-full rounded-md overflow-hidden border-2 transition-[opacity,border-color] duration-150 ${
+                className={`aspect-square w-full overflow-hidden border transition-[opacity,border-color] duration-300 ease-out ${
                     isSelected
-                        ? "border-primary"
-                        : "border-transparent opacity-60 hover:opacity-100"
+                        ? "border-primary opacity-100"
+                        : "border-outline-variant/20 opacity-70 hover:opacity-100"
                 }`}
             >
                 {isRestrictedImage(image, isRestrictedImageConsentGiven) ? (
@@ -159,8 +159,8 @@ export function ProductImageGallery({ images, productId, userData }: ProductImag
      */
     if (images.length === 0) {
         return (
-            <div className="w-full md:w-80 lg:w-96">
-                <div className="w-full aspect-square md:aspect-auto min-h-50 max-h-87.5 md:h-64 lg:h-80 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
+            <div className="w-full">
+                <div className="w-full aspect-[5/6] bg-surface-container-low flex flex-col items-center justify-center gap-2">
                     <ImageOff className="w-12 h-12 text-muted-foreground" />
                     <p className="text-sm text-muted-foreground">Kein Bild verfügbar</p>
                 </div>
@@ -207,7 +207,7 @@ export function ProductImageGallery({ images, productId, userData }: ProductImag
 
     return (
         <>
-            <div className="w-full md:w-80 lg:w-96 space-y-3">
+            <div className="w-full space-y-6">
                 {/* Main image carousel with swipe support */}
                 <Carousel
                     setApi={setMainCarouselApi}
@@ -220,7 +220,7 @@ export function ProductImageGallery({ images, productId, userData }: ProductImag
                         {images.map((img, idx) => (
                             <CarouselItem key={imageKey(img, idx)}>
                                 {isRestrictedImage(img, isRestrictedConsentGiven) ? (
-                                    <ProhibitedImagePlaceholder className="w-full aspect-square md:aspect-auto min-h-50 max-h-87.5 md:h-64 lg:h-80 rounded-lg" />
+                                    <ProhibitedImagePlaceholder className="w-full aspect-[5/6]" />
                                 ) : (
                                     <button
                                         type="button"
@@ -234,8 +234,8 @@ export function ProductImageGallery({ images, productId, userData }: ProductImag
                                             loading={idx === 0 ? "eager" : "lazy"}
                                             decoding="async"
                                             alt={""}
-                                            className="w-full aspect-square md:aspect-auto min-h-50 max-h-87.5 md:h-64 lg:h-80 object-cover rounded-lg hover:opacity-95 transition"
-                                            fallbackClassName="w-full aspect-square md:aspect-auto min-h-[200px] max-h-[350px] md:h-64 lg:h-80 rounded-lg"
+                                            className="w-full aspect-[5/6] object-cover hover:opacity-95 transition-opacity duration-300 ease-out"
+                                            fallbackClassName="w-full aspect-[5/6]"
                                         />
                                     </button>
                                 )}
@@ -245,15 +245,15 @@ export function ProductImageGallery({ images, productId, userData }: ProductImag
                     {/* Library navigation buttons - only visible with 2+ images */}
                     {images.length > 1 && (
                         <>
-                            <CarouselPrevious />
-                            <CarouselNext />
+                            <CarouselPrevious className="left-3 rounded-none border-0 bg-primary/90 text-primary-foreground hover:bg-primary" />
+                            <CarouselNext className="right-3 rounded-none border-0 bg-primary/90 text-primary-foreground hover:bg-primary" />
                         </>
                     )}
                 </Carousel>
 
                 {/* Thumbnail carousel - only visible with 2+ images */}
                 {images.length > 1 && (
-                    <div className="relative px-10">
+                    <div className="relative">
                         <Carousel
                             setApi={setThumbnailCarouselApi}
                             opts={{
@@ -263,7 +263,7 @@ export function ProductImageGallery({ images, productId, userData }: ProductImag
                             className="w-full"
                         >
                             <CarouselContent
-                                className={`-ml-2 ${images.length <= 2 ? "justify-center" : ""}`}
+                                className={`-ml-0 ${images.length <= 4 ? "justify-center" : ""}`}
                             >
                                 {images.map((img, idx) => (
                                     <ThumbnailButton
@@ -276,8 +276,12 @@ export function ProductImageGallery({ images, productId, userData }: ProductImag
                                     />
                                 ))}
                             </CarouselContent>
-                            <CarouselPrevious className="-left-10" />
-                            <CarouselNext className="-right-10" />
+                            {images.length > 4 && (
+                                <>
+                                    <CarouselPrevious className="-left-10 rounded-none border-0 bg-primary/90 text-primary-foreground hover:bg-primary" />
+                                    <CarouselNext className="-right-10 rounded-none border-0 bg-primary/90 text-primary-foreground hover:bg-primary" />
+                                </>
+                            )}
                         </Carousel>
                     </div>
                 )}
