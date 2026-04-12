@@ -388,311 +388,46 @@
         "sold": "Venduto",
         "removed": "Rimosso",
         "unknown": "Sconosciuto",
-        "exactDescription": "Questo pezzo risale al {{year}}.",
-        "rangeDescription": "Questo pezzo è stato realizzato tra il {{min}} e il {{max}}.",
-        "fromDescription": "Questo pezzo è stato realizzato a partire dal {{year}}.",
-        "untilDescription": "Questo pezzo è stato realizzato fino al {{year}}.",
-        "unknownDescription": "L'anno di fabbricazione di questo pezzo è sconosciuto."
-      },
-      "authenticity": {
-        "label": "Autenticità",
-        "original": "Originale",
-        "originalDescription": "Un originale verificato del periodo indicato.",
-        "later_copy": "Copia successiva",
-        "later_copyDescription": "Una copia storica realizzata successivamente all'originale.",
-        "reproduction": "Riproduzione",
-        "reproductionDescription": "Una replica moderna senza valore storico.",
-        "questionable": "Dubbia",
-        "questionableDescription": "L'autenticità di questo pezzo è contestata o non può essere chiaramente confermata.",
-        "unknown": "Sconosciuta",
-        "unknownDescription": "L'autenticità non è stata ancora verificata."
-      },
-      "condition": {
-        "label": "Condizione",
-        "excellent": "Eccellente",
-        "excellentDescription": "Condizioni quasi perfette senza segni significativi di usura.",
-        "great": "Molto buono",
-        "greatDescription": "Molto ben conservato con solo lievi segni di invecchiamento.",
-        "good": "Buono",
-        "goodDescription": "Ben conservato con segni di usura visibili ma accettabili.",
-        "fair": "Discreto",
-        "fairDescription": "Segni di usura evidenti, ma ancora completo e stabile.",
-        "poor": "Scadente",
-        "poorDescription": "Danni significativi o forte usura.",
-        "unknown": "Sconosciuta",
-        "unknownDescription": "La condizione non è stata valutata."
-      },
-      "provenance": {
-        "label": "Provenienza",
-        "complete": "Completa",
-        "completeDescription": "La provenienza è completamente documentata dalla creazione ad oggi.",
-        "partial": "Parziale",
-        "partialDescription": "La provenienza è parzialmente documentata ma presenta lacune.",
-        "claimed": "Dichiarata",
-        "claimedDescription": "Il venditore dichiara una provenienza, ma non è supportata da documenti.",
-        "none": "Nessuna",
-        "noneDescription": "Non esiste alcuna documentazione sulla provenienza.",
-        "unknown": "Sconosciuta",
-        "unknownDescription": "La provenienza non è stata ancora determinata."
-      },
-      "restoration": {
-        "label": "Restauro",
-        "none": "Nessuno",
-        "noneDescription": "Nessun restauro effettuato, il pezzo è in condizioni originali.",
-        "minor": "Minore",
-        "minorDescription": "Lavori di restauro leggeri come pulizia o piccole riparazioni.",
-        "major": "Importante",
-        "majorDescription": "Restauro estensivo o ricostruzione parziale.",
-        "unknown": "Sconosciuto",
-        "unknownDescription": "Non sono disponibili informazioni sul restauro."
-      }
+        "listedDescription": "Questo articolo è visibile ma non è ancora disponibile per l'acquisto.",
+        "availableDescription": "Questo articolo è disponibile per l'acquisto.",
+        "reservedDescription": "Questo articolo è attualmente riservato. Potrebbe tornare disponibile.",
+        "soldDescription": "Questo articolo è già stato venduto.",
+        "removedDescription": "Questo articolo è stato rimosso dal venditore e non può più essere tracciato.",
+        "unknownDescription": "La disponibilità attuale di questo articolo non è chiara."
     },
-    "similar": {
-      "title": "Articoli simili",
-      "error": {
-        "title": "Errore di caricamento",
-        "description": "Non è stato possibile caricare gli articoli simili."
-      },
-      "embeddingsPending": {
-        "title": "In preparazione",
-        "description": "Gli articoli simili sono in fase di preparazione. Per i nuovi articoli possono essere necessarie fino a 24 ore."
-      },
-      "noData": {
-        "title": "Nessun articolo simile",
-        "description": "Non sono stati trovati prodotti simili per questo articolo."
-      }
+    "shopType": {
+        "auctionHouse": "Casa d'aste",
+        "auctionPlatform": "Piattaforma d'asta",
+        "commercialDealer": "Commerciante",
+        "marketplace": "Marketplace",
+        "unknown": "Sconosciuto"
     },
-    "history": {
-      "title": "Cronologia",
-      "noData": "Nessun dato disponibile per questo articolo.",
-      "noEvents": "Nessun evento disponibile per questo filtro.",
-      "filters": {
-        "all": "Tutti",
-        "price": "Prezzo",
-        "availability": "Disponibilità",
-        "details": "Dettagli"
-      },
-      "events": {
-        "statusChanged": "Stato cambiato da {{oldState}} a {{newState}}.",
-        "priceDiscovered": "Prezzo rilevato • {{price}}.",
-        "priceChanged": "Prezzo {{verb}} da {{oldPrice}} a {{newPrice}}.",
-        "priceFallen": "diminuito",
-        "priceIncreased": "aumentato",
-        "priceRemoved": "Prezzo rimosso • Ultimo prezzo: {{price}}.",
-        "created": "Aggiunto al sistema",
-        "estimatePriceChanged": "Fascia di prezzo stimata aggiornata.",
-        "urlChanged": "URL del prodotto aggiornato.",
-        "imagesChanged": "Immagini aggiornate • {{count}} immagine/i.",
-        "auctionTimeChanged": "Periodo d'asta aggiornato.",
-        "originYearChanged": "Anno di origine aggiornato.",
-        "authenticityChanged": "Autenticità aggiornata • {{value}}.",
-        "conditionChanged": "Condizione aggiornata • {{value}}.",
-        "provenanceChanged": "Provenienza aggiornata • {{value}}.",
-        "restorationChanged": "Restauro aggiornato • {{value}}."
-      }
-    },
-    "priceEstimate": {
-      "tooltip": "Stima del prezzo da {{shopType}}",
-      "tooltipUnknown": "Stima del prezzo",
-      "minOnly": "Min. {{min}}",
-      "maxOnly": "Max. {{max}}",
-      "range": "{{min}} - {{max}}"
-    },
-    "priceChart": {
-      "title": "Storico dei prezzi",
-      "noData": "Nessun dato sui prezzi disponibile per questo articolo.",
-      "seriesName": "Prezzo",
-      "timeRanges": {
-        "1d": "1G",
-        "5d": "5G",
-        "1m": "1M",
-        "3m": "3M",
-        "6m": "6M",
-        "1y": "1A",
-        "all": "Tutto"
-      }
-    },
-    "unseenNotification": "Aggiornato",
-    "auction": {
-      "title": "Periodo d'asta",
-      "start": "da {{date}}",
-      "end": "fino a {{date}}",
-      "range": "{{start}} – {{end}}"
-    }
-  },
-  "priceBadge": {
-    "discovered": "Prezzo rilevato",
-    "dropped": "Prezzo diminuito",
-    "increased": "Prezzo aumentato",
-    "removed": "Prezzo rimosso"
-  },
-  "productState": {
-    "listed": "In lista",
-    "available": "Disponibile",
-    "reserved": "Riservato",
-    "sold": "Venduto",
-    "removed": "Rimosso",
-    "unknown": "Sconosciuto",
-    "listedDescription": "Questo articolo è visibile ma non è ancora disponibile per l'acquisto.",
-    "availableDescription": "Questo articolo è disponibile per l'acquisto.",
-    "reservedDescription": "Questo articolo è attualmente riservato. Potrebbe tornare disponibile.",
-    "soldDescription": "Questo articolo è già stato venduto.",
-    "removedDescription": "Questo articolo è stato rimosso dal venditore e non può più essere tracciato.",
-    "unknownDescription": "La disponibilità attuale di questo articolo non è chiara."
-  },
-  "shopType": {
-    "auctionHouse": "Casa d'aste",
-    "auctionPlatform": "Piattaforma d'asta",
-    "commercialDealer": "Commerciante",
-    "marketplace": "Marketplace",
-    "unknown": "Sconosciuto"
-  },
-  "discover": {
-    "title": "Portiamo trasparenza nel panorama opaco dell'antiquariato online",
-    "p1": "Ogni giorno esaminiamo la vasta offerta di migliaia di antiquari, case d'aste e marketplace sparsi in tutto il mondo e raccogliamo i loro articoli in un unico posto.",
-    "p2": "Non solo registriamo gli articoli attuali e futuri, ma monitoriamo anche le variazioni di prezzo e disponibilità. In questo modo non perderai mai un affare e avrai sempre sotto controllo il mercato.",
-    "highlight1": {
-      "title": "Oltre 500 commercianti, case d'aste e marketplace",
-      "description": "Cerchiamo continuamente tra rinomati antiquari, case d'aste e marketplace da tutta Europa e oltre."
-    },
-    "highlight2": {
-      "title": "Monitoraggio quasi in tempo reale",
-      "description": "I nuovi articoli offerti e le variazioni di prezzo o disponibilità vengono registrati automaticamente quasi in tempo reale."
-    },
-    "highlight3": {
-      "title": "Completamente indipendente dalla lingua",
-      "description": "Traduciamo ogni antico in più lingue. La lingua in cui cerchi non importa. Attualmente supportiamo inglese, tedesco, francese, spagnolo e italiano."
-    },
-    "stats": {
-      "shops": "500",
-      "shopsLabel": "Negozi collegati",
-      "items": "120.000",
-      "itemsLabel": "Articoli unici",
-      "updates": "24/7",
-      "updatesLabel": "Aggiornamenti quasi in tempo reale",
-      "countries": "15",
-      "countriesLabel": "Paesi coperti"
-    }
-  },
-  "landingPage": {
-    "badge": "Cerca oltre i soliti mercati",
-    "titleFirstLine": "Scopri rare antichità<1/>sul mercato globale",
-    "subtitle": "Aura Historia cerca tra antiquari, case d'asta e mercati in tutto il mondo — aiutandoti a scoprire pezzi che altri non vedono mai.",
-    "trustBadge1": "Antiquari e case d'asta in tutto il mondo",
-    "trustBadge2": "Inserzioni continuamente aggiornate",
-    "trustBadge3": "Creato per collezionisti seri",
-    "categories": {
-      "title": "Sfoglia Categorie",
-      "objectCount_one": "{{formattedCount}} Oggetto",
-      "objectCount_other": "{{formattedCount}} Oggetti"
-    },
-    "periods": {
-      "title": "Esplora epoche storiche",
-      "eyebrow": "Archivio delle epoche",
-      "titleLineOne": "Esplora per",
-      "titleLineTwo": "Epoche storiche",
-      "description": "Attraversa il tempo con collezioni dei movimenti di design piu significativi al mondo.",
-      "cta": "Vedi cronologia",
-      "previous": "Epoche precedenti",
-      "next": "Epoche successive",
-      "rangeUnknown": "Periodo",
-      "rangeToday": "Oggi",
-      "rangeBc": "a.C.",
-      "rangeBce": "a.C.",
-      "rangeCe": "d.C."
-    },
-    "recentlyAdded": {
-      "eyebrow": "Aggiunti di recente",
-      "title": "Le ultime acquisizioni",
-      "foundAt": "Trovato presso {{shopName}}.",
-      "foundAtWithYear": "Trovato presso {{shopName}}. Circa {{year}}."
-    },
-    "features": {
-      "title": "L'antiquariato è sparso ovunque online - la tua ricerca non dovrebbe esserlo",
-      "subtitle": "Siamo il motore di ricerca più sofisticato per l'antiquariato e ti forniamo tutti gli strumenti per cercare in modo efficiente nel mercato antiquario.",
-      "previewBadge": "Prossimamente",
-      "search": {
-        "title": "Ricerca intelligente",
-        "description": "Cerca tra centinaia di migliaia di articoli con il nostro potente motore di ricerca. Elimina tutto il rumore filtrando per condizione, prezzo, commerciante e molto altro."
-      },
-      "global": {
-        "title": "Copertura mondiale",
-        "description": "Ti mettiamo in contatto con rinomati antiquari da oltre 15 paesi – dalla Germania agli USA. Non importa quanto sia piccolo il commerciante, se ha un negozio online, lo stiamo aggiungendo."
-      },
-      "history": {
-        "title": "Cronologia delle modifiche",
-        "description": "Segui tutte le modifiche di un articolo – dalle variazioni di prezzo ai cambi di stato. Puntiamo sulla massima trasparenza."
-      },
-      "watchlist": {
-        "title": "Lista dei preferiti personale",
-        "description": "Salva gli articoli interessanti e tieni traccia del loro sviluppo. Ricevi notifiche quando il prezzo o la disponibilità cambiano."
-      },
-      "translations": {
-        "title": "Traduzioni automatiche",
-        "description": "Cerca e scopri tutti gli articoli nella tua lingua preferita, senza alcuna barriera. Attualmente supportiamo inglese, tedesco, francese, spagnolo e italiano."
-      },
-      "personalFilter": {
-        "title": "Richieste di ricerca",
-        "description": "Salva la tua richiesta di ricerca e ricevi notifiche su nuove offerte o articoli aggiornati. Gli oggetti d'antiquariato che cercavi ora vengono da te."
-      },
-      "aiSearchAgent": {
-        "title": "Agente di ricerca AI personale",
-        "description": "Il tuo agente AI personale ti aiuta a trovare gli oggetti d'antiquariato più specifici. In combinazione con le richieste di ricerca, descrivi ciò che cerchi in linguaggio naturale – con tutti i dettagli che desideri. Ti avviseremo non appena troveremo corrispondenze."
-      },
-      "communityWishes": {
-        "title": "I tuoi desideri",
-        "description": "Hai critiche, ti manca qualcosa o hai un'idea su cosa dovremmo migliorare o aggiungere? Ti ascoltiamo molto attentamente. Contattaci a contact@aura-historia.com e lo realizzeremo."
-      }
-    },
-    "howItWorks": {
-      "title": "Come funziona",
-      "subtitle": "Solo pochi passaggi per i tuoi pezzi da sogno.",
-      "step1": {
-        "title": "Cerca",
-        "description": "Inserisci ciò che stai cercando – che siano mobili, gioielli, arte o oggetti da collezione."
-      },
-      "step2": {
-        "title": "Scopri",
-        "description": "Sfoglia i risultati di migliaia di commercianti con un solo colpo d'occhio."
-      },
-      "step3": {
-        "title": "Salva",
-        "description": "Salva gli oggetti interessanti nella tua lista di osservazione o salva i criteri di ricerca come un avviso."
-      },
-      "step4": {
-        "title": "Ricevi notifiche",
-        "description": "Ricevi notifiche via email non appena un oggetto nella tua lista di osservazione cambia o ne arriva uno nuovo che corrisponde ai tuoi criteri."
-      }
-    },
-    "testimonials": {
-      "title": "Cosa dicono i nostri utenti",
-      "subtitle": "Scopri come aiutiamo i collezionisti a vivere la loro passione.",
-      "testimonial1": {
-        "name": "Margarete W.",
-        "role": "Colleziona mobili Art Nouveau",
-        "quote": "Finalmente una piattaforma che rende più facile la ricerca di pezzi rari. Le notifiche sui prezzi mi hanno aiutato a trovare veri affari più volte."
-      },
-      "testimonial2": {
-        "name": "Heinrich K.",
-        "role": "Antiquario",
-        "quote": "Come commerciante, uso Aura Historia per tenere d'occhio il mercato. L'andamento dei prezzi mi aiuta enormemente nella mia strategia di prezzi."
-      },
-      "testimonial3": {
-        "name": "Elisabeth M.",
-        "role": "Collezionista per hobby da 20 anni",
-        "quote": "Sono stupita dalla chiarezza. Prima passavo ore a cercare su diversi siti di commercianti. Ora trovo tutto in un unico posto."
-      }
-    },
-    "newsletter": {
-      "title": "Resta informato",
-      "description": "Ricevi ogni settimana ritrovamenti selezionati, tendenze di mercato e approfondimenti esclusivi direttamente nella tua casella di posta.",
-      "placeholder": "Il tuo indirizzo email",
-      "button": "Iscriviti",
-      "privacy": "Iscrivendoti, accetti la nostra informativa sulla privacy. Puoi annullare l'iscrizione in qualsiasi momento.",
-      "successMessage": "Grazie per l'iscrizione! Conferma il tuo indirizzo email.",
-      "benefit1": "Highlights settimanali",
-      "benefit2": "Report e tendenze di mercato",
-      "benefit3": "Annulla l'iscrizione in qualsiasi momento"
+    "discover": {
+        "title": "Portiamo trasparenza nel panorama opaco dell'antiquariato online",
+        "p1": "Ogni giorno esaminiamo la vasta offerta di migliaia di antiquari, case d'aste e marketplace sparsi in tutto il mondo e raccogliamo i loro articoli in un unico posto.",
+        "p2": "Non solo registriamo gli articoli attuali e futuri, ma monitoriamo anche le variazioni di prezzo e disponibilità. In questo modo non perderai mai un affare e avrai sempre sotto controllo il mercato.",
+        "highlight1": {
+            "title": "Oltre 500 commercianti, case d'aste e marketplace",
+            "description": "Cerchiamo continuamente tra rinomati antiquari, case d'aste e marketplace da tutta Europa e oltre."
+        },
+        "highlight2": {
+            "title": "Monitoraggio quasi in tempo reale",
+            "description": "I nuovi articoli offerti e le variazioni di prezzo o disponibilità vengono registrati automaticamente quasi in tempo reale."
+        },
+        "highlight3": {
+            "title": "Completamente indipendente dalla lingua",
+            "description": "Traduciamo ogni antico in più lingue. La lingua in cui cerchi non importa. Attualmente supportiamo inglese, tedesco, francese, spagnolo e italiano."
+        },
+        "stats": {
+            "shops": "500",
+            "shopsLabel": "Negozi collegati",
+            "items": "120.000",
+            "itemsLabel": "Articoli unici",
+            "updates": "24/7",
+            "updatesLabel": "Aggiornamenti quasi in tempo reale",
+            "countries": "15",
+            "countriesLabel": "Paesi coperti"
+        }
     },
     "landingPage": {
         "badge": "Cerca oltre i soliti mercati",
@@ -777,11 +512,11 @@
             },
             "step3": {
                 "title": "Salva",
-                "description": "Salva gli articoli interessanti nella tua watchlist oppure salva i tuoi criteri di ricerca come avviso."
+                "description": "Salva gli oggetti interessanti nella tua lista di osservazione o salva i criteri di ricerca come un avviso."
             },
             "step4": {
                 "title": "Ricevi notifiche",
-                "description": "Ricevi un’e-mail non appena cambia un articolo nella tua watchlist o ne compare uno nuovo che corrisponde ai tuoi criteri."
+                "description": "Ricevi notifiche via email non appena un oggetto nella tua lista di osservazione cambia o ne arriva uno nuovo che corrisponde ai tuoi criteri."
             }
         },
         "testimonials": {
@@ -1172,77 +907,4 @@
         "analyticsDescription": "Ci permette di analizzare l'utilizzo e migliorare la tua esperienza tramite Google Analytics. Include archiviazione annunci, archiviazione analytics, dati utente annunci e personalizzazione annunci.",
         "saved": "Le tue preferenze sui cookie sono state salvate."
     }
-  },
-  "amplify": {
-    "email": "Email*",
-    "password": "Password*",
-    "confirmPassword": "Conferma password*",
-    "signIn": "Accedi",
-    "signUp": "Registrati",
-    "createAccount": "Crea account",
-    "forgotYourPassword": "Hai dimenticato la password?",
-    "resetPassword": "Reimposta password",
-    "backToSignIn": "Torna all'accesso",
-    "sendCode": "Invia codice",
-    "confirm": "Conferma",
-    "submit": "Invia",
-    "verify": "Verifica",
-    "skip": "Salta",
-    "code": "Codice",
-    "newPassword": "Nuova password",
-    "enterYourEmail": "Inserisci la tua email",
-    "enterYourPassword": "Inserisci la tua password",
-    "pleaseConfirmYourPassword": "Conferma la tua password",
-    "weEmailedYou": "Ti abbiamo inviato un'email",
-    "weSentACode": "Ti abbiamo inviato un codice",
-    "weTextedYou": "Ti abbiamo inviato un SMS",
-    "codeOnTheWayEmail": "Il tuo codice è in arrivo. Per accedere, inserisci il codice che ti abbiamo inviato via email a",
-    "codeOnTheWaySent": "Il tuo codice è in arrivo. Per accedere, inserisci il codice che ti abbiamo inviato a",
-    "codeOnTheWayText": "Il tuo codice è in arrivo. Per accedere, inserisci il codice che ti abbiamo inviato via SMS a",
-    "itMayTakeAMinuteToArrive": "Potrebbe impiegare un minuto per arrivare",
-    "confirmationCode": "Codice di conferma",
-    "enterYourConfirmationCode": "Inserisci il tuo codice di conferma",
-    "resendCode": "Reinvia codice",
-    "incorrectUsernameOrPassword": "Nome utente o password errati.",
-    "userDoesNotExist": "L'utente non esiste.",
-    "userAlreadyExists": "L'utente esiste già.",
-    "invalidVerificationCode": "Codice di verifica non valido, riprova.",
-    "invalidPasswordFormat": "Formato password non valido.",
-    "passwordAttemptsExceeded": "Troppi tentativi. Riprova più tardi.",
-    "attemptLimitExceeded": "Limite di tentativi superato, riprova dopo un po'.",
-    "alreadySignedInUser": "C'è già un utente connesso.",
-    "passwordPolicyNotLongEnough": "La password non è abbastanza lunga.",
-    "passwordPolicyMustHaveLowercase": "La password deve contenere caratteri minuscoli.",
-    "passwordPolicyMustHaveUppercase": "La password deve contenere caratteri maiuscoli.",
-    "passwordPolicyMustHaveSymbol": "La password deve contenere caratteri speciali.",
-    "passwordMustHaveUppercase": "La password deve contenere caratteri maiuscoli.",
-    "passwordMustHaveLowercase": "La password deve contenere caratteri minuscoli.",
-    "passwordMustHaveNumeric": "La password deve contenere caratteri numerici.",
-    "passwordMustHaveSymbol": "La password deve contenere caratteri speciali.",
-    "passwordMustHaveAtLeast8Chars": "La password deve avere almeno 8 caratteri.",
-    "yourPasswordsMustMatch": "Le password devono corrispondere.",
-    "userIsNotConfirmed": "L'utente non è confermato.",
-    "userIsDisabled": "L'utente è disabilitato.",
-    "usernameCannotBeEmpty": "Il nome utente non può essere vuoto.",
-    "passwordCannotBeEmpty": "La password non può essere vuota.",
-    "networkError": "Errore di rete. Controlla la tua connessione internet.",
-    "accountWithEmailAlreadyExists": "Esiste già un account con questa email.",
-    "invalidEmailAddressFormat": "Formato dell'indirizzo email non valido.",
-    "codeMismatch": "Il codice inserito non è corretto.",
-    "confirmationCodeCannotBeEmpty": "Il codice di conferma non può essere vuoto.",
-    "invalidCodeProvidedRequestAgain": "Codice non valido, richiedi un nuovo codice."
-  },
-  "consent": {
-    "title": "Rispettiamo la tua privacy",
-    "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Cliccando su 'Accetta', acconsenti all'uso dei cookie per questi scopi. Puoi trovare maggiori informazioni nella nostra <1>informativa sulla privacy</1>.",
-    "accept": "Accetta",
-    "reject": "Rifiuta"
-  },
-  "consentSettings": {
-    "title": "Impostazioni cookie",
-    "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Puoi trovare maggiori informazioni nella nostra <1>informativa sulla privacy</1>.",
-    "analyticsLabel": "Analisi & Tracciamento",
-    "analyticsDescription": "Ci permette di analizzare l'utilizzo e migliorare la tua esperienza tramite Google Analytics. Include archiviazione annunci, archiviazione analytics, dati utente annunci e personalizzazione annunci.",
-    "saved": "Le tue preferenze sui cookie sono state salvate."
-  }
 }

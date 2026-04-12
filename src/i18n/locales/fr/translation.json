@@ -400,214 +400,34 @@
         "commercialDealer": "Marchand",
         "marketplace": "Place de marché",
         "unknown": "Inconnu",
-        "unknownDescription": "L'état n'a pas été évalué."
-      },
-      "provenance": {
-        "label": "Provenance",
-        "complete": "Complète",
-        "completeDescription": "La provenance est entièrement documentée depuis la création jusqu'à aujourd'hui.",
-        "partial": "Partielle",
-        "partialDescription": "La provenance est partiellement documentée mais comporte des lacunes.",
-        "claimed": "Déclarée",
-        "claimedDescription": "Le vendeur affirme une provenance, mais elle n'est pas étayée par des documents.",
-        "none": "Aucune",
-        "noneDescription": "Aucune documentation de provenance n'existe.",
-        "unknown": "Inconnue",
-        "unknownDescription": "La provenance n'a pas encore pu être déterminée."
-      },
-      "restoration": {
-        "label": "Restauration",
-        "none": "Aucune",
-        "noneDescription": "Aucune restauration effectuée, la pièce est dans son état d'origine.",
-        "minor": "Mineure",
-        "minorDescription": "Travaux de restauration légers tels que nettoyage ou petites réparations.",
-        "major": "Importante",
-        "majorDescription": "Restauration extensive ou reconstruction partielle.",
-        "unknown": "Inconnue",
-        "unknownDescription": "Aucune information sur la restauration n'est disponible."
-      }
+        "auctionPlatform": "Plateforme d'enchères"
     },
-    "unseenNotification": "Mis à jour",
-    "auction": {
-      "title": "Période de vente aux enchères",
-      "start": "à partir du {{date}}",
-      "end": "jusqu'au {{date}}",
-      "range": "{{start}} – {{end}}"
-    }
-  },
-  "priceBadge": {
-    "discovered": "Prix découvert",
-    "dropped": "Prix en baisse",
-    "increased": "Prix en hausse",
-    "removed": "Prix supprimé"
-  },
-  "productState": {
-    "listed": "Listé",
-    "available": "Disponible",
-    "reserved": "Réservé",
-    "sold": "Vendu",
-    "removed": "Supprimé",
-    "unknown": "Inconnu",
-    "listedDescription": "Cet article est visible mais n'est pas encore disponible à l'achat.",
-    "availableDescription": "Cet article est disponible à l'achat.",
-    "reservedDescription": "Cet article est actuellement réservé. Il pourrait redevenir disponible.",
-    "soldDescription": "Cet article a déjà été vendu.",
-    "removedDescription": "Cet article a été retiré par le vendeur et ne peut plus être suivi.",
-    "unknownDescription": "La disponibilité actuelle de cet article est incertaine."
-  },
-  "shopType": {
-    "auctionHouse": "Maison de vente aux enchères",
-    "commercialDealer": "Marchand",
-    "marketplace": "Place de marché",
-    "unknown": "Inconnu",
-    "auctionPlatform": "Plateforme d'enchères"
-  },
-  "discover": {
-    "title": "Nous apportons de la transparence dans le paysage opaque des antiquités en ligne",
-    "p1": "Nous recherchons chaque jour parmi les vastes offres de milliers de marchands d'antiquités, maisons de vente aux enchères et places de marché dispersés à travers le monde, et regroupons leurs articles en un seul endroit central.",
-    "p2": "Nous ne capturons pas seulement les articles actuels et à venir, mais nous suivons également les changements de prix et de disponibilité. Ainsi, vous ne manquez jamais une bonne affaire et gardez toujours un œil sur le marché.",
-    "highlight1": {
-      "title": "Plus de 500 marchands, maisons de vente aux enchères et places de marché",
-      "description": "Nous recherchons en continu des marchands d'antiquités renommés, des maisons de vente aux enchères et des places de marché dans toute l'Europe et au-delà."
-    },
-    "highlight2": {
-      "title": "Surveillance quasi en temps réel",
-      "description": "Les nouvelles antiquités proposées ainsi que les changements de prix ou de disponibilité sont automatiquement capturés en quasi temps réel."
-    },
-    "highlight3": {
-      "title": "Entièrement indépendant de la langue",
-      "description": "Nous traduisons chaque antiquité en plusieurs langues. La langue dans laquelle vous effectuez votre recherche n'a pas d'importance. Nous prenons actuellement en charge l'anglais, l'allemand, le français, l'espagnol et l'italien."
-    },
-    "stats": {
-      "shops": "500",
-      "shopsLabel": "Boutiques connectées",
-      "items": "120 000",
-      "itemsLabel": "Articles uniques",
-      "updates": "24/7",
-      "updatesLabel": "Mises à jour quasi en temps réel",
-      "countries": "15",
-      "countriesLabel": "Pays couverts"
-    }
-  },
-  "landingPage": {
-    "badge": "Recherchez au-delà des marchés habituels",
-    "titleFirstLine": "Découvrez des antiquités rares<1/>sur le marché mondial",
-    "subtitle": "Aura Historia explore les antiquaires, les maisons de vente aux enchères et les marketplaces du monde entier — vous aidant à dénicher des pièces que les autres ne voient jamais.",
-    "trustBadge1": "Antiquaires et maisons de vente aux enchères dans le monde entier",
-    "trustBadge2": "Annonces mises à jour en continu",
-    "trustBadge3": "Conçu pour les collectionneurs sérieux",
-    "categories": {
-      "title": "Parcourir les catégories",
-      "objectCount_one": "{{formattedCount}} Objet",
-      "objectCount_other": "{{formattedCount}} Objets"
-    },
-    "periods": {
-      "title": "Explorez les époques historiques",
-      "eyebrow": "Archives des epoques",
-      "titleLineOne": "Explorer par",
-      "titleLineTwo": "Epoques historiques",
-      "description": "Parcourez le temps a travers des collections des mouvements de design les plus marquants du monde.",
-      "cta": "Voir la chronologie",
-      "previous": "Epoques precedentes",
-      "next": "Epoques suivantes",
-      "rangeUnknown": "Periode",
-      "rangeToday": "Aujourd'hui",
-      "rangeBc": "av. J.-C.",
-      "rangeBce": "av. J.-C.",
-      "rangeCe": "apr. J.-C."
-    },
-    "recentlyAdded": {
-      "eyebrow": "Ajoutés récemment",
-      "title": "Les dernières acquisitions",
-      "foundAt": "Trouvé chez {{shopName}}.",
-      "foundAtWithYear": "Trouvé chez {{shopName}}. Vers {{year}}."
-    },
-    "features": {
-      "title": "Les antiquités sont dispersées partout en ligne - votre recherche ne devrait pas l'être",
-      "subtitle": "Nous sommes le moteur de recherche le plus sophistiqué pour les antiquités et vous fournissons tous les outils nécessaires pour explorer efficacement le marché des antiquités.",
-      "previewBadge": "Bientôt disponible",
-      "search": {
-        "title": "Recherche intelligente",
-        "description": "Recherchez des centaines de milliers d'articles avec notre moteur de recherche puissant. Éliminez tout le bruit en filtrant par état, prix, marchand, et bien plus encore."
-      },
-      "global": {
-        "title": "Couverture mondiale",
-        "description": "Nous vous connectons avec des marchands d'antiquités renommés de plus de 15 pays - de l'Allemagne aux États-Unis. Peu importe la taille du marchand, s'il a une boutique en ligne, nous l'ajoutons."
-      },
-      "history": {
-        "title": "Historique des modifications",
-        "description": "Suivez tous les changements d'un article - des ajustements de prix aux changements de statut. Nous optons pour un maximum de transparence."
-      },
-      "watchlist": {
-        "title": "Liste de favoris personnelle",
-        "description": "Enregistrez des articles intéressants et suivez leur évolution. Recevez des notifications lorsque le prix ou la disponibilité change."
-      },
-      "translations": {
-        "title": "Traductions automatiques",
-        "description": "Recherchez et découvrez tous les articles dans votre langue préférée, sans aucun obstacle. Nous prenons actuellement en charge l'anglais, l'allemand, le français, l'espagnol et l'italien."
-      },
-      "personalFilter": {
-        "title": "Requêtes de recherche",
-        "description": "Enregistrez votre requête de recherche et recevez des notifications sur les nouvelles offres ou les articles mis à jour. Les antiquités que vous recherchiez viennent désormais à vous."
-      },
-      "aiSearchAgent": {
-        "title": "Agent de recherche IA personnel",
-        "description": "Votre agent IA personnel vous aide à trouver les antiquités les plus spécifiques. En combinaison avec les requêtes de recherche, décrivez ce que vous recherchez en langage simple - aussi détaillé que vous le souhaitez. Nous vous informerons dès que des résultats correspondent à votre description."
-      },
-      "communityWishes": {
-        "title": "Vos souhaits",
-        "description": "Vous avez une critique, quelque chose vous manque ou vous avez une idée de ce que nous devrions améliorer ou ajouter ? Nous vous écoutons attentivement. Contactez-nous à contact@aura-historia.com et nous le réaliserons."
-      }
-    },
-    "howItWorks": {
-      "title": "Comment ça marche",
-      "subtitle": "Quelques étapes seulement pour vos pièces de rêve.",
-      "step1": {
-        "title": "Rechercher",
-        "description": "Saisissez ce que vous cherchez – meubles, bijoux, art ou objets de collection."
-      },
-      "step2": {
-        "title": "Découvrir",
-        "description": "Parcourez les résultats de milliers de marchands en un coup d'œil."
-      },
-      "step3": {
-        "title": "Sauvegarder",
-        "description": "Enregistrez des objets intéressants dans votre liste de suivi ou sauvegardez vos critères de recherche comme une alerte."
-      },
-      "step4": {
-        "title": "Recevez des notifications",
-        "description": "Recevez une notification par email dès qu'un objet de votre liste de suivi change ou qu'un nouvel objet correspond à vos critères."
-      }
-    },
-    "testimonials": {
-      "title": "Ce que disent nos utilisateurs",
-      "subtitle": "Découvrez comment nous aidons les collectionneurs à vivre leur passion.",
-      "testimonial1": {
-        "name": "Margarete W.",
-        "role": "Collectionne les meubles Art nouveau",
-        "quote": "Enfin une plateforme qui facilite la recherche de pièces rares. Les alertes de prix m'ont permis à plusieurs reprises de dénicher de véritables bonnes affaires."
-      },
-      "testimonial2": {
-        "name": "Heinrich K.",
-        "role": "Antiquaire",
-        "quote": "En tant que marchand, j'utilise Aura Historia pour surveiller le marché. L'évolution des prix m'aide énormément à fixer mes propres tarifs."
-      },
-      "testimonial3": {
-        "name": "Elisabeth M.",
-        "role": "Collectionneuse amateur depuis 20 ans",
-        "quote": "Je suis impressionnée par la clarté de l'interface. Avant, je passais des heures à chercher sur différents sites de marchands. Maintenant, je trouve tout au même endroit."
-      }
-    },
-    "newsletter": {
-      "title": "Restez informé",
-      "description": "Recevez chaque semaine une sélection de trouvailles, les tendances du marché et des aperçus exclusifs directement dans votre boîte mail.",
-      "placeholder": "Votre adresse e-mail",
-      "button": "S'inscrire",
-      "privacy": "En vous inscrivant, vous acceptez notre politique de confidentialité. Vous pouvez vous désinscrire à tout moment.",
-      "successMessage": "Merci pour votre inscription ! Veuillez confirmer votre adresse e-mail.",
-      "benefit1": "Sélection hebdomadaire",
-      "benefit2": "Rapports de marché et tendances",
-      "benefit3": "Désinscription à tout moment"
+    "discover": {
+        "title": "Nous apportons de la transparence dans le paysage opaque des antiquités en ligne",
+        "p1": "Nous recherchons chaque jour parmi les vastes offres de milliers de marchands d'antiquités, maisons de vente aux enchères et places de marché dispersés à travers le monde, et regroupons leurs articles en un seul endroit central.",
+        "p2": "Nous ne capturons pas seulement les articles actuels et à venir, mais nous suivons également les changements de prix et de disponibilité. Ainsi, vous ne manquez jamais une bonne affaire et gardez toujours un œil sur le marché.",
+        "highlight1": {
+            "title": "Plus de 500 marchands, maisons de vente aux enchères et places de marché",
+            "description": "Nous recherchons en continu des marchands d'antiquités renommés, des maisons de vente aux enchères et des places de marché dans toute l'Europe et au-delà."
+        },
+        "highlight2": {
+            "title": "Surveillance quasi en temps réel",
+            "description": "Les nouvelles antiquités proposées ainsi que les changements de prix ou de disponibilité sont automatiquement capturés en quasi temps réel."
+        },
+        "highlight3": {
+            "title": "Entièrement indépendant de la langue",
+            "description": "Nous traduisons chaque antiquité en plusieurs langues. La langue dans laquelle vous effectuez votre recherche n'a pas d'importance. Nous prenons actuellement en charge l'anglais, l'allemand, le français, l'espagnol et l'italien."
+        },
+        "stats": {
+            "shops": "500",
+            "shopsLabel": "Boutiques connectées",
+            "items": "120 000",
+            "itemsLabel": "Articles uniques",
+            "updates": "24/7",
+            "updatesLabel": "Mises à jour quasi en temps réel",
+            "countries": "15",
+            "countriesLabel": "Pays couverts"
+        }
     },
     "landingPage": {
         "badge": "Recherchez au-delà des marchés habituels",
@@ -692,11 +512,11 @@
             },
             "step3": {
                 "title": "Sauvegarder",
-                "description": "Enregistrez les objets intéressants dans votre liste de suivi ou sauvegardez vos critères de recherche sous forme d’alerte."
+                "description": "Enregistrez des objets intéressants dans votre liste de suivi ou sauvegardez vos critères de recherche comme une alerte."
             },
             "step4": {
-                "title": "Être averti",
-                "description": "Recevez un e-mail dès qu’un objet de votre liste de suivi change ou qu’un nouveau correspond à vos critères."
+                "title": "Recevez des notifications",
+                "description": "Recevez une notification par email dès qu'un objet de votre liste de suivi change ou qu'un nouvel objet correspond à vos critères."
             }
         },
         "testimonials": {
@@ -1087,77 +907,4 @@
         "analyticsDescription": "Nous permet d'analyser l'utilisation et d'améliorer votre expérience via Google Analytics. Comprend le stockage des annonces, le stockage analytique, les données utilisateur publicitaires et la personnalisation des annonces.",
         "saved": "Vos préférences en matière de cookies ont été enregistrées."
     }
-  },
-  "amplify": {
-    "email": "E-mail*",
-    "password": "Mot de passe*",
-    "confirmPassword": "Confirmer le mot de passe*",
-    "signIn": "Se connecter",
-    "signUp": "S'inscrire",
-    "createAccount": "Créer un compte",
-    "forgotYourPassword": "Mot de passe oublié ?",
-    "resetPassword": "Réinitialiser le mot de passe",
-    "backToSignIn": "Retour à la connexion",
-    "sendCode": "Envoyer le code",
-    "confirm": "Confirmer",
-    "submit": "Soumettre",
-    "verify": "Vérifier",
-    "skip": "Ignorer",
-    "code": "Code",
-    "newPassword": "Nouveau mot de passe",
-    "enterYourEmail": "Entrez votre e-mail",
-    "enterYourPassword": "Entrez votre mot de passe",
-    "pleaseConfirmYourPassword": "Veuillez confirmer votre mot de passe",
-    "weEmailedYou": "Nous vous avons envoyé un e-mail",
-    "weSentACode": "Nous avons envoyé un code",
-    "weTextedYou": "Nous vous avons envoyé un SMS",
-    "codeOnTheWayEmail": "Votre code est en route. Pour vous connecter, entrez le code que nous avons envoyé à",
-    "codeOnTheWaySent": "Votre code est en route. Pour vous connecter, entrez le code que nous vous avons envoyé",
-    "codeOnTheWayText": "Votre code est en route. Pour vous connecter, entrez le code que nous avons envoyé par SMS à",
-    "itMayTakeAMinuteToArrive": "Cela peut prendre une minute",
-    "confirmationCode": "Code de confirmation",
-    "enterYourConfirmationCode": "Entrez votre code de confirmation",
-    "resendCode": "Renvoyer le code",
-    "incorrectUsernameOrPassword": "Nom d'utilisateur ou mot de passe incorrect.",
-    "userDoesNotExist": "L'utilisateur n'existe pas.",
-    "userAlreadyExists": "L'utilisateur existe déjà.",
-    "invalidVerificationCode": "Code de vérification invalide, veuillez réessayer.",
-    "invalidPasswordFormat": "Format de mot de passe invalide.",
-    "passwordAttemptsExceeded": "Trop de tentatives. Veuillez réessayer plus tard.",
-    "attemptLimitExceeded": "Limite de tentatives dépassée, veuillez réessayer plus tard.",
-    "alreadySignedInUser": "Un utilisateur est déjà connecté.",
-    "passwordPolicyNotLongEnough": "Le mot de passe n'est pas assez long.",
-    "passwordPolicyMustHaveLowercase": "Le mot de passe doit contenir des minuscules.",
-    "passwordPolicyMustHaveUppercase": "Le mot de passe doit contenir des majuscules.",
-    "passwordPolicyMustHaveSymbol": "Le mot de passe doit contenir des caractères spéciaux.",
-    "passwordMustHaveUppercase": "Le mot de passe doit contenir des majuscules.",
-    "passwordMustHaveLowercase": "Le mot de passe doit contenir des minuscules.",
-    "passwordMustHaveNumeric": "Le mot de passe doit contenir des chiffres.",
-    "passwordMustHaveSymbol": "Le mot de passe doit contenir des caractères spéciaux.",
-    "passwordMustHaveAtLeast8Chars": "Le mot de passe doit contenir au moins 8 caractères.",
-    "yourPasswordsMustMatch": "Les mots de passe doivent correspondre.",
-    "userIsNotConfirmed": "L'utilisateur n'est pas confirmé.",
-    "userIsDisabled": "L'utilisateur est désactivé.",
-    "usernameCannotBeEmpty": "Le nom d'utilisateur ne peut pas être vide.",
-    "passwordCannotBeEmpty": "Le mot de passe ne peut pas être vide.",
-    "networkError": "Erreur réseau. Veuillez vérifier votre connexion Internet.",
-    "accountWithEmailAlreadyExists": "Un compte avec cette adresse e-mail existe déjà.",
-    "invalidEmailAddressFormat": "Format d'adresse e-mail invalide.",
-    "codeMismatch": "Le code entré est incorrect.",
-    "confirmationCodeCannotBeEmpty": "Le code de confirmation ne peut pas être vide.",
-    "invalidCodeProvidedRequestAgain": "Code invalide, veuillez en demander un nouveau."
-  },
-  "consent": {
-    "title": "Nous respectons votre vie privée",
-    "description": "Nous utilisons des cookies pour analyser le trafic web et améliorer votre expérience utilisateur. En cliquant sur 'Accepter', vous consentez à notre utilisation de cookies à ces fins. Vous trouverez plus d'informations dans notre <1>politique de confidentialité</1>.",
-    "accept": "Accepter",
-    "reject": "Refuser"
-  },
-  "consentSettings": {
-    "title": "Paramètres des cookies",
-    "description": "Nous utilisons des cookies pour analyser le trafic web et améliorer votre expérience utilisateur. Vous trouverez plus d'informations dans notre <1>politique de confidentialité</1>.",
-    "analyticsLabel": "Analyse & Suivi",
-    "analyticsDescription": "Nous permet d'analyser l'utilisation et d'améliorer votre expérience via Google Analytics. Comprend le stockage des annonces, le stockage analytique, les données utilisateur publicitaires et la personnalisation des annonces.",
-    "saved": "Vos préférences en matière de cookies ont été enregistrées."
-  }
 }
