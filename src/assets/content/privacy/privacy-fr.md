@@ -4,10 +4,15 @@ La présente politique de confidentialité informe, conformément aux articles 1
 
 ## 1. Responsable du Traitement
 
-Responsable au sens de l’art. 4, point 7 du RGPD :
+Responsable au sens de l'art. 4, point 7 du RGPD :
 
-**Aura Historia**
+**Julian Bruder**  
+(Nom commercial : Aura Historia)  
+Hardenbergstraße 80  
+04275 Leipzig  
+Allemagne
 
+E-mail : [julian.bruder@aura-historia.com](mailto:julian.bruder@aura-historia.com)  
 Contact : [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
 ---
@@ -257,4 +262,4 @@ La présente politique de confidentialité peut être adaptée afin de refléter
 
 ---
 
-*État : 14.01.2026*
+*État : 12.04.2026*

@@ -6,8 +6,13 @@ La presente informativa sulla privacy informa, ai sensi degli articoli 13 e 14 d
 
 Titolare del trattamento ai sensi dell'art. 4 n. 7 GDPR:
 
-**Aura Historia**
+**Julian Bruder**  
+(Nome commerciale: Aura Historia)  
+Hardenbergstraße 80  
+04275 Leipzig  
+Germania
 
+Email: [julian.bruder@aura-historia.com](mailto:julian.bruder@aura-historia.com)  
 Contatto: [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
 ---
@@ -257,4 +262,4 @@ La presente informativa sulla privacy può essere adattata per riflettere modifi
 
 ---
 
-*Stato: 14 gennaio 2026*
+*Stato: 12 aprile 2026*
