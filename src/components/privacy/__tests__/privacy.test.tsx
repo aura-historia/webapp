@@ -29,6 +29,10 @@ describe("Privacy Component", () => {
         expect(screen.getByText("Datenschutz")).toBeInTheDocument();
     });
 
+    it("renders the controller name", () => {
+        expect(screen.getByText(/Julian Bruder/)).toBeInTheDocument();
+    });
+
     it("renders content within a Card component", () => {
         const card = screen.getByText("Datenschutz").closest(".gap-4");
         expect(card).toBeInTheDocument();
@@ -74,6 +78,29 @@ describe("Privacy Page Logic", () => {
             for (const key of localeKeys) {
                 // Content exists (even if empty, as markdown files are intentionally empty)
                 expect(PRIVACY_LOCALE_MAP[key]).toBeDefined();
+            }
+        });
+    });
+
+    describe("Markdown content structure", () => {
+        it("should contain controller name in all locales", () => {
+            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
+            for (const key of localeKeys) {
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Julian Bruder");
+            }
+        });
+
+        it("should contain personal email in all locales", () => {
+            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
+            for (const key of localeKeys) {
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("julian.bruder@aura-historia.com");
+            }
+        });
+
+        it("should contain contact email in all locales", () => {
+            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
+            for (const key of localeKeys) {
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("contact@aura-historia.com");
             }
         });
     });

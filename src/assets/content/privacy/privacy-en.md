@@ -6,8 +6,13 @@ This privacy policy informs, pursuant to Articles 13 and 14 of the General Data 
 
 Controller within the meaning of Art. 4 No. 7 GDPR:
 
-**Aura Historia**
+**Julian Bruder**  
+(Trading as: Aura Historia)  
+Hardenbergstraße 80  
+04275 Leipzig  
+Germany
 
+Email: [julian.bruder@aura-historia.com](mailto:julian.bruder@aura-historia.com)  
 Contact: [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
 ---
@@ -257,4 +262,4 @@ This privacy policy may be adapted to reflect legal, technical, or content-relat
 
 ---
 
-*Status: 14 January 2026*
+*Status: 12 April 2026*

@@ -2,9 +2,26 @@ Information according to § 5 TMG and § 18 MStV
 
 ## Service Provider
 
-**Name:** Aura Historia
+**Owner:** Julian Bruder
 
-**Contact:** [contact@aura-historia.com](mailto:contact@aura-historia.com)
+**Trade Name:** Aura Historia
+
+**Address:** Hardenbergstraße 80, 04275 Leipzig, Germany
+
+**Email (personal):** [julian.bruder@aura-historia.com](mailto:julian.bruder@aura-historia.com)
+
+**Email (contact):** [contact@aura-historia.com](mailto:contact@aura-historia.com)
+
+**VAT ID:** requested
+
+---
+
+## Responsible for Content (§ 18 para. 2 MStV)
+
+Julian Bruder
+Hardenbergstraße 80, 04275 Leipzig, Germany
+
+*This does not apply to content from external sources collected via automated procedures (web scraping) or through partner shop integrations.*
 
 ---
 
@@ -129,4 +146,4 @@ The **law of the Federal Republic of Germany** shall apply exclusively.
 
 ---
 
-*Status: 14 January 2026*
+*Status: 12 April 2026*
