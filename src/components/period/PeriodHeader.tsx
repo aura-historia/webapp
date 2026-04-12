@@ -4,6 +4,7 @@ import {
     createLocalizedPeriodDateRangeMap,
     getPeriodAssetUrl,
     getPeriodDateRange,
+    getPeriodHeaderAssetUrl,
 } from "@/components/landing-page/periods-section/PeriodsSection.data.ts";
 import type { PeriodDetail } from "@/data/internal/period/PeriodDetail.ts";
 import { useTranslation } from "react-i18next";
@@ -15,6 +16,7 @@ type PeriodHeaderProps = {
 export function PeriodHeader({ period }: PeriodHeaderProps) {
     const { t } = useTranslation();
     const periodAssetUrl = getPeriodAssetUrl(period.periodKey);
+    const periodHeaderAssetUrl = getPeriodHeaderAssetUrl(period.periodKey);
     const dateRangeMap = createLocalizedPeriodDateRangeMap(t);
     const periodDateRange = getPeriodDateRange(period.periodKey, dateRangeMap);
     const localizedPeriodDescription = t(`period.descriptions.${period.periodKey}`, {
@@ -26,7 +28,7 @@ export function PeriodHeader({ period }: PeriodHeaderProps) {
         <header className="flex flex-col">
             <div className="relative isolate overflow-hidden bg-primary">
                 <img
-                    src={periodAssetUrl}
+                    src={periodHeaderAssetUrl}
                     alt=""
                     aria-hidden="true"
                     className="absolute inset-0 h-full w-full object-cover"

@@ -6,6 +6,7 @@ import type { TFunction } from "i18next";
 const PERIOD_ASSET_BASE_URL = "https://assets.aura-historia.com/webapp/periods";
 
 const buildPeriodAssetUrl = (slug: string) => `${PERIOD_ASSET_BASE_URL}/${slug}.webp`;
+const toHeaderAssetUrl = (assetUrl: string) => assetUrl.replace(/\.webp$/, "-header.webp");
 
 export const PERIOD_ASSET_MAP: Record<string, string> = {
     ANTIQUITY: buildPeriodAssetUrl("antiquity"),
@@ -30,10 +31,18 @@ export const PERIOD_ASSET_MAP: Record<string, string> = {
     CONTEMPORARY: buildPeriodAssetUrl("contemporary"),
 };
 
+export const PERIOD_HEADER_ASSET_MAP: Record<string, string> = Object.fromEntries(
+    Object.entries(PERIOD_ASSET_MAP).map(([periodKey, assetUrl]) => [
+        periodKey,
+        toHeaderAssetUrl(assetUrl),
+    ]),
+);
+
 /**
  * Fallback period image for unknown period keys.
  */
 export const FALLBACK_PERIOD_ASSET_URL = buildPeriodAssetUrl("contemporary");
+export const FALLBACK_PERIOD_HEADER_ASSET_URL = toHeaderAssetUrl(FALLBACK_PERIOD_ASSET_URL);
 
 /**
  * Approximate date ranges used in the landing page period cards.
@@ -86,6 +95,17 @@ export const createLocalizedPeriodDateRangeMap = (t: TFunction): Record<string, 
  */
 export const getPeriodAssetUrl = (periodKey: string): string => {
     return PERIOD_ASSET_MAP[periodKey] || FALLBACK_PERIOD_ASSET_URL;
+};
+
+/**
+ * Returns the period header image asset URL for a given period key.
+ * If no specific mapping is found, returns the fallback period header image URL.
+ *
+ * @param periodKey - The stable key of the period.
+ * @returns The period header image URL.
+ */
+export const getPeriodHeaderAssetUrl = (periodKey: string): string => {
+    return PERIOD_HEADER_ASSET_MAP[periodKey] || FALLBACK_PERIOD_HEADER_ASSET_URL;
 };
 
 /**
