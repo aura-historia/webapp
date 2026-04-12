@@ -1,910 +1,910 @@
 {
-    "common": {
-        "auraHistoria": "Aura Historia (Preview)",
-        "infoButton": "More information"
-    },
-    "meta": {
-        "siteName": "Aura Historia | Leading Antiques Search Engine",
-        "defaultDescription": "Find antiques easily with Aura Historia. Real-time data from 1000+ auction houses, dealers & marketplaces. Your search for unique antiques starts here.",
-        "home": {
-            "title": "Aura Historia | Leading Antiques Search Engine",
-            "description": "Find antiques easily with Aura Historia. Real-time data from 1000+ auction houses, dealers & marketplaces. Your search for unique antiques starts here."
-        },
-        "search": {
-            "title": "Search Antiques | Aura Historia",
-            "description": "Search and discover unique antiques from trusted dealers on Aura Historia."
-        },
-        "login": {
-            "title": "Login | Aura Historia",
-            "description": "Sign in to your Aura Historia account to manage your watchlist and preferences."
-        },
-        "imprint": {
-            "title": "Imprint | Aura Historia",
-            "description": "Legal information and imprint for Aura Historia."
-        },
-        "privacy": {
-            "title": "Privacy Policy | Aura Historia",
-            "description": "Privacy policy and data protection information for Aura Historia."
-        },
-        "consentSettings": {
-            "title": "Cookie Settings | Aura Historia",
-            "description": "Manage your cookie and tracking preferences on Aura Historia."
-        },
-        "account": {
-            "title": "My Account | Aura Historia"
-        },
-        "watchlist": {
-            "title": "My Watchlist | Aura Historia"
-        },
-        "category": {
-            "defaultName": "Category"
-        },
-        "period": {
-            "defaultName": "Period"
-        }
-    },
-    "validation": {
-        "name": {
-            "minLength": "Please enter at least {{min}} characters",
-            "maxLength": "Please enter no more than {{max}} characters",
-            "invalidChars": "Only letters, spaces, hyphens, and apostrophes are allowed"
-        }
-    },
-    "imprint": {
-        "title": "Imprint"
-    },
-    "privacy": {
-        "title": "Privacy Policy"
-    },
-    "terms": {
-        "title": "Terms & Conditions"
-    },
-    "header": {
-        "watchlist": "Watchlist",
-        "myAccount": "My Account",
-        "editAccount": "Edit Account",
-        "logout": "Logout",
-        "hello": "Hello",
-        "register": "Register",
-        "login": "Login"
-    },
-    "footer": {
-        "brandName": "Aura Historia",
-        "ariaSwitchToLanguage": "Switch to language {{language}}",
-        "imprint": "Imprint",
-        "privacy": "Privacy Policy",
-        "cookieSettings": "Cookie Settings",
-        "terms": "Terms & Conditions",
-        "copyright": "© {{year}} Aura Historia",
-        "sections": {
-            "company": "Company",
-            "followUs": "Follow Us",
-            "contact": "Contact",
-            "categories": "Categories",
-            "periodsAndStyles": "Periods & Styles"
-        }
-    },
-    "account": {
-        "title": "My Account",
-        "personalData": {
-            "title": "Personal Data",
-            "emailLabel": "Email",
-            "firstNameLabel": "First Name",
-            "lastNameLabel": "Last Name",
-            "languageLabel": "Language",
-            "languagePlaceholder": "Select language",
-            "currencyLabel": "Currency",
-            "currencyPlaceholder": "Select currency",
-            "saveButton": "Save Changes",
-            "successMessage": "Personal data updated successfully",
-            "prohibitedContentConsentLabel": "Show products with § 86a StGB markings",
-            "prohibitedContentConsentTooltip": "Product images may contain symbols of unconstitutional or terrorist organizations, particularly those from the National Socialist era, as defined under § 86a StGB. By agreeing, you consent to us displaying such content to you."
-        },
-        "changePassword": {
-            "title": "Change Password",
-            "currentPasswordLabel": "Current Password",
-            "newPasswordLabel": "New Password",
-            "confirmPasswordLabel": "Confirm New Password",
-            "saveButton": "Save Password",
-            "successMessage": "Password changed successfully!",
-            "errorMessage": "Error changing password."
-        },
-        "deleteAccount": {
-            "title": "Delete Account",
-            "deleteButton": "Delete Account",
-            "warningText": "Are you sure you want to delete your account?",
-            "cancelButton": "Cancel",
-            "confirmButton": "Yes, delete account",
-            "successMessage": "Account was deleted successfully!",
-            "errorMessage": "Error deleting account."
-        }
+  "common": {
+    "auraHistoria": "Aura Historia (Preview)",
+    "infoButton": "More information"
+  },
+  "meta": {
+    "siteName": "Aura Historia | Leading Antiques Search Engine",
+    "defaultDescription": "Find antiques easily with Aura Historia. Real-time data from 1000+ auction houses, dealers & marketplaces. Your search for unique antiques starts here.",
+    "home": {
+      "title": "Aura Historia | Leading Antiques Search Engine",
+      "description": "Find antiques easily with Aura Historia. Real-time data from 1000+ auction houses, dealers & marketplaces. Your search for unique antiques starts here."
     },
     "search": {
-        "filters": "Filters",
-        "resultsFor": "Search results for:",
-        "resetAllFilters": "Reset all filters",
-        "totalResults_one": "{{count}} item",
-        "totalResults_other": "{{count}} items",
-        "bar": {
-            "label": "Search",
-            "placeholder": "I'm looking for...",
-            "placeholderShort": "Search",
-            "button": "Search",
-            "placeholderExamples": [
-                "Oil painting Mary Magdalene",
-                "Meissen porcelain service",
-                "Louis XVI commode",
-                "Baroque grandfather clock",
-                "Biedermeier secretary desk",
-                "Art Nouveau display cabinet",
-                "Persian Tabriz carpet",
-                "Silver Rococo candlesticks",
-                "Antique bronze sculpture",
-                "Empire console table",
-                "Gründerzeit bookcase",
-                "Chinese Ming dynasty vase",
-                "Gold pocket watch Patek Philippe",
-                "Baroque wooden sculpture",
-                "Art Deco diamond brooch",
-                "Venetian Murano chandelier",
-                "Antique astrolabe",
-                "Rococo mirror",
-                "Persian miniature painting",
-                "Louis XV armchair"
-            ]
-        },
-        "applyFilters": "Apply filters",
-        "validation": {
-            "queryMinLength": "Please enter at least 3 characters",
-            "dateOrder": "Start date must be before end date"
-        },
-        "filter": {
-            "creationDate": "Added",
-            "from": "From:",
-            "to": "To:",
-            "productState": "Listing Status",
-            "merchant": "Merchant",
-            "merchants": "Merchants",
-            "anyMerchant": "Any Merchant",
-            "searchMerchants": "Search merchants...",
-            "noMerchantsFound": "No merchants found",
-            "excludeMerchant": "Exclude Merchant",
-            "searchExcludeMerchants": "Search merchants to exclude...",
-            "shopType": "Shop Type",
-            "priceSpan": "Price Range",
-            "min": "Min",
-            "max": "Max",
-            "priceSpanAria": "Price Range",
-            "updateDate": "Updated",
-            "auctionDate": "Auction Date",
-            "auctionDateDisabledTooltip": "Only available for auction houses",
-            "anyDate": "Any",
-            "all": "All",
-            "select": "Select",
-            "resetTooltip": {
-                "priceSpan": "Reset price range filter",
-                "productState": "Reset status filter",
-                "creationDate": "Reset creation date filter",
-                "updateDate": "Reset update date filter",
-                "auctionDate": "Reset auction date filter",
-                "merchant": "Reset merchant filter",
-                "excludeMerchant": "Reset exclude merchant filter",
-                "merchants": "Reset merchant filters",
-                "shopType": "Reset shop type filter",
-                "periodId": "Reset period filter",
-                "qualityIndicators": "Reset quality indicators filter"
-            },
-            "qualityIndicators": "Quality Indicators",
-            "periodId": "Period / Style",
-            "searchPeriods": "Search periods...",
-            "originYear": "Year of Origin",
-            "authenticity": "Authenticity",
-            "condition": "Condition",
-            "provenance": "Provenance",
-            "restoration": "Restoration",
-            "selected": "{{count}} selected"
-        },
-        "messages": {
-            "minQueryLength": "Please enter at least 3 characters to start the search.",
-            "error": "Error loading search results. Please try again later!",
-            "noResults": {
-                "title": "No results found",
-                "description": "Try adjusting your search term or filters."
-            },
-            "loadingMore": "Loading more results...",
-            "allLoaded_one": "You have seen {{count}} result that matches your filters.",
-            "allLoaded_other": "You have seen all {{count}} results that match your filters."
-        },
-        "sortMode": {
-            "relevance": "Relevance",
-            "creationDate": "Creation Date",
-            "updateDate": "Last Updated",
-            "price": "Price",
-            "order": {
-                "asc": "Ascending",
-                "desc": "Descending"
-            }
-        }
+      "title": "Search Antiques | Aura Historia",
+      "description": "Search and discover unique antiques from trusted dealers on Aura Historia."
     },
-    "product": {
-        "unknownPrice": "Price unknown",
-        "details": "Details",
-        "toMerchant": "Go to merchant",
-        "noDescription": "No description available",
-        "noImage": "No image available",
-        "unseenNotification": "Updated",
-        "imageLoadError": "Image could not be loaded",
-        "prohibitedImage": "Image hidden due to content restrictions",
-        "qualityIndicators": {
-            "title": "Quality Indicators",
-            "noData": "No additional information available",
-            "originYear": {
-                "label": "Year of Origin",
-                "range": "{{min}}–{{max}}",
-                "from": "from {{year}}",
-                "until": "until {{year}}",
-                "unknown": "Unknown",
-                "exactDescription": "This piece dates from {{year}}.",
-                "rangeDescription": "This piece was made between {{min}} and {{max}}.",
-                "fromDescription": "This piece was made from {{year}} onwards.",
-                "untilDescription": "This piece was made until {{year}}.",
-                "unknownDescription": "The year of manufacture of this piece is unknown."
-            },
-            "authenticity": {
-                "label": "Authenticity",
-                "original": "Original",
-                "originalDescription": "A verified original from the stated period.",
-                "later_copy": "Later Copy",
-                "later_copyDescription": "A historical copy made later than the original.",
-                "reproduction": "Reproduction",
-                "reproductionDescription": "A modern replica without historical value.",
-                "questionable": "Questionable",
-                "questionableDescription": "The authenticity of this piece is disputed or cannot be clearly confirmed.",
-                "unknown": "Unknown",
-                "unknownDescription": "The authenticity has not yet been verified."
-            },
-            "condition": {
-                "label": "Condition",
-                "excellent": "Excellent",
-                "excellentDescription": "Nearly perfect condition without significant signs of wear.",
-                "great": "Very Good",
-                "greatDescription": "Very well preserved with only minor signs of aging.",
-                "good": "Good",
-                "goodDescription": "Well preserved with visible but acceptable signs of wear.",
-                "fair": "Fair",
-                "fairDescription": "Noticeable signs of wear present, but still complete and stable.",
-                "poor": "Poor",
-                "poorDescription": "Significant damage or heavy wear.",
-                "unknown": "Unknown",
-                "unknownDescription": "The condition has not been assessed."
-            },
-            "provenance": {
-                "label": "Provenance",
-                "complete": "Complete",
-                "completeDescription": "The provenance is fully documented from creation to present day.",
-                "partial": "Partial",
-                "partialDescription": "The provenance is partially documented but has gaps.",
-                "claimed": "Claimed",
-                "claimedDescription": "The seller states a provenance, but it is not supported by documents.",
-                "none": "None",
-                "noneDescription": "No documentation of provenance exists.",
-                "unknown": "Unknown",
-                "unknownDescription": "The provenance could not yet be determined."
-            },
-            "restoration": {
-                "label": "Restoration",
-                "none": "None",
-                "noneDescription": "No restoration performed, the piece is in original condition.",
-                "minor": "Minor",
-                "minorDescription": "Light restoration work such as cleaning or small repairs.",
-                "major": "Major",
-                "majorDescription": "Extensive restoration or partial reconstruction.",
-                "unknown": "Unknown",
-                "unknownDescription": "No information about restoration is available."
-            }
-        },
-        "similar": {
-            "title": "Similar Items",
-            "error": {
-                "title": "Error Loading",
-                "description": "Similar items could not be loaded."
-            },
-            "embeddingsPending": {
-                "title": "Being Prepared",
-                "description": "Similar items are being prepared. This can take up to 24 hours for new items."
-            },
-            "noData": {
-                "title": "No Similar Items",
-                "description": "No similar products were found for this item."
-            }
-        },
-        "history": {
-            "title": "History",
-            "noData": "No data available for this item.",
-            "noEvents": "No events available for this filter.",
-            "filters": {
-                "all": "All",
-                "price": "Price",
-                "availability": "Availability",
-                "details": "Details"
-            },
-            "events": {
-                "statusChanged": "Status changed from {{oldState}} to {{newState}}.",
-                "priceDiscovered": "Price discovered • {{price}}.",
-                "priceChanged": "Price {{verb}} from {{oldPrice}} to {{newPrice}}.",
-                "priceFallen": "dropped",
-                "priceIncreased": "increased",
-                "priceRemoved": "Price removed • Last price: {{price}}.",
-                "created": "Added to system",
-                "estimatePriceChanged": "Estimated price range updated.",
-                "urlChanged": "Product URL updated.",
-                "imagesChanged": "Images updated • {{count}} image(s).",
-                "auctionTimeChanged": "Auction period updated.",
-                "originYearChanged": "Year of origin updated.",
-                "authenticityChanged": "Authenticity updated • {{value}}.",
-                "conditionChanged": "Condition updated • {{value}}.",
-                "provenanceChanged": "Provenance updated • {{value}}.",
-                "restorationChanged": "Restoration updated • {{value}}."
-            }
-        },
-        "auction": {
-            "title": "Auction period",
-            "start": "from {{date}}",
-            "end": "until {{date}}",
-            "range": "{{start}} – {{end}}"
-        },
-        "priceEstimate": {
-            "tooltip": "Price estimate from {{shopType}}",
-            "tooltipUnknown": "Price estimate",
-            "minOnly": "Min. {{min}}",
-            "maxOnly": "Max. {{max}}",
-            "range": "{{min}} - {{max}}"
-        },
-        "priceChart": {
-            "title": "Price History",
-            "noData": "No price data available for this item.",
-            "seriesName": "Price",
-            "timeRanges": {
-                "1d": "1D",
-                "5d": "5D",
-                "1m": "1M",
-                "3m": "3M",
-                "6m": "6M",
-                "1y": "1Y",
-                "all": "All"
-            }
-        }
+    "login": {
+      "title": "Login | Aura Historia",
+      "description": "Sign in to your Aura Historia account to manage your watchlist and preferences."
     },
-    "priceBadge": {
-        "discovered": "Price discovered",
-        "dropped": "Price dropped",
-        "increased": "Price increased",
-        "removed": "Price removed"
+    "imprint": {
+      "title": "Imprint | Aura Historia",
+      "description": "Legal information and imprint for Aura Historia."
     },
-    "productState": {
-        "listed": "Listed",
-        "listedDescription": "This item is visible but is not yet available for purchase.",
-        "available": "Available",
-        "availableDescription": "This item is available for purchase.",
-        "reserved": "Reserved",
-        "reservedDescription": "This item is currently reserved. It may become available again.",
-        "sold": "Sold",
-        "soldDescription": "This item has already been sold.",
-        "removed": "Removed",
-        "removedDescription": "This item was removed by the seller and can no longer be tracked.",
-        "unknown": "Unknown",
-        "unknownDescription": "The current availability of this item is unclear."
-    },
-    "shopType": {
-        "auctionHouse": "Auction House",
-        "auctionPlatform": "Auction Platform",
-        "commercialDealer": "Dealer",
-        "marketplace": "Marketplace",
-        "unknown": "Unknown"
-    },
-    "discover": {
-        "title": "We bring transparency into the opaque landscape of online antiques",
-        "p1": "We search through the vast offerings of thousands of scattered antique dealers, auction houses and marketplaces worldwide every day and bundle their items in one central place.",
-        "p2": "We not only capture current and upcoming items but also track price changes and availability. This way, you never miss a bargain and always keep an eye on the market.",
-        "highlight1": {
-            "title": "Over 500 Dealers, Auction Houses & Marketplaces",
-            "description": "We continuously search renowned antique dealers, auction houses and marketplaces from all over Europe and beyond."
-        },
-        "highlight2": {
-            "title": "Near Real-Time Monitoring",
-            "description": "Newly offered antiques as well as price- or availability-changes are automatically captured in near real-time."
-        },
-        "highlight3": {
-            "title": "Fully Language-agnostic",
-            "description": "We translate every antique into multiple languages. The language in which you search does not matter. We currently support English, German, French, Spanish and Italian."
-        },
-        "stats": {
-            "shops": "500",
-            "shopsLabel": "Connected Shops",
-            "items": "120,000",
-            "itemsLabel": "Unique Items",
-            "updates": "24/7",
-            "updatesLabel": "Near Real-Time Updates",
-            "countries": "15",
-            "countriesLabel": "Countries Covered"
-        }
-    },
-    "landingPage": {
-        "badge": "Search beyond the usual marketplaces",
-        "titleFirstLine": "Discover rare antiques<1/>across the global market",
-        "subtitle": "Aura Historia searches antique dealers, auction houses, and marketplaces worldwide — helping you uncover pieces others never see.",
-        "trustBadge1": "Dealers and auction houses worldwide",
-        "trustBadge2": "Continuously updated listings",
-        "trustBadge3": "Built for serious collectors",
-        "categories": {
-            "title": "Browse Categories",
-            "objectCount_one": "{{formattedCount}} Object",
-            "objectCount_other": "{{formattedCount}} Objects"
-        },
-        "periods": {
-            "title": "Browse historical eras",
-            "eyebrow": "Era Archives",
-            "titleLineOne": "Browse by",
-            "titleLineTwo": "Historical Eras",
-            "description": "Navigate time through collections of the world's most significant design movements.",
-            "cta": "View Timeline",
-            "previous": "Previous eras",
-            "next": "Next eras",
-            "rangeUnknown": "Era range",
-            "rangeToday": "Today",
-            "rangeBc": "BC",
-            "rangeBce": "BCE",
-            "rangeCe": "CE"
-        },
-        "recentlyAdded": {
-            "eyebrow": "Recently Added",
-            "title": "The Latest Acquisitions",
-            "foundAt": "Found at {{shopName}}.",
-            "foundAtWithYear": "Found at {{shopName}}. Circa {{year}}."
-        },
-        "features": {
-            "title": "Antiques are scattered everywhere online - your search shouldn't be",
-            "subtitle": "We are the most sophisticated search engine for antiques and provide you with all the tools to efficiently search the antiques market.",
-            "previewBadge": "Coming soon",
-            "search": {
-                "title": "Intelligent Search",
-                "description": "Search hundreds of thousands of items with our powerful search engine. Cut out all the noise by filtering for condition, price, dealer, and much more."
-            },
-            "global": {
-                "title": "Worldwide Coverage",
-                "description": "We connect you with renowned antique dealers from over 15 countries – from Germany to the USA. No matter how small the dealer, if he has an online-shop, we are adding it."
-            },
-            "history": {
-                "title": "Change History",
-                "description": "Track all changes to an item – from price adjustments to status changes. We opt for the maximum amount of transparency."
-            },
-            "watchlist": {
-                "title": "Personal Watchlist",
-                "description": "Save interesting items and keep track of their development. Get notified when price or availability changes."
-            },
-            "translations": {
-                "title": "Automatic Translations",
-                "description": "Search and discover all items in your preferred language, without any barriers. We currently support English, German, French, Spanish and Italian."
-            },
-            "personalFilter": {
-                "title": "Search Requests",
-                "description": "Save your search request and get notified about new offers or updated items. The antiques you used to search for, now come to you."
-            },
-            "aiSearchAgent": {
-                "title": "Personal AI Search Agent",
-                "description": "Your personal AI agent helps you find the most specific antiques. In combination with search requests, describe what you're looking for in plain language - as detailed as you wish. We will notify you as soon as hits match what you described."
-            },
-            "communityWishes": {
-                "title": "Your wishes",
-                "description": "You have critique, are missing something or have an idea what we should improve or add? We'll listen very closely. Contact us at contact@aura-historia.com and we will make it happen."
-            }
-        },
-        "howItWorks": {
-            "title": "How it works",
-            "subtitle": "Just a few steps to your dream pieces.",
-            "step1": {
-                "title": "Search",
-                "description": "Enter what you're looking for – whether furniture, jewelry, art, or collectibles."
-            },
-            "step2": {
-                "title": "Discover",
-                "description": "Browse results from thousands of dealers at a glance."
-            },
-            "step3": {
-                "title": "Save",
-                "description": "Save interesting items to your watchlist or save your search criteria as an alert."
-            },
-            "step4": {
-                "title": "Get notified",
-                "description": "Get notified by email as soon as an item on your watchlist changes or a new one matches your criteria."
-            }
-        },
-        "testimonials": {
-            "title": "What our users say",
-            "subtitle": "Learn how we help collectors live their passion.",
-            "testimonial1": {
-                "name": "Margarete W.",
-                "role": "Collects Art Nouveau furniture",
-                "quote": "Finally a platform that makes searching for rare pieces easier. The price notifications have helped me find real bargains multiple times."
-            },
-            "testimonial2": {
-                "name": "Heinrich K.",
-                "role": "Antique dealer",
-                "quote": "As a dealer, I use Aura Historia to keep an eye on the market. The price developments help me enormously with my own pricing."
-            },
-            "testimonial3": {
-                "name": "Elisabeth M.",
-                "role": "Hobby collector for 20 years",
-                "quote": "I'm amazed by the clarity. Before, I spent hours searching through different dealer sites. Now I find everything in one place."
-            }
-        },
-        "newsletter": {
-            "title": "Stay informed",
-            "description": "Receive weekly curated finds, market trends, and exclusive insights directly in your inbox.",
-            "placeholder": "Your email address",
-            "button": "Subscribe",
-            "privacy": "By subscribing, you agree to our privacy policy. You can unsubscribe at any time.",
-            "successMessage": "Thank you for subscribing! Please confirm your email address.",
-            "benefit1": "Weekly highlights",
-            "benefit2": "Market reports & trends",
-            "benefit3": "Unsubscribe anytime"
-        },
-        "faq": {
-            "title": "Frequently Asked Questions",
-            "subtitle": "Here you'll find answers to the most important questions about Aura Historia.",
-            "items": {
-                "howItWorks": {
-                    "question": "How does Aura Historia work?",
-                    "answer": "Aura Historia continuously searches the websites of over 500 antique dealers, auction houses and marketplaces worldwide and collects all offers in one central place. Our intelligent search allows you to find exactly what you're looking for."
-                },
-                "directPurchase": {
-                    "question": "Can I buy items directly through Aura Historia?",
-                    "answer": "No, Aura Historia is a pure search platform. If you want to buy an item, you will be redirected directly to the respective dealer's website where you can complete the purchase."
-                },
-                "priceAlerts": {
-                    "question": "How do price and availability notifications work?",
-                    "answer": "Once you add an item to your watchlist, we automatically track its price- and availability development for you. As soon as something changes with your item, you receive a notification via E-Mail."
-                },
-                "updateFrequency": {
-                    "question": "How often is the data updated?",
-                    "answer": "Our data is continuously updated. We operate in near real-time."
-                },
-                "dealers": {
-                    "question": "Which Antique Online-Shops are on Aura Historia?",
-                    "answer": "We include data from over 500 renowned antique dealers from more than 15 countries. Among them you'll find both, large auction houses and specialized dealers for all antique areas."
-                },
-                "dealerRequest": {
-                    "question": "I know an online dealer/auction house/marketplace that's not yet on Aura Historia. Can we add it?",
-                    "answer": "Yes! Send us an email to contact@aura-historia.com and include the URL/Link of the shop along any additional information you might want to provide. We will verify the shop and include it within hours."
-                },
-                "comparisonBarnebys": {
-                    "question": "How does Aura Historia compare to Barnebys?",
-                    "answer": "While Barnebys is also an antiques search engine, they only focus on the largest players - the big auction houses and dealers. This makes up for a very high chance for you to miss out on what you're actually searching for. Ask yourself, where did I find my biggest treasures? It probably was a small local dealer or even thrift store."
-                },
-                "comparisonPriceDatabase": {
-                    "question": "How does Aura Historia compare to price databases like WorthPoint and the salesroom?",
-                    "answer": "Price databases leverage the sheer amount of historical data with auction results dating back to the 90s. While this helps finding comparisons for astronomically rare pieces, it often deflects the current market-value and availability of antiques. If your goal is to find antiques or research their current value, Aura Historia is the right place. We also want to take a heavy standpoint against the monetization of historical antique pricing data. You should not need to pay to find out what sold at which price."
-                }
-            }
-        },
-        "pricing": {
-            "title": "Choose Your Plan",
-            "subtitle": "From casual collectors to professional dealers — we have the right plan for you.",
-            "comingSoon": "Coming Soon",
-            "mostPopular": "Most Popular",
-            "free": {
-                "name": "Free",
-                "description": "Perfect for getting started in the world of antiques.",
-                "features": {
-                    "watchlistItems": "20 items on the watchlist",
-                    "searchAlerts": "1 Search Alert",
-                    "alertMatches": "10 Search Alert matches per month",
-                    "alertType": "Simple search alerts only",
-                    "notificationSpeed": "Get notified within a few hours",
-                    "searchType": "Classical text search"
-                }
-            },
-            "pro": {
-                "name": "Pro",
-                "description": "For dedicated collectors who want to discover more.",
-                "features": {
-                    "watchlistItems": "100 items on the watchlist",
-                    "searchAlerts": "5 Search Alerts",
-                    "alertMatches": "Unlimited Search Alert matches per month",
-                    "alertType": "Full search alerts",
-                    "notificationSpeed": "Real-time notifications",
-                    "searchType": "Hybrid search — finds matches by keyword and meaning"
-                }
-            },
-            "ultimate": {
-                "name": "Ultimate",
-                "description": "For professionals who want the full experience.",
-                "features": {
-                    "watchlistItems": "Unlimited watchlist",
-                    "searchAlerts": "Unlimited Search Alerts",
-                    "alertMatches": "Unlimited Search Alert matches per month",
-                    "alertType": "Full search alerts",
-                    "notificationSpeed": "Priority real-time notifications",
-                    "searchType": "Hybrid search (Text + Semantic)",
-                    "aiAgent": "AI Search Agent"
-                }
-            }
-        }
-    },
-    "apiErrors": {
-        "PRODUCT_NOT_FOUND": "This item was not found.",
-        "UNAUTHORIZED": "Authentication failed. Please log in.",
-        "INTERNAL_SERVER_ERROR": "An internal server error occurred. Please try again later.",
-        "GATEWAY_TIMEOUT": "Request timed out. Please try again later.",
-        "WATCHLIST_ENTRY_NOT_FOUND": "This item is not on your watchlist.",
-        "SEARCH_FILTER_NOT_FOUND": "This search filter does not exist.",
-        "TEXT_QUERY_TOO_SHORT": "The search query must contain at least 3 characters.",
-        "BAD_PATH_PARAMETER_VALUE": "The link is invalid.",
-        "INVALID_UUID": "The link is invalid.",
-        "SERVICE_UNAVAILABLE": "The service is currently unavailable. Please try again later.",
-        "BAD_QUERY_PARAMETER_VALUE": "Your search contains invalid settings.",
-        "SHOP_NOT_FOUND": "This shop is no longer available.",
-        "INVALID_SHOP_IDENTIFIER": "The shop identifier is invalid.",
-        "INVALID_DOMAIN": "The shop domain is invalid.",
-        "FORBIDDEN": "This action is not available to you.",
-        "BAD_BODY_VALUE": "Some details are incorrect. Please check your input.",
-        "MONETARY_AMOUNT_OVERFLOW": "The price is too high and cannot be processed.",
-        "BAD_PAGE_FROM_VALUE": "Invalid page number.",
-        "BAD_PAGE_SIZE_VALUE": "Invalid number per page.",
-        "BAD_SORT_VALUE": "Invalid sorting.",
-        "BAD_ORDER_VALUE": "Invalid sort order.",
-        "WATCHLIST_QUOTA_EXCEEDED": "You've reached the maximum number of items on your watchlist. There are already 5/5 watchlist entries occupied.",
-        "SEARCH_FILTER_QUOTA_EXCEEDED": "You've reached the maximum number of saved search filters. There are already 5/5 search filters occupied.",
-        "unknown": "An unexpected error occurred."
-    },
-    "watchlist": {
-        "title": "My Watchlist",
-        "loginRequired": "Please log in to use the watchlist.",
-        "totalElements": "{{count}} items",
-        "loadingError": "The watchlist cannot be reached at this time. Please try again later.",
-        "loadingMore": "Loading more results...",
-        "allLoaded_one": "You have seen {{count}} item from your watchlist.",
-        "allLoaded_other": "You have seen all {{count}} items from your watchlist.",
-        "noResults": {
-            "title": "No items found",
-            "description": "Add items to your watchlist to see them here."
-        }
-    },
-    "category": {
-        "header": {
-            "archiveLabel": "Category",
-            "overviewTitle": "Curatorial Perspective",
-            "indexedItems": "Indexed Items",
-            "imageAlt": "Representative image for {{category}}"
-        },
-        "descriptions": {
-            "default": "Explore carefully selected objects from this category, each documented with provenance clues, craftsmanship details, and current market visibility.",
-            "ANCIENT_POTTERY": "Vessels, votive pieces, and ceramic fragments that reveal the rituals, trade routes, and daily life of ancient civilizations.",
-            "STORAGE_CONTAINERS": "Collectors searching for antique trunks for sale, vintage wooden chests, and historical storage boxes gain an intriguing look at how past generations secured their belongings. Visitors can find massive brass-bound steamer trunks, intricately carved blanket chests, and delicate inlaid wooden tea caddies. The selection frequently includes vintage apothecary drawer sets, antique leather hat boxes, and early tin advertising canisters. From heavy oak document boxes with complex lock mechanisms to woven sweetgrass baskets, those looking to buy antique storage containers will find items highlighting historical joinery and the utilitarian necessities of daily domestic life.",
-            "LIGHTING_OBJECTS": "Collectors searching for antique lighting fixtures, vintage chandeliers for sale, and historical lamps will discover a wide spectrum of functional and decorative illumination from various centuries. The offerings range from early pewter whale oil lamps and brass candlestick holders to elaborate Victorian gasoliers and authentic Art Nouveau slag glass table lamps. Enthusiasts looking to buy antique ceiling lights can also find crystal prism chandeliers, industrial enamel factory pendants, and early electric desk lamps with original wiring mechanisms. These pieces provide insight into the technological progression of lighting, historical glassmaking, and domestic interior design.",
-            "BOOKS_MANUSCRIPTS_PRINTED_MEDIA": "Bibliophiles searching for rare first-edition books, antique manuscripts for sale, and early printed materials get a rich selection of historical documents. Visitors looking to buy antique books online can expect leather-bound literary classics, illuminated manuscripts with intricate calligraphy, and collectible historical maps. The category also houses original lithographs, early copperplate engravings, and rare religious texts. Whether seeking a signed nineteenth-century novel or evaluating antique book prices for a centuries-old scientific treatise, collectors will encounter items showcasing traditional bookbinding, typography, and historical printing techniques.",
-            "FURNITURE": "Interior historians and collectors searching for authentic antique furniture for sale, vintage wooden furniture, and specific period pieces can explore a diverse array of domestic items from Georgian, Victorian, Art Deco, and mid-century modern eras. Discover solid mahogany dining tables, intricately carved oak cabinets, and elegant walnut writing desks featuring dovetail joinery. The selection often includes tufted leather armchairs, antique marquetry sideboards, and early painted folk furniture. Those looking to buy antique furniture online will find pieces that reflect historical woodworking techniques, period-specific upholstery, and the evolving aesthetic tastes of past domestic life.",
-            "TOYS_GAMES_RECREATIONAL": "Toy collectors searching for antique toys for sale, vintage board games, and early mechanical playthings can explore a fascinating assortment of historical childhood entertainment. The selection frequently features cast iron mechanical banks, lithographed tin wind-up toys, and authentic antique porcelain dolls in period clothing. Enthusiasts looking to buy vintage wooden toys or Victorian parlor games can also discover early rocking horses, complex moving dioramas, and complete sets of historical board games. These items reveal specific manufacturing materials, mechanical ingenuity, and the broader cultural significance of historical childhood and traditional amusement.",
-            "TEXTILES": "Textile historians searching for antique textiles for sale, vintage tapestries, and historical clothing will discover a vibrant array of early fabrics, garments, and woven goods. The offerings often include handmade patchwork quilts, intricate antique Flemish tapestries, and delicate lace collars from the Victorian era. Enthusiasts looking to buy vintage rugs or historical samplers might also find preserved silk kimonos, early woven Navajo rugs, and traditional embroidered textiles detailing family histories. These preserved fabrics showcase the evolution of early natural dyes, historical looming techniques, hand-spinning processes, and the cultural significance of garment construction.",
-            "CLOCKS_TIMEKEEPING": "Horology enthusiasts searching for antique clocks for sale, vintage pocket watches, and rare historical timepieces will find an exquisite assortment of mechanical timekeepers. The category encompasses authentic grandfather clocks, ornate French mantel clocks in gilded bronze, and precision marine chronometers used for early navigation. Collectors looking to buy vintage pocket watches can discover enameled silver cases, complex repeating movements, and early fusee mechanisms. From Black Forest cuckoo clocks to sophisticated carriage clocks, the available items highlight the intricate gears, escapements, and decorative artistry that define the historical evolution of measuring time.",
-            "JEWELRY_PERSONAL_ADORNMENT": "Jewelry historians and buyers searching for antique jewelry for sale, vintage rings, and authentic estate jewelry will find an exquisite array of personal adornments spanning the Georgian, Victorian, Art Nouveau, and Art Deco periods. Discover intricate cameo brooches, authentic mourning jewelry, and vintage platinum engagement rings set with old mine-cut diamonds. The selection frequently includes antique enameled pocket watch chains, sterling silver chatelaines, and faceted garnet necklaces. These wearable artifacts highlight historical gemstone cutting, the evolution of precious metalwork, and the shifting fashions of past societies for collectors of rare jewelry.",
-            "ARCHITECTURAL_ELEMENTS": "Preservationists searching for architectural antiques for sale, reclaimed building materials, and salvaged structural elements will find an extensive array of components from historically significant structures. The offerings include massive hand-hewn oak ceiling beams, authentic Victorian stained glass windows, and heavy cast iron entry gates. Collectors looking to buy antique fireplace mantels or vintage door hardware can discover ornate marble surrounds, terracotta roof tiles, and brass fixtures with original patinas. These structural pieces allow for the study and reuse of traditional building techniques, historical masonry, and the architectural heritage of the built environment.",
-            "ARCHAEOLOGICAL_ARTIFACTS": "Antiquities collectors searching for genuine archaeological artifacts for sale, ancient pottery, and historical relics will discover a profound selection of items recovered from historical digs around the world. The category frequently features ancient Roman glass vessels, authentic Egyptian ushabti figures, and Neolithic knapped flint arrowheads. Enthusiasts looking to buy ancient coins or Pre-Columbian artifacts can also find terracotta pottery, ancient Greek bronze coins, and early Mesopotamian cuneiform tablets. These excavated items provide a direct, tangible connection to human prehistory, offering invaluable insights into ancient daily life and the material culture of vanished civilizations.",
-            "VISUAL_ART": "Art historians and collectors searching for antique paintings for sale, original historical artwork, and vintage sculptures can browse a meticulously cataloged archive of visual pieces spanning numerous artistic movements. Discover eighteenth-century classical oil portraits, detailed botanical watercolors, and authentic early bronze figurative sculptures. The category frequently includes options for those looking to buy antique landscape paintings, Renaissance-era graphite sketches, and traditional Japanese woodblock prints. From monumental academy paintings to intimate miniature portraits, these works support the study of traditional artistic techniques, historical pigments, and the evolution of human visual expression.",
-            "DECORATIVE_OBJECTS": "Collectors searching for decorative antiques for sale, vintage home decor, and historical ornamental objects will discover a broad spectrum of items designed to elevate domestic spaces across various centuries. The offerings range from fine antique Sevres porcelain vases and intricate Meissen figurines to elegant Art Deco bronze bookends and Victorian majolica serving pieces. Enthusiasts looking to buy antique mirrors or vintage art glass can find ornate gilded frames, early Venetian glassware, and classical marble busts. These items document the evolution of decorative art movements, domestic ornamentation, and the meticulous craftsmanship of historical artisans.",
-            "EPHEMERA_MEMORABILIA": "Archival collectors searching for historical ephemera for sale, vintage paper memorabilia, and antique documents will find a fascinating assortment of preserved paper goods capturing daily historical life. The selection includes original handwritten Civil War correspondence, colorful Victorian trade cards, and early lithographed advertising posters. Enthusiasts looking to buy vintage postcards, authentic historical tickets, or old theatrical playbills can discover extensive collections of early photographic postcards and world fair memorabilia. These primary source materials provide a unique window into past commercial advertising, political movements, and significant cultural events.",
-            "PHOTOGRAPHY_OPTICAL_MEDIA": "Enthusiasts searching for vintage cameras for sale, antique photography, and historical optical devices will find a comprehensive selection of early image-capturing equipment. The offerings include cased daguerreotype portraits, original early wooden bellows cameras, and intricate brass magic lanterns with hand-painted glass slides. Collectors looking to buy antique stereoview cards, early tintypes, and large-format glass plate negatives will discover extensive archives of optical media. These items document the chemistry of early photo processing, the technological evolution of the camera, and the societal impact of early visual documentation.",
-            "MUSICAL_INSTRUMENTS": "Musicologists and buyers searching for antique musical instruments for sale, vintage acoustic guitars, and historical brass instruments can explore a rich variety of early acoustic devices. The selection frequently features rare gut-string violins, ornate wooden flutes, and early brass instruments such as keyed bugles and rotary-valve cornets. Enthusiasts looking to purchase antique pianos or traditional ethnographic percussion instruments will also find beautifully restored grand pianos and antique concertinas. These historical items showcase the evolution of acoustic engineering, traditional luthier craftsmanship, and the historical materials used to create musical sound.",
-            "WEAPONS": "Collectors searching for authentic antique swords, vintage firearms for sale, and historical armor will discover a vast array of edged weapons and early firearms from various global conflicts. The selection frequently features Renaissance rapiers, medieval broadswords, and original Japanese katana blades, alongside operational flintlock pistols, antique percussion-cap muskets, and ornate powder flasks. Enthusiasts looking to buy antique military defense items can also find authentic chainmail garments, ceremonial plate armor, and decorative shields, offering a deep dive into historical metallurgy, combat tactics, and the craftsmanship of early warfare implements.",
-            "TOOLS_IMPLEMENTS": "Collectors searching for antique hand tools for sale, vintage woodworking tools, and historical farm implements will find a robust selection of devices used by historical tradespeople before widespread mechanization. Discover beautifully patinated wooden molding planes, heavy forged-iron broadaxes, and precision brass calipers used by early engineers. The category often includes specialized antique tools for cooperage, leatherworking, and stonemasonry. For those looking to buy vintage blacksmith tools or early carpentry equipment, these functional artifacts reflect the physical labor of past centuries and the ingenuity of early hand-forged steel and traditional artisans.",
-            "INDUSTRIAL_TRADE_EQUIPMENT": "This category appeals to those searching for antique industrial tools, vintage factory equipment, and historical trade machinery for sale. Enthusiasts can uncover cast-iron textile looms, early printing presses, and heavy-duty agricultural machinery that powered the Industrial Revolution. The selection frequently includes specialized artisanal equipment for those looking to buy antique blacksmith anvils, vintage cobblers' benches, and early factory time clocks. Whether searching for a vintage drafting table or salvaged industrial molds, collectors will find rugged, functional artifacts that document the transformation of manufacturing, trade labor, and mass production.",
-            "CULTURAL_ETHNOGRAPHIC": "Anthropological collectors searching for authentic ethnographic art for sale, tribal artifacts, and indigenous cultural objects will find a diverse collection representing the material culture of global societies. The selection frequently features carved African ceremonial masks, intricate Polynesian navigational charts, and Native American beadwork. Enthusiasts looking to buy traditional cultural artifacts can also discover Tibetan prayer wheels, authentic South American textiles, and early Inuit bone carvings. These ethnographic objects offer profound insights into traditional belief systems, social structures, indigenous materials, and the highly localized craftsmanship of diverse historical communities.",
-            "MILITARIA": "Military historians searching for authentic militaria for sale, antique military uniforms, and historical war artifacts will discover a comprehensive array of items documenting global conflicts. The offerings frequently feature original World War I wool tunics, inscribed trench art, and early leather flight helmets. Enthusiasts looking to buy antique military gear or wartime collectibles can also find intricate military unit insignia, original wartime propaganda posters, and historical field optics such as brass trench periscopes. These items serve as vital educational tools for understanding military structures, battlefield logistics, and the impact of global warfare.",
-            "COINS_CURRENCY_MEDALS": "Numismatists searching for rare coins for sale, antique paper money, and historical military medals can explore a vast selection of global currency and commemorative medallions. Discover authentic silver denarii from the Roman Empire, early American colonial paper scrip, and intricate gold sovereigns. The category also supports those looking to buy vintage banknotes, obsolete bank notes, and rare mint errors. These financial artifacts provide a detailed look at monetary evolution, early metal minting processes, historical inflation, and the political iconography stamped on global currency throughout human history.",
-            "NATURAL_HISTORY_CURIOSITIES": "Collectors searching for antique natural history specimens, vintage taxidermy for sale, and historical oddities will find an intriguing array of items gathered from early biological exploration. The category features authentic Victorian taxidermy dioramas, intricate early anatomical papier-mache models, and preserved entomology displays. Enthusiasts looking to buy antique fossils, historical geological samples, or old botanical prints can discover fossilized ammonites, antique skeletal articulations, and historical herbarium folios. These fascinating items provide deep context for the history of scientific exploration, biological classification, and the Victorian fascination with the natural world.",
-            "TRANSPORTATION_TRAVEL_OBJECTS": "This category appeals to enthusiasts searching for antique travel artifacts, vintage luggage for sale, and early transportation memorabilia. Collectors can find polished brass maritime binnacles, early leather carriage trunks, and original railway lanterns used by nineteenth-century conductors. The selection often includes vintage leather motoring goggles, historical steamship passenger logs, and early navigational sextants. Whether looking to buy antique maritime equipment, a velocipede bicycle, or a detailed scale model galleon, these artifacts document the historical challenges and technological advancements of early passenger travel and global exploration.",
-            "RELIGIOUS_RITUAL_CEREMONIAL": "Researchers and collectors searching for antique religious artifacts for sale, historical ritual objects, and sacred ceremonial items will find an array of works representing global spiritual practices. The selection includes heavily embroidered clerical vestments, intricately carved wooden crucifixes, and authentic early Jewish silver Torah pointers. Enthusiasts looking to buy antique Buddhist artifacts, illuminated Islamic texts, or ornate brass thuribles can discover antique singing bowls, Quran folios, and incense burners. These pieces provide essential insight into comparative religion, historical worship practices, and the rich material culture associated with human spirituality.",
-            "WRITING_COMMUNICATION_INSTRUMENTS": "Collectors searching for antique writing instruments for sale, vintage fountain pens, and historical communication devices will discover an array of tools that shaped human correspondence. The selection frequently features heavy cast-iron telegraph keys, early mechanical typewriters with glass keys, and elegant sterling silver dip pens. Enthusiasts looking to buy antique inkwells, authentic wax seal stamps, and vintage rotary-dial telephones can find ornate crystal inkwells and beautifully restored communication equipment. These artifacts serve as a comprehensive guide to understanding the historical progression of the written word and early long-distance communication.",
-            "SCIENTIFIC_MEDICAL_TECHNICAL": "Collectors searching for antique scientific instruments for sale, vintage medical tools, and historical engineering devices will discover a highly specialized selection of empirical tools. Discover gleaming brass surveying theodolites, early achromatic microscopes in original mahogany cases, and complex antique calculating machines. The category frequently includes options for those looking to buy antique surgical kits, early apothecary scales, and intricate celestial globes. These historical devices chronicle the evolution of empirical science, historical astronomy, early navigation, and the development of healthcare practices before modern technology."
-        },
-        "products": {
-            "loadingMore": "Loading more items...",
-            "allLoaded_one": "You have seen {{count}} item in this category.",
-            "allLoaded_other": "You have seen all {{count}} items in this category.",
-            "noResults": {
-                "title": "No items found",
-                "description": "There are currently no items in this category."
-            },
-            "error": {
-                "title": "Could not load items",
-                "description": "An error occurred while loading items. Please try again later."
-            }
-        }
-    },
-    "period": {
-        "header": {
-            "archiveLabel": "Period",
-            "overviewTitle": "Historical Perspective",
-            "periodRange": "Approximate Period Range",
-            "defaultDescription": "Explore curated objects from this era and discover their historical context, material culture, and provenance clues."
-        },
-        "descriptions": {
-            "ANTIQUITY": "Collectors searching for authentic Antiquity artifacts for sale, ancient Greek pottery, and Roman antiquities will discover a profound selection of items recovered from early civilizations. Our aggregated index compiles available ancient coins, Egyptian ushabti figures, and Neolithic stone tools from various specialized dealers. Enthusiasts looking to buy genuine ancient relics can find ancient bronze sculptures, early Mesopotamian artifacts, and classical Mediterranean antiquities. These excavated items provide a tangible connection to human prehistory and the foundational material culture of the ancient world.",
-            "ART_DECO": "Buyers searching for authentic Art Deco antiques for sale, vintage 1920s furniture, and geometric decor will find a glamorous array of items spanning the 1920s and 1930s. Our directory aggregates listings from multiple shops, featuring streamlined walnut sideboards, chrome lighting fixtures, and classic flapper-era jewelry. Collectors looking to buy original Art Deco art or vintage modernist sculptures can discover mirrored vanities, colorful Bakelite accessories, and bold architectural salvage that define this iconic period of luxury and early modern design.",
-            "ART_NOUVEAU": "Enthusiasts searching for Art Nouveau antiques for sale, original Belle Epoque decor, and vintage floral jewelry will discover an exquisite collection defined by organic lines and natural motifs. Our consolidated index features available authentic Tiffany style lamps, intricate silver vanity sets, and flowing mahogany furniture sourced from diverse dealers. Collectors looking to buy Art Nouveau art glass, original Mucha lithographs, or sinuous bronze sculptures can easily locate specific historical pieces that capture the romantic essence of turn-of-the-century craftsmanship.",
-            "ARTS_AND_CRAFTS": "Collectors searching for Arts and Crafts antiques for sale, authentic Mission style furniture, and vintage artisan decor will find a robust selection of items emphasizing handcraftsmanship. Our aggregated directory compiles solid quarter-sawn oak tables, hammered copper lighting fixtures, and original William Morris textiles from various specialized shops. Those looking to buy authentic Craftsman antiques, vintage matte green pottery, or early 20th-century artisan metalwork will discover pieces that rejected mass production in favor of natural materials and honest, functional design.",
-            "BAROQUE": "Buyers searching for authentic Baroque antiques for sale, ornate 17th-century furniture, and dramatic historical art will discover a magnificent array of highly detailed artifacts. Our index compiles available listings from multiple dealers, featuring elaborately carved walnut cabinets, gilded mirrors, and dramatic chiaroscuro oil paintings. Collectors looking to buy original Baroque decor, heavy brass chandeliers, or intricate tapestry textiles can easily locate these opulent, theatrical pieces that define the grandeur and intense emotion of 17th and early 18th-century European design.",
-            "BIEDERMEIER": "Enthusiasts searching for authentic Biedermeier furniture for sale, early 19th-century German antiques, and elegant vintage decor will find a sophisticated selection of restrained, functional items. Our consolidated directory aggregates light fruitwood cabinets, cleanly designed writing desks, and gently curved seating sourced from diverse antique shops. Collectors looking to buy original Biedermeier antiques, delicate domestic clocks, or refined parlor pieces will discover specific historical items that showcase the simplified elegance and practical beauty of Central European middle-class design.",
-            "CONTEMPORARY": "Collectors searching for Contemporary art for sale, modern studio crafts, and late 20th-century design pieces will discover a dynamic array of items reflecting modern artistic expression. Our aggregated index compiles available listings of studio glass, cutting-edge abstract paintings, and innovative sculptural furniture from various galleries and dealers. Those looking to buy contemporary artisan crafts, postmodern ceramics, or late-century mixed media works can easily locate unique, boundary-pushing pieces that represent the ongoing evolution of modern material culture and artistic innovation.",
-            "EARLY_MEDIEVAL": "Researchers and collectors searching for Early Medieval artifacts for sale, authentic Dark Ages relics, and Migration Period antiquities will find a rare selection of historical items. Our directory aggregates available authentic Viking jewelry, early Anglo-Saxon metalwork, and Merovingian pottery sourced from specialized antiquity dealers. Buyers looking to purchase authentic medieval weapons, early forged iron tools, or ancient fibula brooches will discover crucial historical artifacts that document the turbulent centuries following the fall of the Roman Empire and early European development.",
-            "EARLY_MODERN": "Collectors searching for Early Modern antiques for sale, Renaissance to Enlightenment era artifacts, and 16th to 18th-century decor will discover a transformative array of historical items. Our consolidated index compiles available early scientific instruments, Elizabethan oak furniture, and historical exploration maps from various specialized shops. Enthusiasts looking to buy original Early Modern art, antique leather-bound books, or early navigational tools can locate specific pieces that represent the profound global expansion and scientific awakening of the post-medieval world.",
-            "EMPIRE": "Buyers searching for authentic Empire style furniture for sale, Napoleonic era antiques, and neoclassical 19th-century decor will find a commanding selection of grand historical artifacts. Our aggregated directory features available mahogany console tables with ormolu mounts, classical bronze candelabras, and militaristic decorative objects sourced from multiple dealers. Collectors looking to buy original French Empire antiques, stately monumental clocks, or imperial-themed tapestries can easily locate these impressive pieces that reflect the authority, classical revival, and political grandeur of early 19th-century Europe.",
-            "GOTHIC": "Enthusiasts searching for authentic Gothic antiques for sale, medieval style furniture, and original Gothic Revival decor will discover a dramatic collection of items featuring pointed arches and intricate tracery. Our index compiles available heavily carved oak chests, wrought iron lighting, and medieval ecclesiastical fragments from diverse antique shops. Collectors looking to buy original Gothic art, authentic stained glass windows, or medieval-inspired architectural salvage can locate specific historical pieces that capture the soaring spirituality and complex craftsmanship of the period.",
-            "HISTORICISM": "Collectors searching for Historicism antiques for sale, authentic 19th-century revival furniture, and Victorian-era historical reproductions will find a rich array of eclectic, nostalgic items. Our aggregated directory compiles available Neo-Renaissance cabinets, Neo-Gothic seating, and elaborately decorated Victorian ceramics sourced from multiple dealers. Those looking to buy original Historicist decor, grand 19th-century bronze sculptures, or heavily ornamented parlor furnishings will discover pieces that represent the era's fascinating obsession with combining and reinventing the great design styles of the past.",
-            "MANNERISM": "Art historians and buyers searching for Mannerist antiques for sale, late Renaissance art, and 16th-century European decor will discover a sophisticated selection of items known for artificiality and elegance. Our consolidated index features available elongated bronze sculptures, complex allegorical paintings, and heavily ornamented Italianate furniture sourced from specialized shops. Collectors looking to buy original Mannerist art, elaborate metalwork, or late 16th-century tapestries can locate specific pieces that showcase the stylized exaggeration, intellectual complexity, and transitional design of this fascinating period.",
-            "MID_CENTURY_MODERN": "Enthusiasts searching for authentic Mid-Century Modern furniture for sale, vintage 1950s decor, and retro MCM lighting will find a highly sought-after collection of sleek, functional design. Our aggregated directory compiles available original teak sideboards, molded fiberglass chairs, and atomic era starburst clocks sourced from multiple vintage dealers. Collectors looking to buy original Danish Modern antiques, geometric retro artwork, or iconic mid-century lounge chairs can easily locate these clean-lined, innovative pieces that define the post-war domestic aesthetic.",
-            "MODERNISM": "Buyers searching for authentic Modernist antiques for sale, Bauhaus design pieces, and early 20th-century avant-garde decor will discover a revolutionary array of minimalist, form-follows-function items. Our index compiles available tubular steel furniture, early geometric abstract art, and purely functional industrial design objects from diverse specialized shops. Collectors looking to buy original Modernist decor, vintage constructivist posters, or early 20th-century architectural models will find pieces that radically broke from historical ornamentation to embrace the modern machine age.",
-            "NEOCLASSICISM": "Collectors searching for authentic Neoclassical antiques for sale, late 18th-century classical furniture, and elegant Georgian decor will find a refined selection of symmetrically balanced items. Our aggregated directory features available delicate mahogany demilune tables, classical marble busts, and silver urns featuring Greek key motifs sourced from multiple dealers. Those looking to buy original Neoclassical art, Louis XVI style seating, or Wedgwood jasperware can easily locate these orderly, graceful pieces that sought to revive the pure aesthetics of ancient Greece and Rome.",
-            "POSTMODERN": "Enthusiasts searching for Postmodern antiques for sale, vintage 1980s Memphis design, and late 20th-century eclectic decor will discover a bold, colorful collection of rebellious items. Our consolidated index compiles available asymmetrical furniture, vividly patterned laminate objects, and playful sculptural lighting sourced from diverse vintage shops. Collectors looking to buy original Postmodern art, ironic retro-modern design pieces, or unconventional studio ceramics can locate specific historical items that humorously challenged the strict rules of traditional modernist design.",
-            "RENAISSANCE": "Buyers searching for authentic Renaissance antiques for sale, 15th and 16th-century European artifacts, and early humanist art will discover a profoundly important array of cultural items. Our aggregated directory compiles available heavily carved Italian cassoni chests, early printed books, and classical bronze figurative sculptures sourced from specialized antiquity dealers. Collectors looking to buy original Renaissance art, early maiolica pottery, or authentic 16th-century tapestries can easily locate these magnificent pieces that mark the rebirth of classical learning and artistic perspective.",
-            "ROCOCO": "Collectors searching for authentic Rococo antiques for sale, 18th-century French furniture, and ornate Louis XV decor will find a lavish selection of asymmetrical, nature-inspired items. Our index compiles available gilded mirrors with scrolling acanthus leaves, delicately curved cabriole leg tables, and pastel romanticist paintings from multiple dealers. Those looking to buy original Rococo art, fine Sevres porcelain, or elaborate ormolu clocks will discover highly decorative pieces that define the playful, elegant, and lighthearted excess of the mid-18th century.",
-            "ROMANESQUE": "Researchers and buyers searching for authentic Romanesque antiques for sale, 11th and 12th-century medieval artifacts, and early architectural elements will discover a rare collection of robust, massive historical items. Our aggregated directory features available early stone sculptural fragments, heavy forged ironwork, and early medieval religious relics sourced from specialized antiquarians. Collectors looking to buy authentic Romanesque art, early Christian antiquities, or monumental medieval salvage can locate these sturdy, spiritually significant pieces characterized by thick walls and semi-circular arches."
-        },
-        "products": {
-            "loadingMore": "Loading more items...",
-            "allLoaded_one": "You have seen {{count}} item in this period.",
-            "allLoaded_other": "You have seen all {{count}} items in this period.",
-            "noResults": {
-                "title": "No items found",
-                "description": "There are currently no items in this period."
-            },
-            "error": {
-                "title": "Could not load items",
-                "description": "An error occurred while loading items. Please try again later."
-            }
-        }
-    },
-    "share": {
-        "copyLink": "Copy link",
-        "copied": "Copied!",
-        "shareProduct": "Share product",
-        "foundOnAuraHistoria": "I found {{title}} on Aura Historia! This might be interesting for you!"
-    },
-    "notFound": {
-        "title": "Page not found",
-        "description": "The page you are looking for was not found.",
-        "goHome": "Go to homepage"
-    },
-    "error": {
-        "title": "Something went wrong",
-        "description": "An unexpected error occurred. Please try again later.",
-        "goHome": "Go to homepage"
-    },
-    "auth": {
-        "subtitle": "Over 120,000 antiques from 500 dealers. Compare, save, and track prices on Aura Historia.",
-        "welcome": "Welcome",
-        "welcomeWithName": "Welcome, {{name}}!",
-        "welcomeBack": "Welcome back",
-        "welcomeBackWithName": "Welcome back, {{name}}!",
-        "completingRegistration": "Registration is being completed, please wait a moment!",
-        "completingLogin": "Login is being completed, please wait a moment!",
-        "retry": "Try again",
-        "backToLogin": "Back to login",
-        "backToHomepage": "Back to homepage",
-        "errorTitle": "User data not saved",
-        "timeout": {
-            "title": "Registration successful!",
-            "message": "Your registration was completed successfully! Personal data could not be saved due to high user traffic.",
-            "hint": "You can add this information at any time in your account settings.",
-            "noteLabel": "Note:"
-        },
-        "signUp": {
-            "firstName": "First name",
-            "firstNamePlaceholder": "John",
-            "lastName": "Last name",
-            "lastNamePlaceholder": "Doe",
-            "email": "Email*",
-            "emailPlaceholder": "your.email@example.com",
-            "password": "Password*",
-            "confirmPassword": "Confirm password*",
-            "language": "Language",
-            "currency": "Currency",
-            "pleaseSelect": "Please select",
-            "prohibitedContentConsentLabel": "Show products with § 86a StGB markings",
-            "prohibitedContentConsentTooltip": "Product images may contain symbols of unconstitutional or terrorist organizations, particularly those from the National Socialist era, as defined under § 86a StGB. By agreeing, you consent to us displaying such content to you."
-        },
-        "signIn": {
-            "email": "Email",
-            "emailPlaceholder": "Enter your email",
-            "password": "Password",
-            "passwordPlaceholder": "Enter your password"
-        },
-        "languages": {
-            "de": "German",
-            "en": "English",
-            "fr": "French",
-            "es": "Spanish",
-            "it": "Italian"
-        },
-        "currencies": {
-            "EUR": "EUR - Euro",
-            "GBP": "GBP - British Pound",
-            "USD": "USD - US Dollar",
-            "AUD": "AUD - Australian Dollar",
-            "CAD": "CAD - Canadian Dollar",
-            "NZD": "NZD - New Zealand Dollar"
-        }
-    },
-    "amplify": {
-        "email": "Email*",
-        "password": "Password*",
-        "confirmPassword": "Confirm password*",
-        "signIn": "Sign In",
-        "signUp": "Sign Up",
-        "createAccount": "Create Account",
-        "forgotYourPassword": "Forgot your password?",
-        "resetPassword": "Reset Password",
-        "backToSignIn": "Back to Sign In",
-        "sendCode": "Send code",
-        "confirm": "Confirm",
-        "submit": "Submit",
-        "verify": "Verify",
-        "skip": "Skip",
-        "code": "Code",
-        "newPassword": "New Password",
-        "enterYourEmail": "Enter your email",
-        "enterYourPassword": "Enter your password",
-        "pleaseConfirmYourPassword": "Please confirm your password",
-        "weEmailedYou": "We Emailed You",
-        "weSentACode": "We Sent A Code",
-        "weTextedYou": "We Texted You",
-        "codeOnTheWayEmail": "Your code is on the way. To log in, enter the code we emailed to",
-        "codeOnTheWaySent": "Your code is on the way. To log in, enter the code we sent you",
-        "codeOnTheWayText": "Your code is on the way. To log in, enter the code we texted to",
-        "itMayTakeAMinuteToArrive": "It may take a minute to arrive",
-        "confirmationCode": "Confirmation Code",
-        "enterYourConfirmationCode": "Enter your Confirmation Code",
-        "resendCode": "Resend Code",
-        "incorrectUsernameOrPassword": "Incorrect username or password.",
-        "userDoesNotExist": "User does not exist.",
-        "userAlreadyExists": "User already exists.",
-        "invalidVerificationCode": "Invalid verification code provided, please try again.",
-        "invalidPasswordFormat": "Invalid password format.",
-        "passwordAttemptsExceeded": "Too many attempts. Please try again later.",
-        "attemptLimitExceeded": "Attempt limit exceeded, please try after some time.",
-        "alreadySignedInUser": "There is already a signed in user.",
-        "passwordPolicyNotLongEnough": "Password is not long enough.",
-        "passwordPolicyMustHaveLowercase": "Password must have lowercase characters.",
-        "passwordPolicyMustHaveUppercase": "Password must have uppercase characters.",
-        "passwordPolicyMustHaveSymbol": "Password must have symbol characters.",
-        "passwordMustHaveUppercase": "Password must have uppercase characters.",
-        "passwordMustHaveLowercase": "Password must have lowercase characters.",
-        "passwordMustHaveNumeric": "Password must have numeric characters.",
-        "passwordMustHaveSymbol": "Password must have symbol characters.",
-        "passwordMustHaveAtLeast8Chars": "Password must have at least 8 characters.",
-        "yourPasswordsMustMatch": "Your passwords must match.",
-        "userIsNotConfirmed": "User is not confirmed.",
-        "userIsDisabled": "User is disabled.",
-        "usernameCannotBeEmpty": "Username cannot be empty.",
-        "passwordCannotBeEmpty": "Password cannot be empty.",
-        "networkError": "Network error. Please check your internet connection.",
-        "accountWithEmailAlreadyExists": "An account with the given email already exists.",
-        "invalidEmailAddressFormat": "Invalid email address format.",
-        "codeMismatch": "The code entered is incorrect.",
-        "confirmationCodeCannotBeEmpty": "Confirmation code cannot be empty.",
-        "invalidCodeProvidedRequestAgain": "Invalid code provided, please request a code again."
-    },
-    "consent": {
-        "title": "We value your privacy",
-        "description": "We use cookies to analyze web traffic and improve your user experience. By clicking 'Accept', you consent to our use of cookies for these purposes. You can find more information in our <1>privacy policy</1>.",
-        "accept": "Accept",
-        "reject": "Reject"
+    "privacy": {
+      "title": "Privacy Policy | Aura Historia",
+      "description": "Privacy policy and data protection information for Aura Historia."
     },
     "consentSettings": {
-        "title": "Cookie Settings",
-        "description": "We use cookies to analyze web traffic and improve your user experience. You can find more information in our <1>privacy policy</1>.",
-        "analyticsLabel": "Analytics & Tracking",
-        "analyticsDescription": "Allows us to analyze usage and improve your experience via Google Analytics. Includes ad storage, analytics storage, ad user data, and ad personalization.",
-        "saved": "Your cookie preferences have been saved."
+      "title": "Cookie Settings | Aura Historia",
+      "description": "Manage your cookie and tracking preferences on Aura Historia."
+    },
+    "account": {
+      "title": "My Account | Aura Historia"
+    },
+    "watchlist": {
+      "title": "My Watchlist | Aura Historia"
+    },
+    "category": {
+      "defaultName": "Category"
+    },
+    "period": {
+      "defaultName": "Period"
     }
+  },
+  "validation": {
+    "name": {
+      "minLength": "Please enter at least {{min}} characters",
+      "maxLength": "Please enter no more than {{max}} characters",
+      "invalidChars": "Only letters, spaces, hyphens, and apostrophes are allowed"
+    }
+  },
+  "imprint": {
+    "title": "Imprint"
+  },
+  "privacy": {
+    "title": "Privacy Policy"
+  },
+  "terms": {
+    "title": "Terms & Conditions"
+  },
+  "header": {
+    "watchlist": "Watchlist",
+    "myAccount": "My Account",
+    "editAccount": "Edit Account",
+    "logout": "Logout",
+    "hello": "Hello",
+    "register": "Register",
+    "login": "Login"
+  },
+  "footer": {
+    "brandName": "Aura Historia",
+    "ariaSwitchToLanguage": "Switch to language {{language}}",
+    "imprint": "Imprint",
+    "privacy": "Privacy Policy",
+    "cookieSettings": "Cookie Settings",
+    "terms": "Terms & Conditions",
+    "copyright": "© {{year}} Aura Historia",
+    "sections": {
+      "company": "Company",
+      "followUs": "Follow Us",
+      "contact": "Contact",
+      "categories": "Categories",
+      "periodsAndStyles": "Periods & Styles"
+    }
+  },
+  "account": {
+    "title": "My Account",
+    "personalData": {
+      "title": "Personal Data",
+      "emailLabel": "Email",
+      "firstNameLabel": "First Name",
+      "lastNameLabel": "Last Name",
+      "languageLabel": "Language",
+      "languagePlaceholder": "Select language",
+      "currencyLabel": "Currency",
+      "currencyPlaceholder": "Select currency",
+      "saveButton": "Save Changes",
+      "successMessage": "Personal data updated successfully",
+      "prohibitedContentConsentLabel": "Show products with § 86a StGB markings",
+      "prohibitedContentConsentTooltip": "Product images may contain symbols of unconstitutional or terrorist organizations, particularly those from the National Socialist era, as defined under § 86a StGB. By agreeing, you consent to us displaying such content to you."
+    },
+    "changePassword": {
+      "title": "Change Password",
+      "currentPasswordLabel": "Current Password",
+      "newPasswordLabel": "New Password",
+      "confirmPasswordLabel": "Confirm New Password",
+      "saveButton": "Save Password",
+      "successMessage": "Password changed successfully!",
+      "errorMessage": "Error changing password."
+    },
+    "deleteAccount": {
+      "title": "Delete Account",
+      "deleteButton": "Delete Account",
+      "warningText": "Are you sure you want to delete your account?",
+      "cancelButton": "Cancel",
+      "confirmButton": "Yes, delete account",
+      "successMessage": "Account was deleted successfully!",
+      "errorMessage": "Error deleting account."
+    }
+  },
+  "search": {
+    "filters": "Filters",
+    "resultsFor": "Search results for:",
+    "resetAllFilters": "Reset all filters",
+    "totalResults_one": "{{count}} item",
+    "totalResults_other": "{{count}} items",
+    "bar": {
+      "label": "Search",
+      "placeholder": "I'm looking for...",
+      "placeholderShort": "Search",
+      "button": "Search",
+      "placeholderExamples": [
+        "Oil painting Mary Magdalene",
+        "Meissen porcelain service",
+        "Louis XVI commode",
+        "Baroque grandfather clock",
+        "Biedermeier secretary desk",
+        "Art Nouveau display cabinet",
+        "Persian Tabriz carpet",
+        "Silver Rococo candlesticks",
+        "Antique bronze sculpture",
+        "Empire console table",
+        "Gründerzeit bookcase",
+        "Chinese Ming dynasty vase",
+        "Gold pocket watch Patek Philippe",
+        "Baroque wooden sculpture",
+        "Art Deco diamond brooch",
+        "Venetian Murano chandelier",
+        "Antique astrolabe",
+        "Rococo mirror",
+        "Persian miniature painting",
+        "Louis XV armchair"
+      ]
+    },
+    "applyFilters": "Apply filters",
+    "validation": {
+      "queryMinLength": "Please enter at least 3 characters",
+      "dateOrder": "Start date must be before end date"
+    },
+    "filter": {
+      "creationDate": "Added",
+      "from": "From:",
+      "to": "To:",
+      "productState": "Listing Status",
+      "merchant": "Merchant",
+      "merchants": "Merchants",
+      "anyMerchant": "Any Merchant",
+      "searchMerchants": "Search merchants...",
+      "noMerchantsFound": "No merchants found",
+      "excludeMerchant": "Exclude Merchant",
+      "searchExcludeMerchants": "Search merchants to exclude...",
+      "shopType": "Shop Type",
+      "priceSpan": "Price Range",
+      "min": "Min",
+      "max": "Max",
+      "priceSpanAria": "Price Range",
+      "updateDate": "Updated",
+      "auctionDate": "Auction Date",
+      "auctionDateDisabledTooltip": "Only available for auction houses",
+      "anyDate": "Any",
+      "all": "All",
+      "select": "Select",
+      "resetTooltip": {
+        "priceSpan": "Reset price range filter",
+        "productState": "Reset status filter",
+        "creationDate": "Reset creation date filter",
+        "updateDate": "Reset update date filter",
+        "auctionDate": "Reset auction date filter",
+        "merchant": "Reset merchant filter",
+        "excludeMerchant": "Reset exclude merchant filter",
+        "merchants": "Reset merchant filters",
+        "shopType": "Reset shop type filter",
+        "periodId": "Reset period filter",
+        "qualityIndicators": "Reset quality indicators filter"
+      },
+      "qualityIndicators": "Quality Indicators",
+      "periodId": "Period / Style",
+      "searchPeriods": "Search periods...",
+      "originYear": "Year of Origin",
+      "authenticity": "Authenticity",
+      "condition": "Condition",
+      "provenance": "Provenance",
+      "restoration": "Restoration",
+      "selected": "{{count}} selected"
+    },
+    "messages": {
+      "minQueryLength": "Please enter at least 3 characters to start the search.",
+      "error": "Error loading search results. Please try again later!",
+      "noResults": {
+        "title": "No results found",
+        "description": "Try adjusting your search term or filters."
+      },
+      "loadingMore": "Loading more results...",
+      "allLoaded_one": "You have seen {{count}} result that matches your filters.",
+      "allLoaded_other": "You have seen all {{count}} results that match your filters."
+    },
+    "sortMode": {
+      "relevance": "Relevance",
+      "creationDate": "Creation Date",
+      "updateDate": "Last Updated",
+      "price": "Price",
+      "order": {
+        "asc": "Ascending",
+        "desc": "Descending"
+      }
+    }
+  },
+  "product": {
+    "unknownPrice": "Price unknown",
+    "details": "Details",
+    "toMerchant": "Go to merchant",
+    "noDescription": "No description available",
+    "noImage": "No image available",
+    "unseenNotification": "Updated",
+    "imageLoadError": "Image could not be loaded",
+    "prohibitedImage": "Image hidden due to content restrictions",
+    "qualityIndicators": {
+      "title": "Quality Indicators",
+      "noData": "No additional information available",
+      "originYear": {
+        "label": "Year of Origin",
+        "range": "{{min}}–{{max}}",
+        "from": "from {{year}}",
+        "until": "until {{year}}",
+        "unknown": "Unknown",
+        "exactDescription": "This piece dates from {{year}}.",
+        "rangeDescription": "This piece was made between {{min}} and {{max}}.",
+        "fromDescription": "This piece was made from {{year}} onwards.",
+        "untilDescription": "This piece was made until {{year}}.",
+        "unknownDescription": "The year of manufacture of this piece is unknown."
+      },
+      "authenticity": {
+        "label": "Authenticity",
+        "original": "Original",
+        "originalDescription": "A verified original from the stated period.",
+        "later_copy": "Later Copy",
+        "later_copyDescription": "A historical copy made later than the original.",
+        "reproduction": "Reproduction",
+        "reproductionDescription": "A modern replica without historical value.",
+        "questionable": "Questionable",
+        "questionableDescription": "The authenticity of this piece is disputed or cannot be clearly confirmed.",
+        "unknown": "Unknown",
+        "unknownDescription": "The authenticity has not yet been verified."
+      },
+      "condition": {
+        "label": "Condition",
+        "excellent": "Excellent",
+        "excellentDescription": "Nearly perfect condition without significant signs of wear.",
+        "great": "Very Good",
+        "greatDescription": "Very well preserved with only minor signs of aging.",
+        "good": "Good",
+        "goodDescription": "Well preserved with visible but acceptable signs of wear.",
+        "fair": "Fair",
+        "fairDescription": "Noticeable signs of wear present, but still complete and stable.",
+        "poor": "Poor",
+        "poorDescription": "Significant damage or heavy wear.",
+        "unknown": "Unknown",
+        "unknownDescription": "The condition has not been assessed."
+      },
+      "provenance": {
+        "label": "Provenance",
+        "complete": "Complete",
+        "completeDescription": "The provenance is fully documented from creation to present day.",
+        "partial": "Partial",
+        "partialDescription": "The provenance is partially documented but has gaps.",
+        "claimed": "Claimed",
+        "claimedDescription": "The seller states a provenance, but it is not supported by documents.",
+        "none": "None",
+        "noneDescription": "No documentation of provenance exists.",
+        "unknown": "Unknown",
+        "unknownDescription": "The provenance could not yet be determined."
+      },
+      "restoration": {
+        "label": "Restoration",
+        "none": "None",
+        "noneDescription": "No restoration performed, the piece is in original condition.",
+        "minor": "Minor",
+        "minorDescription": "Light restoration work such as cleaning or small repairs.",
+        "major": "Major",
+        "majorDescription": "Extensive restoration or partial reconstruction.",
+        "unknown": "Unknown",
+        "unknownDescription": "No information about restoration is available."
+      }
+    },
+    "similar": {
+      "title": "Similar Items",
+      "error": {
+        "title": "Error Loading",
+        "description": "Similar items could not be loaded."
+      },
+      "embeddingsPending": {
+        "title": "Being Prepared",
+        "description": "Similar items are being prepared. This can take up to 24 hours for new items."
+      },
+      "noData": {
+        "title": "No Similar Items",
+        "description": "No similar products were found for this item."
+      }
+    },
+    "history": {
+      "title": "History",
+      "noData": "No data available for this item.",
+      "noEvents": "No events available for this filter.",
+      "filters": {
+        "all": "All",
+        "price": "Price",
+        "availability": "Availability",
+        "details": "Details"
+      },
+      "events": {
+        "statusChanged": "Status changed from {{oldState}} to {{newState}}.",
+        "priceDiscovered": "Price discovered • {{price}}.",
+        "priceChanged": "Price {{verb}} from {{oldPrice}} to {{newPrice}}.",
+        "priceFallen": "dropped",
+        "priceIncreased": "increased",
+        "priceRemoved": "Price removed • Last price: {{price}}.",
+        "created": "Added to system",
+        "estimatePriceChanged": "Estimated price range updated.",
+        "urlChanged": "Product URL updated.",
+        "imagesChanged": "Images updated • {{count}} image(s).",
+        "auctionTimeChanged": "Auction period updated.",
+        "originYearChanged": "Year of origin updated.",
+        "authenticityChanged": "Authenticity updated • {{value}}.",
+        "conditionChanged": "Condition updated • {{value}}.",
+        "provenanceChanged": "Provenance updated • {{value}}.",
+        "restorationChanged": "Restoration updated • {{value}}."
+      }
+    },
+    "auction": {
+      "title": "Auction period",
+      "start": "from {{date}}",
+      "end": "until {{date}}",
+      "range": "{{start}} – {{end}}"
+    },
+    "priceEstimate": {
+      "tooltip": "Price estimate from {{shopType}}",
+      "tooltipUnknown": "Price estimate",
+      "minOnly": "Min. {{min}}",
+      "maxOnly": "Max. {{max}}",
+      "range": "{{min}} - {{max}}"
+    },
+    "priceChart": {
+      "title": "Price History",
+      "noData": "No price data available for this item.",
+      "seriesName": "Price",
+      "timeRanges": {
+        "1d": "1D",
+        "5d": "5D",
+        "1m": "1M",
+        "3m": "3M",
+        "6m": "6M",
+        "1y": "1Y",
+        "all": "All"
+      }
+    }
+  },
+  "priceBadge": {
+    "discovered": "Price discovered",
+    "dropped": "Price dropped",
+    "increased": "Price increased",
+    "removed": "Price removed"
+  },
+  "productState": {
+    "listed": "Listed",
+    "listedDescription": "This item is visible but is not yet available for purchase.",
+    "available": "Available",
+    "availableDescription": "This item is available for purchase.",
+    "reserved": "Reserved",
+    "reservedDescription": "This item is currently reserved. It may become available again.",
+    "sold": "Sold",
+    "soldDescription": "This item has already been sold.",
+    "removed": "Removed",
+    "removedDescription": "This item was removed by the seller and can no longer be tracked.",
+    "unknown": "Unknown",
+    "unknownDescription": "The current availability of this item is unclear."
+  },
+  "shopType": {
+    "auctionHouse": "Auction House",
+    "auctionPlatform": "Auction Platform",
+    "commercialDealer": "Dealer",
+    "marketplace": "Marketplace",
+    "unknown": "Unknown"
+  },
+  "discover": {
+    "title": "We bring transparency into the opaque landscape of online antiques",
+    "p1": "We search through the vast offerings of thousands of scattered antique dealers, auction houses and marketplaces worldwide every day and bundle their items in one central place.",
+    "p2": "We not only capture current and upcoming items but also track price changes and availability. This way, you never miss a bargain and always keep an eye on the market.",
+    "highlight1": {
+      "title": "Over 500 Dealers, Auction Houses & Marketplaces",
+      "description": "We continuously search renowned antique dealers, auction houses and marketplaces from all over Europe and beyond."
+    },
+    "highlight2": {
+      "title": "Near Real-Time Monitoring",
+      "description": "Newly offered antiques as well as price- or availability-changes are automatically captured in near real-time."
+    },
+    "highlight3": {
+      "title": "Fully Language-agnostic",
+      "description": "We translate every antique into multiple languages. The language in which you search does not matter. We currently support English, German, French, Spanish and Italian."
+    },
+    "stats": {
+      "shops": "500",
+      "shopsLabel": "Connected Shops",
+      "items": "120,000",
+      "itemsLabel": "Unique Items",
+      "updates": "24/7",
+      "updatesLabel": "Near Real-Time Updates",
+      "countries": "15",
+      "countriesLabel": "Countries Covered"
+    }
+  },
+  "landingPage": {
+    "badge": "Search beyond the usual marketplaces",
+    "titleFirstLine": "Discover rare antiques<1/>across the global market",
+    "subtitle": "Aura Historia searches antique dealers, auction houses, and marketplaces worldwide — helping you uncover pieces others never see.",
+    "trustBadge1": "Dealers and auction houses worldwide",
+    "trustBadge2": "Continuously updated listings",
+    "trustBadge3": "Built for serious collectors",
+    "categories": {
+      "title": "Browse Categories",
+      "objectCount_one": "{{formattedCount}} Object",
+      "objectCount_other": "{{formattedCount}} Objects"
+    },
+    "periods": {
+      "title": "Browse historical eras",
+      "eyebrow": "Era Archives",
+      "titleLineOne": "Browse by",
+      "titleLineTwo": "Historical Eras",
+      "description": "Navigate time through collections of the world's most significant design movements.",
+      "cta": "View Timeline",
+      "previous": "Previous eras",
+      "next": "Next eras",
+      "rangeUnknown": "Era range",
+      "rangeToday": "Today",
+      "rangeBc": "BC",
+      "rangeBce": "BCE",
+      "rangeCe": "CE"
+    },
+    "recentlyAdded": {
+      "eyebrow": "Recently Added",
+      "title": "The Latest Acquisitions",
+      "foundAt": "Found at {{shopName}}.",
+      "foundAtWithYear": "Found at {{shopName}}. Circa {{year}}."
+    },
+    "features": {
+      "title": "Antiques are scattered everywhere online - your search shouldn't be",
+      "subtitle": "We are the most sophisticated search engine for antiques and provide you with all the tools to efficiently search the antiques market.",
+      "previewBadge": "Coming soon",
+      "search": {
+        "title": "Intelligent Search",
+        "description": "Search hundreds of thousands of items with our powerful search engine. Cut out all the noise by filtering for condition, price, dealer, and much more."
+      },
+      "global": {
+        "title": "Worldwide Coverage",
+        "description": "We connect you with renowned antique dealers from over 15 countries – from Germany to the USA. No matter how small the dealer, if he has an online-shop, we are adding it."
+      },
+      "history": {
+        "title": "Change History",
+        "description": "Track all changes to an item – from price adjustments to status changes. We opt for the maximum amount of transparency."
+      },
+      "watchlist": {
+        "title": "Personal Watchlist",
+        "description": "Save interesting items and keep track of their development. Get notified when price or availability changes."
+      },
+      "translations": {
+        "title": "Automatic Translations",
+        "description": "Search and discover all items in your preferred language, without any barriers. We currently support English, German, French, Spanish and Italian."
+      },
+      "personalFilter": {
+        "title": "Search Requests",
+        "description": "Save your search request and get notified about new offers or updated items. The antiques you used to search for, now come to you."
+      },
+      "aiSearchAgent": {
+        "title": "Personal AI Search Agent",
+        "description": "Your personal AI agent helps you find the most specific antiques. In combination with search requests, describe what you're looking for in plain language - as detailed as you wish. We will notify you as soon as hits match what you described."
+      },
+      "communityWishes": {
+        "title": "Your wishes",
+        "description": "You have critique, are missing something or have an idea what we should improve or add? We'll listen very closely. Contact us at contact@aura-historia.com and we will make it happen."
+      }
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "subtitle": "Just a few steps to your dream pieces.",
+      "step1": {
+        "title": "Search",
+        "description": "Enter what you're looking for – whether furniture, jewelry, art, or collectibles."
+      },
+      "step2": {
+        "title": "Discover",
+        "description": "Browse results from thousands of dealers at a glance."
+      },
+      "step3": {
+        "title": "Save",
+        "description": "Save interesting items to your watchlist or save your search criteria as an alert."
+      },
+      "step4": {
+        "title": "Get notified",
+        "description": "Get notified by email as soon as an item on your watchlist changes or a new one matches your criteria."
+      }
+    },
+    "testimonials": {
+      "title": "What our users say",
+      "subtitle": "Learn how we help collectors live their passion.",
+      "testimonial1": {
+        "name": "Margarete W.",
+        "role": "Collects Art Nouveau furniture",
+        "quote": "Finally a platform that makes searching for rare pieces easier. The price notifications have helped me find real bargains multiple times."
+      },
+      "testimonial2": {
+        "name": "Heinrich K.",
+        "role": "Antique dealer",
+        "quote": "As a dealer, I use Aura Historia to keep an eye on the market. The price developments help me enormously with my own pricing."
+      },
+      "testimonial3": {
+        "name": "Elisabeth M.",
+        "role": "Hobby collector for 20 years",
+        "quote": "I'm amazed by the clarity. Before, I spent hours searching through different dealer sites. Now I find everything in one place."
+      }
+    },
+    "newsletter": {
+      "title": "Stay informed",
+      "description": "Receive weekly curated finds, market trends, and exclusive insights directly in your inbox.",
+      "placeholder": "Your email address",
+      "button": "Subscribe",
+      "privacy": "By subscribing, you agree to our privacy policy. You can unsubscribe at any time.",
+      "successMessage": "Thank you for subscribing! Please confirm your email address.",
+      "benefit1": "Weekly highlights",
+      "benefit2": "Market reports & trends",
+      "benefit3": "Unsubscribe anytime"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Here you'll find answers to the most important questions about Aura Historia.",
+      "items": {
+        "howItWorks": {
+          "question": "How does Aura Historia work?",
+          "answer": "Aura Historia continuously searches the websites of over 500 antique dealers, auction houses and marketplaces worldwide and collects all offers in one central place. Our intelligent search allows you to find exactly what you're looking for."
+        },
+        "directPurchase": {
+          "question": "Can I buy items directly through Aura Historia?",
+          "answer": "No, Aura Historia is a pure search platform. If you want to buy an item, you will be redirected directly to the respective dealer's website where you can complete the purchase."
+        },
+        "priceAlerts": {
+          "question": "How do price and availability notifications work?",
+          "answer": "Once you add an item to your watchlist, we automatically track its price- and availability development for you. As soon as something changes with your item, you receive a notification via E-Mail."
+        },
+        "updateFrequency": {
+          "question": "How often is the data updated?",
+          "answer": "Our data is continuously updated. We operate in near real-time."
+        },
+        "dealers": {
+          "question": "Which Antique Online-Shops are on Aura Historia?",
+          "answer": "We include data from over 500 renowned antique dealers from more than 15 countries. Among them you'll find both, large auction houses and specialized dealers for all antique areas."
+        },
+        "dealerRequest": {
+          "question": "I know an online dealer/auction house/marketplace that's not yet on Aura Historia. Can we add it?",
+          "answer": "Yes! Send us an email to contact@aura-historia.com and include the URL/Link of the shop along any additional information you might want to provide. We will verify the shop and include it within hours."
+        },
+        "comparisonBarnebys": {
+          "question": "How does Aura Historia compare to Barnebys?",
+          "answer": "While Barnebys is also an antiques search engine, they only focus on the largest players - the big auction houses and dealers. This makes up for a very high chance for you to miss out on what you're actually searching for. Ask yourself, where did I find my biggest treasures? It probably was a small local dealer or even thrift store."
+        },
+        "comparisonPriceDatabase": {
+          "question": "How does Aura Historia compare to price databases like WorthPoint and the salesroom?",
+          "answer": "Price databases leverage the sheer amount of historical data with auction results dating back to the 90s. While this helps finding comparisons for astronomically rare pieces, it often deflects the current market-value and availability of antiques. If your goal is to find antiques or research their current value, Aura Historia is the right place. We also want to take a heavy standpoint against the monetization of historical antique pricing data. You should not need to pay to find out what sold at which price."
+        }
+      }
+    },
+    "pricing": {
+      "title": "Choose Your Plan",
+      "subtitle": "From casual collectors to professional dealers — we have the right plan for you.",
+      "comingSoon": "Coming Soon",
+      "mostPopular": "Most Popular",
+      "free": {
+        "name": "Free",
+        "description": "Perfect for getting started in the world of antiques.",
+        "features": {
+          "watchlistItems": "20 items on the watchlist",
+          "searchAlerts": "1 Search Alert",
+          "alertMatches": "10 Search Alert matches per month",
+          "alertType": "Simple search alerts only",
+          "notificationSpeed": "Get notified within a few hours",
+          "searchType": "Classical text search"
+        }
+      },
+      "pro": {
+        "name": "Pro",
+        "description": "For dedicated collectors who want to discover more.",
+        "features": {
+          "watchlistItems": "100 items on the watchlist",
+          "searchAlerts": "5 Search Alerts",
+          "alertMatches": "Unlimited Search Alert matches per month",
+          "alertType": "Full search alerts",
+          "notificationSpeed": "Real-time notifications",
+          "searchType": "Hybrid search — finds matches by keyword and meaning"
+        }
+      },
+      "ultimate": {
+        "name": "Ultimate",
+        "description": "For professionals who want the full experience.",
+        "features": {
+          "watchlistItems": "Unlimited watchlist",
+          "searchAlerts": "Unlimited Search Alerts",
+          "alertMatches": "Unlimited Search Alert matches per month",
+          "alertType": "Full search alerts",
+          "notificationSpeed": "Priority real-time notifications",
+          "searchType": "Hybrid search (Text + Semantic)",
+          "aiAgent": "AI Search Agent"
+        }
+      }
+    }
+  },
+  "apiErrors": {
+    "PRODUCT_NOT_FOUND": "This item was not found.",
+    "UNAUTHORIZED": "Authentication failed. Please log in.",
+    "INTERNAL_SERVER_ERROR": "An internal server error occurred. Please try again later.",
+    "GATEWAY_TIMEOUT": "Request timed out. Please try again later.",
+    "WATCHLIST_ENTRY_NOT_FOUND": "This item is not on your watchlist.",
+    "SEARCH_FILTER_NOT_FOUND": "This search filter does not exist.",
+    "TEXT_QUERY_TOO_SHORT": "The search query must contain at least 3 characters.",
+    "BAD_PATH_PARAMETER_VALUE": "The link is invalid.",
+    "INVALID_UUID": "The link is invalid.",
+    "SERVICE_UNAVAILABLE": "The service is currently unavailable. Please try again later.",
+    "BAD_QUERY_PARAMETER_VALUE": "Your search contains invalid settings.",
+    "SHOP_NOT_FOUND": "This shop is no longer available.",
+    "INVALID_SHOP_IDENTIFIER": "The shop identifier is invalid.",
+    "INVALID_DOMAIN": "The shop domain is invalid.",
+    "FORBIDDEN": "This action is not available to you.",
+    "BAD_BODY_VALUE": "Some details are incorrect. Please check your input.",
+    "MONETARY_AMOUNT_OVERFLOW": "The price is too high and cannot be processed.",
+    "BAD_PAGE_FROM_VALUE": "Invalid page number.",
+    "BAD_PAGE_SIZE_VALUE": "Invalid number per page.",
+    "BAD_SORT_VALUE": "Invalid sorting.",
+    "BAD_ORDER_VALUE": "Invalid sort order.",
+    "WATCHLIST_QUOTA_EXCEEDED": "You've reached the maximum number of items on your watchlist. There are already 5/5 watchlist entries occupied.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "You've reached the maximum number of saved search filters. There are already 5/5 search filters occupied.",
+    "unknown": "An unexpected error occurred."
+  },
+  "watchlist": {
+    "title": "My Watchlist",
+    "loginRequired": "Please log in to use the watchlist.",
+    "totalElements": "{{count}} items",
+    "loadingError": "The watchlist cannot be reached at this time. Please try again later.",
+    "loadingMore": "Loading more results...",
+    "allLoaded_one": "You have seen {{count}} item from your watchlist.",
+    "allLoaded_other": "You have seen all {{count}} items from your watchlist.",
+    "noResults": {
+      "title": "No items found",
+      "description": "Add items to your watchlist to see them here."
+    }
+  },
+  "category": {
+    "header": {
+      "archiveLabel": "Category",
+      "overviewTitle": "Curatorial Perspective",
+      "indexedItems": "Indexed Items",
+      "imageAlt": "Representative image for {{category}}"
+    },
+    "descriptions": {
+      "default": "Explore carefully selected objects from this category, each documented with provenance clues, craftsmanship details, and current market visibility.",
+      "ANCIENT_POTTERY": "Vessels, votive pieces, and ceramic fragments that reveal the rituals, trade routes, and daily life of ancient civilizations.",
+      "STORAGE_CONTAINERS": "Collectors searching for antique trunks for sale, vintage wooden chests, and historical storage boxes gain an intriguing look at how past generations secured their belongings. Visitors can find massive brass-bound steamer trunks, intricately carved blanket chests, and delicate inlaid wooden tea caddies. The selection frequently includes vintage apothecary drawer sets, antique leather hat boxes, and early tin advertising canisters. From heavy oak document boxes with complex lock mechanisms to woven sweetgrass baskets, those looking to buy antique storage containers will find items highlighting historical joinery and the utilitarian necessities of daily domestic life.",
+      "LIGHTING_OBJECTS": "Collectors searching for antique lighting fixtures, vintage chandeliers for sale, and historical lamps will discover a wide spectrum of functional and decorative illumination from various centuries. The offerings range from early pewter whale oil lamps and brass candlestick holders to elaborate Victorian gasoliers and authentic Art Nouveau slag glass table lamps. Enthusiasts looking to buy antique ceiling lights can also find crystal prism chandeliers, industrial enamel factory pendants, and early electric desk lamps with original wiring mechanisms. These pieces provide insight into the technological progression of lighting, historical glassmaking, and domestic interior design.",
+      "BOOKS_MANUSCRIPTS_PRINTED_MEDIA": "Bibliophiles searching for rare first-edition books, antique manuscripts for sale, and early printed materials get a rich selection of historical documents. Visitors looking to buy antique books online can expect leather-bound literary classics, illuminated manuscripts with intricate calligraphy, and collectible historical maps. The category also houses original lithographs, early copperplate engravings, and rare religious texts. Whether seeking a signed nineteenth-century novel or evaluating antique book prices for a centuries-old scientific treatise, collectors will encounter items showcasing traditional bookbinding, typography, and historical printing techniques.",
+      "FURNITURE": "Interior historians and collectors searching for authentic antique furniture for sale, vintage wooden furniture, and specific period pieces can explore a diverse array of domestic items from Georgian, Victorian, Art Deco, and mid-century modern eras. Discover solid mahogany dining tables, intricately carved oak cabinets, and elegant walnut writing desks featuring dovetail joinery. The selection often includes tufted leather armchairs, antique marquetry sideboards, and early painted folk furniture. Those looking to buy antique furniture online will find pieces that reflect historical woodworking techniques, period-specific upholstery, and the evolving aesthetic tastes of past domestic life.",
+      "TOYS_GAMES_RECREATIONAL": "Toy collectors searching for antique toys for sale, vintage board games, and early mechanical playthings can explore a fascinating assortment of historical childhood entertainment. The selection frequently features cast iron mechanical banks, lithographed tin wind-up toys, and authentic antique porcelain dolls in period clothing. Enthusiasts looking to buy vintage wooden toys or Victorian parlor games can also discover early rocking horses, complex moving dioramas, and complete sets of historical board games. These items reveal specific manufacturing materials, mechanical ingenuity, and the broader cultural significance of historical childhood and traditional amusement.",
+      "TEXTILES": "Textile historians searching for antique textiles for sale, vintage tapestries, and historical clothing will discover a vibrant array of early fabrics, garments, and woven goods. The offerings often include handmade patchwork quilts, intricate antique Flemish tapestries, and delicate lace collars from the Victorian era. Enthusiasts looking to buy vintage rugs or historical samplers might also find preserved silk kimonos, early woven Navajo rugs, and traditional embroidered textiles detailing family histories. These preserved fabrics showcase the evolution of early natural dyes, historical looming techniques, hand-spinning processes, and the cultural significance of garment construction.",
+      "CLOCKS_TIMEKEEPING": "Horology enthusiasts searching for antique clocks for sale, vintage pocket watches, and rare historical timepieces will find an exquisite assortment of mechanical timekeepers. The category encompasses authentic grandfather clocks, ornate French mantel clocks in gilded bronze, and precision marine chronometers used for early navigation. Collectors looking to buy vintage pocket watches can discover enameled silver cases, complex repeating movements, and early fusee mechanisms. From Black Forest cuckoo clocks to sophisticated carriage clocks, the available items highlight the intricate gears, escapements, and decorative artistry that define the historical evolution of measuring time.",
+      "JEWELRY_PERSONAL_ADORNMENT": "Jewelry historians and buyers searching for antique jewelry for sale, vintage rings, and authentic estate jewelry will find an exquisite array of personal adornments spanning the Georgian, Victorian, Art Nouveau, and Art Deco periods. Discover intricate cameo brooches, authentic mourning jewelry, and vintage platinum engagement rings set with old mine-cut diamonds. The selection frequently includes antique enameled pocket watch chains, sterling silver chatelaines, and faceted garnet necklaces. These wearable artifacts highlight historical gemstone cutting, the evolution of precious metalwork, and the shifting fashions of past societies for collectors of rare jewelry.",
+      "ARCHITECTURAL_ELEMENTS": "Preservationists searching for architectural antiques for sale, reclaimed building materials, and salvaged structural elements will find an extensive array of components from historically significant structures. The offerings include massive hand-hewn oak ceiling beams, authentic Victorian stained glass windows, and heavy cast iron entry gates. Collectors looking to buy antique fireplace mantels or vintage door hardware can discover ornate marble surrounds, terracotta roof tiles, and brass fixtures with original patinas. These structural pieces allow for the study and reuse of traditional building techniques, historical masonry, and the architectural heritage of the built environment.",
+      "ARCHAEOLOGICAL_ARTIFACTS": "Antiquities collectors searching for genuine archaeological artifacts for sale, ancient pottery, and historical relics will discover a profound selection of items recovered from historical digs around the world. The category frequently features ancient Roman glass vessels, authentic Egyptian ushabti figures, and Neolithic knapped flint arrowheads. Enthusiasts looking to buy ancient coins or Pre-Columbian artifacts can also find terracotta pottery, ancient Greek bronze coins, and early Mesopotamian cuneiform tablets. These excavated items provide a direct, tangible connection to human prehistory, offering invaluable insights into ancient daily life and the material culture of vanished civilizations.",
+      "VISUAL_ART": "Art historians and collectors searching for antique paintings for sale, original historical artwork, and vintage sculptures can browse a meticulously cataloged archive of visual pieces spanning numerous artistic movements. Discover eighteenth-century classical oil portraits, detailed botanical watercolors, and authentic early bronze figurative sculptures. The category frequently includes options for those looking to buy antique landscape paintings, Renaissance-era graphite sketches, and traditional Japanese woodblock prints. From monumental academy paintings to intimate miniature portraits, these works support the study of traditional artistic techniques, historical pigments, and the evolution of human visual expression.",
+      "DECORATIVE_OBJECTS": "Collectors searching for decorative antiques for sale, vintage home decor, and historical ornamental objects will discover a broad spectrum of items designed to elevate domestic spaces across various centuries. The offerings range from fine antique Sevres porcelain vases and intricate Meissen figurines to elegant Art Deco bronze bookends and Victorian majolica serving pieces. Enthusiasts looking to buy antique mirrors or vintage art glass can find ornate gilded frames, early Venetian glassware, and classical marble busts. These items document the evolution of decorative art movements, domestic ornamentation, and the meticulous craftsmanship of historical artisans.",
+      "EPHEMERA_MEMORABILIA": "Archival collectors searching for historical ephemera for sale, vintage paper memorabilia, and antique documents will find a fascinating assortment of preserved paper goods capturing daily historical life. The selection includes original handwritten Civil War correspondence, colorful Victorian trade cards, and early lithographed advertising posters. Enthusiasts looking to buy vintage postcards, authentic historical tickets, or old theatrical playbills can discover extensive collections of early photographic postcards and world fair memorabilia. These primary source materials provide a unique window into past commercial advertising, political movements, and significant cultural events.",
+      "PHOTOGRAPHY_OPTICAL_MEDIA": "Enthusiasts searching for vintage cameras for sale, antique photography, and historical optical devices will find a comprehensive selection of early image-capturing equipment. The offerings include cased daguerreotype portraits, original early wooden bellows cameras, and intricate brass magic lanterns with hand-painted glass slides. Collectors looking to buy antique stereoview cards, early tintypes, and large-format glass plate negatives will discover extensive archives of optical media. These items document the chemistry of early photo processing, the technological evolution of the camera, and the societal impact of early visual documentation.",
+      "MUSICAL_INSTRUMENTS": "Musicologists and buyers searching for antique musical instruments for sale, vintage acoustic guitars, and historical brass instruments can explore a rich variety of early acoustic devices. The selection frequently features rare gut-string violins, ornate wooden flutes, and early brass instruments such as keyed bugles and rotary-valve cornets. Enthusiasts looking to purchase antique pianos or traditional ethnographic percussion instruments will also find beautifully restored grand pianos and antique concertinas. These historical items showcase the evolution of acoustic engineering, traditional luthier craftsmanship, and the historical materials used to create musical sound.",
+      "WEAPONS": "Collectors searching for authentic antique swords, vintage firearms for sale, and historical armor will discover a vast array of edged weapons and early firearms from various global conflicts. The selection frequently features Renaissance rapiers, medieval broadswords, and original Japanese katana blades, alongside operational flintlock pistols, antique percussion-cap muskets, and ornate powder flasks. Enthusiasts looking to buy antique military defense items can also find authentic chainmail garments, ceremonial plate armor, and decorative shields, offering a deep dive into historical metallurgy, combat tactics, and the craftsmanship of early warfare implements.",
+      "TOOLS_IMPLEMENTS": "Collectors searching for antique hand tools for sale, vintage woodworking tools, and historical farm implements will find a robust selection of devices used by historical tradespeople before widespread mechanization. Discover beautifully patinated wooden molding planes, heavy forged-iron broadaxes, and precision brass calipers used by early engineers. The category often includes specialized antique tools for cooperage, leatherworking, and stonemasonry. For those looking to buy vintage blacksmith tools or early carpentry equipment, these functional artifacts reflect the physical labor of past centuries and the ingenuity of early hand-forged steel and traditional artisans.",
+      "INDUSTRIAL_TRADE_EQUIPMENT": "This category appeals to those searching for antique industrial tools, vintage factory equipment, and historical trade machinery for sale. Enthusiasts can uncover cast-iron textile looms, early printing presses, and heavy-duty agricultural machinery that powered the Industrial Revolution. The selection frequently includes specialized artisanal equipment for those looking to buy antique blacksmith anvils, vintage cobblers' benches, and early factory time clocks. Whether searching for a vintage drafting table or salvaged industrial molds, collectors will find rugged, functional artifacts that document the transformation of manufacturing, trade labor, and mass production.",
+      "CULTURAL_ETHNOGRAPHIC": "Anthropological collectors searching for authentic ethnographic art for sale, tribal artifacts, and indigenous cultural objects will find a diverse collection representing the material culture of global societies. The selection frequently features carved African ceremonial masks, intricate Polynesian navigational charts, and Native American beadwork. Enthusiasts looking to buy traditional cultural artifacts can also discover Tibetan prayer wheels, authentic South American textiles, and early Inuit bone carvings. These ethnographic objects offer profound insights into traditional belief systems, social structures, indigenous materials, and the highly localized craftsmanship of diverse historical communities.",
+      "MILITARIA": "Military historians searching for authentic militaria for sale, antique military uniforms, and historical war artifacts will discover a comprehensive array of items documenting global conflicts. The offerings frequently feature original World War I wool tunics, inscribed trench art, and early leather flight helmets. Enthusiasts looking to buy antique military gear or wartime collectibles can also find intricate military unit insignia, original wartime propaganda posters, and historical field optics such as brass trench periscopes. These items serve as vital educational tools for understanding military structures, battlefield logistics, and the impact of global warfare.",
+      "COINS_CURRENCY_MEDALS": "Numismatists searching for rare coins for sale, antique paper money, and historical military medals can explore a vast selection of global currency and commemorative medallions. Discover authentic silver denarii from the Roman Empire, early American colonial paper scrip, and intricate gold sovereigns. The category also supports those looking to buy vintage banknotes, obsolete bank notes, and rare mint errors. These financial artifacts provide a detailed look at monetary evolution, early metal minting processes, historical inflation, and the political iconography stamped on global currency throughout human history.",
+      "NATURAL_HISTORY_CURIOSITIES": "Collectors searching for antique natural history specimens, vintage taxidermy for sale, and historical oddities will find an intriguing array of items gathered from early biological exploration. The category features authentic Victorian taxidermy dioramas, intricate early anatomical papier-mache models, and preserved entomology displays. Enthusiasts looking to buy antique fossils, historical geological samples, or old botanical prints can discover fossilized ammonites, antique skeletal articulations, and historical herbarium folios. These fascinating items provide deep context for the history of scientific exploration, biological classification, and the Victorian fascination with the natural world.",
+      "TRANSPORTATION_TRAVEL_OBJECTS": "This category appeals to enthusiasts searching for antique travel artifacts, vintage luggage for sale, and early transportation memorabilia. Collectors can find polished brass maritime binnacles, early leather carriage trunks, and original railway lanterns used by nineteenth-century conductors. The selection often includes vintage leather motoring goggles, historical steamship passenger logs, and early navigational sextants. Whether looking to buy antique maritime equipment, a velocipede bicycle, or a detailed scale model galleon, these artifacts document the historical challenges and technological advancements of early passenger travel and global exploration.",
+      "RELIGIOUS_RITUAL_CEREMONIAL": "Researchers and collectors searching for antique religious artifacts for sale, historical ritual objects, and sacred ceremonial items will find an array of works representing global spiritual practices. The selection includes heavily embroidered clerical vestments, intricately carved wooden crucifixes, and authentic early Jewish silver Torah pointers. Enthusiasts looking to buy antique Buddhist artifacts, illuminated Islamic texts, or ornate brass thuribles can discover antique singing bowls, Quran folios, and incense burners. These pieces provide essential insight into comparative religion, historical worship practices, and the rich material culture associated with human spirituality.",
+      "WRITING_COMMUNICATION_INSTRUMENTS": "Collectors searching for antique writing instruments for sale, vintage fountain pens, and historical communication devices will discover an array of tools that shaped human correspondence. The selection frequently features heavy cast-iron telegraph keys, early mechanical typewriters with glass keys, and elegant sterling silver dip pens. Enthusiasts looking to buy antique inkwells, authentic wax seal stamps, and vintage rotary-dial telephones can find ornate crystal inkwells and beautifully restored communication equipment. These artifacts serve as a comprehensive guide to understanding the historical progression of the written word and early long-distance communication.",
+      "SCIENTIFIC_MEDICAL_TECHNICAL": "Collectors searching for antique scientific instruments for sale, vintage medical tools, and historical engineering devices will discover a highly specialized selection of empirical tools. Discover gleaming brass surveying theodolites, early achromatic microscopes in original mahogany cases, and complex antique calculating machines. The category frequently includes options for those looking to buy antique surgical kits, early apothecary scales, and intricate celestial globes. These historical devices chronicle the evolution of empirical science, historical astronomy, early navigation, and the development of healthcare practices before modern technology."
+    },
+    "products": {
+      "loadingMore": "Loading more items...",
+      "allLoaded_one": "You have seen {{count}} item in this category.",
+      "allLoaded_other": "You have seen all {{count}} items in this category.",
+      "noResults": {
+        "title": "No items found",
+        "description": "There are currently no items in this category."
+      },
+      "error": {
+        "title": "Could not load items",
+        "description": "An error occurred while loading items. Please try again later."
+      }
+    }
+  },
+  "period": {
+    "header": {
+      "archiveLabel": "Period",
+      "overviewTitle": "Historical Perspective",
+      "periodRange": "Approximate Period Range",
+      "defaultDescription": "Explore curated objects from this era and discover their historical context, material culture, and provenance clues."
+    },
+    "descriptions": {
+      "ANTIQUITY": "Collectors searching for authentic Antiquity artifacts for sale, ancient Greek pottery, and Roman antiquities will discover a profound selection of items recovered from early civilizations. Our aggregated index compiles available ancient coins, Egyptian ushabti figures, and Neolithic stone tools from various specialized dealers. Enthusiasts looking to buy genuine ancient relics can find ancient bronze sculptures, early Mesopotamian artifacts, and classical Mediterranean antiquities. These excavated items provide a tangible connection to human prehistory and the foundational material culture of the ancient world.",
+      "ART_DECO": "Buyers searching for authentic Art Deco antiques for sale, vintage 1920s furniture, and geometric decor will find a glamorous array of items spanning the 1920s and 1930s. Our directory aggregates listings from multiple shops, featuring streamlined walnut sideboards, chrome lighting fixtures, and classic flapper-era jewelry. Collectors looking to buy original Art Deco art or vintage modernist sculptures can discover mirrored vanities, colorful Bakelite accessories, and bold architectural salvage that define this iconic period of luxury and early modern design.",
+      "ART_NOUVEAU": "Enthusiasts searching for Art Nouveau antiques for sale, original Belle Epoque decor, and vintage floral jewelry will discover an exquisite collection defined by organic lines and natural motifs. Our consolidated index features available authentic Tiffany style lamps, intricate silver vanity sets, and flowing mahogany furniture sourced from diverse dealers. Collectors looking to buy Art Nouveau art glass, original Mucha lithographs, or sinuous bronze sculptures can easily locate specific historical pieces that capture the romantic essence of turn-of-the-century craftsmanship.",
+      "ARTS_AND_CRAFTS": "Collectors searching for Arts and Crafts antiques for sale, authentic Mission style furniture, and vintage artisan decor will find a robust selection of items emphasizing handcraftsmanship. Our aggregated directory compiles solid quarter-sawn oak tables, hammered copper lighting fixtures, and original William Morris textiles from various specialized shops. Those looking to buy authentic Craftsman antiques, vintage matte green pottery, or early 20th-century artisan metalwork will discover pieces that rejected mass production in favor of natural materials and honest, functional design.",
+      "BAROQUE": "Buyers searching for authentic Baroque antiques for sale, ornate 17th-century furniture, and dramatic historical art will discover a magnificent array of highly detailed artifacts. Our index compiles available listings from multiple dealers, featuring elaborately carved walnut cabinets, gilded mirrors, and dramatic chiaroscuro oil paintings. Collectors looking to buy original Baroque decor, heavy brass chandeliers, or intricate tapestry textiles can easily locate these opulent, theatrical pieces that define the grandeur and intense emotion of 17th and early 18th-century European design.",
+      "BIEDERMEIER": "Enthusiasts searching for authentic Biedermeier furniture for sale, early 19th-century German antiques, and elegant vintage decor will find a sophisticated selection of restrained, functional items. Our consolidated directory aggregates light fruitwood cabinets, cleanly designed writing desks, and gently curved seating sourced from diverse antique shops. Collectors looking to buy original Biedermeier antiques, delicate domestic clocks, or refined parlor pieces will discover specific historical items that showcase the simplified elegance and practical beauty of Central European middle-class design.",
+      "CONTEMPORARY": "Collectors searching for Contemporary art for sale, modern studio crafts, and late 20th-century design pieces will discover a dynamic array of items reflecting modern artistic expression. Our aggregated index compiles available listings of studio glass, cutting-edge abstract paintings, and innovative sculptural furniture from various galleries and dealers. Those looking to buy contemporary artisan crafts, postmodern ceramics, or late-century mixed media works can easily locate unique, boundary-pushing pieces that represent the ongoing evolution of modern material culture and artistic innovation.",
+      "EARLY_MEDIEVAL": "Researchers and collectors searching for Early Medieval artifacts for sale, authentic Dark Ages relics, and Migration Period antiquities will find a rare selection of historical items. Our directory aggregates available authentic Viking jewelry, early Anglo-Saxon metalwork, and Merovingian pottery sourced from specialized antiquity dealers. Buyers looking to purchase authentic medieval weapons, early forged iron tools, or ancient fibula brooches will discover crucial historical artifacts that document the turbulent centuries following the fall of the Roman Empire and early European development.",
+      "EARLY_MODERN": "Collectors searching for Early Modern antiques for sale, Renaissance to Enlightenment era artifacts, and 16th to 18th-century decor will discover a transformative array of historical items. Our consolidated index compiles available early scientific instruments, Elizabethan oak furniture, and historical exploration maps from various specialized shops. Enthusiasts looking to buy original Early Modern art, antique leather-bound books, or early navigational tools can locate specific pieces that represent the profound global expansion and scientific awakening of the post-medieval world.",
+      "EMPIRE": "Buyers searching for authentic Empire style furniture for sale, Napoleonic era antiques, and neoclassical 19th-century decor will find a commanding selection of grand historical artifacts. Our aggregated directory features available mahogany console tables with ormolu mounts, classical bronze candelabras, and militaristic decorative objects sourced from multiple dealers. Collectors looking to buy original French Empire antiques, stately monumental clocks, or imperial-themed tapestries can easily locate these impressive pieces that reflect the authority, classical revival, and political grandeur of early 19th-century Europe.",
+      "GOTHIC": "Enthusiasts searching for authentic Gothic antiques for sale, medieval style furniture, and original Gothic Revival decor will discover a dramatic collection of items featuring pointed arches and intricate tracery. Our index compiles available heavily carved oak chests, wrought iron lighting, and medieval ecclesiastical fragments from diverse antique shops. Collectors looking to buy original Gothic art, authentic stained glass windows, or medieval-inspired architectural salvage can locate specific historical pieces that capture the soaring spirituality and complex craftsmanship of the period.",
+      "HISTORICISM": "Collectors searching for Historicism antiques for sale, authentic 19th-century revival furniture, and Victorian-era historical reproductions will find a rich array of eclectic, nostalgic items. Our aggregated directory compiles available Neo-Renaissance cabinets, Neo-Gothic seating, and elaborately decorated Victorian ceramics sourced from multiple dealers. Those looking to buy original Historicist decor, grand 19th-century bronze sculptures, or heavily ornamented parlor furnishings will discover pieces that represent the era's fascinating obsession with combining and reinventing the great design styles of the past.",
+      "MANNERISM": "Art historians and buyers searching for Mannerist antiques for sale, late Renaissance art, and 16th-century European decor will discover a sophisticated selection of items known for artificiality and elegance. Our consolidated index features available elongated bronze sculptures, complex allegorical paintings, and heavily ornamented Italianate furniture sourced from specialized shops. Collectors looking to buy original Mannerist art, elaborate metalwork, or late 16th-century tapestries can locate specific pieces that showcase the stylized exaggeration, intellectual complexity, and transitional design of this fascinating period.",
+      "MID_CENTURY_MODERN": "Enthusiasts searching for authentic Mid-Century Modern furniture for sale, vintage 1950s decor, and retro MCM lighting will find a highly sought-after collection of sleek, functional design. Our aggregated directory compiles available original teak sideboards, molded fiberglass chairs, and atomic era starburst clocks sourced from multiple vintage dealers. Collectors looking to buy original Danish Modern antiques, geometric retro artwork, or iconic mid-century lounge chairs can easily locate these clean-lined, innovative pieces that define the post-war domestic aesthetic.",
+      "MODERNISM": "Buyers searching for authentic Modernist antiques for sale, Bauhaus design pieces, and early 20th-century avant-garde decor will discover a revolutionary array of minimalist, form-follows-function items. Our index compiles available tubular steel furniture, early geometric abstract art, and purely functional industrial design objects from diverse specialized shops. Collectors looking to buy original Modernist decor, vintage constructivist posters, or early 20th-century architectural models will find pieces that radically broke from historical ornamentation to embrace the modern machine age.",
+      "NEOCLASSICISM": "Collectors searching for authentic Neoclassical antiques for sale, late 18th-century classical furniture, and elegant Georgian decor will find a refined selection of symmetrically balanced items. Our aggregated directory features available delicate mahogany demilune tables, classical marble busts, and silver urns featuring Greek key motifs sourced from multiple dealers. Those looking to buy original Neoclassical art, Louis XVI style seating, or Wedgwood jasperware can easily locate these orderly, graceful pieces that sought to revive the pure aesthetics of ancient Greece and Rome.",
+      "POSTMODERN": "Enthusiasts searching for Postmodern antiques for sale, vintage 1980s Memphis design, and late 20th-century eclectic decor will discover a bold, colorful collection of rebellious items. Our consolidated index compiles available asymmetrical furniture, vividly patterned laminate objects, and playful sculptural lighting sourced from diverse vintage shops. Collectors looking to buy original Postmodern art, ironic retro-modern design pieces, or unconventional studio ceramics can locate specific historical items that humorously challenged the strict rules of traditional modernist design.",
+      "RENAISSANCE": "Buyers searching for authentic Renaissance antiques for sale, 15th and 16th-century European artifacts, and early humanist art will discover a profoundly important array of cultural items. Our aggregated directory compiles available heavily carved Italian cassoni chests, early printed books, and classical bronze figurative sculptures sourced from specialized antiquity dealers. Collectors looking to buy original Renaissance art, early maiolica pottery, or authentic 16th-century tapestries can easily locate these magnificent pieces that mark the rebirth of classical learning and artistic perspective.",
+      "ROCOCO": "Collectors searching for authentic Rococo antiques for sale, 18th-century French furniture, and ornate Louis XV decor will find a lavish selection of asymmetrical, nature-inspired items. Our index compiles available gilded mirrors with scrolling acanthus leaves, delicately curved cabriole leg tables, and pastel romanticist paintings from multiple dealers. Those looking to buy original Rococo art, fine Sevres porcelain, or elaborate ormolu clocks will discover highly decorative pieces that define the playful, elegant, and lighthearted excess of the mid-18th century.",
+      "ROMANESQUE": "Researchers and buyers searching for authentic Romanesque antiques for sale, 11th and 12th-century medieval artifacts, and early architectural elements will discover a rare collection of robust, massive historical items. Our aggregated directory features available early stone sculptural fragments, heavy forged ironwork, and early medieval religious relics sourced from specialized antiquarians. Collectors looking to buy authentic Romanesque art, early Christian antiquities, or monumental medieval salvage can locate these sturdy, spiritually significant pieces characterized by thick walls and semi-circular arches."
+    },
+    "products": {
+      "loadingMore": "Loading more items...",
+      "allLoaded_one": "You have seen {{count}} item in this period.",
+      "allLoaded_other": "You have seen all {{count}} items in this period.",
+      "noResults": {
+        "title": "No items found",
+        "description": "There are currently no items in this period."
+      },
+      "error": {
+        "title": "Could not load items",
+        "description": "An error occurred while loading items. Please try again later."
+      }
+    }
+  },
+  "share": {
+    "copyLink": "Copy link",
+    "copied": "Copied!",
+    "shareProduct": "Share product",
+    "foundOnAuraHistoria": "I found {{title}} on Aura Historia! This might be interesting for you!"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for was not found.",
+    "goHome": "Go to homepage"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Please try again later.",
+    "goHome": "Go to homepage"
+  },
+  "auth": {
+    "subtitle": "Over 120,000 antiques from 500 dealers. Compare, save, and track prices on Aura Historia.",
+    "welcome": "Welcome",
+    "welcomeWithName": "Welcome, {{name}}!",
+    "welcomeBack": "Welcome back",
+    "welcomeBackWithName": "Welcome back, {{name}}!",
+    "completingRegistration": "Registration is being completed, please wait a moment!",
+    "completingLogin": "Login is being completed, please wait a moment!",
+    "retry": "Try again",
+    "backToLogin": "Back to login",
+    "backToHomepage": "Back to homepage",
+    "errorTitle": "User data not saved",
+    "timeout": {
+      "title": "Registration successful!",
+      "message": "Your registration was completed successfully! Personal data could not be saved due to high user traffic.",
+      "hint": "You can add this information at any time in your account settings.",
+      "noteLabel": "Note:"
+    },
+    "signUp": {
+      "firstName": "First name",
+      "firstNamePlaceholder": "John",
+      "lastName": "Last name",
+      "lastNamePlaceholder": "Doe",
+      "email": "Email*",
+      "emailPlaceholder": "your.email@example.com",
+      "password": "Password*",
+      "confirmPassword": "Confirm password*",
+      "language": "Language",
+      "currency": "Currency",
+      "pleaseSelect": "Please select",
+      "prohibitedContentConsentLabel": "Show products with § 86a StGB markings",
+      "prohibitedContentConsentTooltip": "Product images may contain symbols of unconstitutional or terrorist organizations, particularly those from the National Socialist era, as defined under § 86a StGB. By agreeing, you consent to us displaying such content to you."
+    },
+    "signIn": {
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password"
+    },
+    "languages": {
+      "de": "German",
+      "en": "English",
+      "fr": "French",
+      "es": "Spanish",
+      "it": "Italian"
+    },
+    "currencies": {
+      "EUR": "EUR - Euro",
+      "GBP": "GBP - British Pound",
+      "USD": "USD - US Dollar",
+      "AUD": "AUD - Australian Dollar",
+      "CAD": "CAD - Canadian Dollar",
+      "NZD": "NZD - New Zealand Dollar"
+    }
+  },
+  "amplify": {
+    "email": "Email*",
+    "password": "Password*",
+    "confirmPassword": "Confirm password*",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "createAccount": "Create Account",
+    "forgotYourPassword": "Forgot your password?",
+    "resetPassword": "Reset Password",
+    "backToSignIn": "Back to Sign In",
+    "sendCode": "Send code",
+    "confirm": "Confirm",
+    "submit": "Submit",
+    "verify": "Verify",
+    "skip": "Skip",
+    "code": "Code",
+    "newPassword": "New Password",
+    "enterYourEmail": "Enter your email",
+    "enterYourPassword": "Enter your password",
+    "pleaseConfirmYourPassword": "Please confirm your password",
+    "weEmailedYou": "We Emailed You",
+    "weSentACode": "We Sent A Code",
+    "weTextedYou": "We Texted You",
+    "codeOnTheWayEmail": "Your code is on the way. To log in, enter the code we emailed to",
+    "codeOnTheWaySent": "Your code is on the way. To log in, enter the code we sent you",
+    "codeOnTheWayText": "Your code is on the way. To log in, enter the code we texted to",
+    "itMayTakeAMinuteToArrive": "It may take a minute to arrive",
+    "confirmationCode": "Confirmation Code",
+    "enterYourConfirmationCode": "Enter your Confirmation Code",
+    "resendCode": "Resend Code",
+    "incorrectUsernameOrPassword": "Incorrect username or password.",
+    "userDoesNotExist": "User does not exist.",
+    "userAlreadyExists": "User already exists.",
+    "invalidVerificationCode": "Invalid verification code provided, please try again.",
+    "invalidPasswordFormat": "Invalid password format.",
+    "passwordAttemptsExceeded": "Too many attempts. Please try again later.",
+    "attemptLimitExceeded": "Attempt limit exceeded, please try after some time.",
+    "alreadySignedInUser": "There is already a signed in user.",
+    "passwordPolicyNotLongEnough": "Password is not long enough.",
+    "passwordPolicyMustHaveLowercase": "Password must have lowercase characters.",
+    "passwordPolicyMustHaveUppercase": "Password must have uppercase characters.",
+    "passwordPolicyMustHaveSymbol": "Password must have symbol characters.",
+    "passwordMustHaveUppercase": "Password must have uppercase characters.",
+    "passwordMustHaveLowercase": "Password must have lowercase characters.",
+    "passwordMustHaveNumeric": "Password must have numeric characters.",
+    "passwordMustHaveSymbol": "Password must have symbol characters.",
+    "passwordMustHaveAtLeast8Chars": "Password must have at least 8 characters.",
+    "yourPasswordsMustMatch": "Your passwords must match.",
+    "userIsNotConfirmed": "User is not confirmed.",
+    "userIsDisabled": "User is disabled.",
+    "usernameCannotBeEmpty": "Username cannot be empty.",
+    "passwordCannotBeEmpty": "Password cannot be empty.",
+    "networkError": "Network error. Please check your internet connection.",
+    "accountWithEmailAlreadyExists": "An account with the given email already exists.",
+    "invalidEmailAddressFormat": "Invalid email address format.",
+    "codeMismatch": "The code entered is incorrect.",
+    "confirmationCodeCannotBeEmpty": "Confirmation code cannot be empty.",
+    "invalidCodeProvidedRequestAgain": "Invalid code provided, please request a code again."
+  },
+  "consent": {
+    "title": "We value your privacy",
+    "description": "We use cookies to analyze web traffic and improve your user experience. By clicking 'Accept', you consent to our use of cookies for these purposes. You can find more information in our <1>privacy policy</1>.",
+    "accept": "Accept",
+    "reject": "Reject"
+  },
+  "consentSettings": {
+    "title": "Cookie Settings",
+    "description": "We use cookies to analyze web traffic and improve your user experience. You can find more information in our <1>privacy policy</1>.",
+    "analyticsLabel": "Analytics & Tracking",
+    "analyticsDescription": "Allows us to analyze usage and improve your experience via Google Analytics. Includes ad storage, analytics storage, ad user data, and ad personalization.",
+    "saved": "Your cookie preferences have been saved."
+  }
 }
