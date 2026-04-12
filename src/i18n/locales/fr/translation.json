@@ -512,11 +512,11 @@
       },
       "step3": {
         "title": "Sauvegarder",
-        "description": "Enregistrez les objets intéressants dans votre liste de suivi ou sauvegardez vos critères de recherche sous forme d’alerte."
+        "description": "Enregistrez des objets intéressants dans votre liste de suivi ou sauvegardez vos critères de recherche comme une alerte."
       },
       "step4": {
-        "title": "Être averti",
-        "description": "Recevez un e-mail dès qu’un objet de votre liste de suivi change ou qu’un nouveau correspond à vos critères."
+        "title": "Recevez des notifications",
+        "description": "Recevez une notification par email dès qu'un objet de votre liste de suivi change ou qu'un nouvel objet correspond à vos critères."
       }
     },
     "testimonials": {

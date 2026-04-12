@@ -512,11 +512,11 @@
       },
       "step3": {
         "title": "Salva",
-        "description": "Salva gli articoli interessanti nella tua watchlist oppure salva i tuoi criteri di ricerca come avviso."
+        "description": "Salva gli oggetti interessanti nella tua lista di osservazione o salva i criteri di ricerca come un avviso."
       },
       "step4": {
         "title": "Ricevi notifiche",
-        "description": "Ricevi un’e-mail non appena cambia un articolo nella tua watchlist o ne compare uno nuovo che corrisponde ai tuoi criteri."
+        "description": "Ricevi notifiche via email non appena un oggetto nella tua lista di osservazione cambia o ne arriva uno nuovo che corrisponde ai tuoi criteri."
       }
     },
     "testimonials": {
