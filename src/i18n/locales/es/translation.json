@@ -512,11 +512,11 @@
       },
       "step3": {
         "title": "Guardar",
-        "description": "Guarde artículos interesantes en su lista de seguimiento personal. Le notificaremos de los cambios."
+        "description": "Guarde artículos interesantes en su lista de seguimiento o guarde sus criterios de búsqueda como una alerta."
       },
       "step4": {
-        "title": "Comprar",
-        "description": "Le redirigimos directamente al vendedor donde puede asegurar su hallazgo."
+        "title": "Recibir avisos",
+        "description": "Reciba un correo electrónico en cuanto cambie un artículo de su lista de seguimiento o aparezca uno nuevo que coincida con sus criterios."
       }
     },
     "testimonials": {
