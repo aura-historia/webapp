@@ -512,11 +512,11 @@
       },
       "step3": {
         "title": "Guardar",
-        "description": "Guarde artículos interesantes en su lista de seguimiento o guarde sus criterios de búsqueda como una alerta."
+        "description": "Guarda artículos interesantes en tu lista de seguimiento o guarda tus criterios de búsqueda como una alerta."
       },
       "step4": {
-        "title": "Recibir avisos",
-        "description": "Reciba un correo electrónico en cuanto cambie un artículo de su lista de seguimiento o aparezca uno nuevo que coincida con sus criterios."
+        "title": "Recibe notificaciones",
+        "description": "Recibe notificaciones por correo electrónico tan pronto como un artículo en tu lista de seguimiento cambie o uno nuevo coincida con tus criterios."
       }
     },
     "testimonials": {
