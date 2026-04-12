@@ -630,7 +630,7 @@
   },
   "category": {
     "header": {
-      "archiveLabel": "Kategoriearchiv",
+      "archiveLabel": "Kategorie",
       "overviewTitle": "Kuratorische Einordnung",
       "indexedItems": "Erfasste Objekte",
       "imageAlt": "Repraesentatives Bild fuer {{category}}"

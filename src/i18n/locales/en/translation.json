@@ -629,7 +629,7 @@
   },
   "category": {
     "header": {
-      "archiveLabel": "Category Archive",
+      "archiveLabel": "Category",
       "overviewTitle": "Curatorial Perspective",
       "indexedItems": "Indexed Items",
       "imageAlt": "Representative image for {{category}}"
