@@ -17,10 +17,6 @@ export type PeriodDetail = {
      */
     name: string;
     /**
-     * Localized description
-     */
-    description: string;
-    /**
      * When the period was created
      */
     created: Date;
@@ -38,7 +34,6 @@ export const mapToPeriodDetail = (data: GetPeriodData): PeriodDetail => {
         periodId: data.periodId,
         periodKey: data.periodKey,
         name: data.name.text,
-        description: "", // TODO
         created: new Date(data.created),
         updated: new Date(data.updated),
     };

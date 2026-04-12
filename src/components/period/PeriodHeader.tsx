@@ -17,12 +17,10 @@ export function PeriodHeader({ period }: PeriodHeaderProps) {
     const periodAssetUrl = getPeriodAssetUrl(period.periodKey);
     const dateRangeMap = createLocalizedPeriodDateRangeMap(t);
     const periodDateRange = getPeriodDateRange(period.periodKey, dateRangeMap);
-    const description =
-        period.description ||
-        t("period.header.defaultDescription", {
-            defaultValue:
-                "Explore curated objects from this era and discover their historical context, material culture, and provenance clues.",
-        });
+    const localizedPeriodDescription = t(`period.descriptions.${period.periodKey}`, {
+        defaultValue: "",
+    });
+    const description = localizedPeriodDescription || t("period.header.defaultDescription");
 
     return (
         <header className="flex flex-col">
@@ -50,7 +48,7 @@ export function PeriodHeader({ period }: PeriodHeaderProps) {
                     <img
                         src={periodAssetUrl}
                         alt=""
-                        className="aspect-square w-full object-cover"
+                        className="aspect-[9/16] w-full object-cover"
                         loading="lazy"
                     />
                 </div>
