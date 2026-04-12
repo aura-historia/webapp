@@ -623,8 +623,8 @@
                     "watchlistItems": "Unlimited watchlist",
                     "searchAlerts": "Unlimited Search Alerts",
                     "alertMatches": "Unlimited Search Alert matches per month",
-                    "alertType": "Priority notifications",
-                    "notificationSpeed": "Real-time notifications",
+                    "alertType": "Full search alerts",
+                    "notificationSpeed": "Priority real-time notifications",
                     "searchType": "Hybrid search (Text + Semantic)",
                     "aiAgent": "AI Search Agent"
                 }

@@ -60,13 +60,18 @@ describe("PricingSection", () => {
     it("renders pro tier features", () => {
         expect(screen.getByText("100 Artikel auf der Merkliste")).toBeInTheDocument();
         expect(screen.getByText("5 Suchaufträge")).toBeInTheDocument();
-        expect(screen.getByText("Erweiterte Suchaufträge")).toBeInTheDocument();
     });
 
     it("renders ultimate tier features", () => {
         expect(screen.getByText("Unbegrenzte Merkliste")).toBeInTheDocument();
         expect(screen.getByText("Unbegrenzte Suchaufträge")).toBeInTheDocument();
         expect(screen.getByText("KI-Suchagent")).toBeInTheDocument();
+        expect(screen.getByText("Echtzeit-Benachrichtigungen mit Priorität")).toBeInTheDocument();
+    });
+
+    it("renders full search alerts for both pro and ultimate tiers", () => {
+        const fullAlerts = screen.getAllByText("Erweiterte Suchaufträge");
+        expect(fullAlerts).toHaveLength(2);
     });
 
     it("renders hybrid search descriptions", () => {
@@ -80,5 +85,12 @@ describe("PricingSection", () => {
         // Free: 6, Pro: 6, Ultimate: 7 = 19 total features
         const checkIcons = document.querySelectorAll("li");
         expect(checkIcons.length).toBe(19);
+    });
+
+    it("highlights the AI Search Agent feature", () => {
+        const aiAgentText = screen.getByText("KI-Suchagent");
+        const listItem = aiAgentText.closest("li");
+        expect(listItem?.className).toContain("font-semibold");
+        expect(listItem?.className).toContain("text-primary");
     });
 });

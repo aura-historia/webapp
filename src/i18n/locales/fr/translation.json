@@ -623,8 +623,8 @@
                     "watchlistItems": "Liste de suivi illimitée",
                     "searchAlerts": "Alertes de recherche illimitées",
                     "alertMatches": "Résultats d'alertes illimités par mois",
-                    "alertType": "Notifications prioritaires",
-                    "notificationSpeed": "Notifications en temps réel",
+                    "alertType": "Alertes de recherche complètes",
+                    "notificationSpeed": "Notifications en temps réel prioritaires",
                     "searchType": "Recherche hybride (Texte + Sémantique)",
                     "aiAgent": "Agent de recherche IA"
                 }

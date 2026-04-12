@@ -623,8 +623,8 @@
                     "watchlistItems": "Unbegrenzte Merkliste",
                     "searchAlerts": "Unbegrenzte Suchaufträge",
                     "alertMatches": "Unbegrenzte Suchauftrag-Treffer pro Monat",
-                    "alertType": "Prioritäts-Benachrichtigungen",
-                    "notificationSpeed": "Echtzeit-Benachrichtigungen",
+                    "alertType": "Erweiterte Suchaufträge",
+                    "notificationSpeed": "Echtzeit-Benachrichtigungen mit Priorität",
                     "searchType": "Hybridsuche (Textbasiert + Semantisch)",
                     "aiAgent": "KI-Suchagent"
                 }
