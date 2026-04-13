@@ -236,6 +236,12 @@
     "toMerchant": "Vai al commerciante",
     "noDescription": "Nessuna descrizione disponibile",
     "noImage": "Nessuna immagine disponibile",
+    "descriptionTitle": "Descrizione",
+    "conditionReportTitle": "Rapporto sullo stato",
+    "watchlist": {
+      "add": "Aggiungi alla lista di interesse",
+      "remove": "Rimuovi dalla lista di interesse"
+    },
     "imageLoadError": "Impossibile caricare l'immagine",
     "prohibitedImage": "Immagine nascosta per restrizioni sui contenuti",
     "qualityIndicators": {

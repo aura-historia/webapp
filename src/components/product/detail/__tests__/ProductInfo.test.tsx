@@ -123,8 +123,10 @@ describe("ProductInfo", () => {
         );
     });
 
-    it("should render floating action buttons (Share and Heart)", () => {
+    it("should render action buttons without fixed floating positioning", () => {
         renderWithQueryClient(<ProductInfo product={mockProduct} />);
+
+        expect(document.querySelector(".fixed.top-24.right-4")).not.toBeInTheDocument();
         const shareButtons = screen.getAllByRole("button");
         expect(shareButtons.length).toBeGreaterThan(0);
     });

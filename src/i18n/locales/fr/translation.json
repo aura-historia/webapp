@@ -236,6 +236,12 @@
     "toMerchant": "Voir chez le marchand",
     "noDescription": "Aucune description disponible",
     "noImage": "Aucune image disponible",
+    "descriptionTitle": "Description",
+    "conditionReportTitle": "Rapport d'état",
+    "watchlist": {
+      "add": "Ajouter à la liste de suivi",
+      "remove": "Retirer de la liste de suivi"
+    },
     "imageLoadError": "L'image n'a pas pu être chargée",
     "prohibitedImage": "Image masquée en raison de restrictions de contenu",
     "similar": {

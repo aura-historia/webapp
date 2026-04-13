@@ -103,12 +103,6 @@ describe("ProductSimilarCard", () => {
         expect(screen.getByText("Reserviert")).toBeInTheDocument();
     });
 
-    it("should render the details button", () => {
-        render(<ProductSimilarCard product={mockProduct} />);
-
-        expect(screen.getByText("Details")).toBeInTheDocument();
-    });
-
     it("should have correct links to product detail page", () => {
         const { container } = render(<ProductSimilarCard product={mockProduct} />);
 
@@ -172,16 +166,16 @@ describe("ProductSimilarCard", () => {
         const { container } = render(<ProductSimilarCard product={mockProduct} />);
 
         const image = container.querySelector("img");
-        expect(image).toHaveClass("hover:opacity-90");
+        expect(image).toHaveClass("group-hover:scale-[1.03]");
 
         const titleElement = screen.getByText("Test Product Title");
-        expect(titleElement).toHaveClass("hover:underline");
+        expect(titleElement).toHaveClass("group-hover:underline");
     });
 
     it("should render with proper responsive layout classes", () => {
         const { container } = render(<ProductSimilarCard product={mockProduct} />);
 
-        const card = container.querySelector(".flex-col");
+        const card = container.querySelector(".group");
         expect(card).toBeInTheDocument();
     });
 
@@ -191,16 +185,6 @@ describe("ProductSimilarCard", () => {
 
         const priceElement = screen.queryByText("99,99 €");
         expect(priceElement).not.toBeInTheDocument();
-    });
-
-    it("should render Eye icon in details button", () => {
-        const { container } = render(<ProductSimilarCard product={mockProduct} />);
-
-        const detailsLink = screen.getByText("Details").closest("a");
-        expect(detailsLink).toBeInTheDocument();
-
-        const eyeIcon = container.querySelector(".lucide-eye");
-        expect(eyeIcon).toBeInTheDocument();
     });
 
     describe("unseen notification highlight", () => {
@@ -247,19 +231,21 @@ describe("ProductSimilarCard", () => {
         });
 
         it("should call markSeen mutate when clicking a product link with unseen notification", () => {
-            render(<ProductSimilarCard product={mockProductWithUnseenNotification} />);
+            const { container } = render(
+                <ProductSimilarCard product={mockProductWithUnseenNotification} />,
+            );
 
-            const detailsLink = screen.getByText("Details").closest("a");
-            detailsLink?.click();
+            const productLink = container.querySelector("a");
+            productLink?.click();
 
             expect(mockMutate).toHaveBeenCalledWith("event-123");
         });
 
         it("should NOT call markSeen mutate when clicking a product link without unseen notification", () => {
-            render(<ProductSimilarCard product={mockProduct} />);
+            const { container } = render(<ProductSimilarCard product={mockProduct} />);
 
-            const detailsLink = screen.getByText("Details").closest("a");
-            detailsLink?.click();
+            const productLink = container.querySelector("a");
+            productLink?.click();
 
             expect(mockMutate).not.toHaveBeenCalled();
         });

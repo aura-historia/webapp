@@ -239,6 +239,12 @@
     "toMerchant": "Zur Seite des Händlers",
     "noDescription": "Keine Beschreibung verfügbar",
     "noImage": "Kein Bild verfügbar",
+    "descriptionTitle": "Beschreibung",
+    "conditionReportTitle": "Zustandsbericht",
+    "watchlist": {
+      "add": "Zur Merkliste hinzufügen",
+      "remove": "Von der Merkliste entfernen"
+    },
     "unseenNotification": "Aktualisiert",
     "imageLoadError": "Bild konnte nicht geladen werden",
     "prohibitedImage": "Bild aufgrund von Inhaltsbeschränkungen ausgeblendet",
