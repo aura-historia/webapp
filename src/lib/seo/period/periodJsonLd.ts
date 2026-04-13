@@ -1,5 +1,5 @@
 import type { GetPeriodData } from "@/client";
-import { getPeriodDescription } from "@/lib/seo/periodDescription.ts";
+import { getPeriodDescription } from "@/lib/seo/period/periodDescription.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 
 type PeriodCollectionPageJsonLd = {

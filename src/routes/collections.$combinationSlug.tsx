@@ -1,6 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { getCombinationBySlug } from "@/data/combinations/combinations.ts";
-import { generateCombinationHeadMeta } from "@/lib/seo/combinationHeadMeta.ts";
+import { generateCombinationHeadMeta } from "@/lib/seo/combination/combinationHeadMeta.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { CombinationPageSkeleton } from "@/components/combination/CombinationPageSkeleton.tsx";
 import { CombinationHeader } from "@/components/combination/CombinationHeader.tsx";

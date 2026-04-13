@@ -973,7 +973,8 @@
         "description": "Für diese Sammlung sind derzeit keine Objekte verfügbar."
       },
       "loadingMore": "Weitere Objekte werden geladen …",
-      "allLoaded": "Alle {{count}} Objekte geladen"
+      "allLoaded_one": "Sie haben das einzige Objekt dieser Sammlung gesehen.",
+      "allLoaded_other": "Sie haben alle {{count}} Objekte dieser Sammlung gesehen"
     }
   }
 }

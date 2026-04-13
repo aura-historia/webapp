@@ -1,4 +1,4 @@
-import { getCombinationDescription } from "@/lib/seo/combinationDescription.ts";
+import { getCombinationDescription } from "@/lib/seo/combination/combinationDescription.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 
 type CombinationCollectionPageJsonLd = {

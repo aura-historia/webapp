@@ -972,7 +972,8 @@
         "description": "No objects are currently available for this collection."
       },
       "loadingMore": "Loading more objects…",
-      "allLoaded": "All {{count}} objects loaded"
+      "allLoaded_one": "The only object in this collection has been loaded.",
+      "allLoaded_other": "All {{count}} objects in this collection have been loaded."
     }
   }
 }

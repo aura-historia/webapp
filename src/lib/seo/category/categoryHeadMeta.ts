@@ -1,10 +1,10 @@
-import { getCombinationDescription } from "@/lib/seo/combinationDescription.ts";
-import { generateCombinationJsonLdScript } from "@/lib/seo/combinationJsonLd.ts";
+import type { GetCategoryData } from "@/client";
+import { generateCategoryJsonLdScript } from "@/lib/seo/category/categoryJsonLd.ts";
+import { getCategoryDescription } from "@/lib/seo/category/categoryDescription.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
 import { env } from "@/env.ts";
 import i18n from "@/i18n/i18n.ts";
-import type { Combination } from "@/data/combinations/combinations.ts";
 
 type HeadMeta = {
     meta: Array<
@@ -16,15 +16,26 @@ type HeadMeta = {
     scripts: Array<{ type: string; children: string }>;
 };
 
-export function generateCombinationHeadMeta(combination: Combination | undefined): HeadMeta {
-    const slug = combination?.slug ?? "";
-    const combinationUrl = `${env.VITE_APP_URL}/collections/${slug}`;
-    const combinationPath = `/collections/${slug}`;
+type CategoryHeadParams = {
+    categoryId: string;
+};
 
-    const name = combination
-        ? i18n.t(`combination.names.${combination.slug}`, { defaultValue: combination.slug })
-        : i18n.t("meta.combination.defaultName");
-    const description = getCombinationDescription(combination?.slug);
+/**
+ * Generates head metadata (meta tags, Open Graph, Twitter Cards, canonical link, hreflang, and JSON-LD)
+ * for a category detail page using i18n for translations.
+ *
+ * When `loaderData` is undefined (SSR fallback / error state) sensible defaults are used so
+ * the page always emits valid, non-empty meta tags.
+ */
+export function generateCategoryHeadMeta(
+    loaderData: GetCategoryData | undefined,
+    params: CategoryHeadParams,
+): HeadMeta {
+    const categoryUrl = `${env.VITE_APP_URL}/categories/${params.categoryId}`;
+    const categoryPath = `/categories/${params.categoryId}`;
+
+    const name = loaderData?.name.text ?? i18n.t("meta.category.defaultName");
+    const description = getCategoryDescription(loaderData?.categoryKey ?? params.categoryId);
     const siteName = i18n.t("meta.siteName");
 
     return {
@@ -35,26 +46,23 @@ export function generateCombinationHeadMeta(combination: Combination | undefined
             { property: "og:title", content: name },
             ...(description ? [{ property: "og:description", content: description }] : []),
             { property: "og:type", content: "website" },
-            { property: "og:url", content: combinationUrl },
+            { property: "og:url", content: categoryUrl },
             { property: "og:image", content: BANNER_IMAGE_URL },
             { property: "og:image:alt", content: name },
             // Twitter Card
             { name: "twitter:card", content: "summary_large_image" },
             { name: "twitter:title", content: name },
             ...(description ? [{ name: "twitter:description", content: description }] : []),
-            { name: "twitter:url", content: combinationUrl },
+            { name: "twitter:url", content: categoryUrl },
             { name: "twitter:image", content: BANNER_IMAGE_URL },
             { name: "twitter:image:alt", content: name },
         ],
-        links: [
-            { rel: "canonical", href: combinationUrl },
-            ...generateHreflangLinks(combinationPath),
-        ],
-        scripts: combination
+        links: [{ rel: "canonical", href: categoryUrl }, ...generateHreflangLinks(categoryPath)],
+        scripts: loaderData
             ? [
                   {
                       type: "application/ld+json",
-                      children: generateCombinationJsonLdScript(name, slug, combinationUrl),
+                      children: generateCategoryJsonLdScript(loaderData, categoryUrl),
                   },
               ]
             : [],

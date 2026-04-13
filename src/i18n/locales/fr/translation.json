@@ -972,7 +972,8 @@
         "description": "Aucun objet n'est actuellement disponible pour cette collection."
       },
       "loadingMore": "Chargement d'autres objets…",
-      "allLoaded": "Les {{count}} objets ont été chargés"
+      "allLoaded_one": "L'unique objet de cette collection a été chargé.",
+      "allLoaded_other": "Les {{count}} objets de cette collection ont été chargés."
     }
   }
 }
