@@ -12,7 +12,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { cn } from "@/lib/utils.ts";
 import { intlFormatDistance } from "date-fns";
 import { Link } from "@tanstack/react-router";
-import { CheckCheck, Trash2 } from "lucide-react";
+import { Check, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export function NotificationItem({ notification }: { readonly notification: Notification }) {
@@ -57,7 +57,7 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                                         }
                                         className="shrink-0 rounded p-1 text-muted-foreground transition-colors hover:text-primary"
                                     >
-                                        <CheckCheck className="size-3" />
+                                        <Check className="size-3" />
                                     </button>
                                 </TooltipTrigger>
                                 <TooltipContent>{t("notifications.markRead")}</TooltipContent>

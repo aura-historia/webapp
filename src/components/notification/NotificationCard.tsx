@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils.ts";
 import { intlFormatDistance } from "date-fns";
 import { Link } from "@tanstack/react-router";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
-import { CheckCheck, ImageOff, Trash2 } from "lucide-react";
+import { Check, ImageOff, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export function NotificationCard({ notification }: { readonly notification: Notification }) {
@@ -110,7 +110,7 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                                         onClick={() => markAsSeen.mutate(originEventId)}
                                         className="size-10 flex items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
                                     >
-                                        <CheckCheck className="size-5" />
+                                        <Check className="size-5" />
                                     </button>
                                 </TooltipTrigger>
                                 <TooltipContent>{t("notifications.markRead")}</TooltipContent>
