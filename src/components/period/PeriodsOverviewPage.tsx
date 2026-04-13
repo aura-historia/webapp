@@ -73,18 +73,18 @@ export function PeriodsOverviewPage() {
                                             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                                         />
                                     </div>
-                                    <div className="absolute inset-0 bg-linear-to-t from-primary/80 via-primary/30 to-transparent" />
+                                    <div className="absolute inset-0 bg-linear-to-t from-primary/90 via-primary/30 to-transparent" />
                                     <div className="absolute inset-x-0 bottom-0 p-5">
                                         <h2 className="font-display text-2xl leading-8 text-primary-foreground">
                                             {period.name}
                                         </h2>
                                         {dateRange && (
-                                            <p className="mt-1 text-xs uppercase tracking-[0.15em] text-primary-foreground/80">
+                                            <p className="mt-1 text-xs uppercase tracking-[0.15em] text-primary-foreground/90">
                                                 {dateRange}
                                             </p>
                                         )}
                                         {description && (
-                                            <p className="mt-2 line-clamp-2 text-sm leading-5 text-primary-foreground/70">
+                                            <p className="mt-2 line-clamp-2 text-sm leading-5 text-primary-foreground/80">
                                                 {description}
                                             </p>
                                         )}
