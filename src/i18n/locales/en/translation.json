@@ -44,6 +44,18 @@
     },
     "combination": {
       "defaultName": "Collection"
+    },
+    "categories": {
+      "title": "All Categories | Aura Historia",
+      "description": "Browse all antique categories on Aura Historia. Discover furniture, jewelry, art, coins, clocks and more from trusted dealers worldwide."
+    },
+    "periods": {
+      "title": "All Periods & Styles | Aura Historia",
+      "description": "Explore all historical periods and art styles on Aura Historia. From Antiquity to Contemporary, find antiques from every era."
+    },
+    "collections": {
+      "title": "All Collections | Aura Historia",
+      "description": "Browse curated antique collections on Aura Historia. Discover unique combinations of categories and periods."
     }
   },
   "validation": {
@@ -86,7 +98,10 @@
       "categories": "Categories",
       "periodsAndStyles": "Periods & Styles",
       "collections": "Popular Collections"
-    }
+    },
+    "allCategories": "All Categories",
+    "allPeriods": "All Periods & Styles",
+    "allCollections": "All Collections"
   },
   "account": {
     "title": "My Account",
@@ -981,5 +996,25 @@
       "allLoaded_one": "The only object in this collection has been loaded.",
       "allLoaded_other": "All {{count}} objects in this collection have been loaded."
     }
+  },
+  "categoriesOverview": {
+    "title": "All Categories",
+    "subtitle": "Browse by Category",
+    "description": "Explore our complete range of antique categories. Each category brings together curated items from auction houses and dealers worldwide.",
+    "itemCount": "{{formattedCount}} items",
+    "itemCount_one": "{{formattedCount}} item",
+    "explore": "Explore"
+  },
+  "periodsOverview": {
+    "title": "All Periods & Styles",
+    "subtitle": "Browse by Period",
+    "description": "Journey through history and explore antiques from every era. Each period reveals the craftsmanship and artistic sensibilities of its time.",
+    "explore": "Explore"
+  },
+  "collectionsOverview": {
+    "title": "All Collections",
+    "subtitle": "Curated Collections",
+    "description": "Discover our curated collections combining specific categories with historical periods. Each collection offers a focused perspective on a unique intersection of craft and era.",
+    "explore": "Explore"
   }
 }

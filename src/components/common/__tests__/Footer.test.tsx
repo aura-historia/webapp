@@ -171,6 +171,21 @@ describe("Footer Component", () => {
         expect(companyContainer).toBe(contactContainer);
     });
 
+    it("should render 'All Categories' link", () => {
+        const link = screen.getByText("Alle Kategorien");
+        expect(link.closest("a")).toHaveAttribute("href", "/categories");
+    });
+
+    it("should render 'All Periods' link", () => {
+        const link = screen.getByText("Alle Epochen & Stile");
+        expect(link.closest("a")).toHaveAttribute("href", "/periods");
+    });
+
+    it("should render 'All Collections' link", () => {
+        const link = screen.getByText("Alle Sammlungen");
+        expect(link.closest("a")).toHaveAttribute("href", "/collections");
+    });
+
     it("should change language", async () => {
         const user = userEvent.setup();
 
