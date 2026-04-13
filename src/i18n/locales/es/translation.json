@@ -44,6 +44,18 @@
     },
     "combination": {
       "defaultName": "Colección"
+    },
+    "categories": {
+      "title": "Todas las Categorías | Aura Historia",
+      "description": "Explora todas las categorías de antigüedades en Aura Historia. Muebles, joyería, arte, monedas, relojes y mucho más de distribuidores de confianza en todo el mundo."
+    },
+    "periods": {
+      "title": "Todos los Periodos y Estilos | Aura Historia",
+      "description": "Explora todos los períodos históricos y estilos artísticos en Aura Historia. Desde la Antigüedad hasta el Presente, encuentra antigüedades de cada época."
+    },
+    "collections": {
+      "title": "Todas las Colecciones | Aura Historia",
+      "description": "Explora colecciones curadas de antigüedades en Aura Historia. Descubre combinaciones únicas de categorías y períodos."
     }
   },
   "validation": {
@@ -86,7 +98,10 @@
       "categories": "Categorías",
       "periodsAndStyles": "Períodos y Estilos",
       "collections": "Colecciones populares"
-    }
+    },
+    "allCategories": "Todas las Categorías",
+    "allPeriods": "Todos los Periodos y Estilos",
+    "allCollections": "Todas las Colecciones"
   },
   "account": {
     "title": "Mi cuenta",
@@ -975,5 +990,25 @@
       "allLoaded_one": "Se ha cargado el único objeto de esta colección.",
       "allLoaded_other": "Se han cargado los {{count}} objetos de esta colección."
     }
+  },
+  "categoriesOverview": {
+    "title": "Todas las Categorías",
+    "subtitle": "Explorar por Categoría",
+    "description": "Explora nuestra gama completa de categorías de antigüedades. Cada categoría reúne artículos seleccionados de casas de subastas y distribuidores de todo el mundo.",
+    "itemCount": "{{formattedCount}} objetos",
+    "itemCount_one": "{{formattedCount}} objeto",
+    "explore": "Explorar"
+  },
+  "periodsOverview": {
+    "title": "Todos los Periodos y Estilos",
+    "subtitle": "Explorar por Período",
+    "description": "Viaja a través de la historia y descubre antigüedades de cada época. Cada período revela la artesanía y el espíritu artístico de su tiempo.",
+    "explore": "Explorar"
+  },
+  "collectionsOverview": {
+    "title": "Todas las Colecciones",
+    "subtitle": "Colecciones Curadas",
+    "description": "Descubre nuestras colecciones curadas que combinan categorías específicas con períodos históricos. Cada colección ofrece una perspectiva única sobre la artesanía y la época.",
+    "explore": "Explorar"
   }
 }

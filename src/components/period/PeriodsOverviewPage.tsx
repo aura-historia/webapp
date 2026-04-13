@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getPeriodsOptions } from "@/client/@tanstack/react-query.gen.ts";
 import { mapToPeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
 import {
+    PERIOD_SORT_ORDER,
     createLocalizedPeriodDateRangeMap,
     getPeriodAssetUrl,
     getPeriodDateRange,
@@ -20,7 +21,13 @@ export function PeriodsOverviewPage() {
         }),
     );
 
-    const periods = (periodsData ?? []).map(mapToPeriodOverview);
+    const periods = (periodsData ?? [])
+        .map(mapToPeriodOverview)
+        .sort(
+            (a, b) =>
+                (PERIOD_SORT_ORDER[a.periodKey] ?? Number.MAX_SAFE_INTEGER) -
+                (PERIOD_SORT_ORDER[b.periodKey] ?? Number.MAX_SAFE_INTEGER),
+        );
     const dateRangeMap = createLocalizedPeriodDateRangeMap(t);
 
     return (

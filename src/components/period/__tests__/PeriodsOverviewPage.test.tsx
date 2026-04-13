@@ -108,4 +108,14 @@ describe("PeriodsOverviewPage", () => {
         const artNouveauLink = screen.getByText("Jugendstil").closest("a");
         expect(artNouveauLink).toHaveAttribute("href", "/periods/art-nouveau");
     });
+
+    it("renders periods in chronological order", async () => {
+        await act(async () => {
+            renderWithRouter(<PeriodsOverviewPage />);
+        });
+        const cards = screen.getAllByTestId("period-overview-card");
+        // Renaissance (1400) < Baroque (1600) < Art Nouveau (1890)
+        const names = cards.map((card) => within(card).getByRole("heading").textContent);
+        expect(names).toEqual(["Renaissance", "Barock", "Jugendstil"]);
+    });
 });

@@ -72,6 +72,34 @@ export const PERIOD_DATE_RANGE_MAP: Record<string, string> = {
 };
 
 /**
+ * Chronological sort order for periods, based on approximate start year.
+ * BCE years are expressed as negative numbers so standard numeric sort works.
+ * Periods not listed here will appear at the end.
+ */
+export const PERIOD_SORT_ORDER: Record<string, number> = {
+    ANTIQUITY: -3000,
+    EARLY_MEDIEVAL: 500,
+    ROMANESQUE: 1000,
+    GOTHIC: 1200,
+    RENAISSANCE: 1400,
+    MANNERISM: 1520,
+    EARLY_MODERN: 1500,
+    BAROQUE: 1600,
+    ROCOCO: 1730,
+    NEOCLASSICISM: 1750,
+    EMPIRE: 1800,
+    BIEDERMEIER: 1815,
+    HISTORICISM: 1830,
+    ARTS_AND_CRAFTS: 1860,
+    ART_NOUVEAU: 1890,
+    ART_DECO: 1920,
+    MODERNISM: 1910,
+    MID_CENTURY_MODERN: 1945,
+    POSTMODERN: 1970,
+    CONTEMPORARY: 2000,
+};
+
+/**
  * Creates a localized date range map using translated time markers.
  */
 export const createLocalizedPeriodDateRangeMap = (t: TFunction): Record<string, string> => {

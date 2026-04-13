@@ -44,6 +44,18 @@
     },
     "combination": {
       "defaultName": "Collection"
+    },
+    "categories": {
+      "title": "Toutes les Catégories | Aura Historia",
+      "description": "Parcourez toutes les catégories d'antiquités sur Aura Historia. Mobilier, bijoux, art, monnaies, horloges et plus encore, auprès de marchands fiables dans le monde entier."
+    },
+    "periods": {
+      "title": "Toutes les Époques et Styles | Aura Historia",
+      "description": "Explorez toutes les époques historiques et styles artistiques sur Aura Historia. De l'Antiquité à nos jours, trouvez des antiquités de chaque ère."
+    },
+    "collections": {
+      "title": "Toutes les Collections | Aura Historia",
+      "description": "Parcourez les collections d'antiquités curatorées sur Aura Historia. Découvrez des combinaisons uniques de catégories et d'époques."
     }
   },
   "validation": {
@@ -86,7 +98,10 @@
       "categories": "Catégories",
       "periodsAndStyles": "Périodes et Styles",
       "collections": "Collections populaires"
-    }
+    },
+    "allCategories": "Toutes les Catégories",
+    "allPeriods": "Toutes les Époques et Styles",
+    "allCollections": "Toutes les Collections"
   },
   "account": {
     "title": "Mon compte",
@@ -975,5 +990,25 @@
       "allLoaded_one": "L'unique objet de cette collection a été chargé.",
       "allLoaded_other": "Les {{count}} objets de cette collection ont été chargés."
     }
+  },
+  "categoriesOverview": {
+    "title": "Toutes les Catégories",
+    "subtitle": "Parcourir par Catégorie",
+    "description": "Explorez notre gamme complète de catégories d'antiquités. Chaque catégorie rassemble des objets sélectionnés des maisons de ventes et marchands du monde entier.",
+    "itemCount": "{{formattedCount}} objets",
+    "itemCount_one": "{{formattedCount}} objet",
+    "explore": "Explorer"
+  },
+  "periodsOverview": {
+    "title": "Toutes les Époques et Styles",
+    "subtitle": "Parcourir par Époque",
+    "description": "Voyagez à travers l'histoire et découvrez des antiquités de chaque ère. Chaque période révèle le savoir-faire et l'esprit artistique de son temps.",
+    "explore": "Explorer"
+  },
+  "collectionsOverview": {
+    "title": "Toutes les Collections",
+    "subtitle": "Collections Curatorées",
+    "description": "Découvrez nos collections curatorées combinant des catégories spécifiques avec des périodes historiques. Chaque collection offre une perspective unique sur l'artisanat et l'époque.",
+    "explore": "Explorer"
   }
 }
