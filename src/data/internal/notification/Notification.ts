@@ -2,6 +2,8 @@ import type {
     GetNotificationData,
     NotificationCollectionData,
     NotificationPayloadData,
+    PartnerApplicationNotificationPayloadData,
+    PartnerApplicationPayloadData,
     PriceChangeWatchlistPayloadData,
     SearchFilterNotificationPayloadData,
     StateChangeWatchlistPayloadData,
@@ -58,7 +60,35 @@ export type NotificationSearchFilter = {
     readonly searchFilterName: string;
 };
 
-export type NotificationPayload = NotificationWatchlist | NotificationSearchFilter;
+export type NotificationProductPayload = NotificationWatchlist | NotificationSearchFilter;
+
+export type NotificationPayload = NotificationProductPayload | NotificationPartnerApplication;
+
+export function isProductNotification(
+    payload: NotificationPayload,
+): payload is NotificationProductPayload {
+    return payload.type === "WATCHLIST" || payload.type === "SEARCH_FILTER";
+}
+
+export type NotificationPartnerApplicationApprovedPayload = {
+    readonly type: "APPROVED";
+    readonly partnerApplicationId: string;
+};
+
+export type NotificationPartnerApplicationRejectedPayload = {
+    readonly type: "REJECTED";
+    readonly partnerApplicationId: string;
+};
+
+export type NotificationPartnerApplicationPayload =
+    | NotificationPartnerApplicationApprovedPayload
+    | NotificationPartnerApplicationRejectedPayload;
+
+export type NotificationPartnerApplication = {
+    readonly type: "PARTNER_APPLICATION";
+    readonly shopName: string;
+    readonly partnerApplicationPayload: NotificationPartnerApplicationPayload;
+};
 
 export type Notification = {
     readonly originEventId: string;
@@ -141,12 +171,37 @@ function mapToNotificationSearchFilter(
     };
 }
 
+function mapToPartnerApplicationPayload(
+    apiData: PartnerApplicationPayloadData,
+): NotificationPartnerApplicationPayload {
+    switch (apiData.type) {
+        case "APPROVED":
+            return { type: "APPROVED", partnerApplicationId: apiData.partnerApplicationId };
+        case "REJECTED":
+            return { type: "REJECTED", partnerApplicationId: apiData.partnerApplicationId };
+    }
+}
+
+function mapToNotificationPartnerApplication(
+    apiData: PartnerApplicationNotificationPayloadData,
+): NotificationPartnerApplication {
+    return {
+        type: "PARTNER_APPLICATION",
+        shopName: apiData.shopName,
+        partnerApplicationPayload: mapToPartnerApplicationPayload(
+            apiData.partnerApplicationPayload,
+        ),
+    };
+}
+
 function mapToNotificationPayload(apiData: NotificationPayloadData): NotificationPayload {
     switch (apiData.type) {
         case "WATCHLIST":
             return mapToNotificationWatchlist(apiData);
         case "SEARCH_FILTER":
             return mapToNotificationSearchFilter(apiData);
+        case "PARTNER_APPLICATION":
+            return mapToNotificationPartnerApplication(apiData);
     }
 }
 

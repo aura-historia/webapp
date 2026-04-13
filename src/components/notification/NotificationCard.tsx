@@ -1,4 +1,7 @@
-import type { Notification } from "@/data/internal/notification/Notification.ts";
+import {
+    type Notification,
+    isProductNotification,
+} from "@/data/internal/notification/Notification.ts";
 import {
     getNotificationChangeParts,
     getNotificationTypeLabel,
@@ -26,7 +29,6 @@ export function NotificationCard({ notification }: { readonly notification: Noti
     const { data: userAccount } = useUserAccount();
     const consentGiven = userAccount?.prohibitedContentConsent ?? false;
     const { payload, seen, originEventId } = notification;
-    const image = payload.image;
     const changeParts = getNotificationChangeParts(payload, t, i18n.language);
 
     return (
@@ -44,15 +46,15 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                     )}
                     aria-hidden="true"
                 />
-                {image ? (
-                    isRestrictedImage(image, consentGiven) ? (
+                {isProductNotification(payload) && payload.image ? (
+                    isRestrictedImage(payload.image, consentGiven) ? (
                         <ProhibitedImagePlaceholder
                             className="size-48 shrink-0 rounded-lg"
                             showLabel={false}
                         />
                     ) : (
                         <ImageWithFallback
-                            src={image.url?.href}
+                            src={payload.image.url?.href}
                             alt=""
                             loading="lazy"
                             className="size-48 shrink-0 object-cover"
@@ -73,22 +75,28 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                         <span className="text-xs uppercase tracking-wide text-muted-foreground">
                             {getNotificationTypeLabel(payload, t)}
                         </span>
-                        <Link
-                            to="/shops/$shopSlugId/products/$productSlugId"
-                            params={{
-                                shopSlugId: payload.shopSlugId,
-                                productSlugId: payload.productSlugId,
-                            }}
-                            className="min-w-0 overflow-hidden"
-                            onClick={() => !seen && markAsSeen.mutate(originEventId)}
-                        >
-                            <H2 className="overflow-ellipsis line-clamp-1 hover:underline">
-                                {payload.productTitle}
-                            </H2>
-                        </Link>
-                        <H3 variant="muted" className="line-clamp-1 overflow-ellipsis">
-                            {payload.shopName}
-                        </H3>
+                        {isProductNotification(payload) ? (
+                            <Link
+                                to="/shops/$shopSlugId/products/$productSlugId"
+                                params={{
+                                    shopSlugId: payload.shopSlugId,
+                                    productSlugId: payload.productSlugId,
+                                }}
+                                className="min-w-0 overflow-hidden"
+                                onClick={() => !seen && markAsSeen.mutate(originEventId)}
+                            >
+                                <H2 className="overflow-ellipsis line-clamp-1 hover:underline">
+                                    {payload.productTitle}
+                                </H2>
+                            </Link>
+                        ) : (
+                            <H2 className="overflow-ellipsis line-clamp-1">{payload.shopName}</H2>
+                        )}
+                        {isProductNotification(payload) && (
+                            <H3 variant="muted" className="line-clamp-1 overflow-ellipsis">
+                                {payload.shopName}
+                            </H3>
+                        )}
                     </div>
 
                     <div className="flex flex-row gap-1 shrink-0">

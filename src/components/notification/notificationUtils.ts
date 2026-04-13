@@ -8,12 +8,14 @@ import { formatPrice } from "@/data/internal/price/Price.ts";
  * - WATCHLIST + PRICE_CHANGE  → "Preisänderung"
  * - WATCHLIST + STATE_CHANGE  → "Statusänderung"
  * - SEARCH_FILTER             → "Neuer Treffer"
+ * - PARTNER_APPLICATION       → "Partnerantrag"
  */
 export function getNotificationTypeLabel(
     payload: NotificationPayload,
     t: (key: string) => string,
 ): string {
     if (payload.type === "SEARCH_FILTER") return t("notifications.types.newMatch");
+    if (payload.type === "PARTNER_APPLICATION") return t("notifications.types.partnerApplication");
     if (payload.watchlistPayload.type === "PRICE_CHANGE")
         return t("notifications.types.priceChange");
     return t("notifications.types.stateChange");
@@ -31,6 +33,16 @@ export function getNotificationChangeParts(
     language: string,
 ): { from: string; to: string } | null {
     if (payload.type === "SEARCH_FILTER") return null;
+
+    if (payload.type === "PARTNER_APPLICATION") {
+        return {
+            from: t("notifications.types.partnerApplicationSubmitted"),
+            to:
+                payload.partnerApplicationPayload.type === "APPROVED"
+                    ? t("notifications.types.partnerApplicationStatusApproved")
+                    : t("notifications.types.partnerApplicationStatusRejected"),
+        };
+    }
 
     if (payload.watchlistPayload.type === "PRICE_CHANGE") {
         const { oldPrice, newPrice } = payload.watchlistPayload;

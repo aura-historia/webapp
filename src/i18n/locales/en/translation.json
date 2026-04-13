@@ -928,7 +928,13 @@
     "types": {
       "priceChange": "Price change",
       "stateChange": "Status change",
-      "newMatch": "New match"
+      "newMatch": "New match",
+      "partnerApplicationApproved": "Application approved",
+      "partnerApplicationRejected": "Application rejected",
+      "partnerApplication": "Partner application",
+      "partnerApplicationSubmitted": "Submitted",
+      "partnerApplicationStatusApproved": "Approved",
+      "partnerApplicationStatusRejected": "Rejected"
     },
     "delete": "Delete",
     "deleteAll": "Delete all",

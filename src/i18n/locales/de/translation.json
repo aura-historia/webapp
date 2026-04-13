@@ -929,7 +929,13 @@
     "types": {
       "priceChange": "Preisänderung",
       "stateChange": "Statusänderung",
-      "newMatch": "Neuer Treffer"
+      "newMatch": "Neuer Treffer",
+      "partnerApplicationApproved": "Antrag genehmigt",
+      "partnerApplicationRejected": "Antrag abgelehnt",
+      "partnerApplication": "Partnerantrag",
+      "partnerApplicationSubmitted": "Eingereicht",
+      "partnerApplicationStatusApproved": "Genehmigt",
+      "partnerApplicationStatusRejected": "Abgelehnt"
     },
     "delete": "Löschen",
     "deleteAll": "Alle löschen",
