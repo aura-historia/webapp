@@ -49,6 +49,18 @@ const stateChangePayload: NotificationPayload = {
     },
 };
 
+const partnerApplicationApprovedPayload: NotificationPayload = {
+    type: "PARTNER_APPLICATION",
+    shopName: "Antique Shop",
+    partnerApplicationPayload: { type: "APPROVED", partnerApplicationId: "pa-1" },
+};
+
+const partnerApplicationRejectedPayload: NotificationPayload = {
+    type: "PARTNER_APPLICATION",
+    shopName: "Old Books",
+    partnerApplicationPayload: { type: "REJECTED", partnerApplicationId: "pa-2" },
+};
+
 describe("getNotificationTypeLabel", () => {
     it("returns newMatch key for SEARCH_FILTER", () => {
         const result = getNotificationTypeLabel(searchFilterPayload, t);
@@ -63,6 +75,16 @@ describe("getNotificationTypeLabel", () => {
     it("returns stateChange key for WATCHLIST STATE_CHANGE", () => {
         const result = getNotificationTypeLabel(stateChangePayload, t);
         expect(result).toBe("notifications.types.stateChange");
+    });
+
+    it("returns partnerApplication key for PARTNER_APPLICATION APPROVED", () => {
+        const result = getNotificationTypeLabel(partnerApplicationApprovedPayload, t);
+        expect(result).toBe("notifications.types.partnerApplication");
+    });
+
+    it("returns partnerApplication key for PARTNER_APPLICATION REJECTED", () => {
+        const result = getNotificationTypeLabel(partnerApplicationRejectedPayload, t);
+        expect(result).toBe("notifications.types.partnerApplication");
     });
 });
 
@@ -110,5 +132,21 @@ describe("getNotificationChangeParts", () => {
         expect(result).not.toBeNull();
         expect(result?.from).toBe("productState.available");
         expect(result?.to).toBe("productState.sold");
+    });
+
+    it("returns submitted → approved for PARTNER_APPLICATION APPROVED", () => {
+        const result = getNotificationChangeParts(partnerApplicationApprovedPayload, t, "de");
+        expect(result).toEqual({
+            from: "notifications.types.partnerApplicationSubmitted",
+            to: "notifications.types.partnerApplicationStatusApproved",
+        });
+    });
+
+    it("returns submitted → rejected for PARTNER_APPLICATION REJECTED", () => {
+        const result = getNotificationChangeParts(partnerApplicationRejectedPayload, t, "de");
+        expect(result).toEqual({
+            from: "notifications.types.partnerApplicationSubmitted",
+            to: "notifications.types.partnerApplicationStatusRejected",
+        });
     });
 });

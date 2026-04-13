@@ -76,6 +76,40 @@ const mockSearchFilterNotification: GetNotificationData = {
     },
 };
 
+const mockPartnerApplicationApprovedNotification: GetNotificationData = {
+    originEventId: "origin-event-4",
+    notificationId: "notif-4",
+    seen: false,
+    external: false,
+    created: "2024-04-01T10:00:00Z",
+    updated: "2024-04-01T10:00:00Z",
+    payload: {
+        type: "PARTNER_APPLICATION",
+        shopName: "Antique Shop",
+        partnerApplicationPayload: {
+            type: "APPROVED",
+            partnerApplicationId: "pa-1",
+        },
+    },
+};
+
+const mockPartnerApplicationRejectedNotification: GetNotificationData = {
+    originEventId: "origin-event-5",
+    notificationId: "notif-5",
+    seen: true,
+    external: false,
+    created: "2024-05-01T10:00:00Z",
+    updated: "2024-05-01T10:00:00Z",
+    payload: {
+        type: "PARTNER_APPLICATION",
+        shopName: "Old Books",
+        partnerApplicationPayload: {
+            type: "REJECTED",
+            partnerApplicationId: "pa-2",
+        },
+    },
+};
+
 describe("mapToInternalNotification", () => {
     it("maps base fields correctly", () => {
         const result = mapToInternalNotification(mockWatchlistPriceChangeNotification);
@@ -168,6 +202,33 @@ describe("mapToInternalNotification", () => {
 
             expect(result.payload.productTitle).toBe("Baroque Painting");
             expect(result.payload.shopName).toBe("Art Gallery");
+        });
+    });
+
+    describe("PARTNER_APPLICATION payload", () => {
+        it("maps payload type to PARTNER_APPLICATION", () => {
+            const result = mapToInternalNotification(mockPartnerApplicationApprovedNotification);
+            expect(result.payload.type).toBe("PARTNER_APPLICATION");
+        });
+
+        it("maps shopName correctly", () => {
+            const result = mapToInternalNotification(mockPartnerApplicationApprovedNotification);
+            if (result.payload.type !== "PARTNER_APPLICATION") throw new Error("wrong type");
+            expect(result.payload.shopName).toBe("Antique Shop");
+        });
+
+        it("maps APPROVED partnerApplicationPayload correctly", () => {
+            const result = mapToInternalNotification(mockPartnerApplicationApprovedNotification);
+            if (result.payload.type !== "PARTNER_APPLICATION") throw new Error("wrong type");
+            expect(result.payload.partnerApplicationPayload.type).toBe("APPROVED");
+            expect(result.payload.partnerApplicationPayload.partnerApplicationId).toBe("pa-1");
+        });
+
+        it("maps REJECTED partnerApplicationPayload correctly", () => {
+            const result = mapToInternalNotification(mockPartnerApplicationRejectedNotification);
+            if (result.payload.type !== "PARTNER_APPLICATION") throw new Error("wrong type");
+            expect(result.payload.partnerApplicationPayload.type).toBe("REJECTED");
+            expect(result.payload.partnerApplicationPayload.partnerApplicationId).toBe("pa-2");
         });
     });
 });
