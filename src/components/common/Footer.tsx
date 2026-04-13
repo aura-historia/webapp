@@ -141,6 +141,14 @@ export function Footer() {
                                     </Link>
                                 </li>
                             ))}
+                            <li>
+                                <Link
+                                    to="/categories"
+                                    className="text-sm font-medium leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                >
+                                    {t("footer.allCategories")}
+                                </Link>
+                            </li>
                         </ul>
                     </div>
 
@@ -160,6 +168,14 @@ export function Footer() {
                                     </Link>
                                 </li>
                             ))}
+                            <li>
+                                <Link
+                                    to="/periods"
+                                    className="text-sm font-medium leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                >
+                                    {t("footer.allPeriods")}
+                                </Link>
+                            </li>
                         </ul>
                     </div>
 
@@ -181,6 +197,14 @@ export function Footer() {
                                     </Link>
                                 </li>
                             ))}
+                            <li>
+                                <Link
+                                    to="/collections"
+                                    className="text-sm font-medium leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                >
+                                    {t("footer.allCollections")}
+                                </Link>
+                            </li>
                         </ul>
                     </div>
 

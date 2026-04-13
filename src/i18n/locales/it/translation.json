@@ -44,6 +44,18 @@
     },
     "combination": {
       "defaultName": "Collezione"
+    },
+    "categories": {
+      "title": "Tutte le Categorie | Aura Historia",
+      "description": "Sfoglia tutte le categorie di antiquariato su Aura Historia. Mobili, gioielli, arte, monete, orologi e altro ancora da rivenditori affidabili in tutto il mondo."
+    },
+    "periods": {
+      "title": "Tutti i Periodi e Stili | Aura Historia",
+      "description": "Esplora tutti i periodi storici e gli stili artistici su Aura Historia. Dall'Antichità al presente, trova oggetti di antiquariato di ogni era."
+    },
+    "collections": {
+      "title": "Tutte le Collezioni | Aura Historia",
+      "description": "Sfoglia le collezioni curate di antiquariato su Aura Historia. Scopri combinazioni uniche di categorie e periodi."
     }
   },
   "validation": {
@@ -86,7 +98,10 @@
       "categories": "Categorie",
       "periodsAndStyles": "Periodi e Stili",
       "collections": "Collezioni popolari"
-    }
+    },
+    "allCategories": "Tutte le Categorie",
+    "allPeriods": "Tutti i Periodi e Stili",
+    "allCollections": "Tutte le Collezioni"
   },
   "account": {
     "title": "Il mio account",
@@ -981,5 +996,25 @@
       "allLoaded_one": "E' stato caricato l'unico oggetto di questa collezione.",
       "allLoaded_other": "Sono stati caricati tutti i {{count}} oggetti di questa collezione."
     }
+  },
+  "categoriesOverview": {
+    "title": "Tutte le Categorie",
+    "subtitle": "Sfoglia per Categoria",
+    "description": "Esplora la nostra gamma completa di categorie di antiquariato. Ogni categoria raccoglie oggetti selezionati da case d'aste e rivenditori di tutto il mondo.",
+    "itemCount": "{{formattedCount}} oggetti",
+    "itemCount_one": "{{formattedCount}} oggetto",
+    "explore": "Esplora"
+  },
+  "periodsOverview": {
+    "title": "Tutti i Periodi e Stili",
+    "subtitle": "Sfoglia per Periodo",
+    "description": "Viaggia attraverso la storia e scopri oggetti di antiquariato di ogni era. Ogni periodo rivela l'artigianato e lo spirito artistico del suo tempo.",
+    "explore": "Esplora"
+  },
+  "collectionsOverview": {
+    "title": "Tutte le Collezioni",
+    "subtitle": "Collezioni Curate",
+    "description": "Scopri le nostre collezioni curate che combinano categorie specifiche con periodi storici. Ogni collezione offre una prospettiva unica sull'artigianato e sull'epoca.",
+    "explore": "Esplora"
   }
 }

@@ -22,7 +22,10 @@ type PageMetaKey =
     | "account"
     | "watchlist"
     | "notifications"
-    | "consentSettings";
+    | "consentSettings"
+    | "categories"
+    | "periods"
+    | "collections";
 
 const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string }> = {
     home: {
@@ -57,6 +60,18 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     consentSettings: {
         title: "meta.consentSettings.title",
         description: "meta.consentSettings.description",
+    },
+    categories: {
+        title: "meta.categories.title",
+        description: "meta.categories.description",
+    },
+    periods: {
+        title: "meta.periods.title",
+        description: "meta.periods.description",
+    },
+    collections: {
+        title: "meta.collections.title",
+        description: "meta.collections.description",
     },
 };
 

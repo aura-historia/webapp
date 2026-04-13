@@ -47,6 +47,18 @@
     },
     "combination": {
       "defaultName": "Sammlung"
+    },
+    "categories": {
+      "title": "Alle Kategorien | Aura Historia",
+      "description": "Entdecken Sie alle Antiquitäten-Kategorien auf Aura Historia. Möbel, Schmuck, Kunst, Münzen, Uhren und vieles mehr von vertrauenswürdigen Händlern weltweit."
+    },
+    "periods": {
+      "title": "Alle Epochen & Stile | Aura Historia",
+      "description": "Erkunden Sie alle historischen Epochen und Kunststile auf Aura Historia. Von der Antike bis zur Gegenwart – finden Sie Antiquitäten aus jeder Ära."
+    },
+    "collections": {
+      "title": "Alle Sammlungen | Aura Historia",
+      "description": "Durchstöbern Sie kuratierte Antiquitäten-Sammlungen auf Aura Historia. Entdecken Sie einzigartige Kombinationen von Kategorien und Epochen."
     }
   },
   "validation": {
@@ -89,7 +101,10 @@
       "categories": "Kategorien",
       "periodsAndStyles": "Epochen & Stile",
       "collections": "Beliebte Sammlungen"
-    }
+    },
+    "allCategories": "Alle Kategorien",
+    "allPeriods": "Alle Epochen & Stile",
+    "allCollections": "Alle Sammlungen"
   },
   "account": {
     "title": "Mein Account",
@@ -1016,5 +1031,25 @@
       "allLoaded_one": "Sie haben das einzige Objekt dieser Sammlung gesehen.",
       "allLoaded_other": "Sie haben alle {{count}} Objekte dieser Sammlung gesehen"
     }
+  },
+  "categoriesOverview": {
+    "title": "Alle Kategorien",
+    "subtitle": "Nach Kategorie durchsuchen",
+    "description": "Entdecken Sie unser gesamtes Spektrum an Antiquitäten-Kategorien. Jede Kategorie vereint kuratierte Objekte von Auktionshäusern und Händlern weltweit.",
+    "itemCount": "{{formattedCount}} Objekte",
+    "itemCount_one": "{{formattedCount}} Objekt",
+    "explore": "Entdecken"
+  },
+  "periodsOverview": {
+    "title": "Alle Epochen & Stile",
+    "subtitle": "Nach Epoche durchsuchen",
+    "description": "Reisen Sie durch die Geschichte und entdecken Sie Antiquitäten aus jeder Ära. Jede Epoche offenbart die Handwerkskunst und den künstlerischen Geist ihrer Zeit.",
+    "explore": "Entdecken"
+  },
+  "collectionsOverview": {
+    "title": "Alle Sammlungen",
+    "subtitle": "Kuratierte Sammlungen",
+    "description": "Entdecken Sie unsere kuratierten Sammlungen, die bestimmte Kategorien mit historischen Epochen verbinden. Jede Sammlung bietet eine fokussierte Perspektive auf eine einzigartige Verbindung von Handwerk und Ära.",
+    "explore": "Entdecken"
   }
 }
