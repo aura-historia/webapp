@@ -9,12 +9,18 @@ import {
     SelectValue,
 } from "../ui/select";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
-import { POPULAR_CATEGORY_KEYS, POPULAR_PERIOD_KEYS, SOCIAL_LINKS } from "./footer/Footer.data.ts";
+import {
+    POPULAR_CATEGORY_KEYS,
+    POPULAR_COMBINATION_SLUGS,
+    POPULAR_PERIOD_KEYS,
+    SOCIAL_LINKS,
+} from "./footer/Footer.data.ts";
 import { useQuery } from "@tanstack/react-query";
 import { getCategoriesOptions, getPeriodsOptions } from "@/client/@tanstack/react-query.gen.ts";
 import { mapToCategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
 import { mapToPeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
+import { COMBINATION_MAP } from "@/data/combinations/combinations.ts";
 
 export function Footer() {
     const { t, i18n } = useTranslation();
@@ -57,10 +63,14 @@ export function Footer() {
                 (periodKeyPositions.get(b.periodKey) ?? 0),
         );
 
+    const popularCombinations = POPULAR_COMBINATION_SLUGS.map((slug) =>
+        COMBINATION_MAP.get(slug),
+    ).filter((c) => c != null);
+
     return (
         <footer className="w-full border-t border-outline-variant/20 bg-surface-container-low">
             <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-2 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-2 lg:grid-cols-5">
                     <div className="flex flex-col gap-8">
                         <p className="font-display text-3xl leading-8 text-primary-container">
                             {t("footer.brandName")}
@@ -147,6 +157,27 @@ export function Footer() {
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
                                     >
                                         {period.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 className="font-display text-lg leading-7 text-primary-container">
+                            {t("footer.sections.collections")}
+                        </h3>
+                        <ul className="mt-4 space-y-2">
+                            {popularCombinations.map((combination) => (
+                                <li key={combination.slug}>
+                                    <Link
+                                        to="/collections/$combinationSlug"
+                                        params={{ combinationSlug: combination.slug }}
+                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                    >
+                                        {t(`combination.names.${combination.slug}`, {
+                                            defaultValue: combination.slug,
+                                        })}
                                     </Link>
                                 </li>
                             ))}
