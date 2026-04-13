@@ -41,6 +41,9 @@
     },
     "period": {
       "defaultName": "Período"
+    },
+    "combination": {
+      "defaultName": "Colección"
     }
   },
   "validation": {
@@ -81,7 +84,8 @@
       "followUs": "Síguenos",
       "contact": "Contacto",
       "categories": "Categorías",
-      "periodsAndStyles": "Períodos y Estilos"
+      "periodsAndStyles": "Períodos y Estilos",
+      "collections": "Colecciones populares"
     }
   },
   "account": {
@@ -906,5 +910,70 @@
     "analyticsLabel": "Análisis y seguimiento",
     "analyticsDescription": "Nos permite analizar el uso y mejorar tu experiencia a través de Google Analytics. Incluye almacenamiento de anuncios, almacenamiento de analíticas, datos de usuario de anuncios y personalización de anuncios.",
     "saved": "Tus preferencias de cookies han sido guardadas."
+  },
+  "combination": {
+    "header": {
+      "archiveLabel": "Colección",
+      "overviewTitle": "Contexto curatorial",
+      "imageAlt": "Imagen representativa de {{combination}}"
+    },
+    "names": {
+      "biedermeier-furniture": "Muebles Biedermeier",
+      "ancient-weapons": "Armas antiguas",
+      "art-nouveau-jewelry": "Joyería Art Nouveau",
+      "art-deco-furniture": "Muebles Art Déco",
+      "baroque-furniture": "Muebles barrocos",
+      "renaissance-paintings": "Pinturas del Renacimiento",
+      "ancient-coins": "Monedas antiguas",
+      "art-nouveau-lamps": "Lámparas Art Nouveau",
+      "art-deco-jewelry": "Joyería Art Déco",
+      "gothic-art": "Arte gótico",
+      "rococo-furniture": "Muebles rococó",
+      "ancient-jewelry": "Joyería antigua",
+      "victorian-clocks": "Relojes victorianos",
+      "baroque-silver": "Plata barroca",
+      "empire-furniture": "Muebles Imperio",
+      "biedermeier-clocks": "Relojes Biedermeier",
+      "mid-century-furniture": "Muebles Mid-Century",
+      "ancient-textiles": "Textiles antiguos",
+      "art-nouveau-art": "Arte Art Nouveau",
+      "renaissance-weapons": "Armas del Renacimiento"
+    },
+    "descriptions": {
+      "default": "Descubra objetos cuidadosamente seleccionados de esta colección con detalles sobre procedencia, estado y contexto histórico. Nuestra base de datos agrega ofertas de casas de subastas especializadas, comerciantes y mercados, permitiéndole comparar un amplio espectro de antigüedades auténticas en un solo lugar.",
+      "biedermeier-furniture": "Los coleccionistas de muebles Biedermeier auténticos encontrarán aquí la elegancia sobria del período 1815-1848. Descubra secreteres de cerezo, cómodas de nogal y mesas Biedermeier de casas de subastas y comerciantes especializados. La era Biedermeier se distingue por sus líneas limpias, maderas nobles y una deliberada moderación decorativa. En Aura Historia, compare muebles de esta edad dorada de la cultura doméstica burguesa ofrecidos por numerosos especialistas europeos.",
+      "ancient-weapons": "Quienes buscan armas antiguas descubrirán aquí espadas, lanzas y armaduras de origen griego, romano y oriental. Desde dagas de la Edad del Bronce hasta gladios romanos y cascos etruscos, cada pieza narra conflictos y tecnologías militares de milenios pasados. Nuestra plataforma agrega ofertas de las principales casas de subastas y comerciantes de armas para ofrecerle la selección más amplia.",
+      "art-nouveau-jewelry": "Los amantes de la joyería Art Nouveau encontrarán aquí broches filigranados y colgantes esmaltados de la Belle Époque. El Art Nouveau revolucionó la joyería con sus formas botánicas, motivos de insectos y materiales novedosos como el esmalte plique-à-jour. Encuentre en Aura Historia piezas exquisitas de joyeros especializados y casas de subastas internacionales.",
+      "art-deco-furniture": "Los compradores de muebles Art Déco encontrarán aquí la elegancia geométrica de los años 1920 y 1930. El estilo Art Déco combina materiales lujosos con una modernidad audaz – maderas exóticas, metal pulido y patrones geométricos definen el diseño. Compare en nuestra plataforma una amplia gama de muebles de esta era icónica provenientes de fuentes internacionales.",
+      "baroque-furniture": "Los coleccionistas de muebles barrocos encontrarán aquí armarios suntuosos y consolas doradas de los siglos XVII y XVIII. El período barroco produjo tallas opulentas, marquetería y dorados que siguen cautivando. Desde gabinetes italianos hasta armarios holandeses, nuestra plataforma ofrece acceso a una amplia gama de ofertas de comerciantes y casas de subastas especializadas.",
+      "renaissance-paintings": "Los amantes del arte encontrarán aquí pinturas renacentistas de los siglos XV y XVI, desde retablos hasta retratos y escenas religiosas. El Renacimiento marca una edad dorada de la pintura europea con maestros como Botticelli, Tiziano y Durero. En Aura Historia, compare pinturas de esta era ofrecidas por las principales casas de subastas, galerías y marchantes de arte especializados de todo el mundo.",
+      "ancient-coins": "Los numismáticos encontrarán aquí dracmas griegos, denarios romanos y sólidos bizantinos. Las monedas antiguas son testimonios únicos de culturas pasadas, documentando gobernantes, deidades y eventos históricos. Nuestra plataforma reúne ofertas de casas de subastas numismáticas y comerciantes especializados de renombre para ayudarle a encontrar la adición ideal a su colección.",
+      "art-nouveau-lamps": "Quienes buscan lámparas Art Nouveau descubrirán aquí luminarias Tiffany y lámparas Gallé de alrededor de 1900. La iluminación Art Nouveau combina perfección artesanal con formas orgánicas – arte en vidrio, bronce y esmalte se fusionan en impresionantes fuentes de luz. Compare en Aura Historia lámparas de Tiffany Studios, Gallé, Daum y otras manufacturas renombradas de numerosas fuentes especializadas.",
+      "art-deco-jewelry": "Los amantes de la joyería Art Déco encontrarán aquí broches geométricos y pulseras de platino de los años 1920 y 1930. La joyería Art Déco combina precisión geométrica con gemas lujosas y engastes innovadores. Desde anillos cóctel hasta sautoirs, nuestra plataforma permite comparar un amplio espectro de esta glamurosa era joyera proveniente de casas de subastas internacionales.",
+      "gothic-art": "Los coleccionistas de arte gótico descubrirán aquí retablos, esculturas y pinturas de los siglos XII al XV. El Gótico produjo una fusión única de espiritualidad y estética – desde delicadas Madonas hasta vitrales luminosos y retablos tallados monumentales. En Aura Historia, compare obras de arte góticas de diversas regiones y consulte ofertas de fuentes especializadas.",
+      "rococo-furniture": "Quienes buscan muebles rococó encontrarán aquí cómodas curvas y bergères del siglo XVIII. El Rococó se caracteriza por ornamentos asimétricos, motivos de conchas y una ligereza lúdica que sucedió al estricto Barroco. Desde cómodas Luis XV hasta consolas venecianas, Aura Historia ofrece acceso a una amplia gama de ofertas de comerciantes y casas de subastas internacionales.",
+      "ancient-jewelry": "Los coleccionistas de joyería antigua encontrarán aquí cadenas de oro, camafeos y fíbulas de origen griego y romano. La joyería antigua fascina por su perfección artesanal y significado simbólico – desde motivos de coronas doradas hasta gemas grabadas y pendientes filigranados. En nuestra plataforma, compare objetos de diversas culturas de la Antigüedad ofrecidos por especialistas de renombre.",
+      "victorian-clocks": "Los aficionados a la relojería encontrarán aquí relojes victorianos y relojes de bolsillo del siglo XIX de fabricantes ingleses y europeos. La era victoriana produjo una notable variedad de tipos de relojes – desde relojes ornamentales hasta reguladores y relojes esqueleto. En Aura Historia, compare relojes históricos y consulte ofertas de casas de subastas y comerciantes especializados.",
+      "baroque-silver": "Los coleccionistas de plata barroca encontrarán aquí copas ceremoniales y candelabros de los siglos XVII y XVIII. La plata barroca impresiona por su trabajo de repujado opulento y técnicas magistrales de dorado. Desde copas de Augsburgo hasta candelabros londinenses, nuestra plataforma agrega ofertas de casas de subastas y comerciantes de plata especializados para una visión completa.",
+      "empire-furniture": "Los compradores de muebles Imperio encontrarán aquí la elegancia clásica de la era napoleónica. El estilo Imperio combina un lenguaje formal antiguo con grandeza imperial – motivos egipcios, bronces dorados y simetría estricta definen esta era. En Aura Historia, compare muebles Imperio de fuentes francesas, alemanas e italianas para encontrar la pieza perfecta.",
+      "biedermeier-clocks": "Los aficionados a la relojería encontrarán aquí relojes Biedermeier auténticos del período 1815-1848. La relojería Biedermeier se distingue por formas arquitectónicas limpias, cajas de madera noble y movimientos precisos. Desde relojes Laterndl hasta elegantes relojes de mesa, nuestra plataforma permite comparar estos cronómetros de la cultura doméstica burguesa de numerosas fuentes especializadas.",
+      "mid-century-furniture": "Los amantes del diseño encontrarán aquí clásicos del mobiliario Mid-Century Modern de los años 1950 y 1960. El diseño Mid-Century revolucionó el mobiliario con formas orgánicas, materiales innovadores y una fusión de forma y función. Desde sillones lounge hasta aparadores y mesas de comedor, Aura Historia ofrece acceso a una amplia gama de ofertas de especialistas vintage internacionales.",
+      "ancient-textiles": "Los coleccionistas de textiles encontrarán aquí tejidos y prendas de la Antigüedad. Los textiles antiguos se encuentran entre los testimonios más raros y frágiles de culturas pasadas – sus patrones, técnicas de teñido y materiales revelan rutas comerciales y jerarquías sociales. En nuestra plataforma, compare estos preciosos fragmentos de especialistas internacionales y ventas museísticas.",
+      "art-nouveau-art": "Los amantes del arte encontrarán aquí pinturas, grabados y objetos decorativos del movimiento Art Nouveau. El arte Art Nouveau abarca un amplio espectro – desde óleos hasta litografías, carteles, cerámicas y vidrio decorativo. En Aura Historia, compare obras de este movimiento revolucionario ofrecidas por casas de subastas, galerías y marchantes especializados de todo el mundo.",
+      "renaissance-weapons": "Los coleccionistas de armas renacentistas encontrarán aquí armaduras ornamentadas y espadas de los siglos XV y XVI. El Renacimiento trajo innovaciones tecnológicas y embellecimientos artísticos a la armería – desde armaduras grabadas hasta pistolas de rueda. Nuestra plataforma agrega ofertas de casas de subastas de armas y armaduras de renombre para que pueda comparar estos artefactos históricos."
+    },
+    "products": {
+      "error": {
+        "title": "Error de carga",
+        "description": "No se pudieron cargar los objetos de esta colección. Inténtelo de nuevo más tarde."
+      },
+      "noResults": {
+        "title": "No se encontraron objetos",
+        "description": "Actualmente no hay objetos disponibles para esta colección."
+      },
+      "loadingMore": "Cargando más objetos…",
+      "allLoaded_one": "Se ha cargado el único objeto de esta colección.",
+      "allLoaded_other": "Se han cargado los {{count}} objetos de esta colección."
+    }
   }
 }

@@ -38,6 +38,17 @@ export const POPULAR_PERIOD_KEYS: string[] = [
     "MID_CENTURY_MODERN",
 ];
 
+export const POPULAR_COMBINATION_SLUGS: string[] = [
+    "biedermeier-furniture",
+    "art-nouveau-jewelry",
+    "art-deco-furniture",
+    "ancient-weapons",
+    "baroque-furniture",
+    "renaissance-paintings",
+    "ancient-coins",
+    "mid-century-furniture",
+];
+
 export const SOCIAL_LINKS: SocialLink[] = [
     {
         name: "X",

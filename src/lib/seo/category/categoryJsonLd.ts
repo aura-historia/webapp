@@ -1,5 +1,5 @@
 import type { GetCategoryData } from "@/client";
-import { getCategoryDescription } from "@/lib/seo/categoryDescription.ts";
+import { getCategoryDescription } from "@/lib/seo/category/categoryDescription.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 
 type CategoryCollectionPageJsonLd = {

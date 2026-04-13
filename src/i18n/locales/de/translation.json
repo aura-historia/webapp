@@ -41,6 +41,9 @@
     },
     "period": {
       "defaultName": "Epoche"
+    },
+    "combination": {
+      "defaultName": "Sammlung"
     }
   },
   "validation": {
@@ -81,7 +84,8 @@
       "followUs": "Folge uns",
       "contact": "Kontakt",
       "categories": "Kategorien",
-      "periodsAndStyles": "Epochen & Stile"
+      "periodsAndStyles": "Epochen & Stile",
+      "collections": "Beliebte Sammlungen"
     }
   },
   "account": {
@@ -907,5 +911,70 @@
     "analyticsLabel": "Analyse & Tracking",
     "analyticsDescription": "Ermöglicht uns die Analyse der Nutzung und die Verbesserung Ihres Erlebnisses über Google Analytics. Beinhaltet Anzeigenspeicher, Analysespeicher, Anzeigenbenutzerdaten und Anzeigenpersonalisierung.",
     "saved": "Ihre Cookie-Einstellungen wurden gespeichert."
+  },
+  "combination": {
+    "header": {
+      "archiveLabel": "Sammlung",
+      "overviewTitle": "Kuratorische Einordnung",
+      "imageAlt": "Repräsentatives Bild für {{combination}}"
+    },
+    "names": {
+      "biedermeier-furniture": "Biedermeier Möbel",
+      "ancient-weapons": "Antike Waffen",
+      "art-nouveau-jewelry": "Jugendstil Schmuck",
+      "art-deco-furniture": "Art Déco Möbel",
+      "baroque-furniture": "Barock Möbel",
+      "renaissance-paintings": "Renaissance Gemälde",
+      "ancient-coins": "Antike Münzen",
+      "art-nouveau-lamps": "Jugendstil Lampen",
+      "art-deco-jewelry": "Art Déco Schmuck",
+      "gothic-art": "Gotische Kunst",
+      "rococo-furniture": "Rokoko Möbel",
+      "ancient-jewelry": "Antiker Schmuck",
+      "victorian-clocks": "Viktorianische Uhren",
+      "baroque-silver": "Barock Silber",
+      "empire-furniture": "Empire Möbel",
+      "biedermeier-clocks": "Biedermeier Uhren",
+      "mid-century-furniture": "Mid-Century Möbel",
+      "ancient-textiles": "Antike Textilien",
+      "art-nouveau-art": "Jugendstil Kunst",
+      "renaissance-weapons": "Renaissance Waffen"
+    },
+    "descriptions": {
+      "default": "Entdecken Sie sorgfältig kuratierte Objekte dieser Sammlung mit Hinweisen zu Herkunft, Zustand und historischem Kontext. Unsere Datenbank aggregiert Angebote spezialisierter Auktionshäuser, Händler und Marktplätze, damit Sie ein breites Spektrum authentischer Antiquitäten an einem Ort vergleichen können.",
+      "biedermeier-furniture": "Sammler, die nach authentischen Biedermeier-Möbeln suchen, finden hier schlichte Eleganz aus der Zeit von 1815 bis 1848. Entdecken Sie Kirschholz-Sekretäre, Nussbaum-Kommoden und Biedermeiertische von spezialisierten Auktionshäusern und Händlern. Die Biedermeier-Epoche zeichnet sich durch klare Linien, edle Hölzer und eine bewusste Zurückhaltung im Dekor aus. Auf Aura Historia können Sie Möbel aus dieser Blütezeit bürgerlicher Wohnkultur vergleichen, die von zahlreichen europäischen Auktionshäusern und Fachhändlern angeboten werden.",
+      "ancient-weapons": "Wer nach antiken Waffen der Antike sucht, entdeckt hier Schwerter, Speere und Rüstungen aus griechischer, römischer und nahöstlicher Herkunft. Finden Sie authentische Militaria und Blankwaffen bei spezialisierten Händlern. Von bronzezeitlichen Dolchen über römische Gladii bis hin zu etruskischen Helmen – jedes Stück erzählt von den Konflikten und Kriegstechnologien vergangener Jahrtausende. Unsere Plattform aggregiert Angebote führender Auktionshäuser und Waffenhändler, um Ihnen die größte Auswahl zu bieten.",
+      "art-nouveau-jewelry": "Liebhaber von Jugendstil-Schmuck finden hier filigrane Broschen, Emaille-Anhänger und organisch geformte Ringe der Belle Époque. Entdecken Sie Schmuckstücke von Lalique, Fouquet und anderen Meistern des Art Nouveau. Der Jugendstil revolutionierte die Schmuckkunst mit seinen fließenden Pflanzenformen, Insektenmotiven und der Verwendung neuartiger Materialien wie Plique-à-jour-Emaille und Opalglas. Finden Sie auf Aura Historia erlesene Stücke von spezialisierten Juwelieren und internationalen Auktionshäusern.",
+      "art-deco-furniture": "Käufer, die nach Art-Déco-Möbeln suchen, finden hier geometrische Eleganz der 1920er und 1930er Jahre. Entdecken Sie lackierte Kommoden, Makassar-Ebenholz-Tische und chromverzierte Möbel von spezialisierten Auktionshäusern. Der Art-Déco-Stil vereint luxuriöse Materialien mit kühner Modernität – exotische Hölzer, poliertes Metall und geometrische Muster prägen das Design. Vergleichen Sie auf unserer Plattform ein breites Spektrum an Möbeln dieser ikonischen Epoche aus internationalen Quellen.",
+      "baroque-furniture": "Sammler barocker Möbel finden hier prunkvolle Schränke, vergoldete Konsoltische und repräsentative Möbel des 17. und 18. Jahrhunderts. Entdecken Sie authentische Barockmöbel von europäischen Spezialisten. Die Barockzeit brachte opulente Schnitzereien, Intarsienarbeiten und Vergoldungen hervor, die bis heute Sammler faszinieren. Von italienischen Kabinettschränken bis zu holländischen Dielenschränken bietet unsere Plattform Zugang zu einem breiten Angebot spezialisierter Händler und Auktionshäuser.",
+      "renaissance-paintings": "Kunstliebhaber, die nach Renaissance-Gemälden suchen, entdecken hier Werke von der Frührenaissance bis zum Manierismus. Finden Sie Tafelbilder, Porträts und religiöse Darstellungen aus dem 15. und 16. Jahrhundert. Die Renaissance markiert eine Blütezeit der europäischen Malerei mit Meistern wie Botticelli, Tizian und Dürer. Auf Aura Historia können Sie Gemälde aus dieser Epoche vergleichen, die von führenden Kunstauktionshäusern, Galerien und spezialisierten Kunsthändlern weltweit angeboten werden.",
+      "ancient-coins": "Numismatiker, die nach antiken Münzen suchen, finden hier griechische Drachmen, römische Denare und byzantinische Solidi. Entdecken Sie seltene Prägungen und authentische Münzen der Antike bei spezialisierten Händlern. Antike Münzen sind einzigartige Zeugnisse vergangener Kulturen – sie dokumentieren Herrscher, Gottheiten und historische Ereignisse. Unsere Plattform bündelt Angebote renommierter Münzauktionshäuser und Fachhändler, damit Sie die ideale Ergänzung für Ihre Sammlung finden.",
+      "art-nouveau-lamps": "Wer nach Jugendstil-Lampen sucht, entdeckt hier Tiffany-Leuchten, Gallé-Vasenlampen und florale Deckenleuchten der Art-Nouveau-Epoche. Finden Sie authentische Beleuchtungsobjekte um 1900 bei spezialisierten Händlern. Die Jugendstil-Beleuchtung verbindet handwerkliche Perfektion mit organischen Formen – Glaskunst, Bronze und Emaille verschmelzen zu beeindruckenden Lichtquellen. Vergleichen Sie auf Aura Historia Lampen von Tiffany Studios, Gallé, Daum und weiteren renommierten Manufakturen aus zahlreichen spezialisierten Quellen.",
+      "art-deco-jewelry": "Liebhaber von Art-Déco-Schmuck finden hier geometrische Broschen, Diamant-Armbänder und Platin-Ringe der 1920er und 1930er Jahre. Entdecken Sie Schmuckstücke von Cartier, Van Cleef & Arpels und anderen Meistern. Der Art-Déco-Schmuck vereint geometrische Präzision mit luxuriösen Edelsteinen und innovativen Fassungen. Von Cocktailringen über Sautoirs bis zu Clip-Broschen – auf unserer Plattform können Sie ein breites Spektrum dieser glamourösen Schmuckepoche aus internationalen Auktionshäusern vergleichen.",
+      "gothic-art": "Sammler gotischer Kunst entdecken hier Altarbilder, Skulpturen und Tafelmalereien des 12. bis 15. Jahrhunderts. Finden Sie authentische gotische Kunstwerke und Sakralobjekte bei spezialisierten Händlern und Auktionshäusern. Die Gotik brachte eine einzigartige Verschmelzung von Spiritualität und Ästhetik hervor – von filigranenen Madonnen über leuchtende Glasfenster bis zu monumentalen Schnitzaltären. Auf Aura Historia können Sie gotische Kunstwerke verschiedener Regionen und Epochen vergleichen und Angebote spezialisierter Quellen einsehen.",
+      "rococo-furniture": "Wer nach Rokoko-Möbeln sucht, findet hier geschwungene Kommoden, Bergèren und zierliche Schreibtische des 18. Jahrhunderts. Entdecken Sie die Eleganz des französischen Rokoko bei spezialisierten Antiquitätenhändlern. Das Rokoko zeichnet sich durch asymmetrische Ornamente, Muschelwerk und eine spielerische Leichtigkeit aus, die das strenge Barock ablöste. Von Louis-XV-Kommoden bis zu venezianischen Konsolentischen bietet Aura Historia Zugang zu einem breiten Angebot internationaler Händler und Auktionshäuser.",
+      "ancient-jewelry": "Sammler antiken Schmucks finden hier Goldketten, Gemmen und Fibeln aus griechischer, römischer und etruskischer Herkunft. Entdecken Sie authentische Schmuckstücke der Antike bei spezialisierten Auktionshäusern. Antiker Schmuck fasziniert durch seine handwerkliche Perfektion und symbolische Bedeutung – von Goldkranzmotiven über geschnittene Edelsteine bis zu filigranen Ohrgehängen. Auf unserer Plattform können Sie Objekte aus verschiedenen Kulturen und Epochen des Altertums vergleichen, die von renommierten Spezialisten angeboten werden.",
+      "victorian-clocks": "Uhrenliebhaber, die nach viktorianischen Uhren suchen, finden hier Standuhren, Taschenuhren und Kaminuhren der Gründerzeit. Entdecken Sie Zeitmesser aus dem 19. Jahrhundert von englischen und europäischen Manufakturen. Die viktorianische Ära brachte eine bemerkenswerte Vielfalt an Uhrentypen hervor – von ornamentalen Bracket-Clocks über Regulatoren bis zu Skelettuhren. Auf Aura Historia können Sie historische Uhren dieser Epoche vergleichen und Angebote führender Uhrenauktionshäuser und Fachhandlungen einsehen.",
+      "baroque-silver": "Sammler barocken Silbers finden hier Prunkpokale, Tafelaufsätze und Leuchter des 17. und 18. Jahrhunderts. Entdecken Sie vergoldetes Silber und Meisterarbeiten europäischer Silberschmiede bei spezialisierten Händlern. Barockes Silber besticht durch opulente Treibarbeiten, reichen Dekor und meisterhafte Vergoldungstechniken. Von Augsburger Prunkhumpen über Londoner Kandelaber bis zu holländischen Salzfässern – unsere Plattform aggregiert Angebote spezialisierter Silberauktionshäuser und Händler für eine umfassende Übersicht.",
+      "empire-furniture": "Käufer, die nach Empire-Möbeln suchen, finden hier klassizistische Eleganz der napoleonischen Ära. Entdecken Sie Mahagoni-Sekretäre, Säulentische und bronzeverzierte Kommoden bei spezialisierten Auktionshäusern. Der Empire-Stil vereint antike Formensprache mit imperialer Grandeur – ägyptische Motive, vergoldete Bronzebeschläge und strenge Symmetrie prägen diese Epoche. Auf Aura Historia können Sie Empire-Möbel aus französischen, deutschen und italienischen Quellen vergleichen und das passende Stück für Ihre Sammlung finden.",
+      "biedermeier-clocks": "Uhrenliebhaber finden hier authentische Biedermeier-Uhren aus der Zeit von 1815 bis 1848. Entdecken Sie Wiener Regulatoren, Kommodenuhren und Portaluhren mit typisch schlichter Eleganz bei Spezialisten. Die Biedermeier-Uhrmacherei zeichnet sich durch klare architektonische Formen, edles Holzgehäuse und präzise Uhrwerke aus. Von Laterndluhren über Stockuhren bis zu eleganten Tischuhren – auf unserer Plattform können Sie diese Zeitmesser bürgerlicher Wohnkultur von zahlreichen Fachquellen vergleichen.",
+      "mid-century-furniture": "Designliebhaber, die nach Mid-Century-Modern-Möbeln suchen, finden hier Klassiker der 1950er und 1960er Jahre. Entdecken Sie Stücke von Eames, Wegner und Jacobsen bei spezialisierten Vintage-Händlern. Das Mid-Century Design revolutionierte die Möbelwelt mit organischen Formen, innovativen Materialien und einer Verschmelzung von Form und Funktion. Von Lounge Chairs über Sideboards bis zu Esstischen bietet Aura Historia Zugang zu einem breiten Angebot internationaler Vintage-Spezialisten und Designauktionshäuser.",
+      "ancient-textiles": "Textilsammler finden hier antike Stoffe, Gewänder und Webtextilien aus der Antike. Entdecken Sie ägyptische Koptenstoffe, römische Tunika-Fragmente und griechische Textilreste bei spezialisierten Auktionshäusern. Antike Textilien gehören zu den seltensten und fragilsten Zeugnissen vergangener Kulturen – ihre Muster, Färbetechniken und Materialien offenbaren Handelsrouten, soziale Hierarchien und ästhetische Vorlieben. Auf unserer Plattform können Sie diese kostbaren Fragmente von internationalen Spezialisten und Museumsverkäufen vergleichen.",
+      "art-nouveau-art": "Kunstliebhaber, die nach Jugendstil-Kunst suchen, entdecken hier Gemälde, Grafiken und dekorative Objekte der Art-Nouveau-Bewegung. Finden Sie Werke von Klimt, Mucha und anderen Jugendstil-Meistern. Die Jugendstilkunst umfasst ein breites Spektrum – von Ölgemälden über Lithographien und Plakate bis zu dekorativen Keramiken und Glaskunst. Auf Aura Historia können Sie Kunstwerke dieser revolutionären Bewegung vergleichen, die von spezialisierten Kunstauktionshäusern, Galerien und Händlern weltweit angeboten werden.",
+      "renaissance-weapons": "Sammler von Renaissance-Waffen finden hier prachtvolle Rüstungen, Schwerter und Feuerwaffen des 15. und 16. Jahrhunderts. Entdecken Sie authentische Stücke aus europäischen Waffenkammern bei spezialisierten Händlern. Die Renaissance brachte technologische Innovationen und kunstvolle Verzierungen in der Waffenschmiedekunst hervor – von geätzten Harnischen über Reiterschwerter bis zu frühen Radschlosspistolen. Unsere Plattform aggregiert Angebote renommierter Waffen- und Rüstungsauktionshäuser, damit Sie diese historischen Artefakte vergleichen können."
+    },
+    "products": {
+      "error": {
+        "title": "Fehler beim Laden",
+        "description": "Die Objekte dieser Sammlung konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+      },
+      "noResults": {
+        "title": "Keine Objekte gefunden",
+        "description": "Für diese Sammlung sind derzeit keine Objekte verfügbar."
+      },
+      "loadingMore": "Weitere Objekte werden geladen …",
+      "allLoaded_one": "Sie haben das einzige Objekt dieser Sammlung gesehen.",
+      "allLoaded_other": "Sie haben alle {{count}} Objekte dieser Sammlung gesehen"
+    }
   }
 }
