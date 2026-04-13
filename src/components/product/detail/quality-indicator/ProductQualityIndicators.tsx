@@ -1,7 +1,4 @@
 import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
-import { Card } from "@/components/ui/card.tsx";
-import { H2 } from "@/components/typography/H2.tsx";
-import { Calendar, ShieldCheck, Star, FileText, Paintbrush } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { ProductQualityIndicatorItem } from "./ProductQualityIndicatorItem.tsx";
 
@@ -24,7 +21,6 @@ export function ProductQualityIndicators({ product }: { readonly product: Produc
         () => [
             {
                 key: "originYear",
-                icon: Calendar,
                 colorClass: getOriginYearColor(
                     product.originYear,
                     product.originYearMin,
@@ -46,7 +42,6 @@ export function ProductQualityIndicators({ product }: { readonly product: Produc
             },
             {
                 key: "authenticity",
-                icon: ShieldCheck,
                 colorClass: PRODUCT_ATTRIBUTE_COLORS.authenticity[product.authenticity],
                 label: t("product.qualityIndicators.authenticity.label"),
                 value: t(AUTHENTICITY_TRANSLATION_CONFIG[product.authenticity].translationKey),
@@ -56,7 +51,6 @@ export function ProductQualityIndicators({ product }: { readonly product: Produc
             },
             {
                 key: "condition",
-                icon: Star,
                 colorClass: PRODUCT_ATTRIBUTE_COLORS.condition[product.condition],
                 label: t("product.qualityIndicators.condition.label"),
                 value: t(CONDITION_TRANSLATION_CONFIG[product.condition].translationKey),
@@ -64,7 +58,6 @@ export function ProductQualityIndicators({ product }: { readonly product: Produc
             },
             {
                 key: "provenance",
-                icon: FileText,
                 colorClass: PRODUCT_ATTRIBUTE_COLORS.provenance[product.provenance],
                 label: t("product.qualityIndicators.provenance.label"),
                 value: t(PROVENANCE_TRANSLATION_CONFIG[product.provenance].translationKey),
@@ -72,7 +65,6 @@ export function ProductQualityIndicators({ product }: { readonly product: Produc
             },
             {
                 key: "restoration",
-                icon: Paintbrush,
                 colorClass: PRODUCT_ATTRIBUTE_COLORS.restoration[product.restoration],
                 label: t("product.qualityIndicators.restoration.label"),
                 value: t(RESTORATION_TRANSLATION_CONFIG[product.restoration].translationKey),
@@ -92,16 +84,12 @@ export function ProductQualityIndicators({ product }: { readonly product: Produc
     );
 
     return (
-        <Card className="p-6 shadow-md">
-            <div className="flex items-center gap-2 mb-5 pb-3 border-b">
-                <H2>{t("product.qualityIndicators.title")}</H2>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        <section className="w-full border-t border-border/30 pt-8">
+            <h2 className="sr-only">{t("product.qualityIndicators.title")}</h2>
+            <div className="space-y-3">
                 {qualityIndicators.map((indicator) => (
                     <ProductQualityIndicatorItem
                         key={indicator.key}
-                        icon={indicator.icon}
                         colorClass={indicator.colorClass}
                         label={indicator.label}
                         value={indicator.value}
@@ -109,6 +97,6 @@ export function ProductQualityIndicators({ product }: { readonly product: Produc
                     />
                 ))}
             </div>
-        </Card>
+        </section>
     );
 }

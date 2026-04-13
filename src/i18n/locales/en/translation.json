@@ -236,6 +236,12 @@
     "toMerchant": "Go to merchant",
     "noDescription": "No description available",
     "noImage": "No image available",
+    "descriptionTitle": "Description",
+    "conditionReportTitle": "Condition Report",
+    "watchlist": {
+      "add": "Add to watchlist",
+      "remove": "Remove from watchlist"
+    },
     "unseenNotification": "Updated",
     "imageLoadError": "Image could not be loaded",
     "prohibitedImage": "Image hidden due to content restrictions",
