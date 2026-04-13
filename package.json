@@ -79,6 +79,7 @@
         "embla-carousel-react": "^8.6.0",
         "i18next": "^26.0.4",
         "i18next-browser-languagedetector": "^8.2.1",
+        "javascript-time-ago": "^2.6.4",
         "lottie-react": "^2.4.1",
         "lucide-react": "^1.7.0",
         "motion": "^12.38.0",

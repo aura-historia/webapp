@@ -1,4 +1,5 @@
 import { AccountImage } from "@/components/account/AccountImage.tsx";
+import { NotificationBell } from "@/components/notification/NotificationBell.tsx";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -138,6 +139,17 @@ export function Header() {
                     <SearchBar type="small" />
                 </div>
 
+                {/* Mobile Notification Bell */}
+                {isLoginEnabled && user && (
+                    <div
+                        className={cn(
+                            isFloating ? "bg-card backdrop-blur-sm rounded-xl p-1 shadow-sm" : "",
+                        )}
+                    >
+                        <NotificationBell />
+                    </div>
+                )}
+
                 {/* Mobile Menu */}
                 {isLoginEnabled && (
                     <div
@@ -228,6 +240,8 @@ export function Header() {
                                     </NavigationMenuItem>
                                 </NavigationMenuList>
                             </NavigationMenu>
+
+                            <NotificationBell />
 
                             <DropdownMenu>
                                 <DropdownMenuTrigger className="flex items-center gap-4">
