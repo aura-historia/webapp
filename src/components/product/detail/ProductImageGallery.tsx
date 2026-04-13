@@ -278,8 +278,8 @@ export function ProductImageGallery({ images, productId, userData }: ProductImag
                             </CarouselContent>
                             {images.length > 4 && (
                                 <>
-                                    <CarouselPrevious className="-left-10 rounded-none border-0 bg-primary/90 text-primary-foreground hover:bg-primary" />
-                                    <CarouselNext className="-right-10 rounded-none border-0 bg-primary/90 text-primary-foreground hover:bg-primary" />
+                                    <CarouselPrevious className="left-3 z-10 rounded-none border-0 bg-primary/90 text-primary-foreground hover:bg-primary" />
+                                    <CarouselNext className="right-3 z-10 rounded-none border-0 bg-primary/90 text-primary-foreground hover:bg-primary" />
                                 </>
                             )}
                         </Carousel>

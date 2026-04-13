@@ -36,25 +36,43 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                     />
                 </div>
                 <div className="flex min-w-0 flex-col lg:col-span-5">
-                    <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center justify-between gap-4">
                         <div className="flex flex-wrap items-center gap-2">
                             <StatusBadge status={product.state} />
                             <ShopTypeBadge shopType={product.shopType} />
                             {product.auction && <AuctionWindowBadge auction={product.auction} />}
                         </div>
-                        <div className="hidden md:flex gap-2 ml-auto shrink-0 self-start">
-                            <ProductSharer title={product.title} />
+                        <div className="ml-auto shrink-0 self-start">
+                            <div className="hidden gap-2 md:flex">
+                                <ProductSharer title={product.title} />
 
-                            <NotificationButton
-                                variant="ghost"
-                                size="icon"
-                                shopId={product.shopId}
-                                shopsProductId={product.shopsProductId}
-                                isNotificationEnabled={
-                                    product.userData?.watchlistData.isNotificationEnabled ?? false
-                                }
-                                isVisible={isWatching}
-                            />
+                                <NotificationButton
+                                    variant="ghost"
+                                    size="icon"
+                                    shopId={product.shopId}
+                                    shopsProductId={product.shopsProductId}
+                                    isNotificationEnabled={
+                                        product.userData?.watchlistData.isNotificationEnabled ??
+                                        false
+                                    }
+                                    isVisible={isWatching}
+                                />
+                            </div>
+                            <div className="flex gap-2 md:hidden">
+                                <ProductSharer title={product.title} variant="outline" />
+
+                                <NotificationButton
+                                    variant="outline"
+                                    size="icon"
+                                    shopId={product.shopId}
+                                    shopsProductId={product.shopsProductId}
+                                    isNotificationEnabled={
+                                        product.userData?.watchlistData.isNotificationEnabled ??
+                                        false
+                                    }
+                                    isVisible={isWatching}
+                                />
+                            </div>
                         </div>
                     </div>
 
@@ -137,26 +155,6 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                     </div>
                 </div>
             </section>
-
-            <div className="fixed top-24 right-4 flex flex-col gap-2 md:hidden z-40">
-                <ProductSharer
-                    title={product.title}
-                    variant="outline"
-                    className="rounded-full bg-surface-container-lowest"
-                />
-
-                <NotificationButton
-                    variant="outline"
-                    size="icon"
-                    className="rounded-full bg-surface-container-lowest"
-                    shopId={product.shopId}
-                    shopsProductId={product.shopsProductId}
-                    isNotificationEnabled={
-                        product.userData?.watchlistData.isNotificationEnabled ?? false
-                    }
-                    isVisible={isWatching}
-                />
-            </div>
         </>
     );
 }

@@ -6,7 +6,7 @@ import { ProductSimilar } from "@/components/product/detail/similar/ProductSimil
 
 export function ProductDetailPage({ product }: { readonly product: ProductDetail }) {
     return (
-        <div className="mx-auto w-full max-w-[1280px] px-4 pb-20 pt-8 md:px-8">
+        <div className="mx-auto w-full max-w-7xl px-4 pb-20 pt-8 md:px-8">
             <ProductInfo product={product} />
 
             <div className="mt-16">
