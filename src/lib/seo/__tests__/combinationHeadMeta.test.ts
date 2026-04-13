@@ -4,12 +4,12 @@ import type { Combination } from "@/data/combinations/combinations.ts";
 
 vi.mock("@/i18n/i18n.ts", () => ({
     default: {
-        exists: (key: string) => key === "combination.descriptions.biedermeier-moebel",
+        exists: (key: string) => key === "combination.descriptions.biedermeier-furniture",
         t: (key: string) => {
             if (key === "meta.combination.defaultName") return "Sammlung";
             if (key === "meta.siteName") return "Aura Historia";
-            if (key === "combination.names.biedermeier-moebel") return "Biedermeier Möbel";
-            if (key === "combination.descriptions.biedermeier-moebel") {
+            if (key === "combination.names.biedermeier-furniture") return "Biedermeier Möbel";
+            if (key === "combination.descriptions.biedermeier-furniture") {
                 return "Sammler, die nach authentischen Biedermeier-Möbeln suchen, finden hier schlichte Eleganz aus der Zeit von 1815 bis 1848.";
             }
             if (key === "combination.descriptions.default") {
@@ -27,12 +27,12 @@ vi.mock("@/env", () => ({
 }));
 
 const mockCombination: Combination = {
-    slug: "biedermeier-moebel",
+    slug: "biedermeier-furniture",
     periodKey: "BIEDERMEIER",
     categoryKey: "FURNITURE",
     periodId: "biedermeier",
     categoryId: "furniture",
-    placeholderImageCategoryKey: "FURNITURE",
+    imageKey: "FURNITURE",
 };
 
 describe("generateCombinationHeadMeta", () => {
@@ -65,7 +65,7 @@ describe("generateCombinationHeadMeta", () => {
         });
         expect(result.meta).toContainEqual({
             property: "og:url",
-            content: "https://aura-historia.com/collections/biedermeier-moebel",
+            content: "https://aura-historia.com/collections/biedermeier-furniture",
         });
 
         expect(result.meta).toContainEqual({
@@ -80,7 +80,7 @@ describe("generateCombinationHeadMeta", () => {
 
         expect(result.links).toContainEqual({
             rel: "canonical",
-            href: "https://aura-historia.com/collections/biedermeier-moebel",
+            href: "https://aura-historia.com/collections/biedermeier-furniture",
         });
     });
 

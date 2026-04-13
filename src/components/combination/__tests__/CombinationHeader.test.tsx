@@ -8,12 +8,12 @@ import {
 } from "@/components/landing-page/categories-section/CategoriesSection.data.ts";
 
 const mockCombination: Combination = {
-    slug: "gotische-kunst",
+    slug: "gothic-art",
     periodKey: "GOTHIC",
     categoryKey: "VISUAL_ART",
     periodId: "gothic",
     categoryId: "visual-art",
-    placeholderImageCategoryKey: "UNKNOWN_CATEGORY",
+    imageKey: "UNKNOWN_CATEGORY",
 };
 
 describe("CombinationHeader", () => {
@@ -29,12 +29,12 @@ describe("CombinationHeader", () => {
 
     it("renders a different name when given different props", () => {
         const otherCombination: Combination = {
-            slug: "biedermeier-moebel",
+            slug: "biedermeier-furniture",
             periodKey: "BIEDERMEIER",
             categoryKey: "FURNITURE",
             periodId: "biedermeier",
             categoryId: "furniture",
-            placeholderImageCategoryKey: "FURNITURE",
+            imageKey: "FURNITURE",
         };
         render(<CombinationHeader combination={otherCombination} />);
         expect(screen.getByRole("heading", { name: "Biedermeier Möbel" })).toBeInTheDocument();

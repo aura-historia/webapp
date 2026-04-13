@@ -6,9 +6,9 @@ import {
 
 vi.mock("@/i18n/i18n.ts", () => ({
     default: {
-        exists: (key: string) => key === "combination.descriptions.biedermeier-moebel",
+        exists: (key: string) => key === "combination.descriptions.biedermeier-furniture",
         t: (key: string) => {
-            if (key === "combination.descriptions.biedermeier-moebel") {
+            if (key === "combination.descriptions.biedermeier-furniture") {
                 return "Sammler, die nach authentischen Biedermeier-Möbeln suchen.";
             }
             if (key === "combination.descriptions.default") {
@@ -22,8 +22,8 @@ vi.mock("@/i18n/i18n.ts", () => ({
 describe("combinationDescription", () => {
     describe("getCombinationDescriptionKey", () => {
         it("returns the specific key when the slug exists in i18n", () => {
-            expect(getCombinationDescriptionKey("biedermeier-moebel")).toBe(
-                "combination.descriptions.biedermeier-moebel",
+            expect(getCombinationDescriptionKey("biedermeier-furniture")).toBe(
+                "combination.descriptions.biedermeier-furniture",
             );
         });
 
@@ -42,7 +42,7 @@ describe("combinationDescription", () => {
 
     describe("getCombinationDescription", () => {
         it("returns the translated description for a known slug", () => {
-            expect(getCombinationDescription("biedermeier-moebel")).toBe(
+            expect(getCombinationDescription("biedermeier-furniture")).toBe(
                 "Sammler, die nach authentischen Biedermeier-Möbeln suchen.",
             );
         });

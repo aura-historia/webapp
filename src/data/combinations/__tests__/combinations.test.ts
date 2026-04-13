@@ -24,7 +24,7 @@ describe("combinations", () => {
             expect(combination.categoryKey).toBeTruthy();
             expect(combination.periodId).toBeTruthy();
             expect(combination.categoryId).toBeTruthy();
-            expect(combination.placeholderImageCategoryKey).toBeTruthy();
+            expect(combination.imageKey).toBeTruthy();
         }
     });
 
@@ -36,9 +36,9 @@ describe("combinations", () => {
     });
 
     it("getCombinationBySlug returns the correct combination", () => {
-        expect(getCombinationBySlug("biedermeier-moebel")).toEqual(
+        expect(getCombinationBySlug("biedermeier-furniture")).toEqual(
             expect.objectContaining({
-                slug: "biedermeier-moebel",
+                slug: "biedermeier-furniture",
                 periodKey: "BIEDERMEIER",
                 categoryKey: "FURNITURE",
             }),

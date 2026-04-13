@@ -13,10 +13,8 @@ type CombinationHeaderProps = {
 
 export function CombinationHeader({ combination }: CombinationHeaderProps) {
     const { t } = useTranslation();
-    const categoryAssetUrl = getCategoryAssetUrl(combination.placeholderImageCategoryKey);
-    const categoryHeaderAssetUrl = getCategoryHeaderAssetUrl(
-        combination.placeholderImageCategoryKey,
-    );
+    const categoryAssetUrl = getCategoryAssetUrl(combination.imageKey);
+    const categoryHeaderAssetUrl = getCategoryHeaderAssetUrl(combination.imageKey);
     const name = t(`combination.names.${combination.slug}`, { defaultValue: combination.slug });
     const description = t(`combination.descriptions.${combination.slug}`, {
         defaultValue: t("combination.descriptions.default"),

@@ -39,14 +39,14 @@ export const POPULAR_PERIOD_KEYS: string[] = [
 ];
 
 export const POPULAR_COMBINATION_SLUGS: string[] = [
-    "biedermeier-moebel",
-    "jugendstil-schmuck",
-    "art-deco-moebel",
-    "antike-waffen",
-    "barock-moebel",
-    "renaissance-gemaelde",
-    "antike-muenzen",
-    "mid-century-moebel",
+    "biedermeier-furniture",
+    "art-nouveau-jewelry",
+    "art-deco-furniture",
+    "ancient-weapons",
+    "baroque-furniture",
+    "renaissance-paintings",
+    "ancient-coins",
+    "mid-century-furniture",
 ];
 
 export const SOCIAL_LINKS: SocialLink[] = [
