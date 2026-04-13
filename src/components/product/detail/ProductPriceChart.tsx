@@ -2,8 +2,6 @@ import { useRef, useMemo, useState, useEffect } from "react";
 import type { ApexOptions } from "apexcharts";
 import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
 import { H2 } from "@/components/typography/H2.tsx";
-import { Card } from "@/components/ui/card.tsx";
-import { Button } from "@/components/ui/button.tsx";
 
 import {
     formatCompactCurrency,
@@ -132,10 +130,12 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
 
     if (!history || priceData.length === 0) {
         return (
-            <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
-                <H2>{t("product.priceChart.title")}</H2>
+            <div className="flex min-w-0 flex-col gap-4 border border-outline-variant/10 bg-surface-container-low p-8 md:p-12">
+                <H2 className="font-display text-2xl font-normal uppercase tracking-[-0.02em] text-primary">
+                    {t("product.priceChart.title")}
+                </H2>
                 <p className="text-sm text-muted-foreground">{t("product.priceChart.noData")}</p>
-            </Card>
+            </div>
         );
     }
 
@@ -159,6 +159,8 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
             id: "price-chart",
             type: "area",
             toolbar: { show: false },
+            background: "transparent",
+            foreColor: "var(--color-muted-foreground)",
             events: {
                 /**
                  * Prevents a bug in ApexCharts where the graph renders incorrectly
@@ -234,7 +236,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                 style: {
                     fontSize: "15px",
                     fontWeight: 500,
-                    fontFamily: "Geist, sans-serif",
+                    fontFamily: '"Manrope Variable", sans-serif',
                 },
             },
             min: minTimestamp,
@@ -246,9 +248,13 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                 style: {
                     fontSize: "15px",
                     fontWeight: 500,
-                    fontFamily: "Geist, sans-serif",
+                    fontFamily: '"Manrope Variable", sans-serif',
                 },
             },
+        },
+        grid: {
+            borderColor: "var(--color-outline-variant)",
+            strokeDashArray: 0,
         },
         responsive: [
             {
@@ -260,7 +266,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,
-                                fontFamily: "Geist, sans-serif",
+                                fontFamily: '"Manrope Variable", sans-serif',
                             },
                         },
                     },
@@ -270,7 +276,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,
-                                fontFamily: "Geist, sans-serif",
+                                fontFamily: '"Manrope Variable", sans-serif',
                             },
                             offsetX: -15,
                         },
@@ -286,7 +292,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,
-                                fontFamily: "Geist, sans-serif",
+                                fontFamily: '"Manrope Variable", sans-serif',
                             },
                         },
                     },
@@ -296,7 +302,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,
-                                fontFamily: "Geist, sans-serif",
+                                fontFamily: '"Manrope Variable", sans-serif',
                             },
                             offsetX: -10,
                         },
@@ -304,33 +310,49 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                 },
             },
         ],
-        colors: ["#b2905f"],
+        colors: ["var(--color-primary)"],
         stroke: {
             curve: "smooth",
-            width: 3.5,
+            width: 2.5,
+        },
+        fill: {
+            type: "gradient",
+            gradient: {
+                shadeIntensity: 1,
+                opacityFrom: 0.14,
+                opacityTo: 0,
+                stops: [0, 100],
+            },
         },
         tooltip: {
             x: { format: "dd MMM yyyy HH:mm" },
         },
     };
     return (
-        <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0 h-full">
-            <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-start sm:items-center md:items-start lg:items-center sm:justify-between lg:justify-between gap-4">
-                <H2>{t("product.priceChart.title")}</H2>
-                <div className="flex gap-2 flex-wrap">
+        <section className="flex min-w-0 flex-col gap-8">
+            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+                <H2 className="font-display text-2xl font-normal uppercase tracking-[-0.02em] text-primary">
+                    {t("product.priceChart.title")}
+                </H2>
+                <div className="flex gap-4 flex-wrap items-end">
                     {TIME_RANGES.map((timeRange) => (
-                        <Button
+                        <button
+                            type="button"
                             key={timeRange.label}
                             onClick={() => handleZoom(timeRange.days)}
-                            variant={timeRange.days === selectedTimeRange ? "default" : "outline"}
-                            size="sm"
+                            className={`border-b pb-1 text-xs tracking-[0.1em] uppercase transition-colors duration-300 ease-out ${
+                                timeRange.days === selectedTimeRange
+                                    ? "border-primary text-primary"
+                                    : "border-transparent text-muted-foreground hover:text-primary"
+                            }`}
                         >
                             {timeRange.label}
-                        </Button>
+                        </button>
                     ))}
                 </div>
             </div>
-            <div className="flex-1 min-h-75">
+
+            <div className="flex-1 min-h-75 border border-outline-variant/10 bg-surface-container-low p-4 sm:p-6">
                 <ClientOnly>
                     <Chart
                         chartRef={chartRef}
@@ -341,6 +363,6 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                     />
                 </ClientOnly>
             </div>
-        </Card>
+        </section>
     );
 }

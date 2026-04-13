@@ -251,6 +251,12 @@
     "toMerchant": "Ir al vendedor",
     "noDescription": "No hay descripción disponible",
     "noImage": "No hay imagen disponible",
+    "descriptionTitle": "Descripción",
+    "conditionReportTitle": "Informe de estado",
+    "watchlist": {
+      "add": "Añadir a la lista de seguimiento",
+      "remove": "Quitar de la lista de seguimiento"
+    },
     "imageLoadError": "No se pudo cargar la imagen",
     "prohibitedImage": "Imagen oculta por restricciones de contenido",
     "similar": {
