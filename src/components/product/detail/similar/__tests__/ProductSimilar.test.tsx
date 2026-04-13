@@ -1,6 +1,5 @@
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen } from "@testing-library/react";
 import { ProductSimilar } from "../ProductSimilar.tsx";
 import { vi } from "vitest";
 import type React from "react";
@@ -24,34 +23,6 @@ vi.mock("@/hooks/useSimilarProducts.ts", () => ({
 }));
 
 import { useSimilarProducts } from "@/hooks/useSimilarProducts.ts";
-
-beforeAll(() => {
-    global.IntersectionObserver = class IntersectionObserver {
-        disconnect() {}
-
-        observe() {}
-
-        takeRecords() {
-            return [];
-        }
-
-        unobserve() {}
-    } as unknown as typeof IntersectionObserver;
-
-    Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: (query: string) => ({
-            matches: false,
-            media: query,
-            onchange: null,
-            addListener: () => {},
-            removeListener: () => {},
-            addEventListener: () => {},
-            removeEventListener: () => {},
-            dispatchEvent: () => true,
-        }),
-    });
-});
 
 describe("ProductSimilar", () => {
     const mockProducts: OverviewProduct[] = [
@@ -240,7 +211,7 @@ describe("ProductSimilar", () => {
         expect(screen.getByText("Keine ähnlichen Artikel")).toBeInTheDocument();
     });
 
-    it("should render similar products correctly in carousel", () => {
+    it("should render similar products correctly in grid", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
             data: { isEmbeddingsPending: false, products: mockProducts },
             isLoading: false,
@@ -259,7 +230,7 @@ describe("ProductSimilar", () => {
         expect(screen.getByText("Shop 3")).toBeInTheDocument();
     });
 
-    it("should render navigation buttons for mobile view", () => {
+    it("should render product cards in a responsive grid container", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
             data: { isEmbeddingsPending: false, products: mockProducts },
             isLoading: false,
@@ -267,29 +238,10 @@ describe("ProductSimilar", () => {
             error: null,
         } as never);
 
-        render(<ProductSimilar {...defaultProps} />);
+        const { container } = render(<ProductSimilar {...defaultProps} />);
 
-        const buttons = screen.getAllByRole("button");
-        expect(buttons.length).toBeGreaterThanOrEqual(2);
-    });
-
-    it("should handle carousel navigation", async () => {
-        vi.mocked(useSimilarProducts).mockReturnValue({
-            data: { isEmbeddingsPending: false, products: mockProducts },
-            isLoading: false,
-            isError: false,
-            error: null,
-        } as never);
-
-        const user = userEvent.setup();
-        render(<ProductSimilar {...defaultProps} />);
-
-        const navigationButtons = screen.getAllByRole("button");
-
-        await user.click(navigationButtons[0]);
-        await waitFor(() => {
-            expect(navigationButtons[0]).toBeInTheDocument();
-        });
+        const grid = container.querySelector(".grid");
+        expect(grid).toBeInTheDocument();
     });
 
     it("should render items with correct prices and without prices", () => {
@@ -307,7 +259,7 @@ describe("ProductSimilar", () => {
         expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
     });
 
-    it("should render all product cards with detail buttons", () => {
+    it("should render all product cards with product links", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
             data: { isEmbeddingsPending: false, products: mockProducts },
             isLoading: false,
@@ -315,9 +267,9 @@ describe("ProductSimilar", () => {
             error: null,
         } as never);
 
-        render(<ProductSimilar {...defaultProps} />);
+        const { container } = render(<ProductSimilar {...defaultProps} />);
 
-        const detailButtons = screen.getAllByText("Details");
-        expect(detailButtons).toHaveLength(mockProducts.length);
+        const productLinks = container.querySelectorAll("a[to]");
+        expect(productLinks.length).toBeGreaterThanOrEqual(mockProducts.length);
     });
 });

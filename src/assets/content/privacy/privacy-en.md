@@ -6,8 +6,13 @@ This privacy policy informs, pursuant to Articles 13 and 14 of the General Data 
 
 Controller within the meaning of Art. 4 No. 7 GDPR:
 
-**Aura Historia**
+**Julian Bruder**  
+(Trading as: Aura Historia)  
+Hardenbergstraße 80  
+04275 Leipzig  
+Germany
 
+Email: [julian.bruder@aura-historia.com](mailto:julian.bruder@aura-historia.com)  
 Contact: [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
 ---
@@ -193,10 +198,8 @@ All personal data are processed **exclusively within Germany**.
 
 ### 10.2 Data Processing on Behalf
 
-[//]: <> (Data processing agreements pursuant to Art. 28 GDPR exist with the hosting providers.)
-
 The platform is operated with external hosting and infrastructure providers.
-The data protection agreements pursuant to Art. 28 GDPR are in preparation or are provided within the framework of the respective provider terms.
+Data processing agreements pursuant to Art. 28 GDPR have been concluded with Amazon Web Services (AWS), Cloudflare, and Hetzner Online GmbH.
 
 ---
 
@@ -257,4 +260,4 @@ This privacy policy may be adapted to reflect legal, technical, or content-relat
 
 ---
 
-*Status: 14 January 2026*
+*Status: 12 April 2026*

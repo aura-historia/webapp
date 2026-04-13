@@ -6,7 +6,7 @@ const mockCategoryData: GetCategoryData = {
     categoryId: "ancient-pottery",
     categoryKey: "ANCIENT_POTTERY",
     name: { text: "Ancient Pottery", language: "en" },
-    description: { text: "Ceramics and pottery from ancient civilisations.", language: "en" },
+    products: 42,
     created: "2024-01-15T08:00:00Z",
     updated: "2024-06-20T12:30:00Z",
 };
@@ -15,11 +15,6 @@ describe("mapToCategoryDetail", () => {
     it("extracts the text from the localized name field", () => {
         const result = mapToCategoryDetail(mockCategoryData);
         expect(result.name).toBe("Ancient Pottery");
-    });
-
-    it("extracts the text from the localized description field", () => {
-        const result = mapToCategoryDetail(mockCategoryData);
-        expect(result.description).toBe("Ceramics and pottery from ancient civilisations.");
     });
 
     it("passes categoryId and categoryKey through unchanged", () => {

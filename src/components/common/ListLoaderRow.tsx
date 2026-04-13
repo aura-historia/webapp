@@ -21,7 +21,7 @@ export function ListLoaderRow({
     const { t } = useTranslation();
 
     return (
-        <Card className="p-4 flex justify-center items-center shadow-md">
+        <Card className="bg-surface-container-low border-0 p-4 flex justify-center items-center shadow-none">
             <CardContent className="flex justify-center items-center w-full px-2">
                 {isFetchingNextPage ? (
                     <div className="flex flex-row items-center gap-2">

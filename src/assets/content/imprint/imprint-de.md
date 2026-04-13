@@ -2,9 +2,26 @@ Angaben gemäß § 5 TMG und § 18 MStV
 
 ## Diensteanbieter
 
-**Name:** Aura Historia
+**Inhaber:** Julian Bruder
 
-**Kontakt:** [contact@aura-historia.com](mailto:contact@aura-historia.com)
+**Betriebsbezeichnung:** Aura Historia
+
+**Anschrift:** Hardenbergstraße 80, 04275 Leipzig, Deutschland
+
+**E-Mail (persönlich):** [julian.bruder@aura-historia.com](mailto:julian.bruder@aura-historia.com)
+
+**E-Mail (Kontakt):** [contact@aura-historia.com](mailto:contact@aura-historia.com)
+
+**Umsatzsteuer-Identifikationsnummer:** beantragt
+
+---
+
+## Verantwortlicher für den Inhalt gemäß § 18 Abs. 2 MStV
+
+Julian Bruder
+Hardenbergstraße 80, 04275 Leipzig, Deutschland
+
+*Dies gilt nicht für Inhalte aus externen Quellen, die über automatisierte Verfahren (Web-Scraping) oder durch Partner-Shop-Integrationen erfasst wurden.*
 
 ---
 
@@ -129,4 +146,4 @@ Es gilt ausschließlich das **Recht der Bundesrepublik Deutschland**.
 
 ---
 
-*Stand: 14.01.2026*
+*Stand: 12.04.2026*

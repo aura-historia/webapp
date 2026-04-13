@@ -4,6 +4,7 @@ import HeroSection from "@/components/landing-page/hero-section/HeroSection.tsx"
 import FeaturesSection from "@/components/landing-page/features-section/FeaturesSection.tsx";
 import HowItWorksSection from "@/components/landing-page/how-it-works-section/HowItWorksSection.tsx";
 import TestimonialsSection from "@/components/landing-page/testimonials-section/TestimonialsSection.tsx";
+import PricingSection from "@/components/landing-page/pricing-section/PricingSection.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
@@ -103,6 +104,7 @@ function LandingPage() {
             <FeaturesSection />
             <HowItWorksSection />
             <TestimonialsSection />
+            <PricingSection />
             <FAQSection />
         </div>
     );

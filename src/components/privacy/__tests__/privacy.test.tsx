@@ -29,6 +29,10 @@ describe("Privacy Component", () => {
         expect(screen.getByText("Datenschutz")).toBeInTheDocument();
     });
 
+    it("renders the controller name", () => {
+        expect(screen.getByText(/Julian Bruder/)).toBeInTheDocument();
+    });
+
     it("renders content within a Card component", () => {
         const card = screen.getByText("Datenschutz").closest(".gap-4");
         expect(card).toBeInTheDocument();
@@ -78,6 +82,47 @@ describe("Privacy Page Logic", () => {
         });
     });
 
+    describe("Markdown content structure", () => {
+        it("should contain controller name in all locales", () => {
+            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
+            for (const key of localeKeys) {
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Julian Bruder");
+            }
+        });
+
+        it("should contain personal email in all locales", () => {
+            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
+            for (const key of localeKeys) {
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("julian.bruder@aura-historia.com");
+            }
+        });
+
+        it("should contain contact email in all locales", () => {
+            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
+            for (const key of localeKeys) {
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("contact@aura-historia.com");
+            }
+        });
+
+        it("should state that DPAs exist with AWS, Cloudflare, and Hetzner in all locales", () => {
+            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
+
+            for (const key of localeKeys) {
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Amazon Web Services (AWS)");
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Cloudflare");
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Hetzner Online GmbH");
+            }
+        });
+
+        it("should not include markdown comment placeholders in any locale", () => {
+            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
+
+            for (const key of localeKeys) {
+                expect(PRIVACY_LOCALE_MAP[key]).not.toContain("[//]: <>");
+            }
+        });
+    });
+
     describe("Locale key extraction", () => {
         it("should have correct locale keys extracted from file paths", () => {
             const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
@@ -86,6 +131,7 @@ describe("Privacy Page Logic", () => {
             expect(localeKeys).toContain("en");
             expect(localeKeys).toContain("es");
             expect(localeKeys).toContain("fr");
+            expect(localeKeys).toContain("it");
         });
 
         it("should not have file extension in locale keys", () => {

@@ -6,6 +6,7 @@ const mockCategorySummaryData: GetCategorySummaryData = {
     categoryId: "ancient-pottery",
     categoryKey: "ANCIENT_POTTERY",
     name: { text: "Ancient Pottery", language: "en" },
+    products: 42,
     created: "2024-01-15T08:00:00Z",
     updated: "2024-06-20T12:30:00Z",
 };

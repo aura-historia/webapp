@@ -38,8 +38,23 @@ describe("Imprint Component", () => {
         expect(screen.getByText("Aura Historia")).toBeInTheDocument();
     });
 
+    it("renders the owner name", () => {
+        const elements = screen.queryAllByText(/Julian Bruder/);
+        expect(elements.length).toBeGreaterThan(0);
+    });
+
+    it("renders personal email link", () => {
+        const emailLinks = screen.getAllByRole("link", {
+            name: /julian\.bruder@aura-historia\.com/i,
+        });
+        expect(emailLinks.length).toBeGreaterThan(0);
+        expect(emailLinks[0]).toHaveAttribute("href", "mailto:julian.bruder@aura-historia.com");
+    });
+
     it("renders contact information with email link", () => {
-        const emailLinks = screen.getAllByRole("link", { name: /contact@aura-historia.com/i });
+        const emailLinks = screen.getAllByRole("link", {
+            name: /contact@aura-historia.com/i,
+        });
         expect(emailLinks.length).toBeGreaterThan(0);
         expect(emailLinks[0]).toHaveAttribute("href", "mailto:contact@aura-historia.com");
     });
@@ -61,7 +76,9 @@ describe("Imprint Component", () => {
     });
 
     it("applies correct markdown styles to links", () => {
-        const emailLinks = screen.getAllByRole("link", { name: /contact@aura-historia.com/i });
+        const emailLinks = screen.getAllByRole("link", {
+            name: /contact@aura-historia.com/i,
+        });
         expect(emailLinks.length).toBeGreaterThan(0);
         for (const link of emailLinks) {
             expect(link).toHaveClass("underline");
@@ -167,6 +184,20 @@ describe("Imprint Page Logic", () => {
             const localeKeys = Object.keys(IMPRINT_LOCALE_MAP);
             for (const key of localeKeys) {
                 expect(IMPRINT_LOCALE_MAP[key]).toContain("Aura Historia");
+            }
+        });
+
+        it("should contain owner name in all locales", () => {
+            const localeKeys = Object.keys(IMPRINT_LOCALE_MAP);
+            for (const key of localeKeys) {
+                expect(IMPRINT_LOCALE_MAP[key]).toContain("Julian Bruder");
+            }
+        });
+
+        it("should contain personal email in all locales", () => {
+            const localeKeys = Object.keys(IMPRINT_LOCALE_MAP);
+            for (const key of localeKeys) {
+                expect(IMPRINT_LOCALE_MAP[key]).toContain("julian.bruder@aura-historia.com");
             }
         });
     });

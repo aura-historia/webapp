@@ -1,7 +1,5 @@
 import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
 import { H2 } from "@/components/typography/H2.tsx";
-import { Card } from "@/components/ui/card.tsx";
-import { Button } from "@/components/ui/button.tsx";
 import { Timeline } from "@/components/ui/timeline.tsx";
 import { useMemo, useState } from "react";
 import { isPriceEvent, isStateEvent } from "@/lib/eventFilters.ts";
@@ -25,6 +23,8 @@ const createFilterOptions = (t: TFunction) => {
 
 export function ProductHistory({ history }: ProductHistoryProps) {
     const { t } = useTranslation();
+    const sectionHeadingClass =
+        "font-display text-2xl font-normal uppercase tracking-[-0.02em] text-primary";
 
     /**
      * Filter options for the event history timeline.
@@ -44,14 +44,18 @@ export function ProductHistory({ history }: ProductHistoryProps) {
     const filterButtons = (
         <div className="flex gap-2 flex-wrap">
             {FILTER_OPTIONS.map((option) => (
-                <Button
+                <button
+                    type="button"
                     key={option.value}
                     onClick={() => setActiveFilter(option.value)}
-                    variant={activeFilter === option.value ? "default" : "outline"}
-                    size="sm"
+                    className={`border-b pb-1 text-xs tracking-widest uppercase transition-colors duration-300 ease-out ${
+                        activeFilter === option.value
+                            ? "border-primary text-primary"
+                            : "border-transparent text-muted-foreground hover:text-primary"
+                    }`}
                 >
                     {option.label}
-                </Button>
+                </button>
             ))}
         </div>
     );
@@ -61,10 +65,10 @@ export function ProductHistory({ history }: ProductHistoryProps) {
      */
     if (!history || history.length === 0) {
         return (
-            <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
-                <H2>{t("product.history.title")}</H2>
+            <section className="flex min-w-0 flex-col gap-4">
+                <H2 className={sectionHeadingClass}>{t("product.history.title")}</H2>
                 <p className="text-sm text-muted-foreground">{t("product.history.noData")}</p>
-            </Card>
+            </section>
         );
     }
 
@@ -89,24 +93,24 @@ export function ProductHistory({ history }: ProductHistoryProps) {
      */
     if (filteredEvents.length === 0) {
         return (
-            <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0">
+            <section className="flex min-w-0 flex-col gap-4">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <H2>{t("product.history.title")}</H2>
+                    <H2 className={sectionHeadingClass}>{t("product.history.title")}</H2>
                     {filterButtons}
                 </div>
                 <p className="text-sm text-muted-foreground">{t("product.history.noEvents")}</p>
-            </Card>
+            </section>
         );
     }
 
     return (
-        <Card className="flex flex-col p-8 gap-4 shadow-md min-w-0 h-full max-h-[500px] md:max-h-none items-start">
-            <div className="flex flex-col gap-4 w-full flex-shrink-0">
-                <H2>{t("product.history.title")}</H2>
+        <section className="flex h-full max-h-375 min-w-0 flex-col gap-6">
+            <div className="flex flex-col gap-4 w-full shrink-0">
+                <H2 className={sectionHeadingClass}>{t("product.history.title")}</H2>
                 {filterButtons}
             </div>
 
-            <div className="flex-1 min-h-0 overflow-y-auto w-full px-1 mask-linear-[to_bottom,transparent,black_5%,black_95%,transparent] pt-4">
+            <div className="flex-1 min-h-0 overflow-y-auto w-full px-1 pt-2">
                 <Timeline>
                     {filteredEvents
                         .slice()
@@ -116,6 +120,6 @@ export function ProductHistory({ history }: ProductHistoryProps) {
                         ))}
                 </Timeline>
             </div>
-        </Card>
+        </section>
     );
 }

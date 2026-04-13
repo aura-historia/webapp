@@ -29,7 +29,7 @@ export function CategoryProductGrid({ categoryId }: CategoryProductGridProps) {
 
     if (isPending) {
         return (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-12">
                 {SKELETON_IDS.map((id) => (
                     <ProductGridItemSkeleton key={id} />
                 ))}
@@ -70,7 +70,7 @@ export function CategoryProductGrid({ categoryId }: CategoryProductGridProps) {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-12 gap-x-4">
                 {allProducts.map((product) => (
                     <ProductGridItem key={product.productId} product={product} />
                 ))}

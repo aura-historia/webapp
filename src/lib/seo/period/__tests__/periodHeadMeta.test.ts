@@ -4,9 +4,16 @@ import type { GetPeriodData } from "@/client";
 
 vi.mock("@/i18n/i18n.ts", () => ({
     default: {
+        exists: (key: string) => key === "period.descriptions.RENAISSANCE",
         t: (key: string) => {
             if (key === "meta.period.defaultName") return "Epoche";
             if (key === "meta.siteName") return "Aura Historia";
+            if (key === "period.descriptions.RENAISSANCE") {
+                return "Buyers searching for authentic Renaissance antiques for sale and early humanist art can discover period-defining artifacts from specialized dealers.";
+            }
+            if (key === "period.header.defaultDescription") {
+                return "Explore curated objects from this era and discover their historical context.";
+            }
             return key;
         },
     },
@@ -22,10 +29,7 @@ const mockPeriod: GetPeriodData = {
     periodId: "renaissance",
     periodKey: "RENAISSANCE",
     name: { text: "Renaissance", language: "en" },
-    description: {
-        text: "The Renaissance was a fervent period of European cultural, artistic, political and economic rebirth.",
-        language: "en",
-    },
+    products: 200,
     created: "2024-01-15T08:00:00Z",
     updated: "2024-06-20T12:30:00Z",
 };
@@ -37,10 +41,11 @@ describe("generatePeriodHeadMeta", () => {
         expect(result.meta).toContainEqual({
             title: "Renaissance | Aura Historia",
         });
+
         expect(result.meta).toContainEqual({
             name: "description",
             content:
-                "The Renaissance was a fervent period of European cultural, artistic, political and economic rebirth.",
+                "Buyers searching for authentic Renaissance antiques for sale and early humanist art can discover period-defining artifacts from specialized dealers.",
         });
     });
 
@@ -51,14 +56,21 @@ describe("generatePeriodHeadMeta", () => {
             property: "og:title",
             content: "Renaissance",
         });
+
         expect(result.meta).toContainEqual({
             property: "og:description",
             content:
-                "The Renaissance was a fervent period of European cultural, artistic, political and economic rebirth.",
+                "Buyers searching for authentic Renaissance antiques for sale and early humanist art can discover period-defining artifacts from specialized dealers.",
         });
         expect(result.meta).toContainEqual({
             property: "og:url",
             content: "https://aura-historia.com/periods/renaissance",
+        });
+
+        expect(result.meta).toContainEqual({
+            name: "twitter:description",
+            content:
+                "Buyers searching for authentic Renaissance antiques for sale and early humanist art can discover period-defining artifacts from specialized dealers.",
         });
     });
 

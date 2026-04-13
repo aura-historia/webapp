@@ -80,17 +80,16 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                     </div>
 
                     <div className={"flex flex-row gap-2"}>
-                        {product.userData?.watchlistData.isWatching && (
-                            <NotificationButton
-                                variant="ghost"
-                                size="icon"
-                                shopId={product.shopId}
-                                shopsProductId={product.shopsProductId}
-                                isNotificationEnabled={
-                                    product.userData?.watchlistData.isNotificationEnabled
-                                }
-                            />
-                        )}
+                        <NotificationButton
+                            variant="ghost"
+                            size="icon"
+                            shopId={product.shopId}
+                            shopsProductId={product.shopsProductId}
+                            isNotificationEnabled={
+                                product.userData?.watchlistData.isNotificationEnabled ?? false
+                            }
+                            isVisible={product.userData?.watchlistData.isWatching ?? false}
+                        />
                         <WatchlistButton
                             variant="ghost"
                             size="icon"

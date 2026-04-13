@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getCategoryByIdOptions } from "@/client/@tanstack/react-query.gen";
 import { mapToCategoryDetail } from "@/data/internal/category/CategoryDetail.ts";
-import { generateCategoryHeadMeta } from "@/lib/seo/categoryHeadMeta.ts";
+import { generateCategoryHeadMeta } from "@/lib/seo/category/categoryHeadMeta.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { CategoryPageSkeleton } from "@/components/category/CategoryPageSkeleton.tsx";
 import { CategoryHeader } from "@/components/category/CategoryHeader.tsx";
@@ -22,6 +22,7 @@ export const Route = createFileRoute("/categories/$categoryId")({
     },
     head: ({ loaderData, params }) => generateCategoryHeadMeta(loaderData, params),
     pendingComponent: CategoryPageSkeleton,
+    notFoundComponent: NotFoundComponent,
     errorComponent: NotFoundComponent,
     component: CategoryDetailComponent,
 });
@@ -40,9 +41,14 @@ function CategoryDetailComponent() {
     const category = mapToCategoryDetail(data);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col gap-8">
+        <div className="bg-background">
             <CategoryHeader category={category} />
-            <CategoryProductGrid categoryId={categoryId} />
+            <div className="mx-auto w-full max-w-7xl px-4 pb-16 md:px-10">
+                <div aria-hidden="true" className="border-t border-border/30 hidden md:block" />
+                <div className="pt-8">
+                    <CategoryProductGrid categoryId={categoryId} />
+                </div>
+            </div>
         </div>
     );
 }

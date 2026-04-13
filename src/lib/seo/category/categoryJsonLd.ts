@@ -1,4 +1,5 @@
 import type { GetCategoryData } from "@/client";
+import { getCategoryDescription } from "@/lib/seo/category/categoryDescription.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 
 type CategoryCollectionPageJsonLd = {
@@ -20,11 +21,13 @@ export function generateCategoryJsonLd(
     data: GetCategoryData,
     categoryUrl: string,
 ): CategoryCollectionPageJsonLd {
+    const description = getCategoryDescription(data.categoryKey);
+
     return {
         "@context": "https://schema.org/",
         "@type": "CollectionPage",
         name: data.name.text,
-        description: data.description.text,
+        description: description,
         url: categoryUrl,
         image: BANNER_IMAGE_URL,
         dateCreated: data.created,
