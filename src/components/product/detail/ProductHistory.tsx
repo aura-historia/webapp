@@ -48,7 +48,7 @@ export function ProductHistory({ history }: ProductHistoryProps) {
                     type="button"
                     key={option.value}
                     onClick={() => setActiveFilter(option.value)}
-                    className={`border-b pb-1 text-xs tracking-[0.1em] uppercase transition-colors duration-300 ease-out ${
+                    className={`border-b pb-1 text-xs tracking-widest uppercase transition-colors duration-300 ease-out ${
                         activeFilter === option.value
                             ? "border-primary text-primary"
                             : "border-transparent text-muted-foreground hover:text-primary"
@@ -104,8 +104,8 @@ export function ProductHistory({ history }: ProductHistoryProps) {
     }
 
     return (
-        <section className="flex h-full min-w-0 flex-col gap-6">
-            <div className="flex flex-col gap-4 w-full flex-shrink-0">
+        <section className="flex h-full max-h-375 min-w-0 flex-col gap-6">
+            <div className="flex flex-col gap-4 w-full shrink-0">
                 <H2 className={sectionHeadingClass}>{t("product.history.title")}</H2>
                 {filterButtons}
             </div>
