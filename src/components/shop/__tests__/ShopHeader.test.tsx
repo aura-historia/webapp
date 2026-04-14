@@ -20,9 +20,10 @@ describe("ShopHeader", () => {
         expect(screen.getByRole("heading", { name: "Christie's" })).toBeInTheDocument();
     });
 
-    it("renders the shop type badge", () => {
+    it("renders the shop type as label above title and as badge", () => {
         render(<ShopHeader shop={mockShop} productCount={42} />);
-        expect(screen.getByText("Auktionshaus")).toBeInTheDocument();
+        // "Auktionshaus" appears above H1 as plain text label and also in the type badge
+        expect(screen.getAllByText("Auktionshaus")).toHaveLength(2);
     });
 
     it("renders the added-on date", () => {

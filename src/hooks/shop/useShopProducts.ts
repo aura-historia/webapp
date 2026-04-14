@@ -35,7 +35,7 @@ export function useShopProducts(
                     currency: "EUR",
                     searchAfter: pageParam,
                     size: PAGE_SIZE,
-                    sort: "updated",
+                    sort: "created",
                     order: "desc",
                     shopName: [shopName],
                 },

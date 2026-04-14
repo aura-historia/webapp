@@ -110,13 +110,13 @@ describe("ShopProductGrid", () => {
 
     it("renders skeleton loaders while loading", () => {
         setMock({ isPending: true });
-        renderWithQueryClient(<ShopProductGrid shopName="Test Shop" />);
+        renderWithQueryClient(<ShopProductGrid shopName="Test Shop" shopType="AUCTION_HOUSE" />);
         expect(screen.getAllByTestId("product-grid-item-skeleton")).toHaveLength(8);
     });
 
     it("renders an error state when the hook returns an error", () => {
         setMock({ error: new Error("load failed") });
-        renderWithQueryClient(<ShopProductGrid shopName="Test Shop" />);
+        renderWithQueryClient(<ShopProductGrid shopName="Test Shop" shopType="AUCTION_HOUSE" />);
         expect(screen.getByText("Artikel konnten nicht geladen werden")).toBeInTheDocument();
         expect(
             screen.getByText(
@@ -127,7 +127,7 @@ describe("ShopProductGrid", () => {
 
     it("renders the no-results state when products list is empty", () => {
         setMock({ products: [], total: 0 });
-        renderWithQueryClient(<ShopProductGrid shopName="Test Shop" />);
+        renderWithQueryClient(<ShopProductGrid shopName="Test Shop" shopType="AUCTION_HOUSE" />);
         expect(screen.getByText("Keine Artikel gefunden")).toBeInTheDocument();
         expect(
             screen.getByText("Von diesem Shop sind derzeit keine Artikel vorhanden."),
@@ -142,12 +142,12 @@ describe("ShopProductGrid", () => {
             ],
             total: 2,
         });
-        renderWithQueryClient(<ShopProductGrid shopName="Test Shop" />);
+        renderWithQueryClient(<ShopProductGrid shopName="Test Shop" shopType="AUCTION_HOUSE" />);
         expect(screen.getByText("Ancient Vase")).toBeInTheDocument();
         expect(screen.getByText("Roman Coin")).toBeInTheDocument();
     });
 
-    it("renders the all-loaded message when all products are shown", () => {
+    it("renders the all-loaded message with the shop type name when all products are shown", () => {
         setMock({
             products: [
                 { ...baseProduct, productId: "p1", title: "Ancient Vase" },
@@ -157,9 +157,9 @@ describe("ShopProductGrid", () => {
             hasNextPage: false,
             isFetchingNextPage: false,
         });
-        renderWithQueryClient(<ShopProductGrid shopName="Test Shop" />);
+        renderWithQueryClient(<ShopProductGrid shopName="Test Shop" shopType="AUCTION_HOUSE" />);
         expect(
-            screen.getByText("Sie haben alle 2 Artikel dieses Shops gesehen."),
+            screen.getByText("Sie haben alle 2 Artikel von diesem Auktionshaus gesehen."),
         ).toBeInTheDocument();
     });
 
@@ -170,13 +170,13 @@ describe("ShopProductGrid", () => {
             hasNextPage: true,
             isFetchingNextPage: true,
         });
-        renderWithQueryClient(<ShopProductGrid shopName="Test Shop" />);
+        renderWithQueryClient(<ShopProductGrid shopName="Test Shop" shopType="AUCTION_HOUSE" />);
         expect(screen.getByText("Weitere Artikel werden geladen...")).toBeInTheDocument();
     });
 
     it("calls useShopProducts with the provided shopName", () => {
         setMock({ products: [], total: 0 });
-        renderWithQueryClient(<ShopProductGrid shopName="Christie's" />);
+        renderWithQueryClient(<ShopProductGrid shopName="Christie's" shopType="AUCTION_HOUSE" />);
         expect(mockUseShopProducts).toHaveBeenCalledWith("Christie's");
     });
 });

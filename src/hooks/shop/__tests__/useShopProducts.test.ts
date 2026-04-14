@@ -94,7 +94,7 @@ describe("useShopProducts", () => {
                 language: "de",
                 currency: "EUR",
                 size: 20,
-                sort: "updated",
+                sort: "created",
                 order: "desc",
                 shopName: ["Christie's"],
             }),

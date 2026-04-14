@@ -9,7 +9,7 @@ import { ShopHeader } from "@/components/shop/ShopHeader.tsx";
 import { ShopProductGrid } from "@/components/shop/ShopProductGrid.tsx";
 import { useCallback, useState } from "react";
 
-export const Route = createFileRoute("/shops/$shopSlugId")({
+export const Route = createFileRoute("/shops/$shopSlugId/")({
     loader: async ({ context: { queryClient }, params: { shopSlugId } }) => {
         return await queryClient.ensureQueryData(
             getShopBySlugOptions({
@@ -46,7 +46,11 @@ function ShopDetailComponent() {
             <div className="mx-auto w-full max-w-7xl px-4 pb-16 md:px-10">
                 <div aria-hidden="true" className="border-t border-border/30 hidden md:block" />
                 <div className="pt-8">
-                    <ShopProductGrid shopName={shop.name} onTotalChange={handleTotalChange} />
+                    <ShopProductGrid
+                        shopName={shop.name}
+                        shopType={shop.shopType}
+                        onTotalChange={handleTotalChange}
+                    />
                 </div>
             </div>
         </div>

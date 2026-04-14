@@ -2,6 +2,7 @@ import { H1 } from "@/components/typography/H1.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
+import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { useTranslation } from "react-i18next";
 import { ImageOff } from "lucide-react";
 
@@ -21,6 +22,8 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
 
     const formattedProductCount = new Intl.NumberFormat(i18n.language).format(productCount ?? 0);
 
+    const shopTypeName = t(SHOP_TYPE_TRANSLATION_CONFIG[shop.shopType].translationKey);
+
     return (
         <header className="flex flex-col">
             <div className="relative isolate overflow-hidden bg-primary">
@@ -28,7 +31,7 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
                 <div className="relative mx-auto flex min-h-85 max-w-7xl items-end px-4 pb-10 pt-24 md:min-h-130 md:px-10 md:pb-16">
                     <div className="max-w-3xl space-y-3">
                         <p className="text-xs uppercase tracking-[0.2em] text-tertiary-fixed">
-                            {t("shop.header.archiveLabel")}
+                            {shopTypeName}
                         </p>
                         <H1 className="text-5xl font-normal italic leading-tight text-primary-foreground md:text-7xl">
                             {shop.name}
