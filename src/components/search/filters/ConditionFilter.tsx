@@ -25,7 +25,9 @@ export function ConditionFilter() {
 
     return (
         <div className="space-y-2">
-            <Label>{t("search.filter.condition")}</Label>
+            <Label className="text-xs font-semibold tracking-[0.08em] uppercase text-on-surface-variant">
+                {t("search.filter.condition")}
+            </Label>
             <Controller
                 name="condition"
                 control={control}

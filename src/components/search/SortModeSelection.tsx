@@ -31,8 +31,10 @@ export function SortModeSelection({ sortMode, updateSortMode, className }: SortM
                 }}
                 defaultValue={sortMode.field}
             >
-                <SelectTrigger>{t(getSortModeFieldLabel(sortMode.field))}</SelectTrigger>
-                <SelectContent>
+                <SelectTrigger className="border-outline-variant shadow-none">
+                    {t(getSortModeFieldLabel(sortMode.field))}
+                </SelectTrigger>
+                <SelectContent className="border-outline-variant">
                     <SelectGroup>
                         {SEARCH_RESULT_SORT_FIELDS.map((field) => (
                             <SelectItem key={field} value={field}>
@@ -48,10 +50,10 @@ export function SortModeSelection({ sortMode, updateSortMode, className }: SortM
                 }}
                 defaultValue={sortMode.order}
             >
-                <SelectTrigger>
+                <SelectTrigger className="border-outline-variant shadow-none">
                     {sortMode.order === "ASC" ? <SortAsc /> : <SortDesc />}
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="border-outline-variant">
                     <SelectGroup>
                         <SelectItem value="ASC">
                             <SortAsc /> {t("search.sortMode.order.asc")}

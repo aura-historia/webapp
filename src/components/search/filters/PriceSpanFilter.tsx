@@ -61,9 +61,9 @@ export function PriceSpanFilter() {
             resetTooltip={t("search.filter.resetTooltip.priceSpan")}
             onReset={() => resetAndNavigate("priceSpan")}
         >
-            <div className="flex mt-4 flex-col gap-4">
+            <div className="mt-2 flex flex-col gap-4">
                 <Slider
-                    className="z-0"
+                    className="z-0 px-1"
                     value={[sliderMin, sliderMax]}
                     min={PRICE_MIN}
                     max={PRICE_MAX}
@@ -85,7 +85,7 @@ export function PriceSpanFilter() {
                     }}
                     aria-label={t("search.filter.priceSpanAria")}
                 />
-                <div className="flex flex-row gap-2 items-center">
+                <div className="flex items-center gap-2">
                     <Controller
                         name="priceSpan.min"
                         control={control}
@@ -95,7 +95,7 @@ export function PriceSpanFilter() {
                                 inputMode="numeric"
                                 pattern="[0-9]*"
                                 placeholder={t("search.filter.min")}
-                                className="rounded border px-2 py-1 text-sm"
+                                className="h-9 rounded-none border-0 border-b border-outline-variant bg-transparent px-0 py-0 text-sm shadow-none focus-visible:border-primary focus-visible:ring-0"
                                 value={
                                     field.value === undefined || field.value === null
                                         ? ""
@@ -110,8 +110,8 @@ export function PriceSpanFilter() {
                             />
                         )}
                     />
-                    <span>€</span>
-                    <span> -</span>
+                    <span className="text-xs uppercase text-on-surface-variant">€</span>
+                    <span className="text-on-surface-variant">-</span>
                     <Controller
                         name="priceSpan.max"
                         control={control}
@@ -121,7 +121,7 @@ export function PriceSpanFilter() {
                                 inputMode="numeric"
                                 pattern="[0-9]*"
                                 placeholder={t("search.filter.max")}
-                                className="rounded border px-2 py-1 text-sm"
+                                className="h-9 rounded-none border-0 border-b border-outline-variant bg-transparent px-0 py-0 text-sm shadow-none focus-visible:border-primary focus-visible:ring-0"
                                 value={
                                     field.value === undefined || field.value === null
                                         ? ""
@@ -136,7 +136,7 @@ export function PriceSpanFilter() {
                             />
                         )}
                     />
-                    <span>€</span>
+                    <span className="text-xs uppercase text-on-surface-variant">€</span>
                 </div>
             </div>
         </FilterCard>

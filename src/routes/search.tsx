@@ -49,76 +49,84 @@ function RouteComponent() {
 
     return (
         <>
-            <div className="max-w-6xl mx-auto flex flex-col gap-4 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto lg:px-4">
-                <div className="flex flex-row items-end gap-8">
-                    <div className="hidden lg:block lg:w-[30%] min-w-0">
-                        <H2>{t("search.filters")}</H2>
-                    </div>
-                    <div className="lg:w-[70%] w-full min-w-0">
-                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
-                            <div className="flex flex-col min-w-0">
-                                <H1>{t("search.resultsFor")}</H1>
-                                <div className="text-3xl sm:text-4xl font-medium font-display text-ellipsis overflow-hidden wrap-break-word">
-                                    "{searchArgs.q}"
-                                </div>
-                            </div>
+            <div className="bg-background">
+                <div className="mx-auto max-w-7xl lg:grid lg:grid-cols-[20rem_minmax(0,1fr)]">
+                    <aside className="hidden border-r border-outline-variant/20 bg-surface-container-high lg:block">
+                        <div className="sticky top-20 p-6">
+                            <H2 className="text-3xl! text-primary-container">
+                                {t("search.filters")}
+                            </H2>
+                            <SearchFilters searchFilters={searchArgs} />
+                        </div>
+                    </aside>
 
-                            <div className="flex flex-col items-end gap-2">
+                    <div className="bg-surface-container-low px-6 py-8 sm:px-8 lg:px-10">
+                        <div className="min-w-0">
+                            <div className="flex flex-col gap-4 pb-4">
+                                <div className="flex flex-col gap-3">
+                                    <div className="flex flex-wrap items-end gap-3">
+                                        <H1 className="break-words text-4xl sm:text-5xl">
+                                            {t("search.resultsFor")} "{searchArgs.q}"
+                                        </H1>
+                                        {totalResults !== null && (
+                                            <span className="hidden pb-1 text-sm text-on-surface-variant/70 sm:inline">
+                                                ({t("search.totalResults", { count: totalResults })}
+                                                )
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="h-px w-32 bg-primary/20" />
+                                </div>
+
                                 {totalResults !== null && (
-                                    <span className="text-2xl font-semibold whitespace-nowrap font-display hidden md:block ">
+                                    <span className="text-sm text-on-surface-variant/70 sm:hidden">
                                         {t("search.totalResults", { count: totalResults })}
                                     </span>
                                 )}
-                                <div className="hidden lg:block">
+
+                                <div className="hidden justify-start border-b border-primary/20 pb-4 mt-8 lg:flex">
                                     <SortModeSelection
                                         sortMode={sortMode}
                                         updateSortMode={updateSortMode}
                                     />
                                 </div>
+
+                                <div className="mt-2 flex flex-row gap-2 lg:hidden">
+                                    <Drawer direction="left">
+                                        <DrawerTrigger asChild>
+                                            <Button variant="filter">
+                                                <Filter className="h-4 w-4" />
+                                                {t("search.filters")}
+                                            </Button>
+                                        </DrawerTrigger>
+                                        <DrawerContent
+                                            aria-describedby={undefined}
+                                            className="h-full flex flex-col"
+                                        >
+                                            <DrawerTitle className="sr-only">
+                                                {t("search.filters")}
+                                            </DrawerTitle>
+                                            <div className="flex-1 overflow-y-auto p-4">
+                                                <SearchFilters searchFilters={searchArgs} />
+                                            </div>
+                                        </DrawerContent>
+                                    </Drawer>
+
+                                    <SortModeSelection
+                                        sortMode={sortMode}
+                                        updateSortMode={updateSortMode}
+                                        className="flex-1"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="mt-8 min-w-0">
+                                <SearchResults
+                                    searchFilters={searchArgs}
+                                    onTotalChange={setTotalResults}
+                                />
                             </div>
                         </div>
-
-                        {totalResults !== null && (
-                            <span className="block md:hidden text-2xl font-semibold mt-4">
-                                {t("search.totalResults", { count: totalResults })}
-                            </span>
-                        )}
-
-                        <div className="flex flex-row gap-2 mt-2 lg:hidden">
-                            <Drawer direction="left">
-                                <DrawerTrigger asChild>
-                                    <Button variant="filter">
-                                        <Filter className="h-4 w-4" />
-                                        {t("search.filters")}
-                                    </Button>
-                                </DrawerTrigger>
-                                <DrawerContent
-                                    aria-describedby={undefined}
-                                    className="h-full flex flex-col"
-                                >
-                                    <DrawerTitle className="sr-only">
-                                        {t("search.filters")}
-                                    </DrawerTitle>
-                                    <div className="flex-1 overflow-y-auto p-4">
-                                        <SearchFilters searchFilters={searchArgs} />
-                                    </div>
-                                </DrawerContent>
-                            </Drawer>
-
-                            <SortModeSelection
-                                sortMode={sortMode}
-                                updateSortMode={updateSortMode}
-                                className="flex-1"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div className="flex flex-col lg:flex-row items-start gap-4">
-                    <div className="w-full lg:w-87.5 lg:shrink-0 lg:pb-0 pb-8 border-b lg:border-b-0 border-gray-300 hidden lg:block">
-                        <SearchFilters searchFilters={searchArgs} />
-                    </div>
-                    <div className="flex-col w-full lg:flex-1 min-w-0">
-                        <SearchResults searchFilters={searchArgs} onTotalChange={setTotalResults} />
                     </div>
                 </div>
             </div>
