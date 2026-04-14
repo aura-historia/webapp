@@ -56,6 +56,9 @@
     "collections": {
       "title": "Toutes les Collections | Aura Historia",
       "description": "Parcourez les collections d'antiquités curatorées sur Aura Historia. Découvrez des combinaisons uniques de catégories et d'époques."
+    },
+    "shop": {
+      "defaultName": "Boutique"
     }
   },
   "validation": {
@@ -426,6 +429,10 @@
     "marketplace": "Place de marché",
     "unknown": "Inconnu",
     "auctionPlatform": "Plateforme d'enchères"
+  },
+  "shopPartnerStatus": {
+    "partnered": "Partenaire officiel",
+    "scraped": "Indexé publiquement"
   },
   "discover": {
     "title": "Nous apportons de la transparence dans le paysage opaque des antiquités en ligne",
@@ -1016,5 +1023,29 @@
     "subtitle": "Collections Curatorées",
     "description": "Découvrez nos collections curatorées combinant des catégories spécifiques avec des périodes historiques. Chaque collection offre une perspective unique sur l'artisanat et l'époque.",
     "explore": "Explorer"
+  },
+  "shop": {
+    "header": {
+      "archiveLabel": "Boutique",
+      "overviewTitle": "Aperçu de la boutique",
+      "indexedItems": "Articles indexés",
+      "imageAlt": "Logo de {{shop}}",
+      "noImage": "Aucun logo disponible",
+      "addedOn": "Ajouté le {{date}}",
+      "metaDescription": "Explorez les antiquités et objets de collection de {{shop}} sur Aura Historia."
+    },
+    "products": {
+      "loadingMore": "Chargement d'autres articles...",
+      "allLoaded_one": "Vous avez consulté {{count}} article de {{shopTypeName}}.",
+      "allLoaded_other": "Vous avez consulté les {{count}} articles de {{shopTypeName}}.",
+      "noResults": {
+        "title": "Aucun article trouvé",
+        "description": "Il n'y a actuellement aucun article de cette boutique."
+      },
+      "error": {
+        "title": "Impossible de charger les articles",
+        "description": "Une erreur s'est produite lors du chargement des articles. Veuillez réessayer plus tard."
+      }
+    }
   }
 }

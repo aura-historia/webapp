@@ -24,6 +24,7 @@ import { Route as CollectionsCombinationSlugRouteImport } from './routes/collect
 import { Route as CategoriesCategoryIdRouteImport } from './routes/categories.$categoryId'
 import { Route as AuthWatchlistRouteImport } from './routes/_auth.watchlist'
 import { Route as AuthAccountRouteImport } from './routes/_auth.account'
+import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
 import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
 
@@ -102,6 +103,11 @@ const AuthAccountRoute = AuthAccountRouteImport.update({
   path: '/account',
   getParentRoute: () => AuthRoute,
 } as any)
+const ShopsShopSlugIdIndexRoute = ShopsShopSlugIdIndexRouteImport.update({
+  id: '/shops/$shopSlugId/',
+  path: '/shops/$shopSlugId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductShopIdShopsProductIdRoute =
   ProductShopIdShopsProductIdRouteImport.update({
     id: '/product/$shopId/$shopsProductId',
@@ -131,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/collections/': typeof CollectionsIndexRoute
   '/periods/': typeof PeriodsIndexRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
+  '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRoutesByTo {
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/collections': typeof CollectionsIndexRoute
   '/periods': typeof PeriodsIndexRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
+  '/shops/$shopSlugId': typeof ShopsShopSlugIdIndexRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRoutesById {
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/collections/': typeof CollectionsIndexRoute
   '/periods/': typeof PeriodsIndexRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
+  '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRouteTypes {
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/collections/'
     | '/periods/'
     | '/product/$shopId/$shopsProductId'
+    | '/shops/$shopSlugId/'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -207,6 +217,7 @@ export interface FileRouteTypes {
     | '/collections'
     | '/periods'
     | '/product/$shopId/$shopsProductId'
+    | '/shops/$shopSlugId'
     | '/shops/$shopSlugId/products/$productSlugId'
   id:
     | '__root__'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/collections/'
     | '/periods/'
     | '/product/$shopId/$shopsProductId'
+    | '/shops/$shopSlugId/'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesById: FileRoutesById
 }
@@ -244,6 +256,7 @@ export interface RootRouteChildren {
   CollectionsIndexRoute: typeof CollectionsIndexRoute
   PeriodsIndexRoute: typeof PeriodsIndexRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
+  ShopsShopSlugIdIndexRoute: typeof ShopsShopSlugIdIndexRoute
   ShopsShopSlugIdProductsProductSlugIdRoute: typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 
@@ -354,6 +367,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAccountRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/shops/$shopSlugId/': {
+      id: '/shops/$shopSlugId/'
+      path: '/shops/$shopSlugId'
+      fullPath: '/shops/$shopSlugId/'
+      preLoaderRoute: typeof ShopsShopSlugIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/product/$shopId/$shopsProductId': {
       id: '/product/$shopId/$shopsProductId'
       path: '/product/$shopId/$shopsProductId'
@@ -398,6 +418,7 @@ const rootRouteChildren: RootRouteChildren = {
   CollectionsIndexRoute: CollectionsIndexRoute,
   PeriodsIndexRoute: PeriodsIndexRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
+  ShopsShopSlugIdIndexRoute: ShopsShopSlugIdIndexRoute,
   ShopsShopSlugIdProductsProductSlugIdRoute:
     ShopsShopSlugIdProductsProductSlugIdRoute,
 }

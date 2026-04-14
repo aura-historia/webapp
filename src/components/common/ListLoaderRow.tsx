@@ -10,6 +10,7 @@ type ListLoaderRowProps = {
     readonly totalCount: number;
     readonly loadingMoreKey?: string;
     readonly allLoadedKey?: string;
+    readonly allLoadedContext?: Record<string, unknown>;
 };
 
 export function ListLoaderRow({
@@ -17,6 +18,7 @@ export function ListLoaderRow({
     totalCount,
     loadingMoreKey = "search.messages.loadingMore",
     allLoadedKey = "search.messages.allLoaded",
+    allLoadedContext,
 }: ListLoaderRowProps) {
     const { t } = useTranslation();
 
@@ -33,7 +35,9 @@ export function ListLoaderRow({
                         <div className="h-12 w-12 shrink-0">
                             <Lottie className="h-12 w-12" animationData={tick} loop={false} />
                         </div>
-                        <SectionInfoText>{t(allLoadedKey, { count: totalCount })}</SectionInfoText>
+                        <SectionInfoText>
+                            {t(allLoadedKey, { count: totalCount, ...allLoadedContext })}
+                        </SectionInfoText>
                     </div>
                 )}
             </CardContent>

@@ -3,8 +3,8 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistProduct, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deletePartnerApplication, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPartnerApplication, getPartnerApplications, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterMatchedProducts, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchPartnerApplication, patchPartnerProducts, patchWatchlistProduct, postPartnerApplication, postPartnerProducts, putPartnerProducts, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeletePartnerApplicationData, DeletePartnerApplicationError, DeletePartnerApplicationResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPartnerApplicationData, GetPartnerApplicationError, GetPartnerApplicationResponse, GetPartnerApplicationsData, GetPartnerApplicationsError, GetPartnerApplicationsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchPartnerApplicationData, PatchPartnerApplicationError, PatchPartnerApplicationResponse, PatchPartnerProductsData, PatchPartnerProductsError, PatchPartnerProductsResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostPartnerApplicationData, PostPartnerApplicationError, PostPartnerApplicationResponse, PostPartnerProductsData, PostPartnerProductsError, PostPartnerProductsResponse, PutPartnerProductsData, PutPartnerProductsError, PutPartnerProductsResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import { addWatchlistProduct, adminGetPartnerApplication, adminGetPartnerApplications, adminPatchPartnerApplication, adminPostPartnerApplicationDecision, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deletePartnerApplication, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPartnerApplication, getPartnerApplications, getPartnerShops, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterMatchedProducts, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchPartnerApplication, patchPartnerProducts, patchShopById, patchWatchlistProduct, postPartnerApplication, postPartnerProducts, putPartnerProducts, putShopApiKey, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminGetPartnerApplicationData, AdminGetPartnerApplicationError, AdminGetPartnerApplicationResponse, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsError, AdminGetPartnerApplicationsResponse, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationError, AdminPatchPartnerApplicationResponse, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionError, AdminPostPartnerApplicationDecisionResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeletePartnerApplicationData, DeletePartnerApplicationError, DeletePartnerApplicationResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPartnerApplicationData, GetPartnerApplicationError, GetPartnerApplicationResponse, GetPartnerApplicationsData, GetPartnerApplicationsError, GetPartnerApplicationsResponse, GetPartnerShopsData, GetPartnerShopsError, GetPartnerShopsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchPartnerApplicationData, PatchPartnerApplicationError, PatchPartnerApplicationResponse, PatchPartnerProductsData, PatchPartnerProductsError, PatchPartnerProductsResponse, PatchShopByIdData, PatchShopByIdError, PatchShopByIdResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostPartnerApplicationData, PostPartnerApplicationError, PostPartnerApplicationResponse, PostPartnerProductsData, PostPartnerProductsError, PostPartnerProductsResponse, PutPartnerProductsData, PutPartnerProductsError, PutPartnerProductsResponse, PutShopApiKeyData, PutShopApiKeyError, PutShopApiKeyResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 /**
  * Batch update products (Partner API)
@@ -543,7 +543,7 @@ export const getUserAccountQueryKey = (options?: Options<GetUserAccountData2>) =
  * Get user account data
  *
  * Retrieves the authenticated user's account information including email, name, language and currency preferences,
- * and the consent flag for displaying prohibited content.
+ * the consent flag for displaying prohibited content, the user's subscription tier, and the user's role.
  * Requires valid Cognito JWT authentication.
  *
  */
@@ -565,6 +565,7 @@ export const getUserAccountOptions = (options?: Options<GetUserAccountData2>) =>
  *
  * Updates the authenticated user's account information.
  * All fields in the request body are optional - only provided fields will be updated.
+ * The user's `role` is returned in the response but cannot be updated through this endpoint.
  * Returns the updated user account data.
  * Requires valid Cognito JWT authentication.
  *
@@ -793,6 +794,61 @@ export const getShopByIdOptions = (options: Options<GetShopByIdData>) => queryOp
     queryKey: getShopByIdQueryKey(options)
 });
 
+/**
+ * Update shop details
+ *
+ * Updates mutable shop metadata for the specified shop.
+ *
+ * Requires a valid Cognito JWT. The caller must either:
+ * - be the partner user assigned to the shop, or
+ * - have the `ADMIN` role.
+ *
+ * The request body uses `PatchShopData`. Only fields present in the JSON body are applied;
+ * omitted or `null` fields are left unchanged. The HTTP request body itself must not be absent
+ * or an empty string; `{}` is valid.
+ *
+ */
+export const patchShopByIdMutation = (options?: Partial<Options<PatchShopByIdData>>): UseMutationOptions<PatchShopByIdResponse, PatchShopByIdError, Options<PatchShopByIdData>> => {
+    const mutationOptions: UseMutationOptions<PatchShopByIdResponse, PatchShopByIdError, Options<PatchShopByIdData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await patchShopById({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Create or overwrite a partner shop API key
+ *
+ * Creates a new partner API key for the specified shop and returns the plaintext key in the response.
+ * If a key already exists for the shop, it is overwritten.
+ *
+ * Requires a valid Cognito JWT. The caller must either:
+ * - be the partner user assigned to the shop, or
+ * - have the `ADMIN` role.
+ *
+ * The returned key is only available in this response. The backend stores only a hash.
+ *
+ */
+export const putShopApiKeyMutation = (options?: Partial<Options<PutShopApiKeyData>>): UseMutationOptions<PutShopApiKeyResponse, PutShopApiKeyError, Options<PutShopApiKeyData>> => {
+    const mutationOptions: UseMutationOptions<PutShopApiKeyResponse, PutShopApiKeyError, Options<PutShopApiKeyData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await putShopApiKey({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const getShopBySlugQueryKey = (options: Options<GetShopBySlugData>) => createQueryKey('getShopBySlug', options);
 
 /**
@@ -983,6 +1039,33 @@ export const searchPeriodsMutation = (options?: Partial<Options<SearchPeriodsDat
     return mutationOptions;
 };
 
+export const getPartnerShopsQueryKey = (options: Options<GetPartnerShopsData>) => createQueryKey('getPartnerShops', options);
+
+/**
+ * List shops for a partner user
+ *
+ * Returns all shops whose `partner_user_id` matches the requested `partnerId`.
+ *
+ * Requires a valid Cognito JWT. The caller may request:
+ * - their own shops (`partnerId` equals the JWT `sub`), or
+ * - another partner's shops when the caller has the `ADMIN` role.
+ *
+ * Returns an empty array when the partner currently has no shops.
+ *
+ */
+export const getPartnerShopsOptions = (options: Options<GetPartnerShopsData>) => queryOptions<GetPartnerShopsResponse, GetPartnerShopsError, GetPartnerShopsResponse, ReturnType<typeof getPartnerShopsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getPartnerShops({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getPartnerShopsQueryKey(options)
+});
+
 export const getPartnerApplicationsQueryKey = (options?: Options<GetPartnerApplicationsData>) => createQueryKey('getPartnerApplications', options);
 
 /**
@@ -1012,8 +1095,8 @@ export const getPartnerApplicationsOptions = (options?: Options<GetPartnerApplic
  * Submits a new partner shop application for the authenticated user.
  * The application payload specifies either an existing shop (by `shopId`) or a new shop
  * (with name, type, domains, and optional image).
- * The application is created with state `SUBMITTED`.
- * State is read-only and cannot be set by the client.
+ * The application is created with `businessState` `SUBMITTED` and `executionState` `PROCESSING`.
+ * Both state fields are read-only and cannot be set by the client.
  * Returns the created application with HTTP 201.
  * Requires valid Cognito JWT authentication.
  *
@@ -1083,7 +1166,7 @@ export const getPartnerApplicationOptions = (options: Options<GetPartnerApplicat
  *
  * Updates the fields of a specific partner shop application identified by `partnerApplicationId`.
  * Only fields present in the request body are applied; omitted fields are left unchanged.
- * The `state` field is **read-only** and cannot be updated through this endpoint.
+ * The `businessState` and `executionState` fields are **read-only** and cannot be updated through this endpoint.
  * The request body is required and must not be empty.
  * Returns the updated application.
  * Returns 404 when no application with the given ID exists for this user.
@@ -1094,6 +1177,99 @@ export const patchPartnerApplicationMutation = (options?: Partial<Options<PatchP
     const mutationOptions: UseMutationOptions<PatchPartnerApplicationResponse, PatchPartnerApplicationError, Options<PatchPartnerApplicationData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await patchPartnerApplication({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const adminGetPartnerApplicationsQueryKey = (options?: Options<AdminGetPartnerApplicationsData>) => createQueryKey('adminGetPartnerApplications', options);
+
+/**
+ * List all partner shop applications
+ *
+ * Retrieves all partner shop applications across all users.
+ * This endpoint is restricted to authenticated users with the `ADMIN` role.
+ * Returns an empty array when no applications exist.
+ *
+ */
+export const adminGetPartnerApplicationsOptions = (options?: Options<AdminGetPartnerApplicationsData>) => queryOptions<AdminGetPartnerApplicationsResponse, AdminGetPartnerApplicationsError, AdminGetPartnerApplicationsResponse, ReturnType<typeof adminGetPartnerApplicationsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminGetPartnerApplications({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminGetPartnerApplicationsQueryKey(options)
+});
+
+export const adminGetPartnerApplicationQueryKey = (options: Options<AdminGetPartnerApplicationData>) => createQueryKey('adminGetPartnerApplication', options);
+
+/**
+ * Get a specific partner shop application as admin
+ *
+ * Retrieves a single partner shop application by its ID across all users.
+ * This endpoint is restricted to authenticated users with the `ADMIN` role.
+ *
+ */
+export const adminGetPartnerApplicationOptions = (options: Options<AdminGetPartnerApplicationData>) => queryOptions<AdminGetPartnerApplicationResponse, AdminGetPartnerApplicationError, AdminGetPartnerApplicationResponse, ReturnType<typeof adminGetPartnerApplicationQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminGetPartnerApplication({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminGetPartnerApplicationQueryKey(options)
+});
+
+/**
+ * Update a partner shop application as admin
+ *
+ * Updates a specific partner shop application by ID across all users.
+ * This endpoint is restricted to authenticated users with the `ADMIN` role.
+ * Admins can update payload fields, but review decisions must be submitted through
+ * `POST /api/v1/partner-applications/{partnerApplicationId}/decision`.
+ * The request body is required and must not be empty.
+ *
+ */
+export const adminPatchPartnerApplicationMutation = (options?: Partial<Options<AdminPatchPartnerApplicationData>>): UseMutationOptions<AdminPatchPartnerApplicationResponse, AdminPatchPartnerApplicationError, Options<AdminPatchPartnerApplicationData>> => {
+    const mutationOptions: UseMutationOptions<AdminPatchPartnerApplicationResponse, AdminPatchPartnerApplicationError, Options<AdminPatchPartnerApplicationData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await adminPatchPartnerApplication({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Submit a partner shop application decision as admin
+ *
+ * Submits an `APPROVE` or `REJECT` decision for a specific partner shop application across all users.
+ * This endpoint is restricted to authenticated users with the `ADMIN` role.
+ * The targeted application must currently have `businessState` `IN_REVIEW`; otherwise the request fails with `409 Conflict`.
+ * On success, the workflow resumes asynchronously and the returned application has `executionState` `PROCESSING`
+ * while the decision is being applied.
+ *
+ */
+export const adminPostPartnerApplicationDecisionMutation = (options?: Partial<Options<AdminPostPartnerApplicationDecisionData>>): UseMutationOptions<AdminPostPartnerApplicationDecisionResponse, AdminPostPartnerApplicationDecisionError, Options<AdminPostPartnerApplicationDecisionData>> => {
+    const mutationOptions: UseMutationOptions<AdminPostPartnerApplicationDecisionResponse, AdminPostPartnerApplicationDecisionError, Options<AdminPostPartnerApplicationDecisionData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await adminPostPartnerApplicationDecision({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

@@ -372,7 +372,7 @@ export type LocalizedTextData = {
 export type PriceData = {
     currency: CurrencyData;
     /**
-     * Price amount in minor currency units (e.g., cents for EUR/USD)
+     * Price amount in minor currency units (e.g., cents for most supported currencies, whole yen for JPY)
      */
     amount: number;
 };
@@ -529,15 +529,29 @@ export type GetProductEventData = {
 };
 
 /**
- * Supported languages (ISO 639-1 codes):
+ * Supported language codes (ISO 639-1 canonical values):
  * - de: German (includes de-DE, de-AT, de-CH, de-LU, de-LI)
- * - en: English (includes en-US, en-GB, en-AU, en-CA, en-NZ, en-IE)
+ * - en: English (includes en-US, en-GB, en-AU, en-CA, en-NZ, and backend-specific accepted alias en_IE)
  * - fr: French (includes fr-FR, fr-CA, fr-BE, fr-CH, fr-LU)
  * - es: Spanish (includes es-ES, es-MX, es-AR, es-CO, es-CL, es-PE, es-VE)
  * - it: Italian (includes it-IT, it-CH)
+ * - zh: Chinese (Simplified) (includes zh-CN, zh-Hans)
+ * - pt: Portuguese (includes pt-PT, pt-BR)
+ * - pl: Polish (includes pl-PL)
+ * - tr: Turkish (includes tr-TR)
+ * - nl: Dutch (includes nl-NL, nl-BE)
+ * - cs: Czech (includes cs-CZ)
+ * - ja: Japanese (includes ja-JP)
+ * - ru: Russian (includes ru-RU)
+ * - ar: Arabic (includes ar-SA, ar-EG, ar-AE)
+ *
+ * `de`, `en`, `fr`, `es`, and `it` are fully supported localization/translation-target languages.
+ * `zh`, `pt`, `pl`, `tr`, `nl`, `cs`, `ja`, `ru`, and `ar` are ingestion-only languages:
+ * they can appear in stored/native content and are accepted anywhere `LanguageData` is used,
+ * but backend-generated translations and fallback localized strings are not produced in these languages.
  *
  */
-export type LanguageData = 'de' | 'en' | 'fr' | 'es' | 'it';
+export type LanguageData = 'de' | 'en' | 'fr' | 'es' | 'it' | 'zh' | 'pt' | 'pl' | 'tr' | 'nl' | 'cs' | 'ja' | 'ru' | 'ar';
 
 /**
  * Supported currencies (ISO 4217 codes):
@@ -547,9 +561,21 @@ export type LanguageData = 'de' | 'en' | 'fr' | 'es' | 'it';
  * - AUD: Australian Dollar
  * - CAD: Canadian Dollar
  * - NZD: New Zealand Dollar
+ * - CNY: Chinese Yuan
+ * - BRL: Brazilian Real
+ * - PLN: Polish Złoty
+ * - TRY: Turkish Lira
+ * - JPY: Japanese Yen
+ * - CZK: Czech Koruna
+ * - RUB: Russian Ruble
+ * - AED: UAE Dirham
+ * - SAR: Saudi Riyal
+ * - HKD: Hong Kong Dollar
+ * - SGD: Singapore Dollar
+ * - CHF: Swiss Franc
  *
  */
-export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD';
+export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD' | 'CNY' | 'BRL' | 'PLN' | 'TRY' | 'JPY' | 'CZK' | 'RUB' | 'AED' | 'SAR' | 'HKD' | 'SGD' | 'CHF';
 
 /**
  * Current state of the product:
@@ -715,6 +741,14 @@ export type ProhibitedContentData = 'UNKNOWN' | 'NONE' | 'NAZI_GERMANY';
 export type ShopTypeData = 'AUCTION_HOUSE' | 'AUCTION_PLATFORM' | 'COMMERCIAL_DEALER' | 'MARKETPLACE';
 
 /**
+ * Partner relationship status of a shop:
+ * - SCRAPED: Shop data exists without a linked partner user
+ * - PARTNERED: Shop is linked to a partner user
+ *
+ */
+export type ShopPartnerStatusData = 'SCRAPED' | 'PARTNERED';
+
+/**
  * Product image with prohibited content classification.
  * The `url` field is omitted when the image contains prohibited content and the authenticated user has not consented to view such content.
  * For unauthenticated users the `url` is always omitted for any image whose `prohibitedContent` is not `NONE`.
@@ -875,7 +909,7 @@ export type ProductSearchData = {
      */
     shopType?: Array<ShopTypeData> | null;
     /**
-     * Optional price range filter in minor currency units
+     * Optional price range filter in minor currency units for the selected/requested currency
      */
     price?: RangeQueryUInt64 | null;
     /**
@@ -1047,7 +1081,7 @@ export type PatchProductSearchData = {
      */
     shopType?: Array<ShopTypeData> | null;
     /**
-     * Optional price range filter in minor currency units
+     * Optional price range filter in minor currency units for the selected/requested currency
      */
     price?: RangeQueryUInt64 | null;
     /**
@@ -1140,7 +1174,7 @@ export type UserSearchFilterData = {
 };
 
 /**
- * Range query for numeric values (prices in minor currency units)
+ * Range query for numeric values (prices in minor currency units for the selected/requested currency)
  */
 export type RangeQueryUInt64 = {
     /**
@@ -1239,6 +1273,7 @@ export type GetShopData = {
      * Optional URL to the shop's logo or image
      */
     image?: string | null;
+    partnerStatus: ShopPartnerStatusData;
     /**
      * When the shop was first created (RFC3339 format)
      */
@@ -1269,6 +1304,44 @@ export type ShopSearchData = {
      * Optional filter by shop last updated date range
      */
     updated?: RangeQueryDateTime | null;
+};
+
+/**
+ * Partial update for a shop.
+ * Only the fields present in the request body are applied; omitted or `null` fields are left unchanged.
+ * All fields are optional, so `{}` is accepted as a no-op update when sent as the JSON request body.
+ *
+ */
+export type PatchShopData = {
+    /**
+     * Optional updated shop type classification.
+     */
+    shopType?: ShopTypeData | null;
+    /**
+     * Optional updated set of domains for the shop.
+     * When provided, this replaces the existing domains entirely.
+     * Domains are normalized (lowercase, no scheme, no www prefix, no path/query/fragment).
+     *
+     */
+    domains?: Array<string> | null;
+    /**
+     * Optional updated URL to the shop's logo or image.
+     * When omitted or set to `null`, the current image is left unchanged.
+     *
+     */
+    image?: string | null;
+};
+
+/**
+ * Response body returned after creating or overwriting a partner shop API key.
+ */
+export type PartnerShopApiKeyResponse = {
+    /**
+     * Plaintext partner shop API key.
+     * Returned only when the key is created; subsequent verification uses the `x-api-key` request header.
+     *
+     */
+    apiKey: string;
 };
 
 /**
@@ -1584,6 +1657,7 @@ export type GetUserAccountData = {
      */
     prohibitedContentConsent: boolean;
     tier: UserTierData;
+    role: UserRoleData;
     /**
      * When the user account was created (RFC3339 format)
      */
@@ -1632,6 +1706,14 @@ export type PatchUserAccountData = {
 export type UserTierData = 'FREE' | 'PRO' | 'ULTIMATE';
 
 /**
+ * The user's role used for API authorization.
+ * - `USER`: Standard authenticated user.
+ * - `ADMIN`: Administrator with access to admin-only endpoints.
+ *
+ */
+export type UserRoleData = 'USER' | 'ADMIN';
+
+/**
  * A single user notification, fully localized for the requested language and currency.
  */
 export type GetNotificationData = {
@@ -1666,13 +1748,16 @@ export type GetNotificationData = {
  * The notification payload. The structure depends on the `type` discriminator field:
  * - `WATCHLIST`: Notification triggered by a watchlist event (price change or state change).
  * - `SEARCH_FILTER`: Notification triggered when a new product matches a user's search filter.
+ * - `PARTNER_APPLICATION`: Notification triggered when a partner shop application is approved or rejected.
  *
  */
 export type NotificationPayloadData = ({
     type: 'WATCHLIST';
 } & WatchlistNotificationPayloadData) | ({
     type: 'SEARCH_FILTER';
-} & SearchFilterNotificationPayloadData);
+} & SearchFilterNotificationPayloadData) | ({
+    type: 'PARTNER_APPLICATION';
+} & PartnerApplicationNotificationPayloadData);
 
 /**
  * Notification payload for a watchlist event.
@@ -1812,6 +1897,61 @@ export type SearchFilterPayloadData = {
      * User-defined name of the search filter that matched the product.
      */
     userSearchFilterName: string;
+};
+
+/**
+ * Notification payload for a partner shop application review update.
+ */
+export type PartnerApplicationNotificationPayloadData = {
+    /**
+     * Discriminator field identifying this as a partner application notification.
+     */
+    type: 'PARTNER_APPLICATION';
+    /**
+     * Display name of the shop referenced by the partner application.
+     */
+    shopName: string;
+    partnerApplicationPayload: PartnerApplicationPayloadData;
+};
+
+/**
+ * Partner-application-specific sub-payload. The structure depends on the `type` discriminator field:
+ * - `APPROVED`: The partner application was approved.
+ * - `REJECTED`: The partner application was rejected.
+ *
+ */
+export type PartnerApplicationPayloadData = ({
+    type: 'APPROVED';
+} & ApprovedPartnerApplicationPayloadData) | ({
+    type: 'REJECTED';
+} & RejectedPartnerApplicationPayloadData);
+
+/**
+ * Partner application payload for an approval notification.
+ */
+export type ApprovedPartnerApplicationPayloadData = {
+    /**
+     * Discriminator field identifying this as an approval payload.
+     */
+    type: 'APPROVED';
+    /**
+     * Unique identifier of the approved partner shop application.
+     */
+    partnerApplicationId: string;
+};
+
+/**
+ * Partner application payload for a rejection notification.
+ */
+export type RejectedPartnerApplicationPayloadData = {
+    /**
+     * Discriminator field identifying this as a rejection payload.
+     */
+    type: 'REJECTED';
+    /**
+     * Unique identifier of the rejected partner shop application.
+     */
+    partnerApplicationId: string;
 };
 
 /**
@@ -2138,7 +2278,7 @@ export type PutProductsResponse = {
 };
 
 /**
- * The review state of a partner shop application:
+ * The business review state of a partner shop application:
  * - `SUBMITTED`: Application has been submitted and is awaiting review.
  * - `IN_REVIEW`: Application is currently being reviewed by the team.
  * - `REJECTED`: Application was reviewed and rejected.
@@ -2147,6 +2287,16 @@ export type PutProductsResponse = {
  *
  */
 export type PartnerShopApplicationStateData = 'SUBMITTED' | 'IN_REVIEW' | 'REJECTED' | 'APPROVED';
+
+/**
+ * The workflow execution state of a partner shop application:
+ * - `PROCESSING`: The backend workflow is actively processing the application.
+ * - `WAITING`: The workflow is paused and waiting for an admin decision.
+ * - `COMPLETED`: The workflow has finished processing the application.
+ * This state is read-only from the client perspective and is fully managed by the backend workflow.
+ *
+ */
+export type ExecutionStateData = 'PROCESSING' | 'WAITING' | 'COMPLETED';
 
 /**
  * The payload of a partner shop application. Discriminated by the `type` field.
@@ -2193,7 +2343,14 @@ export type GetPartnerShopApplicationData = {
      * Unique identifier of the partner shop application.
      */
     id: string;
-    state: PartnerShopApplicationStateData;
+    /**
+     * Review/business state of the application.
+     */
+    businessState: PartnerShopApplicationStateData;
+    /**
+     * Workflow execution state of the application.
+     */
+    executionState: ExecutionStateData;
     payload: GetPartnerShopApplicationPayloadData;
     /**
      * When the application was created (RFC3339 format).
@@ -2209,7 +2366,7 @@ export type GetPartnerShopApplicationData = {
  * Request payload for creating a new partner shop application. Discriminated by the `type` field.
  * - `EXISTING`: Apply for partnership for an existing shop identified by `shopId`.
  * - `NEW`: Apply for partnership for a new shop described by name, type, domains, and optional image.
- * The application state is always initialized to `SUBMITTED` and cannot be set by the client.
+ * The created application always starts with `businessState` `SUBMITTED` and `executionState` `PROCESSING`.
  *
  */
 export type PostPartnerShopApplicationPayloadData = {
@@ -2246,7 +2403,8 @@ export type PostPartnerShopApplicationPayloadData = {
 /**
  * Partial update for a partner shop application.
  * Only the fields present in the request body are applied; omitted fields are left unchanged.
- * All fields are optional. The `state` field is read-only and cannot be modified through this endpoint.
+ * All fields are optional.
+ * The `businessState` and `executionState` fields are backend-managed and cannot be modified through this endpoint.
  * Note: These fields only apply to applications with a `NEW` payload type.
  * Sending patch fields for an application with `EXISTING` payload type is accepted but has no effect.
  *
@@ -2270,6 +2428,46 @@ export type PatchPartnerShopApplicationData = {
      * Updated URL to the shop's logo or image. Set to `null` to remove the image.
      */
     shopImage?: string | null;
+};
+
+/**
+ * Partial update for a partner shop application performed by an administrator.
+ * Only the fields present in the request body are applied; omitted fields are left unchanged.
+ * All fields are optional.
+ * Review decisions are handled exclusively through `POST /api/v1/partner-applications/{partnerApplicationId}/decision`.
+ *
+ */
+export type AdminPatchPartnerShopApplicationData = {
+    /**
+     * Updated display name of the shop.
+     */
+    shopName?: string;
+    /**
+     * Updated shop type classification.
+     */
+    shopType?: ShopTypeData;
+    /**
+     * Updated set of domains for the shop. Replaces the existing domains entirely.
+     * Domains are normalized (lowercase, no scheme, no www prefix, no path/query/fragment).
+     *
+     */
+    shopDomains?: Array<string>;
+    /**
+     * Updated URL to the shop's logo or image. Set to `null` to remove the image.
+     */
+    shopImage?: string | null;
+};
+
+/**
+ * Allowed admin decision values for a partner shop application review.
+ */
+export type PartnerShopApplicationDecisionData = 'APPROVE' | 'REJECT';
+
+/**
+ * Request body for submitting an admin review decision for a partner shop application.
+ */
+export type PostPartnerShopApplicationDecisionData = {
+    decision: PartnerShopApplicationDecisionData;
 };
 
 export type PatchPartnerProductsData = {
@@ -2701,17 +2899,17 @@ export type SimpleSearchProductsData = {
          */
         shopType?: Array<ShopTypeData>;
         /**
-         * Optional price range filter in minor currency units (e.g. cents).
+         * Optional price range filter in minor currency units (e.g. cents for most supported currencies, whole yen for JPY).
          * Use `price[min]` and/or `price[max]` to specify the range bounds.
          *
          */
         price?: {
             /**
-             * Minimum price (inclusive) in minor currency units
+             * Minimum price (inclusive) in minor currency units for the selected/requested currency
              */
             min?: number;
             /**
-             * Maximum price (inclusive) in minor currency units
+             * Maximum price (inclusive) in minor currency units for the selected/requested currency
              */
             max?: number;
         };
@@ -3859,6 +4057,101 @@ export type GetShopByIdResponses = {
 
 export type GetShopByIdResponse = GetShopByIdResponses[keyof GetShopByIdResponses];
 
+export type PatchShopByIdData = {
+    /**
+     * Partial shop update payload. Send only the fields that should change.
+     */
+    body: PatchShopData;
+    path: {
+        /**
+         * Unique identifier of the shop (UUID format)
+         */
+        shopId: string;
+    };
+    query?: never;
+    url: '/api/v1/shops/{shopId}';
+};
+
+export type PatchShopByIdErrors = {
+    /**
+     * Bad request - invalid or missing shop ID, empty body, or invalid JSON
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden – caller is not allowed to update this shop.
+     */
+    403: ApiError;
+    /**
+     * Shop not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PatchShopByIdError = PatchShopByIdErrors[keyof PatchShopByIdErrors];
+
+export type PatchShopByIdResponses = {
+    /**
+     * Shop updated successfully
+     */
+    200: GetShopData;
+};
+
+export type PatchShopByIdResponse = PatchShopByIdResponses[keyof PatchShopByIdResponses];
+
+export type PutShopApiKeyData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the shop (UUID format)
+         */
+        shopId: string;
+    };
+    query?: never;
+    url: '/api/v1/shops/{shopId}/api-key';
+};
+
+export type PutShopApiKeyErrors = {
+    /**
+     * Bad request - invalid or missing shop ID
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden – caller is not allowed to manage an API key for this shop.
+     */
+    403: ApiError;
+    /**
+     * Shop not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PutShopApiKeyError = PutShopApiKeyErrors[keyof PutShopApiKeyErrors];
+
+export type PutShopApiKeyResponses = {
+    /**
+     * API key created successfully
+     */
+    200: PartnerShopApiKeyResponse;
+};
+
+export type PutShopApiKeyResponse = PutShopApiKeyResponses[keyof PutShopApiKeyResponses];
+
 export type GetShopBySlugData = {
     body?: never;
     path: {
@@ -4222,6 +4515,48 @@ export type SearchPeriodsResponses = {
 
 export type SearchPeriodsResponse = SearchPeriodsResponses[keyof SearchPeriodsResponses];
 
+export type GetPartnerShopsData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the partner user
+         */
+        partnerId: string;
+    };
+    query?: never;
+    url: '/api/v1/partner/{partnerId}/shops';
+};
+
+export type GetPartnerShopsErrors = {
+    /**
+     * Bad request - invalid or missing partner ID
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden – this endpoint requires the `ADMIN` role when requesting another partner's shops.
+     */
+    403: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetPartnerShopsError = GetPartnerShopsErrors[keyof GetPartnerShopsErrors];
+
+export type GetPartnerShopsResponses = {
+    /**
+     * Partner shops retrieved successfully
+     */
+    200: Array<GetShopData>;
+};
+
+export type GetPartnerShopsResponse = GetPartnerShopsResponses[keyof GetPartnerShopsResponses];
+
 export type GetPartnerApplicationsData = {
     body?: never;
     path?: never;
@@ -4377,7 +4712,7 @@ export type PatchPartnerApplicationData = {
     /**
      * Partial update for a partner shop application.
      * Only the provided fields are updated. All fields are optional.
-     * Note: `state` is read-only and cannot be set by the client.
+     * Note: `businessState` and `executionState` are managed by the backend workflow and cannot be set by the client.
      *
      */
     body: PatchPartnerShopApplicationData;
@@ -4420,3 +4755,188 @@ export type PatchPartnerApplicationResponses = {
 };
 
 export type PatchPartnerApplicationResponse = PatchPartnerApplicationResponses[keyof PatchPartnerApplicationResponses];
+
+export type AdminGetPartnerApplicationsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/partner-applications';
+};
+
+export type AdminGetPartnerApplicationsErrors = {
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden – this endpoint requires the `ADMIN` role.
+     */
+    403: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type AdminGetPartnerApplicationsError = AdminGetPartnerApplicationsErrors[keyof AdminGetPartnerApplicationsErrors];
+
+export type AdminGetPartnerApplicationsResponses = {
+    /**
+     * Partner shop applications retrieved successfully.
+     */
+    200: Array<GetPartnerShopApplicationData>;
+};
+
+export type AdminGetPartnerApplicationsResponse = AdminGetPartnerApplicationsResponses[keyof AdminGetPartnerApplicationsResponses];
+
+export type AdminGetPartnerApplicationData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier (UUID) of the partner shop application.
+         */
+        partnerApplicationId: string;
+    };
+    query?: never;
+    url: '/api/v1/partner-applications/{partnerApplicationId}';
+};
+
+export type AdminGetPartnerApplicationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden – this endpoint requires the `ADMIN` role.
+     */
+    403: ApiError;
+    /**
+     * Not found – no partner shop application with the given ID exists.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type AdminGetPartnerApplicationError = AdminGetPartnerApplicationErrors[keyof AdminGetPartnerApplicationErrors];
+
+export type AdminGetPartnerApplicationResponses = {
+    /**
+     * Partner shop application found and returned successfully.
+     */
+    200: GetPartnerShopApplicationData;
+};
+
+export type AdminGetPartnerApplicationResponse = AdminGetPartnerApplicationResponses[keyof AdminGetPartnerApplicationResponses];
+
+export type AdminPatchPartnerApplicationData = {
+    /**
+     * Partial update for a partner shop application.
+     * All fields are optional, but the request body itself must be present and non-empty.
+     * Admins may update payload fields only. `businessState` and `executionState`
+     * remain workflow-controlled.
+     *
+     */
+    body: AdminPatchPartnerShopApplicationData;
+    path: {
+        /**
+         * Unique identifier (UUID) of the partner shop application to update.
+         */
+        partnerApplicationId: string;
+    };
+    query?: never;
+    url: '/api/v1/partner-applications/{partnerApplicationId}';
+};
+
+export type AdminPatchPartnerApplicationErrors = {
+    /**
+     * Bad request – missing or invalid path parameter or request body.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden – this endpoint requires the `ADMIN` role.
+     */
+    403: ApiError;
+    /**
+     * Not found – no partner shop application with the given ID exists.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type AdminPatchPartnerApplicationError = AdminPatchPartnerApplicationErrors[keyof AdminPatchPartnerApplicationErrors];
+
+export type AdminPatchPartnerApplicationResponses = {
+    /**
+     * Partner shop application updated successfully. Returns the updated application.
+     */
+    200: GetPartnerShopApplicationData;
+};
+
+export type AdminPatchPartnerApplicationResponse = AdminPatchPartnerApplicationResponses[keyof AdminPatchPartnerApplicationResponses];
+
+export type AdminPostPartnerApplicationDecisionData = {
+    /**
+     * Decision payload indicating whether the application should be approved or rejected.
+     */
+    body: PostPartnerShopApplicationDecisionData;
+    path: {
+        /**
+         * Unique identifier (UUID) of the partner shop application to decide.
+         */
+        partnerApplicationId: string;
+    };
+    query?: never;
+    url: '/api/v1/partner-applications/{partnerApplicationId}/decision';
+};
+
+export type AdminPostPartnerApplicationDecisionErrors = {
+    /**
+     * Bad request – missing or invalid path parameter or request body.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden – this endpoint requires the `ADMIN` role.
+     */
+    403: ApiError;
+    /**
+     * Not found – no partner shop application with the given ID exists.
+     */
+    404: ApiError;
+    /**
+     * Conflict – the application is not currently in review and cannot accept a decision.
+     */
+    409: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type AdminPostPartnerApplicationDecisionError = AdminPostPartnerApplicationDecisionErrors[keyof AdminPostPartnerApplicationDecisionErrors];
+
+export type AdminPostPartnerApplicationDecisionResponses = {
+    /**
+     * Decision accepted successfully. Returns the application while the workflow continues processing.
+     */
+    200: GetPartnerShopApplicationData;
+};
+
+export type AdminPostPartnerApplicationDecisionResponse = AdminPostPartnerApplicationDecisionResponses[keyof AdminPostPartnerApplicationDecisionResponses];

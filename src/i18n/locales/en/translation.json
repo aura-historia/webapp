@@ -56,6 +56,9 @@
     "collections": {
       "title": "All Collections | Aura Historia",
       "description": "Browse curated antique collections on Aura Historia. Discover unique combinations of categories and periods."
+    },
+    "shop": {
+      "defaultName": "Shop"
     }
   },
   "validation": {
@@ -426,6 +429,10 @@
     "commercialDealer": "Dealer",
     "marketplace": "Marketplace",
     "unknown": "Unknown"
+  },
+  "shopPartnerStatus": {
+    "partnered": "Official Partner",
+    "scraped": "Publicly Indexed"
   },
   "discover": {
     "title": "We bring transparency into the opaque landscape of online antiques",
@@ -1016,5 +1023,29 @@
     "subtitle": "Curated Collections",
     "description": "Discover our curated collections combining specific categories with historical periods. Each collection offers a focused perspective on a unique intersection of craft and era.",
     "explore": "Explore"
+  },
+  "shop": {
+    "header": {
+      "archiveLabel": "Shop",
+      "overviewTitle": "Shop Overview",
+      "indexedItems": "Indexed Items",
+      "imageAlt": "Logo of {{shop}}",
+      "noImage": "No logo available",
+      "addedOn": "Added on {{date}}",
+      "metaDescription": "Explore antiques and collectibles from {{shop}} on Aura Historia."
+    },
+    "products": {
+      "loadingMore": "Loading more items...",
+      "allLoaded_one": "You have seen {{count}} item from this {{shopTypeName}}.",
+      "allLoaded_other": "You have seen all {{count}} items from this {{shopTypeName}}.",
+      "noResults": {
+        "title": "No items found",
+        "description": "There are currently no items from this shop."
+      },
+      "error": {
+        "title": "Could not load items",
+        "description": "An error occurred while loading items. Please try again later."
+      }
+    }
   }
 }
