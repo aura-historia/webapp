@@ -24,6 +24,7 @@ import { parseLanguage } from "@/data/internal/common/Language.ts";
 import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { inferCurrencyFromLocale } from "@/data/internal/common/Currency.ts";
 
 export const Route = createFileRoute("/")({
     loader: async ({ context: { queryClient, initialPreferences } }) => {

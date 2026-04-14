@@ -45,13 +45,13 @@ export function CurrencySelector() {
 
     return (
         <Select value={preferences.currency} onValueChange={handleChange}>
-            <SelectTrigger className="h-8 text-xs">
+            <SelectTrigger className="h-8 gap-2 border-outline-variant/20 bg-transparent text-sm text-primary/80 transition-colors duration-300 ease-out hover:text-primary">
                 <SelectValue>
                     <span>{CURRENCY_SYMBOLS[preferences.currency]}</span>
                     <span className="pl-2">{displayNames.of(preferences.currency)}</span>
                 </SelectValue>
             </SelectTrigger>
-            <SelectContent align="end">
+            <SelectContent align="end" className="max-h-60 overflow-hidden rounded-md">
                 {CURRENCIES.map((code) => (
                     <SelectItem key={code} value={code}>
                         <span className="inline-block w-8 shrink-0">{CURRENCY_SYMBOLS[code]}</span>
