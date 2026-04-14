@@ -6,8 +6,13 @@ Diese Datenschutzerklärung informiert gemäß Art. 13 und 14 der Datenschutz-Gr
 
 Verantwortlicher im Sinne von Art. 4 Nr. 7 DSGVO:
 
-**Aura Historia**
+**Julian Bruder**  
+(Betriebsbezeichnung: Aura Historia)  
+Hardenbergstraße 80  
+04275 Leipzig  
+Deutschland
 
+E-Mail: [julian.bruder@aura-historia.com](mailto:julian.bruder@aura-historia.com)  
 Kontakt: [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
 ---
@@ -193,10 +198,8 @@ Alle personenbezogenen Daten werden **ausschließlich innerhalb Deutschlands** v
 
 ### 10.2 Auftragsverarbeitung
 
-[//]: <> (Mit den Hosting-Anbietern bestehen **Auftragsverarbeitungsverträge gemäß Art. 28 DSGVO**.)
-
 Die Plattform wird bei externen Hosting- und Infrastruktur-Anbietern betrieben.
-Die datenschutzrechtlichen Vereinbarungen gemäß Art. 28 DSGVO befinden sich in Vorbereitung bzw. werden im Rahmen der jeweiligen Anbieterbedingungen bereitgestellt.
+Mit Amazon Web Services (AWS), Cloudflare und Hetzner Online GmbH bestehen abgeschlossene Auftragsverarbeitungsverträge gemäß Art. 28 DSGVO.
 
 ---
 
@@ -257,4 +260,4 @@ Diese Datenschutzerklärung kann angepasst werden, um rechtliche, technische ode
 
 ---
 
-*Stand: 14.01.2026*
+*Stand: 12.04.2026*

@@ -4,10 +4,15 @@ La présente politique de confidentialité informe, conformément aux articles 1
 
 ## 1. Responsable du Traitement
 
-Responsable au sens de l’art. 4, point 7 du RGPD :
+Responsable au sens de l'art. 4, point 7 du RGPD :
 
-**Aura Historia**
+**Julian Bruder**  
+(Nom commercial : Aura Historia)  
+Hardenbergstraße 80  
+04275 Leipzig  
+Allemagne
 
+E-mail : [julian.bruder@aura-historia.com](mailto:julian.bruder@aura-historia.com)  
 Contact : [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
 ---
@@ -193,10 +198,8 @@ Toutes les données à caractère personnel sont traitées **exclusivement en Al
 
 ### 10.2 Traitement pour le Compte de Tiers
 
-[//]: <> (Des contrats de traitement des données conformément à l’art. 28 RGPD existent avec les fournisseurs d’hébergement.)
-
 La plateforme est exploitée avec des fournisseurs externes d’hébergement et d’infrastructure.
-Les accords de protection des données conformément à l’art. 28 RGPD sont en préparation ou sont fournis dans le cadre des conditions des fournisseurs concernés.
+Des accords de traitement des données conformément à l’art. 28 RGPD ont été conclus avec Amazon Web Services (AWS), Cloudflare et Hetzner Online GmbH.
 
 ---
 
@@ -257,4 +260,4 @@ La présente politique de confidentialité peut être adaptée afin de refléter
 
 ---
 
-*État : 14.01.2026*
+*État : 12.04.2026*

@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAllNotificationsData, DeleteAllNotificationsErrors, DeleteAllNotificationsResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetNotificationsData, GetNotificationsErrors, GetNotificationsResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsErrors, GetSearchFilterMatchedProductsResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchAllNotificationsData, PatchAllNotificationsErrors, PatchAllNotificationsResponses, PatchNotificationData2, PatchNotificationErrors, PatchNotificationResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAllNotificationsData, DeleteAllNotificationsErrors, DeleteAllNotificationsResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeletePartnerApplicationData, DeletePartnerApplicationErrors, DeletePartnerApplicationResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetNotificationsData, GetNotificationsErrors, GetNotificationsResponses, GetPartnerApplicationData, GetPartnerApplicationErrors, GetPartnerApplicationResponses, GetPartnerApplicationsData, GetPartnerApplicationsErrors, GetPartnerApplicationsResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsErrors, GetSearchFilterMatchedProductsResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchAllNotificationsData, PatchAllNotificationsErrors, PatchAllNotificationsResponses, PatchNotificationData2, PatchNotificationErrors, PatchNotificationResponses, PatchPartnerApplicationData, PatchPartnerApplicationErrors, PatchPartnerApplicationResponses, PatchPartnerProductsData, PatchPartnerProductsErrors, PatchPartnerProductsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostPartnerApplicationData, PostPartnerApplicationErrors, PostPartnerApplicationResponses, PostPartnerProductsData, PostPartnerProductsErrors, PostPartnerProductsResponses, PutPartnerProductsData, PutPartnerProductsErrors, PutPartnerProductsResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -17,6 +17,88 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
      */
     meta?: Record<string, unknown>;
 };
+
+/**
+ * Batch update products (Partner API)
+ *
+ * Updates one or more existing products for a shop using API key authentication.
+ * This endpoint is intended for partner shops — shops that have been granted partner status
+ * and have an API key configured. It does **not** use Cognito JWT authentication.
+ *
+ * The request body is an array of `PatchProductData` objects. Only the fields provided in
+ * each entry are updated; omitted optional fields are left unchanged. Products are processed
+ * individually: if some products fail to update, the response still returns HTTP 200 with
+ * a partial-failure map in the `errors` field. Only entries that failed are present in the map.
+ *
+ * An empty `errors` map in the response indicates all products were updated successfully.
+ *
+ */
+export const patchPartnerProducts = <ThrowOnError extends boolean = false>(options: Options<PatchPartnerProductsData, ThrowOnError>) => (options.client ?? client).patch<PatchPartnerProductsResponses, PatchPartnerProductsErrors, ThrowOnError>({
+    security: [{ name: 'x-api-key', type: 'apiKey' }],
+    url: '/api/v1/shops/{shopId}/products',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Batch create products (Partner API)
+ *
+ * Creates one or more products for a shop using API key authentication.
+ * This endpoint is intended for partner shops — shops that have been granted partner status
+ * and have an API key configured. It does **not** use Cognito JWT authentication.
+ *
+ * The request body is an array of `PostProductData` objects. Products are processed
+ * individually: if some products fail to create, the response still returns HTTP 200 with
+ * a partial-failure map in the `errors` field. Only entries that failed are present in the map.
+ *
+ * An empty `errors` map in the response indicates all products were created successfully.
+ *
+ */
+export const postPartnerProducts = <ThrowOnError extends boolean = false>(options: Options<PostPartnerProductsData, ThrowOnError>) => (options.client ?? client).post<PostPartnerProductsResponses, PostPartnerProductsErrors, ThrowOnError>({
+    security: [{ name: 'x-api-key', type: 'apiKey' }],
+    url: '/api/v1/shops/{shopId}/products',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Batch upsert products (Partner API)
+ *
+ * Creates new products or updates existing ones for a shop in a single batch call,
+ * using API key authentication. This endpoint is intended for partner shops — shops
+ * that have been granted partner status and have an API key configured. It does **not**
+ * use Cognito JWT authentication.
+ *
+ * The request body is an array of `PutProductData` objects. For each entry the backend
+ * checks whether a product with the given `shopsProductId` already exists in the shop:
+ * - **Existing product** — only `state` and `price` are updated (other fields are ignored).
+ * - **New product** — a full product is created using all provided fields.
+ *
+ * Products are processed individually: if some products fail to upsert, the response
+ * still returns HTTP 200 with a partial-failure map in the `errors` field. Only entries
+ * that failed are present in the map.
+ *
+ * An empty `errors` map in the response indicates all products were upserted successfully.
+ *
+ * All fields except `shopsProductId` are optional. The `authenticity`, `condition`,
+ * `provenance`, and `restoration` fields each default to `UNKNOWN` when omitted.
+ *
+ */
+export const putPartnerProducts = <ThrowOnError extends boolean = false>(options: Options<PutPartnerProductsData, ThrowOnError>) => (options.client ?? client).put<PutPartnerProductsResponses, PutPartnerProductsErrors, ThrowOnError>({
+    security: [{ name: 'x-api-key', type: 'apiKey' }],
+    url: '/api/v1/shops/{shopId}/products',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Get a single product
@@ -173,6 +255,11 @@ export const getUserSearchFilters = <ThrowOnError extends boolean = false>(optio
  * Returns the created search filter with generated ID and metadata.
  * Requires valid Cognito JWT authentication.
  *
+ * The number of allowed search filters and the set of usable search filter fields depend on the user's tier:
+ * - `FREE`: Up to 1 search filter. Only the following filter fields are allowed: `productQuery`, `categoryId`, `periodId`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+ * - `PRO`: Up to 5 search filters. All filter fields are allowed.
+ * - `ULTIMATE`: Unlimited search filters. All filter fields are allowed.
+ *
  */
 export const createUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<CreateUserSearchFilterData, ThrowOnError>) => (options.client ?? client).post<CreateUserSearchFilterResponses, CreateUserSearchFilterErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
@@ -219,6 +306,11 @@ export const getUserSearchFilter = <ThrowOnError extends boolean = false>(option
  * Allows partial updates - only provided fields will be modified.
  * If no fields are provided in the request body, returns the existing search filter unchanged.
  * Requires valid Cognito JWT authentication.
+ *
+ * The set of usable search filter fields depends on the user's tier:
+ * - `FREE`: Only the following filter fields are allowed: `productQuery`, `categoryId`, `periodId`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+ * - `PRO`: All filter fields are allowed.
+ * - `ULTIMATE`: All filter fields are allowed.
  *
  */
 export const updateUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<UpdateUserSearchFilterData, ThrowOnError>) => (options.client ?? client).patch<UpdateUserSearchFilterResponses, UpdateUserSearchFilterErrors, ThrowOnError>({
@@ -279,6 +371,20 @@ export const addWatchlistProduct = <ThrowOnError extends boolean = false>(option
         'Content-Type': 'application/json',
         ...options.headers
     }
+});
+
+/**
+ * Delete authenticated user
+ *
+ * Permanently deletes the authenticated user's account.
+ * The deletion is performed synchronously and the access token is immediately invalidated upon success.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const deleteUser = <ThrowOnError extends boolean = false>(options?: Options<DeleteUserData, ThrowOnError>) => (options?.client ?? client).delete<DeleteUserResponses, DeleteUserErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me',
+    ...options
 });
 
 /**
@@ -556,6 +662,93 @@ export const getPeriodById = <ThrowOnError extends boolean = false>(options: Opt
  */
 export const searchPeriods = <ThrowOnError extends boolean = false>(options: Options<SearchPeriodsData, ThrowOnError>) => (options.client ?? client).post<SearchPeriodsResponses, SearchPeriodsErrors, ThrowOnError>({
     url: '/api/v1/periods/search',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * List user's partner shop applications
+ *
+ * Retrieves all partner shop applications submitted by the authenticated user.
+ * Returns an empty array when no applications exist.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getPartnerApplications = <ThrowOnError extends boolean = false>(options?: Options<GetPartnerApplicationsData, ThrowOnError>) => (options?.client ?? client).get<GetPartnerApplicationsResponses, GetPartnerApplicationsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/partner-applications',
+    ...options
+});
+
+/**
+ * Create a partner shop application
+ *
+ * Submits a new partner shop application for the authenticated user.
+ * The application payload specifies either an existing shop (by `shopId`) or a new shop
+ * (with name, type, domains, and optional image).
+ * The application is created with state `SUBMITTED`.
+ * State is read-only and cannot be set by the client.
+ * Returns the created application with HTTP 201.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const postPartnerApplication = <ThrowOnError extends boolean = false>(options: Options<PostPartnerApplicationData, ThrowOnError>) => (options.client ?? client).post<PostPartnerApplicationResponses, PostPartnerApplicationErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/partner-applications',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Delete a partner shop application
+ *
+ * Deletes the partner shop application identified by `partnerApplicationId` for the authenticated user.
+ * Returns 204 No Content on success.
+ * Returns 404 when no application with the given ID exists for this user.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const deletePartnerApplication = <ThrowOnError extends boolean = false>(options: Options<DeletePartnerApplicationData, ThrowOnError>) => (options.client ?? client).delete<DeletePartnerApplicationResponses, DeletePartnerApplicationErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/partner-applications/{partnerApplicationId}',
+    ...options
+});
+
+/**
+ * Get a specific partner shop application
+ *
+ * Retrieves a single partner shop application by its ID for the authenticated user.
+ * Returns 404 when no application with the given ID exists for this user.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getPartnerApplication = <ThrowOnError extends boolean = false>(options: Options<GetPartnerApplicationData, ThrowOnError>) => (options.client ?? client).get<GetPartnerApplicationResponses, GetPartnerApplicationErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/partner-applications/{partnerApplicationId}',
+    ...options
+});
+
+/**
+ * Update a partner shop application
+ *
+ * Updates the fields of a specific partner shop application identified by `partnerApplicationId`.
+ * Only fields present in the request body are applied; omitted fields are left unchanged.
+ * The `state` field is **read-only** and cannot be updated through this endpoint.
+ * The request body is required and must not be empty.
+ * Returns the updated application.
+ * Returns 404 when no application with the given ID exists for this user.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const patchPartnerApplication = <ThrowOnError extends boolean = false>(options: Options<PatchPartnerApplicationData, ThrowOnError>) => (options.client ?? client).patch<PatchPartnerApplicationResponses, PatchPartnerApplicationErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/partner-applications/{partnerApplicationId}',
     ...options,
     headers: {
         'Content-Type': 'application/json',

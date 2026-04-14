@@ -4,7 +4,7 @@ export type CategoryDetail = {
     readonly categoryId: string;
     readonly categoryKey: string;
     readonly name: string;
-    readonly description: string;
+    readonly productCount: number;
     readonly created: Date;
     readonly updated: Date;
 };
@@ -18,7 +18,7 @@ export function mapToCategoryDetail(data: GetCategoryData): CategoryDetail {
         categoryId: data.categoryId,
         categoryKey: data.categoryKey,
         name: data.name.text,
-        description: data.description.text,
+        productCount: data.products,
         created: new Date(data.created),
         updated: new Date(data.updated),
     };

@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getPeriodByIdOptions } from "@/client/@tanstack/react-query.gen.ts";
 import { mapToPeriodDetail } from "@/data/internal/period/PeriodDetail.ts";
-import { generatePeriodHeadMeta } from "@/lib/seo/periodHeadMeta.ts";
+import { generatePeriodHeadMeta } from "@/lib/seo/period/periodHeadMeta.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { PeriodPageSkeleton } from "@/components/period/PeriodPageSkeleton.tsx";
 import { PeriodHeader } from "@/components/period/PeriodHeader.tsx";
@@ -22,6 +22,7 @@ export const Route = createFileRoute("/periods/$periodId")({
     },
     head: ({ loaderData, params }) => generatePeriodHeadMeta(loaderData, params),
     pendingComponent: PeriodPageSkeleton,
+    notFoundComponent: NotFoundComponent,
     errorComponent: NotFoundComponent,
     component: PeriodDetailComponent,
 });
@@ -40,9 +41,14 @@ function PeriodDetailComponent() {
     const period = mapToPeriodDetail(data);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col gap-8">
+        <div className="bg-background">
             <PeriodHeader period={period} />
-            <PeriodProductGrid periodId={periodId} />
+            <div className="mx-auto w-full max-w-7xl px-4 pb-16 md:px-10">
+                <div aria-hidden="true" className="border-t border-border/30 hidden md:block" />
+                <div className="pt-8">
+                    <PeriodProductGrid periodId={periodId} />
+                </div>
+            </div>
         </div>
     );
 }

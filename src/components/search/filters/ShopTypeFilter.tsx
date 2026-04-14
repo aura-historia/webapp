@@ -37,6 +37,7 @@ export function ShopTypeFilter() {
                         onChange={field.onChange}
                         allSelectedLabel={t("search.filter.all")}
                         placeholder={t("search.filter.select")}
+                        infoButtonLabel={t("common.infoButton")}
                     />
                 )}
             />

@@ -9,6 +9,7 @@ interface NotificationButtonProps extends Omit<ComponentProps<typeof Button>, "o
     readonly shopsProductId: string;
     readonly isNotificationEnabled: boolean;
     readonly className?: string;
+    readonly isVisible?: boolean;
 }
 
 export function NotificationButton({
@@ -16,6 +17,7 @@ export function NotificationButton({
     shopsProductId,
     isNotificationEnabled,
     className,
+    isVisible = true,
     ...buttonProps
 }: NotificationButtonProps) {
     const watchlistNotificationMutation = useWatchlistNotificationMutation(shopId, shopsProductId);
@@ -23,12 +25,16 @@ export function NotificationButton({
     return (
         <Button
             {...buttonProps}
-            className={cn("ml-auto shrink-0", className)}
+            className={cn(
+                "ml-auto shrink-0 transition-opacity duration-300 ease-out",
+                isVisible ? "opacity-100" : "pointer-events-none opacity-0",
+                className,
+            )}
             onClick={() => {
                 if (watchlistNotificationMutation.isPending) return;
                 watchlistNotificationMutation.mutate(!isNotificationEnabled);
             }}
-            disabled={watchlistNotificationMutation.isPending}
+            disabled={watchlistNotificationMutation.isPending || !isVisible}
         >
             <div className="relative size-5">
                 <Bell

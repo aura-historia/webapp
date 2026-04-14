@@ -122,18 +122,15 @@ describe("Footer Component", () => {
         expect(youtubeLink).toHaveAttribute("href", "https://www.youtube.com/@aurahistoria");
     });
 
-    it("should render social media text links in follow us section", () => {
-        const followUsSection = screen.getByText("Folge uns").closest("div");
-        expect(followUsSection).not.toBeNull();
-
-        const socialTextLink = followUsSection?.querySelector(
-            'a[href="https://x.com/aurahistoria"]',
-        );
-        expect(socialTextLink).toBeInTheDocument();
-
-        expect(screen.getByText("Instagram")).toBeInTheDocument();
-        expect(screen.getByText("YouTube")).toBeInTheDocument();
-        expect(screen.getByText("TikTok")).toBeInTheDocument();
+    it("should render all social links in follow us section", () => {
+        expect(screen.getByLabelText("X")).toBeInTheDocument();
+        expect(screen.getByLabelText("Instagram")).toBeInTheDocument();
+        expect(screen.getByLabelText("LinkedIn")).toBeInTheDocument();
+        expect(screen.getByLabelText("Facebook")).toBeInTheDocument();
+        expect(screen.getByLabelText("Pinterest")).toBeInTheDocument();
+        expect(screen.getByLabelText("Reddit")).toBeInTheDocument();
+        expect(screen.getByLabelText("YouTube")).toBeInTheDocument();
+        expect(screen.getByLabelText("TikTok")).toBeInTheDocument();
     });
 
     it("should render footer section headings", () => {
@@ -188,6 +185,21 @@ describe("Footer Component", () => {
         const companyContainer = companyHeading.closest("div")?.parentElement;
         const contactContainer = contactHeading.closest("div")?.parentElement;
         expect(companyContainer).toBe(contactContainer);
+    });
+
+    it("should render 'All Categories' link", () => {
+        const link = screen.getByText("Alle Kategorien");
+        expect(link.closest("a")).toHaveAttribute("href", "/categories");
+    });
+
+    it("should render 'All Periods' link", () => {
+        const link = screen.getByText("Alle Epochen & Stile");
+        expect(link.closest("a")).toHaveAttribute("href", "/periods");
+    });
+
+    it("should render 'All Collections' link", () => {
+        const link = screen.getByText("Alle Sammlungen");
+        expect(link.closest("a")).toHaveAttribute("href", "/collections");
     });
 
     it("should change language", async () => {

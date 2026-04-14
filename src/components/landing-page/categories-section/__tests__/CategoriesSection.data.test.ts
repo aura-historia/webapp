@@ -1,37 +1,63 @@
 import { describe, expect, it } from "vitest";
-import { Folder } from "lucide-react";
 import {
-    CATEGORY_ICON_MAP,
-    FALLBACK_CATEGORY_ICON,
-    getCategoryIcon,
+    CATEGORY_ASSET_MAP,
+    CATEGORY_HEADER_ASSET_MAP,
+    FALLBACK_CATEGORY_ASSET_URL,
+    FALLBACK_CATEGORY_HEADER_ASSET_URL,
+    getCategoryAssetUrl,
+    getCategoryHeaderAssetUrl,
 } from "../CategoriesSection.data.ts";
 
-describe("getCategoryIcon", () => {
-    it("returns the correct icon for a known category key", () => {
-        const icon = getCategoryIcon("FURNITURE");
-        expect(icon).toBe(CATEGORY_ICON_MAP.FURNITURE);
+describe("getCategoryAssetUrl", () => {
+    it("returns the correct URL for a known category key", () => {
+        const url = getCategoryAssetUrl("FURNITURE");
+        expect(url).toBe(CATEGORY_ASSET_MAP.FURNITURE);
     });
 
-    it("returns the fallback Folder icon for an unknown category key", () => {
-        const icon = getCategoryIcon("UNKNOWN_CATEGORY_XYZ");
-        expect(icon).toBe(FALLBACK_CATEGORY_ICON);
-        expect(icon).toBe(Folder);
+    it("returns the fallback URL for an unknown category key", () => {
+        const url = getCategoryAssetUrl("UNKNOWN_CATEGORY_XYZ");
+        expect(url).toBe(FALLBACK_CATEGORY_ASSET_URL);
     });
 
-    it("returns the fallback icon for an empty string", () => {
-        const icon = getCategoryIcon("");
-        expect(icon).toBe(FALLBACK_CATEGORY_ICON);
+    it("returns the fallback URL for an empty string", () => {
+        const url = getCategoryAssetUrl("");
+        expect(url).toBe(FALLBACK_CATEGORY_ASSET_URL);
     });
 
-    it("returns correct icons for all known category keys", () => {
-        const knownKeys = Object.keys(CATEGORY_ICON_MAP);
+    it("returns correct URLs for all known category keys", () => {
+        const knownKeys = Object.keys(CATEGORY_ASSET_MAP);
         for (const key of knownKeys) {
-            const icon = getCategoryIcon(key);
-            expect(icon).toBe(CATEGORY_ICON_MAP[key]);
+            const url = getCategoryAssetUrl(key);
+            expect(url).toBe(CATEGORY_ASSET_MAP[key]);
         }
     });
 
-    it("CATEGORY_ICON_MAP contains at least 20 entries", () => {
-        expect(Object.keys(CATEGORY_ICON_MAP).length).toBeGreaterThanOrEqual(20);
+    it("CATEGORY_ASSET_MAP contains at least 20 entries", () => {
+        expect(Object.keys(CATEGORY_ASSET_MAP).length).toBeGreaterThanOrEqual(20);
+    });
+});
+
+describe("getCategoryHeaderAssetUrl", () => {
+    it("returns the correct header URL for a known category key", () => {
+        const url = getCategoryHeaderAssetUrl("FURNITURE");
+        expect(url).toBe(CATEGORY_HEADER_ASSET_MAP.FURNITURE);
+    });
+
+    it("returns the fallback header URL for an unknown category key", () => {
+        const url = getCategoryHeaderAssetUrl("UNKNOWN_CATEGORY_XYZ");
+        expect(url).toBe(FALLBACK_CATEGORY_HEADER_ASSET_URL);
+    });
+
+    it("returns the fallback header URL for an empty string", () => {
+        const url = getCategoryHeaderAssetUrl("");
+        expect(url).toBe(FALLBACK_CATEGORY_HEADER_ASSET_URL);
+    });
+
+    it("returns header URLs that consistently end in -header.webp", () => {
+        const knownKeys = Object.keys(CATEGORY_HEADER_ASSET_MAP);
+        for (const key of knownKeys) {
+            const url = getCategoryHeaderAssetUrl(key);
+            expect(url).toMatch(/-header\.webp$/);
+        }
     });
 });

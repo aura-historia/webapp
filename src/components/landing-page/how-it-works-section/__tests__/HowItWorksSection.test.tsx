@@ -29,8 +29,8 @@ describe("HowItWorksSection", () => {
     it("renders all step titles", () => {
         expect(screen.getByText("Suchen")).toBeInTheDocument();
         expect(screen.getByText("Entdecken")).toBeInTheDocument();
-        expect(screen.getByText("Merken")).toBeInTheDocument();
-        expect(screen.getByText("Kaufen")).toBeInTheDocument();
+        expect(screen.getByText("Speichern")).toBeInTheDocument();
+        expect(screen.getByText("Benachrichtigt werden")).toBeInTheDocument();
     });
 
     it("renders all step descriptions", () => {
@@ -39,8 +39,14 @@ describe("HowItWorksSection", () => {
             screen.getByText(/Durchstöbern Sie Ergebnisse von tausenden Händlern/),
         ).toBeInTheDocument();
         expect(
-            screen.getByText(/Speichern Sie interessante Artikel auf Ihrer persönlichen Merkliste/),
+            screen.getByText(
+                /Speichern Sie interessante Artikel auf Ihrer Merkliste oder legen Sie Ihre Suchkriterien als Alert an/,
+            ),
         ).toBeInTheDocument();
-        expect(screen.getByText(/Wir leiten Sie direkt zum Händler weiter/)).toBeInTheDocument();
+        expect(
+            screen.getByText(
+                /Erhalten Sie eine E-Mail, sobald sich ein Artikel auf Ihrer Merkliste ändert oder ein neuer Treffer zu Ihren Kriterien passt/,
+            ),
+        ).toBeInTheDocument();
     });
 });

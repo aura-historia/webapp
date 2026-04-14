@@ -16,7 +16,11 @@ import { Route as ImprintRouteImport } from './routes/imprint'
 import { Route as ConsentSettingsRouteImport } from './routes/consent-settings'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PeriodsIndexRouteImport } from './routes/periods.index'
+import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
+import { Route as CategoriesIndexRouteImport } from './routes/categories.index'
 import { Route as PeriodsPeriodIdRouteImport } from './routes/periods.$periodId'
+import { Route as CollectionsCombinationSlugRouteImport } from './routes/collections.$combinationSlug'
 import { Route as CategoriesCategoryIdRouteImport } from './routes/categories.$categoryId'
 import { Route as AuthWatchlistRouteImport } from './routes/_auth.watchlist'
 import { Route as AuthAccountRouteImport } from './routes/_auth.account'
@@ -57,11 +61,32 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PeriodsIndexRoute = PeriodsIndexRouteImport.update({
+  id: '/periods/',
+  path: '/periods/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
+  id: '/collections/',
+  path: '/collections/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategoriesIndexRoute = CategoriesIndexRouteImport.update({
+  id: '/categories/',
+  path: '/categories/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PeriodsPeriodIdRoute = PeriodsPeriodIdRouteImport.update({
   id: '/periods/$periodId',
   path: '/periods/$periodId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CollectionsCombinationSlugRoute =
+  CollectionsCombinationSlugRouteImport.update({
+    id: '/collections/$combinationSlug',
+    path: '/collections/$combinationSlug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const CategoriesCategoryIdRoute = CategoriesCategoryIdRouteImport.update({
   id: '/categories/$categoryId',
   path: '/categories/$categoryId',
@@ -100,7 +125,11 @@ export interface FileRoutesByFullPath {
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
+  '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
+  '/categories/': typeof CategoriesIndexRoute
+  '/collections/': typeof CollectionsIndexRoute
+  '/periods/': typeof PeriodsIndexRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -114,7 +143,11 @@ export interface FileRoutesByTo {
   '/account': typeof AuthAccountRoute
   '/watchlist': typeof AuthWatchlistRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
+  '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
+  '/categories': typeof CategoriesIndexRoute
+  '/collections': typeof CollectionsIndexRoute
+  '/periods': typeof PeriodsIndexRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -130,7 +163,11 @@ export interface FileRoutesById {
   '/_auth/account': typeof AuthAccountRoute
   '/_auth/watchlist': typeof AuthWatchlistRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
+  '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
+  '/categories/': typeof CategoriesIndexRoute
+  '/collections/': typeof CollectionsIndexRoute
+  '/periods/': typeof PeriodsIndexRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -146,7 +183,11 @@ export interface FileRouteTypes {
     | '/account'
     | '/watchlist'
     | '/categories/$categoryId'
+    | '/collections/$combinationSlug'
     | '/periods/$periodId'
+    | '/categories/'
+    | '/collections/'
+    | '/periods/'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesByTo: FileRoutesByTo
@@ -160,7 +201,11 @@ export interface FileRouteTypes {
     | '/account'
     | '/watchlist'
     | '/categories/$categoryId'
+    | '/collections/$combinationSlug'
     | '/periods/$periodId'
+    | '/categories'
+    | '/collections'
+    | '/periods'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/products/$productSlugId'
   id:
@@ -175,7 +220,11 @@ export interface FileRouteTypes {
     | '/_auth/account'
     | '/_auth/watchlist'
     | '/categories/$categoryId'
+    | '/collections/$combinationSlug'
     | '/periods/$periodId'
+    | '/categories/'
+    | '/collections/'
+    | '/periods/'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesById: FileRoutesById
@@ -189,7 +238,11 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   CategoriesCategoryIdRoute: typeof CategoriesCategoryIdRoute
+  CollectionsCombinationSlugRoute: typeof CollectionsCombinationSlugRoute
   PeriodsPeriodIdRoute: typeof PeriodsPeriodIdRoute
+  CategoriesIndexRoute: typeof CategoriesIndexRoute
+  CollectionsIndexRoute: typeof CollectionsIndexRoute
+  PeriodsIndexRoute: typeof PeriodsIndexRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
   ShopsShopSlugIdProductsProductSlugIdRoute: typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -245,11 +298,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/periods/': {
+      id: '/periods/'
+      path: '/periods'
+      fullPath: '/periods/'
+      preLoaderRoute: typeof PeriodsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collections/': {
+      id: '/collections/'
+      path: '/collections'
+      fullPath: '/collections/'
+      preLoaderRoute: typeof CollectionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/categories/': {
+      id: '/categories/'
+      path: '/categories'
+      fullPath: '/categories/'
+      preLoaderRoute: typeof CategoriesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/periods/$periodId': {
       id: '/periods/$periodId'
       path: '/periods/$periodId'
       fullPath: '/periods/$periodId'
       preLoaderRoute: typeof PeriodsPeriodIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collections/$combinationSlug': {
+      id: '/collections/$combinationSlug'
+      path: '/collections/$combinationSlug'
+      fullPath: '/collections/$combinationSlug'
+      preLoaderRoute: typeof CollectionsCombinationSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/categories/$categoryId': {
@@ -311,7 +392,11 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   CategoriesCategoryIdRoute: CategoriesCategoryIdRoute,
+  CollectionsCombinationSlugRoute: CollectionsCombinationSlugRoute,
   PeriodsPeriodIdRoute: PeriodsPeriodIdRoute,
+  CategoriesIndexRoute: CategoriesIndexRoute,
+  CollectionsIndexRoute: CollectionsIndexRoute,
+  PeriodsIndexRoute: PeriodsIndexRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
   ShopsShopSlugIdProductsProductSlugIdRoute:
     ShopsShopSlugIdProductsProductSlugIdRoute,
