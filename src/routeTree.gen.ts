@@ -19,6 +19,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PeriodsIndexRouteImport } from './routes/periods.index'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
 import { Route as CategoriesIndexRouteImport } from './routes/categories.index'
+import { Route as ShopsShopSlugIdRouteImport } from './routes/shops.$shopSlugId'
 import { Route as PeriodsPeriodIdRouteImport } from './routes/periods.$periodId'
 import { Route as CollectionsCombinationSlugRouteImport } from './routes/collections.$combinationSlug'
 import { Route as CategoriesCategoryIdRouteImport } from './routes/categories.$categoryId'
@@ -76,6 +77,11 @@ const CategoriesIndexRoute = CategoriesIndexRouteImport.update({
   path: '/categories/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShopsShopSlugIdRoute = ShopsShopSlugIdRouteImport.update({
+  id: '/shops/$shopSlugId',
+  path: '/shops/$shopSlugId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PeriodsPeriodIdRoute = PeriodsPeriodIdRouteImport.update({
   id: '/periods/$periodId',
   path: '/periods/$periodId',
@@ -110,9 +116,9 @@ const ProductShopIdShopsProductIdRoute =
   } as any)
 const ShopsShopSlugIdProductsProductSlugIdRoute =
   ShopsShopSlugIdProductsProductSlugIdRouteImport.update({
-    id: '/shops/$shopSlugId/products/$productSlugId',
-    path: '/shops/$shopSlugId/products/$productSlugId',
-    getParentRoute: () => rootRouteImport,
+    id: '/products/$productSlugId',
+    path: '/products/$productSlugId',
+    getParentRoute: () => ShopsShopSlugIdRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
+  '/shops/$shopSlugId': typeof ShopsShopSlugIdRouteWithChildren
   '/categories/': typeof CategoriesIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/periods/': typeof PeriodsIndexRoute
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
+  '/shops/$shopSlugId': typeof ShopsShopSlugIdRouteWithChildren
   '/categories': typeof CategoriesIndexRoute
   '/collections': typeof CollectionsIndexRoute
   '/periods': typeof PeriodsIndexRoute
@@ -165,6 +173,7 @@ export interface FileRoutesById {
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
+  '/shops/$shopSlugId': typeof ShopsShopSlugIdRouteWithChildren
   '/categories/': typeof CategoriesIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/periods/': typeof PeriodsIndexRoute
@@ -185,6 +194,7 @@ export interface FileRouteTypes {
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
+    | '/shops/$shopSlugId'
     | '/categories/'
     | '/collections/'
     | '/periods/'
@@ -203,6 +213,7 @@ export interface FileRouteTypes {
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
+    | '/shops/$shopSlugId'
     | '/categories'
     | '/collections'
     | '/periods'
@@ -222,6 +233,7 @@ export interface FileRouteTypes {
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
+    | '/shops/$shopSlugId'
     | '/categories/'
     | '/collections/'
     | '/periods/'
@@ -240,11 +252,11 @@ export interface RootRouteChildren {
   CategoriesCategoryIdRoute: typeof CategoriesCategoryIdRoute
   CollectionsCombinationSlugRoute: typeof CollectionsCombinationSlugRoute
   PeriodsPeriodIdRoute: typeof PeriodsPeriodIdRoute
+  ShopsShopSlugIdRoute: typeof ShopsShopSlugIdRouteWithChildren
   CategoriesIndexRoute: typeof CategoriesIndexRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
   PeriodsIndexRoute: typeof PeriodsIndexRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
-  ShopsShopSlugIdProductsProductSlugIdRoute: typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -319,6 +331,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/shops/$shopSlugId': {
+      id: '/shops/$shopSlugId'
+      path: '/shops/$shopSlugId'
+      fullPath: '/shops/$shopSlugId'
+      preLoaderRoute: typeof ShopsShopSlugIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/periods/$periodId': {
       id: '/periods/$periodId'
       path: '/periods/$periodId'
@@ -363,10 +382,10 @@ declare module '@tanstack/react-router' {
     }
     '/shops/$shopSlugId/products/$productSlugId': {
       id: '/shops/$shopSlugId/products/$productSlugId'
-      path: '/shops/$shopSlugId/products/$productSlugId'
+      path: '/products/$productSlugId'
       fullPath: '/shops/$shopSlugId/products/$productSlugId'
       preLoaderRoute: typeof ShopsShopSlugIdProductsProductSlugIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ShopsShopSlugIdRoute
     }
   }
 }
@@ -383,6 +402,19 @@ const AuthRouteChildren: AuthRouteChildren = {
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
+interface ShopsShopSlugIdRouteChildren {
+  ShopsShopSlugIdProductsProductSlugIdRoute: typeof ShopsShopSlugIdProductsProductSlugIdRoute
+}
+
+const ShopsShopSlugIdRouteChildren: ShopsShopSlugIdRouteChildren = {
+  ShopsShopSlugIdProductsProductSlugIdRoute:
+    ShopsShopSlugIdProductsProductSlugIdRoute,
+}
+
+const ShopsShopSlugIdRouteWithChildren = ShopsShopSlugIdRoute._addFileChildren(
+  ShopsShopSlugIdRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
@@ -394,12 +426,11 @@ const rootRouteChildren: RootRouteChildren = {
   CategoriesCategoryIdRoute: CategoriesCategoryIdRoute,
   CollectionsCombinationSlugRoute: CollectionsCombinationSlugRoute,
   PeriodsPeriodIdRoute: PeriodsPeriodIdRoute,
+  ShopsShopSlugIdRoute: ShopsShopSlugIdRouteWithChildren,
   CategoriesIndexRoute: CategoriesIndexRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
   PeriodsIndexRoute: PeriodsIndexRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
-  ShopsShopSlugIdProductsProductSlugIdRoute:
-    ShopsShopSlugIdProductsProductSlugIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

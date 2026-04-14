@@ -56,6 +56,9 @@
     "collections": {
       "title": "Todas las Colecciones | Aura Historia",
       "description": "Explora colecciones curadas de antigüedades en Aura Historia. Descubre combinaciones únicas de categorías y períodos."
+    },
+    "shop": {
+      "defaultName": "Tienda"
     }
   },
   "validation": {
@@ -1016,5 +1019,29 @@
     "subtitle": "Colecciones Curadas",
     "description": "Descubre nuestras colecciones curadas que combinan categorías específicas con períodos históricos. Cada colección ofrece una perspectiva única sobre la artesanía y la época.",
     "explore": "Explorar"
+  },
+  "shop": {
+    "header": {
+      "archiveLabel": "Tienda",
+      "overviewTitle": "Resumen de la tienda",
+      "indexedItems": "Artículos indexados",
+      "imageAlt": "Logotipo de {{shop}}",
+      "noImage": "No hay logotipo disponible",
+      "addedOn": "Añadido el {{date}}",
+      "metaDescription": "Explore antigüedades y objetos de colección de {{shop}} en Aura Historia."
+    },
+    "products": {
+      "loadingMore": "Cargando más artículos...",
+      "allLoaded_one": "Ha visto {{count}} artículo de esta tienda.",
+      "allLoaded_other": "Ha visto los {{count}} artículos de esta tienda.",
+      "noResults": {
+        "title": "No se encontraron artículos",
+        "description": "Actualmente no hay artículos de esta tienda."
+      },
+      "error": {
+        "title": "No se pudieron cargar los artículos",
+        "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
+      }
+    }
   }
 }
