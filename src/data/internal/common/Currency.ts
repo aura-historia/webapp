@@ -23,6 +23,27 @@ export const CURRENCIES = [
 ] as const;
 export type Currency = (typeof CURRENCIES)[number];
 
+export const CURRENCY_SYMBOLS = {
+    EUR: "€",
+    GBP: "£",
+    USD: "$",
+    AUD: "A$",
+    CAD: "C$",
+    NZD: "NZ$",
+    CNY: "CN¥",
+    BRL: "R$",
+    PLN: "zł",
+    TRY: "₺",
+    JPY: "¥",
+    CZK: "Kč",
+    RUB: "₽",
+    AED: "د.إ",
+    SAR: "ر.س",
+    HKD: "HK$",
+    SGD: "S$",
+    CHF: "CHF",
+};
+
 export function parseCurrency(currency?: string): Currency {
     const uppercasedCurrency = currency?.toUpperCase() ?? "EUR";
 

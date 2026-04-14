@@ -1,4 +1,9 @@
-import { CURRENCIES, type Currency, parseCurrency } from "@/data/internal/common/Currency.ts";
+import {
+    CURRENCIES,
+    CURRENCY_SYMBOLS,
+    type Currency,
+    parseCurrency,
+} from "@/data/internal/common/Currency.ts";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount.ts";
 import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
@@ -12,27 +17,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-
-const CURRENCY_SYMBOLS: Record<Currency, string> = {
-    EUR: "€",
-    GBP: "£",
-    USD: "$",
-    AUD: "A$",
-    CAD: "C$",
-    NZD: "NZ$",
-    CNY: "CN¥",
-    BRL: "R$",
-    PLN: "zł",
-    TRY: "₺",
-    JPY: "¥",
-    CZK: "Kč",
-    RUB: "₽",
-    AED: "د.إ",
-    SAR: "ر.س",
-    HKD: "HK$",
-    SGD: "S$",
-    CHF: "CHF",
-};
 
 export function CurrencySelector() {
     const { preferences, updatePreferences } = useUserPreferences();
