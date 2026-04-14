@@ -105,9 +105,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                         "flex flex-col lg:flex-row gap-4 lg:gap-0 justify-between lg:items-end w-full mt-4 lg:mt-0"
                     }
                 >
-                    <PriceText className="min-w-0 overflow-hidden text-ellipsis">
-                        {product.price ?? t("product.unknownPrice")}
-                    </PriceText>
+                    <PriceText>{product.price ?? t("product.unknownPrice")}</PriceText>
 
                     <div className={"flex flex-col gap-2 lg:items-end shrink-0 lg:ml-2"}>
                         <Button variant={"default"} asChild>

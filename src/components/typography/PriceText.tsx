@@ -10,7 +10,7 @@ export function PriceText({ variant = "default", className, children, ...props }
     return (
         <span
             className={cn(
-                "text-lg font-display font-normal italic text-primary line-clamp-1 overflow-ellipsis whitespace-nowrap",
+                "text-lg font-display font-normal italic text-primary whitespace-nowrap",
                 variant === "muted" && "text-muted-foreground",
                 className,
             )}
