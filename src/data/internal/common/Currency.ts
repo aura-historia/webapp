@@ -1,8 +1,27 @@
 import type { CurrencyData } from "@/client";
 import { getCurrency } from "locale-currency";
 
-export const CURRENCIES = ["EUR", "GBP", "USD", "AUD", "CAD", "NZD"] as const;
-export type Currency = (typeof CURRENCIES)[number]; // Create something like that: "EUR" | "GBP" | "USD" | ....
+export const CURRENCIES = [
+    "EUR",
+    "GBP",
+    "USD",
+    "AUD",
+    "CAD",
+    "NZD",
+    "CNY",
+    "BRL",
+    "PLN",
+    "TRY",
+    "JPY",
+    "CZK",
+    "RUB",
+    "AED",
+    "SAR",
+    "HKD",
+    "SGD",
+    "CHF",
+] as const;
+export type Currency = (typeof CURRENCIES)[number];
 
 export function parseCurrency(currency?: string): Currency {
     const uppercasedCurrency = currency?.toUpperCase() ?? "EUR";
@@ -14,6 +33,18 @@ export function parseCurrency(currency?: string): Currency {
         case "AUD":
         case "CAD":
         case "NZD":
+        case "CNY":
+        case "BRL":
+        case "PLN":
+        case "TRY":
+        case "JPY":
+        case "CZK":
+        case "RUB":
+        case "AED":
+        case "SAR":
+        case "HKD":
+        case "SGD":
+        case "CHF":
             return uppercasedCurrency;
         default:
             return "EUR";
@@ -34,6 +65,18 @@ export function mapToBackendCurrency(currency?: Currency): CurrencyData | null {
         case "AUD":
         case "CAD":
         case "NZD":
+        case "CNY":
+        case "BRL":
+        case "PLN":
+        case "TRY":
+        case "JPY":
+        case "CZK":
+        case "RUB":
+        case "AED":
+        case "SAR":
+        case "HKD":
+        case "SGD":
+        case "CHF":
             return currency;
     }
 }

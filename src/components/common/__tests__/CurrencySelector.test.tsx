@@ -2,6 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { CurrencySelector } from "@/components/common/CurrencySelector.tsx";
 import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
+import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 
 // Mock external dependencies
 vi.mock("@aws-amplify/ui-react", () => ({
@@ -51,9 +52,28 @@ describe("CurrencySelector", () => {
     it("renders all currencies in dropdown", () => {
         renderCurrencySelector();
         fireEvent.click(screen.getByRole("combobox"));
+
+        const options = screen.getAllByRole("option");
+        expect(options).toHaveLength(CURRENCIES.length);
+
         expect(screen.getAllByText("Euro")[0]).toBeInTheDocument();
         expect(screen.getByText("British Pound")).toBeInTheDocument();
         expect(screen.getByText("US Dollar")).toBeInTheDocument();
+        expect(screen.getByText("Australian Dollar")).toBeInTheDocument();
+        expect(screen.getByText("Canadian Dollar")).toBeInTheDocument();
+        expect(screen.getByText("New Zealand Dollar")).toBeInTheDocument();
+        expect(screen.getByText("Chinese Yuan")).toBeInTheDocument();
+        expect(screen.getByText("Brazilian Real")).toBeInTheDocument();
+        expect(screen.getByText("Polish Zloty")).toBeInTheDocument();
+        expect(screen.getByText("Turkish Lira")).toBeInTheDocument();
+        expect(screen.getByText("Japanese Yen")).toBeInTheDocument();
+        expect(screen.getByText("Czech Koruna")).toBeInTheDocument();
+        expect(screen.getByText("Russian Ruble")).toBeInTheDocument();
+        expect(screen.getByText("United Arab Emirates Dirham")).toBeInTheDocument();
+        expect(screen.getByText("Saudi Riyal")).toBeInTheDocument();
+        expect(screen.getByText("Hong Kong Dollar")).toBeInTheDocument();
+        expect(screen.getByText("Singapore Dollar")).toBeInTheDocument();
+        expect(screen.getByText("Swiss Franc")).toBeInTheDocument();
     });
 
     it("saves selected currency to localStorage", () => {

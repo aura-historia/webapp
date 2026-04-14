@@ -18,9 +18,21 @@ const CURRENCY_SYMBOLS: Record<Currency, string> = {
     EUR: "€",
     GBP: "£",
     USD: "$",
-    AUD: "AU$",
+    AUD: "A$",
     CAD: "C$",
     NZD: "NZ$",
+    CNY: "CN¥",
+    BRL: "R$",
+    PLN: "zł",
+    TRY: "₺",
+    JPY: "¥",
+    CZK: "Kč",
+    RUB: "₽",
+    AED: "د.إ",
+    SAR: "ر.س",
+    HKD: "HK$",
+    SGD: "S$",
+    CHF: "CHF",
 };
 
 export function CurrencySelector() {
