@@ -44,7 +44,7 @@ describe("ShopHeader", () => {
     });
 
     it("renders a placeholder when image is missing", () => {
-        const shopWithoutImage: ShopDetail = { ...mockShop, image: null };
+        const shopWithoutImage: ShopDetail = { ...mockShop, image: undefined };
         render(<ShopHeader shop={shopWithoutImage} productCount={42} />);
         expect(screen.getByRole("img", { name: /Kein Logo/ })).toBeInTheDocument();
     });

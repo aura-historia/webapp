@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button.tsx";
 
 type ShopHeaderProps = {
     readonly shop: ShopDetail;
-    readonly productCount: number | undefined;
+    readonly productCount?: number;
 };
 
 function buildMerchantUrl(domain: string): string {

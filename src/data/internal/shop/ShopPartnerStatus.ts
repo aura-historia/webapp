@@ -15,12 +15,10 @@ export const SHOP_PARTNER_STATUS_TRANSLATION_CONFIG = {
 
 export function parseShopPartnerStatus(status?: string): ShopPartnerStatus {
     const upper = status?.toUpperCase() ?? "SCRAPED";
-    switch (upper) {
-        case "PARTNERED":
-            return "PARTNERED";
-        default:
-            return "SCRAPED";
+    if (upper === "PARTNERED") {
+        return "PARTNERED";
     }
+    return "SCRAPED";
 }
 
 export function mapToBackendShopPartnerStatus(status: ShopPartnerStatus): ShopPartnerStatusData {

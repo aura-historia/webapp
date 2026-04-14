@@ -11,7 +11,7 @@ export type ShopDetail = {
     readonly name: string;
     readonly shopType: ShopType;
     readonly partnerStatus: ShopPartnerStatus;
-    readonly image: string | null;
+    readonly image?: string;
     readonly domains: string[];
     readonly created: Date;
     readonly updated: Date;
@@ -28,7 +28,7 @@ export function mapToShopDetail(data: GetShopData): ShopDetail {
         name: data.name,
         shopType: parseShopType(data.shopType),
         partnerStatus: parseShopPartnerStatus(data.partnerStatus),
-        image: data.image ?? null,
+        image: data.image ?? undefined,
         domains: data.domains,
         created: new Date(data.created),
         updated: new Date(data.updated),

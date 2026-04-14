@@ -35,10 +35,8 @@ export function ShopProductGrid({ shopName, shopType, onTotalChange }: ShopProdu
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     useEffect(() => {
-        if (data?.pages[0]?.total !== undefined) {
-            onTotalChange?.(data.pages[0].total);
-        }
-    }, [data?.pages, onTotalChange]);
+        onTotalChange?.(totalProducts);
+    }, [totalProducts, onTotalChange]);
 
     if (isPending) {
         return (

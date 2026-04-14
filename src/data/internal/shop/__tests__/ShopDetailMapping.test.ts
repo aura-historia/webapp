@@ -58,16 +58,16 @@ describe("mapToShopDetail", () => {
         expect(result.image).toBe("https://example.com/logo.png");
     });
 
-    it("maps image to null when missing", () => {
+    it("maps image to undefined when missing", () => {
         const dataWithoutImage = { ...mockShopData, image: undefined };
         const result = mapToShopDetail(dataWithoutImage);
-        expect(result.image).toBeNull();
+        expect(result.image).toBeUndefined();
     });
 
-    it("maps image to null when null", () => {
+    it("maps image to undefined when null", () => {
         const dataWithNullImage = { ...mockShopData, image: null };
         const result = mapToShopDetail(dataWithNullImage);
-        expect(result.image).toBeNull();
+        expect(result.image).toBeUndefined();
     });
 
     it("maps domains array", () => {

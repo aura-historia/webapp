@@ -7,7 +7,7 @@ import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ShopPageSkeleton } from "@/components/shop/ShopPageSkeleton.tsx";
 import { ShopHeader } from "@/components/shop/ShopHeader.tsx";
 import { ShopProductGrid } from "@/components/shop/ShopProductGrid.tsx";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 export const Route = createFileRoute("/shops/$shopSlugId/")({
     loader: async ({ context: { queryClient }, params: { shopSlugId } }) => {
@@ -34,7 +34,7 @@ function ShopDetailComponent() {
         }),
     );
 
-    const shop = mapToShopDetail(data);
+    const shop = useMemo(() => mapToShopDetail(data), [data]);
 
     const handleTotalChange = useCallback((total: number | undefined) => {
         setProductCount(total);
