@@ -88,7 +88,7 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
                         <div className="mt-auto">
                             <Button
                                 variant="default"
-                                className="h-14 w-full rounded-none text-xs tracking-[0.12em] uppercase"
+                                className="h-14 rounded-none text-xs tracking-[0.12em] uppercase"
                                 asChild
                             >
                                 <a
