@@ -430,6 +430,10 @@
     "marketplace": "Marktplatz",
     "unknown": "Unbekannt"
   },
+  "shopPartnerStatus": {
+    "partnered": "Offizieller Partner",
+    "scraped": "Öffentlich indexiert"
+  },
   "discover": {
     "title": "Wir bringen Transparenz in die undurchsichtige Welt der Online-Antiquitäten",
     "p1": "Wir durchsuchen täglich das unübersichtliche Angebot tausender verstreuter Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit und bündeln deren Artikel zentral an einem Ort.",

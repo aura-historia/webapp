@@ -8,6 +8,7 @@ const mockShop: ShopDetail = {
     shopSlugId: "christies",
     name: "Christie's",
     shopType: "AUCTION_HOUSE",
+    partnerStatus: "PARTNERED",
     image: "https://example.com/logo.png",
     domains: ["christies.com"],
     created: new Date("2024-01-15T08:00:00Z"),
@@ -89,5 +90,16 @@ describe("ShopHeader", () => {
         render(<ShopHeader shop={shopWithHttpsDomain} productCount={42} />);
         const link = screen.getByRole("link", { name: /Zur Seite des Händlers/i });
         expect(link).toHaveAttribute("href", "https://christies.com");
+    });
+
+    it("renders the partner status badge for PARTNERED status", () => {
+        render(<ShopHeader shop={mockShop} productCount={42} />);
+        expect(screen.getByText("Offizieller Partner")).toBeInTheDocument();
+    });
+
+    it("renders the partner status badge for SCRAPED status", () => {
+        const scrapedShop: ShopDetail = { ...mockShop, partnerStatus: "SCRAPED" };
+        render(<ShopHeader shop={scrapedShop} productCount={42} />);
+        expect(screen.getByText("Öffentlich indexiert")).toBeInTheDocument();
     });
 });

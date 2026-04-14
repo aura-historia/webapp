@@ -430,6 +430,10 @@
     "unknown": "Inconnu",
     "auctionPlatform": "Plateforme d'enchères"
   },
+  "shopPartnerStatus": {
+    "partnered": "Partenaire officiel",
+    "scraped": "Indexé publiquement"
+  },
   "discover": {
     "title": "Nous apportons de la transparence dans le paysage opaque des antiquités en ligne",
     "p1": "Nous recherchons chaque jour parmi les vastes offres de milliers de marchands d'antiquités, maisons de vente aux enchères et places de marché dispersés à travers le monde, et regroupons leurs articles en un seul endroit central.",

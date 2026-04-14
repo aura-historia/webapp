@@ -9,6 +9,7 @@ const mockShopData: GetShopData = {
     shopType: "AUCTION_HOUSE",
     domains: ["christies.com"],
     image: "https://example.com/logo.png",
+    partnerStatus: "PARTNERED",
     created: "2024-01-15T08:00:00Z",
     updated: "2024-06-20T12:30:00Z",
 };
@@ -40,6 +41,16 @@ describe("mapToShopDetail", () => {
     it("parses the shop type correctly", () => {
         const result = mapToShopDetail(mockShopData);
         expect(result.shopType).toBe("AUCTION_HOUSE");
+    });
+
+    it("parses PARTNERED partner status correctly", () => {
+        const result = mapToShopDetail(mockShopData);
+        expect(result.partnerStatus).toBe("PARTNERED");
+    });
+
+    it("parses SCRAPED partner status correctly", () => {
+        const result = mapToShopDetail({ ...mockShopData, partnerStatus: "SCRAPED" });
+        expect(result.partnerStatus).toBe("SCRAPED");
     });
 
     it("maps image when present", () => {

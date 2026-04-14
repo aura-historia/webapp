@@ -1,6 +1,7 @@
 import { H1 } from "@/components/typography/H1.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
+import { ShopPartnerStatusBadge } from "@/components/product/badges/ShopPartnerStatusBadge.tsx";
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { useTranslation } from "react-i18next";
@@ -71,6 +72,7 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
                         </H2>
                         <div className="flex flex-wrap items-center gap-2">
                             <ShopTypeBadge shopType={shop.shopType} />
+                            <ShopPartnerStatusBadge partnerStatus={shop.partnerStatus} />
                         </div>
                         <p className="text-sm text-muted-foreground">
                             {t("shop.header.addedOn", { date: formattedDate })}

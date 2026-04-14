@@ -430,6 +430,10 @@
     "marketplace": "Marketplace",
     "unknown": "Sconosciuto"
   },
+  "shopPartnerStatus": {
+    "partnered": "Partner ufficiale",
+    "scraped": "Indicizzato pubblicamente"
+  },
   "discover": {
     "title": "Portiamo trasparenza nel panorama opaco dell'antiquariato online",
     "p1": "Ogni giorno esaminiamo la vasta offerta di migliaia di antiquari, case d'aste e marketplace sparsi in tutto il mondo e raccogliamo i loro articoli in un unico posto.",

@@ -1,11 +1,16 @@
 import type { GetShopData } from "@/client";
 import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
+import {
+    parseShopPartnerStatus,
+    type ShopPartnerStatus,
+} from "@/data/internal/shop/ShopPartnerStatus.ts";
 
 export type ShopDetail = {
     readonly shopId: string;
     readonly shopSlugId: string;
     readonly name: string;
     readonly shopType: ShopType;
+    readonly partnerStatus: ShopPartnerStatus;
     readonly image: string | null;
     readonly domains: string[];
     readonly created: Date;
@@ -22,6 +27,7 @@ export function mapToShopDetail(data: GetShopData): ShopDetail {
         shopSlugId: data.shopSlugId,
         name: data.name,
         shopType: parseShopType(data.shopType),
+        partnerStatus: parseShopPartnerStatus(data.partnerStatus),
         image: data.image ?? null,
         domains: data.domains,
         created: new Date(data.created),

@@ -430,6 +430,10 @@
     "unknown": "Desconocido",
     "auctionPlatform": "Plataforma de subastas"
   },
+  "shopPartnerStatus": {
+    "partnered": "Socio oficial",
+    "scraped": "Indexado públicamente"
+  },
   "discover": {
     "title": "Traemos transparencia al opaco panorama de las antigüedades en línea",
     "p1": "Buscamos entre las vastas ofertas de miles de anticuarios, casas de subastas y mercados dispersos en todo el mundo todos los días y agrupamos sus artículos en un solo lugar central.",

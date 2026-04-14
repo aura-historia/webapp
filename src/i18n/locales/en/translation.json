@@ -430,6 +430,10 @@
     "marketplace": "Marketplace",
     "unknown": "Unknown"
   },
+  "shopPartnerStatus": {
+    "partnered": "Official Partner",
+    "scraped": "Publicly Indexed"
+  },
   "discover": {
     "title": "We bring transparency into the opaque landscape of online antiques",
     "p1": "We search through the vast offerings of thousands of scattered antique dealers, auction houses and marketplaces worldwide every day and bundle their items in one central place.",
