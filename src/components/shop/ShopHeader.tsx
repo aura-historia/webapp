@@ -4,12 +4,17 @@ import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { useTranslation } from "react-i18next";
-import { ImageOff } from "lucide-react";
+import { ArrowUpRight, ImageOff } from "lucide-react";
+import { Button } from "@/components/ui/button.tsx";
 
 type ShopHeaderProps = {
     readonly shop: ShopDetail;
     readonly productCount: number | undefined;
 };
+
+function buildMerchantUrl(domain: string): string {
+    return /^https?:\/\//i.test(domain) ? domain : `https://${domain}`;
+}
 
 export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
     const { t, i18n } = useTranslation();
@@ -23,6 +28,7 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
     const formattedProductCount = new Intl.NumberFormat(i18n.language).format(productCount ?? 0);
 
     const shopTypeName = t(SHOP_TYPE_TRANSLATION_CONFIG[shop.shopType].translationKey);
+    const merchantUrl = shop.domains[0] ? buildMerchantUrl(shop.domains[0]) : null;
 
     return (
         <header className="flex flex-col">
@@ -39,7 +45,7 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
                     </div>
                 </div>
             </div>
-            <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 md:grid-cols-[minmax(220px,320px)_1fr] md:items-start md:gap-12 md:px-10 md:py-14">
+            <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 md:grid-cols-[minmax(220px,320px)_1fr] md:items-stretch md:gap-12 md:px-10 md:py-14">
                 <div className="overflow-hidden border border-border/20 bg-card p-2 shadow-[0_24px_48px_-24px_rgba(28,28,22,0.22)]">
                     {shop.image ? (
                         <img
@@ -58,7 +64,7 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
                         </div>
                     )}
                 </div>
-                <div className="max-w-3xl space-y-6">
+                <div className="flex max-w-3xl flex-col gap-6">
                     <div className="space-y-3">
                         <H2 className="text-3xl font-normal italic leading-tight md:text-4xl">
                             {t("shop.header.overviewTitle")}
@@ -78,6 +84,24 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
                             {t("shop.header.indexedItems")}
                         </p>
                     </div>
+                    {merchantUrl && (
+                        <div className="mt-auto">
+                            <Button
+                                variant="default"
+                                className="h-14 w-full rounded-none text-xs tracking-[0.12em] uppercase"
+                                asChild
+                            >
+                                <a
+                                    href={merchantUrl}
+                                    target="_blank"
+                                    rel="nofollow noopener noreferrer"
+                                >
+                                    <ArrowUpRight />
+                                    <span>{t("product.toMerchant")}</span>
+                                </a>
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </div>
         </header>

@@ -67,4 +67,27 @@ describe("ShopHeader", () => {
         render(<ShopHeader shop={otherShop} productCount={100} />);
         expect(screen.getByRole("heading", { name: "Sotheby's" })).toBeInTheDocument();
     });
+
+    it("renders go-to-merchant button linking to the first domain with https", () => {
+        render(<ShopHeader shop={mockShop} productCount={42} />);
+        const link = screen.getByRole("link", { name: /Zur Seite des Händlers/i });
+        expect(link).toHaveAttribute("href", "https://christies.com");
+        expect(link).toHaveAttribute("target", "_blank");
+        expect(link).toHaveAttribute("rel", "nofollow noopener noreferrer");
+    });
+
+    it("does not render go-to-merchant button when domains list is empty", () => {
+        const shopNoDomains: ShopDetail = { ...mockShop, domains: [] };
+        render(<ShopHeader shop={shopNoDomains} productCount={42} />);
+        expect(
+            screen.queryByRole("link", { name: /Zur Seite des Händlers/i }),
+        ).not.toBeInTheDocument();
+    });
+
+    it("keeps existing https scheme in domain unchanged", () => {
+        const shopWithHttpsDomain: ShopDetail = { ...mockShop, domains: ["https://christies.com"] };
+        render(<ShopHeader shop={shopWithHttpsDomain} productCount={42} />);
+        const link = screen.getByRole("link", { name: /Zur Seite des Händlers/i });
+        expect(link).toHaveAttribute("href", "https://christies.com");
+    });
 });
