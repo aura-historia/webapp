@@ -27,7 +27,7 @@ import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 
 export const Route = createFileRoute("/")({
     loader: async ({ context: { queryClient, initialPreferences } }) => {
-        const currency = initialPreferences.currency;
+        const currency = initialPreferences.currency ?? inferCurrencyFromLocale(i18n.language);
         await Promise.all([
             queryClient
                 .ensureQueryData(

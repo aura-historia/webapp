@@ -26,7 +26,6 @@ import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
 import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
 import { getServerPreferences } from "@/lib/server/preferences.ts";
 import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
-import { inferCurrencyFromLocale } from "@/data/internal/common/Currency.ts";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/server/i18n.ts";
 import i18n from "@/i18n/i18n.ts";
@@ -38,7 +37,7 @@ import { ConsentBanner } from "@/components/common/ConsentBanner.tsx";
 
 interface MyRouterContext {
     queryClient: QueryClient;
-    initialPreferences: UserPreferences;
+    initialPreferences: Partial<UserPreferences>;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
@@ -142,11 +141,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         if (i18n.language !== locale) {
             await i18n.changeLanguage(locale);
         }
-        // Load persisted user preferences so SSR renders with correct initial state
         const serverPreferences = await getServerPreferences();
-        const initialPreferences: UserPreferences = {
+        const initialPreferences: Partial<UserPreferences> = {
             ...serverPreferences,
-            currency: serverPreferences.currency ?? inferCurrencyFromLocale(i18n.language),
         };
         return { initialPreferences };
     },
