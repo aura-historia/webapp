@@ -10,7 +10,7 @@ import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useTranslation } from "react-i18next";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { useCurrency } from "@/hooks/preferences/useCurrency.ts";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 
 const PAGE_SIZE = 20;
 
@@ -31,15 +31,15 @@ export function usePeriodProducts(
 ): UseInfiniteQueryResult<InfiniteData<PeriodProductsPage>> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
-    const currency = useCurrency();
+    const { preferences } = useUserPreferences();
 
     return useInfiniteQuery({
-        queryKey: ["periodProducts", periodId, i18n.language, currency],
+        queryKey: ["periodProducts", periodId, i18n.language, preferences.currency],
         queryFn: async ({ pageParam }) => {
             const result = await simpleSearchProducts({
                 query: {
                     language: parseLanguage(i18n.language),
-                    currency: currency,
+                    currency: preferences.currency,
                     searchAfter: pageParam as Array<unknown> | undefined,
                     size: PAGE_SIZE,
                     sort: "updated",

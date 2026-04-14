@@ -11,7 +11,7 @@ import {
 } from "@/lib/utils.ts";
 import { isPriceEvent } from "@/lib/eventFilters.ts";
 import { useTranslation } from "react-i18next";
-import { useCurrency } from "@/hooks/preferences/useCurrency.ts";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import type { TFunction } from "i18next";
 import Chart from "react-apexcharts";
 import { ClientOnly } from "@tanstack/react-router";
@@ -39,7 +39,7 @@ const createTimeRanges = (t: TFunction) => {
 
 export function ProductPriceChart({ history }: { readonly history?: readonly ProductEvent[] }) {
     const { t, i18n } = useTranslation();
-    const currency = useCurrency();
+    const { preferences } = useUserPreferences();
     const chartRef = useRef<ApexCharts | null>(null);
     const [selectedTimeRange, setSelectedTimeRange] = useState<number | null>(null);
 
@@ -246,7 +246,8 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
         },
         yaxis: {
             labels: {
-                formatter: (val: number) => formatCompactCurrency(val, currency, i18n.language),
+                formatter: (val: number) =>
+                    formatCompactCurrency(val, preferences.currency, i18n.language),
                 style: {
                     fontSize: "15px",
                     fontWeight: 500,
@@ -275,7 +276,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                     yaxis: {
                         labels: {
                             formatter: (val: number) =>
-                                formatCompactCurrency(val, currency, i18n.language),
+                                formatCompactCurrency(val, preferences.currency, i18n.language),
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,
@@ -302,7 +303,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                     yaxis: {
                         labels: {
                             formatter: (val: number) =>
-                                formatCompactCurrency(val, currency, i18n.language),
+                                formatCompactCurrency(val, preferences.currency, i18n.language),
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,

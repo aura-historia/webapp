@@ -10,7 +10,7 @@ import { ProductDetailPageSkeleton } from "@/components/product/detail/ProductDe
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
-import { useCurrency } from "@/hooks/preferences/useCurrency.ts";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { generateProductHeadMeta } from "@/lib/seo/productHeadMeta.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 
@@ -54,13 +54,13 @@ export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId
 function ProductDetailComponent() {
     const { shopSlugId, productSlugId } = Route.useParams();
     const { i18n } = useTranslation();
-    const currency = useCurrency();
+    const { preferences } = useUserPreferences();
 
     const { data: apiData } = useSuspenseQuery(
         getProductBySlugOptions({
             query: {
                 language: parseLanguage(i18n.language),
-                currency: currency,
+                currency: preferences.currency,
             },
             path: { shopSlugId, productSlugId },
         }),
@@ -70,7 +70,7 @@ function ProductDetailComponent() {
         getProductHistoryOptions({
             query: {
                 language: parseLanguage(i18n.language),
-                currency: currency,
+                currency: preferences.currency,
             },
             path: {
                 shopId: apiData.item.shopId,

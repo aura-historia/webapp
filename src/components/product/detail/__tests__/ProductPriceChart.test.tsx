@@ -3,8 +3,8 @@ import { render, screen } from "@testing-library/react";
 import { ProductPriceChart } from "../ProductPriceChart.tsx";
 import { vi } from "vitest";
 
-vi.mock("@/hooks/preferences/useCurrency.ts", () => ({
-    useCurrency: () => "EUR",
+vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
+    useUserPreferences: () => ({ preferences: { currency: "EUR" }, updatePreferences: vi.fn() }),
 }));
 import userEvent from "@testing-library/user-event";
 

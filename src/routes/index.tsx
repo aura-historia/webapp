@@ -23,7 +23,7 @@ import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/in
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
-import { useCurrency } from "@/hooks/preferences/useCurrency.ts";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 
 export const Route = createFileRoute("/")({
     loader: async ({ context: { queryClient, initialPreferences } }) => {
@@ -68,7 +68,7 @@ export const Route = createFileRoute("/")({
 
 function LandingPage() {
     const { i18n } = useTranslation();
-    const currency = useCurrency();
+    const { preferences } = useUserPreferences();
     const { data: categoriesData } = useQuery(
         getCategoriesOptions({
             query: { language: parseLanguage(i18n.language) },
@@ -86,7 +86,7 @@ function LandingPage() {
                 order: "desc",
                 size: 12,
                 language: parseLanguage(i18n.language),
-                currency: currency,
+                currency: preferences.currency,
             },
         }),
     );

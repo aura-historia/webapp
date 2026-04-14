@@ -39,10 +39,6 @@ vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
     useUserPreferences: () => ({ preferences: { currency: "EUR" }, updatePreferences: vi.fn() }),
 }));
 
-vi.mock("@/hooks/preferences/useCurrency.ts", () => ({
-    useCurrency: () => "EUR",
-}));
-
 describe("useCombinationProducts", () => {
     let queryClient: QueryClient;
 

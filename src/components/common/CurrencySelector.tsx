@@ -5,7 +5,6 @@ import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useCurrency } from "@/hooks/preferences/useCurrency.ts";
 import {
     Select,
     SelectContent,
@@ -36,7 +35,7 @@ const CURRENCY_SYMBOLS: Record<Currency, string> = {
 };
 
 export function CurrencySelector() {
-    const { updatePreferences } = useUserPreferences();
+    const { preferences, updatePreferences } = useUserPreferences();
     const { mutate: updateAccount } = useUpdateUserAccount();
     const { data: account } = useUserAccount();
     const { user } = useAuthenticator((context) => [context.user]);
@@ -49,7 +48,6 @@ export function CurrencySelector() {
         }
     }, [account?.currency, updatePreferences]);
 
-    const currency = useCurrency();
     const displayNames = useMemo(
         () => new Intl.DisplayNames([i18n.language], { type: "currency" }),
         [i18n.language],
@@ -67,11 +65,11 @@ export function CurrencySelector() {
     );
 
     return (
-        <Select value={currency} onValueChange={handleChange}>
+        <Select value={preferences.currency} onValueChange={handleChange}>
             <SelectTrigger className="h-8 text-xs">
                 <SelectValue>
-                    <span>{CURRENCY_SYMBOLS[currency]}</span>
-                    <span className="pl-2">{displayNames.of(currency)}</span>
+                    <span>{CURRENCY_SYMBOLS[preferences.currency]}</span>
+                    <span className="pl-2">{displayNames.of(preferences.currency)}</span>
                 </SelectValue>
             </SelectTrigger>
             <SelectContent align="end">
