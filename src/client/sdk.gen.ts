@@ -2,9 +2,9 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAllNotificationsData, DeleteAllNotificationsErrors, DeleteAllNotificationsResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeletePartnerApplicationData, DeletePartnerApplicationErrors, DeletePartnerApplicationResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetNotificationsData, GetNotificationsErrors, GetNotificationsResponses, GetPartnerApplicationData, GetPartnerApplicationErrors, GetPartnerApplicationResponses, GetPartnerApplicationsData, GetPartnerApplicationsErrors, GetPartnerApplicationsResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsErrors, GetSearchFilterMatchedProductsResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchAllNotificationsData, PatchAllNotificationsErrors, PatchAllNotificationsResponses, PatchNotificationData2, PatchNotificationErrors, PatchNotificationResponses, PatchPartnerApplicationData, PatchPartnerApplicationErrors, PatchPartnerApplicationResponses, PatchPartnerProductsData, PatchPartnerProductsErrors, PatchPartnerProductsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostPartnerApplicationData, PostPartnerApplicationErrors, PostPartnerApplicationResponses, PostPartnerProductsData, PostPartnerProductsErrors, PostPartnerProductsResponses, PutPartnerProductsData, PutPartnerProductsErrors, PutPartnerProductsResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminGetPartnerApplicationData, AdminGetPartnerApplicationErrors, AdminGetPartnerApplicationResponses, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsErrors, AdminGetPartnerApplicationsResponses, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationErrors, AdminPatchPartnerApplicationResponses, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionErrors, AdminPostPartnerApplicationDecisionResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAllNotificationsData, DeleteAllNotificationsErrors, DeleteAllNotificationsResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeletePartnerApplicationData, DeletePartnerApplicationErrors, DeletePartnerApplicationResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetNotificationsData, GetNotificationsErrors, GetNotificationsResponses, GetPartnerApplicationData, GetPartnerApplicationErrors, GetPartnerApplicationResponses, GetPartnerApplicationsData, GetPartnerApplicationsErrors, GetPartnerApplicationsResponses, GetPartnerShopsData, GetPartnerShopsErrors, GetPartnerShopsResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsErrors, GetSearchFilterMatchedProductsResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchAllNotificationsData, PatchAllNotificationsErrors, PatchAllNotificationsResponses, PatchNotificationData2, PatchNotificationErrors, PatchNotificationResponses, PatchPartnerApplicationData, PatchPartnerApplicationErrors, PatchPartnerApplicationResponses, PatchPartnerProductsData, PatchPartnerProductsErrors, PatchPartnerProductsResponses, PatchShopByIdData, PatchShopByIdErrors, PatchShopByIdResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostPartnerApplicationData, PostPartnerApplicationErrors, PostPartnerApplicationResponses, PostPartnerProductsData, PostPartnerProductsErrors, PostPartnerProductsResponses, PutPartnerProductsData, PutPartnerProductsErrors, PutPartnerProductsResponses, PutShopApiKeyData, PutShopApiKeyErrors, PutShopApiKeyResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
-export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
+export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
      * You can provide a client instance returned by `createClient()` instead of
      * individual options. This might be also useful if you want to implement a
@@ -391,7 +391,7 @@ export const deleteUser = <ThrowOnError extends boolean = false>(options?: Optio
  * Get user account data
  *
  * Retrieves the authenticated user's account information including email, name, language and currency preferences,
- * and the consent flag for displaying prohibited content.
+ * the consent flag for displaying prohibited content, the user's subscription tier, and the user's role.
  * Requires valid Cognito JWT authentication.
  *
  */
@@ -406,6 +406,7 @@ export const getUserAccount = <ThrowOnError extends boolean = false>(options?: O
  *
  * Updates the authenticated user's account information.
  * All fields in the request body are optional - only provided fields will be updated.
+ * The user's `role` is returned in the response but cannot be updated through this endpoint.
  * Returns the updated user account data.
  * Requires valid Cognito JWT authentication.
  *
@@ -560,6 +561,49 @@ export const simpleSearchShops = <ThrowOnError extends boolean = false>(options?
 export const getShopById = <ThrowOnError extends boolean = false>(options: Options<GetShopByIdData, ThrowOnError>) => (options.client ?? client).get<GetShopByIdResponses, GetShopByIdErrors, ThrowOnError>({ url: '/api/v1/shops/{shopId}', ...options });
 
 /**
+ * Update shop details
+ *
+ * Updates mutable shop metadata for the specified shop.
+ *
+ * Requires a valid Cognito JWT. The caller must either:
+ * - be the partner user assigned to the shop, or
+ * - have the `ADMIN` role.
+ *
+ * The request body uses `PatchShopData`. Only fields present in the JSON body are applied;
+ * omitted or `null` fields are left unchanged. The HTTP request body itself must not be absent
+ * or an empty string; `{}` is valid.
+ *
+ */
+export const patchShopById = <ThrowOnError extends boolean = false>(options: Options<PatchShopByIdData, ThrowOnError>) => (options.client ?? client).patch<PatchShopByIdResponses, PatchShopByIdErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/shops/{shopId}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Create or overwrite a partner shop API key
+ *
+ * Creates a new partner API key for the specified shop and returns the plaintext key in the response.
+ * If a key already exists for the shop, it is overwritten.
+ *
+ * Requires a valid Cognito JWT. The caller must either:
+ * - be the partner user assigned to the shop, or
+ * - have the `ADMIN` role.
+ *
+ * The returned key is only available in this response. The backend stores only a hash.
+ *
+ */
+export const putShopApiKey = <ThrowOnError extends boolean = false>(options: Options<PutShopApiKeyData, ThrowOnError>) => (options.client ?? client).put<PutShopApiKeyResponses, PutShopApiKeyErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/shops/{shopId}/api-key',
+    ...options
+});
+
+/**
  * Get shop details by slug
  *
  * Retrieves detailed information about a specific shop by its human-readable slug identifier.
@@ -670,6 +714,24 @@ export const searchPeriods = <ThrowOnError extends boolean = false>(options: Opt
 });
 
 /**
+ * List shops for a partner user
+ *
+ * Returns all shops whose `partner_user_id` matches the requested `partnerId`.
+ *
+ * Requires a valid Cognito JWT. The caller may request:
+ * - their own shops (`partnerId` equals the JWT `sub`), or
+ * - another partner's shops when the caller has the `ADMIN` role.
+ *
+ * Returns an empty array when the partner currently has no shops.
+ *
+ */
+export const getPartnerShops = <ThrowOnError extends boolean = false>(options: Options<GetPartnerShopsData, ThrowOnError>) => (options.client ?? client).get<GetPartnerShopsResponses, GetPartnerShopsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/partner/{partnerId}/shops',
+    ...options
+});
+
+/**
  * List user's partner shop applications
  *
  * Retrieves all partner shop applications submitted by the authenticated user.
@@ -689,8 +751,8 @@ export const getPartnerApplications = <ThrowOnError extends boolean = false>(opt
  * Submits a new partner shop application for the authenticated user.
  * The application payload specifies either an existing shop (by `shopId`) or a new shop
  * (with name, type, domains, and optional image).
- * The application is created with state `SUBMITTED`.
- * State is read-only and cannot be set by the client.
+ * The application is created with `businessState` `SUBMITTED` and `executionState` `PROCESSING`.
+ * Both state fields are read-only and cannot be set by the client.
  * Returns the created application with HTTP 201.
  * Requires valid Cognito JWT authentication.
  *
@@ -739,7 +801,7 @@ export const getPartnerApplication = <ThrowOnError extends boolean = false>(opti
  *
  * Updates the fields of a specific partner shop application identified by `partnerApplicationId`.
  * Only fields present in the request body are applied; omitted fields are left unchanged.
- * The `state` field is **read-only** and cannot be updated through this endpoint.
+ * The `businessState` and `executionState` fields are **read-only** and cannot be updated through this endpoint.
  * The request body is required and must not be empty.
  * Returns the updated application.
  * Returns 404 when no application with the given ID exists for this user.
@@ -749,6 +811,73 @@ export const getPartnerApplication = <ThrowOnError extends boolean = false>(opti
 export const patchPartnerApplication = <ThrowOnError extends boolean = false>(options: Options<PatchPartnerApplicationData, ThrowOnError>) => (options.client ?? client).patch<PatchPartnerApplicationResponses, PatchPartnerApplicationErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/me/partner-applications/{partnerApplicationId}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * List all partner shop applications
+ *
+ * Retrieves all partner shop applications across all users.
+ * This endpoint is restricted to authenticated users with the `ADMIN` role.
+ * Returns an empty array when no applications exist.
+ *
+ */
+export const adminGetPartnerApplications = <ThrowOnError extends boolean = false>(options?: Options<AdminGetPartnerApplicationsData, ThrowOnError>) => (options?.client ?? client).get<AdminGetPartnerApplicationsResponses, AdminGetPartnerApplicationsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/partner-applications',
+    ...options
+});
+
+/**
+ * Get a specific partner shop application as admin
+ *
+ * Retrieves a single partner shop application by its ID across all users.
+ * This endpoint is restricted to authenticated users with the `ADMIN` role.
+ *
+ */
+export const adminGetPartnerApplication = <ThrowOnError extends boolean = false>(options: Options<AdminGetPartnerApplicationData, ThrowOnError>) => (options.client ?? client).get<AdminGetPartnerApplicationResponses, AdminGetPartnerApplicationErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/partner-applications/{partnerApplicationId}',
+    ...options
+});
+
+/**
+ * Update a partner shop application as admin
+ *
+ * Updates a specific partner shop application by ID across all users.
+ * This endpoint is restricted to authenticated users with the `ADMIN` role.
+ * Admins can update payload fields, but review decisions must be submitted through
+ * `POST /api/v1/partner-applications/{partnerApplicationId}/decision`.
+ * The request body is required and must not be empty.
+ *
+ */
+export const adminPatchPartnerApplication = <ThrowOnError extends boolean = false>(options: Options<AdminPatchPartnerApplicationData, ThrowOnError>) => (options.client ?? client).patch<AdminPatchPartnerApplicationResponses, AdminPatchPartnerApplicationErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/partner-applications/{partnerApplicationId}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Submit a partner shop application decision as admin
+ *
+ * Submits an `APPROVE` or `REJECT` decision for a specific partner shop application across all users.
+ * This endpoint is restricted to authenticated users with the `ADMIN` role.
+ * The targeted application must currently have `businessState` `IN_REVIEW`; otherwise the request fails with `409 Conflict`.
+ * On success, the workflow resumes asynchronously and the returned application has `executionState` `PROCESSING`
+ * while the decision is being applied.
+ *
+ */
+export const adminPostPartnerApplicationDecision = <ThrowOnError extends boolean = false>(options: Options<AdminPostPartnerApplicationDecisionData, ThrowOnError>) => (options.client ?? client).post<AdminPostPartnerApplicationDecisionResponses, AdminPostPartnerApplicationDecisionErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/partner-applications/{partnerApplicationId}/decision',
     ...options,
     headers: {
         'Content-Type': 'application/json',
