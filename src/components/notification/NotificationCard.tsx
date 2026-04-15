@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils.ts";
 import { intlFormatDistance } from "date-fns";
 import { Link } from "@tanstack/react-router";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import { Check, ImageOff, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -103,30 +104,32 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                         {!seen && (
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <button
-                                        type="button"
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
                                         aria-label={t("notifications.markRead")}
                                         disabled={markAsSeen.isPending}
                                         onClick={() => markAsSeen.mutate(originEventId)}
-                                        className="size-10 flex items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
+                                        className="size-10 text-muted-foreground hover:text-primary"
                                     >
                                         <Check className="size-5" />
-                                    </button>
+                                    </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>{t("notifications.markRead")}</TooltipContent>
                             </Tooltip>
                         )}
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <button
-                                    type="button"
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
                                     aria-label={t("notifications.delete")}
                                     disabled={deleteNotification.isPending}
                                     onClick={() => deleteNotification.mutate(originEventId)}
-                                    className="size-10 flex items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-destructive"
+                                    className="size-10 text-muted-foreground hover:text-destructive"
                                 >
                                     <Trash2 className="size-5" />
-                                </button>
+                                </Button>
                             </TooltipTrigger>
                             <TooltipContent>{t("notifications.delete")}</TooltipContent>
                         </Tooltip>

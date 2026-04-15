@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { WatchlistResults } from "@/components/watchlist/WatchlistResults.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 
-export const Route = createFileRoute("/_auth/watchlist")({
+export const Route = createFileRoute("/_auth/me/watchlist")({
     head: () =>
         generatePageHeadMeta({
             pageKey: "watchlist",

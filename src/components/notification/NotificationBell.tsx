@@ -122,7 +122,7 @@ export function NotificationBell() {
                             className="w-full text-xs tracking-wide text-primary/60 uppercase hover:bg-transparent hover:text-primary"
                             asChild
                         >
-                            <Link to="/notifications" onClick={() => setOpen(false)}>
+                            <Link to="/me/notifications" onClick={() => setOpen(false)}>
                                 {t("notifications.showAll")}
                             </Link>
                         </Button>

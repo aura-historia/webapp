@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { NotificationResults } from "@/components/notification/NotificationResults.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 
-export const Route = createFileRoute("/_auth/notifications")({
+export const Route = createFileRoute("/_auth/me/notifications")({
     head: () => generatePageHeadMeta({ pageKey: "notifications", noIndex: true }),
     component: RouteComponent,
 });

@@ -143,7 +143,9 @@ export function Header() {
                 {isLoginEnabled && user && (
                     <div
                         className={cn(
-                            isFloating ? "bg-card backdrop-blur-sm rounded-xl p-1 shadow-sm" : "",
+                            isFloating
+                                ? "bg-background backdrop-blur-sm rounded-xs p-1 shadow-sm"
+                                : "",
                         )}
                     >
                         <NotificationBell />
@@ -173,10 +175,10 @@ export function Header() {
                                         </DropdownMenuLabel>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem asChild>
-                                            <Link to="/watchlist">{t("header.watchlist")}</Link>
+                                            <Link to="/me/watchlist">{t("header.watchlist")}</Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem asChild>
-                                            <Link to="/account">{t("header.editAccount")}</Link>
+                                            <Link to="/me/account">{t("header.editAccount")}</Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem onSelect={() => signOut()}>
                                             {t("header.logout")}
@@ -224,10 +226,10 @@ export function Header() {
                                 <NavigationMenuList>
                                     <NavigationMenuItem>
                                         <NavigationMenuLink asChild>
-                                            <Link to="/watchlist">
+                                            <Link to="/me/watchlist">
                                                 <span
                                                     className={cn(
-                                                        pathname === "/watchlist"
+                                                        pathname === "/me/watchlist"
                                                             ? "underline"
                                                             : "",
                                                         "text-base",
@@ -260,7 +262,7 @@ export function Header() {
                                     <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem asChild>
-                                        <Link to="/account">{t("header.editAccount")}</Link>
+                                        <Link to="/me/account">{t("header.editAccount")}</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem onSelect={() => signOut()}>
                                         {t("header.logout")}

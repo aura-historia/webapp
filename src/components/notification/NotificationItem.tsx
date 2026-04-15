@@ -12,6 +12,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { cn } from "@/lib/utils.ts";
 import { intlFormatDistance } from "date-fns";
 import { Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button.tsx";
 import { Check, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -37,45 +38,39 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                         <span className="flex-1 text-xs text-muted-foreground">
                             {getNotificationTypeLabel(payload, t)}
                         </span>
-                        <span
-                            className="shrink-0 text-[11px] text-muted-foreground"
-                            suppressHydrationWarning
-                        >
-                            {intlFormatDistance(notification.created, new Date(), {
-                                locale: i18n.language,
-                            })}
-                        </span>
                         {!seen && (
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <button
-                                        type="button"
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
                                         aria-label={t("notifications.markRead")}
                                         disabled={markAsSeen.isPending}
                                         onClick={() =>
                                             markAsSeen.mutate(notification.originEventId)
                                         }
-                                        className="shrink-0 rounded p-1 text-muted-foreground transition-colors hover:text-primary"
+                                        className="shrink-0 size-5 rounded text-muted-foreground hover:text-primary"
                                     >
                                         <Check className="size-3" />
-                                    </button>
+                                    </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>{t("notifications.markRead")}</TooltipContent>
                             </Tooltip>
                         )}
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <button
-                                    type="button"
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
                                     aria-label={t("notifications.delete")}
                                     disabled={deleteNotification.isPending}
                                     onClick={() =>
                                         deleteNotification.mutate(notification.originEventId)
                                     }
-                                    className="-mr-1 shrink-0 rounded p-1 text-muted-foreground transition-colors hover:text-destructive"
+                                    className="shrink-0 size-5 rounded text-muted-foreground hover:text-destructive"
                                 >
                                     <Trash2 className="size-3" />
-                                </button>
+                                </Button>
                             </TooltipTrigger>
                             <TooltipContent>{t("notifications.delete")}</TooltipContent>
                         </Tooltip>
@@ -108,13 +103,23 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                     {isProductNotification(payload) && (
                         <span className="text-xs text-muted-foreground">{payload.shopName}</span>
                     )}
-                    {changeParts && (
-                        <span className="mt-1.5 flex items-baseline gap-1 text-xs text-muted-foreground">
-                            <span className="line-through">{changeParts.from}</span>
-                            <span>→</span>
-                            <span>{changeParts.to}</span>
+                    <div className="flex items-center mt-1.5">
+                        {changeParts && (
+                            <span className="flex items-baseline gap-1 text-xs text-muted-foreground">
+                                <span className="line-through">{changeParts.from}</span>
+                                <span>→</span>
+                                <span>{changeParts.to}</span>
+                            </span>
+                        )}
+                        <span
+                            className="ml-auto shrink-0 text-[11px] text-muted-foreground"
+                            suppressHydrationWarning
+                        >
+                            {intlFormatDistance(notification.created, new Date(), {
+                                locale: i18n.language,
+                            })}
                         </span>
-                    )}
+                    </div>
                 </div>
             </div>
         </div>
