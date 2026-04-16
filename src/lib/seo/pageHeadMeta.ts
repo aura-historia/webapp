@@ -21,6 +21,7 @@ type PageMetaKey =
     | "privacy"
     | "account"
     | "watchlist"
+    | "notifications"
     | "consentSettings"
     | "categories"
     | "periods"
@@ -52,6 +53,9 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     },
     watchlist: {
         title: "meta.watchlist.title",
+    },
+    notifications: {
+        title: "meta.notifications.title",
     },
     consentSettings: {
         title: "meta.consentSettings.title",

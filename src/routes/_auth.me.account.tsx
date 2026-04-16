@@ -2,7 +2,7 @@ import { AccountPage } from "@/components/account/AccountPage.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 
-export const Route = createFileRoute("/_auth/account")({
+export const Route = createFileRoute("/_auth/me/account")({
     ssr: false,
     head: () =>
         generatePageHeadMeta({

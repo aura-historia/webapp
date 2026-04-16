@@ -1,4 +1,5 @@
 import { AccountImage } from "@/components/account/AccountImage.tsx";
+import { NotificationBell } from "@/components/notification/NotificationBell.tsx";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -138,6 +139,19 @@ export function Header() {
                     <SearchBar type="small" />
                 </div>
 
+                {/* Mobile Notification Bell */}
+                {isLoginEnabled && user && (
+                    <div
+                        className={cn(
+                            isFloating
+                                ? "bg-background backdrop-blur-sm rounded-xs p-1 shadow-sm"
+                                : "",
+                        )}
+                    >
+                        <NotificationBell />
+                    </div>
+                )}
+
                 {/* Mobile Menu */}
                 {isLoginEnabled && (
                     <div
@@ -161,10 +175,10 @@ export function Header() {
                                         </DropdownMenuLabel>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem asChild>
-                                            <Link to="/watchlist">{t("header.watchlist")}</Link>
+                                            <Link to="/me/watchlist">{t("header.watchlist")}</Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem asChild>
-                                            <Link to="/account">{t("header.editAccount")}</Link>
+                                            <Link to="/me/account">{t("header.editAccount")}</Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem onSelect={() => signOut()}>
                                             {t("header.logout")}
@@ -212,10 +226,10 @@ export function Header() {
                                 <NavigationMenuList>
                                     <NavigationMenuItem>
                                         <NavigationMenuLink asChild>
-                                            <Link to="/watchlist">
+                                            <Link to="/me/watchlist">
                                                 <span
                                                     className={cn(
-                                                        pathname === "/watchlist"
+                                                        pathname === "/me/watchlist"
                                                             ? "underline"
                                                             : "",
                                                         "text-base",
@@ -228,6 +242,8 @@ export function Header() {
                                     </NavigationMenuItem>
                                 </NavigationMenuList>
                             </NavigationMenu>
+
+                            <NotificationBell />
 
                             <DropdownMenu>
                                 <DropdownMenuTrigger className="flex items-center gap-4">
@@ -246,7 +262,7 @@ export function Header() {
                                     <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem asChild>
-                                        <Link to="/account">{t("header.editAccount")}</Link>
+                                        <Link to="/me/account">{t("header.editAccount")}</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem onSelect={() => signOut()}>
                                         {t("header.logout")}

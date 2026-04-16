@@ -36,6 +36,9 @@
     "watchlist": {
       "title": "Meine Merkliste | Aura Historia"
     },
+    "notifications": {
+      "title": "Benachrichtigungen | Aura Historia"
+    },
     "category": {
       "defaultName": "Kategorie"
     },
@@ -939,6 +942,37 @@
     "analyticsLabel": "Analyse & Tracking",
     "analyticsDescription": "Ermöglicht uns die Analyse der Nutzung und die Verbesserung Ihres Erlebnisses über Google Analytics. Beinhaltet Anzeigenspeicher, Analysespeicher, Anzeigenbenutzerdaten und Anzeigenpersonalisierung.",
     "saved": "Ihre Cookie-Einstellungen wurden gespeichert."
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "markAllRead": "Alle als gelesen markieren",
+    "noNotifications": "Keine Benachrichtigungen",
+    "ariaLabel": "Benachrichtigungen öffnen",
+    "types": {
+      "priceChange": "Preisänderung",
+      "stateChange": "Statusänderung",
+      "newMatch": "Neuer Treffer",
+      "partnerApplicationApproved": "Antrag genehmigt",
+      "partnerApplicationRejected": "Antrag abgelehnt",
+      "partnerApplication": "Partnerantrag",
+      "partnerApplicationSubmitted": "Eingereicht",
+      "partnerApplicationStatusApproved": "Genehmigt",
+      "partnerApplicationStatusRejected": "Abgelehnt"
+    },
+    "delete": "Löschen",
+    "deleteAll": "Alle löschen",
+    "markRead": "Als gelesen markieren",
+    "loadingError": "Benachrichtigungen konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+    "loadingMore": "Lade weitere Benachrichtigungen...",
+    "allLoaded_one": "{{count}} Benachrichtigung geladen",
+    "allLoaded_other": "Alle {{count}} Benachrichtigungen geladen",
+    "noResults": {
+      "title": "Keine Benachrichtigungen",
+      "description": "Sie haben noch keine Benachrichtigungen erhalten."
+    },
+    "totalElements_one": "{{count}} Benachrichtigung",
+    "totalElements_other": "{{count}} Benachrichtigungen",
+    "showAll": "Alle Benachrichtigungen anzeigen"
   },
   "combination": {
     "header": {
