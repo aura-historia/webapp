@@ -10,41 +10,34 @@ import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useTranslation } from "react-i18next";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 
 const PAGE_SIZE = 20;
 
-export type PeriodProductsPage = {
+export type ShopProductsPage = {
     products: OverviewProduct[];
     total: number | undefined;
     searchAfter: Array<unknown> | undefined;
 };
 
-/**
- * Hook for fetching products of a specific period with infinite scrolling.
- *
- * @param periodId - The kebab-case identifier of the period.
- * @returns An infinite query result containing products and pagination state.
- */
-export function usePeriodProducts(
-    periodId: string,
-): UseInfiniteQueryResult<InfiniteData<PeriodProductsPage>> {
+export function useShopProducts(
+    shopName: string,
+): UseInfiniteQueryResult<InfiniteData<ShopProductsPage>> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
-    const { preferences } = useUserPreferences();
 
     return useInfiniteQuery({
-        queryKey: ["periodProducts", periodId, i18n.language, preferences.currency],
+        queryKey: ["shopProducts", shopName, i18n.language],
         queryFn: async ({ pageParam }) => {
             const result = await simpleSearchProducts({
                 query: {
                     language: parseLanguage(i18n.language),
-                    currency: preferences.currency,
-                    searchAfter: pageParam as Array<unknown> | undefined,
+                    // TODO: Make currency dynamic
+                    currency: "EUR",
+                    searchAfter: pageParam,
                     size: PAGE_SIZE,
                     sort: "updated",
                     order: "desc",
-                    periodId: [periodId],
+                    shopName: [shopName],
                 },
             });
 

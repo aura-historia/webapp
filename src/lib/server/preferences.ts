@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getCookie } from "@tanstack/react-start/server";
 import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
+import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 
 const PREFERENCES_COOKIE_NAME = "user-preferences";
 
@@ -26,6 +27,9 @@ export const getServerPreferences = createServerFn({ method: "GET" }).handler(
             };
             if ("trackingConsent" in prefs) {
                 prefs.trackingConsent = prefs.trackingConsent === true;
+            }
+            if (prefs.currency != null && !CURRENCIES.includes(prefs.currency)) {
+                delete prefs.currency;
             }
             return prefs;
         } catch {

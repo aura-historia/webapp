@@ -2,7 +2,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { createElement } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { usePeriodProducts } from "../usePeriodProducts.ts";
+import { useShopProducts } from "../useShopProducts.ts";
 
 const mockSimpleSearchProducts = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
@@ -35,11 +35,7 @@ vi.mock("@/data/internal/common/Language.ts", () => ({
     parseLanguage: (lang: string) => lang,
 }));
 
-vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
-    useUserPreferences: () => ({ preferences: { currency: "EUR" }, updatePreferences: vi.fn() }),
-}));
-
-describe("usePeriodProducts", () => {
+describe("useShopProducts", () => {
     let queryClient: QueryClient;
 
     const createWrapper =
@@ -59,7 +55,7 @@ describe("usePeriodProducts", () => {
         );
     });
 
-    it("fetches and returns products for the given periodId", async () => {
+    it("fetches and returns products for the given shopName", async () => {
         mockSimpleSearchProducts.mockResolvedValue({
             data: {
                 items: [{ productId: "p1" }, { productId: "p2" }],
@@ -69,7 +65,7 @@ describe("usePeriodProducts", () => {
             error: null,
         });
 
-        const { result } = renderHook(() => usePeriodProducts("renaissance"), {
+        const { result } = renderHook(() => useShopProducts("Christie's"), {
             wrapper: createWrapper(),
         });
 
@@ -81,13 +77,13 @@ describe("usePeriodProducts", () => {
         expect(page?.searchAfter).toBeUndefined();
     });
 
-    it("calls simpleSearchProducts with the correct periodId and defaults", async () => {
+    it("calls simpleSearchProducts with the correct shopName and defaults", async () => {
         mockSimpleSearchProducts.mockResolvedValue({
             data: { items: [], total: 0, searchAfter: undefined },
             error: null,
         });
 
-        renderHook(() => usePeriodProducts("renaissance"), {
+        renderHook(() => useShopProducts("Christie's"), {
             wrapper: createWrapper(),
         });
 
@@ -100,7 +96,7 @@ describe("usePeriodProducts", () => {
                 size: 20,
                 sort: "updated",
                 order: "desc",
-                periodId: ["renaissance"],
+                shopName: ["Christie's"],
             }),
         });
     });
@@ -112,7 +108,7 @@ describe("usePeriodProducts", () => {
         });
         mockGetErrorMessage.mockReturnValue("Mapped Server Error");
 
-        const { result } = renderHook(() => usePeriodProducts("renaissance"), {
+        const { result } = renderHook(() => useShopProducts("Christie's"), {
             wrapper: createWrapper(),
         });
 
@@ -127,7 +123,7 @@ describe("usePeriodProducts", () => {
             error: null,
         });
 
-        const { result } = renderHook(() => usePeriodProducts("baroque"), {
+        const { result } = renderHook(() => useShopProducts("Empty Shop"), {
             wrapper: createWrapper(),
         });
 
@@ -146,7 +142,7 @@ describe("usePeriodProducts", () => {
             error: null,
         });
 
-        const { result } = renderHook(() => usePeriodProducts("renaissance"), {
+        const { result } = renderHook(() => useShopProducts("Christie's"), {
             wrapper: createWrapper(),
         });
 

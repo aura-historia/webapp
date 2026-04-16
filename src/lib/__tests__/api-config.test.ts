@@ -14,6 +14,10 @@ vi.mock("@aws-amplify/auth", () => ({
     fetchAuthSession: vi.fn(),
 }));
 
+vi.mock("@/lib/server/amplify.ts", () => ({
+    getAuthToken: vi.fn(),
+}));
+
 describe("api-config", () => {
     beforeEach(() => {
         vi.clearAllMocks();

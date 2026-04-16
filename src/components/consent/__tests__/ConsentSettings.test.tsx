@@ -24,7 +24,7 @@ describe("ConsentSettings", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: undefined },
+            preferences: { trackingConsent: undefined, currency: "EUR" },
             updatePreferences: mockUpdatePreferences,
         });
     });
@@ -49,7 +49,7 @@ describe("ConsentSettings", () => {
 
     it("switch is checked when trackingConsent is true", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: true },
+            preferences: { trackingConsent: true, currency: "EUR" },
             updatePreferences: mockUpdatePreferences,
         });
         render(<ConsentSettings />);
@@ -59,7 +59,7 @@ describe("ConsentSettings", () => {
 
     it("switch is unchecked when trackingConsent is false", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: false },
+            preferences: { trackingConsent: false, currency: "EUR" },
             updatePreferences: mockUpdatePreferences,
         });
         render(<ConsentSettings />);
@@ -75,7 +75,7 @@ describe("ConsentSettings", () => {
 
     it("calls updatePreferences with false when switch is toggled off", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: true },
+            preferences: { trackingConsent: true, currency: "EUR" },
             updatePreferences: mockUpdatePreferences,
         });
         render(<ConsentSettings />);
