@@ -1036,8 +1036,8 @@
     },
     "products": {
       "loadingMore": "Caricamento di altri articoli...",
-      "allLoaded_one": "Hai visualizzato {{count}} articolo di questo {{shopTypeName}}.",
-      "allLoaded_other": "Hai visualizzato tutti i {{count}} articoli di questo {{shopTypeName}}.",
+      "allLoaded_one": "Hai visualizzato {{count}} articolo di questo negozio.",
+      "allLoaded_other": "Hai visualizzato tutti i {{count}} articoli di questo negozio.",
       "noResults": {
         "title": "Nessun articolo trovato",
         "description": "Al momento non ci sono articoli di questo negozio."

@@ -186,7 +186,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                     )}
                 </Link>
 
-                <div className="flex min-w-0 flex-1 flex-col gap-2">
+                <div className="flex min-w-0 flex-1 flex-col gap-1">
                     <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1">
                         <span className="min-w-0 flex-1 truncate text-xs uppercase tracking-widest text-muted-foreground/80">
                             {product.shopName}
@@ -203,7 +203,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                         className="min-w-0"
                         onClick={handleProductClick}
                     >
-                        <H3 className="line-clamp-2 text-xl leading-tight font-normal transition-colors duration-300 ease-out group-hover:text-primary">
+                        <H3 className="line-clamp-2 text-lg! leading-tight font-normal transition-colors duration-300 ease-out group-hover:text-primary">
                             {product.title}
                         </H3>
                     </Link>

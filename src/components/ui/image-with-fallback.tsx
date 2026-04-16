@@ -19,6 +19,8 @@ export function ImageWithFallback({
     className,
     fallbackClassName,
     showErrorMessage = true,
+    onLoad,
+    onError,
     ...props
 }: ImageWithFallbackProps) {
     const { t } = useTranslation();
@@ -26,6 +28,20 @@ export function ImageWithFallback({
     const [isLoading, setIsLoading] = useState(true);
     const imgRef = useRef<HTMLImageElement>(null);
     const currentSrcRef = useRef<string | undefined>(src);
+
+    const containerClassName = cn("relative overflow-hidden bg-muted", className);
+    const containedImageClassName = "h-full w-full object-contain";
+
+    const handleLoad: ImgHTMLAttributes<HTMLImageElement>["onLoad"] = (event) => {
+        setIsLoading(false);
+        onLoad?.(event);
+    };
+
+    const handleError: ImgHTMLAttributes<HTMLImageElement>["onError"] = (event) => {
+        setIsLoading(false);
+        setHasError(true);
+        onError?.(event);
+    };
 
     // Reset error state when src changes
     useEffect(() => {
@@ -46,7 +62,7 @@ export function ImageWithFallback({
 
     if (isLoading && src) {
         return (
-            <div className={cn("relative", className)}>
+            <div className={containerClassName}>
                 <Skeleton
                     className={cn("absolute inset-0", fallbackClassName)}
                     role="status"
@@ -56,12 +72,9 @@ export function ImageWithFallback({
                     ref={imgRef}
                     src={src}
                     alt={alt}
-                    className={cn("opacity-0", className)}
-                    onLoad={() => setIsLoading(false)}
-                    onError={() => {
-                        setIsLoading(false);
-                        setHasError(true);
-                    }}
+                    className={cn("opacity-0", containedImageClassName)}
+                    onLoad={handleLoad}
+                    onError={handleError}
                     {...props}
                 />
             </div>
@@ -73,6 +86,7 @@ export function ImageWithFallback({
             <div
                 className={cn(
                     "bg-muted flex flex-col items-center justify-center gap-2",
+                    className,
                     fallbackClassName,
                 )}
                 role="img"
@@ -89,17 +103,16 @@ export function ImageWithFallback({
     }
 
     return (
-        <img
-            ref={imgRef}
-            src={src}
-            alt={alt}
-            className={className}
-            onLoad={() => setIsLoading(false)}
-            onError={() => {
-                setIsLoading(false);
-                setHasError(true);
-            }}
-            {...props}
-        />
+        <div className={containerClassName}>
+            <img
+                ref={imgRef}
+                src={src}
+                alt={alt}
+                className={containedImageClassName}
+                onLoad={handleLoad}
+                onError={handleError}
+                {...props}
+            />
+        </div>
     );
 }

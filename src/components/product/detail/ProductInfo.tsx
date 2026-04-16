@@ -76,7 +76,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                         </div>
                     </div>
 
-                    <H1 className="mt-8 overflow-hidden line-clamp-3 leading-[1.2] md:leading-[1.25] font-normal">
+                    <H1 className="mt-8 overflow-hidden leading-[1.2] md:leading-[1.25] font-normal">
                         {product.title}
                     </H1>
                     <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted-foreground/80">

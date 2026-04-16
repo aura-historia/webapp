@@ -189,8 +189,8 @@ importers:
         specifier: ^19.2.5
         version: 19.2.5(react@19.2.5)
       react-ga4:
-        specifier: ^2.1.0
-        version: 2.1.0
+        specifier: ^3.0.1
+        version: 3.0.1
       react-hook-form:
         specifier: ^7.72.0
         version: 7.72.0(react@19.2.5)
@@ -4291,8 +4291,8 @@ packages:
     peerDependencies:
       react: ^19.2.5
 
-  react-ga4@2.1.0:
-    resolution: {integrity: sha512-ZKS7PGNFqqMd3PJ6+C2Jtz/o1iU9ggiy8Y8nUeksgVuvNISbmrQtJiZNvC/TjDsqD0QlU5Wkgs7i+w9+OjHhhQ==}
+  react-ga4@3.0.1:
+    resolution: {integrity: sha512-GyCc01bSheWXjzGDyHsXMOqk/SP5Cf/JrcJTg4hcpKx4eeSwaJKpJUc+ipF4ffLTZkmabmf3ZGBv4OKHTXNXyA==}
 
   react-hook-form@7.53.2:
     resolution: {integrity: sha512-YVel6fW5sOeedd1524pltpHX+jgU2u3DSDtXEaBORNdqiNrsX/nUI/iGXONegttg0mJVnfrIkiV0cmTU6Oo2xw==}
@@ -9517,7 +9517,7 @@ snapshots:
       react: 19.2.5
       scheduler: 0.27.0
 
-  react-ga4@2.1.0: {}
+  react-ga4@3.0.1: {}
 
   react-hook-form@7.53.2(react@19.2.5):
     dependencies:

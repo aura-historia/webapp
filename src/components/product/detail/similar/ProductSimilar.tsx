@@ -49,7 +49,7 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
 
     if (isLoading) {
         return (
-            <section className="flex min-w-0 flex-col gap-6">
+            <section className="flex min-w-0 flex-col gap-8">
                 <SimilarSectionHeading title={t("product.similar.title")} />
                 <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
                     {["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"].map((skeletonId) => (
@@ -62,7 +62,7 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
 
     if (isError) {
         return (
-            <section className="flex min-w-0 flex-col gap-6">
+            <section className="flex min-w-0 flex-col gap-8">
                 <SimilarSectionHeading title={t("product.similar.title")} />
                 <SimilarState
                     title={t("product.similar.error.title")}
@@ -75,7 +75,7 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
 
     if (data?.isEmbeddingsPending) {
         return (
-            <section className="flex min-w-0 flex-col gap-6">
+            <section className="flex min-w-0 flex-col gap-8">
                 <SimilarSectionHeading title={t("product.similar.title")} />
                 <SimilarState
                     title={t("product.similar.embeddingsPending.title")}
@@ -90,7 +90,7 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
 
     if (!data?.products || data.products.length === 0) {
         return (
-            <section className="flex min-w-0 flex-col gap-6">
+            <section className="flex min-w-0 flex-col gap-8">
                 <SimilarSectionHeading title={t("product.similar.title")} />
                 <SimilarState
                     title={t("product.similar.noData.title")}
@@ -102,7 +102,7 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
     }
 
     return (
-        <section className="flex min-w-0 flex-col gap-6">
+        <section className="flex min-w-0 flex-col gap-8">
             <SimilarSectionHeading title={t("product.similar.title")} />
             <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
                 {data.products.map((product) => (

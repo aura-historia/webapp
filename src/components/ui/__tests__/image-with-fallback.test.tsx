@@ -47,7 +47,7 @@ describe("ImageWithFallback", () => {
         expect(screen.queryByText("Image could not be loaded")).not.toBeInTheDocument();
     });
 
-    it("should apply custom className to image", () => {
+    it("should apply custom className to the image container", () => {
         render(
             <ImageWithFallback
                 src="https://example.com/image.jpg"
@@ -56,13 +56,13 @@ describe("ImageWithFallback", () => {
             />,
         );
         const image = screen.getByRole("img", { name: "Test image" });
-        expect(image).toHaveClass("custom-class");
+        expect(image.parentElement).toHaveClass("custom-class");
     });
 
-    it("should apply custom fallbackClassName to fallback", () => {
-        render(<ImageWithFallback alt="Test image" fallbackClassName="custom-fallback-class" />);
-        const fallback = screen.getByRole("img", { name: "Test image" });
-        expect(fallback).toHaveClass("custom-fallback-class");
+    it("should render images with object-contain to avoid cropping", () => {
+        render(<ImageWithFallback src="https://example.com/image.jpg" alt="Test image" />);
+        const image = screen.getByRole("img", { name: "Test image" });
+        expect(image).toHaveClass("object-contain");
     });
 
     it("should reset error state when src changes", () => {

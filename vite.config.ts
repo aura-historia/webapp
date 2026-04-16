@@ -37,8 +37,8 @@ export default defineConfig({
         tsconfigPaths: true,
     },
     legacy: {
-        // TODO: Report to GA4
-        // https://vite.dev/guide/migration#consistent-commonjs-interop
+        // TODO: Wait for lottie to be updated
+        // https://github.com/Gamote/lottie-react/pull/131
         inconsistentCjsInterop: true,
     },
 });
