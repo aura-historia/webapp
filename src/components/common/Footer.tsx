@@ -21,6 +21,7 @@ import { mapToCategoryOverview } from "@/data/internal/category/CategoryOverview
 import { mapToPeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { COMBINATION_MAP } from "@/data/combinations/combinations.ts";
+import { CurrencySelector } from "@/components/common/CurrencySelector.tsx";
 
 export function Footer() {
     const { t, i18n } = useTranslation();
@@ -71,6 +72,7 @@ export function Footer() {
         <footer className="w-full border-t border-outline-variant/20 bg-surface-container-low">
             <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-2 lg:grid-cols-5">
+                    {/* Spalte 1: Brand + Company + Contact */}
                     <div className="flex flex-col gap-8">
                         <p className="font-display text-3xl leading-8 text-primary-container">
                             {t("footer.brandName")}
@@ -125,6 +127,7 @@ export function Footer() {
                         </div>
                     </div>
 
+                    {/* Spalte 2: Categories */}
                     <div>
                         <h3 className="font-display text-lg leading-7 text-primary-container">
                             {t("footer.sections.categories")}
@@ -152,6 +155,7 @@ export function Footer() {
                         </ul>
                     </div>
 
+                    {/* Spalte 3: Periods */}
                     <div>
                         <h3 className="font-display text-lg leading-7 text-primary-container">
                             {t("footer.sections.periodsAndStyles")}
@@ -179,6 +183,7 @@ export function Footer() {
                         </ul>
                     </div>
 
+                    {/* Spalte 4: Collections */}
                     <div>
                         <h3 className="font-display text-lg leading-7 text-primary-container">
                             {t("footer.sections.collections")}
@@ -208,6 +213,7 @@ export function Footer() {
                         </ul>
                     </div>
 
+                    {/* Spalte 5: Follow Us */}
                     <div>
                         <h3 className="font-display text-lg leading-7 text-primary-container">
                             {t("footer.sections.followUs")}
@@ -238,38 +244,41 @@ export function Footer() {
                             year: new Date().getFullYear(),
                         })}
                     </p>
-                    <Select
-                        defaultValue={i18n.language}
-                        value={i18n.language}
-                        onValueChange={handleLanguageChange}
-                    >
-                        <SelectTrigger className="h-8 gap-2 border-outline-variant/20 bg-transparent text-sm text-primary/80 transition-colors duration-300 ease-out hover:text-primary">
-                            <SelectValue>
-                                {currentLanguage && (
-                                    <>
-                                        <currentLanguage.flag />
-                                        <span>{currentLanguage.name}</span>
-                                    </>
-                                )}
-                            </SelectValue>
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                {SUPPORTED_LANGUAGES.map((language) => (
-                                    <SelectItem
-                                        key={language.code}
-                                        value={language.code}
-                                        aria-label={t("footer.ariaSwitchToLanguage", {
-                                            language: language.name,
-                                        })}
-                                    >
-                                        <language.flag />
-                                        <span className="pl-2">{language.name}</span>
-                                    </SelectItem>
-                                ))}
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
+                    <div className="flex items-center gap-4">
+                        <CurrencySelector />
+                        <Select
+                            defaultValue={i18n.language}
+                            value={i18n.language}
+                            onValueChange={handleLanguageChange}
+                        >
+                            <SelectTrigger className="h-8 gap-2 border-outline-variant/20 bg-transparent text-sm text-primary/80 transition-colors duration-300 ease-out hover:text-primary">
+                                <SelectValue>
+                                    {currentLanguage && (
+                                        <>
+                                            <currentLanguage.flag />
+                                            <span>{currentLanguage.name}</span>
+                                        </>
+                                    )}
+                                </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    {SUPPORTED_LANGUAGES.map((language) => (
+                                        <SelectItem
+                                            key={language.code}
+                                            value={language.code}
+                                            aria-label={t("footer.ariaSwitchToLanguage", {
+                                                language: language.name,
+                                            })}
+                                        >
+                                            <language.flag />
+                                            <span className="pl-2">{language.name}</span>
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
             </div>
         </footer>

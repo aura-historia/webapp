@@ -38,6 +38,10 @@ vi.mock("@/env.ts", () => ({
     },
 }));
 
+vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
+    useUserPreferences: () => ({ preferences: { currency: "EUR" }, updatePreferences: vi.fn() }),
+}));
+
 describe("useSearch", () => {
     let queryClient: QueryClient;
 

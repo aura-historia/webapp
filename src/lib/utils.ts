@@ -15,6 +15,7 @@ import type { Condition } from "@/data/internal/quality-indicators/Condition.ts"
 import type { Provenance } from "@/data/internal/quality-indicators/Provenance.ts";
 import type { Restoration } from "@/data/internal/quality-indicators/Restoration.ts";
 import type { ShopType } from "@/data/internal/shop/ShopType.ts";
+import { CURRENCY_SYMBOLS, type Currency } from "@/data/internal/common/Currency.ts";
 import type { CheckedState } from "@radix-ui/react-checkbox";
 import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 
@@ -182,13 +183,17 @@ export function formatTimeWithSeconds(date: Date, locale?: string): string {
     }).format(date);
 }
 
-export function formatCompactCurrency(value: number): string {
-    const formatted = new Intl.NumberFormat("en-US", {
+export function formatCompactCurrency(value: number, currency: string, locale: string): string {
+    const formatted = new Intl.NumberFormat(locale, {
+        style: "currency",
+        currency,
         notation: "compact",
         compactDisplay: "short",
         maximumFractionDigits: 1,
     }).format(value);
-    return `${formatted} €`;
+
+    const sym = CURRENCY_SYMBOLS[currency as Currency];
+    return sym ? formatted.replace(currency, sym) : formatted;
 }
 
 export function formatStateName(state: ProductState, t: TFunction): string {

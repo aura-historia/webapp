@@ -66,9 +66,9 @@ describe("useUserPreferences", () => {
         });
 
         expect(result.current.preferences.trackingConsent).toBe(true);
-        expect(localStorage.getItem("user-preferences")).toBe(
-            JSON.stringify({ trackingConsent: true }),
-        );
+        const stored = JSON.parse(localStorage.getItem("user-preferences")!);
+        expect(stored.trackingConsent).toBe(true);
+        expect(stored.currency).toBeDefined();
         expect(googleAnalytics.setConsent).toHaveBeenCalledWith(true);
     });
 
