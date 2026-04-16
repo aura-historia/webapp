@@ -59,6 +59,9 @@
     },
     "shop": {
       "defaultName": "Negozio"
+    },
+    "notifications": {
+      "title": "Notifiche | Aura Historia"
     }
   },
   "validation": {
@@ -1047,5 +1050,36 @@
         "description": "Si è verificato un errore durante il caricamento degli articoli. Riprova più tardi."
       }
     }
+  },
+  "notifications": {
+    "title": "Notifiche",
+    "markAllRead": "Segna tutte come lette",
+    "noNotifications": "Nessuna notifica",
+    "ariaLabel": "Apri notifiche",
+    "types": {
+      "priceChange": "Modifica del prezzo",
+      "stateChange": "Cambio di stato",
+      "newMatch": "Nuova corrispondenza",
+      "partnerApplicationApproved": "Domanda approvata",
+      "partnerApplicationRejected": "Domanda respinta",
+      "partnerApplication": "Domanda di partnership",
+      "partnerApplicationSubmitted": "Inviata",
+      "partnerApplicationStatusApproved": "Approvata",
+      "partnerApplicationStatusRejected": "Respinta"
+    },
+    "delete": "Elimina",
+    "deleteAll": "Elimina tutto",
+    "markRead": "Segna come letto",
+    "loadingError": "Le notifiche non possono essere caricate. Riprova più tardi.",
+    "loadingMore": "Caricamento di altre notifiche...",
+    "allLoaded_one": "{{count}} notifica caricata",
+    "allLoaded_other": "Tutte le {{count}} notifiche caricate",
+    "noResults": {
+      "title": "Nessuna notifica",
+      "description": "Non hai ancora ricevuto alcuna notifica."
+    },
+    "totalElements_one": "{{count}} notifica",
+    "totalElements_other": "{{count}} notifiche",
+    "showAll": "Mostra tutte le notifiche"
   }
 }
