@@ -5,6 +5,6 @@ Disallow: /watchlist
 Disallow: /imprint
 Disallow: /privacy
 Disallow: /consent-settings
+Disallow: /terms-and-conditions
 
 Sitemap: https://aura-historia.com/sitemap.xml
-

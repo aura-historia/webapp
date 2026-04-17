@@ -10,15 +10,21 @@ import { ProductDetailPageSkeleton } from "@/components/product/detail/ProductDe
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { generateProductHeadMeta } from "@/lib/seo/productHeadMeta.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 
 export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId")({
-    loader: async ({ context: { queryClient }, params: { shopSlugId, productSlugId } }) => {
+    loader: async ({
+        context: { queryClient, initialPreferences },
+        params: { shopSlugId, productSlugId },
+    }) => {
+        const currency = initialPreferences.currency;
         const productData = await queryClient.ensureQueryData(
             getProductBySlugOptions({
                 query: {
                     language: parseLanguage(i18n.language),
+                    currency: currency,
                 },
                 path: { shopSlugId, productSlugId },
             }),
@@ -28,6 +34,7 @@ export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId
             getProductHistoryOptions({
                 query: {
                     language: parseLanguage(i18n.language),
+                    currency: currency,
                 },
                 path: {
                     shopId: productData.item.shopId,
@@ -47,11 +54,13 @@ export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId
 function ProductDetailComponent() {
     const { shopSlugId, productSlugId } = Route.useParams();
     const { i18n } = useTranslation();
+    const { preferences } = useUserPreferences();
 
     const { data: apiData } = useSuspenseQuery(
         getProductBySlugOptions({
             query: {
                 language: parseLanguage(i18n.language),
+                currency: preferences.currency,
             },
             path: { shopSlugId, productSlugId },
         }),
@@ -61,6 +70,7 @@ function ProductDetailComponent() {
         getProductHistoryOptions({
             query: {
                 language: parseLanguage(i18n.language),
+                currency: preferences.currency,
             },
             path: {
                 shopId: apiData.item.shopId,

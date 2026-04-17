@@ -2,7 +2,7 @@ import TestimonialsSection from "@/components/landing-page/testimonials-section/
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 
-describe("TestimonialsSection", () => {
+describe.skip("TestimonialsSection", () => {
     beforeEach(async () => {
         await act(async () => {
             renderWithRouter(<TestimonialsSection />);

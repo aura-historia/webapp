@@ -3,7 +3,6 @@ import FAQSection from "@/components/landing-page/faq-section/FAQSection.tsx";
 import HeroSection from "@/components/landing-page/hero-section/HeroSection.tsx";
 import FeaturesSection from "@/components/landing-page/features-section/FeaturesSection.tsx";
 import HowItWorksSection from "@/components/landing-page/how-it-works-section/HowItWorksSection.tsx";
-import TestimonialsSection from "@/components/landing-page/testimonials-section/TestimonialsSection.tsx";
 import PricingSection from "@/components/landing-page/pricing-section/PricingSection.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
@@ -23,9 +22,12 @@ import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/in
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { inferCurrencyFromLocale } from "@/data/internal/common/Currency.ts";
 
 export const Route = createFileRoute("/")({
-    loader: async ({ context: { queryClient } }) => {
+    loader: async ({ context: { queryClient, initialPreferences } }) => {
+        const currency = initialPreferences.currency ?? inferCurrencyFromLocale(i18n.language);
         await Promise.all([
             queryClient
                 .ensureQueryData(
@@ -49,7 +51,7 @@ export const Route = createFileRoute("/")({
                             order: "desc",
                             size: 12,
                             language: parseLanguage(i18n.language),
-                            currency: "EUR",
+                            currency: currency,
                         },
                     }),
                 )
@@ -66,6 +68,7 @@ export const Route = createFileRoute("/")({
 
 function LandingPage() {
     const { i18n } = useTranslation();
+    const { preferences } = useUserPreferences();
     const { data: categoriesData } = useQuery(
         getCategoriesOptions({
             query: { language: parseLanguage(i18n.language) },
@@ -83,7 +86,7 @@ function LandingPage() {
                 order: "desc",
                 size: 12,
                 language: parseLanguage(i18n.language),
-                currency: "EUR",
+                currency: preferences.currency,
             },
         }),
     );
@@ -103,7 +106,6 @@ function LandingPage() {
             <DiscoverSection />
             <FeaturesSection />
             <HowItWorksSection />
-            <TestimonialsSection />
             <PricingSection />
             <FAQSection />
         </div>

@@ -1,6 +1,6 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Vista previa)",
+    "auraHistoria": "Aura Historia",
     "infoButton": "Más información"
   },
   "meta": {
@@ -59,6 +59,13 @@
     },
     "shop": {
       "defaultName": "Tienda"
+    },
+    "notifications": {
+      "title": "Notificaciones | Aura Historia"
+    },
+    "terms": {
+      "title": "Términos y condiciones | Aura Historia",
+      "description": "Términos y condiciones para utilizar Aura Historia, incluida la información sobre servicios de pago y Lemon Squeezy como Merchant of Record."
     }
   },
   "validation": {
@@ -662,7 +669,8 @@
           "searchType": "Búsqueda híbrida (Texto + Semántica)",
           "aiAgent": "Agente de búsqueda IA"
         }
-      }
+      },
+      "billingNote": "mensual, IVA incluido"
     }
   },
   "apiErrors": {
@@ -1049,5 +1057,36 @@
         "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
       }
     }
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "markAllRead": "Marcar todo como leído",
+    "noNotifications": "Sin notificaciones",
+    "ariaLabel": "Abrir notificaciones",
+    "types": {
+      "priceChange": "Cambio de precio",
+      "stateChange": "Cambio de estado",
+      "newMatch": "Nueva coincidencia",
+      "partnerApplicationApproved": "Solicitud aprobada",
+      "partnerApplicationRejected": "Solicitud rechazada",
+      "partnerApplication": "Solicitud de socio",
+      "partnerApplicationSubmitted": "Enviada",
+      "partnerApplicationStatusApproved": "Aprobada",
+      "partnerApplicationStatusRejected": "Rechazada"
+    },
+    "delete": "Eliminar",
+    "deleteAll": "Eliminar todo",
+    "markRead": "Marcar como leído",
+    "loadingError": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde.",
+    "loadingMore": "Cargando más notificaciones...",
+    "allLoaded_one": "{{count}} notificación cargada",
+    "allLoaded_other": "Todas las {{count}} notificaciones cargadas",
+    "noResults": {
+      "title": "Sin notificaciones",
+      "description": "Aún no has recibido ninguna notificación."
+    },
+    "totalElements_one": "{{count}} notificación",
+    "totalElements_other": "{{count}} notificaciones",
+    "showAll": "Mostrar todas las notificaciones"
   }
 }

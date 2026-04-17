@@ -30,7 +30,7 @@ describe("Privacy Component", () => {
     });
 
     it("renders the controller name", () => {
-        expect(screen.getByText(/Julian Bruder/)).toBeInTheDocument();
+        expect(screen.getByText(/Julian Bruder Einzelunternehmen/)).toBeInTheDocument();
     });
 
     it("renders content within a Card component", () => {
@@ -86,7 +86,7 @@ describe("Privacy Page Logic", () => {
         it("should contain controller name in all locales", () => {
             const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
             for (const key of localeKeys) {
-                expect(PRIVACY_LOCALE_MAP[key]).toContain("Julian Bruder");
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Julian Bruder Einzelunternehmen");
             }
         });
 
@@ -111,6 +111,15 @@ describe("Privacy Page Logic", () => {
                 expect(PRIVACY_LOCALE_MAP[key]).toContain("Amazon Web Services (AWS)");
                 expect(PRIVACY_LOCALE_MAP[key]).toContain("Cloudflare");
                 expect(PRIVACY_LOCALE_MAP[key]).toContain("Hetzner Online GmbH");
+            }
+        });
+
+        it("should mention Zoho Campaigns and Lemon Squeezy in all locales", () => {
+            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
+
+            for (const key of localeKeys) {
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Zoho Campaigns");
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Lemon Squeezy");
             }
         });
 

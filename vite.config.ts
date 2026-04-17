@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { devtools } from "@tanstack/devtools-vite";
 
-const EXCLUDED_ROUTES = new Set(["/account", "/watchlist", "/search", "/api/", "/login"]);
+const EXCLUDED_ROUTES = new Set(["/me/", "/search", "/api/", "/login"]);
 
 export default defineConfig({
     plugins: [

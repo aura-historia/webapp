@@ -2,7 +2,7 @@ Angaben gemäß § 5 TMG und § 18 MStV
 
 ## Diensteanbieter
 
-**Inhaber:** Julian Bruder
+**Inhaber:** Julian Bruder Einzelunternehmen
 
 **Betriebsbezeichnung:** Aura Historia
 
@@ -18,7 +18,7 @@ Angaben gemäß § 5 TMG und § 18 MStV
 
 ## Verantwortlicher für den Inhalt gemäß § 18 Abs. 2 MStV
 
-Julian Bruder
+Julian Bruder Einzelunternehmen
 Hardenbergstraße 80, 04275 Leipzig, Deutschland
 
 *Dies gilt nicht für Inhalte aus externen Quellen, die über automatisierte Verfahren (Web-Scraping) oder durch Partner-Shop-Integrationen erfasst wurden.*
@@ -27,11 +27,11 @@ Hardenbergstraße 80, 04275 Leipzig, Deutschland
 
 ## Art des Dienstes
 
-Bei dem angebotenen Dienst handelt es sich um eine privat betriebene Software-as-a-Service (SaaS)-Plattform.
-Der Dienst befindet sich aktuell im Aufbau und wird privat unter eigenem Namen betrieben.
+Bei dem angebotenen Dienst handelt es sich um eine Software-as-a-Service (SaaS)-Plattform für digitale Recherche-, Discovery- und Analysefunktionen im Bereich historischer und antiquarischer Inhalte.
 
-Derzeit können **keine kostenpflichtigen Produkte oder Dienstleistungen erworben** werden.
-Es findet **kein Vertragsabschluss mit Nutzern** statt.
+Kostenpflichtige digitale Leistungen oder Abonnements können international über [Lemon Squeezy](https://www.lemonsqueezy.com/) als unabhängigen **Merchant of Record** verkauft werden, der im Checkout-Prozess gesondert ausgewiesen wird. Lemon Squeezy übernimmt insoweit insbesondere Zahlungsabwicklung, Rechnungsstellung sowie steuerliche Abwicklung im eigenen Namen.
+
+Aura Historia bleibt Anbieter der digitalen Plattform. Verträge über den Erwerb konkreter Antiquitäten oder Sammlerstücke kommen nicht mit Aura Historia, sondern gegebenenfalls mit dem jeweils ausgewiesenen Drittanbieter zustande.
 
 ---
 

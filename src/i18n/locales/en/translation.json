@@ -1,6 +1,6 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Preview)",
+    "auraHistoria": "Aura Historia",
     "infoButton": "More information"
   },
   "meta": {
@@ -36,6 +36,9 @@
     "watchlist": {
       "title": "My Watchlist | Aura Historia"
     },
+    "notifications": {
+      "title": "Notifications | Aura Historia"
+    },
     "category": {
       "defaultName": "Category"
     },
@@ -59,6 +62,10 @@
     },
     "shop": {
       "defaultName": "Shop"
+    },
+    "terms": {
+      "title": "Terms & Conditions | Aura Historia",
+      "description": "Terms and conditions for using Aura Historia, including information on paid services and Lemon Squeezy as Merchant of Record."
     }
   },
   "validation": {
@@ -662,7 +669,8 @@
           "searchType": "Hybrid search (Text + Semantic)",
           "aiAgent": "AI Search Agent"
         }
-      }
+      },
+      "billingNote": "monthly incl. VAT"
     }
   },
   "apiErrors": {
@@ -940,6 +948,37 @@
     "analyticsLabel": "Analytics & Tracking",
     "analyticsDescription": "Allows us to analyze usage and improve your experience via Google Analytics. Includes ad storage, analytics storage, ad user data, and ad personalization.",
     "saved": "Your cookie preferences have been saved."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "noNotifications": "No notifications",
+    "ariaLabel": "Open notifications",
+    "types": {
+      "priceChange": "Price change",
+      "stateChange": "Status change",
+      "newMatch": "New match",
+      "partnerApplicationApproved": "Application approved",
+      "partnerApplicationRejected": "Application rejected",
+      "partnerApplication": "Partner application",
+      "partnerApplicationSubmitted": "Submitted",
+      "partnerApplicationStatusApproved": "Approved",
+      "partnerApplicationStatusRejected": "Rejected"
+    },
+    "delete": "Delete",
+    "deleteAll": "Delete all",
+    "markRead": "Mark as read",
+    "loadingError": "Notifications could not be loaded. Please try again later.",
+    "loadingMore": "Loading more notifications...",
+    "allLoaded_one": "{{count}} notification loaded",
+    "allLoaded_other": "All {{count}} notifications loaded",
+    "noResults": {
+      "title": "No notifications",
+      "description": "You haven't received any notifications yet."
+    },
+    "totalElements_one": "{{count}} notification",
+    "totalElements_other": "{{count}} notifications",
+    "showAll": "Show all notifications"
   },
   "combination": {
     "header": {

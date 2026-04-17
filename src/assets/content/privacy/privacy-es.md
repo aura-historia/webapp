@@ -6,7 +6,7 @@ Esta política de privacidad informa, de conformidad con los artículos 13 y 14 
 
 Responsable en el sentido del art. 4 n.º 7 del RGPD:
 
-**Julian Bruder**  
+**Julian Bruder Einzelunternehmen**  
 (Nombre comercial: Aura Historia)  
 Hardenbergstraße 80  
 04275 Leipzig  
@@ -43,7 +43,13 @@ Al registrar una cuenta de usuario, se tratan exclusivamente los siguientes dato
 - idioma preferido (opcional, para personalización)
 - moneda preferida (opcional, para personalización)
 
-No se recogen **datos de dirección** ni **datos de pago**.
+Cuando se contratan servicios digitales de pago, tratamos además, en la medida en que los transmita [Lemon Squeezy](https://www.lemonsqueezy.com/) como **Merchant of Record** elegido, en particular:
+
+- identificadores de pedido, transacción o cliente
+- estado de la suscripción, duración e información de renovación
+- país o país fiscal e información relacionada con el IVA cuando sea necesario
+
+No recibimos **datos completos de pago** como información de tarjetas de crédito o cuentas bancarias.
 
 ---
 
@@ -66,12 +72,26 @@ No se realiza ninguna combinación con datos de usuario.
 
 ---
 
+### 3.3 Boletín y Zoho Campaigns
+
+Si se suscribe a nuestro boletín, tratamos en particular:
+
+- su dirección de correo electrónico
+- la marca temporal, la dirección IP y el idioma del consentimiento como parte del procedimiento de **doble opt-in**
+- cuando sea legalmente admisible, información sobre entrega, apertura y clics relacionada con campañas
+
+Los boletines se envían a través de **Zoho Campaigns** utilizando **servidores situados en la UE**. La suscripción solo surte efecto tras la confirmación correcta del doble opt-in. Puede darse de baja en cualquier momento con efecto futuro.
+
+---
+
 ## 4. Finalidades del Tratamiento de Datos
 
 Los datos personales se tratan para las siguientes finalidades:
 
 - provisión y funcionamiento de la plataforma
 - autenticación de usuarios y control de accesos
+- gestión de accesos y suscripciones digitales de pago
+- envío de boletines y comunicaciones de marketing sobre la base de su consentimiento
 - seguridad del sistema y supervisión técnica
 - cumplimiento de obligaciones legales
 
@@ -81,8 +101,9 @@ Los datos personales se tratan para las siguientes finalidades:
 
 El tratamiento se lleva a cabo sobre la base de las siguientes bases legales:
 
-- **Art. 6 apdo. 1 letra b RGPD** – ejecución de medidas precontractuales / cuenta de usuario
-- **Art. 6 apdo. 1 letra f RGPD** – interés legítimo (seguridad informática, funcionamiento, prevención de abusos)
+- **Art. 6 apdo. 1 letra b RGPD** – ejecución de medidas precontractuales, gestión de la cuenta de usuario y prestación de servicios digitales
+- **Art. 6 apdo. 1 letra a RGPD** – consentimiento para el envío del boletín, la prueba del doble opt-in y otras comunicaciones de marketing
+- **Art. 6 apdo. 1 letra f RGPD** – interés legítimo (seguridad informática, funcionamiento, prevención de abusos y comunicación adaptada a las necesidades)
 - **Art. 6 apdo. 1 letra c RGPD** – obligaciones legales
 
 ---
@@ -192,7 +213,7 @@ La plataforma se aloja con los siguientes proveedores:
 - **Cloudflare** con centro de datos en **Alemania (Fráncfort)**
 - **Hetzner Online GmbH** con centros de datos en **Alemania (Falkenstein y Núremberg)**
 
-Todos los datos personales se tratan **exclusivamente dentro de Alemania**.
+Los datos personales relacionados con el alojamiento de la plataforma se tratan **dentro de Alemania**.
 
 ---
 
@@ -200,6 +221,16 @@ Todos los datos personales se tratan **exclusivamente dentro de Alemania**.
 
 La plataforma se opera con proveedores externos de alojamiento e infraestructura.
 Se han celebrado acuerdos de tratamiento de datos conforme al art. 28 RGPD con Amazon Web Services (AWS), Cloudflare y Hetzner Online GmbH.
+
+Para el envío del boletín utilizamos además **Zoho Campaigns** como encargado del tratamiento con **servidores ubicados en la UE**. También se ha celebrado un acuerdo de tratamiento de datos para este servicio.
+
+---
+
+### 10.3 Procesamiento de pagos mediante Lemon Squeezy como Merchant of Record
+
+Cuando los servicios digitales de pago se venden a través de [Lemon Squeezy](https://www.lemonsqueezy.com/) como **Merchant of Record** independiente, Lemon Squeezy trata los datos relacionados con el pago bajo su propia responsabilidad en materia de protección de datos o conforme a las funciones reveladas durante el checkout.
+
+Solo recibimos de Lemon Squeezy los datos necesarios para activar, asignar y gestionar su acceso digital.
 
 ---
 

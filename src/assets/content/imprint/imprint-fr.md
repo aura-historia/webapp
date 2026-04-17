@@ -2,7 +2,7 @@ Informations conformément au § 5 TMG et au § 18 MStV
 
 ## Fournisseur du Service
 
-**Propriétaire :** Julian Bruder
+**Propriétaire :** Julian Bruder Einzelunternehmen
 
 **Nom commercial :** Aura Historia
 
@@ -18,7 +18,7 @@ Informations conformément au § 5 TMG et au § 18 MStV
 
 ## Responsable du Contenu (§ 18 al. 2 MStV)
 
-Julian Bruder
+Julian Bruder Einzelunternehmen
 Hardenbergstraße 80, 04275 Leipzig, Allemagne
 
 *Cela ne s'applique pas aux contenus provenant de sources externes collectés via des procédures automatisées (web scraping) ou par le biais d'intégrations de boutiques partenaires.*
@@ -27,11 +27,11 @@ Hardenbergstraße 80, 04275 Leipzig, Allemagne
 
 ## Nature du Service
 
-Le service proposé est une plateforme de type Software-as-a-Service (SaaS) exploitée à titre privé.
-Le service est actuellement en cours de développement et est exploité de manière privée sous le nom du fournisseur.
+Le service proposé est une plateforme de type Software-as-a-Service (SaaS) dédiée à des fonctions numériques de recherche, de découverte et d’analyse de contenus historiques et d’antiquités.
 
-Actuellement, **aucun produit ou service payant ne peut être acheté**.
-Il n’y a **aucune conclusion de contrat avec les utilisateurs**.
+Des services numériques ou abonnements payants peuvent être vendus à l’international par l’intermédiaire de [Lemon Squeezy](https://www.lemonsqueezy.com/) en tant que **Merchant of Record** indépendant, identifié séparément lors du paiement. Lemon Squeezy prend en charge en son propre nom, en particulier, le traitement du paiement, la facturation et la gestion fiscale.
+
+Aura Historia demeure le fournisseur de la plateforme numérique. Les contrats relatifs à l’achat d’antiquités ou d’objets de collection déterminés ne sont pas conclus avec Aura Historia mais, le cas échéant, avec le prestataire tiers indiqué pour l’objet concerné.
 
 ---
 

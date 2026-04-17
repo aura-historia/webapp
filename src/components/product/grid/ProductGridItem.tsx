@@ -192,7 +192,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                             {product.shopName}
                         </span>
 
-                        <PriceText className="ml-auto shrink-0 line-clamp-none overflow-visible text-xl leading-7 font-normal italic whitespace-nowrap font-display text-primary">
+                        <PriceText className="ml-auto shrink-0 text-xl leading-7 font-normal italic whitespace-nowrap font-display text-primary">
                             {product.price ?? t("product.unknownPrice")}
                         </PriceText>
                     </div>
