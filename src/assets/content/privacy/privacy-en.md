@@ -43,7 +43,13 @@ When registering a user account, only the following personal data are processed:
 - preferred language (optional, for personalization)
 - preferred currency (optional, for personalization)
 
-**No address data** and **no payment data** are collected.
+Where paid digital services are booked, we additionally process, to the extent transmitted by [Lemon Squeezy](https://www.lemonsqueezy.com/) as the chosen **Merchant of Record**, in particular:
+
+- order, transaction, or customer identifiers
+- subscription status, term, and renewal information
+- country or tax country and VAT-related information where necessary
+
+We do **not** receive full payment data such as credit card or bank account information.
 
 ---
 
@@ -66,12 +72,26 @@ No merging with user data takes place.
 
 ---
 
+### 3.3 Newsletter and Zoho Campaigns
+
+If you subscribe to our newsletter, we process in particular:
+
+- your email address
+- timestamp, IP address, and language of consent as part of the **double opt-in process**
+- where legally permissible, campaign-related delivery, open, and click information
+
+Newsletters are sent via **Zoho Campaigns** using **EU-based servers**. Subscription becomes effective only after successful double opt-in confirmation. You may unsubscribe at any time with effect for the future.
+
+---
+
 ## 4. Purposes of Data Processing
 
 Personal data are processed for the following purposes:
 
 - provision and operation of the platform
 - user authentication and access control
+- management of paid digital access and subscriptions
+- sending newsletters and marketing communications based on your consent
 - system security and technical monitoring
 - compliance with legal obligations
 
@@ -81,8 +101,9 @@ Personal data are processed for the following purposes:
 
 Processing is carried out on the basis of the following legal grounds:
 
-- **Art. 6 para. 1 lit. b GDPR** – performance of pre-contractual measures / user account
-- **Art. 6 para. 1 lit. f GDPR** – legitimate interest (IT security, operation, abuse prevention)
+- **Art. 6 para. 1 lit. b GDPR** – performance of pre-contractual measures, user account management, and provision of digital services
+- **Art. 6 para. 1 lit. a GDPR** – consent to newsletter delivery, double opt-in evidence, and other marketing communications
+- **Art. 6 para. 1 lit. f GDPR** – legitimate interest (IT security, operation, abuse prevention, needs-based communication)
 - **Art. 6 para. 1 lit. c GDPR** – legal obligations
 
 ---
@@ -192,7 +213,7 @@ The platform is hosted with the following providers:
 - **Cloudflare** with data center location **Germany (Frankfurt)**
 - **Hetzner Online GmbH** with data center locations **Germany (Falkenstein and Nuremberg)**
 
-All personal data are processed **exclusively within Germany**.
+Hosting-related personal data of the platform are processed **within Germany**.
 
 ---
 
@@ -200,6 +221,16 @@ All personal data are processed **exclusively within Germany**.
 
 The platform is operated with external hosting and infrastructure providers.
 Data processing agreements pursuant to Art. 28 GDPR have been concluded with Amazon Web Services (AWS), Cloudflare, and Hetzner Online GmbH.
+
+For newsletter delivery, we additionally use **Zoho Campaigns** as a processor with **EU-based servers**. A data processing agreement has also been concluded for this service.
+
+---
+
+### 10.3 Payment Processing via Lemon Squeezy as Merchant of Record
+
+Where paid digital services are sold through [Lemon Squeezy](https://www.lemonsqueezy.com/) as the independent **Merchant of Record**, Lemon Squeezy processes payment-related data under its own data protection responsibility or under the roles disclosed during checkout.
+
+We receive from Lemon Squeezy only the data required to activate, assign, and manage your digital access.
 
 ---
 

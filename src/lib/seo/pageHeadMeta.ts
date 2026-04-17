@@ -19,8 +19,10 @@ type PageMetaKey =
     | "login"
     | "imprint"
     | "privacy"
+    | "terms"
     | "account"
     | "watchlist"
+    | "notifications"
     | "consentSettings"
     | "categories"
     | "periods"
@@ -47,11 +49,18 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
         title: "meta.privacy.title",
         description: "meta.privacy.description",
     },
+    terms: {
+        title: "meta.terms.title",
+        description: "meta.terms.description",
+    },
     account: {
         title: "meta.account.title",
     },
     watchlist: {
         title: "meta.watchlist.title",
+    },
+    notifications: {
+        title: "meta.notifications.title",
     },
     consentSettings: {
         title: "meta.consentSettings.title",

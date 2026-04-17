@@ -10,6 +10,22 @@ const { changeLanguageMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
 }));
 
+vi.mock("@aws-amplify/ui-react", () => ({
+    useAuthenticator: vi.fn(() => ({ user: null })),
+}));
+
+vi.mock("@/hooks/account/usePatchUserAccount.ts", () => ({
+    useUpdateUserAccount: vi.fn(() => ({ mutate: vi.fn() })),
+}));
+
+vi.mock("@/hooks/account/useUserAccount.ts", () => ({
+    useUserAccount: vi.fn(() => ({ data: undefined })),
+}));
+
+vi.mock("@/components/common/CurrencySelector.tsx", () => ({
+    CurrencySelector: () => null,
+}));
+
 vi.mock("react-i18next", async () => {
     const actual = await vi.importActual("react-i18next");
     return {
@@ -75,6 +91,7 @@ describe("Footer Component", () => {
     it("should render all navigation links with correct text", () => {
         expect(screen.getByText("Impressum")).toBeInTheDocument();
         expect(screen.getByText("Datenschutzerklärung")).toBeInTheDocument();
+        expect(screen.getByText("AGB")).toBeInTheDocument();
         expect(screen.getByText("Cookie-Einstellungen")).toBeInTheDocument();
     });
 
@@ -87,6 +104,10 @@ describe("Footer Component", () => {
         expect(screen.getByText("Datenschutzerklärung").closest("a")).toHaveAttribute(
             "href",
             "/privacy",
+        );
+        expect(screen.getByText("AGB").closest("a")).toHaveAttribute(
+            "href",
+            "/terms-and-conditions",
         );
         expect(screen.getByText("Cookie-Einstellungen").closest("a")).toHaveAttribute(
             "href",

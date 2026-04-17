@@ -56,6 +56,16 @@
     "collections": {
       "title": "Tutte le Collezioni | Aura Historia",
       "description": "Sfoglia le collezioni curate di antiquariato su Aura Historia. Scopri combinazioni uniche di categorie e periodi."
+    },
+    "shop": {
+      "defaultName": "Negozio"
+    },
+    "notifications": {
+      "title": "Notifiche | Aura Historia"
+    },
+    "terms": {
+      "title": "Termini e condizioni | Aura Historia",
+      "description": "Termini e condizioni per l'utilizzo di Aura Historia, comprese le informazioni sui servizi a pagamento e Lemon Squeezy come Merchant of Record."
     }
   },
   "validation": {
@@ -426,6 +436,10 @@
     "commercialDealer": "Commerciante",
     "marketplace": "Marketplace",
     "unknown": "Sconosciuto"
+  },
+  "shopPartnerStatus": {
+    "partnered": "Partner ufficiale",
+    "scraped": "Indicizzato pubblicamente"
   },
   "discover": {
     "title": "Portiamo trasparenza nel panorama opaco dell'antiquariato online",
@@ -1016,5 +1030,60 @@
     "subtitle": "Collezioni Curate",
     "description": "Scopri le nostre collezioni curate che combinano categorie specifiche con periodi storici. Ogni collezione offre una prospettiva unica sull'artigianato e sull'epoca.",
     "explore": "Esplora"
+  },
+  "shop": {
+    "header": {
+      "archiveLabel": "Negozio",
+      "overviewTitle": "Panoramica del negozio",
+      "indexedItems": "Articoli indicizzati",
+      "imageAlt": "Logo di {{shop}}",
+      "noImage": "Nessun logo disponibile",
+      "addedOn": "Aggiunto il {{date}}",
+      "metaDescription": "Esplora antiquariato e oggetti da collezione di {{shop}} su Aura Historia."
+    },
+    "products": {
+      "loadingMore": "Caricamento di altri articoli...",
+      "allLoaded_one": "Hai visualizzato {{count}} articolo di questo {{shopTypeName}}.",
+      "allLoaded_other": "Hai visualizzato tutti i {{count}} articoli di questo {{shopTypeName}}.",
+      "noResults": {
+        "title": "Nessun articolo trovato",
+        "description": "Al momento non ci sono articoli di questo negozio."
+      },
+      "error": {
+        "title": "Impossibile caricare gli articoli",
+        "description": "Si è verificato un errore durante il caricamento degli articoli. Riprova più tardi."
+      }
+    }
+  },
+  "notifications": {
+    "title": "Notifiche",
+    "markAllRead": "Segna tutte come lette",
+    "noNotifications": "Nessuna notifica",
+    "ariaLabel": "Apri notifiche",
+    "types": {
+      "priceChange": "Modifica del prezzo",
+      "stateChange": "Cambio di stato",
+      "newMatch": "Nuova corrispondenza",
+      "partnerApplicationApproved": "Domanda approvata",
+      "partnerApplicationRejected": "Domanda respinta",
+      "partnerApplication": "Domanda di partnership",
+      "partnerApplicationSubmitted": "Inviata",
+      "partnerApplicationStatusApproved": "Approvata",
+      "partnerApplicationStatusRejected": "Respinta"
+    },
+    "delete": "Elimina",
+    "deleteAll": "Elimina tutto",
+    "markRead": "Segna come letto",
+    "loadingError": "Le notifiche non possono essere caricate. Riprova più tardi.",
+    "loadingMore": "Caricamento di altre notifiche...",
+    "allLoaded_one": "{{count}} notifica caricata",
+    "allLoaded_other": "Tutte le {{count}} notifiche caricate",
+    "noResults": {
+      "title": "Nessuna notifica",
+      "description": "Non hai ancora ricevuto alcuna notifica."
+    },
+    "totalElements_one": "{{count}} notifica",
+    "totalElements_other": "{{count}} notifiche",
+    "showAll": "Mostra tutte le notifiche"
   }
 }

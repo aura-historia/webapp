@@ -141,8 +141,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         if (i18n.language !== locale) {
             await i18n.changeLanguage(locale);
         }
-        // Load persisted user preferences so SSR renders with correct initial state
-        const initialPreferences = await getServerPreferences();
+        const serverPreferences = await getServerPreferences();
+        const initialPreferences: Partial<UserPreferences> = {
+            ...serverPreferences,
+        };
         return { initialPreferences };
     },
     shellComponent: RootDocument,

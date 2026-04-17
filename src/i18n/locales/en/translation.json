@@ -36,6 +36,9 @@
     "watchlist": {
       "title": "My Watchlist | Aura Historia"
     },
+    "notifications": {
+      "title": "Notifications | Aura Historia"
+    },
     "category": {
       "defaultName": "Category"
     },
@@ -56,6 +59,13 @@
     "collections": {
       "title": "All Collections | Aura Historia",
       "description": "Browse curated antique collections on Aura Historia. Discover unique combinations of categories and periods."
+    },
+    "shop": {
+      "defaultName": "Shop"
+    },
+    "terms": {
+      "title": "Terms & Conditions | Aura Historia",
+      "description": "Terms and conditions for using Aura Historia, including information on paid services and Lemon Squeezy as Merchant of Record."
     }
   },
   "validation": {
@@ -426,6 +436,10 @@
     "commercialDealer": "Dealer",
     "marketplace": "Marketplace",
     "unknown": "Unknown"
+  },
+  "shopPartnerStatus": {
+    "partnered": "Official Partner",
+    "scraped": "Publicly Indexed"
   },
   "discover": {
     "title": "We bring transparency into the opaque landscape of online antiques",
@@ -932,6 +946,37 @@
     "analyticsDescription": "Allows us to analyze usage and improve your experience via Google Analytics. Includes ad storage, analytics storage, ad user data, and ad personalization.",
     "saved": "Your cookie preferences have been saved."
   },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "noNotifications": "No notifications",
+    "ariaLabel": "Open notifications",
+    "types": {
+      "priceChange": "Price change",
+      "stateChange": "Status change",
+      "newMatch": "New match",
+      "partnerApplicationApproved": "Application approved",
+      "partnerApplicationRejected": "Application rejected",
+      "partnerApplication": "Partner application",
+      "partnerApplicationSubmitted": "Submitted",
+      "partnerApplicationStatusApproved": "Approved",
+      "partnerApplicationStatusRejected": "Rejected"
+    },
+    "delete": "Delete",
+    "deleteAll": "Delete all",
+    "markRead": "Mark as read",
+    "loadingError": "Notifications could not be loaded. Please try again later.",
+    "loadingMore": "Loading more notifications...",
+    "allLoaded_one": "{{count}} notification loaded",
+    "allLoaded_other": "All {{count}} notifications loaded",
+    "noResults": {
+      "title": "No notifications",
+      "description": "You haven't received any notifications yet."
+    },
+    "totalElements_one": "{{count}} notification",
+    "totalElements_other": "{{count}} notifications",
+    "showAll": "Show all notifications"
+  },
   "combination": {
     "header": {
       "archiveLabel": "Collection",
@@ -1016,5 +1061,29 @@
     "subtitle": "Curated Collections",
     "description": "Discover our curated collections combining specific categories with historical periods. Each collection offers a focused perspective on a unique intersection of craft and era.",
     "explore": "Explore"
+  },
+  "shop": {
+    "header": {
+      "archiveLabel": "Shop",
+      "overviewTitle": "Shop Overview",
+      "indexedItems": "Indexed Items",
+      "imageAlt": "Logo of {{shop}}",
+      "noImage": "No logo available",
+      "addedOn": "Added on {{date}}",
+      "metaDescription": "Explore antiques and collectibles from {{shop}} on Aura Historia."
+    },
+    "products": {
+      "loadingMore": "Loading more items...",
+      "allLoaded_one": "You have seen {{count}} item from this {{shopTypeName}}.",
+      "allLoaded_other": "You have seen all {{count}} items from this {{shopTypeName}}.",
+      "noResults": {
+        "title": "No items found",
+        "description": "There are currently no items from this shop."
+      },
+      "error": {
+        "title": "Could not load items",
+        "description": "An error occurred while loading items. Please try again later."
+      }
+    }
   }
 }

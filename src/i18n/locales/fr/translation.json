@@ -56,6 +56,16 @@
     "collections": {
       "title": "Toutes les Collections | Aura Historia",
       "description": "Parcourez les collections d'antiquités curatorées sur Aura Historia. Découvrez des combinaisons uniques de catégories et d'époques."
+    },
+    "shop": {
+      "defaultName": "Boutique"
+    },
+    "notifications": {
+      "title": "Notifications | Aura Historia"
+    },
+    "terms": {
+      "title": "Conditions générales | Aura Historia",
+      "description": "Conditions générales d'utilisation d'Aura Historia, y compris les informations sur les services payants et Lemon Squeezy en tant que Merchant of Record."
     }
   },
   "validation": {
@@ -426,6 +436,10 @@
     "marketplace": "Place de marché",
     "unknown": "Inconnu",
     "auctionPlatform": "Plateforme d'enchères"
+  },
+  "shopPartnerStatus": {
+    "partnered": "Partenaire officiel",
+    "scraped": "Indexé publiquement"
   },
   "discover": {
     "title": "Nous apportons de la transparence dans le paysage opaque des antiquités en ligne",
@@ -1016,5 +1030,60 @@
     "subtitle": "Collections Curatorées",
     "description": "Découvrez nos collections curatorées combinant des catégories spécifiques avec des périodes historiques. Chaque collection offre une perspective unique sur l'artisanat et l'époque.",
     "explore": "Explorer"
+  },
+  "shop": {
+    "header": {
+      "archiveLabel": "Boutique",
+      "overviewTitle": "Aperçu de la boutique",
+      "indexedItems": "Articles indexés",
+      "imageAlt": "Logo de {{shop}}",
+      "noImage": "Aucun logo disponible",
+      "addedOn": "Ajouté le {{date}}",
+      "metaDescription": "Explorez les antiquités et objets de collection de {{shop}} sur Aura Historia."
+    },
+    "products": {
+      "loadingMore": "Chargement d'autres articles...",
+      "allLoaded_one": "Vous avez consulté {{count}} article de {{shopTypeName}}.",
+      "allLoaded_other": "Vous avez consulté les {{count}} articles de {{shopTypeName}}.",
+      "noResults": {
+        "title": "Aucun article trouvé",
+        "description": "Il n'y a actuellement aucun article de cette boutique."
+      },
+      "error": {
+        "title": "Impossible de charger les articles",
+        "description": "Une erreur s'est produite lors du chargement des articles. Veuillez réessayer plus tard."
+      }
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Marquer tout comme lu",
+    "noNotifications": "Aucune notification",
+    "ariaLabel": "Ouvrir les notifications",
+    "types": {
+      "priceChange": "Changement de prix",
+      "stateChange": "Changement de statut",
+      "newMatch": "Nouvelle correspondance",
+      "partnerApplicationApproved": "Candidature approuvée",
+      "partnerApplicationRejected": "Candidature rejetée",
+      "partnerApplication": "Candidature partenaire",
+      "partnerApplicationSubmitted": "Soumise",
+      "partnerApplicationStatusApproved": "Approuvée",
+      "partnerApplicationStatusRejected": "Rejetée"
+    },
+    "delete": "Supprimer",
+    "deleteAll": "Tout supprimer",
+    "markRead": "Marquer comme lu",
+    "loadingError": "Les notifications n'ont pas pu être chargées. Veuillez réessayer plus tard.",
+    "loadingMore": "Chargement de plus de notifications...",
+    "allLoaded_one": "{{count}} notification chargée",
+    "allLoaded_other": "Toutes les {{count}} notifications chargées",
+    "noResults": {
+      "title": "Aucune notification",
+      "description": "Vous n'avez pas encore reçu de notifications."
+    },
+    "totalElements_one": "{{count}} notification",
+    "totalElements_other": "{{count}} notifications",
+    "showAll": "Afficher toutes les notifications"
   }
 }

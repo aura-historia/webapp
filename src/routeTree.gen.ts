@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
@@ -22,11 +23,18 @@ import { Route as CategoriesIndexRouteImport } from './routes/categories.index'
 import { Route as PeriodsPeriodIdRouteImport } from './routes/periods.$periodId'
 import { Route as CollectionsCombinationSlugRouteImport } from './routes/collections.$combinationSlug'
 import { Route as CategoriesCategoryIdRouteImport } from './routes/categories.$categoryId'
-import { Route as AuthWatchlistRouteImport } from './routes/_auth.watchlist'
-import { Route as AuthAccountRouteImport } from './routes/_auth.account'
+import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
 import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
+import { Route as AuthMeWatchlistRouteImport } from './routes/_auth.me.watchlist'
+import { Route as AuthMeNotificationsRouteImport } from './routes/_auth.me.notifications'
+import { Route as AuthMeAccountRouteImport } from './routes/_auth.me.account'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
 
+const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
+  id: '/terms-and-conditions',
+  path: '/terms-and-conditions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -92,15 +100,10 @@ const CategoriesCategoryIdRoute = CategoriesCategoryIdRouteImport.update({
   path: '/categories/$categoryId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthWatchlistRoute = AuthWatchlistRouteImport.update({
-  id: '/watchlist',
-  path: '/watchlist',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthAccountRoute = AuthAccountRouteImport.update({
-  id: '/account',
-  path: '/account',
-  getParentRoute: () => AuthRoute,
+const ShopsShopSlugIdIndexRoute = ShopsShopSlugIdIndexRouteImport.update({
+  id: '/shops/$shopSlugId/',
+  path: '/shops/$shopSlugId/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ProductShopIdShopsProductIdRoute =
   ProductShopIdShopsProductIdRouteImport.update({
@@ -108,6 +111,21 @@ const ProductShopIdShopsProductIdRoute =
     path: '/product/$shopId/$shopsProductId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthMeWatchlistRoute = AuthMeWatchlistRouteImport.update({
+  id: '/me/watchlist',
+  path: '/me/watchlist',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthMeNotificationsRoute = AuthMeNotificationsRouteImport.update({
+  id: '/me/notifications',
+  path: '/me/notifications',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthMeAccountRoute = AuthMeAccountRouteImport.update({
+  id: '/me/account',
+  path: '/me/account',
+  getParentRoute: () => AuthRoute,
+} as any)
 const ShopsShopSlugIdProductsProductSlugIdRoute =
   ShopsShopSlugIdProductsProductSlugIdRouteImport.update({
     id: '/shops/$shopSlugId/products/$productSlugId',
@@ -122,15 +140,18 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
-  '/account': typeof AuthAccountRoute
-  '/watchlist': typeof AuthWatchlistRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
   '/categories/': typeof CategoriesIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/periods/': typeof PeriodsIndexRoute
+  '/me/account': typeof AuthMeAccountRoute
+  '/me/notifications': typeof AuthMeNotificationsRoute
+  '/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
+  '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRoutesByTo {
@@ -140,15 +161,18 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
-  '/account': typeof AuthAccountRoute
-  '/watchlist': typeof AuthWatchlistRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
   '/categories': typeof CategoriesIndexRoute
   '/collections': typeof CollectionsIndexRoute
   '/periods': typeof PeriodsIndexRoute
+  '/me/account': typeof AuthMeAccountRoute
+  '/me/notifications': typeof AuthMeNotificationsRoute
+  '/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
+  '/shops/$shopSlugId': typeof ShopsShopSlugIdIndexRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRoutesById {
@@ -160,15 +184,18 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
-  '/_auth/account': typeof AuthAccountRoute
-  '/_auth/watchlist': typeof AuthWatchlistRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
   '/categories/': typeof CategoriesIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/periods/': typeof PeriodsIndexRoute
+  '/_auth/me/account': typeof AuthMeAccountRoute
+  '/_auth/me/notifications': typeof AuthMeNotificationsRoute
+  '/_auth/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
+  '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRouteTypes {
@@ -180,15 +207,18 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy'
     | '/search'
-    | '/account'
-    | '/watchlist'
+    | '/terms-and-conditions'
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
     | '/categories/'
     | '/collections/'
     | '/periods/'
+    | '/me/account'
+    | '/me/notifications'
+    | '/me/watchlist'
     | '/product/$shopId/$shopsProductId'
+    | '/shops/$shopSlugId/'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -198,15 +228,18 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy'
     | '/search'
-    | '/account'
-    | '/watchlist'
+    | '/terms-and-conditions'
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
     | '/categories'
     | '/collections'
     | '/periods'
+    | '/me/account'
+    | '/me/notifications'
+    | '/me/watchlist'
     | '/product/$shopId/$shopsProductId'
+    | '/shops/$shopSlugId'
     | '/shops/$shopSlugId/products/$productSlugId'
   id:
     | '__root__'
@@ -217,15 +250,18 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy'
     | '/search'
-    | '/_auth/account'
-    | '/_auth/watchlist'
+    | '/terms-and-conditions'
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
     | '/categories/'
     | '/collections/'
     | '/periods/'
+    | '/_auth/me/account'
+    | '/_auth/me/notifications'
+    | '/_auth/me/watchlist'
     | '/product/$shopId/$shopsProductId'
+    | '/shops/$shopSlugId/'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesById: FileRoutesById
 }
@@ -237,6 +273,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
+  TermsAndConditionsRoute: typeof TermsAndConditionsRoute
   CategoriesCategoryIdRoute: typeof CategoriesCategoryIdRoute
   CollectionsCombinationSlugRoute: typeof CollectionsCombinationSlugRoute
   PeriodsPeriodIdRoute: typeof PeriodsPeriodIdRoute
@@ -244,11 +281,19 @@ export interface RootRouteChildren {
   CollectionsIndexRoute: typeof CollectionsIndexRoute
   PeriodsIndexRoute: typeof PeriodsIndexRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
+  ShopsShopSlugIdIndexRoute: typeof ShopsShopSlugIdIndexRoute
   ShopsShopSlugIdProductsProductSlugIdRoute: typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms-and-conditions': {
+      id: '/terms-and-conditions'
+      path: '/terms-and-conditions'
+      fullPath: '/terms-and-conditions'
+      preLoaderRoute: typeof TermsAndConditionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -340,19 +385,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriesCategoryIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/watchlist': {
-      id: '/_auth/watchlist'
-      path: '/watchlist'
-      fullPath: '/watchlist'
-      preLoaderRoute: typeof AuthWatchlistRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/account': {
-      id: '/_auth/account'
-      path: '/account'
-      fullPath: '/account'
-      preLoaderRoute: typeof AuthAccountRouteImport
-      parentRoute: typeof AuthRoute
+    '/shops/$shopSlugId/': {
+      id: '/shops/$shopSlugId/'
+      path: '/shops/$shopSlugId'
+      fullPath: '/shops/$shopSlugId/'
+      preLoaderRoute: typeof ShopsShopSlugIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/product/$shopId/$shopsProductId': {
       id: '/product/$shopId/$shopsProductId'
@@ -360,6 +398,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/product/$shopId/$shopsProductId'
       preLoaderRoute: typeof ProductShopIdShopsProductIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_auth/me/watchlist': {
+      id: '/_auth/me/watchlist'
+      path: '/me/watchlist'
+      fullPath: '/me/watchlist'
+      preLoaderRoute: typeof AuthMeWatchlistRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/me/notifications': {
+      id: '/_auth/me/notifications'
+      path: '/me/notifications'
+      fullPath: '/me/notifications'
+      preLoaderRoute: typeof AuthMeNotificationsRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/me/account': {
+      id: '/_auth/me/account'
+      path: '/me/account'
+      fullPath: '/me/account'
+      preLoaderRoute: typeof AuthMeAccountRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/shops/$shopSlugId/products/$productSlugId': {
       id: '/shops/$shopSlugId/products/$productSlugId'
@@ -372,13 +431,15 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthRouteChildren {
-  AuthAccountRoute: typeof AuthAccountRoute
-  AuthWatchlistRoute: typeof AuthWatchlistRoute
+  AuthMeAccountRoute: typeof AuthMeAccountRoute
+  AuthMeNotificationsRoute: typeof AuthMeNotificationsRoute
+  AuthMeWatchlistRoute: typeof AuthMeWatchlistRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
-  AuthAccountRoute: AuthAccountRoute,
-  AuthWatchlistRoute: AuthWatchlistRoute,
+  AuthMeAccountRoute: AuthMeAccountRoute,
+  AuthMeNotificationsRoute: AuthMeNotificationsRoute,
+  AuthMeWatchlistRoute: AuthMeWatchlistRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
@@ -391,6 +452,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
+  TermsAndConditionsRoute: TermsAndConditionsRoute,
   CategoriesCategoryIdRoute: CategoriesCategoryIdRoute,
   CollectionsCombinationSlugRoute: CollectionsCombinationSlugRoute,
   PeriodsPeriodIdRoute: PeriodsPeriodIdRoute,
@@ -398,6 +460,7 @@ const rootRouteChildren: RootRouteChildren = {
   CollectionsIndexRoute: CollectionsIndexRoute,
   PeriodsIndexRoute: PeriodsIndexRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
+  ShopsShopSlugIdIndexRoute: ShopsShopSlugIdIndexRoute,
   ShopsShopSlugIdProductsProductSlugIdRoute:
     ShopsShopSlugIdProductsProductSlugIdRoute,
 }

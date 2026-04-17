@@ -43,7 +43,13 @@ Bei der Registrierung eines Nutzerkontos werden ausschließlich folgende persone
 - Bevorzugte Sprache (optional, zur Personalisierung)
 - Bevorzugte Währung (optional, zur Personalisierung)
 
-Es werden **keine Adressdaten** und **keine Zahlungsdaten** erhoben.
+Sofern kostenpflichtige digitale Leistungen gebucht werden, verarbeiten wir zusätzlich – soweit von [Lemon Squeezy](https://www.lemonsqueezy.com/) als eingesetztem **Merchant of Record** übermittelt – insbesondere:
+
+- Bestell-, Transaktions- oder Kundenkennungen
+- Abonnementstatus, Laufzeit und Verlängerungsinformationen
+- Land bzw. Steuerland sowie umsatzsteuerlich erforderliche Angaben
+
+Wir erhalten **keine vollständigen Zahlungsdaten** wie Kreditkarten- oder Bankkontoinformationen.
 
 ---
 
@@ -66,12 +72,26 @@ Eine Zusammenführung mit Nutzerdaten findet nicht statt.
 
 ---
 
+### 3.3 Newsletter und Zoho Campaigns
+
+Wenn Sie unseren Newsletter abonnieren, verarbeiten wir insbesondere:
+
+- Ihre E-Mail-Adresse
+- Zeitstempel, IP-Adresse und Sprache der Einwilligung im Rahmen des **Double-Opt-In-Verfahrens**
+- gegebenenfalls kampagnenbezogene Zustell-, Öffnungs- und Klickinformationen, soweit dies rechtlich zulässig ist
+
+Der Newsletter-Versand erfolgt über **Zoho Campaigns** auf **EU-Servern**. Eine Anmeldung erfolgt erst nach erfolgreicher Double-Opt-In-Bestätigung. Eine Abmeldung ist jederzeit mit Wirkung für die Zukunft möglich.
+
+---
+
 ## 4. Zwecke der Datenverarbeitung
 
 Die Verarbeitung personenbezogener Daten erfolgt zu folgenden Zwecken:
 
 - Bereitstellung und Betrieb der Plattform
 - Nutzer-Authentifizierung und Zugriffssteuerung
+- Verwaltung kostenpflichtiger digitaler Zugänge und Abonnements
+- Versand von Newslettern und Marketingkommunikation auf Grundlage Ihrer Einwilligung
 - Systemsicherheit und technische Überwachung
 - Einhaltung gesetzlicher Verpflichtungen
 
@@ -81,8 +101,9 @@ Die Verarbeitung personenbezogener Daten erfolgt zu folgenden Zwecken:
 
 Die Verarbeitung erfolgt auf Grundlage folgender Rechtsgrundlagen:
 
-- **Art. 6 Abs. 1 lit. b DSGVO** – Durchführung vorvertraglicher Maßnahmen / Nutzerkonto
-- **Art. 6 Abs. 1 lit. f DSGVO** – berechtigtes Interesse (IT-Sicherheit, Betrieb, Missbrauchsprävention)
+- **Art. 6 Abs. 1 lit. b DSGVO** – Durchführung vorvertraglicher Maßnahmen, Nutzerkonto sowie Bereitstellung digitaler Leistungen
+- **Art. 6 Abs. 1 lit. a DSGVO** – Einwilligung in Newsletter-Versand, Double-Opt-In-Nachweis und sonstige Marketingkommunikation
+- **Art. 6 Abs. 1 lit. f DSGVO** – berechtigtes Interesse (IT-Sicherheit, Betrieb, Missbrauchsprävention, bedarfsgerechte Kommunikation)
 - **Art. 6 Abs. 1 lit. c DSGVO** – rechtliche Verpflichtungen
 
 ---
@@ -192,7 +213,7 @@ Die Plattform wird bei folgenden Anbietern gehostet:
 - **Cloudflare** mit Rechenzentrumsstandort **Deutschland (Frankfurt)**
 - **Hetzner Online GmbH**: mit Rechenzentrumsstandort **Deutschland (Falkenstein und Nürnberg)**
 
-Alle personenbezogenen Daten werden **ausschließlich innerhalb Deutschlands** verarbeitet.
+Hosting-bezogene personenbezogene Daten der Plattform werden dabei **innerhalb Deutschlands** verarbeitet.
 
 ---
 
@@ -200,6 +221,16 @@ Alle personenbezogenen Daten werden **ausschließlich innerhalb Deutschlands** v
 
 Die Plattform wird bei externen Hosting- und Infrastruktur-Anbietern betrieben.
 Mit Amazon Web Services (AWS), Cloudflare und Hetzner Online GmbH bestehen abgeschlossene Auftragsverarbeitungsverträge gemäß Art. 28 DSGVO.
+
+Für den Newsletter-Versand setzen wir zusätzlich **Zoho Campaigns** als Auftragsverarbeiter mit **EU-Servern** ein. Auch hierfür besteht ein Vertrag zur Auftragsverarbeitung.
+
+---
+
+### 10.3 Zahlungsabwicklung über Lemon Squeezy als Merchant of Record
+
+Soweit kostenpflichtige digitale Leistungen über [Lemon Squeezy](https://www.lemonsqueezy.com/) als unabhängigen **Merchant of Record** verkauft werden, verarbeitet Lemon Squeezy zahlungsbezogene Daten grundsätzlich in eigener datenschutzrechtlicher Verantwortlichkeit oder nach den im Checkout offen gelegten Rollen.
+
+Wir erhalten von Lemon Squeezy lediglich diejenigen Daten, die zur Aktivierung, Zuordnung und Verwaltung Ihres digitalen Zugangs erforderlich sind.
 
 ---
 
