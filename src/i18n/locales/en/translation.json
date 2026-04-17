@@ -238,11 +238,13 @@
       "allLoaded_other": "You have seen all {{count}} results that match your filters."
     },
     "sortMode": {
+      "sortBy": "Sort by:",
       "relevance": "Relevance",
       "creationDate": "Creation Date",
       "updateDate": "Last Updated",
       "price": "Price",
       "order": {
+        "label": "Order:",
         "asc": "Ascending",
         "desc": "Descending"
       }

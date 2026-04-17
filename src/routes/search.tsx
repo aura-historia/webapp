@@ -51,13 +51,9 @@ function RouteComponent() {
         <>
             <div className="bg-background">
                 <div className="mx-auto max-w-7xl lg:grid lg:grid-cols-[20rem_minmax(0,1fr)]">
-                    <aside className="hidden border-r border-outline-variant/20 bg-surface-container-high lg:block">
-                        <div className="sticky top-20 p-6">
-                            <H2 className="text-3xl! text-primary-container">
-                                {t("search.filters")}
-                            </H2>
-                            <SearchFilters searchFilters={searchArgs} />
-                        </div>
+                    <aside className="hidden border-r border-outline-variant/20 h-full bg-surface-container-high p-6 lg:block lg:self-start">
+                        <H2 className="text-3xl! text-primary-container">{t("search.filters")}</H2>
+                        <SearchFilters searchFilters={searchArgs} />
                     </aside>
 
                     <div className="bg-surface-container-low px-6 py-8 sm:px-8 lg:px-10">
@@ -84,7 +80,7 @@ function RouteComponent() {
                                     </span>
                                 )}
 
-                                <div className="hidden justify-start border-b border-primary/20 pb-4 mt-8 lg:flex">
+                                <div className="hidden justify-start border-b border-primary/20 pb-4 lg:flex">
                                     <SortModeSelection
                                         sortMode={sortMode}
                                         updateSortMode={updateSortMode}

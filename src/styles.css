@@ -39,7 +39,7 @@ code {
     --secondary: #675c57;
     --secondary-foreground: #ffffff;
     --secondary-container: #efdfd8;
-    --on-secondary-container: #6d625d;
+    --on-secondary-container: #5f544f;
 
     /* Tertiary – Gold */
     --tertiary: #c09c55;
@@ -51,7 +51,7 @@ code {
     --muted: #f1eee4;
     --muted-foreground: #534341;
     --accent: #efdfd8;
-    --accent-foreground: #6d625d;
+    --accent-foreground: #5f544f;
 
     /* Feedback */
     --destructive: #ba1a1a;
@@ -89,7 +89,7 @@ code {
     --sidebar-primary: #42120f;
     --sidebar-primary-foreground: #ffffff;
     --sidebar-accent: #efdfd8;
-    --sidebar-accent-foreground: #6d625d;
+    --sidebar-accent-foreground: #5f544f;
     --sidebar-border: #d8c1bf;
     --sidebar-ring: #857371;
     --linear-gradient-main: linear-gradient(180deg, #42120f 0%, #5d2722 100%);

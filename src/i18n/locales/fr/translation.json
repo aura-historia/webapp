@@ -238,11 +238,13 @@
       "allLoaded_other": "Vous avez consulté les {{count}} résultats correspondant à vos filtres."
     },
     "sortMode": {
+      "sortBy": "Trier par :",
       "relevance": "Pertinence",
       "creationDate": "Date de création",
       "updateDate": "Dernière mise à jour",
       "price": "Prix",
       "order": {
+        "label": "Ordre :",
         "asc": "Croissant",
         "desc": "Décroissant"
       }

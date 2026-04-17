@@ -35,7 +35,7 @@ export function FilterCard({
                             className={`flex items-center gap-2 ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}
                             disabled={disabled}
                         >
-                            <h2 className="text-lg font-medium uppercase text-primary-container">
+                            <h2 className="text-lg tracking-tighter font-medium font-display uppercase text-primary-container">
                                 {title}
                             </h2>
                             <ChevronDown
