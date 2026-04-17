@@ -29,7 +29,10 @@ export function ImageWithFallback({
     const imgRef = useRef<HTMLImageElement>(null);
     const currentSrcRef = useRef<string | undefined>(src);
 
-    const containerClassName = cn("relative overflow-hidden bg-muted", className);
+    const containerClassName = cn(
+        "relative overflow-hidden bg-surface-container-lowest",
+        className,
+    );
     const containedImageClassName = "h-full w-full object-contain";
 
     const handleLoad: ImgHTMLAttributes<HTMLImageElement>["onLoad"] = (event) => {

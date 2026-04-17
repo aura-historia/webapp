@@ -45,6 +45,14 @@ describe("ProductCard", () => {
         expect(screen.getByText("100€")).toBeInTheDocument();
     });
 
+    it("should not render the legacy reference label", async () => {
+        await act(() => {
+            renderWithRouter(<ProductCard product={mockProduct} />);
+        });
+
+        expect(screen.queryByText(/^REF:/)).not.toBeInTheDocument();
+    });
+
     it("should render a placeholder image when no images are provided", async () => {
         const productWithoutImages = { ...mockProduct, images: [] };
         await act(() => {

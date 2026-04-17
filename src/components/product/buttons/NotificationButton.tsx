@@ -43,7 +43,7 @@ export function NotificationButton({
                     } ${watchlistNotificationMutation.isPending ? "animate-heart-bounce" : ""}`}
                 />
                 <BellRing
-                    className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out fill-foreground ${
+                    className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out fill-primary ${
                         isNotificationEnabled ? "opacity-100 scale-100" : "opacity-0 scale-75"
                     } ${watchlistNotificationMutation.isPending ? "animate-heart-bounce" : ""}`}
                 />

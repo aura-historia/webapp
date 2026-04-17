@@ -5,10 +5,8 @@ import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotif
 import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { Card } from "@/components/ui/card.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { ArrowUpRight, Eye } from "lucide-react";
-import { H3 } from "@/components/typography/H3.tsx";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { ProductQualityBadges } from "@/components/product/badges/ProductQualityBadges.tsx";
@@ -33,56 +31,58 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
     }, [hasUnseenNotification, originEventId, markSeen.mutate]);
 
     return (
-        <Card
+        <article
             className={cn(
-                "relative flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0",
-                hasUnseenNotification && "border-2 border-primary",
+                "relative flex h-full min-w-0 flex-col overflow-hidden border border-outline-variant/20 bg-surface-container-lowest transition-all duration-300 ease-out",
+                "shadow-[0_12px_40px_rgba(28,28,22,0.06)]",
+                hasUnseenNotification && "border-primary",
             )}
         >
-            {hasUnseenNotification && (
-                <div className="absolute left-8 top-0 z-10 -translate-y-1/2">
-                    <UnseenNotificationBadge />
-                </div>
-            )}
-            <div className={"shrink-0 flex lg:justify-start justify-center"}>
+            <div className="relative">
                 <ProductCardImageCarousel
                     images={product.images}
                     userData={product.userData}
                     shopSlugId={product.shopSlugId}
                     productSlugId={product.productSlugId}
+                    onProductClick={handleProductClick}
                 />
+
+                {hasUnseenNotification && (
+                    <div className="absolute left-3 top-3 z-20">
+                        <UnseenNotificationBadge />
+                    </div>
+                )}
             </div>
-            <div className={"flex flex-col min-w-0 flex-1 justify-between"}>
-                <div className={"flex flex-row justify-between w-full"}>
-                    <div className={"flex flex-col gap-2 min-w-0 overflow-hidden"}>
+
+            <div className="flex min-w-0 flex-1 flex-col p-5">
+                <div className="flex min-w-0 items-start justify-between gap-3 pb-3">
+                    <div className="min-w-0">
                         <Link
                             to="/shops/$shopSlugId/products/$productSlugId"
                             params={{
                                 shopSlugId: product.shopSlugId,
                                 productSlugId: product.productSlugId,
                             }}
-                            className="min-w-0 overflow-hidden"
+                            className="min-w-0"
                             onClick={handleProductClick}
                         >
-                            <H2 className={"overflow-ellipsis line-clamp-1 hover:underline"}>
+                            <H2 className="line-clamp-2 text-[1.35rem] leading-8 italic transition-colors duration-300 ease-out hover:text-primary-container">
                                 {product.title}
                             </H2>
                         </Link>
-                        <H3 variant={"muted"} className={"line-clamp-1 overflow-ellipsis"}>
-                            {product.shopName}
-                        </H3>
-                        <div className="flex flex-wrap gap-2">
-                            <StatusBadge status={product.state} />
-                            <ShopTypeBadge shopType={product.shopType} />
-                            {product.auction && <AuctionWindowBadge auction={product.auction} />}
-                            <ProductQualityBadges product={product} />
-                        </div>
+
+                        {product.description && (
+                            <p className="mt-2 line-clamp-2 text-sm leading-6 text-on-surface/80">
+                                {product.description}
+                            </p>
+                        )}
                     </div>
 
-                    <div className={"flex flex-row gap-2"}>
+                    <div className="flex shrink-0 items-center gap-1.5">
                         <NotificationButton
                             variant="ghost"
                             size="icon"
+                            className="text-primary transition-colors duration-300 ease-out hover:bg-surface"
                             shopId={product.shopId}
                             shopsProductId={product.shopsProductId}
                             isNotificationEnabled={
@@ -93,6 +93,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                         <WatchlistButton
                             variant="ghost"
                             size="icon"
+                            className="text-primary transition-colors duration-300 ease-out hover:bg-surface"
                             shopId={product.shopId}
                             shopsProductId={product.shopsProductId}
                             isWatching={product.userData?.watchlistData.isWatching ?? false}
@@ -100,17 +101,43 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                     </div>
                 </div>
 
-                <div
-                    className={
-                        "flex flex-col lg:flex-row gap-4 lg:gap-0 justify-between lg:items-end w-full mt-4 lg:mt-0"
-                    }
-                >
-                    <PriceText className="min-w-0 overflow-hidden text-ellipsis">
+                <div className="flex min-w-0 items-center gap-2 pb-3">
+                    <span className="max-w-full truncate rounded-none bg-secondary-container px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-on-secondary-container">
+                        {product.shopName}
+                    </span>
+                    <span className="text-xs text-on-surface/60">-</span>
+                    <ShopTypeBadge
+                        shopType={product.shopType}
+                        className="text-[10px] rounded-none border-none px-2 py-1 bg-secondary-container text-on-secondary-container"
+                    />
+                </div>
+
+                <div className="flex flex-wrap gap-2 pb-3">
+                    <StatusBadge
+                        status={product.state}
+                        variant="editorial"
+                        className="text-[10px]"
+                    />
+                    {product.auction && (
+                        <AuctionWindowBadge
+                            auction={product.auction}
+                            className="text-xs rounded-none border border-outline-variant/20"
+                        />
+                    )}
+                    <ProductQualityBadges product={product} />
+                </div>
+
+                <div className="mt-5 flex flex-1 flex-col justify-end gap-3">
+                    <PriceText className="min-w-0 truncate text-[1.4rem] leading-none">
                         {product.price ?? t("product.unknownPrice")}
                     </PriceText>
 
-                    <div className={"flex flex-col gap-2 lg:items-end shrink-0 lg:ml-2"}>
-                        <Button variant={"default"} asChild>
+                    <div className="grid w-full grid-cols-1 gap-2">
+                        <Button
+                            variant={"default"}
+                            className="w-full rounded-none px-3 py-2 text-[10px] uppercase tracking-[0.12em]"
+                            asChild
+                        >
                             <Link
                                 to="/shops/$shopSlugId/products/$productSlugId"
                                 params={{
@@ -123,7 +150,12 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                                 <span>{t("product.details")}</span>
                             </Link>
                         </Button>
-                        <Button variant={"secondary"} className="whitespace-nowrap" asChild>
+
+                        <Button
+                            variant={"outline"}
+                            className="w-full rounded-none border-outline-variant/20 bg-transparent px-3 py-2 text-[10px] uppercase tracking-[0.12em] text-primary hover:bg-primary/8"
+                            asChild
+                        >
                             <a
                                 href={product.url?.href}
                                 target="_blank"
@@ -136,7 +168,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                     </div>
                 </div>
             </div>
-        </Card>
+        </article>
     );
 }
 

@@ -166,7 +166,8 @@ describe("ProductSimilarCard", () => {
         const { container } = render(<ProductSimilarCard product={mockProduct} />);
 
         const image = container.querySelector("img");
-        expect(image).toHaveClass("group-hover:scale-[1.03]");
+        expect(image).toBeInTheDocument();
+        expect(image?.parentElement).toHaveClass("group-hover:scale-[1.03]");
 
         const titleElement = screen.getByText("Test Product Title");
         expect(titleElement).toHaveClass("group-hover:underline");

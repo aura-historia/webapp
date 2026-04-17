@@ -232,8 +232,6 @@ code {
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
 
-    --color-heart: var(--color-red-500);
-
     /* Typography tokens */
     --font-display: "Newsreader Variable", Georgia, serif;
     --font-body: "Manrope Variable", system-ui, sans-serif;

@@ -19,6 +19,7 @@ interface ProductCardImageCarouselProps {
     readonly shopSlugId: string;
     readonly productSlugId: string;
     readonly userData?: UserProductData;
+    readonly onProductClick?: () => void;
 }
 
 export function ProductCardImageCarousel({
@@ -26,6 +27,7 @@ export function ProductCardImageCarousel({
     shopSlugId,
     productSlugId,
     userData,
+    onProductClick,
 }: ProductCardImageCarouselProps) {
     const { t } = useTranslation();
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
@@ -79,8 +81,9 @@ export function ProductCardImageCarousel({
                     shopSlugId,
                     productSlugId,
                 }}
+                onClick={onProductClick}
             >
-                <div className="size-48 bg-muted rounded-lg flex flex-col items-center justify-center gap-2">
+                <div className="aspect-[4/3] w-full bg-muted flex flex-col items-center justify-center gap-2">
                     <ImageOff
                         data-testid="placeholder-image"
                         className="w-12 h-12 text-muted-foreground"
@@ -100,15 +103,16 @@ export function ProductCardImageCarousel({
                     shopSlugId,
                     productSlugId,
                 }}
+                onClick={onProductClick}
             >
                 {isRestrictedImage(images[0], isRestrictedConsentGiven) ? (
-                    <ProhibitedImagePlaceholder className="w-full aspect-video lg:size-48 lg:aspect-auto rounded-lg" />
+                    <ProhibitedImagePlaceholder className="w-full aspect-[4/3]" />
                 ) : (
                     <ImageWithFallback
-                        className="w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
+                        className="w-full aspect-[4/3]"
                         src={images[0].url?.href}
                         alt=""
-                        fallbackClassName="size-48 rounded-lg"
+                        fallbackClassName="w-full aspect-[4/3]"
                         loading="eager"
                         decoding="async"
                     />
@@ -118,7 +122,7 @@ export function ProductCardImageCarousel({
     }
 
     return (
-        <div className="relative w-full lg:w-48 group">
+        <div className="group relative w-full overflow-hidden bg-surface-container-low">
             <Carousel
                 setApi={setCarouselApi}
                 opts={{
@@ -126,7 +130,7 @@ export function ProductCardImageCarousel({
                 }}
                 className="w-full"
             >
-                <CarouselContent className="rounded-lg">
+                <CarouselContent>
                     {images.map((image, index) => (
                         <CarouselItem key={image.url?.href ?? `restricted-${index}`}>
                             <Link
@@ -135,16 +139,17 @@ export function ProductCardImageCarousel({
                                     shopSlugId,
                                     productSlugId,
                                 }}
+                                onClick={onProductClick}
                             >
                                 {isRestrictedImage(image, isRestrictedConsentGiven) ? (
-                                    <ProhibitedImagePlaceholder className="w-full aspect-video lg:size-48 lg:aspect-auto rounded-lg" />
+                                    <ProhibitedImagePlaceholder className="w-full aspect-[4/3]" />
                                 ) : (
                                     <ImageWithFallback
-                                        className="w-full aspect-video object-cover hover:opacity-90 transition-opacity lg:size-48 lg:aspect-auto rounded-lg"
+                                        className="w-full aspect-[4/3]"
                                         src={image.url?.href}
                                         alt=""
                                         loading={index === 0 ? "eager" : "lazy"}
-                                        fallbackClassName="size-48 rounded-lg"
+                                        fallbackClassName="w-full aspect-[4/3]"
                                         decoding="async"
                                     />
                                 )}
@@ -158,7 +163,7 @@ export function ProductCardImageCarousel({
             {canScrollPrev && (
                 <button
                     type="button"
-                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors opacity-0 group-hover:opacity-100"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 rounded-none bg-surface/80 p-2 text-primary opacity-0 backdrop-blur-[20px] transition-all duration-300 ease-out group-hover:opacity-100 hover:bg-surface"
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -172,7 +177,7 @@ export function ProductCardImageCarousel({
             {canScrollNext && (
                 <button
                     type="button"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors opacity-0 group-hover:opacity-100"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-none bg-surface/80 p-2 text-primary opacity-0 backdrop-blur-[20px] transition-all duration-300 ease-out group-hover:opacity-100 hover:bg-surface"
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
