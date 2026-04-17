@@ -15,16 +15,17 @@ export default function PricingSection() {
             return t(tier.priceLabelKey);
         }
 
-        const amount = tier.prices?.[currency] ?? tier.prices?.EUR;
+        const amount = tier.prices?.[currency];
+        const fallbackAmount = tier.prices?.EUR;
 
-        if (amount === undefined) {
+        if (amount === undefined && fallbackAmount === undefined) {
             return t("landingPage.pricing.comingSoon");
         }
 
         return new Intl.NumberFormat(i18n.language, {
             style: "currency",
             currency,
-        }).format(amount);
+        }).format(amount ?? fallbackAmount);
     };
 
     return (

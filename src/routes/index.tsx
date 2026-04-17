@@ -106,7 +106,6 @@ function LandingPage() {
             <DiscoverSection />
             <FeaturesSection />
             <HowItWorksSection />
-            {/* <TestimonialsSection /> */}
             <PricingSection />
             <FAQSection />
         </div>
