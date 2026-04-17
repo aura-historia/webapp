@@ -21,6 +21,9 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { H2 } from "@/components/typography/H2.tsx";
 import { putNewsletterSubscriptionMutation } from "@/client/@tanstack/react-query.gen.ts";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { parseLanguage, mapToBackendLanguage } from "@/data/internal/common/Language.ts";
+import { mapToBackendCurrency } from "@/data/internal/common/Currency.ts";
 
 function getNewsletterSchema(t: (key: string) => string) {
     return z.object({
@@ -39,8 +42,10 @@ function getNewsletterSchema(t: (key: string) => string) {
 type NewsletterFormData = z.infer<ReturnType<typeof getNewsletterSchema>>;
 
 export default function NewsletterSection() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const { preferences } = useUserPreferences();
     const [isSuccess, setIsSuccess] = useState(false);
+    const [subscribedEmail, setSubscribedEmail] = useState("");
 
     const schema = getNewsletterSchema(t);
 
@@ -67,11 +72,14 @@ export default function NewsletterSection() {
     });
 
     const onSubmit = (data: NewsletterFormData) => {
+        setSubscribedEmail(data.email);
         subscribe({
             body: {
                 email: data.email,
                 firstName: data.firstName || undefined,
                 lastName: data.lastName || undefined,
+                language: mapToBackendLanguage(parseLanguage(i18n.language)),
+                currency: mapToBackendCurrency(preferences.currency),
             },
         });
     };
@@ -144,6 +152,14 @@ export default function NewsletterSection() {
                                     </div>
                                     <p className="font-display text-xl font-normal italic text-primary-foreground">
                                         {t("landingPage.newsletter.successMessage")}
+                                    </p>
+                                    <p className="text-sm text-primary-foreground/80">
+                                        {t("landingPage.newsletter.successEmailSent", {
+                                            email: subscribedEmail,
+                                        })}
+                                    </p>
+                                    <p className="text-xs text-primary-foreground/60">
+                                        {t("landingPage.newsletter.successTiming")}
                                     </p>
                                 </div>
                             ) : (

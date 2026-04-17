@@ -2,6 +2,7 @@ import NewsletterSection from "@/components/landing-page/newsletter-section/News
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 
 vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
     putNewsletterSubscriptionMutation: () => ({
@@ -9,8 +10,17 @@ vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
     }),
 }));
 
+vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
+    useUserPreferences: vi.fn(),
+}));
+
 describe("NewsletterSection", () => {
     beforeEach(async () => {
+        vi.mocked(useUserPreferences).mockReturnValue({
+            preferences: { currency: "EUR" },
+            updatePreferences: vi.fn(),
+        });
+
         await act(async () => {
             renderWithRouter(<NewsletterSection />);
         });
@@ -89,5 +99,24 @@ describe("NewsletterSection", () => {
                 screen.getByText("Sie müssen dem Erhalt unseres Newsletters zustimmen."),
             ).toBeInTheDocument();
         });
+    });
+
+    it("shows the signed-up email and timing note after successful submission", async () => {
+        const user = userEvent.setup();
+        const testEmail = "max.mustermann@example.com";
+
+        await user.type(screen.getByPlaceholderText("Ihre E-Mail-Adresse"), testEmail);
+        await user.click(screen.getByRole("checkbox"));
+        await user.click(screen.getByRole("button", { name: "Anmelden" }));
+
+        await waitFor(() => {
+            expect(
+                screen.getByText(`Eine Bestätigungs-E-Mail wurde an ${testEmail} gesendet.`),
+            ).toBeInTheDocument();
+        });
+
+        expect(
+            screen.getByText("Es kann einige Minuten dauern, bis die E-Mail bei Ihnen eintrifft."),
+        ).toBeInTheDocument();
     });
 });

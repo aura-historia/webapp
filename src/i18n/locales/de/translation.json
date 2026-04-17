@@ -592,7 +592,9 @@
       "marketingConsentRequired": "Sie müssen dem Erhalt unseres Newsletters zustimmen.",
       "emailRequired": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
       "errorMessage": "Etwas ist schiefgelaufen. Bitte versuchen Sie es später erneut.",
-      "eyebrow": "Newsletter"
+      "eyebrow": "Newsletter",
+      "successEmailSent": "Eine Bestätigungs-E-Mail wurde an {{email}} gesendet.",
+      "successTiming": "Es kann einige Minuten dauern, bis die E-Mail bei Ihnen eintrifft."
     },
     "faq": {
       "title": "Häufig gestellte Fragen",

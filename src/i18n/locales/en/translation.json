@@ -592,7 +592,9 @@
       "marketingConsentRequired": "You must agree to receive our newsletter.",
       "emailRequired": "Please enter a valid email address.",
       "errorMessage": "Something went wrong. Please try again later.",
-      "eyebrow": "Newsletter"
+      "eyebrow": "Newsletter",
+      "successEmailSent": "A confirmation email has been sent to {{email}}.",
+      "successTiming": "It may take a few minutes for the email to arrive."
     },
     "faq": {
       "title": "Frequently Asked Questions",

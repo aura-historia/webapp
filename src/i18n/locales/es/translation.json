@@ -592,7 +592,9 @@
       "marketingConsentRequired": "Debe aceptar recibir nuestro boletín.",
       "emailRequired": "Por favor, introduzca una dirección de correo electrónico válida.",
       "errorMessage": "Algo salió mal. Por favor, inténtelo de nuevo más tarde.",
-      "eyebrow": "Boletín"
+      "eyebrow": "Boletín",
+      "successEmailSent": "Se ha enviado un correo de confirmación a {{email}}.",
+      "successTiming": "Puede tardar unos minutos en llegar el correo."
     },
     "faq": {
       "title": "Preguntas frecuentes",

@@ -592,7 +592,9 @@
       "marketingConsentRequired": "Devi accettare di ricevere la nostra newsletter.",
       "emailRequired": "Inserisci un indirizzo email valido.",
       "errorMessage": "Qualcosa è andato storto. Riprova più tardi.",
-      "eyebrow": "Newsletter"
+      "eyebrow": "Newsletter",
+      "successEmailSent": "Un'email di conferma è stata inviata a {{email}}.",
+      "successTiming": "Potrebbe volerci qualche minuto prima che l'email arrivi."
     },
     "faq": {
       "title": "Domande frequenti",
