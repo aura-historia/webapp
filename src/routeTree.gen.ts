@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
@@ -29,6 +30,11 @@ import { Route as AuthMeNotificationsRouteImport } from './routes/_auth.me.notif
 import { Route as AuthMeAccountRouteImport } from './routes/_auth.me.account'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
 
+const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
+  id: '/terms-and-conditions',
+  path: '/terms-and-conditions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
+  '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
@@ -198,6 +207,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy'
     | '/search'
+    | '/terms-and-conditions'
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
@@ -218,6 +228,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy'
     | '/search'
+    | '/terms-and-conditions'
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
@@ -239,6 +250,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy'
     | '/search'
+    | '/terms-and-conditions'
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
@@ -261,6 +273,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
+  TermsAndConditionsRoute: typeof TermsAndConditionsRoute
   CategoriesCategoryIdRoute: typeof CategoriesCategoryIdRoute
   CollectionsCombinationSlugRoute: typeof CollectionsCombinationSlugRoute
   PeriodsPeriodIdRoute: typeof PeriodsPeriodIdRoute
@@ -274,6 +287,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms-and-conditions': {
+      id: '/terms-and-conditions'
+      path: '/terms-and-conditions'
+      fullPath: '/terms-and-conditions'
+      preLoaderRoute: typeof TermsAndConditionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -432,6 +452,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
+  TermsAndConditionsRoute: TermsAndConditionsRoute,
   CategoriesCategoryIdRoute: CategoriesCategoryIdRoute,
   CollectionsCombinationSlugRoute: CollectionsCombinationSlugRoute,
   PeriodsPeriodIdRoute: PeriodsPeriodIdRoute,

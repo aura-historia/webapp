@@ -62,6 +62,10 @@
     },
     "shop": {
       "defaultName": "Shop"
+    },
+    "terms": {
+      "title": "Terms & Conditions | Aura Historia",
+      "description": "Terms and conditions for using Aura Historia, including information on paid services and Merchant of Record processing."
     }
   },
   "validation": {

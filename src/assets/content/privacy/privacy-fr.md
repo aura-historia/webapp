@@ -43,7 +43,13 @@ Lors de l’inscription d’un compte utilisateur, seules les données à caract
 - langue préférée (facultatif, pour la personnalisation)
 - devise préférée (facultatif, pour la personnalisation)
 
-Aucune **donnée d’adresse** ni **donnée de paiement** n’est collectée.
+Lorsque des services numériques payants sont souscrits, nous traitons en outre, dans la mesure où elles sont transmises par le **Merchant of Record** choisi, notamment :
+
+- des identifiants de commande, de transaction ou de client
+- le statut de l’abonnement, sa durée et les informations de renouvellement
+- le pays ou pays fiscal ainsi que les informations relatives à la TVA lorsque cela est nécessaire
+
+Nous ne recevons **pas** les données de paiement complètes telles que les informations de carte bancaire ou de compte bancaire.
 
 ---
 
@@ -66,12 +72,26 @@ Aucune mise en relation avec des données utilisateur n’a lieu.
 
 ---
 
+### 3.3 Newsletter et Zoho Campaigns
+
+Si vous vous inscrivez à notre newsletter, nous traitons notamment :
+
+- votre adresse e-mail
+- l’horodatage, l’adresse IP et la langue du consentement dans le cadre de la procédure de **double opt-in**
+- lorsque cela est légalement permis, des informations relatives à la distribution, à l’ouverture et aux clics des campagnes
+
+Les newsletters sont envoyées via **Zoho Campaigns** en utilisant des **serveurs situés dans l’UE**. L’inscription ne prend effet qu’après confirmation réussie du double opt-in. Vous pouvez vous désinscrire à tout moment pour l’avenir.
+
+---
+
 ## 4. Finalités du Traitement des Données
 
 Les données à caractère personnel sont traitées aux fins suivantes :
 
 - fourniture et exploitation de la plateforme
 - authentification des utilisateurs et contrôle des accès
+- gestion des accès numériques payants et des abonnements
+- envoi de newsletters et de communications marketing sur la base de votre consentement
 - sécurité du système et surveillance technique
 - respect des obligations légales
 
@@ -81,8 +101,9 @@ Les données à caractère personnel sont traitées aux fins suivantes :
 
 Le traitement est effectué sur la base des fondements juridiques suivants :
 
-- **Art. 6, par. 1, point b RGPD** – exécution de mesures précontractuelles / compte utilisateur
-- **Art. 6, par. 1, point f RGPD** – intérêt légitime (sécurité informatique, exploitation, prévention des abus)
+- **Art. 6, par. 1, point b RGPD** – exécution de mesures précontractuelles, gestion du compte utilisateur et fourniture de services numériques
+- **Art. 6, par. 1, point a RGPD** – consentement à l’envoi de la newsletter, à la preuve du double opt-in et à d’autres communications marketing
+- **Art. 6, par. 1, point f RGPD** – intérêt légitime (sécurité informatique, exploitation, prévention des abus et communication adaptée aux besoins)
 - **Art. 6, par. 1, point c RGPD** – obligations légales
 
 ---
@@ -192,7 +213,7 @@ La plateforme est hébergée auprès des fournisseurs suivants :
 - **Cloudflare** avec centre de données en **Allemagne (Francfort)**
 - **Hetzner Online GmbH** avec centres de données en **Allemagne (Falkenstein et Nuremberg)**
 
-Toutes les données à caractère personnel sont traitées **exclusivement en Allemagne**.
+Les données à caractère personnel liées à l’hébergement de la plateforme sont traitées **en Allemagne**.
 
 ---
 
@@ -200,6 +221,16 @@ Toutes les données à caractère personnel sont traitées **exclusivement en Al
 
 La plateforme est exploitée avec des fournisseurs externes d’hébergement et d’infrastructure.
 Des accords de traitement des données conformément à l’art. 28 RGPD ont été conclus avec Amazon Web Services (AWS), Cloudflare et Hetzner Online GmbH.
+
+Pour l’envoi de la newsletter, nous utilisons en outre **Zoho Campaigns** en tant que sous-traitant avec des **serveurs situés dans l’UE**. Un accord de traitement des données a également été conclu pour ce service.
+
+---
+
+### 10.3 Traitement des paiements via Merchant of Record
+
+Lorsque des services numériques payants sont vendus par l’intermédiaire d’un **Merchant of Record** indépendant, ce prestataire traite les données relatives au paiement sous sa propre responsabilité en matière de protection des données ou selon les rôles divulgués lors du paiement.
+
+Nous ne recevons du Merchant of Record que les données nécessaires à l’activation, à l’attribution et à la gestion de votre accès numérique.
 
 ---
 

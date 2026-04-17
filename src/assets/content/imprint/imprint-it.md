@@ -27,11 +27,11 @@ Hardenbergstraße 80, 04275 Leipzig, Germania
 
 ## Tipo di servizio
 
-Il servizio offerto è una piattaforma Software-as-a-Service (SaaS) gestita privatamente.
-Il servizio è attualmente in fase di sviluppo e viene gestito privatamente sotto il nome del fornitore.
+Il servizio offerto è una piattaforma Software-as-a-Service (SaaS) per funzioni digitali di ricerca, scoperta e analisi relative a contenuti storici e antiquariali.
 
-Attualmente **non è possibile acquistare prodotti o servizi a pagamento**.
-**Non si stipulano contratti con gli utenti**.
+I servizi digitali o gli abbonamenti a pagamento possono essere venduti a livello internazionale tramite un **Merchant of Record** indipendente, identificato separatamente durante il checkout. Tale soggetto gestisce in nome proprio, in particolare, l’elaborazione dei pagamenti, la fatturazione e gli adempimenti fiscali.
+
+Aura Historia rimane il fornitore della piattaforma digitale. I contratti per l’acquisto di specifici oggetti d’antiquariato o da collezione non vengono conclusi con Aura Historia ma, se del caso, con il relativo fornitore terzo indicato per l’articolo.
 
 ---
 

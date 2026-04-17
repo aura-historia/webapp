@@ -101,6 +101,14 @@ export function Footer() {
                                 </li>
                                 <li>
                                     <Link
+                                        to="/terms-and-conditions"
+                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                    >
+                                        {t("footer.terms")}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
                                         to="/consent-settings"
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
                                     >

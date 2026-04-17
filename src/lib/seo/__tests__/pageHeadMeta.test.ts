@@ -74,6 +74,19 @@ describe("pageHeadMeta", () => {
                 });
             });
 
+            it("should generate basic meta tags for terms page", () => {
+                const result = generatePageHeadMeta({ pageKey: "terms" });
+
+                expect(result.meta).toContainEqual({
+                    title: "AGB | Aura Historia",
+                });
+                expect(result.meta).toContainEqual({
+                    name: "description",
+                    content:
+                        "Allgemeine Geschäftsbedingungen für die Nutzung von Aura Historia sowie Informationen zu kostenpflichtigen Leistungen und Merchant-of-Record-Abwicklung.",
+                });
+            });
+
             it("should generate basic meta tags for account page without description", () => {
                 const result = generatePageHeadMeta({ pageKey: "account" });
 

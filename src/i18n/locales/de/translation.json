@@ -62,6 +62,10 @@
     },
     "shop": {
       "defaultName": "Shop"
+    },
+    "terms": {
+      "title": "AGB | Aura Historia",
+      "description": "Allgemeine Geschäftsbedingungen für die Nutzung von Aura Historia sowie Informationen zu kostenpflichtigen Leistungen und Merchant-of-Record-Abwicklung."
     }
   },
   "validation": {

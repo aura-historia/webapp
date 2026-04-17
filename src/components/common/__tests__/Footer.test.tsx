@@ -91,6 +91,7 @@ describe("Footer Component", () => {
     it("should render all navigation links with correct text", () => {
         expect(screen.getByText("Impressum")).toBeInTheDocument();
         expect(screen.getByText("Datenschutzerklärung")).toBeInTheDocument();
+        expect(screen.getByText("AGB")).toBeInTheDocument();
         expect(screen.getByText("Cookie-Einstellungen")).toBeInTheDocument();
     });
 
@@ -103,6 +104,10 @@ describe("Footer Component", () => {
         expect(screen.getByText("Datenschutzerklärung").closest("a")).toHaveAttribute(
             "href",
             "/privacy",
+        );
+        expect(screen.getByText("AGB").closest("a")).toHaveAttribute(
+            "href",
+            "/terms-and-conditions",
         );
         expect(screen.getByText("Cookie-Einstellungen").closest("a")).toHaveAttribute(
             "href",

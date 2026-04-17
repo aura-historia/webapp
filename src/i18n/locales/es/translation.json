@@ -62,6 +62,10 @@
     },
     "notifications": {
       "title": "Notificaciones | Aura Historia"
+    },
+    "terms": {
+      "title": "Términos y condiciones | Aura Historia",
+      "description": "Términos y condiciones para utilizar Aura Historia, incluida la información sobre servicios de pago y procesamiento mediante Merchant of Record."
     }
   },
   "validation": {

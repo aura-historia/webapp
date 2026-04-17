@@ -200,5 +200,12 @@ describe("Imprint Page Logic", () => {
                 expect(IMPRINT_LOCALE_MAP[key]).toContain("julian.bruder@aura-historia.com");
             }
         });
+
+        it("should mention Merchant of Record in all locales", () => {
+            const localeKeys = Object.keys(IMPRINT_LOCALE_MAP);
+            for (const key of localeKeys) {
+                expect(IMPRINT_LOCALE_MAP[key]).toContain("Merchant of Record");
+            }
+        });
     });
 });
