@@ -71,7 +71,6 @@ function RouteComponent() {
                                             </span>
                                         )}
                                     </div>
-                                    <div className="h-px w-32 bg-primary/20" />
                                 </div>
 
                                 {totalResults !== null && (
@@ -87,7 +86,7 @@ function RouteComponent() {
                                     />
                                 </div>
 
-                                <div className="mt-2 flex flex-row gap-2 lg:hidden">
+                                <div className="mt-2 flex flex-row justify-between w-full gap-2 lg:hidden">
                                     <Drawer direction="left">
                                         <DrawerTrigger asChild>
                                             <Button variant="filter">

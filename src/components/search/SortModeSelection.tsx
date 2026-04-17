@@ -24,9 +24,14 @@ export function SortModeSelection({ sortMode, updateSortMode, className }: SortM
     const { t } = useTranslation();
 
     return (
-        <div className={cn("flex flex-wrap items-center gap-x-4 gap-y-2", className)}>
-            <div className="flex items-center gap-3">
-                <span className="text-xs font-normal tracking-[0.1em] uppercase text-on-surface-variant/70">
+        <div
+            className={cn(
+                "flex flex-col sm:flex-row sm:flex-wrap items-center gap-x-4 sm:gap-y-2",
+                className,
+            )}
+        >
+            <div className="flex items-center gap-1 sm:gap-3">
+                <span className="text-[10px] sm:text-xs font-normal tracking-[0.1em] uppercase text-on-surface-variant/70">
                     {t("search.sortMode.sortBy")}
                 </span>
                 <Select
@@ -35,7 +40,7 @@ export function SortModeSelection({ sortMode, updateSortMode, className }: SortM
                     }}
                     value={sortMode.field}
                 >
-                    <SelectTrigger className="h-6 rounded-none border-0 bg-transparent p-0 pr-5 text-xs font-bold text-primary shadow-none hover:bg-transparent focus-visible:ring-0 dark:bg-transparent dark:hover:bg-transparent">
+                    <SelectTrigger className="h-6 rounded-none border-0 bg-transparent p-0 sm:pr-5 text-xs font-bold text-primary shadow-none hover:bg-transparent focus-visible:ring-0 dark:bg-transparent dark:hover:bg-transparent">
                         {t(getSortModeFieldLabel(sortMode.field))}
                     </SelectTrigger>
                     <SelectContent className="border-outline-variant">
@@ -50,8 +55,8 @@ export function SortModeSelection({ sortMode, updateSortMode, className }: SortM
                 </Select>
             </div>
 
-            <div className="flex items-center gap-3">
-                <span className="text-xs font-normal tracking-[0.1em] uppercase text-on-surface-variant/70">
+            <div className="flex items-center gap-1 sm:gap-3">
+                <span className="text-[10px] sm:text-xs font-normal tracking-[0.1em] uppercase text-on-surface-variant/70">
                     {t("search.sortMode.order.label")}
                 </span>
                 <Select
@@ -60,8 +65,8 @@ export function SortModeSelection({ sortMode, updateSortMode, className }: SortM
                     }}
                     value={sortMode.order}
                 >
-                    <SelectTrigger className="h-6 rounded-none border-0 bg-transparent p-0 pr-5 text-xs font-bold text-primary shadow-none hover:bg-transparent focus-visible:ring-0 dark:bg-transparent dark:hover:bg-transparent">
-                        <span className="inline-flex items-center gap-1.5">
+                    <SelectTrigger className="h-6 rounded-none border-0 bg-transparent p-0 sm:pr-5 text-xs font-bold text-primary shadow-none hover:bg-transparent focus-visible:ring-0 dark:bg-transparent dark:hover:bg-transparent">
+                        <span className="inline-flex items-center gap-1 sm:gap-1.5">
                             {sortMode.order === "ASC" ? (
                                 <SortAsc className="h-4 w-4" />
                             ) : (
