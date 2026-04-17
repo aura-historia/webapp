@@ -16,16 +16,15 @@ export default function PricingSection() {
         }
 
         const amount = tier.prices?.[currency];
-        const fallbackAmount = tier.prices?.EUR;
 
-        if (amount === undefined && fallbackAmount === undefined) {
+        if (amount === undefined) {
             return t("landingPage.pricing.comingSoon");
         }
 
         return new Intl.NumberFormat(i18n.language, {
             style: "currency",
             currency,
-        }).format(amount ?? fallbackAmount);
+        }).format(amount);
     };
 
     return (

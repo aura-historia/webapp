@@ -121,7 +121,7 @@ describe("PricingSection", () => {
 
     it("defines pricing for every supported currency on paid tiers", () => {
         for (const tier of PRICING_TIERS.filter((pricingTier) => pricingTier.prices)) {
-            expect(Object.keys(tier.prices ?? {})).toEqual(expect.arrayContaining(CURRENCIES));
+            expect(Object.keys(tier.prices ?? {})).toEqual(CURRENCIES);
         }
     });
 });
