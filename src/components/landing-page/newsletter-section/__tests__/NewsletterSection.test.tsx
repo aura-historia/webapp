@@ -63,8 +63,8 @@ describe("NewsletterSection", () => {
     });
 
     it("renders benefit items", () => {
-        expect(screen.getByText("Wöchentliche Highlights")).toBeInTheDocument();
-        expect(screen.getByText("Marktberichte & Trends")).toBeInTheDocument();
+        expect(screen.getByText("Persönliche Highlights")).toBeInTheDocument();
+        expect(screen.getByText("Neue Features & Angebote")).toBeInTheDocument();
         expect(screen.getByText("Jederzeit abbestellbar")).toBeInTheDocument();
     });
 

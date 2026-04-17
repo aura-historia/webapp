@@ -342,8 +342,7 @@ code {
 /* Labels above input fields */
 .amplify-passwordfield .amplify-label,
 .amplify-textfield .amplify-label,
-.amplify-field .amplify-label,
-label[data-slot="form-label"] {
+.amplify-field .amplify-label {
     @apply text-base font-medium;
     color: var(--amplify-colors-font-secondary);
 }
