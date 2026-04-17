@@ -1,6 +1,16 @@
 import PricingSection from "@/components/landing-page/pricing-section/PricingSection.tsx";
+import { PRICING_TIERS } from "@/components/landing-page/pricing-section/PricingSection.data.ts";
+import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
+import { vi } from "vitest";
+
+vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
+    useUserPreferences: () => ({
+        preferences: { currency: "EUR" },
+        updatePreferences: vi.fn(),
+    }),
+}));
 
 describe("PricingSection", () => {
     beforeEach(async () => {
@@ -22,7 +32,7 @@ describe("PricingSection", () => {
     });
 
     it("renders all three tier names", () => {
-        expect(screen.getByText("Kostenlos")).toBeInTheDocument();
+        expect(screen.getAllByText("Kostenlos")).toHaveLength(2);
         expect(screen.getByText("Pro")).toBeInTheDocument();
         expect(screen.getByText("Ultimate")).toBeInTheDocument();
     });
@@ -39,9 +49,24 @@ describe("PricingSection", () => {
         ).toBeInTheDocument();
     });
 
-    it("renders pricing placeholder for each tier", () => {
-        const comingSoonElements = screen.getAllByText("In Kürze");
-        expect(comingSoonElements).toHaveLength(3);
+    it("renders localized plan prices", () => {
+        expect(screen.getAllByText("Kostenlos")).toHaveLength(2);
+        const germanProPrice = new Intl.NumberFormat("de", {
+            style: "currency",
+            currency: "EUR",
+        }).format(13.9);
+        const germanUltimatePrice = new Intl.NumberFormat("de", {
+            style: "currency",
+            currency: "EUR",
+        }).format(34.9);
+
+        expect(
+            screen.getByText((_, element) => element?.textContent === germanProPrice),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText((_, element) => element?.textContent === germanUltimatePrice),
+        ).toBeInTheDocument();
+        expect(screen.getAllByText("monatlich inkl. MwSt.")).toHaveLength(3);
     });
 
     it("renders the most popular badge on the Pro tier", () => {
@@ -92,5 +117,11 @@ describe("PricingSection", () => {
         const listItem = aiAgentText.closest("li");
         expect(listItem?.className).toContain("font-semibold");
         expect(listItem?.className).toContain("text-primary");
+    });
+
+    it("defines pricing for every supported currency on paid tiers", () => {
+        for (const tier of PRICING_TIERS.filter((pricingTier) => pricingTier.prices)) {
+            expect(Object.keys(tier.prices ?? {})).toEqual(expect.arrayContaining(CURRENCIES));
+        }
     });
 });

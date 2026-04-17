@@ -6,7 +6,7 @@ This privacy policy informs, pursuant to Articles 13 and 14 of the General Data 
 
 Controller within the meaning of Art. 4 No. 7 GDPR:
 
-**Julian Bruder**  
+**Julian Bruder Einzelunternehmen**  
 (Trading as: Aura Historia)  
 Hardenbergstraße 80  
 04275 Leipzig  

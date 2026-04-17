@@ -4,7 +4,7 @@ I presenti Termini e Condizioni (i "Termini") disciplinano l'utilizzo dei serviz
 
 ## 1. Fornitore e ambito di applicazione
 
-Questi servizi sono offerti da **Julian Bruder**, operante con il nome commerciale **Aura Historia**, Hardenbergstraße 80, 04275 Lipsia, Germania ("Aura Historia", "noi"), come piattaforma software-as-a-service.
+Questi servizi sono offerti da **Julian Bruder Einzelunternehmen**, operante con il nome commerciale **Aura Historia**, Hardenbergstraße 80, 04275 Lipsia, Germania ("Aura Historia", "noi"), come piattaforma software-as-a-service.
 
 I presenti Termini si applicano all'utilizzo del nostro sito web, degli account utente e delle funzionalità e sottoscrizioni digitali, salvo diverso accordo espresso in singoli casi.
 

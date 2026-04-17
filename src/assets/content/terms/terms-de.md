@@ -4,7 +4,7 @@ Diese Allgemeinen Geschäftsbedingungen („AGB“) regeln die Nutzung der von A
 
 ## 1. Anbieter und Geltungsbereich
 
-Diese Dienste werden von **Julian Bruder**, handelnd unter **Aura Historia**, Hardenbergstraße 80, 04275 Leipzig, Deutschland („Aura Historia“, „wir“), als Software-as-a-Service-Plattform angeboten.
+Diese Dienste werden von **Julian Bruder Einzelunternehmen**, handelnd unter **Aura Historia**, Hardenbergstraße 80, 04275 Leipzig, Deutschland („Aura Historia“, „wir“), als Software-as-a-Service-Plattform angeboten.
 
 Diese AGB gelten für die Nutzung unserer Website, Nutzerkonten sowie digitaler Funktionen und Abonnements, soweit nicht im Einzelfall ausdrücklich etwas Abweichendes vereinbart wurde.
 

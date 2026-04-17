@@ -41,6 +41,10 @@ describe("Terms Component", () => {
         expect(screen.getByText(/Zoho Campaigns/i)).toBeInTheDocument();
     });
 
+    it("renders the provider legal form", () => {
+        expect(screen.getByText(/Julian Bruder Einzelunternehmen/)).toBeInTheDocument();
+    });
+
     it("renders API usage restrictions", () => {
         expect(screen.getByText(/API/i)).toBeInTheDocument();
     });
@@ -78,6 +82,12 @@ describe("Terms Page Logic", () => {
     it("contains API wording in all locales", () => {
         for (const content of Object.values(TERMS_LOCALE_MAP)) {
             expect(content).toContain("API");
+        }
+    });
+
+    it("contains the provider legal form in all locales", () => {
+        for (const content of Object.values(TERMS_LOCALE_MAP)) {
+            expect(content).toContain("Julian Bruder Einzelunternehmen");
         }
     });
 });

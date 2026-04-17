@@ -6,7 +6,7 @@ Diese Datenschutzerklärung informiert gemäß Art. 13 und 14 der Datenschutz-Gr
 
 Verantwortlicher im Sinne von Art. 4 Nr. 7 DSGVO:
 
-**Julian Bruder**  
+**Julian Bruder Einzelunternehmen**  
 (Betriebsbezeichnung: Aura Historia)  
 Hardenbergstraße 80  
 04275 Leipzig  

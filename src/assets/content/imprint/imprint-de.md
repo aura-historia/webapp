@@ -2,7 +2,7 @@ Angaben gemäß § 5 TMG und § 18 MStV
 
 ## Diensteanbieter
 
-**Inhaber:** Julian Bruder
+**Inhaber:** Julian Bruder Einzelunternehmen
 
 **Betriebsbezeichnung:** Aura Historia
 
@@ -18,7 +18,7 @@ Angaben gemäß § 5 TMG und § 18 MStV
 
 ## Verantwortlicher für den Inhalt gemäß § 18 Abs. 2 MStV
 
-Julian Bruder
+Julian Bruder Einzelunternehmen
 Hardenbergstraße 80, 04275 Leipzig, Deutschland
 
 *Dies gilt nicht für Inhalte aus externen Quellen, die über automatisierte Verfahren (Web-Scraping) oder durch Partner-Shop-Integrationen erfasst wurden.*

@@ -22,11 +22,11 @@ test.describe("Privacy Page", () => {
         await expect(title).toBeVisible();
     });
 
-    test("should display controller name Julian Bruder", async ({ page }) => {
+    test("should display controller name with legal form", async ({ page }) => {
         await page.goto("/privacy");
 
-        // Check for the data controller's full name
-        await expect(page.locator("text=Julian Bruder")).toBeVisible();
+        // Check for the data controller's full name including legal form
+        await expect(page.locator("text=Julian Bruder Einzelunternehmen")).toBeVisible();
     });
 
     test("should have proper heading hierarchy", async ({ page }) => {

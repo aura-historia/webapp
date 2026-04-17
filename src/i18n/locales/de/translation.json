@@ -1,6 +1,6 @@
 {
   "common": {
-    "auraHistoria": "Aura Historia (Preview)",
+    "auraHistoria": "Aura Historia",
     "infoButton": "Weitere Informationen"
   },
   "meta": {
@@ -667,7 +667,8 @@
           "searchType": "Hybridsuche (Textbasiert + Semantisch)",
           "aiAgent": "KI-Suchagent"
         }
-      }
+      },
+      "billingNote": "monatlich inkl. MwSt."
     }
   },
   "apiErrors": {

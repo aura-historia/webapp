@@ -36,11 +36,11 @@ test.describe("Imprint Page", () => {
         await expect(page.locator("text=Aura Historia")).toBeVisible();
     });
 
-    test("should display owner name Julian Bruder", async ({ page }) => {
+    test("should display owner name with legal form", async ({ page }) => {
         await page.goto("/imprint");
 
-        // Check for the owner's full name
-        await expect(page.locator("text=Julian Bruder")).toBeVisible();
+        // Check for the owner's full name including legal form
+        await expect(page.locator("text=Julian Bruder Einzelunternehmen")).toBeVisible();
     });
 
     test("should display contact information with email link", async ({
