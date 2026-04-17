@@ -2,7 +2,7 @@ Information according to § 5 TMG and § 18 MStV
 
 ## Service Provider
 
-**Owner:** Julian Bruder
+**Owner:** Julian Bruder Einzelunternehmen
 
 **Trade Name:** Aura Historia
 
@@ -18,7 +18,7 @@ Information according to § 5 TMG and § 18 MStV
 
 ## Responsible for Content (§ 18 para. 2 MStV)
 
-Julian Bruder
+Julian Bruder Einzelunternehmen
 Hardenbergstraße 80, 04275 Leipzig, Germany
 
 *This does not apply to content from external sources collected via automated procedures (web scraping) or through partner shop integrations.*

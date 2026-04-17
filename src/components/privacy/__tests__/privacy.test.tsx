@@ -30,7 +30,7 @@ describe("Privacy Component", () => {
     });
 
     it("renders the controller name", () => {
-        expect(screen.getByText(/Julian Bruder/)).toBeInTheDocument();
+        expect(screen.getByText(/Julian Bruder Einzelunternehmen/)).toBeInTheDocument();
     });
 
     it("renders content within a Card component", () => {
@@ -86,7 +86,7 @@ describe("Privacy Page Logic", () => {
         it("should contain controller name in all locales", () => {
             const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
             for (const key of localeKeys) {
-                expect(PRIVACY_LOCALE_MAP[key]).toContain("Julian Bruder");
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Julian Bruder Einzelunternehmen");
             }
         });
 
