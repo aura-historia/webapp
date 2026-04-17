@@ -4,7 +4,7 @@ These Terms & Conditions ("Terms") govern the use of the digital services provid
 
 ## 1. Provider and Scope
 
-These services are offered by **Julian Bruder**, trading as **Aura Historia**, Hardenbergstraße 80, 04275 Leipzig, Germany ("Aura Historia", "we", "us"), as a software-as-a-service platform.
+These services are offered by **Julian Bruder Einzelunternehmen**, trading as **Aura Historia**, Hardenbergstraße 80, 04275 Leipzig, Germany ("Aura Historia", "we", "us"), as a software-as-a-service platform.
 
 These Terms apply to the use of our website, user accounts, and digital features and subscriptions unless otherwise expressly agreed in an individual case.
 

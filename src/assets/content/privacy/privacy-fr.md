@@ -6,7 +6,7 @@ La présente politique de confidentialité informe, conformément aux articles 1
 
 Responsable au sens de l'art. 4, point 7 du RGPD :
 
-**Julian Bruder**  
+**Julian Bruder Einzelunternehmen**  
 (Nom commercial : Aura Historia)  
 Hardenbergstraße 80  
 04275 Leipzig  

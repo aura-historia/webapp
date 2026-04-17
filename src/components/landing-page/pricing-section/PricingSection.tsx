@@ -3,9 +3,29 @@ import { useTranslation } from "react-i18next";
 import { Check, Sparkles } from "lucide-react";
 import { SectionHeading } from "@/components/landing-page/common/SectionHeading.tsx";
 import { PRICING_TIERS } from "@/components/landing-page/pricing-section/PricingSection.data.ts";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 
 export default function PricingSection() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const { preferences } = useUserPreferences();
+    const currency = preferences.currency ?? "EUR";
+
+    const formatPrice = (tier: (typeof PRICING_TIERS)[number]) => {
+        if (tier.priceLabelKey) {
+            return t(tier.priceLabelKey);
+        }
+
+        const amount = tier.prices?.[currency];
+
+        if (amount === undefined) {
+            return t("landingPage.pricing.comingSoon");
+        }
+
+        return new Intl.NumberFormat(i18n.language, {
+            style: "currency",
+            currency,
+        }).format(amount);
+    };
 
     return (
         <section
@@ -44,8 +64,11 @@ export default function PricingSection() {
                                 </p>
                                 <div className="mt-6">
                                     <span className="font-display text-4xl font-normal text-foreground">
-                                        {t("landingPage.pricing.comingSoon")}
+                                        {formatPrice(tier)}
                                     </span>
+                                    <p className="mt-2 text-xs uppercase tracking-wide text-muted-foreground">
+                                        {t("landingPage.pricing.billingNote")}
+                                    </p>
                                 </div>
                             </CardHeader>
                             <CardContent className="flex flex-1 flex-col pt-4">

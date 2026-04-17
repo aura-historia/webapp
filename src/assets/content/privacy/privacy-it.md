@@ -6,7 +6,7 @@ La presente informativa sulla privacy informa, ai sensi degli articoli 13 e 14 d
 
 Titolare del trattamento ai sensi dell'art. 4 n. 7 GDPR:
 
-**Julian Bruder**  
+**Julian Bruder Einzelunternehmen**  
 (Nome commerciale: Aura Historia)  
 Hardenbergstraße 80  
 04275 Leipzig  

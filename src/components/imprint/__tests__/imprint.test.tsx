@@ -39,7 +39,7 @@ describe("Imprint Component", () => {
     });
 
     it("renders the owner name", () => {
-        const elements = screen.queryAllByText(/Julian Bruder/);
+        const elements = screen.queryAllByText(/Julian Bruder Einzelunternehmen/);
         expect(elements.length).toBeGreaterThan(0);
     });
 
@@ -190,7 +190,7 @@ describe("Imprint Page Logic", () => {
         it("should contain owner name in all locales", () => {
             const localeKeys = Object.keys(IMPRINT_LOCALE_MAP);
             for (const key of localeKeys) {
-                expect(IMPRINT_LOCALE_MAP[key]).toContain("Julian Bruder");
+                expect(IMPRINT_LOCALE_MAP[key]).toContain("Julian Bruder Einzelunternehmen");
             }
         });
 

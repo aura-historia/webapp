@@ -4,7 +4,7 @@ Estos Términos y Condiciones ("Términos") regulan el uso de los servicios digi
 
 ## 1. Proveedor y ámbito de aplicación
 
-Estos servicios son ofrecidos por **Julian Bruder**, que opera bajo el nombre comercial **Aura Historia**, Hardenbergstraße 80, 04275 Leipzig, Alemania ("Aura Historia", "nosotros"), como plataforma de software como servicio.
+Estos servicios son ofrecidos por **Julian Bruder Einzelunternehmen**, que opera bajo el nombre comercial **Aura Historia**, Hardenbergstraße 80, 04275 Leipzig, Alemania ("Aura Historia", "nosotros"), como plataforma de software como servicio.
 
 Estos Términos se aplican al uso de nuestro sitio web, cuentas de usuario y funciones y suscripciones digitales, salvo que se acuerde expresamente lo contrario en un caso individual.
 

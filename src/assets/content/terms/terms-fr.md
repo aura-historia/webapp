@@ -4,7 +4,7 @@ Les présentes Conditions générales (les « Conditions ») régissent l'utilis
 
 ## 1. Prestataire et champ d'application
 
-Ces services sont proposés par **Julian Bruder**, exerçant sous le nom commercial **Aura Historia**, Hardenbergstraße 80, 04275 Leipzig, Allemagne (« Aura Historia », « nous »), en tant que plateforme logicielle en mode SaaS.
+Ces services sont proposés par **Julian Bruder Einzelunternehmen**, exerçant sous le nom commercial **Aura Historia**, Hardenbergstraße 80, 04275 Leipzig, Allemagne (« Aura Historia », « nous »), en tant que plateforme logicielle en mode SaaS.
 
 Les présentes Conditions s'appliquent à l'utilisation de notre site web, des comptes utilisateurs ainsi que des fonctionnalités et abonnements numériques, sauf accord exprès contraire dans un cas particulier.
 
