@@ -180,7 +180,7 @@ export default function NewsletterSection() {
                                     <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                                         <FormControl>
                                             <Checkbox
-                                                checked={field.value === true}
+                                                checked={field.value}
                                                 onCheckedChange={field.onChange}
                                                 className="border-primary-foreground/50 data-[state=checked]:bg-primary-foreground data-[state=checked]:text-primary data-[state=checked]:border-primary-foreground mt-0.5"
                                             />
