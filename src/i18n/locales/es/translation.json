@@ -591,7 +591,8 @@
       "marketingConsent": "Quiero recibir actualizaciones, noticias y ofertas sobre Aura Historia.",
       "marketingConsentRequired": "Debe aceptar recibir nuestro boletín.",
       "emailRequired": "Por favor, introduzca una dirección de correo electrónico válida.",
-      "errorMessage": "Algo salió mal. Por favor, inténtelo de nuevo más tarde."
+      "errorMessage": "Algo salió mal. Por favor, inténtelo de nuevo más tarde.",
+      "eyebrow": "Boletín"
     },
     "faq": {
       "title": "Preguntas frecuentes",

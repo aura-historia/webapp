@@ -591,7 +591,8 @@
       "marketingConsent": "Je souhaite recevoir des mises à jour, des nouvelles et des offres concernant Aura Historia.",
       "marketingConsentRequired": "Vous devez accepter de recevoir notre newsletter.",
       "emailRequired": "Veuillez saisir une adresse e-mail valide.",
-      "errorMessage": "Une erreur s'est produite. Veuillez réessayer plus tard."
+      "errorMessage": "Une erreur s'est produite. Veuillez réessayer plus tard.",
+      "eyebrow": "Newsletter"
     },
     "faq": {
       "title": "Questions fréquentes",

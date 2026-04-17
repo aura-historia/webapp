@@ -591,7 +591,8 @@
       "marketingConsent": "Ich möchte Updates, Neuigkeiten und Angebote rund um Aura Historia erhalten.",
       "marketingConsentRequired": "Sie müssen dem Erhalt unseres Newsletters zustimmen.",
       "emailRequired": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
-      "errorMessage": "Etwas ist schiefgelaufen. Bitte versuchen Sie es später erneut."
+      "errorMessage": "Etwas ist schiefgelaufen. Bitte versuchen Sie es später erneut.",
+      "eyebrow": "Newsletter"
     },
     "faq": {
       "title": "Häufig gestellte Fragen",
