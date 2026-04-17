@@ -6,6 +6,8 @@ import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
 import { FilterCard } from "./FilterCard.tsx";
+import { CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 10_000;
@@ -13,6 +15,8 @@ const PRICE_MAX = 10_000;
 export function PriceSpanFilter() {
     const { control, watch, setValue } = useFormContext<FilterSchema>();
     const { t } = useTranslation();
+    const { preferences } = useUserPreferences();
+
     const resetAndNavigate = useFilterNavigation();
 
     const watchedMin = watch("priceSpan.min");
@@ -21,6 +25,8 @@ export function PriceSpanFilter() {
 
     const sliderMin = typeof watchedMin === "number" ? watchedMin : PRICE_MIN;
     const sliderMax = typeof watchedMax === "number" ? watchedMax : PRICE_MAX;
+
+    const currencySymbol = CURRENCY_SYMBOLS[preferences.currency];
 
     // Prevent unnecessary form writes when slider values haven't logically changed
     const lastSlider = useRef<[number, number]>([sliderMin, sliderMax]);
@@ -110,7 +116,9 @@ export function PriceSpanFilter() {
                             />
                         )}
                     />
-                    <span className="text-xs uppercase text-on-surface-variant">€</span>
+                    <span className="text-xs uppercase text-on-surface-variant">
+                        {currencySymbol}
+                    </span>
                     <span className="text-on-surface-variant">-</span>
                     <Controller
                         name="priceSpan.max"
@@ -136,7 +144,9 @@ export function PriceSpanFilter() {
                             />
                         )}
                     />
-                    <span className="text-xs uppercase text-on-surface-variant">€</span>
+                    <span className="text-xs uppercase text-on-surface-variant">
+                        {currencySymbol}
+                    </span>
                 </div>
             </div>
         </FilterCard>
