@@ -43,7 +43,7 @@ Bei der Registrierung eines Nutzerkontos werden ausschließlich folgende persone
 - Bevorzugte Sprache (optional, zur Personalisierung)
 - Bevorzugte Währung (optional, zur Personalisierung)
 
-Sofern kostenpflichtige digitale Leistungen gebucht werden, verarbeiten wir zusätzlich – soweit vom eingesetzten **Merchant of Record** übermittelt – insbesondere:
+Sofern kostenpflichtige digitale Leistungen gebucht werden, verarbeiten wir zusätzlich – soweit von [Lemon Squeezy](https://www.lemonsqueezy.com/) als eingesetztem **Merchant of Record** übermittelt – insbesondere:
 
 - Bestell-, Transaktions- oder Kundenkennungen
 - Abonnementstatus, Laufzeit und Verlängerungsinformationen
@@ -226,11 +226,11 @@ Für den Newsletter-Versand setzen wir zusätzlich **Zoho Campaigns** als Auftra
 
 ---
 
-### 10.3 Zahlungsabwicklung über Merchant of Record
+### 10.3 Zahlungsabwicklung über Lemon Squeezy als Merchant of Record
 
-Soweit kostenpflichtige digitale Leistungen über einen unabhängigen **Merchant of Record** verkauft werden, verarbeitet dieser zahlungsbezogene Daten grundsätzlich in eigener datenschutzrechtlicher Verantwortlichkeit oder nach den im Checkout offen gelegten Rollen.
+Soweit kostenpflichtige digitale Leistungen über [Lemon Squeezy](https://www.lemonsqueezy.com/) als unabhängigen **Merchant of Record** verkauft werden, verarbeitet Lemon Squeezy zahlungsbezogene Daten grundsätzlich in eigener datenschutzrechtlicher Verantwortlichkeit oder nach den im Checkout offen gelegten Rollen.
 
-Wir erhalten vom Merchant of Record lediglich diejenigen Daten, die zur Aktivierung, Zuordnung und Verwaltung Ihres digitalen Zugangs erforderlich sind.
+Wir erhalten von Lemon Squeezy lediglich diejenigen Daten, die zur Aktivierung, Zuordnung und Verwaltung Ihres digitalen Zugangs erforderlich sind.
 
 ---
 

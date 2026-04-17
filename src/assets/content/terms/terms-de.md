@@ -40,18 +40,18 @@ Sie haften für Aktivitäten, die über Ihr Konto erfolgen, soweit Sie die missb
 
 ---
 
-## 4. Vertragsschluss, kostenpflichtige Leistungen und Merchant of Record
+## 4. Vertragsschluss, kostenpflichtige Leistungen und Lemon Squeezy als Merchant of Record
 
-Soweit kostenpflichtige digitale Leistungen angeboten werden, kann der Verkauf international über einen **unabhängigen Merchant of Record** abgewickelt werden, der im Checkout-Prozess gesondert benannt wird.
+Soweit kostenpflichtige digitale Leistungen angeboten werden, kann der Verkauf international über [Lemon Squeezy](https://www.lemonsqueezy.com/) als unabhängigen **Merchant of Record** abgewickelt werden, der im Checkout-Prozess gesondert benannt wird.
 
 In diesem Fall gilt:
 
-- der Vertrag über die **zahlungspflichtige Bestellung, Abrechnung, Rechnungsstellung sowie die Abführung von Umsatzsteuer / Sales Tax** kommt mit dem im Checkout ausgewiesenen Merchant of Record zustande,
-- der Merchant of Record handelt insoweit im eigenen Namen und auf eigene Rechnung,
+- der Vertrag über die **zahlungspflichtige Bestellung, Abrechnung, Rechnungsstellung sowie die Abführung von Umsatzsteuer / Sales Tax** kommt mit Lemon Squeezy als im Checkout ausgewiesenem Merchant of Record zustande,
+- Lemon Squeezy handelt insoweit im eigenen Namen und auf eigene Rechnung,
 - Aura Historia bleibt Anbieter der digitalen Plattform und der digitalen Inhalte bzw. Zugänge,
-- wir erhalten vom Merchant of Record nur diejenigen Informationen, die zur Aktivierung, Verwaltung und Zuordnung Ihres Zugangs erforderlich sind.
+- wir erhalten von Lemon Squeezy nur diejenigen Informationen, die zur Aktivierung, Verwaltung und Zuordnung Ihres Zugangs erforderlich sind.
 
-Soweit kein gesonderter Merchant of Record eingesetzt wird, kommt der Vertrag unmittelbar mit Aura Historia zustande.
+Soweit in einem konkreten Checkout-Prozess nicht Lemon Squeezy eingesetzt wird, kommt der Vertrag unmittelbar mit Aura Historia zustande.
 
 ---
 
@@ -59,7 +59,7 @@ Soweit kein gesonderter Merchant of Record eingesetzt wird, kommt der Vertrag un
 
 Etwaige Preise, Abrechnungsintervalle, Verlängerungsmodalitäten und enthaltene Leistungen werden Ihnen vor Abschluss einer kostenpflichtigen Bestellung angezeigt.
 
-Soweit ein Merchant of Record eingesetzt wird, erfolgen:
+Soweit Lemon Squeezy als Merchant of Record eingesetzt wird, erfolgen:
 
 - Zahlungsabwicklung,
 - Rechnungsstellung,
@@ -93,6 +93,8 @@ Insbesondere unzulässig sind:
 - Handlungen, die die Sicherheit, Integrität oder Verfügbarkeit der Plattform beeinträchtigen.
 
 Wir sind berechtigt, bei Verdacht auf einen Verstoß angemessene technische und organisatorische Maßnahmen zu ergreifen, einschließlich Sperrung einzelner Funktionen oder Konten.
+
+Sofern wir eine API, Entwickler-Schnittstelle, Export-Funktion, Webhooks oder einen vergleichbaren maschinenlesbaren Zugang bereitstellen, dürfen Sie diesen ausschließlich im von uns ausdrücklich erlaubten Umfang nutzen. Insbesondere sind die jeweils geltende Dokumentation, Authentifizierungsanforderungen, Nutzungsgrenzen und Rate Limits einzuhalten; eine missbräuchliche Massenabfrage, ein Weiterverkauf, ein Competitive Monitoring, die Umgehung von Sicherheitsmechanismen oder eine Nutzung, die die Plattform oder Drittsysteme beeinträchtigen kann, sind unzulässig. Wir dürfen API-Zugänge jederzeit drosseln, sperren oder widerrufen, soweit dies aus Gründen der Sicherheit, Stabilität, Rechtskonformität oder Missbrauchsprävention erforderlich ist.
 
 ---
 

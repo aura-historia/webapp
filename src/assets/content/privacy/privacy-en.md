@@ -43,7 +43,7 @@ When registering a user account, only the following personal data are processed:
 - preferred language (optional, for personalization)
 - preferred currency (optional, for personalization)
 
-Where paid digital services are booked, we additionally process, to the extent transmitted by the chosen **Merchant of Record**, in particular:
+Where paid digital services are booked, we additionally process, to the extent transmitted by [Lemon Squeezy](https://www.lemonsqueezy.com/) as the chosen **Merchant of Record**, in particular:
 
 - order, transaction, or customer identifiers
 - subscription status, term, and renewal information
@@ -226,11 +226,11 @@ For newsletter delivery, we additionally use **Zoho Campaigns** as a processor w
 
 ---
 
-### 10.3 Payment Processing via Merchant of Record
+### 10.3 Payment Processing via Lemon Squeezy as Merchant of Record
 
-Where paid digital services are sold through an independent **Merchant of Record**, that provider processes payment-related data under its own data protection responsibility or under the roles disclosed during checkout.
+Where paid digital services are sold through [Lemon Squeezy](https://www.lemonsqueezy.com/) as the independent **Merchant of Record**, Lemon Squeezy processes payment-related data under its own data protection responsibility or under the roles disclosed during checkout.
 
-We receive from the Merchant of Record only the data required to activate, assign, and manage your digital access.
+We receive from Lemon Squeezy only the data required to activate, assign, and manage your digital access.
 
 ---
 

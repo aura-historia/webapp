@@ -114,12 +114,12 @@ describe("Privacy Page Logic", () => {
             }
         });
 
-        it("should mention Zoho Campaigns and Merchant of Record in all locales", () => {
+        it("should mention Zoho Campaigns and Lemon Squeezy in all locales", () => {
             const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
 
             for (const key of localeKeys) {
                 expect(PRIVACY_LOCALE_MAP[key]).toContain("Zoho Campaigns");
-                expect(PRIVACY_LOCALE_MAP[key]).toContain("Merchant of Record");
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Lemon Squeezy");
             }
         });
 

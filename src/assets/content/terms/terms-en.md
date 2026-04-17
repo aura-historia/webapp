@@ -40,18 +40,18 @@ You are responsible for activities carried out through your account to the exten
 
 ---
 
-## 4. Contract Formation, Paid Services, and Merchant of Record
+## 4. Contract Formation, Paid Services, and Lemon Squeezy as Merchant of Record
 
-Where paid digital services are offered, sales may be processed internationally through an **independent Merchant of Record** identified separately during checkout.
+Where paid digital services are offered, sales may be processed internationally through [Lemon Squeezy](https://www.lemonsqueezy.com/) as the independent **Merchant of Record**, identified separately during checkout.
 
 In that case:
 
-- the contract for the **paid order, billing, invoicing, and remittance of VAT / sales tax** is concluded with the Merchant of Record shown at checkout,
-- the Merchant of Record acts in its own name and for its own account for that transaction,
+- the contract for the **paid order, billing, invoicing, and remittance of VAT / sales tax** is concluded with Lemon Squeezy as the Merchant of Record shown at checkout,
+- Lemon Squeezy acts in its own name and for its own account for that transaction,
 - Aura Historia remains the provider of the digital platform and the digital content or access itself, and
-- we receive from the Merchant of Record only the information required to activate, administer, and allocate your access.
+- we receive from Lemon Squeezy only the information required to activate, administer, and allocate your access.
 
-If no separate Merchant of Record is used, the contract is concluded directly with Aura Historia.
+If Lemon Squeezy is not used in an individual checkout flow, the contract is concluded directly with Aura Historia.
 
 ---
 
@@ -59,7 +59,7 @@ If no separate Merchant of Record is used, the contract is concluded directly wi
 
 Any prices, billing intervals, renewal mechanics, and included services will be shown to you before you place a paid order.
 
-Where a Merchant of Record is used, the following are handled under its checkout terms and policies, to the extent legally permissible:
+Where Lemon Squeezy is used as Merchant of Record, the following are handled under its checkout terms and policies, to the extent legally permissible:
 
 - payment processing,
 - invoicing,
@@ -91,6 +91,8 @@ In particular, the following are prohibited:
 - actions that impair the security, integrity, or availability of the platform.
 
 Where we reasonably suspect a violation, we may take appropriate technical and organizational measures, including restricting functions or suspending accounts.
+
+If we make an API, developer interface, export endpoint, webhook, or similar machine-readable access path available, you may use it only as expressly authorized by us. In particular, you must comply with the applicable documentation, authentication requirements, usage caps, and rate limits, and you may not use such access for abusive bulk collection, resale, competitive monitoring, security circumvention, or any activity that could impair the platform or third-party systems. We may throttle, suspend, or revoke API access at any time where this is necessary for security, stability, legal compliance, or abuse prevention.
 
 ---
 

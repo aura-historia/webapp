@@ -40,18 +40,18 @@ Vous êtes responsable des activités effectuées via votre compte dans la mesur
 
 ---
 
-## 4. Conclusion du contrat, services payants et Merchant of Record
+## 4. Conclusion du contrat, services payants et Lemon Squeezy en tant que Merchant of Record
 
-Lorsque des services numériques payants sont proposés, les ventes peuvent être traitées à l'international par un **Merchant of Record indépendant**, identifié séparément lors du paiement.
+Lorsque des services numériques payants sont proposés, les ventes peuvent être traitées à l'international par [Lemon Squeezy](https://www.lemonsqueezy.com/) en tant que **Merchant of Record** indépendant, identifié séparément lors du paiement.
 
 Dans ce cas :
 
-- le contrat relatif à la **commande payante, à la facturation, à l'émission de la facture et au reversement de la TVA / taxe sur les ventes** est conclu avec le Merchant of Record indiqué lors du paiement,
-- le Merchant of Record agit en son propre nom et pour son propre compte pour cette transaction,
+- le contrat relatif à la **commande payante, à la facturation, à l'émission de la facture et au reversement de la TVA / taxe sur les ventes** est conclu avec Lemon Squeezy en tant que Merchant of Record indiqué lors du paiement,
+- Lemon Squeezy agit en son propre nom et pour son propre compte pour cette transaction,
 - Aura Historia demeure le fournisseur de la plateforme numérique ainsi que du contenu ou de l'accès numérique lui-même, et
-- nous ne recevons du Merchant of Record que les informations nécessaires à l'activation, à l'administration et à l'attribution de votre accès.
+- nous ne recevons de Lemon Squeezy que les informations nécessaires à l'activation, à l'administration et à l'attribution de votre accès.
 
-Si aucun Merchant of Record distinct n'est utilisé, le contrat est conclu directement avec Aura Historia.
+Si Lemon Squeezy n'est pas utilisé dans un flux de paiement déterminé, le contrat est conclu directement avec Aura Historia.
 
 ---
 
@@ -59,7 +59,7 @@ Si aucun Merchant of Record distinct n'est utilisé, le contrat est conclu direc
 
 Les prix, périodes de facturation, mécanismes de renouvellement et services inclus éventuels vous sont communiqués avant la passation d'une commande payante.
 
-Lorsqu'un Merchant of Record est utilisé, les éléments suivants sont traités selon ses conditions et politiques de paiement, dans la mesure permise par la loi :
+Lorsque Lemon Squeezy est utilisé en tant que Merchant of Record, les éléments suivants sont traités selon ses conditions et politiques de paiement, dans la mesure permise par la loi :
 
 - le traitement du paiement,
 - la facturation,
@@ -91,6 +91,8 @@ Sont notamment interdits :
 - toute action portant atteinte à la sécurité, à l'intégrité ou à la disponibilité de la plateforme.
 
 En cas de soupçon raisonnable de violation, nous pouvons prendre des mesures techniques et organisationnelles appropriées, y compris restreindre des fonctionnalités ou suspendre des comptes.
+
+Si nous mettons à disposition une API, une interface développeur, une fonction d'export, des webhooks ou un autre mode d'accès lisible par machine, vous ne pouvez l'utiliser que dans la mesure expressément autorisée par nous. Vous devez notamment respecter la documentation applicable, les exigences d'authentification, les plafonds d'usage et les limites de débit, et vous ne pouvez pas utiliser cet accès pour une collecte massive abusive, la revente, une veille concurrentielle, le contournement de mesures de sécurité ou toute activité susceptible de porter atteinte à la plateforme ou à des systèmes tiers. Nous pouvons limiter, suspendre ou révoquer l'accès à l'API à tout moment lorsque cela est nécessaire pour des raisons de sécurité, de stabilité, de conformité juridique ou de prévention des abus.
 
 ---
 

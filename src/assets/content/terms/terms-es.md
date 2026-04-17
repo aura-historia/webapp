@@ -40,18 +40,18 @@ Usted es responsable de las actividades realizadas a través de su cuenta en la 
 
 ---
 
-## 4. Formación del contrato, servicios de pago y Merchant of Record
+## 4. Formación del contrato, servicios de pago y Lemon Squeezy como Merchant of Record
 
-Cuando se ofrezcan servicios digitales de pago, las ventas podrán procesarse internacionalmente a través de un **Merchant of Record independiente** identificado por separado durante el proceso de compra.
+Cuando se ofrezcan servicios digitales de pago, las ventas podrán procesarse internacionalmente a través de [Lemon Squeezy](https://www.lemonsqueezy.com/) como **Merchant of Record** independiente identificado por separado durante el proceso de compra.
 
 En ese caso:
 
-- el contrato relativo al **pedido de pago, la facturación, la emisión de facturas y la liquidación del IVA / impuesto sobre ventas** se celebra con el Merchant of Record indicado en la compra,
-- el Merchant of Record actúa en su propio nombre y por cuenta propia para dicha transacción,
+- el contrato relativo al **pedido de pago, la facturación, la emisión de facturas y la liquidación del IVA / impuesto sobre ventas** se celebra con Lemon Squeezy como Merchant of Record indicado en la compra,
+- Lemon Squeezy actúa en su propio nombre y por cuenta propia para dicha transacción,
 - Aura Historia sigue siendo el proveedor de la plataforma digital y del propio contenido o acceso digital, y
-- solo recibimos del Merchant of Record la información necesaria para activar, administrar y asignar su acceso.
+- solo recibimos de Lemon Squeezy la información necesaria para activar, administrar y asignar su acceso.
 
-Si no se utiliza un Merchant of Record independiente, el contrato se celebra directamente con Aura Historia.
+Si en un flujo de compra concreto no se utiliza Lemon Squeezy, el contrato se celebra directamente con Aura Historia.
 
 ---
 
@@ -59,7 +59,7 @@ Si no se utiliza un Merchant of Record independiente, el contrato se celebra dir
 
 Antes de realizar un pedido de pago se le mostrarán los precios, los intervalos de facturación, la mecánica de renovación y los servicios incluidos.
 
-Cuando se utilice un Merchant of Record, lo siguiente se gestionará conforme a sus condiciones y políticas de compra, en la medida legalmente permitida:
+Cuando se utilice Lemon Squeezy como Merchant of Record, lo siguiente se gestionará conforme a sus condiciones y políticas de compra, en la medida legalmente permitida:
 
 - el procesamiento del pago,
 - la facturación,
@@ -91,6 +91,8 @@ En particular, está prohibido:
 - realizar acciones que perjudiquen la seguridad, la integridad o la disponibilidad de la plataforma.
 
 Si sospechamos razonablemente una infracción, podremos adoptar medidas técnicas y organizativas adecuadas, incluida la limitación de funciones o la suspensión de cuentas.
+
+Si ponemos a disposición una API, una interfaz para desarrolladores, una función de exportación, webhooks o una vía de acceso legible por máquinas similar, solo podrá utilizarla en la medida expresamente autorizada por nosotros. En particular, deberá cumplir la documentación aplicable, los requisitos de autenticación, los límites de uso y de velocidad, y no podrá emplear dicho acceso para recopilación masiva abusiva, reventa, vigilancia competitiva, elusión de medidas de seguridad o actividades que puedan perjudicar la plataforma o sistemas de terceros. Podremos limitar, suspender o revocar el acceso a la API en cualquier momento cuando ello sea necesario por motivos de seguridad, estabilidad, cumplimiento legal o prevención de abusos.
 
 ---
 

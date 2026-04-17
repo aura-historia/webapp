@@ -29,7 +29,7 @@ Hardenbergstraße 80, 04275 Leipzig, Germania
 
 Il servizio offerto è una piattaforma Software-as-a-Service (SaaS) per funzioni digitali di ricerca, scoperta e analisi relative a contenuti storici e antiquariali.
 
-I servizi digitali o gli abbonamenti a pagamento possono essere venduti a livello internazionale tramite un **Merchant of Record** indipendente, identificato separatamente durante il checkout. Tale soggetto gestisce in nome proprio, in particolare, l’elaborazione dei pagamenti, la fatturazione e gli adempimenti fiscali.
+I servizi digitali o gli abbonamenti a pagamento possono essere venduti a livello internazionale tramite [Lemon Squeezy](https://www.lemonsqueezy.com/) come **Merchant of Record** indipendente, identificato separatamente durante il checkout. Lemon Squeezy gestisce in nome proprio, in particolare, l’elaborazione dei pagamenti, la fatturazione e gli adempimenti fiscali.
 
 Aura Historia rimane il fornitore della piattaforma digitale. I contratti per l’acquisto di specifici oggetti d’antiquariato o da collezione non vengono conclusi con Aura Historia ma, se del caso, con il relativo fornitore terzo indicato per l’articolo.
 

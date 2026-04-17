@@ -29,16 +29,20 @@ describe("Terms Component", () => {
         expect(screen.getByText("AGB")).toBeInTheDocument();
     });
 
-    it("renders the merchant of record section", () => {
+    it("renders the Lemon Squeezy section", () => {
         expect(
             screen.getByRole("heading", {
-                name: /Vertragsschluss, kostenpflichtige Leistungen und Merchant of Record/i,
+                name: /Vertragsschluss, kostenpflichtige Leistungen und Lemon Squeezy als Merchant of Record/i,
             }),
         ).toBeInTheDocument();
     });
 
     it("renders Zoho Campaigns content", () => {
         expect(screen.getByText(/Zoho Campaigns/i)).toBeInTheDocument();
+    });
+
+    it("renders API usage restrictions", () => {
+        expect(screen.getByText(/API/i)).toBeInTheDocument();
     });
 
     it("renders content within a Card component", () => {
@@ -59,15 +63,21 @@ describe("Terms Page Logic", () => {
         expect(content).toBe(TERMS_LOCALE_MAP.en);
     });
 
-    it("contains Merchant of Record wording in all locales", () => {
+    it("contains Lemon Squeezy wording in all locales", () => {
         for (const content of Object.values(TERMS_LOCALE_MAP)) {
-            expect(content).toContain("Merchant of Record");
+            expect(content).toContain("Lemon Squeezy");
         }
     });
 
     it("contains Zoho Campaigns wording in all locales", () => {
         for (const content of Object.values(TERMS_LOCALE_MAP)) {
             expect(content).toContain("Zoho Campaigns");
+        }
+    });
+
+    it("contains API wording in all locales", () => {
+        for (const content of Object.values(TERMS_LOCALE_MAP)) {
+            expect(content).toContain("API");
         }
     });
 });

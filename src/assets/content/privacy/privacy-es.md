@@ -43,7 +43,7 @@ Al registrar una cuenta de usuario, se tratan exclusivamente los siguientes dato
 - idioma preferido (opcional, para personalización)
 - moneda preferida (opcional, para personalización)
 
-Cuando se contratan servicios digitales de pago, tratamos además, en la medida en que los transmita el **Merchant of Record** elegido, en particular:
+Cuando se contratan servicios digitales de pago, tratamos además, en la medida en que los transmita [Lemon Squeezy](https://www.lemonsqueezy.com/) como **Merchant of Record** elegido, en particular:
 
 - identificadores de pedido, transacción o cliente
 - estado de la suscripción, duración e información de renovación
@@ -226,11 +226,11 @@ Para el envío del boletín utilizamos además **Zoho Campaigns** como encargado
 
 ---
 
-### 10.3 Procesamiento de pagos mediante Merchant of Record
+### 10.3 Procesamiento de pagos mediante Lemon Squeezy como Merchant of Record
 
-Cuando los servicios digitales de pago se venden a través de un **Merchant of Record** independiente, dicho proveedor trata los datos relacionados con el pago bajo su propia responsabilidad en materia de protección de datos o conforme a las funciones reveladas durante el checkout.
+Cuando los servicios digitales de pago se venden a través de [Lemon Squeezy](https://www.lemonsqueezy.com/) como **Merchant of Record** independiente, Lemon Squeezy trata los datos relacionados con el pago bajo su propia responsabilidad en materia de protección de datos o conforme a las funciones reveladas durante el checkout.
 
-Solo recibimos del Merchant of Record los datos necesarios para activar, asignar y gestionar su acceso digital.
+Solo recibimos de Lemon Squeezy los datos necesarios para activar, asignar y gestionar su acceso digital.
 
 ---
 
