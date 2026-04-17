@@ -582,7 +582,16 @@
       "successMessage": "Thank you for subscribing! Please confirm your email address.",
       "benefit1": "Weekly highlights",
       "benefit2": "Market reports & trends",
-      "benefit3": "Unsubscribe anytime"
+      "benefit3": "Unsubscribe anytime",
+      "firstNameLabel": "First Name",
+      "firstNamePlaceholder": "Your first name",
+      "lastNameLabel": "Last Name",
+      "lastNamePlaceholder": "Your last name",
+      "emailLabel": "Email Address",
+      "marketingConsent": "I want to receive updates, news, and offers regarding Aura Historia.",
+      "marketingConsentRequired": "You must agree to receive our newsletter.",
+      "emailRequired": "Please enter a valid email address.",
+      "errorMessage": "Something went wrong. Please try again later."
     },
     "faq": {
       "title": "Frequently Asked Questions",

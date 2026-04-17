@@ -582,7 +582,16 @@
       "successMessage": "¡Gracias por suscribirse! Por favor, confirme su dirección de correo electrónico.",
       "benefit1": "Destacados semanales",
       "benefit2": "Informes de mercado y tendencias",
-      "benefit3": "Cancelar en cualquier momento"
+      "benefit3": "Cancelar en cualquier momento",
+      "firstNameLabel": "Nombre",
+      "firstNamePlaceholder": "Su nombre",
+      "lastNameLabel": "Apellido",
+      "lastNamePlaceholder": "Su apellido",
+      "emailLabel": "Dirección de correo electrónico",
+      "marketingConsent": "Quiero recibir actualizaciones, noticias y ofertas sobre Aura Historia.",
+      "marketingConsentRequired": "Debe aceptar recibir nuestro boletín.",
+      "emailRequired": "Por favor, introduzca una dirección de correo electrónico válida.",
+      "errorMessage": "Algo salió mal. Por favor, inténtelo de nuevo más tarde."
     },
     "faq": {
       "title": "Preguntas frecuentes",

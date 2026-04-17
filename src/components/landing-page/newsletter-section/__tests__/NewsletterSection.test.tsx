@@ -1,0 +1,93 @@
+import NewsletterSection from "@/components/landing-page/newsletter-section/NewsletterSection.tsx";
+import { renderWithRouter } from "@/test/utils.tsx";
+import { act, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
+vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
+    putNewsletterSubscriptionMutation: () => ({
+        mutationFn: vi.fn().mockResolvedValue(undefined),
+    }),
+}));
+
+describe("NewsletterSection", () => {
+    beforeEach(async () => {
+        await act(async () => {
+            renderWithRouter(<NewsletterSection />);
+        });
+    });
+
+    it("renders the section heading", () => {
+        expect(screen.getByText("Bleiben Sie informiert")).toBeInTheDocument();
+    });
+
+    it("renders the section description", () => {
+        expect(
+            screen.getByText(
+                "Erhalten Sie wöchentlich ausgewählte Fundstücke, Markttrends und exklusive Einblicke direkt in Ihr Postfach.",
+            ),
+        ).toBeInTheDocument();
+    });
+
+    it("renders the email input field", () => {
+        expect(screen.getByPlaceholderText("Ihre E-Mail-Adresse")).toBeInTheDocument();
+    });
+
+    it("renders the first name input field", () => {
+        expect(screen.getByPlaceholderText("Ihr Vorname")).toBeInTheDocument();
+    });
+
+    it("renders the last name input field", () => {
+        expect(screen.getByPlaceholderText("Ihr Nachname")).toBeInTheDocument();
+    });
+
+    it("renders the marketing consent checkbox", () => {
+        expect(
+            screen.getByText(
+                "Ich möchte Updates, Neuigkeiten und Angebote rund um Aura Historia erhalten.",
+            ),
+        ).toBeInTheDocument();
+    });
+
+    it("renders the subscribe button", () => {
+        expect(screen.getByRole("button", { name: "Anmelden" })).toBeInTheDocument();
+    });
+
+    it("renders benefit items", () => {
+        expect(screen.getByText("Wöchentliche Highlights")).toBeInTheDocument();
+        expect(screen.getByText("Marktberichte & Trends")).toBeInTheDocument();
+        expect(screen.getByText("Jederzeit abbestellbar")).toBeInTheDocument();
+    });
+
+    it("renders the privacy notice", () => {
+        expect(
+            screen.getByText(
+                "Mit der Anmeldung stimmen Sie unserer Datenschutzerklärung zu. Sie können sich jederzeit abmelden.",
+            ),
+        ).toBeInTheDocument();
+    });
+
+    it("shows validation error when submitting without email", async () => {
+        const user = userEvent.setup();
+
+        await user.click(screen.getByRole("button", { name: "Anmelden" }));
+
+        await waitFor(() => {
+            expect(
+                screen.getByText("Bitte geben Sie eine gültige E-Mail-Adresse ein."),
+            ).toBeInTheDocument();
+        });
+    });
+
+    it("shows validation error when submitting without marketing consent", async () => {
+        const user = userEvent.setup();
+
+        await user.type(screen.getByPlaceholderText("Ihre E-Mail-Adresse"), "test@example.com");
+        await user.click(screen.getByRole("button", { name: "Anmelden" }));
+
+        await waitFor(() => {
+            expect(
+                screen.getByText("Sie müssen dem Erhalt unseres Newsletters zustimmen."),
+            ).toBeInTheDocument();
+        });
+    });
+});
