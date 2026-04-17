@@ -62,6 +62,10 @@
     },
     "notifications": {
       "title": "Notifiche | Aura Historia"
+    },
+    "terms": {
+      "title": "Termini e condizioni | Aura Historia",
+      "description": "Termini e condizioni per l'utilizzo di Aura Historia, comprese le informazioni sui servizi a pagamento e Lemon Squeezy come Merchant of Record."
     }
   },
   "validation": {
