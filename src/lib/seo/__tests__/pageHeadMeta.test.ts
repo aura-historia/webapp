@@ -83,7 +83,7 @@ describe("pageHeadMeta", () => {
                 expect(result.meta).toContainEqual({
                     name: "description",
                     content:
-                        "Allgemeine Geschäftsbedingungen für die Nutzung von Aura Historia sowie Informationen zu kostenpflichtigen Leistungen und Lemon Squeezy als Merchant of Record.",
+                        "Allgemeine Geschäftsbedingungen für die Nutzung von Aura Historia sowie Informationen zu kostenpflichtigen Leistungen und Zahlungsabwicklung.",
                 });
             });
 

@@ -43,7 +43,7 @@ Lors de l’inscription d’un compte utilisateur, seules les données à caract
 - langue préférée (facultatif, pour la personnalisation)
 - devise préférée (facultatif, pour la personnalisation)
 
-Lorsque des services numériques payants sont souscrits, nous traitons en outre, dans la mesure où elles sont transmises par [Lemon Squeezy](https://www.lemonsqueezy.com/) en tant que **Merchant of Record** choisi, notamment :
+Lorsque des services numériques payants sont souscrits, nous traitons en outre, dans la mesure nécessaire dans le cadre du traitement des paiements via [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irlande) en tant que **prestataire de services de paiement**, notamment :
 
 - des identifiants de commande, de transaction ou de client
 - le statut de l’abonnement, sa durée et les informations de renouvellement
@@ -226,11 +226,13 @@ Pour l’envoi de la newsletter, nous utilisons en outre **Zoho Campaigns** en t
 
 ---
 
-### 10.3 Traitement des paiements via Lemon Squeezy en tant que Merchant of Record
+### 10.3 Traitement des paiements via Stripe en tant que prestataire de services de paiement
 
-Lorsque des services numériques payants sont vendus par l’intermédiaire de [Lemon Squeezy](https://www.lemonsqueezy.com/) en tant que **Merchant of Record** indépendant, Lemon Squeezy traite les données relatives au paiement sous sa propre responsabilité en matière de protection des données ou selon les rôles divulgués lors du paiement.
+Le traitement des paiements pour les services numériques payants est assuré par [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irlande) en tant que **prestataire de services de paiement**. Stripe traite les données de paiement pour le compte d'Aura Historia en tant que sous-traitant conformément à l'art. 28 du RGPD. Un contrat de sous-traitance correspondant a été conclu.
 
-Nous ne recevons de Lemon Squeezy que les données nécessaires à l’activation, à l’attribution et à la gestion de votre accès numérique.
+Stripe est certifié PCI-DSS. Les données complètes de carte de paiement (par ex. numéros de carte de crédit) ne sont pas transmises à Aura Historia. Nous ne recevons de Stripe que les données nécessaires à l'activation, à l'attribution et à la gestion de votre accès numérique (par ex. identifiant de transaction, statut du paiement, pays).
+
+Pour plus d'informations sur le traitement des données par Stripe, veuillez consulter la [Politique de Confidentialité de Stripe](https://stripe.com/privacy).
 
 ---
 

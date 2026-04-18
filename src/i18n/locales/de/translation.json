@@ -65,7 +65,7 @@
     },
     "terms": {
       "title": "AGB | Aura Historia",
-      "description": "Allgemeine Geschäftsbedingungen für die Nutzung von Aura Historia sowie Informationen zu kostenpflichtigen Leistungen und Lemon Squeezy als Merchant of Record."
+      "description": "Allgemeine Geschäftsbedingungen für die Nutzung von Aura Historia sowie Informationen zu kostenpflichtigen Leistungen und Zahlungsabwicklung."
     }
   },
   "validation": {
@@ -668,7 +668,15 @@
           "aiAgent": "KI-Suchagent"
         }
       },
-      "billingNote": "monatlich inkl. MwSt."
+      "billingNote": "monatlich inkl. MwSt.",
+      "monthly": "Monatlich",
+      "yearly": "Jährlich",
+      "yearlySavings": "2 Monate sparen",
+      "billingNoteMonthly": "pro Monat inkl. MwSt.",
+      "billingNoteYearly": "pro Monat, jährlich abgerechnet, inkl. MwSt.",
+      "getStartedFree": "Kostenlos starten",
+      "subscribe": "Abonnieren",
+      "perMonth": "/Monat"
     }
   },
   "apiErrors": {

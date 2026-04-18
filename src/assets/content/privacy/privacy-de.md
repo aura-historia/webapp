@@ -43,7 +43,7 @@ Bei der Registrierung eines Nutzerkontos werden ausschließlich folgende persone
 - Bevorzugte Sprache (optional, zur Personalisierung)
 - Bevorzugte Währung (optional, zur Personalisierung)
 
-Sofern kostenpflichtige digitale Leistungen gebucht werden, verarbeiten wir zusätzlich – soweit von [Lemon Squeezy](https://www.lemonsqueezy.com/) als eingesetztem **Merchant of Record** übermittelt – insbesondere:
+Sofern kostenpflichtige digitale Leistungen gebucht werden, verarbeiten wir zusätzlich – soweit im Rahmen der Zahlungsabwicklung über [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irland) als **Zahlungsdienstleister** erforderlich – insbesondere:
 
 - Bestell-, Transaktions- oder Kundenkennungen
 - Abonnementstatus, Laufzeit und Verlängerungsinformationen
@@ -226,11 +226,13 @@ Für den Newsletter-Versand setzen wir zusätzlich **Zoho Campaigns** als Auftra
 
 ---
 
-### 10.3 Zahlungsabwicklung über Lemon Squeezy als Merchant of Record
+### 10.3 Zahlungsabwicklung über Stripe als Zahlungsdienstleister
 
-Soweit kostenpflichtige digitale Leistungen über [Lemon Squeezy](https://www.lemonsqueezy.com/) als unabhängigen **Merchant of Record** verkauft werden, verarbeitet Lemon Squeezy zahlungsbezogene Daten grundsätzlich in eigener datenschutzrechtlicher Verantwortlichkeit oder nach den im Checkout offen gelegten Rollen.
+Die Zahlungsabwicklung für kostenpflichtige digitale Leistungen erfolgt über [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irland) als **Zahlungsdienstleister**. Stripe verarbeitet Zahlungsdaten im Auftrag von Aura Historia als Auftragsverarbeiter gemäß Art. 28 DSGVO. Ein entsprechender Auftragsverarbeitungsvertrag wurde abgeschlossen.
 
-Wir erhalten von Lemon Squeezy lediglich diejenigen Daten, die zur Aktivierung, Zuordnung und Verwaltung Ihres digitalen Zugangs erforderlich sind.
+Stripe ist PCI-DSS-zertifiziert. Vollständige Zahlungskartendaten (z. B. Kreditkartennummern) werden nicht an Aura Historia übermittelt. Wir erhalten von Stripe lediglich diejenigen Daten, die zur Aktivierung, Zuordnung und Verwaltung Ihres digitalen Zugangs erforderlich sind (z. B. Transaktions-ID, Zahlungsstatus, Land).
+
+Weitere Informationen zur Datenverarbeitung durch Stripe finden Sie in der [Datenschutzerklärung von Stripe](https://stripe.com/privacy).
 
 ---
 

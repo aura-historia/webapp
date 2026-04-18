@@ -29,10 +29,10 @@ describe("Terms Component", () => {
         expect(screen.getByText("AGB")).toBeInTheDocument();
     });
 
-    it("renders the Lemon Squeezy section", () => {
+    it("renders the payment processing section", () => {
         expect(
             screen.getByRole("heading", {
-                name: /Vertragsschluss, kostenpflichtige Leistungen und Lemon Squeezy als Merchant of Record/i,
+                name: /Vertragsschluss, kostenpflichtige Leistungen und Zahlungsabwicklung/i,
             }),
         ).toBeInTheDocument();
     });
@@ -42,7 +42,8 @@ describe("Terms Component", () => {
     });
 
     it("renders the provider legal form", () => {
-        expect(screen.getByText(/Julian Bruder Einzelunternehmen/)).toBeInTheDocument();
+        const matches = screen.getAllByText(/Julian Bruder Einzelunternehmen/);
+        expect(matches.length).toBeGreaterThanOrEqual(1);
     });
 
     it("renders API usage restrictions", () => {
@@ -67,9 +68,9 @@ describe("Terms Page Logic", () => {
         expect(content).toBe(TERMS_LOCALE_MAP.en);
     });
 
-    it("contains Lemon Squeezy wording in all locales", () => {
+    it("contains Stripe wording in all locales", () => {
         for (const content of Object.values(TERMS_LOCALE_MAP)) {
-            expect(content).toContain("Lemon Squeezy");
+            expect(content).toContain("Stripe");
         }
     });
 

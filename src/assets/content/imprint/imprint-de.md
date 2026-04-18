@@ -29,7 +29,7 @@ Hardenbergstraße 80, 04275 Leipzig, Deutschland
 
 Bei dem angebotenen Dienst handelt es sich um eine Software-as-a-Service (SaaS)-Plattform für digitale Recherche-, Discovery- und Analysefunktionen im Bereich historischer und antiquarischer Inhalte.
 
-Kostenpflichtige digitale Leistungen oder Abonnements können international über [Lemon Squeezy](https://www.lemonsqueezy.com/) als unabhängigen **Merchant of Record** verkauft werden, der im Checkout-Prozess gesondert ausgewiesen wird. Lemon Squeezy übernimmt insoweit insbesondere Zahlungsabwicklung, Rechnungsstellung sowie steuerliche Abwicklung im eigenen Namen.
+Die Zahlungsabwicklung für kostenpflichtige digitale Leistungen oder Abonnements erfolgt über [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irland) als **Zahlungsdienstleister**. Aura Historia ist als Direktverkäufer Vertragspartner des Nutzers und verantwortlich für Rechnungsstellung, Umsatzsteuer sowie sämtliche vertraglichen Pflichten. Stripe verarbeitet Zahlungsdaten ausschließlich im Auftrag von Aura Historia als Auftragsverarbeiter gemäß Art. 28 DSGVO.
 
 Aura Historia bleibt Anbieter der digitalen Plattform. Verträge über den Erwerb konkreter Antiquitäten oder Sammlerstücke kommen nicht mit Aura Historia, sondern gegebenenfalls mit dem jeweils ausgewiesenen Drittanbieter zustande.
 

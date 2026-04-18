@@ -1,5 +1,7 @@
 import type { Currency } from "@/data/internal/common/Currency.ts";
 
+export type BillingInterval = "monthly" | "yearly";
+
 export interface PricingFeature {
     readonly key: string;
     readonly isAccent?: boolean;
@@ -12,6 +14,7 @@ export interface PricingTier {
     readonly features: readonly PricingFeature[];
     readonly priceLabelKey?: string;
     readonly prices?: Readonly<Record<Currency, number>>;
+    readonly yearlyPrices?: Readonly<Record<Currency, number>>;
     readonly isHighlighted?: boolean;
 }
 
@@ -54,6 +57,26 @@ export const PRICING_TIERS: readonly PricingTier[] = [
             SGD: 19.9,
             CHF: 15.9,
         },
+        yearlyPrices: {
+            EUR: 139,
+            GBP: 119,
+            USD: 179,
+            AUD: 229,
+            CAD: 229,
+            NZD: 279,
+            CNY: 1099,
+            BRL: 799,
+            PLN: 549,
+            TRY: 6899,
+            JPY: 19000,
+            CZK: 3299,
+            RUB: 12899,
+            AED: 599,
+            SAR: 599,
+            HKD: 1199,
+            SGD: 199,
+            CHF: 159,
+        },
         features: [
             { key: "landingPage.pricing.pro.features.watchlistItems" },
             { key: "landingPage.pricing.pro.features.searchAlerts" },
@@ -87,6 +110,26 @@ export const PRICING_TIERS: readonly PricingTier[] = [
             HKD: 319.9,
             SGD: 54.9,
             CHF: 39.9,
+        },
+        yearlyPrices: {
+            EUR: 349,
+            GBP: 299,
+            USD: 399,
+            AUD: 599,
+            CAD: 599,
+            NZD: 699,
+            CNY: 2799,
+            BRL: 1999,
+            PLN: 1499,
+            TRY: 18999,
+            JPY: 64990,
+            CZK: 8999,
+            RUB: 32999,
+            AED: 1499,
+            SAR: 1499,
+            HKD: 3199,
+            SGD: 549,
+            CHF: 399,
         },
         features: [
             { key: "landingPage.pricing.ultimate.features.watchlistItems" },
