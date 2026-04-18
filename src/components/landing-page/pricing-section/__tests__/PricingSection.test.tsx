@@ -8,7 +8,7 @@ import { vi } from "vitest";
 
 const mockUseAuthenticator = vi.hoisted(() =>
     vi.fn(() => ({
-        user: null,
+        user: null as any,
         toSignUp: vi.fn(),
     })),
 );
@@ -201,11 +201,6 @@ describe("PricingSection", () => {
     });
 
     it("renders CTA buttons for all tiers", () => {
-        const buttons = screen
-            .getAllByRole("link")
-            .filter(
-                (el) => el.textContent === "Kostenlos starten" || el.textContent === "Abonnieren",
-            );
         // Free tier has a link button to /login, paid tiers have regular buttons
         expect(screen.getByText("Kostenlos starten")).toBeInTheDocument();
         expect(screen.getAllByText("Abonnieren")).toHaveLength(2);
