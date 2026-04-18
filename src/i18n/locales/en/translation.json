@@ -65,7 +65,7 @@
     },
     "terms": {
       "title": "Terms & Conditions | Aura Historia",
-      "description": "Terms and conditions for using Aura Historia, including information on paid services and Lemon Squeezy as Merchant of Record."
+      "description": "Terms and conditions for using Aura Historia, including information on paid services and payment processing."
     }
   },
   "validation": {
@@ -668,7 +668,15 @@
           "aiAgent": "AI Search Agent"
         }
       },
-      "billingNote": "monthly incl. VAT"
+      "billingNote": "monthly incl. VAT",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "yearlySavings": "Save 2 months",
+      "billingNoteMonthly": "per month, incl. VAT",
+      "billingNoteYearly": "per month, billed yearly, incl. VAT",
+      "getStartedFree": "Get Started Free",
+      "subscribe": "Subscribe",
+      "perMonth": "/mo"
     }
   },
   "apiErrors": {

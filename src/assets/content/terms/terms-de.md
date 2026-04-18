@@ -40,18 +40,18 @@ Sie haften für Aktivitäten, die über Ihr Konto erfolgen, soweit Sie die missb
 
 ---
 
-## 4. Vertragsschluss, kostenpflichtige Leistungen und Lemon Squeezy als Merchant of Record
+## 4. Vertragsschluss, kostenpflichtige Leistungen und Zahlungsabwicklung
 
-Soweit kostenpflichtige digitale Leistungen angeboten werden, kann der Verkauf international über [Lemon Squeezy](https://www.lemonsqueezy.com/) als unabhängigen **Merchant of Record** abgewickelt werden, der im Checkout-Prozess gesondert benannt wird.
+Soweit kostenpflichtige digitale Leistungen angeboten werden, kommt der Vertrag über den Erwerb und die Nutzung dieser Leistungen **unmittelbar mit Aura Historia** (Julian Bruder Einzelunternehmen) zustande.
 
-In diesem Fall gilt:
+Aura Historia ist als Direktverkäufer verantwortlich für:
 
-- der Vertrag über die **zahlungspflichtige Bestellung, Abrechnung, Rechnungsstellung sowie die Abführung von Umsatzsteuer / Sales Tax** kommt mit Lemon Squeezy als im Checkout ausgewiesenem Merchant of Record zustande,
-- Lemon Squeezy handelt insoweit im eigenen Namen und auf eigene Rechnung,
-- Aura Historia bleibt Anbieter der digitalen Plattform und der digitalen Inhalte bzw. Zugänge,
-- wir erhalten von Lemon Squeezy nur diejenigen Informationen, die zur Aktivierung, Verwaltung und Zuordnung Ihres Zugangs erforderlich sind.
+- den Vertragsschluss über kostenpflichtige digitale Leistungen,
+- die Rechnungsstellung einschließlich Ausweisung der gesetzlichen Umsatzsteuer,
+- die Abführung der Umsatzsteuer an die zuständigen Finanzbehörden,
+- die Erfüllung sämtlicher vertraglicher und verbraucherschutzrechtlicher Pflichten.
 
-Soweit in einem konkreten Checkout-Prozess nicht Lemon Squeezy eingesetzt wird, kommt der Vertrag unmittelbar mit Aura Historia zustande.
+Die Zahlungsabwicklung erfolgt über [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irland) als **Zahlungsdienstleister**. Stripe verarbeitet Zahlungsdaten ausschließlich im Auftrag von Aura Historia. Vollständige Zahlungskartendaten werden nicht an Aura Historia übermittelt; Stripe ist PCI-DSS-zertifiziert.
 
 ---
 
@@ -59,14 +59,7 @@ Soweit in einem konkreten Checkout-Prozess nicht Lemon Squeezy eingesetzt wird, 
 
 Etwaige Preise, Abrechnungsintervalle, Verlängerungsmodalitäten und enthaltene Leistungen werden Ihnen vor Abschluss einer kostenpflichtigen Bestellung angezeigt.
 
-Soweit Lemon Squeezy als Merchant of Record eingesetzt wird, erfolgen:
-
-- Zahlungsabwicklung,
-- Rechnungsstellung,
-- steuerliche Behandlung,
-- Stornierungen, Erstattungen und verbraucherschutzrechtlich erforderliche Abwicklungen
-
-nach dessen Checkout-Bedingungen und Richtlinien, soweit gesetzlich zulässig.
+Die Zahlungsabwicklung erfolgt über Stripe als Zahlungsdienstleister. Rechnungsstellung, steuerliche Behandlung, Stornierungen, Erstattungen und verbraucherschutzrechtlich erforderliche Abwicklungen erfolgen durch Aura Historia.
 
 Die Nutzung bereits freigeschalteter digitaler Leistungen kann nach wirksamer Kündigung oder Ablauf des Abrechnungszeitraums eingeschränkt oder beendet werden.
 

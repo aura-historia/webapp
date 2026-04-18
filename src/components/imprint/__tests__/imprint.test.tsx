@@ -201,10 +201,10 @@ describe("Imprint Page Logic", () => {
             }
         });
 
-        it("should mention Lemon Squeezy in all locales", () => {
+        it("should mention Stripe in all locales", () => {
             const localeKeys = Object.keys(IMPRINT_LOCALE_MAP);
             for (const key of localeKeys) {
-                expect(IMPRINT_LOCALE_MAP[key]).toContain("Lemon Squeezy");
+                expect(IMPRINT_LOCALE_MAP[key]).toContain("Stripe");
             }
         });
     });

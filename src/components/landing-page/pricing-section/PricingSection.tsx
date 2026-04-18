@@ -1,30 +1,75 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { Switch } from "@/components/ui/switch.tsx";
 import { useTranslation } from "react-i18next";
 import { Check, Sparkles } from "lucide-react";
 import { SectionHeading } from "@/components/landing-page/common/SectionHeading.tsx";
-import { PRICING_TIERS } from "@/components/landing-page/pricing-section/PricingSection.data.ts";
+import {
+    PRICING_TIERS,
+    type BillingInterval,
+} from "@/components/landing-page/pricing-section/PricingSection.data.ts";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 
 export default function PricingSection() {
     const { t, i18n } = useTranslation();
     const { preferences } = useUserPreferences();
     const currency = preferences.currency ?? "EUR";
+    const [billingInterval, setBillingInterval] = useState<BillingInterval>("yearly");
+    const { user, toSignUp } = useAuthenticator((context) => [context.user, context.toSignUp]);
+
+    const isYearly = billingInterval === "yearly";
+
+    const formatAmount = (amount: number) => {
+        return new Intl.NumberFormat(i18n.language, {
+            style: "currency",
+            currency,
+        }).format(amount);
+    };
+
+    const getMonthlyPrice = (tier: (typeof PRICING_TIERS)[number]) => {
+        return tier.prices?.[currency];
+    };
+
+    const getYearlyPerMonthPrice = (tier: (typeof PRICING_TIERS)[number]) => {
+        const yearlyTotal = tier.yearlyPrices?.[currency];
+        if (yearlyTotal === undefined) return undefined;
+        return yearlyTotal / 12;
+    };
 
     const formatPrice = (tier: (typeof PRICING_TIERS)[number]) => {
         if (tier.priceLabelKey) {
             return t(tier.priceLabelKey);
         }
 
-        const amount = tier.prices?.[currency];
+        if (isYearly) {
+            const perMonth = getYearlyPerMonthPrice(tier);
+            if (perMonth !== undefined) {
+                return formatAmount(perMonth);
+            }
+        }
 
+        const amount = getMonthlyPrice(tier);
         if (amount === undefined) {
             return t("landingPage.pricing.comingSoon");
         }
 
-        return new Intl.NumberFormat(i18n.language, {
-            style: "currency",
-            currency,
-        }).format(amount);
+        return formatAmount(amount);
+    };
+
+    const renderStrikethroughPrice = (tier: (typeof PRICING_TIERS)[number]) => {
+        if (!isYearly || tier.priceLabelKey || !tier.yearlyPrices) return null;
+
+        const monthlyAmount = getMonthlyPrice(tier);
+        if (monthlyAmount === undefined) return null;
+
+        return (
+            <span className="text-lg text-muted-foreground line-through">
+                {formatAmount(monthlyAmount)}
+            </span>
+        );
     };
 
     return (
@@ -38,6 +83,34 @@ export default function PricingSection() {
                     description={t("landingPage.pricing.subtitle")}
                     showDivider={false}
                 />
+
+                {/* Billing interval toggle */}
+                <div className="mt-8 flex items-center justify-center gap-3">
+                    <span
+                        className={`text-sm font-medium transition-colors duration-300 ${
+                            !isYearly ? "text-foreground" : "text-muted-foreground"
+                        }`}
+                    >
+                        {t("landingPage.pricing.monthly")}
+                    </span>
+                    <Switch
+                        checked={isYearly}
+                        onCheckedChange={(checked) =>
+                            setBillingInterval(checked ? "yearly" : "monthly")
+                        }
+                    />
+                    <span
+                        className={`text-sm font-medium transition-colors duration-300 ${
+                            isYearly ? "text-foreground" : "text-muted-foreground"
+                        }`}
+                    >
+                        {t("landingPage.pricing.yearly")}
+                    </span>
+                    <span className="rounded-sm bg-tertiary/10 px-2 py-0.5 text-xs font-semibold text-tertiary">
+                        {t("landingPage.pricing.yearlySavings")}
+                    </span>
+                </div>
+
                 <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
                     {PRICING_TIERS.map((tier) => (
                         <Card
@@ -63,11 +136,16 @@ export default function PricingSection() {
                                     {t(tier.descKey)}
                                 </p>
                                 <div className="mt-6">
+                                    {renderStrikethroughPrice(tier)}
                                     <span className="font-display text-4xl font-normal text-foreground">
                                         {formatPrice(tier)}
                                     </span>
                                     <p className="mt-2 text-xs uppercase tracking-wide text-muted-foreground">
-                                        {t("landingPage.pricing.billingNote")}
+                                        {tier.priceLabelKey
+                                            ? t("landingPage.pricing.billingNote")
+                                            : isYearly
+                                              ? t("landingPage.pricing.billingNoteYearly")
+                                              : t("landingPage.pricing.billingNoteMonthly")}
                                     </p>
                                 </div>
                             </CardHeader>
@@ -91,6 +169,33 @@ export default function PricingSection() {
                                         </li>
                                     ))}
                                 </ul>
+                                {tier.id === "free" ? (
+                                    user ? (
+                                        <Button variant="outline" className="mt-8 w-full" disabled>
+                                            {t("landingPage.pricing.getStartedFree")}
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            asChild
+                                            onClick={toSignUp}
+                                            variant="outline"
+                                            className="mt-8 w-full"
+                                        >
+                                            <Link to="/login">
+                                                {t("landingPage.pricing.getStartedFree")}
+                                            </Link>
+                                        </Button>
+                                    )
+                                ) : (
+                                    <Button
+                                        variant={tier.isHighlighted ? "default" : "outline"}
+                                        className="mt-8 w-full"
+                                        type="button"
+                                        onClick={() => {}}
+                                    >
+                                        {t("landingPage.pricing.subscribe")}
+                                    </Button>
+                                )}
                             </CardContent>
                         </Card>
                     ))}
