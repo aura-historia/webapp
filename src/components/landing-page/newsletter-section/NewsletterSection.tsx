@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Mail, CheckCircle, Send } from "lucide-react";
@@ -15,7 +16,6 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -33,9 +33,6 @@ function getNewsletterSchema(t: (key: string) => string) {
             .email(t("landingPage.newsletter.emailRequired")),
         firstName: z.string().optional(),
         lastName: z.string().optional(),
-        marketingConsent: z.boolean().refine((val) => val === true, {
-            message: t("landingPage.newsletter.marketingConsentRequired"),
-        }),
     });
 }
 
@@ -55,7 +52,6 @@ export default function NewsletterSection() {
             email: "",
             firstName: "",
             lastName: "",
-            marketingConsent: false,
         },
     });
 
@@ -122,21 +118,15 @@ export default function NewsletterSection() {
 
                         <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-4 lg:justify-start">
                             <span className="flex items-center gap-2.5 text-sm text-primary-foreground/70">
-                                <span className="flex size-6 shrink-0 items-center justify-center bg-primary-foreground/10">
-                                    <CheckCircle className="size-3.5 text-tertiary-fixed-dim" />
-                                </span>
+                                <CheckCircle className="size-3.5 text-tertiary-fixed-dim" />
                                 {t("landingPage.newsletter.benefit1")}
                             </span>
                             <span className="flex items-center gap-2.5 text-sm text-primary-foreground/70">
-                                <span className="flex size-6 shrink-0 items-center justify-center bg-primary-foreground/10">
-                                    <CheckCircle className="size-3.5 text-tertiary-fixed-dim" />
-                                </span>
+                                <CheckCircle className="size-3.5 text-tertiary-fixed-dim" />
                                 {t("landingPage.newsletter.benefit2")}
                             </span>
                             <span className="flex items-center gap-2.5 text-sm text-primary-foreground/70">
-                                <span className="flex size-6 shrink-0 items-center justify-center bg-primary-foreground/10">
-                                    <CheckCircle className="size-3.5 text-tertiary-fixed-dim" />
-                                </span>
+                                <CheckCircle className="size-3.5 text-tertiary-fixed-dim" />
                                 {t("landingPage.newsletter.benefit3")}
                             </span>
                         </div>
@@ -242,28 +232,6 @@ export default function NewsletterSection() {
                                             />
                                         </div>
 
-                                        <FormField
-                                            control={form.control}
-                                            name="marketingConsent"
-                                            render={({ field }) => (
-                                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 pt-1">
-                                                    <FormControl>
-                                                        <Checkbox
-                                                            checked={field.value}
-                                                            onCheckedChange={field.onChange}
-                                                            className="mt-0.5 border-primary-foreground/40 data-[state=checked]:border-tertiary-fixed-dim data-[state=checked]:bg-tertiary-fixed-dim data-[state=checked]:text-primary"
-                                                        />
-                                                    </FormControl>
-                                                    <FormLabel className="cursor-pointer text-sm font-normal leading-snug text-primary-foreground/80">
-                                                        {t(
-                                                            "landingPage.newsletter.marketingConsent",
-                                                        )}
-                                                    </FormLabel>
-                                                    <FormMessage className="text-destructive-foreground" />
-                                                </FormItem>
-                                            )}
-                                        />
-
                                         <Button
                                             type="submit"
                                             disabled={isPending}
@@ -278,7 +246,17 @@ export default function NewsletterSection() {
                                         </Button>
 
                                         <p className="pt-1 text-center text-xs leading-relaxed text-primary-foreground/50">
-                                            {t("landingPage.newsletter.privacy")}
+                                            <Trans
+                                                i18nKey="landingPage.newsletter.privacy"
+                                                components={{
+                                                    privacyLink: (
+                                                        <Link
+                                                            to="/privacy"
+                                                            className="underline underline-offset-2 hover:text-primary-foreground/80"
+                                                        />
+                                                    ),
+                                                }}
+                                            />
                                         </p>
                                     </form>
                                 </Form>

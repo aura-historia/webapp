@@ -50,16 +50,8 @@ describe("NewsletterSection", () => {
         expect(screen.getByPlaceholderText("Ihr Nachname")).toBeInTheDocument();
     });
 
-    it("renders the marketing consent checkbox", () => {
-        expect(
-            screen.getByText(
-                "Ich möchte Updates, Neuigkeiten und Angebote rund um Aura Historia erhalten.",
-            ),
-        ).toBeInTheDocument();
-    });
-
     it("renders the subscribe button", () => {
-        expect(screen.getByRole("button", { name: "Anmelden" })).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Zum Newsletter anmelden" })).toBeInTheDocument();
     });
 
     it("renders benefit items", () => {
@@ -69,34 +61,22 @@ describe("NewsletterSection", () => {
     });
 
     it("renders the privacy notice", () => {
-        expect(
-            screen.getByText(
-                "Mit der Anmeldung stimmen Sie unserer Datenschutzerklärung zu. Sie können sich jederzeit abmelden.",
-            ),
-        ).toBeInTheDocument();
+        expect(screen.getByText(/Mit der Anmeldung stimmen Sie unserer/i)).toBeInTheDocument();
+        expect(screen.getByText(/jederzeit abmelden/i)).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "Datenschutzerklärung" })).toHaveAttribute(
+            "href",
+            "/privacy",
+        );
     });
 
     it("shows validation error when submitting without email", async () => {
         const user = userEvent.setup();
 
-        await user.click(screen.getByRole("button", { name: "Anmelden" }));
+        await user.click(screen.getByRole("button", { name: "Zum Newsletter anmelden" }));
 
         await waitFor(() => {
             expect(
                 screen.getByText("Bitte geben Sie eine gültige E-Mail-Adresse ein."),
-            ).toBeInTheDocument();
-        });
-    });
-
-    it("shows validation error when submitting without marketing consent", async () => {
-        const user = userEvent.setup();
-
-        await user.type(screen.getByPlaceholderText("Ihre E-Mail-Adresse"), "test@example.com");
-        await user.click(screen.getByRole("button", { name: "Anmelden" }));
-
-        await waitFor(() => {
-            expect(
-                screen.getByText("Sie müssen dem Erhalt unseres Newsletters zustimmen."),
             ).toBeInTheDocument();
         });
     });
@@ -106,8 +86,7 @@ describe("NewsletterSection", () => {
         const testEmail = "max.mustermann@example.com";
 
         await user.type(screen.getByPlaceholderText("Ihre E-Mail-Adresse"), testEmail);
-        await user.click(screen.getByRole("checkbox"));
-        await user.click(screen.getByRole("button", { name: "Anmelden" }));
+        await user.click(screen.getByRole("button", { name: "Zum Newsletter anmelden" }));
 
         await waitFor(() => {
             expect(
