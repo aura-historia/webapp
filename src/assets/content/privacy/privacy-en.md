@@ -43,7 +43,7 @@ When registering a user account, only the following personal data are processed:
 - preferred language (optional, for personalization)
 - preferred currency (optional, for personalization)
 
-Where paid digital services are booked, we additionally process, to the extent transmitted by [Lemon Squeezy](https://www.lemonsqueezy.com/) as the chosen **Merchant of Record**, in particular:
+Where paid digital services are booked, we additionally process, to the extent required in the course of payment processing via [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Ireland) as the **payment service provider**, in particular:
 
 - order, transaction, or customer identifiers
 - subscription status, term, and renewal information
@@ -226,11 +226,13 @@ For newsletter delivery, we additionally use **Zoho Campaigns** as a processor w
 
 ---
 
-### 10.3 Payment Processing via Lemon Squeezy as Merchant of Record
+### 10.3 Payment Processing via Stripe as Payment Service Provider
 
-Where paid digital services are sold through [Lemon Squeezy](https://www.lemonsqueezy.com/) as the independent **Merchant of Record**, Lemon Squeezy processes payment-related data under its own data protection responsibility or under the roles disclosed during checkout.
+Payment processing for paid digital services is handled by [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Ireland) as the **payment service provider**. Stripe processes payment data on behalf of Aura Historia as a data processor pursuant to Art. 28 GDPR. A corresponding data processing agreement has been concluded.
 
-We receive from Lemon Squeezy only the data required to activate, assign, and manage your digital access.
+Stripe is PCI-DSS certified. Full payment card data (e.g. credit card numbers) are not transmitted to Aura Historia. We receive from Stripe only the data required to activate, assign, and manage your digital access (e.g. transaction ID, payment status, country).
+
+For further information on data processing by Stripe, please refer to [Stripe's Privacy Policy](https://stripe.com/privacy).
 
 ---
 

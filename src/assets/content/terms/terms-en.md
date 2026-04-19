@@ -40,18 +40,18 @@ You are responsible for activities carried out through your account to the exten
 
 ---
 
-## 4. Contract Formation, Paid Services, and Lemon Squeezy as Merchant of Record
+## 4. Contract Formation, Paid Services, and Payment Processing
 
-Where paid digital services are offered, sales may be processed internationally through [Lemon Squeezy](https://www.lemonsqueezy.com/) as the independent **Merchant of Record**, identified separately during checkout.
+Where paid digital services are offered, the contract for the acquisition and use of such services is concluded **directly with Aura Historia** (Julian Bruder Einzelunternehmen).
 
-In that case:
+As the direct seller, Aura Historia is responsible for:
 
-- the contract for the **paid order, billing, invoicing, and remittance of VAT / sales tax** is concluded with Lemon Squeezy as the Merchant of Record shown at checkout,
-- Lemon Squeezy acts in its own name and for its own account for that transaction,
-- Aura Historia remains the provider of the digital platform and the digital content or access itself, and
-- we receive from Lemon Squeezy only the information required to activate, administer, and allocate your access.
+- the conclusion of contracts for paid digital services,
+- invoicing including the application of statutory VAT,
+- remittance of VAT to the competent tax authorities,
+- fulfilment of all contractual and consumer protection obligations.
 
-If Lemon Squeezy is not used in an individual checkout flow, the contract is concluded directly with Aura Historia.
+Payment processing is handled by [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Ireland) as the **payment service provider**. Stripe processes payment data exclusively on behalf of Aura Historia. Full payment card data are not transmitted to Aura Historia; Stripe is PCI-DSS certified.
 
 ---
 
@@ -59,12 +59,7 @@ If Lemon Squeezy is not used in an individual checkout flow, the contract is con
 
 Any prices, billing intervals, renewal mechanics, and included services will be shown to you before you place a paid order.
 
-Where Lemon Squeezy is used as Merchant of Record, the following are handled under its checkout terms and policies, to the extent legally permissible:
-
-- payment processing,
-- invoicing,
-- tax handling,
-- cancellations, refunds, and legally required consumer-facing processing.
+Payment processing is handled by Stripe as the payment service provider. Invoicing, tax handling, cancellations, refunds, and legally required consumer-facing processing are handled by Aura Historia.
 
 Use of already enabled digital services may be limited or ended after an effective cancellation or the end of the billing period.
 

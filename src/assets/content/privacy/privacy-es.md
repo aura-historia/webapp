@@ -43,7 +43,7 @@ Al registrar una cuenta de usuario, se tratan exclusivamente los siguientes dato
 - idioma preferido (opcional, para personalización)
 - moneda preferida (opcional, para personalización)
 
-Cuando se contratan servicios digitales de pago, tratamos además, en la medida en que los transmita [Lemon Squeezy](https://www.lemonsqueezy.com/) como **Merchant of Record** elegido, en particular:
+Cuando se contratan servicios digitales de pago, tratamos además, en la medida en que sea necesario en el marco del procesamiento de pagos a través de [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublín, Irlanda) como **proveedor de servicios de pago**, en particular:
 
 - identificadores de pedido, transacción o cliente
 - estado de la suscripción, duración e información de renovación
@@ -226,11 +226,13 @@ Para el envío del boletín utilizamos además **Zoho Campaigns** como encargado
 
 ---
 
-### 10.3 Procesamiento de pagos mediante Lemon Squeezy como Merchant of Record
+### 10.3 Procesamiento de pagos mediante Stripe como proveedor de servicios de pago
 
-Cuando los servicios digitales de pago se venden a través de [Lemon Squeezy](https://www.lemonsqueezy.com/) como **Merchant of Record** independiente, Lemon Squeezy trata los datos relacionados con el pago bajo su propia responsabilidad en materia de protección de datos o conforme a las funciones reveladas durante el checkout.
+El procesamiento de pagos para servicios digitales de pago se realiza a través de [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublín, Irlanda) como **proveedor de servicios de pago**. Stripe procesa los datos de pago por encargo de Aura Historia como encargado del tratamiento conforme al Art. 28 del RGPD. Se ha celebrado el correspondiente contrato de encargo de tratamiento.
 
-Solo recibimos de Lemon Squeezy los datos necesarios para activar, asignar y gestionar su acceso digital.
+Stripe cuenta con la certificación PCI-DSS. Los datos completos de la tarjeta de pago (p. ej., números de tarjeta de crédito) no se transmiten a Aura Historia. Solo recibimos de Stripe los datos necesarios para activar, asignar y gestionar su acceso digital (p. ej., ID de transacción, estado del pago, país).
+
+Para más información sobre el tratamiento de datos por parte de Stripe, consulte la [Política de Privacidad de Stripe](https://stripe.com/privacy).
 
 ---
 
