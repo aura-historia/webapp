@@ -185,7 +185,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     }, [queryClient.refetchQueries]);
 
     return (
-        <UserPreferencesProvider initialPreferences={initialPreferences}>
+        <UserPreferencesProvider initialPreferences={initialPreferences} locale={i18n.language}>
             <html lang={i18n.language || "en"}>
                 <head>
                     <HeadContent />

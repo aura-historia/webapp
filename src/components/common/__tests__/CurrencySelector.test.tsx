@@ -27,7 +27,7 @@ vi.mock("react-i18next", async () => {
 
 function renderCurrencySelector(initialPreferences: Record<string, unknown> = {}) {
     return render(
-        <UserPreferencesProvider initialPreferences={initialPreferences}>
+        <UserPreferencesProvider initialPreferences={initialPreferences} locale="de-DE">
             <CurrencySelector />
         </UserPreferencesProvider>,
     );

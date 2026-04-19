@@ -1,9 +1,10 @@
 import { PriceSpanFilter } from "@/components/search/filters/PriceSpanFilter";
 import { FormProvider, useForm } from "react-hook-form";
-import { screen, act, render } from "@testing-library/react";
+import { screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import type React from "react";
+import { renderWithRouter } from "@/test/utils.tsx";
 
 const mockResetAndNavigate = vi.fn();
 
@@ -28,12 +29,14 @@ const FormWrapper = ({
 };
 
 describe("PriceSpanFilter", () => {
-    it("renders with default price range values", () => {
-        render(
-            <FormWrapper>
-                <PriceSpanFilter />
-            </FormWrapper>,
-        );
+    it("renders with default price range values", async () => {
+        await act(async () => {
+            renderWithRouter(
+                <FormWrapper>
+                    <PriceSpanFilter />
+                </FormWrapper>,
+            );
+        });
 
         expect(screen.getByText("Preisspanne")).toBeInTheDocument();
         // Find slider thumbs by their aria-labels instead of slider by name
@@ -44,12 +47,14 @@ describe("PriceSpanFilter", () => {
         expect(screen.getAllByText("€")).toHaveLength(2);
     });
 
-    it("displays default values when provided", () => {
-        render(
-            <FormWrapper defaultValues={{ priceSpan: { min: 2000, max: 5000 } }}>
-                <PriceSpanFilter />
-            </FormWrapper>,
-        );
+    it("displays default values when provided", async () => {
+        await act(async () => {
+            renderWithRouter(
+                <FormWrapper defaultValues={{ priceSpan: { min: 2000, max: 5000 } }}>
+                    <PriceSpanFilter />
+                </FormWrapper>,
+            );
+        });
 
         // Check if input fields reflect provided values
         const minInput = screen.getByPlaceholderText("Min");
@@ -62,11 +67,13 @@ describe("PriceSpanFilter", () => {
     it("updates form values when input fields are changed", async () => {
         const user = userEvent.setup();
 
-        render(
-            <FormWrapper>
-                <PriceSpanFilter />
-            </FormWrapper>,
-        );
+        await act(async () => {
+            renderWithRouter(
+                <FormWrapper>
+                    <PriceSpanFilter />
+                </FormWrapper>,
+            );
+        });
 
         const minInput = screen.getByPlaceholderText("Min");
 
@@ -81,11 +88,13 @@ describe("PriceSpanFilter", () => {
         const user = userEvent.setup();
 
         // Start with max already set
-        render(
-            <FormWrapper defaultValues={{ priceSpan: { max: 4000 } }}>
-                <PriceSpanFilter />
-            </FormWrapper>,
-        );
+        await act(async () => {
+            renderWithRouter(
+                <FormWrapper defaultValues={{ priceSpan: { max: 4000 } }}>
+                    <PriceSpanFilter />
+                </FormWrapper>,
+            );
+        });
 
         const minInput = screen.getByPlaceholderText("Min");
         const maxInput = screen.getByPlaceholderText("Max");
@@ -107,12 +116,14 @@ describe("PriceSpanFilter", () => {
         expect(maxInput).toHaveValue("8000");
     });
 
-    it("initializes with provided default values", () => {
-        render(
-            <FormWrapper defaultValues={{ priceSpan: { min: 1500, max: 7500 } }}>
-                <PriceSpanFilter />
-            </FormWrapper>,
-        );
+    it("initializes with provided default values", async () => {
+        await act(async () => {
+            renderWithRouter(
+                <FormWrapper defaultValues={{ priceSpan: { min: 1500, max: 7500 } }}>
+                    <PriceSpanFilter />
+                </FormWrapper>,
+            );
+        });
 
         const minInput = screen.getByPlaceholderText("Min");
         const maxInput = screen.getByPlaceholderText("Max");
@@ -132,11 +143,13 @@ describe("PriceSpanFilter", () => {
         const user = userEvent.setup();
         mockResetAndNavigate.mockClear();
 
-        render(
-            <FormWrapper defaultValues={{ priceSpan: { min: 2000, max: 8000 } }}>
-                <PriceSpanFilter />
-            </FormWrapper>,
-        );
+        await act(async () => {
+            renderWithRouter(
+                <FormWrapper defaultValues={{ priceSpan: { min: 2000, max: 8000 } }}>
+                    <PriceSpanFilter />
+                </FormWrapper>,
+            );
+        });
 
         // Verify initial values are set
         const minInput = screen.getByPlaceholderText("Min");
@@ -156,11 +169,13 @@ describe("PriceSpanFilter", () => {
     it("displays reset tooltip on hover", async () => {
         const user = userEvent.setup();
 
-        render(
-            <FormWrapper defaultValues={{ priceSpan: { min: 1000, max: 5000 } }}>
-                <PriceSpanFilter />
-            </FormWrapper>,
-        );
+        await act(async () => {
+            renderWithRouter(
+                <FormWrapper defaultValues={{ priceSpan: { min: 1000, max: 5000 } }}>
+                    <PriceSpanFilter />
+                </FormWrapper>,
+            );
+        });
 
         // Find the reset button using its aria-label
         const resetButton = screen.getByRole("button", { name: /preisspanne zurücksetzen/i });
@@ -177,12 +192,14 @@ describe("PriceSpanFilter", () => {
         expect(resetButton).toBeInTheDocument();
     });
 
-    it("reset button is accessible and visible", () => {
-        render(
-            <FormWrapper defaultValues={{ priceSpan: { min: 1000, max: 5000 } }}>
-                <PriceSpanFilter />
-            </FormWrapper>,
-        );
+    it("reset button is accessible and visible", async () => {
+        await act(async () => {
+            renderWithRouter(
+                <FormWrapper defaultValues={{ priceSpan: { min: 1000, max: 5000 } }}>
+                    <PriceSpanFilter />
+                </FormWrapper>,
+            );
+        });
 
         const resetButton = screen.getByRole("button", { name: /preisspanne zurücksetzen/i });
 

@@ -3,14 +3,6 @@ import { PRICING_TIERS } from "@/components/landing-page/pricing-section/Pricing
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
-import { vi } from "vitest";
-
-vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
-    useUserPreferences: () => ({
-        preferences: { currency: "EUR" },
-        updatePreferences: vi.fn(),
-    }),
-}));
 
 describe("PricingSection", () => {
     beforeEach(async () => {
