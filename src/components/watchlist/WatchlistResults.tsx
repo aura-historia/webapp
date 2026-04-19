@@ -27,7 +27,7 @@ export function WatchlistResults() {
 
     if (isPending) {
         return (
-            <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                 {SKELETON_IDS.map((id) => (
                     <ProductCardSkeleton key={id} />
                 ))}
