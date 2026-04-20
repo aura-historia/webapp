@@ -142,6 +142,8 @@
       "title": "Elimina account",
       "deleteButton": "Elimina account",
       "warningText": "Sei sicuro di voler eliminare il tuo account?",
+      "warningTitle": "Vuoi eliminare definitivamente il tuo account?",
+      "warningSubtitle": "Questa azione non può essere annullata. Il tuo account non potrà essere ripristinato e tutti i dati salvati andranno persi definitivamente.",
       "cancelButton": "Annulla",
       "confirmButton": "Sì, elimina account",
       "successMessage": "Account eliminato con successo!",

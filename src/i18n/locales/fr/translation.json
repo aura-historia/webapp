@@ -128,6 +128,8 @@
       "title": "Supprimer le compte",
       "deleteButton": "Supprimer le compte",
       "warningText": "Êtes-vous sûr de vouloir supprimer votre compte ?",
+      "warningTitle": "Voulez-vous supprimer définitivement votre compte ?",
+      "warningSubtitle": "Cette action est irréversible. Votre compte ne pourra pas être restauré et toutes les données enregistrées seront définitivement perdues.",
       "cancelButton": "Annuler",
       "confirmButton": "Oui, supprimer le compte",
       "successMessage": "Compte supprimé avec succès !",

@@ -142,6 +142,8 @@
       "title": "Delete Account",
       "deleteButton": "Delete Account",
       "warningText": "Are you sure you want to delete your account?",
+      "warningTitle": "Do you want to permanently delete your account?",
+      "warningSubtitle": "This action cannot be undone. Your account cannot be restored and all saved data will be permanently deleted.",
       "cancelButton": "Cancel",
       "confirmButton": "Yes, delete account",
       "successMessage": "Account was deleted successfully!",

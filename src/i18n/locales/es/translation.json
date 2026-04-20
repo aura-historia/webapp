@@ -128,6 +128,8 @@
       "title": "Eliminar cuenta",
       "deleteButton": "Eliminar cuenta",
       "warningText": "¿Está seguro de que desea eliminar su cuenta?",
+      "warningTitle": "¿Desea eliminar su cuenta de forma permanente?",
+      "warningSubtitle": "Esta acción no se puede deshacer. Su cuenta no se podrá restaurar y todos los datos guardados se perderán de forma permanente.",
       "cancelButton": "Cancelar",
       "confirmButton": "Sí, eliminar cuenta",
       "successMessage": "¡Cuenta eliminada con éxito!",

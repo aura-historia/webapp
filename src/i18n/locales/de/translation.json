@@ -142,6 +142,8 @@
       "title": "Account löschen",
       "deleteButton": "Account löschen",
       "warningText": "Sind Sie sicher, dass Sie Ihren Account löschen möchten?",
+      "warningTitle": "Möchten Sie Ihren Account dauerhaft löschen?",
+      "warningSubtitle": "Diese Aktion kann nicht rückgängig gemacht werden. Ihr Account kann nicht wiederhergestellt werden und alle gespeicherten Daten gehen dauerhaft verloren.",
       "cancelButton": "Abbrechen",
       "confirmButton": "Ja, Account löschen",
       "successMessage": "Account wurde erfolgreich gelöscht!",
