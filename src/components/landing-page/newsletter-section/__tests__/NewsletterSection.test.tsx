@@ -2,7 +2,6 @@ import NewsletterSection from "@/components/landing-page/newsletter-section/News
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { putNewsletterSubscriptionMutation } from "@/client/@tanstack/react-query.gen.ts";
 
 const mockToast = vi.hoisted(() => ({
@@ -20,21 +19,8 @@ vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
     })),
 }));
 
-vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
-    useUserPreferences: vi.fn(),
-}));
-
 describe("NewsletterSection", () => {
     beforeEach(async () => {
-        vi.clearAllMocks();
-        vi.mocked(putNewsletterSubscriptionMutation).mockReturnValue({
-            mutationFn: vi.fn().mockResolvedValue(undefined),
-        });
-        vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { currency: "EUR" },
-            updatePreferences: vi.fn(),
-        });
-
         await act(async () => {
             renderWithRouter(<NewsletterSection />);
         });
@@ -115,14 +101,6 @@ describe("NewsletterSection", () => {
 });
 
 describe("NewsletterSection error handling", () => {
-    beforeEach(() => {
-        vi.clearAllMocks();
-        vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { currency: "EUR" },
-            updatePreferences: vi.fn(),
-        });
-    });
-
     it("shows INVALID_EMAIL error toast when the provider rejects the email address", async () => {
         vi.mocked(putNewsletterSubscriptionMutation).mockReturnValue({
             mutationFn: vi.fn().mockRejectedValue({
