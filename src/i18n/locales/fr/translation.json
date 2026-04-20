@@ -583,12 +583,22 @@
       "title": "Restez informé",
       "description": "Recevez chaque semaine une sélection de trouvailles, les tendances du marché et des aperçus exclusifs directement dans votre boîte mail.",
       "placeholder": "Votre adresse e-mail",
-      "button": "S'inscrire",
-      "privacy": "En vous inscrivant, vous acceptez notre politique de confidentialité. Vous pouvez vous désinscrire à tout moment.",
+      "button": "S'inscrire à la newsletter",
+      "privacy": "En vous inscrivant, vous acceptez notre <privacyLink>politique de confidentialité</privacyLink>. Vous pouvez vous désinscrire à tout moment.",
       "successMessage": "Merci pour votre inscription ! Veuillez confirmer votre adresse e-mail.",
-      "benefit1": "Sélection hebdomadaire",
-      "benefit2": "Rapports de marché et tendances",
-      "benefit3": "Désinscription à tout moment"
+      "benefit1": "Sélection personnalisée",
+      "benefit2": "Nouvelles fonctionnalités & offres",
+      "benefit3": "Désinscription à tout moment",
+      "firstNameLabel": "Prénom",
+      "firstNamePlaceholder": "Votre prénom",
+      "lastNameLabel": "Nom de famille",
+      "lastNamePlaceholder": "Votre nom de famille",
+      "emailLabel": "Adresse e-mail",
+      "emailRequired": "Veuillez saisir une adresse e-mail valide.",
+      "errorMessage": "Une erreur s'est produite. Veuillez réessayer plus tard.",
+      "eyebrow": "Newsletter",
+      "successEmailSent": "Un e-mail de confirmation a été envoyé à {{email}}.",
+      "successTiming": "L'e-mail peut mettre quelques minutes à arriver."
     },
     "faq": {
       "title": "Questions fréquentes",
@@ -705,7 +715,8 @@
     "BAD_ORDER_VALUE": "Ordre de tri invalide.",
     "unknown": "Une erreur inattendue s'est produite.",
     "WATCHLIST_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum d'articles dans votre liste de suivi. Il y a déjà 5/5 entrées de liste de suivi occupées.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum de filtres de recherche enregistrés. Il y a déjà 5/5 filtres de recherche occupés."
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum de filtres de recherche enregistrés. Il y a déjà 5/5 filtres de recherche occupés.",
+    "INVALID_EMAIL": "L'adresse e-mail est invalide ou n'est pas acceptée par notre fournisseur de newsletter."
   },
   "watchlist": {
     "title": "Mes favoris",

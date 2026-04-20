@@ -583,12 +583,22 @@
       "title": "Resta informato",
       "description": "Ricevi ogni settimana ritrovamenti selezionati, tendenze di mercato e approfondimenti esclusivi direttamente nella tua casella di posta.",
       "placeholder": "Il tuo indirizzo email",
-      "button": "Iscriviti",
-      "privacy": "Iscrivendoti, accetti la nostra informativa sulla privacy. Puoi annullare l'iscrizione in qualsiasi momento.",
+      "button": "Iscriviti alla newsletter",
+      "privacy": "Iscrivendoti, accetti la nostra <privacyLink>informativa sulla privacy</privacyLink>. Puoi annullare l'iscrizione in qualsiasi momento.",
       "successMessage": "Grazie per l'iscrizione! Conferma il tuo indirizzo email.",
-      "benefit1": "Highlights settimanali",
-      "benefit2": "Report e tendenze di mercato",
-      "benefit3": "Annulla l'iscrizione in qualsiasi momento"
+      "benefit1": "Highlights personalizzati",
+      "benefit2": "Nuove funzionalità & offerte",
+      "benefit3": "Annulla l'iscrizione in qualsiasi momento",
+      "firstNameLabel": "Nome",
+      "firstNamePlaceholder": "Il tuo nome",
+      "lastNameLabel": "Cognome",
+      "lastNamePlaceholder": "Il tuo cognome",
+      "emailLabel": "Indirizzo email",
+      "emailRequired": "Inserisci un indirizzo email valido.",
+      "errorMessage": "Qualcosa è andato storto. Riprova più tardi.",
+      "eyebrow": "Newsletter",
+      "successEmailSent": "Un'email di conferma è stata inviata a {{email}}.",
+      "successTiming": "Potrebbe volerci qualche minuto prima che l'email arrivi."
     },
     "faq": {
       "title": "Domande frequenti",
@@ -705,6 +715,7 @@
     "BAD_ORDER_VALUE": "Ordine di ordinamento non valido.",
     "WATCHLIST_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di articoli nella tua lista dei preferiti. Ci sono già 5/5 voci occupate.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di filtri di ricerca salvati. Ci sono già 5/5 filtri di ricerca occupati.",
+    "INVALID_EMAIL": "L'indirizzo email non è valido o non è accettato dal nostro fornitore di newsletter.",
     "unknown": "Si è verificato un errore imprevisto."
   },
   "watchlist": {

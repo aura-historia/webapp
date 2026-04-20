@@ -905,6 +905,30 @@ export type ProductSearchData = {
      */
     excludeSellerName?: Array<string>;
     /**
+     * Optional filter by exact shop slug identifiers.
+     * Filters products to only those whose `shopSlugId` exactly matches one of the provided kebab-case values.
+     *
+     */
+    shopSlugId?: Array<string>;
+    /**
+     * Optional filter to exclude products from specific shop slug identifiers.
+     * Products whose `shopSlugId` exactly matches one of the provided kebab-case values are excluded from results.
+     *
+     */
+    excludeShopSlugId?: Array<string>;
+    /**
+     * Optional filter by exact seller slug identifiers.
+     * Filters products to only those whose seller slug ID exactly matches one of the provided kebab-case values.
+     *
+     */
+    sellerSlugId?: Array<string>;
+    /**
+     * Optional filter to exclude products from specific seller slug identifiers.
+     * Products whose seller slug ID exactly matches one of the provided kebab-case values are excluded from results.
+     *
+     */
+    excludeSellerSlugId?: Array<string>;
+    /**
      * Optional filter by shop types
      */
     shopType?: Array<ShopTypeData> | null;
@@ -976,7 +1000,7 @@ export type PostUserSearchFilterData = {
      *
      */
     enhancedSearchDescription?: string;
-    productSearch: ProductSearchData;
+    search: ProductSearchData;
 };
 
 /**
@@ -1010,7 +1034,7 @@ export type PatchUserSearchFilterData = {
     /**
      * Partial search filter criteria to update
      */
-    productSearch?: PatchProductSearchData | null;
+    search?: PatchProductSearchData | null;
 };
 
 /**
@@ -1076,6 +1100,30 @@ export type PatchProductSearchData = {
      *
      */
     excludeSellerName?: Array<string> | null;
+    /**
+     * Optional filter by exact shop slug identifiers.
+     * Filters products to only those whose `shopSlugId` exactly matches one of the provided kebab-case values.
+     *
+     */
+    shopSlugId?: Array<string> | null;
+    /**
+     * Optional filter to exclude products from specific shop slug identifiers.
+     * Products whose `shopSlugId` exactly matches one of the provided kebab-case values are excluded from results.
+     *
+     */
+    excludeShopSlugId?: Array<string> | null;
+    /**
+     * Optional filter by exact seller slug identifiers.
+     * Filters products to only those whose seller slug ID exactly matches one of the provided kebab-case values.
+     *
+     */
+    sellerSlugId?: Array<string> | null;
+    /**
+     * Optional filter to exclude products from specific seller slug identifiers.
+     * Products whose seller slug ID exactly matches one of the provided kebab-case values are excluded from results.
+     *
+     */
+    excludeSellerSlugId?: Array<string> | null;
     /**
      * Optional filter by shop types
      */
@@ -1162,7 +1210,7 @@ export type UserSearchFilterData = {
      *
      */
     notifications: boolean;
-    productSearch: ProductSearchData;
+    search: ProductSearchData;
     /**
      * When the search filter was created (RFC3339 format)
      */
@@ -1296,6 +1344,12 @@ export type ShopSearchData = {
      * Optional filter by shop types
      */
     shopType?: Array<ShopTypeData> | null;
+    /**
+     * Optional filter by shop partner relationship status.
+     * When provided, only shops with one of the given partner-status values are returned.
+     *
+     */
+    partnerStatus?: Array<ShopPartnerStatusData> | null;
     /**
      * Optional filter by shop creation date range
      */
@@ -1694,6 +1748,34 @@ export type PatchUserAccountData = {
      * New consent state for displaying prohibited content
      */
     prohibitedContentConsent?: boolean | null;
+};
+
+/**
+ * Request body for creating or updating a newsletter subscription.
+ * `email` is required; all other fields are optional and may be omitted or set to `null`.
+ *
+ */
+export type PutNewsletterSubscriptionData = {
+    /**
+     * Email address to subscribe to the newsletter
+     */
+    email: string;
+    /**
+     * Optional first name to sync with the subscription
+     */
+    firstName?: string | null;
+    /**
+     * Optional last name to sync with the subscription
+     */
+    lastName?: string | null;
+    /**
+     * Optional preferred language to sync with the subscription
+     */
+    language?: LanguageData | null;
+    /**
+     * Optional preferred currency to sync with the subscription
+     */
+    currency?: CurrencyData | null;
 };
 
 /**
@@ -2895,6 +2977,30 @@ export type SimpleSearchProductsData = {
          */
         excludeShopName?: Array<string>;
         /**
+         * Optional filter by exact shop slug identifiers.
+         * Products are filtered to those whose `shopSlugId` exactly matches one of the provided kebab-case values.
+         *
+         */
+        shopSlugId?: Array<string>;
+        /**
+         * Optional filter to exclude products from specific shop slug identifiers.
+         * Products whose `shopSlugId` exactly matches one of the provided kebab-case values are excluded from results.
+         *
+         */
+        excludeShopSlugId?: Array<string>;
+        /**
+         * Optional filter by exact seller slug identifiers.
+         * Products are filtered to those whose seller slug ID exactly matches one of the provided kebab-case values.
+         *
+         */
+        sellerSlugId?: Array<string>;
+        /**
+         * Optional filter to exclude products from specific seller slug identifiers.
+         * Products whose seller slug ID exactly matches one of the provided kebab-case values are excluded from results.
+         *
+         */
+        excludeSellerSlugId?: Array<string>;
+        /**
          * Optional filter by shop types. When provided, only products from shops of the given types are returned.
          */
         shopType?: Array<ShopTypeData>;
@@ -3967,6 +4073,40 @@ export type PatchNotificationResponses = {
 
 export type PatchNotificationResponse = PatchNotificationResponses[keyof PatchNotificationResponses];
 
+export type PutNewsletterSubscriptionData2 = {
+    /**
+     * Newsletter subscription data.
+     */
+    body: PutNewsletterSubscriptionData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/newsletter-subscriptions';
+};
+
+export type PutNewsletterSubscriptionErrors = {
+    /**
+     * Bad request — the request body is missing, malformed, contains invalid field values,
+     * or the newsletter provider rejects the submitted email address as invalid.
+     *
+     */
+    400: ApiError;
+    /**
+     * Internal server error while syncing the newsletter subscription after an unexpected upstream failure
+     */
+    500: ApiError;
+};
+
+export type PutNewsletterSubscriptionError = PutNewsletterSubscriptionErrors[keyof PutNewsletterSubscriptionErrors];
+
+export type PutNewsletterSubscriptionResponses = {
+    /**
+     * Newsletter subscription synced successfully
+     */
+    204: void;
+};
+
+export type PutNewsletterSubscriptionResponse = PutNewsletterSubscriptionResponses[keyof PutNewsletterSubscriptionResponses];
+
 export type SimpleSearchShopsData = {
     body?: never;
     path?: never;
@@ -3975,6 +4115,10 @@ export type SimpleSearchShopsData = {
          * Optional text query for searching shops by name
          */
         shopNameQuery?: string;
+        /**
+         * Optional filter by shop partner relationship status
+         */
+        partnerStatus?: Array<ShopPartnerStatusData>;
         /**
          * Field to sort results by
          */
