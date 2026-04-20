@@ -3,8 +3,8 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistProduct, adminGetPartnerApplication, adminGetPartnerApplications, adminPatchPartnerApplication, adminPostPartnerApplicationDecision, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deletePartnerApplication, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPartnerApplication, getPartnerApplications, getPartnerShops, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterMatchedProducts, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchPartnerApplication, patchPartnerProducts, patchShopById, patchWatchlistProduct, postPartnerApplication, postPartnerProducts, putNewsletterSubscription, putPartnerProducts, putShopApiKey, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminGetPartnerApplicationData, AdminGetPartnerApplicationError, AdminGetPartnerApplicationResponse, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsError, AdminGetPartnerApplicationsResponse, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationError, AdminPatchPartnerApplicationResponse, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionError, AdminPostPartnerApplicationDecisionResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeletePartnerApplicationData, DeletePartnerApplicationError, DeletePartnerApplicationResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPartnerApplicationData, GetPartnerApplicationError, GetPartnerApplicationResponse, GetPartnerApplicationsData, GetPartnerApplicationsError, GetPartnerApplicationsResponse, GetPartnerShopsData, GetPartnerShopsError, GetPartnerShopsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchPartnerApplicationData, PatchPartnerApplicationError, PatchPartnerApplicationResponse, PatchPartnerProductsData, PatchPartnerProductsError, PatchPartnerProductsResponse, PatchShopByIdData, PatchShopByIdError, PatchShopByIdResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostPartnerApplicationData, PostPartnerApplicationError, PostPartnerApplicationResponse, PostPartnerProductsData, PostPartnerProductsError, PostPartnerProductsResponse, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductsData, PutPartnerProductsError, PutPartnerProductsResponse, PutShopApiKeyData, PutShopApiKeyError, PutShopApiKeyResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import { addWatchlistProduct, adminGetPartnerApplication, adminGetPartnerApplications, adminPatchPartnerApplication, adminPostPartnerApplicationDecision, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deletePartnerApplication, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPartnerApplication, getPartnerApplications, getPartnerShops, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterMatchedProducts, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchPartnerApplication, patchPartnerProducts, patchShopById, patchWatchlistProduct, postBillingCheckout, postBillingPortal, postPartnerApplication, postPartnerProducts, putNewsletterSubscription, putPartnerProducts, putShopApiKey, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminGetPartnerApplicationData, AdminGetPartnerApplicationError, AdminGetPartnerApplicationResponse, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsError, AdminGetPartnerApplicationsResponse, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationError, AdminPatchPartnerApplicationResponse, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionError, AdminPostPartnerApplicationDecisionResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeletePartnerApplicationData, DeletePartnerApplicationError, DeletePartnerApplicationResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPartnerApplicationData, GetPartnerApplicationError, GetPartnerApplicationResponse, GetPartnerApplicationsData, GetPartnerApplicationsError, GetPartnerApplicationsResponse, GetPartnerShopsData, GetPartnerShopsError, GetPartnerShopsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchPartnerApplicationData, PatchPartnerApplicationError, PatchPartnerApplicationResponse, PatchPartnerProductsData, PatchPartnerProductsError, PatchPartnerProductsResponse, PatchShopByIdData, PatchShopByIdError, PatchShopByIdResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostBillingCheckoutData2, PostBillingCheckoutError, PostBillingCheckoutResponse, PostBillingPortalData, PostBillingPortalError, PostBillingPortalResponse, PostPartnerApplicationData, PostPartnerApplicationError, PostPartnerApplicationResponse, PostPartnerProductsData, PostPartnerProductsError, PostPartnerProductsResponse, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductsData, PutPartnerProductsError, PutPartnerProductsResponse, PutShopApiKeyData, PutShopApiKeyError, PutShopApiKeyResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 /**
  * Batch update products (Partner API)
@@ -578,6 +578,54 @@ export const updateUserAccountMutation = (options?: Partial<Options<UpdateUserAc
     const mutationOptions: UseMutationOptions<UpdateUserAccountResponse, UpdateUserAccountError, Options<UpdateUserAccountData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await updateUserAccount({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Create Stripe checkout session
+ *
+ * Creates a hosted Stripe Checkout session for the authenticated user to start a subscription.
+ * The request body selects the desired subscription plan and billing cycle.
+ * The backend first creates and persists a Stripe customer for the user, then creates a
+ * subscription-mode Checkout session for that customer.
+ * This endpoint can only be used when the user does not already have a `stripe_customer_id`.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const postBillingCheckoutMutation = (options?: Partial<Options<PostBillingCheckoutData2>>): UseMutationOptions<PostBillingCheckoutResponse, PostBillingCheckoutError, Options<PostBillingCheckoutData2>> => {
+    const mutationOptions: UseMutationOptions<PostBillingCheckoutResponse, PostBillingCheckoutError, Options<PostBillingCheckoutData2>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await postBillingCheckout({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Create Stripe billing portal session
+ *
+ * Creates a hosted Stripe customer-portal session for the authenticated user.
+ * This endpoint does not accept a request body.
+ * It can only be used when the user already has a persisted `stripe_customer_id`.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const postBillingPortalMutation = (options?: Partial<Options<PostBillingPortalData>>): UseMutationOptions<PostBillingPortalResponse, PostBillingPortalError, Options<PostBillingPortalData>> => {
+    const mutationOptions: UseMutationOptions<PostBillingPortalResponse, PostBillingPortalError, Options<PostBillingPortalData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await postBillingPortal({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

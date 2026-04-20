@@ -1751,6 +1751,34 @@ export type PatchUserAccountData = {
 };
 
 /**
+ * Request body for creating a Stripe checkout session for a subscription purchase
+ */
+export type PostBillingCheckoutData = {
+    plan: BillingPlanData;
+    cycle: BillingCycleData;
+};
+
+/**
+ * Subscription plan that should be purchased through Stripe Checkout
+ */
+export type BillingPlanData = 'PRO' | 'ULTIMATE';
+
+/**
+ * Billing interval that should be used for the subscription purchase
+ */
+export type BillingCycleData = 'MONTHLY' | 'YEARLY';
+
+/**
+ * Hosted Stripe session URL returned by the billing endpoints
+ */
+export type BillingSessionUrlData = {
+    /**
+     * Hosted Stripe URL that the frontend should redirect the authenticated user to
+     */
+    url: string;
+};
+
+/**
  * Request body for creating or updating a newsletter subscription.
  * `email` is required; all other fields are optional and may be omitted or set to `null`.
  *
@@ -3735,6 +3763,87 @@ export type UpdateUserAccountResponses = {
 };
 
 export type UpdateUserAccountResponse = UpdateUserAccountResponses[keyof UpdateUserAccountResponses];
+
+export type PostBillingCheckoutData2 = {
+    /**
+     * Desired subscription plan and billing cycle for the new Stripe checkout session.
+     */
+    body: PostBillingCheckoutData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/billing/checkout';
+};
+
+export type PostBillingCheckoutErrors = {
+    /**
+     * Bad request - request body is missing, empty, malformed JSON, or contains unsupported enum values
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Conflict - the authenticated user already has a Stripe customer record
+     */
+    409: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PostBillingCheckoutError = PostBillingCheckoutErrors[keyof PostBillingCheckoutErrors];
+
+export type PostBillingCheckoutResponses = {
+    /**
+     * Checkout session created successfully
+     */
+    201: BillingSessionUrlData;
+};
+
+export type PostBillingCheckoutResponse = PostBillingCheckoutResponses[keyof PostBillingCheckoutResponses];
+
+export type PostBillingPortalData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/billing/portal';
+};
+
+export type PostBillingPortalErrors = {
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Unprocessable Content - the authenticated user has no Stripe customer record yet
+     */
+    422: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PostBillingPortalError = PostBillingPortalErrors[keyof PostBillingPortalErrors];
+
+export type PostBillingPortalResponses = {
+    /**
+     * Billing portal session created successfully
+     */
+    201: BillingSessionUrlData;
+};
+
+export type PostBillingPortalResponse = PostBillingPortalResponses[keyof PostBillingPortalResponses];
 
 export type DeleteWatchlistProductData = {
     body?: never;
