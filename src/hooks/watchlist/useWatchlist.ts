@@ -6,7 +6,7 @@ import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { useTranslation } from "react-i18next";
 
-const PAGE_SIZE = 21;
+const PAGE_SIZE = 20;
 
 export function useWatchlist() {
     const { getErrorMessage } = useApiError();

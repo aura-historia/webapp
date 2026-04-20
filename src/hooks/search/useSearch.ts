@@ -22,7 +22,7 @@ import { mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
 import { env } from "@/env.ts";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 
-const PAGE_SIZE = 21;
+const PAGE_SIZE = 30;
 const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 /**
