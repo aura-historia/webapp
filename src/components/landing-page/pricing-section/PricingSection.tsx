@@ -137,7 +137,7 @@ export default function PricingSection() {
                                 </p>
                                 <div className="mt-6">
                                     {renderStrikethroughPrice(tier)}
-                                    <span className="font-display text-4xl font-normal text-foreground">
+                                    <span className="ps-2 font-display text-4xl font-normal text-foreground">
                                         {formatPrice(tier)}
                                     </span>
                                     <p className="mt-2 text-xs uppercase tracking-wide text-muted-foreground">
