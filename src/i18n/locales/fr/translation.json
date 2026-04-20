@@ -893,7 +893,19 @@
       "USD": "USD - Dollar américain",
       "AUD": "AUD - Dollar australien",
       "CAD": "CAD - Dollar canadien",
-      "NZD": "NZD - Dollar néo-zélandais"
+      "NZD": "NZD - Dollar néo-zélandais",
+      "CNY": "CNY - Yuan chinois",
+      "BRL": "BRL - Réal brésilien",
+      "PLN": "PLN - Zloty polonais",
+      "TRY": "TRY - Livre turque",
+      "JPY": "JPY - Yen japonais",
+      "CZK": "CZK - Couronne tchèque",
+      "RUB": "RUB - Rouble russe",
+      "AED": "AED - Dirham des EAU",
+      "SAR": "SAR - Riyal saoudien",
+      "HKD": "HKD - Dollar de Hong Kong",
+      "SGD": "SGD - Dollar de Singapour",
+      "CHF": "CHF - Franc suisse"
     }
   },
   "amplify": {
