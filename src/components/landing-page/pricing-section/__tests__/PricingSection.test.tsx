@@ -13,8 +13,35 @@ const mockUseAuthenticator = vi.hoisted(() =>
     })),
 );
 
+const mockPostBillingCheckout = vi.hoisted(() => vi.fn());
+const mockPostBillingPortal = vi.hoisted(() => vi.fn());
+const mockNavigate = vi.hoisted(() => vi.fn());
+
 vi.mock("@aws-amplify/ui-react", () => ({
     useAuthenticator: mockUseAuthenticator,
+}));
+
+vi.mock("@/client", () => ({
+    postBillingCheckout: mockPostBillingCheckout,
+    postBillingPortal: mockPostBillingPortal,
+}));
+
+vi.mock("@tanstack/react-router", async (importOriginal) => {
+    const actual = await importOriginal<typeof import("@tanstack/react-router")>();
+    return {
+        ...actual,
+        useNavigate: () => mockNavigate,
+    };
+});
+
+vi.mock("@/hooks/common/useApiError", () => ({
+    useApiError: () => ({
+        getErrorMessage: () => "An error occurred",
+    }),
+}));
+
+vi.mock("@/data/internal/hooks/ApiError", () => ({
+    mapToInternalApiError: (error: unknown) => error,
 }));
 
 describe("PricingSection", () => {
@@ -257,5 +284,172 @@ describe("PricingSection with logged-in user", () => {
         const button = freeButton.closest("button");
         expect(button).toBeInTheDocument();
         expect(button).toBeDisabled();
+    });
+});
+
+describe("PricingSection billing button behavior", () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+
+        Object.defineProperty(window, "location", {
+            value: { href: "" },
+            writable: true,
+        });
+    });
+
+    it("should navigate to login when anonymous user clicks subscribe", async () => {
+        mockUseAuthenticator.mockReturnValue({
+            user: null,
+            toSignUp: vi.fn(),
+        });
+
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+
+        const user = userEvent.setup();
+        const subscribeButtons = screen.getAllByText("Abonnieren");
+
+        await user.click(subscribeButtons[0]);
+
+        expect(mockNavigate).toHaveBeenCalledWith({
+            to: "/login",
+            search: { redirect: "/" },
+        });
+        expect(mockPostBillingCheckout).not.toHaveBeenCalled();
+    });
+
+    it("should call checkout with PRO plan and YEARLY cycle when clicking Pro subscribe", async () => {
+        mockUseAuthenticator.mockReturnValue({
+            user: { username: "test-user" },
+            toSignUp: vi.fn(),
+        });
+
+        mockPostBillingCheckout.mockResolvedValue({
+            data: { url: "https://checkout.stripe.com/c/pay/cs_test_123" },
+            error: null,
+        });
+
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+
+        const user = userEvent.setup();
+        const subscribeButtons = screen.getAllByText("Abonnieren");
+
+        await user.click(subscribeButtons[0]);
+
+        expect(mockPostBillingCheckout).toHaveBeenCalledWith({
+            body: { plan: "PRO", cycle: "YEARLY" },
+        });
+    });
+
+    it("should call checkout with ULTIMATE plan and YEARLY cycle when clicking Ultimate subscribe", async () => {
+        mockUseAuthenticator.mockReturnValue({
+            user: { username: "test-user" },
+            toSignUp: vi.fn(),
+        });
+
+        mockPostBillingCheckout.mockResolvedValue({
+            data: { url: "https://checkout.stripe.com/c/pay/cs_test_456" },
+            error: null,
+        });
+
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+
+        const user = userEvent.setup();
+        const subscribeButtons = screen.getAllByText("Abonnieren");
+
+        await user.click(subscribeButtons[1]);
+
+        expect(mockPostBillingCheckout).toHaveBeenCalledWith({
+            body: { plan: "ULTIMATE", cycle: "YEARLY" },
+        });
+    });
+
+    it("should call checkout with MONTHLY cycle after switching to monthly billing", async () => {
+        mockUseAuthenticator.mockReturnValue({
+            user: { username: "test-user" },
+            toSignUp: vi.fn(),
+        });
+
+        mockPostBillingCheckout.mockResolvedValue({
+            data: { url: "https://checkout.stripe.com/c/pay/cs_test_monthly" },
+            error: null,
+        });
+
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+
+        const user = userEvent.setup();
+        const toggle = screen.getByRole("switch");
+
+        await user.click(toggle);
+
+        const subscribeButtons = screen.getAllByText("Abonnieren");
+        await user.click(subscribeButtons[0]);
+
+        expect(mockPostBillingCheckout).toHaveBeenCalledWith({
+            body: { plan: "PRO", cycle: "MONTHLY" },
+        });
+    });
+
+    it("should redirect to checkout URL on successful checkout", async () => {
+        mockUseAuthenticator.mockReturnValue({
+            user: { username: "test-user" },
+            toSignUp: vi.fn(),
+        });
+
+        mockPostBillingCheckout.mockResolvedValue({
+            data: { url: "https://checkout.stripe.com/c/pay/cs_test_redirect" },
+            error: null,
+        });
+
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+
+        const user = userEvent.setup();
+        const subscribeButtons = screen.getAllByText("Abonnieren");
+
+        await user.click(subscribeButtons[0]);
+
+        expect(window.location.href).toBe("https://checkout.stripe.com/c/pay/cs_test_redirect");
+    });
+
+    it("should fall back to portal when checkout returns 409", async () => {
+        mockUseAuthenticator.mockReturnValue({
+            user: { username: "test-user" },
+            toSignUp: vi.fn(),
+        });
+
+        mockPostBillingCheckout.mockResolvedValue({
+            data: null,
+            error: {
+                status: 409,
+                error: "STRIPE_CUSTOMER_ALREADY_EXISTS",
+                title: "Conflict",
+            },
+        });
+
+        mockPostBillingPortal.mockResolvedValue({
+            data: { url: "https://billing.stripe.com/p/session/test_portal" },
+            error: null,
+        });
+
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+
+        const user = userEvent.setup();
+        const subscribeButtons = screen.getAllByText("Abonnieren");
+
+        await user.click(subscribeButtons[0]);
+
+        expect(mockPostBillingPortal).toHaveBeenCalled();
+        expect(window.location.href).toBe("https://billing.stripe.com/p/session/test_portal");
     });
 });
