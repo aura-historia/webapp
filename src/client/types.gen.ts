@@ -4085,11 +4085,13 @@ export type PutNewsletterSubscriptionData2 = {
 
 export type PutNewsletterSubscriptionErrors = {
     /**
-     * Bad request - empty body, malformed JSON, or invalid body field values
+     * Bad request — the request body is missing, malformed, contains invalid field values,
+     * or the newsletter provider rejects the submitted email address as invalid.
+     *
      */
     400: ApiError;
     /**
-     * Internal server error while syncing the newsletter subscription
+     * Internal server error while syncing the newsletter subscription after an unexpected upstream failure
      */
     500: ApiError;
 };
