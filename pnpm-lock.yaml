@@ -12,11 +12,11 @@ importers:
         specifier: ^6.19.1
         version: 6.19.1(@aws-amplify/core@6.16.1)
       '@aws-amplify/ui-react':
-        specifier: ^6.15.2
-        version: 6.15.2(@aws-amplify/core@6.16.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(aws-amplify@6.16.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(xstate@4.38.3)
+        specifier: ^6.15.3
+        version: 6.15.3(@aws-amplify/core@6.16.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(aws-amplify@6.16.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(xstate@4.38.3)
       '@cloudflare/vite-plugin':
-        specifier: ^1.31.2
-        version: 1.31.2(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))(workerd@1.20260410.1)(wrangler@4.82.0)
+        specifier: ^1.32.3
+        version: 1.32.3(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))(workerd@1.20260410.1)(wrangler@4.82.0)
       '@faker-js/faker':
         specifier: ^10.4.0
         version: 10.4.0
@@ -84,17 +84,17 @@ importers:
         specifier: ^8.19.4
         version: 8.19.4
       '@tanstack/react-devtools':
-        specifier: ^0.10.0
-        version: 0.10.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(csstype@3.2.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(solid-js@1.9.11)
+        specifier: ^0.10.2
+        version: 0.10.2(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(csstype@3.2.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(solid-js@1.9.11)
       '@tanstack/react-form':
-        specifier: ^1.28.5
-        version: 1.28.5(@tanstack/react-start@1.167.6(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3)))(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        specifier: ^1.29.0
+        version: 1.29.0(@tanstack/react-start@1.167.6(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3)))(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@tanstack/react-query':
-        specifier: ^5.95.2
-        version: 5.95.2(react@19.2.5)
+        specifier: ^5.99.2
+        version: 5.99.2(react@19.2.5)
       '@tanstack/react-query-devtools':
         specifier: ^5.95.2
-        version: 5.95.2(@tanstack/react-query@5.95.2(react@19.2.5))(react@19.2.5)
+        version: 5.95.2(@tanstack/react-query@5.99.2(react@19.2.5))(react@19.2.5)
       '@tanstack/react-router':
         specifier: ^1.168.3
         version: 1.168.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -103,7 +103,7 @@ importers:
         version: 1.166.11(@tanstack/react-router@1.168.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(@tanstack/router-core@1.168.3)(csstype@3.2.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@tanstack/react-router-ssr-query':
         specifier: ^1.166.10
-        version: 1.166.10(@tanstack/query-core@5.95.2)(@tanstack/react-query@5.95.2(react@19.2.5))(@tanstack/react-router@1.168.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(@tanstack/router-core@1.168.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        version: 1.166.10(@tanstack/query-core@5.99.2)(@tanstack/react-query@5.99.2(react@19.2.5))(@tanstack/react-router@1.168.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(@tanstack/router-core@1.168.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@tanstack/react-start':
         specifier: ^1.167.6
         version: 1.167.6(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))
@@ -368,14 +368,14 @@ packages:
     peerDependencies:
       '@aws-amplify/core': ^6.1.0
 
-  '@aws-amplify/ui-react-core@3.6.2':
-    resolution: {integrity: sha512-wVyE9DFMJebGp1pLkcvohtGPFL6fpXH7lHiU/1fndPLUrUpHJFxslHAT3LGTwztThC27iM3hap+BcEewFiaqJA==}
+  '@aws-amplify/ui-react-core@3.6.3':
+    resolution: {integrity: sha512-MnAvj/sy/S6i9o/jCImgKTwvGosWB3tYIgenvE07C/aWJgTe02DyN7RAG1ueTqe+V8QzEJvYc0tgVuwmiwIK+A==}
     peerDependencies:
       aws-amplify: ^6.14.3
       react: ^16.14 || ^17 || ^18 || ^19
 
-  '@aws-amplify/ui-react@6.15.2':
-    resolution: {integrity: sha512-8eXVnyl8eLPKGXaJ3CEt1mNwWKJ98El5nVz9NnKzoW1/B5cPhc96yVzIzHmyAyMROLKArzWOC4unx/RLN1YDBA==}
+  '@aws-amplify/ui-react@6.15.3':
+    resolution: {integrity: sha512-S4AfhC+NGpMsIaCoXaQZhCQ+fhBzxkIUBVvNK+g8dYVO/wM9tMAxwESenZfuW+MmrFMTAAVtafoX7TCFAEHdCg==}
     peerDependencies:
       '@aws-amplify/core': '*'
       aws-amplify: ^6.14.3
@@ -385,8 +385,8 @@ packages:
       aws-amplify:
         optional: true
 
-  '@aws-amplify/ui@6.15.2':
-    resolution: {integrity: sha512-w8ElY62cjBIKGOPEkEMXAtwrAoDYMLizfdIuR3KWDI8ta8Riv0l8nZt7N2EtraUnD7RxWUKgzR3kcBtFoPUbRA==}
+  '@aws-amplify/ui@6.15.3':
+    resolution: {integrity: sha512-fJktaSs2oKQGXuriQJ8saDMQJZTff6VeTIYaJjNNuIpu2ZQI21WdPZRzD/nMm0i+OQYUo1Lt2LaV5NxbEGaIgw==}
     peerDependencies:
       '@aws-amplify/core': '*'
       aws-amplify: ^6.14.3
@@ -710,17 +710,11 @@ packages:
       workerd:
         optional: true
 
-  '@cloudflare/vite-plugin@1.31.2':
-    resolution: {integrity: sha512-6RyoPhqmpuHPB+Zudt7mOUdGzB1+DQtJtPdAxUajhlS2ZUU0+bCn9Cj4g6Z2EvajBrkBTw1yVLqtt4bsUnp1Ng==}
+  '@cloudflare/vite-plugin@1.32.3':
+    resolution: {integrity: sha512-a8ZkCA/SOiJ36jT3LlBLkUb7ZzGInhYJoTY4BMRBGdk+nsh44HavbNvtu/RdaqS5VJEMLM4+LqVIJ+V0ahGeFg==}
     peerDependencies:
       vite: ^6.1.0 || ^7.0.0 || ^8.0.0
-      wrangler: ^4.81.1
-
-  '@cloudflare/workerd-darwin-64@1.20260409.1':
-    resolution: {integrity: sha512-h/bkaC0HJL63aqAGnV0oagqpBiTSstabODThkeMSbG8kctl0Jb4jlq1pNHJPmYGazFNtfyagrUZFb6HN22GX7w==}
-    engines: {node: '>=16'}
-    cpu: [x64]
-    os: [darwin]
+      wrangler: ^4.83.0
 
   '@cloudflare/workerd-darwin-64@1.20260410.1':
     resolution: {integrity: sha512-0sh6xPmCKUfv/lUklP1dfyeKxCuEZGS0HeduxnucL8ECxSgAdWTOD42h/lQTwZCIiWtyHB+ZNB9hsS2Mlf0tMQ==}
@@ -728,10 +722,10 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@cloudflare/workerd-darwin-arm64@1.20260409.1':
-    resolution: {integrity: sha512-HTAC+B9uSYcm+GjN3UYJjuun19GqYtK1bAFJ0KECXyfsgIDwH1MTzxbTxzJpZUbWLw8s0jcwCU06MWZj6cgnxQ==}
+  '@cloudflare/workerd-darwin-64@1.20260415.1':
+    resolution: {integrity: sha512-dsxaKsQm3LnPGNPEdsRv09QN3Y4DqCw7kX5j6noKqbAtro2jTr95sVlYM1jUxZ5FkOl1f7SXgaKKB9t5H5Nkbg==}
     engines: {node: '>=16'}
-    cpu: [arm64]
+    cpu: [x64]
     os: [darwin]
 
   '@cloudflare/workerd-darwin-arm64@1.20260410.1':
@@ -740,11 +734,11 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
-  '@cloudflare/workerd-linux-64@1.20260409.1':
-    resolution: {integrity: sha512-QIoNq5cgmn1ko8qlngmgZLXQr2KglrjvIwVFOyJI3rbIpt8631n/YMzHPiOWgt38Cb6tcni8fXOzkcvIX2lBDg==}
+  '@cloudflare/workerd-darwin-arm64@1.20260415.1':
+    resolution: {integrity: sha512-+JgSgVA49KyKteHRA1SnonE4Zn5Ei5zdAp5FQMxFmXI8qulZw4Hl7safXxRyK4i9sTO8gl7TFOKO5Q64VPvSDQ==}
     engines: {node: '>=16'}
-    cpu: [x64]
-    os: [linux]
+    cpu: [arm64]
+    os: [darwin]
 
   '@cloudflare/workerd-linux-64@1.20260410.1':
     resolution: {integrity: sha512-qWORRcAzPZeHJjrcYBNZTN6Y9l+iZQUz4KBdWbNrM6My4CpNrXS5kErPR373vG//5QPaDGwMXgBqyn9xfzarJQ==}
@@ -752,10 +746,10 @@ packages:
     cpu: [x64]
     os: [linux]
 
-  '@cloudflare/workerd-linux-arm64@1.20260409.1':
-    resolution: {integrity: sha512-HJGBMTfPDb0GCjwdxWFx63wS20TYDVmtOuA5KVri/CiFnit71y++kmseVmemjsgLFFIzoEAuFG/xUh1FJLo6tg==}
+  '@cloudflare/workerd-linux-64@1.20260415.1':
+    resolution: {integrity: sha512-tU+9pwsqCy8afOVlGtiWrWQc/fedQK4SRm4KPIAt+zOiQWDxWASm6YGBUJis5c648WN80yz47qnmdDi8DQNOcA==}
     engines: {node: '>=16'}
-    cpu: [arm64]
+    cpu: [x64]
     os: [linux]
 
   '@cloudflare/workerd-linux-arm64@1.20260410.1':
@@ -764,14 +758,20 @@ packages:
     cpu: [arm64]
     os: [linux]
 
-  '@cloudflare/workerd-windows-64@1.20260409.1':
-    resolution: {integrity: sha512-GttFO0+TvE0rJNQbDlxC6kq2Q7uFxoZRo74Z9d/trUrLgA14HEVTTXobYyiWrDZ9Qp2W5KN1CrXQXiko0zE38Q==}
+  '@cloudflare/workerd-linux-arm64@1.20260415.1':
+    resolution: {integrity: sha512-bR9uITnV19r5NQ14xnypi2xHXu2iQvfYV8cVgx0JouFUmWwTEEAwFVojDdssGq93VHX9hr/pi2IRUZeegbYBog==}
+    engines: {node: '>=16'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@cloudflare/workerd-windows-64@1.20260410.1':
+    resolution: {integrity: sha512-h8q/nbheDqpknY7AAOz19MuQkZAR1/bnoZnKipyeUPXt5No+y6HlTtva9Bohx5Fhc1MW2CX2MQVdb55qtkkqZQ==}
     engines: {node: '>=16'}
     cpu: [x64]
     os: [win32]
 
-  '@cloudflare/workerd-windows-64@1.20260410.1':
-    resolution: {integrity: sha512-h8q/nbheDqpknY7AAOz19MuQkZAR1/bnoZnKipyeUPXt5No+y6HlTtva9Bohx5Fhc1MW2CX2MQVdb55qtkkqZQ==}
+  '@cloudflare/workerd-windows-64@1.20260415.1':
+    resolution: {integrity: sha512-4NuMLlerI0Ijua3Ir8HXQ+qyNvCUDEG5gDco5Om+sAiK6rnWiz+aGoSlbB8W16yW9QAgzCstbmXLiVknUBflfQ==}
     engines: {node: '>=16'}
     cpu: [x64]
     os: [win32]
@@ -821,6 +821,9 @@ packages:
 
   '@emnapi/core@1.9.2':
     resolution: {integrity: sha512-UC+ZhH3XtczQYfOlu3lNEkdW/p4dsJ1r/bP7H8+rhao3TTTMO1ATq/4DdIi23XuGoFY+Cz0JmCbdVl0hz9jZcA==}
+
+  '@emnapi/runtime@1.10.0':
+    resolution: {integrity: sha512-ewvYlk86xUoGI0zQRNq/mC+16R1QeDlKQy21Ki3oSYXNgLb45GV1P6A0M+/s6nyCuNDqe5VpaY84BzXGwVbwFA==}
 
   '@emnapi/runtime@1.9.2':
     resolution: {integrity: sha512-3U4+MIWHImeyu1wnmVygh5WlgfYDtyf0k8AbLhMFxOipihf6nrWC4syIm/SwEeec0mNSafiiNnMJwbza/Is6Lw==}
@@ -2707,15 +2710,15 @@ packages:
     peerDependencies:
       vite: ^6.0.0 || ^7.0.0 || ^8.0.0
 
-  '@tanstack/devtools@0.11.0':
-    resolution: {integrity: sha512-ARRAnEm0HYjKlB2adC9YyDG3fbq5LVjpxPe6Jz583SanXRM1aKrZIGHIA//oRldX3mWIpM4kB6mCyd+CXCLqhA==}
+  '@tanstack/devtools@0.11.2':
+    resolution: {integrity: sha512-K8+tsBx+ptTLqqd4dOF10B6laj1g+XYImqYZL9n0jBINGaT+sOf17PKV9pbBt8kdbZeIGsHaJ5OZWCyZoHqN4A==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
       solid-js: '>=1.9.7'
 
-  '@tanstack/form-core@1.28.5':
-    resolution: {integrity: sha512-8lYnduHHfP6uaXF9+2OLnh3Fo27tH4TdtekWLG2b/Bp26ynbrWG6L4qhBgEb7VcvTpJw/RjvJF/JyFhZkG3pfQ==}
+  '@tanstack/form-core@1.29.0':
+    resolution: {integrity: sha512-uyeKEdJBfbj0bkBSwvSYVRtWLOaXvfNX3CeVw1HqGOXVLxpBBGAqWdYLc+UoX/9xcoFwFXrjR9QqMPzvwm2yyQ==}
 
   '@tanstack/history@1.161.6':
     resolution: {integrity: sha512-NaOGLRrddszbQj9upGat6HG/4TKvXLvu+osAIgfxPYA+eIvYKv8GKDJOrY2D3/U9MRnKfMWD7bU4jeD4xmqyIg==}
@@ -2729,14 +2732,14 @@ packages:
     resolution: {integrity: sha512-y/xtNPNt/YeyoVxE/JCx+T7yjEzpezmbb+toK8DDD1P4m7Kzs5YR956+7OKexG3f8aXgC3rLZl7b1V+yNUSy5w==}
     engines: {node: '>=18'}
 
-  '@tanstack/query-core@5.95.2':
-    resolution: {integrity: sha512-o4T8vZHZET4Bib3jZ/tCW9/7080urD4c+0/AUaYVpIqOsr7y0reBc1oX3ttNaSW5mYyvZHctiQ/UOP2PfdmFEQ==}
+  '@tanstack/query-core@5.99.2':
+    resolution: {integrity: sha512-1HunU0bXVsR1ZJMZbcOPE6VtaBJxsW809RE9xPe4Gz7MlB0GWwQvuTPhMoEmQ/hIzFKJ/DWAuttIe7BOaWx0tA==}
 
   '@tanstack/query-devtools@5.95.2':
     resolution: {integrity: sha512-QfaoqBn9uAZ+ICkA8brd1EHj+qBF6glCFgt94U8XP5BT6ppSsDBI8IJ00BU+cAGjQzp6wcKJL2EmRYvxy0TWIg==}
 
-  '@tanstack/react-devtools@0.10.0':
-    resolution: {integrity: sha512-cUMzOQb1IHmkb8MsD0TrxHT8EL92Rx3G0Huq+IFkWeoaZPGlIiaIcGTpS5VvQDeI4BVUT+ZGt6CQTpx8oSTECg==}
+  '@tanstack/react-devtools@0.10.2':
+    resolution: {integrity: sha512-1BmZyxOrI5SqmRJ5MgkYZNNdnlLsJxQRI2YgorrAvcF2MxK6x5RcuStvD8+YlXoMw3JtNukPxoITirKAnKYDQA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@types/react': '>=16.8'
@@ -2744,8 +2747,8 @@ packages:
       react: '>=16.8'
       react-dom: '>=16.8'
 
-  '@tanstack/react-form@1.28.5':
-    resolution: {integrity: sha512-CL8IeWkeXnEEDsHt5wBuIOZvSYrKiLRtsC9ca0LzfJJ22SYCma9cBmh1UX1EBX0o3gH2U21PmUf+y5f9OJNoEQ==}
+  '@tanstack/react-form@1.29.0':
+    resolution: {integrity: sha512-jj425NNX0QKqbUzqSNiYI3HCPHSk2df47acXCJyXczWOTmG81ECZGkgofgqamFsSU9kMiH6Di5RLUnftrlhWSw==}
     peerDependencies:
       '@tanstack/react-start': '*'
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -2759,8 +2762,8 @@ packages:
       '@tanstack/react-query': ^5.95.2
       react: ^18 || ^19
 
-  '@tanstack/react-query@5.95.2':
-    resolution: {integrity: sha512-/wGkvLj/st5Ud1Q76KF1uFxScV7WeqN1slQx5280ycwAyYkIPGaRZAEgHxe3bjirSd5Zpwkj6zNcR4cqYni/ZA==}
+  '@tanstack/react-query@5.99.2':
+    resolution: {integrity: sha512-vM91UEe45QUS9ED6OklsVL15i8qKcRqNwpWzPTVWvRPRSEgDudDgHpvyTjcdlwHcrKNa80T+xXYcchT2noPnZA==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -3934,8 +3937,8 @@ packages:
   lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
 
-  lodash@4.17.23:
-    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
+  lodash@4.18.1:
+    resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
   log-update@6.1.0:
     resolution: {integrity: sha512-9ie8ItPR6tjY5uYJh8K/Zrv/RMZ5VOlOWvtZdEHYSTFKZfIBPQa9tOAEeAWhd+AnIneLJ22w5fjOYtoutpWq5w==}
@@ -4081,13 +4084,13 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
 
-  miniflare@4.20260409.0:
-    resolution: {integrity: sha512-ayl6To4av0YuXsSivGgWLj+Ug8xZ0Qz3sGV8+Ok2LhNVl6m8m5ktEBM3LX9iT9MtLZRJwBlJrKcraNs/DlZQfA==}
+  miniflare@4.20260410.0:
+    resolution: {integrity: sha512-94LEU8d+XPVGp18eW4+bu1v7Tnq7srhqWMIsrx2jhSkdbTnGqg1I613R0GKY4eygBYl9MbqXEhzK/bczJb6uMg==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  miniflare@4.20260410.0:
-    resolution: {integrity: sha512-94LEU8d+XPVGp18eW4+bu1v7Tnq7srhqWMIsrx2jhSkdbTnGqg1I613R0GKY4eygBYl9MbqXEhzK/bczJb6uMg==}
+  miniflare@4.20260415.0:
+    resolution: {integrity: sha512-JoExRWN4YBI2luA5BoSMFEgi8rQWXUGzo3mtE+58VXCLV3jj/Xnk5Yeqs/IXWz8Es5GJIaq6BtsixDvAxXSIng==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -4705,6 +4708,14 @@ packages:
     resolution: {integrity: sha512-H/nlJ/h0ggGC+uRL3ovD+G0i4bqhvsDOpbDv7At5eFLlj2b41L8QliGbnl2H7SnDiYhENphh1tQFJZf+MyfLsQ==}
     engines: {node: '>=20.18.1'}
 
+  undici@7.24.8:
+    resolution: {integrity: sha512-6KQ/+QxK49Z/p3HO6E5ZCZWNnCasyZLa5ExaVYyvPxUwKtbCPMKELJOqh7EqOle0t9cH/7d2TaaTRRa6Nhs4YQ==}
+    engines: {node: '>=20.18.1'}
+
+  undici@7.25.0:
+    resolution: {integrity: sha512-xXnp4kTyor2Zq+J1FfPI6Eq3ew5h6Vl0F/8d9XU5zZQf1tX9s2Su1/3PiMmUANFULpmksxkClamIZcaUqryHsQ==}
+    engines: {node: '>=20.18.1'}
+
   unenv@2.0.0-rc.24:
     resolution: {integrity: sha512-i7qRCmY42zmCwnYlh9H2SvLEypEFGye5iRmEMKjcGi7zk9UquigRjFtTLz0TYqr0ZGLZhaMHl/foy1bZR+Cwlw==}
 
@@ -4938,19 +4949,20 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
-  workerd@1.20260409.1:
-    resolution: {integrity: sha512-kuWP20fAaqaLBqLbvUfY9nCF6c3C78L60G9lS6eVwBf+v8trVFIsAdLB/FtrnKm7vgVvpDzvFAfB80VIiVj95w==}
+  workerd@1.20260410.1:
+    resolution: {integrity: sha512-T/GRD6Y5vN9g4CnGmOlfST1w7bj+1IjRFvX0K7CodZPJuPVPNPGhz8Wppah0WdT6A7I8Kad3zgZ2OkDdWtENrg==}
     engines: {node: '>=16'}
     hasBin: true
 
-  workerd@1.20260410.1:
-    resolution: {integrity: sha512-T/GRD6Y5vN9g4CnGmOlfST1w7bj+1IjRFvX0K7CodZPJuPVPNPGhz8Wppah0WdT6A7I8Kad3zgZ2OkDdWtENrg==}
+  workerd@1.20260415.1:
+    resolution: {integrity: sha512-phyPjRnx+mQDfkhN9ENPioL1L0SdhYs4S0YmJK/xF9Oga+ykNfdSy1MHnsOj8yqnOV96zcVQMx32dJ0r3pq0jQ==}
     engines: {node: '>=16'}
     hasBin: true
 
   wrangler@4.82.0:
     resolution: {integrity: sha512-LbCjPAHNB35ecXRsacTSCbn3yz9mUJI6AumOUlddqkiNvtPNftNb4nScF7enx6ec5Q5ACkd9Ucn343irT12blA==}
     engines: {node: '>=20.3.0'}
+    deprecated: This release had problems with invalid OAuth scopes when logging in
     hasBin: true
     peerDependencies:
       '@cloudflare/workers-types': ^4.20260410.1
@@ -4978,8 +4990,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@8.19.0:
-    resolution: {integrity: sha512-blAT2mjOEIi0ZzruJfIhb3nps74PRWTCz1IjglWEEpQl5XS/UNama6u2/rjFkDDouqr4L67ry+1aGIALViWjDg==}
+  ws@8.20.0:
+    resolution: {integrity: sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -5163,7 +5175,7 @@ snapshots:
     dependencies:
       '@aws-amplify/core': 6.16.1
       '@aws-sdk/types': 3.973.1
-      lodash: 4.17.23
+      lodash: 4.18.1
       tslib: 2.8.1
 
   '@aws-amplify/storage@6.13.2(@aws-amplify/core@6.16.1)':
@@ -5176,12 +5188,12 @@ snapshots:
       fast-xml-parser: 5.5.5
       tslib: 2.8.1
 
-  '@aws-amplify/ui-react-core@3.6.2(@aws-amplify/core@6.16.1)(@types/react@19.2.14)(aws-amplify@6.16.3)(react@19.2.5)':
+  '@aws-amplify/ui-react-core@3.6.3(@aws-amplify/core@6.16.1)(@types/react@19.2.14)(aws-amplify@6.16.3)(react@19.2.5)':
     dependencies:
-      '@aws-amplify/ui': 6.15.2(@aws-amplify/core@6.16.1)(aws-amplify@6.16.3)(xstate@4.38.3)
+      '@aws-amplify/ui': 6.15.3(@aws-amplify/core@6.16.1)(aws-amplify@6.16.3)(xstate@4.38.3)
       '@xstate/react': 3.2.2(@types/react@19.2.14)(react@19.2.5)(xstate@4.38.3)
       aws-amplify: 6.16.3
-      lodash: 4.17.23
+      lodash: 4.18.1
       react: 19.2.5
       react-hook-form: 7.53.2(react@19.2.5)
       xstate: 4.38.3
@@ -5190,16 +5202,16 @@ snapshots:
       - '@types/react'
       - '@xstate/fsm'
 
-  '@aws-amplify/ui-react@6.15.2(@aws-amplify/core@6.16.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(aws-amplify@6.16.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(xstate@4.38.3)':
+  '@aws-amplify/ui-react@6.15.3(@aws-amplify/core@6.16.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(aws-amplify@6.16.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(xstate@4.38.3)':
     dependencies:
       '@aws-amplify/core': 6.16.1
-      '@aws-amplify/ui': 6.15.2(@aws-amplify/core@6.16.1)(aws-amplify@6.16.3)(xstate@4.38.3)
-      '@aws-amplify/ui-react-core': 3.6.2(@aws-amplify/core@6.16.1)(@types/react@19.2.14)(aws-amplify@6.16.3)(react@19.2.5)
+      '@aws-amplify/ui': 6.15.3(@aws-amplify/core@6.16.1)(aws-amplify@6.16.3)(xstate@4.38.3)
+      '@aws-amplify/ui-react-core': 3.6.3(@aws-amplify/core@6.16.1)(@types/react@19.2.14)(aws-amplify@6.16.3)(react@19.2.5)
       '@radix-ui/react-direction': 1.1.1(@types/react@19.2.14)(react@19.2.5)
       '@radix-ui/react-dropdown-menu': 2.1.16(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@radix-ui/react-slider': 1.3.6(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@xstate/react': 3.2.2(@types/react@19.2.14)(react@19.2.5)(xstate@4.38.3)
-      lodash: 4.17.23
+      lodash: 4.18.1
       qrcode: 1.5.0
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)
@@ -5212,12 +5224,12 @@ snapshots:
       - '@xstate/fsm'
       - xstate
 
-  '@aws-amplify/ui@6.15.2(@aws-amplify/core@6.16.1)(aws-amplify@6.16.3)(xstate@4.38.3)':
+  '@aws-amplify/ui@6.15.3(@aws-amplify/core@6.16.1)(aws-amplify@6.16.3)(xstate@4.38.3)':
     dependencies:
       '@aws-amplify/core': 6.16.1
       aws-amplify: 6.16.3
       csstype: 3.2.3
-      lodash: 4.17.23
+      lodash: 4.18.1
       tslib: 2.8.1
     optionalDependencies:
       xstate: 4.38.3
@@ -5839,10 +5851,10 @@ snapshots:
     optionalDependencies:
       workerd: 1.20260410.1
 
-  '@cloudflare/vite-plugin@1.31.2(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))(workerd@1.20260410.1)(wrangler@4.82.0)':
+  '@cloudflare/vite-plugin@1.32.3(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))(workerd@1.20260410.1)(wrangler@4.82.0)':
     dependencies:
       '@cloudflare/unenv-preset': 2.16.0(unenv@2.0.0-rc.24)(workerd@1.20260410.1)
-      miniflare: 4.20260409.0
+      miniflare: 4.20260415.0
       unenv: 2.0.0-rc.24
       vite: 8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3)
       wrangler: 4.82.0
@@ -5852,34 +5864,34 @@ snapshots:
       - utf-8-validate
       - workerd
 
-  '@cloudflare/workerd-darwin-64@1.20260409.1':
-    optional: true
-
   '@cloudflare/workerd-darwin-64@1.20260410.1':
     optional: true
 
-  '@cloudflare/workerd-darwin-arm64@1.20260409.1':
+  '@cloudflare/workerd-darwin-64@1.20260415.1':
     optional: true
 
   '@cloudflare/workerd-darwin-arm64@1.20260410.1':
     optional: true
 
-  '@cloudflare/workerd-linux-64@1.20260409.1':
+  '@cloudflare/workerd-darwin-arm64@1.20260415.1':
     optional: true
 
   '@cloudflare/workerd-linux-64@1.20260410.1':
     optional: true
 
-  '@cloudflare/workerd-linux-arm64@1.20260409.1':
+  '@cloudflare/workerd-linux-64@1.20260415.1':
     optional: true
 
   '@cloudflare/workerd-linux-arm64@1.20260410.1':
     optional: true
 
-  '@cloudflare/workerd-windows-64@1.20260409.1':
+  '@cloudflare/workerd-linux-arm64@1.20260415.1':
     optional: true
 
   '@cloudflare/workerd-windows-64@1.20260410.1':
+    optional: true
+
+  '@cloudflare/workerd-windows-64@1.20260415.1':
     optional: true
 
   '@cspotcode/source-map-support@0.8.1':
@@ -5915,6 +5927,11 @@ snapshots:
   '@emnapi/core@1.9.2':
     dependencies:
       '@emnapi/wasi-threads': 1.2.1
+      tslib: 2.8.1
+    optional: true
+
+  '@emnapi/runtime@1.10.0':
+    dependencies:
       tslib: 2.8.1
     optional: true
 
@@ -6247,7 +6264,7 @@ snapshots:
 
   '@img/sharp-wasm32@0.34.5':
     dependencies:
-      '@emnapi/runtime': 1.9.2
+      '@emnapi/runtime': 1.10.0
     optional: true
 
   '@img/sharp-win32-arm64@0.34.5':
@@ -7667,7 +7684,7 @@ snapshots:
 
   '@tanstack/devtools-event-bus@0.4.1':
     dependencies:
-      ws: 8.19.0
+      ws: 8.20.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -7701,7 +7718,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@tanstack/devtools@0.11.0(csstype@3.2.3)(solid-js@1.9.11)':
+  '@tanstack/devtools@0.11.2(csstype@3.2.3)(solid-js@1.9.11)':
     dependencies:
       '@solid-primitives/event-listener': 2.4.5(solid-js@1.9.11)
       '@solid-primitives/keyboard': 1.3.5(solid-js@1.9.11)
@@ -7717,7 +7734,7 @@ snapshots:
       - csstype
       - utf-8-validate
 
-  '@tanstack/form-core@1.28.5':
+  '@tanstack/form-core@1.29.0':
     dependencies:
       '@tanstack/devtools-event-client': 0.4.3
       '@tanstack/pacer-lite': 0.1.1
@@ -7731,13 +7748,13 @@ snapshots:
 
   '@tanstack/pacer-lite@0.1.1': {}
 
-  '@tanstack/query-core@5.95.2': {}
+  '@tanstack/query-core@5.99.2': {}
 
   '@tanstack/query-devtools@5.95.2': {}
 
-  '@tanstack/react-devtools@0.10.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(csstype@3.2.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(solid-js@1.9.11)':
+  '@tanstack/react-devtools@0.10.2(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(csstype@3.2.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(solid-js@1.9.11)':
     dependencies:
-      '@tanstack/devtools': 0.11.0(csstype@3.2.3)(solid-js@1.9.11)
+      '@tanstack/devtools': 0.11.2(csstype@3.2.3)(solid-js@1.9.11)
       '@types/react': 19.2.14
       '@types/react-dom': 19.2.3(@types/react@19.2.14)
       react: 19.2.5
@@ -7748,9 +7765,9 @@ snapshots:
       - solid-js
       - utf-8-validate
 
-  '@tanstack/react-form@1.28.5(@tanstack/react-start@1.167.6(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3)))(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+  '@tanstack/react-form@1.29.0(@tanstack/react-start@1.167.6(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3)))(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
-      '@tanstack/form-core': 1.28.5
+      '@tanstack/form-core': 1.29.0
       '@tanstack/react-store': 0.9.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       react: 19.2.5
     optionalDependencies:
@@ -7758,15 +7775,15 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
 
-  '@tanstack/react-query-devtools@5.95.2(@tanstack/react-query@5.95.2(react@19.2.5))(react@19.2.5)':
+  '@tanstack/react-query-devtools@5.95.2(@tanstack/react-query@5.99.2(react@19.2.5))(react@19.2.5)':
     dependencies:
       '@tanstack/query-devtools': 5.95.2
-      '@tanstack/react-query': 5.95.2(react@19.2.5)
+      '@tanstack/react-query': 5.99.2(react@19.2.5)
       react: 19.2.5
 
-  '@tanstack/react-query@5.95.2(react@19.2.5)':
+  '@tanstack/react-query@5.99.2(react@19.2.5)':
     dependencies:
-      '@tanstack/query-core': 5.95.2
+      '@tanstack/query-core': 5.99.2
       react: 19.2.5
 
   '@tanstack/react-router-devtools@1.166.11(@tanstack/react-router@1.168.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(@tanstack/router-core@1.168.3)(csstype@3.2.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
@@ -7780,12 +7797,12 @@ snapshots:
     transitivePeerDependencies:
       - csstype
 
-  '@tanstack/react-router-ssr-query@1.166.10(@tanstack/query-core@5.95.2)(@tanstack/react-query@5.95.2(react@19.2.5))(@tanstack/react-router@1.168.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(@tanstack/router-core@1.168.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+  '@tanstack/react-router-ssr-query@1.166.10(@tanstack/query-core@5.99.2)(@tanstack/react-query@5.99.2(react@19.2.5))(@tanstack/react-router@1.168.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(@tanstack/router-core@1.168.3)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
-      '@tanstack/query-core': 5.95.2
-      '@tanstack/react-query': 5.95.2(react@19.2.5)
+      '@tanstack/query-core': 5.99.2
+      '@tanstack/react-query': 5.99.2(react@19.2.5)
       '@tanstack/react-router': 1.168.3(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      '@tanstack/router-ssr-query-core': 1.167.0(@tanstack/query-core@5.95.2)(@tanstack/router-core@1.168.3)
+      '@tanstack/router-ssr-query-core': 1.167.0(@tanstack/query-core@5.99.2)(@tanstack/router-core@1.168.3)
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)
     transitivePeerDependencies:
@@ -7908,9 +7925,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@tanstack/router-ssr-query-core@1.167.0(@tanstack/query-core@5.95.2)(@tanstack/router-core@1.168.3)':
+  '@tanstack/router-ssr-query-core@1.167.0(@tanstack/query-core@5.99.2)(@tanstack/router-core@1.168.3)':
     dependencies:
-      '@tanstack/query-core': 5.95.2
+      '@tanstack/query-core': 5.99.2
       '@tanstack/router-core': 1.168.3
 
   '@tanstack/router-utils@1.161.6':
@@ -8330,7 +8347,7 @@ snapshots:
       parse5: 7.3.0
       parse5-htmlparser2-tree-adapter: 7.1.0
       parse5-parser-stream: 7.1.2
-      undici: 7.24.7
+      undici: 7.25.0
       whatwg-mimetype: 4.0.0
 
   chokidar@3.6.0:
@@ -8980,7 +8997,7 @@ snapshots:
 
   lodash.debounce@4.0.8: {}
 
-  lodash@4.17.23: {}
+  lodash@4.18.1: {}
 
   log-update@6.1.0:
     dependencies:
@@ -9258,24 +9275,24 @@ snapshots:
 
   min-indent@1.0.1: {}
 
-  miniflare@4.20260409.0:
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      sharp: 0.34.5
-      undici: 7.24.4
-      workerd: 1.20260409.1
-      ws: 8.18.0
-      youch: 4.1.0-beta.10
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
   miniflare@4.20260410.0:
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       sharp: 0.34.5
       undici: 7.24.4
       workerd: 1.20260410.1
+      ws: 8.18.0
+      youch: 4.1.0-beta.10
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
+  miniflare@4.20260415.0:
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      sharp: 0.34.5
+      undici: 7.24.8
+      workerd: 1.20260415.1
       ws: 8.18.0
       youch: 4.1.0-beta.10
     transitivePeerDependencies:
@@ -9920,6 +9937,10 @@ snapshots:
 
   undici@7.24.7: {}
 
+  undici@7.24.8: {}
+
+  undici@7.25.0: {}
+
   unenv@2.0.0-rc.24:
     dependencies:
       pathe: 2.0.3
@@ -10112,14 +10133,6 @@ snapshots:
       siginfo: 2.0.0
       stackback: 0.0.2
 
-  workerd@1.20260409.1:
-    optionalDependencies:
-      '@cloudflare/workerd-darwin-64': 1.20260409.1
-      '@cloudflare/workerd-darwin-arm64': 1.20260409.1
-      '@cloudflare/workerd-linux-64': 1.20260409.1
-      '@cloudflare/workerd-linux-arm64': 1.20260409.1
-      '@cloudflare/workerd-windows-64': 1.20260409.1
-
   workerd@1.20260410.1:
     optionalDependencies:
       '@cloudflare/workerd-darwin-64': 1.20260410.1
@@ -10127,6 +10140,14 @@ snapshots:
       '@cloudflare/workerd-linux-64': 1.20260410.1
       '@cloudflare/workerd-linux-arm64': 1.20260410.1
       '@cloudflare/workerd-windows-64': 1.20260410.1
+
+  workerd@1.20260415.1:
+    optionalDependencies:
+      '@cloudflare/workerd-darwin-64': 1.20260415.1
+      '@cloudflare/workerd-darwin-arm64': 1.20260415.1
+      '@cloudflare/workerd-linux-64': 1.20260415.1
+      '@cloudflare/workerd-linux-arm64': 1.20260415.1
+      '@cloudflare/workerd-windows-64': 1.20260415.1
 
   wrangler@4.82.0:
     dependencies:
@@ -10158,7 +10179,7 @@ snapshots:
 
   ws@8.18.0: {}
 
-  ws@8.19.0: {}
+  ws@8.20.0: {}
 
   wsl-utils@0.3.1:
     dependencies:
