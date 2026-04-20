@@ -32,26 +32,30 @@ export function DatePicker({
             control={control}
             render={({ field }) => (
                 <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
-                    <div className="flex flex-row ">
+                    <div className="flex min-w-0 w-full items-center gap-2">
                         <PopoverTrigger asChild>
                             <Button
-                                variant="default"
+                                variant="outline"
                                 data-empty={!field.value}
-                                className="justify-start text-left font-normal bg-background text-foreground hover:bg-background"
+                                className="h-9 min-w-0 flex-1 shrink justify-start overflow-hidden rounded-none border-0 border-b border-outline-variant bg-transparent px-0 text-left font-normal text-foreground shadow-none hover:bg-transparent"
                                 disabled={disabled}
                             >
                                 <CalendarIcon />
                                 {field.value ? (
-                                    format(field.value, "P", { locale: de })
+                                    <span className="min-w-0 truncate">
+                                        {format(field.value, "P", { locale: de })}
+                                    </span>
                                 ) : (
-                                    <span>{t("search.filter.anyDate")}</span>
+                                    <span className="min-w-0 truncate">
+                                        {t("search.filter.anyDate")}
+                                    </span>
                                 )}
                             </Button>
                         </PopoverTrigger>
                         <Button
                             type="button"
                             variant={"ghost"}
-                            className="h-8 w-8 p-0 ml-auto"
+                            className="ml-auto h-7 w-7 shrink-0 p-0 text-primary/70 hover:bg-primary/8 hover:text-primary"
                             disabled={disabled}
                             onClick={() =>
                                 setValue(fieldName, undefined, {
@@ -60,7 +64,7 @@ export function DatePicker({
                                 })
                             }
                         >
-                            <X />
+                            <X className="size-3.5" />
                         </Button>
                         <PopoverContent className="w-auto p-0">
                             <Calendar

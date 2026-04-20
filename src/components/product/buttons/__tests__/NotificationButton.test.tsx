@@ -195,6 +195,6 @@ describe("NotificationButton", () => {
         const svgElements = button.querySelectorAll("svg");
 
         // BellRing should have fill-foreground class
-        expect(svgElements[1]).toHaveClass("fill-foreground");
+        expect(svgElements[1]).toHaveClass("fill-primary");
     });
 });

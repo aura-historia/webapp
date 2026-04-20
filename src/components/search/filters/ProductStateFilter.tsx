@@ -24,7 +24,7 @@ export function ProductStateFilter() {
             resetTooltip={t("search.filter.resetTooltip.productState")}
             onReset={() => resetAndNavigate("productState")}
         >
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid w-full grid-cols-1 gap-1">
                 {PRODUCT_STATES.map((state) => (
                     <Controller
                         key={state}
@@ -33,11 +33,11 @@ export function ProductStateFilter() {
                         render={({ field }) => {
                             const isChecked = field.value?.includes(state);
                             return (
-                                <div className="flex flex-row gap-2 items-center">
+                                <div className="flex items-center gap-2 rounded-sm px-2 py-1.5 hover:bg-surface-container-low">
                                     <Checkbox
                                         id={`checkbox-${state}`}
                                         checked={isChecked}
-                                        className="cursor-pointer shrink-0"
+                                        className="size-[1.1rem] cursor-pointer rounded-none border-outline-variant/70 data-[state=checked]:border-primary data-[state=checked]:bg-primary"
                                         onCheckedChange={(checked) =>
                                             handleCheckedChange(field, state, checked)
                                         }
@@ -51,17 +51,17 @@ export function ProductStateFilter() {
                                     >
                                         <StatusBadge
                                             status={state}
-                                            className={isChecked ? "" : "opacity-35"}
+                                            className={isChecked ? "" : "opacity-45"}
                                         />
                                     </button>
                                     <Tooltip>
                                         <TooltipTrigger asChild>
                                             <button
                                                 type="button"
-                                                className="ml-auto shrink-0 text-muted-foreground hover:text-foreground focus:outline-none"
+                                                className="ml-auto shrink-0 text-muted-foreground/80 hover:text-primary focus:outline-none"
                                                 aria-label={t("common.infoButton")}
                                             >
-                                                <Info className="size-3.5" />
+                                                <Info className="size-4" />
                                             </button>
                                         </TooltipTrigger>
                                         <TooltipContent side="right" className="max-w-xs">

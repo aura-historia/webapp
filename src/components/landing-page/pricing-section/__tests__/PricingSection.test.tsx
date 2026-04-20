@@ -13,13 +13,6 @@ const mockUseAuthenticator = vi.hoisted(() =>
     })),
 );
 
-vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
-    useUserPreferences: () => ({
-        preferences: { currency: "EUR" },
-        updatePreferences: vi.fn(),
-    }),
-}));
-
 vi.mock("@aws-amplify/ui-react", () => ({
     useAuthenticator: mockUseAuthenticator,
 }));

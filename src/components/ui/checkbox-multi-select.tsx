@@ -146,7 +146,7 @@ export function CheckboxMultiSelect({
                     role="combobox"
                     aria-expanded={open}
                     tabIndex={0}
-                    className="relative flex h-9 w-full cursor-pointer items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs"
+                    className="relative flex h-9 w-full cursor-pointer items-center justify-between rounded-none border-0 border-b border-outline-variant bg-transparent px-0 py-2 text-sm shadow-none transition-colors duration-300 ease-out"
                 >
                     <div
                         ref={measureRef}
@@ -169,12 +169,12 @@ export function CheckboxMultiSelect({
                                 }}
                             />
                         )}
-                        <ChevronDown className="h-4 w-4 opacity-50" />
+                        <ChevronDown className="h-4 w-4 opacity-60" />
                     </div>
                 </div>
             </PopoverTrigger>
             <PopoverContent
-                className="w-[var(--radix-popover-trigger-width)] p-0"
+                className="w-[var(--radix-popover-trigger-width)] rounded-none border-outline-variant p-0"
                 align="start"
                 onOpenAutoFocus={(e) => {
                     if (searchable) {
@@ -200,7 +200,7 @@ export function CheckboxMultiSelect({
                         <>
                             <div
                                 className={cn(
-                                    "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
+                                    "relative flex cursor-pointer select-none items-center rounded-none px-2 py-1.5 text-sm outline-none transition-colors duration-300 ease-out hover:bg-accent hover:text-accent-foreground",
                                     allSelected && "bg-accent/50",
                                 )}
                                 onClick={handleToggleAll}
@@ -216,7 +216,7 @@ export function CheckboxMultiSelect({
                             >
                                 <div
                                     className={cn(
-                                        "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                                        "mr-2 flex h-4 w-4 items-center justify-center rounded-none border border-outline-variant",
                                         allSelected
                                             ? "bg-primary text-primary-foreground"
                                             : "opacity-50",
@@ -235,7 +235,7 @@ export function CheckboxMultiSelect({
                             <div
                                 key={option.value}
                                 className={cn(
-                                    "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
+                                    "relative flex cursor-pointer select-none items-center rounded-none px-2 py-1.5 text-sm outline-none transition-colors duration-300 ease-out hover:bg-accent hover:text-accent-foreground",
                                     isSelected && "bg-accent/50",
                                 )}
                                 onClick={() => handleToggle(option.value)}
@@ -251,7 +251,7 @@ export function CheckboxMultiSelect({
                             >
                                 <div
                                     className={cn(
-                                        "mr-2 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border border-primary",
+                                        "mr-2 flex h-4 w-4 shrink-0 items-center justify-center rounded-none border border-outline-variant",
                                         isSelected
                                             ? "bg-primary text-primary-foreground"
                                             : "opacity-50",

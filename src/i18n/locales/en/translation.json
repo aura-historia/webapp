@@ -245,11 +245,13 @@
       "allLoaded_other": "You have seen all {{count}} results that match your filters."
     },
     "sortMode": {
+      "sortBy": "Sort by:",
       "relevance": "Relevance",
       "creationDate": "Creation Date",
       "updateDate": "Last Updated",
       "price": "Price",
       "order": {
+        "label": "Order:",
         "asc": "Ascending",
         "desc": "Descending"
       }
@@ -1094,8 +1096,8 @@
     },
     "products": {
       "loadingMore": "Loading more items...",
-      "allLoaded_one": "You have seen {{count}} item from this {{shopTypeName}}.",
-      "allLoaded_other": "You have seen all {{count}} items from this {{shopTypeName}}.",
+      "allLoaded_one": "You have seen {{count}} item from this shop.",
+      "allLoaded_other": "You have seen all {{count}} items from this shop.",
       "noResults": {
         "title": "No items found",
         "description": "There are currently no items from this shop."

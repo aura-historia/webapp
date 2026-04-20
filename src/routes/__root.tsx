@@ -34,6 +34,7 @@ import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
 import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { ConsentBanner } from "@/components/common/ConsentBanner.tsx";
+import { SONNER_TOASTER_PROPS } from "@/lib/ui/sonnerToasterConfig";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -184,7 +185,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     }, [queryClient.refetchQueries]);
 
     return (
-        <UserPreferencesProvider initialPreferences={initialPreferences}>
+        <UserPreferencesProvider initialPreferences={initialPreferences} locale={i18n.language}>
             <html lang={i18n.language || "en"}>
                 <head>
                     <HeadContent />
@@ -198,7 +199,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                         </main>
                         <Footer />
                     </div>
-                    <Toaster position="top-center" richColors />
+                    <Toaster {...SONNER_TOASTER_PROPS} />
                     <ConsentBanner />
                     <TanStackDevtools
                         config={{

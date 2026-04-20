@@ -39,7 +39,7 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                     shopSlugId: product.shopSlugId,
                     productSlugId: product.productSlugId,
                 }}
-                className="group flex h-full gap-4 bg-card p-4 transition-colors hover:bg-surface-container"
+                className="group flex h-full gap-4 bg-card p-2 transition-colors hover:bg-surface-container"
                 onClick={handleProductClick}
             >
                 <div className="size-24 shrink-0 overflow-hidden bg-background">
@@ -48,7 +48,7 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                             product.images[0],
                             product.userData?.restrictedContentData.consentGiven ?? false,
                         ) ? (
-                            <ProhibitedImagePlaceholder className="size-full" />
+                            <ProhibitedImagePlaceholder className="size-full" showLabel={false} />
                         ) : (
                             <ImageWithFallback
                                 className="size-full object-cover transition-transform group-hover:scale-[1.03]"

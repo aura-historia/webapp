@@ -43,7 +43,7 @@ export function WatchlistButton({
             {showIcon && (
                 <HeartIcon
                     className={`size-5 transition-all duration-300 ease-in-out ${
-                        isWatching ? "fill-heart text-heart" : "fill-transparent"
+                        isWatching ? "fill-primary text-primary" : "fill-transparent"
                     } ${watchlistMutation.isPending ? "animate-heart-bounce" : ""}`}
                 />
             )}

@@ -19,8 +19,10 @@ export function OriginYearFilter() {
 
     return (
         <div className="space-y-2">
-            <Label>{t("search.filter.originYear")}</Label>
-            <div className="flex flex-row gap-2 items-center">
+            <Label className="text-xs font-semibold tracking-[0.08em] uppercase text-on-surface-variant">
+                {t("search.filter.originYear")}
+            </Label>
+            <div className="flex items-center gap-2">
                 <Controller
                     name="originYearSpan.min"
                     control={control}
@@ -29,12 +31,13 @@ export function OriginYearFilter() {
                             type="text"
                             inputMode="numeric"
                             placeholder={t("search.filter.min")}
+                            className="h-9 rounded-none border-0 border-b border-outline-variant bg-transparent px-0 py-0 text-sm shadow-none focus-visible:border-primary focus-visible:ring-0"
                             value={field.value ?? ""}
                             onChange={(e) => handleChange(e.target.value, "originYearSpan.min")}
                         />
                     )}
                 />
-                <span>-</span>
+                <span className="text-on-surface-variant/70">-</span>
                 <Controller
                     name="originYearSpan.max"
                     control={control}
@@ -43,6 +46,7 @@ export function OriginYearFilter() {
                             type="text"
                             inputMode="numeric"
                             placeholder={t("search.filter.max")}
+                            className="h-9 rounded-none border-0 border-b border-outline-variant bg-transparent px-0 py-0 text-sm shadow-none focus-visible:border-primary focus-visible:ring-0"
                             value={field.value ?? ""}
                             onChange={(e) => handleChange(e.target.value, "originYearSpan.max")}
                         />

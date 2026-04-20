@@ -58,8 +58,8 @@ describe("WatchlistButton", () => {
         const button = screen.getByRole("button");
         const svgElement = button.querySelector("svg");
         expect(svgElement).toBeInTheDocument();
-        expect(svgElement).toHaveClass("fill-heart");
-        expect(svgElement).toHaveClass("text-heart");
+        expect(svgElement).toHaveClass("fill-primary");
+        expect(svgElement).toHaveClass("text-primary");
     });
 
     it("should call mutate with 'addToWatchlist' when not watching", async () => {

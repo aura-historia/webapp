@@ -245,11 +245,13 @@
       "allLoaded_other": "Vous avez consulté les {{count}} résultats correspondant à vos filtres."
     },
     "sortMode": {
+      "sortBy": "Trier par :",
       "relevance": "Pertinence",
       "creationDate": "Date de création",
       "updateDate": "Dernière mise à jour",
       "price": "Prix",
       "order": {
+        "label": "Ordre :",
         "asc": "Croissant",
         "desc": "Décroissant"
       }
@@ -1063,8 +1065,8 @@
     },
     "products": {
       "loadingMore": "Chargement d'autres articles...",
-      "allLoaded_one": "Vous avez consulté {{count}} article de {{shopTypeName}}.",
-      "allLoaded_other": "Vous avez consulté les {{count}} articles de {{shopTypeName}}.",
+      "allLoaded_one": "Vous avez consulté {{count}} article de cette boutique.",
+      "allLoaded_other": "Vous avez consulté les {{count}} articles de cette boutique.",
       "noResults": {
         "title": "Aucun article trouvé",
         "description": "Il n'y a actuellement aucun article de cette boutique."

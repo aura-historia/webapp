@@ -10,6 +10,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { SearchQueryProvider } from "@/hooks/search/useSearchQueryContext.tsx";
+import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
 
 const rootRoute = createRootRouteWithContext()({
     component: () => <Outlet />, // entry point to render children
@@ -67,9 +68,11 @@ export function TestRouterWrapper({
 
     return (
         <SearchQueryProvider>
-            <QueryClientProvider client={queryClient}>
-                <RouterProvider router={router} />
-            </QueryClientProvider>
+            <UserPreferencesProvider locale={"de-DE"}>
+                <QueryClientProvider client={queryClient}>
+                    <RouterProvider router={router} />
+                </QueryClientProvider>
+            </UserPreferencesProvider>
         </SearchQueryProvider>
     );
 }
