@@ -26,8 +26,12 @@ export default function PricingSection() {
 
     const isYearly = billingInterval === "yearly";
 
-    const toBillingPlan = (tier: PricingTier): BillingPlanData =>
-        tier.id.toUpperCase() as BillingPlanData;
+    const BILLING_PLAN_MAP: Record<string, BillingPlanData> = {
+        pro: "PRO",
+        ultimate: "ULTIMATE",
+    };
+
+    const toBillingPlan = (tier: PricingTier): BillingPlanData => BILLING_PLAN_MAP[tier.id];
 
     const toBillingCycle = (): BillingCycleData => (isYearly ? "YEARLY" : "MONTHLY");
 
