@@ -25,6 +25,17 @@ import { env } from "@/env.ts";
 import { useAnimatedPlaceholder } from "@/hooks/useAnimatedPlaceholder";
 import { serializeSearchParams } from "@/lib/searchValidation.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+export const SEARCH_TYPES = ["products", "shops"] as const;
+export type SearchType = (typeof SEARCH_TYPES)[number];
+
 interface SearchBarProps {
     readonly type: "small" | "big";
 }
@@ -63,7 +74,22 @@ export function SearchBar({ type }: SearchBarProps) {
     const showLoading = isSubmitting && isNavigating;
 
     const searchParams = useSearch({ strict: false });
-    const currentQuery = pathname === "/search" ? (searchParams.q as string) || "" : "";
+    const isOnProductSearch = pathname === "/search";
+    const isOnShopSearch = pathname === "/search/shops";
+    const currentQuery =
+        isOnProductSearch || isOnShopSearch ? (searchParams.q as string) || "" : "";
+
+    // Default to "products" unless the user is currently on the shop search page.
+    const [searchType, setSearchType] = useState<SearchType>(isOnShopSearch ? "shops" : "products");
+
+    // Keep the selector in sync with the current route (e.g. after navigation).
+    useEffect(() => {
+        if (isOnShopSearch) {
+            setSearchType("shops");
+        } else if (isOnProductSearch) {
+            setSearchType("products");
+        }
+    }, [isOnProductSearch, isOnShopSearch]);
 
     const searchFormSchema = useMemo(() => createSearchFormSchema(t), [t]);
 
@@ -95,6 +121,15 @@ export function SearchBar({ type }: SearchBarProps) {
 
     function onSubmit(values: SearchFormSchema) {
         setIsSubmitting(true);
+        if (searchType === "shops") {
+            navigate({
+                to: "/search/shops",
+                search: {
+                    q: values.query,
+                },
+            });
+            return;
+        }
         navigate({
             to: "/search",
             search: (prev) => {
@@ -140,6 +175,34 @@ export function SearchBar({ type }: SearchBarProps) {
                     }
                 })}
             >
+                <Select
+                    value={searchType}
+                    onValueChange={(value) => setSearchType(value as SearchType)}
+                    disabled={!isSearchEnabled}
+                >
+                    <SelectTrigger
+                        aria-label={t("search.bar.searchTypeLabel")}
+                        data-testid="search-type-select"
+                        className={cn(
+                            "shrink-0 rounded-sm focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
+                            type === "big"
+                                ? "h-12 w-32 sm:w-40 border-0 text-base font-medium"
+                                : "h-9 w-24 sm:w-32 text-sm",
+                        )}
+                    >
+                        <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectItem value="products">
+                                {t("search.bar.searchType.products")}
+                            </SelectItem>
+                            <SelectItem value="shops">
+                                {t("search.bar.searchType.shops")}
+                            </SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
                 <FormField
                     control={form.control}
                     name="query"

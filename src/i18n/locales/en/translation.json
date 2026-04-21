@@ -66,6 +66,10 @@
     "terms": {
       "title": "Terms & Conditions | Aura Historia",
       "description": "Terms and conditions for using Aura Historia, including information on paid services and payment processing."
+    },
+    "searchShops": {
+      "title": "Search Shops | Aura Historia",
+      "description": "Search and discover trusted shops, auction houses, and dealers on Aura Historia."
     }
   },
   "validation": {
@@ -180,7 +184,12 @@
         "Rococo mirror",
         "Persian miniature painting",
         "Louis XV armchair"
-      ]
+      ],
+      "searchTypeLabel": "Search type",
+      "searchType": {
+        "products": "Products",
+        "shops": "Shops"
+      }
     },
     "applyFilters": "Apply filters",
     "validation": {
@@ -221,7 +230,8 @@
         "merchants": "Reset merchant filters",
         "shopType": "Reset shop type filter",
         "periodId": "Reset period filter",
-        "qualityIndicators": "Reset quality indicators filter"
+        "qualityIndicators": "Reset quality indicators filter",
+        "partnerStatus": "Reset partner status filter"
       },
       "qualityIndicators": "Quality Indicators",
       "periodId": "Period / Style",
@@ -231,7 +241,8 @@
       "condition": "Condition",
       "provenance": "Provenance",
       "restoration": "Restoration",
-      "selected": "{{count}} selected"
+      "selected": "{{count}} selected",
+      "partnerStatus": "Partner Status"
     },
     "messages": {
       "minQueryLength": "Please enter at least 3 characters to start the search.",
@@ -254,8 +265,12 @@
         "label": "Order:",
         "asc": "Ascending",
         "desc": "Descending"
-      }
-    }
+      },
+      "name": "Name"
+    },
+    "shopResultsFor": "Shop search results for:",
+    "totalShopResults_one": "{{count}} shop",
+    "totalShopResults_other": "{{count}} shops"
   },
   "product": {
     "unknownPrice": "Price unknown",
@@ -1106,6 +1121,9 @@
         "title": "Could not load items",
         "description": "An error occurred while loading items. Please try again later."
       }
+    },
+    "card": {
+      "viewShop": "View shop"
     }
   }
 }

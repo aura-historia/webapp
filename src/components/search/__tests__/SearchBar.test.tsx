@@ -200,4 +200,36 @@ describe("SearchBar", () => {
             expect(input.value).toBe("");
         });
     });
+
+    describe("Product/Shop type selector", () => {
+        it("renders the search type selector defaulting to products", async () => {
+            await act(async () => {
+                renderWithRouter(<SearchBar type={"big"} />);
+            });
+            const trigger = screen.getByTestId("search-type-select");
+            expect(trigger).toBeInTheDocument();
+            expect(trigger).toHaveTextContent("Produkte");
+        });
+
+        it("defaults the selector to shops when rendered on the /search/shops page", async () => {
+            await act(async () => {
+                renderWithRouter(<SearchBar type={"small"} />, {
+                    initialEntries: ["/search/shops?q=auction"],
+                });
+            });
+            const trigger = screen.getByTestId("search-type-select");
+            expect(trigger).toHaveTextContent("Shops");
+        });
+
+        it("can switch between products and shops", async () => {
+            await act(async () => {
+                renderWithRouter(<SearchBar type={"big"} />);
+            });
+            const trigger = screen.getByTestId("search-type-select");
+            await user.click(trigger);
+            const shopsOption = await screen.findByRole("option", { name: "Shops" });
+            await user.click(shopsOption);
+            expect(trigger).toHaveTextContent("Shops");
+        });
+    });
 });

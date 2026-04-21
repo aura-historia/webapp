@@ -66,6 +66,10 @@
     "terms": {
       "title": "AGB | Aura Historia",
       "description": "Allgemeine Geschäftsbedingungen für die Nutzung von Aura Historia sowie Informationen zu kostenpflichtigen Leistungen und Zahlungsabwicklung."
+    },
+    "searchShops": {
+      "title": "Shops suchen | Aura Historia",
+      "description": "Entdecken Sie vertrauenswürdige Shops, Auktionshäuser und Händler auf Aura Historia."
     }
   },
   "validation": {
@@ -180,7 +184,12 @@
         "Rokoko-Spiegel",
         "Persische Miniaturmalerei",
         "Louis XV Fauteuil"
-      ]
+      ],
+      "searchTypeLabel": "Suchtyp",
+      "searchType": {
+        "products": "Produkte",
+        "shops": "Shops"
+      }
     },
     "applyFilters": "Filter anwenden",
     "validation": {
@@ -221,7 +230,8 @@
         "merchants": "Filter für die Händler zurücksetzen",
         "shopType": "Filter für den Shop-Typ zurücksetzen",
         "periodId": "Filter für Epoche zurücksetzen",
-        "qualityIndicators": "Filter für die Qualitätsmerkmale zurücksetzen"
+        "qualityIndicators": "Filter für die Qualitätsmerkmale zurücksetzen",
+        "partnerStatus": "Partnerstatus-Filter zurücksetzen"
       },
       "qualityIndicators": "Qualitätsmerkmale",
       "periodId": "Epoche / Stil",
@@ -231,7 +241,8 @@
       "condition": "Zustand",
       "provenance": "Herkunftsnachweis",
       "restoration": "Restaurierung",
-      "selected": "{{count}} ausgewählt"
+      "selected": "{{count}} ausgewählt",
+      "partnerStatus": "Partnerstatus"
     },
     "messages": {
       "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",
@@ -254,8 +265,12 @@
         "label": "Reihenfolge:",
         "asc": "Aufsteigend",
         "desc": "Absteigend"
-      }
-    }
+      },
+      "name": "Name"
+    },
+    "shopResultsFor": "Shop-Suchergebnisse für:",
+    "totalShopResults_one": "{{count}} Shop",
+    "totalShopResults_other": "{{count}} Shops"
   },
   "product": {
     "unknownPrice": "Preis unbekannt",
@@ -1107,6 +1122,9 @@
         "title": "Artikel konnten nicht geladen werden",
         "description": "Beim Laden der Artikel ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
       }
+    },
+    "card": {
+      "viewShop": "Shop ansehen"
     }
   }
 }
