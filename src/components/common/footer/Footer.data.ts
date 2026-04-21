@@ -9,11 +9,17 @@ import {
     YouTubeIcon,
 } from "./SocialIcons.tsx";
 import type { ComponentType, SVGProps } from "react";
+import { LANDING_PAGE_FRAGMENTS } from "@/components/landing-page/LandingPage.fragments.ts";
 
 export interface SocialLink {
     name: string;
     url: string;
     icon: ComponentType<SVGProps<SVGSVGElement>>;
+}
+
+export interface LandingPageFooterLink {
+    translationKey: string;
+    fragment: string;
 }
 
 export const POPULAR_CATEGORY_KEYS: string[] = [
@@ -47,6 +53,41 @@ export const POPULAR_COMBINATION_SLUGS: string[] = [
     "renaissance-paintings",
     "ancient-coins",
     "mid-century-furniture",
+];
+
+export const LANDING_PAGE_FOOTER_LINKS: LandingPageFooterLink[] = [
+    {
+        translationKey: "footer.landingPageLinks.recentlyAdded",
+        fragment: LANDING_PAGE_FRAGMENTS.recentlyAdded,
+    },
+    {
+        translationKey: "footer.landingPageLinks.discover",
+        fragment: LANDING_PAGE_FRAGMENTS.discover,
+    },
+    {
+        translationKey: "footer.landingPageLinks.features",
+        fragment: LANDING_PAGE_FRAGMENTS.features,
+    },
+    {
+        translationKey: "footer.landingPageLinks.howItWorks",
+        fragment: LANDING_PAGE_FRAGMENTS.howItWorks,
+    },
+    {
+        translationKey: "footer.landingPageLinks.testimonials",
+        fragment: LANDING_PAGE_FRAGMENTS.testimonials,
+    },
+    {
+        translationKey: "footer.landingPageLinks.pricing",
+        fragment: LANDING_PAGE_FRAGMENTS.pricing,
+    },
+    {
+        translationKey: "footer.landingPageLinks.newsletter",
+        fragment: LANDING_PAGE_FRAGMENTS.newsletter,
+    },
+    {
+        translationKey: "footer.landingPageLinks.faq",
+        fragment: LANDING_PAGE_FRAGMENTS.faq,
+    },
 ];
 
 export const SOCIAL_LINKS: SocialLink[] = [
