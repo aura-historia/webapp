@@ -12,7 +12,7 @@ export const getRouter = () => {
 
     const router = createTanstackRouter({
         routeTree,
-        context: { ...rqContext, initialPreferences: {} as UserPreferences },
+        context: { ...rqContext, initialPreferences: {} as UserPreferences, timeZone: "UTC" },
         defaultPreload: false,
         defaultPendingMs: 0,
         defaultPendingMinMs: 200,
