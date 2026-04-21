@@ -140,10 +140,31 @@ describe("Footer Component", () => {
 
     it("should render footer section headings", () => {
         expect(screen.getByText("Unternehmen")).toBeInTheDocument();
+        expect(screen.getByText("Mehr entdecken")).toBeInTheDocument();
         expect(screen.getByText("Folge uns")).toBeInTheDocument();
         expect(screen.getByText("Kontakt")).toBeInTheDocument();
         expect(screen.getByText("Kategorien")).toBeInTheDocument();
         expect(screen.getByText("Epochen & Stile")).toBeInTheDocument();
+    });
+
+    it("should render landing page fragment links", () => {
+        expect(screen.getByText("Neueste Zugänge").closest("a")).toHaveAttribute(
+            "href",
+            "/#recently-added",
+        );
+        expect(screen.getByText("Transparenz").closest("a")).toHaveAttribute("href", "/#discover");
+        expect(screen.getByText("Funktionen").closest("a")).toHaveAttribute("href", "/#features");
+        expect(screen.getByText("So funktioniert's").closest("a")).toHaveAttribute(
+            "href",
+            "/#how-it-works",
+        );
+        expect(screen.getByText("Nutzerstimmen").closest("a")).toHaveAttribute(
+            "href",
+            "/#testimonials",
+        );
+        expect(screen.getByText("Preise").closest("a")).toHaveAttribute("href", "/#pricing");
+        expect(screen.getByText("Newsletter").closest("a")).toHaveAttribute("href", "/#newsletter");
+        expect(screen.getByText("FAQ").closest("a")).toHaveAttribute("href", "/#faq");
     });
 
     it("should render contact email", () => {

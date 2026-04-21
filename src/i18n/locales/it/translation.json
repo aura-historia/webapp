@@ -107,11 +107,22 @@
       "contact": "Contatto",
       "categories": "Categorie",
       "periodsAndStyles": "Periodi e Stili",
-      "collections": "Collezioni popolari"
+      "collections": "Collezioni popolari",
+      "discoverMore": "Scopri di più"
     },
     "allCategories": "Tutte le Categorie",
     "allPeriods": "Tutti i Periodi e Stili",
-    "allCollections": "Tutte le Collezioni"
+    "allCollections": "Tutte le Collezioni",
+    "landingPageLinks": {
+      "recentlyAdded": "Ultimi arrivi",
+      "discover": "Trasparenza",
+      "features": "Funzionalità",
+      "howItWorks": "Come funziona",
+      "testimonials": "Testimonianze",
+      "pricing": "Prezzi",
+      "newsletter": "Newsletter",
+      "faq": "FAQ"
+    }
   },
   "account": {
     "title": "Il mio account",
