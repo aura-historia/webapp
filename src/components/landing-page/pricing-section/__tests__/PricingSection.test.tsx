@@ -255,9 +255,17 @@ describe("PricingSection", () => {
         for (const tier of PRICING_TIERS.filter(
             (pricingTier) => pricingTier.prices && pricingTier.yearlyPrices,
         )) {
+            const { prices, yearlyPrices } = tier;
+            expect(prices).toBeDefined();
+            expect(yearlyPrices).toBeDefined();
+
+            if (!prices || !yearlyPrices) {
+                continue;
+            }
+
             for (const currency of CURRENCIES) {
-                const monthly = tier.prices?.[currency];
-                const yearly = tier.yearlyPrices?.[currency];
+                const monthly = prices[currency];
+                const yearly = yearlyPrices[currency];
                 // Yearly should be 10x monthly (rounded)
                 expect(yearly).toBeCloseTo(monthly * 10, 0);
             }
