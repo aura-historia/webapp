@@ -172,7 +172,7 @@ describe("useStripeBilling", () => {
         });
 
         it("should set loading state during billing manage request", async () => {
-            let resolveBillingManage: ((value: unknown) => void) | undefined;
+            let resolveBillingManage!: (value: unknown) => void;
             const billingPromise = new Promise((resolve) => {
                 resolveBillingManage = resolve;
             });
@@ -184,7 +184,7 @@ describe("useStripeBilling", () => {
 
             expect(result.current.isLoading).toBe(false);
 
-            let subscribePromise: Promise<void> | undefined;
+            let subscribePromise!: Promise<void>;
             act(() => {
                 subscribePromise = result.current.handleSubscribe("PRO", "MONTHLY");
             });
@@ -192,7 +192,7 @@ describe("useStripeBilling", () => {
             expect(result.current.isLoading).toBe(true);
 
             await act(async () => {
-                resolveBillingManage?.({
+                resolveBillingManage({
                     data: { url: "https://checkout.stripe.com/c/pay/cs_test_123" },
                     error: null,
                 });
