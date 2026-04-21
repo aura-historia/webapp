@@ -1,10 +1,11 @@
 import { renderWithRouter } from "@/test/utils.tsx";
-import { screen, waitFor } from "@testing-library/react";
+import { cleanup, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Footer } from "../Footer.tsx";
 import { t } from "i18next";
 import userEvent from "@testing-library/user-event";
 import { act } from "react";
+import { useLocation } from "@tanstack/react-router";
 
 const { changeLanguageMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
@@ -167,6 +168,28 @@ describe("Footer Component", () => {
         expect(screen.getByText("FAQ").closest("a")).toHaveAttribute("href", "/#faq");
     });
 
+    it("should navigate to the landing page fragment from another route", async () => {
+        cleanup();
+        const user = userEvent.setup();
+
+        await act(async () => {
+            renderWithRouter(
+                <>
+                    <Footer />
+                    <LocationProbe />
+                </>,
+                { initialEntries: ["/test"] },
+            );
+        });
+
+        await user.click(screen.getByText("Preise"));
+
+        await waitFor(() => {
+            expect(screen.getByTestId("location-probe")).toHaveTextContent("/");
+            expect(screen.getByTestId("location-probe")).toHaveTextContent("pricing");
+        });
+    });
+
     it("should render contact email", () => {
         const emailLink = screen.getByText("contact@aura-historia.com");
         expect(emailLink).toHaveAttribute("href", "mailto:contact@aura-historia.com");
@@ -244,3 +267,16 @@ describe("Footer Component", () => {
         });
     });
 });
+
+function LocationProbe() {
+    const location = useLocation();
+
+    return (
+        <div data-testid="location-probe">
+            {JSON.stringify({
+                pathname: location.pathname,
+                hash: location.hash,
+            })}
+        </div>
+    );
+}

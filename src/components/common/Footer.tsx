@@ -144,12 +144,14 @@ export function Footer() {
                         <ul className="mt-4 space-y-2">
                             {LANDING_PAGE_FOOTER_LINKS.map((sectionLink) => (
                                 <li key={sectionLink.fragment}>
-                                    <a
-                                        href={`/#${sectionLink.fragment}`}
+                                    <Link
+                                        to="/"
+                                        hash={sectionLink.fragment}
+                                        resetScroll={false}
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
                                     >
                                         {t(sectionLink.translationKey)}
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
