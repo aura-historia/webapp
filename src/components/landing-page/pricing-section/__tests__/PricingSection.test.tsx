@@ -6,12 +6,14 @@ import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 
-const mockUseAuthenticator = vi.hoisted(() =>
-    vi.fn(() => ({
-        user: null,
-        toSignUp: vi.fn(),
-    })),
-);
+type MockAuthenticatorUser = { username: string } | null;
+
+const createAuthenticatorMockValue = (user: MockAuthenticatorUser = null) => ({
+    user,
+    toSignUp: vi.fn(),
+});
+
+const mockUseAuthenticator = vi.hoisted(() => vi.fn());
 
 const mockPostBillingManage = vi.hoisted(() => vi.fn());
 const mockNavigate = vi.hoisted(() => vi.fn());
@@ -41,6 +43,10 @@ vi.mock("@/hooks/common/useApiError", () => ({
 vi.mock("@/data/internal/hooks/ApiError", () => ({
     mapToInternalApiError: (error: unknown) => error,
 }));
+
+beforeEach(() => {
+    mockUseAuthenticator.mockReturnValue(createAuthenticatorMockValue());
+});
 
 describe("PricingSection", () => {
     beforeEach(async () => {
@@ -275,10 +281,9 @@ describe("PricingSection", () => {
 
 describe("PricingSection with logged-in user", () => {
     beforeEach(async () => {
-        mockUseAuthenticator.mockReturnValue({
-            user: { username: "test-user" },
-            toSignUp: vi.fn(),
-        });
+        mockUseAuthenticator.mockReturnValue(
+            createAuthenticatorMockValue({ username: "test-user" }),
+        );
 
         await act(async () => {
             renderWithRouter(<PricingSection />);
@@ -304,10 +309,7 @@ describe("PricingSection billing button behavior", () => {
     });
 
     it("should navigate to login when anonymous user clicks subscribe", async () => {
-        mockUseAuthenticator.mockReturnValue({
-            user: null,
-            toSignUp: vi.fn(),
-        });
+        mockUseAuthenticator.mockReturnValue(createAuthenticatorMockValue());
 
         await act(async () => {
             renderWithRouter(<PricingSection />);
@@ -326,10 +328,9 @@ describe("PricingSection billing button behavior", () => {
     });
 
     it("should call billing manage with PRO plan and YEARLY cycle when clicking Pro subscribe", async () => {
-        mockUseAuthenticator.mockReturnValue({
-            user: { username: "test-user" },
-            toSignUp: vi.fn(),
-        });
+        mockUseAuthenticator.mockReturnValue(
+            createAuthenticatorMockValue({ username: "test-user" }),
+        );
 
         mockPostBillingManage.mockResolvedValue({
             data: { url: "https://checkout.stripe.com/c/pay/cs_test_123" },
@@ -351,10 +352,9 @@ describe("PricingSection billing button behavior", () => {
     });
 
     it("should call billing manage with ULTIMATE plan and YEARLY cycle when clicking Ultimate subscribe", async () => {
-        mockUseAuthenticator.mockReturnValue({
-            user: { username: "test-user" },
-            toSignUp: vi.fn(),
-        });
+        mockUseAuthenticator.mockReturnValue(
+            createAuthenticatorMockValue({ username: "test-user" }),
+        );
 
         mockPostBillingManage.mockResolvedValue({
             data: { url: "https://checkout.stripe.com/c/pay/cs_test_456" },
@@ -376,10 +376,9 @@ describe("PricingSection billing button behavior", () => {
     });
 
     it("should call billing manage with MONTHLY cycle after switching to monthly billing", async () => {
-        mockUseAuthenticator.mockReturnValue({
-            user: { username: "test-user" },
-            toSignUp: vi.fn(),
-        });
+        mockUseAuthenticator.mockReturnValue(
+            createAuthenticatorMockValue({ username: "test-user" }),
+        );
 
         mockPostBillingManage.mockResolvedValue({
             data: { url: "https://checkout.stripe.com/c/pay/cs_test_monthly" },
@@ -404,10 +403,9 @@ describe("PricingSection billing button behavior", () => {
     });
 
     it("should redirect to checkout URL on successful billing manage request", async () => {
-        mockUseAuthenticator.mockReturnValue({
-            user: { username: "test-user" },
-            toSignUp: vi.fn(),
-        });
+        mockUseAuthenticator.mockReturnValue(
+            createAuthenticatorMockValue({ username: "test-user" }),
+        );
 
         mockPostBillingManage.mockResolvedValue({
             data: { url: "https://checkout.stripe.com/c/pay/cs_test_redirect" },
@@ -427,10 +425,9 @@ describe("PricingSection billing button behavior", () => {
     });
 
     it("should redirect to portal URL when billing manage returns portal session", async () => {
-        mockUseAuthenticator.mockReturnValue({
-            user: { username: "test-user" },
-            toSignUp: vi.fn(),
-        });
+        mockUseAuthenticator.mockReturnValue(
+            createAuthenticatorMockValue({ username: "test-user" }),
+        );
 
         mockPostBillingManage.mockResolvedValue({
             data: { url: "https://billing.stripe.com/p/session/test_portal" },
