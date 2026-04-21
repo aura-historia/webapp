@@ -8,13 +8,12 @@ import { vi } from "vitest";
 
 const mockUseAuthenticator = vi.hoisted(() =>
     vi.fn(() => ({
-        user: null as any,
+        user: null,
         toSignUp: vi.fn(),
     })),
 );
 
-const mockPostBillingCheckout = vi.hoisted(() => vi.fn());
-const mockPostBillingPortal = vi.hoisted(() => vi.fn());
+const mockPostBillingManage = vi.hoisted(() => vi.fn());
 const mockNavigate = vi.hoisted(() => vi.fn());
 
 vi.mock("@aws-amplify/ui-react", () => ({
@@ -22,8 +21,7 @@ vi.mock("@aws-amplify/ui-react", () => ({
 }));
 
 vi.mock("@/client", () => ({
-    postBillingCheckout: mockPostBillingCheckout,
-    postBillingPortal: mockPostBillingPortal,
+    postBillingManage: mockPostBillingManage,
 }));
 
 vi.mock("@tanstack/react-router", async (importOriginal) => {
@@ -258,8 +256,8 @@ describe("PricingSection", () => {
             (pricingTier) => pricingTier.prices && pricingTier.yearlyPrices,
         )) {
             for (const currency of CURRENCIES) {
-                const monthly = tier.prices![currency];
-                const yearly = tier.yearlyPrices![currency];
+                const monthly = tier.prices?.[currency];
+                const yearly = tier.yearlyPrices?.[currency];
                 // Yearly should be 10x monthly (rounded)
                 expect(yearly).toBeCloseTo(monthly * 10, 0);
             }
@@ -316,16 +314,16 @@ describe("PricingSection billing button behavior", () => {
             to: "/login",
             search: { redirect: "/" },
         });
-        expect(mockPostBillingCheckout).not.toHaveBeenCalled();
+        expect(mockPostBillingManage).not.toHaveBeenCalled();
     });
 
-    it("should call checkout with PRO plan and YEARLY cycle when clicking Pro subscribe", async () => {
+    it("should call billing manage with PRO plan and YEARLY cycle when clicking Pro subscribe", async () => {
         mockUseAuthenticator.mockReturnValue({
             user: { username: "test-user" },
             toSignUp: vi.fn(),
         });
 
-        mockPostBillingCheckout.mockResolvedValue({
+        mockPostBillingManage.mockResolvedValue({
             data: { url: "https://checkout.stripe.com/c/pay/cs_test_123" },
             error: null,
         });
@@ -339,18 +337,18 @@ describe("PricingSection billing button behavior", () => {
 
         await user.click(subscribeButtons[0]);
 
-        expect(mockPostBillingCheckout).toHaveBeenCalledWith({
+        expect(mockPostBillingManage).toHaveBeenCalledWith({
             body: { plan: "PRO", cycle: "YEARLY" },
         });
     });
 
-    it("should call checkout with ULTIMATE plan and YEARLY cycle when clicking Ultimate subscribe", async () => {
+    it("should call billing manage with ULTIMATE plan and YEARLY cycle when clicking Ultimate subscribe", async () => {
         mockUseAuthenticator.mockReturnValue({
             user: { username: "test-user" },
             toSignUp: vi.fn(),
         });
 
-        mockPostBillingCheckout.mockResolvedValue({
+        mockPostBillingManage.mockResolvedValue({
             data: { url: "https://checkout.stripe.com/c/pay/cs_test_456" },
             error: null,
         });
@@ -364,18 +362,18 @@ describe("PricingSection billing button behavior", () => {
 
         await user.click(subscribeButtons[1]);
 
-        expect(mockPostBillingCheckout).toHaveBeenCalledWith({
+        expect(mockPostBillingManage).toHaveBeenCalledWith({
             body: { plan: "ULTIMATE", cycle: "YEARLY" },
         });
     });
 
-    it("should call checkout with MONTHLY cycle after switching to monthly billing", async () => {
+    it("should call billing manage with MONTHLY cycle after switching to monthly billing", async () => {
         mockUseAuthenticator.mockReturnValue({
             user: { username: "test-user" },
             toSignUp: vi.fn(),
         });
 
-        mockPostBillingCheckout.mockResolvedValue({
+        mockPostBillingManage.mockResolvedValue({
             data: { url: "https://checkout.stripe.com/c/pay/cs_test_monthly" },
             error: null,
         });
@@ -392,18 +390,18 @@ describe("PricingSection billing button behavior", () => {
         const subscribeButtons = screen.getAllByText("Abonnieren");
         await user.click(subscribeButtons[0]);
 
-        expect(mockPostBillingCheckout).toHaveBeenCalledWith({
+        expect(mockPostBillingManage).toHaveBeenCalledWith({
             body: { plan: "PRO", cycle: "MONTHLY" },
         });
     });
 
-    it("should redirect to checkout URL on successful checkout", async () => {
+    it("should redirect to checkout URL on successful billing manage request", async () => {
         mockUseAuthenticator.mockReturnValue({
             user: { username: "test-user" },
             toSignUp: vi.fn(),
         });
 
-        mockPostBillingCheckout.mockResolvedValue({
+        mockPostBillingManage.mockResolvedValue({
             data: { url: "https://checkout.stripe.com/c/pay/cs_test_redirect" },
             error: null,
         });
@@ -420,22 +418,13 @@ describe("PricingSection billing button behavior", () => {
         expect(window.location.href).toBe("https://checkout.stripe.com/c/pay/cs_test_redirect");
     });
 
-    it("should fall back to portal when checkout returns 409", async () => {
+    it("should redirect to portal URL when billing manage returns portal session", async () => {
         mockUseAuthenticator.mockReturnValue({
             user: { username: "test-user" },
             toSignUp: vi.fn(),
         });
 
-        mockPostBillingCheckout.mockResolvedValue({
-            data: null,
-            error: {
-                status: 409,
-                error: "STRIPE_CUSTOMER_ALREADY_EXISTS",
-                title: "Conflict",
-            },
-        });
-
-        mockPostBillingPortal.mockResolvedValue({
+        mockPostBillingManage.mockResolvedValue({
             data: { url: "https://billing.stripe.com/p/session/test_portal" },
             error: null,
         });
@@ -449,7 +438,9 @@ describe("PricingSection billing button behavior", () => {
 
         await user.click(subscribeButtons[0]);
 
-        expect(mockPostBillingPortal).toHaveBeenCalled();
+        expect(mockPostBillingManage).toHaveBeenCalledWith({
+            body: { plan: "PRO", cycle: "YEARLY" },
+        });
         expect(window.location.href).toBe("https://billing.stripe.com/p/session/test_portal");
     });
 });

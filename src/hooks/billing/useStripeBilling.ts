@@ -1,4 +1,4 @@
-import { postBillingCheckout, postBillingPortal } from "@/client";
+import { postBillingManage } from "@/client";
 import type { BillingCycleData, BillingPlanData } from "@/client";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useNavigate } from "@tanstack/react-router";
@@ -6,8 +6,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
-
-const STRIPE_CUSTOMER_ALREADY_EXISTS_STATUS = 409;
 
 export function useStripeBilling() {
     const { user } = useAuthenticator((context) => [context.user]);
@@ -24,28 +22,16 @@ export function useStripeBilling() {
         setIsLoading(true);
 
         try {
-            const checkoutResponse = await postBillingCheckout({
+            const billingResponse = await postBillingManage({
                 body: { plan, cycle },
             });
 
-            if (checkoutResponse.data) {
-                window.location.href = checkoutResponse.data.url;
+            if (billingResponse.data) {
+                window.location.href = billingResponse.data.url;
                 return;
             }
 
-            if (checkoutResponse.error?.status === STRIPE_CUSTOMER_ALREADY_EXISTS_STATUS) {
-                const portalResponse = await postBillingPortal();
-
-                if (portalResponse.data) {
-                    window.location.href = portalResponse.data.url;
-                    return;
-                }
-
-                toast.error(getErrorMessage(mapToInternalApiError(portalResponse.error)));
-                return;
-            }
-
-            toast.error(getErrorMessage(mapToInternalApiError(checkoutResponse.error)));
+            toast.error(getErrorMessage(mapToInternalApiError(billingResponse.error)));
         } finally {
             setIsLoading(false);
         }

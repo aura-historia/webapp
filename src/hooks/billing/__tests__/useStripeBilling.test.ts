@@ -4,8 +4,7 @@ import { useStripeBilling } from "../useStripeBilling.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
 
-const mockPostBillingCheckout = vi.hoisted(() => vi.fn());
-const mockPostBillingPortal = vi.hoisted(() => vi.fn());
+const mockPostBillingManage = vi.hoisted(() => vi.fn());
 const mockNavigate = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
 const mockToast = vi.hoisted(() => ({
@@ -13,8 +12,7 @@ const mockToast = vi.hoisted(() => ({
 }));
 
 vi.mock("@/client", () => ({
-    postBillingCheckout: mockPostBillingCheckout,
-    postBillingPortal: mockPostBillingPortal,
+    postBillingManage: mockPostBillingManage,
 }));
 
 vi.mock("@aws-amplify/ui-react", () => ({
@@ -90,8 +88,7 @@ describe("useStripeBilling", () => {
                 to: "/login",
                 search: { redirect: "/" },
             });
-            expect(mockPostBillingCheckout).not.toHaveBeenCalled();
-            expect(mockPostBillingPortal).not.toHaveBeenCalled();
+            expect(mockPostBillingManage).not.toHaveBeenCalled();
         });
 
         it("should not set loading state for anonymous user redirect", async () => {
@@ -113,9 +110,9 @@ describe("useStripeBilling", () => {
         });
     });
 
-    describe("Authenticated user without Stripe customer (checkout flow)", () => {
-        it("should redirect to checkout URL on successful checkout", async () => {
-            mockPostBillingCheckout.mockResolvedValue({
+    describe("Authenticated user", () => {
+        it("should redirect to checkout URL on successful billing manage request", async () => {
+            mockPostBillingManage.mockResolvedValue({
                 data: { url: "https://checkout.stripe.com/c/pay/cs_test_123" },
                 error: null,
             });
@@ -128,15 +125,14 @@ describe("useStripeBilling", () => {
                 await result.current.handleSubscribe("PRO", "MONTHLY");
             });
 
-            expect(mockPostBillingCheckout).toHaveBeenCalledWith({
+            expect(mockPostBillingManage).toHaveBeenCalledWith({
                 body: { plan: "PRO", cycle: "MONTHLY" },
             });
             expect(window.location.href).toBe("https://checkout.stripe.com/c/pay/cs_test_123");
-            expect(mockPostBillingPortal).not.toHaveBeenCalled();
         });
 
         it("should pass ULTIMATE plan and YEARLY cycle correctly", async () => {
-            mockPostBillingCheckout.mockResolvedValue({
+            mockPostBillingManage.mockResolvedValue({
                 data: { url: "https://checkout.stripe.com/c/pay/cs_test_456" },
                 error: null,
             });
@@ -149,58 +145,15 @@ describe("useStripeBilling", () => {
                 await result.current.handleSubscribe("ULTIMATE", "YEARLY");
             });
 
-            expect(mockPostBillingCheckout).toHaveBeenCalledWith({
+            expect(mockPostBillingManage).toHaveBeenCalledWith({
                 body: { plan: "ULTIMATE", cycle: "YEARLY" },
             });
             expect(window.location.href).toBe("https://checkout.stripe.com/c/pay/cs_test_456");
         });
 
-        it("should set loading state during checkout request", async () => {
-            let resolveCheckout: (value: unknown) => void;
-            const checkoutPromise = new Promise((resolve) => {
-                resolveCheckout = resolve;
-            });
-            mockPostBillingCheckout.mockReturnValue(checkoutPromise);
-
-            const { result } = renderHook(() => useStripeBilling(), {
-                wrapper: createWrapper(),
-            });
-
-            expect(result.current.isLoading).toBe(false);
-
-            let subscribePromise: Promise<void>;
-            act(() => {
-                subscribePromise = result.current.handleSubscribe("PRO", "MONTHLY");
-            });
-
-            expect(result.current.isLoading).toBe(true);
-
-            await act(async () => {
-                resolveCheckout!({
-                    data: { url: "https://checkout.stripe.com/c/pay/cs_test_123" },
-                    error: null,
-                });
-                await subscribePromise!;
-            });
-
-            expect(result.current.isLoading).toBe(false);
-        });
-    });
-
-    describe("Authenticated user with existing Stripe customer (portal fallback)", () => {
-        it("should fall back to portal when checkout returns 409", async () => {
-            mockPostBillingCheckout.mockResolvedValue({
-                data: null,
-                error: {
-                    status: 409,
-                    error: "STRIPE_CUSTOMER_ALREADY_EXISTS",
-                    title: "Conflict",
-                    detail: "User has already created a Stripe customer",
-                },
-            });
-
-            mockPostBillingPortal.mockResolvedValue({
-                data: { url: "https://billing.stripe.com/p/session/test_123" },
+        it("should redirect to portal URL when billing manage returns portal session", async () => {
+            mockPostBillingManage.mockResolvedValue({
+                data: { url: "https://billing.stripe.com/p/session/manage_paid" },
                 error: null,
             });
 
@@ -212,45 +165,47 @@ describe("useStripeBilling", () => {
                 await result.current.handleSubscribe("PRO", "MONTHLY");
             });
 
-            expect(mockPostBillingCheckout).toHaveBeenCalled();
-            expect(mockPostBillingPortal).toHaveBeenCalled();
-            expect(window.location.href).toBe("https://billing.stripe.com/p/session/test_123");
+            expect(mockPostBillingManage).toHaveBeenCalledWith({
+                body: { plan: "PRO", cycle: "MONTHLY" },
+            });
+            expect(window.location.href).toBe("https://billing.stripe.com/p/session/manage_paid");
         });
 
-        it("should show error toast when portal also fails after 409 checkout", async () => {
-            mockPostBillingCheckout.mockResolvedValue({
-                data: null,
-                error: {
-                    status: 409,
-                    error: "STRIPE_CUSTOMER_ALREADY_EXISTS",
-                    title: "Conflict",
-                },
+        it("should set loading state during billing manage request", async () => {
+            let resolveBillingRequest: ((value: unknown) => void) | undefined;
+            const billingPromise = new Promise((resolve) => {
+                resolveBillingRequest = resolve;
             });
-
-            mockPostBillingPortal.mockResolvedValue({
-                data: null,
-                error: {
-                    status: 500,
-                    error: "INTERNAL_SERVER_ERROR",
-                    title: "Internal Server Error",
-                },
-            });
+            mockPostBillingManage.mockReturnValue(billingPromise);
 
             const { result } = renderHook(() => useStripeBilling(), {
                 wrapper: createWrapper(),
             });
 
-            await act(async () => {
-                await result.current.handleSubscribe("PRO", "MONTHLY");
+            expect(result.current.isLoading).toBe(false);
+
+            let subscribePromise: Promise<void> | undefined;
+            act(() => {
+                subscribePromise = result.current.handleSubscribe("PRO", "MONTHLY");
             });
 
-            expect(mockToast.error).toHaveBeenCalled();
+            expect(result.current.isLoading).toBe(true);
+
+            await act(async () => {
+                resolveBillingRequest?.({
+                    data: { url: "https://checkout.stripe.com/c/pay/cs_test_123" },
+                    error: null,
+                });
+                await subscribePromise;
+            });
+
+            expect(result.current.isLoading).toBe(false);
         });
     });
 
     describe("Error handling", () => {
-        it("should show error toast when checkout fails with non-409 error", async () => {
-            mockPostBillingCheckout.mockResolvedValue({
+        it("should show error toast when billing manage fails", async () => {
+            mockPostBillingManage.mockResolvedValue({
                 data: null,
                 error: {
                     status: 500,
@@ -268,11 +223,10 @@ describe("useStripeBilling", () => {
             });
 
             expect(mockToast.error).toHaveBeenCalled();
-            expect(mockPostBillingPortal).not.toHaveBeenCalled();
         });
 
         it("should reset loading state after error", async () => {
-            mockPostBillingCheckout.mockResolvedValue({
+            mockPostBillingManage.mockResolvedValue({
                 data: null,
                 error: {
                     status: 500,

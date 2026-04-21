@@ -1713,6 +1713,10 @@ export type GetUserAccountData = {
     tier: UserTierData;
     role: UserRoleData;
     /**
+     * Persisted Stripe customer identifier for the user, omitted when the user has never been linked to a Stripe customer
+     */
+    stripeCustomerId?: string;
+    /**
      * When the user account was created (RFC3339 format)
      */
     created: string;
@@ -3844,6 +3848,50 @@ export type PostBillingPortalResponses = {
 };
 
 export type PostBillingPortalResponse = PostBillingPortalResponses[keyof PostBillingPortalResponses];
+
+export type PostBillingManageData = {
+    /**
+     * Desired subscription plan and billing cycle. Required for all callers.
+     */
+    body: PostBillingCheckoutData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/billing/manage';
+};
+
+export type PostBillingManageErrors = {
+    /**
+     * Bad request - request body is missing, empty, malformed JSON, or contains unsupported enum values
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Unprocessable Content - the authenticated paid user has no Stripe customer record yet
+     */
+    422: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PostBillingManageError = PostBillingManageErrors[keyof PostBillingManageErrors];
+
+export type PostBillingManageResponses = {
+    /**
+     * Billing management session created successfully
+     */
+    201: BillingSessionUrlData;
+};
+
+export type PostBillingManageResponse = PostBillingManageResponses[keyof PostBillingManageResponses];
 
 export type DeleteWatchlistProductData = {
     body?: never;
