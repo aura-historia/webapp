@@ -1,5 +1,15 @@
 ﻿import { render, screen } from "@testing-library/react";
+import { vi } from "vitest";
 import { AuctionWindowBadge } from "../AuctionWindowBadge.tsx";
+
+vi.mock("@tanstack/react-router", async () => {
+    const actual =
+        await vi.importActual<typeof import("@tanstack/react-router")>("@tanstack/react-router");
+    return {
+        ...actual,
+        useRouteContext: () => ({ timeZone: "UTC" }),
+    };
+});
 
 const START_DATE = new Date("2025-06-15T10:00:00Z");
 const END_DATE = new Date("2025-06-20T18:00:00Z");
