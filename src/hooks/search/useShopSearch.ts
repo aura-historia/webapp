@@ -1,4 +1,4 @@
-import { searchShops, type SearchShopsData } from "@/client";
+import { simpleSearchShops, type SimpleSearchShopsData } from "@/client";
 import {
     type InfiniteData,
     useInfiniteQuery,
@@ -7,7 +7,6 @@ import {
 import type { ShopSearchFilterArguments } from "@/data/internal/search/ShopSearchFilterArguments.ts";
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { mapToShopDetail } from "@/data/internal/shop/ShopDetail.ts";
-import { mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
 import { mapToBackendShopPartnerStatus } from "@/data/internal/shop/ShopPartnerStatus.ts";
 import { mapToBackendShopSortModeArguments } from "@/data/internal/search/ShopSortMode.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
@@ -26,46 +25,34 @@ export type ShopSearchResultPage = {
 };
 
 /**
- * Builds the body for the `searchShops` endpoint from the search arguments.
+ * Builds the query string for the `simpleSearchShops` GET /api/v1/shops endpoint.
  */
-function buildShopSearchBody(
+function buildShopSearchQuery(
     searchArgs: ShopSearchFilterArguments,
     queryText: string,
-): SearchShopsData["body"] {
-    const body: SearchShopsData["body"] = {};
+    pageParam: Array<unknown> | undefined,
+): NonNullable<SimpleSearchShopsData["query"]> {
+    const { sort, order } = mapToBackendShopSortModeArguments({
+        field: searchArgs.sortField ?? "RELEVANCE",
+        order: searchArgs.sortOrder ?? "DESC",
+    });
+
+    const query: NonNullable<SimpleSearchShopsData["query"]> = {
+        sort,
+        order,
+        searchAfter: pageParam,
+        size: PAGE_SIZE,
+    };
 
     if (queryText.length >= MIN_SEARCH_QUERY_LENGTH) {
-        body.shopNameQuery = queryText;
-    }
-
-    if (searchArgs.shopType && searchArgs.shopType.length > 0) {
-        const mapped = searchArgs.shopType
-            .map((type) => mapToBackendShopType(type))
-            .filter((t): t is NonNullable<typeof t> => t !== undefined);
-        if (mapped.length > 0) {
-            body.shopType = mapped;
-        }
+        query.shopNameQuery = queryText;
     }
 
     if (searchArgs.partnerStatus && searchArgs.partnerStatus.length > 0) {
-        body.partnerStatus = searchArgs.partnerStatus.map((s) => mapToBackendShopPartnerStatus(s));
+        query.partnerStatus = searchArgs.partnerStatus.map((s) => mapToBackendShopPartnerStatus(s));
     }
 
-    if (searchArgs.creationDateFrom != null || searchArgs.creationDateTo != null) {
-        body.created = {
-            min: searchArgs.creationDateFrom?.toISOString() || undefined,
-            max: searchArgs.creationDateTo?.toISOString() || undefined,
-        };
-    }
-
-    if (searchArgs.updateDateFrom != null || searchArgs.updateDateTo != null) {
-        body.updated = {
-            min: searchArgs.updateDateFrom?.toISOString() || undefined,
-            max: searchArgs.updateDateTo?.toISOString() || undefined,
-        };
-    }
-
-    return body;
+    return query;
 }
 
 export function useShopSearch(
@@ -77,27 +64,20 @@ export function useShopSearch(
         queryKey: ["shopSearch", searchArgs],
         enabled: isSearchEnabled && searchArgs.q.length >= MIN_SEARCH_QUERY_LENGTH,
         queryFn: async ({ pageParam }) => {
-            const result = await searchShops({
-                body: buildShopSearchBody(searchArgs, searchArgs.q),
-                query: {
-                    ...mapToBackendShopSortModeArguments({
-                        field: searchArgs.sortField ?? "RELEVANCE",
-                        order: searchArgs.sortOrder ?? "DESC",
-                    }),
-                    searchAfter: pageParam,
-                    size: PAGE_SIZE,
-                },
+            const result = await simpleSearchShops({
+                query: buildShopSearchQuery(searchArgs, searchArgs.q, pageParam),
             });
 
             if (result.error) {
                 throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
 
+            const { items, size, total, searchAfter } = result.data ?? {};
             return {
-                shops: result.data?.items?.map((shop) => mapToShopDetail(shop)) ?? [],
-                size: result.data?.size ?? 0,
-                total: result.data?.total ?? undefined,
-                searchAfter: result.data?.searchAfter ?? undefined,
+                shops: items?.map((shop) => mapToShopDetail(shop)) ?? [],
+                size: size ?? 0,
+                total: total ?? undefined,
+                searchAfter: searchAfter ?? undefined,
             } satisfies ShopSearchResultPage;
         },
         initialPageParam: undefined as Array<unknown> | undefined,

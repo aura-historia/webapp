@@ -20,7 +20,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PeriodsIndexRouteImport } from './routes/periods.index'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
 import { Route as CategoriesIndexRouteImport } from './routes/categories.index'
-import { Route as SearchShopsRouteImport } from './routes/search.shops'
+import { Route as SearchShopsRouteImport } from './routes/search_.shops'
 import { Route as PeriodsPeriodIdRouteImport } from './routes/periods.$periodId'
 import { Route as CollectionsCombinationSlugRouteImport } from './routes/collections.$combinationSlug'
 import { Route as CategoriesCategoryIdRouteImport } from './routes/categories.$categoryId'
@@ -86,9 +86,9 @@ const CategoriesIndexRoute = CategoriesIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchShopsRoute = SearchShopsRouteImport.update({
-  id: '/shops',
-  path: '/shops',
-  getParentRoute: () => SearchRoute,
+  id: '/search_/shops',
+  path: '/search/shops',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PeriodsPeriodIdRoute = PeriodsPeriodIdRouteImport.update({
   id: '/periods/$periodId',
@@ -145,7 +145,7 @@ export interface FileRoutesByFullPath {
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
-  '/search': typeof SearchRouteWithChildren
+  '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
@@ -167,7 +167,7 @@ export interface FileRoutesByTo {
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
-  '/search': typeof SearchRouteWithChildren
+  '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
@@ -191,12 +191,12 @@ export interface FileRoutesById {
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
-  '/search': typeof SearchRouteWithChildren
+  '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
-  '/search/shops': typeof SearchShopsRoute
+  '/search_/shops': typeof SearchShopsRoute
   '/categories/': typeof CategoriesIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/periods/': typeof PeriodsIndexRoute
@@ -265,7 +265,7 @@ export interface FileRouteTypes {
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
-    | '/search/shops'
+    | '/search_/shops'
     | '/categories/'
     | '/collections/'
     | '/periods/'
@@ -284,11 +284,12 @@ export interface RootRouteChildren {
   ImprintRoute: typeof ImprintRoute
   LoginRoute: typeof LoginRoute
   PrivacyRoute: typeof PrivacyRoute
-  SearchRoute: typeof SearchRouteWithChildren
+  SearchRoute: typeof SearchRoute
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
   CategoriesCategoryIdRoute: typeof CategoriesCategoryIdRoute
   CollectionsCombinationSlugRoute: typeof CollectionsCombinationSlugRoute
   PeriodsPeriodIdRoute: typeof PeriodsPeriodIdRoute
+  SearchShopsRoute: typeof SearchShopsRoute
   CategoriesIndexRoute: typeof CategoriesIndexRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
   PeriodsIndexRoute: typeof PeriodsIndexRoute
@@ -376,12 +377,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/search/shops': {
-      id: '/search/shops'
-      path: '/shops'
+    '/search_/shops': {
+      id: '/search_/shops'
+      path: '/search/shops'
       fullPath: '/search/shops'
       preLoaderRoute: typeof SearchShopsRouteImport
-      parentRoute: typeof SearchRoute
+      parentRoute: typeof rootRouteImport
     }
     '/periods/$periodId': {
       id: '/periods/$periodId'
@@ -463,17 +464,6 @@ const AuthRouteChildren: AuthRouteChildren = {
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
-interface SearchRouteChildren {
-  SearchShopsRoute: typeof SearchShopsRoute
-}
-
-const SearchRouteChildren: SearchRouteChildren = {
-  SearchShopsRoute: SearchShopsRoute,
-}
-
-const SearchRouteWithChildren =
-  SearchRoute._addFileChildren(SearchRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
@@ -481,11 +471,12 @@ const rootRouteChildren: RootRouteChildren = {
   ImprintRoute: ImprintRoute,
   LoginRoute: LoginRoute,
   PrivacyRoute: PrivacyRoute,
-  SearchRoute: SearchRouteWithChildren,
+  SearchRoute: SearchRoute,
   TermsAndConditionsRoute: TermsAndConditionsRoute,
   CategoriesCategoryIdRoute: CategoriesCategoryIdRoute,
   CollectionsCombinationSlugRoute: CollectionsCombinationSlugRoute,
   PeriodsPeriodIdRoute: PeriodsPeriodIdRoute,
+  SearchShopsRoute: SearchShopsRoute,
   CategoriesIndexRoute: CategoriesIndexRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
   PeriodsIndexRoute: PeriodsIndexRoute,

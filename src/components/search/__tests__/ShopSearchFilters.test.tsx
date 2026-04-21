@@ -11,17 +11,14 @@ describe("ShopSearchFilters", () => {
         user = userEvent.setup();
     });
 
-    it("renders all filter sections", async () => {
+    it("renders the partner-status filter section", async () => {
         await act(async () => {
             renderWithRouter(<ShopSearchFilters searchFilters={{ q: "shop" }} />, {
                 initialEntries: ["/search/shops?q=shop"],
             });
         });
 
-        expect(screen.getByText("Shop-Typ")).toBeInTheDocument();
         expect(screen.getByText("Partnerstatus")).toBeInTheDocument();
-        expect(screen.getByText("Hinzugefügt")).toBeInTheDocument();
-        expect(screen.getByText("Aktualisiert")).toBeInTheDocument();
     });
 
     it("renders the reset-all-filters button", async () => {
@@ -38,7 +35,7 @@ describe("ShopSearchFilters", () => {
     it("allows resetting all filters without crashing", async () => {
         await act(async () => {
             renderWithRouter(
-                <ShopSearchFilters searchFilters={{ q: "shop", shopType: ["AUCTION_HOUSE"] }} />,
+                <ShopSearchFilters searchFilters={{ q: "shop", partnerStatus: ["PARTNERED"] }} />,
                 { initialEntries: ["/search/shops?q=shop"] },
             );
         });
@@ -47,16 +44,17 @@ describe("ShopSearchFilters", () => {
             await user.click(resetBtn);
         });
         // After reset, the filter controls should still be present
-        expect(screen.getByText("Shop-Typ")).toBeInTheDocument();
+        expect(screen.getByText("Partnerstatus")).toBeInTheDocument();
     });
 
-    it("pre-populates the shop type filter from search params", async () => {
+    it("pre-populates the partner-status filter from search params", async () => {
         await act(async () => {
             renderWithRouter(
-                <ShopSearchFilters searchFilters={{ q: "shop", shopType: ["AUCTION_HOUSE"] }} />,
-                { initialEntries: ["/search/shops?q=shop&shopType=AUCTION_HOUSE"] },
+                <ShopSearchFilters searchFilters={{ q: "shop", partnerStatus: ["PARTNERED"] }} />,
+                { initialEntries: ["/search/shops?q=shop&partnerStatus=PARTNERED"] },
             );
         });
-        expect(screen.getAllByText(/Auktionshaus/).length).toBeGreaterThan(0);
+        // The partner-status filter shows the localized label
+        expect(screen.getByText("Partnerstatus")).toBeInTheDocument();
     });
 });

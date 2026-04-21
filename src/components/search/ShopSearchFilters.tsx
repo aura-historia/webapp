@@ -7,59 +7,19 @@ import { useNavigate } from "@tanstack/react-router";
 import type { ShopSearchFilterArguments } from "@/data/internal/search/ShopSearchFilterArguments.ts";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import type { TFunction } from "i18next";
-import { formatToDateString } from "@/lib/utils.ts";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 import { useSearchQueryContext } from "@/hooks/search/useSearchQueryContext.tsx";
 import { toast } from "sonner";
-import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 import { SHOP_PARTNER_STATUSES } from "@/data/internal/shop/ShopPartnerStatus.ts";
 import { SHOP_FILTER_DEFAULTS } from "@/lib/shopFilterDefaults.ts";
 import { ShopPartnerStatusFilter } from "@/components/search/filters/ShopPartnerStatusFilter.tsx";
-import { ShopSearchShopTypeFilter } from "@/components/search/filters/ShopSearchShopTypeFilter.tsx";
-import { ShopDateSpanFilter } from "@/components/search/filters/ShopDateSpanFilter.tsx";
 import { serializeShopSearchParams } from "@/lib/shopSearchValidation.ts";
 
-const createShopFilterSchema = (t: TFunction) =>
-    z
-        .object({
-            shopType: z.array(z.enum(SHOP_TYPES)),
-            partnerStatus: z.array(z.enum(SHOP_PARTNER_STATUSES)),
-            creationDate: z.object({
-                from: z.date().optional(),
-                to: z.date().optional(),
-            }),
-            updateDate: z.object({
-                from: z.date().optional(),
-                to: z.date().optional(),
-            }),
-        })
-        .superRefine((data, ctx) => {
-            if (
-                data.creationDate.from &&
-                data.creationDate.to &&
-                data.creationDate.from > data.creationDate.to
-            ) {
-                ctx.addIssue({
-                    code: "custom",
-                    message: t("search.validation.dateOrder"),
-                    path: ["creationDate", "to"],
-                });
-            }
-            if (
-                data.updateDate.from &&
-                data.updateDate.to &&
-                data.updateDate.from > data.updateDate.to
-            ) {
-                ctx.addIssue({
-                    code: "custom",
-                    message: t("search.validation.dateOrder"),
-                    path: ["updateDate", "to"],
-                });
-            }
-        });
+const shopFilterSchema = z.object({
+    partnerStatus: z.array(z.enum(SHOP_PARTNER_STATUSES)),
+});
 
-export type ShopFilterSchema = z.infer<ReturnType<typeof createShopFilterSchema>>;
+export type ShopFilterSchema = z.infer<typeof shopFilterSchema>;
 
 type ShopSearchFiltersProps = {
     readonly searchFilters: ShopSearchFilterArguments;
@@ -67,31 +27,14 @@ type ShopSearchFiltersProps = {
 
 function mapShopFiltersToFormValues(filters: ShopSearchFilterArguments): ShopFilterSchema {
     return {
-        shopType: filters.shopType ?? SHOP_FILTER_DEFAULTS.shopType,
         partnerStatus: filters.partnerStatus ?? SHOP_FILTER_DEFAULTS.partnerStatus,
-        creationDate: {
-            from: filters.creationDateFrom,
-            to: filters.creationDateTo,
-        },
-        updateDate: {
-            from: filters.updateDateFrom,
-            to: filters.updateDateTo,
-        },
     };
 }
 
-function isDefaultShopType(types: ShopFilterSchema["shopType"]): boolean {
-    return (
-        types.length === SHOP_FILTER_DEFAULTS.shopType.length &&
-        types.every((t) => (SHOP_FILTER_DEFAULTS.shopType as readonly string[]).includes(t))
-    );
-}
-
 function isDefaultPartnerStatus(statuses: ShopFilterSchema["partnerStatus"]): boolean {
-    return (
-        statuses.length === SHOP_FILTER_DEFAULTS.partnerStatus.length &&
-        statuses.every((s) => (SHOP_FILTER_DEFAULTS.partnerStatus as readonly string[]).includes(s))
-    );
+    const defaults = new Set<string>(SHOP_FILTER_DEFAULTS.partnerStatus);
+    if (statuses.length !== defaults.size) return false;
+    return statuses.every((s) => defaults.has(s));
 }
 
 export function ShopSearchFilters({ searchFilters }: ShopSearchFiltersProps) {
@@ -108,7 +51,7 @@ export function ShopSearchFilters({ searchFilters }: ShopSearchFiltersProps) {
         return currentQuery;
     }, [getQuery, searchFilters.q, t]);
 
-    const filterSchema = useMemo(() => createShopFilterSchema(t), [t]);
+    const filterSchema = useMemo(() => shopFilterSchema, []);
 
     const form = useForm<ShopFilterSchema>({
         resolver: zodResolver(filterSchema),
@@ -124,14 +67,9 @@ export function ShopSearchFilters({ searchFilters }: ShopSearchFiltersProps) {
                 search: (prev) => ({
                     ...serializeShopSearchParams(prev as ShopSearchFilterArguments),
                     q: getEffectiveQuery(),
-                    shopType: isDefaultShopType(data.shopType) ? undefined : data.shopType,
                     partnerStatus: isDefaultPartnerStatus(data.partnerStatus)
                         ? undefined
                         : data.partnerStatus,
-                    creationDateFrom: formatToDateString(data.creationDate.from),
-                    creationDateTo: formatToDateString(data.creationDate.to),
-                    updateDateFrom: formatToDateString(data.updateDate.from),
-                    updateDateTo: formatToDateString(data.updateDate.to),
                 }),
             });
         },
@@ -161,18 +99,7 @@ export function ShopSearchFilters({ searchFilters }: ShopSearchFiltersProps) {
         <Form {...form}>
             <form className="space-y-4">
                 <div className="flex min-w-0 w-full flex-col gap-4 overflow-visible">
-                    <ShopSearchShopTypeFilter />
                     <ShopPartnerStatusFilter />
-                    <ShopDateSpanFilter
-                        field="creationDate"
-                        title={t("search.filter.creationDate")}
-                        resetTooltip={t("search.filter.resetTooltip.creationDate")}
-                    />
-                    <ShopDateSpanFilter
-                        field="updateDate"
-                        title={t("search.filter.updateDate")}
-                        resetTooltip={t("search.filter.resetTooltip.updateDate")}
-                    />
                 </div>
                 <Button
                     type="button"

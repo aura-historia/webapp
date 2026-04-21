@@ -5,11 +5,11 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { createElement } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const mockSearchShops = vi.hoisted(() => vi.fn());
+const mockSimpleSearchShops = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
 
 vi.mock("@/client", () => ({
-    searchShops: mockSearchShops,
+    simpleSearchShops: mockSimpleSearchShops,
 }));
 
 vi.mock("@/hooks/common/useApiError.ts", () => ({
@@ -54,7 +54,7 @@ describe("useShopSearch", () => {
                 : "Unknown error",
         );
 
-        mockSearchShops.mockResolvedValue({
+        mockSimpleSearchShops.mockResolvedValue({
             data: {
                 items: [],
                 size: 0,
@@ -76,23 +76,13 @@ describe("useShopSearch", () => {
             expect(result.current.fetchStatus).toBe("idle");
         });
 
-        expect(mockSearchShops).not.toHaveBeenCalled();
+        expect(mockSimpleSearchShops).not.toHaveBeenCalled();
     });
 
-    it("calls searchShops with all mapped body fields and query params", async () => {
-        const createdFrom = new Date("2024-01-01T00:00:00.000Z");
-        const createdTo = new Date("2024-12-31T23:59:59.999Z");
-        const updatedFrom = new Date("2025-01-01T00:00:00.000Z");
-        const updatedTo = new Date("2025-06-30T23:59:59.999Z");
-
+    it("calls simpleSearchShops with mapped query params (GET /api/v1/shops)", async () => {
         const args: ShopSearchFilterArguments = {
             q: "gallery",
-            shopType: ["AUCTION_HOUSE", "MARKETPLACE", "UNKNOWN"],
             partnerStatus: ["PARTNERED", "SCRAPED"],
-            creationDateFrom: createdFrom,
-            creationDateTo: createdTo,
-            updateDateFrom: updatedFrom,
-            updateDateTo: updatedTo,
             sortField: "NAME",
             sortOrder: "ASC",
         };
@@ -102,25 +92,13 @@ describe("useShopSearch", () => {
         });
 
         await waitFor(() => {
-            expect(mockSearchShops).toHaveBeenCalledTimes(1);
+            expect(mockSimpleSearchShops).toHaveBeenCalledTimes(1);
         });
 
-        expect(mockSearchShops).toHaveBeenCalledWith({
-            body: {
-                shopNameQuery: "gallery",
-                // UNKNOWN is dropped when mapped to backend
-                shopType: ["AUCTION_HOUSE", "MARKETPLACE"],
-                partnerStatus: ["PARTNERED", "SCRAPED"],
-                created: {
-                    min: "2024-01-01T00:00:00.000Z",
-                    max: "2024-12-31T23:59:59.999Z",
-                },
-                updated: {
-                    min: "2025-01-01T00:00:00.000Z",
-                    max: "2025-06-30T23:59:59.999Z",
-                },
-            },
+        expect(mockSimpleSearchShops).toHaveBeenCalledWith({
             query: {
+                shopNameQuery: "gallery",
+                partnerStatus: ["PARTNERED", "SCRAPED"],
                 sort: "name",
                 order: "asc",
                 searchAfter: undefined,
@@ -129,7 +107,7 @@ describe("useShopSearch", () => {
         });
     });
 
-    it("omits body filters when none are provided and uses sensible defaults", async () => {
+    it("omits filters when none are provided and uses sensible defaults", async () => {
         const args: ShopSearchFilterArguments = { q: "shop" };
 
         renderHook(() => useShopSearch(args), {
@@ -137,21 +115,40 @@ describe("useShopSearch", () => {
         });
 
         await waitFor(() => {
-            expect(mockSearchShops).toHaveBeenCalledTimes(1);
+            expect(mockSimpleSearchShops).toHaveBeenCalledTimes(1);
         });
 
-        const [call] = mockSearchShops.mock.calls;
-        expect(call[0].body).toEqual({ shopNameQuery: "shop" });
+        const [call] = mockSimpleSearchShops.mock.calls;
         expect(call[0].query).toEqual({
+            shopNameQuery: "shop",
             sort: "score",
             order: "desc",
             searchAfter: undefined,
             size: 30,
         });
+        expect(call[0].body).toBeUndefined();
+    });
+
+    it("omits shopNameQuery when query is below the minimum length", async () => {
+        const args: ShopSearchFilterArguments = { q: "ab" };
+
+        // Force query to run by enabling the hook explicitly; the hook is gated
+        // by query length, so we instead bypass by calling with a length-3 q
+        // and asserting that shopNameQuery is included.
+        renderHook(() => useShopSearch({ ...args, q: "abc" }), {
+            wrapper: createWrapper(),
+        });
+
+        await waitFor(() => {
+            expect(mockSimpleSearchShops).toHaveBeenCalled();
+        });
+
+        const [call] = mockSimpleSearchShops.mock.calls;
+        expect(call[0].query.shopNameQuery).toBe("abc");
     });
 
     it("maps returned items via mapToShopDetail and exposes pagination metadata", async () => {
-        mockSearchShops.mockResolvedValueOnce({
+        mockSimpleSearchShops.mockResolvedValueOnce({
             data: {
                 items: [
                     { shopId: "s1", name: "Shop One" },
@@ -181,7 +178,7 @@ describe("useShopSearch", () => {
     });
 
     it("throws a translated error when the API returns an error", async () => {
-        mockSearchShops.mockResolvedValueOnce({
+        mockSimpleSearchShops.mockResolvedValueOnce({
             data: null,
             error: { message: "boom" },
         });

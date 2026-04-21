@@ -13,36 +13,20 @@ describe("shopSearchValidation", () => {
             expect(result.q).toBe("auction");
         });
 
-        it("parses shop types with deduplication", () => {
-            const result = validateShopSearchParams({
-                q: "x",
-                shopType: ["AUCTION_HOUSE", "AUCTION_HOUSE", "MARKETPLACE"],
-            } as never);
-            expect(result.shopType).toEqual(["AUCTION_HOUSE", "MARKETPLACE"]);
-        });
-
-        it("treats unknown shop types as UNKNOWN", () => {
-            const result = validateShopSearchParams({
-                q: "x",
-                shopType: ["bogus"],
-            } as never);
-            expect(result.shopType).toEqual(["UNKNOWN"]);
-        });
-
-        it("returns undefined shop types when not an array", () => {
-            const result = validateShopSearchParams({
-                q: "x",
-                shopType: "MARKETPLACE" as unknown as string[],
-            } as never);
-            expect(result.shopType).toBeUndefined();
-        });
-
-        it("parses partner statuses", () => {
+        it("parses partner statuses with deduplication", () => {
             const result = validateShopSearchParams({
                 q: "x",
                 partnerStatus: ["PARTNERED", "SCRAPED", "PARTNERED"],
             } as never);
             expect(result.partnerStatus).toEqual(["PARTNERED", "SCRAPED"]);
+        });
+
+        it("returns undefined partner statuses when not an array", () => {
+            const result = validateShopSearchParams({
+                q: "x",
+                partnerStatus: "PARTNERED" as unknown as string[],
+            } as never);
+            expect(result.partnerStatus).toBeUndefined();
         });
 
         it("falls back to SCRAPED for unknown partner statuses", () => {
@@ -53,24 +37,12 @@ describe("shopSearchValidation", () => {
             expect(result.partnerStatus).toEqual(["SCRAPED"]);
         });
 
-        it("parses optional dates", () => {
+        it("ignores non-string partner status entries", () => {
             const result = validateShopSearchParams({
                 q: "x",
-                creationDateFrom: "2024-01-01T00:00:00.000Z",
-                updateDateTo: "2024-06-15T00:00:00.000Z",
+                partnerStatus: [123 as unknown as string, "PARTNERED"],
             } as never);
-            expect(result.creationDateFrom).toBeInstanceOf(Date);
-            expect(result.creationDateFrom?.toISOString()).toBe("2024-01-01T00:00:00.000Z");
-            expect(result.updateDateTo?.toISOString()).toBe("2024-06-15T00:00:00.000Z");
-            expect(result.creationDateTo).toBeUndefined();
-        });
-
-        it("returns undefined for invalid date strings", () => {
-            const result = validateShopSearchParams({
-                q: "x",
-                creationDateFrom: "not-a-date",
-            } as never);
-            expect(result.creationDateFrom).toBeUndefined();
+            expect(result.partnerStatus).toEqual(["PARTNERED"]);
         });
 
         it("defaults sort field to RELEVANCE and order to DESC", () => {
@@ -102,31 +74,24 @@ describe("shopSearchValidation", () => {
         it("round-trips basic parameters", () => {
             const input = {
                 q: "auction",
-                shopType: ["AUCTION_HOUSE" as const],
                 partnerStatus: ["PARTNERED" as const],
-                creationDateFrom: new Date("2024-01-01T00:00:00.000Z"),
-                updateDateTo: new Date("2024-06-15T00:00:00.000Z"),
                 sortField: "NAME" as const,
                 sortOrder: "ASC" as const,
             };
             const serialized = serializeShopSearchParams(input);
             expect(serialized).toEqual({
                 q: "auction",
-                shopType: ["AUCTION_HOUSE"],
                 partnerStatus: ["PARTNERED"],
-                creationDateFrom: "2024-01-01T00:00:00.000Z",
-                creationDateTo: undefined,
-                updateDateFrom: undefined,
-                updateDateTo: "2024-06-15T00:00:00.000Z",
                 sortField: "NAME",
                 sortOrder: "ASC",
             });
         });
 
-        it("serializes undefined dates to undefined", () => {
+        it("preserves undefined optional fields", () => {
             const serialized = serializeShopSearchParams({ q: "x" });
-            expect(serialized.creationDateFrom).toBeUndefined();
-            expect(serialized.updateDateFrom).toBeUndefined();
+            expect(serialized.partnerStatus).toBeUndefined();
+            expect(serialized.sortField).toBeUndefined();
+            expect(serialized.sortOrder).toBeUndefined();
         });
     });
 });

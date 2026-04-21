@@ -16,7 +16,7 @@ import { ShopSearchResults } from "@/components/search/ShopSearchResults.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
 
-export const Route = createFileRoute("/search/shops")({
+export const Route = createFileRoute("/search_/shops")({
     head: () =>
         generatePageHeadMeta({
             pageKey: "searchShops",
