@@ -322,7 +322,7 @@ describe("PricingSection billing button behavior", () => {
 
         expect(mockNavigate).toHaveBeenCalledWith({
             to: "/login",
-            search: { redirect: "/" },
+            search: { redirect: "/me/billing/manage?plan=PRO&cycle=YEARLY" },
         });
         expect(mockPostBillingManage).not.toHaveBeenCalled();
     });
@@ -421,7 +421,9 @@ describe("PricingSection billing button behavior", () => {
 
         await user.click(subscribeButtons[0]);
 
-        expect(window.location.href).toBe("https://checkout.stripe.com/c/pay/cs_test_redirect");
+        expect(mockNavigate).toHaveBeenCalledWith({
+            href: "https://checkout.stripe.com/c/pay/cs_test_redirect",
+        });
     });
 
     it("should redirect to portal URL when billing manage returns portal session", async () => {
@@ -446,6 +448,8 @@ describe("PricingSection billing button behavior", () => {
         expect(mockPostBillingManage).toHaveBeenCalledWith({
             body: { plan: "PRO", cycle: "YEARLY" },
         });
-        expect(window.location.href).toBe("https://billing.stripe.com/p/session/test_portal");
+        expect(mockNavigate).toHaveBeenCalledWith({
+            href: "https://billing.stripe.com/p/session/test_portal",
+        });
     });
 });

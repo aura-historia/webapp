@@ -86,7 +86,7 @@ describe("useStripeBilling", () => {
 
             expect(mockNavigate).toHaveBeenCalledWith({
                 to: "/login",
-                search: { redirect: "/" },
+                search: { redirect: "/me/billing/manage?plan=PRO&cycle=MONTHLY" },
             });
             expect(mockPostBillingManage).not.toHaveBeenCalled();
         });
@@ -128,7 +128,9 @@ describe("useStripeBilling", () => {
             expect(mockPostBillingManage).toHaveBeenCalledWith({
                 body: { plan: "PRO", cycle: "MONTHLY" },
             });
-            expect(window.location.href).toBe("https://checkout.stripe.com/c/pay/cs_test_123");
+            expect(mockNavigate).toHaveBeenCalledWith({
+                href: "https://checkout.stripe.com/c/pay/cs_test_123",
+            });
         });
 
         it("should pass ULTIMATE plan and YEARLY cycle correctly", async () => {
@@ -148,7 +150,9 @@ describe("useStripeBilling", () => {
             expect(mockPostBillingManage).toHaveBeenCalledWith({
                 body: { plan: "ULTIMATE", cycle: "YEARLY" },
             });
-            expect(window.location.href).toBe("https://checkout.stripe.com/c/pay/cs_test_456");
+            expect(mockNavigate).toHaveBeenCalledWith({
+                href: "https://checkout.stripe.com/c/pay/cs_test_456",
+            });
         });
 
         it("should redirect to portal URL when billing manage returns portal session", async () => {
@@ -168,7 +172,9 @@ describe("useStripeBilling", () => {
             expect(mockPostBillingManage).toHaveBeenCalledWith({
                 body: { plan: "PRO", cycle: "MONTHLY" },
             });
-            expect(window.location.href).toBe("https://billing.stripe.com/p/session/manage_paid");
+            expect(mockNavigate).toHaveBeenCalledWith({
+                href: "https://billing.stripe.com/p/session/manage_paid",
+            });
         });
 
         it("should set loading state during billing manage request", async () => {

@@ -15,7 +15,11 @@ export function useStripeBilling() {
 
     const handleSubscribe = async (plan: BillingPlanData, cycle: BillingCycleData) => {
         if (!user) {
-            navigate({ to: "/login", search: { redirect: "/" } });
+            const billingSearch = new URLSearchParams({ plan, cycle });
+            await navigate({
+                to: "/login",
+                search: { redirect: `/me/billing/manage?${billingSearch.toString()}` },
+            });
             return;
         }
 
@@ -27,7 +31,7 @@ export function useStripeBilling() {
             });
 
             if (billingResponse.data) {
-                window.location.href = billingResponse.data.url;
+                await navigate({ href: billingResponse.data.url });
                 return;
             }
 
