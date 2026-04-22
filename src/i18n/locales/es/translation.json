@@ -66,6 +66,9 @@
     "terms": {
       "title": "Términos y condiciones | Aura Historia",
       "description": "Términos y condiciones para utilizar Aura Historia, incluida la información sobre servicios de pago y procesamiento de pagos."
+    },
+    "admin": {
+      "title": "Panel de administración | Aura Historia"
     }
   },
   "validation": {
@@ -1118,5 +1121,115 @@
     "totalElements_one": "{{count}} notificación",
     "totalElements_other": "{{count}} notificaciones",
     "showAll": "Mostrar todas las notificaciones"
+  },
+  "adminDashboard": {
+    "loading": "Cargando…",
+    "sidebarLabel": "Secciones de administración",
+    "forbidden": {
+      "title": "Acceso denegado",
+      "description": "No tienes permiso para ver el panel de administración. Inicia sesión con una cuenta de administrador."
+    },
+    "nav": {
+      "overview": "Resumen",
+      "shops": "Tiendas",
+      "partnerApplications": "Solicitudes de socios"
+    },
+    "overview": {
+      "title": "Panel de administración",
+      "description": "Gestiona tiendas y revisa solicitudes de socios.",
+      "shops": {
+        "title": "Tiendas",
+        "description": "Explora, busca y edita los metadatos de las tiendas."
+      },
+      "applications": {
+        "title": "Solicitudes de socios",
+        "description": "Revisa y decide sobre las solicitudes entrantes.",
+        "pendingCount_one": "{{count}} solicitud pendiente de revisión",
+        "pendingCount_other": "{{count}} solicitudes pendientes de revisión"
+      }
+    },
+    "actions": {
+      "edit": "Editar",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "retry": "Reintentar"
+    },
+    "shops": {
+      "title": "Tiendas",
+      "description": "Busca el catálogo de tiendas y edita sus metadatos.",
+      "searchPlaceholder": "Buscar tiendas por nombre…",
+      "loadError": "No se pudieron cargar las tiendas.",
+      "empty": "Ninguna tienda coincide con el filtro actual.",
+      "totalCount_one": "{{count}} tienda",
+      "totalCount_other": "{{count}} tiendas",
+      "updatedAt": "Actualizado {{date}}",
+      "shopImageAlt": "Logotipo de {{shop}}",
+      "editAriaLabel": "Editar {{shop}}",
+      "filter": {
+        "all": "Todas"
+      },
+      "fields": {
+        "shopType": "Tipo de tienda",
+        "image": "URL de imagen",
+        "domains": "Dominios",
+        "domainsHint": "Uno por línea. Los dominios se normalizan en minúsculas, sin esquema ni ruta."
+      },
+      "edit": {
+        "title": "Editar tienda",
+        "description": "Editando {{shop}}",
+        "success": "Tienda actualizada."
+      }
+    },
+    "applications": {
+      "title": "Solicitudes de socios",
+      "description": "Revisa las solicitudes de los socios y apruébalas o recházalas.",
+      "loadError": "No se pudieron cargar las solicitudes.",
+      "empty": "Ninguna solicitud coincide con el filtro actual.",
+      "submittedAt": "Enviada {{date}}",
+      "updatedAt": "Actualizada {{date}}",
+      "existingShop": "Tienda existente",
+      "tabs": {
+        "pending": "Pendientes",
+        "decided": "Decididas",
+        "all": "Todas"
+      },
+      "businessState": {
+        "submitted": "Enviada",
+        "inReview": "En revisión",
+        "approved": "Aprobada",
+        "rejected": "Rechazada"
+      },
+      "executionState": {
+        "processing": "Procesando",
+        "waiting": "Esperando decisión",
+        "completed": "Completada"
+      },
+      "payloadType": {
+        "new": "Nueva tienda",
+        "existing": "Tienda existente"
+      },
+      "actions": {
+        "approve": "Aprobar",
+        "approveAriaLabel": "Aprobar solicitud",
+        "reject": "Rechazar",
+        "rejectAriaLabel": "Rechazar solicitud"
+      },
+      "decision": {
+        "approveSuccess": "Solicitud aprobada.",
+        "rejectSuccess": "Solicitud rechazada."
+      },
+      "fields": {
+        "shopName": "Nombre de la tienda",
+        "shopType": "Tipo de tienda",
+        "image": "URL de imagen",
+        "domains": "Dominios",
+        "domainsHint": "Uno por línea. Los dominios se normalizan en minúsculas, sin esquema ni ruta."
+      },
+      "edit": {
+        "title": "Editar solicitud",
+        "description": "Actualiza los datos de la solicitud antes de decidir.",
+        "success": "Solicitud actualizada."
+      }
+    }
   }
 }

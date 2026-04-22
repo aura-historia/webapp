@@ -23,11 +23,15 @@ import { Route as CategoriesIndexRouteImport } from './routes/categories.index'
 import { Route as PeriodsPeriodIdRouteImport } from './routes/periods.$periodId'
 import { Route as CollectionsCombinationSlugRouteImport } from './routes/collections.$combinationSlug'
 import { Route as CategoriesCategoryIdRouteImport } from './routes/categories.$categoryId'
+import { Route as AuthAdminRouteImport } from './routes/_auth.admin'
 import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
+import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
 import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
 import { Route as AuthMeWatchlistRouteImport } from './routes/_auth.me.watchlist'
 import { Route as AuthMeNotificationsRouteImport } from './routes/_auth.me.notifications'
 import { Route as AuthMeAccountRouteImport } from './routes/_auth.me.account'
+import { Route as AuthAdminShopsRouteImport } from './routes/_auth.admin.shops'
+import { Route as AuthAdminPartnerApplicationsRouteImport } from './routes/_auth.admin.partner-applications'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
 
 const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
@@ -100,10 +104,20 @@ const CategoriesCategoryIdRoute = CategoriesCategoryIdRouteImport.update({
   path: '/categories/$categoryId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthAdminRoute = AuthAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthRoute,
+} as any)
 const ShopsShopSlugIdIndexRoute = ShopsShopSlugIdIndexRouteImport.update({
   id: '/shops/$shopSlugId/',
   path: '/shops/$shopSlugId/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthAdminIndexRoute = AuthAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthAdminRoute,
 } as any)
 const ProductShopIdShopsProductIdRoute =
   ProductShopIdShopsProductIdRouteImport.update({
@@ -126,6 +140,17 @@ const AuthMeAccountRoute = AuthMeAccountRouteImport.update({
   path: '/me/account',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthAdminShopsRoute = AuthAdminShopsRouteImport.update({
+  id: '/shops',
+  path: '/shops',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
+const AuthAdminPartnerApplicationsRoute =
+  AuthAdminPartnerApplicationsRouteImport.update({
+    id: '/partner-applications',
+    path: '/partner-applications',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
 const ShopsShopSlugIdProductsProductSlugIdRoute =
   ShopsShopSlugIdProductsProductSlugIdRouteImport.update({
     id: '/shops/$shopSlugId/products/$productSlugId',
@@ -141,16 +166,20 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/admin': typeof AuthAdminRouteWithChildren
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
   '/categories/': typeof CategoriesIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/periods/': typeof PeriodsIndexRoute
+  '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
+  '/admin/shops': typeof AuthAdminShopsRoute
   '/me/account': typeof AuthMeAccountRoute
   '/me/notifications': typeof AuthMeNotificationsRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
+  '/admin/': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -168,10 +197,13 @@ export interface FileRoutesByTo {
   '/categories': typeof CategoriesIndexRoute
   '/collections': typeof CollectionsIndexRoute
   '/periods': typeof PeriodsIndexRoute
+  '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
+  '/admin/shops': typeof AuthAdminShopsRoute
   '/me/account': typeof AuthMeAccountRoute
   '/me/notifications': typeof AuthMeNotificationsRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
+  '/admin': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId': typeof ShopsShopSlugIdIndexRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -185,16 +217,20 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/_auth/admin': typeof AuthAdminRouteWithChildren
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
   '/categories/': typeof CategoriesIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/periods/': typeof PeriodsIndexRoute
+  '/_auth/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
+  '/_auth/admin/shops': typeof AuthAdminShopsRoute
   '/_auth/me/account': typeof AuthMeAccountRoute
   '/_auth/me/notifications': typeof AuthMeNotificationsRoute
   '/_auth/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
+  '/_auth/admin/': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -208,16 +244,20 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
+    | '/admin'
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
     | '/categories/'
     | '/collections/'
     | '/periods/'
+    | '/admin/partner-applications'
+    | '/admin/shops'
     | '/me/account'
     | '/me/notifications'
     | '/me/watchlist'
     | '/product/$shopId/$shopsProductId'
+    | '/admin/'
     | '/shops/$shopSlugId/'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesByTo: FileRoutesByTo
@@ -235,10 +275,13 @@ export interface FileRouteTypes {
     | '/categories'
     | '/collections'
     | '/periods'
+    | '/admin/partner-applications'
+    | '/admin/shops'
     | '/me/account'
     | '/me/notifications'
     | '/me/watchlist'
     | '/product/$shopId/$shopsProductId'
+    | '/admin'
     | '/shops/$shopSlugId'
     | '/shops/$shopSlugId/products/$productSlugId'
   id:
@@ -251,16 +294,20 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
+    | '/_auth/admin'
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
     | '/categories/'
     | '/collections/'
     | '/periods/'
+    | '/_auth/admin/partner-applications'
+    | '/_auth/admin/shops'
     | '/_auth/me/account'
     | '/_auth/me/notifications'
     | '/_auth/me/watchlist'
     | '/product/$shopId/$shopsProductId'
+    | '/_auth/admin/'
     | '/shops/$shopSlugId/'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesById: FileRoutesById
@@ -385,12 +432,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriesCategoryIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/admin': {
+      id: '/_auth/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthAdminRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/shops/$shopSlugId/': {
       id: '/shops/$shopSlugId/'
       path: '/shops/$shopSlugId'
       fullPath: '/shops/$shopSlugId/'
       preLoaderRoute: typeof ShopsShopSlugIdIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_auth/admin/': {
+      id: '/_auth/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthAdminIndexRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
     '/product/$shopId/$shopsProductId': {
       id: '/product/$shopId/$shopsProductId'
@@ -420,6 +481,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthMeAccountRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/admin/shops': {
+      id: '/_auth/admin/shops'
+      path: '/shops'
+      fullPath: '/admin/shops'
+      preLoaderRoute: typeof AuthAdminShopsRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/partner-applications': {
+      id: '/_auth/admin/partner-applications'
+      path: '/partner-applications'
+      fullPath: '/admin/partner-applications'
+      preLoaderRoute: typeof AuthAdminPartnerApplicationsRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
     '/shops/$shopSlugId/products/$productSlugId': {
       id: '/shops/$shopSlugId/products/$productSlugId'
       path: '/shops/$shopSlugId/products/$productSlugId'
@@ -430,13 +505,31 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthAdminRouteChildren {
+  AuthAdminPartnerApplicationsRoute: typeof AuthAdminPartnerApplicationsRoute
+  AuthAdminShopsRoute: typeof AuthAdminShopsRoute
+  AuthAdminIndexRoute: typeof AuthAdminIndexRoute
+}
+
+const AuthAdminRouteChildren: AuthAdminRouteChildren = {
+  AuthAdminPartnerApplicationsRoute: AuthAdminPartnerApplicationsRoute,
+  AuthAdminShopsRoute: AuthAdminShopsRoute,
+  AuthAdminIndexRoute: AuthAdminIndexRoute,
+}
+
+const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
+  AuthAdminRouteChildren,
+)
+
 interface AuthRouteChildren {
+  AuthAdminRoute: typeof AuthAdminRouteWithChildren
   AuthMeAccountRoute: typeof AuthMeAccountRoute
   AuthMeNotificationsRoute: typeof AuthMeNotificationsRoute
   AuthMeWatchlistRoute: typeof AuthMeWatchlistRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthAdminRoute: AuthAdminRouteWithChildren,
   AuthMeAccountRoute: AuthMeAccountRoute,
   AuthMeNotificationsRoute: AuthMeNotificationsRoute,
   AuthMeWatchlistRoute: AuthMeWatchlistRoute,

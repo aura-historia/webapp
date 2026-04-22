@@ -39,6 +39,9 @@
     "notifications": {
       "title": "Benachrichtigungen | Aura Historia"
     },
+    "admin": {
+      "title": "Admin-Dashboard | Aura Historia"
+    },
     "category": {
       "defaultName": "Kategorie"
     },
@@ -1117,6 +1120,116 @@
       "error": {
         "title": "Artikel konnten nicht geladen werden",
         "description": "Beim Laden der Artikel ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
+      }
+    }
+  },
+  "adminDashboard": {
+    "loading": "Wird geladen…",
+    "sidebarLabel": "Admin-Bereiche",
+    "forbidden": {
+      "title": "Zugriff verweigert",
+      "description": "Sie haben keine Berechtigung, das Admin-Dashboard anzuzeigen. Bitte melden Sie sich mit einem Administratorkonto an."
+    },
+    "nav": {
+      "overview": "Übersicht",
+      "shops": "Shops",
+      "partnerApplications": "Partner-Anträge"
+    },
+    "overview": {
+      "title": "Admin-Dashboard",
+      "description": "Shops verwalten und Partner-Anträge prüfen.",
+      "shops": {
+        "title": "Shops",
+        "description": "Shops durchsuchen und Metadaten bearbeiten."
+      },
+      "applications": {
+        "title": "Partner-Anträge",
+        "description": "Eingehende Partner-Anträge prüfen und entscheiden.",
+        "pendingCount_one": "{{count}} Antrag wartet auf Prüfung",
+        "pendingCount_other": "{{count}} Anträge warten auf Prüfung"
+      }
+    },
+    "actions": {
+      "edit": "Bearbeiten",
+      "save": "Speichern",
+      "cancel": "Abbrechen",
+      "retry": "Erneut versuchen"
+    },
+    "shops": {
+      "title": "Shops",
+      "description": "Shop-Katalog durchsuchen und Shop-Metadaten bearbeiten.",
+      "searchPlaceholder": "Shops nach Namen suchen…",
+      "loadError": "Shops konnten nicht geladen werden.",
+      "empty": "Keine Shops entsprechen dem aktuellen Filter.",
+      "totalCount_one": "{{count}} Shop",
+      "totalCount_other": "{{count}} Shops",
+      "updatedAt": "Aktualisiert {{date}}",
+      "shopImageAlt": "Logo von {{shop}}",
+      "editAriaLabel": "{{shop}} bearbeiten",
+      "filter": {
+        "all": "Alle"
+      },
+      "fields": {
+        "shopType": "Shop-Typ",
+        "image": "Bild-URL",
+        "domains": "Domains",
+        "domainsHint": "Eine pro Zeile. Domains werden in Kleinbuchstaben ohne Schema oder Pfad normalisiert."
+      },
+      "edit": {
+        "title": "Shop bearbeiten",
+        "description": "{{shop}} wird bearbeitet",
+        "success": "Shop aktualisiert."
+      }
+    },
+    "applications": {
+      "title": "Partner-Anträge",
+      "description": "Von Partnern eingereichte Anträge prüfen und genehmigen oder ablehnen.",
+      "loadError": "Partner-Anträge konnten nicht geladen werden.",
+      "empty": "Keine Anträge entsprechen dem aktuellen Filter.",
+      "submittedAt": "Eingereicht {{date}}",
+      "updatedAt": "Aktualisiert {{date}}",
+      "existingShop": "Bestehender Shop",
+      "tabs": {
+        "pending": "Offen",
+        "decided": "Entschieden",
+        "all": "Alle"
+      },
+      "businessState": {
+        "submitted": "Eingereicht",
+        "inReview": "In Prüfung",
+        "approved": "Genehmigt",
+        "rejected": "Abgelehnt"
+      },
+      "executionState": {
+        "processing": "In Verarbeitung",
+        "waiting": "Wartet auf Entscheidung",
+        "completed": "Abgeschlossen"
+      },
+      "payloadType": {
+        "new": "Neuer Shop",
+        "existing": "Bestehender Shop"
+      },
+      "actions": {
+        "approve": "Genehmigen",
+        "approveAriaLabel": "Antrag genehmigen",
+        "reject": "Ablehnen",
+        "rejectAriaLabel": "Antrag ablehnen"
+      },
+      "decision": {
+        "approveSuccess": "Antrag genehmigt.",
+        "rejectSuccess": "Antrag abgelehnt."
+      },
+      "fields": {
+        "shopName": "Shop-Name",
+        "shopType": "Shop-Typ",
+        "image": "Bild-URL",
+        "domains": "Domains",
+        "domainsHint": "Eine pro Zeile. Domains werden in Kleinbuchstaben ohne Schema oder Pfad normalisiert."
+      },
+      "edit": {
+        "title": "Antrag bearbeiten",
+        "description": "Antrags-Daten vor der Entscheidung aktualisieren.",
+        "success": "Antrag aktualisiert."
       }
     }
   }

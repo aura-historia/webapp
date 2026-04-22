@@ -39,6 +39,9 @@
     "notifications": {
       "title": "Notifications | Aura Historia"
     },
+    "admin": {
+      "title": "Admin Dashboard | Aura Historia"
+    },
     "category": {
       "defaultName": "Category"
     },
@@ -1116,6 +1119,116 @@
       "error": {
         "title": "Could not load items",
         "description": "An error occurred while loading items. Please try again later."
+      }
+    }
+  },
+  "adminDashboard": {
+    "loading": "Loading…",
+    "sidebarLabel": "Admin Sections",
+    "forbidden": {
+      "title": "Access denied",
+      "description": "You do not have permission to view the admin dashboard. Please sign in with an administrator account."
+    },
+    "nav": {
+      "overview": "Overview",
+      "shops": "Shops",
+      "partnerApplications": "Partner Applications"
+    },
+    "overview": {
+      "title": "Admin Dashboard",
+      "description": "Manage shops and review partner applications.",
+      "shops": {
+        "title": "Shops",
+        "description": "Browse, search and edit shop metadata."
+      },
+      "applications": {
+        "title": "Partner Applications",
+        "description": "Review and decide on incoming partner applications.",
+        "pendingCount_one": "{{count}} application awaiting review",
+        "pendingCount_other": "{{count}} applications awaiting review"
+      }
+    },
+    "actions": {
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel",
+      "retry": "Retry"
+    },
+    "shops": {
+      "title": "Shops",
+      "description": "Search the shop catalog and edit shop metadata.",
+      "searchPlaceholder": "Search shops by name…",
+      "loadError": "Could not load shops.",
+      "empty": "No shops match the current filter.",
+      "totalCount_one": "{{count}} shop",
+      "totalCount_other": "{{count}} shops",
+      "updatedAt": "Updated {{date}}",
+      "shopImageAlt": "Logo of {{shop}}",
+      "editAriaLabel": "Edit {{shop}}",
+      "filter": {
+        "all": "All"
+      },
+      "fields": {
+        "shopType": "Shop type",
+        "image": "Image URL",
+        "domains": "Domains",
+        "domainsHint": "One per line. Domains are normalized to lowercase, without scheme or path."
+      },
+      "edit": {
+        "title": "Edit shop",
+        "description": "Editing {{shop}}",
+        "success": "Shop updated."
+      }
+    },
+    "applications": {
+      "title": "Partner Applications",
+      "description": "Review applications submitted by partners and approve or reject them.",
+      "loadError": "Could not load partner applications.",
+      "empty": "No applications match the current filter.",
+      "submittedAt": "Submitted {{date}}",
+      "updatedAt": "Updated {{date}}",
+      "existingShop": "Existing shop",
+      "tabs": {
+        "pending": "Pending",
+        "decided": "Decided",
+        "all": "All"
+      },
+      "businessState": {
+        "submitted": "Submitted",
+        "inReview": "In review",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "executionState": {
+        "processing": "Processing",
+        "waiting": "Awaiting decision",
+        "completed": "Completed"
+      },
+      "payloadType": {
+        "new": "New shop",
+        "existing": "Existing shop"
+      },
+      "actions": {
+        "approve": "Approve",
+        "approveAriaLabel": "Approve application",
+        "reject": "Reject",
+        "rejectAriaLabel": "Reject application"
+      },
+      "decision": {
+        "approveSuccess": "Application approved.",
+        "rejectSuccess": "Application rejected."
+      },
+      "fields": {
+        "shopName": "Shop name",
+        "shopType": "Shop type",
+        "image": "Image URL",
+        "domains": "Domains",
+        "domainsHint": "One per line. Domains are normalized to lowercase, without scheme or path."
+      },
+      "edit": {
+        "title": "Edit application",
+        "description": "Update the application payload before deciding.",
+        "success": "Application updated."
       }
     }
   }

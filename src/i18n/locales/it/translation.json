@@ -66,6 +66,9 @@
     "terms": {
       "title": "Termini e condizioni | Aura Historia",
       "description": "Termini e condizioni per l'utilizzo di Aura Historia, comprese le informazioni sui servizi a pagamento e l'elaborazione dei pagamenti."
+    },
+    "admin": {
+      "title": "Pannello di amministrazione | Aura Historia"
     }
   },
   "validation": {
@@ -1118,5 +1121,115 @@
     "totalElements_one": "{{count}} notifica",
     "totalElements_other": "{{count}} notifiche",
     "showAll": "Mostra tutte le notifiche"
+  },
+  "adminDashboard": {
+    "loading": "Caricamento…",
+    "sidebarLabel": "Sezioni di amministrazione",
+    "forbidden": {
+      "title": "Accesso negato",
+      "description": "Non hai il permesso di visualizzare il pannello di amministrazione. Accedi con un account amministratore."
+    },
+    "nav": {
+      "overview": "Panoramica",
+      "shops": "Negozi",
+      "partnerApplications": "Domande di partner"
+    },
+    "overview": {
+      "title": "Pannello di amministrazione",
+      "description": "Gestisci i negozi e rivedi le domande dei partner.",
+      "shops": {
+        "title": "Negozi",
+        "description": "Esplora, cerca e modifica i metadati dei negozi."
+      },
+      "applications": {
+        "title": "Domande di partner",
+        "description": "Rivedi e decidi sulle domande in arrivo.",
+        "pendingCount_one": "{{count}} domanda in attesa di revisione",
+        "pendingCount_other": "{{count}} domande in attesa di revisione"
+      }
+    },
+    "actions": {
+      "edit": "Modifica",
+      "save": "Salva",
+      "cancel": "Annulla",
+      "retry": "Riprova"
+    },
+    "shops": {
+      "title": "Negozi",
+      "description": "Cerca nel catalogo dei negozi e modifica i loro metadati.",
+      "searchPlaceholder": "Cerca negozi per nome…",
+      "loadError": "Impossibile caricare i negozi.",
+      "empty": "Nessun negozio corrisponde al filtro attuale.",
+      "totalCount_one": "{{count}} negozio",
+      "totalCount_other": "{{count}} negozi",
+      "updatedAt": "Aggiornato {{date}}",
+      "shopImageAlt": "Logo di {{shop}}",
+      "editAriaLabel": "Modifica {{shop}}",
+      "filter": {
+        "all": "Tutti"
+      },
+      "fields": {
+        "shopType": "Tipo di negozio",
+        "image": "URL immagine",
+        "domains": "Domini",
+        "domainsHint": "Uno per riga. I domini sono normalizzati in minuscolo, senza schema o percorso."
+      },
+      "edit": {
+        "title": "Modifica negozio",
+        "description": "Modifica di {{shop}}",
+        "success": "Negozio aggiornato."
+      }
+    },
+    "applications": {
+      "title": "Domande di partner",
+      "description": "Rivedi le domande inviate dai partner e approvale o rifiutale.",
+      "loadError": "Impossibile caricare le domande.",
+      "empty": "Nessuna domanda corrisponde al filtro attuale.",
+      "submittedAt": "Inviata {{date}}",
+      "updatedAt": "Aggiornata {{date}}",
+      "existingShop": "Negozio esistente",
+      "tabs": {
+        "pending": "In attesa",
+        "decided": "Decise",
+        "all": "Tutte"
+      },
+      "businessState": {
+        "submitted": "Inviata",
+        "inReview": "In revisione",
+        "approved": "Approvata",
+        "rejected": "Rifiutata"
+      },
+      "executionState": {
+        "processing": "In elaborazione",
+        "waiting": "In attesa di decisione",
+        "completed": "Completata"
+      },
+      "payloadType": {
+        "new": "Nuovo negozio",
+        "existing": "Negozio esistente"
+      },
+      "actions": {
+        "approve": "Approva",
+        "approveAriaLabel": "Approva domanda",
+        "reject": "Rifiuta",
+        "rejectAriaLabel": "Rifiuta domanda"
+      },
+      "decision": {
+        "approveSuccess": "Domanda approvata.",
+        "rejectSuccess": "Domanda rifiutata."
+      },
+      "fields": {
+        "shopName": "Nome del negozio",
+        "shopType": "Tipo di negozio",
+        "image": "URL immagine",
+        "domains": "Domini",
+        "domainsHint": "Uno per riga. I domini sono normalizzati in minuscolo, senza schema o percorso."
+      },
+      "edit": {
+        "title": "Modifica domanda",
+        "description": "Aggiorna i dati della domanda prima di decidere.",
+        "success": "Domanda aggiornata."
+      }
+    }
   }
 }

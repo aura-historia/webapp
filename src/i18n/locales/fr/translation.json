@@ -66,6 +66,9 @@
     "terms": {
       "title": "Conditions générales | Aura Historia",
       "description": "Conditions générales d'utilisation d'Aura Historia, y compris les informations sur les services payants et le traitement des paiements."
+    },
+    "admin": {
+      "title": "Tableau de bord admin | Aura Historia"
     }
   },
   "validation": {
@@ -1118,5 +1121,115 @@
     "totalElements_one": "{{count}} notification",
     "totalElements_other": "{{count}} notifications",
     "showAll": "Afficher toutes les notifications"
+  },
+  "adminDashboard": {
+    "loading": "Chargement…",
+    "sidebarLabel": "Sections d'administration",
+    "forbidden": {
+      "title": "Accès refusé",
+      "description": "Vous n'avez pas la permission de voir le tableau de bord administrateur. Connectez-vous avec un compte administrateur."
+    },
+    "nav": {
+      "overview": "Vue d'ensemble",
+      "shops": "Boutiques",
+      "partnerApplications": "Candidatures partenaires"
+    },
+    "overview": {
+      "title": "Tableau de bord admin",
+      "description": "Gérer les boutiques et examiner les candidatures partenaires.",
+      "shops": {
+        "title": "Boutiques",
+        "description": "Parcourir, rechercher et modifier les métadonnées des boutiques."
+      },
+      "applications": {
+        "title": "Candidatures partenaires",
+        "description": "Examinez les candidatures entrantes et prenez une décision.",
+        "pendingCount_one": "{{count}} candidature en attente d'examen",
+        "pendingCount_other": "{{count}} candidatures en attente d'examen"
+      }
+    },
+    "actions": {
+      "edit": "Modifier",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "retry": "Réessayer"
+    },
+    "shops": {
+      "title": "Boutiques",
+      "description": "Rechercher dans le catalogue et modifier les métadonnées des boutiques.",
+      "searchPlaceholder": "Rechercher des boutiques par nom…",
+      "loadError": "Impossible de charger les boutiques.",
+      "empty": "Aucune boutique ne correspond au filtre actuel.",
+      "totalCount_one": "{{count}} boutique",
+      "totalCount_other": "{{count}} boutiques",
+      "updatedAt": "Mis à jour {{date}}",
+      "shopImageAlt": "Logo de {{shop}}",
+      "editAriaLabel": "Modifier {{shop}}",
+      "filter": {
+        "all": "Toutes"
+      },
+      "fields": {
+        "shopType": "Type de boutique",
+        "image": "URL de l'image",
+        "domains": "Domaines",
+        "domainsHint": "Un par ligne. Les domaines sont normalisés en minuscules, sans schéma ni chemin."
+      },
+      "edit": {
+        "title": "Modifier la boutique",
+        "description": "Modification de {{shop}}",
+        "success": "Boutique mise à jour."
+      }
+    },
+    "applications": {
+      "title": "Candidatures partenaires",
+      "description": "Examinez les candidatures soumises par les partenaires et approuvez-les ou rejetez-les.",
+      "loadError": "Impossible de charger les candidatures.",
+      "empty": "Aucune candidature ne correspond au filtre actuel.",
+      "submittedAt": "Soumise {{date}}",
+      "updatedAt": "Mise à jour {{date}}",
+      "existingShop": "Boutique existante",
+      "tabs": {
+        "pending": "En attente",
+        "decided": "Décidées",
+        "all": "Toutes"
+      },
+      "businessState": {
+        "submitted": "Soumise",
+        "inReview": "En examen",
+        "approved": "Approuvée",
+        "rejected": "Rejetée"
+      },
+      "executionState": {
+        "processing": "En traitement",
+        "waiting": "En attente de décision",
+        "completed": "Terminée"
+      },
+      "payloadType": {
+        "new": "Nouvelle boutique",
+        "existing": "Boutique existante"
+      },
+      "actions": {
+        "approve": "Approuver",
+        "approveAriaLabel": "Approuver la candidature",
+        "reject": "Rejeter",
+        "rejectAriaLabel": "Rejeter la candidature"
+      },
+      "decision": {
+        "approveSuccess": "Candidature approuvée.",
+        "rejectSuccess": "Candidature rejetée."
+      },
+      "fields": {
+        "shopName": "Nom de la boutique",
+        "shopType": "Type de boutique",
+        "image": "URL de l'image",
+        "domains": "Domaines",
+        "domainsHint": "Un par ligne. Les domaines sont normalisés en minuscules, sans schéma ni chemin."
+      },
+      "edit": {
+        "title": "Modifier la candidature",
+        "description": "Mettez à jour les données de la candidature avant de décider.",
+        "success": "Candidature mise à jour."
+      }
+    }
   }
 }
