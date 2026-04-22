@@ -107,11 +107,22 @@
       "contact": "Contact",
       "categories": "Categories",
       "periodsAndStyles": "Periods & Styles",
-      "collections": "Popular Collections"
+      "collections": "Popular Collections",
+      "discoverMore": "Discover More"
     },
     "allCategories": "All Categories",
     "allPeriods": "All Periods & Styles",
-    "allCollections": "All Collections"
+    "allCollections": "All Collections",
+    "landingPageLinks": {
+      "recentlyAdded": "Recently Added",
+      "discover": "Transparency",
+      "features": "Features",
+      "howItWorks": "How It Works",
+      "testimonials": "Testimonials",
+      "pricing": "Pricing",
+      "newsletter": "Newsletter",
+      "faq": "FAQ"
+    }
   },
   "account": {
     "title": "My Account",
@@ -245,11 +256,13 @@
       "allLoaded_other": "You have seen all {{count}} results that match your filters."
     },
     "sortMode": {
+      "sortBy": "Sort by:",
       "relevance": "Relevance",
       "creationDate": "Creation Date",
       "updateDate": "Last Updated",
       "price": "Price",
       "order": {
+        "label": "Order:",
         "asc": "Ascending",
         "desc": "Descending"
       }
@@ -713,6 +726,9 @@
     "BAD_ORDER_VALUE": "Invalid sort order.",
     "WATCHLIST_QUOTA_EXCEEDED": "You've reached the maximum number of items on your watchlist. There are already 5/5 watchlist entries occupied.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "You've reached the maximum number of saved search filters. There are already 5/5 search filters occupied.",
+    "INVALID_EMAIL": "The email address is invalid or not accepted by our newsletter provider.",
+    "STRIPE_CUSTOMER_ALREADY_EXISTS": "You already have an active subscription. Please use the customer portal to manage it.",
+    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No existing subscription was found. Please start a new checkout.",
     "unknown": "An unexpected error occurred."
   },
   "watchlist": {
@@ -1093,8 +1109,8 @@
     },
     "products": {
       "loadingMore": "Loading more items...",
-      "allLoaded_one": "You have seen {{count}} item from this {{shopTypeName}}.",
-      "allLoaded_other": "You have seen all {{count}} items from this {{shopTypeName}}.",
+      "allLoaded_one": "You have seen {{count}} item from this shop.",
+      "allLoaded_other": "You have seen all {{count}} items from this shop.",
       "noResults": {
         "title": "No items found",
         "description": "There are currently no items from this shop."

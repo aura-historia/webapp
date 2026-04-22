@@ -25,7 +25,9 @@ export function RestorationFilter() {
 
     return (
         <div className="space-y-2">
-            <Label>{t("search.filter.restoration")}</Label>
+            <Label className="text-xs font-semibold tracking-[0.08em] uppercase text-on-surface-variant">
+                {t("search.filter.restoration")}
+            </Label>
             <Controller
                 name="restoration"
                 control={control}

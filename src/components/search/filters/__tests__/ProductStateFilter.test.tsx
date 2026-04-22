@@ -112,11 +112,11 @@ describe("ProductStateFilter", () => {
 
         // First badge (LISTED) should not have opacity class
         const listedBadge = screen.getByText("Gelistet");
-        expect(listedBadge).not.toHaveClass("opacity-35");
+        expect(listedBadge).not.toHaveClass("opacity-45");
 
         // Other badges should have opacity class
         const availableBadge = screen.getByText("Verfügbar");
-        expect(availableBadge).toHaveClass("opacity-35");
+        expect(availableBadge).toHaveClass("opacity-45");
     });
 
     it("handles multiple selections and deselections correctly", async () => {
@@ -167,7 +167,7 @@ describe("ProductStateFilter", () => {
             /Gelistet|Verfügbar|Reserviert|Verkauft|Gelöscht|Unbekannt/,
         );
         badges.forEach((badge) => {
-            expect(badge).toHaveClass("opacity-35");
+            expect(badge).toHaveClass("opacity-45");
         });
     });
 

@@ -135,7 +135,7 @@ describe("useSearch", () => {
                 language: "de",
                 currency: "EUR",
                 productQuery: "renaissance",
-                size: 21,
+                size: 30,
                 sort: "price",
                 order: "asc",
                 price: { min: 1000, max: 2000 },

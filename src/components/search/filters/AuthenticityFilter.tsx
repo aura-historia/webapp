@@ -25,7 +25,9 @@ export function AuthenticityFilter() {
 
     return (
         <div className="space-y-2">
-            <Label>{t("search.filter.authenticity")}</Label>
+            <Label className="text-xs font-semibold tracking-[0.08em] uppercase text-on-surface-variant">
+                {t("search.filter.authenticity")}
+            </Label>
             <Controller
                 name="authenticity"
                 control={control}

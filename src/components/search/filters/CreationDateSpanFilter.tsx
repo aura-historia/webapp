@@ -18,14 +18,22 @@ export function CreationDateSpanFilter() {
             onReset={() => resetAndNavigate("creationDate")}
             defaultOpen={false}
         >
-            <div className="flex flex-col w-full gap-2">
-                <div className="flex flex-row gap-2 items-center justify-between">
-                    <span>{t("search.filter.from")}</span>
-                    <DatePicker fieldName="creationDate.from" />
+            <div className="flex min-w-0 w-full flex-col gap-2">
+                <div className="flex min-w-0 items-center gap-3">
+                    <span className="shrink-0 text-xs font-semibold tracking-[0.08em] uppercase text-on-surface-variant">
+                        {t("search.filter.from")}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                        <DatePicker fieldName="creationDate.from" />
+                    </div>
                 </div>
-                <div className="flex flex-row gap-2 items-center justify-between">
-                    <span>{t("search.filter.to")}</span>
-                    <DatePicker fieldName="creationDate.to" />
+                <div className="flex min-w-0 items-center gap-3">
+                    <span className="shrink-0 text-xs font-semibold tracking-[0.08em] uppercase text-on-surface-variant">
+                        {t("search.filter.to")}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                        <DatePicker fieldName="creationDate.to" />
+                    </div>
                 </div>
                 {errors?.creationDate?.to && (
                     <p className="text-destructive text-sm mt-1">

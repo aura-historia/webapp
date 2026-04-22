@@ -262,7 +262,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
     return (
         <Form {...form}>
             <form className="space-y-4">
-                <div className="flex flex-col gap-4 min-w-87.5">
+                <div className="flex min-w-0 w-full flex-col gap-4 overflow-visible">
                     <ProductStateFilter />
                     <PriceSpanFilter />
                     <PeriodFilter />
@@ -276,7 +276,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                 <Button
                     type="button"
                     variant="outline"
-                    className="w-full shadow-sm"
+                    className="w-full border-outline-variant text-primary uppercase text-sm shadow-none hover:bg-primary/8"
                     onClick={handleResetAll}
                 >
                     {t("search.resetAllFilters")}

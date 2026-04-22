@@ -10,7 +10,7 @@ export function H4({ variant = "default", className, children, ...props }: H4Pro
     return (
         <h4
             className={cn(
-                "text-lg sm:text-xl font-semibold font-display hyphens-auto",
+                "text-lg sm:text-xl text-primary font-display hyphens-auto",
                 variant === "muted" && "text-muted-foreground",
                 className,
             )}

@@ -107,11 +107,22 @@
       "contact": "Kontakt",
       "categories": "Kategorien",
       "periodsAndStyles": "Epochen & Stile",
-      "collections": "Beliebte Sammlungen"
+      "collections": "Beliebte Sammlungen",
+      "discoverMore": "Mehr entdecken"
     },
     "allCategories": "Alle Kategorien",
     "allPeriods": "Alle Epochen & Stile",
-    "allCollections": "Alle Sammlungen"
+    "allCollections": "Alle Sammlungen",
+    "landingPageLinks": {
+      "recentlyAdded": "Neueste Zugänge",
+      "discover": "Transparenz",
+      "features": "Funktionen",
+      "howItWorks": "So funktioniert's",
+      "testimonials": "Nutzerstimmen",
+      "pricing": "Preise",
+      "newsletter": "Newsletter",
+      "faq": "FAQ"
+    }
   },
   "account": {
     "title": "Mein Account",
@@ -245,11 +256,13 @@
       "allLoaded_other": "Sie haben alle {{count}} Ergebnisse gesehen, die Ihren Filtern entsprechen."
     },
     "sortMode": {
+      "sortBy": "Sortieren nach:",
       "relevance": "Relevanz",
       "creationDate": "Erstellungsdatum",
       "updateDate": "Zuletzt aktualisiert",
       "price": "Preis",
       "order": {
+        "label": "Reihenfolge:",
         "asc": "Aufsteigend",
         "desc": "Absteigend"
       }
@@ -713,6 +726,9 @@
     "BAD_ORDER_VALUE": "Ungültige Sortierreihenfolge.",
     "WATCHLIST_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an Artikeln auf Ihrer Merkliste erreicht. Es können maximal 5 Artikel gespeichert werden.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an gespeicherten Suchaufträgen erreicht. Es können maximal 5 Suchaufträge gespeichert werden.",
+    "INVALID_EMAIL": "Die E-Mail-Adresse ist ungültig oder wird von unserem Newsletter-Anbieter nicht akzeptiert.",
+    "STRIPE_CUSTOMER_ALREADY_EXISTS": "Sie haben bereits ein aktives Abonnement. Bitte nutzen Sie das Kundenportal zur Verwaltung.",
+    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Es wurde kein bestehendes Abonnement gefunden. Bitte starten Sie einen neuen Checkout.",
     "unknown": "Ein unerwarteter Fehler ist aufgetreten.",
     "undefined": "Ein unerwarteter Fehler ist aufgetreten."
   },
@@ -1094,8 +1110,8 @@
     },
     "products": {
       "loadingMore": "Weitere Artikel werden geladen...",
-      "allLoaded_one": "Sie haben {{count}} Artikel von diesem {{shopTypeName}} gesehen.",
-      "allLoaded_other": "Sie haben alle {{count}} Artikel von diesem {{shopTypeName}} gesehen.",
+      "allLoaded_one": "Sie haben {{count}} Artikel aus diesem Shop gesehen.",
+      "allLoaded_other": "Sie haben alle {{count}} Artikel aus diesem Shop gesehen.",
       "noResults": {
         "title": "Keine Artikel gefunden",
         "description": "Von diesem Shop sind derzeit keine Artikel vorhanden."

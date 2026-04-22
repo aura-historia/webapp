@@ -46,11 +46,7 @@ function ShopDetailComponent() {
             <div className="mx-auto w-full max-w-7xl px-4 pb-16 md:px-10">
                 <div aria-hidden="true" className="border-t border-border/30 hidden md:block" />
                 <div className="pt-8">
-                    <ShopProductGrid
-                        shopName={shop.name}
-                        shopType={shop.shopType}
-                        onTotalChange={handleTotalChange}
-                    />
+                    <ShopProductGrid shopName={shop.name} onTotalChange={handleTotalChange} />
                 </div>
             </div>
         </div>

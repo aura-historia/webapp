@@ -25,7 +25,9 @@ export function ProvenanceFilter() {
 
     return (
         <div className="space-y-2">
-            <Label>{t("search.filter.provenance")}</Label>
+            <Label className="text-xs font-semibold tracking-[0.08em] uppercase text-on-surface-variant">
+                {t("search.filter.provenance")}
+            </Label>
             <Controller
                 name="provenance"
                 control={control}

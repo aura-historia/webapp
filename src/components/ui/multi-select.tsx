@@ -98,7 +98,7 @@ export function MultiSelect({
                 </div>
             )}
             {/* Search input */}
-            <div className="group border bg-background border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+            <div className="group border bg-background border-input px-3 py-2 text-sm rounded-md">
                 <div className="flex gap-2 items-center">
                     {/* Avoid having the "Search" Icon */}
                     <CommandPrimitive.Input

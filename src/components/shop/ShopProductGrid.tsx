@@ -7,26 +7,22 @@ import { useTranslation } from "react-i18next";
 import { SearchX } from "lucide-react";
 import { H3 } from "@/components/typography/H3.tsx";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
-import type { ShopType } from "@/data/internal/shop/ShopType.ts";
-import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 
 const SKELETON_COUNT = 8;
 const SKELETON_IDS = Array.from({ length: SKELETON_COUNT }, (_, i) => `skeleton-${i}`);
 
 type ShopProductGridProps = {
     readonly shopName: string;
-    readonly shopType: ShopType;
     readonly onTotalChange?: (total: number | undefined) => void;
 };
 
-export function ShopProductGrid({ shopName, shopType, onTotalChange }: ShopProductGridProps) {
+export function ShopProductGrid({ shopName, onTotalChange }: ShopProductGridProps) {
     const { ref, inView } = useInView();
     const { t } = useTranslation();
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useShopProducts(shopName);
 
     const totalProducts = data?.pages[0]?.total ?? 0;
-    const shopTypeName = t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].translationKey);
 
     useEffect(() => {
         if (inView && hasNextPage && !isFetchingNextPage) {
@@ -79,8 +75,8 @@ export function ShopProductGrid({ shopName, shopType, onTotalChange }: ShopProdu
     }
 
     return (
-        <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-12 gap-x-4">
+        <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-12 gap-x-6">
                 {allProducts.map((product) => (
                     <ProductGridItem key={product.productId} product={product} />
                 ))}
@@ -91,7 +87,6 @@ export function ShopProductGrid({ shopName, shopType, onTotalChange }: ShopProdu
                     totalCount={totalProducts}
                     loadingMoreKey="shop.products.loadingMore"
                     allLoadedKey="shop.products.allLoaded"
-                    allLoadedContext={{ shopTypeName }}
                 />
             )}
             {hasNextPage && !isFetchingNextPage && <div ref={ref} className="h-1" />}

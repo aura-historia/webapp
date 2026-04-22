@@ -2,25 +2,25 @@ import NewsletterSection from "@/components/landing-page/newsletter-section/News
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { putNewsletterSubscriptionMutation } from "@/client/@tanstack/react-query.gen.ts";
 
-vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
-    putNewsletterSubscriptionMutation: () => ({
-        mutationFn: vi.fn().mockResolvedValue(undefined),
-    }),
+const mockToast = vi.hoisted(() => ({
+    success: vi.fn(),
+    error: vi.fn(),
 }));
 
-vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
-    useUserPreferences: vi.fn(),
+vi.mock("sonner", () => ({
+    toast: mockToast,
+}));
+
+vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
+    putNewsletterSubscriptionMutation: vi.fn(() => ({
+        mutationFn: vi.fn().mockResolvedValue(undefined),
+    })),
 }));
 
 describe("NewsletterSection", () => {
     beforeEach(async () => {
-        vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { currency: "EUR" },
-            updatePreferences: vi.fn(),
-        });
-
         await act(async () => {
             renderWithRouter(<NewsletterSection />);
         });
@@ -97,5 +97,55 @@ describe("NewsletterSection", () => {
         expect(
             screen.getByText("Es kann einige Minuten dauern, bis die E-Mail bei Ihnen eintrifft."),
         ).toBeInTheDocument();
+    });
+});
+
+describe("NewsletterSection error handling", () => {
+    it("shows INVALID_EMAIL error toast when the provider rejects the email address", async () => {
+        vi.mocked(putNewsletterSubscriptionMutation).mockReturnValue({
+            mutationFn: vi.fn().mockRejectedValue({
+                status: 400,
+                title: "Bad Request",
+                error: "INVALID_EMAIL",
+            }),
+        });
+
+        await act(async () => {
+            renderWithRouter(<NewsletterSection />);
+        });
+
+        const user = userEvent.setup();
+        await user.type(screen.getByPlaceholderText("Ihre E-Mail-Adresse"), "test@example.com");
+        await user.click(screen.getByRole("button", { name: "Zum Newsletter anmelden" }));
+
+        await waitFor(() => {
+            expect(mockToast.error).toHaveBeenCalledWith(
+                "Die E-Mail-Adresse ist ungültig oder wird von unserem Newsletter-Anbieter nicht akzeptiert.",
+            );
+        });
+    });
+
+    it("shows a server error toast for unexpected 5xx failures", async () => {
+        vi.mocked(putNewsletterSubscriptionMutation).mockReturnValue({
+            mutationFn: vi.fn().mockRejectedValue({
+                status: 500,
+                title: "Internal Server Error",
+                error: "INTERNAL_SERVER_ERROR",
+            }),
+        });
+
+        await act(async () => {
+            renderWithRouter(<NewsletterSection />);
+        });
+
+        const user = userEvent.setup();
+        await user.type(screen.getByPlaceholderText("Ihre E-Mail-Adresse"), "test@example.com");
+        await user.click(screen.getByRole("button", { name: "Zum Newsletter anmelden" }));
+
+        await waitFor(() => {
+            expect(mockToast.error).toHaveBeenCalledWith(
+                "Es ist ein interner Serverfehler aufgetreten. Bitte versuchen Sie es später erneut.",
+            );
+        });
     });
 });

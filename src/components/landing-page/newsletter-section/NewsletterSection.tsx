@@ -24,6 +24,9 @@ import { putNewsletterSubscriptionMutation } from "@/client/@tanstack/react-quer
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { parseLanguage, mapToBackendLanguage } from "@/data/internal/common/Language.ts";
 import { mapToBackendCurrency } from "@/data/internal/common/Currency.ts";
+import { useApiError } from "@/hooks/common/useApiError.ts";
+import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
+import type { PutNewsletterSubscriptionError } from "@/client";
 
 function getNewsletterSchema(t: (key: string) => string) {
     return z.object({
@@ -41,6 +44,7 @@ type NewsletterFormData = z.infer<ReturnType<typeof getNewsletterSchema>>;
 export default function NewsletterSection() {
     const { t, i18n } = useTranslation();
     const { preferences } = useUserPreferences();
+    const { getErrorMessage } = useApiError();
     const [isSuccess, setIsSuccess] = useState(false);
     const [subscribedEmail, setSubscribedEmail] = useState("");
 
@@ -62,8 +66,8 @@ export default function NewsletterSection() {
             toast.success(t("landingPage.newsletter.successMessage"));
             form.reset();
         },
-        onError: () => {
-            toast.error(t("landingPage.newsletter.errorMessage"));
+        onError: (error: PutNewsletterSubscriptionError) => {
+            toast.error(getErrorMessage(mapToInternalApiError(error)));
         },
     });
 

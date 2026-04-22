@@ -25,6 +25,7 @@ import "@/api-config.ts";
 import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
 import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
 import { getServerPreferences } from "@/lib/server/preferences.ts";
+import { getServerTimezone } from "@/lib/server/timezone.ts";
 import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/server/i18n.ts";
@@ -34,10 +35,12 @@ import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
 import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { ConsentBanner } from "@/components/common/ConsentBanner.tsx";
+import { SONNER_TOASTER_PROPS } from "@/lib/ui/sonnerToasterConfig";
 
 interface MyRouterContext {
     queryClient: QueryClient;
     initialPreferences: Partial<UserPreferences>;
+    timeZone: string;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
@@ -145,7 +148,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         const initialPreferences: Partial<UserPreferences> = {
             ...serverPreferences,
         };
-        return { initialPreferences };
+        const timeZone = await getServerTimezone();
+        return { initialPreferences, timeZone };
     },
     shellComponent: RootDocument,
     notFoundComponent: NotFoundComponent,
@@ -184,7 +188,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     }, [queryClient.refetchQueries]);
 
     return (
-        <UserPreferencesProvider initialPreferences={initialPreferences}>
+        <UserPreferencesProvider initialPreferences={initialPreferences} locale={i18n.language}>
             <html lang={i18n.language || "en"}>
                 <head>
                     <HeadContent />
@@ -198,7 +202,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                         </main>
                         <Footer />
                     </div>
-                    <Toaster position="top-center" richColors />
+                    <Toaster {...SONNER_TOASTER_PROPS} />
                     <ConsentBanner />
                     <TanStackDevtools
                         config={{

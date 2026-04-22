@@ -18,9 +18,9 @@ export function AccountImage({ firstName = "", lastName = "", isLoading }: Profi
     const initials = `${firstInitial}${lastInitial}`;
 
     return (
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white border-2 border-primary font-bold text-primary select-none">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white border-1 border-primary font-bold text-primary select-none">
             {isLoading ? (
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                <div className="animate-spin rounded-full h-6 w-6 border-b-1 border-primary"></div>
             ) : initials ? (
                 initials
             ) : (

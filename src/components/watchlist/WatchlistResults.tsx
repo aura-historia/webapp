@@ -27,7 +27,7 @@ export function WatchlistResults() {
 
     if (isPending) {
         return (
-            <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                 {SKELETON_IDS.map((id) => (
                     <ProductCardSkeleton key={id} />
                 ))}
@@ -93,21 +93,21 @@ export function WatchlistResults() {
                     })}
                 </span>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                 {allProducts.map((watchlistProduct: OverviewProduct) => (
                     <ProductCard key={watchlistProduct.productId} product={watchlistProduct} />
                 ))}
-                {showLoaderRow && (
-                    <div ref={ref}>
-                        <ListLoaderRow
-                            isFetchingNextPage={isFetchingNextPage}
-                            totalCount={totalProducts}
-                            loadingMoreKey="watchlist.loadingMore"
-                            allLoadedKey="watchlist.allLoaded"
-                        />
-                    </div>
-                )}
             </div>
+            {showLoaderRow && (
+                <div ref={ref}>
+                    <ListLoaderRow
+                        isFetchingNextPage={isFetchingNextPage}
+                        totalCount={totalProducts}
+                        loadingMoreKey="watchlist.loadingMore"
+                        allLoadedKey="watchlist.allLoaded"
+                    />
+                </div>
+            )}
         </div>
     );
 }

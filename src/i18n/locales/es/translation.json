@@ -107,11 +107,22 @@
       "contact": "Contacto",
       "categories": "Categorías",
       "periodsAndStyles": "Períodos y Estilos",
-      "collections": "Colecciones populares"
+      "collections": "Colecciones populares",
+      "discoverMore": "Descubrir más"
     },
     "allCategories": "Todas las Categorías",
     "allPeriods": "Todos los Periodos y Estilos",
-    "allCollections": "Todas las Colecciones"
+    "allCollections": "Todas las Colecciones",
+    "landingPageLinks": {
+      "recentlyAdded": "Últimas incorporaciones",
+      "discover": "Transparencia",
+      "features": "Funciones",
+      "howItWorks": "Cómo funciona",
+      "testimonials": "Testimonios",
+      "pricing": "Precios",
+      "newsletter": "Newsletter",
+      "faq": "FAQ"
+    }
   },
   "account": {
     "title": "Mi cuenta",
@@ -245,11 +256,13 @@
       "allLoaded_other": "Ha visto los {{count}} resultados que coinciden con sus filtros."
     },
     "sortMode": {
+      "sortBy": "Ordenar por:",
       "relevance": "Relevancia",
       "creationDate": "Fecha de creación",
       "updateDate": "Última actualización",
       "price": "Precio",
       "order": {
+        "label": "Orden:",
         "asc": "Ascendente",
         "desc": "Descendente"
       }
@@ -713,7 +726,10 @@
     "BAD_ORDER_VALUE": "Orden de clasificación no válido.",
     "unknown": "Se produjo un error inesperado.",
     "WATCHLIST_QUOTA_EXCEEDED": "Has alcanzado el número máximo de artículos en tu lista de seguimiento. Ya hay 5/5 entradas ocupadas en la lista de seguimiento.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Has alcanzado el número máximo de filtros de búsqueda guardados. Ya hay 5/5 filtros de búsqueda ocupados."
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Has alcanzado el número máximo de filtros de búsqueda guardados. Ya hay 5/5 filtros de búsqueda ocupados.",
+    "INVALID_EMAIL": "La dirección de correo electrónico no es válida o no es aceptada por nuestro proveedor de boletín.",
+    "STRIPE_CUSTOMER_ALREADY_EXISTS": "Ya tiene una suscripción activa. Por favor, utilice el portal de cliente para gestionarla.",
+    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No se encontró ninguna suscripción existente. Por favor, inicie un nuevo proceso de pago."
   },
   "watchlist": {
     "title": "Mi lista de seguimiento",
@@ -1062,8 +1078,8 @@
     },
     "products": {
       "loadingMore": "Cargando más artículos...",
-      "allLoaded_one": "Ha visto {{count}} artículo de este {{shopTypeName}}.",
-      "allLoaded_other": "Ha visto los {{count}} artículos de este {{shopTypeName}}.",
+      "allLoaded_one": "Ha visto {{count}} artículo de esta tienda.",
+      "allLoaded_other": "Ha visto los {{count}} artículos de esta tienda.",
       "noResults": {
         "title": "No se encontraron artículos",
         "description": "Actualmente no hay artículos de esta tienda."

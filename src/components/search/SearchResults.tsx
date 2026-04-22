@@ -1,15 +1,15 @@
 import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { SearchX } from "lucide-react";
 import type { SearchResultData } from "@/data/internal/search/SearchResultData.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useSearch } from "@/hooks/search/useSearch.ts";
 import { useTranslation } from "react-i18next";
 import { H3 } from "@/components/typography/H3.tsx";
-import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
+import { useInView } from "react-intersection-observer";
 
 type SearchResultsProps = {
     readonly searchFilters: SearchFilterArguments;
@@ -17,13 +17,9 @@ type SearchResultsProps = {
 };
 
 const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as const;
-const ESTIMATED_PRODUCT_CARD_HEIGHT = 280;
-const ESTIMATED_LOADER_ROW_HEIGHT = 100;
-const VIRTUALIZER_OVERSCAN = 5;
 
 export function SearchResults({ searchFilters, onTotalChange }: SearchResultsProps) {
-    const listRef = useRef<HTMLDivElement>(null);
-    const [scrollMargin, setScrollMargin] = useState(0);
+    const { ref: sentinelRef, inView } = useInView();
     const { t } = useTranslation();
     const { data, isPending, error, fetchNextPage, isFetchingNextPage } = useSearch(searchFilters);
 
@@ -32,25 +28,6 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
     const totalProducts = data?.pages[0]?.total ?? 0;
     const allLoaded = allProducts.length >= totalProducts && totalProducts > 0;
 
-    const virtualizer = useWindowVirtualizer({
-        // +1 to account for the loader row
-        count: allProducts.length + 1,
-        estimateSize: (index) =>
-            index >= allProducts.length
-                ? ESTIMATED_LOADER_ROW_HEIGHT
-                : ESTIMATED_PRODUCT_CARD_HEIGHT,
-        overscan: VIRTUALIZER_OVERSCAN,
-        scrollMargin,
-    });
-
-    const virtualItems = virtualizer.getVirtualItems();
-
-    useLayoutEffect(() => {
-        if (listRef.current) {
-            setScrollMargin(listRef.current.offsetTop);
-        }
-    }, []);
-
     useEffect(() => {
         if (onTotalChange) {
             onTotalChange(totalProducts);
@@ -58,26 +35,10 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
     }, [totalProducts, onTotalChange]);
 
     useEffect(() => {
-        const lastItem = virtualItems[virtualItems.length - 1];
-        if (!lastItem) return;
-
-        const shouldFetch =
-            lastItem.index >= allProducts.length - 1 &&
-            !allLoaded &&
-            !isFetchingNextPage &&
-            searchFilters.q.length >= 3;
-
-        if (shouldFetch) {
+        if (inView && !allLoaded && !isFetchingNextPage && searchFilters.q.length >= 3) {
             fetchNextPage();
         }
-    }, [
-        virtualItems,
-        allLoaded,
-        isFetchingNextPage,
-        fetchNextPage,
-        allProducts.length,
-        searchFilters.q.length,
-    ]);
+    }, [inView, allLoaded, isFetchingNextPage, fetchNextPage, searchFilters.q.length]);
 
     if (searchFilters.q.length < 3) {
         return <SectionInfoText>{t("search.messages.minQueryLength")}</SectionInfoText>;
@@ -85,7 +46,7 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
 
     if (isPending) {
         return (
-            <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                 {SKELETON_IDS.map((id) => (
                     <ProductCardSkeleton key={id} />
                 ))}
@@ -112,40 +73,26 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
         );
     }
 
-    return (
-        <div ref={listRef}>
-            <div
-                className="w-full relative"
-                style={{
-                    height: `${virtualizer.getTotalSize()}px`,
-                }}
-            >
-                {virtualItems.map((virtualItem) => {
-                    const isLoaderRow = virtualItem.index >= allProducts.length;
-                    const product = allProducts[virtualItem.index];
+    const showLoaderRow = isFetchingNextPage || allLoaded;
 
-                    return (
-                        <div
-                            key={virtualItem.key}
-                            data-index={virtualItem.index}
-                            ref={virtualizer.measureElement}
-                            className="absolute top-0 left-0 w-full pb-4"
-                            style={{
-                                transform: `translateY(${virtualItem.start - scrollMargin}px)`,
-                            }}
-                        >
-                            {isLoaderRow ? (
-                                <ListLoaderRow
-                                    isFetchingNextPage={isFetchingNextPage}
-                                    totalCount={totalProducts}
-                                />
-                            ) : (
-                                <ProductCard product={product} />
-                            )}
-                        </div>
-                    );
-                })}
+    return (
+        <div className="space-y-8">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                {allProducts.map((product) => (
+                    <ProductCard key={product.productId} product={product} />
+                ))}
             </div>
+
+            {showLoaderRow && (
+                <div>
+                    <ListLoaderRow
+                        isFetchingNextPage={isFetchingNextPage}
+                        totalCount={totalProducts}
+                    />
+                </div>
+            )}
+
+            {!allLoaded && <div ref={sentinelRef} aria-hidden className="h-px w-full" />}
         </div>
     );
 }

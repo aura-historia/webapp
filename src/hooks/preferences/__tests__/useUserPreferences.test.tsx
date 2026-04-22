@@ -4,6 +4,10 @@ import { UserPreferencesProvider, useUserPreferences } from "../useUserPreferenc
 import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
 import type React from "react";
 
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+    <UserPreferencesProvider locale="de-DE">{children}</UserPreferencesProvider>
+);
+
 vi.mock("@/lib/tracking/googleAnalytics", () => ({
     googleAnalytics: {
         setConsent: vi.fn(),
@@ -37,7 +41,7 @@ describe("useUserPreferences", () => {
 
     it("should return default preferences if localStorage is empty", () => {
         renderHook(() => useUserPreferences(), {
-            wrapper: UserPreferencesProvider,
+            wrapper,
         });
 
         expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
@@ -47,7 +51,7 @@ describe("useUserPreferences", () => {
         localStorage.setItem("user-preferences", JSON.stringify({ trackingConsent: true }));
 
         renderHook(() => useUserPreferences(), {
-            wrapper: UserPreferencesProvider,
+            wrapper,
         });
 
         expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
@@ -55,7 +59,7 @@ describe("useUserPreferences", () => {
 
     it("should update preferences, persist to localStorage and sync GA on change", async () => {
         const { result } = renderHook(() => useUserPreferences(), {
-            wrapper: UserPreferencesProvider,
+            wrapper,
         });
 
         expect(result.current.preferences.trackingConsent).toBeUndefined();
@@ -66,7 +70,9 @@ describe("useUserPreferences", () => {
         });
 
         expect(result.current.preferences.trackingConsent).toBe(true);
-        const stored = JSON.parse(localStorage.getItem("user-preferences")!);
+        const storedRaw = localStorage.getItem("user-preferences");
+        expect(storedRaw).not.toBeNull();
+        const stored = JSON.parse(storedRaw ?? "{}");
         expect(stored.trackingConsent).toBe(true);
         expect(stored.currency).toBeDefined();
         expect(googleAnalytics.setConsent).toHaveBeenCalledWith(true);
@@ -74,7 +80,7 @@ describe("useUserPreferences", () => {
 
     it("should write a cookie when preferences are updated", async () => {
         const { result } = renderHook(() => useUserPreferences(), {
-            wrapper: UserPreferencesProvider,
+            wrapper,
         });
 
         await act(async () => {
@@ -86,7 +92,7 @@ describe("useUserPreferences", () => {
 
     it("should initialise with initialPreferences overriding defaults", () => {
         const wrapper = ({ children }: { children: React.ReactNode }) => (
-            <UserPreferencesProvider initialPreferences={{ trackingConsent: true }}>
+            <UserPreferencesProvider initialPreferences={{ trackingConsent: true }} locale="de-DE">
                 {children}
             </UserPreferencesProvider>
         );
@@ -100,7 +106,7 @@ describe("useUserPreferences", () => {
         localStorage.setItem("user-preferences", JSON.stringify({ trackingConsent: false }));
 
         const wrapper = ({ children }: { children: React.ReactNode }) => (
-            <UserPreferencesProvider initialPreferences={{ trackingConsent: true }}>
+            <UserPreferencesProvider initialPreferences={{ trackingConsent: true }} locale="de-DE">
                 {children}
             </UserPreferencesProvider>
         );
@@ -118,7 +124,7 @@ describe("useUserPreferences", () => {
         localStorage.setItem("user-preferences", JSON.stringify({ trackingConsent: true }));
 
         const { result } = renderHook(() => useUserPreferences(), {
-            wrapper: UserPreferencesProvider,
+            wrapper,
         });
 
         expect(result.current.preferences.trackingConsent).toBeUndefined();

@@ -9,6 +9,7 @@ vi.mock("@tanstack/react-router", async () => {
     return {
         ...actual,
         useParams: () => ({}),
+        useRouteContext: () => ({ timeZone: "UTC" }),
     };
 });
 

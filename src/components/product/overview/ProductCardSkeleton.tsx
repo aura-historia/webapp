@@ -1,41 +1,48 @@
-import { Card } from "@/components/ui/card.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 
 export function ProductCardSkeleton() {
     return (
-        <Card
+        <div
             data-testid="product-card-skeleton"
-            className={"flex flex-col lg:flex-row p-8 gap-4 shadow-md min-w-0 w-full"}
+            className={
+                "w-full min-w-0 overflow-hidden border border-outline-variant/20 bg-surface-container-lowest shadow-[0_12px_40px_rgba(28,28,22,0.06)]"
+            }
         >
-            <div className={"flex-shrink-0 flex lg:justify-start justify-center"}>
-                <Skeleton className={"size-48 rounded-lg"} />
-            </div>
-            <div className={"flex flex-col min-w-0 flex-1 justify-between"}>
-                <div className={"flex flex-row justify-between w-full gap-4"}>
-                    <div className={"flex flex-col gap-2 overflow-hidden"}>
-                        <Skeleton className={"h-8 w-64"} />
-                        <Skeleton className={"h-6 w-40"} />
-                        <Skeleton className={"h-5 w-24 rounded-full"} />
-                    </div>
+            <Skeleton className="aspect-[4/3] w-full" />
 
-                    <div className={"ml-auto flex-shrink-0"}>
-                        <Skeleton className={"size-10 rounded-md"} />
+            <div className="flex min-w-0 flex-col p-5">
+                <div className="mb-3 flex items-start justify-between gap-3">
+                    <div className="min-w-0 flex-1 space-y-2">
+                        <Skeleton className="h-8 w-3/4" />
+                        <Skeleton className="h-5 w-11/12" />
+                    </div>
+                    <div className="flex shrink-0 items-center gap-1.5">
+                        <Skeleton className="h-9 w-9 rounded-full" />
+                        <Skeleton className="h-9 w-9 rounded-full" />
                     </div>
                 </div>
 
-                <div
-                    className={
-                        "flex flex-col lg:flex-row gap-4 lg:items-end lg:gap-0 justify-between w-full mt-4 lg:mt-0"
-                    }
-                >
-                    <Skeleton className={"h-8 w-32"} />
+                <div className="mb-3 flex items-center gap-2">
+                    <Skeleton className="h-5 w-24 rounded-none" />
+                    <Skeleton className="h-3 w-2" />
+                    <Skeleton className="h-5 w-20 rounded-none" />
+                </div>
 
-                    <div className={"flex flex-col gap-2 lg:items-end flex-shrink-0"}>
-                        <Skeleton className={"h-10 w-full lg:w-24 flex-shrink-0 rounded-md"} />
-                        <Skeleton className={"h-10 w-full lg:w-48 flex-shrink-0 rounded-md"} />
+                <div className="mb-3 flex flex-wrap gap-2">
+                    <Skeleton className="h-5 w-24 rounded-none" />
+                    <Skeleton className="h-5 w-28 rounded-none" />
+                    <Skeleton className="h-5 w-20 rounded-none" />
+                </div>
+
+                <div className="mt-5 flex flex-col justify-end gap-3">
+                    <Skeleton className="h-8 w-32" />
+
+                    <div className="grid w-full grid-cols-1 gap-2">
+                        <Skeleton className="h-9 w-full rounded-none" />
+                        <Skeleton className="h-9 w-full rounded-none" />
                     </div>
                 </div>
             </div>
-        </Card>
+        </div>
     );
 }
