@@ -33,14 +33,18 @@ function parsePartnerStatuses(values: unknown): ShopPartnerStatus[] | undefined 
     return seen.size === 0 ? [] : Array.from(seen);
 }
 
+function isFilterableShopType(value: string): value is FilterableShopType {
+    return FILTERABLE_SHOP_TYPES.some((shopType) => shopType === value);
+}
+
 function parseShopTypes(values: unknown): FilterableShopType[] | undefined {
     if (!Array.isArray(values)) return undefined;
     const seen = new Set<FilterableShopType>();
     for (const v of values) {
         if (typeof v !== "string") continue;
         const parsed = parseShopType(v);
-        if ((FILTERABLE_SHOP_TYPES as readonly string[]).includes(parsed)) {
-            seen.add(parsed as FilterableShopType);
+        if (isFilterableShopType(parsed)) {
+            seen.add(parsed);
         }
     }
     return seen.size === 0 ? [] : Array.from(seen);

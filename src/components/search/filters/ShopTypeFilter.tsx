@@ -11,20 +11,21 @@ type ShopTypeFilterFormValues = {
 };
 
 type ShopTypeFilterProps = {
-    readonly onReset?: () => void;
+    readonly onReset: () => void;
+    readonly shopTypes?: readonly ShopType[];
 };
 
-export function ShopTypeFilter({ onReset }: ShopTypeFilterProps = {}) {
+export function ShopTypeFilter({ onReset, shopTypes = SHOP_TYPES }: ShopTypeFilterProps) {
     const { control } = useFormContext<ShopTypeFilterFormValues>();
     const { t } = useTranslation();
 
     const options = useMemo(
         () =>
-            SHOP_TYPES.map((shopType) => ({
+            shopTypes.map((shopType) => ({
                 value: shopType,
                 label: t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].translationKey),
             })),
-        [t],
+        [shopTypes, t],
     );
 
     return (

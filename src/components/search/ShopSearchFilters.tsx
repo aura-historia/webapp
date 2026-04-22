@@ -36,7 +36,7 @@ function mapShopFiltersToFormValues(filters: ShopSearchFilterArguments): ShopFil
 }
 
 function isDefaultShopType(types: ShopFilterSchema["shopType"]): boolean {
-    const defaults = new Set<string>(SHOP_FILTER_DEFAULTS.shopType);
+    const defaults = new Set(SHOP_FILTER_DEFAULTS.shopType);
     if (types.length !== defaults.size) return false;
     return types.every((type) => defaults.has(type));
 }
@@ -112,6 +112,7 @@ export function ShopSearchFilters({ searchFilters }: ShopSearchFiltersProps) {
                 <div className="flex min-w-0 w-full flex-col gap-4 overflow-visible">
                     <ShopTypeFilter
                         onReset={() => form.setValue("shopType", SHOP_FILTER_DEFAULTS.shopType)}
+                        shopTypes={FILTERABLE_SHOP_TYPES}
                     />
                     <ShopPartnerStatusFilter />
                 </div>
