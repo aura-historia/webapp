@@ -1,11 +1,15 @@
 import { postBillingManage } from "@/client";
-import type { BillingCycleData, BillingPlanData } from "@/client";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
+import {
+    mapToBackendBillingCycle,
+    type BillingCycle,
+} from "@/data/internal/billing/BillingCycle.ts";
+import { mapToBackendBillingPlan, type BillingPlan } from "@/data/internal/billing/BillingPlan.ts";
 
 export function useStripeBilling() {
     const { user } = useAuthenticator((context) => [context.user]);
@@ -13,7 +17,7 @@ export function useStripeBilling() {
     const { getErrorMessage } = useApiError();
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubscribe = async (plan: BillingPlanData, cycle: BillingCycleData) => {
+    const handleSubscribe = async (plan: BillingPlan, cycle: BillingCycle) => {
         if (!user) {
             const billingSearch = new URLSearchParams({ plan, cycle });
             await navigate({
@@ -27,7 +31,10 @@ export function useStripeBilling() {
 
         try {
             const billingResponse = await postBillingManage({
-                body: { plan, cycle },
+                body: {
+                    plan: mapToBackendBillingPlan(plan),
+                    cycle: mapToBackendBillingCycle(cycle),
+                },
             });
 
             if (billingResponse.data) {

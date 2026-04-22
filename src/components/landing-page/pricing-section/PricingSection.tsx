@@ -14,7 +14,8 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useStripeBilling } from "@/hooks/billing/useStripeBilling.ts";
-import type { BillingCycleData, BillingPlanData } from "@/client";
+import type { BillingCycle } from "@/data/internal/billing/BillingCycle.ts";
+import type { BillingPlan } from "@/data/internal/billing/BillingPlan.ts";
 
 export default function PricingSection() {
     const { t, i18n } = useTranslation();
@@ -26,14 +27,18 @@ export default function PricingSection() {
 
     const isYearly = billingInterval === "yearly";
 
-    const BILLING_PLAN_MAP: Record<string, BillingPlanData> = {
-        pro: "PRO",
-        ultimate: "ULTIMATE",
+    const toBillingPlan = (tier: PricingTier): BillingPlan => {
+        switch (tier.id) {
+            case "pro":
+                return "PRO";
+            case "ultimate":
+                return "ULTIMATE";
+            case "free":
+                throw new Error("Free tier cannot be mapped to a paid billing plan");
+        }
     };
 
-    const toBillingPlan = (tier: PricingTier): BillingPlanData => BILLING_PLAN_MAP[tier.id];
-
-    const toBillingCycle = (): BillingCycleData => (isYearly ? "YEARLY" : "MONTHLY");
+    const toBillingCycle = (): BillingCycle => (isYearly ? "YEARLY" : "MONTHLY");
 
     const formatAmount = (amount: number) => {
         return new Intl.NumberFormat(i18n.language, {

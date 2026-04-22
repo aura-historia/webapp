@@ -1,34 +1,29 @@
 import { useEffect, useRef } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import type { BillingCycleData, BillingPlanData } from "@/client";
 import { useStripeBilling } from "@/hooks/billing/useStripeBilling.ts";
+import { parseBillingCycle, type BillingCycle } from "@/data/internal/billing/BillingCycle.ts";
+import { parseBillingPlan, type BillingPlan } from "@/data/internal/billing/BillingPlan.ts";
 
 type BillingManageSearch = {
-    plan: BillingPlanData;
-    cycle: BillingCycleData;
+    plan: BillingPlan;
+    cycle: BillingCycle;
 };
-
-const BILLING_PLANS: BillingPlanData[] = ["PRO", "ULTIMATE"];
-const BILLING_CYCLES: BillingCycleData[] = ["MONTHLY", "YEARLY"];
 
 export const Route = createFileRoute("/_auth/me/billing/manage")({
     ssr: false,
     validateSearch: (search: Record<string, unknown>): BillingManageSearch => {
-        const plan = typeof search.plan === "string" ? search.plan : undefined;
-        const cycle = typeof search.cycle === "string" ? search.cycle : undefined;
+        const plan = parseBillingPlan(search.plan);
+        const cycle = parseBillingCycle(search.cycle);
 
-        if (!plan || !BILLING_PLANS.includes(plan as BillingPlanData)) {
+        if (!plan) {
             throw new Error("Invalid billing plan");
         }
 
-        if (!cycle || !BILLING_CYCLES.includes(cycle as BillingCycleData)) {
+        if (!cycle) {
             throw new Error("Invalid billing cycle");
         }
 
-        return {
-            plan: plan as BillingPlanData,
-            cycle: cycle as BillingCycleData,
-        };
+        return { plan, cycle };
     },
     component: BillingManageRoute,
 });
