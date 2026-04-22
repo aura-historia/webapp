@@ -23,6 +23,8 @@ import {
     mapToBackendRestoration,
 } from "@/data/internal/quality-indicators/Restoration.ts";
 import { parseShopType, mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
+import { isEqual } from "lodash";
+import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 
 export type UserSearchFilter = {
     readonly userId: string;
@@ -139,13 +141,44 @@ export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserS
     };
 }
 
+/**
+ * Problem: The search page automatically sets premium filter fields (authenticity, condition, provenance,
+ * restoration, shopType) as default values in the URL—even if the user
+ * has never interacted with them. If these are included when saving, the API rejects the request
+ * for FREE users with a 422 SEARCH_FILTER_RESTRICTED_FEATURE error.
+ *
+ * Solution: Fields that still correspond to their default values are omitted (undefined).
+ *
+ * The default always contains all possible values. The API treats
+ * “send all values” and “omit field” identically—in both cases, all
+ * products are returned. The search and search request thus return the same results.
+ */
 export function mapToBackendCreateUserSearchFilter(
     data: UserSearchFilterCreateData,
 ): PostUserSearchFilterData {
+    const search = mapSearchFilterArgumentsToProductSearchData(data.search);
+
     return {
         name: data.name,
         enhancedSearchDescription: data.enhancedSearchDescription,
-        search: mapSearchFilterArgumentsToProductSearchData(data.search),
+        search: {
+            ...search,
+            authenticity: isEqual(data.search.authenticity, FILTER_DEFAULTS.authenticity)
+                ? undefined
+                : search.authenticity,
+            condition: isEqual(data.search.condition, FILTER_DEFAULTS.condition)
+                ? undefined
+                : search.condition,
+            provenance: isEqual(data.search.provenance, FILTER_DEFAULTS.provenance)
+                ? undefined
+                : search.provenance,
+            restoration: isEqual(data.search.restoration, FILTER_DEFAULTS.restoration)
+                ? undefined
+                : search.restoration,
+            shopType: isEqual(data.search.shopType, FILTER_DEFAULTS.shopType)
+                ? undefined
+                : search.shopType,
+        },
     };
 }
 
