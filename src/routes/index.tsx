@@ -5,6 +5,7 @@ import FeaturesSection from "@/components/landing-page/features-section/Features
 import HowItWorksSection from "@/components/landing-page/how-it-works-section/HowItWorksSection.tsx";
 import PricingSection from "@/components/landing-page/pricing-section/PricingSection.tsx";
 import NewsletterSection from "@/components/landing-page/newsletter-section/NewsletterSection.tsx";
+import TestimonialsSection from "@/components/landing-page/testimonials-section/TestimonialsSection.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
@@ -25,6 +26,7 @@ import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { inferCurrencyFromLocale } from "@/data/internal/common/Currency.ts";
+import { LANDING_PAGE_FRAGMENTS } from "@/components/landing-page/LandingPage.fragments.ts";
 
 export const Route = createFileRoute("/")({
     loader: async ({ context: { queryClient, initialPreferences } }) => {
@@ -67,7 +69,7 @@ export const Route = createFileRoute("/")({
     component: LandingPage,
 });
 
-function LandingPage() {
+export function LandingPage() {
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
     const { data: categoriesData } = useQuery(
@@ -100,16 +102,45 @@ function LandingPage() {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <HeroSection />
-            {categories.length > 0 && <CategoriesSection categories={categories} />}
-            {recentlyAdded.length > 0 && <RecentlyAddedSection products={recentlyAdded} />}
-            {periods.length > 0 && <PeriodsSection periods={periods} />}
-            <DiscoverSection />
-            <FeaturesSection />
-            <HowItWorksSection />
-            <PricingSection />
-            <NewsletterSection />
-            <FAQSection />
+            <div id={LANDING_PAGE_FRAGMENTS.hero} className="scroll-mt-24">
+                <HeroSection />
+            </div>
+            {categories.length > 0 && (
+                <div id={LANDING_PAGE_FRAGMENTS.categories} className="scroll-mt-24">
+                    <CategoriesSection categories={categories} />
+                </div>
+            )}
+            {recentlyAdded.length > 0 && (
+                <div id={LANDING_PAGE_FRAGMENTS.recentlyAdded} className="scroll-mt-24">
+                    <RecentlyAddedSection products={recentlyAdded} />
+                </div>
+            )}
+            {periods.length > 0 && (
+                <div id={LANDING_PAGE_FRAGMENTS.periods} className="scroll-mt-24">
+                    <PeriodsSection periods={periods} />
+                </div>
+            )}
+            <div id={LANDING_PAGE_FRAGMENTS.discover} className="scroll-mt-24">
+                <DiscoverSection />
+            </div>
+            <div id={LANDING_PAGE_FRAGMENTS.features} className="scroll-mt-24">
+                <FeaturesSection />
+            </div>
+            <div id={LANDING_PAGE_FRAGMENTS.howItWorks} className="scroll-mt-24">
+                <HowItWorksSection />
+            </div>
+            <div id={LANDING_PAGE_FRAGMENTS.testimonials} className="scroll-mt-24">
+                <TestimonialsSection />
+            </div>
+            <div id={LANDING_PAGE_FRAGMENTS.pricing} className="scroll-mt-24">
+                <PricingSection />
+            </div>
+            <div id={LANDING_PAGE_FRAGMENTS.newsletter} className="scroll-mt-24">
+                <NewsletterSection />
+            </div>
+            <div id={LANDING_PAGE_FRAGMENTS.faq} className="scroll-mt-24">
+                <FAQSection />
+            </div>
         </div>
     );
 }

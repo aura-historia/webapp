@@ -42,6 +42,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
     const { preferences } = useUserPreferences();
     const chartRef = useRef<ApexCharts | null>(null);
     const [selectedTimeRange, setSelectedTimeRange] = useState<number | null>(null);
+    const [now] = useState(() => Date.now());
 
     const TIME_RANGES = useMemo(() => createTimeRanges(t), [t]);
     /**
@@ -86,7 +87,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
     if (priceData.length > 0) {
         const lastPrice = priceData.at(-1);
         priceData.push({
-            x: Date.now(),
+            x: now,
             y: lastPrice?.y ?? 0,
         });
     }
@@ -358,7 +359,11 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
             </div>
 
             <div className="flex-1 min-h-75 border border-outline-variant/10 bg-surface-container-low p-4 sm:p-6">
-                <ClientOnly>
+                <ClientOnly
+                    fallback={
+                        <div className="h-full w-full animate-pulse rounded bg-surface-container" />
+                    }
+                >
                     <Chart
                         chartRef={chartRef}
                         options={options}

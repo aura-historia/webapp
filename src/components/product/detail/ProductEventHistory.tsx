@@ -29,6 +29,7 @@ import {
     isRestorationChangedEvent,
 } from "@/lib/eventFilters.ts";
 import { useTranslation } from "react-i18next";
+import { useRouteContext } from "@tanstack/react-router";
 import { formatPrice } from "@/data/internal/price/Price.ts";
 import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Authenticity.ts";
 import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Condition.ts";
@@ -56,12 +57,13 @@ function formatEstimatePriceDetail(
 
 export function ProductEventHistory({ event }: ProductEventHistoryProps) {
     const { t, i18n } = useTranslation();
+    const { timeZone } = useRouteContext({ from: "__root__" });
 
     const timeBlock = (
         <TimelineTime>
-            <span>{formatDate(event.timestamp, i18n.language)}</span>
+            <span>{formatDate(event.timestamp, i18n.language, timeZone)}</span>
             <span className="text-muted-foreground">
-                {formatTime(event.timestamp, i18n.language)}
+                {formatTime(event.timestamp, i18n.language, timeZone)}
             </span>
         </TimelineTime>
     );

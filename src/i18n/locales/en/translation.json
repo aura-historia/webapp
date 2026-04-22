@@ -107,11 +107,22 @@
       "contact": "Contact",
       "categories": "Categories",
       "periodsAndStyles": "Periods & Styles",
-      "collections": "Popular Collections"
+      "collections": "Popular Collections",
+      "discoverMore": "Discover More"
     },
     "allCategories": "All Categories",
     "allPeriods": "All Periods & Styles",
-    "allCollections": "All Collections"
+    "allCollections": "All Collections",
+    "landingPageLinks": {
+      "recentlyAdded": "Recently Added",
+      "discover": "Transparency",
+      "features": "Features",
+      "howItWorks": "How It Works",
+      "testimonials": "Testimonials",
+      "pricing": "Pricing",
+      "newsletter": "Newsletter",
+      "faq": "FAQ"
+    }
   },
   "account": {
     "title": "My Account",
@@ -723,6 +734,8 @@
     "WATCHLIST_QUOTA_EXCEEDED": "You've reached the maximum number of items on your watchlist. There are already 5/5 watchlist entries occupied.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "You've reached the maximum number of saved search filters. There are already 5/5 search filters occupied.",
     "INVALID_EMAIL": "The email address is invalid or not accepted by our newsletter provider.",
+    "STRIPE_CUSTOMER_ALREADY_EXISTS": "You already have an active subscription. Please use the customer portal to manage it.",
+    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No existing subscription was found. Please start a new checkout.",
     "unknown": "An unexpected error occurred."
   },
   "watchlist": {

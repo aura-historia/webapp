@@ -25,6 +25,7 @@ import "@/api-config.ts";
 import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
 import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
 import { getServerPreferences } from "@/lib/server/preferences.ts";
+import { getServerTimezone } from "@/lib/server/timezone.ts";
 import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/server/i18n.ts";
@@ -39,6 +40,7 @@ import { SONNER_TOASTER_PROPS } from "@/lib/ui/sonnerToasterConfig";
 interface MyRouterContext {
     queryClient: QueryClient;
     initialPreferences: Partial<UserPreferences>;
+    timeZone: string;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
@@ -146,7 +148,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         const initialPreferences: Partial<UserPreferences> = {
             ...serverPreferences,
         };
-        return { initialPreferences };
+        const timeZone = await getServerTimezone();
+        return { initialPreferences, timeZone };
     },
     shellComponent: RootDocument,
     notFoundComponent: NotFoundComponent,

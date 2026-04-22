@@ -150,36 +150,40 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
     };
 }
 
-export function formatDateTime(date: Date, locale?: string): string {
+export function formatDateTime(date: Date, locale?: string, timeZone?: string): string {
     return new Intl.DateTimeFormat(locale ?? navigator.language, {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
         hour: "2-digit",
         minute: "2-digit",
+        timeZone,
     }).format(date);
 }
 
-export function formatDate(date: Date, locale?: string): string {
+export function formatDate(date: Date, locale?: string, timeZone?: string): string {
     return new Intl.DateTimeFormat(locale ?? navigator.language, {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
+        timeZone,
     }).format(date);
 }
 
-export function formatTime(date: Date, locale?: string): string {
+export function formatTime(date: Date, locale?: string, timeZone?: string): string {
     return new Intl.DateTimeFormat(locale ?? navigator.language, {
         hour: "2-digit",
         minute: "2-digit",
+        timeZone,
     }).format(date);
 }
 
-export function formatTimeWithSeconds(date: Date, locale?: string): string {
+export function formatTimeWithSeconds(date: Date, locale?: string, timeZone?: string): string {
     return new Intl.DateTimeFormat(locale ?? navigator.language, {
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
+        timeZone,
     }).format(date);
 }
 
@@ -213,11 +217,12 @@ export function formatStateName(state: ProductState, t: TFunction): string {
     }
 }
 
-export function formatShortDate(date: Date, locale?: string): string {
+export function formatShortDate(date: Date, locale?: string, timeZone?: string): string {
     return new Intl.DateTimeFormat(locale ?? navigator.language, {
         day: "numeric",
         month: "short",
         year: "numeric",
+        timeZone,
     }).format(date);
 }
 

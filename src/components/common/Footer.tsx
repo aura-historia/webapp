@@ -10,6 +10,7 @@ import {
 } from "../ui/select";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import {
+    LANDING_PAGE_FOOTER_LINKS,
     POPULAR_CATEGORY_KEYS,
     POPULAR_COMBINATION_SLUGS,
     POPULAR_PERIOD_KEYS,
@@ -71,7 +72,7 @@ export function Footer() {
     return (
         <footer className="w-full border-t border-outline-variant/20 bg-surface-container-low">
             <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-2 lg:grid-cols-5">
+                <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-2 lg:grid-cols-6">
                     {/* Spalte 1: Brand + Company + Contact */}
                     <div className="flex flex-col gap-8">
                         <p className="font-display text-3xl leading-8 text-primary-container">
@@ -138,6 +139,27 @@ export function Footer() {
                     {/* Spalte 2: Categories */}
                     <div>
                         <h3 className="font-display text-lg leading-7 text-primary-container">
+                            {t("footer.sections.discoverMore")}
+                        </h3>
+                        <ul className="mt-4 space-y-2">
+                            {LANDING_PAGE_FOOTER_LINKS.map((sectionLink) => (
+                                <li key={sectionLink.fragment}>
+                                    <Link
+                                        to="/"
+                                        hash={sectionLink.fragment}
+                                        resetScroll={false}
+                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                    >
+                                        {t(sectionLink.translationKey)}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Spalte 3: Categories */}
+                    <div>
+                        <h3 className="font-display text-lg leading-7 text-primary-container">
                             {t("footer.sections.categories")}
                         </h3>
                         <ul className="mt-4 space-y-2">
@@ -163,7 +185,7 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    {/* Spalte 3: Periods */}
+                    {/* Spalte 4: Periods */}
                     <div>
                         <h3 className="font-display text-lg leading-7 text-primary-container">
                             {t("footer.sections.periodsAndStyles")}
@@ -191,7 +213,7 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    {/* Spalte 4: Collections */}
+                    {/* Spalte 5: Collections */}
                     <div>
                         <h3 className="font-display text-lg leading-7 text-primary-container">
                             {t("footer.sections.collections")}
@@ -221,7 +243,7 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    {/* Spalte 5: Follow Us */}
+                    {/* Spalte 6: Follow Us */}
                     <div>
                         <h3 className="font-display text-lg leading-7 text-primary-container">
                             {t("footer.sections.followUs")}

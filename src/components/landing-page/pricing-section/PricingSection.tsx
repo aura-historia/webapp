@@ -2,16 +2,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.t
 import { Button } from "@/components/ui/button.tsx";
 import { Switch } from "@/components/ui/switch.tsx";
 import { useTranslation } from "react-i18next";
-import { Check, Sparkles } from "lucide-react";
+import { Check, Loader2, Sparkles } from "lucide-react";
 import { SectionHeading } from "@/components/landing-page/common/SectionHeading.tsx";
 import {
     PRICING_TIERS,
     type BillingInterval,
+    type PricingTier,
 } from "@/components/landing-page/pricing-section/PricingSection.data.ts";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { useStripeBilling } from "@/hooks/billing/useStripeBilling.ts";
+import type { BillingCycle } from "@/data/internal/billing/BillingCycle.ts";
+import type { BillingPlan } from "@/data/internal/billing/BillingPlan.ts";
 
 export default function PricingSection() {
     const { t, i18n } = useTranslation();
@@ -19,8 +23,22 @@ export default function PricingSection() {
     const currency = preferences.currency ?? "EUR";
     const [billingInterval, setBillingInterval] = useState<BillingInterval>("yearly");
     const { user, toSignUp } = useAuthenticator((context) => [context.user, context.toSignUp]);
+    const { handleSubscribe, isLoading } = useStripeBilling();
 
     const isYearly = billingInterval === "yearly";
+
+    const toBillingPlan = (tier: PricingTier): BillingPlan => {
+        switch (tier.id) {
+            case "pro":
+                return "PRO";
+            case "ultimate":
+                return "ULTIMATE";
+            case "free":
+                throw new Error("Free tier cannot be mapped to a paid billing plan");
+        }
+    };
+
+    const toBillingCycle = (): BillingCycle => (isYearly ? "YEARLY" : "MONTHLY");
 
     const formatAmount = (amount: number) => {
         return new Intl.NumberFormat(i18n.language, {
@@ -191,9 +209,16 @@ export default function PricingSection() {
                                         variant={tier.isHighlighted ? "default" : "outline"}
                                         className="mt-8 w-full"
                                         type="button"
-                                        onClick={() => {}}
+                                        disabled={isLoading}
+                                        onClick={() =>
+                                            handleSubscribe(toBillingPlan(tier), toBillingCycle())
+                                        }
                                     >
-                                        {t("landingPage.pricing.subscribe")}
+                                        {isLoading ? (
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                        ) : (
+                                            t("landingPage.pricing.subscribe")
+                                        )}
                                     </Button>
                                 )}
                             </CardContent>
