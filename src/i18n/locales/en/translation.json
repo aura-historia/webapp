@@ -148,6 +148,11 @@
       "confirmButton": "Yes, delete account",
       "successMessage": "Account was deleted successfully!",
       "errorMessage": "Error deleting account."
+    },
+    "subscription": {
+      "title": "Subscription",
+      "currentPlanLabel": "Current plan",
+      "manageButton": "Manage subscription"
     }
   },
   "search": {

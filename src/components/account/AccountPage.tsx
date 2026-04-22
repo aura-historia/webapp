@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { PersonalDataForm } from "@/components/account/PersonalDataForm";
 import { ChangePasswordForm } from "@/components/account/ChangePasswordForm";
 import { DeleteAccountForm } from "@/components/account/DeleteAccountForm";
+import { SubscriptionPlanSection } from "@/components/account/SubscriptionPlanSection";
 
 export function AccountPage() {
     const { t } = useTranslation();
@@ -28,6 +29,8 @@ export function AccountPage() {
                         </div>
                     </section>
                 </div>
+
+                <SubscriptionPlanSection />
 
                 <section className="flex flex-col gap-6">
                     <H2 className="text-destructive">{t("account.deleteAccount.title")}</H2>

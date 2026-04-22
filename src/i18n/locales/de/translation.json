@@ -148,6 +148,11 @@
       "confirmButton": "Ja, Account löschen",
       "successMessage": "Account wurde erfolgreich gelöscht!",
       "errorMessage": "Fehler beim Löschen des Accounts."
+    },
+    "subscription": {
+      "title": "Abonnement",
+      "currentPlanLabel": "Aktuelles Abo",
+      "manageButton": "Abo verwalten"
     }
   },
   "search": {

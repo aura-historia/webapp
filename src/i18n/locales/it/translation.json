@@ -148,6 +148,11 @@
       "confirmButton": "Sì, elimina account",
       "successMessage": "Account eliminato con successo!",
       "errorMessage": "Errore nell'eliminazione dell'account."
+    },
+    "subscription": {
+      "title": "Abbonamento",
+      "currentPlanLabel": "Piano attuale",
+      "manageButton": "Gestisci abbonamento"
     }
   },
   "search": {

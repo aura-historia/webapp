@@ -14,6 +14,10 @@ vi.mock("@/components/account/DeleteAccountForm", () => ({
     DeleteAccountForm: () => <div>Delete Account Form</div>,
 }));
 
+vi.mock("@/components/account/SubscriptionPlanSection", () => ({
+    SubscriptionPlanSection: () => <div>Subscription Plan Section</div>,
+}));
+
 describe("AccountPage", () => {
     it("renders account sections and custom forms", () => {
         render(<AccountPage />);
@@ -26,5 +30,6 @@ describe("AccountPage", () => {
         expect(screen.getByText("Personal Data Form")).toBeInTheDocument();
         expect(screen.getByText("Change Password Form")).toBeInTheDocument();
         expect(screen.getByText("Delete Account Form")).toBeInTheDocument();
+        expect(screen.getByText("Subscription Plan Section")).toBeInTheDocument();
     });
 });

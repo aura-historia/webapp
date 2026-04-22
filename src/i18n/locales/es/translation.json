@@ -148,6 +148,11 @@
       "successMessage": "Datos personales actualizados con éxito",
       "prohibitedContentConsentLabel": "Mostrar productos con marcas del § 86a StGB",
       "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el § 86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido."
+    },
+    "subscription": {
+      "title": "Suscripción",
+      "currentPlanLabel": "Plan actual",
+      "manageButton": "Gestionar suscripción"
     }
   },
   "search": {

@@ -135,6 +135,11 @@
       "successMessage": "Compte supprimé avec succès !",
       "errorMessage": "Erreur lors de la suppression du compte."
     },
+    "subscription": {
+      "title": "Abonnement",
+      "currentPlanLabel": "Plan actuel",
+      "manageButton": "Gerer l'abonnement"
+    },
     "personalData": {
       "title": "Données personnelles",
       "emailLabel": "Email",
