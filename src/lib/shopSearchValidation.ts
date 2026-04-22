@@ -12,6 +12,8 @@ import {
     parseShopType,
 } from "@/data/internal/shop/ShopType.ts";
 
+const FILTERABLE_SHOP_TYPE_SET = new Set<string>(FILTERABLE_SHOP_TYPES);
+
 export type RawShopSearchParams = {
     q: string;
     shopType?: FilterableShopType[];
@@ -34,7 +36,7 @@ function parsePartnerStatuses(values: unknown): ShopPartnerStatus[] | undefined 
 }
 
 function isFilterableShopType(value: string): value is FilterableShopType {
-    return FILTERABLE_SHOP_TYPES.some((shopType) => shopType === value);
+    return FILTERABLE_SHOP_TYPE_SET.has(value);
 }
 
 function parseShopTypes(values: unknown): FilterableShopType[] | undefined {

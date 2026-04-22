@@ -29,7 +29,7 @@ describe("shopSearchValidation", () => {
             expect(result.shopType).toEqual(["MARKETPLACE"]);
         });
 
-        it("returns undefined shop types when not an array", () => {
+        it("returns undefined for non-array shop type values", () => {
             const result = validateShopSearchParams({
                 q: "x",
                 shopType: "AUCTION_HOUSE" as unknown as string[],
