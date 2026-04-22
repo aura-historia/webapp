@@ -10,6 +10,15 @@ export const SHOP_TYPES = [
 
 export type ShopType = (typeof SHOP_TYPES)[number];
 
+export const FILTERABLE_SHOP_TYPES = [
+    "AUCTION_HOUSE",
+    "AUCTION_PLATFORM",
+    "COMMERCIAL_DEALER",
+    "MARKETPLACE",
+] as const;
+
+export type FilterableShopType = (typeof FILTERABLE_SHOP_TYPES)[number];
+
 export const SHOP_TYPE_TRANSLATION_CONFIG = {
     AUCTION_HOUSE: {
         translationKey: "shopType.auctionHouse",

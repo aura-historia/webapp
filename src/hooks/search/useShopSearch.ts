@@ -13,6 +13,7 @@ import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { env } from "@/env.ts";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
+import { mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
 
 const PAGE_SIZE = 30;
 const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
@@ -46,6 +47,12 @@ function buildShopSearchQuery(
 
     if (queryText.length >= MIN_SEARCH_QUERY_LENGTH) {
         query.shopNameQuery = queryText;
+    }
+
+    if (searchArgs.shopType && searchArgs.shopType.length > 0) {
+        query.shopType = searchArgs.shopType
+            .map((shopType) => mapToBackendShopType(shopType))
+            .filter((shopType): shopType is NonNullable<typeof shopType> => shopType !== undefined);
     }
 
     if (searchArgs.partnerStatus && searchArgs.partnerStatus.length > 0) {

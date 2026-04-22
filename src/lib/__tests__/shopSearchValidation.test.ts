@@ -13,6 +13,30 @@ describe("shopSearchValidation", () => {
             expect(result.q).toBe("auction");
         });
 
+        it("parses shop types with deduplication", () => {
+            const result = validateShopSearchParams({
+                q: "x",
+                shopType: ["AUCTION_HOUSE", "COMMERCIAL_DEALER", "AUCTION_HOUSE"],
+            } as never);
+            expect(result.shopType).toEqual(["AUCTION_HOUSE", "COMMERCIAL_DEALER"]);
+        });
+
+        it("filters out unsupported shop types", () => {
+            const result = validateShopSearchParams({
+                q: "x",
+                shopType: ["UNKNOWN", "MARKETPLACE", "bogus"],
+            } as never);
+            expect(result.shopType).toEqual(["MARKETPLACE"]);
+        });
+
+        it("returns undefined shop types when not an array", () => {
+            const result = validateShopSearchParams({
+                q: "x",
+                shopType: "AUCTION_HOUSE" as unknown as string[],
+            } as never);
+            expect(result.shopType).toBeUndefined();
+        });
+
         it("parses partner statuses with deduplication", () => {
             const result = validateShopSearchParams({
                 q: "x",
@@ -74,6 +98,7 @@ describe("shopSearchValidation", () => {
         it("round-trips basic parameters", () => {
             const input = {
                 q: "auction",
+                shopType: ["AUCTION_HOUSE" as const],
                 partnerStatus: ["PARTNERED" as const],
                 sortField: "NAME" as const,
                 sortOrder: "ASC" as const,
@@ -81,6 +106,7 @@ describe("shopSearchValidation", () => {
             const serialized = serializeShopSearchParams(input);
             expect(serialized).toEqual({
                 q: "auction",
+                shopType: ["AUCTION_HOUSE"],
                 partnerStatus: ["PARTNERED"],
                 sortField: "NAME",
                 sortOrder: "ASC",
@@ -89,6 +115,7 @@ describe("shopSearchValidation", () => {
 
         it("preserves undefined optional fields", () => {
             const serialized = serializeShopSearchParams({ q: "x" });
+            expect(serialized.shopType).toBeUndefined();
             expect(serialized.partnerStatus).toBeUndefined();
             expect(serialized.sortField).toBeUndefined();
             expect(serialized.sortOrder).toBeUndefined();

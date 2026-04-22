@@ -82,6 +82,7 @@ describe("useShopSearch", () => {
     it("calls simpleSearchShops with mapped query params (GET /api/v1/shops)", async () => {
         const args: ShopSearchFilterArguments = {
             q: "gallery",
+            shopType: ["AUCTION_HOUSE", "COMMERCIAL_DEALER"],
             partnerStatus: ["PARTNERED", "SCRAPED"],
             sortField: "NAME",
             sortOrder: "ASC",
@@ -98,6 +99,7 @@ describe("useShopSearch", () => {
         expect(mockSimpleSearchShops).toHaveBeenCalledWith({
             query: {
                 shopNameQuery: "gallery",
+                shopType: ["AUCTION_HOUSE", "COMMERCIAL_DEALER"],
                 partnerStatus: ["PARTNERED", "SCRAPED"],
                 sort: "name",
                 order: "asc",

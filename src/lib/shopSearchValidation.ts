@@ -6,9 +6,15 @@ import {
     SHOP_PARTNER_STATUSES,
 } from "@/data/internal/shop/ShopPartnerStatus.ts";
 import { SHOP_SEARCH_SORT_FIELDS, type ShopSortMode } from "@/data/internal/search/ShopSortMode.ts";
+import {
+    FILTERABLE_SHOP_TYPES,
+    type FilterableShopType,
+    parseShopType,
+} from "@/data/internal/shop/ShopType.ts";
 
 export type RawShopSearchParams = {
     q: string;
+    shopType?: FilterableShopType[];
     partnerStatus?: ShopPartnerStatus[];
     sortField?: string;
     sortOrder?: string;
@@ -27,6 +33,19 @@ function parsePartnerStatuses(values: unknown): ShopPartnerStatus[] | undefined 
     return seen.size === 0 ? [] : Array.from(seen);
 }
 
+function parseShopTypes(values: unknown): FilterableShopType[] | undefined {
+    if (!Array.isArray(values)) return undefined;
+    const seen = new Set<FilterableShopType>();
+    for (const v of values) {
+        if (typeof v !== "string") continue;
+        const parsed = parseShopType(v);
+        if ((FILTERABLE_SHOP_TYPES as readonly string[]).includes(parsed)) {
+            seen.add(parsed as FilterableShopType);
+        }
+    }
+    return seen.size === 0 ? [] : Array.from(seen);
+}
+
 function parseShopSortField(field: string | undefined): ShopSortMode["field"] {
     return SHOP_SEARCH_SORT_FIELDS.includes(field as ShopSortMode["field"])
         ? (field as ShopSortMode["field"])
@@ -40,6 +59,7 @@ function parseShopSortOrder(order: string | undefined): ShopSortMode["order"] {
 export function validateShopSearchParams(search: RawShopSearchParams): ShopSearchFilterArguments {
     return {
         q: (search.q as string) || "",
+        shopType: parseShopTypes(search.shopType),
         partnerStatus: parsePartnerStatuses(search.partnerStatus),
         sortField: parseShopSortField(search.sortField),
         sortOrder: parseShopSortOrder(search.sortOrder),
@@ -51,6 +71,7 @@ export function serializeShopSearchParams(
 ): Omit<RawShopSearchParams, keyof SearchSchemaInput> {
     return {
         q: params.q,
+        shopType: params.shopType,
         partnerStatus: params.partnerStatus,
         sortField: params.sortField,
         sortOrder: params.sortOrder,

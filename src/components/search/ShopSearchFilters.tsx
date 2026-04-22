@@ -14,8 +14,11 @@ import { SHOP_PARTNER_STATUSES } from "@/data/internal/shop/ShopPartnerStatus.ts
 import { SHOP_FILTER_DEFAULTS } from "@/lib/shopFilterDefaults.ts";
 import { ShopPartnerStatusFilter } from "@/components/search/filters/ShopPartnerStatusFilter.tsx";
 import { serializeShopSearchParams } from "@/lib/shopSearchValidation.ts";
+import { FILTERABLE_SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
+import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter.tsx";
 
 const shopFilterSchema = z.object({
+    shopType: z.array(z.enum(FILTERABLE_SHOP_TYPES)),
     partnerStatus: z.array(z.enum(SHOP_PARTNER_STATUSES)),
 });
 
@@ -27,8 +30,15 @@ type ShopSearchFiltersProps = {
 
 function mapShopFiltersToFormValues(filters: ShopSearchFilterArguments): ShopFilterSchema {
     return {
+        shopType: filters.shopType ?? SHOP_FILTER_DEFAULTS.shopType,
         partnerStatus: filters.partnerStatus ?? SHOP_FILTER_DEFAULTS.partnerStatus,
     };
+}
+
+function isDefaultShopType(types: ShopFilterSchema["shopType"]): boolean {
+    const defaults = new Set<string>(SHOP_FILTER_DEFAULTS.shopType);
+    if (types.length !== defaults.size) return false;
+    return types.every((type) => defaults.has(type));
 }
 
 function isDefaultPartnerStatus(statuses: ShopFilterSchema["partnerStatus"]): boolean {
@@ -67,6 +77,7 @@ export function ShopSearchFilters({ searchFilters }: ShopSearchFiltersProps) {
                 search: (prev) => ({
                     ...serializeShopSearchParams(prev as ShopSearchFilterArguments),
                     q: getEffectiveQuery(),
+                    shopType: isDefaultShopType(data.shopType) ? undefined : data.shopType,
                     partnerStatus: isDefaultPartnerStatus(data.partnerStatus)
                         ? undefined
                         : data.partnerStatus,
@@ -99,6 +110,9 @@ export function ShopSearchFilters({ searchFilters }: ShopSearchFiltersProps) {
         <Form {...form}>
             <form className="space-y-4">
                 <div className="flex min-w-0 w-full flex-col gap-4 overflow-visible">
+                    <ShopTypeFilter
+                        onReset={() => form.setValue("shopType", SHOP_FILTER_DEFAULTS.shopType)}
+                    />
                     <ShopPartnerStatusFilter />
                 </div>
                 <Button
