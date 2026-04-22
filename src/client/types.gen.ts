@@ -58,6 +58,18 @@ export type GetProductData = {
      *
      */
     category?: LocalizedTextData | null;
+    /**
+     * Optional kebab-case identifier for the level-one period the product has been classified into.
+     * Periods are automatically classified by the system. Examples: "renaissance", "baroque", "art-deco"
+     *
+     */
+    periodId?: string | null;
+    /**
+     * Optional localized display name for the product's level-one period.
+     * Language matches the product's primary content language. Examples: "Barock" (de), "Renaissance" (en)
+     *
+     */
+    period?: LocalizedTextData | null;
     title: LocalizedTextData;
     /**
      * Optional product description
@@ -150,18 +162,6 @@ export type GetProductSummaryData = {
      */
     sellerName: string;
     shopType: ShopTypeData;
-    /**
-     * Optional kebab-case identifier for the level-one category the product has been classified into.
-     * Categories are automatically classified by the system. Examples: "musical-instruments", "antique-furniture", "antique-clocks"
-     *
-     */
-    categoryId?: string | null;
-    /**
-     * Optional localized display name for the product's level-one category.
-     * Language matches the product's primary content language. Examples: "Musikinstrumente" (de), "Antique Musical Instruments" (en)
-     *
-     */
-    category?: LocalizedTextData | null;
     title: LocalizedTextData;
     /**
      * Optional product price
@@ -383,8 +383,6 @@ export type PriceData = {
 export type ProductCreatedEventPayloadData = {
     state: ProductStateData;
     price?: PriceData;
-    priceEstimateMin?: PriceData;
-    priceEstimateMax?: PriceData;
 };
 
 /**
@@ -517,6 +515,10 @@ export type GetProductEventData = {
      * Unique identifier of the shop
      */
     shopId: string;
+    /**
+     * Unique identifier of the seller associated with the product event
+     */
+    sellerId: string;
     /**
      * Shop's unique identifier for the product. Can be any arbitrary string.
      */
@@ -1333,7 +1335,7 @@ export type GetShopData = {
 };
 
 /**
- * Search filter configuration for shops with query parameters and filtering options
+ * Search filter configuration for shops with optional name, type, partner-status, and date-range filters
  */
 export type ShopSearchData = {
     /**
@@ -1713,6 +1715,10 @@ export type GetUserAccountData = {
     tier: UserTierData;
     role: UserRoleData;
     /**
+     * Persisted Stripe customer identifier for the user, omitted when the user has never been linked to a Stripe customer
+     */
+    stripeCustomerId?: string;
+    /**
      * When the user account was created (RFC3339 format)
      */
     created: string;
@@ -1748,6 +1754,34 @@ export type PatchUserAccountData = {
      * New consent state for displaying prohibited content
      */
     prohibitedContentConsent?: boolean | null;
+};
+
+/**
+ * Request body for creating a Stripe checkout session for a subscription purchase
+ */
+export type PostBillingCheckoutData = {
+    plan: BillingPlanData;
+    cycle: BillingCycleData;
+};
+
+/**
+ * Subscription plan that should be purchased through Stripe Checkout
+ */
+export type BillingPlanData = 'PRO' | 'ULTIMATE';
+
+/**
+ * Billing interval that should be used for the subscription purchase
+ */
+export type BillingCycleData = 'MONTHLY' | 'YEARLY';
+
+/**
+ * Hosted Stripe session URL returned by the billing endpoints
+ */
+export type BillingSessionUrlData = {
+    /**
+     * Hosted Stripe URL that the frontend should redirect the authenticated user to
+     */
+    url: string;
 };
 
 /**
@@ -3736,6 +3770,131 @@ export type UpdateUserAccountResponses = {
 
 export type UpdateUserAccountResponse = UpdateUserAccountResponses[keyof UpdateUserAccountResponses];
 
+export type PostBillingCheckoutData2 = {
+    /**
+     * Desired subscription plan and billing cycle for the new Stripe checkout session.
+     */
+    body: PostBillingCheckoutData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/billing/checkout';
+};
+
+export type PostBillingCheckoutErrors = {
+    /**
+     * Bad request - request body is missing, empty, malformed JSON, or contains unsupported enum values
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Conflict - the authenticated user already has a Stripe customer record
+     */
+    409: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PostBillingCheckoutError = PostBillingCheckoutErrors[keyof PostBillingCheckoutErrors];
+
+export type PostBillingCheckoutResponses = {
+    /**
+     * Checkout session created successfully
+     */
+    201: BillingSessionUrlData;
+};
+
+export type PostBillingCheckoutResponse = PostBillingCheckoutResponses[keyof PostBillingCheckoutResponses];
+
+export type PostBillingPortalData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/billing/portal';
+};
+
+export type PostBillingPortalErrors = {
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Unprocessable Content - the authenticated user has no Stripe customer record yet
+     */
+    422: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PostBillingPortalError = PostBillingPortalErrors[keyof PostBillingPortalErrors];
+
+export type PostBillingPortalResponses = {
+    /**
+     * Billing portal session created successfully
+     */
+    201: BillingSessionUrlData;
+};
+
+export type PostBillingPortalResponse = PostBillingPortalResponses[keyof PostBillingPortalResponses];
+
+export type PostBillingManageData = {
+    /**
+     * Desired subscription plan and billing cycle. Required for all callers.
+     */
+    body: PostBillingCheckoutData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/billing/manage';
+};
+
+export type PostBillingManageErrors = {
+    /**
+     * Bad request - request body is missing, empty, malformed JSON, or contains unsupported enum values
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Unprocessable Content - the authenticated paid user has no Stripe customer record yet
+     */
+    422: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PostBillingManageError = PostBillingManageErrors[keyof PostBillingManageErrors];
+
+export type PostBillingManageResponses = {
+    /**
+     * Billing management session created successfully
+     */
+    201: BillingSessionUrlData;
+};
+
+export type PostBillingManageResponse = PostBillingManageResponses[keyof PostBillingManageResponses];
+
 export type DeleteWatchlistProductData = {
     body?: never;
     path: {
@@ -4116,6 +4275,10 @@ export type SimpleSearchShopsData = {
          */
         shopNameQuery?: string;
         /**
+         * Optional filter by shop type
+         */
+        shopType?: Array<ShopTypeData>;
+        /**
          * Optional filter by shop partner relationship status
          */
         partnerStatus?: Array<ShopPartnerStatusData>;
@@ -4337,7 +4500,8 @@ export type GetShopBySlugResponse = GetShopBySlugResponses[keyof GetShopBySlugRe
 export type SearchShopsData = {
     /**
      * Shop search filter configuration with all filtering criteria.
-     * Allows filtering by shop name and creation/update date ranges.
+     * Allows filtering by shop name, shop type, partner status,
+     * and creation/update date ranges.
      * If you do not want to restrict the search, supply an empty JSON-Object '{}' as body.
      *
      */
