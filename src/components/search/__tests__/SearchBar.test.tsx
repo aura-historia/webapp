@@ -208,7 +208,7 @@ describe("SearchBar", () => {
             });
             const trigger = screen.getByTestId("search-type-select");
             expect(trigger).toBeInTheDocument();
-            expect(trigger).toHaveTextContent("Produkte");
+            expect(trigger).toHaveTextContent("Artikel");
         });
 
         it("defaults the selector to shops when rendered on the /search/shops page", async () => {

@@ -163,7 +163,7 @@ export function SearchBar({ type }: SearchBarProps) {
             <form
                 className={
                     type === "big"
-                        ? "flex items-start w-full gap-4"
+                        ? "flex items-center w-full gap-4"
                         : "flex items-start gap-2 w-full"
                 }
                 onSubmit={form.handleSubmit(onSubmit, () => {
@@ -186,7 +186,7 @@ export function SearchBar({ type }: SearchBarProps) {
                         className={cn(
                             "shrink-0 rounded-sm focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
                             type === "big"
-                                ? "h-12 w-32 sm:w-40 border-0 text-base font-medium"
+                                ? "h-12 w-32 self-center border-0 text-base font-medium sm:w-40"
                                 : "h-9 w-24 sm:w-32 text-sm",
                         )}
                     >
