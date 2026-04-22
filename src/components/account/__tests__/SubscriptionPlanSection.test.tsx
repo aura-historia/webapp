@@ -35,7 +35,7 @@ describe("SubscriptionPlanSection", () => {
         render(<SubscriptionPlanSection />);
 
         expect(screen.getByText("Abonnement")).toBeInTheDocument();
-        expect(screen.getByText("Aktueller Plan")).toBeInTheDocument();
+        expect(screen.getByText("Aktuelles Abo")).toBeInTheDocument();
         expect(screen.getByText("Pro")).toBeInTheDocument();
         expect(screen.getByRole("button", { name: "Abo verwalten" })).toBeInTheDocument();
     });
