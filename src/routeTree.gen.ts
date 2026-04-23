@@ -33,6 +33,7 @@ import { Route as AuthMeAccountRouteImport } from './routes/_auth.me.account'
 import { Route as AuthAdminShopsRouteImport } from './routes/_auth.admin.shops'
 import { Route as AuthAdminPartnerApplicationsRouteImport } from './routes/_auth.admin.partner-applications'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
+import { Route as AuthMeBillingManageRouteImport } from './routes/_auth.me.billing.manage'
 
 const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
   id: '/terms-and-conditions',
@@ -157,6 +158,11 @@ const ShopsShopSlugIdProductsProductSlugIdRoute =
     path: '/shops/$shopSlugId/products/$productSlugId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthMeBillingManageRoute = AuthMeBillingManageRouteImport.update({
+  id: '/me/billing/manage',
+  path: '/me/billing/manage',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -181,6 +187,7 @@ export interface FileRoutesByFullPath {
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin/': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
+  '/me/billing/manage': typeof AuthMeBillingManageRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRoutesByTo {
@@ -205,6 +212,7 @@ export interface FileRoutesByTo {
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId': typeof ShopsShopSlugIdIndexRoute
+  '/me/billing/manage': typeof AuthMeBillingManageRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRoutesById {
@@ -232,6 +240,7 @@ export interface FileRoutesById {
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/_auth/admin/': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
+  '/_auth/me/billing/manage': typeof AuthMeBillingManageRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRouteTypes {
@@ -259,6 +268,7 @@ export interface FileRouteTypes {
     | '/product/$shopId/$shopsProductId'
     | '/admin/'
     | '/shops/$shopSlugId/'
+    | '/me/billing/manage'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -283,6 +293,7 @@ export interface FileRouteTypes {
     | '/product/$shopId/$shopsProductId'
     | '/admin'
     | '/shops/$shopSlugId'
+    | '/me/billing/manage'
     | '/shops/$shopSlugId/products/$productSlugId'
   id:
     | '__root__'
@@ -309,6 +320,7 @@ export interface FileRouteTypes {
     | '/product/$shopId/$shopsProductId'
     | '/_auth/admin/'
     | '/shops/$shopSlugId/'
+    | '/_auth/me/billing/manage'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesById: FileRoutesById
 }
@@ -502,6 +514,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopsShopSlugIdProductsProductSlugIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/me/billing/manage': {
+      id: '/_auth/me/billing/manage'
+      path: '/me/billing/manage'
+      fullPath: '/me/billing/manage'
+      preLoaderRoute: typeof AuthMeBillingManageRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
 
@@ -526,6 +545,7 @@ interface AuthRouteChildren {
   AuthMeAccountRoute: typeof AuthMeAccountRoute
   AuthMeNotificationsRoute: typeof AuthMeNotificationsRoute
   AuthMeWatchlistRoute: typeof AuthMeWatchlistRoute
+  AuthMeBillingManageRoute: typeof AuthMeBillingManageRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
@@ -533,6 +553,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthMeAccountRoute: AuthMeAccountRoute,
   AuthMeNotificationsRoute: AuthMeNotificationsRoute,
   AuthMeWatchlistRoute: AuthMeWatchlistRoute,
+  AuthMeBillingManageRoute: AuthMeBillingManageRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)

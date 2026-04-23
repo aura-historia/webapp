@@ -730,7 +730,9 @@
     "unknown": "Une erreur inattendue s'est produite.",
     "WATCHLIST_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum d'articles dans votre liste de suivi. Il y a déjà 5/5 entrées de liste de suivi occupées.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum de filtres de recherche enregistrés. Il y a déjà 5/5 filtres de recherche occupés.",
-    "INVALID_EMAIL": "L'adresse e-mail est invalide ou n'est pas acceptée par notre fournisseur de newsletter."
+    "INVALID_EMAIL": "L'adresse e-mail est invalide ou n'est pas acceptée par notre fournisseur de newsletter.",
+    "STRIPE_CUSTOMER_ALREADY_EXISTS": "Vous avez déjà un abonnement actif. Veuillez utiliser le portail client pour le gérer.",
+    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Aucun abonnement existant n'a été trouvé. Veuillez démarrer un nouveau processus de paiement."
   },
   "watchlist": {
     "title": "Mes favoris",

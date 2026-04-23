@@ -730,6 +730,8 @@
     "WATCHLIST_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an Artikeln auf Ihrer Merkliste erreicht. Es können maximal 5 Artikel gespeichert werden.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an gespeicherten Suchaufträgen erreicht. Es können maximal 5 Suchaufträge gespeichert werden.",
     "INVALID_EMAIL": "Die E-Mail-Adresse ist ungültig oder wird von unserem Newsletter-Anbieter nicht akzeptiert.",
+    "STRIPE_CUSTOMER_ALREADY_EXISTS": "Sie haben bereits ein aktives Abonnement. Bitte nutzen Sie das Kundenportal zur Verwaltung.",
+    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Es wurde kein bestehendes Abonnement gefunden. Bitte starten Sie einen neuen Checkout.",
     "unknown": "Ein unerwarteter Fehler ist aufgetreten.",
     "undefined": "Ein unerwarteter Fehler ist aufgetreten."
   },
