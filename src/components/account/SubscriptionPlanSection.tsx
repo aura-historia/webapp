@@ -1,12 +1,15 @@
 import { H2 } from "@/components/typography/H2";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { useUserAccount } from "@/hooks/account/useUserAccount";
+import { useStripeBilling } from "@/hooks/billing/useStripeBilling";
 import { useTranslation } from "react-i18next";
 import { SUBSCRIPTION_TYPE_TRANSLATION_KEYS } from "@/data/internal/account/SubscriptionType.ts";
 
 export function SubscriptionPlanSection() {
     const { t } = useTranslation();
     const { data: userAccount } = useUserAccount();
+    const { handleManageSubscription, isLoading } = useStripeBilling();
 
     const subscriptionType = userAccount?.subscriptionType ?? "free";
     const planName = t(SUBSCRIPTION_TYPE_TRANSLATION_KEYS[subscriptionType]);
@@ -22,7 +25,13 @@ export function SubscriptionPlanSection() {
                         </p>
                         <p className="text-xl font-semibold md:text-2xl">{planName}</p>
                     </div>
-                    <Button type="button" className="w-full md:w-auto">
+                    <Button
+                        type="button"
+                        className="w-full md:w-auto"
+                        onClick={() => void handleManageSubscription()}
+                        disabled={isLoading}
+                    >
+                        {isLoading && <Spinner aria-hidden="true" />}
                         {t("account.subscription.manageButton")}
                     </Button>
                 </div>

@@ -69,7 +69,7 @@ export const Route = createFileRoute("/")({
     component: LandingPage,
 });
 
-export function LandingPage() {
+function LandingPage() {
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
     const { data: categoriesData } = useQuery(
