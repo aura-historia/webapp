@@ -319,9 +319,11 @@ export function SearchFilterCard({ filter, isDeleting, onDelete }: Props) {
                         {t("searchFilters.showResults")}
                     </Link>
                 </Button>
-                <Button size="sm" className="gap-2 flex-1">
-                    <ScanSearch className="size-4" />
-                    {t("searchFilters.matchingProducts")}
+                <Button size="sm" className="gap-2 flex-1" asChild>
+                    <Link to="/me/search-filter/$filterId" params={{ filterId: filter.id }}>
+                        <ScanSearch className="size-4" />
+                        {t("searchFilters.matchingProducts")}
+                    </Link>
                 </Button>
             </div>
         </Card>

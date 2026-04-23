@@ -30,6 +30,7 @@ import { Route as AuthMeSearchFiltersRouteImport } from './routes/_auth.me.searc
 import { Route as AuthMeNotificationsRouteImport } from './routes/_auth.me.notifications'
 import { Route as AuthMeAccountRouteImport } from './routes/_auth.me.account'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
+import { Route as AuthMeSearchFilterFilterIdRouteImport } from './routes/_auth.me.search-filter.$filterId'
 
 const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
   id: '/terms-and-conditions',
@@ -138,6 +139,12 @@ const ShopsShopSlugIdProductsProductSlugIdRoute =
     path: '/shops/$shopSlugId/products/$productSlugId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthMeSearchFilterFilterIdRoute =
+  AuthMeSearchFilterFilterIdRouteImport.update({
+    id: '/me/search-filter/$filterId',
+    path: '/me/search-filter/$filterId',
+    getParentRoute: () => AuthRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
+  '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRoutesByTo {
@@ -181,6 +189,7 @@ export interface FileRoutesByTo {
   '/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId': typeof ShopsShopSlugIdIndexRoute
+  '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRoutesById {
@@ -205,6 +214,7 @@ export interface FileRoutesById {
   '/_auth/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
+  '/_auth/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRouteTypes {
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/me/watchlist'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/'
+    | '/me/search-filter/$filterId'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/me/watchlist'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId'
+    | '/me/search-filter/$filterId'
     | '/shops/$shopSlugId/products/$productSlugId'
   id:
     | '__root__'
@@ -274,6 +286,7 @@ export interface FileRouteTypes {
     | '/_auth/me/watchlist'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/'
+    | '/_auth/me/search-filter/$filterId'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesById: FileRoutesById
 }
@@ -446,6 +459,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopsShopSlugIdProductsProductSlugIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/me/search-filter/$filterId': {
+      id: '/_auth/me/search-filter/$filterId'
+      path: '/me/search-filter/$filterId'
+      fullPath: '/me/search-filter/$filterId'
+      preLoaderRoute: typeof AuthMeSearchFilterFilterIdRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
 
@@ -454,6 +474,7 @@ interface AuthRouteChildren {
   AuthMeNotificationsRoute: typeof AuthMeNotificationsRoute
   AuthMeSearchFiltersRoute: typeof AuthMeSearchFiltersRoute
   AuthMeWatchlistRoute: typeof AuthMeWatchlistRoute
+  AuthMeSearchFilterFilterIdRoute: typeof AuthMeSearchFilterFilterIdRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
@@ -461,6 +482,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthMeNotificationsRoute: AuthMeNotificationsRoute,
   AuthMeSearchFiltersRoute: AuthMeSearchFiltersRoute,
   AuthMeWatchlistRoute: AuthMeWatchlistRoute,
+  AuthMeSearchFilterFilterIdRoute: AuthMeSearchFilterFilterIdRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
