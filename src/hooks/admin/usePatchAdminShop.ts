@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { InfiniteData } from "@tanstack/react-query";
 import { patchShopById } from "@/client";
 import type { PatchShopData } from "@/client";
 import { mapToShopDetail, type ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
@@ -6,6 +7,7 @@ import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { mapToBackendShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import { toast } from "sonner";
+import type { AdminShopPage } from "@/hooks/admin/useAdminShops.ts";
 
 export type AdminShopPatch = {
     readonly shopId: string;
@@ -42,7 +44,23 @@ export function usePatchAdminShop() {
 
             return mapToShopDetail(response.data);
         },
-        onSuccess: () => {
+        onSuccess: (updatedShop) => {
+            queryClient.setQueriesData<InfiniteData<AdminShopPage>>(
+                { queryKey: ["admin", "shops"] },
+                (old) => {
+                    if (!old) return old;
+                    return {
+                        ...old,
+                        pageParams: old.pageParams,
+                        pages: old.pages.map((page) => ({
+                            ...page,
+                            items: page.items.map((item) =>
+                                item.shopId === updatedShop.shopId ? updatedShop : item,
+                            ),
+                        })),
+                    };
+                },
+            );
             queryClient.invalidateQueries({ queryKey: ["admin", "shops"] });
         },
         onError: (error) => {

@@ -46,6 +46,7 @@ function makeEvent(
         productId: "item-123",
         eventId: "event-1",
         shopId: "shop-789",
+        sellerId: "seller-001",
         shopsProductId: "shop-item-101",
         timestamp: "2023-06-01T10:00:00Z",
         ...overrides,
