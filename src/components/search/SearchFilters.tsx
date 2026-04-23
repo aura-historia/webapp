@@ -17,6 +17,9 @@ import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpan
 import { AuctionDateSpanFilter } from "@/components/search/filters/AuctionDateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { SaveSearchFilterDialog } from "@/components/search/SaveSearchFilterDialog.tsx";
+import { BookmarkPlus } from "lucide-react";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { FILTER_DEFAULTS, MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 import { useSearchQueryContext } from "@/hooks/search/useSearchQueryContext.tsx";
@@ -170,6 +173,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
     const { t } = useTranslation();
     const { getQuery } = useSearchQueryContext();
+    const { user } = useAuthenticator((context) => [context.user]);
 
     const getEffectiveQuery = useCallback((): string => {
         const currentQuery = getQuery()?.trim();
@@ -281,6 +285,18 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                 >
                     {t("search.resetAllFilters")}
                 </Button>
+                {user && (
+                    <SaveSearchFilterDialog searchArgs={searchFilters}>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            className="w-full border-outline-variant text-primary uppercase text-sm shadow-none hover:bg-primary/8"
+                        >
+                            <BookmarkPlus className="size-4" />
+                            {t("searchFilter.saveButton")}
+                        </Button>
+                    </SaveSearchFilterDialog>
+                )}
             </form>
         </Form>
     );
