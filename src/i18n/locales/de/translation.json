@@ -36,6 +36,9 @@
     "watchlist": {
       "title": "Meine Merkliste | Aura Historia"
     },
+    "searchFilters": {
+      "title": "Meine Suchaufträge | Aura Historia"
+    },
     "notifications": {
       "title": "Benachrichtigungen | Aura Historia"
     },
@@ -159,6 +162,19 @@
       "errorMessage": "Fehler beim Löschen des Accounts."
     }
   },
+  "searchFilter": {
+    "saveButton": "Suchauftrag speichern",
+    "saveSuccess": "Suchauftrag wurde gespeichert.",
+    "saveDialog": {
+      "title": "Suchauftrag speichern",
+      "nameLabel": "Name",
+      "namePlaceholder": "z. B. Jugendstil-Vasen unter 50 €",
+      "aiDescriptionLabel": "KI-Beschreibung (optional)",
+      "aiDescriptionPlaceholder": "Beschreibe detaillierter, wonach du suchst …",
+      "saveButton": "Speichern",
+      "cancelButton": "Abbrechen"
+    }
+  },
   "search": {
     "filters": "Filter",
     "resultsFor": "Suchergebnisse für:",
@@ -232,11 +248,14 @@
         "merchants": "Filter für die Händler zurücksetzen",
         "shopType": "Filter für den Shop-Typ zurücksetzen",
         "periodId": "Filter für Epoche zurücksetzen",
+        "categoryId": "Filter für Kategorie zurücksetzen",
         "qualityIndicators": "Filter für die Qualitätsmerkmale zurücksetzen"
       },
       "qualityIndicators": "Qualitätsmerkmale",
       "periodId": "Epoche / Stil",
+      "categoryId": "Kategorie",
       "searchPeriods": "Epochen suchen...",
+      "searchCategories": "Kategorien suchen...",
       "originYear": "Entstehungsjahr",
       "authenticity": "Authentizität",
       "condition": "Zustand",
@@ -725,7 +744,8 @@
     "BAD_SORT_VALUE": "Ungültige Sortierung.",
     "BAD_ORDER_VALUE": "Ungültige Sortierreihenfolge.",
     "WATCHLIST_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an Artikeln auf Ihrer Merkliste erreicht. Es können maximal 5 Artikel gespeichert werden.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an gespeicherten Suchaufträgen erreicht. Es können maximal 5 Suchaufträge gespeichert werden.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an Suchaufträgen für Ihren Account erreicht.",
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Einige Ihrer aktiven Filter sind nur für Premium-Nutzer verfügbar. Bitte entfernen Sie diese Filter, um einen Suchauftrag zu speichern.",
     "INVALID_EMAIL": "Die E-Mail-Adresse ist ungültig oder wird von unserem Newsletter-Anbieter nicht akzeptiert.",
     "unknown": "Ein unerwarteter Fehler ist aufgetreten.",
     "undefined": "Ein unerwarteter Fehler ist aufgetreten."
@@ -741,6 +761,38 @@
     "noResults": {
       "title": "Keine Artikel gefunden",
       "description": "Fügen Sie Artikel zur Merkliste hinzu, um sie hier anzusehen."
+    }
+  },
+  "searchFilters": {
+    "title": "Meine Suchaufträge",
+    "totalElements": "{{count}} Suchaufträge",
+    "loadingError": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+    "deleteSuccess": "Suchauftrag wurde gelöscht.",
+    "delete": "Suchauftrag löschen",
+    "query": "Suche",
+    "moreFilters": "weitere Filter",
+      "showDetails": "Details anzeigen",
+      "cardLabel": "Suchauftrag",
+    "notificationsOn": "Benachrichtigungen aktiv",
+      "notificationsOff": "Keine Benachrichtigungen",
+      "edit": "Suchauftrag bearbeiten",
+      "showResults": "Suchergebnisse anzeigen",
+      "matchingProducts": "Alle Suchtreffer anzeigen",
+      "create": "Neuer Suchauftrag",
+      "searchPlaceholder": "Suchaufträge durchsuchen …",
+    "noResults": {
+      "title": "Keine Suchaufträge",
+      "description": "Speichern Sie eine Suche, um sie hier zu finden."
+    },
+    "info": {
+      "merchant": "Händler",
+      "excludeMerchant": "Ausgeschl.",
+      "period": "Epoche",
+      "creationDate": "Hinzugefügt",
+      "updateDate": "Aktualisiert",
+      "auctionDate": "Auktion",
+      "created": "Erstellt am",
+      "updated": "Geändert am"
     }
   },
   "category": {

@@ -22,6 +22,7 @@ type PageMetaKey =
     | "terms"
     | "account"
     | "watchlist"
+    | "searchFilters"
     | "notifications"
     | "consentSettings"
     | "categories"
@@ -58,6 +59,9 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     },
     watchlist: {
         title: "meta.watchlist.title",
+    },
+    searchFilters: {
+        title: "meta.searchFilters.title",
     },
     notifications: {
         title: "meta.notifications.title",

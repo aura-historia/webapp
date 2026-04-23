@@ -36,6 +36,9 @@
     "watchlist": {
       "title": "My Watchlist | Aura Historia"
     },
+    "searchFilters": {
+      "title": "My Search Filters | Aura Historia"
+    },
     "notifications": {
       "title": "Notifications | Aura Historia"
     },
@@ -159,6 +162,19 @@
       "errorMessage": "Error deleting account."
     }
   },
+  "searchFilter": {
+    "saveButton": "Save search filter",
+    "saveSuccess": "Search filter has been saved.",
+    "saveDialog": {
+      "title": "Save search filter",
+      "nameLabel": "Name",
+      "namePlaceholder": "e.g. Art Nouveau vases under €50",
+      "aiDescriptionLabel": "AI description (optional)",
+      "aiDescriptionPlaceholder": "Describe in more detail what you are looking for …",
+      "saveButton": "Save",
+      "cancelButton": "Cancel"
+    }
+  },
   "search": {
     "filters": "Filters",
     "resultsFor": "Search results for:",
@@ -232,11 +248,14 @@
         "merchants": "Reset merchant filters",
         "shopType": "Reset shop type filter",
         "periodId": "Reset period filter",
+        "categoryId": "Reset category filter",
         "qualityIndicators": "Reset quality indicators filter"
       },
       "qualityIndicators": "Quality Indicators",
       "periodId": "Period / Style",
+      "categoryId": "Category",
       "searchPeriods": "Search periods...",
+      "searchCategories": "Search categories...",
       "originYear": "Year of Origin",
       "authenticity": "Authenticity",
       "condition": "Condition",
@@ -725,7 +744,8 @@
     "BAD_SORT_VALUE": "Invalid sorting.",
     "BAD_ORDER_VALUE": "Invalid sort order.",
     "WATCHLIST_QUOTA_EXCEEDED": "You've reached the maximum number of items on your watchlist. There are already 5/5 watchlist entries occupied.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "You've reached the maximum number of saved search filters. There are already 5/5 search filters occupied.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "You've reached the maximum number of saved search filters for your account.",
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Some of your active filters are only available for premium users. Please remove these filters to save a search filter.",
     "INVALID_EMAIL": "The email address is invalid or not accepted by our newsletter provider.",
     "unknown": "An unexpected error occurred."
   },
@@ -740,6 +760,38 @@
     "noResults": {
       "title": "No items found",
       "description": "Add items to your watchlist to see them here."
+    }
+  },
+  "searchFilters": {
+    "title": "My Search Filters",
+    "totalElements": "{{count}} search filters",
+    "loadingError": "Search filters could not be loaded. Please try again later.",
+    "deleteSuccess": "Search filter has been deleted.",
+    "delete": "Delete search filter",
+    "query": "Search",
+    "moreFilters": "more filters",
+      "showDetails": "Show details",
+      "cardLabel": "Search filter",
+    "notificationsOn": "Notifications on",
+    "notificationsOff": "Notifications off",
+    "edit": "Edit search filter",
+    "showResults": "Show search results",
+    "matchingProducts": "Show all matches",
+    "create": "New search filter",
+    "searchPlaceholder": "Search filters …",
+    "noResults": {
+      "title": "No search filters",
+      "description": "Save a search to find it here."
+    },
+    "info": {
+      "merchant": "Merchant",
+      "excludeMerchant": "Excluded",
+      "period": "Period",
+      "creationDate": "Added",
+      "updateDate": "Updated",
+      "auctionDate": "Auction",
+      "created": "Created",
+      "updated": "Updated"
     }
   },
   "category": {
