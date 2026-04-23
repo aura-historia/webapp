@@ -18,6 +18,7 @@ export const FILTER_DEFAULTS: FilterSchema = {
     excludeMerchant: undefined,
     shopType: [...SHOP_TYPES],
     periodId: [],
+    categoryId: [],
     originYearSpan: { min: undefined, max: undefined },
     authenticity: [...AUTHENTICITIES],
     condition: [...CONDITIONS],

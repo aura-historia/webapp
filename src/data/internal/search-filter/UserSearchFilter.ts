@@ -68,6 +68,7 @@ export function mapProductSearchDataToSearchFilterArguments(
         excludeMerchant: data.excludeShopName,
         shopType: data.shopType?.map((t) => parseShopType(t)),
         periodId: data.periodId,
+        categoryId: data.categoryId,
         originYearMin: data.originYear?.min,
         originYearMax: data.originYear?.max,
         authenticity: data.authenticity?.map((a) => parseAuthenticity(a)),
@@ -117,6 +118,7 @@ export function mapSearchFilterArgumentsToProductSearchData(
             ?.map((t) => mapToBackendShopType(t))
             .filter((t): t is NonNullable<typeof t> => t !== undefined),
         periodId: args.periodId,
+        categoryId: args.categoryId,
         originYear:
             args.originYearMin != null || args.originYearMax != null
                 ? { min: args.originYearMin, max: args.originYearMax }

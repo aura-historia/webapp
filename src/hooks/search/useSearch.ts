@@ -88,6 +88,10 @@ function buildFilterQuery(
         filters.periodId = searchArgs.periodId;
     }
 
+    if (searchArgs.categoryId && searchArgs.categoryId.length > 0) {
+        filters.categoryId = searchArgs.categoryId;
+    }
+
     if (searchArgs.originYearMin != null || searchArgs.originYearMax != null) {
         filters.originYear = {
             min: searchArgs.originYearMin ?? undefined,

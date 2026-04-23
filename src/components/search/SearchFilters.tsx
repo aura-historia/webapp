@@ -10,6 +10,7 @@ import { z } from "zod";
 import { MerchantFilters } from "@/components/search/filters/MerchantFilters.tsx";
 import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter.tsx";
 import { PeriodFilter } from "@/components/search/filters/PeriodFilter.tsx";
+import { CategoryFilter } from "@/components/search/filters/CategoryFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useCallback, useEffect, useMemo } from "react";
@@ -59,6 +60,7 @@ const createFilterSchema = (t: TFunction) =>
             excludeMerchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
             shopType: z.array(z.enum(SHOP_TYPES)),
             periodId: z.array(z.string()),
+            categoryId: z.array(z.string()),
             originYearSpan: z
                 .object({
                     min: z.number().optional().or(z.undefined()),
@@ -150,6 +152,7 @@ function mapSearchFiltersToFormValues(filters: SearchFilterArguments): FilterSch
         excludeMerchant: filters.excludeMerchant,
         shopType: filters.shopType ?? FILTER_DEFAULTS.shopType,
         periodId: filters.periodId ?? [],
+        categoryId: filters.categoryId ?? [],
         originYearSpan: {
             min: filters.originYearMin,
             max: filters.originYearMax,
@@ -216,6 +219,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                         excludeMerchant: data.excludeMerchant,
                         shopType: data.shopType,
                         periodId: data.periodId,
+                        categoryId: data.categoryId,
                         originYearSpan: data.originYearSpan,
                         authenticity: data.authenticity,
                         condition: data.condition,
@@ -270,6 +274,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                     <ProductStateFilter />
                     <PriceSpanFilter />
                     <PeriodFilter />
+                    <CategoryFilter />
                     <QualityIndicatorsFilter />
                     <ShopTypeFilter />
                     <MerchantFilters />

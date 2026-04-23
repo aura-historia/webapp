@@ -21,6 +21,7 @@ export type SearchFilterArguments = {
     excludeMerchant?: string[];
     shopType?: ShopType[];
     periodId?: string[];
+    categoryId?: string[];
     sortField?: SortMode["field"];
     sortOrder?: SortMode["order"];
     originYearMin?: number;
