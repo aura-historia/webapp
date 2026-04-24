@@ -1,5 +1,5 @@
 import { postBillingManage, postBillingPortal } from "@/client";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useAuth } from "@/hooks/auth/useAuth.ts";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useApiError } from "@/hooks/common/useApiError.ts";
@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 
 export function useStripeBilling() {
-    const { user } = useAuthenticator((context) => [context.user]);
+    const { user } = useAuth();
     const navigate = useNavigate();
     const { getErrorMessage } = useApiError();
     const [isLoading, setIsLoading] = useState(false);

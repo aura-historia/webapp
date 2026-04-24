@@ -17,9 +17,11 @@ vi.mock("@/client", () => ({
     postBillingPortal: mockPostBillingPortal,
 }));
 
-vi.mock("@aws-amplify/ui-react", () => ({
-    useAuthenticator: vi.fn(() => ({
-        user: { username: "test-user" },
+vi.mock("@/hooks/auth/useAuth", () => ({
+    useAuth: vi.fn(() => ({
+        user: { userId: "test-user-id", username: "test-user" },
+        isLoading: false,
+        signOut: vi.fn(),
     })),
 }));
 
@@ -41,8 +43,8 @@ vi.mock("sonner", () => ({
     toast: mockToast,
 }));
 
-const { useAuthenticator } = await import("@aws-amplify/ui-react");
-const mockUseAuthenticator = vi.mocked(useAuthenticator);
+const { useAuth } = await import("@/hooks/auth/useAuth");
+const mockUseAuth = vi.mocked(useAuth);
 
 describe("useStripeBilling", () => {
     let queryClient: QueryClient;
@@ -60,9 +62,11 @@ describe("useStripeBilling", () => {
             },
         });
 
-        mockUseAuthenticator.mockReturnValue({
-            user: { username: "test-user" },
-        } as ReturnType<typeof useAuthenticator>);
+        mockUseAuth.mockReturnValue({
+            user: { userId: "test-user-id", username: "test-user" },
+            isLoading: false,
+            signOut: vi.fn(),
+        } as ReturnType<typeof useAuth>);
 
         mockGetErrorMessage.mockImplementation(() => "An error occurred");
 
@@ -74,9 +78,11 @@ describe("useStripeBilling", () => {
 
     describe("Anonymous user", () => {
         it("should navigate to login when user is not authenticated", async () => {
-            mockUseAuthenticator.mockReturnValue({
-                user: undefined,
-            } as unknown as ReturnType<typeof useAuthenticator>);
+            mockUseAuth.mockReturnValue({
+                user: null,
+                isLoading: false,
+                signOut: vi.fn(),
+            } as ReturnType<typeof useAuth>);
 
             const { result } = renderHook(() => useStripeBilling(), {
                 wrapper: createWrapper(),
@@ -94,9 +100,11 @@ describe("useStripeBilling", () => {
         });
 
         it("should not set loading state for anonymous user redirect", async () => {
-            mockUseAuthenticator.mockReturnValue({
-                user: undefined,
-            } as unknown as ReturnType<typeof useAuthenticator>);
+            mockUseAuth.mockReturnValue({
+                user: null,
+                isLoading: false,
+                signOut: vi.fn(),
+            } as ReturnType<typeof useAuth>);
 
             const { result } = renderHook(() => useStripeBilling(), {
                 wrapper: createWrapper(),
@@ -112,9 +120,11 @@ describe("useStripeBilling", () => {
         });
 
         it("should navigate to login when managing subscription without authentication", async () => {
-            mockUseAuthenticator.mockReturnValue({
-                user: undefined,
-            } as unknown as ReturnType<typeof useAuthenticator>);
+            mockUseAuth.mockReturnValue({
+                user: null,
+                isLoading: false,
+                signOut: vi.fn(),
+            } as ReturnType<typeof useAuth>);
 
             const { result } = renderHook(() => useStripeBilling(), {
                 wrapper: createWrapper(),

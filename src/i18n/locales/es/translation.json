@@ -1,1143 +1,1186 @@
 {
-  "common": {
-    "auraHistoria": "Aura Historia",
-    "infoButton": "Más información"
-  },
-  "meta": {
-    "siteName": "Aura Historia | Motor de búsqueda de antigüedades líder",
-    "defaultDescription": "Encuentra antigüedades con Aura Historia. Datos en tiempo real de más de 1000 casas de subastas, comerciantes y mercados.",
-    "home": {
-      "title": "Aura Historia | Motor de búsqueda de antigüedades líder",
-      "description": "Encuentra antigüedades con Aura Historia. Datos en tiempo real de más de 1000 casas de subastas, comerciantes y mercados."
+    "common": {
+        "auraHistoria": "Aura Historia",
+        "infoButton": "Más información"
     },
-    "search": {
-      "title": "Buscar antigüedades | Aura Historia",
-      "description": "Busca y descubre antigüedades únicas de comerciantes de confianza en Aura Historia."
+    "meta": {
+        "siteName": "Aura Historia | Motor de búsqueda de antigüedades líder",
+        "defaultDescription": "Encuentra antigüedades con Aura Historia. Datos en tiempo real de más de 1000 casas de subastas, comerciantes y mercados.",
+        "home": {
+            "title": "Aura Historia | Motor de búsqueda de antigüedades líder",
+            "description": "Encuentra antigüedades con Aura Historia. Datos en tiempo real de más de 1000 casas de subastas, comerciantes y mercados."
+        },
+        "search": {
+            "title": "Buscar antigüedades | Aura Historia",
+            "description": "Busca y descubre antigüedades únicas de comerciantes de confianza en Aura Historia."
+        },
+        "login": {
+            "title": "Iniciar sesión | Aura Historia",
+            "description": "Inicia sesión en tu cuenta de Aura Historia para gestionar tu lista de seguimiento y preferencias."
+        },
+        "imprint": {
+            "title": "Aviso legal | Aura Historia",
+            "description": "Información legal y aviso legal para Aura Historia."
+        },
+        "privacy": {
+            "title": "Política de privacidad | Aura Historia",
+            "description": "Política de privacidad e información sobre protección de datos para Aura Historia."
+        },
+        "consentSettings": {
+            "title": "Configuración de cookies | Aura Historia",
+            "description": "Administra tus preferencias de cookies y seguimiento en Aura Historia."
+        },
+        "account": {
+            "title": "Mi cuenta | Aura Historia"
+        },
+        "watchlist": {
+            "title": "Mi lista de seguimiento | Aura Historia"
+        },
+        "category": {
+            "defaultName": "Categoría"
+        },
+        "period": {
+            "defaultName": "Período"
+        },
+        "combination": {
+            "defaultName": "Colección"
+        },
+        "categories": {
+            "title": "Todas las Categorías | Aura Historia",
+            "description": "Explora todas las categorías de antigüedades en Aura Historia. Muebles, joyería, arte, monedas, relojes y mucho más de distribuidores de confianza en todo el mundo."
+        },
+        "periods": {
+            "title": "Todos los Periodos y Estilos | Aura Historia",
+            "description": "Explora todos los períodos históricos y estilos artísticos en Aura Historia. Desde la Antigüedad hasta el Presente, encuentra antigüedades de cada época."
+        },
+        "collections": {
+            "title": "Todas las Colecciones | Aura Historia",
+            "description": "Explora colecciones curadas de antigüedades en Aura Historia. Descubre combinaciones únicas de categorías y períodos."
+        },
+        "shop": {
+            "defaultName": "Tienda"
+        },
+        "notifications": {
+            "title": "Notificaciones | Aura Historia"
+        },
+        "terms": {
+            "title": "Términos y condiciones | Aura Historia",
+            "description": "Términos y condiciones para utilizar Aura Historia, incluida la información sobre servicios de pago y procesamiento de pagos."
+        }
     },
-    "login": {
-      "title": "Iniciar sesión | Aura Historia",
-      "description": "Inicia sesión en tu cuenta de Aura Historia para gestionar tu lista de seguimiento y preferencias."
+    "validation": {
+        "name": {
+            "minLength": "Por favor, introduzca al menos {{min}} caracteres",
+            "maxLength": "Por favor, introduzca un máximo de {{max}} caracteres",
+            "invalidChars": "Solo se permiten letras, espacios, guiones y apóstrofes"
+        },
+        "email": {
+            "invalid": "Por favor introduce una dirección de correo válida"
+        },
+        "password": {
+            "required": "La contraseña es obligatoria",
+            "minLength": "La contraseña debe tener al menos {{min}} caracteres",
+            "uppercase": "La contraseña debe contener al menos una letra mayúscula",
+            "number": "La contraseña debe contener al menos un número",
+            "mismatch": "Las contraseñas no coinciden"
+        },
+        "confirmCode": {
+            "length": "El código debe tener exactamente 6 dígitos",
+            "digitsOnly": "El código solo debe contener dígitos"
+        }
     },
     "imprint": {
-      "title": "Aviso legal | Aura Historia",
-      "description": "Información legal y aviso legal para Aura Historia."
+        "title": "Aviso legal"
     },
     "privacy": {
-      "title": "Política de privacidad | Aura Historia",
-      "description": "Política de privacidad e información sobre protección de datos para Aura Historia."
-    },
-    "consentSettings": {
-      "title": "Configuración de cookies | Aura Historia",
-      "description": "Administra tus preferencias de cookies y seguimiento en Aura Historia."
-    },
-    "account": {
-      "title": "Mi cuenta | Aura Historia"
-    },
-    "watchlist": {
-      "title": "Mi lista de seguimiento | Aura Historia"
-    },
-    "category": {
-      "defaultName": "Categoría"
-    },
-    "period": {
-      "defaultName": "Período"
-    },
-    "combination": {
-      "defaultName": "Colección"
-    },
-    "categories": {
-      "title": "Todas las Categorías | Aura Historia",
-      "description": "Explora todas las categorías de antigüedades en Aura Historia. Muebles, joyería, arte, monedas, relojes y mucho más de distribuidores de confianza en todo el mundo."
-    },
-    "periods": {
-      "title": "Todos los Periodos y Estilos | Aura Historia",
-      "description": "Explora todos los períodos históricos y estilos artísticos en Aura Historia. Desde la Antigüedad hasta el Presente, encuentra antigüedades de cada época."
-    },
-    "collections": {
-      "title": "Todas las Colecciones | Aura Historia",
-      "description": "Explora colecciones curadas de antigüedades en Aura Historia. Descubre combinaciones únicas de categorías y períodos."
-    },
-    "shop": {
-      "defaultName": "Tienda"
-    },
-    "notifications": {
-      "title": "Notificaciones | Aura Historia"
+        "title": "Política de privacidad"
     },
     "terms": {
-      "title": "Términos y condiciones | Aura Historia",
-      "description": "Términos y condiciones para utilizar Aura Historia, incluida la información sobre servicios de pago y procesamiento de pagos."
-    }
-  },
-  "validation": {
-    "name": {
-      "minLength": "Por favor, introduzca al menos {{min}} caracteres",
-      "maxLength": "Por favor, introduzca un máximo de {{max}} caracteres",
-      "invalidChars": "Solo se permiten letras, espacios, guiones y apóstrofes"
-    }
-  },
-  "imprint": {
-    "title": "Aviso legal"
-  },
-  "privacy": {
-    "title": "Política de privacidad"
-  },
-  "terms": {
-    "title": "Términos y condiciones"
-  },
-  "header": {
-    "watchlist": "Lista de seguimiento",
-    "myAccount": "Mi cuenta",
-    "editAccount": "Editar cuenta",
-    "logout": "Cerrar sesión",
-    "hello": "Hola",
-    "register": "Registrarse",
-    "login": "Iniciar sesión"
-  },
-  "footer": {
-    "brandName": "Aura Historia",
-    "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
-    "imprint": "Aviso legal",
-    "privacy": "Política de privacidad",
-    "cookieSettings": "Configuración de cookies",
-    "terms": "Términos y condiciones",
-    "copyright": "© {{year}} Aura Historia",
-    "sections": {
-      "company": "Empresa",
-      "followUs": "Síguenos",
-      "contact": "Contacto",
-      "categories": "Categorías",
-      "periodsAndStyles": "Períodos y Estilos",
-      "collections": "Colecciones populares",
-      "discoverMore": "Descubrir más"
+        "title": "Términos y condiciones"
     },
-    "allCategories": "Todas las Categorías",
-    "allPeriods": "Todos los Periodos y Estilos",
-    "allCollections": "Todas las Colecciones",
-    "landingPageLinks": {
-      "recentlyAdded": "Últimas incorporaciones",
-      "discover": "Transparencia",
-      "features": "Funciones",
-      "howItWorks": "Cómo funciona",
-      "testimonials": "Testimonios",
-      "pricing": "Precios",
-      "newsletter": "Newsletter",
-      "faq": "FAQ"
-    }
-  },
-  "account": {
-    "title": "Mi cuenta",
-    "changePassword": {
-      "title": "Cambiar contraseña",
-      "currentPasswordLabel": "Contraseña actual",
-      "newPasswordLabel": "Nueva contraseña",
-      "confirmPasswordLabel": "Confirmar nueva contraseña",
-      "saveButton": "Guardar contraseña",
-      "successMessage": "¡Contraseña cambiada con éxito!",
-      "errorMessage": "Error al cambiar la contraseña."
+    "header": {
+        "watchlist": "Lista de seguimiento",
+        "myAccount": "Mi cuenta",
+        "editAccount": "Editar cuenta",
+        "logout": "Cerrar sesión",
+        "hello": "Hola",
+        "register": "Registrarse",
+        "login": "Iniciar sesión"
     },
-    "deleteAccount": {
-      "title": "Eliminar cuenta",
-      "deleteButton": "Eliminar cuenta",
-      "warningText": "¿Está seguro de que desea eliminar su cuenta?",
-      "warningTitle": "¿Desea eliminar su cuenta de forma permanente?",
-      "warningSubtitle": "Esta acción no se puede deshacer. Su cuenta no se podrá restaurar y todos los datos guardados se perderán de forma permanente.",
-      "cancelButton": "Cancelar",
-      "confirmButton": "Sí, eliminar cuenta",
-      "successMessage": "¡Cuenta eliminada con éxito!",
-      "errorMessage": "Error al eliminar la cuenta."
+    "footer": {
+        "brandName": "Aura Historia",
+        "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
+        "imprint": "Aviso legal",
+        "privacy": "Política de privacidad",
+        "cookieSettings": "Configuración de cookies",
+        "terms": "Términos y condiciones",
+        "copyright": "© {{year}} Aura Historia",
+        "sections": {
+            "company": "Empresa",
+            "followUs": "Síguenos",
+            "contact": "Contacto",
+            "categories": "Categorías",
+            "periodsAndStyles": "Períodos y Estilos",
+            "collections": "Colecciones populares",
+            "discoverMore": "Descubrir más"
+        },
+        "allCategories": "Todas las Categorías",
+        "allPeriods": "Todos los Periodos y Estilos",
+        "allCollections": "Todas las Colecciones",
+        "landingPageLinks": {
+            "recentlyAdded": "Últimas incorporaciones",
+            "discover": "Transparencia",
+            "features": "Funciones",
+            "howItWorks": "Cómo funciona",
+            "testimonials": "Testimonios",
+            "pricing": "Precios",
+            "newsletter": "Newsletter",
+            "faq": "FAQ"
+        }
     },
-    "personalData": {
-      "title": "Datos Personales",
-      "emailLabel": "Correo Electrónico",
-      "firstNameLabel": "Nombre",
-      "lastNameLabel": "Apellido",
-      "languageLabel": "Idioma",
-      "languagePlaceholder": "Seleccionar idioma",
-      "currencyLabel": "Moneda",
-      "currencyPlaceholder": "Seleccionar moneda",
-      "saveButton": "Guardar Cambios",
-      "successMessage": "Datos personales actualizados con éxito",
-      "prohibitedContentConsentLabel": "Mostrar productos con marcas del § 86a StGB",
-      "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el § 86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido."
+    "account": {
+        "title": "Mi cuenta",
+        "changePassword": {
+            "title": "Cambiar contraseña",
+            "currentPasswordLabel": "Contraseña actual",
+            "newPasswordLabel": "Nueva contraseña",
+            "confirmPasswordLabel": "Confirmar nueva contraseña",
+            "saveButton": "Guardar contraseña",
+            "successMessage": "¡Contraseña cambiada con éxito!",
+            "errorMessage": "Error al cambiar la contraseña."
+        },
+        "deleteAccount": {
+            "title": "Eliminar cuenta",
+            "deleteButton": "Eliminar cuenta",
+            "warningText": "¿Está seguro de que desea eliminar su cuenta?",
+            "warningTitle": "¿Desea eliminar su cuenta de forma permanente?",
+            "warningSubtitle": "Esta acción no se puede deshacer. Su cuenta no se podrá restaurar y todos los datos guardados se perderán de forma permanente.",
+            "cancelButton": "Cancelar",
+            "confirmButton": "Sí, eliminar cuenta",
+            "successMessage": "¡Cuenta eliminada con éxito!",
+            "errorMessage": "Error al eliminar la cuenta."
+        },
+        "personalData": {
+            "title": "Datos Personales",
+            "emailLabel": "Correo Electrónico",
+            "firstNameLabel": "Nombre",
+            "lastNameLabel": "Apellido",
+            "languageLabel": "Idioma",
+            "languagePlaceholder": "Seleccionar idioma",
+            "currencyLabel": "Moneda",
+            "currencyPlaceholder": "Seleccionar moneda",
+            "saveButton": "Guardar Cambios",
+            "successMessage": "Datos personales actualizados con éxito",
+            "prohibitedContentConsentLabel": "Mostrar productos con marcas del § 86a StGB",
+            "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el § 86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido."
+        },
+        "subscription": {
+            "title": "Suscripción",
+            "currentPlanLabel": "Plan actual",
+            "manageButton": "Gestionar suscripción"
+        }
     },
-    "subscription": {
-      "title": "Suscripción",
-      "currentPlanLabel": "Plan actual",
-      "manageButton": "Gestionar suscripción"
-    }
-  },
-  "search": {
-    "filters": "Filtros",
-    "resultsFor": "Resultados de búsqueda para:",
-    "resetAllFilters": "Restablecer todos los filtros",
-    "totalResults_one": "{{count}} artículo",
-    "totalResults_other": "{{count}} artículos",
-    "bar": {
-      "label": "Búsqueda",
-      "placeholder": "Estoy buscando...",
-      "placeholderShort": "Buscar",
-      "button": "Buscar",
-      "placeholderExamples": [
-        "Óleo de María Magdalena",
-        "Servicio de porcelana Meissen",
-        "Cómoda Luis XVI",
-        "Reloj de pie barroco",
-        "Escritorio Biedermeier",
-        "Vitrina Art Nouveau",
-        "Alfombra persa Tabriz",
-        "Candelabros rococó de plata",
-        "Escultura de bronce antigua",
-        "Consola Imperio",
-        "Librería Gründerzeit",
-        "Jarrón dinastía Ming china",
-        "Reloj de bolsillo oro Patek Philippe",
-        "Escultura de madera barroca",
-        "Broche de diamantes Art Deco",
-        "Lámpara de araña Murano veneciana",
-        "Astrolabio antiguo",
-        "Espejo rococó",
-        "Miniatura persa",
-        "Sillón Luis XV"
-      ]
+    "search": {
+        "filters": "Filtros",
+        "resultsFor": "Resultados de búsqueda para:",
+        "resetAllFilters": "Restablecer todos los filtros",
+        "totalResults_one": "{{count}} artículo",
+        "totalResults_other": "{{count}} artículos",
+        "bar": {
+            "label": "Búsqueda",
+            "placeholder": "Estoy buscando...",
+            "placeholderShort": "Buscar",
+            "button": "Buscar",
+            "placeholderExamples": [
+                "Óleo de María Magdalena",
+                "Servicio de porcelana Meissen",
+                "Cómoda Luis XVI",
+                "Reloj de pie barroco",
+                "Escritorio Biedermeier",
+                "Vitrina Art Nouveau",
+                "Alfombra persa Tabriz",
+                "Candelabros rococó de plata",
+                "Escultura de bronce antigua",
+                "Consola Imperio",
+                "Librería Gründerzeit",
+                "Jarrón dinastía Ming china",
+                "Reloj de bolsillo oro Patek Philippe",
+                "Escultura de madera barroca",
+                "Broche de diamantes Art Deco",
+                "Lámpara de araña Murano veneciana",
+                "Astrolabio antiguo",
+                "Espejo rococó",
+                "Miniatura persa",
+                "Sillón Luis XV"
+            ]
+        },
+        "applyFilters": "Aplicar filtros",
+        "validation": {
+            "queryMinLength": "Por favor, introduzca al menos 3 caracteres",
+            "dateOrder": "La fecha de inicio debe ser anterior a la fecha de fin"
+        },
+        "filter": {
+            "creationDate": "Añadido",
+            "from": "Desde:",
+            "to": "Hasta:",
+            "productState": "Estado del anuncio",
+            "merchant": "Vendedor",
+            "anyMerchant": "Cualquier vendedor",
+            "searchMerchants": "Buscar vendedores...",
+            "noMerchantsFound": "No se encontraron vendedores",
+            "priceSpan": "Rango de precios",
+            "min": "Mín",
+            "max": "Máx",
+            "priceSpanAria": "Rango de precios",
+            "updateDate": "Actualizado",
+            "anyDate": "Cualquiera",
+            "resetTooltip": {
+                "priceSpan": "Restablecer filtro de rango de precios",
+                "productState": "Restablecer filtro de estado",
+                "creationDate": "Restablecer filtro de fecha de creación",
+                "updateDate": "Restablecer filtro de fecha de actualización",
+                "merchant": "Restablecer filtro de vendedor",
+                "qualityIndicators": "Restablecer filtro de indicadores de calidad",
+                "auctionDate": "Restablecer filtro de fecha de subasta",
+                "excludeMerchant": "Restablecer filtro de exclusión de comerciante",
+                "merchants": "Restablecer filtros de comerciantes",
+                "shopType": "Restablecer filtro de tipo de tienda",
+                "periodId": "Restablecer filtro de período"
+            },
+            "all": "Todo",
+            "select": "Seleccionar",
+            "qualityIndicators": "Indicadores de Calidad",
+            "periodId": "Período / Estilo",
+            "searchPeriods": "Buscar períodos...",
+            "originYear": "Año de Origen",
+            "authenticity": "Autenticidad",
+            "condition": "Condición",
+            "provenance": "Proveniencia",
+            "restoration": "Restauración",
+            "selected": "{{count}} seleccionados",
+            "merchants": "Comerciantes",
+            "excludeMerchant": "Excluir comerciante",
+            "searchExcludeMerchants": "Buscar comerciantes para excluir...",
+            "shopType": "Tipo de tienda",
+            "auctionDate": "Fecha de subasta",
+            "auctionDateDisabledTooltip": "Solo disponible para casas de subastas"
+        },
+        "messages": {
+            "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
+            "error": "Error al cargar los resultados de búsqueda. ¡Por favor, inténtelo de nuevo más tarde!",
+            "noResults": {
+                "title": "No se encontraron resultados",
+                "description": "Intente ajustar su término de búsqueda o filtros."
+            },
+            "loadingMore": "Cargando más resultados...",
+            "allLoaded_one": "Ha visto {{count}} resultado que coincide con sus filtros.",
+            "allLoaded_other": "Ha visto los {{count}} resultados que coinciden con sus filtros."
+        },
+        "sortMode": {
+            "sortBy": "Ordenar por:",
+            "relevance": "Relevancia",
+            "creationDate": "Fecha de creación",
+            "updateDate": "Última actualización",
+            "price": "Precio",
+            "order": {
+                "label": "Orden:",
+                "asc": "Ascendente",
+                "desc": "Descendente"
+            }
+        }
     },
-    "applyFilters": "Aplicar filtros",
-    "validation": {
-      "queryMinLength": "Por favor, introduzca al menos 3 caracteres",
-      "dateOrder": "La fecha de inicio debe ser anterior a la fecha de fin"
+    "product": {
+        "unknownPrice": "Precio desconocido",
+        "details": "Detalles",
+        "toMerchant": "Ir al vendedor",
+        "noDescription": "No hay descripción disponible",
+        "noImage": "No hay imagen disponible",
+        "descriptionTitle": "Descripción",
+        "conditionReportTitle": "Informe de estado",
+        "watchlist": {
+            "add": "Añadir a la lista de seguimiento",
+            "remove": "Quitar de la lista de seguimiento"
+        },
+        "imageLoadError": "No se pudo cargar la imagen",
+        "prohibitedImage": "Imagen oculta por restricciones de contenido",
+        "similar": {
+            "title": "Artículos similares",
+            "error": {
+                "title": "Error de carga",
+                "description": "No se pudieron cargar los artículos similares."
+            },
+            "embeddingsPending": {
+                "title": "En preparación",
+                "description": "Los artículos similares se están preparando. Esto puede tardar hasta 24 horas para artículos nuevos."
+            },
+            "noData": {
+                "title": "Sin artículos similares",
+                "description": "No se encontraron productos similares para este artículo."
+            }
+        },
+        "history": {
+            "title": "Historial",
+            "noData": "No hay datos disponibles para este artículo.",
+            "noEvents": "No hay eventos disponibles para este filtro.",
+            "filters": {
+                "all": "Todos",
+                "price": "Precio",
+                "availability": "Disponibilidad",
+                "details": "Detalles"
+            },
+            "events": {
+                "statusChanged": "Estado cambiado de {{oldState}} a {{newState}}.",
+                "priceDiscovered": "Precio descubierto • {{price}}.",
+                "priceChanged": "El precio ha {{verb}} de {{oldPrice}} a {{newPrice}}.",
+                "priceFallen": "bajado",
+                "priceIncreased": "subido",
+                "priceRemoved": "Precio eliminado • Último precio: {{price}}.",
+                "created": "Añadido al sistema",
+                "estimatePriceChanged": "Rango de precio estimado actualizado.",
+                "urlChanged": "URL del producto actualizada.",
+                "imagesChanged": "Imágenes actualizadas • {{count}} imagen(es).",
+                "auctionTimeChanged": "Período de subasta actualizado.",
+                "originYearChanged": "Año de origen actualizado.",
+                "authenticityChanged": "Autenticidad actualizada • {{value}}.",
+                "conditionChanged": "Condición actualizada • {{value}}.",
+                "provenanceChanged": "Procedencia actualizada • {{value}}.",
+                "restorationChanged": "Restauración actualizada • {{value}}."
+            }
+        },
+        "priceEstimate": {
+            "tooltip": "Estimación de precio de {{shopType}}",
+            "tooltipUnknown": "Estimación de precio",
+            "minOnly": "Mín. {{min}}",
+            "maxOnly": "Máx. {{max}}",
+            "range": "{{min}} - {{max}}"
+        },
+        "priceChart": {
+            "title": "Historial de precios",
+            "noData": "No hay datos de precios disponibles para este artículo.",
+            "seriesName": "Precio",
+            "timeRanges": {
+                "1d": "1D",
+                "5d": "5D",
+                "1m": "1M",
+                "3m": "3M",
+                "6m": "6M",
+                "1y": "1A",
+                "all": "Todo"
+            }
+        },
+        "qualityIndicators": {
+            "title": "Indicadores de Calidad",
+            "noData": "No hay información adicional disponible",
+            "originYear": {
+                "label": "Año de Origen",
+                "range": "{{min}}–{{max}}",
+                "from": "desde {{year}}",
+                "until": "hasta {{year}}",
+                "unknown": "Desconocido",
+                "exactDescription": "Esta pieza data del año {{year}}.",
+                "rangeDescription": "Esta pieza fue fabricada entre {{min}} y {{max}}.",
+                "fromDescription": "Esta pieza fue fabricada a partir del año {{year}}.",
+                "untilDescription": "Esta pieza fue fabricada hasta el año {{year}}.",
+                "unknownDescription": "El año de fabricación de esta pieza es desconocido."
+            },
+            "authenticity": {
+                "label": "Autenticidad",
+                "original": "Original",
+                "originalDescription": "Un original verificado del período indicado.",
+                "later_copy": "Copia Posterior",
+                "later_copyDescription": "Una copia histórica realizada posteriormente al original.",
+                "reproduction": "Reproducción",
+                "reproductionDescription": "Una réplica moderna sin valor histórico.",
+                "questionable": "Cuestionable",
+                "questionableDescription": "La autenticidad de esta pieza está en duda o no puede ser confirmada claramente.",
+                "unknown": "Desconocido",
+                "unknownDescription": "La autenticidad aún no ha sido verificada."
+            },
+            "condition": {
+                "label": "Condición",
+                "excellent": "Excelente",
+                "excellentDescription": "Condición casi perfecta sin signos significativos de desgaste.",
+                "great": "Muy Buena",
+                "greatDescription": "Muy bien conservada con solo signos menores de envejecimiento.",
+                "good": "Buena",
+                "goodDescription": "Bien conservada con signos visibles pero aceptables de desgaste.",
+                "fair": "Regular",
+                "fairDescription": "Presenta signos notables de desgaste, pero sigue siendo completa y estable.",
+                "poor": "Mala",
+                "poorDescription": "Daños significativos o desgaste severo.",
+                "unknown": "Desconocido",
+                "unknownDescription": "La condición no ha sido evaluada."
+            },
+            "provenance": {
+                "label": "Procedencia",
+                "complete": "Completa",
+                "completeDescription": "La procedencia está completamente documentada desde su creación hasta la actualidad.",
+                "partial": "Parcial",
+                "partialDescription": "La procedencia está parcialmente documentada pero tiene lagunas.",
+                "claimed": "Reclamada",
+                "claimedDescription": "El vendedor declara una procedencia, pero no está respaldada por documentos.",
+                "none": "Ninguna",
+                "noneDescription": "No existe documentación de procedencia.",
+                "unknown": "Desconocido",
+                "unknownDescription": "La procedencia aún no ha podido determinarse."
+            },
+            "restoration": {
+                "label": "Restauración",
+                "none": "Ninguna",
+                "noneDescription": "No se ha realizado restauración, la pieza está en su estado original.",
+                "minor": "Menor",
+                "minorDescription": "Trabajo de restauración ligero, como limpieza o pequeñas reparaciones.",
+                "major": "Mayor",
+                "majorDescription": "Restauración extensa o reconstrucción parcial.",
+                "unknown": "Desconocido",
+                "unknownDescription": "No hay información disponible sobre restauraciones."
+            }
+        },
+        "unseenNotification": "Actualizado",
+        "auction": {
+            "title": "Período de subasta",
+            "start": "desde {{date}}",
+            "end": "hasta {{date}}",
+            "range": "{{start}} – {{end}}"
+        }
     },
-    "filter": {
-      "creationDate": "Añadido",
-      "from": "Desde:",
-      "to": "Hasta:",
-      "productState": "Estado del anuncio",
-      "merchant": "Vendedor",
-      "anyMerchant": "Cualquier vendedor",
-      "searchMerchants": "Buscar vendedores...",
-      "noMerchantsFound": "No se encontraron vendedores",
-      "priceSpan": "Rango de precios",
-      "min": "Mín",
-      "max": "Máx",
-      "priceSpanAria": "Rango de precios",
-      "updateDate": "Actualizado",
-      "anyDate": "Cualquiera",
-      "resetTooltip": {
-        "priceSpan": "Restablecer filtro de rango de precios",
-        "productState": "Restablecer filtro de estado",
-        "creationDate": "Restablecer filtro de fecha de creación",
-        "updateDate": "Restablecer filtro de fecha de actualización",
-        "merchant": "Restablecer filtro de vendedor",
-        "qualityIndicators": "Restablecer filtro de indicadores de calidad",
-        "auctionDate": "Restablecer filtro de fecha de subasta",
-        "excludeMerchant": "Restablecer filtro de exclusión de comerciante",
-        "merchants": "Restablecer filtros de comerciantes",
-        "shopType": "Restablecer filtro de tipo de tienda",
-        "periodId": "Restablecer filtro de período"
-      },
-      "all": "Todo",
-      "select": "Seleccionar",
-      "qualityIndicators": "Indicadores de Calidad",
-      "periodId": "Período / Estilo",
-      "searchPeriods": "Buscar períodos...",
-      "originYear": "Año de Origen",
-      "authenticity": "Autenticidad",
-      "condition": "Condición",
-      "provenance": "Proveniencia",
-      "restoration": "Restauración",
-      "selected": "{{count}} seleccionados",
-      "merchants": "Comerciantes",
-      "excludeMerchant": "Excluir comerciante",
-      "searchExcludeMerchants": "Buscar comerciantes para excluir...",
-      "shopType": "Tipo de tienda",
-      "auctionDate": "Fecha de subasta",
-      "auctionDateDisabledTooltip": "Solo disponible para casas de subastas"
+    "priceBadge": {
+        "discovered": "Precio descubierto",
+        "dropped": "Precio rebajado",
+        "increased": "Precio aumentado",
+        "removed": "Precio eliminado"
     },
-    "messages": {
-      "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
-      "error": "Error al cargar los resultados de búsqueda. ¡Por favor, inténtelo de nuevo más tarde!",
-      "noResults": {
-        "title": "No se encontraron resultados",
-        "description": "Intente ajustar su término de búsqueda o filtros."
-      },
-      "loadingMore": "Cargando más resultados...",
-      "allLoaded_one": "Ha visto {{count}} resultado que coincide con sus filtros.",
-      "allLoaded_other": "Ha visto los {{count}} resultados que coinciden con sus filtros."
-    },
-    "sortMode": {
-      "sortBy": "Ordenar por:",
-      "relevance": "Relevancia",
-      "creationDate": "Fecha de creación",
-      "updateDate": "Última actualización",
-      "price": "Precio",
-      "order": {
-        "label": "Orden:",
-        "asc": "Ascendente",
-        "desc": "Descendente"
-      }
-    }
-  },
-  "product": {
-    "unknownPrice": "Precio desconocido",
-    "details": "Detalles",
-    "toMerchant": "Ir al vendedor",
-    "noDescription": "No hay descripción disponible",
-    "noImage": "No hay imagen disponible",
-    "descriptionTitle": "Descripción",
-    "conditionReportTitle": "Informe de estado",
-    "watchlist": {
-      "add": "Añadir a la lista de seguimiento",
-      "remove": "Quitar de la lista de seguimiento"
-    },
-    "imageLoadError": "No se pudo cargar la imagen",
-    "prohibitedImage": "Imagen oculta por restricciones de contenido",
-    "similar": {
-      "title": "Artículos similares",
-      "error": {
-        "title": "Error de carga",
-        "description": "No se pudieron cargar los artículos similares."
-      },
-      "embeddingsPending": {
-        "title": "En preparación",
-        "description": "Los artículos similares se están preparando. Esto puede tardar hasta 24 horas para artículos nuevos."
-      },
-      "noData": {
-        "title": "Sin artículos similares",
-        "description": "No se encontraron productos similares para este artículo."
-      }
-    },
-    "history": {
-      "title": "Historial",
-      "noData": "No hay datos disponibles para este artículo.",
-      "noEvents": "No hay eventos disponibles para este filtro.",
-      "filters": {
-        "all": "Todos",
-        "price": "Precio",
-        "availability": "Disponibilidad",
-        "details": "Detalles"
-      },
-      "events": {
-        "statusChanged": "Estado cambiado de {{oldState}} a {{newState}}.",
-        "priceDiscovered": "Precio descubierto • {{price}}.",
-        "priceChanged": "El precio ha {{verb}} de {{oldPrice}} a {{newPrice}}.",
-        "priceFallen": "bajado",
-        "priceIncreased": "subido",
-        "priceRemoved": "Precio eliminado • Último precio: {{price}}.",
-        "created": "Añadido al sistema",
-        "estimatePriceChanged": "Rango de precio estimado actualizado.",
-        "urlChanged": "URL del producto actualizada.",
-        "imagesChanged": "Imágenes actualizadas • {{count}} imagen(es).",
-        "auctionTimeChanged": "Período de subasta actualizado.",
-        "originYearChanged": "Año de origen actualizado.",
-        "authenticityChanged": "Autenticidad actualizada • {{value}}.",
-        "conditionChanged": "Condición actualizada • {{value}}.",
-        "provenanceChanged": "Procedencia actualizada • {{value}}.",
-        "restorationChanged": "Restauración actualizada • {{value}}."
-      }
-    },
-    "priceEstimate": {
-      "tooltip": "Estimación de precio de {{shopType}}",
-      "tooltipUnknown": "Estimación de precio",
-      "minOnly": "Mín. {{min}}",
-      "maxOnly": "Máx. {{max}}",
-      "range": "{{min}} - {{max}}"
-    },
-    "priceChart": {
-      "title": "Historial de precios",
-      "noData": "No hay datos de precios disponibles para este artículo.",
-      "seriesName": "Precio",
-      "timeRanges": {
-        "1d": "1D",
-        "5d": "5D",
-        "1m": "1M",
-        "3m": "3M",
-        "6m": "6M",
-        "1y": "1A",
-        "all": "Todo"
-      }
-    },
-    "qualityIndicators": {
-      "title": "Indicadores de Calidad",
-      "noData": "No hay información adicional disponible",
-      "originYear": {
-        "label": "Año de Origen",
-        "range": "{{min}}–{{max}}",
-        "from": "desde {{year}}",
-        "until": "hasta {{year}}",
+    "productState": {
+        "listed": "Listado",
+        "available": "Disponible",
+        "reserved": "Reservado",
+        "sold": "Vendido",
+        "removed": "Eliminado",
         "unknown": "Desconocido",
-        "exactDescription": "Esta pieza data del año {{year}}.",
-        "rangeDescription": "Esta pieza fue fabricada entre {{min}} y {{max}}.",
-        "fromDescription": "Esta pieza fue fabricada a partir del año {{year}}.",
-        "untilDescription": "Esta pieza fue fabricada hasta el año {{year}}.",
-        "unknownDescription": "El año de fabricación de esta pieza es desconocido."
-      },
-      "authenticity": {
-        "label": "Autenticidad",
-        "original": "Original",
-        "originalDescription": "Un original verificado del período indicado.",
-        "later_copy": "Copia Posterior",
-        "later_copyDescription": "Una copia histórica realizada posteriormente al original.",
-        "reproduction": "Reproducción",
-        "reproductionDescription": "Una réplica moderna sin valor histórico.",
-        "questionable": "Cuestionable",
-        "questionableDescription": "La autenticidad de esta pieza está en duda o no puede ser confirmada claramente.",
+        "listedDescription": "Este artículo es visible pero aún no está disponible para la compra.",
+        "availableDescription": "Este artículo está disponible para la compra.",
+        "reservedDescription": "Este artículo está actualmente reservado. Podría estar disponible nuevamente.",
+        "soldDescription": "Este artículo ya ha sido vendido.",
+        "removedDescription": "Este artículo fue retirado por el vendedor y ya no puede ser rastreado.",
+        "unknownDescription": "La disponibilidad actual de este artículo no está clara."
+    },
+    "shopType": {
+        "auctionHouse": "Casa de subastas",
+        "commercialDealer": "Vendedor",
+        "marketplace": "Mercado",
         "unknown": "Desconocido",
-        "unknownDescription": "La autenticidad aún no ha sido verificada."
-      },
-      "condition": {
-        "label": "Condición",
-        "excellent": "Excelente",
-        "excellentDescription": "Condición casi perfecta sin signos significativos de desgaste.",
-        "great": "Muy Buena",
-        "greatDescription": "Muy bien conservada con solo signos menores de envejecimiento.",
-        "good": "Buena",
-        "goodDescription": "Bien conservada con signos visibles pero aceptables de desgaste.",
-        "fair": "Regular",
-        "fairDescription": "Presenta signos notables de desgaste, pero sigue siendo completa y estable.",
-        "poor": "Mala",
-        "poorDescription": "Daños significativos o desgaste severo.",
-        "unknown": "Desconocido",
-        "unknownDescription": "La condición no ha sido evaluada."
-      },
-      "provenance": {
-        "label": "Procedencia",
-        "complete": "Completa",
-        "completeDescription": "La procedencia está completamente documentada desde su creación hasta la actualidad.",
-        "partial": "Parcial",
-        "partialDescription": "La procedencia está parcialmente documentada pero tiene lagunas.",
-        "claimed": "Reclamada",
-        "claimedDescription": "El vendedor declara una procedencia, pero no está respaldada por documentos.",
-        "none": "Ninguna",
-        "noneDescription": "No existe documentación de procedencia.",
-        "unknown": "Desconocido",
-        "unknownDescription": "La procedencia aún no ha podido determinarse."
-      },
-      "restoration": {
-        "label": "Restauración",
-        "none": "Ninguna",
-        "noneDescription": "No se ha realizado restauración, la pieza está en su estado original.",
-        "minor": "Menor",
-        "minorDescription": "Trabajo de restauración ligero, como limpieza o pequeñas reparaciones.",
-        "major": "Mayor",
-        "majorDescription": "Restauración extensa o reconstrucción parcial.",
-        "unknown": "Desconocido",
-        "unknownDescription": "No hay información disponible sobre restauraciones."
-      }
+        "auctionPlatform": "Plataforma de subastas"
     },
-    "unseenNotification": "Actualizado",
-    "auction": {
-      "title": "Período de subasta",
-      "start": "desde {{date}}",
-      "end": "hasta {{date}}",
-      "range": "{{start}} – {{end}}"
-    }
-  },
-  "priceBadge": {
-    "discovered": "Precio descubierto",
-    "dropped": "Precio rebajado",
-    "increased": "Precio aumentado",
-    "removed": "Precio eliminado"
-  },
-  "productState": {
-    "listed": "Listado",
-    "available": "Disponible",
-    "reserved": "Reservado",
-    "sold": "Vendido",
-    "removed": "Eliminado",
-    "unknown": "Desconocido",
-    "listedDescription": "Este artículo es visible pero aún no está disponible para la compra.",
-    "availableDescription": "Este artículo está disponible para la compra.",
-    "reservedDescription": "Este artículo está actualmente reservado. Podría estar disponible nuevamente.",
-    "soldDescription": "Este artículo ya ha sido vendido.",
-    "removedDescription": "Este artículo fue retirado por el vendedor y ya no puede ser rastreado.",
-    "unknownDescription": "La disponibilidad actual de este artículo no está clara."
-  },
-  "shopType": {
-    "auctionHouse": "Casa de subastas",
-    "commercialDealer": "Vendedor",
-    "marketplace": "Mercado",
-    "unknown": "Desconocido",
-    "auctionPlatform": "Plataforma de subastas"
-  },
-  "shopPartnerStatus": {
-    "partnered": "Socio oficial",
-    "scraped": "Indexado públicamente"
-  },
-  "discover": {
-    "title": "Traemos transparencia al opaco panorama de las antigüedades en línea",
-    "p1": "Buscamos entre las vastas ofertas de miles de anticuarios, casas de subastas y mercados dispersos en todo el mundo todos los días y agrupamos sus artículos en un solo lugar central.",
-    "p2": "No solo capturamos artículos actuales y próximos, sino que también rastreamos cambios de precio y disponibilidad. De esta manera, nunca te perderás una ganga y siempre estarás al tanto del mercado.",
-    "highlight1": {
-      "title": "Más de 500 anticuarios, casas de subastas y mercados",
-      "description": "Buscamos continuamente anticuarios, casas de subastas y mercados renombrados de toda Europa y más allá."
+    "shopPartnerStatus": {
+        "partnered": "Socio oficial",
+        "scraped": "Indexado públicamente"
     },
-    "highlight2": {
-      "title": "Monitoreo casi en tiempo real",
-      "description": "Las antigüedades recién ofrecidas, así como los cambios de precio o disponibilidad, se capturan automáticamente casi en tiempo real."
+    "discover": {
+        "title": "Traemos transparencia al opaco panorama de las antigüedades en línea",
+        "p1": "Buscamos entre las vastas ofertas de miles de anticuarios, casas de subastas y mercados dispersos en todo el mundo todos los días y agrupamos sus artículos en un solo lugar central.",
+        "p2": "No solo capturamos artículos actuales y próximos, sino que también rastreamos cambios de precio y disponibilidad. De esta manera, nunca te perderás una ganga y siempre estarás al tanto del mercado.",
+        "highlight1": {
+            "title": "Más de 500 anticuarios, casas de subastas y mercados",
+            "description": "Buscamos continuamente anticuarios, casas de subastas y mercados renombrados de toda Europa y más allá."
+        },
+        "highlight2": {
+            "title": "Monitoreo casi en tiempo real",
+            "description": "Las antigüedades recién ofrecidas, así como los cambios de precio o disponibilidad, se capturan automáticamente casi en tiempo real."
+        },
+        "highlight3": {
+            "title": "Completamente independiente del idioma",
+            "description": "Traducimos cada antigüedad a múltiples idiomas. El idioma en el que busques no importa. Actualmente, soportamos inglés, alemán, francés, español e italiano."
+        },
+        "stats": {
+            "shops": "500",
+            "shopsLabel": "Tiendas conectadas",
+            "items": "120.000",
+            "itemsLabel": "Artículos únicos",
+            "updates": "24/7",
+            "updatesLabel": "Actualizaciones casi en tiempo real",
+            "countries": "15",
+            "countriesLabel": "Países cubiertos"
+        }
     },
-    "highlight3": {
-      "title": "Completamente independiente del idioma",
-      "description": "Traducimos cada antigüedad a múltiples idiomas. El idioma en el que busques no importa. Actualmente, soportamos inglés, alemán, francés, español e italiano."
-    },
-    "stats": {
-      "shops": "500",
-      "shopsLabel": "Tiendas conectadas",
-      "items": "120.000",
-      "itemsLabel": "Artículos únicos",
-      "updates": "24/7",
-      "updatesLabel": "Actualizaciones casi en tiempo real",
-      "countries": "15",
-      "countriesLabel": "Países cubiertos"
-    }
-  },
-  "landingPage": {
-    "badge": "Busca más allá de los mercados habituales",
-    "titleFirstLine": "Descubre antigüedades raras<1/>en el mercado global",
-    "subtitle": "Aura Historia busca en anticuarios, casas de subastas y mercados de todo el mundo, ayudándote a encontrar piezas que otros nunca ven.",
-    "trustBadge1": "Anticuarios y casas de subastas en todo el mundo",
-    "trustBadge2": "Listados actualizados continuamente",
-    "trustBadge3": "Diseñado para coleccionistas serios",
-    "categories": {
-      "title": "Explorar Categorías",
-      "objectCount_one": "{{formattedCount}} Objeto",
-      "objectCount_other": "{{formattedCount}} Objetos"
-    },
-    "periods": {
-      "title": "Explora eras históricas",
-      "eyebrow": "Archivo de epocas",
-      "titleLineOne": "Explorar por",
-      "titleLineTwo": "Epocas historicas",
-      "description": "Recorre el tiempo con colecciones de los movimientos de diseno mas significativos del mundo.",
-      "cta": "Ver cronologia",
-      "previous": "Epocas anteriores",
-      "next": "Siguientes epocas",
-      "rangeUnknown": "Rango historico",
-      "rangeToday": "Hoy",
-      "rangeBc": "a. C.",
-      "rangeBce": "a. C.",
-      "rangeCe": "d. C."
-    },
-    "recentlyAdded": {
-      "eyebrow": "Agregado recientemente",
-      "title": "Las últimas adquisiciones",
-      "foundAt": "Encontrado en {{shopName}}.",
-      "foundAtWithYear": "Encontrado en {{shopName}}. Hacia {{year}}."
-    },
-    "features": {
-      "title": "Las antigüedades están dispersas por toda la web: tu búsqueda no debería estarlo",
-      "subtitle": "Somos el motor de búsqueda más sofisticado para antigüedades y te proporcionamos todas las herramientas para buscar eficientemente en el mercado de antigüedades.",
-      "previewBadge": "Próximamente",
-      "search": {
-        "title": "Búsqueda inteligente",
-        "description": "Busca entre cientos de miles de artículos con nuestro potente motor de búsqueda. Elimina todo el ruido filtrando por estado, precio, vendedor y mucho más."
-      },
-      "global": {
-        "title": "Cobertura mundial",
-        "description": "Te conectamos con anticuarios renombrados de más de 15 países, desde Alemania hasta Estados Unidos. No importa cuán pequeño sea el vendedor, si tiene una tienda en línea, lo estamos añadiendo."
-      },
-      "history": {
-        "title": "Historial de cambios",
-        "description": "Rastrea todos los cambios de un artículo, desde ajustes de precio hasta cambios de estado. Optamos por la máxima transparencia."
-      },
-      "watchlist": {
-        "title": "Lista de seguimiento personal",
-        "description": "Guarda artículos interesantes y sigue su desarrollo. Recibe notificaciones cuando cambien el precio o la disponibilidad."
-      },
-      "translations": {
-        "title": "Traducciones automáticas",
-        "description": "Busca y descubre todos los artículos en tu idioma preferido, sin barreras. Actualmente, soportamos inglés, alemán, francés, español e italiano."
-      },
-      "personalFilter": {
-        "title": "Solicitudes de búsqueda",
-        "description": "Guarda tu solicitud de búsqueda y recibe notificaciones sobre nuevas ofertas o artículos actualizados. Las antigüedades que solías buscar ahora vienen a ti."
-      },
-      "aiSearchAgent": {
-        "title": "Agente de búsqueda personal con IA",
-        "description": "Tu agente personal de IA te ayuda a encontrar las antigüedades más específicas. En combinación con las solicitudes de búsqueda, describe lo que buscas en lenguaje sencillo, tan detallado como desees. Te notificaremos tan pronto como haya coincidencias con lo que describiste."
-      },
-      "communityWishes": {
-        "title": "Tus deseos",
-        "description": "¿Tienes críticas, te falta algo o tienes una idea de lo que deberíamos mejorar o añadir? Escucharemos muy atentamente. Contáctanos en contact@aura-historia.com y lo haremos realidad."
-      }
-    },
-    "howItWorks": {
-      "title": "Cómo funciona",
-      "subtitle": "Solo unos pocos pasos para tus piezas soñadas.",
-      "step1": {
-        "title": "Buscar",
-        "description": "Introduzca lo que busca – ya sean muebles, joyas, arte u objetos de colección."
-      },
-      "step2": {
-        "title": "Descubrir",
-        "description": "Explora resultados de miles de vendedores de un vistazo."
-      },
-      "step3": {
-        "title": "Guardar",
-        "description": "Guarda artículos interesantes en tu lista de seguimiento o guarda tus criterios de búsqueda como una alerta."
-      },
-      "step4": {
-        "title": "Recibe notificaciones",
-        "description": "Recibe notificaciones por correo electrónico tan pronto como un artículo en tu lista de seguimiento cambie o uno nuevo coincida con tus criterios."
-      }
-    },
-    "testimonials": {
-      "title": "Lo que dicen nuestros usuarios",
-      "subtitle": "Descubre cómo ayudamos a los coleccionistas a vivir su pasión.",
-      "testimonial1": {
-        "name": "Margarete W.",
-        "role": "Colecciona muebles Art Nouveau",
-        "quote": "Por fin una plataforma que facilita la búsqueda de piezas raras. Las alertas de precio me han ayudado varias veces a encontrar verdaderas gangas."
-      },
-      "testimonial2": {
-        "name": "Heinrich K.",
-        "role": "Anticuario",
-        "quote": "Como vendedor, uso Aura Historia para vigilar el mercado. Las evoluciones de precios me ayudan enormemente con mi propia fijación de precios."
-      },
-      "testimonial3": {
-        "name": "Elisabeth M.",
-        "role": "Coleccionista aficionada desde hace 20 años",
-        "quote": "Estoy asombrada por la claridad. Antes, pasaba horas buscando en diferentes sitios de vendedores. Ahora encuentro todo en un solo lugar."
-      }
-    },
-    "newsletter": {
-      "title": "Manténgase informado",
-      "description": "Reciba semanalmente hallazgos seleccionados, tendencias del mercado e información exclusiva directamente en su bandeja de entrada.",
-      "placeholder": "Su dirección de correo electrónico",
-      "button": "Suscribirse al boletín",
-      "privacy": "Al suscribirse, acepta nuestra <privacyLink>política de privacidad</privacyLink>. Puede darse de baja en cualquier momento.",
-      "successMessage": "¡Gracias por suscribirse! Por favor, confirme su dirección de correo electrónico.",
-      "benefit1": "Destacados personalizados",
-      "benefit2": "Nuevas funciones y ofertas",
-      "benefit3": "Cancelar en cualquier momento",
-      "firstNameLabel": "Nombre",
-      "firstNamePlaceholder": "Su nombre",
-      "lastNameLabel": "Apellido",
-      "lastNamePlaceholder": "Su apellido",
-      "emailLabel": "Dirección de correo electrónico",
-      "emailRequired": "Por favor, introduzca una dirección de correo electrónico válida.",
-      "errorMessage": "Algo salió mal. Por favor, inténtelo de nuevo más tarde.",
-      "eyebrow": "Boletín",
-      "successEmailSent": "Se ha enviado un correo de confirmación a {{email}}.",
-      "successTiming": "Puede tardar unos minutos en llegar el correo."
-    },
-    "faq": {
-      "title": "Preguntas frecuentes",
-      "subtitle": "Aquí encontrará respuestas a las preguntas más importantes sobre Aura Historia.",
-      "items": {
+    "landingPage": {
+        "badge": "Busca más allá de los mercados habituales",
+        "titleFirstLine": "Descubre antigüedades raras<1/>en el mercado global",
+        "subtitle": "Aura Historia busca en anticuarios, casas de subastas y mercados de todo el mundo, ayudándote a encontrar piezas que otros nunca ven.",
+        "trustBadge1": "Anticuarios y casas de subastas en todo el mundo",
+        "trustBadge2": "Listados actualizados continuamente",
+        "trustBadge3": "Diseñado para coleccionistas serios",
+        "categories": {
+            "title": "Explorar Categorías",
+            "objectCount_one": "{{formattedCount}} Objeto",
+            "objectCount_other": "{{formattedCount}} Objetos"
+        },
+        "periods": {
+            "title": "Explora eras históricas",
+            "eyebrow": "Archivo de epocas",
+            "titleLineOne": "Explorar por",
+            "titleLineTwo": "Epocas historicas",
+            "description": "Recorre el tiempo con colecciones de los movimientos de diseno mas significativos del mundo.",
+            "cta": "Ver cronologia",
+            "previous": "Epocas anteriores",
+            "next": "Siguientes epocas",
+            "rangeUnknown": "Rango historico",
+            "rangeToday": "Hoy",
+            "rangeBc": "a. C.",
+            "rangeBce": "a. C.",
+            "rangeCe": "d. C."
+        },
+        "recentlyAdded": {
+            "eyebrow": "Agregado recientemente",
+            "title": "Las últimas adquisiciones",
+            "foundAt": "Encontrado en {{shopName}}.",
+            "foundAtWithYear": "Encontrado en {{shopName}}. Hacia {{year}}."
+        },
+        "features": {
+            "title": "Las antigüedades están dispersas por toda la web: tu búsqueda no debería estarlo",
+            "subtitle": "Somos el motor de búsqueda más sofisticado para antigüedades y te proporcionamos todas las herramientas para buscar eficientemente en el mercado de antigüedades.",
+            "previewBadge": "Próximamente",
+            "search": {
+                "title": "Búsqueda inteligente",
+                "description": "Busca entre cientos de miles de artículos con nuestro potente motor de búsqueda. Elimina todo el ruido filtrando por estado, precio, vendedor y mucho más."
+            },
+            "global": {
+                "title": "Cobertura mundial",
+                "description": "Te conectamos con anticuarios renombrados de más de 15 países, desde Alemania hasta Estados Unidos. No importa cuán pequeño sea el vendedor, si tiene una tienda en línea, lo estamos añadiendo."
+            },
+            "history": {
+                "title": "Historial de cambios",
+                "description": "Rastrea todos los cambios de un artículo, desde ajustes de precio hasta cambios de estado. Optamos por la máxima transparencia."
+            },
+            "watchlist": {
+                "title": "Lista de seguimiento personal",
+                "description": "Guarda artículos interesantes y sigue su desarrollo. Recibe notificaciones cuando cambien el precio o la disponibilidad."
+            },
+            "translations": {
+                "title": "Traducciones automáticas",
+                "description": "Busca y descubre todos los artículos en tu idioma preferido, sin barreras. Actualmente, soportamos inglés, alemán, francés, español e italiano."
+            },
+            "personalFilter": {
+                "title": "Solicitudes de búsqueda",
+                "description": "Guarda tu solicitud de búsqueda y recibe notificaciones sobre nuevas ofertas o artículos actualizados. Las antigüedades que solías buscar ahora vienen a ti."
+            },
+            "aiSearchAgent": {
+                "title": "Agente de búsqueda personal con IA",
+                "description": "Tu agente personal de IA te ayuda a encontrar las antigüedades más específicas. En combinación con las solicitudes de búsqueda, describe lo que buscas en lenguaje sencillo, tan detallado como desees. Te notificaremos tan pronto como haya coincidencias con lo que describiste."
+            },
+            "communityWishes": {
+                "title": "Tus deseos",
+                "description": "¿Tienes críticas, te falta algo o tienes una idea de lo que deberíamos mejorar o añadir? Escucharemos muy atentamente. Contáctanos en contact@aura-historia.com y lo haremos realidad."
+            }
+        },
         "howItWorks": {
-          "question": "¿Cómo funciona Aura Historia?",
-          "answer": "Aura Historia busca continuamente en los sitios web de más de 500 anticuarios, casas de subastas y mercados en todo el mundo y recopila todas las ofertas en un solo lugar central. Nuestra búsqueda inteligente te permite encontrar exactamente lo que estás buscando."
+            "title": "Cómo funciona",
+            "subtitle": "Solo unos pocos pasos para tus piezas soñadas.",
+            "step1": {
+                "title": "Buscar",
+                "description": "Introduzca lo que busca – ya sean muebles, joyas, arte u objetos de colección."
+            },
+            "step2": {
+                "title": "Descubrir",
+                "description": "Explora resultados de miles de vendedores de un vistazo."
+            },
+            "step3": {
+                "title": "Guardar",
+                "description": "Guarda artículos interesantes en tu lista de seguimiento o guarda tus criterios de búsqueda como una alerta."
+            },
+            "step4": {
+                "title": "Recibe notificaciones",
+                "description": "Recibe notificaciones por correo electrónico tan pronto como un artículo en tu lista de seguimiento cambie o uno nuevo coincida con tus criterios."
+            }
         },
-        "directPurchase": {
-          "question": "¿Puedo comprar artículos directamente a través de Aura Historia?",
-          "answer": "No, Aura Historia es una plataforma de búsqueda pura. Si desea comprar un artículo, será redirigido directamente al sitio web del vendedor correspondiente donde puede completar la compra."
+        "testimonials": {
+            "title": "Lo que dicen nuestros usuarios",
+            "subtitle": "Descubre cómo ayudamos a los coleccionistas a vivir su pasión.",
+            "testimonial1": {
+                "name": "Margarete W.",
+                "role": "Colecciona muebles Art Nouveau",
+                "quote": "Por fin una plataforma que facilita la búsqueda de piezas raras. Las alertas de precio me han ayudado varias veces a encontrar verdaderas gangas."
+            },
+            "testimonial2": {
+                "name": "Heinrich K.",
+                "role": "Anticuario",
+                "quote": "Como vendedor, uso Aura Historia para vigilar el mercado. Las evoluciones de precios me ayudan enormemente con mi propia fijación de precios."
+            },
+            "testimonial3": {
+                "name": "Elisabeth M.",
+                "role": "Coleccionista aficionada desde hace 20 años",
+                "quote": "Estoy asombrada por la claridad. Antes, pasaba horas buscando en diferentes sitios de vendedores. Ahora encuentro todo en un solo lugar."
+            }
         },
-        "priceAlerts": {
-          "question": "¿Cómo funcionan las notificaciones de precio y disponibilidad?",
-          "answer": "Una vez que añades un artículo a tu lista de seguimiento, rastreamos automáticamente su desarrollo de precio y disponibilidad por ti. Tan pronto como algo cambie con tu artículo, recibirás una notificación por correo electrónico."
+        "newsletter": {
+            "title": "Manténgase informado",
+            "description": "Reciba semanalmente hallazgos seleccionados, tendencias del mercado e información exclusiva directamente en su bandeja de entrada.",
+            "placeholder": "Su dirección de correo electrónico",
+            "button": "Suscribirse al boletín",
+            "privacy": "Al suscribirse, acepta nuestra <privacyLink>política de privacidad</privacyLink>. Puede darse de baja en cualquier momento.",
+            "successMessage": "¡Gracias por suscribirse! Por favor, confirme su dirección de correo electrónico.",
+            "benefit1": "Destacados personalizados",
+            "benefit2": "Nuevas funciones y ofertas",
+            "benefit3": "Cancelar en cualquier momento",
+            "firstNameLabel": "Nombre",
+            "firstNamePlaceholder": "Su nombre",
+            "lastNameLabel": "Apellido",
+            "lastNamePlaceholder": "Su apellido",
+            "emailLabel": "Dirección de correo electrónico",
+            "emailRequired": "Por favor, introduzca una dirección de correo electrónico válida.",
+            "errorMessage": "Algo salió mal. Por favor, inténtelo de nuevo más tarde.",
+            "eyebrow": "Boletín",
+            "successEmailSent": "Se ha enviado un correo de confirmación a {{email}}.",
+            "successTiming": "Puede tardar unos minutos en llegar el correo."
         },
-        "updateFrequency": {
-          "question": "¿Con qué frecuencia se actualizan los datos?",
-          "answer": "Nuestros datos se actualizan continuamente. Operamos casi en tiempo real."
+        "faq": {
+            "title": "Preguntas frecuentes",
+            "subtitle": "Aquí encontrará respuestas a las preguntas más importantes sobre Aura Historia.",
+            "items": {
+                "howItWorks": {
+                    "question": "¿Cómo funciona Aura Historia?",
+                    "answer": "Aura Historia busca continuamente en los sitios web de más de 500 anticuarios, casas de subastas y mercados en todo el mundo y recopila todas las ofertas en un solo lugar central. Nuestra búsqueda inteligente te permite encontrar exactamente lo que estás buscando."
+                },
+                "directPurchase": {
+                    "question": "¿Puedo comprar artículos directamente a través de Aura Historia?",
+                    "answer": "No, Aura Historia es una plataforma de búsqueda pura. Si desea comprar un artículo, será redirigido directamente al sitio web del vendedor correspondiente donde puede completar la compra."
+                },
+                "priceAlerts": {
+                    "question": "¿Cómo funcionan las notificaciones de precio y disponibilidad?",
+                    "answer": "Una vez que añades un artículo a tu lista de seguimiento, rastreamos automáticamente su desarrollo de precio y disponibilidad por ti. Tan pronto como algo cambie con tu artículo, recibirás una notificación por correo electrónico."
+                },
+                "updateFrequency": {
+                    "question": "¿Con qué frecuencia se actualizan los datos?",
+                    "answer": "Nuestros datos se actualizan continuamente. Operamos casi en tiempo real."
+                },
+                "dealers": {
+                    "question": "¿Qué tiendas de antigüedades en línea están en Aura Historia?",
+                    "answer": "Incluimos datos de más de 500 anticuarios renombrados de más de 15 países. Entre ellos encontrarás tanto grandes casas de subastas como vendedores especializados en todas las áreas de antigüedades."
+                },
+                "dealerRequest": {
+                    "question": "Conozco un anticuario/casa de subastas/mercado en línea que aún no está en Aura Historia. ¿Podemos añadirlo?",
+                    "answer": "¡Sí! Envíanos un correo electrónico a contact@aura-historia.com e incluye la URL/enlace de la tienda junto con cualquier información adicional que desees proporcionar. Verificaremos la tienda y la incluiremos en cuestión de horas."
+                },
+                "comparisonBarnebys": {
+                    "question": "¿Cómo se compara Aura Historia con Barnebys?",
+                    "answer": "Aunque Barnebys también es un motor de búsqueda de antigüedades, solo se enfoca en los jugadores más grandes: las grandes casas de subastas y anticuarios. Esto aumenta mucho las posibilidades de que te pierdas lo que realmente estás buscando. Pregúntate, ¿dónde encontré mis mayores tesoros? Probablemente fue en un pequeño anticuario local o incluso en una tienda de segunda mano."
+                },
+                "comparisonPriceDatabase": {
+                    "question": "¿Cómo se compara Aura Historia con bases de datos de precios como WorthPoint y the saleroom?",
+                    "answer": "Las bases de datos de precios aprovechan la gran cantidad de datos históricos con resultados de subastas que se remontan a los años 90. Si bien esto ayuda a encontrar comparaciones para piezas astronómicamente raras, a menudo no reflejan el valor de mercado actual ni la disponibilidad de las antigüedades. Si tu objetivo es encontrar antigüedades o investigar su valor actual, Aura Historia es el lugar adecuado. También queremos tomar una postura firme contra la monetización de los datos históricos de precios de antigüedades. No deberías tener que pagar para saber qué se vendió y a qué precio."
+                }
+            }
         },
-        "dealers": {
-          "question": "¿Qué tiendas de antigüedades en línea están en Aura Historia?",
-          "answer": "Incluimos datos de más de 500 anticuarios renombrados de más de 15 países. Entre ellos encontrarás tanto grandes casas de subastas como vendedores especializados en todas las áreas de antigüedades."
-        },
-        "dealerRequest": {
-          "question": "Conozco un anticuario/casa de subastas/mercado en línea que aún no está en Aura Historia. ¿Podemos añadirlo?",
-          "answer": "¡Sí! Envíanos un correo electrónico a contact@aura-historia.com e incluye la URL/enlace de la tienda junto con cualquier información adicional que desees proporcionar. Verificaremos la tienda y la incluiremos en cuestión de horas."
-        },
-        "comparisonBarnebys": {
-          "question": "¿Cómo se compara Aura Historia con Barnebys?",
-          "answer": "Aunque Barnebys también es un motor de búsqueda de antigüedades, solo se enfoca en los jugadores más grandes: las grandes casas de subastas y anticuarios. Esto aumenta mucho las posibilidades de que te pierdas lo que realmente estás buscando. Pregúntate, ¿dónde encontré mis mayores tesoros? Probablemente fue en un pequeño anticuario local o incluso en una tienda de segunda mano."
-        },
-        "comparisonPriceDatabase": {
-          "question": "¿Cómo se compara Aura Historia con bases de datos de precios como WorthPoint y the saleroom?",
-          "answer": "Las bases de datos de precios aprovechan la gran cantidad de datos históricos con resultados de subastas que se remontan a los años 90. Si bien esto ayuda a encontrar comparaciones para piezas astronómicamente raras, a menudo no reflejan el valor de mercado actual ni la disponibilidad de las antigüedades. Si tu objetivo es encontrar antigüedades o investigar su valor actual, Aura Historia es el lugar adecuado. También queremos tomar una postura firme contra la monetización de los datos históricos de precios de antigüedades. No deberías tener que pagar para saber qué se vendió y a qué precio."
+        "pricing": {
+            "title": "Elija su plan",
+            "subtitle": "Desde coleccionistas ocasionales hasta profesionales — tenemos el plan perfecto para usted.",
+            "comingSoon": "Próximamente",
+            "mostPopular": "Más popular",
+            "free": {
+                "name": "Gratis",
+                "description": "Perfecto para comenzar en el mundo de las antigüedades.",
+                "features": {
+                    "watchlistItems": "20 artículos en la lista de seguimiento",
+                    "searchAlerts": "1 alerta de búsqueda",
+                    "alertMatches": "10 coincidencias de alertas al mes",
+                    "alertType": "Alertas de búsqueda simples",
+                    "notificationSpeed": "Notificación en pocas horas",
+                    "searchType": "Búsqueda de texto clásica"
+                }
+            },
+            "pro": {
+                "name": "Pro",
+                "description": "Para coleccionistas dedicados que quieren descubrir más.",
+                "features": {
+                    "watchlistItems": "100 artículos en la lista de seguimiento",
+                    "searchAlerts": "5 alertas de búsqueda",
+                    "alertMatches": "Coincidencias de alertas ilimitadas al mes",
+                    "alertType": "Alertas de búsqueda completas",
+                    "notificationSpeed": "Notificaciones en tiempo real",
+                    "searchType": "Búsqueda híbrida — encuentra por palabra clave y significado"
+                }
+            },
+            "ultimate": {
+                "name": "Ultimate",
+                "description": "Para profesionales que desean aprovechar todo el potencial.",
+                "features": {
+                    "watchlistItems": "Lista de seguimiento ilimitada",
+                    "searchAlerts": "Alertas de búsqueda ilimitadas",
+                    "alertMatches": "Coincidencias de alertas ilimitadas al mes",
+                    "alertType": "Alertas de búsqueda completas",
+                    "notificationSpeed": "Notificaciones prioritarias en tiempo real",
+                    "searchType": "Búsqueda híbrida (Texto + Semántica)",
+                    "aiAgent": "Agente de búsqueda IA"
+                }
+            },
+            "billingNote": "mensual, IVA incluido",
+            "monthly": "Mensual",
+            "yearly": "Anual",
+            "yearlySavings": "Ahorra 2 meses",
+            "billingNoteMonthly": "al mes, IVA incluido",
+            "billingNoteYearly": "al mes, facturado anualmente, IVA incluido",
+            "getStartedFree": "Empezar gratis",
+            "subscribe": "Suscribirse",
+            "perMonth": "/mes"
         }
-      }
     },
-    "pricing": {
-      "title": "Elija su plan",
-      "subtitle": "Desde coleccionistas ocasionales hasta profesionales — tenemos el plan perfecto para usted.",
-      "comingSoon": "Próximamente",
-      "mostPopular": "Más popular",
-      "free": {
-        "name": "Gratis",
-        "description": "Perfecto para comenzar en el mundo de las antigüedades.",
-        "features": {
-          "watchlistItems": "20 artículos en la lista de seguimiento",
-          "searchAlerts": "1 alerta de búsqueda",
-          "alertMatches": "10 coincidencias de alertas al mes",
-          "alertType": "Alertas de búsqueda simples",
-          "notificationSpeed": "Notificación en pocas horas",
-          "searchType": "Búsqueda de texto clásica"
+    "apiErrors": {
+        "PRODUCT_NOT_FOUND": "Este artículo no fue encontrado.",
+        "UNAUTHORIZED": "Autenticación fallida. Por favor, inicie sesión.",
+        "INTERNAL_SERVER_ERROR": "Se produjo un error interno del servidor. Por favor, inténtelo de nuevo más tarde.",
+        "GATEWAY_TIMEOUT": "Tiempo de espera de la solicitud agotado. Por favor, inténtelo de nuevo más tarde.",
+        "WATCHLIST_ENTRY_NOT_FOUND": "Este artículo no está en su lista de seguimiento.",
+        "SEARCH_FILTER_NOT_FOUND": "Este filtro de búsqueda no existe.",
+        "TEXT_QUERY_TOO_SHORT": "La consulta de búsqueda debe contener al menos 3 caracteres.",
+        "BAD_PATH_PARAMETER_VALUE": "El enlace no es válido.",
+        "INVALID_UUID": "El enlace no es válido.",
+        "SERVICE_UNAVAILABLE": "El servicio no está disponible actualmente. Por favor, inténtelo de nuevo más tarde.",
+        "BAD_QUERY_PARAMETER_VALUE": "Su búsqueda contiene configuraciones no válidas.",
+        "SHOP_NOT_FOUND": "Esta tienda ya no está disponible.",
+        "INVALID_SHOP_IDENTIFIER": "El identificador de la tienda no es válido.",
+        "INVALID_DOMAIN": "El dominio de la tienda no es válido.",
+        "FORBIDDEN": "Esta acción no está disponible para usted.",
+        "BAD_BODY_VALUE": "Algunos detalles son incorrectos. Por favor, verifique su entrada.",
+        "MONETARY_AMOUNT_OVERFLOW": "El precio es demasiado alto y no se puede procesar.",
+        "BAD_PAGE_FROM_VALUE": "Número de página no válido.",
+        "BAD_PAGE_SIZE_VALUE": "Número de elementos por página no válido.",
+        "BAD_SORT_VALUE": "Ordenación no válida.",
+        "BAD_ORDER_VALUE": "Orden de clasificación no válido.",
+        "unknown": "Se produjo un error inesperado.",
+        "WATCHLIST_QUOTA_EXCEEDED": "Has alcanzado el número máximo de artículos en tu lista de seguimiento. Ya hay 5/5 entradas ocupadas en la lista de seguimiento.",
+        "SEARCH_FILTER_QUOTA_EXCEEDED": "Has alcanzado el número máximo de filtros de búsqueda guardados. Ya hay 5/5 filtros de búsqueda ocupados.",
+        "INVALID_EMAIL": "La dirección de correo electrónico no es válida o no es aceptada por nuestro proveedor de boletín.",
+        "STRIPE_CUSTOMER_ALREADY_EXISTS": "Ya tiene una suscripción activa. Por favor, utilice el portal de cliente para gestionarla.",
+        "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No se encontró ninguna suscripción existente. Por favor, inicie un nuevo proceso de pago."
+    },
+    "watchlist": {
+        "title": "Mi lista de seguimiento",
+        "loginRequired": "Por favor, inicie sesión para usar la lista de seguimiento.",
+        "totalElements": "{{count}} artículos",
+        "loadingError": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde.",
+        "loadingMore": "Cargando más resultados...",
+        "allLoaded_one": "Ha visto {{count}} artículo de su lista de seguimiento.",
+        "allLoaded_other": "Ha visto los {{count}} artículos de su lista de seguimiento.",
+        "noResults": {
+            "title": "No se encontraron artículos",
+            "description": "Añada artículos a su lista de seguimiento para verlos aquí."
         }
-      },
-      "pro": {
-        "name": "Pro",
-        "description": "Para coleccionistas dedicados que quieren descubrir más.",
-        "features": {
-          "watchlistItems": "100 artículos en la lista de seguimiento",
-          "searchAlerts": "5 alertas de búsqueda",
-          "alertMatches": "Coincidencias de alertas ilimitadas al mes",
-          "alertType": "Alertas de búsqueda completas",
-          "notificationSpeed": "Notificaciones en tiempo real",
-          "searchType": "Búsqueda híbrida — encuentra por palabra clave y significado"
+    },
+    "category": {
+        "header": {
+            "archiveLabel": "Archivo de categoria",
+            "overviewTitle": "Perspectiva curatorial",
+            "indexedItems": "Objetos indexados",
+            "imageAlt": "Imagen representativa de {{category}}"
+        },
+        "descriptions": {
+            "default": "Explore objetos cuidadosamente seleccionados de esta categoria, con pistas de procedencia, detalles de oficio y visibilidad actual del mercado.",
+            "ANCIENT_POTTERY": "Vasijas, piezas votivas y ceramica antigua que documentan rituales, comercio y vida cotidiana de civilizaciones pasadas.",
+            "STORAGE_CONTAINERS": "Los coleccionistas que buscan baules antiguos, arcones de madera vintage y cajas de almacenamiento historicas encuentran una mirada fascinante a como generaciones pasadas protegian sus pertenencias. Aqui pueden descubrir grandes baules de viaje con herrajes de laton, arcones tallados con detalle y delicadas cajas de te con incrustaciones. La seleccion incluye con frecuencia cajoneras de botica vintage, sombrereras antiguas de cuero y primeras latas publicitarias. Desde pesadas cajas de documentos de roble con cierres complejos hasta cestas tejidas, estas piezas muestran uniones historicas y necesidades practicas de la vida domestica.",
+            "LIGHTING_OBJECTS": "Quienes buscan luminarias antiguas, aranas vintage y lamparas historicas descubriran un amplio espectro de iluminacion funcional y decorativa de distintas epocas. La oferta abarca desde primeras lamparas de aceite de ballena en peltre y candelabros de laton hasta gasolieres victorianos y autenticas lamparas Art Nouveau de vidrio. Los entusiastas que desean comprar lamparas de techo antiguas tambien encontraran aranas de prismas de cristal, colgantes industriales esmaltados y primeras lamparas de escritorio electricas con cableado original. Estas piezas aportan contexto sobre la evolucion tecnologica de la luz, la historia del vidrio y el diseno interior.",
+            "BOOKS_MANUSCRIPTS_PRINTED_MEDIA": "Los bibliofilos que buscan primeras ediciones raras, manuscritos antiguos y materiales impresos tempranos encontraran una rica seleccion de documentos historicos. Quienes desean comprar libros antiguos en linea pueden esperar clasicos encuadernados en cuero, manuscritos iluminados con caligrafia detallada y mapas historicos coleccionables. Esta seccion tambien incluye litografias originales, grabados al cobre tempranos y textos religiosos raros. Ya sea para encontrar una novela firmada del siglo XIX o para evaluar precios de tratados cientificos centenarios, estas piezas muestran encuadernacion tradicional, tipografia y tecnicas historicas de impresion.",
+            "FURNITURE": "Historiadores del interior y coleccionistas que buscan muebles antiguos autenticos, mobiliario de madera vintage y piezas de epoca pueden explorar una amplia variedad de objetos domesticos georgianos, victorianos, Art Deco y de mediados del siglo XX. Descubra mesas de comedor de caoba maciza, armarios de roble tallados y elegantes escritorios de nogal con uniones de cola de milano. La seleccion suele incluir sillones de cuero capitone, aparadores de marqueteria y muebles populares pintados. Quienes desean comprar muebles antiguos en linea encontraran piezas que reflejan tecnicas historicas de carpinteria, tapiceria de epoca y la evolucion del gusto estetico.",
+            "TOYS_GAMES_RECREATIONAL": "Los coleccionistas de juguetes que buscan juguetes antiguos, juegos de mesa vintage y piezas mecanicas tempranas pueden explorar una fascinante variedad de entretenimiento infantil historico. La seleccion presenta con frecuencia huchas mecanicas de hierro fundido, juguetes de lata litografiada y autenticas munecas de porcelana antiguas con vestimenta de epoca. Quienes desean comprar juguetes de madera vintage o juegos de salon victorianos tambien pueden encontrar caballos balancin tempranos, dioramas moviles complejos y conjuntos completos de juegos historicos. Estas piezas revelan materiales de fabricacion, ingenio mecanico y la relevancia cultural del ocio de otras epocas.",
+            "TEXTILES": "Los historiadores textiles que buscan textiles antiguos, tapices vintage y vestimenta historica descubriran una vibrante variedad de telas, prendas y tejidos tempranos. La oferta incluye con frecuencia colchas patchwork hechas a mano, intrincados tapices flamencos y delicados cuellos de encaje victorianos. Los entusiastas que desean comprar alfombras vintage o muestrarios historicos tambien pueden encontrar kimonos de seda preservados, primeras alfombras navajo tejidas y textiles bordados tradicionales con historia familiar. Estos tejidos conservados muestran la evolucion de tintes naturales, tecnicas de telar, procesos de hilado manual y la importancia cultural de la confeccion.",
+            "CLOCKS_TIMEKEEPING": "Los apasionados de la relojeria que buscan relojes antiguos, relojes de bolsillo vintage y piezas historicas raras encontraran un refinado conjunto de mecanismos de medicion del tiempo. La categoria abarca autenticos relojes de pie, ornamentados relojes de chimenea franceses en bronce dorado y cronometros marinos de precision usados en navegacion temprana. Los coleccionistas que desean comprar relojes de bolsillo vintage pueden encontrar cajas de plata esmaltada, movimientos de repeticion complejos y mecanismos fusee tempranos. Desde relojes cuco de la Selva Negra hasta sofisticados relojes de viaje, estas piezas destacan engranajes, escapes y arte decorativo de la historia horologica.",
+            "JEWELRY_PERSONAL_ADORNMENT": "Historiadores de joyeria y compradores que buscan joyas antiguas, anillos vintage y joyeria de herencia autentica encontraran una exquisita variedad de adornos personales de los periodos georgiano, victoriano, Art Nouveau y Art Deco. Descubra broches camafeo elaborados, autentica joyeria de luto y anillos de compromiso de platino con diamantes talla antigua. La seleccion incluye con frecuencia cadenas esmaltadas de reloj de bolsillo, chatelaines de plata esterlina y collares de granate facetado. Estas piezas portables resaltan el tallado historico de gemas, la evolucion de la orfebreria y los cambios de moda en sociedades pasadas.",
+            "ARCHITECTURAL_ELEMENTS": "Conservacionistas que buscan antiguedades arquitectonicas, materiales recuperados y elementos estructurales salvados encontraran una amplia variedad de componentes procedentes de edificaciones historicas. La oferta incluye grandes vigas de roble labradas a mano, autenticas vidrieras victorianas y pesadas puertas o rejas de hierro fundido. Los coleccionistas que desean comprar repisas de chimenea antiguas o herrajes vintage para puertas tambien pueden descubrir marcos de marmol ornamentados, tejas de terracota y accesorios de laton con patina original. Estas piezas permiten estudiar y reutilizar tecnicas tradicionales de construccion y patrimonio arquitectonico.",
+            "ARCHAEOLOGICAL_ARTIFACTS": "Los coleccionistas de antiguedades que buscan autenticos artefactos arqueologicos, ceramica antigua y reliquias historicas encontraran una profunda seleccion de objetos recuperados en excavaciones de todo el mundo. La categoria incluye con frecuencia vasos de vidrio romano, figuras ushabti egipcias autenticas y puntas de flecha neoliticas de silex tallado. Los entusiastas que desean comprar monedas antiguas o artefactos precolombinos tambien pueden hallar piezas de terracota, monedas griegas de bronce y tabletas mesopotamicas tempranas con cuneiforme. Estos hallazgos ofrecen una conexion tangible con la prehistoria humana y valiosa informacion sobre culturas desaparecidas.",
+            "VISUAL_ART": "Historiadores del arte y coleccionistas que buscan pinturas antiguas, obra historica original y esculturas vintage pueden recorrer un archivo cuidadosamente catalogado de piezas visuales de numerosos movimientos artisticos. Descubra retratos clasicos al oleo del siglo XVIII, acuarelas botanicas detalladas y esculturas figurativas tempranas en bronce. La categoria tambien incluye opciones para quienes buscan paisajes antiguos, bocetos renacentistas en grafito y grabados japoneses tradicionales en madera. Desde grandes pinturas academicas hasta miniaturas intimas, estas obras ayudan al estudio de tecnicas artisticas, pigmentos historicos y evolucion de la expresion visual.",
+            "DECORATIVE_OBJECTS": "Los coleccionistas que buscan antiguedades decorativas, decoracion vintage para el hogar y objetos ornamentales historicos descubriran un amplio espectro de piezas creadas para realzar espacios domesticos de distintas epocas. La oferta va desde finos jarrones de porcelana de Sevres y figuras de Meissen hasta sujetalibros de bronce Art Deco y piezas victorianas de mayolica. Quienes desean comprar espejos antiguos o vidrio artistico vintage pueden encontrar marcos dorados, vidrieria veneciana temprana y bustos clasicos de marmol. Estas piezas documentan la evolucion de las artes decorativas y la meticulosa artesania de talleres historicos.",
+            "EPHEMERA_MEMORABILIA": "Los coleccionistas de archivo que buscan efemera historica, recuerdos de papel vintage y documentos antiguos encontraran un fascinante conjunto de materiales que capturan la vida cotidiana del pasado. La seleccion incluye correspondencia manuscrita de la Guerra Civil estadounidense, coloridas tarjetas comerciales victorianas y primeros carteles publicitarios litografiados. Quienes desean comprar postales vintage, entradas historicas autenticas o antiguos programas teatrales pueden descubrir extensas colecciones de postales fotograficas y recuerdos de exposiciones universales. Estas fuentes primarias ofrecen una ventana unica a la publicidad comercial, los movimientos politicos y los eventos culturales.",
+            "PHOTOGRAPHY_OPTICAL_MEDIA": "Los entusiastas que buscan camaras vintage, fotografia antigua y dispositivos opticos historicos encontraran una seleccion completa de equipos tempranos de captura de imagen. La oferta incluye retratos en daguerrotipo en estuche, camaras de fuelle de madera originales y linternas magicas de laton con placas de vidrio pintadas a mano. Los coleccionistas que desean comprar tarjetas estereoscopicas antiguas, tintypes tempranos o negativos en placa de vidrio de gran formato encontraran archivos amplios de medios opticos. Estas piezas documentan la quimica de los primeros procesos fotograficos, la evolucion de la camara y su impacto social.",
+            "MUSICAL_INSTRUMENTS": "Musicologos y compradores que buscan instrumentos musicales antiguos, guitarras acusticas vintage e instrumentos historicos de metal pueden explorar una rica variedad de dispositivos acusticos tempranos. La seleccion presenta con frecuencia violines raros de cuerdas de tripa, flautas de madera ornamentadas y metales tempranos como bugles de llaves y cornetas de valvulas rotativas. Quienes desean adquirir pianos antiguos o instrumentos tradicionales de percusion etnografica tambien encontraran pianos de cola restaurados y concertinas antiguas. Estas piezas muestran la evolucion de la ingenieria acustica, la tradicion de la lutheria y los materiales historicos del sonido.",
+            "WEAPONS": "Los coleccionistas que buscan espadas antiguas autenticas, armas de fuego vintage y armaduras historicas descubriran una amplia gama de armas blancas y primeras armas de fuego de conflictos globales. La seleccion incluye con frecuencia raperas del Renacimiento, espadas anchas medievales y hojas originales de katana japonesa, junto con pistolas de chispa operativas, mosquetes antiguos de percusion y polvoreras ornamentadas. Quienes desean comprar piezas antiguas de defensa militar tambien pueden encontrar cotas de malla autenticas, armaduras ceremoniales y escudos decorativos. Estas piezas permiten profundizar en metalurgia historica, tacticas de combate y artesania militar temprana.",
+            "TOOLS_IMPLEMENTS": "Los coleccionistas que buscan herramientas manuales antiguas, herramientas de carpinteria vintage e implementos agricolas historicos encontraran una seleccion robusta de dispositivos usados por oficios antes de la mecanizacion masiva. Descubra cepillos de moldura de madera con hermosa patina, hachas anchas de hierro forjado y calibres de precision en laton usados por primeros ingenieros. La categoria incluye con frecuencia herramientas especializadas para toneleria, trabajo del cuero y canteria. Para quienes desean comprar herramientas de herreria vintage o equipo temprano de carpinteria, estos artefactos reflejan el trabajo fisico de siglos pasados y el ingenio artesanal.",
+            "INDUSTRIAL_TRADE_EQUIPMENT": "Esta categoria atrae a quienes buscan herramientas industriales antiguas, equipamiento de fabrica vintage y maquinaria historica de oficios. Los entusiastas pueden descubrir telares textiles de hierro fundido, primeras prensas de imprenta y maquinaria agricola pesada que impulso la Revolucion Industrial. La seleccion incluye con frecuencia equipamiento artesanal especializado para quienes desean comprar yunques antiguos de herrero, bancos de zapatero vintage y primeros relojes de fichar de fabrica. Ya sea una mesa de dibujo vintage o moldes industriales recuperados, estas piezas funcionales documentan la transformacion de la fabricacion y el trabajo.",
+            "CULTURAL_ETHNOGRAPHIC": "Los coleccionistas de enfoque antropologico que buscan arte etnografico autentico, artefactos tribales y objetos culturales indigenas encontraran una coleccion diversa que representa la cultura material de sociedades globales. La seleccion presenta con frecuencia mascaras ceremoniales africanas talladas, cartas de navegacion polinesias y trabajos de cuentas nativos americanos. Quienes desean comprar artefactos culturales tradicionales tambien pueden descubrir ruedas de oracion tibetanas, textiles sudamericanos autenticos y tallas inuit tempranas en hueso. Estos objetos etnograficos ofrecen perspectivas profundas sobre sistemas de creencias, estructuras sociales, materiales locales y artesania regional.",
+            "MILITARIA": "Los historiadores militares que buscan militaria autentica, uniformes antiguos y artefactos historicos de guerra encontraran una coleccion integral de objetos que documentan conflictos globales. La oferta incluye con frecuencia tunicas de lana originales de la Primera Guerra Mundial, trench art grabado y cascos de vuelo tempranos de cuero. Los entusiastas que desean comprar equipo militar antiguo o coleccionables de guerra tambien pueden encontrar insignias de unidad, carteles de propaganda originales y optica de campo historica como periscopios de trinchera de laton. Estas piezas son recursos educativos clave para comprender estructuras militares, logistica y el impacto de la guerra.",
+            "COINS_CURRENCY_MEDALS": "Los numismaticos que buscan monedas raras, papel moneda antiguo y medallas militares historicas pueden explorar una amplia seleccion de divisas globales y medallones conmemorativos. Descubra denarios romanos de plata autenticos, papel moneda colonial estadounidense temprano y soberanos de oro detalladamente acunados. La categoria tambien atiende a quienes desean comprar billetes vintage, billetes fuera de circulacion y errores raros de acunacion. Estos artefactos financieros ofrecen una vision detallada de la evolucion monetaria, procesos tempranos de ceca, inflacion historica e iconografia politica en la moneda mundial.",
+            "NATURAL_HISTORY_CURIOSITIES": "Los coleccionistas que buscan especimenes antiguos de historia natural, taxidermia vintage y curiosidades historicas encontraran una intrigante seleccion de objetos reunidos durante la exploracion biologica temprana. La categoria incluye dioramas autenticos de taxidermia victoriana, modelos anatomicos tempranos de papel mache y exhibiciones entomologicas preservadas. Quienes desean comprar fosiles antiguos, muestras geologicas historicas o laminas botanicas antiguas pueden descubrir amonites fosilizados, esqueletos articulados y pliegos de herbario historicos. Estas piezas aportan contexto profundo sobre historia de la ciencia, clasificacion biologica y fascinacion victoriana por la naturaleza.",
+            "TRANSPORTATION_TRAVEL_OBJECTS": "Esta categoria atrae a entusiastas que buscan artefactos de viaje antiguos, equipaje vintage y recuerdos historicos del transporte. Los coleccionistas pueden encontrar bitacoras maritimas de laton pulido, baules de carruaje en cuero y faroles ferroviarios originales usados por conductores del siglo XIX. La seleccion suele incluir gafas de conduccion de cuero vintage, registros historicos de pasajeros de vapor y sextantes tempranos de navegacion. Ya sea para comprar equipo maritimo antiguo, una bicicleta velocipedo o un modelo detallado de galeon, estas piezas documentan desafios historicos y avances tecnologicos del viaje temprano.",
+            "RELIGIOUS_RITUAL_CEREMONIAL": "Investigadores y coleccionistas que buscan artefactos religiosos antiguos, objetos rituales historicos y piezas ceremoniales sagradas encontraran una seleccion representativa de practicas espirituales globales. La oferta incluye vestiduras clericales ricamente bordadas, crucifijos de madera finamente tallados y punteros de Torah judios tempranos en plata. Quienes desean comprar artefactos budistas antiguos, textos islamicos iluminados o incensarios ornamentados de laton tambien pueden descubrir cuencos cantores, folios del Coran y quemadores de incienso. Estas piezas ofrecen informacion esencial para comprender religion comparada, historia del culto y cultura material espiritual.",
+            "WRITING_COMMUNICATION_INSTRUMENTS": "Los coleccionistas que buscan instrumentos de escritura antiguos, plumas estilograficas vintage y dispositivos historicos de comunicacion descubriran una variedad de herramientas que moldearon la correspondencia humana. La seleccion incluye con frecuencia llaves de telegrafo de hierro fundido, primeras maquinas de escribir mecanicas con teclas de vidrio y elegantes plumas de inmersion en plata esterlina. Quienes desean comprar tinteros antiguos, sellos autenticos para lacre o telefonos de disco vintage pueden encontrar tinteros de cristal y equipos de comunicacion restaurados. Estos artefactos ofrecen una guia amplia para entender la evolucion de la escritura y la comunicacion a distancia.",
+            "SCIENTIFIC_MEDICAL_TECHNICAL": "Los coleccionistas que buscan instrumentos cientificos antiguos, herramientas medicas vintage y dispositivos historicos de ingenieria encontraran una seleccion altamente especializada de herramientas empiricas. Descubra teodolitos topograficos de laton, primeros microscopios acromaticos en estuches originales de caoba y complejas maquinas antiguas de calculo. La categoria incluye con frecuencia kits quirurgicos antiguos, primeras balanzas de botica y elaborados globos celestes. Estos dispositivos historicos narran la evolucion de la ciencia empirica, la astronomia historica, la navegacion temprana y el desarrollo de practicas sanitarias antes de la tecnologia moderna."
+        },
+        "products": {
+            "loadingMore": "Cargando más artículos...",
+            "allLoaded_one": "Ha visto {{count}} artículo en esta categoría.",
+            "allLoaded_other": "Ha visto los {{count}} artículos de esta categoría.",
+            "noResults": {
+                "title": "No se encontraron artículos",
+                "description": "Actualmente no hay artículos en esta categoría."
+            },
+            "error": {
+                "title": "No se pudieron cargar los artículos",
+                "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
+            }
         }
-      },
-      "ultimate": {
-        "name": "Ultimate",
-        "description": "Para profesionales que desean aprovechar todo el potencial.",
-        "features": {
-          "watchlistItems": "Lista de seguimiento ilimitada",
-          "searchAlerts": "Alertas de búsqueda ilimitadas",
-          "alertMatches": "Coincidencias de alertas ilimitadas al mes",
-          "alertType": "Alertas de búsqueda completas",
-          "notificationSpeed": "Notificaciones prioritarias en tiempo real",
-          "searchType": "Búsqueda híbrida (Texto + Semántica)",
-          "aiAgent": "Agente de búsqueda IA"
+    },
+    "period": {
+        "header": {
+            "archiveLabel": "Periodo",
+            "overviewTitle": "Perspectiva histórica",
+            "periodRange": "Rango temporal aproximado",
+            "defaultDescription": "Explore objetos seleccionados de esta época y descubra su contexto histórico, su cultura material y sus pistas de procedencia."
+        },
+        "descriptions": {
+            "ANTIQUITY": "Los coleccionistas que buscan artefactos auténticos de la Antigüedad en venta, cerámica griega antigua y antigüedades romanas descubrirán una selección profunda de piezas recuperadas de las primeras civilizaciones. Nuestro índice agregado reúne monedas antiguas disponibles, figuras egipcias ushebti y herramientas líticas neolíticas procedentes de distintos comerciantes especializados. Los entusiastas que desean comprar reliquias antiguas genuinas pueden encontrar esculturas antiguas de bronce, artefactos mesopotámicos tempranos y antigüedades clásicas del Mediterráneo. Estas piezas excavadas ofrecen una conexión tangible con la prehistoria humana y con la cultura material fundacional del mundo antiguo.",
+            "ART_DECO": "Los compradores que buscan antigüedades Art Decó auténticas en venta, muebles vintage de los años 20 y decoración geométrica encontrarán una gama glamurosa de piezas que abarcan las décadas de 1920 y 1930. Nuestro directorio agrega anuncios de múltiples tiendas, con aparadores de nogal de líneas aerodinámicas, luminarias cromadas y joyería clásica de la era flapper. Los coleccionistas que desean comprar arte Art Decó original o esculturas modernistas vintage pueden descubrir tocadores con espejo, accesorios coloridos de baquelita y elementos arquitectónicos audaces que definen este período icónico de lujo y diseño moderno temprano.",
+            "ART_NOUVEAU": "Los entusiastas que buscan antigüedades Art Nouveau en venta, decoración original de la Belle Époque y joyería floral vintage descubrirán una colección exquisita definida por líneas orgánicas y motivos naturales. Nuestro índice consolidado presenta lámparas auténticas estilo Tiffany, juegos de tocador de plata intrincados y muebles de caoba de formas fluidas procedentes de comerciantes diversos. Los coleccionistas que desean comprar vidrio artístico Art Nouveau, litografías originales de Mucha o esculturas sinuosas de bronce pueden localizar fácilmente piezas históricas concretas que capturan la esencia romántica de la artesanía de fin de siglo.",
+            "ARTS_AND_CRAFTS": "Los coleccionistas que buscan antigüedades Arts and Crafts en venta, muebles auténticos estilo Mission y decoración artesanal vintage encontrarán una selección sólida de piezas que enfatizan el trabajo manual. Nuestro directorio agregado reúne mesas macizas de roble aserrado al cuarto, luminarias de cobre martillado y textiles originales de William Morris de varias tiendas especializadas. Quienes desean comprar antigüedades Craftsman auténticas, cerámica vintage verde mate o metalistería artesanal de principios del siglo XX descubrirán piezas que rechazaron la producción en masa en favor de materiales naturales y un diseño honesto y funcional.",
+            "BAROQUE": "Los compradores que buscan antigüedades barrocas auténticas en venta, mobiliario ornamentado del siglo XVII y arte histórico dramático descubrirán un magnífico conjunto de artefactos muy detallados. Nuestro índice reúne anuncios disponibles de múltiples comerciantes, con armarios de nogal tallados elaboradamente, espejos dorados y pinturas al óleo de claroscuro impactante. Los coleccionistas que desean comprar decoración barroca original, pesadas lámparas de araña de latón o complejos textiles de tapicería pueden localizar fácilmente estas piezas opulentas y teatrales que definen la grandeza y la intensidad emocional del diseño europeo de los siglos XVII y comienzos del XVIII.",
+            "BIEDERMEIER": "Los entusiastas que buscan muebles Biedermeier auténticos en venta, antigüedades alemanas de principios del siglo XIX y decoración vintage elegante encontrarán una selección sofisticada de piezas sobrias y funcionales. Nuestro directorio consolidado agrega armarios de maderas frutales claras, escritorios de líneas limpias y asientos de curvas suaves procedentes de distintas tiendas de antigüedades. Los coleccionistas que desean comprar antigüedades Biedermeier originales, delicados relojes domésticos o refinadas piezas de salón descubrirán objetos históricos que muestran la elegancia simplificada y la belleza práctica del diseño burgués centroeuropeo.",
+            "CONTEMPORARY": "Los coleccionistas que buscan arte contemporáneo en venta, artesanía moderna de estudio y piezas de diseño de finales del siglo XX descubrirán un conjunto dinámico que refleja la expresión artística moderna. Nuestro índice agregado reúne anuncios disponibles de vidrio de estudio, pintura abstracta de vanguardia y mobiliario escultórico innovador de diversas galerías y comerciantes. Quienes desean comprar artesanía contemporánea, cerámica posmoderna u obras mixtas de finales de siglo pueden localizar piezas únicas y rompedoras que representan la evolución continua de la cultura material moderna y de la innovación artística.",
+            "EARLY_MEDIEVAL": "Investigadores y coleccionistas que buscan artefactos altomedievales en venta, reliquias auténticas de la Edad Oscura y antigüedades del período de las migraciones encontrarán una selección rara de objetos históricos. Nuestro directorio agrega joyería vikinga auténtica disponible, metalistería anglosajona temprana y cerámica merovingia procedente de comerciantes especializados en antigüedades. Los compradores que desean adquirir armas medievales auténticas, herramientas tempranas de hierro forjado o fíbulas antiguas descubrirán artefactos históricos clave que documentan los siglos turbulentos posteriores a la caída del Imperio romano y los inicios del desarrollo europeo.",
+            "EARLY_MODERN": "Los coleccionistas que buscan antigüedades de la Edad Moderna temprana en venta, artefactos del Renacimiento a la Ilustración y decoración de los siglos XVI al XVIII descubrirán un conjunto transformador de piezas históricas. Nuestro índice consolidado reúne instrumentos científicos tempranos disponibles, mobiliario isabelino de roble y mapas históricos de exploración de varias tiendas especializadas. Los entusiastas que desean comprar arte original de la Edad Moderna temprana, libros antiguos encuadernados en cuero o instrumentos de navegación tempranos pueden localizar piezas que representan la profunda expansión global y el despertar científico del mundo posmedieval.",
+            "EMPIRE": "Los compradores que buscan muebles auténticos de estilo Imperio en venta, antigüedades de la era napoleónica y decoración neoclásica del siglo XIX encontrarán una selección imponente de grandes artefactos históricos. Nuestro directorio agregado presenta consolas de caoba con monturas de ormolu, candelabros clásicos de bronce y objetos decorativos de carácter militar procedentes de múltiples comerciantes. Los coleccionistas que desean comprar antigüedades originales del Imperio francés, relojes monumentales señoriales o tapices de temática imperial pueden localizar fácilmente estas piezas impresionantes que reflejan la autoridad, el renacer clásico y la grandeza política de la Europa de comienzos del siglo XIX.",
+            "GOTHIC": "Los entusiastas que buscan antigüedades góticas auténticas en venta, muebles de estilo medieval y decoración original del Gothic Revival descubrirán una colección dramática de piezas con arcos apuntados y tracería intrincada. Nuestro índice reúne arcones de roble profundamente tallados, iluminación de hierro forjado y fragmentos eclesiásticos medievales de diversas tiendas de antigüedades. Los coleccionistas que desean comprar arte gótico original, vidrieras auténticas o elementos arquitectónicos de inspiración medieval pueden localizar piezas históricas que capturan la espiritualidad ascendente y la compleja artesanía del período.",
+            "HISTORICISM": "Los coleccionistas que buscan antigüedades historicistas en venta, mobiliario revival auténtico del siglo XIX y reproducciones históricas victorianas encontrarán un rico conjunto de piezas eclécticas y nostálgicas. Nuestro directorio agregado reúne armarios neorrenacentistas disponibles, asientos neogóticos y cerámica victoriana profusamente decorada de múltiples comerciantes. Quienes desean comprar decoración historicista original, grandes esculturas de bronce del siglo XIX o mobiliario de salón muy ornamentado descubrirán piezas que representan la fascinante obsesión de la época por combinar y reinventar los grandes estilos del pasado.",
+            "MANNERISM": "Historiadores del arte y compradores que buscan antigüedades manieristas en venta, arte del Renacimiento tardío y decoración europea del siglo XVI descubrirán una selección sofisticada de piezas conocidas por su artificio y elegancia. Nuestro índice consolidado presenta esculturas alargadas de bronce, pinturas alegóricas complejas y mobiliario italianizante muy ornamentado de comercios especializados. Los coleccionistas que desean comprar arte manierista original, metalistería elaborada o tapices de finales del siglo XVI pueden localizar piezas que muestran la exageración estilizada, la complejidad intelectual y el carácter de transición de este período fascinante.",
+            "MID_CENTURY_MODERN": "Los entusiastas que buscan muebles Mid-Century Modern auténticos en venta, decoración vintage de los años 50 e iluminación retro MCM encontrarán una colección muy codiciada de diseño limpio y funcional. Nuestro directorio agregado reúne aparadores originales de teca, sillas moldeadas de fibra de vidrio y relojes starburst de la era atómica procedentes de múltiples comerciantes vintage. Los coleccionistas que desean comprar antigüedades originales Danish Modern, arte retro geométrico o icónicas butacas lounge de mitad de siglo pueden localizar fácilmente estas piezas innovadoras de líneas puras que definen la estética doméstica de la posguerra.",
+            "MODERNISM": "Los compradores que buscan antigüedades modernistas auténticas en venta, piezas de diseño Bauhaus y decoración de vanguardia de comienzos del siglo XX descubrirán un conjunto revolucionario de piezas minimalistas de forma-sigue-función. Nuestro índice reúne mobiliario tubular de acero disponible, arte abstracto geométrico temprano y objetos de diseño industrial puramente funcionales de diversos comercios especializados. Los coleccionistas que desean comprar decoración modernista original, carteles constructivistas vintage o maquetas arquitectónicas de principios del siglo XX encontrarán piezas que rompieron radicalmente con la ornamentación histórica para abrazar la era de la máquina moderna.",
+            "NEOCLASSICISM": "Los coleccionistas que buscan antigüedades neoclásicas auténticas en venta, mobiliario clásico de finales del siglo XVIII y elegante decoración georgiana encontrarán una selección refinada de piezas equilibradas simétricamente. Nuestro directorio agregado presenta delicadas mesas demiluna de caoba, bustos clásicos de mármol y urnas de plata con motivos de greca procedentes de múltiples comerciantes. Quienes desean comprar arte neoclásico original, asientos estilo Luis XVI o jasperware de Wedgwood pueden localizar fácilmente estas piezas ordenadas y gráciles que buscaban revivir la estética pura de la antigua Grecia y Roma.",
+            "POSTMODERN": "Los entusiastas que buscan antigüedades posmodernas en venta, diseño Memphis vintage de los años 80 y decoración ecléctica de finales del siglo XX descubrirán una colección rebelde, audaz y colorida. Nuestro índice consolidado reúne mobiliario asimétrico disponible, objetos laminados de patrones vivos e iluminación escultórica lúdica de diversas tiendas vintage. Los coleccionistas que desean comprar arte posmoderno original, piezas de diseño retro-moderno irónico o cerámica de estudio poco convencional pueden localizar objetos históricos que desafiaron con humor las reglas estrictas del modernismo tradicional.",
+            "RENAISSANCE": "Los compradores que buscan antigüedades renacentistas auténticas en venta, artefactos europeos de los siglos XV y XVI y arte humanista temprano descubrirán un conjunto cultural de gran importancia. Nuestro directorio agregado reúne arcones italianos cassoni ricamente tallados, libros impresos tempranos y esculturas figurativas clásicas de bronce procedentes de comerciantes especializados en antigüedades. Los coleccionistas que desean comprar arte renacentista original, cerámica de maiolica temprana o tapices auténticos del siglo XVI pueden localizar fácilmente estas piezas magníficas que marcan el renacimiento del saber clásico y la perspectiva artística.",
+            "ROCOCO": "Los coleccionistas que buscan antigüedades rococó auténticas en venta, muebles franceses del siglo XVIII y ornamentada decoración Luis XV encontrarán una selección lujosa de piezas asimétricas e inspiradas en la naturaleza. Nuestro índice reúne espejos dorados disponibles con hojas de acanto ondulantes, delicadas mesas de patas cabriolé y pinturas románticas en tonos pastel de múltiples comerciantes. Quienes desean comprar arte rococó original, fina porcelana de Sèvres o elaborados relojes de ormolu descubrirán piezas altamente decorativas que definen el exceso lúdico, elegante y ligero de mediados del siglo XVIII.",
+            "ROMANESQUE": "Investigadores y compradores que buscan antigüedades románicas auténticas en venta, artefactos medievales de los siglos XI y XII y elementos arquitectónicos tempranos descubrirán una rara colección de objetos históricos robustos y masivos. Nuestro directorio agregado presenta fragmentos escultóricos tempranos en piedra, pesada forja de hierro y reliquias religiosas altomedievales procedentes de anticuarios especializados. Los coleccionistas que desean comprar arte románico auténtico, antigüedades cristianas tempranas o elementos monumentales medievales de recuperación pueden localizar estas piezas sólidas y espiritualmente significativas, caracterizadas por muros gruesos y arcos de medio punto."
+        },
+        "products": {
+            "loadingMore": "Cargando más artículos...",
+            "allLoaded_one": "Ha visto {{count}} artículo en este período.",
+            "allLoaded_other": "Ha visto los {{count}} artículos de este período.",
+            "noResults": {
+                "title": "No se encontraron artículos",
+                "description": "Actualmente no hay artículos en este período."
+            },
+            "error": {
+                "title": "No se pudieron cargar los artículos",
+                "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
+            }
         }
-      },
-      "billingNote": "mensual, IVA incluido",
-      "monthly": "Mensual",
-      "yearly": "Anual",
-      "yearlySavings": "Ahorra 2 meses",
-      "billingNoteMonthly": "al mes, IVA incluido",
-      "billingNoteYearly": "al mes, facturado anualmente, IVA incluido",
-      "getStartedFree": "Empezar gratis",
-      "subscribe": "Suscribirse",
-      "perMonth": "/mes"
+    },
+    "share": {
+        "copyLink": "Copiar enlace",
+        "copied": "¡Copiado!",
+        "shareProduct": "Compartir producto",
+        "foundOnAuraHistoria": "¡He encontrado {{title}} en Aura Historia! ¡Podría interesarte!"
+    },
+    "notFound": {
+        "title": "Página no encontrada",
+        "description": "La página que busca no fue encontrada.",
+        "goHome": "Ir a la página principal"
+    },
+    "error": {
+        "title": "Algo salió mal",
+        "description": "Se produjo un error inesperado. Por favor, inténtelo de nuevo más tarde.",
+        "goHome": "Ir a la página principal"
+    },
+    "auth": {
+        "subtitle": "Más de 120.000 antigüedades de 500 vendedores. Compare, guarde y siga precios en Aura Historia.",
+        "welcome": "Bienvenido",
+        "welcomeWithName": "¡Bienvenido, {{name}}!",
+        "welcomeBack": "Bienvenido de nuevo",
+        "welcomeBackWithName": "¡Bienvenido de nuevo, {{name}}!",
+        "completingRegistration": "El registro se está completando, ¡por favor espere un momento!",
+        "completingLogin": "El inicio de sesión se está completando, ¡por favor espere un momento!",
+        "retry": "Intentar de nuevo",
+        "backToLogin": "Volver al inicio de sesión",
+        "backToHomepage": "Volver a la página principal",
+        "errorTitle": "Datos de usuario no guardados",
+        "timeout": {
+            "title": "¡Registro exitoso!",
+            "message": "¡Su registro se completó con éxito! Los datos personales no pudieron guardarse debido al alto tráfico de usuarios.",
+            "hint": "Puede añadir esta información en cualquier momento en la configuración de su cuenta.",
+            "noteLabel": "Nota:"
+        },
+        "signUp": {
+            "firstName": "Nombre",
+            "firstNamePlaceholder": "Juan",
+            "lastName": "Apellido",
+            "lastNamePlaceholder": "García",
+            "email": "Correo electrónico",
+            "emailPlaceholder": "tu.correo@ejemplo.es",
+            "password": "Contraseña*",
+            "confirmPassword": "Confirmar contraseña*",
+            "language": "Idioma",
+            "currency": "Moneda",
+            "pleaseSelect": "Por favor selecciona",
+            "prohibitedContentConsentLabel": "Mostrar productos con marcaciones del §86a StGB",
+            "prohibitedContentConsentTooltip": "Las imágenes de productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, especialmente las de la era del nacionalsocialismo, según §86a StGB. Al aceptar, consientes que te mostremos dicho contenido.",
+            "title": "Crear una cuenta",
+            "subtitle": "Únete a Aura Historia para rastrear antigüedades",
+            "passwordPlaceholder": "Crea una contraseña",
+            "confirmPasswordPlaceholder": "Repite tu contraseña",
+            "submit": "Crear cuenta",
+            "haveAccount": "¿Ya tienes una cuenta?",
+            "signInLink": "Iniciar sesión"
+        },
+        "signIn": {
+            "email": "Correo electrónico",
+            "emailPlaceholder": "tu.correo@ejemplo.es",
+            "password": "Contraseña",
+            "passwordPlaceholder": "Introduce tu contraseña",
+            "title": "Bienvenido de nuevo",
+            "subtitle": "Inicia sesión en tu cuenta para continuar",
+            "submit": "Iniciar sesión",
+            "noAccount": "¿No tienes cuenta?",
+            "signUpLink": "Crear una"
+        },
+        "languages": {
+            "de": "Alemán",
+            "en": "Inglés",
+            "fr": "Francés",
+            "es": "Español",
+            "it": "Italiano"
+        },
+        "currencies": {
+            "EUR": "EUR - Euro",
+            "GBP": "GBP - Libra esterlina",
+            "USD": "USD - Dólar estadounidense",
+            "AUD": "AUD - Dólar australiano",
+            "CAD": "CAD - Dólar canadiense",
+            "NZD": "NZD - Dólar neozelandés",
+            "CNY": "CNY - Yuan chino",
+            "BRL": "BRL - Real brasileño",
+            "PLN": "PLN - Zloty polaco",
+            "TRY": "TRY - Lira turca",
+            "JPY": "JPY - Yen japonés",
+            "CZK": "CZK - Corona checa",
+            "RUB": "RUB - Rublo ruso",
+            "AED": "AED - Dirham de los EAU",
+            "SAR": "SAR - Riyal saudí",
+            "HKD": "HKD - Dólar de Hong Kong",
+            "SGD": "SGD - Dólar de Singapur",
+            "CHF": "CHF - Franco suizo"
+        },
+        "confirm": {
+            "title": "Revisa tu correo",
+            "subtitle": "Te enviamos un código de 6 dígitos a {{email}}",
+            "codeLabel": "Código de verificación",
+            "codePlaceholder": "000000",
+            "submit": "Verificar correo",
+            "noCode": "¿No recibiste el código?",
+            "resend": "Reenviar código",
+            "resendSending": "Enviando…",
+            "resendSent": "¡Código enviado!"
+        },
+        "userDetails": {
+            "title": "Completa tu perfil",
+            "subtitle": "Estos datos son opcionales — puedes actualizarlos en cualquier momento",
+            "submit": "Guardar y continuar",
+            "skip": "Omitir por ahora"
+        }
+    },
+    "amplify": {
+        "email": "Correo electrónico*",
+        "password": "Contraseña*",
+        "confirmPassword": "Confirmar contraseña*",
+        "signIn": "Iniciar sesión",
+        "signUp": "Registrarse",
+        "createAccount": "Crear cuenta",
+        "forgotYourPassword": "¿Olvidó su contraseña?",
+        "resetPassword": "Restablecer contraseña",
+        "backToSignIn": "Volver a iniciar sesión",
+        "sendCode": "Enviar código",
+        "confirm": "Confirmar",
+        "submit": "Enviar",
+        "verify": "Verificar",
+        "skip": "Omitir",
+        "code": "Código",
+        "newPassword": "Nueva contraseña",
+        "enterYourEmail": "Introduzca su correo electrónico",
+        "enterYourPassword": "Introduzca su contraseña",
+        "pleaseConfirmYourPassword": "Por favor confirme su contraseña",
+        "weEmailedYou": "Le enviamos un correo electrónico",
+        "weSentACode": "Enviamos un código",
+        "weTextedYou": "Le enviamos un SMS",
+        "codeOnTheWayEmail": "Su código está en camino. Para iniciar sesión, introduzca el código que enviamos a",
+        "codeOnTheWaySent": "Su código está en camino. Para iniciar sesión, introduzca el código que le enviamos",
+        "codeOnTheWayText": "Su código está en camino. Para iniciar sesión, introduzca el código que enviamos por SMS a",
+        "itMayTakeAMinuteToArrive": "Puede tardar un minuto en llegar",
+        "confirmationCode": "Código de confirmación",
+        "enterYourConfirmationCode": "Introduzca su código de confirmación",
+        "resendCode": "Reenviar código",
+        "incorrectUsernameOrPassword": "Nombre de usuario o contraseña incorrectos.",
+        "userDoesNotExist": "El usuario no existe.",
+        "userAlreadyExists": "El usuario ya existe.",
+        "invalidVerificationCode": "Código de verificación inválido, por favor intente de nuevo.",
+        "invalidPasswordFormat": "Formato de contraseña inválido.",
+        "passwordAttemptsExceeded": "Demasiados intentos. Por favor intente más tarde.",
+        "attemptLimitExceeded": "Límite de intentos excedido, por favor intente más tarde.",
+        "alreadySignedInUser": "Ya hay un usuario conectado.",
+        "passwordPolicyNotLongEnough": "La contraseña no es suficientemente larga.",
+        "passwordPolicyMustHaveLowercase": "La contraseña debe contener minúsculas.",
+        "passwordPolicyMustHaveUppercase": "La contraseña debe contener mayúsculas.",
+        "passwordPolicyMustHaveSymbol": "La contraseña debe contener caracteres especiales.",
+        "passwordMustHaveUppercase": "La contraseña debe contener mayúsculas.",
+        "passwordMustHaveLowercase": "La contraseña debe contener minúsculas.",
+        "passwordMustHaveNumeric": "La contraseña debe contener números.",
+        "passwordMustHaveSymbol": "La contraseña debe contener caracteres especiales.",
+        "passwordMustHaveAtLeast8Chars": "La contraseña debe tener al menos 8 caracteres.",
+        "yourPasswordsMustMatch": "Las contraseñas deben coincidir.",
+        "userIsNotConfirmed": "El usuario no está confirmado.",
+        "userIsDisabled": "El usuario está deshabilitado.",
+        "usernameCannotBeEmpty": "El nombre de usuario no puede estar vacío.",
+        "passwordCannotBeEmpty": "La contraseña no puede estar vacía.",
+        "networkError": "Error de red. Por favor verifique su conexión a Internet.",
+        "accountWithEmailAlreadyExists": "Ya existe una cuenta con este correo electrónico.",
+        "invalidEmailAddressFormat": "Formato de correo electrónico inválido.",
+        "codeMismatch": "El código introducido es incorrecto.",
+        "confirmationCodeCannotBeEmpty": "El código de confirmación no puede estar vacío.",
+        "invalidCodeProvidedRequestAgain": "Código inválido, por favor solicite uno nuevo."
+    },
+    "consent": {
+        "title": "Valoramos tu privacidad",
+        "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Al hacer clic en 'Aceptar', das tu consentimiento para el uso de cookies con estos fines. Puede encontrar más información en nuestra <1>política de privacidad</1>.",
+        "accept": "Aceptar",
+        "reject": "Rechazar"
+    },
+    "consentSettings": {
+        "title": "Configuración de cookies",
+        "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Puede encontrar más información en nuestra <1>política de privacidad</1>.",
+        "analyticsLabel": "Análisis y seguimiento",
+        "analyticsDescription": "Nos permite analizar el uso y mejorar tu experiencia a través de Google Analytics. Incluye almacenamiento de anuncios, almacenamiento de analíticas, datos de usuario de anuncios y personalización de anuncios.",
+        "saved": "Tus preferencias de cookies han sido guardadas."
+    },
+    "combination": {
+        "header": {
+            "archiveLabel": "Colección",
+            "overviewTitle": "Contexto curatorial",
+            "imageAlt": "Imagen representativa de {{combination}}"
+        },
+        "names": {
+            "biedermeier-furniture": "Muebles Biedermeier",
+            "ancient-weapons": "Armas antiguas",
+            "art-nouveau-jewelry": "Joyería Art Nouveau",
+            "art-deco-furniture": "Muebles Art Déco",
+            "baroque-furniture": "Muebles barrocos",
+            "renaissance-paintings": "Pinturas del Renacimiento",
+            "ancient-coins": "Monedas antiguas",
+            "art-nouveau-lamps": "Lámparas Art Nouveau",
+            "art-deco-jewelry": "Joyería Art Déco",
+            "gothic-art": "Arte gótico",
+            "rococo-furniture": "Muebles rococó",
+            "ancient-jewelry": "Joyería antigua",
+            "victorian-clocks": "Relojes victorianos",
+            "baroque-silver": "Plata barroca",
+            "empire-furniture": "Muebles Imperio",
+            "biedermeier-clocks": "Relojes Biedermeier",
+            "mid-century-furniture": "Muebles Mid-Century",
+            "ancient-textiles": "Textiles antiguos",
+            "art-nouveau-art": "Arte Art Nouveau",
+            "renaissance-weapons": "Armas del Renacimiento"
+        },
+        "descriptions": {
+            "default": "Descubra objetos cuidadosamente seleccionados de esta colección con detalles sobre procedencia, estado y contexto histórico. Nuestra base de datos agrega ofertas de casas de subastas especializadas, comerciantes y mercados, permitiéndole comparar un amplio espectro de antigüedades auténticas en un solo lugar.",
+            "biedermeier-furniture": "Los coleccionistas de muebles Biedermeier auténticos encontrarán aquí la elegancia sobria del período 1815-1848. Descubra secreteres de cerezo, cómodas de nogal y mesas Biedermeier de casas de subastas y comerciantes especializados. La era Biedermeier se distingue por sus líneas limpias, maderas nobles y una deliberada moderación decorativa. En Aura Historia, compare muebles de esta edad dorada de la cultura doméstica burguesa ofrecidos por numerosos especialistas europeos.",
+            "ancient-weapons": "Quienes buscan armas antiguas descubrirán aquí espadas, lanzas y armaduras de origen griego, romano y oriental. Desde dagas de la Edad del Bronce hasta gladios romanos y cascos etruscos, cada pieza narra conflictos y tecnologías militares de milenios pasados. Nuestra plataforma agrega ofertas de las principales casas de subastas y comerciantes de armas para ofrecerle la selección más amplia.",
+            "art-nouveau-jewelry": "Los amantes de la joyería Art Nouveau encontrarán aquí broches filigranados y colgantes esmaltados de la Belle Époque. El Art Nouveau revolucionó la joyería con sus formas botánicas, motivos de insectos y materiales novedosos como el esmalte plique-à-jour. Encuentre en Aura Historia piezas exquisitas de joyeros especializados y casas de subastas internacionales.",
+            "art-deco-furniture": "Los compradores de muebles Art Déco encontrarán aquí la elegancia geométrica de los años 1920 y 1930. El estilo Art Déco combina materiales lujosos con una modernidad audaz – maderas exóticas, metal pulido y patrones geométricos definen el diseño. Compare en nuestra plataforma una amplia gama de muebles de esta era icónica provenientes de fuentes internacionales.",
+            "baroque-furniture": "Los coleccionistas de muebles barrocos encontrarán aquí armarios suntuosos y consolas doradas de los siglos XVII y XVIII. El período barroco produjo tallas opulentas, marquetería y dorados que siguen cautivando. Desde gabinetes italianos hasta armarios holandeses, nuestra plataforma ofrece acceso a una amplia gama de ofertas de comerciantes y casas de subastas especializadas.",
+            "renaissance-paintings": "Los amantes del arte encontrarán aquí pinturas renacentistas de los siglos XV y XVI, desde retablos hasta retratos y escenas religiosas. El Renacimiento marca una edad dorada de la pintura europea con maestros como Botticelli, Tiziano y Durero. En Aura Historia, compare pinturas de esta era ofrecidas por las principales casas de subastas, galerías y marchantes de arte especializados de todo el mundo.",
+            "ancient-coins": "Los numismáticos encontrarán aquí dracmas griegos, denarios romanos y sólidos bizantinos. Las monedas antiguas son testimonios únicos de culturas pasadas, documentando gobernantes, deidades y eventos históricos. Nuestra plataforma reúne ofertas de casas de subastas numismáticas y comerciantes especializados de renombre para ayudarle a encontrar la adición ideal a su colección.",
+            "art-nouveau-lamps": "Quienes buscan lámparas Art Nouveau descubrirán aquí luminarias Tiffany y lámparas Gallé de alrededor de 1900. La iluminación Art Nouveau combina perfección artesanal con formas orgánicas – arte en vidrio, bronce y esmalte se fusionan en impresionantes fuentes de luz. Compare en Aura Historia lámparas de Tiffany Studios, Gallé, Daum y otras manufacturas renombradas de numerosas fuentes especializadas.",
+            "art-deco-jewelry": "Los amantes de la joyería Art Déco encontrarán aquí broches geométricos y pulseras de platino de los años 1920 y 1930. La joyería Art Déco combina precisión geométrica con gemas lujosas y engastes innovadores. Desde anillos cóctel hasta sautoirs, nuestra plataforma permite comparar un amplio espectro de esta glamurosa era joyera proveniente de casas de subastas internacionales.",
+            "gothic-art": "Los coleccionistas de arte gótico descubrirán aquí retablos, esculturas y pinturas de los siglos XII al XV. El Gótico produjo una fusión única de espiritualidad y estética – desde delicadas Madonas hasta vitrales luminosos y retablos tallados monumentales. En Aura Historia, compare obras de arte góticas de diversas regiones y consulte ofertas de fuentes especializadas.",
+            "rococo-furniture": "Quienes buscan muebles rococó encontrarán aquí cómodas curvas y bergères del siglo XVIII. El Rococó se caracteriza por ornamentos asimétricos, motivos de conchas y una ligereza lúdica que sucedió al estricto Barroco. Desde cómodas Luis XV hasta consolas venecianas, Aura Historia ofrece acceso a una amplia gama de ofertas de comerciantes y casas de subastas internacionales.",
+            "ancient-jewelry": "Los coleccionistas de joyería antigua encontrarán aquí cadenas de oro, camafeos y fíbulas de origen griego y romano. La joyería antigua fascina por su perfección artesanal y significado simbólico – desde motivos de coronas doradas hasta gemas grabadas y pendientes filigranados. En nuestra plataforma, compare objetos de diversas culturas de la Antigüedad ofrecidos por especialistas de renombre.",
+            "victorian-clocks": "Los aficionados a la relojería encontrarán aquí relojes victorianos y relojes de bolsillo del siglo XIX de fabricantes ingleses y europeos. La era victoriana produjo una notable variedad de tipos de relojes – desde relojes ornamentales hasta reguladores y relojes esqueleto. En Aura Historia, compare relojes históricos y consulte ofertas de casas de subastas y comerciantes especializados.",
+            "baroque-silver": "Los coleccionistas de plata barroca encontrarán aquí copas ceremoniales y candelabros de los siglos XVII y XVIII. La plata barroca impresiona por su trabajo de repujado opulento y técnicas magistrales de dorado. Desde copas de Augsburgo hasta candelabros londinenses, nuestra plataforma agrega ofertas de casas de subastas y comerciantes de plata especializados para una visión completa.",
+            "empire-furniture": "Los compradores de muebles Imperio encontrarán aquí la elegancia clásica de la era napoleónica. El estilo Imperio combina un lenguaje formal antiguo con grandeza imperial – motivos egipcios, bronces dorados y simetría estricta definen esta era. En Aura Historia, compare muebles Imperio de fuentes francesas, alemanas e italianas para encontrar la pieza perfecta.",
+            "biedermeier-clocks": "Los aficionados a la relojería encontrarán aquí relojes Biedermeier auténticos del período 1815-1848. La relojería Biedermeier se distingue por formas arquitectónicas limpias, cajas de madera noble y movimientos precisos. Desde relojes Laterndl hasta elegantes relojes de mesa, nuestra plataforma permite comparar estos cronómetros de la cultura doméstica burguesa de numerosas fuentes especializadas.",
+            "mid-century-furniture": "Los amantes del diseño encontrarán aquí clásicos del mobiliario Mid-Century Modern de los años 1950 y 1960. El diseño Mid-Century revolucionó el mobiliario con formas orgánicas, materiales innovadores y una fusión de forma y función. Desde sillones lounge hasta aparadores y mesas de comedor, Aura Historia ofrece acceso a una amplia gama de ofertas de especialistas vintage internacionales.",
+            "ancient-textiles": "Los coleccionistas de textiles encontrarán aquí tejidos y prendas de la Antigüedad. Los textiles antiguos se encuentran entre los testimonios más raros y frágiles de culturas pasadas – sus patrones, técnicas de teñido y materiales revelan rutas comerciales y jerarquías sociales. En nuestra plataforma, compare estos preciosos fragmentos de especialistas internacionales y ventas museísticas.",
+            "art-nouveau-art": "Los amantes del arte encontrarán aquí pinturas, grabados y objetos decorativos del movimiento Art Nouveau. El arte Art Nouveau abarca un amplio espectro – desde óleos hasta litografías, carteles, cerámicas y vidrio decorativo. En Aura Historia, compare obras de este movimiento revolucionario ofrecidas por casas de subastas, galerías y marchantes especializados de todo el mundo.",
+            "renaissance-weapons": "Los coleccionistas de armas renacentistas encontrarán aquí armaduras ornamentadas y espadas de los siglos XV y XVI. El Renacimiento trajo innovaciones tecnológicas y embellecimientos artísticos a la armería – desde armaduras grabadas hasta pistolas de rueda. Nuestra plataforma agrega ofertas de casas de subastas de armas y armaduras de renombre para que pueda comparar estos artefactos históricos."
+        },
+        "products": {
+            "error": {
+                "title": "Error de carga",
+                "description": "No se pudieron cargar los objetos de esta colección. Inténtelo de nuevo más tarde."
+            },
+            "noResults": {
+                "title": "No se encontraron objetos",
+                "description": "Actualmente no hay objetos disponibles para esta colección."
+            },
+            "loadingMore": "Cargando más objetos…",
+            "allLoaded_one": "Se ha cargado el único objeto de esta colección.",
+            "allLoaded_other": "Se han cargado los {{count}} objetos de esta colección."
+        }
+    },
+    "categoriesOverview": {
+        "title": "Todas las Categorías",
+        "subtitle": "Explorar por Categoría",
+        "description": "Explora nuestra gama completa de categorías de antigüedades. Cada categoría reúne artículos seleccionados de casas de subastas y distribuidores de todo el mundo.",
+        "itemCount": "{{formattedCount}} objetos",
+        "itemCount_one": "{{formattedCount}} objeto",
+        "explore": "Explorar"
+    },
+    "periodsOverview": {
+        "title": "Todos los Periodos y Estilos",
+        "subtitle": "Explorar por Período",
+        "description": "Viaja a través de la historia y descubre antigüedades de cada época. Cada período revela la artesanía y el espíritu artístico de su tiempo.",
+        "explore": "Explorar"
+    },
+    "collectionsOverview": {
+        "title": "Todas las Colecciones",
+        "subtitle": "Colecciones Curadas",
+        "description": "Descubre nuestras colecciones curadas que combinan categorías específicas con períodos históricos. Cada colección ofrece una perspectiva única sobre la artesanía y la época.",
+        "explore": "Explorar"
+    },
+    "shop": {
+        "header": {
+            "archiveLabel": "Tienda",
+            "overviewTitle": "Resumen de la tienda",
+            "indexedItems": "Artículos indexados",
+            "imageAlt": "Logotipo de {{shop}}",
+            "noImage": "No hay logotipo disponible",
+            "addedOn": "Añadido el {{date}}",
+            "metaDescription": "Explore antigüedades y objetos de colección de {{shop}} en Aura Historia."
+        },
+        "products": {
+            "loadingMore": "Cargando más artículos...",
+            "allLoaded_one": "Ha visto {{count}} artículo de esta tienda.",
+            "allLoaded_other": "Ha visto los {{count}} artículos de esta tienda.",
+            "noResults": {
+                "title": "No se encontraron artículos",
+                "description": "Actualmente no hay artículos de esta tienda."
+            },
+            "error": {
+                "title": "No se pudieron cargar los artículos",
+                "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
+            }
+        }
+    },
+    "notifications": {
+        "title": "Notificaciones",
+        "markAllRead": "Marcar todo como leído",
+        "noNotifications": "Sin notificaciones",
+        "ariaLabel": "Abrir notificaciones",
+        "types": {
+            "priceChange": "Cambio de precio",
+            "stateChange": "Cambio de estado",
+            "newMatch": "Nueva coincidencia",
+            "partnerApplicationApproved": "Solicitud aprobada",
+            "partnerApplicationRejected": "Solicitud rechazada",
+            "partnerApplication": "Solicitud de socio",
+            "partnerApplicationSubmitted": "Enviada",
+            "partnerApplicationStatusApproved": "Aprobada",
+            "partnerApplicationStatusRejected": "Rechazada"
+        },
+        "delete": "Eliminar",
+        "deleteAll": "Eliminar todo",
+        "markRead": "Marcar como leído",
+        "loadingError": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde.",
+        "loadingMore": "Cargando más notificaciones...",
+        "allLoaded_one": "{{count}} notificación cargada",
+        "allLoaded_other": "Todas las {{count}} notificaciones cargadas",
+        "noResults": {
+            "title": "Sin notificaciones",
+            "description": "Aún no has recibido ninguna notificación."
+        },
+        "totalElements_one": "{{count}} notificación",
+        "totalElements_other": "{{count}} notificaciones",
+        "showAll": "Mostrar todas las notificaciones"
     }
-  },
-  "apiErrors": {
-    "PRODUCT_NOT_FOUND": "Este artículo no fue encontrado.",
-    "UNAUTHORIZED": "Autenticación fallida. Por favor, inicie sesión.",
-    "INTERNAL_SERVER_ERROR": "Se produjo un error interno del servidor. Por favor, inténtelo de nuevo más tarde.",
-    "GATEWAY_TIMEOUT": "Tiempo de espera de la solicitud agotado. Por favor, inténtelo de nuevo más tarde.",
-    "WATCHLIST_ENTRY_NOT_FOUND": "Este artículo no está en su lista de seguimiento.",
-    "SEARCH_FILTER_NOT_FOUND": "Este filtro de búsqueda no existe.",
-    "TEXT_QUERY_TOO_SHORT": "La consulta de búsqueda debe contener al menos 3 caracteres.",
-    "BAD_PATH_PARAMETER_VALUE": "El enlace no es válido.",
-    "INVALID_UUID": "El enlace no es válido.",
-    "SERVICE_UNAVAILABLE": "El servicio no está disponible actualmente. Por favor, inténtelo de nuevo más tarde.",
-    "BAD_QUERY_PARAMETER_VALUE": "Su búsqueda contiene configuraciones no válidas.",
-    "SHOP_NOT_FOUND": "Esta tienda ya no está disponible.",
-    "INVALID_SHOP_IDENTIFIER": "El identificador de la tienda no es válido.",
-    "INVALID_DOMAIN": "El dominio de la tienda no es válido.",
-    "FORBIDDEN": "Esta acción no está disponible para usted.",
-    "BAD_BODY_VALUE": "Algunos detalles son incorrectos. Por favor, verifique su entrada.",
-    "MONETARY_AMOUNT_OVERFLOW": "El precio es demasiado alto y no se puede procesar.",
-    "BAD_PAGE_FROM_VALUE": "Número de página no válido.",
-    "BAD_PAGE_SIZE_VALUE": "Número de elementos por página no válido.",
-    "BAD_SORT_VALUE": "Ordenación no válida.",
-    "BAD_ORDER_VALUE": "Orden de clasificación no válido.",
-    "unknown": "Se produjo un error inesperado.",
-    "WATCHLIST_QUOTA_EXCEEDED": "Has alcanzado el número máximo de artículos en tu lista de seguimiento. Ya hay 5/5 entradas ocupadas en la lista de seguimiento.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Has alcanzado el número máximo de filtros de búsqueda guardados. Ya hay 5/5 filtros de búsqueda ocupados.",
-    "INVALID_EMAIL": "La dirección de correo electrónico no es válida o no es aceptada por nuestro proveedor de boletín.",
-    "STRIPE_CUSTOMER_ALREADY_EXISTS": "Ya tiene una suscripción activa. Por favor, utilice el portal de cliente para gestionarla.",
-    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No se encontró ninguna suscripción existente. Por favor, inicie un nuevo proceso de pago."
-  },
-  "watchlist": {
-    "title": "Mi lista de seguimiento",
-    "loginRequired": "Por favor, inicie sesión para usar la lista de seguimiento.",
-    "totalElements": "{{count}} artículos",
-    "loadingError": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde.",
-    "loadingMore": "Cargando más resultados...",
-    "allLoaded_one": "Ha visto {{count}} artículo de su lista de seguimiento.",
-    "allLoaded_other": "Ha visto los {{count}} artículos de su lista de seguimiento.",
-    "noResults": {
-      "title": "No se encontraron artículos",
-      "description": "Añada artículos a su lista de seguimiento para verlos aquí."
-    }
-  },
-  "category": {
-    "header": {
-      "archiveLabel": "Archivo de categoria",
-      "overviewTitle": "Perspectiva curatorial",
-      "indexedItems": "Objetos indexados",
-      "imageAlt": "Imagen representativa de {{category}}"
-    },
-    "descriptions": {
-      "default": "Explore objetos cuidadosamente seleccionados de esta categoria, con pistas de procedencia, detalles de oficio y visibilidad actual del mercado.",
-      "ANCIENT_POTTERY": "Vasijas, piezas votivas y ceramica antigua que documentan rituales, comercio y vida cotidiana de civilizaciones pasadas.",
-      "STORAGE_CONTAINERS": "Los coleccionistas que buscan baules antiguos, arcones de madera vintage y cajas de almacenamiento historicas encuentran una mirada fascinante a como generaciones pasadas protegian sus pertenencias. Aqui pueden descubrir grandes baules de viaje con herrajes de laton, arcones tallados con detalle y delicadas cajas de te con incrustaciones. La seleccion incluye con frecuencia cajoneras de botica vintage, sombrereras antiguas de cuero y primeras latas publicitarias. Desde pesadas cajas de documentos de roble con cierres complejos hasta cestas tejidas, estas piezas muestran uniones historicas y necesidades practicas de la vida domestica.",
-      "LIGHTING_OBJECTS": "Quienes buscan luminarias antiguas, aranas vintage y lamparas historicas descubriran un amplio espectro de iluminacion funcional y decorativa de distintas epocas. La oferta abarca desde primeras lamparas de aceite de ballena en peltre y candelabros de laton hasta gasolieres victorianos y autenticas lamparas Art Nouveau de vidrio. Los entusiastas que desean comprar lamparas de techo antiguas tambien encontraran aranas de prismas de cristal, colgantes industriales esmaltados y primeras lamparas de escritorio electricas con cableado original. Estas piezas aportan contexto sobre la evolucion tecnologica de la luz, la historia del vidrio y el diseno interior.",
-      "BOOKS_MANUSCRIPTS_PRINTED_MEDIA": "Los bibliofilos que buscan primeras ediciones raras, manuscritos antiguos y materiales impresos tempranos encontraran una rica seleccion de documentos historicos. Quienes desean comprar libros antiguos en linea pueden esperar clasicos encuadernados en cuero, manuscritos iluminados con caligrafia detallada y mapas historicos coleccionables. Esta seccion tambien incluye litografias originales, grabados al cobre tempranos y textos religiosos raros. Ya sea para encontrar una novela firmada del siglo XIX o para evaluar precios de tratados cientificos centenarios, estas piezas muestran encuadernacion tradicional, tipografia y tecnicas historicas de impresion.",
-      "FURNITURE": "Historiadores del interior y coleccionistas que buscan muebles antiguos autenticos, mobiliario de madera vintage y piezas de epoca pueden explorar una amplia variedad de objetos domesticos georgianos, victorianos, Art Deco y de mediados del siglo XX. Descubra mesas de comedor de caoba maciza, armarios de roble tallados y elegantes escritorios de nogal con uniones de cola de milano. La seleccion suele incluir sillones de cuero capitone, aparadores de marqueteria y muebles populares pintados. Quienes desean comprar muebles antiguos en linea encontraran piezas que reflejan tecnicas historicas de carpinteria, tapiceria de epoca y la evolucion del gusto estetico.",
-      "TOYS_GAMES_RECREATIONAL": "Los coleccionistas de juguetes que buscan juguetes antiguos, juegos de mesa vintage y piezas mecanicas tempranas pueden explorar una fascinante variedad de entretenimiento infantil historico. La seleccion presenta con frecuencia huchas mecanicas de hierro fundido, juguetes de lata litografiada y autenticas munecas de porcelana antiguas con vestimenta de epoca. Quienes desean comprar juguetes de madera vintage o juegos de salon victorianos tambien pueden encontrar caballos balancin tempranos, dioramas moviles complejos y conjuntos completos de juegos historicos. Estas piezas revelan materiales de fabricacion, ingenio mecanico y la relevancia cultural del ocio de otras epocas.",
-      "TEXTILES": "Los historiadores textiles que buscan textiles antiguos, tapices vintage y vestimenta historica descubriran una vibrante variedad de telas, prendas y tejidos tempranos. La oferta incluye con frecuencia colchas patchwork hechas a mano, intrincados tapices flamencos y delicados cuellos de encaje victorianos. Los entusiastas que desean comprar alfombras vintage o muestrarios historicos tambien pueden encontrar kimonos de seda preservados, primeras alfombras navajo tejidas y textiles bordados tradicionales con historia familiar. Estos tejidos conservados muestran la evolucion de tintes naturales, tecnicas de telar, procesos de hilado manual y la importancia cultural de la confeccion.",
-      "CLOCKS_TIMEKEEPING": "Los apasionados de la relojeria que buscan relojes antiguos, relojes de bolsillo vintage y piezas historicas raras encontraran un refinado conjunto de mecanismos de medicion del tiempo. La categoria abarca autenticos relojes de pie, ornamentados relojes de chimenea franceses en bronce dorado y cronometros marinos de precision usados en navegacion temprana. Los coleccionistas que desean comprar relojes de bolsillo vintage pueden encontrar cajas de plata esmaltada, movimientos de repeticion complejos y mecanismos fusee tempranos. Desde relojes cuco de la Selva Negra hasta sofisticados relojes de viaje, estas piezas destacan engranajes, escapes y arte decorativo de la historia horologica.",
-      "JEWELRY_PERSONAL_ADORNMENT": "Historiadores de joyeria y compradores que buscan joyas antiguas, anillos vintage y joyeria de herencia autentica encontraran una exquisita variedad de adornos personales de los periodos georgiano, victoriano, Art Nouveau y Art Deco. Descubra broches camafeo elaborados, autentica joyeria de luto y anillos de compromiso de platino con diamantes talla antigua. La seleccion incluye con frecuencia cadenas esmaltadas de reloj de bolsillo, chatelaines de plata esterlina y collares de granate facetado. Estas piezas portables resaltan el tallado historico de gemas, la evolucion de la orfebreria y los cambios de moda en sociedades pasadas.",
-      "ARCHITECTURAL_ELEMENTS": "Conservacionistas que buscan antiguedades arquitectonicas, materiales recuperados y elementos estructurales salvados encontraran una amplia variedad de componentes procedentes de edificaciones historicas. La oferta incluye grandes vigas de roble labradas a mano, autenticas vidrieras victorianas y pesadas puertas o rejas de hierro fundido. Los coleccionistas que desean comprar repisas de chimenea antiguas o herrajes vintage para puertas tambien pueden descubrir marcos de marmol ornamentados, tejas de terracota y accesorios de laton con patina original. Estas piezas permiten estudiar y reutilizar tecnicas tradicionales de construccion y patrimonio arquitectonico.",
-      "ARCHAEOLOGICAL_ARTIFACTS": "Los coleccionistas de antiguedades que buscan autenticos artefactos arqueologicos, ceramica antigua y reliquias historicas encontraran una profunda seleccion de objetos recuperados en excavaciones de todo el mundo. La categoria incluye con frecuencia vasos de vidrio romano, figuras ushabti egipcias autenticas y puntas de flecha neoliticas de silex tallado. Los entusiastas que desean comprar monedas antiguas o artefactos precolombinos tambien pueden hallar piezas de terracota, monedas griegas de bronce y tabletas mesopotamicas tempranas con cuneiforme. Estos hallazgos ofrecen una conexion tangible con la prehistoria humana y valiosa informacion sobre culturas desaparecidas.",
-      "VISUAL_ART": "Historiadores del arte y coleccionistas que buscan pinturas antiguas, obra historica original y esculturas vintage pueden recorrer un archivo cuidadosamente catalogado de piezas visuales de numerosos movimientos artisticos. Descubra retratos clasicos al oleo del siglo XVIII, acuarelas botanicas detalladas y esculturas figurativas tempranas en bronce. La categoria tambien incluye opciones para quienes buscan paisajes antiguos, bocetos renacentistas en grafito y grabados japoneses tradicionales en madera. Desde grandes pinturas academicas hasta miniaturas intimas, estas obras ayudan al estudio de tecnicas artisticas, pigmentos historicos y evolucion de la expresion visual.",
-      "DECORATIVE_OBJECTS": "Los coleccionistas que buscan antiguedades decorativas, decoracion vintage para el hogar y objetos ornamentales historicos descubriran un amplio espectro de piezas creadas para realzar espacios domesticos de distintas epocas. La oferta va desde finos jarrones de porcelana de Sevres y figuras de Meissen hasta sujetalibros de bronce Art Deco y piezas victorianas de mayolica. Quienes desean comprar espejos antiguos o vidrio artistico vintage pueden encontrar marcos dorados, vidrieria veneciana temprana y bustos clasicos de marmol. Estas piezas documentan la evolucion de las artes decorativas y la meticulosa artesania de talleres historicos.",
-      "EPHEMERA_MEMORABILIA": "Los coleccionistas de archivo que buscan efemera historica, recuerdos de papel vintage y documentos antiguos encontraran un fascinante conjunto de materiales que capturan la vida cotidiana del pasado. La seleccion incluye correspondencia manuscrita de la Guerra Civil estadounidense, coloridas tarjetas comerciales victorianas y primeros carteles publicitarios litografiados. Quienes desean comprar postales vintage, entradas historicas autenticas o antiguos programas teatrales pueden descubrir extensas colecciones de postales fotograficas y recuerdos de exposiciones universales. Estas fuentes primarias ofrecen una ventana unica a la publicidad comercial, los movimientos politicos y los eventos culturales.",
-      "PHOTOGRAPHY_OPTICAL_MEDIA": "Los entusiastas que buscan camaras vintage, fotografia antigua y dispositivos opticos historicos encontraran una seleccion completa de equipos tempranos de captura de imagen. La oferta incluye retratos en daguerrotipo en estuche, camaras de fuelle de madera originales y linternas magicas de laton con placas de vidrio pintadas a mano. Los coleccionistas que desean comprar tarjetas estereoscopicas antiguas, tintypes tempranos o negativos en placa de vidrio de gran formato encontraran archivos amplios de medios opticos. Estas piezas documentan la quimica de los primeros procesos fotograficos, la evolucion de la camara y su impacto social.",
-      "MUSICAL_INSTRUMENTS": "Musicologos y compradores que buscan instrumentos musicales antiguos, guitarras acusticas vintage e instrumentos historicos de metal pueden explorar una rica variedad de dispositivos acusticos tempranos. La seleccion presenta con frecuencia violines raros de cuerdas de tripa, flautas de madera ornamentadas y metales tempranos como bugles de llaves y cornetas de valvulas rotativas. Quienes desean adquirir pianos antiguos o instrumentos tradicionales de percusion etnografica tambien encontraran pianos de cola restaurados y concertinas antiguas. Estas piezas muestran la evolucion de la ingenieria acustica, la tradicion de la lutheria y los materiales historicos del sonido.",
-      "WEAPONS": "Los coleccionistas que buscan espadas antiguas autenticas, armas de fuego vintage y armaduras historicas descubriran una amplia gama de armas blancas y primeras armas de fuego de conflictos globales. La seleccion incluye con frecuencia raperas del Renacimiento, espadas anchas medievales y hojas originales de katana japonesa, junto con pistolas de chispa operativas, mosquetes antiguos de percusion y polvoreras ornamentadas. Quienes desean comprar piezas antiguas de defensa militar tambien pueden encontrar cotas de malla autenticas, armaduras ceremoniales y escudos decorativos. Estas piezas permiten profundizar en metalurgia historica, tacticas de combate y artesania militar temprana.",
-      "TOOLS_IMPLEMENTS": "Los coleccionistas que buscan herramientas manuales antiguas, herramientas de carpinteria vintage e implementos agricolas historicos encontraran una seleccion robusta de dispositivos usados por oficios antes de la mecanizacion masiva. Descubra cepillos de moldura de madera con hermosa patina, hachas anchas de hierro forjado y calibres de precision en laton usados por primeros ingenieros. La categoria incluye con frecuencia herramientas especializadas para toneleria, trabajo del cuero y canteria. Para quienes desean comprar herramientas de herreria vintage o equipo temprano de carpinteria, estos artefactos reflejan el trabajo fisico de siglos pasados y el ingenio artesanal.",
-      "INDUSTRIAL_TRADE_EQUIPMENT": "Esta categoria atrae a quienes buscan herramientas industriales antiguas, equipamiento de fabrica vintage y maquinaria historica de oficios. Los entusiastas pueden descubrir telares textiles de hierro fundido, primeras prensas de imprenta y maquinaria agricola pesada que impulso la Revolucion Industrial. La seleccion incluye con frecuencia equipamiento artesanal especializado para quienes desean comprar yunques antiguos de herrero, bancos de zapatero vintage y primeros relojes de fichar de fabrica. Ya sea una mesa de dibujo vintage o moldes industriales recuperados, estas piezas funcionales documentan la transformacion de la fabricacion y el trabajo.",
-      "CULTURAL_ETHNOGRAPHIC": "Los coleccionistas de enfoque antropologico que buscan arte etnografico autentico, artefactos tribales y objetos culturales indigenas encontraran una coleccion diversa que representa la cultura material de sociedades globales. La seleccion presenta con frecuencia mascaras ceremoniales africanas talladas, cartas de navegacion polinesias y trabajos de cuentas nativos americanos. Quienes desean comprar artefactos culturales tradicionales tambien pueden descubrir ruedas de oracion tibetanas, textiles sudamericanos autenticos y tallas inuit tempranas en hueso. Estos objetos etnograficos ofrecen perspectivas profundas sobre sistemas de creencias, estructuras sociales, materiales locales y artesania regional.",
-      "MILITARIA": "Los historiadores militares que buscan militaria autentica, uniformes antiguos y artefactos historicos de guerra encontraran una coleccion integral de objetos que documentan conflictos globales. La oferta incluye con frecuencia tunicas de lana originales de la Primera Guerra Mundial, trench art grabado y cascos de vuelo tempranos de cuero. Los entusiastas que desean comprar equipo militar antiguo o coleccionables de guerra tambien pueden encontrar insignias de unidad, carteles de propaganda originales y optica de campo historica como periscopios de trinchera de laton. Estas piezas son recursos educativos clave para comprender estructuras militares, logistica y el impacto de la guerra.",
-      "COINS_CURRENCY_MEDALS": "Los numismaticos que buscan monedas raras, papel moneda antiguo y medallas militares historicas pueden explorar una amplia seleccion de divisas globales y medallones conmemorativos. Descubra denarios romanos de plata autenticos, papel moneda colonial estadounidense temprano y soberanos de oro detalladamente acunados. La categoria tambien atiende a quienes desean comprar billetes vintage, billetes fuera de circulacion y errores raros de acunacion. Estos artefactos financieros ofrecen una vision detallada de la evolucion monetaria, procesos tempranos de ceca, inflacion historica e iconografia politica en la moneda mundial.",
-      "NATURAL_HISTORY_CURIOSITIES": "Los coleccionistas que buscan especimenes antiguos de historia natural, taxidermia vintage y curiosidades historicas encontraran una intrigante seleccion de objetos reunidos durante la exploracion biologica temprana. La categoria incluye dioramas autenticos de taxidermia victoriana, modelos anatomicos tempranos de papel mache y exhibiciones entomologicas preservadas. Quienes desean comprar fosiles antiguos, muestras geologicas historicas o laminas botanicas antiguas pueden descubrir amonites fosilizados, esqueletos articulados y pliegos de herbario historicos. Estas piezas aportan contexto profundo sobre historia de la ciencia, clasificacion biologica y fascinacion victoriana por la naturaleza.",
-      "TRANSPORTATION_TRAVEL_OBJECTS": "Esta categoria atrae a entusiastas que buscan artefactos de viaje antiguos, equipaje vintage y recuerdos historicos del transporte. Los coleccionistas pueden encontrar bitacoras maritimas de laton pulido, baules de carruaje en cuero y faroles ferroviarios originales usados por conductores del siglo XIX. La seleccion suele incluir gafas de conduccion de cuero vintage, registros historicos de pasajeros de vapor y sextantes tempranos de navegacion. Ya sea para comprar equipo maritimo antiguo, una bicicleta velocipedo o un modelo detallado de galeon, estas piezas documentan desafios historicos y avances tecnologicos del viaje temprano.",
-      "RELIGIOUS_RITUAL_CEREMONIAL": "Investigadores y coleccionistas que buscan artefactos religiosos antiguos, objetos rituales historicos y piezas ceremoniales sagradas encontraran una seleccion representativa de practicas espirituales globales. La oferta incluye vestiduras clericales ricamente bordadas, crucifijos de madera finamente tallados y punteros de Torah judios tempranos en plata. Quienes desean comprar artefactos budistas antiguos, textos islamicos iluminados o incensarios ornamentados de laton tambien pueden descubrir cuencos cantores, folios del Coran y quemadores de incienso. Estas piezas ofrecen informacion esencial para comprender religion comparada, historia del culto y cultura material espiritual.",
-      "WRITING_COMMUNICATION_INSTRUMENTS": "Los coleccionistas que buscan instrumentos de escritura antiguos, plumas estilograficas vintage y dispositivos historicos de comunicacion descubriran una variedad de herramientas que moldearon la correspondencia humana. La seleccion incluye con frecuencia llaves de telegrafo de hierro fundido, primeras maquinas de escribir mecanicas con teclas de vidrio y elegantes plumas de inmersion en plata esterlina. Quienes desean comprar tinteros antiguos, sellos autenticos para lacre o telefonos de disco vintage pueden encontrar tinteros de cristal y equipos de comunicacion restaurados. Estos artefactos ofrecen una guia amplia para entender la evolucion de la escritura y la comunicacion a distancia.",
-      "SCIENTIFIC_MEDICAL_TECHNICAL": "Los coleccionistas que buscan instrumentos cientificos antiguos, herramientas medicas vintage y dispositivos historicos de ingenieria encontraran una seleccion altamente especializada de herramientas empiricas. Descubra teodolitos topograficos de laton, primeros microscopios acromaticos en estuches originales de caoba y complejas maquinas antiguas de calculo. La categoria incluye con frecuencia kits quirurgicos antiguos, primeras balanzas de botica y elaborados globos celestes. Estos dispositivos historicos narran la evolucion de la ciencia empirica, la astronomia historica, la navegacion temprana y el desarrollo de practicas sanitarias antes de la tecnologia moderna."
-    },
-    "products": {
-      "loadingMore": "Cargando más artículos...",
-      "allLoaded_one": "Ha visto {{count}} artículo en esta categoría.",
-      "allLoaded_other": "Ha visto los {{count}} artículos de esta categoría.",
-      "noResults": {
-        "title": "No se encontraron artículos",
-        "description": "Actualmente no hay artículos en esta categoría."
-      },
-      "error": {
-        "title": "No se pudieron cargar los artículos",
-        "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
-      }
-    }
-  },
-  "period": {
-    "header": {
-      "archiveLabel": "Periodo",
-      "overviewTitle": "Perspectiva histórica",
-      "periodRange": "Rango temporal aproximado",
-      "defaultDescription": "Explore objetos seleccionados de esta época y descubra su contexto histórico, su cultura material y sus pistas de procedencia."
-    },
-    "descriptions": {
-      "ANTIQUITY": "Los coleccionistas que buscan artefactos auténticos de la Antigüedad en venta, cerámica griega antigua y antigüedades romanas descubrirán una selección profunda de piezas recuperadas de las primeras civilizaciones. Nuestro índice agregado reúne monedas antiguas disponibles, figuras egipcias ushebti y herramientas líticas neolíticas procedentes de distintos comerciantes especializados. Los entusiastas que desean comprar reliquias antiguas genuinas pueden encontrar esculturas antiguas de bronce, artefactos mesopotámicos tempranos y antigüedades clásicas del Mediterráneo. Estas piezas excavadas ofrecen una conexión tangible con la prehistoria humana y con la cultura material fundacional del mundo antiguo.",
-      "ART_DECO": "Los compradores que buscan antigüedades Art Decó auténticas en venta, muebles vintage de los años 20 y decoración geométrica encontrarán una gama glamurosa de piezas que abarcan las décadas de 1920 y 1930. Nuestro directorio agrega anuncios de múltiples tiendas, con aparadores de nogal de líneas aerodinámicas, luminarias cromadas y joyería clásica de la era flapper. Los coleccionistas que desean comprar arte Art Decó original o esculturas modernistas vintage pueden descubrir tocadores con espejo, accesorios coloridos de baquelita y elementos arquitectónicos audaces que definen este período icónico de lujo y diseño moderno temprano.",
-      "ART_NOUVEAU": "Los entusiastas que buscan antigüedades Art Nouveau en venta, decoración original de la Belle Époque y joyería floral vintage descubrirán una colección exquisita definida por líneas orgánicas y motivos naturales. Nuestro índice consolidado presenta lámparas auténticas estilo Tiffany, juegos de tocador de plata intrincados y muebles de caoba de formas fluidas procedentes de comerciantes diversos. Los coleccionistas que desean comprar vidrio artístico Art Nouveau, litografías originales de Mucha o esculturas sinuosas de bronce pueden localizar fácilmente piezas históricas concretas que capturan la esencia romántica de la artesanía de fin de siglo.",
-      "ARTS_AND_CRAFTS": "Los coleccionistas que buscan antigüedades Arts and Crafts en venta, muebles auténticos estilo Mission y decoración artesanal vintage encontrarán una selección sólida de piezas que enfatizan el trabajo manual. Nuestro directorio agregado reúne mesas macizas de roble aserrado al cuarto, luminarias de cobre martillado y textiles originales de William Morris de varias tiendas especializadas. Quienes desean comprar antigüedades Craftsman auténticas, cerámica vintage verde mate o metalistería artesanal de principios del siglo XX descubrirán piezas que rechazaron la producción en masa en favor de materiales naturales y un diseño honesto y funcional.",
-      "BAROQUE": "Los compradores que buscan antigüedades barrocas auténticas en venta, mobiliario ornamentado del siglo XVII y arte histórico dramático descubrirán un magnífico conjunto de artefactos muy detallados. Nuestro índice reúne anuncios disponibles de múltiples comerciantes, con armarios de nogal tallados elaboradamente, espejos dorados y pinturas al óleo de claroscuro impactante. Los coleccionistas que desean comprar decoración barroca original, pesadas lámparas de araña de latón o complejos textiles de tapicería pueden localizar fácilmente estas piezas opulentas y teatrales que definen la grandeza y la intensidad emocional del diseño europeo de los siglos XVII y comienzos del XVIII.",
-      "BIEDERMEIER": "Los entusiastas que buscan muebles Biedermeier auténticos en venta, antigüedades alemanas de principios del siglo XIX y decoración vintage elegante encontrarán una selección sofisticada de piezas sobrias y funcionales. Nuestro directorio consolidado agrega armarios de maderas frutales claras, escritorios de líneas limpias y asientos de curvas suaves procedentes de distintas tiendas de antigüedades. Los coleccionistas que desean comprar antigüedades Biedermeier originales, delicados relojes domésticos o refinadas piezas de salón descubrirán objetos históricos que muestran la elegancia simplificada y la belleza práctica del diseño burgués centroeuropeo.",
-      "CONTEMPORARY": "Los coleccionistas que buscan arte contemporáneo en venta, artesanía moderna de estudio y piezas de diseño de finales del siglo XX descubrirán un conjunto dinámico que refleja la expresión artística moderna. Nuestro índice agregado reúne anuncios disponibles de vidrio de estudio, pintura abstracta de vanguardia y mobiliario escultórico innovador de diversas galerías y comerciantes. Quienes desean comprar artesanía contemporánea, cerámica posmoderna u obras mixtas de finales de siglo pueden localizar piezas únicas y rompedoras que representan la evolución continua de la cultura material moderna y de la innovación artística.",
-      "EARLY_MEDIEVAL": "Investigadores y coleccionistas que buscan artefactos altomedievales en venta, reliquias auténticas de la Edad Oscura y antigüedades del período de las migraciones encontrarán una selección rara de objetos históricos. Nuestro directorio agrega joyería vikinga auténtica disponible, metalistería anglosajona temprana y cerámica merovingia procedente de comerciantes especializados en antigüedades. Los compradores que desean adquirir armas medievales auténticas, herramientas tempranas de hierro forjado o fíbulas antiguas descubrirán artefactos históricos clave que documentan los siglos turbulentos posteriores a la caída del Imperio romano y los inicios del desarrollo europeo.",
-      "EARLY_MODERN": "Los coleccionistas que buscan antigüedades de la Edad Moderna temprana en venta, artefactos del Renacimiento a la Ilustración y decoración de los siglos XVI al XVIII descubrirán un conjunto transformador de piezas históricas. Nuestro índice consolidado reúne instrumentos científicos tempranos disponibles, mobiliario isabelino de roble y mapas históricos de exploración de varias tiendas especializadas. Los entusiastas que desean comprar arte original de la Edad Moderna temprana, libros antiguos encuadernados en cuero o instrumentos de navegación tempranos pueden localizar piezas que representan la profunda expansión global y el despertar científico del mundo posmedieval.",
-      "EMPIRE": "Los compradores que buscan muebles auténticos de estilo Imperio en venta, antigüedades de la era napoleónica y decoración neoclásica del siglo XIX encontrarán una selección imponente de grandes artefactos históricos. Nuestro directorio agregado presenta consolas de caoba con monturas de ormolu, candelabros clásicos de bronce y objetos decorativos de carácter militar procedentes de múltiples comerciantes. Los coleccionistas que desean comprar antigüedades originales del Imperio francés, relojes monumentales señoriales o tapices de temática imperial pueden localizar fácilmente estas piezas impresionantes que reflejan la autoridad, el renacer clásico y la grandeza política de la Europa de comienzos del siglo XIX.",
-      "GOTHIC": "Los entusiastas que buscan antigüedades góticas auténticas en venta, muebles de estilo medieval y decoración original del Gothic Revival descubrirán una colección dramática de piezas con arcos apuntados y tracería intrincada. Nuestro índice reúne arcones de roble profundamente tallados, iluminación de hierro forjado y fragmentos eclesiásticos medievales de diversas tiendas de antigüedades. Los coleccionistas que desean comprar arte gótico original, vidrieras auténticas o elementos arquitectónicos de inspiración medieval pueden localizar piezas históricas que capturan la espiritualidad ascendente y la compleja artesanía del período.",
-      "HISTORICISM": "Los coleccionistas que buscan antigüedades historicistas en venta, mobiliario revival auténtico del siglo XIX y reproducciones históricas victorianas encontrarán un rico conjunto de piezas eclécticas y nostálgicas. Nuestro directorio agregado reúne armarios neorrenacentistas disponibles, asientos neogóticos y cerámica victoriana profusamente decorada de múltiples comerciantes. Quienes desean comprar decoración historicista original, grandes esculturas de bronce del siglo XIX o mobiliario de salón muy ornamentado descubrirán piezas que representan la fascinante obsesión de la época por combinar y reinventar los grandes estilos del pasado.",
-      "MANNERISM": "Historiadores del arte y compradores que buscan antigüedades manieristas en venta, arte del Renacimiento tardío y decoración europea del siglo XVI descubrirán una selección sofisticada de piezas conocidas por su artificio y elegancia. Nuestro índice consolidado presenta esculturas alargadas de bronce, pinturas alegóricas complejas y mobiliario italianizante muy ornamentado de comercios especializados. Los coleccionistas que desean comprar arte manierista original, metalistería elaborada o tapices de finales del siglo XVI pueden localizar piezas que muestran la exageración estilizada, la complejidad intelectual y el carácter de transición de este período fascinante.",
-      "MID_CENTURY_MODERN": "Los entusiastas que buscan muebles Mid-Century Modern auténticos en venta, decoración vintage de los años 50 e iluminación retro MCM encontrarán una colección muy codiciada de diseño limpio y funcional. Nuestro directorio agregado reúne aparadores originales de teca, sillas moldeadas de fibra de vidrio y relojes starburst de la era atómica procedentes de múltiples comerciantes vintage. Los coleccionistas que desean comprar antigüedades originales Danish Modern, arte retro geométrico o icónicas butacas lounge de mitad de siglo pueden localizar fácilmente estas piezas innovadoras de líneas puras que definen la estética doméstica de la posguerra.",
-      "MODERNISM": "Los compradores que buscan antigüedades modernistas auténticas en venta, piezas de diseño Bauhaus y decoración de vanguardia de comienzos del siglo XX descubrirán un conjunto revolucionario de piezas minimalistas de forma-sigue-función. Nuestro índice reúne mobiliario tubular de acero disponible, arte abstracto geométrico temprano y objetos de diseño industrial puramente funcionales de diversos comercios especializados. Los coleccionistas que desean comprar decoración modernista original, carteles constructivistas vintage o maquetas arquitectónicas de principios del siglo XX encontrarán piezas que rompieron radicalmente con la ornamentación histórica para abrazar la era de la máquina moderna.",
-      "NEOCLASSICISM": "Los coleccionistas que buscan antigüedades neoclásicas auténticas en venta, mobiliario clásico de finales del siglo XVIII y elegante decoración georgiana encontrarán una selección refinada de piezas equilibradas simétricamente. Nuestro directorio agregado presenta delicadas mesas demiluna de caoba, bustos clásicos de mármol y urnas de plata con motivos de greca procedentes de múltiples comerciantes. Quienes desean comprar arte neoclásico original, asientos estilo Luis XVI o jasperware de Wedgwood pueden localizar fácilmente estas piezas ordenadas y gráciles que buscaban revivir la estética pura de la antigua Grecia y Roma.",
-      "POSTMODERN": "Los entusiastas que buscan antigüedades posmodernas en venta, diseño Memphis vintage de los años 80 y decoración ecléctica de finales del siglo XX descubrirán una colección rebelde, audaz y colorida. Nuestro índice consolidado reúne mobiliario asimétrico disponible, objetos laminados de patrones vivos e iluminación escultórica lúdica de diversas tiendas vintage. Los coleccionistas que desean comprar arte posmoderno original, piezas de diseño retro-moderno irónico o cerámica de estudio poco convencional pueden localizar objetos históricos que desafiaron con humor las reglas estrictas del modernismo tradicional.",
-      "RENAISSANCE": "Los compradores que buscan antigüedades renacentistas auténticas en venta, artefactos europeos de los siglos XV y XVI y arte humanista temprano descubrirán un conjunto cultural de gran importancia. Nuestro directorio agregado reúne arcones italianos cassoni ricamente tallados, libros impresos tempranos y esculturas figurativas clásicas de bronce procedentes de comerciantes especializados en antigüedades. Los coleccionistas que desean comprar arte renacentista original, cerámica de maiolica temprana o tapices auténticos del siglo XVI pueden localizar fácilmente estas piezas magníficas que marcan el renacimiento del saber clásico y la perspectiva artística.",
-      "ROCOCO": "Los coleccionistas que buscan antigüedades rococó auténticas en venta, muebles franceses del siglo XVIII y ornamentada decoración Luis XV encontrarán una selección lujosa de piezas asimétricas e inspiradas en la naturaleza. Nuestro índice reúne espejos dorados disponibles con hojas de acanto ondulantes, delicadas mesas de patas cabriolé y pinturas románticas en tonos pastel de múltiples comerciantes. Quienes desean comprar arte rococó original, fina porcelana de Sèvres o elaborados relojes de ormolu descubrirán piezas altamente decorativas que definen el exceso lúdico, elegante y ligero de mediados del siglo XVIII.",
-      "ROMANESQUE": "Investigadores y compradores que buscan antigüedades románicas auténticas en venta, artefactos medievales de los siglos XI y XII y elementos arquitectónicos tempranos descubrirán una rara colección de objetos históricos robustos y masivos. Nuestro directorio agregado presenta fragmentos escultóricos tempranos en piedra, pesada forja de hierro y reliquias religiosas altomedievales procedentes de anticuarios especializados. Los coleccionistas que desean comprar arte románico auténtico, antigüedades cristianas tempranas o elementos monumentales medievales de recuperación pueden localizar estas piezas sólidas y espiritualmente significativas, caracterizadas por muros gruesos y arcos de medio punto."
-    },
-    "products": {
-      "loadingMore": "Cargando más artículos...",
-      "allLoaded_one": "Ha visto {{count}} artículo en este período.",
-      "allLoaded_other": "Ha visto los {{count}} artículos de este período.",
-      "noResults": {
-        "title": "No se encontraron artículos",
-        "description": "Actualmente no hay artículos en este período."
-      },
-      "error": {
-        "title": "No se pudieron cargar los artículos",
-        "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
-      }
-    }
-  },
-  "share": {
-    "copyLink": "Copiar enlace",
-    "copied": "¡Copiado!",
-    "shareProduct": "Compartir producto",
-    "foundOnAuraHistoria": "¡He encontrado {{title}} en Aura Historia! ¡Podría interesarte!"
-  },
-  "notFound": {
-    "title": "Página no encontrada",
-    "description": "La página que busca no fue encontrada.",
-    "goHome": "Ir a la página principal"
-  },
-  "error": {
-    "title": "Algo salió mal",
-    "description": "Se produjo un error inesperado. Por favor, inténtelo de nuevo más tarde.",
-    "goHome": "Ir a la página principal"
-  },
-  "auth": {
-    "subtitle": "Más de 120.000 antigüedades de 500 vendedores. Compare, guarde y siga precios en Aura Historia.",
-    "welcome": "Bienvenido",
-    "welcomeWithName": "¡Bienvenido, {{name}}!",
-    "welcomeBack": "Bienvenido de nuevo",
-    "welcomeBackWithName": "¡Bienvenido de nuevo, {{name}}!",
-    "completingRegistration": "El registro se está completando, ¡por favor espere un momento!",
-    "completingLogin": "El inicio de sesión se está completando, ¡por favor espere un momento!",
-    "retry": "Intentar de nuevo",
-    "backToLogin": "Volver al inicio de sesión",
-    "backToHomepage": "Volver a la página principal",
-    "errorTitle": "Datos de usuario no guardados",
-    "timeout": {
-      "title": "¡Registro exitoso!",
-      "message": "¡Su registro se completó con éxito! Los datos personales no pudieron guardarse debido al alto tráfico de usuarios.",
-      "hint": "Puede añadir esta información en cualquier momento en la configuración de su cuenta.",
-      "noteLabel": "Nota:"
-    },
-    "signUp": {
-      "firstName": "Nombre",
-      "firstNamePlaceholder": "Juan",
-      "lastName": "Apellido",
-      "lastNamePlaceholder": "García",
-      "email": "Correo electrónico*",
-      "emailPlaceholder": "su.correo@ejemplo.com",
-      "password": "Contraseña*",
-      "confirmPassword": "Confirmar contraseña*",
-      "language": "Idioma",
-      "currency": "Moneda",
-      "pleaseSelect": "Por favor seleccione",
-      "prohibitedContentConsentLabel": "Mostrar productos con marcas del § 86a StGB",
-      "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el § 86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido."
-    },
-    "signIn": {
-      "email": "Correo electrónico",
-      "emailPlaceholder": "Introduzca su correo electrónico",
-      "password": "Contraseña",
-      "passwordPlaceholder": "Introduzca su contraseña"
-    },
-    "languages": {
-      "de": "Alemán",
-      "en": "Inglés",
-      "fr": "Francés",
-      "es": "Español",
-      "it": "Italiano"
-    },
-    "currencies": {
-      "EUR": "EUR - Euro",
-      "GBP": "GBP - Libra esterlina",
-      "USD": "USD - Dólar estadounidense",
-      "AUD": "AUD - Dólar australiano",
-      "CAD": "CAD - Dólar canadiense",
-      "NZD": "NZD - Dólar neozelandés",
-      "CNY": "CNY - Yuan chino",
-      "BRL": "BRL - Real brasileño",
-      "PLN": "PLN - Zloty polaco",
-      "TRY": "TRY - Lira turca",
-      "JPY": "JPY - Yen japonés",
-      "CZK": "CZK - Corona checa",
-      "RUB": "RUB - Rublo ruso",
-      "AED": "AED - Dirham de los EAU",
-      "SAR": "SAR - Riyal saudí",
-      "HKD": "HKD - Dólar de Hong Kong",
-      "SGD": "SGD - Dólar de Singapur",
-      "CHF": "CHF - Franco suizo"
-    }
-  },
-  "amplify": {
-    "email": "Correo electrónico*",
-    "password": "Contraseña*",
-    "confirmPassword": "Confirmar contraseña*",
-    "signIn": "Iniciar sesión",
-    "signUp": "Registrarse",
-    "createAccount": "Crear cuenta",
-    "forgotYourPassword": "¿Olvidó su contraseña?",
-    "resetPassword": "Restablecer contraseña",
-    "backToSignIn": "Volver a iniciar sesión",
-    "sendCode": "Enviar código",
-    "confirm": "Confirmar",
-    "submit": "Enviar",
-    "verify": "Verificar",
-    "skip": "Omitir",
-    "code": "Código",
-    "newPassword": "Nueva contraseña",
-    "enterYourEmail": "Introduzca su correo electrónico",
-    "enterYourPassword": "Introduzca su contraseña",
-    "pleaseConfirmYourPassword": "Por favor confirme su contraseña",
-    "weEmailedYou": "Le enviamos un correo electrónico",
-    "weSentACode": "Enviamos un código",
-    "weTextedYou": "Le enviamos un SMS",
-    "codeOnTheWayEmail": "Su código está en camino. Para iniciar sesión, introduzca el código que enviamos a",
-    "codeOnTheWaySent": "Su código está en camino. Para iniciar sesión, introduzca el código que le enviamos",
-    "codeOnTheWayText": "Su código está en camino. Para iniciar sesión, introduzca el código que enviamos por SMS a",
-    "itMayTakeAMinuteToArrive": "Puede tardar un minuto en llegar",
-    "confirmationCode": "Código de confirmación",
-    "enterYourConfirmationCode": "Introduzca su código de confirmación",
-    "resendCode": "Reenviar código",
-    "incorrectUsernameOrPassword": "Nombre de usuario o contraseña incorrectos.",
-    "userDoesNotExist": "El usuario no existe.",
-    "userAlreadyExists": "El usuario ya existe.",
-    "invalidVerificationCode": "Código de verificación inválido, por favor intente de nuevo.",
-    "invalidPasswordFormat": "Formato de contraseña inválido.",
-    "passwordAttemptsExceeded": "Demasiados intentos. Por favor intente más tarde.",
-    "attemptLimitExceeded": "Límite de intentos excedido, por favor intente más tarde.",
-    "alreadySignedInUser": "Ya hay un usuario conectado.",
-    "passwordPolicyNotLongEnough": "La contraseña no es suficientemente larga.",
-    "passwordPolicyMustHaveLowercase": "La contraseña debe contener minúsculas.",
-    "passwordPolicyMustHaveUppercase": "La contraseña debe contener mayúsculas.",
-    "passwordPolicyMustHaveSymbol": "La contraseña debe contener caracteres especiales.",
-    "passwordMustHaveUppercase": "La contraseña debe contener mayúsculas.",
-    "passwordMustHaveLowercase": "La contraseña debe contener minúsculas.",
-    "passwordMustHaveNumeric": "La contraseña debe contener números.",
-    "passwordMustHaveSymbol": "La contraseña debe contener caracteres especiales.",
-    "passwordMustHaveAtLeast8Chars": "La contraseña debe tener al menos 8 caracteres.",
-    "yourPasswordsMustMatch": "Las contraseñas deben coincidir.",
-    "userIsNotConfirmed": "El usuario no está confirmado.",
-    "userIsDisabled": "El usuario está deshabilitado.",
-    "usernameCannotBeEmpty": "El nombre de usuario no puede estar vacío.",
-    "passwordCannotBeEmpty": "La contraseña no puede estar vacía.",
-    "networkError": "Error de red. Por favor verifique su conexión a Internet.",
-    "accountWithEmailAlreadyExists": "Ya existe una cuenta con este correo electrónico.",
-    "invalidEmailAddressFormat": "Formato de correo electrónico inválido.",
-    "codeMismatch": "El código introducido es incorrecto.",
-    "confirmationCodeCannotBeEmpty": "El código de confirmación no puede estar vacío.",
-    "invalidCodeProvidedRequestAgain": "Código inválido, por favor solicite uno nuevo."
-  },
-  "consent": {
-    "title": "Valoramos tu privacidad",
-    "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Al hacer clic en 'Aceptar', das tu consentimiento para el uso de cookies con estos fines. Puede encontrar más información en nuestra <1>política de privacidad</1>.",
-    "accept": "Aceptar",
-    "reject": "Rechazar"
-  },
-  "consentSettings": {
-    "title": "Configuración de cookies",
-    "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Puede encontrar más información en nuestra <1>política de privacidad</1>.",
-    "analyticsLabel": "Análisis y seguimiento",
-    "analyticsDescription": "Nos permite analizar el uso y mejorar tu experiencia a través de Google Analytics. Incluye almacenamiento de anuncios, almacenamiento de analíticas, datos de usuario de anuncios y personalización de anuncios.",
-    "saved": "Tus preferencias de cookies han sido guardadas."
-  },
-  "combination": {
-    "header": {
-      "archiveLabel": "Colección",
-      "overviewTitle": "Contexto curatorial",
-      "imageAlt": "Imagen representativa de {{combination}}"
-    },
-    "names": {
-      "biedermeier-furniture": "Muebles Biedermeier",
-      "ancient-weapons": "Armas antiguas",
-      "art-nouveau-jewelry": "Joyería Art Nouveau",
-      "art-deco-furniture": "Muebles Art Déco",
-      "baroque-furniture": "Muebles barrocos",
-      "renaissance-paintings": "Pinturas del Renacimiento",
-      "ancient-coins": "Monedas antiguas",
-      "art-nouveau-lamps": "Lámparas Art Nouveau",
-      "art-deco-jewelry": "Joyería Art Déco",
-      "gothic-art": "Arte gótico",
-      "rococo-furniture": "Muebles rococó",
-      "ancient-jewelry": "Joyería antigua",
-      "victorian-clocks": "Relojes victorianos",
-      "baroque-silver": "Plata barroca",
-      "empire-furniture": "Muebles Imperio",
-      "biedermeier-clocks": "Relojes Biedermeier",
-      "mid-century-furniture": "Muebles Mid-Century",
-      "ancient-textiles": "Textiles antiguos",
-      "art-nouveau-art": "Arte Art Nouveau",
-      "renaissance-weapons": "Armas del Renacimiento"
-    },
-    "descriptions": {
-      "default": "Descubra objetos cuidadosamente seleccionados de esta colección con detalles sobre procedencia, estado y contexto histórico. Nuestra base de datos agrega ofertas de casas de subastas especializadas, comerciantes y mercados, permitiéndole comparar un amplio espectro de antigüedades auténticas en un solo lugar.",
-      "biedermeier-furniture": "Los coleccionistas de muebles Biedermeier auténticos encontrarán aquí la elegancia sobria del período 1815-1848. Descubra secreteres de cerezo, cómodas de nogal y mesas Biedermeier de casas de subastas y comerciantes especializados. La era Biedermeier se distingue por sus líneas limpias, maderas nobles y una deliberada moderación decorativa. En Aura Historia, compare muebles de esta edad dorada de la cultura doméstica burguesa ofrecidos por numerosos especialistas europeos.",
-      "ancient-weapons": "Quienes buscan armas antiguas descubrirán aquí espadas, lanzas y armaduras de origen griego, romano y oriental. Desde dagas de la Edad del Bronce hasta gladios romanos y cascos etruscos, cada pieza narra conflictos y tecnologías militares de milenios pasados. Nuestra plataforma agrega ofertas de las principales casas de subastas y comerciantes de armas para ofrecerle la selección más amplia.",
-      "art-nouveau-jewelry": "Los amantes de la joyería Art Nouveau encontrarán aquí broches filigranados y colgantes esmaltados de la Belle Époque. El Art Nouveau revolucionó la joyería con sus formas botánicas, motivos de insectos y materiales novedosos como el esmalte plique-à-jour. Encuentre en Aura Historia piezas exquisitas de joyeros especializados y casas de subastas internacionales.",
-      "art-deco-furniture": "Los compradores de muebles Art Déco encontrarán aquí la elegancia geométrica de los años 1920 y 1930. El estilo Art Déco combina materiales lujosos con una modernidad audaz – maderas exóticas, metal pulido y patrones geométricos definen el diseño. Compare en nuestra plataforma una amplia gama de muebles de esta era icónica provenientes de fuentes internacionales.",
-      "baroque-furniture": "Los coleccionistas de muebles barrocos encontrarán aquí armarios suntuosos y consolas doradas de los siglos XVII y XVIII. El período barroco produjo tallas opulentas, marquetería y dorados que siguen cautivando. Desde gabinetes italianos hasta armarios holandeses, nuestra plataforma ofrece acceso a una amplia gama de ofertas de comerciantes y casas de subastas especializadas.",
-      "renaissance-paintings": "Los amantes del arte encontrarán aquí pinturas renacentistas de los siglos XV y XVI, desde retablos hasta retratos y escenas religiosas. El Renacimiento marca una edad dorada de la pintura europea con maestros como Botticelli, Tiziano y Durero. En Aura Historia, compare pinturas de esta era ofrecidas por las principales casas de subastas, galerías y marchantes de arte especializados de todo el mundo.",
-      "ancient-coins": "Los numismáticos encontrarán aquí dracmas griegos, denarios romanos y sólidos bizantinos. Las monedas antiguas son testimonios únicos de culturas pasadas, documentando gobernantes, deidades y eventos históricos. Nuestra plataforma reúne ofertas de casas de subastas numismáticas y comerciantes especializados de renombre para ayudarle a encontrar la adición ideal a su colección.",
-      "art-nouveau-lamps": "Quienes buscan lámparas Art Nouveau descubrirán aquí luminarias Tiffany y lámparas Gallé de alrededor de 1900. La iluminación Art Nouveau combina perfección artesanal con formas orgánicas – arte en vidrio, bronce y esmalte se fusionan en impresionantes fuentes de luz. Compare en Aura Historia lámparas de Tiffany Studios, Gallé, Daum y otras manufacturas renombradas de numerosas fuentes especializadas.",
-      "art-deco-jewelry": "Los amantes de la joyería Art Déco encontrarán aquí broches geométricos y pulseras de platino de los años 1920 y 1930. La joyería Art Déco combina precisión geométrica con gemas lujosas y engastes innovadores. Desde anillos cóctel hasta sautoirs, nuestra plataforma permite comparar un amplio espectro de esta glamurosa era joyera proveniente de casas de subastas internacionales.",
-      "gothic-art": "Los coleccionistas de arte gótico descubrirán aquí retablos, esculturas y pinturas de los siglos XII al XV. El Gótico produjo una fusión única de espiritualidad y estética – desde delicadas Madonas hasta vitrales luminosos y retablos tallados monumentales. En Aura Historia, compare obras de arte góticas de diversas regiones y consulte ofertas de fuentes especializadas.",
-      "rococo-furniture": "Quienes buscan muebles rococó encontrarán aquí cómodas curvas y bergères del siglo XVIII. El Rococó se caracteriza por ornamentos asimétricos, motivos de conchas y una ligereza lúdica que sucedió al estricto Barroco. Desde cómodas Luis XV hasta consolas venecianas, Aura Historia ofrece acceso a una amplia gama de ofertas de comerciantes y casas de subastas internacionales.",
-      "ancient-jewelry": "Los coleccionistas de joyería antigua encontrarán aquí cadenas de oro, camafeos y fíbulas de origen griego y romano. La joyería antigua fascina por su perfección artesanal y significado simbólico – desde motivos de coronas doradas hasta gemas grabadas y pendientes filigranados. En nuestra plataforma, compare objetos de diversas culturas de la Antigüedad ofrecidos por especialistas de renombre.",
-      "victorian-clocks": "Los aficionados a la relojería encontrarán aquí relojes victorianos y relojes de bolsillo del siglo XIX de fabricantes ingleses y europeos. La era victoriana produjo una notable variedad de tipos de relojes – desde relojes ornamentales hasta reguladores y relojes esqueleto. En Aura Historia, compare relojes históricos y consulte ofertas de casas de subastas y comerciantes especializados.",
-      "baroque-silver": "Los coleccionistas de plata barroca encontrarán aquí copas ceremoniales y candelabros de los siglos XVII y XVIII. La plata barroca impresiona por su trabajo de repujado opulento y técnicas magistrales de dorado. Desde copas de Augsburgo hasta candelabros londinenses, nuestra plataforma agrega ofertas de casas de subastas y comerciantes de plata especializados para una visión completa.",
-      "empire-furniture": "Los compradores de muebles Imperio encontrarán aquí la elegancia clásica de la era napoleónica. El estilo Imperio combina un lenguaje formal antiguo con grandeza imperial – motivos egipcios, bronces dorados y simetría estricta definen esta era. En Aura Historia, compare muebles Imperio de fuentes francesas, alemanas e italianas para encontrar la pieza perfecta.",
-      "biedermeier-clocks": "Los aficionados a la relojería encontrarán aquí relojes Biedermeier auténticos del período 1815-1848. La relojería Biedermeier se distingue por formas arquitectónicas limpias, cajas de madera noble y movimientos precisos. Desde relojes Laterndl hasta elegantes relojes de mesa, nuestra plataforma permite comparar estos cronómetros de la cultura doméstica burguesa de numerosas fuentes especializadas.",
-      "mid-century-furniture": "Los amantes del diseño encontrarán aquí clásicos del mobiliario Mid-Century Modern de los años 1950 y 1960. El diseño Mid-Century revolucionó el mobiliario con formas orgánicas, materiales innovadores y una fusión de forma y función. Desde sillones lounge hasta aparadores y mesas de comedor, Aura Historia ofrece acceso a una amplia gama de ofertas de especialistas vintage internacionales.",
-      "ancient-textiles": "Los coleccionistas de textiles encontrarán aquí tejidos y prendas de la Antigüedad. Los textiles antiguos se encuentran entre los testimonios más raros y frágiles de culturas pasadas – sus patrones, técnicas de teñido y materiales revelan rutas comerciales y jerarquías sociales. En nuestra plataforma, compare estos preciosos fragmentos de especialistas internacionales y ventas museísticas.",
-      "art-nouveau-art": "Los amantes del arte encontrarán aquí pinturas, grabados y objetos decorativos del movimiento Art Nouveau. El arte Art Nouveau abarca un amplio espectro – desde óleos hasta litografías, carteles, cerámicas y vidrio decorativo. En Aura Historia, compare obras de este movimiento revolucionario ofrecidas por casas de subastas, galerías y marchantes especializados de todo el mundo.",
-      "renaissance-weapons": "Los coleccionistas de armas renacentistas encontrarán aquí armaduras ornamentadas y espadas de los siglos XV y XVI. El Renacimiento trajo innovaciones tecnológicas y embellecimientos artísticos a la armería – desde armaduras grabadas hasta pistolas de rueda. Nuestra plataforma agrega ofertas de casas de subastas de armas y armaduras de renombre para que pueda comparar estos artefactos históricos."
-    },
-    "products": {
-      "error": {
-        "title": "Error de carga",
-        "description": "No se pudieron cargar los objetos de esta colección. Inténtelo de nuevo más tarde."
-      },
-      "noResults": {
-        "title": "No se encontraron objetos",
-        "description": "Actualmente no hay objetos disponibles para esta colección."
-      },
-      "loadingMore": "Cargando más objetos…",
-      "allLoaded_one": "Se ha cargado el único objeto de esta colección.",
-      "allLoaded_other": "Se han cargado los {{count}} objetos de esta colección."
-    }
-  },
-  "categoriesOverview": {
-    "title": "Todas las Categorías",
-    "subtitle": "Explorar por Categoría",
-    "description": "Explora nuestra gama completa de categorías de antigüedades. Cada categoría reúne artículos seleccionados de casas de subastas y distribuidores de todo el mundo.",
-    "itemCount": "{{formattedCount}} objetos",
-    "itemCount_one": "{{formattedCount}} objeto",
-    "explore": "Explorar"
-  },
-  "periodsOverview": {
-    "title": "Todos los Periodos y Estilos",
-    "subtitle": "Explorar por Período",
-    "description": "Viaja a través de la historia y descubre antigüedades de cada época. Cada período revela la artesanía y el espíritu artístico de su tiempo.",
-    "explore": "Explorar"
-  },
-  "collectionsOverview": {
-    "title": "Todas las Colecciones",
-    "subtitle": "Colecciones Curadas",
-    "description": "Descubre nuestras colecciones curadas que combinan categorías específicas con períodos históricos. Cada colección ofrece una perspectiva única sobre la artesanía y la época.",
-    "explore": "Explorar"
-  },
-  "shop": {
-    "header": {
-      "archiveLabel": "Tienda",
-      "overviewTitle": "Resumen de la tienda",
-      "indexedItems": "Artículos indexados",
-      "imageAlt": "Logotipo de {{shop}}",
-      "noImage": "No hay logotipo disponible",
-      "addedOn": "Añadido el {{date}}",
-      "metaDescription": "Explore antigüedades y objetos de colección de {{shop}} en Aura Historia."
-    },
-    "products": {
-      "loadingMore": "Cargando más artículos...",
-      "allLoaded_one": "Ha visto {{count}} artículo de esta tienda.",
-      "allLoaded_other": "Ha visto los {{count}} artículos de esta tienda.",
-      "noResults": {
-        "title": "No se encontraron artículos",
-        "description": "Actualmente no hay artículos de esta tienda."
-      },
-      "error": {
-        "title": "No se pudieron cargar los artículos",
-        "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
-      }
-    }
-  },
-  "notifications": {
-    "title": "Notificaciones",
-    "markAllRead": "Marcar todo como leído",
-    "noNotifications": "Sin notificaciones",
-    "ariaLabel": "Abrir notificaciones",
-    "types": {
-      "priceChange": "Cambio de precio",
-      "stateChange": "Cambio de estado",
-      "newMatch": "Nueva coincidencia",
-      "partnerApplicationApproved": "Solicitud aprobada",
-      "partnerApplicationRejected": "Solicitud rechazada",
-      "partnerApplication": "Solicitud de socio",
-      "partnerApplicationSubmitted": "Enviada",
-      "partnerApplicationStatusApproved": "Aprobada",
-      "partnerApplicationStatusRejected": "Rechazada"
-    },
-    "delete": "Eliminar",
-    "deleteAll": "Eliminar todo",
-    "markRead": "Marcar como leído",
-    "loadingError": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde.",
-    "loadingMore": "Cargando más notificaciones...",
-    "allLoaded_one": "{{count}} notificación cargada",
-    "allLoaded_other": "Todas las {{count}} notificaciones cargadas",
-    "noResults": {
-      "title": "Sin notificaciones",
-      "description": "Aún no has recibido ninguna notificación."
-    },
-    "totalElements_one": "{{count}} notificación",
-    "totalElements_other": "{{count}} notificaciones",
-    "showAll": "Mostrar todas las notificaciones"
-  }
 }

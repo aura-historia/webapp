@@ -6,11 +6,11 @@ import {
 import { getUserAccount } from "@/client";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useAuth } from "@/hooks/auth/useAuth.ts";
 
 export function useUserAccount(enabled: boolean = true): UseQueryResult<UserAccountData> {
     const { getErrorMessage } = useApiError();
-    const { user } = useAuthenticator((context) => [context.user]);
+    const { user } = useAuth();
 
     return useQuery({
         queryKey: ["userAccount"],

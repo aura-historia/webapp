@@ -9,8 +9,9 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useAuth } from "@/hooks/auth/useAuth.ts";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
 import { SearchBar } from "@/components/search/SearchBar.tsx";
@@ -52,17 +53,7 @@ export function Header() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const {
-        toSignUp,
-        toSignIn,
-        user,
-        signOut: amplifySignOut,
-    } = useAuthenticator((context) => [
-        context.toSignUp,
-        context.toSignIn,
-        context.user,
-        context.signOut,
-    ]);
+    const { user, signOut: amplifySignOut } = useAuth();
 
     const { data: userAccount, isLoading } = useUserAccount();
 
@@ -71,8 +62,11 @@ export function Header() {
     const shouldShowSearchBar = isSearchEnabled && !isHiddenRoute && (!isLandingPage || isScrolled);
     const isFloating = isLandingPage && !isScrolled;
 
+    const queryClient = useQueryClient();
+
     const signOut = async () => {
         amplifySignOut();
+        queryClient.removeQueries({ queryKey: ["userAccount"] });
         await navigate({
             to: "/",
         });
@@ -186,18 +180,24 @@ export function Header() {
                                     </>
                                 ) : (
                                     <>
-                                        <DropdownMenuItem onClick={toSignUp} asChild>
+                                        <DropdownMenuItem asChild>
                                             <Link
                                                 to="/login"
-                                                search={{ redirect: pathname + searchString }}
+                                                search={{
+                                                    redirect: pathname + searchString,
+                                                    mode: "sign-up",
+                                                }}
                                             >
                                                 {t("header.register")}
                                             </Link>
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={toSignIn} asChild>
+                                        <DropdownMenuItem asChild>
                                             <Link
                                                 to="/login"
-                                                search={{ redirect: pathname + searchString }}
+                                                search={{
+                                                    redirect: pathname + searchString,
+                                                    mode: "sign-in",
+                                                }}
                                             >
                                                 {t("header.login")}
                                             </Link>
@@ -277,13 +277,19 @@ export function Header() {
                                 isFloating ? "bg-background rounded-xs p-2 hero-search-shadow" : "",
                             )}
                         >
-                            <Button asChild onClick={toSignUp} variant="default">
-                                <Link to="/login" search={{ redirect: pathname + searchString }}>
+                            <Button asChild variant="default">
+                                <Link
+                                    to="/login"
+                                    search={{ redirect: pathname + searchString, mode: "sign-up" }}
+                                >
                                     {t("header.register")}
                                 </Link>
                             </Button>
-                            <Button asChild onClick={toSignIn} variant="outline">
-                                <Link to="/login" search={{ redirect: pathname + searchString }}>
+                            <Button asChild variant="outline">
+                                <Link
+                                    to="/login"
+                                    search={{ redirect: pathname + searchString, mode: "sign-in" }}
+                                >
                                     {t("header.login")}
                                 </Link>
                             </Button>

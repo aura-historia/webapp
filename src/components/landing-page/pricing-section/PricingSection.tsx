@@ -10,7 +10,7 @@ import {
     type PricingTier,
 } from "@/components/landing-page/pricing-section/PricingSection.data.ts";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useAuth } from "@/hooks/auth/useAuth.ts";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useStripeBilling } from "@/hooks/billing/useStripeBilling.ts";
@@ -22,7 +22,7 @@ export default function PricingSection() {
     const { preferences } = useUserPreferences();
     const currency = preferences.currency ?? "EUR";
     const [billingInterval, setBillingInterval] = useState<BillingInterval>("yearly");
-    const { user, toSignUp } = useAuthenticator((context) => [context.user, context.toSignUp]);
+    const { user } = useAuth();
     const { handleSubscribe, isLoading } = useStripeBilling();
 
     const isYearly = billingInterval === "yearly";
@@ -193,13 +193,8 @@ export default function PricingSection() {
                                             {t("landingPage.pricing.getStartedFree")}
                                         </Button>
                                     ) : (
-                                        <Button
-                                            asChild
-                                            onClick={toSignUp}
-                                            variant="outline"
-                                            className="mt-8 w-full"
-                                        >
-                                            <Link to="/login">
+                                        <Button asChild variant="outline" className="mt-8 w-full">
+                                            <Link to="/login" search={{ mode: "sign-up" }}>
                                                 {t("landingPage.pricing.getStartedFree")}
                                             </Link>
                                         </Button>
