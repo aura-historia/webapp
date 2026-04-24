@@ -28,8 +28,7 @@
     },
     "dependencies": {
         "@aws-amplify/auth": "^6.19.1",
-        "@aws-amplify/ui-react": "^6.15.2",
-        "@cloudflare/vite-plugin": "^1.31.2",
+        "@cloudflare/vite-plugin": "^1.33.1",
         "@faker-js/faker": "^10.4.0",
         "@fontsource-variable/manrope": "^5.2.8",
         "@fontsource-variable/newsreader": "^5.2.10",
@@ -82,7 +81,6 @@
         "locale-currency": "^1.0.0",
         "lottie-react": "^2.4.1",
         "lucide-react": "^1.7.0",
-        "motion": "^12.38.0",
         "radix-ui": "^1.4.3",
         "react": "^19.2.5",
         "react-apexcharts": "^1.9.0",
@@ -105,7 +103,7 @@
         "zod": "^4.3.6"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.4.12",
+        "@biomejs/biome": "2.4.13",
         "@hey-api/openapi-ts": "0.96.0",
         "@playwright/test": "^1.59.1",
         "@tanstack/devtools-vite": "^0.6.0",
@@ -125,6 +123,6 @@
         "vite": "^8.0.9",
         "vitest": "^4.1.4",
         "web-vitals": "^5.2.0",
-        "wrangler": "4.82.0"
+        "wrangler": "4.84.1"
     }
 }
