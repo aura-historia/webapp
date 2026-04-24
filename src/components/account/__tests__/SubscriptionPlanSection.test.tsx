@@ -5,6 +5,7 @@ import { SubscriptionPlanSection } from "../SubscriptionPlanSection.tsx";
 import type { UserAccountData } from "@/data/internal/account/UserAccountData.ts";
 
 vi.mock("@/hooks/account/useUserAccount");
+vi.mock("@/hooks/billing/useStripeBilling");
 
 describe("SubscriptionPlanSection", () => {
     const mockUserData: UserAccountData = {
@@ -21,7 +22,10 @@ describe("SubscriptionPlanSection", () => {
     };
 
     beforeEach(async () => {
+        vi.clearAllMocks();
+
         const { useUserAccount } = await import("@/hooks/account/useUserAccount");
+        const { useStripeBilling } = await import("@/hooks/billing/useStripeBilling");
 
         vi.mocked(useUserAccount).mockReturnValue({
             data: mockUserData,
@@ -29,6 +33,12 @@ describe("SubscriptionPlanSection", () => {
             isError: false,
             error: null,
         } as UseQueryResult<UserAccountData>);
+
+        vi.mocked(useStripeBilling).mockReturnValue({
+            handleManageSubscription: vi.fn(),
+            handleSubscribe: vi.fn(),
+            isLoading: false,
+        });
     });
 
     it("renders current subscription plan and manage button", () => {
