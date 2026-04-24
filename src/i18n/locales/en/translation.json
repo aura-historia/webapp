@@ -173,6 +173,30 @@
       "aiDescriptionPlaceholder": "Describe in more detail what you are looking for …",
       "saveButton": "Save",
       "cancelButton": "Cancel"
+    },
+    "wizard": {
+      "title": "Create new search filter",
+      "subtitle": "Configure your personal search filter step by step.",
+      "configuredFilters": "Configured filters",
+      "step": {
+        "name": "Name",
+        "nameDescription": "Give your search filter a name.",
+        "priceStatus": "Price & Status",
+        "priceStatusDescription": "Set price range, listing status and shop type.",
+        "theme": "Theme",
+        "themeDescription": "Select periods and categories.",
+        "quality": "Quality",
+        "qualityDescription": "Filter by quality indicators such as condition, authenticity or provenance.",
+        "shop": "Shop & Merchants",
+        "shopDescription": "Choose shop type and include or exclude specific merchants.",
+        "date": "Date",
+        "dateDescription": "Restrict the timeframe for auctions, creation and updates.",
+        "confirm": "Confirmation",
+        "confirmDescription": "Review your search filter and save it."
+      },
+      "back": "Back",
+      "next": "Next",
+      "noFiltersConfigured": "No additional filters configured."
     }
   },
   "search": {

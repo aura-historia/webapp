@@ -31,3 +31,39 @@ export type SearchFilterArguments = {
     provenance?: Provenance[];
     restoration?: Restoration[];
 };
+
+/**
+ * Returns true if any "advanced" filter detail is set — those shown in the
+ * collapsed accordion section of SearchFilterCard (merchants, quality, dates).
+ */
+export function hasAdvancedFilterDetails(filters: SearchFilterArguments): boolean {
+    return (
+        !!filters.merchant?.length ||
+        !!filters.excludeMerchant?.length ||
+        !!filters.authenticity?.length ||
+        !!filters.condition?.length ||
+        !!filters.provenance?.length ||
+        !!filters.restoration?.length ||
+        filters.creationDateFrom != null ||
+        filters.creationDateTo != null ||
+        filters.updateDateFrom != null ||
+        filters.updateDateTo != null ||
+        filters.auctionDateFrom != null ||
+        filters.auctionDateTo != null
+    );
+}
+
+/** Returns true if any filter besides the search query is set. */
+export function hasActiveFilters(filters: SearchFilterArguments): boolean {
+    return (
+        filters.priceFrom != null ||
+        filters.priceTo != null ||
+        filters.allowedStates != null ||
+        filters.shopType != null ||
+        !!filters.periodId?.length ||
+        !!filters.categoryId?.length ||
+        filters.originYearMin != null ||
+        filters.originYearMax != null ||
+        hasAdvancedFilterDetails(filters)
+    );
+}

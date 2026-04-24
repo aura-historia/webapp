@@ -11,6 +11,7 @@ import { SearchFilterCardSkeleton } from "@/components/search-filters/SearchFilt
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { useState } from "react";
+import { CreateSearchFilterWizard } from "@/components/search-filters/CreateSearchFilterWizard.tsx";
 
 const SKELETON_IDS = ["s1", "s2", "s3", "s4"] as const;
 
@@ -19,6 +20,7 @@ export function SearchFilterResults() {
     const { data, isPending, error } = useUserSearchFilters();
     const { mutate: deleteFilter, isPending: isDeleting } = useDeleteUserSearchFilter();
     const [query, setQuery] = useState("");
+    const [wizardOpen, setWizardOpen] = useState(false);
 
     const items = data?.items ?? [];
     const filtered = query.trim()
@@ -66,12 +68,18 @@ export function SearchFilterResults() {
                         onChange={(e) => setQuery(e.target.value)}
                         className="w-full sm:w-80"
                     />
-                    <Button variant="outline" size="sm" className="gap-2 shrink-0">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-2 shrink-0"
+                        onClick={() => setWizardOpen(true)}
+                    >
                         <Plus className="size-4" />
                         {t("searchFilters.create")}
                     </Button>
                 </div>
             </div>
+            <CreateSearchFilterWizard open={wizardOpen} onOpenChange={setWizardOpen} />
             {filtered.length === 0 ? (
                 <div className="flex flex-col items-center gap-4 py-16">
                     <SearchX className="size-16 text-muted-foreground" />

@@ -173,6 +173,36 @@
       "aiDescriptionPlaceholder": "Beschreibe detaillierter, wonach du suchst …",
       "saveButton": "Speichern",
       "cancelButton": "Abbrechen"
+    },
+    "wizard": {
+      "title": "Neuen Suchauftrag anlegen",
+      "subtitle": "Konfiguriere deinen persönlichen Suchauftrag Schritt für Schritt.",
+      "configuredFilters": "Konfigurierte Filter",
+      "step": {
+        "name": "Name",
+        "nameDescription": "Vergib einen Namen für deinen Suchauftrag.",
+
+        "priceStatus": "Preis & Status",
+        "priceStatusDescription": "Filter nach Mindest- und Höchstpreis sowie Anzeigenstatus (verfügbar, reserviert, verkauft …).",
+
+        "theme": "Kategorie & Epoche",
+        "themeDescription": "Filter nach Antiquitäten-Kategorien (z. B. Möbel, Schmuck) und historischen Epochen (z. B. Barock, Art Déco).",
+
+        "quality": "Zustand & Echtheit",
+        "qualityDescription": "Filter nach Zustand, Authentizität, Herkunftsnachweis, Restaurierung und Entstehungsjahr.",
+
+        "shop": "Händler & Shop-Typ",
+        "shopDescription": "Filter nach Shop-Typ (Auktionshaus, Händler, Marktplatz) sowie bestimmte Händler ein- oder ausschließen.",
+
+        "date": "Zeitraum",
+        "dateDescription": "Filter nach Auktionsdatum, Datum der Ersterfassung oder letzten Aktualisierung.",
+
+        "confirm": "Zusammenfassung",
+        "confirmDescription": "Überprüfe deinen Suchauftrag und speichere ihn."
+      },
+      "back": "Zurück",
+      "next": "Weiter",
+      "noFiltersConfigured": "Keine zusätzlichen Filter konfiguriert."
     }
   },
   "search": {

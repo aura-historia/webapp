@@ -15,6 +15,7 @@ import { H3 } from "@/components/typography/H3.tsx";
 import { Link } from "@tanstack/react-router";
 import { intlFormatDistance } from "date-fns";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
+import { hasAdvancedFilterDetails } from "@/data/internal/search/SearchFilterArguments.ts";
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
 import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Authenticity.ts";
@@ -29,26 +30,13 @@ import { mapToCategoryOverview } from "@/data/internal/category/CategoryOverview
 import { mapToPeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { useMemo } from "react";
+import { FilterDetailRow } from "@/components/search-filters/FilterDetailRow.tsx";
 
 type Props = {
     readonly filter: UserSearchFilter;
     readonly isDeleting: boolean;
     readonly onDelete: (id: string) => void;
 };
-
-type InfoRowProps = {
-    readonly label: string;
-    readonly value: string;
-};
-
-function InfoRow({ label, value }: InfoRowProps) {
-    return (
-        <div className="flex gap-4 text-sm">
-            <span className="text-muted-foreground shrink-0 w-32">{label}</span>
-            <span>{value}</span>
-        </div>
-    );
-}
 
 export function SearchFilterCard({ filter, isDeleting, onDelete }: Props) {
     const { t, i18n } = useTranslation();
@@ -68,19 +56,7 @@ export function SearchFilterCard({ filter, isDeleting, onDelete }: Props) {
         [categoriesData],
     );
 
-    const hasAdvancedFilters =
-        !!search.merchant?.length ||
-        !!search.excludeMerchant?.length ||
-        !!search.authenticity?.length ||
-        !!search.condition?.length ||
-        !!search.provenance?.length ||
-        !!search.restoration?.length ||
-        search.creationDateFrom != null ||
-        search.creationDateTo != null ||
-        search.updateDateFrom != null ||
-        search.updateDateTo != null ||
-        search.auctionDateFrom != null ||
-        search.auctionDateTo != null;
+    const hasAdvancedFilters = hasAdvancedFilterDetails(search);
 
     const notificationsLabel = filter.notifications
         ? t("searchFilters.notificationsOn")
@@ -231,79 +207,71 @@ export function SearchFilterCard({ filter, isDeleting, onDelete }: Props) {
                         </AccordionTrigger>
                         <AccordionContent>
                             <div className="flex flex-col gap-3 pt-2">
-                                {!!search.merchant?.length && (
-                                    <InfoRow
-                                        label={t("search.filter.merchant")}
-                                        value={search.merchant.join(", ")}
-                                    />
-                                )}
-                                {!!search.excludeMerchant?.length && (
-                                    <InfoRow
-                                        label={t("search.filter.excludeMerchant")}
-                                        value={search.excludeMerchant.join(", ")}
-                                    />
-                                )}
-                                {!!search.authenticity?.length && (
-                                    <InfoRow
-                                        label={t("search.filter.authenticity")}
-                                        value={search.authenticity
-                                            .map((a) =>
-                                                t(
-                                                    AUTHENTICITY_TRANSLATION_CONFIG[a]
-                                                        .translationKey,
-                                                ),
-                                            )
-                                            .join(", ")}
-                                    />
-                                )}
-                                {!!search.condition?.length && (
-                                    <InfoRow
-                                        label={t("search.filter.condition")}
-                                        value={search.condition
-                                            .map((c) =>
-                                                t(CONDITION_TRANSLATION_CONFIG[c].translationKey),
-                                            )
-                                            .join(", ")}
-                                    />
-                                )}
-                                {!!search.provenance?.length && (
-                                    <InfoRow
-                                        label={t("search.filter.provenance")}
-                                        value={search.provenance
-                                            .map((p) =>
-                                                t(PROVENANCE_TRANSLATION_CONFIG[p].translationKey),
-                                            )
-                                            .join(", ")}
-                                    />
-                                )}
-                                {!!search.restoration?.length && (
-                                    <InfoRow
-                                        label={t("search.filter.restoration")}
-                                        value={search.restoration
-                                            .map((r) =>
-                                                t(RESTORATION_TRANSLATION_CONFIG[r].translationKey),
-                                            )
-                                            .join(", ")}
-                                    />
-                                )}
+                                <FilterDetailRow
+                                    variant="text"
+                                    label={t("search.filter.merchant")}
+                                    values={search.merchant ?? []}
+                                />
+                                <FilterDetailRow
+                                    variant="text"
+                                    label={t("search.filter.excludeMerchant")}
+                                    values={search.excludeMerchant ?? []}
+                                />
+                                <FilterDetailRow
+                                    variant="text"
+                                    label={t("search.filter.authenticity")}
+                                    values={(search.authenticity ?? []).map((a) =>
+                                        t(AUTHENTICITY_TRANSLATION_CONFIG[a].translationKey),
+                                    )}
+                                />
+                                <FilterDetailRow
+                                    variant="text"
+                                    label={t("search.filter.condition")}
+                                    values={(search.condition ?? []).map((c) =>
+                                        t(CONDITION_TRANSLATION_CONFIG[c].translationKey),
+                                    )}
+                                />
+                                <FilterDetailRow
+                                    variant="text"
+                                    label={t("search.filter.provenance")}
+                                    values={(search.provenance ?? []).map((p) =>
+                                        t(PROVENANCE_TRANSLATION_CONFIG[p].translationKey),
+                                    )}
+                                />
+                                <FilterDetailRow
+                                    variant="text"
+                                    label={t("search.filter.restoration")}
+                                    values={(search.restoration ?? []).map((r) =>
+                                        t(RESTORATION_TRANSLATION_CONFIG[r].translationKey),
+                                    )}
+                                />
                                 {(search.creationDateFrom != null ||
                                     search.creationDateTo != null) && (
-                                    <InfoRow
+                                    <FilterDetailRow
+                                        variant="text"
                                         label={t("searchFilters.info.creationDate")}
-                                        value={`${search.creationDateFrom?.toLocaleDateString() ?? "?"} – ${search.creationDateTo?.toLocaleDateString() ?? "?"}`}
+                                        values={[
+                                            `${search.creationDateFrom?.toLocaleDateString() ?? "?"} – ${search.creationDateTo?.toLocaleDateString() ?? "?"}`,
+                                        ]}
                                     />
                                 )}
                                 {(search.updateDateFrom != null || search.updateDateTo != null) && (
-                                    <InfoRow
+                                    <FilterDetailRow
+                                        variant="text"
                                         label={t("searchFilters.info.updateDate")}
-                                        value={`${search.updateDateFrom?.toLocaleDateString() ?? "?"} – ${search.updateDateTo?.toLocaleDateString() ?? "?"}`}
+                                        values={[
+                                            `${search.updateDateFrom?.toLocaleDateString() ?? "?"} – ${search.updateDateTo?.toLocaleDateString() ?? "?"}`,
+                                        ]}
                                     />
                                 )}
                                 {(search.auctionDateFrom != null ||
                                     search.auctionDateTo != null) && (
-                                    <InfoRow
+                                    <FilterDetailRow
+                                        variant="text"
                                         label={t("searchFilters.info.auctionDate")}
-                                        value={`${search.auctionDateFrom?.toLocaleDateString() ?? "?"} – ${search.auctionDateTo?.toLocaleDateString() ?? "?"}`}
+                                        values={[
+                                            `${search.auctionDateFrom?.toLocaleDateString() ?? "?"} – ${search.auctionDateTo?.toLocaleDateString() ?? "?"}`,
+                                        ]}
                                     />
                                 )}
                             </div>

@@ -34,7 +34,7 @@ import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 import { serializeSearchParams } from "@/lib/searchValidation.ts";
 import { useDebouncedCallback } from "use-debounce";
 
-const createFilterSchema = (t: TFunction) =>
+export const createFilterSchema = (t: TFunction) =>
     z
         .object({
             priceSpan: z
@@ -129,7 +129,7 @@ type SearchFilterProps = {
  * Maps URL search params (SearchFilterArguments) to the form's value shape (FilterSchema).
  * Used by the RHF `values` prop for declarative URL→Form synchronization.
  */
-function mapSearchFiltersToFormValues(filters: SearchFilterArguments): FilterSchema {
+export function mapSearchFiltersToFormValues(filters: SearchFilterArguments): FilterSchema {
     return {
         priceSpan: {
             min: filters.priceFrom,
@@ -164,8 +164,39 @@ function mapSearchFiltersToFormValues(filters: SearchFilterArguments): FilterSch
     };
 }
 
-const DEBOUNCE_DELAY_MS = 500;
-const DEBOUNCED_FIELDS = new Set([
+/** Converts form values (FilterSchema) to SearchFilterArguments. Used by SearchFilterFormProvider and SearchFilters. */
+export function mapFormValuesToSearchFilterArguments(
+    data: FilterSchema,
+    q: string,
+): SearchFilterArguments {
+    return {
+        q,
+        priceFrom: data.priceSpan?.min,
+        priceTo: data.priceSpan?.max,
+        allowedStates: data.productState,
+        creationDateFrom: data.creationDate.from,
+        creationDateTo: data.creationDate.to,
+        updateDateFrom: data.updateDate.from,
+        updateDateTo: data.updateDate.to,
+        auctionDateFrom: data.auctionDate.from,
+        auctionDateTo: data.auctionDate.to,
+        merchant: data.merchant?.length ? data.merchant : undefined,
+        excludeMerchant: data.excludeMerchant?.length ? data.excludeMerchant : undefined,
+        shopType: data.shopType,
+        periodId: data.periodId?.length ? data.periodId : undefined,
+        categoryId: data.categoryId?.length ? data.categoryId : undefined,
+        originYearMin: data.originYearSpan?.min,
+        originYearMax: data.originYearSpan?.max,
+        authenticity: data.authenticity,
+        condition: data.condition,
+        provenance: data.provenance,
+        restoration: data.restoration,
+    };
+}
+
+export const DEBOUNCE_DELAY_MS = 500;
+
+export const DEBOUNCED_FIELDS = new Set([
     "priceSpan.min",
     "priceSpan.max",
     "originYearSpan.min",
