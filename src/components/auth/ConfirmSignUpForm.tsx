@@ -67,6 +67,12 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
         }
     };
 
+    const resendButtonText = {
+        idle: t("auth.confirm.resend"),
+        sending: t("auth.confirm.resendSending"),
+        sent: t("auth.confirm.resendSent"),
+    }[resendStatus];
+
     return (
         <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-1">
@@ -130,11 +136,7 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
                     disabled={resendStatus !== "idle"}
                     className="h-auto p-0 font-medium"
                 >
-                    {resendStatus === "sending"
-                        ? t("auth.confirm.resendSending")
-                        : resendStatus === "sent"
-                          ? t("auth.confirm.resendSent")
-                          : t("auth.confirm.resend")}
+                    {resendButtonText}
                 </Button>
             </p>
         </div>

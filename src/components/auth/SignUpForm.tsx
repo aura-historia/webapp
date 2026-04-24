@@ -38,8 +38,8 @@ const signUpSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
 type SignUpValues = z.infer<ReturnType<typeof signUpSchema>>;
 
 type SignUpFormProps = {
-    onSuccess: (email: string, password: string) => void;
-    onSwitchToSignIn: () => void;
+    readonly onSuccess: (email: string, password: string) => void;
+    readonly onSwitchToSignIn: () => void;
 };
 
 export function SignUpForm({ onSuccess, onSwitchToSignIn }: SignUpFormProps) {
