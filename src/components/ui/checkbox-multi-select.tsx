@@ -174,7 +174,7 @@ export function CheckboxMultiSelect({
                 </div>
             </PopoverTrigger>
             <PopoverContent
-                className="w-[var(--radix-popover-trigger-width)] rounded-none border-outline-variant p-0"
+                className="w-[var(--radix-popover-trigger-width)] p-0"
                 align="start"
                 onOpenAutoFocus={(e) => {
                     if (searchable) {

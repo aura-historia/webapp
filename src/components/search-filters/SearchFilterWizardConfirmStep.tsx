@@ -30,7 +30,7 @@ function ConfirmSection({ label, show, children }: ConfirmSectionProps) {
     if (!show) return null;
     return (
         <div className="px-5 py-4 flex flex-col gap-3">
-            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.08em]">
                 {label}
             </span>
             {children}
@@ -82,10 +82,10 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                 </p>
             </div>
 
-            <div className="rounded-xl border bg-muted/30 divide-y overflow-hidden">
+            <div className="border bg-muted/30 divide-y overflow-hidden">
                 {/* Name */}
                 <div className="px-5 py-4 flex flex-col gap-0.5">
-                    <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">
+                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.08em]">
                         {t("searchFilter.saveDialog.nameLabel")}
                     </span>
                     <span className="font-semibold text-base">{name}</span>

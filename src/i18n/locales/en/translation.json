@@ -168,9 +168,9 @@
     "saveDialog": {
       "title": "Save search filter",
       "nameLabel": "Name",
-      "namePlaceholder": "e.g. Art Nouveau vases under €50",
-      "aiDescriptionLabel": "AI description (optional)",
-      "aiDescriptionPlaceholder": "Describe in more detail what you are looking for …",
+      "namePlaceholder": "e.g. Louis XVI Mahogany Commode, Paris",
+      "aiDescriptionLabel": "AI-assisted description (optional)",
+      "aiDescriptionPlaceholder": "e.g. Louis XVI commode in mahogany, Paris c. 1785, gilt bronze mounts, three drawers, excellent condition, with provenance documentation, max. €15,000",
       "saveButton": "Save",
       "cancelButton": "Cancel"
     },
@@ -180,23 +180,25 @@
       "configuredFilters": "Configured filters",
       "step": {
         "name": "Name",
-        "nameDescription": "Give your search filter a name.",
+        "nameDescription": "Give your search filter a precise name that clearly describes the piece — e.g. 'Meissen Porcelain Vase 18th C.' or 'Baroque Walnut Longcase Clock'.",
         "priceStatus": "Price & Status",
-        "priceStatusDescription": "Set price range, listing status and shop type.",
-        "theme": "Theme",
-        "themeDescription": "Select periods and categories.",
-        "quality": "Quality",
-        "qualityDescription": "Filter by quality indicators such as condition, authenticity or provenance.",
-        "shop": "Shop & Merchants",
-        "shopDescription": "Choose shop type and include or exclude specific merchants.",
-        "date": "Date",
-        "dateDescription": "Restrict the timeframe for auctions, creation and updates.",
-        "confirm": "Confirmation",
-        "confirmDescription": "Review your search filter and save it."
+        "priceStatusDescription": "Define your price range and select the desired listing status — such as exclusively available works or also auctioned pieces for market research.",
+        "theme": "Category & Period",
+        "themeDescription": "Refine your search by collecting category (e.g. Old Masters, furniture, silver) and art-historical period (e.g. Renaissance, Rococo, Biedermeier).",
+        "quality": "Condition & Authenticity",
+        "qualityDescription": "Filter by condition, authenticity status, provenance documentation, degree of restoration and the estimated period of creation.",
+        "shop": "Merchants & Shop Type",
+        "shopDescription": "Select specific provider types — renowned auction houses, specialist art dealers or marketplaces — and include or exclude individual houses.",
+        "date": "Timeframe",
+        "dateDescription": "Restrict your search by auction date, initial listing date or date of last update.",
+        "confirm": "Summary",
+        "confirmDescription": "Review your configured search criteria and save the filter. You will be notified immediately when a matching object appears on the market."
       },
       "back": "Back",
       "next": "Next",
-      "noFiltersConfigured": "No additional filters configured."
+      "noFiltersConfigured": "No additional filters configured.",
+      "nameRequired": "Please enter a name.",
+      "nameTooLong": "The name must not exceed 255 characters."
     }
   },
   "search": {

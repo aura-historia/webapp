@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { useState } from "react";
+import type { ReactNode } from "react";
+import { useMemo, useState } from "react";
 import {
     Dialog,
     DialogContent,
@@ -20,20 +21,26 @@ import {
     FormMessage,
 } from "@/components/ui/form.tsx";
 import { Input } from "@/components/ui/input.tsx";
+import { Textarea } from "@/components/ui/textarea.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { useCreateUserSearchFilter } from "@/hooks/search-filters/useCreateUserSearchFilter.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 
-const schema = z.object({
-    name: z.string().min(1).max(255),
-});
+const createSchema = (t: (key: string) => string) =>
+    z.object({
+        name: z
+            .string()
+            .min(1, t("searchFilter.wizard.nameRequired"))
+            .max(255, t("searchFilter.wizard.nameTooLong")),
+        enhancedSearchDescription: z.string().max(2000).optional(),
+    });
 
-type FormData = z.infer<typeof schema>;
+type FormData = { name: string; enhancedSearchDescription?: string };
 
 type Props = {
     readonly searchArgs: SearchFilterArguments;
-    readonly children: React.ReactNode;
+    readonly children: ReactNode;
 };
 
 export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
@@ -41,9 +48,11 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
     const [open, setOpen] = useState(false);
     const { mutate: createFilter, isPending } = useCreateUserSearchFilter();
 
+    const schema = useMemo(() => createSchema(t), [t]);
+
     const form = useForm<FormData>({
         resolver: zodResolver(schema),
-        defaultValues: { name: "" },
+        defaultValues: { name: "", enhancedSearchDescription: "" },
     });
 
     const handleOpenChange = (open: boolean) => {
@@ -55,6 +64,7 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
         createFilter(
             {
                 name: data.name,
+                enhancedSearchDescription: data.enhancedSearchDescription || undefined,
                 search: searchArgs,
             },
             {
@@ -91,6 +101,27 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                                                 "searchFilter.saveDialog.namePlaceholder",
                                             )}
                                             className="h-12 bg-transparent"
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="enhancedSearchDescription"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        {t("searchFilter.saveDialog.aiDescriptionLabel")}
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            {...field}
+                                            placeholder={t(
+                                                "searchFilter.saveDialog.aiDescriptionPlaceholder",
+                                            )}
+                                            className="min-h-28 bg-transparent"
                                         />
                                     </FormControl>
                                     <FormMessage />

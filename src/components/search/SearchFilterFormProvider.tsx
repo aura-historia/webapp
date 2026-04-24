@@ -59,7 +59,9 @@ export function SearchFilterFormProvider({ value, onChange, children }: Props) {
 
     return (
         <Form {...form}>
-            <form className="contents">{children}</form>
+            <form className="contents" onSubmit={(e) => e.preventDefault()}>
+                {children}
+            </form>
         </Form>
     );
 }
