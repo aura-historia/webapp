@@ -195,7 +195,8 @@ export function CheckboxMultiSelect({
                         />
                     </div>
                 )}
-                <div className="max-h-60 overflow-auto p-1">
+                <div className="max-h-60 overflow-auto p-1" onWheel={(e) => e.stopPropagation()}>
+                    {" "}
                     {!search && (
                         <>
                             <div
