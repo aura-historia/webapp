@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
 import { FilterCard } from "./FilterCard.tsx";
 
-export function UpdateDateSpanFilter() {
+export function UpdateDateSpanFilter({ defaultOpen = false }: { defaultOpen?: boolean }) {
     const { control } = useFormContext<FilterSchema>();
     const { errors } = useFormState({ control, name: ["updateDate.to"] });
     const { t } = useTranslation();
@@ -16,7 +16,7 @@ export function UpdateDateSpanFilter() {
             title={t("search.filter.updateDate")}
             resetTooltip={t("search.filter.resetTooltip.updateDate")}
             onReset={() => resetAndNavigate("updateDate")}
-            defaultOpen={false}
+            defaultOpen={defaultOpen}
         >
             <div className="flex min-w-0 w-full flex-col gap-2">
                 <div className="flex min-w-0 items-center gap-3">
