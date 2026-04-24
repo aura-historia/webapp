@@ -4,8 +4,9 @@ import { useTranslation } from "react-i18next";
 import { Info } from "lucide-react";
 import { LANGUAGES } from "@/data/internal/common/Language.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
-import { setPendingUserData, setUserAuthenticated } from "@/stores/registrationStore";
+import { setAuthComplete } from "@/stores/registrationStore";
 import { getAccountEditSchema, type AccountEditFormData } from "@/utils/nameValidation";
+import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount";
 import {
     Form,
     FormControl,
@@ -28,7 +29,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 type UserDetailsFormProps = {
-    onSuccess: () => void;
+    readonly onSuccess: () => void;
 };
 
 export function UserDetailsForm({ onSuccess }: UserDetailsFormProps) {
@@ -46,16 +47,18 @@ export function UserDetailsForm({ onSuccess }: UserDetailsFormProps) {
         },
     });
 
+    const { mutateAsync: updateAccount, isPending } = useUpdateUserAccount();
+
     const onSubmit = async (data: AccountEditFormData) => {
         try {
-            setPendingUserData({
+            await updateAccount({
                 firstName: data.firstName || undefined,
                 lastName: data.lastName || undefined,
                 language: data.language || undefined,
                 currency: data.currency || undefined,
                 prohibitedContentConsent: data.prohibitedContentConsent,
             });
-            setUserAuthenticated();
+            setAuthComplete();
             onSuccess();
         } catch (err) {
             const message = err instanceof Error ? err.message : t("apiErrors.unknown");
@@ -64,7 +67,7 @@ export function UserDetailsForm({ onSuccess }: UserDetailsFormProps) {
     };
 
     const handleSkip = () => {
-        setUserAuthenticated();
+        setAuthComplete();
         onSuccess();
     };
 
@@ -234,10 +237,10 @@ export function UserDetailsForm({ onSuccess }: UserDetailsFormProps) {
 
                     <Button
                         type="submit"
-                        disabled={form.formState.isSubmitting}
+                        disabled={form.formState.isSubmitting || isPending}
                         className="mt-2 w-full"
                     >
-                        {form.formState.isSubmitting && <Spinner />}
+                        {(form.formState.isSubmitting || isPending) && <Spinner />}
                         {t("auth.userDetails.submit")}
                     </Button>
 
@@ -245,6 +248,7 @@ export function UserDetailsForm({ onSuccess }: UserDetailsFormProps) {
                         type="button"
                         variant="link"
                         onClick={handleSkip}
+                        disabled={form.formState.isSubmitting || isPending}
                         className="h-auto p-0 text-sm text-muted-foreground"
                     >
                         {t("auth.userDetails.skip")}

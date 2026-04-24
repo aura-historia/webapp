@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useStore } from "@tanstack/react-store";
 import { AuthFlow } from "@/components/auth/AuthFlow.tsx";
 import { registrationStore } from "@/stores/registrationStore";
-import { CompleteRegistration } from "@/components/auth/CompleteRegistration.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
 import { useAuth } from "@/hooks/auth/useAuth.ts";
@@ -41,7 +40,6 @@ function LoginPage() {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const isAuthComplete = useStore(registrationStore, (state) => state.isAuthComplete);
-    const isUserAuthenticated = useStore(registrationStore, (state) => state.isUserAuthenticated);
     const { user, isLoading } = useAuth();
 
     useEffect(() => {
@@ -73,11 +71,7 @@ function LoginPage() {
 
             {/* Right panel — auth form or completion state */}
             <div className="flex justify-center items-start lg:items-center px-6 lg:px-0 pb-12 lg:pb-0 w-full">
-                {isUserAuthenticated && !isAuthComplete ? (
-                    <div className="w-full max-w-md">
-                        <CompleteRegistration />
-                    </div>
-                ) : isAuthComplete ? (
+                {isAuthComplete ? (
                     <div className="flex flex-col items-center gap-4">
                         <div className="w-12 h-12 border-4 border-t-primary rounded-full animate-spin" />
                     </div>

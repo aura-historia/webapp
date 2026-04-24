@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { signIn } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
-import { setUserAuthenticated, setAuthComplete } from "@/stores/registrationStore";
+import { setAuthComplete } from "@/stores/registrationStore";
 import {
     Form,
     FormControl,
@@ -26,8 +26,8 @@ const signInSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
 type SignInValues = z.infer<ReturnType<typeof signInSchema>>;
 
 type SignInFormProps = {
-    onSwitchToSignUp: () => void;
-    onSuccess: () => void;
+    readonly onSwitchToSignUp: () => void;
+    readonly onSuccess: () => void;
 };
 
 export function SignInForm({ onSwitchToSignUp, onSuccess }: SignInFormProps) {
@@ -42,7 +42,6 @@ export function SignInForm({ onSwitchToSignUp, onSuccess }: SignInFormProps) {
     const onSubmit = async (data: SignInValues) => {
         try {
             await signIn({ username: data.email.trim(), password: data.password });
-            setUserAuthenticated();
             setAuthComplete();
             onSuccess();
         } catch (err) {

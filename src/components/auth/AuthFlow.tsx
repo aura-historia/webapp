@@ -8,9 +8,9 @@ type AuthStep = "sign-in" | "sign-up" | "confirm" | "user-details";
 
 type AuthFlowProps = {
     /** Which step to show first. Defaults to "sign-in". */
-    initialStep?: "sign-in" | "sign-up";
+    readonly initialStep?: "sign-in" | "sign-up";
     /** Called when the entire flow is complete (sign-in done, or user-details submitted/skipped). */
-    onComplete: () => void;
+    readonly onComplete: () => void;
 };
 
 export function AuthFlow({ initialStep = "sign-in", onComplete }: AuthFlowProps) {

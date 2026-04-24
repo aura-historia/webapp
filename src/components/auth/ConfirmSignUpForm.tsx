@@ -28,9 +28,9 @@ const confirmSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
 type ConfirmValues = z.infer<ReturnType<typeof confirmSchema>>;
 
 type ConfirmSignUpFormProps = {
-    email: string;
-    password: string;
-    onSuccess: () => void;
+    readonly email: string;
+    readonly password: string;
+    readonly onSuccess: () => void;
 };
 
 export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpFormProps) {

@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { signUp } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
-import { setIsSignUpFlow } from "@/stores/registrationStore";
+
 import {
     Form,
     FormControl,
@@ -26,7 +26,7 @@ const signUpSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
                 .min(8, t("amplify.passwordMustHaveAtLeast8Chars"))
                 .regex(/[A-Z]/, t("amplify.passwordMustHaveUppercase"))
                 .regex(/[a-z]/, t("amplify.passwordMustHaveLowercase"))
-                .regex(/[0-9]/, t("amplify.passwordMustHaveNumeric"))
+                .regex(/\d/, t("amplify.passwordMustHaveNumeric"))
                 .regex(/[^A-Za-z0-9]/, t("amplify.passwordMustHaveSymbol")),
             confirmPassword: z.string().min(1, t("validation.password.required")),
         })
@@ -53,7 +53,6 @@ export function SignUpForm({ onSuccess, onSwitchToSignIn }: SignUpFormProps) {
 
     const onSubmit = async (data: SignUpValues) => {
         try {
-            setIsSignUpFlow(true);
             await signUp({
                 username: data.email.trim(),
                 password: data.password,
