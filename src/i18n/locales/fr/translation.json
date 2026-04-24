@@ -969,6 +969,20 @@
             "subtitle": "Ces informations sont facultatives — vous pouvez les mettre à jour à tout moment",
             "submit": "Enregistrer et continuer",
             "skip": "Ignorer pour l'instant"
+        },
+        "errors": {
+            "UsernameExistsException": "Un compte avec cette adresse e-mail existe déjà.",
+            "NotAuthorizedException": "Nom d'utilisateur ou mot de passe incorrect.",
+            "UserNotFoundException": "L'utilisateur n'existe pas.",
+            "CodeMismatchException": "Code de vérification non valide, veuillez réessayer.",
+            "LimitExceededException": "Limite de tentatives dépassée, veuillez réessayer plus tard.",
+            "TooManyRequestsException": "Trop de requêtes, veuillez réessayer plus tard.",
+            "InvalidPasswordException": "Le mot de passe n'est pas conforme. Il doit contenir au moins 8 caractères, un chiffre, une lettre minuscule et une lettre majuscule.",
+            "ExpiredCodeException": "Code non valide, veuillez en demander un nouveau.",
+            "UserNotConfirmedException": "L'utilisateur n'est pas confirmé.",
+            "InvalidParameterException": "Paramètre non valide fourni.",
+            "EmptySignInUsername": "Veuillez entrer votre e-mail.",
+            "EmptySignInPassword": "Veuillez entrer votre mot de passe."
         }
     },
     "amplify": {

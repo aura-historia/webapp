@@ -969,6 +969,20 @@
             "subtitle": "Questi dati sono facoltativi — puoi aggiornarli in qualsiasi momento",
             "submit": "Salva e continua",
             "skip": "Salta per ora"
+        },
+        "errors": {
+            "UsernameExistsException": "Un account con questo indirizzo e-mail esiste già.",
+            "NotAuthorizedException": "Nome utente o password errati.",
+            "UserNotFoundException": "L'utente non esiste.",
+            "CodeMismatchException": "Codice di verifica non valido, riprova.",
+            "LimitExceededException": "Limite di tentativi superato, riprova più tardi.",
+            "TooManyRequestsException": "Troppe richieste, riprova più tardi.",
+            "InvalidPasswordException": "La password non è conforme ai requisiti. Deve contenere almeno 8 caratteri, un numero, una lettera minuscola e una lettera maiuscola.",
+            "ExpiredCodeException": "Codice non valido, richiedi un nuovo codice.",
+            "UserNotConfirmedException": "L'utente non è confermato.",
+            "InvalidParameterException": "Parametro non valido fornito.",
+            "EmptySignInUsername": "Inserisci la tua e-mail.",
+            "EmptySignInPassword": "Inserisci la tua password."
         }
     },
     "amplify": {

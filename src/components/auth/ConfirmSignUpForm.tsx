@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { getAuthErrorMessage } from "@/lib/auth/getAuthErrorMessage";
 import { Spinner } from "@/components/ui/spinner";
 
 const confirmSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
@@ -48,7 +49,7 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
             await signIn({ username: email, password });
             onSuccess();
         } catch (err) {
-            const message = err instanceof Error ? err.message : t("apiErrors.unknown");
+            const message = getAuthErrorMessage(err, t);
             form.setError("root", { message });
         }
     };
@@ -60,9 +61,9 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
             await resendSignUpCode({ username: email });
             setResendStatus("sent");
         } catch (err) {
-            setResendStatus("idle");
-            const message = err instanceof Error ? err.message : t("apiErrors.unknown");
+            const message = getAuthErrorMessage(err, t);
             form.setError("root", { message });
+            setResendStatus("idle");
         }
     };
 

@@ -876,6 +876,20 @@
         "goHome": "Go to homepage"
     },
     "auth": {
+        "errors": {
+            "UsernameExistsException": "An account with this email already exists.",
+            "NotAuthorizedException": "Incorrect username or password.",
+            "UserNotFoundException": "User does not exist.",
+            "CodeMismatchException": "Invalid verification code provided, please try again.",
+            "LimitExceededException": "Attempt limit exceeded, please try after some time.",
+            "TooManyRequestsException": "Too many requests, please try again later.",
+            "InvalidPasswordException": "Password does not conform to policy. It must contain at least 8 characters, a number, a lowercase letter, and an uppercase letter.",
+            "ExpiredCodeException": "Invalid code provided, please request a code again.",
+            "UserNotConfirmedException": "User is not confirmed.",
+            "InvalidParameterException": "Invalid parameter provided.",
+            "EmptySignInUsername": "Please enter your email.",
+            "EmptySignInPassword": "Please enter your password."
+        },
         "subtitle": "Over 120,000 antiques from 500 dealers. Compare, save, and track prices on Aura Historia.",
         "welcome": "Welcome",
         "welcomeWithName": "Welcome, {{name}}!",

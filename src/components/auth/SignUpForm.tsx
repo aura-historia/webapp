@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { getAuthErrorMessage } from "@/lib/auth/getAuthErrorMessage";
 import { Spinner } from "@/components/ui/spinner";
 
 const signUpSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
@@ -60,7 +61,7 @@ export function SignUpForm({ onSuccess, onSwitchToSignIn }: SignUpFormProps) {
             });
             onSuccess(data.email.trim(), data.password);
         } catch (err) {
-            const message = err instanceof Error ? err.message : t("apiErrors.unknown");
+            const message = getAuthErrorMessage(err, t);
             form.setError("root", { message });
         }
     };
