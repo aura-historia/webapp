@@ -58,10 +58,11 @@ const createNameSchema = (t: (key: string) => string) =>
             .string()
             .min(1, t("searchFilter.wizard.nameRequired"))
             .max(255, t("searchFilter.wizard.nameTooLong")),
+        q: z.string().min(1, t("searchFilter.wizard.queryRequired")),
         enhancedSearchDescription: z.string().max(2000).optional(),
     });
 
-type NameFormData = { name: string; enhancedSearchDescription?: string };
+type NameFormData = { name: string; q: string; enhancedSearchDescription?: string };
 
 const EMPTY_FILTERS: SearchFilterArguments = { q: "" };
 
@@ -160,13 +161,14 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
 
     const nameForm = useForm<NameFormData>({
         resolver: zodResolver(nameSchema),
-        defaultValues: { name: "", enhancedSearchDescription: "" },
+        defaultValues: { name: "", q: "", enhancedSearchDescription: "" },
     });
 
     useEffect(() => {
         if (!open) return;
         nameForm.reset({
             name: filter?.name ?? "",
+            q: filter?.search.q ?? "",
             enhancedSearchDescription: filter?.enhancedSearchDescription ?? "",
         });
         setFilters(filter?.search ?? EMPTY_FILTERS);
@@ -203,7 +205,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
     }, [step]);
 
     const handleSave = useCallback(() => {
-        const { name: filterName, enhancedSearchDescription } = nameForm.getValues();
+        const { name: filterName, q, enhancedSearchDescription } = nameForm.getValues();
         const description = enhancedSearchDescription || undefined;
         const callbacks = {
             onSuccess: () => {
@@ -219,14 +221,18 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
                     patch: {
                         name: filterName,
                         enhancedSearchDescription: description ?? null,
-                        search: filters,
+                        search: { ...filters, q },
                     },
                 },
                 callbacks,
             );
         } else {
             createFilter(
-                { name: filterName, enhancedSearchDescription: description, search: filters },
+                {
+                    name: filterName,
+                    enhancedSearchDescription: description,
+                    search: { ...filters, q },
+                },
                 callbacks,
             );
         }
@@ -305,6 +311,27 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
                             />
                             <FormField
                                 control={nameForm.control}
+                                name="q"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            {t("searchFilter.saveDialog.queryLabel")}
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                placeholder={t(
+                                                    "searchFilter.saveDialog.queryPlaceholder",
+                                                )}
+                                                className="h-11"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={nameForm.control}
                                 name="enhancedSearchDescription"
                                 render={({ field }) => (
                                     <FormItem>
@@ -332,7 +359,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
             return (
                 <SearchFilterWizardConfirmStep
                     name={nameForm.watch("name")}
-                    filters={filters}
+                    filters={{ ...filters, q: nameForm.watch("q") }}
                     periods={periods}
                     categories={categories}
                 />

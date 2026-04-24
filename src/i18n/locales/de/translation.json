@@ -167,8 +167,10 @@
     "saveSuccess": "Suchauftrag wurde gespeichert.",
     "saveDialog": {
       "title": "Suchauftrag speichern",
-      "nameLabel": "Name",
-      "namePlaceholder": "z. B. Louis-XVI-Kommode Mahagoni, Paris",
+      "queryLabel": "Suchbegriff",
+      "queryPlaceholder": "z. B. Louis-XVI-Kommode Mahagoni",
+      "nameLabel": "Name des Suchauftrags",
+      "namePlaceholder": "z. B. Französische Antiquitäten",
       "aiDescriptionLabel": "KI-gestützte Beschreibung (optional)",
       "aiDescriptionPlaceholder": "z. B. Louis-XVI-Kommode aus Mahagoni, Paris ca. 1785, vergoldete Bronzebeschläge, drei Schubladen, exzellenter Erhaltungszustand, mit Herkunftsnachweis, max. 15.000 €",
       "saveButton": "Speichern",
@@ -179,30 +181,25 @@
       "subtitle": "Konfiguriere deinen persönlichen Suchauftrag Schritt für Schritt.",
       "configuredFilters": "Konfigurierte Filter",
       "step": {
-        "name": "Name",
-        "nameDescription": "Vergib deinem Suchauftrag einen präzisen Namen, der das gesuchte Stück klar beschreibt – z. B. 'Meissener Porzellan-Vase 18. Jh.' oder 'Barocke Standuhr Nussbaum'.",
-
+        "name": "Suchbegriff & Name",
+        "nameDescription": "Vergib deinem Suchauftrag einen Namen und gib an, wonach du suchst – optional kannst du die Suche mit einer KI-gestützten Beschreibung noch weiter präzisieren.",
         "priceStatus": "Preis & Status",
         "priceStatusDescription": "Definiere deinen Preisrahmen und wähle den gewünschten Anzeigenstatus – etwa ausschließlich verfügbare Objekte oder auch bereits versteigerte Stücke zur Marktrecherche.",
-
         "theme": "Kategorie & Epoche",
         "themeDescription": "Präzisiere deine Suche nach Sammelgebiet (z. B. Alte Meister, Möbel, Silber) und kunsthistorischer Epoche (z. B. Renaissance, Rokoko, Biedermeier).",
-
         "quality": "Zustand & Echtheit",
         "qualityDescription": "Filtere nach Erhaltungsgrad, Authentizitätsstatus, Herkunftsnachweis, Restaurierungsumfang und dem Entstehungszeitraum des Objekts.",
-
         "shop": "Händler & Shop-Typ",
         "shopDescription": "Wähle gezielt Anbietertypen – renommierte Auktionshäuser, spezialisierte Kunsthändler oder Marktplätze – und schließe einzelne Häuser ein oder aus.",
-
         "date": "Zeitraum",
         "dateDescription": "Grenze die Suche zeitlich ein – nach Auktionstermin, Datum der Erstveröffentlichung oder der letzten Aktualisierung des Inserats.",
-
         "confirm": "Zusammenfassung",
         "confirmDescription": "Überprüfe deine konfigurierten Suchkriterien und speichere den Auftrag. Du wirst umgehend benachrichtigt, sobald ein passendes Objekt auf dem Markt erscheint."
       },
       "back": "Zurück",
       "next": "Weiter",
       "noFiltersConfigured": "Keine zusätzlichen Filter konfiguriert.",
+      "queryRequired": "Bitte gib einen Suchbegriff ein.",
       "nameRequired": "Bitte gib einen Namen ein.",
       "nameTooLong": "Der Name darf maximal 255 Zeichen lang sein."
     }
@@ -803,15 +800,15 @@
     "delete": "Suchauftrag löschen",
     "query": "Suche",
     "moreFilters": "weitere Filter",
-      "showDetails": "Details anzeigen",
-      "cardLabel": "Suchauftrag",
+    "showDetails": "Details anzeigen",
+    "cardLabel": "Suchauftrag",
     "notificationsOn": "Benachrichtigungen aktiv",
-      "notificationsOff": "Keine Benachrichtigungen",
-      "edit": "Suchauftrag bearbeiten",
-      "showResults": "Suchergebnisse anzeigen",
-      "matchingProducts": "Alle Suchtreffer anzeigen",
-      "create": "Neuer Suchauftrag",
-      "searchPlaceholder": "Suchaufträge durchsuchen …",
+    "notificationsOff": "Keine Benachrichtigungen",
+    "edit": "Suchauftrag bearbeiten",
+    "showResults": "Suchergebnisse anzeigen",
+    "matchingProducts": "Alle Suchtreffer anzeigen",
+    "create": "Neuer Suchauftrag",
+    "searchPlaceholder": "Suchaufträge durchsuchen …",
     "noResults": {
       "title": "Keine Suchaufträge",
       "description": "Speichern Sie eine Suche, um sie hier zu finden."
