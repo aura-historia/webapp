@@ -126,7 +126,7 @@ describe("useStripeBilling", () => {
 
             expect(mockNavigate).toHaveBeenCalledWith({
                 to: "/login",
-                search: { redirect: "/account" },
+                search: { redirect: "/me/account" },
             });
             expect(mockPostBillingPortal).not.toHaveBeenCalled();
         });

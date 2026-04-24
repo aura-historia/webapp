@@ -65,6 +65,17 @@ export function PersonalDataForm() {
     return (
         <Form {...accountEditForm}>
             <form onSubmit={accountEditForm.handleSubmit(onSubmit)} className="space-y-8">
+                <FormItem>
+                    <FormLabel>{t("account.personalData.emailLabel")}</FormLabel>
+                    <FormControl>
+                        <Input
+                            value={userAccount?.email ?? ""}
+                            readOnly
+                            className="h-12 bg-muted/30 text-muted-foreground"
+                        />
+                    </FormControl>
+                </FormItem>
+
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8">
                     <FormField
                         control={accountEditForm.control}
@@ -108,7 +119,7 @@ export function PersonalDataForm() {
                                     key={field.value}
                                 >
                                     <FormControl>
-                                        <SelectTrigger className="h-12 w-full">
+                                        <SelectTrigger className="w-full data-[size=default]:h-12">
                                             <SelectValue
                                                 placeholder={t(
                                                     "account.personalData.languagePlaceholder",
@@ -141,7 +152,7 @@ export function PersonalDataForm() {
                                     key={field.value}
                                 >
                                     <FormControl>
-                                        <SelectTrigger className="h-12 w-full">
+                                        <SelectTrigger className="w-full data-[size=default]:h-12">
                                             <SelectValue
                                                 placeholder={t(
                                                     "account.personalData.currencyPlaceholder",
