@@ -2,9 +2,9 @@ import type { ToasterProps } from "sonner";
 
 export const SONNER_TOASTER_PROPS = {
     position: "top-center",
-    closeButton: true,
+    closeButton: false,
     toastOptions: {
-        duration: 5000,
+        duration: 3000,
         style: {
             background:
                 "color-mix(in oklab, var(--color-surface-container-highest) 92%, var(--color-tertiary-fixed) 8%)",

@@ -139,6 +139,8 @@
       "title": "Eliminar cuenta",
       "deleteButton": "Eliminar cuenta",
       "warningText": "¿Está seguro de que desea eliminar su cuenta?",
+      "warningTitle": "¿Desea eliminar su cuenta de forma permanente?",
+      "warningSubtitle": "Esta acción no se puede deshacer. Su cuenta no se podrá restaurar y todos los datos guardados se perderán de forma permanente.",
       "cancelButton": "Cancelar",
       "confirmButton": "Sí, eliminar cuenta",
       "successMessage": "¡Cuenta eliminada con éxito!",
@@ -157,6 +159,11 @@
       "successMessage": "Datos personales actualizados con éxito",
       "prohibitedContentConsentLabel": "Mostrar productos con marcas del § 86a StGB",
       "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el § 86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido."
+    },
+    "subscription": {
+      "title": "Suscripción",
+      "currentPlanLabel": "Plan actual",
+      "manageButton": "Gestionar suscripción"
     }
   },
   "search": {
@@ -906,7 +913,19 @@
       "USD": "USD - Dólar estadounidense",
       "AUD": "AUD - Dólar australiano",
       "CAD": "CAD - Dólar canadiense",
-      "NZD": "NZD - Dólar neozelandés"
+      "NZD": "NZD - Dólar neozelandés",
+      "CNY": "CNY - Yuan chino",
+      "BRL": "BRL - Real brasileño",
+      "PLN": "PLN - Zloty polaco",
+      "TRY": "TRY - Lira turca",
+      "JPY": "JPY - Yen japonés",
+      "CZK": "CZK - Corona checa",
+      "RUB": "RUB - Rublo ruso",
+      "AED": "AED - Dirham de los EAU",
+      "SAR": "SAR - Riyal saudí",
+      "HKD": "HKD - Dólar de Hong Kong",
+      "SGD": "SGD - Dólar de Singapur",
+      "CHF": "CHF - Franco suizo"
     }
   },
   "amplify": {

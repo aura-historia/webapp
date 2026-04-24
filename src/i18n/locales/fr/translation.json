@@ -139,10 +139,17 @@
       "title": "Supprimer le compte",
       "deleteButton": "Supprimer le compte",
       "warningText": "Êtes-vous sûr de vouloir supprimer votre compte ?",
+      "warningTitle": "Voulez-vous supprimer définitivement votre compte ?",
+      "warningSubtitle": "Cette action est irréversible. Votre compte ne pourra pas être restauré et toutes les données enregistrées seront définitivement perdues.",
       "cancelButton": "Annuler",
       "confirmButton": "Oui, supprimer le compte",
       "successMessage": "Compte supprimé avec succès !",
       "errorMessage": "Erreur lors de la suppression du compte."
+    },
+    "subscription": {
+      "title": "Abonnement",
+      "currentPlanLabel": "Plan actuel",
+      "manageButton": "Gerer l'abonnement"
     },
     "personalData": {
       "title": "Données personnelles",
@@ -906,7 +913,19 @@
       "USD": "USD - Dollar américain",
       "AUD": "AUD - Dollar australien",
       "CAD": "CAD - Dollar canadien",
-      "NZD": "NZD - Dollar néo-zélandais"
+      "NZD": "NZD - Dollar néo-zélandais",
+      "CNY": "CNY - Yuan chinois",
+      "BRL": "BRL - Réal brésilien",
+      "PLN": "PLN - Zloty polonais",
+      "TRY": "TRY - Livre turque",
+      "JPY": "JPY - Yen japonais",
+      "CZK": "CZK - Couronne tchèque",
+      "RUB": "RUB - Rouble russe",
+      "AED": "AED - Dirham des EAU",
+      "SAR": "SAR - Riyal saoudien",
+      "HKD": "HKD - Dollar de Hong Kong",
+      "SGD": "SGD - Dollar de Singapour",
+      "CHF": "CHF - Franc suisse"
     }
   },
   "amplify": {
