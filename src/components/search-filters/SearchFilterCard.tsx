@@ -36,9 +36,10 @@ type Props = {
     readonly filter: UserSearchFilter;
     readonly isDeleting: boolean;
     readonly onDelete: (id: string) => void;
+    readonly onEdit: (filter: UserSearchFilter) => void;
 };
 
-export function SearchFilterCard({ filter, isDeleting, onDelete }: Props) {
+export function SearchFilterCard({ filter, isDeleting, onDelete, onEdit }: Props) {
     const { t, i18n } = useTranslation();
     const { search } = filter;
     const updateFilter = useUpdateUserSearchFilter();
@@ -57,7 +58,6 @@ export function SearchFilterCard({ filter, isDeleting, onDelete }: Props) {
     );
 
     const hasAdvancedFilters = hasAdvancedFilterDetails(search);
-
     const notificationsLabel = filter.notifications
         ? t("searchFilters.notificationsOn")
         : t("searchFilters.notificationsOff");
@@ -125,6 +125,7 @@ export function SearchFilterCard({ filter, isDeleting, onDelete }: Props) {
                                 size="icon"
                                 className="size-10 text-muted-foreground hover:text-primary"
                                 aria-label={t("searchFilters.edit")}
+                                onClick={() => onEdit(filter)}
                             >
                                 <Settings2 className="size-5" />
                             </Button>

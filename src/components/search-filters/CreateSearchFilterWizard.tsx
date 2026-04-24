@@ -41,6 +41,8 @@ import { AuctionDateSpanFilter } from "@/components/search/filters/AuctionDateSp
 import { CreationDateSpanFilter } from "@/components/search/filters/CreationDateSpanFilter.tsx";
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
 import { useCreateUserSearchFilter } from "@/hooks/search-filters/useCreateUserSearchFilter.ts";
+import { useUpdateUserSearchFilter } from "@/hooks/search-filters/useUpdateUserSearchFilter.ts";
+import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useQuery } from "@tanstack/react-query";
 import { getCategoriesOptions, getPeriodsOptions } from "@/client/@tanstack/react-query.gen.ts";
@@ -58,19 +60,15 @@ const createNameSchema = (t: (key: string) => string) =>
             .max(255, t("searchFilter.wizard.nameTooLong")),
         enhancedSearchDescription: z.string().max(2000).optional(),
     });
+
 type NameFormData = { name: string; enhancedSearchDescription?: string };
 
 const EMPTY_FILTERS: SearchFilterArguments = { q: "" };
 
 const EASE: [number, number, number, number] = [0.4, 0, 0.2, 1];
-
 const variants: Variants = {
     initial: (dir: number) => ({ opacity: 0, y: dir * 8 }),
-    animate: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.18, ease: EASE },
-    },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.18, ease: EASE } },
     exit: { opacity: 0, transition: { duration: 0.08 } },
 };
 
@@ -141,25 +139,40 @@ function StepHeader({ title, description }: { title: string; description: string
     );
 }
 
-type Props = { readonly open: boolean; readonly onOpenChange: (open: boolean) => void };
+type Props = {
+    readonly open: boolean;
+    readonly onOpenChange: (open: boolean) => void;
+    readonly filter?: UserSearchFilter;
+};
 
-export function CreateSearchFilterWizard({ open, onOpenChange }: Props) {
+export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) {
     const { t, i18n } = useTranslation();
     const lang = parseLanguage(i18n.language);
-
     const nameSchema = useMemo(() => createNameSchema(t), [t]);
 
     const [step, setStep] = useState(1);
     const [direction, setDirection] = useState<1 | -1>(1);
     const [filters, setFilters] = useState<SearchFilterArguments>(EMPTY_FILTERS);
 
-    const { mutate: createFilter, isPending } = useCreateUserSearchFilter();
+    const { mutate: createFilter, isPending: isCreating } = useCreateUserSearchFilter();
+    const { mutate: updateFilter, isPending: isUpdating } = useUpdateUserSearchFilter();
+    const isPending = isCreating || isUpdating;
 
     const nameForm = useForm<NameFormData>({
         resolver: zodResolver(nameSchema),
         defaultValues: { name: "", enhancedSearchDescription: "" },
     });
-    const name = nameForm.watch("name");
+
+    useEffect(() => {
+        if (!open) return;
+        nameForm.reset({
+            name: filter?.name ?? "",
+            enhancedSearchDescription: filter?.enhancedSearchDescription ?? "",
+        });
+        setFilters(filter?.search ?? EMPTY_FILTERS);
+        setStep(1);
+        setDirection(1);
+    }, [open, filter, nameForm.reset]);
 
     const { data: periodsData } = useQuery(getPeriodsOptions({ query: { language: lang } }));
     const { data: categoriesData } = useQuery(getCategoriesOptions({ query: { language: lang } }));
@@ -184,36 +197,35 @@ export function CreateSearchFilterWizard({ open, onOpenChange }: Props) {
         if (step > 1) scrollRef.current?.focus();
     }, [step]);
 
-    const handleClose = useCallback(
-        (nextOpen: boolean) => {
-            if (!nextOpen) {
-                setStep(1);
-                setDirection(1);
-                setFilters(EMPTY_FILTERS);
-                nameForm.reset();
-            }
-            onOpenChange(nextOpen);
-        },
-        [nameForm, onOpenChange],
-    );
-
     const handleSave = useCallback(() => {
         const { name: filterName, enhancedSearchDescription } = nameForm.getValues();
-        createFilter(
-            {
-                name: filterName,
-                enhancedSearchDescription: enhancedSearchDescription || undefined,
-                search: filters,
+        const description = enhancedSearchDescription || undefined;
+        const callbacks = {
+            onSuccess: () => {
+                toast.success(t("searchFilter.saveSuccess"));
+                onOpenChange(false);
             },
-            {
-                onSuccess: () => {
-                    toast.success(t("searchFilter.saveSuccess"));
-                    handleClose(false);
+            onError: (e: Error) => toast.error(e.message),
+        };
+        if (filter) {
+            updateFilter(
+                {
+                    id: filter.id,
+                    patch: {
+                        name: filterName,
+                        enhancedSearchDescription: description ?? null,
+                        search: filters,
+                    },
                 },
-                onError: (e) => toast.error(e.message),
-            },
-        );
-    }, [createFilter, nameForm, filters, t, handleClose]);
+                callbacks,
+            );
+        } else {
+            createFilter(
+                { name: filterName, enhancedSearchDescription: description, search: filters },
+                callbacks,
+            );
+        }
+    }, [filter, createFilter, updateFilter, nameForm, filters, t, onOpenChange]);
 
     /**
      * Step labels shown in the sidebar.
@@ -314,7 +326,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange }: Props) {
         if (step === TOTAL_STEPS)
             return (
                 <SearchFilterWizardConfirmStep
-                    name={name}
+                    name={nameForm.watch("name")}
                     filters={filters}
                     periods={periods}
                     categories={categories}
@@ -330,7 +342,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange }: Props) {
     };
 
     return (
-        <Dialog open={open} onOpenChange={handleClose}>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="w-full max-w-[95vw] lg:max-w-[1000px] h-[90vh] lg:h-[700px] flex flex-col gap-0 p-0 overflow-hidden shadow-2xl">
                 <Stepper
                     value={step}
@@ -358,7 +370,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange }: Props) {
                                             </StepperTitle>
                                         </StepperTrigger>
                                     </StepperItem>
-                                    {i < stepLabels.length - 1 && (
+                                    {i < TOTAL_STEPS - 1 && (
                                         <StepperSeparator
                                             step={i + 1}
                                             className="w-px h-5 ml-4 self-start"
@@ -401,7 +413,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange }: Props) {
                                 variant="outline"
                                 size="lg"
                                 disabled={isPending}
-                                onClick={() => (step === 1 ? handleClose(false) : goTo(step - 1))}
+                                onClick={() => (step === 1 ? onOpenChange(false) : goTo(step - 1))}
                             >
                                 {step === 1
                                     ? t("searchFilter.saveDialog.cancelButton")

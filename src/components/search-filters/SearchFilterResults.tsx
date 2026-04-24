@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { useState } from "react";
 import { CreateSearchFilterWizard } from "@/components/search-filters/CreateSearchFilterWizard.tsx";
+import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 
 const SKELETON_IDS = ["s1", "s2", "s3", "s4"] as const;
 
@@ -21,6 +22,7 @@ export function SearchFilterResults() {
     const { mutate: deleteFilter, isPending: isDeleting } = useDeleteUserSearchFilter();
     const [query, setQuery] = useState("");
     const [wizardOpen, setWizardOpen] = useState(false);
+    const [editFilter, setEditFilter] = useState<UserSearchFilter | undefined>(undefined);
 
     const items = data?.items ?? [];
     const filtered = query.trim()
@@ -44,13 +46,8 @@ export function SearchFilterResults() {
         );
     }
 
-    if (error) {
-        return <SectionInfoText>{t("searchFilters.loadingError")}</SectionInfoText>;
-    }
-
-    if (!data) {
-        return null;
-    }
+    if (error) return <SectionInfoText>{t("searchFilters.loadingError")}</SectionInfoText>;
+    if (!data) return null;
 
     return (
         <div className="flex flex-col w-full gap-8">
@@ -72,14 +69,23 @@ export function SearchFilterResults() {
                         variant="outline"
                         size="sm"
                         className="gap-2 shrink-0"
-                        onClick={() => setWizardOpen(true)}
+                        onClick={() => {
+                            setEditFilter(undefined);
+                            setWizardOpen(true);
+                        }}
                     >
                         <Plus className="size-4" />
                         {t("searchFilters.create")}
                     </Button>
                 </div>
             </div>
-            <CreateSearchFilterWizard open={wizardOpen} onOpenChange={setWizardOpen} />
+
+            <CreateSearchFilterWizard
+                open={wizardOpen}
+                onOpenChange={setWizardOpen}
+                filter={editFilter}
+            />
+
             {filtered.length === 0 ? (
                 <div className="flex flex-col items-center gap-4 py-16">
                     <SearchX className="size-16 text-muted-foreground" />
@@ -97,6 +103,10 @@ export function SearchFilterResults() {
                             key={filter.id}
                             filter={filter}
                             onDelete={handleDelete}
+                            onEdit={(f) => {
+                                setEditFilter(f);
+                                setWizardOpen(true);
+                            }}
                             isDeleting={isDeleting}
                         />
                     ))}
