@@ -182,12 +182,17 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
         [categoriesData],
     );
 
-    const goTo = useCallback((next: number) => {
-        setStep((prev) => {
-            setDirection(next > prev ? 1 : -1);
-            return next;
-        });
-    }, []);
+    const goTo = useCallback(
+        (next: number) => {
+            const jump = () => {
+                setDirection(next > step ? 1 : -1);
+                setStep(next);
+            };
+            if (step === 1 && next > 1) return nameForm.handleSubmit(jump)();
+            jump();
+        },
+        [step, nameForm],
+    );
 
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -388,7 +393,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
                                 ref={scrollRef}
                                 role="group"
                                 tabIndex={-1}
-                                className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden outline-none"
+                                className="flex-1 min-h-0 overflow-y-auto outline-none"
                                 onKeyDown={handleContentKeyDown}
                             >
                                 <AnimatePresence mode="wait" custom={direction}>

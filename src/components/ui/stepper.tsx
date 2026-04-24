@@ -2,7 +2,10 @@ import * as React from "react";
 import { cn } from "@/lib/utils.ts";
 
 type StepperCtx = { value: number; onValueChange: (v: number) => void };
-const StepperContext = React.createContext<StepperCtx>({ value: 1, onValueChange: () => {} });
+const StepperContext = React.createContext<StepperCtx>({
+    value: 1,
+    onValueChange: () => {},
+});
 
 type StepItemCtx = { step: number; state: "active" | "completed" | "inactive" };
 const StepItemContext = React.createContext<StepItemCtx>({ step: 1, state: "inactive" });
@@ -60,10 +63,10 @@ function StepperTrigger({
         <button
             type="button"
             data-state={state}
-            onClick={() => state === "completed" && onValueChange(step)}
+            onClick={() => state !== "active" && onValueChange(step)}
             className={cn(
                 "flex items-center gap-2",
-                state === "completed" ? "cursor-pointer" : "cursor-default",
+                state !== "active" ? "cursor-pointer" : "cursor-default",
                 className,
             )}
             {...props}
