@@ -727,6 +727,7 @@
     "SHOP_NOT_FOUND": "Cette boutique n'est plus disponible.",
     "INVALID_SHOP_IDENTIFIER": "L'identifiant de la boutique est invalide.",
     "INVALID_DOMAIN": "Le domaine de la boutique est invalide.",
+    "SHOP_EXISTS_ALREADY": "Une boutique avec le même slug existe déjà.",
     "FORBIDDEN": "Cette action n'est pas disponible pour vous.",
     "BAD_BODY_VALUE": "Certaines informations sont incorrectes. Veuillez vérifier votre saisie.",
     "MONETARY_AMOUNT_OVERFLOW": "Le prix est trop élevé et ne peut pas être traité.",
@@ -1184,7 +1185,7 @@
     },
     "shops": {
       "title": "Boutiques",
-      "description": "Rechercher dans le catalogue et modifier les métadonnées des boutiques.",
+      "description": "Rechercher dans le catalogue, créer de nouvelles boutiques et modifier leurs métadonnées.",
       "searchPlaceholder": "Rechercher des boutiques par nom…",
       "loadError": "Impossible de charger les boutiques.",
       "empty": "Aucune boutique ne correspond au filtre actuel.",
@@ -1196,11 +1197,27 @@
       "filter": {
         "all": "Toutes"
       },
+      "actions": {
+        "create": "Créer une boutique"
+      },
       "fields": {
+        "name": "Nom de la boutique",
         "shopType": "Type de boutique",
         "image": "URL de l'image",
         "domains": "Domaines",
         "domainsHint": "Un par ligne. Les domaines sont normalisés en minuscules, sans schéma ni chemin."
+      },
+      "create": {
+        "title": "Créer une boutique",
+        "description": "Ajouter une nouvelle fiche boutique. Le slug est automatiquement dérivé du nom de la boutique.",
+        "submit": "Créer une boutique",
+        "success": "Boutique créée.",
+        "validation": {
+          "nameRequired": "Veuillez saisir un nom de boutique.",
+          "nameTooLong": "Le nom de la boutique ne doit pas dépasser 255 caractères.",
+          "domainsRequired": "Veuillez saisir au moins un domaine.",
+          "imageInvalid": "Veuillez saisir une URL d'image valide."
+        }
       },
       "edit": {
         "title": "Modifier la boutique",

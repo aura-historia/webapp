@@ -1389,6 +1389,31 @@ export type PatchShopData = {
 };
 
 /**
+ * Payload for creating a new shop.
+ * The backend derives `shopSlugId` from `name`, stores `domains` as a unique normalized set,
+ * and initializes the created shop with `partnerStatus` set to `SCRAPED`.
+ *
+ */
+export type PostShopData = {
+    /**
+     * Display name of the shop. Used to derive the human-readable `shopSlugId`.
+     */
+    name: string;
+    shopType: ShopTypeData;
+    /**
+     * Unique set of domains associated with the shop.
+     * Input values are normalized by stripping any `http://` or `https://` scheme, optional `www.` prefix,
+     * and any port, path, query, or fragment, then lowercasing the remaining domain.
+     *
+     */
+    domains: Array<string>;
+    /**
+     * Optional URL to the shop's logo or image.
+     */
+    image?: string | null;
+};
+
+/**
  * Response body returned after creating or overwriting a partner shop API key.
  */
 export type PartnerShopApiKeyResponse = {
@@ -4702,6 +4727,50 @@ export type SimpleSearchShopsResponses = {
 };
 
 export type SimpleSearchShopsResponse = SimpleSearchShopsResponses[keyof SimpleSearchShopsResponses];
+
+export type PostShopData2 = {
+    /**
+     * Complete payload for creating a new shop.
+     */
+    body: PostShopData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/shops';
+};
+
+export type PostShopErrors = {
+    /**
+     * Bad request - body is missing, empty, malformed JSON, or contains invalid field values
+     */
+    400: ApiError;
+    /**
+     * Unauthorized – invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden – this endpoint requires the `ADMIN` role.
+     */
+    403: ApiError;
+    /**
+     * Conflict – a shop with the same derived slug already exists.
+     */
+    409: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PostShopError = PostShopErrors[keyof PostShopErrors];
+
+export type PostShopResponses = {
+    /**
+     * Shop created successfully
+     */
+    201: GetShopData;
+};
+
+export type PostShopResponse = PostShopResponses[keyof PostShopResponses];
 
 export type GetShopByIdData = {
     body?: never;

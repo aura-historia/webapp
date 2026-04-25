@@ -727,6 +727,7 @@
     "SHOP_NOT_FOUND": "Dieser Shop ist nicht mehr verfügbar.",
     "INVALID_SHOP_IDENTIFIER": "Die Shop-Kennung ist ungültig.",
     "INVALID_DOMAIN": "Die Shop-Domain ist ungültig.",
+    "SHOP_EXISTS_ALREADY": "Ein Shop mit demselben Slug existiert bereits.",
     "FORBIDDEN": "Diese Aktion ist für Sie nicht verfügbar.",
     "BAD_BODY_VALUE": "Einige Angaben sind nicht korrekt. Bitte überprüfen Sie Ihre Eingaben.",
     "MONETARY_AMOUNT_OVERFLOW": "Der Preis ist zu hoch und kann nicht verarbeitet werden.",
@@ -1185,7 +1186,7 @@
     },
     "shops": {
       "title": "Shops",
-      "description": "Shop-Katalog durchsuchen und Shop-Metadaten bearbeiten.",
+      "description": "Shop-Katalog durchsuchen, neue Shops anlegen und Shop-Metadaten bearbeiten.",
       "searchPlaceholder": "Shops nach Namen suchen…",
       "loadError": "Shops konnten nicht geladen werden.",
       "empty": "Keine Shops entsprechen dem aktuellen Filter.",
@@ -1197,11 +1198,27 @@
       "filter": {
         "all": "Alle"
       },
+      "actions": {
+        "create": "Shop anlegen"
+      },
       "fields": {
+        "name": "Shop-Name",
         "shopType": "Shop-Typ",
         "image": "Bild-URL",
         "domains": "Domains",
         "domainsHint": "Eine pro Zeile. Domains werden in Kleinbuchstaben ohne Schema oder Pfad normalisiert."
+      },
+      "create": {
+        "title": "Shop anlegen",
+        "description": "Einen neuen Shop-Datensatz anlegen. Der Slug wird automatisch aus dem Shop-Namen abgeleitet.",
+        "submit": "Shop anlegen",
+        "success": "Shop angelegt.",
+        "validation": {
+          "nameRequired": "Bitte geben Sie einen Shop-Namen ein.",
+          "nameTooLong": "Der Shop-Name darf nicht länger als 255 Zeichen sein.",
+          "domainsRequired": "Bitte geben Sie mindestens eine Domain ein.",
+          "imageInvalid": "Bitte geben Sie eine gültige Bild-URL ein."
+        }
       },
       "edit": {
         "title": "Shop bearbeiten",

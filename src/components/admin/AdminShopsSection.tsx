@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useInView } from "react-intersection-observer";
-import { Pencil, Search, ShieldCheck, Globe } from "lucide-react";
+import { Pencil, Search, ShieldCheck, Globe, Plus } from "lucide-react";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
@@ -17,6 +17,7 @@ import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { useAdminShops } from "@/hooks/admin/useAdminShops.ts";
 import { formatShortDate } from "@/lib/utils.ts";
 import { AdminShopEditDialog } from "@/components/admin/AdminShopEditDialog.tsx";
+import { AdminShopCreateDialog } from "@/components/admin/AdminShopCreateDialog.tsx";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 
 function shopTypeLabel(t: (k: string) => string, shopType: ShopType): string {
@@ -32,6 +33,7 @@ export function AdminShopsSection() {
     const [nameInput, setNameInput] = useState("");
     const [appliedName, setAppliedName] = useState("");
     const [partnerFilter, setPartnerFilter] = useState<ShopPartnerStatus | "ALL">("ALL");
+    const [createOpen, setCreateOpen] = useState(false);
     const [editTarget, setEditTarget] = useState<ShopDetail | null>(null);
     const { ref: loadMoreRef, inView } = useInView();
 
@@ -57,11 +59,17 @@ export function AdminShopsSection() {
 
     return (
         <section className="flex flex-col gap-4">
-            <header className="flex flex-col gap-1">
-                <H1>{t("adminDashboard.shops.title")}</H1>
-                <p className="text-base text-muted-foreground">
-                    {t("adminDashboard.shops.description")}
-                </p>
+            <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div className="flex flex-col gap-1">
+                    <H1>{t("adminDashboard.shops.title")}</H1>
+                    <p className="text-base text-muted-foreground">
+                        {t("adminDashboard.shops.description")}
+                    </p>
+                </div>
+                <Button type="button" onClick={() => setCreateOpen(true)} className="sm:self-start">
+                    <Plus className="h-4 w-4" aria-hidden="true" />
+                    {t("adminDashboard.shops.actions.create")}
+                </Button>
             </header>
 
             <form
@@ -224,6 +232,7 @@ export function AdminShopsSection() {
                 </>
             )}
 
+            <AdminShopCreateDialog open={createOpen} onOpenChange={setCreateOpen} />
             <AdminShopEditDialog
                 shop={editTarget}
                 open={editTarget !== null}

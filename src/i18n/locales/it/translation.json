@@ -727,6 +727,7 @@
     "SHOP_NOT_FOUND": "Questo negozio non è più disponibile.",
     "INVALID_SHOP_IDENTIFIER": "L'identificativo del negozio non è valido.",
     "INVALID_DOMAIN": "Il dominio del negozio non è valido.",
+    "SHOP_EXISTS_ALREADY": "Esiste già un negozio con lo stesso slug.",
     "FORBIDDEN": "Questa azione non è disponibile per te.",
     "BAD_BODY_VALUE": "Alcuni dettagli non sono corretti. Controlla i tuoi dati.",
     "MONETARY_AMOUNT_OVERFLOW": "Il prezzo è troppo alto e non può essere elaborato.",
@@ -1184,7 +1185,7 @@
     },
     "shops": {
       "title": "Negozi",
-      "description": "Cerca nel catalogo dei negozi e modifica i loro metadati.",
+      "description": "Cerca nel catalogo dei negozi, crea nuovi negozi e modifica i loro metadati.",
       "searchPlaceholder": "Cerca negozi per nome…",
       "loadError": "Impossibile caricare i negozi.",
       "empty": "Nessun negozio corrisponde al filtro attuale.",
@@ -1196,11 +1197,27 @@
       "filter": {
         "all": "Tutti"
       },
+      "actions": {
+        "create": "Crea negozio"
+      },
       "fields": {
+        "name": "Nome del negozio",
         "shopType": "Tipo di negozio",
         "image": "URL immagine",
         "domains": "Domini",
         "domainsHint": "Uno per riga. I domini sono normalizzati in minuscolo, senza schema o percorso."
+      },
+      "create": {
+        "title": "Crea negozio",
+        "description": "Aggiungi un nuovo record negozio. Lo slug viene ricavato automaticamente dal nome del negozio.",
+        "submit": "Crea negozio",
+        "success": "Negozio creato.",
+        "validation": {
+          "nameRequired": "Inserisci un nome del negozio.",
+          "nameTooLong": "Il nome del negozio non può superare 255 caratteri.",
+          "domainsRequired": "Inserisci almeno un dominio.",
+          "imageInvalid": "Inserisci un URL immagine valido."
+        }
       },
       "edit": {
         "title": "Modifica negozio",

@@ -19,28 +19,16 @@ import {
     SelectValue,
 } from "@/components/ui/select.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
-import {
-    SHOP_TYPES,
-    SHOP_TYPE_TRANSLATION_CONFIG,
-    type ShopType,
-} from "@/data/internal/shop/ShopType.ts";
+import { SHOP_TYPE_TRANSLATION_CONFIG, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { usePatchAdminShop } from "@/hooks/admin/usePatchAdminShop.ts";
+import { EDITABLE_SHOP_TYPES, parseShopDomains } from "@/components/admin/adminShopFormUtils.ts";
 import { toast } from "sonner";
 
 interface AdminShopEditDialogProps {
     readonly shop: ShopDetail | null;
     readonly open: boolean;
     readonly onOpenChange: (open: boolean) => void;
-}
-
-const EDITABLE_SHOP_TYPES = SHOP_TYPES.filter((t) => t !== "UNKNOWN");
-
-function parseDomains(input: string): string[] {
-    return input
-        .split(/[\s,;\n]+/)
-        .map((d) => d.trim().toLowerCase())
-        .filter(Boolean);
 }
 
 export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditDialogProps) {
@@ -68,7 +56,7 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
             {
                 shopId: shop.shopId,
                 shopType: shopType !== "UNKNOWN" ? shopType : undefined,
-                domains: parseDomains(domainsRaw),
+                domains: parseShopDomains(domainsRaw),
                 image: trimmedImage === "" ? null : trimmedImage,
             },
             {
