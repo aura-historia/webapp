@@ -938,7 +938,8 @@
             "subtitle": "Sign in to your account to continue",
             "submit": "Sign in",
             "noAccount": "Don't have an account?",
-            "signUpLink": "Create one"
+            "signUpLink": "Create one",
+            "forgotPassword": "Forgot password?"
         },
         "languages": {
             "de": "German",
@@ -983,6 +984,22 @@
             "subtitle": "These details are optional — you can always update them later",
             "submit": "Save and continue",
             "skip": "Skip for now"
+        },
+        "resetPassword": {
+            "title": "Reset Password",
+            "subtitle": "Enter your email to receive a reset code",
+            "emailLabel": "Email",
+            "emailPlaceholder": "your.email@example.com",
+            "submit": "Send code",
+            "backToSignIn": "Back to sign in",
+            "confirmTitle": "Enter reset code",
+            "confirmSubtitle": "Enter the code sent to your email and your new password",
+            "codeLabel": "Reset code",
+            "codePlaceholder": "123456",
+            "newPasswordLabel": "New password",
+            "newPasswordConfirmLabel": "Confirm new password",
+            "newPasswordPlaceholder": "Enter new password",
+            "confirmSubmit": "Reset password"
         }
     },
     "amplify": {

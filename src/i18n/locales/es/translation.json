@@ -924,7 +924,8 @@
             "subtitle": "Inicia sesión en tu cuenta para continuar",
             "submit": "Iniciar sesión",
             "noAccount": "¿No tienes cuenta?",
-            "signUpLink": "Crear una"
+            "signUpLink": "Crear una",
+            "forgotPassword": "¿Has olvidado tu contraseña?"
         },
         "languages": {
             "de": "Alemán",
@@ -983,6 +984,21 @@
             "InvalidParameterException": "Parámetro proporcionado no válido.",
             "EmptySignInUsername": "Por favor introduce tu correo electrónico.",
             "EmptySignInPassword": "Por favor introduce tu contraseña."
+        },
+        "resetPassword": {
+            "title": "Restablecer la contraseña",
+            "subtitle": "Introduce tu correo electrónico para recibir un código de restablecimiento",
+            "emailLabel": "Correo electrónico",
+            "emailPlaceholder": "tu.email@ejemplo.es",
+            "submit": "Enviar código",
+            "backToSignIn": "Volver a iniciar sesión",
+            "confirmTitle": "Introduce el código de restablecimiento",
+            "confirmSubtitle": "Introduce el código enviado a tu correo electrónico y tu nueva contraseña",
+            "codeLabel": "Código de restablecimiento",
+            "codePlaceholder": "123456",
+            "newPasswordLabel": "Nueva contraseña",
+            "newPasswordPlaceholder": "Introduce una nueva contraseña",
+            "confirmSubmit": "Restablecer la contraseña"
         }
     },
     "amplify": {

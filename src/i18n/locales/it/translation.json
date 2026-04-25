@@ -924,7 +924,8 @@
             "subtitle": "Accedi al tuo account per continuare",
             "submit": "Accedi",
             "noAccount": "Non hai un account?",
-            "signUpLink": "Creane uno"
+            "signUpLink": "Creane uno",
+            "forgotPassword": "Hai dimenticato la password?"
         },
         "languages": {
             "de": "Tedesco",
@@ -983,6 +984,21 @@
             "InvalidParameterException": "Parametro non valido fornito.",
             "EmptySignInUsername": "Inserisci la tua e-mail.",
             "EmptySignInPassword": "Inserisci la tua password."
+        },
+        "resetPassword": {
+            "title": "Reimposta la password",
+            "subtitle": "Inserisci la tua email per ricevere un codice di reimpostazione",
+            "emailLabel": "Email",
+            "emailPlaceholder": "tua.email@esempio.it",
+            "submit": "Invia codice",
+            "backToSignIn": "Torna all'accesso",
+            "confirmTitle": "Inserisci il codice di reimpostazione",
+            "confirmSubtitle": "Inserisci il codice inviato alla tua email e la tua nuova password",
+            "codeLabel": "Codice di reimpostazione",
+            "codePlaceholder": "123456",
+            "newPasswordLabel": "Nuova password",
+            "newPasswordPlaceholder": "Inserisci una nuova password",
+            "confirmSubmit": "Reimposta la password"
         }
     },
     "amplify": {

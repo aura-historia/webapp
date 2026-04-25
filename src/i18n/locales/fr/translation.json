@@ -924,7 +924,8 @@
             "subtitle": "Connectez-vous à votre compte pour continuer",
             "submit": "Se connecter",
             "noAccount": "Pas encore de compte ?",
-            "signUpLink": "Créer un compte"
+            "signUpLink": "Créer un compte",
+            "forgotPassword": "Mot de passe oublié ?"
         },
         "languages": {
             "de": "Allemand",
@@ -983,6 +984,21 @@
             "InvalidParameterException": "Paramètre non valide fourni.",
             "EmptySignInUsername": "Veuillez entrer votre e-mail.",
             "EmptySignInPassword": "Veuillez entrer votre mot de passe."
+        },
+        "resetPassword": {
+            "title": "Réinitialiser le mot de passe",
+            "subtitle": "Entrez votre adresse e-mail pour recevoir un code de réinitialisation",
+            "emailLabel": "E-mail",
+            "emailPlaceholder": "votre.email@exemple.fr",
+            "submit": "Envoyer le code",
+            "backToSignIn": "Retour à la connexion",
+            "confirmTitle": "Entrez le code de réinitialisation",
+            "confirmSubtitle": "Entrez le code envoyé à votre adresse e-mail et votre nouveau mot de passe",
+            "codeLabel": "Code de réinitialisation",
+            "codePlaceholder": "123456",
+            "newPasswordLabel": "Nouveau mot de passe",
+            "newPasswordPlaceholder": "Entrez un nouveau mot de passe",
+            "confirmSubmit": "Réinitialiser le mot de passe"
         }
     },
     "amplify": {

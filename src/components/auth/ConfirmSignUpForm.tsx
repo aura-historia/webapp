@@ -128,13 +128,13 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
             </Form>
 
             <p className="text-center text-sm text-muted-foreground">
-                {t("auth.confirm.noCode")}{" "}
+                {t("auth.confirm.noCode")}
                 <Button
                     type="button"
                     variant="link"
                     onClick={handleResend}
                     disabled={resendStatus !== "idle"}
-                    className="h-auto p-0 font-medium"
+                    className="h-auto ms-2 p-0 font-medium"
                 >
                     {resendButtonText}
                 </Button>

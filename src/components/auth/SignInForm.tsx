@@ -27,10 +27,15 @@ type SignInValues = z.infer<ReturnType<typeof signInSchema>>;
 
 type SignInFormProps = {
     readonly onSwitchToSignUp: () => void;
+    readonly onSwitchToResetPassword: () => void;
     readonly onSuccess: () => void;
 };
 
-export function SignInForm({ onSwitchToSignUp, onSuccess }: SignInFormProps) {
+export function SignInForm({
+    onSwitchToSignUp,
+    onSwitchToResetPassword,
+    onSuccess,
+}: SignInFormProps) {
     const { t } = useTranslation();
     const schema = signInSchema(t);
 
@@ -88,7 +93,18 @@ export function SignInForm({ onSwitchToSignUp, onSuccess }: SignInFormProps) {
                         name="password"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>{t("auth.signIn.password")}</FormLabel>
+                                <div className="flex items-center justify-between">
+                                    <FormLabel>{t("auth.signIn.password")}</FormLabel>
+                                    <Button
+                                        type="button"
+                                        variant="link"
+                                        onClick={onSwitchToResetPassword}
+                                        className="h-auto p-0 text-xs font-medium"
+                                        tabIndex={-1}
+                                    >
+                                        {t("auth.signIn.forgotPassword")}
+                                    </Button>
+                                </div>
                                 <FormControl>
                                     <Input
                                         {...field}

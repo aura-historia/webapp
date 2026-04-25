@@ -3,8 +3,9 @@ import { SignInForm } from "@/components/auth/SignInForm.tsx";
 import { SignUpForm } from "@/components/auth/SignUpForm.tsx";
 import { ConfirmSignUpForm } from "@/components/auth/ConfirmSignUpForm.tsx";
 import { UserDetailsForm } from "@/components/auth/UserDetailsForm.tsx";
+import { ResetPasswordForm } from "@/components/auth/ResetPasswordForm.tsx";
 
-type AuthStep = "sign-in" | "sign-up" | "confirm" | "user-details";
+type AuthStep = "sign-in" | "sign-up" | "confirm" | "user-details" | "reset-password";
 
 type AuthFlowProps = {
     /** Which step to show first. Defaults to "sign-in". */
@@ -22,7 +23,11 @@ export function AuthFlow({ initialStep = "sign-in", onComplete }: AuthFlowProps)
     return (
         <div className="w-full max-w-md">
             {step === "sign-in" && (
-                <SignInForm onSwitchToSignUp={() => setStep("sign-up")} onSuccess={onComplete} />
+                <SignInForm
+                    onSwitchToSignUp={() => setStep("sign-up")}
+                    onSwitchToResetPassword={() => setStep("reset-password")}
+                    onSuccess={onComplete}
+                />
             )}
 
             {step === "sign-up" && (
@@ -45,6 +50,13 @@ export function AuthFlow({ initialStep = "sign-in", onComplete }: AuthFlowProps)
             )}
 
             {step === "user-details" && <UserDetailsForm onSuccess={onComplete} />}
+
+            {step === "reset-password" && (
+                <ResetPasswordForm
+                    onSwitchToSignIn={() => setStep("sign-in")}
+                    onSuccess={() => setStep("sign-in")}
+                />
+            )}
         </div>
     );
 }

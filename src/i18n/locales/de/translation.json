@@ -925,7 +925,8 @@
             "subtitle": "Melden Sie sich bei Ihrem Konto an",
             "submit": "Anmelden",
             "noAccount": "Noch kein Konto?",
-            "signUpLink": "Jetzt registrieren"
+            "signUpLink": "Jetzt registrieren",
+            "forgotPassword": "Passwort vergessen?"
         },
         "languages": {
             "de": "Deutsch",
@@ -984,6 +985,22 @@
             "InvalidParameterException": "Ungültiger Parameter angegeben.",
             "EmptySignInUsername": "Bitte geben Sie Ihre E-Mail-Adresse ein.",
             "EmptySignInPassword": "Bitte geben Sie Ihr Passwort ein."
+        },
+        "resetPassword": {
+            "title": "Passwort zurücksetzen",
+            "subtitle": "Geben Sie Ihre E-Mail-Adresse ein, um einen Zurücksetzungscode zu erhalten",
+            "emailLabel": "E-Mail",
+            "emailPlaceholder": "ihre.email@beispiel.de",
+            "submit": "Code senden",
+            "backToSignIn": "Zurück zur Anmeldung",
+            "confirmTitle": "Zurücksetzungscode eingeben",
+            "confirmSubtitle": "Geben Sie den an Ihre E-Mail gesendeten Code und Ihr neues Passwort ein",
+            "codeLabel": "Zurücksetzungscode",
+            "codePlaceholder": "123456",
+            "newPasswordLabel": "Neues Passwort",
+            "newPasswordConfirmLabel": "Neues Passwort bestätigen",
+            "newPasswordPlaceholder": "Neues Passwort eingeben",
+            "confirmSubmit": "Passwort zurücksetzen"
         }
     },
     "amplify": {
