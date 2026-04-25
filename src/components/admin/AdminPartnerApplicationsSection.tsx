@@ -44,6 +44,8 @@ function businessStateVariant(
             return "destructive";
         case "IN_REVIEW":
             return "secondary";
+        case "SUBMITTED":
+            return "outline";
         default:
             return "outline";
     }

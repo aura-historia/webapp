@@ -1135,11 +1135,11 @@
       "overview": "Vue d'ensemble",
       "shops": "Boutiques",
       "partnerApplications": "Candidatures partenaires",
-      "users": "Users"
+      "users": "Utilisateurs"
     },
     "overview": {
       "title": "Tableau de bord admin",
-      "description": "Manage shops, review partner applications, and administer user accounts.",
+      "description": "Gérez les boutiques, examinez les demandes partenaires et administrez les comptes utilisateur.",
       "shops": {
         "title": "Boutiques",
         "description": "Parcourir, rechercher et modifier les métadonnées des boutiques."
@@ -1151,10 +1151,10 @@
         "pendingCount_other": "{{count}} candidatures en attente d'examen"
       },
       "users": {
-        "title": "Users",
-        "description": "Search accounts, inspect user details, and manage role, tier, preferences, and Stripe mappings.",
-        "totalCount_one": "{{count}} user account",
-        "totalCount_other": "{{count}} user accounts"
+        "title": "Utilisateurs",
+        "description": "Recherchez des comptes, consultez les détails utilisateur et gérez les rôles, offres, préférences et correspondances Stripe.",
+        "totalCount_one": "{{count}} compte utilisateur",
+        "totalCount_other": "{{count}} comptes utilisateur"
       }
     },
     "actions": {
@@ -1222,7 +1222,7 @@
         "approveAriaLabel": "Approuver la candidature",
         "reject": "Rejeter",
         "rejectAriaLabel": "Rejeter la candidature",
-        "details": "Details"
+        "details": "Détails"
       },
       "decision": {
         "approveSuccess": "Candidature approuvée.",
@@ -1241,69 +1241,69 @@
         "success": "Candidature mise à jour."
       },
       "detail": {
-        "title": "Partner application details",
-        "description": "Review application payload, processing state, and the associated applicant account.",
-        "applicationId": "Application ID",
-        "payloadType": "Application type",
-        "createdAt": "Created",
-        "updatedAt": "Updated",
-        "shopSection": "Shop information",
-        "shopId": "Shop ID",
-        "applicantSection": "Applicant user",
-        "applicantUnavailable": "The current API response does not expose an applicant user ID for this application.",
-        "applicantLoadError": "Could not load the applicant user.",
-        "openApplicant": "Open user profile"
+        "title": "Détails de la demande partenaire",
+        "description": "Consultez les données de la demande, l’état de traitement et le compte utilisateur associé.",
+        "applicationId": "ID de demande",
+        "payloadType": "Type de demande",
+        "createdAt": "Créée",
+        "updatedAt": "Mise à jour",
+        "shopSection": "Informations sur la boutique",
+        "shopId": "ID de boutique",
+        "applicantSection": "Utilisateur demandeur",
+        "applicantUnavailable": "La réponse actuelle de l’API n’expose pas d’ID utilisateur pour cette demande.",
+        "applicantLoadError": "Impossible de charger l’utilisateur demandeur.",
+        "openApplicant": "Ouvrir le profil utilisateur"
       }
     },
     "users": {
-      "title": "Users",
-      "description": "Search user accounts, open full details, update profile and billing metadata, or delete accounts.",
-      "search": "Search",
-      "searchPlaceholder": "Search all user fields…",
-      "emailSearchPlaceholder": "Filter by email…",
-      "nameSearchPlaceholder": "Filter by name…",
-      "loadError": "Could not load users.",
-      "empty": "No users match the current filter.",
-      "totalCount_one": "{{count}} user",
-      "totalCount_other": "{{count}} users",
-      "updatedAt": "Updated {{date}}",
-      "prohibitedContentAllowed": "§ 86a consent",
+      "title": "Utilisateurs",
+      "description": "Recherchez des comptes utilisateur, ouvrez les détails complets, mettez à jour les métadonnées de profil et de facturation ou supprimez des comptes.",
+      "search": "Rechercher",
+      "searchPlaceholder": "Rechercher dans tous les champs utilisateur…",
+      "emailSearchPlaceholder": "Filtrer par e-mail…",
+      "nameSearchPlaceholder": "Filtrer par nom…",
+      "loadError": "Impossible de charger les utilisateurs.",
+      "empty": "Aucun utilisateur ne correspond au filtre actuel.",
+      "totalCount_one": "{{count}} utilisateur",
+      "totalCount_other": "{{count}} utilisateurs",
+      "updatedAt": "Mis à jour le {{date}}",
+      "prohibitedContentAllowed": "Consentement § 86a",
       "filters": {
-        "allTiers": "All tiers",
-        "allRoles": "All roles"
+        "allTiers": "Toutes les offres",
+        "allRoles": "Tous les rôles"
       },
       "sort": {
-        "label": "Sort users",
-        "updated-desc": "Recently updated",
-        "created-desc": "Newest accounts",
-        "email-asc": "Email A–Z",
-        "tier-asc": "Tier A–Z",
-        "role-asc": "Role A–Z"
+        "label": "Trier les utilisateurs",
+        "updated-desc": "Récemment mis à jour",
+        "created-desc": "Comptes les plus récents",
+        "email-asc": "E-mail A–Z",
+        "tier-asc": "Offre A–Z",
+        "role-asc": "Rôle A–Z"
       },
       "fields": {
-        "email": "Email",
-        "name": "Name",
-        "firstName": "First name",
-        "lastName": "Last name",
-        "language": "Language",
-        "currency": "Currency",
-        "tier": "Tier",
-        "role": "Role",
-        "stripeCustomerId": "Stripe customer ID",
-        "prohibitedContentConsent": "Prohibited-content consent",
-        "prohibitedContentConsentHint": "Controls whether the user may see products with restricted symbols.",
-        "notSet": "Not set"
+        "email": "E-mail",
+        "name": "Nom",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "language": "Langue",
+        "currency": "Devise",
+        "tier": "Offre",
+        "role": "Rôle",
+        "stripeCustomerId": "ID client Stripe",
+        "prohibitedContentConsent": "Consentement au contenu restreint",
+        "prohibitedContentConsentHint": "Détermine si l’utilisateur peut voir des produits avec des symboles restreints.",
+        "notSet": "Non défini"
       },
       "detail": {
-        "title": "User details",
-        "description": "Review the account and update admin-managed fields.",
-        "loadError": "Could not load this user.",
-        "createdAt": "Created {{date}}",
-        "updatedAt": "Updated {{date}}",
-        "updateSuccess": "User updated.",
-        "delete": "Delete user",
-        "deleteConfirm": "Delete user {{email}}? This cannot be undone.",
-        "deleteSuccess": "User deleted."
+        "title": "Détails utilisateur",
+        "description": "Consultez le compte et mettez à jour les champs administrés.",
+        "loadError": "Impossible de charger cet utilisateur.",
+        "createdAt": "Créé le {{date}}",
+        "updatedAt": "Mis à jour le {{date}}",
+        "updateSuccess": "Utilisateur mis à jour.",
+        "delete": "Supprimer l’utilisateur",
+        "deleteConfirm": "Supprimer l’utilisateur {{email}} ? Cette action est irréversible.",
+        "deleteSuccess": "Utilisateur supprimé."
       }
     }
   }
