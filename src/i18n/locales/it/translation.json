@@ -156,10 +156,17 @@
       "title": "Elimina account",
       "deleteButton": "Elimina account",
       "warningText": "Sei sicuro di voler eliminare il tuo account?",
+      "warningTitle": "Vuoi eliminare definitivamente il tuo account?",
+      "warningSubtitle": "Questa azione non può essere annullata. Il tuo account non potrà essere ripristinato e tutti i dati salvati andranno persi definitivamente.",
       "cancelButton": "Annulla",
       "confirmButton": "Sì, elimina account",
       "successMessage": "Account eliminato con successo!",
       "errorMessage": "Errore nell'eliminazione dell'account."
+    },
+    "subscription": {
+      "title": "Abbonamento",
+      "currentPlanLabel": "Piano attuale",
+      "manageButton": "Gestisci abbonamento"
     }
   },
   "search": {
@@ -909,7 +916,19 @@
       "USD": "USD - Dollaro americano",
       "AUD": "AUD - Dollaro australiano",
       "CAD": "CAD - Dollaro canadese",
-      "NZD": "NZD - Dollaro neozelandese"
+      "NZD": "NZD - Dollaro neozelandese",
+      "CNY": "CNY - Yuan cinese",
+      "BRL": "BRL - Real brasiliano",
+      "PLN": "PLN - Zloty polacco",
+      "TRY": "TRY - Lira turca",
+      "JPY": "JPY - Yen giapponese",
+      "CZK": "CZK - Corona ceca",
+      "RUB": "RUB - Rublo russo",
+      "AED": "AED - Dirham degli EAU",
+      "SAR": "SAR - Riyal saudita",
+      "HKD": "HKD - Dollaro di Hong Kong",
+      "SGD": "SGD - Dollaro di Singapore",
+      "CHF": "CHF - Franco svizzero"
     }
   },
   "amplify": {

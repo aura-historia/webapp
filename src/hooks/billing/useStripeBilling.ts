@@ -1,21 +1,25 @@
-import { postBillingManage } from "@/client";
+import { postBillingManage, postBillingPortal } from "@/client";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { toast } from "sonner";
 import { useApiError } from "@/hooks/common/useApiError.ts";
-import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import {
     mapToBackendBillingCycle,
     type BillingCycle,
 } from "@/data/internal/billing/BillingCycle.ts";
 import { mapToBackendBillingPlan, type BillingPlan } from "@/data/internal/billing/BillingPlan.ts";
+import { toast } from "sonner";
+import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 
 export function useStripeBilling() {
     const { user } = useAuthenticator((context) => [context.user]);
     const navigate = useNavigate();
     const { getErrorMessage } = useApiError();
     const [isLoading, setIsLoading] = useState(false);
+
+    const redirectToBillingUrl = async (url: string) => {
+        await navigate({ href: url });
+    };
 
     const handleSubscribe = async (plan: BillingPlan, cycle: BillingCycle) => {
         if (!user) {
@@ -38,7 +42,7 @@ export function useStripeBilling() {
             });
 
             if (billingResponse.data) {
-                await navigate({ href: billingResponse.data.url });
+                await redirectToBillingUrl(billingResponse.data.url);
                 return;
             }
 
@@ -48,5 +52,31 @@ export function useStripeBilling() {
         }
     };
 
-    return { handleSubscribe, isLoading };
+    const handleManageSubscription = async () => {
+        // Should not happen, since this is ideally only available to signed in users
+        if (!user) {
+            await navigate({
+                to: "/login",
+                search: { redirect: "/me/account" },
+            });
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            const billingPortalResponse = await postBillingPortal();
+
+            if (billingPortalResponse.data) {
+                await redirectToBillingUrl(billingPortalResponse.data.url);
+                return;
+            }
+
+            toast.error(getErrorMessage(mapToInternalApiError(billingPortalResponse.error)));
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return { handleSubscribe, handleManageSubscription, isLoading };
 }

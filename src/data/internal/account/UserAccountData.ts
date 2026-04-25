@@ -2,6 +2,7 @@ import type { GetUserAccountData, PatchUserAccountData } from "@/client";
 import { type Language, parseLanguage, mapToBackendLanguage } from "../common/Language.ts";
 import { type Currency, parseCurrency, mapToBackendCurrency } from "../common/Currency.ts";
 import { type UserRole, parseUserRole } from "./UserRole.ts";
+import { type SubscriptionType, parseSubscriptionType } from "./SubscriptionType.ts";
 
 export type UserAccountData = {
     readonly userId: string;
@@ -12,6 +13,7 @@ export type UserAccountData = {
     readonly currency?: Currency;
     readonly prohibitedContentConsent: boolean;
     readonly role: UserRole;
+    readonly subscriptionType: SubscriptionType;
     readonly created: Date;
     readonly updated: Date;
 };
@@ -34,6 +36,7 @@ export function mapToInternalUserAccount(apiData: GetUserAccountData): UserAccou
         currency: apiData.currency ? parseCurrency(apiData.currency) : undefined,
         prohibitedContentConsent: apiData.prohibitedContentConsent,
         role: parseUserRole(apiData.role),
+        subscriptionType: parseSubscriptionType(apiData.tier),
         created: new Date(apiData.created),
         updated: new Date(apiData.updated),
     };

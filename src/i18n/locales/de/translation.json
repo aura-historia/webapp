@@ -156,10 +156,17 @@
       "title": "Account löschen",
       "deleteButton": "Account löschen",
       "warningText": "Sind Sie sicher, dass Sie Ihren Account löschen möchten?",
+      "warningTitle": "Möchten Sie Ihren Account dauerhaft löschen?",
+      "warningSubtitle": "Diese Aktion kann nicht rückgängig gemacht werden. Ihr Account kann nicht wiederhergestellt werden und alle gespeicherten Daten gehen dauerhaft verloren.",
       "cancelButton": "Abbrechen",
       "confirmButton": "Ja, Account löschen",
       "successMessage": "Account wurde erfolgreich gelöscht!",
       "errorMessage": "Fehler beim Löschen des Accounts."
+    },
+    "subscription": {
+      "title": "Abonnement",
+      "currentPlanLabel": "Aktuelles Abo",
+      "manageButton": "Abo verwalten"
     }
   },
   "search": {
@@ -910,7 +917,19 @@
       "USD": "USD - US-Dollar",
       "AUD": "AUD - Australischer Dollar",
       "CAD": "CAD - Kanadischer Dollar",
-      "NZD": "NZD - Neuseeland-Dollar"
+      "NZD": "NZD - Neuseeland-Dollar",
+      "CNY": "CNY - Chinesischer Yuan",
+      "BRL": "BRL - Brasilianischer Real",
+      "PLN": "PLN - Polnischer Zloty",
+      "TRY": "TRY - Türkische Lira",
+      "JPY": "JPY - Japanischer Yen",
+      "CZK": "CZK - Tschechische Krone",
+      "RUB": "RUB - Russischer Rubel",
+      "AED": "AED - VAE-Dirham",
+      "SAR": "SAR - Saudi-Riyal",
+      "HKD": "HKD - Hongkong-Dollar",
+      "SGD": "SGD - Singapur-Dollar",
+      "CHF": "CHF - Schweizer Franken"
     }
   },
   "amplify": {

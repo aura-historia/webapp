@@ -64,129 +64,156 @@ export function PersonalDataForm() {
 
     return (
         <Form {...accountEditForm}>
-            <form onSubmit={accountEditForm.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                    control={accountEditForm.control}
-                    name="firstName"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>{t("account.personalData.firstNameLabel")}</FormLabel>
-                            <FormControl>
-                                <Input {...field} className="h-12 bg-transparent" />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+            <form onSubmit={accountEditForm.handleSubmit(onSubmit)} className="space-y-8">
+                <FormItem>
+                    <FormLabel>{t("account.personalData.emailLabel")}</FormLabel>
+                    <FormControl>
+                        <Input
+                            value={userAccount?.email ?? ""}
+                            readOnly
+                            className="h-12 bg-muted/30 text-muted-foreground"
+                        />
+                    </FormControl>
+                </FormItem>
 
-                <FormField
-                    control={accountEditForm.control}
-                    name="lastName"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>{t("account.personalData.lastNameLabel")}</FormLabel>
-                            <FormControl>
-                                <Input {...field} className="h-12 bg-transparent" />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={accountEditForm.control}
-                    name="language"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>{t("account.personalData.languageLabel")}</FormLabel>
-                            <Select
-                                onValueChange={field.onChange}
-                                value={field.value}
-                                key={field.value}
-                            >
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8">
+                    <FormField
+                        control={accountEditForm.control}
+                        name="firstName"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{t("account.personalData.firstNameLabel")}</FormLabel>
                                 <FormControl>
-                                    <SelectTrigger className="w-full h-12!">
-                                        <SelectValue
-                                            placeholder={t(
-                                                "account.personalData.languagePlaceholder",
-                                            )}
-                                        />
-                                    </SelectTrigger>
+                                    <Input {...field} className="h-12 bg-transparent" />
                                 </FormControl>
-                                <SelectContent>
-                                    {LANGUAGES.map((lang) => (
-                                        <SelectItem key={lang} value={lang}>
-                                            {t(`auth.languages.${lang}`)}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
 
-                <FormField
-                    control={accountEditForm.control}
-                    name="currency"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>{t("account.personalData.currencyLabel")}</FormLabel>
-                            <Select
-                                onValueChange={field.onChange}
-                                value={field.value}
-                                key={field.value}
-                            >
+                    <FormField
+                        control={accountEditForm.control}
+                        name="lastName"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{t("account.personalData.lastNameLabel")}</FormLabel>
                                 <FormControl>
-                                    <SelectTrigger className="w-full h-12!">
-                                        <SelectValue
-                                            placeholder={t(
-                                                "account.personalData.currencyPlaceholder",
-                                            )}
-                                        />
-                                    </SelectTrigger>
+                                    <Input {...field} className="h-12 bg-transparent" />
                                 </FormControl>
-                                <SelectContent>
-                                    {CURRENCIES.map((curr) => (
-                                        <SelectItem key={curr} value={curr}>
-                                            {t(`auth.currencies.${curr}`)}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8">
+                    <FormField
+                        control={accountEditForm.control}
+                        name="language"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{t("account.personalData.languageLabel")}</FormLabel>
+                                <Select
+                                    onValueChange={field.onChange}
+                                    value={field.value}
+                                    key={field.value}
+                                >
+                                    <FormControl>
+                                        <SelectTrigger className="w-full data-[size=default]:h-12">
+                                            <SelectValue
+                                                placeholder={t(
+                                                    "account.personalData.languagePlaceholder",
+                                                )}
+                                            />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {LANGUAGES.map((lang) => (
+                                            <SelectItem key={lang} value={lang}>
+                                                {t(`auth.languages.${lang}`)}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={accountEditForm.control}
+                        name="currency"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{t("account.personalData.currencyLabel")}</FormLabel>
+                                <Select
+                                    onValueChange={field.onChange}
+                                    value={field.value}
+                                    key={field.value}
+                                >
+                                    <FormControl>
+                                        <SelectTrigger className="w-full data-[size=default]:h-12">
+                                            <SelectValue
+                                                placeholder={t(
+                                                    "account.personalData.currencyPlaceholder",
+                                                )}
+                                            />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {CURRENCIES.map((curr) => (
+                                            <SelectItem key={curr} value={curr}>
+                                                {t(`auth.currencies.${curr}`)}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
 
                 <FormField
                     control={accountEditForm.control}
                     name="prohibitedContentConsent"
                     render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4">
-                            <FormControl>
-                                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                            </FormControl>
-                            <FormLabel className="inline-flex items-center gap-1.5 font-normal">
-                                {t("account.personalData.prohibitedContentConsentLabel")}
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <Info
-                                                size={16}
-                                                className="text-muted-foreground cursor-help"
-                                            />
-                                        </TooltipTrigger>
-                                        <TooltipContent className="max-w-xs">
-                                            <p>
-                                                {t(
-                                                    "account.personalData.prohibitedContentConsentTooltip",
-                                                )}
-                                            </p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
-                            </FormLabel>
+                        <FormItem className="space-y-2">
+                            <div className="flex items-start gap-3">
+                                <FormControl>
+                                    <Checkbox
+                                        checked={field.value}
+                                        onCheckedChange={field.onChange}
+                                        className="mt-1"
+                                    />
+                                </FormControl>
+                                <div className="space-y-1">
+                                    <FormLabel className="inline-flex items-center gap-1.5 font-medium">
+                                        {t("account.personalData.prohibitedContentConsentLabel")}
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <Info
+                                                        size={16}
+                                                        className="text-muted-foreground cursor-help"
+                                                    />
+                                                </TooltipTrigger>
+                                                <TooltipContent className="max-w-xs">
+                                                    <p>
+                                                        {t(
+                                                            "account.personalData.prohibitedContentConsentTooltip",
+                                                        )}
+                                                    </p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
+                                    </FormLabel>
+                                    <p className="text-muted-foreground text-xs">
+                                        {t("account.personalData.prohibitedContentConsentTooltip")}
+                                    </p>
+                                </div>
+                            </div>
+                            <FormMessage />
                         </FormItem>
                     )}
                 />
