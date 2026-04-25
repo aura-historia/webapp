@@ -30,6 +30,7 @@ import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/produc
 import { Route as AuthMeWatchlistRouteImport } from './routes/_auth.me.watchlist'
 import { Route as AuthMeNotificationsRouteImport } from './routes/_auth.me.notifications'
 import { Route as AuthMeAccountRouteImport } from './routes/_auth.me.account'
+import { Route as AuthAdminUsersRouteImport } from './routes/_auth.admin.users'
 import { Route as AuthAdminShopsRouteImport } from './routes/_auth.admin.shops'
 import { Route as AuthAdminPartnerApplicationsRouteImport } from './routes/_auth.admin.partner-applications'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
@@ -141,6 +142,11 @@ const AuthMeAccountRoute = AuthMeAccountRouteImport.update({
   path: '/me/account',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthAdminUsersRoute = AuthAdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
 const AuthAdminShopsRoute = AuthAdminShopsRouteImport.update({
   id: '/shops',
   path: '/shops',
@@ -181,6 +187,7 @@ export interface FileRoutesByFullPath {
   '/periods/': typeof PeriodsIndexRoute
   '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/admin/shops': typeof AuthAdminShopsRoute
+  '/admin/users': typeof AuthAdminUsersRoute
   '/me/account': typeof AuthMeAccountRoute
   '/me/notifications': typeof AuthMeNotificationsRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
@@ -206,6 +213,7 @@ export interface FileRoutesByTo {
   '/periods': typeof PeriodsIndexRoute
   '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/admin/shops': typeof AuthAdminShopsRoute
+  '/admin/users': typeof AuthAdminUsersRoute
   '/me/account': typeof AuthMeAccountRoute
   '/me/notifications': typeof AuthMeNotificationsRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
@@ -234,6 +242,7 @@ export interface FileRoutesById {
   '/periods/': typeof PeriodsIndexRoute
   '/_auth/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/_auth/admin/shops': typeof AuthAdminShopsRoute
+  '/_auth/admin/users': typeof AuthAdminUsersRoute
   '/_auth/me/account': typeof AuthMeAccountRoute
   '/_auth/me/notifications': typeof AuthMeNotificationsRoute
   '/_auth/me/watchlist': typeof AuthMeWatchlistRoute
@@ -262,6 +271,7 @@ export interface FileRouteTypes {
     | '/periods/'
     | '/admin/partner-applications'
     | '/admin/shops'
+    | '/admin/users'
     | '/me/account'
     | '/me/notifications'
     | '/me/watchlist'
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/periods'
     | '/admin/partner-applications'
     | '/admin/shops'
+    | '/admin/users'
     | '/me/account'
     | '/me/notifications'
     | '/me/watchlist'
@@ -314,6 +325,7 @@ export interface FileRouteTypes {
     | '/periods/'
     | '/_auth/admin/partner-applications'
     | '/_auth/admin/shops'
+    | '/_auth/admin/users'
     | '/_auth/me/account'
     | '/_auth/me/notifications'
     | '/_auth/me/watchlist'
@@ -493,6 +505,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthMeAccountRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/admin/users': {
+      id: '/_auth/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthAdminUsersRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
     '/_auth/admin/shops': {
       id: '/_auth/admin/shops'
       path: '/shops'
@@ -527,12 +546,14 @@ declare module '@tanstack/react-router' {
 interface AuthAdminRouteChildren {
   AuthAdminPartnerApplicationsRoute: typeof AuthAdminPartnerApplicationsRoute
   AuthAdminShopsRoute: typeof AuthAdminShopsRoute
+  AuthAdminUsersRoute: typeof AuthAdminUsersRoute
   AuthAdminIndexRoute: typeof AuthAdminIndexRoute
 }
 
 const AuthAdminRouteChildren: AuthAdminRouteChildren = {
   AuthAdminPartnerApplicationsRoute: AuthAdminPartnerApplicationsRoute,
   AuthAdminShopsRoute: AuthAdminShopsRoute,
+  AuthAdminUsersRoute: AuthAdminUsersRoute,
   AuthAdminIndexRoute: AuthAdminIndexRoute,
 }
 

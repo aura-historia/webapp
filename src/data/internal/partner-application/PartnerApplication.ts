@@ -28,6 +28,7 @@ export type PartnerApplicationPayload =
 
 export type PartnerApplication = {
     readonly id: string;
+    readonly applicantUserId?: string;
     readonly businessState: PartnerApplicationBusinessState;
     readonly executionState: PartnerApplicationExecutionState;
     readonly payload: PartnerApplicationPayload;
@@ -63,8 +64,16 @@ function mapPayload(payload: GetPartnerShopApplicationPayloadData): PartnerAppli
 }
 
 export function mapToPartnerApplication(data: GetPartnerShopApplicationData): PartnerApplication {
+    const applicantUserId =
+        "applicantUserId" in data && typeof data.applicantUserId === "string"
+            ? data.applicantUserId
+            : "userId" in data && typeof data.userId === "string"
+              ? data.userId
+              : undefined;
+
     return {
         id: data.id,
+        applicantUserId,
         businessState: parseBusinessState(data.businessState),
         executionState: parseExecutionState(data.executionState),
         payload: mapPayload(data.payload),

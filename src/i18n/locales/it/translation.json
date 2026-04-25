@@ -1134,11 +1134,12 @@
     "nav": {
       "overview": "Panoramica",
       "shops": "Negozi",
-      "partnerApplications": "Domande di partner"
+      "partnerApplications": "Domande di partner",
+      "users": "Users"
     },
     "overview": {
       "title": "Pannello di amministrazione",
-      "description": "Gestisci i negozi e rivedi le domande dei partner.",
+      "description": "Manage shops, review partner applications, and administer user accounts.",
       "shops": {
         "title": "Negozi",
         "description": "Esplora, cerca e modifica i metadati dei negozi."
@@ -1148,6 +1149,12 @@
         "description": "Rivedi e decidi sulle domande in arrivo.",
         "pendingCount_one": "{{count}} domanda in attesa di revisione",
         "pendingCount_other": "{{count}} domande in attesa di revisione"
+      },
+      "users": {
+        "title": "Users",
+        "description": "Search accounts, inspect user details, and manage role, tier, preferences, and Stripe mappings.",
+        "totalCount_one": "{{count}} user account",
+        "totalCount_other": "{{count}} user accounts"
       }
     },
     "actions": {
@@ -1214,7 +1221,8 @@
         "approve": "Approva",
         "approveAriaLabel": "Approva domanda",
         "reject": "Rifiuta",
-        "rejectAriaLabel": "Rifiuta domanda"
+        "rejectAriaLabel": "Rifiuta domanda",
+        "details": "Details"
       },
       "decision": {
         "approveSuccess": "Domanda approvata.",
@@ -1231,6 +1239,71 @@
         "title": "Modifica domanda",
         "description": "Aggiorna i dati della domanda prima di decidere.",
         "success": "Domanda aggiornata."
+      },
+      "detail": {
+        "title": "Partner application details",
+        "description": "Review application payload, processing state, and the associated applicant account.",
+        "applicationId": "Application ID",
+        "payloadType": "Application type",
+        "createdAt": "Created",
+        "updatedAt": "Updated",
+        "shopSection": "Shop information",
+        "shopId": "Shop ID",
+        "applicantSection": "Applicant user",
+        "applicantUnavailable": "The current API response does not expose an applicant user ID for this application.",
+        "applicantLoadError": "Could not load the applicant user.",
+        "openApplicant": "Open user profile"
+      }
+    },
+    "users": {
+      "title": "Users",
+      "description": "Search user accounts, open full details, update profile and billing metadata, or delete accounts.",
+      "search": "Search",
+      "searchPlaceholder": "Search all user fields…",
+      "emailSearchPlaceholder": "Filter by email…",
+      "nameSearchPlaceholder": "Filter by name…",
+      "loadError": "Could not load users.",
+      "empty": "No users match the current filter.",
+      "totalCount_one": "{{count}} user",
+      "totalCount_other": "{{count}} users",
+      "updatedAt": "Updated {{date}}",
+      "prohibitedContentAllowed": "§ 86a consent",
+      "filters": {
+        "allTiers": "All tiers",
+        "allRoles": "All roles"
+      },
+      "sort": {
+        "label": "Sort users",
+        "updated-desc": "Recently updated",
+        "created-desc": "Newest accounts",
+        "email-asc": "Email A–Z",
+        "tier-asc": "Tier A–Z",
+        "role-asc": "Role A–Z"
+      },
+      "fields": {
+        "email": "Email",
+        "name": "Name",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "language": "Language",
+        "currency": "Currency",
+        "tier": "Tier",
+        "role": "Role",
+        "stripeCustomerId": "Stripe customer ID",
+        "prohibitedContentConsent": "Prohibited-content consent",
+        "prohibitedContentConsentHint": "Controls whether the user may see products with restricted symbols.",
+        "notSet": "Not set"
+      },
+      "detail": {
+        "title": "User details",
+        "description": "Review the account and update admin-managed fields.",
+        "loadError": "Could not load this user.",
+        "createdAt": "Created {{date}}",
+        "updatedAt": "Updated {{date}}",
+        "updateSuccess": "User updated.",
+        "delete": "Delete user",
+        "deleteConfirm": "Delete user {{email}}? This cannot be undone.",
+        "deleteSuccess": "User deleted."
       }
     }
   }

@@ -1659,6 +1659,20 @@ export type SortWatchlistProductFieldData = 'created';
 export type SortSearchFilterMatchFieldData = 'created';
 
 /**
+ * Fields available for sorting admin user-search results:
+ * - score: Relevance score returned by OpenSearch
+ * - email: User email address
+ * - firstName: User first name
+ * - lastName: User last name
+ * - tier: User subscription tier
+ * - role: User role
+ * - updated: Last update timestamp
+ * - created: Creation timestamp
+ *
+ */
+export type SortUserFieldData = 'score' | 'email' | 'firstName' | 'lastName' | 'tier' | 'role' | 'updated' | 'created';
+
+/**
  * Paginated collection of personalized products matched by a search filter, using cursor-based pagination
  */
 export type SearchFilterMatchProductCollectionData = {
@@ -1678,6 +1692,92 @@ export type SearchFilterMatchProductCollectionData = {
      * Total number of matched products
      */
     total?: number | null;
+};
+
+/**
+ * Cursor-paginated collection of users for the admin search endpoint.
+ * `searchAfter` is the OpenSearch sort cursor for the next page and typically contains
+ * the primary sort value followed by the `userId` tie-breaker.
+ *
+ */
+export type UserCollectionData = {
+    /**
+     * Users returned in the current page.
+     */
+    items: Array<GetUserAccountData>;
+    /**
+     * Number of users in the current page.
+     */
+    size: number;
+    /**
+     * Cursor for the next page.
+     * Present only when more results are available.
+     * Pass this value back as the `searchAfter` query parameter.
+     *
+     */
+    searchAfter?: Array<unknown> | null;
+    /**
+     * Total number of users matching the current search.
+     */
+    total?: number | null;
+};
+
+/**
+ * Query model supported by `GET /api/v1/users`.
+ * All fields are optional. When omitted, the admin endpoint lists users without filtering.
+ *
+ */
+export type UserSearchData = {
+    /**
+     * Fuzzy full-text query across email, first name, last name, and Stripe customer ID.
+     */
+    query?: string;
+    /**
+     * Fuzzy email-only query.
+     */
+    email?: string;
+    /**
+     * Fuzzy first-name query.
+     */
+    firstName?: string;
+    /**
+     * Fuzzy last-name query.
+     */
+    lastName?: string;
+    /**
+     * Filter matching users to one or more tiers.
+     */
+    tier?: Array<UserTierData>;
+    /**
+     * Filter matching users to one or more roles.
+     */
+    role?: Array<UserRoleData>;
+    /**
+     * Optional created-at range filter (RFC3339 timestamps).
+     */
+    created?: {
+        /**
+         * Inclusive lower bound.
+         */
+        min?: string;
+        /**
+         * Inclusive upper bound.
+         */
+        max?: string;
+    };
+    /**
+     * Optional updated-at range filter (RFC3339 timestamps).
+     */
+    updated?: {
+        /**
+         * Inclusive lower bound.
+         */
+        min?: string;
+        /**
+         * Inclusive upper bound.
+         */
+        max?: string;
+    };
 };
 
 /**
@@ -1726,6 +1826,46 @@ export type GetUserAccountData = {
      * When the user account was last updated (RFC3339 format)
      */
     updated: string;
+};
+
+/**
+ * Partial admin-only user update payload.
+ * All fields are optional. Omitted fields remain unchanged.
+ *
+ */
+export type PatchAdminUserData = {
+    /**
+     * New first name.
+     */
+    firstName?: string | null;
+    /**
+     * New last name.
+     */
+    lastName?: string | null;
+    /**
+     * New preferred language.
+     */
+    language?: LanguageData | null;
+    /**
+     * New preferred currency.
+     */
+    currency?: CurrencyData | null;
+    /**
+     * New consent state for displaying prohibited content.
+     */
+    prohibitedContentConsent?: boolean | null;
+    /**
+     * New subscription tier.
+     */
+    tier?: UserTierData | null;
+    /**
+     * New user role.
+     */
+    role?: UserRoleData | null;
+    /**
+     * New Stripe customer identifier to persist for the user.
+     */
+    stripeCustomerId?: string | null;
 };
 
 /**
@@ -3661,6 +3801,243 @@ export type AddWatchlistProductResponses = {
 };
 
 export type AddWatchlistProductResponse = AddWatchlistProductResponses[keyof AddWatchlistProductResponses];
+
+export type AdminSearchUsersData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Optional fuzzy full-text query across email, first name, last name, and Stripe customer ID.
+         */
+        query?: string;
+        /**
+         * Optional fuzzy email-only search term.
+         */
+        email?: string;
+        /**
+         * Optional fuzzy first-name search term.
+         */
+        firstName?: string;
+        /**
+         * Optional fuzzy last-name search term.
+         */
+        lastName?: string;
+        /**
+         * Optional filter by one or more user subscription tiers.
+         */
+        tier?: Array<UserTierData>;
+        /**
+         * Optional filter by one or more user roles.
+         */
+        role?: Array<UserRoleData>;
+        /**
+         * Optional lower bound for the user's `created` timestamp (RFC3339).
+         */
+        'created[min]'?: string;
+        /**
+         * Optional upper bound for the user's `created` timestamp (RFC3339).
+         */
+        'created[max]'?: string;
+        /**
+         * Optional lower bound for the user's `updated` timestamp (RFC3339).
+         */
+        'updated[min]'?: string;
+        /**
+         * Optional upper bound for the user's `updated` timestamp (RFC3339).
+         */
+        'updated[max]'?: string;
+        /**
+         * Field used for ordering results.
+         * To override the backend default ordering, provide both `sort` and `order`.
+         *
+         */
+        sort?: SortUserFieldData;
+        /**
+         * Sort direction for `sort`.
+         * Ignored unless `sort` is also provided.
+         *
+         */
+        order?: 'asc' | 'desc';
+        /**
+         * Cursor for keyset pagination.
+         * Pass the `searchAfter` array returned by the previous response to fetch the next page.
+         *
+         */
+        searchAfter?: Array<unknown>;
+        /**
+         * Maximum number of users the backend should request from OpenSearch for the current page.
+         */
+        size?: number;
+    };
+    url: '/api/v1/users';
+};
+
+export type AdminSearchUsersErrors = {
+    /**
+     * Bad request - invalid query parameters.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden - this endpoint requires the `ADMIN` role.
+     */
+    403: ApiError;
+    /**
+     * User not found - the authenticated requester does not have a persisted user record.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type AdminSearchUsersError = AdminSearchUsersErrors[keyof AdminSearchUsersErrors];
+
+export type AdminSearchUsersResponses = {
+    /**
+     * Users returned successfully.
+     */
+    200: UserCollectionData;
+};
+
+export type AdminSearchUsersResponse = AdminSearchUsersResponses[keyof AdminSearchUsersResponses];
+
+export type AdminDeleteUserData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier (UUID) of the user to delete.
+         */
+        userId: string;
+    };
+    query?: never;
+    url: '/api/v1/users/{userId}';
+};
+
+export type AdminDeleteUserErrors = {
+    /**
+     * Unauthorized - invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden - this endpoint requires the `ADMIN` role.
+     */
+    403: ApiError;
+    /**
+     * User not found.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type AdminDeleteUserError = AdminDeleteUserErrors[keyof AdminDeleteUserErrors];
+
+export type AdminDeleteUserResponses = {
+    /**
+     * User deleted successfully.
+     */
+    204: void;
+};
+
+export type AdminDeleteUserResponse = AdminDeleteUserResponses[keyof AdminDeleteUserResponses];
+
+export type AdminGetUserData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier (UUID) of the user to retrieve.
+         */
+        userId: string;
+    };
+    query?: never;
+    url: '/api/v1/users/{userId}';
+};
+
+export type AdminGetUserErrors = {
+    /**
+     * Unauthorized - invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden - this endpoint requires the `ADMIN` role.
+     */
+    403: ApiError;
+    /**
+     * User not found.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type AdminGetUserError = AdminGetUserErrors[keyof AdminGetUserErrors];
+
+export type AdminGetUserResponses = {
+    /**
+     * User returned successfully.
+     */
+    200: GetUserAccountData;
+};
+
+export type AdminGetUserResponse = AdminGetUserResponses[keyof AdminGetUserResponses];
+
+export type AdminPatchUserData = {
+    /**
+     * Partial admin-only user update payload.
+     */
+    body: PatchAdminUserData;
+    path: {
+        /**
+         * Unique identifier (UUID) of the user to update.
+         */
+        userId: string;
+    };
+    query?: never;
+    url: '/api/v1/users/{userId}';
+};
+
+export type AdminPatchUserErrors = {
+    /**
+     * Bad request - missing or invalid request body.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden - this endpoint requires the `ADMIN` role.
+     */
+    403: ApiError;
+    /**
+     * User not found.
+     */
+    404: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type AdminPatchUserError = AdminPatchUserErrors[keyof AdminPatchUserErrors];
+
+export type AdminPatchUserResponses = {
+    /**
+     * User updated successfully.
+     */
+    200: GetUserAccountData;
+};
+
+export type AdminPatchUserResponse = AdminPatchUserResponses[keyof AdminPatchUserResponses];
 
 export type DeleteUserData = {
     body?: never;

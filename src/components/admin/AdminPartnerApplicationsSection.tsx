@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Check, Globe, Pencil, Store, X } from "lucide-react";
+import { Check, Eye, Globe, Pencil, Store, UserRound, X } from "lucide-react";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
@@ -19,6 +19,7 @@ import {
 import { formatShortDate } from "@/lib/utils.ts";
 import { toast } from "sonner";
 import { AdminApplicationEditDialog } from "@/components/admin/AdminApplicationEditDialog.tsx";
+import { AdminPartnerApplicationDetailDialog } from "@/components/admin/AdminPartnerApplicationDetailDialog.tsx";
 
 const BUSINESS_STATE_TRANSLATION_KEY: Record<PartnerApplicationBusinessState, string> = {
     SUBMITTED: "adminDashboard.applications.businessState.submitted",
@@ -43,7 +44,6 @@ function businessStateVariant(
             return "destructive";
         case "IN_REVIEW":
             return "secondary";
-        case "SUBMITTED":
         default:
             return "outline";
     }
@@ -67,6 +67,7 @@ export function AdminPartnerApplicationsSection() {
     const patch = usePatchAdminPartnerApplication();
     const [tab, setTab] = useState<"PENDING" | "DECIDED" | "ALL">("PENDING");
     const [editTarget, setEditTarget] = useState<PartnerApplication | null>(null);
+    const [detailTarget, setDetailTarget] = useState<PartnerApplication | null>(null);
 
     const filtered =
         data?.filter((a) => {
@@ -210,6 +211,14 @@ export function AdminPartnerApplicationsSection() {
                                     <span title={application.id} className="font-mono">
                                         #{application.id.slice(0, 8)}
                                     </span>
+                                    {application.applicantUserId && (
+                                        <span className="flex items-center gap-1">
+                                            <UserRound className="h-3 w-3" aria-hidden="true" />
+                                            <span className="font-mono">
+                                                {application.applicantUserId.slice(0, 8)}
+                                            </span>
+                                        </span>
+                                    )}
                                     <span>
                                         {t("adminDashboard.applications.submittedAt", {
                                             date: formatShortDate(
@@ -229,6 +238,14 @@ export function AdminPartnerApplicationsSection() {
                                 </div>
 
                                 <div className="flex flex-wrap items-center gap-2 pt-1">
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => setDetailTarget(application)}
+                                    >
+                                        <Eye className="h-4 w-4" aria-hidden="true" />
+                                        {t("adminDashboard.applications.actions.details")}
+                                    </Button>
                                     <Button
                                         size="sm"
                                         variant="default"
@@ -276,6 +293,13 @@ export function AdminPartnerApplicationsSection() {
                 open={editTarget !== null}
                 onOpenChange={(open) => {
                     if (!open) setEditTarget(null);
+                }}
+            />
+            <AdminPartnerApplicationDetailDialog
+                application={detailTarget}
+                open={detailTarget !== null}
+                onOpenChange={(open) => {
+                    if (!open) setDetailTarget(null);
                 }}
             />
         </section>

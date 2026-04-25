@@ -1,11 +1,11 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { LayoutDashboard, Store, FileText } from "lucide-react";
+import { FileText, LayoutDashboard, Store, Users } from "lucide-react";
 import { cn } from "@/lib/utils.ts";
 import type { ReactNode } from "react";
 
 type AdminSidebarItem = {
-    readonly to: "/admin" | "/admin/shops" | "/admin/partner-applications";
+    readonly to: "/admin" | "/admin/shops" | "/admin/partner-applications" | "/admin/users";
     readonly labelKey: string;
     readonly icon: ReactNode;
     readonly exact?: boolean;
@@ -27,6 +27,11 @@ const SIDEBAR_ITEMS: readonly AdminSidebarItem[] = [
         to: "/admin/partner-applications",
         labelKey: "adminDashboard.nav.partnerApplications",
         icon: <FileText className="h-4 w-4" aria-hidden="true" />,
+    },
+    {
+        to: "/admin/users",
+        labelKey: "adminDashboard.nav.users",
+        icon: <Users className="h-4 w-4" aria-hidden="true" />,
     },
 ];
 

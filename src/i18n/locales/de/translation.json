@@ -1135,11 +1135,12 @@
     "nav": {
       "overview": "Übersicht",
       "shops": "Shops",
-      "partnerApplications": "Partner-Anträge"
+      "partnerApplications": "Partner-Anträge",
+      "users": "Benutzer"
     },
     "overview": {
       "title": "Admin-Dashboard",
-      "description": "Shops verwalten und Partner-Anträge prüfen.",
+      "description": "Shops verwalten, Partneranträge prüfen und Benutzerkonten administrieren.",
       "shops": {
         "title": "Shops",
         "description": "Shops durchsuchen und Metadaten bearbeiten."
@@ -1149,6 +1150,12 @@
         "description": "Eingehende Partner-Anträge prüfen und entscheiden.",
         "pendingCount_one": "{{count}} Antrag wartet auf Prüfung",
         "pendingCount_other": "{{count}} Anträge warten auf Prüfung"
+      },
+      "users": {
+        "title": "Benutzer",
+        "description": "Konten suchen, Benutzerdetails prüfen und Rolle, Tarif, Einstellungen sowie Stripe-Zuordnungen verwalten.",
+        "totalCount_one": "{{count}} Benutzerkonto",
+        "totalCount_other": "{{count}} Benutzerkonten"
       }
     },
     "actions": {
@@ -1215,7 +1222,8 @@
         "approve": "Genehmigen",
         "approveAriaLabel": "Antrag genehmigen",
         "reject": "Ablehnen",
-        "rejectAriaLabel": "Antrag ablehnen"
+        "rejectAriaLabel": "Antrag ablehnen",
+        "details": "Details"
       },
       "decision": {
         "approveSuccess": "Antrag genehmigt.",
@@ -1232,6 +1240,71 @@
         "title": "Antrag bearbeiten",
         "description": "Antrags-Daten vor der Entscheidung aktualisieren.",
         "success": "Antrag aktualisiert."
+      },
+      "detail": {
+        "title": "Details zum Partnerantrag",
+        "description": "Antragsdaten, Verarbeitungsstatus und das zugehörige Benutzerkonto prüfen.",
+        "applicationId": "Antrags-ID",
+        "payloadType": "Antragstyp",
+        "createdAt": "Erstellt",
+        "updatedAt": "Aktualisiert",
+        "shopSection": "Shop-Informationen",
+        "shopId": "Shop-ID",
+        "applicantSection": "Antragstellender Benutzer",
+        "applicantUnavailable": "Die aktuelle API-Antwort enthält keine Benutzer-ID für diesen Antrag.",
+        "applicantLoadError": "Der antragstellende Benutzer konnte nicht geladen werden.",
+        "openApplicant": "Benutzerprofil öffnen"
+      }
+    },
+    "users": {
+      "title": "Benutzer",
+      "description": "Benutzerkonten suchen, vollständige Details öffnen, Profil- und Abrechnungsdaten aktualisieren oder Konten löschen.",
+      "search": "Suchen",
+      "searchPlaceholder": "Alle Benutzerfelder durchsuchen…",
+      "emailSearchPlaceholder": "Nach E-Mail filtern…",
+      "nameSearchPlaceholder": "Nach Name filtern…",
+      "loadError": "Benutzer konnten nicht geladen werden.",
+      "empty": "Keine Benutzer passen zum aktuellen Filter.",
+      "totalCount_one": "{{count}} Benutzer",
+      "totalCount_other": "{{count}} Benutzer",
+      "updatedAt": "Aktualisiert {{date}}",
+      "prohibitedContentAllowed": "§ 86a Zustimmung",
+      "filters": {
+        "allTiers": "Alle Tarife",
+        "allRoles": "Alle Rollen"
+      },
+      "sort": {
+        "label": "Benutzer sortieren",
+        "updated-desc": "Zuletzt aktualisiert",
+        "created-desc": "Neueste Konten",
+        "email-asc": "E-Mail A–Z",
+        "tier-asc": "Tarif A–Z",
+        "role-asc": "Rolle A–Z"
+      },
+      "fields": {
+        "email": "E-Mail",
+        "name": "Name",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "language": "Sprache",
+        "currency": "Währung",
+        "tier": "Tarif",
+        "role": "Rolle",
+        "stripeCustomerId": "Stripe-Kundennummer",
+        "prohibitedContentConsent": "Zustimmung zu eingeschränkten Inhalten",
+        "prohibitedContentConsentHint": "Steuert, ob der Benutzer Produkte mit eingeschränkten Symbolen sehen darf.",
+        "notSet": "Nicht gesetzt"
+      },
+      "detail": {
+        "title": "Benutzerdetails",
+        "description": "Konto prüfen und administrativ verwaltete Felder aktualisieren.",
+        "loadError": "Dieser Benutzer konnte nicht geladen werden.",
+        "createdAt": "Erstellt {{date}}",
+        "updatedAt": "Aktualisiert {{date}}",
+        "updateSuccess": "Benutzer aktualisiert.",
+        "delete": "Benutzer löschen",
+        "deleteConfirm": "Benutzer {{email}} löschen? Dies kann nicht rückgängig gemacht werden.",
+        "deleteSuccess": "Benutzer gelöscht."
       }
     }
   }
