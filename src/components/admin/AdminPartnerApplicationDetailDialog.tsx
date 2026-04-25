@@ -39,13 +39,12 @@ export function AdminPartnerApplicationDetailDialog({
     onOpenChange,
 }: AdminPartnerApplicationDetailDialogProps) {
     const { t, i18n } = useTranslation();
-    const applicantUserId = application?.applicantUserId;
     const {
         data: applicant,
         isPending: isApplicantPending,
         isError: isApplicantError,
         refetch: refetchApplicant,
-    } = useAdminUser(applicantUserId, open && Boolean(applicantUserId));
+    } = useAdminUser(application?.applicantUserId, open && Boolean(application));
 
     if (!application) {
         return null;
@@ -148,11 +147,7 @@ export function AdminPartnerApplicationDetailDialog({
                             </h3>
                         </div>
 
-                        {!applicantUserId ? (
-                            <p className="mt-3 text-sm text-muted-foreground">
-                                {t("adminDashboard.applications.detail.applicantUnavailable")}
-                            </p>
-                        ) : isApplicantPending ? (
+                        {isApplicantPending ? (
                             <div
                                 className="flex justify-center py-6"
                                 role="status"

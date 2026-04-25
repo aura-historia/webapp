@@ -2625,6 +2625,10 @@ export type GetPartnerShopApplicationData = {
      */
     id: string;
     /**
+     * Unique identifier of the user who submitted the partner shop application.
+     */
+    applicantUserId: string;
+    /**
      * Review/business state of the application.
      */
     businessState: PartnerShopApplicationStateData;

@@ -111,7 +111,7 @@ export function usePatchAdminUser() {
             queryClient.setQueriesData<InfiniteData<AdminUserPage>>(
                 { queryKey: ["admin", "users"] },
                 (old) => {
-                    if (!old) return old;
+                    if (!old || !("pages" in old) || !Array.isArray(old.pages)) return old;
                     return {
                         ...old,
                         pageParams: old.pageParams,
@@ -149,7 +149,7 @@ export function useDeleteAdminUser() {
             queryClient.setQueriesData<InfiniteData<AdminUserPage>>(
                 { queryKey: ["admin", "users"] },
                 (old) => {
-                    if (!old) return old;
+                    if (!old || !("pages" in old) || !Array.isArray(old.pages)) return old;
                     return {
                         ...old,
                         pageParams: old.pageParams,

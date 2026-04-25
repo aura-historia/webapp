@@ -6,6 +6,7 @@ describe("mapToPartnerApplication", () => {
     it("maps an EXISTING payload application", () => {
         const api: GetPartnerShopApplicationData = {
             id: "app-1",
+            applicantUserId: "user-1",
             businessState: "IN_REVIEW",
             executionState: "WAITING",
             payload: { type: "EXISTING", shopId: "shop-1" },
@@ -16,6 +17,7 @@ describe("mapToPartnerApplication", () => {
         const result = mapToPartnerApplication(api);
 
         expect(result.id).toBe("app-1");
+        expect(result.applicantUserId).toBe("user-1");
         expect(result.businessState).toBe("IN_REVIEW");
         expect(result.executionState).toBe("WAITING");
         expect(result.payload).toEqual({ type: "EXISTING", shopId: "shop-1" });
@@ -26,6 +28,7 @@ describe("mapToPartnerApplication", () => {
     it("maps a NEW payload application with all fields", () => {
         const api: GetPartnerShopApplicationData = {
             id: "app-2",
+            applicantUserId: "user-2",
             businessState: "SUBMITTED",
             executionState: "PROCESSING",
             payload: {
@@ -53,6 +56,7 @@ describe("mapToPartnerApplication", () => {
     it("normalises null shop image to undefined for NEW payloads", () => {
         const api: GetPartnerShopApplicationData = {
             id: "app-3",
+            applicantUserId: "user-3",
             businessState: "APPROVED",
             executionState: "COMPLETED",
             payload: {
@@ -69,5 +73,21 @@ describe("mapToPartnerApplication", () => {
         const result = mapToPartnerApplication(api);
         if (result.payload.type !== "NEW") throw new Error("expected NEW payload");
         expect(result.payload.shopImage).toBeUndefined();
+    });
+
+    it("preserves the required applicant user id from the API response", () => {
+        const api: GetPartnerShopApplicationData = {
+            id: "app-4",
+            applicantUserId: "08ad1750-f5de-44ff-913f-43f6f8980fb9",
+            businessState: "SUBMITTED",
+            executionState: "WAITING",
+            payload: { type: "EXISTING", shopId: "shop-9" },
+            created: "2024-01-01T00:00:00Z",
+            updated: "2024-01-02T00:00:00Z",
+        };
+
+        const result = mapToPartnerApplication(api);
+
+        expect(result.applicantUserId).toBe("08ad1750-f5de-44ff-913f-43f6f8980fb9");
     });
 });

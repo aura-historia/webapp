@@ -213,14 +213,12 @@ export function AdminPartnerApplicationsSection() {
                                     <span title={application.id} className="font-mono">
                                         #{application.id.slice(0, 8)}
                                     </span>
-                                    {application.applicantUserId && (
-                                        <span className="flex items-center gap-1">
-                                            <UserRound className="h-3 w-3" aria-hidden="true" />
-                                            <span className="font-mono">
-                                                {application.applicantUserId.slice(0, 8)}
-                                            </span>
+                                    <span className="flex items-center gap-1">
+                                        <UserRound className="h-3 w-3" aria-hidden="true" />
+                                        <span className="font-mono">
+                                            {application.applicantUserId.slice(0, 8)}
                                         </span>
-                                    )}
+                                    </span>
                                     <span>
                                         {t("adminDashboard.applications.submittedAt", {
                                             date: formatShortDate(
