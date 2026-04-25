@@ -83,6 +83,7 @@ function LoginPage() {
                         step={mode || "sign-in"}
                         onStepChange={(newStep) => {
                             navigate({
+                                from: "/login",
                                 search: (prev) => ({ ...prev, mode: newStep }),
                                 replace: true,
                             });
