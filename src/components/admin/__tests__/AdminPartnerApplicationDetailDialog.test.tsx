@@ -44,7 +44,7 @@ describe("AdminPartnerApplicationDetailDialog", () => {
         vi.clearAllMocks();
     });
 
-    it("loads and displays applicant information", () => {
+    it("displays applicant information when loaded", () => {
         mockUseAdminUser.mockReturnValue({
             data: {
                 userId: "user-1",
