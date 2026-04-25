@@ -14,6 +14,7 @@ const baseUser: UserAccountData = {
     email: "user@example.com",
     prohibitedContentConsent: false,
     role: "USER",
+    subscriptionType: "free",
     created: new Date("2024-01-01T00:00:00Z"),
     updated: new Date("2024-01-01T00:00:00Z"),
 };
