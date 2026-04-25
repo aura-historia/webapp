@@ -11,14 +11,17 @@ import "../amplify-config";
 
 type LoginSearch = {
     redirect?: string;
-    mode?: "sign-in" | "sign-up";
+    mode?: "sign-in" | "sign-up" | "confirm" | "user-details" | "reset-password";
 };
 
 export const Route = createFileRoute("/login")({
     validateSearch: (search: Record<string, unknown>): LoginSearch => {
         const redirect = typeof search.redirect === "string" ? search.redirect : undefined;
-        const mode =
-            search.mode === "sign-up" || search.mode === "sign-in" ? search.mode : undefined;
+        const mode = ["sign-up", "sign-in", "confirm", "user-details", "reset-password"].includes(
+            String(search.mode),
+        )
+            ? (search.mode as LoginSearch["mode"])
+            : undefined;
 
         if (redirect?.startsWith("/login")) {
             return { redirect: undefined, mode };
@@ -77,7 +80,13 @@ function LoginPage() {
                     </div>
                 ) : (
                     <AuthFlow
-                        initialStep={mode === "sign-up" ? "sign-up" : "sign-in"}
+                        step={mode || "sign-in"}
+                        onStepChange={(newStep) => {
+                            navigate({
+                                search: (prev) => ({ ...prev, mode: newStep }),
+                                replace: true,
+                            });
+                        }}
                         onComplete={() => {
                             /* navigation is handled by the isAuthComplete effect above */
                         }}

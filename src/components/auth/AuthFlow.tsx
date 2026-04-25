@@ -8,14 +8,13 @@ import { ResetPasswordForm } from "@/components/auth/ResetPasswordForm.tsx";
 type AuthStep = "sign-in" | "sign-up" | "confirm" | "user-details" | "reset-password";
 
 type AuthFlowProps = {
-    /** Which step to show first. Defaults to "sign-in". */
-    readonly initialStep?: "sign-in" | "sign-up";
+    readonly step: AuthStep;
+    readonly onStepChange: (step: AuthStep) => void;
     /** Called when the entire flow is complete (sign-in done, or user-details submitted/skipped). */
     readonly onComplete: () => void;
 };
 
-export function AuthFlow({ initialStep = "sign-in", onComplete }: AuthFlowProps) {
-    const [step, setStep] = useState<AuthStep>(initialStep);
+export function AuthFlow({ step, onStepChange, onComplete }: AuthFlowProps) {
     // Stored between sign-up and confirm steps so we can auto-sign-in after confirm
     const [pendingEmail, setPendingEmail] = useState("");
     const [pendingPassword, setPendingPassword] = useState("");
@@ -24,19 +23,19 @@ export function AuthFlow({ initialStep = "sign-in", onComplete }: AuthFlowProps)
         <div className="w-full max-w-md">
             {step === "sign-in" && (
                 <SignInForm
-                    onSwitchToSignUp={() => setStep("sign-up")}
-                    onSwitchToResetPassword={() => setStep("reset-password")}
+                    onSwitchToSignUp={() => onStepChange("sign-up")}
+                    onSwitchToResetPassword={() => onStepChange("reset-password")}
                     onSuccess={onComplete}
                 />
             )}
 
             {step === "sign-up" && (
                 <SignUpForm
-                    onSwitchToSignIn={() => setStep("sign-in")}
+                    onSwitchToSignIn={() => onStepChange("sign-in")}
                     onSuccess={(email, password) => {
                         setPendingEmail(email);
                         setPendingPassword(password);
-                        setStep("confirm");
+                        onStepChange("confirm");
                     }}
                 />
             )}
@@ -45,7 +44,7 @@ export function AuthFlow({ initialStep = "sign-in", onComplete }: AuthFlowProps)
                 <ConfirmSignUpForm
                     email={pendingEmail}
                     password={pendingPassword}
-                    onSuccess={() => setStep("user-details")}
+                    onSuccess={() => onStepChange("user-details")}
                 />
             )}
 
@@ -53,8 +52,8 @@ export function AuthFlow({ initialStep = "sign-in", onComplete }: AuthFlowProps)
 
             {step === "reset-password" && (
                 <ResetPasswordForm
-                    onSwitchToSignIn={() => setStep("sign-in")}
-                    onSuccess={() => setStep("sign-in")}
+                    onSwitchToSignIn={() => onStepChange("sign-in")}
+                    onSuccess={() => onStepChange("sign-in")}
                 />
             )}
         </div>
