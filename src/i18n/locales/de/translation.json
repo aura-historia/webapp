@@ -89,6 +89,7 @@
   },
   "header": {
     "watchlist": "Merkliste",
+    "searchFilters": "Suchaufträge",
     "myAccount": "Mein Account",
     "editAccount": "Account bearbeiten",
     "logout": "Ausloggen",
@@ -199,7 +200,7 @@
       "back": "Zurück",
       "next": "Weiter",
       "noFiltersConfigured": "Keine zusätzlichen Filter konfiguriert.",
-      "queryRequired": "Bitte gib einen Suchbegriff ein.",
+      "queryTooShort": "Der Suchbegriff muss mindestens 3 Zeichen lang sein.",
       "nameRequired": "Bitte gib einen Namen ein.",
       "nameTooLong": "Der Name darf maximal 255 Zeichen lang sein."
     }

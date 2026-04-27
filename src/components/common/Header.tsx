@@ -178,6 +178,11 @@ export function Header() {
                                             <Link to="/me/watchlist">{t("header.watchlist")}</Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem asChild>
+                                            <Link to="/me/search-filters">
+                                                {t("header.searchFilters")}
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem asChild>
                                             <Link to="/me/account">{t("header.editAccount")}</Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem onSelect={() => signOut()}>
@@ -236,6 +241,22 @@ export function Header() {
                                                     )}
                                                 >
                                                     {t("header.watchlist")}
+                                                </span>
+                                            </Link>
+                                        </NavigationMenuLink>
+                                    </NavigationMenuItem>
+                                    <NavigationMenuItem>
+                                        <NavigationMenuLink asChild>
+                                            <Link to="/me/search-filters">
+                                                <span
+                                                    className={cn(
+                                                        pathname === "/me/search-filters"
+                                                            ? "underline"
+                                                            : "",
+                                                        "text-base",
+                                                    )}
+                                                >
+                                                    {t("header.searchFilters")}
                                                 </span>
                                             </Link>
                                         </NavigationMenuLink>

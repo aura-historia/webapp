@@ -89,6 +89,7 @@
   },
   "header": {
     "watchlist": "Watchlist",
+    "searchFilters": "Search Filters",
     "myAccount": "My Account",
     "editAccount": "Edit Account",
     "logout": "Logout",
@@ -198,6 +199,7 @@
       "back": "Back",
       "next": "Next",
       "noFiltersConfigured": "No additional filters configured.",
+      "queryTooShort": "The search term must be at least 3 characters long.",
       "nameRequired": "Please enter a name.",
       "nameTooLong": "The name must not exceed 255 characters."
     }

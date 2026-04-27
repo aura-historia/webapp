@@ -58,7 +58,7 @@ const createNameSchema = (t: (key: string) => string) =>
             .string()
             .min(1, t("searchFilter.wizard.nameRequired"))
             .max(255, t("searchFilter.wizard.nameTooLong")),
-        q: z.string().min(1, t("searchFilter.wizard.queryRequired")),
+        q: z.string().min(3, t("searchFilter.wizard.queryTooShort")),
         enhancedSearchDescription: z.string().max(2000).optional(),
     });
 
