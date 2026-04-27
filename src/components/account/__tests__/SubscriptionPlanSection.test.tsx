@@ -35,7 +35,6 @@ describe("SubscriptionPlanSection", () => {
         } as UseQueryResult<UserAccountData>);
 
         vi.mocked(useStripeBilling).mockReturnValue({
-            handleManageSubscription: vi.fn(),
             handleSubscribe: vi.fn(),
             isLoading: false,
         });

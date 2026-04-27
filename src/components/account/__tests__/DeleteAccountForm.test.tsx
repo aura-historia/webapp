@@ -20,8 +20,10 @@ vi.mock("@/hooks/account/useDeleteUserAccount", () => ({
     }),
 }));
 
-vi.mock("@aws-amplify/ui-react", () => ({
-    useAuthenticator: () => ({
+vi.mock("@/hooks/auth/useAuth", () => ({
+    useAuth: () => ({
+        user: { userId: "test", username: "test" },
+        isLoading: false,
         signOut: mockSignOut,
     }),
 }));

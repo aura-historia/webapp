@@ -9,7 +9,7 @@ import { SUBSCRIPTION_TYPE_TRANSLATION_KEYS } from "@/data/internal/account/Subs
 export function SubscriptionPlanSection() {
     const { t } = useTranslation();
     const { data: userAccount } = useUserAccount();
-    const { handleManageSubscription, isLoading } = useStripeBilling();
+    const { handleSubscribe, isLoading } = useStripeBilling();
 
     const subscriptionType = userAccount?.subscriptionType ?? "free";
     const planName = t(SUBSCRIPTION_TYPE_TRANSLATION_KEYS[subscriptionType]);
@@ -28,7 +28,7 @@ export function SubscriptionPlanSection() {
                     <Button
                         type="button"
                         className="w-full md:w-auto"
-                        onClick={() => void handleManageSubscription()}
+                        onClick={() => void handleSubscribe("PRO", "YEARLY")}
                         disabled={isLoading}
                     >
                         {isLoading && <Spinner aria-hidden="true" />}
