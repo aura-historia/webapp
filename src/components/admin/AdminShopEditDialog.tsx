@@ -71,22 +71,29 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
     }
 
     const buildStructuredAddress = () => {
-        const a = addressline.trim();
-        const b = addresslineExtra.trim();
-        const l = locality.trim();
-        const r = region.trim();
-        const p = postalCode.trim();
-        const c = country.trim();
-        if (!a && !b && !l && !r && !p && !c) {
+        const trimmedAddressline = addressline.trim();
+        const trimmedAddresslineExtra = addresslineExtra.trim();
+        const trimmedLocality = locality.trim();
+        const trimmedRegion = region.trim();
+        const trimmedPostalCode = postalCode.trim();
+        const trimmedCountry = country.trim();
+        const hasAnyField =
+            trimmedAddressline ||
+            trimmedAddresslineExtra ||
+            trimmedLocality ||
+            trimmedRegion ||
+            trimmedPostalCode ||
+            trimmedCountry;
+        if (!hasAnyField) {
             return null;
         }
         return {
-            addressline: a || undefined,
-            addresslineExtra: b || undefined,
-            locality: l || undefined,
-            region: r || undefined,
-            postalCode: p || undefined,
-            country: c || undefined,
+            addressline: trimmedAddressline || undefined,
+            addresslineExtra: trimmedAddresslineExtra || undefined,
+            locality: trimmedLocality || undefined,
+            region: trimmedRegion || undefined,
+            postalCode: trimmedPostalCode || undefined,
+            country: trimmedCountry || undefined,
         };
     };
 

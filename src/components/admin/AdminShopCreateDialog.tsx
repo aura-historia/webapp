@@ -134,22 +134,29 @@ export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDia
     }, [open, form]);
 
     const buildStructuredAddress = (values: AdminShopCreateFormData) => {
-        const a = values.addressline;
-        const b = values.addresslineExtra;
-        const l = values.locality;
-        const r = values.region;
-        const p = values.postalCode;
-        const c = values.country.toUpperCase();
-        if (!a && !b && !l && !r && !p && !c) {
+        const trimmedAddressline = values.addressline;
+        const trimmedAddresslineExtra = values.addresslineExtra;
+        const trimmedLocality = values.locality;
+        const trimmedRegion = values.region;
+        const trimmedPostalCode = values.postalCode;
+        const trimmedCountry = values.country.toUpperCase();
+        const hasAnyField =
+            trimmedAddressline ||
+            trimmedAddresslineExtra ||
+            trimmedLocality ||
+            trimmedRegion ||
+            trimmedPostalCode ||
+            trimmedCountry;
+        if (!hasAnyField) {
             return undefined;
         }
         return {
-            addressline: a || undefined,
-            addresslineExtra: b || undefined,
-            locality: l || undefined,
-            region: r || undefined,
-            postalCode: p || undefined,
-            country: c || undefined,
+            addressline: trimmedAddressline || undefined,
+            addresslineExtra: trimmedAddresslineExtra || undefined,
+            locality: trimmedLocality || undefined,
+            region: trimmedRegion || undefined,
+            postalCode: trimmedPostalCode || undefined,
+            country: trimmedCountry || undefined,
         };
     };
 

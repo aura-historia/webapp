@@ -28,8 +28,10 @@ export type AdminShopPatch = {
 function toApiStructuredAddress(addr: StructuredAddress): StructuredAddressData {
     return {
         ...addr,
-        // Country and continent are finite enums in the API; the domain
-        // stores them as plain strings.  Cast here so TypeScript is satisfied.
+        // `country` and `continent` are finite enums in the generated API type
+        // but plain optional strings in the domain model.  Cast so TypeScript
+        // is satisfied; the backend validates and derives `continent` when
+        // it is omitted.
         country: addr.country as StructuredAddressData["country"],
         continent: addr.continent as StructuredAddressData["continent"],
     };
