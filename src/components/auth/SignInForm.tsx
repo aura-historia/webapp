@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { signIn } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
-import { setAuthComplete } from "@/stores/registrationStore";
 import {
     Form,
     FormControl,
@@ -47,7 +46,6 @@ export function SignInForm({
     const onSubmit = async (data: SignInValues) => {
         try {
             await signIn({ username: data.email.trim(), password: data.password });
-            setAuthComplete();
             onSuccess();
         } catch (err) {
             const message = getAuthErrorMessage(err, t);

@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import { Info } from "lucide-react";
 import { LANGUAGES } from "@/data/internal/common/Language.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
-import { setAuthComplete } from "@/stores/registrationStore";
 import { getAccountEditSchema, type AccountEditFormData } from "@/utils/nameValidation";
 import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount";
 import {
@@ -58,7 +57,6 @@ export function UserDetailsForm({ onSuccess }: UserDetailsFormProps) {
                 currency: data.currency || undefined,
                 prohibitedContentConsent: data.prohibitedContentConsent,
             });
-            setAuthComplete();
             onSuccess();
         } catch (err) {
             const message = err instanceof Error ? err.message : t("apiErrors.unknown");
@@ -67,7 +65,6 @@ export function UserDetailsForm({ onSuccess }: UserDetailsFormProps) {
     };
 
     const handleSkip = () => {
-        setAuthComplete();
         onSuccess();
     };
 
@@ -195,12 +192,11 @@ export function UserDetailsForm({ onSuccess }: UserDetailsFormProps) {
                         name="prohibitedContentConsent"
                         render={({ field }) => (
                             <FormItem className="space-y-2">
-                                <div className="flex items-start gap-3">
+                                <div className="flex items-center gap-2">
                                     <FormControl>
                                         <Checkbox
                                             checked={field.value}
                                             onCheckedChange={field.onChange}
-                                            className="mt-1"
                                         />
                                     </FormControl>
                                     <FormLabel className="inline-flex cursor-pointer items-center gap-1.5 font-medium leading-snug">

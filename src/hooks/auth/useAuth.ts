@@ -1,7 +1,6 @@
 import { getCurrentUser, signOut as amplifySignOut } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
 import { useCallback, useEffect, useState } from "react";
-import { resetAuth } from "@/stores/registrationStore";
 
 type AuthUser = {
     userId: string;
@@ -45,14 +44,12 @@ export function useAuth(): UseAuthReturn {
                 case "signedOut":
                     setUser(null);
                     setIsLoading(false);
-                    resetAuth();
                     break;
             }
         });
     }, [fetchUser]);
 
     const signOut = useCallback(async () => {
-        resetAuth();
         await amplifySignOut();
     }, []);
 

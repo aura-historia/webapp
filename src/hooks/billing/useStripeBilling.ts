@@ -1,4 +1,4 @@
-import { postBillingManage, postBillingPortal } from "@/client";
+import { postBillingManage } from "@/client";
 import { useAuth } from "@/hooks/auth/useAuth.ts";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
@@ -52,31 +52,5 @@ export function useStripeBilling() {
         }
     };
 
-    const handleManageSubscription = async () => {
-        // Should not happen, since this is ideally only available to signed in users
-        if (!user) {
-            await navigate({
-                to: "/login",
-                search: { redirect: "/me/account" },
-            });
-            return;
-        }
-
-        setIsLoading(true);
-
-        try {
-            const billingPortalResponse = await postBillingPortal();
-
-            if (billingPortalResponse.data) {
-                await redirectToBillingUrl(billingPortalResponse.data.url);
-                return;
-            }
-
-            toast.error(getErrorMessage(mapToInternalApiError(billingPortalResponse.error)));
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    return { handleSubscribe, handleManageSubscription, isLoading };
+    return { handleSubscribe, isLoading };
 }
