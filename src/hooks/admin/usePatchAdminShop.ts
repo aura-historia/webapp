@@ -99,7 +99,7 @@ export function usePatchAdminShop() {
                     };
                 },
             );
-            queryClient.invalidateQueries({ queryKey: ["admin", "shops"] });
+            queryClient.invalidateQueries({ queryKey: ["admin", "shops"], refetchType: "none" });
         },
         onError: (error) => {
             console.error("[usePatchAdminShop]", error);

@@ -133,7 +133,82 @@ describe("useCreateAdminShop", () => {
         }>(["admin", "shops", { nameQuery: "other" }]);
         expect(nonMatchingCache?.pages[0]?.items).toHaveLength(0);
 
-        expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["admin", "shops"] });
+        expect(invalidateSpy).toHaveBeenCalledWith({
+            queryKey: ["admin", "shops"],
+            refetchType: "none",
+        });
+    });
+
+    it("passes optional metadata fields in the create payload", async () => {
+        const createdShop = {
+            shopId: "shop-2",
+            shopSlugId: "metadata-shop",
+            name: "Metadata Shop",
+            shopType: "MARKETPLACE",
+            partnerStatus: "SCRAPED",
+            domains: ["metadata.example.com"],
+            image: null,
+            structuredAddress: {
+                addressline: "Main Street 1",
+                locality: "Berlin",
+                country: "DE",
+                continent: "EUROPE",
+            },
+            phone: "+49 30 123456",
+            email: "info@metadata.example.com",
+            specialitiesCategories: ["furniture"],
+            specialitiesPeriods: ["baroque"],
+            created: "2026-04-25T00:00:00Z",
+            updated: "2026-04-25T00:00:00Z",
+        };
+
+        mockPostShop.mockResolvedValue({
+            data: createdShop,
+            error: null,
+        });
+
+        const { result } = renderHook(() => useCreateAdminShop(), {
+            wrapper: createWrapper(),
+        });
+
+        await act(async () => {
+            await result.current.mutateAsync({
+                name: "Metadata Shop",
+                shopType: "MARKETPLACE",
+                domains: ["metadata.example.com"],
+                image: null,
+                structuredAddress: {
+                    addressline: "Main Street 1",
+                    locality: "Berlin",
+                    country: "DE",
+                },
+                phone: "+49 30 123456",
+                email: "info@metadata.example.com",
+                specialitiesCategories: ["furniture"],
+                specialitiesPeriods: ["baroque"],
+            });
+        });
+
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+        expect(mockPostShop).toHaveBeenCalledWith({
+            body: {
+                name: "Metadata Shop",
+                shopType: "MARKETPLACE",
+                domains: ["metadata.example.com"],
+                image: null,
+                structuredAddress: {
+                    addressline: "Main Street 1",
+                    locality: "Berlin",
+                    country: "DE",
+                    continent: undefined,
+                },
+                phone: "+49 30 123456",
+                email: "info@metadata.example.com",
+                specialitiesCategories: ["furniture"],
+                specialitiesPeriods: ["baroque"],
+            },
+        });
     });
 
     it("shows an error toast when shop creation fails", async () => {

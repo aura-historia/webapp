@@ -5,7 +5,7 @@ import {
     type QueryKey,
 } from "@tanstack/react-query";
 import { postShop } from "@/client";
-import type { StructuredAddressData } from "@/client";
+import type { PostShopData, StructuredAddressData } from "@/client";
 import {
     mapToShopDetail,
     type ShopDetail,
@@ -86,27 +86,31 @@ export function useCreateAdminShop() {
                 throw new Error("Invalid shop type");
             }
 
-            const response = await postShop({
-                body: {
-                    name: input.name,
-                    shopType,
-                    domains: input.domains,
-                    image: input.image ?? null,
-                    structuredAddress: input.structuredAddress
-                        ? toApiStructuredAddress(input.structuredAddress)
-                        : undefined,
-                    phone: input.phone ?? undefined,
-                    email: input.email ?? undefined,
-                    specialitiesCategories:
-                        input.specialitiesCategories && input.specialitiesCategories.length > 0
-                            ? input.specialitiesCategories
-                            : undefined,
-                    specialitiesPeriods:
-                        input.specialitiesPeriods && input.specialitiesPeriods.length > 0
-                            ? input.specialitiesPeriods
-                            : undefined,
-                },
-            });
+            const body: PostShopData = {
+                name: input.name,
+                shopType,
+                domains: input.domains,
+            };
+            if (input.image !== undefined) {
+                body.image = input.image;
+            }
+            if (input.structuredAddress) {
+                body.structuredAddress = toApiStructuredAddress(input.structuredAddress);
+            }
+            if (input.phone !== undefined) {
+                body.phone = input.phone;
+            }
+            if (input.email !== undefined) {
+                body.email = input.email;
+            }
+            if (input.specialitiesCategories && input.specialitiesCategories.length > 0) {
+                body.specialitiesCategories = input.specialitiesCategories;
+            }
+            if (input.specialitiesPeriods && input.specialitiesPeriods.length > 0) {
+                body.specialitiesPeriods = input.specialitiesPeriods;
+            }
+
+            const response = await postShop({ body });
 
             if (response.error) {
                 throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
@@ -151,7 +155,7 @@ export function useCreateAdminShop() {
                 });
             }
 
-            queryClient.invalidateQueries({ queryKey: ["admin", "shops"] });
+            queryClient.invalidateQueries({ queryKey: ["admin", "shops"], refetchType: "none" });
         },
         onError: (error) => {
             console.error("[useCreateAdminShop]", error);

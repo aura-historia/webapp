@@ -1218,7 +1218,14 @@
         "countryHint": "ISO 3166-1 Alpha-2-Code, z. B. DE oder US",
         "specialitiesCategories": "Spezialgebiete (Kategorien)",
         "specialitiesPeriods": "Spezialgebiete (Epochen)",
-        "specialitiesHint": "Ein Kebab-Case-Schlüssel pro Zeile, z. B. ancient-egypt"
+        "specialitiesHint": "Ein Kebab-Case-Schlüssel pro Zeile, z. B. ancient-egypt",
+        "countryPlaceholder": "Ländercode auswählen",
+        "countryNone": "Kein Land",
+        "specialitiesPlaceholder": "Einträge auswählen",
+        "searchCategories": "Kategorien suchen…",
+        "searchPeriods": "Epochen suchen…",
+        "loadingOptions": "Optionen werden geladen…",
+        "allOptions": "Alle"
       },
       "create": {
         "title": "Shop anlegen",

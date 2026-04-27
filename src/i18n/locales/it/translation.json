@@ -1217,7 +1217,14 @@
         "countryHint": "Codice ISO 3166-1 alpha-2, es. DE o IT",
         "specialitiesCategories": "Specializzazioni (categorie)",
         "specialitiesPeriods": "Specializzazioni (periodi)",
-        "specialitiesHint": "Una chiave kebab-case per riga, es. ancient-egypt"
+        "specialitiesHint": "Una chiave kebab-case per riga, es. ancient-egypt",
+        "countryPlaceholder": "Seleziona codice paese",
+        "countryNone": "Nessun paese",
+        "specialitiesPlaceholder": "Seleziona voci",
+        "searchCategories": "Cerca categorie…",
+        "searchPeriods": "Cerca periodi…",
+        "loadingOptions": "Caricamento opzioni…",
+        "allOptions": "Tutte"
       },
       "create": {
         "title": "Crea negozio",

@@ -1217,7 +1217,14 @@
         "countryHint": "ISO 3166-1 alpha-2 code, e.g. DE or US",
         "specialitiesCategories": "Speciality Categories",
         "specialitiesPeriods": "Speciality Periods",
-        "specialitiesHint": "One kebab-case key per line, e.g. ancient-egypt"
+        "specialitiesHint": "One kebab-case key per line, e.g. ancient-egypt",
+        "countryPlaceholder": "Select country code",
+        "countryNone": "No country",
+        "specialitiesPlaceholder": "Select entries",
+        "searchCategories": "Search categories…",
+        "searchPeriods": "Search periods…",
+        "loadingOptions": "Loading options…",
+        "allOptions": "All"
       },
       "create": {
         "title": "Create shop",

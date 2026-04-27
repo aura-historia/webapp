@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { CheckboxMultiSelect } from "@/components/ui/checkbox-multi-select.tsx";
 import {
     Select,
     SelectContent,
@@ -23,7 +24,10 @@ import { SHOP_TYPE_TRANSLATION_CONFIG, type ShopType } from "@/data/internal/sho
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { usePatchAdminShop } from "@/hooks/admin/usePatchAdminShop.ts";
 import { EDITABLE_SHOP_TYPES, parseShopDomains } from "@/components/admin/adminShopFormUtils.ts";
+import { useAdminShopMetadataOptions } from "@/components/admin/useAdminShopMetadataOptions.ts";
 import { toast } from "sonner";
+
+const NO_COUNTRY_VALUE = "__none__";
 
 interface AdminShopEditDialogProps {
     readonly shop: ShopDetail | null;
@@ -45,8 +49,15 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
     const [region, setRegion] = useState<string>("");
     const [postalCode, setPostalCode] = useState<string>("");
     const [country, setCountry] = useState<string>("");
-    const [specialitiesCategories, setSpecialitiesCategories] = useState<string>("");
-    const [specialitiesPeriods, setSpecialitiesPeriods] = useState<string>("");
+    const [specialitiesCategories, setSpecialitiesCategories] = useState<string[]>([]);
+    const [specialitiesPeriods, setSpecialitiesPeriods] = useState<string[]>([]);
+    const {
+        categoryOptions,
+        countryOptions,
+        isCategoriesPending,
+        isPeriodsPending,
+        periodOptions,
+    } = useAdminShopMetadataOptions();
 
     useEffect(() => {
         if (shop) {
@@ -61,8 +72,8 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
             setRegion(shop.structuredAddress?.region ?? "");
             setPostalCode(shop.structuredAddress?.postalCode ?? "");
             setCountry(shop.structuredAddress?.country ?? "");
-            setSpecialitiesCategories(shop.specialitiesCategories?.join("\n") ?? "");
-            setSpecialitiesPeriods(shop.specialitiesPeriods?.join("\n") ?? "");
+            setSpecialitiesCategories(shop.specialitiesCategories ?? []);
+            setSpecialitiesPeriods(shop.specialitiesPeriods ?? []);
         }
     }, [shop]);
 
@@ -97,18 +108,10 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
         };
     };
 
-    const parseSpecialities = (raw: string): string[] =>
-        raw
-            .split("\n")
-            .map((s) => s.trim())
-            .filter(Boolean);
-
     const handleSave = () => {
         const trimmedImage = image.trim();
         const trimmedPhone = phone.trim();
         const trimmedEmail = email.trim();
-        const cats = parseSpecialities(specialitiesCategories);
-        const periods = parseSpecialities(specialitiesPeriods);
 
         patchShop.mutate(
             {
@@ -119,8 +122,8 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                 phone: trimmedPhone === "" ? null : trimmedPhone,
                 email: trimmedEmail === "" ? null : trimmedEmail,
                 structuredAddress: buildStructuredAddress(),
-                specialitiesCategories: cats.length > 0 ? cats : null,
-                specialitiesPeriods: periods.length > 0 ? periods : null,
+                specialitiesCategories,
+                specialitiesPeriods,
             },
             {
                 onSuccess: () => {
@@ -293,13 +296,30 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                                 <Label htmlFor="admin-shop-country">
                                     {t("adminDashboard.shops.fields.country")}
                                 </Label>
-                                <Input
-                                    id="admin-shop-country"
-                                    value={country}
-                                    onChange={(e) => setCountry(e.target.value)}
-                                    placeholder="DE"
-                                    maxLength={2}
-                                />
+                                <Select
+                                    value={country || NO_COUNTRY_VALUE}
+                                    onValueChange={(value) =>
+                                        setCountry(value === NO_COUNTRY_VALUE ? "" : value)
+                                    }
+                                >
+                                    <SelectTrigger id="admin-shop-country">
+                                        <SelectValue
+                                            placeholder={t(
+                                                "adminDashboard.shops.fields.countryPlaceholder",
+                                            )}
+                                        />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value={NO_COUNTRY_VALUE}>
+                                            {t("adminDashboard.shops.fields.countryNone")}
+                                        </SelectItem>
+                                        {countryOptions.map((option) => (
+                                            <SelectItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
                                 <span className="text-xs text-muted-foreground">
                                     {t("adminDashboard.shops.fields.countryHint")}
                                 </span>
@@ -316,31 +336,45 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                                 <Label htmlFor="admin-shop-specialities-categories">
                                     {t("adminDashboard.shops.fields.specialitiesCategories")}
                                 </Label>
-                                <textarea
-                                    id="admin-shop-specialities-categories"
-                                    className="flex min-h-[80px] w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                <CheckboxMultiSelect
+                                    options={categoryOptions}
                                     value={specialitiesCategories}
-                                    onChange={(e) => setSpecialitiesCategories(e.target.value)}
-                                    placeholder="ancient-egypt"
+                                    onChange={setSpecialitiesCategories}
+                                    allSelectedLabel={t("adminDashboard.shops.fields.allOptions")}
+                                    placeholder={
+                                        isCategoriesPending
+                                            ? t("adminDashboard.shops.fields.loadingOptions")
+                                            : t(
+                                                  "adminDashboard.shops.fields.specialitiesPlaceholder",
+                                              )
+                                    }
+                                    searchable
+                                    searchPlaceholder={t(
+                                        "adminDashboard.shops.fields.searchCategories",
+                                    )}
                                 />
-                                <span className="text-xs text-muted-foreground">
-                                    {t("adminDashboard.shops.fields.specialitiesHint")}
-                                </span>
                             </div>
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="admin-shop-specialities-periods">
                                     {t("adminDashboard.shops.fields.specialitiesPeriods")}
                                 </Label>
-                                <textarea
-                                    id="admin-shop-specialities-periods"
-                                    className="flex min-h-[80px] w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                <CheckboxMultiSelect
+                                    options={periodOptions}
                                     value={specialitiesPeriods}
-                                    onChange={(e) => setSpecialitiesPeriods(e.target.value)}
-                                    placeholder="roman-period"
+                                    onChange={setSpecialitiesPeriods}
+                                    allSelectedLabel={t("adminDashboard.shops.fields.allOptions")}
+                                    placeholder={
+                                        isPeriodsPending
+                                            ? t("adminDashboard.shops.fields.loadingOptions")
+                                            : t(
+                                                  "adminDashboard.shops.fields.specialitiesPlaceholder",
+                                              )
+                                    }
+                                    searchable
+                                    searchPlaceholder={t(
+                                        "adminDashboard.shops.fields.searchPeriods",
+                                    )}
                                 />
-                                <span className="text-xs text-muted-foreground">
-                                    {t("adminDashboard.shops.fields.specialitiesHint")}
-                                </span>
                             </div>
                         </div>
                     </section>

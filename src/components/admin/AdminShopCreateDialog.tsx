@@ -12,6 +12,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { CheckboxMultiSelect } from "@/components/ui/checkbox-multi-select.tsx";
 import {
     Form,
     FormControl,
@@ -37,8 +38,12 @@ import {
     type EditableShopType,
 } from "@/components/admin/adminShopFormUtils.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
+import { COUNTRY_CODES } from "@/data/internal/shop/CountryCode.ts";
 import { useCreateAdminShop } from "@/hooks/admin/useCreateAdminShop.ts";
+import { useAdminShopMetadataOptions } from "@/components/admin/useAdminShopMetadataOptions.ts";
 import { toast } from "sonner";
+
+const NO_COUNTRY_VALUE = "__none__";
 
 interface AdminShopCreateDialogProps {
     readonly open: boolean;
@@ -58,8 +63,8 @@ const DEFAULT_VALUES = {
     region: "",
     postalCode: "",
     country: "",
-    specialitiesCategories: "",
-    specialitiesPeriods: "",
+    specialitiesCategories: [] as string[],
+    specialitiesPeriods: [] as string[],
 };
 
 function createAdminShopSchema(t: (key: string) => string) {
@@ -101,26 +106,28 @@ function createAdminShopSchema(t: (key: string) => string) {
             .string()
             .trim()
             .refine(
-                (value) => value === "" || /^[A-Z]{2}$/.test(value.toUpperCase()),
+                (value) =>
+                    value === "" || COUNTRY_CODES.includes(value as (typeof COUNTRY_CODES)[number]),
                 t("adminDashboard.shops.create.validation.countryInvalid"),
             ),
-        specialitiesCategories: z.string().trim(),
-        specialitiesPeriods: z.string().trim(),
+        specialitiesCategories: z.array(z.string()),
+        specialitiesPeriods: z.array(z.string()),
     });
 }
 
 type AdminShopCreateFormData = z.infer<ReturnType<typeof createAdminShopSchema>>;
 
-const parseSpecialities = (raw: string): string[] =>
-    raw
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean);
-
 export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDialogProps) {
     const { t } = useTranslation();
     const createShopSchema = useMemo(() => createAdminShopSchema(t), [t]);
     const createShop = useCreateAdminShop();
+    const {
+        categoryOptions,
+        countryOptions,
+        isCategoriesPending,
+        isPeriodsPending,
+        periodOptions,
+    } = useAdminShopMetadataOptions();
 
     const form = useForm<AdminShopCreateFormData>({
         resolver: zodResolver(createShopSchema),
@@ -139,7 +146,7 @@ export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDia
         const trimmedLocality = values.locality;
         const trimmedRegion = values.region;
         const trimmedPostalCode = values.postalCode;
-        const trimmedCountry = values.country.toUpperCase();
+        const trimmedCountry = values.country;
         const hasAnyField =
             trimmedAddressline ||
             trimmedAddresslineExtra ||
@@ -161,8 +168,6 @@ export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDia
     };
 
     const onSubmit = (values: AdminShopCreateFormData) => {
-        const cats = parseSpecialities(values.specialitiesCategories);
-        const periods = parseSpecialities(values.specialitiesPeriods);
         createShop.mutate(
             {
                 name: values.name.trim(),
@@ -172,8 +177,12 @@ export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDia
                 phone: values.phone === "" ? null : values.phone,
                 email: values.email === "" ? null : values.email,
                 structuredAddress: buildStructuredAddress(values),
-                specialitiesCategories: cats.length > 0 ? cats : undefined,
-                specialitiesPeriods: periods.length > 0 ? periods : undefined,
+                specialitiesCategories:
+                    values.specialitiesCategories.length > 0
+                        ? values.specialitiesCategories
+                        : undefined,
+                specialitiesPeriods:
+                    values.specialitiesPeriods.length > 0 ? values.specialitiesPeriods : undefined,
             },
             {
                 onSuccess: () => {
@@ -424,9 +433,39 @@ export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDia
                                             <FormLabel>
                                                 {t("adminDashboard.shops.fields.country")}
                                             </FormLabel>
-                                            <FormControl>
-                                                <Input {...field} placeholder="DE" maxLength={2} />
-                                            </FormControl>
+                                            <Select
+                                                value={field.value || NO_COUNTRY_VALUE}
+                                                onValueChange={(value) =>
+                                                    field.onChange(
+                                                        value === NO_COUNTRY_VALUE ? "" : value,
+                                                    )
+                                                }
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue
+                                                            placeholder={t(
+                                                                "adminDashboard.shops.fields.countryPlaceholder",
+                                                            )}
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value={NO_COUNTRY_VALUE}>
+                                                        {t(
+                                                            "adminDashboard.shops.fields.countryNone",
+                                                        )}
+                                                    </SelectItem>
+                                                    {countryOptions.map((option) => (
+                                                        <SelectItem
+                                                            key={option.value}
+                                                            value={option.value}
+                                                        >
+                                                            {option.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
                                             <FormDescription>
                                                 {t("adminDashboard.shops.fields.countryHint")}
                                             </FormDescription>
@@ -454,15 +493,28 @@ export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDia
                                                 )}
                                             </FormLabel>
                                             <FormControl>
-                                                <Textarea
-                                                    {...field}
-                                                    className="min-h-[80px]"
-                                                    placeholder="ancient-egypt"
+                                                <CheckboxMultiSelect
+                                                    options={categoryOptions}
+                                                    value={field.value}
+                                                    onChange={field.onChange}
+                                                    allSelectedLabel={t(
+                                                        "adminDashboard.shops.fields.allOptions",
+                                                    )}
+                                                    placeholder={
+                                                        isCategoriesPending
+                                                            ? t(
+                                                                  "adminDashboard.shops.fields.loadingOptions",
+                                                              )
+                                                            : t(
+                                                                  "adminDashboard.shops.fields.specialitiesPlaceholder",
+                                                              )
+                                                    }
+                                                    searchable
+                                                    searchPlaceholder={t(
+                                                        "adminDashboard.shops.fields.searchCategories",
+                                                    )}
                                                 />
                                             </FormControl>
-                                            <FormDescription>
-                                                {t("adminDashboard.shops.fields.specialitiesHint")}
-                                            </FormDescription>
                                             <FormMessage />
                                         </FormItem>
                                     )}
@@ -478,15 +530,28 @@ export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDia
                                                 )}
                                             </FormLabel>
                                             <FormControl>
-                                                <Textarea
-                                                    {...field}
-                                                    className="min-h-[80px]"
-                                                    placeholder="roman-period"
+                                                <CheckboxMultiSelect
+                                                    options={periodOptions}
+                                                    value={field.value}
+                                                    onChange={field.onChange}
+                                                    allSelectedLabel={t(
+                                                        "adminDashboard.shops.fields.allOptions",
+                                                    )}
+                                                    placeholder={
+                                                        isPeriodsPending
+                                                            ? t(
+                                                                  "adminDashboard.shops.fields.loadingOptions",
+                                                              )
+                                                            : t(
+                                                                  "adminDashboard.shops.fields.specialitiesPlaceholder",
+                                                              )
+                                                    }
+                                                    searchable
+                                                    searchPlaceholder={t(
+                                                        "adminDashboard.shops.fields.searchPeriods",
+                                                    )}
                                                 />
                                             </FormControl>
-                                            <FormDescription>
-                                                {t("adminDashboard.shops.fields.specialitiesHint")}
-                                            </FormDescription>
                                             <FormMessage />
                                         </FormItem>
                                     )}
