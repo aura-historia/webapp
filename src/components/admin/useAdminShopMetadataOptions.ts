@@ -25,15 +25,24 @@ export function useAdminShopMetadataOptions() {
         }),
     );
 
-    const countryOptions = useMemo<AdminShopSelectOption[]>(
-        () => COUNTRY_CODES.map((code) => ({ value: code, label: code })),
-        [],
-    );
+    const countryOptions = useMemo<AdminShopSelectOption[]>(() => {
+        const displayNames =
+            typeof Intl.DisplayNames === "function"
+                ? new Intl.DisplayNames([i18n.resolvedLanguage ?? i18n.language, "en"], {
+                      type: "region",
+                  })
+                : null;
+
+        return COUNTRY_CODES.map((code) => ({
+            value: code,
+            label: displayNames?.of(code) ?? code,
+        })).sort((a, b) => a.label.localeCompare(b.label));
+    }, [i18n.language, i18n.resolvedLanguage]);
     const categoryOptions = useMemo<AdminShopSelectOption[]>(
         () =>
             (categoriesData ?? []).map((category) => ({
                 value: category.categoryId,
-                label: `${category.name.text} (${category.categoryId})`,
+                label: category.name.text,
             })),
         [categoriesData],
     );
@@ -41,7 +50,7 @@ export function useAdminShopMetadataOptions() {
         () =>
             (periodsData ?? []).map((period) => ({
                 value: period.periodId,
-                label: `${period.name.text} (${period.periodId})`,
+                label: period.name.text,
             })),
         [periodsData],
     );

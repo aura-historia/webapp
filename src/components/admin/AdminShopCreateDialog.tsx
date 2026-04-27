@@ -196,7 +196,7 @@ export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDia
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+            <DialogContent className="max-h-[90vh] w-[min(96vw,72rem)] max-w-5xl overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>{t("adminDashboard.shops.create.title")}</DialogTitle>
                     <DialogDescription>

@@ -136,7 +136,7 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+            <DialogContent className="max-h-[90vh] w-[min(96vw,72rem)] max-w-5xl overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>{t("adminDashboard.shops.edit.title")}</DialogTitle>
                     <DialogDescription>
