@@ -66,6 +66,9 @@
     "terms": {
       "title": "Termini e condizioni | Aura Historia",
       "description": "Termini e condizioni per l'utilizzo di Aura Historia, comprese le informazioni sui servizi a pagamento e l'elaborazione dei pagamenti."
+    },
+    "admin": {
+      "title": "Pannello di amministrazione | Aura Historia"
     }
   },
   "validation": {
@@ -724,6 +727,7 @@
     "SHOP_NOT_FOUND": "Questo negozio non è più disponibile.",
     "INVALID_SHOP_IDENTIFIER": "L'identificativo del negozio non è valido.",
     "INVALID_DOMAIN": "Il dominio del negozio non è valido.",
+    "SHOP_EXISTS_ALREADY": "Esiste già un negozio con lo stesso slug.",
     "FORBIDDEN": "Questa azione non è disponibile per te.",
     "BAD_BODY_VALUE": "Alcuni dettagli non sono corretti. Controlla i tuoi dati.",
     "MONETARY_AMOUNT_OVERFLOW": "Il prezzo è troppo alto e non può essere elaborato.",
@@ -1139,5 +1143,231 @@
     "totalElements_one": "{{count}} notifica",
     "totalElements_other": "{{count}} notifiche",
     "showAll": "Mostra tutte le notifiche"
+  },
+  "adminDashboard": {
+    "loading": "Caricamento…",
+    "sidebarLabel": "Sezioni di amministrazione",
+    "forbidden": {
+      "title": "Accesso negato",
+      "description": "Non hai il permesso di visualizzare il pannello di amministrazione. Accedi con un account amministratore."
+    },
+    "nav": {
+      "overview": "Panoramica",
+      "shops": "Negozi",
+      "partnerApplications": "Domande di partner",
+      "users": "Utenti"
+    },
+    "overview": {
+      "title": "Pannello di amministrazione",
+      "description": "Gestisci negozi, esamina le candidature partner e amministra gli account utente.",
+      "shops": {
+        "title": "Negozi",
+        "description": "Esplora, cerca e modifica i metadati dei negozi."
+      },
+      "applications": {
+        "title": "Domande di partner",
+        "description": "Rivedi e decidi sulle domande in arrivo.",
+        "pendingCount_one": "{{count}} domanda in attesa di revisione",
+        "pendingCount_other": "{{count}} domande in attesa di revisione"
+      },
+      "users": {
+        "title": "Utenti",
+        "description": "Cerca account, controlla i dettagli utente e gestisci ruolo, piano, preferenze e collegamenti Stripe.",
+        "totalCount_one": "{{count}} account utente",
+        "totalCount_other": "{{count}} account utente"
+      }
+    },
+    "actions": {
+      "edit": "Modifica",
+      "save": "Salva",
+      "cancel": "Annulla",
+      "retry": "Riprova"
+    },
+    "shops": {
+      "title": "Negozi",
+      "description": "Cerca nel catalogo dei negozi, crea nuovi negozi e modifica i loro metadati.",
+      "searchPlaceholder": "Cerca negozi per nome…",
+      "loadError": "Impossibile caricare i negozi.",
+      "empty": "Nessun negozio corrisponde al filtro attuale.",
+      "totalCount_one": "{{count}} negozio",
+      "totalCount_other": "{{count}} negozi",
+      "updatedAt": "Aggiornato {{date}}",
+      "shopImageAlt": "Logo di {{shop}}",
+      "editAriaLabel": "Modifica {{shop}}",
+      "filter": {
+        "all": "Tutti"
+      },
+      "actions": {
+        "create": "Crea negozio"
+      },
+      "fields": {
+        "name": "Nome del negozio",
+        "shopType": "Tipo di negozio",
+        "image": "URL immagine",
+        "domains": "Domini",
+        "domainsHint": "Uno per riga. I domini sono normalizzati in minuscolo, senza schema o percorso.",
+        "phone": "Telefono",
+        "email": "E-mail",
+        "addressline": "Indirizzo",
+        "addresslineExtra": "Indirizzo riga 2",
+        "locality": "Città / Località",
+        "region": "Regione / Stato",
+        "postalCode": "Codice postale",
+        "country": "Paese (codice ISO)",
+        "countryHint": "Codice ISO 3166-1 alpha-2, es. DE o IT",
+        "specialitiesCategories": "Specializzazioni (categorie)",
+        "specialitiesPeriods": "Specializzazioni (periodi)",
+        "specialitiesHint": "Una chiave kebab-case per riga, es. ancient-egypt",
+        "countryPlaceholder": "Seleziona codice paese",
+        "countryNone": "Nessun paese",
+        "specialitiesPlaceholder": "Seleziona voci",
+        "searchCategories": "Cerca categorie…",
+        "searchPeriods": "Cerca periodi…",
+        "loadingOptions": "Caricamento opzioni…",
+        "allOptions": "Tutte"
+      },
+      "create": {
+        "title": "Crea negozio",
+        "description": "Aggiungi un nuovo record negozio. Lo slug viene ricavato automaticamente dal nome del negozio.",
+        "submit": "Crea negozio",
+        "success": "Negozio creato.",
+        "validation": {
+          "nameRequired": "Inserisci un nome del negozio.",
+          "nameTooLong": "Il nome del negozio non può superare 255 caratteri.",
+          "domainsRequired": "Inserisci almeno un dominio.",
+          "imageInvalid": "Inserisci un URL immagine valido.",
+          "emailInvalid": "Inserire un indirizzo e-mail valido.",
+          "countryInvalid": "Inserire un codice paese ISO 3166-1 alpha-2 valido (es. DE)."
+        }
+      },
+      "edit": {
+        "title": "Modifica negozio",
+        "description": "Modifica di {{shop}}",
+        "success": "Negozio aggiornato."
+      },
+      "sections": {
+        "core": "Dati principali",
+        "contact": "Contatto",
+        "address": "Indirizzo postale",
+        "specialities": "Specializzazioni"
+      }
+    },
+    "applications": {
+      "title": "Domande di partner",
+      "description": "Rivedi le domande inviate dai partner e approvale o rifiutale.",
+      "loadError": "Impossibile caricare le domande.",
+      "empty": "Nessuna domanda corrisponde al filtro attuale.",
+      "submittedAt": "Inviata {{date}}",
+      "updatedAt": "Aggiornata {{date}}",
+      "existingShop": "Negozio esistente",
+      "tabs": {
+        "pending": "In attesa",
+        "decided": "Decise",
+        "all": "Tutte"
+      },
+      "businessState": {
+        "submitted": "Inviata",
+        "inReview": "In revisione",
+        "approved": "Approvata",
+        "rejected": "Rifiutata"
+      },
+      "executionState": {
+        "processing": "In elaborazione",
+        "waiting": "In attesa di decisione",
+        "completed": "Completata"
+      },
+      "payloadType": {
+        "new": "Nuovo negozio",
+        "existing": "Negozio esistente"
+      },
+      "actions": {
+        "approve": "Approva",
+        "approveAriaLabel": "Approva domanda",
+        "reject": "Rifiuta",
+        "rejectAriaLabel": "Rifiuta domanda",
+        "details": "Dettagli"
+      },
+      "decision": {
+        "approveSuccess": "Domanda approvata.",
+        "rejectSuccess": "Domanda rifiutata."
+      },
+      "fields": {
+        "shopName": "Nome del negozio",
+        "shopType": "Tipo di negozio",
+        "image": "URL immagine",
+        "domains": "Domini",
+        "domainsHint": "Uno per riga. I domini sono normalizzati in minuscolo, senza schema o percorso."
+      },
+      "edit": {
+        "title": "Modifica domanda",
+        "description": "Aggiorna i dati della domanda prima di decidere.",
+        "success": "Domanda aggiornata."
+      },
+      "detail": {
+        "title": "Dettagli candidatura partner",
+        "description": "Controlla i dati della candidatura, lo stato di elaborazione e l’account utente associato.",
+        "applicationId": "ID candidatura",
+        "payloadType": "Tipo di candidatura",
+        "createdAt": "Creata",
+        "updatedAt": "Aggiornata",
+        "shopSection": "Informazioni negozio",
+        "shopId": "ID negozio",
+        "applicantSection": "Utente richiedente",
+        "applicantUnavailable": "La risposta API attuale non espone un ID utente per questa candidatura.",
+        "applicantLoadError": "Impossibile caricare l’utente richiedente.",
+        "openApplicant": "Apri profilo utente"
+      }
+    },
+    "users": {
+      "title": "Utenti",
+      "description": "Cerca account utente, apri i dettagli completi, aggiorna dati di profilo e fatturazione oppure elimina account.",
+      "search": "Cerca",
+      "searchPlaceholder": "Cerca in tutti i campi utente…",
+      "emailSearchPlaceholder": "Filtra per email…",
+      "nameSearchPlaceholder": "Filtra per nome…",
+      "loadError": "Impossibile caricare gli utenti.",
+      "empty": "Nessun utente corrisponde al filtro attuale.",
+      "totalCount_one": "{{count}} utente",
+      "totalCount_other": "{{count}} utenti",
+      "updatedAt": "Aggiornato {{date}}",
+      "prohibitedContentAllowed": "Consenso § 86a",
+      "filters": {
+        "allTiers": "Tutti i piani",
+        "allRoles": "Tutti i ruoli"
+      },
+      "sort": {
+        "label": "Ordina utenti",
+        "updated-desc": "Aggiornati di recente",
+        "created-desc": "Account più recenti",
+        "email-asc": "Email A–Z",
+        "tier-asc": "Piano A–Z",
+        "role-asc": "Ruolo A–Z"
+      },
+      "fields": {
+        "email": "Email",
+        "name": "Nome",
+        "firstName": "Nome",
+        "lastName": "Cognome",
+        "language": "Lingua",
+        "currency": "Valuta",
+        "tier": "Piano",
+        "role": "Ruolo",
+        "stripeCustomerId": "ID cliente Stripe",
+        "prohibitedContentConsent": "Consenso ai contenuti limitati",
+        "prohibitedContentConsentHint": "Controlla se l’utente può vedere prodotti con simboli limitati.",
+        "notSet": "Non impostato"
+      },
+      "detail": {
+        "title": "Dettagli utente",
+        "description": "Controlla l’account e aggiorna i campi gestiti dagli admin.",
+        "loadError": "Impossibile caricare questo utente.",
+        "createdAt": "Creato {{date}}",
+        "updatedAt": "Aggiornato {{date}}",
+        "updateSuccess": "Utente aggiornato.",
+        "delete": "Elimina utente",
+        "deleteConfirm": "Eliminare l’utente {{email}}? Questa azione non può essere annullata.",
+        "deleteSuccess": "Utente eliminato."
+      }
+    }
   }
 }

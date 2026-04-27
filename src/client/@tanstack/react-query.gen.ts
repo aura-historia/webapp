@@ -3,8 +3,8 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistProduct, adminGetPartnerApplication, adminGetPartnerApplications, adminPatchPartnerApplication, adminPostPartnerApplicationDecision, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deletePartnerApplication, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPartnerApplication, getPartnerApplications, getPartnerShops, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterMatchedProducts, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchPartnerApplication, patchPartnerProducts, patchShopById, patchWatchlistProduct, postBillingCheckout, postBillingManage, postBillingPortal, postPartnerApplication, postPartnerProducts, putNewsletterSubscription, putPartnerProducts, putShopApiKey, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminGetPartnerApplicationData, AdminGetPartnerApplicationError, AdminGetPartnerApplicationResponse, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsError, AdminGetPartnerApplicationsResponse, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationError, AdminPatchPartnerApplicationResponse, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionError, AdminPostPartnerApplicationDecisionResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeletePartnerApplicationData, DeletePartnerApplicationError, DeletePartnerApplicationResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPartnerApplicationData, GetPartnerApplicationError, GetPartnerApplicationResponse, GetPartnerApplicationsData, GetPartnerApplicationsError, GetPartnerApplicationsResponse, GetPartnerShopsData, GetPartnerShopsError, GetPartnerShopsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchPartnerApplicationData, PatchPartnerApplicationError, PatchPartnerApplicationResponse, PatchPartnerProductsData, PatchPartnerProductsError, PatchPartnerProductsResponse, PatchShopByIdData, PatchShopByIdError, PatchShopByIdResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostBillingCheckoutData2, PostBillingCheckoutError, PostBillingCheckoutResponse, PostBillingManageData, PostBillingManageError, PostBillingManageResponse, PostBillingPortalData, PostBillingPortalError, PostBillingPortalResponse, PostPartnerApplicationData, PostPartnerApplicationError, PostPartnerApplicationResponse, PostPartnerProductsData, PostPartnerProductsError, PostPartnerProductsResponse, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductsData, PutPartnerProductsError, PutPartnerProductsResponse, PutShopApiKeyData, PutShopApiKeyError, PutShopApiKeyResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import { addWatchlistProduct, adminDeleteUser, adminGetPartnerApplication, adminGetPartnerApplications, adminGetUser, adminPatchPartnerApplication, adminPatchUser, adminPostPartnerApplicationDecision, adminSearchUsers, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deletePartnerApplication, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPartnerApplication, getPartnerApplications, getPartnerShops, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterMatchedProducts, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchPartnerApplication, patchPartnerProducts, patchShopById, patchWatchlistProduct, postBillingCheckout, postBillingManage, postBillingPortal, postPartnerApplication, postPartnerProducts, postShop, putNewsletterSubscription, putPartnerProducts, putShopApiKey, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminDeleteUserData, AdminDeleteUserError, AdminDeleteUserResponse, AdminGetPartnerApplicationData, AdminGetPartnerApplicationError, AdminGetPartnerApplicationResponse, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsError, AdminGetPartnerApplicationsResponse, AdminGetUserData, AdminGetUserError, AdminGetUserResponse, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationError, AdminPatchPartnerApplicationResponse, AdminPatchUserData, AdminPatchUserError, AdminPatchUserResponse, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionError, AdminPostPartnerApplicationDecisionResponse, AdminSearchUsersData, AdminSearchUsersError, AdminSearchUsersResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeletePartnerApplicationData, DeletePartnerApplicationError, DeletePartnerApplicationResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPartnerApplicationData, GetPartnerApplicationError, GetPartnerApplicationResponse, GetPartnerApplicationsData, GetPartnerApplicationsError, GetPartnerApplicationsResponse, GetPartnerShopsData, GetPartnerShopsError, GetPartnerShopsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchPartnerApplicationData, PatchPartnerApplicationError, PatchPartnerApplicationResponse, PatchPartnerProductsData, PatchPartnerProductsError, PatchPartnerProductsResponse, PatchShopByIdData, PatchShopByIdError, PatchShopByIdResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostBillingCheckoutData2, PostBillingCheckoutError, PostBillingCheckoutResponse, PostBillingManageData, PostBillingManageError, PostBillingManageResponse, PostBillingPortalData, PostBillingPortalError, PostBillingPortalResponse, PostPartnerApplicationData, PostPartnerApplicationError, PostPartnerApplicationResponse, PostPartnerProductsData, PostPartnerProductsError, PostPartnerProductsResponse, PostShopData2, PostShopError, PostShopResponse, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductsData, PutPartnerProductsError, PutPartnerProductsResponse, PutShopApiKeyData, PutShopApiKeyError, PutShopApiKeyResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 /**
  * Batch update products (Partner API)
@@ -519,6 +519,99 @@ export const addWatchlistProductMutation = (options?: Partial<Options<AddWatchli
     return mutationOptions;
 };
 
+export const adminSearchUsersQueryKey = (options?: Options<AdminSearchUsersData>) => createQueryKey('adminSearchUsers', options);
+
+/**
+ * Search users as admin
+ *
+ * Searches users across all accounts for authenticated administrators.
+ * Omitting all filters lists users using the default `email` ascending order.
+ * Supplying any of `query`, `email`, `firstName`, or `lastName`
+ * switches the default ordering to relevance (`score`) descending unless
+ * both `sort` and `order` are explicitly provided.
+ *
+ * The generic `query` performs fuzzy matching across `email`, `firstName`,
+ * `lastName`, and `stripeCustomerId`.
+ *
+ */
+export const adminSearchUsersOptions = (options?: Options<AdminSearchUsersData>) => queryOptions<AdminSearchUsersResponse, AdminSearchUsersError, AdminSearchUsersResponse, ReturnType<typeof adminSearchUsersQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminSearchUsers({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminSearchUsersQueryKey(options)
+});
+
+/**
+ * Delete a user as admin
+ *
+ * Deletes a user account for authenticated administrators.
+ * The backend first removes the user from Cognito and then deletes the persisted user record.
+ *
+ */
+export const adminDeleteUserMutation = (options?: Partial<Options<AdminDeleteUserData>>): UseMutationOptions<AdminDeleteUserResponse, AdminDeleteUserError, Options<AdminDeleteUserData>> => {
+    const mutationOptions: UseMutationOptions<AdminDeleteUserResponse, AdminDeleteUserError, Options<AdminDeleteUserData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await adminDeleteUser({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const adminGetUserQueryKey = (options: Options<AdminGetUserData>) => createQueryKey('adminGetUser', options);
+
+/**
+ * Get a user as admin
+ *
+ * Retrieves a single user account by user ID for authenticated administrators.
+ * The response includes `Last-Modified` and `Cache-Control: no-store` headers.
+ *
+ */
+export const adminGetUserOptions = (options: Options<AdminGetUserData>) => queryOptions<AdminGetUserResponse, AdminGetUserError, AdminGetUserResponse, ReturnType<typeof adminGetUserQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await adminGetUser({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: adminGetUserQueryKey(options)
+});
+
+/**
+ * Update a user as admin
+ *
+ * Partially updates a user account for authenticated administrators.
+ * All request fields are optional, but the request body itself must be present and non-empty.
+ * An empty JSON object (`{}`) is accepted and returns the existing user unchanged.
+ *
+ */
+export const adminPatchUserMutation = (options?: Partial<Options<AdminPatchUserData>>): UseMutationOptions<AdminPatchUserResponse, AdminPatchUserError, Options<AdminPatchUserData>> => {
+    const mutationOptions: UseMutationOptions<AdminPatchUserResponse, AdminPatchUserError, Options<AdminPatchUserData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await adminPatchUser({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 /**
  * Delete authenticated user
  *
@@ -863,6 +956,10 @@ export const simpleSearchShopsQueryKey = (options?: Options<SimpleSearchShopsDat
  * - `shopNameQuery`
  * - `shopType`
  * - `partnerStatus`
+ * - `specialitiesCategories`
+ * - `specialitiesPeriods`
+ * - `countries`
+ * - `continents`
  * - `created[min]`, `created[max]`
  * - `updated[min]`, `updated[max]`
  *
@@ -880,13 +977,38 @@ export const simpleSearchShopsOptions = (options?: Options<SimpleSearchShopsData
     queryKey: simpleSearchShopsQueryKey(options)
 });
 
+/**
+ * Create a shop
+ *
+ * Creates a new shop record and returns the created shop.
+ *
+ * Requires a valid Cognito JWT and the `ADMIN` role.
+ *
+ * The request body uses `PostShopData`. The backend derives `shopSlugId` from `name`
+ * and initializes newly created shops with `partnerStatus` set to `SCRAPED`.
+ *
+ */
+export const postShopMutation = (options?: Partial<Options<PostShopData2>>): UseMutationOptions<PostShopResponse, PostShopError, Options<PostShopData2>> => {
+    const mutationOptions: UseMutationOptions<PostShopResponse, PostShopError, Options<PostShopData2>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await postShop({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const getShopByIdQueryKey = (options: Options<GetShopByIdData>) => createQueryKey('getShopById', options);
 
 /**
  * Get shop details by ID
  *
  * Retrieves detailed information about a specific shop by its shop ID (UUID).
- * Returns complete shop metadata including name, domains, image, and timestamps.
+ * Returns complete shop metadata including name, domains, image, address/contact metadata, and timestamps.
  *
  */
 export const getShopByIdOptions = (options: Options<GetShopByIdData>) => queryOptions<GetShopByIdResponse, GetShopByIdError, GetShopByIdResponse, ReturnType<typeof getShopByIdQueryKey>>({
@@ -963,7 +1085,7 @@ export const getShopBySlugQueryKey = (options: Options<GetShopBySlugData>) => cr
  * Get shop details by slug
  *
  * Retrieves detailed information about a specific shop by its human-readable slug identifier.
- * Returns complete shop metadata including name, domains, image, and timestamps.
+ * Returns complete shop metadata including name, domains, image, address/contact metadata, and timestamps.
  *
  * **Human-Readable Identifiers**: This endpoint uses slug-based identifiers which are human-readable
  * kebab-case strings derived from the shop name (e.g., "tech-store-premium" or "christies").
@@ -988,7 +1110,7 @@ export const getShopBySlugOptions = (options: Options<GetShopBySlugData>) => que
  * Performs an advanced search for shops using comprehensive filtering criteria.
  * This endpoint accepts a ShopSearchData object in the request body,
  * allowing for complex filtering by shop name, shop type, partner status,
- * and creation/update date ranges.
+ * speciality categories, speciality periods, countries, continents, and creation/update date ranges.
  * Returns a paginated collection of shops matching the search criteria.
  *
  */
@@ -1203,7 +1325,8 @@ export const getPartnerApplicationsOptions = (options?: Options<GetPartnerApplic
  *
  * Submits a new partner shop application for the authenticated user.
  * The application payload specifies either an existing shop (by `shopId`) or a new shop
- * (with name, type, domains, and optional image).
+ * (with name, type, domains, and optional metadata such as image, contact details, address,
+ * and speciality keys).
  * The application is created with `businessState` `SUBMITTED` and `executionState` `PROCESSING`.
  * Both state fields are read-only and cannot be set by the client.
  * Returns the created application with HTTP 201.

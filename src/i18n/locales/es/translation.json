@@ -66,6 +66,9 @@
     "terms": {
       "title": "Términos y condiciones | Aura Historia",
       "description": "Términos y condiciones para utilizar Aura Historia, incluida la información sobre servicios de pago y procesamiento de pagos."
+    },
+    "admin": {
+      "title": "Panel de administración | Aura Historia"
     }
   },
   "validation": {
@@ -724,6 +727,7 @@
     "SHOP_NOT_FOUND": "Esta tienda ya no está disponible.",
     "INVALID_SHOP_IDENTIFIER": "El identificador de la tienda no es válido.",
     "INVALID_DOMAIN": "El dominio de la tienda no es válido.",
+    "SHOP_EXISTS_ALREADY": "Ya existe una tienda con el mismo slug.",
     "FORBIDDEN": "Esta acción no está disponible para usted.",
     "BAD_BODY_VALUE": "Algunos detalles son incorrectos. Por favor, verifique su entrada.",
     "MONETARY_AMOUNT_OVERFLOW": "El precio es demasiado alto y no se puede procesar.",
@@ -1139,5 +1143,231 @@
     "totalElements_one": "{{count}} notificación",
     "totalElements_other": "{{count}} notificaciones",
     "showAll": "Mostrar todas las notificaciones"
+  },
+  "adminDashboard": {
+    "loading": "Cargando…",
+    "sidebarLabel": "Secciones de administración",
+    "forbidden": {
+      "title": "Acceso denegado",
+      "description": "No tienes permiso para ver el panel de administración. Inicia sesión con una cuenta de administrador."
+    },
+    "nav": {
+      "overview": "Resumen",
+      "shops": "Tiendas",
+      "partnerApplications": "Solicitudes de socios",
+      "users": "Usuarios"
+    },
+    "overview": {
+      "title": "Panel de administración",
+      "description": "Gestiona tiendas, revisa solicitudes de socios y administra cuentas de usuario.",
+      "shops": {
+        "title": "Tiendas",
+        "description": "Explora, busca y edita los metadatos de las tiendas."
+      },
+      "applications": {
+        "title": "Solicitudes de socios",
+        "description": "Revisa y decide sobre las solicitudes entrantes.",
+        "pendingCount_one": "{{count}} solicitud pendiente de revisión",
+        "pendingCount_other": "{{count}} solicitudes pendientes de revisión"
+      },
+      "users": {
+        "title": "Usuarios",
+        "description": "Busca cuentas, revisa detalles de usuario y gestiona roles, planes, preferencias y asignaciones de Stripe.",
+        "totalCount_one": "{{count}} cuenta de usuario",
+        "totalCount_other": "{{count}} cuentas de usuario"
+      }
+    },
+    "actions": {
+      "edit": "Editar",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "retry": "Reintentar"
+    },
+    "shops": {
+      "title": "Tiendas",
+      "description": "Busca en el catálogo de tiendas, crea nuevas tiendas y edita sus metadatos.",
+      "searchPlaceholder": "Buscar tiendas por nombre…",
+      "loadError": "No se pudieron cargar las tiendas.",
+      "empty": "Ninguna tienda coincide con el filtro actual.",
+      "totalCount_one": "{{count}} tienda",
+      "totalCount_other": "{{count}} tiendas",
+      "updatedAt": "Actualizado {{date}}",
+      "shopImageAlt": "Logotipo de {{shop}}",
+      "editAriaLabel": "Editar {{shop}}",
+      "filter": {
+        "all": "Todas"
+      },
+      "actions": {
+        "create": "Crear tienda"
+      },
+      "fields": {
+        "name": "Nombre de la tienda",
+        "shopType": "Tipo de tienda",
+        "image": "URL de imagen",
+        "domains": "Dominios",
+        "domainsHint": "Uno por línea. Los dominios se normalizan en minúsculas, sin esquema ni ruta.",
+        "phone": "Teléfono",
+        "email": "Correo electrónico",
+        "addressline": "Dirección",
+        "addresslineExtra": "Dirección línea 2",
+        "locality": "Ciudad / Localidad",
+        "region": "Región / Estado",
+        "postalCode": "Código postal",
+        "country": "País (código ISO)",
+        "countryHint": "Código ISO 3166-1 alpha-2, p. ej. DE o ES",
+        "specialitiesCategories": "Especialidades (categorías)",
+        "specialitiesPeriods": "Especialidades (períodos)",
+        "specialitiesHint": "Una clave kebab-case por línea, p. ej. ancient-egypt",
+        "countryPlaceholder": "Seleccionar código de país",
+        "countryNone": "Sin país",
+        "specialitiesPlaceholder": "Seleccionar entradas",
+        "searchCategories": "Buscar categorías…",
+        "searchPeriods": "Buscar períodos…",
+        "loadingOptions": "Cargando opciones…",
+        "allOptions": "Todas"
+      },
+      "create": {
+        "title": "Crear tienda",
+        "description": "Añade un nuevo registro de tienda. El slug se deriva automáticamente del nombre de la tienda.",
+        "submit": "Crear tienda",
+        "success": "Tienda creada.",
+        "validation": {
+          "nameRequired": "Introduzca un nombre de tienda.",
+          "nameTooLong": "El nombre de la tienda no puede superar los 255 caracteres.",
+          "domainsRequired": "Introduzca al menos un dominio.",
+          "imageInvalid": "Introduzca una URL de imagen válida.",
+          "emailInvalid": "Introduzca una dirección de correo electrónico válida.",
+          "countryInvalid": "Introduzca un código de país ISO 3166-1 alpha-2 válido (p. ej. DE)."
+        }
+      },
+      "edit": {
+        "title": "Editar tienda",
+        "description": "Editando {{shop}}",
+        "success": "Tienda actualizada."
+      },
+      "sections": {
+        "core": "Datos principales",
+        "contact": "Contacto",
+        "address": "Dirección postal",
+        "specialities": "Especialidades"
+      }
+    },
+    "applications": {
+      "title": "Solicitudes de socios",
+      "description": "Revisa las solicitudes de los socios y apruébalas o recházalas.",
+      "loadError": "No se pudieron cargar las solicitudes.",
+      "empty": "Ninguna solicitud coincide con el filtro actual.",
+      "submittedAt": "Enviada {{date}}",
+      "updatedAt": "Actualizada {{date}}",
+      "existingShop": "Tienda existente",
+      "tabs": {
+        "pending": "Pendientes",
+        "decided": "Decididas",
+        "all": "Todas"
+      },
+      "businessState": {
+        "submitted": "Enviada",
+        "inReview": "En revisión",
+        "approved": "Aprobada",
+        "rejected": "Rechazada"
+      },
+      "executionState": {
+        "processing": "Procesando",
+        "waiting": "Esperando decisión",
+        "completed": "Completada"
+      },
+      "payloadType": {
+        "new": "Nueva tienda",
+        "existing": "Tienda existente"
+      },
+      "actions": {
+        "approve": "Aprobar",
+        "approveAriaLabel": "Aprobar solicitud",
+        "reject": "Rechazar",
+        "rejectAriaLabel": "Rechazar solicitud",
+        "details": "Detalles"
+      },
+      "decision": {
+        "approveSuccess": "Solicitud aprobada.",
+        "rejectSuccess": "Solicitud rechazada."
+      },
+      "fields": {
+        "shopName": "Nombre de la tienda",
+        "shopType": "Tipo de tienda",
+        "image": "URL de imagen",
+        "domains": "Dominios",
+        "domainsHint": "Uno por línea. Los dominios se normalizan en minúsculas, sin esquema ni ruta."
+      },
+      "edit": {
+        "title": "Editar solicitud",
+        "description": "Actualiza los datos de la solicitud antes de decidir.",
+        "success": "Solicitud actualizada."
+      },
+      "detail": {
+        "title": "Detalles de la solicitud de socio",
+        "description": "Revisa los datos de la solicitud, el estado de procesamiento y la cuenta de usuario asociada.",
+        "applicationId": "ID de solicitud",
+        "payloadType": "Tipo de solicitud",
+        "createdAt": "Creada",
+        "updatedAt": "Actualizada",
+        "shopSection": "Información de la tienda",
+        "shopId": "ID de tienda",
+        "applicantSection": "Usuario solicitante",
+        "applicantUnavailable": "La respuesta actual de la API no expone un ID de usuario para esta solicitud.",
+        "applicantLoadError": "No se pudo cargar el usuario solicitante.",
+        "openApplicant": "Abrir perfil de usuario"
+      }
+    },
+    "users": {
+      "title": "Usuarios",
+      "description": "Busca cuentas de usuario, abre detalles completos, actualiza datos de perfil y facturación o elimina cuentas.",
+      "search": "Buscar",
+      "searchPlaceholder": "Buscar en todos los campos de usuario…",
+      "emailSearchPlaceholder": "Filtrar por correo electrónico…",
+      "nameSearchPlaceholder": "Filtrar por nombre…",
+      "loadError": "No se pudieron cargar los usuarios.",
+      "empty": "Ningún usuario coincide con el filtro actual.",
+      "totalCount_one": "{{count}} usuario",
+      "totalCount_other": "{{count}} usuarios",
+      "updatedAt": "Actualizado {{date}}",
+      "prohibitedContentAllowed": "Consentimiento § 86a",
+      "filters": {
+        "allTiers": "Todos los planes",
+        "allRoles": "Todos los roles"
+      },
+      "sort": {
+        "label": "Ordenar usuarios",
+        "updated-desc": "Actualizados recientemente",
+        "created-desc": "Cuentas más recientes",
+        "email-asc": "Correo A–Z",
+        "tier-asc": "Plan A–Z",
+        "role-asc": "Rol A–Z"
+      },
+      "fields": {
+        "email": "Correo electrónico",
+        "name": "Nombre",
+        "firstName": "Nombre",
+        "lastName": "Apellido",
+        "language": "Idioma",
+        "currency": "Moneda",
+        "tier": "Plan",
+        "role": "Rol",
+        "stripeCustomerId": "ID de cliente de Stripe",
+        "prohibitedContentConsent": "Consentimiento para contenido restringido",
+        "prohibitedContentConsentHint": "Controla si el usuario puede ver productos con símbolos restringidos.",
+        "notSet": "No establecido"
+      },
+      "detail": {
+        "title": "Detalles del usuario",
+        "description": "Revisa la cuenta y actualiza los campos administrados.",
+        "loadError": "No se pudo cargar este usuario.",
+        "createdAt": "Creado {{date}}",
+        "updatedAt": "Actualizado {{date}}",
+        "updateSuccess": "Usuario actualizado.",
+        "delete": "Eliminar usuario",
+        "deleteConfirm": "¿Eliminar el usuario {{email}}? Esta acción no se puede deshacer.",
+        "deleteSuccess": "Usuario eliminado."
+      }
+    }
   }
 }

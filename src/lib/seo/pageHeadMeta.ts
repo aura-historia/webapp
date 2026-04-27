@@ -26,7 +26,8 @@ type PageMetaKey =
     | "consentSettings"
     | "categories"
     | "periods"
-    | "collections";
+    | "collections"
+    | "admin";
 
 const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string }> = {
     home: {
@@ -77,6 +78,9 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     collections: {
         title: "meta.collections.title",
         description: "meta.collections.description",
+    },
+    admin: {
+        title: "meta.admin.title",
     },
 };
 

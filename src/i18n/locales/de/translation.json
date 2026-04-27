@@ -39,6 +39,9 @@
     "notifications": {
       "title": "Benachrichtigungen | Aura Historia"
     },
+    "admin": {
+      "title": "Admin-Dashboard | Aura Historia"
+    },
     "category": {
       "defaultName": "Kategorie"
     },
@@ -724,6 +727,7 @@
     "SHOP_NOT_FOUND": "Dieser Shop ist nicht mehr verfügbar.",
     "INVALID_SHOP_IDENTIFIER": "Die Shop-Kennung ist ungültig.",
     "INVALID_DOMAIN": "Die Shop-Domain ist ungültig.",
+    "SHOP_EXISTS_ALREADY": "Ein Shop mit demselben Slug existiert bereits.",
     "FORBIDDEN": "Diese Aktion ist für Sie nicht verfügbar.",
     "BAD_BODY_VALUE": "Einige Angaben sind nicht korrekt. Bitte überprüfen Sie Ihre Eingaben.",
     "MONETARY_AMOUNT_OVERFLOW": "Der Preis ist zu hoch und kann nicht verarbeitet werden.",
@@ -1138,6 +1142,232 @@
       "error": {
         "title": "Artikel konnten nicht geladen werden",
         "description": "Beim Laden der Artikel ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
+      }
+    }
+  },
+  "adminDashboard": {
+    "loading": "Wird geladen…",
+    "sidebarLabel": "Admin-Bereiche",
+    "forbidden": {
+      "title": "Zugriff verweigert",
+      "description": "Sie haben keine Berechtigung, das Admin-Dashboard anzuzeigen. Bitte melden Sie sich mit einem Administratorkonto an."
+    },
+    "nav": {
+      "overview": "Übersicht",
+      "shops": "Shops",
+      "partnerApplications": "Partner-Anträge",
+      "users": "Benutzer"
+    },
+    "overview": {
+      "title": "Admin-Dashboard",
+      "description": "Shops verwalten, Partneranträge prüfen und Benutzerkonten administrieren.",
+      "shops": {
+        "title": "Shops",
+        "description": "Shops durchsuchen und Metadaten bearbeiten."
+      },
+      "applications": {
+        "title": "Partner-Anträge",
+        "description": "Eingehende Partner-Anträge prüfen und entscheiden.",
+        "pendingCount_one": "{{count}} Antrag wartet auf Prüfung",
+        "pendingCount_other": "{{count}} Anträge warten auf Prüfung"
+      },
+      "users": {
+        "title": "Benutzer",
+        "description": "Konten suchen, Benutzerdetails prüfen und Rolle, Tarif, Einstellungen sowie Stripe-Zuordnungen verwalten.",
+        "totalCount_one": "{{count}} Benutzerkonto",
+        "totalCount_other": "{{count}} Benutzerkonten"
+      }
+    },
+    "actions": {
+      "edit": "Bearbeiten",
+      "save": "Speichern",
+      "cancel": "Abbrechen",
+      "retry": "Erneut versuchen"
+    },
+    "shops": {
+      "title": "Shops",
+      "description": "Shop-Katalog durchsuchen, neue Shops anlegen und Shop-Metadaten bearbeiten.",
+      "searchPlaceholder": "Shops nach Namen suchen…",
+      "loadError": "Shops konnten nicht geladen werden.",
+      "empty": "Keine Shops entsprechen dem aktuellen Filter.",
+      "totalCount_one": "{{count}} Shop",
+      "totalCount_other": "{{count}} Shops",
+      "updatedAt": "Aktualisiert {{date}}",
+      "shopImageAlt": "Logo von {{shop}}",
+      "editAriaLabel": "{{shop}} bearbeiten",
+      "filter": {
+        "all": "Alle"
+      },
+      "actions": {
+        "create": "Shop anlegen"
+      },
+      "fields": {
+        "name": "Shop-Name",
+        "shopType": "Shop-Typ",
+        "image": "Bild-URL",
+        "domains": "Domains",
+        "domainsHint": "Eine pro Zeile. Domains werden in Kleinbuchstaben ohne Schema oder Pfad normalisiert.",
+        "phone": "Telefon",
+        "email": "E-Mail",
+        "addressline": "Adresszeile",
+        "addresslineExtra": "Adresszeile 2",
+        "locality": "Stadt / Ort",
+        "region": "Region / Bundesland",
+        "postalCode": "Postleitzahl",
+        "country": "Land (ISO-Code)",
+        "countryHint": "ISO 3166-1 Alpha-2-Code, z. B. DE oder US",
+        "specialitiesCategories": "Spezialgebiete (Kategorien)",
+        "specialitiesPeriods": "Spezialgebiete (Epochen)",
+        "specialitiesHint": "Ein Kebab-Case-Schlüssel pro Zeile, z. B. ancient-egypt",
+        "countryPlaceholder": "Ländercode auswählen",
+        "countryNone": "Kein Land",
+        "specialitiesPlaceholder": "Einträge auswählen",
+        "searchCategories": "Kategorien suchen…",
+        "searchPeriods": "Epochen suchen…",
+        "loadingOptions": "Optionen werden geladen…",
+        "allOptions": "Alle"
+      },
+      "create": {
+        "title": "Shop anlegen",
+        "description": "Einen neuen Shop-Datensatz anlegen. Der Slug wird automatisch aus dem Shop-Namen abgeleitet.",
+        "submit": "Shop anlegen",
+        "success": "Shop angelegt.",
+        "validation": {
+          "nameRequired": "Bitte geben Sie einen Shop-Namen ein.",
+          "nameTooLong": "Der Shop-Name darf nicht länger als 255 Zeichen sein.",
+          "domainsRequired": "Bitte geben Sie mindestens eine Domain ein.",
+          "imageInvalid": "Bitte geben Sie eine gültige Bild-URL ein.",
+          "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+          "countryInvalid": "Bitte geben Sie einen gültigen ISO 3166-1 Alpha-2-Ländercode ein (z. B. DE)."
+        }
+      },
+      "edit": {
+        "title": "Shop bearbeiten",
+        "description": "{{shop}} wird bearbeitet",
+        "success": "Shop aktualisiert."
+      },
+      "sections": {
+        "core": "Kerndaten",
+        "contact": "Kontakt",
+        "address": "Postanschrift",
+        "specialities": "Spezialgebiete"
+      }
+    },
+    "applications": {
+      "title": "Partner-Anträge",
+      "description": "Von Partnern eingereichte Anträge prüfen und genehmigen oder ablehnen.",
+      "loadError": "Partner-Anträge konnten nicht geladen werden.",
+      "empty": "Keine Anträge entsprechen dem aktuellen Filter.",
+      "submittedAt": "Eingereicht {{date}}",
+      "updatedAt": "Aktualisiert {{date}}",
+      "existingShop": "Bestehender Shop",
+      "tabs": {
+        "pending": "Offen",
+        "decided": "Entschieden",
+        "all": "Alle"
+      },
+      "businessState": {
+        "submitted": "Eingereicht",
+        "inReview": "In Prüfung",
+        "approved": "Genehmigt",
+        "rejected": "Abgelehnt"
+      },
+      "executionState": {
+        "processing": "In Verarbeitung",
+        "waiting": "Wartet auf Entscheidung",
+        "completed": "Abgeschlossen"
+      },
+      "payloadType": {
+        "new": "Neuer Shop",
+        "existing": "Bestehender Shop"
+      },
+      "actions": {
+        "approve": "Genehmigen",
+        "approveAriaLabel": "Antrag genehmigen",
+        "reject": "Ablehnen",
+        "rejectAriaLabel": "Antrag ablehnen",
+        "details": "Details"
+      },
+      "decision": {
+        "approveSuccess": "Antrag genehmigt.",
+        "rejectSuccess": "Antrag abgelehnt."
+      },
+      "fields": {
+        "shopName": "Shop-Name",
+        "shopType": "Shop-Typ",
+        "image": "Bild-URL",
+        "domains": "Domains",
+        "domainsHint": "Eine pro Zeile. Domains werden in Kleinbuchstaben ohne Schema oder Pfad normalisiert."
+      },
+      "edit": {
+        "title": "Antrag bearbeiten",
+        "description": "Antrags-Daten vor der Entscheidung aktualisieren.",
+        "success": "Antrag aktualisiert."
+      },
+      "detail": {
+        "title": "Details zum Partnerantrag",
+        "description": "Antragsdaten, Verarbeitungsstatus und das zugehörige Benutzerkonto prüfen.",
+        "applicationId": "Antrags-ID",
+        "payloadType": "Antragstyp",
+        "createdAt": "Erstellt",
+        "updatedAt": "Aktualisiert",
+        "shopSection": "Shop-Informationen",
+        "shopId": "Shop-ID",
+        "applicantSection": "Antragstellender Benutzer",
+        "applicantUnavailable": "Die aktuelle API-Antwort enthält keine Benutzer-ID für diesen Antrag.",
+        "applicantLoadError": "Der antragstellende Benutzer konnte nicht geladen werden.",
+        "openApplicant": "Benutzerprofil öffnen"
+      }
+    },
+    "users": {
+      "title": "Benutzer",
+      "description": "Benutzerkonten suchen, vollständige Details öffnen, Profil- und Abrechnungsdaten aktualisieren oder Konten löschen.",
+      "search": "Suchen",
+      "searchPlaceholder": "Alle Benutzerfelder durchsuchen…",
+      "emailSearchPlaceholder": "Nach E-Mail filtern…",
+      "nameSearchPlaceholder": "Nach Name filtern…",
+      "loadError": "Benutzer konnten nicht geladen werden.",
+      "empty": "Keine Benutzer passen zum aktuellen Filter.",
+      "totalCount_one": "{{count}} Benutzer",
+      "totalCount_other": "{{count}} Benutzer",
+      "updatedAt": "Aktualisiert {{date}}",
+      "prohibitedContentAllowed": "§ 86a Zustimmung",
+      "filters": {
+        "allTiers": "Alle Tarife",
+        "allRoles": "Alle Rollen"
+      },
+      "sort": {
+        "label": "Benutzer sortieren",
+        "updated-desc": "Zuletzt aktualisiert",
+        "created-desc": "Neueste Konten",
+        "email-asc": "E-Mail A–Z",
+        "tier-asc": "Tarif A–Z",
+        "role-asc": "Rolle A–Z"
+      },
+      "fields": {
+        "email": "E-Mail",
+        "name": "Name",
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "language": "Sprache",
+        "currency": "Währung",
+        "tier": "Tarif",
+        "role": "Rolle",
+        "stripeCustomerId": "Stripe-Kundennummer",
+        "prohibitedContentConsent": "Zustimmung zu eingeschränkten Inhalten",
+        "prohibitedContentConsentHint": "Steuert, ob der Benutzer Produkte mit eingeschränkten Symbolen sehen darf.",
+        "notSet": "Nicht gesetzt"
+      },
+      "detail": {
+        "title": "Benutzerdetails",
+        "description": "Konto prüfen und administrativ verwaltete Felder aktualisieren.",
+        "loadError": "Dieser Benutzer konnte nicht geladen werden.",
+        "createdAt": "Erstellt {{date}}",
+        "updatedAt": "Aktualisiert {{date}}",
+        "updateSuccess": "Benutzer aktualisiert.",
+        "delete": "Benutzer löschen",
+        "deleteConfirm": "Benutzer {{email}} löschen? Dies kann nicht rückgängig gemacht werden.",
+        "deleteSuccess": "Benutzer gelöscht."
       }
     }
   }
