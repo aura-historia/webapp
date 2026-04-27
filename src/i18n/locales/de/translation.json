@@ -1,7 +1,8 @@
 {
   "common": {
     "auraHistoria": "Aura Historia",
-    "infoButton": "Weitere Informationen"
+    "infoButton": "Weitere Informationen",
+    "optional": "Optional"
   },
   "meta": {
     "siteName": "Aura Historia | Führende Suchmaschine für Antiquitäten",

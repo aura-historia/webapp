@@ -19,6 +19,8 @@ import {
 import { Input } from "@/components/ui/input.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { Badge } from "@/components/ui/badge.tsx";
+import { H3 } from "@/components/typography/H3.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import {
     Stepper,
@@ -131,10 +133,22 @@ const FILTER_STEPS: { label: string; desc: string; content: () => ReactNode }[] 
 // Step 1 (name) + N filter steps + confirm step
 const TOTAL_STEPS = FILTER_STEPS.length + 2;
 
-function StepHeader({ title, description }: { title: string; description: string }) {
+function StepHeader({
+    title,
+    description,
+    optional = false,
+}: {
+    title: string;
+    description: string;
+    optional?: boolean;
+}) {
+    const { t } = useTranslation();
     return (
         <div className="space-y-2 mb-6">
-            <h3 className="text-lg font-semibold">{title}</h3>
+            <div className="flex items-center gap-2">
+                <H3>{title}</H3>
+                {optional && <Badge variant="secondary">{t("common.optional")}</Badge>}
+            </div>
             <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
         </div>
     );
@@ -367,7 +381,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
         const fs = FILTER_STEPS[step - 2];
         return (
             <>
-                <StepHeader title={t(fs.label)} description={t(fs.desc)} />
+                <StepHeader title={t(fs.label)} description={t(fs.desc)} optional />
                 {fs.content()}
             </>
         );
