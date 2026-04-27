@@ -1205,7 +1205,19 @@
         "shopType": "Shop type",
         "image": "Image URL",
         "domains": "Domains",
-        "domainsHint": "One per line. Domains are normalized to lowercase, without scheme or path."
+        "domainsHint": "One per line. Domains are normalized to lowercase, without scheme or path.",
+        "phone": "Phone",
+        "email": "Email",
+        "addressline": "Address Line",
+        "addresslineExtra": "Address Line 2",
+        "locality": "City / Locality",
+        "region": "Region / State",
+        "postalCode": "Postal Code",
+        "country": "Country (ISO code)",
+        "countryHint": "ISO 3166-1 alpha-2 code, e.g. DE or US",
+        "specialitiesCategories": "Speciality Categories",
+        "specialitiesPeriods": "Speciality Periods",
+        "specialitiesHint": "One kebab-case key per line, e.g. ancient-egypt"
       },
       "create": {
         "title": "Create shop",
@@ -1216,13 +1228,21 @@
           "nameRequired": "Please enter a shop name.",
           "nameTooLong": "The shop name must not exceed 255 characters.",
           "domainsRequired": "Please enter at least one domain.",
-          "imageInvalid": "Please enter a valid image URL."
+          "imageInvalid": "Please enter a valid image URL.",
+          "emailInvalid": "Please enter a valid email address.",
+          "countryInvalid": "Please enter a valid ISO 3166-1 alpha-2 country code (e.g. DE)."
         }
       },
       "edit": {
         "title": "Edit shop",
         "description": "Editing {{shop}}",
         "success": "Shop updated."
+      },
+      "sections": {
+        "core": "Core",
+        "contact": "Contact",
+        "address": "Postal Address",
+        "specialities": "Specialities"
       }
     },
     "applications": {

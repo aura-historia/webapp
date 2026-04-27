@@ -1205,7 +1205,19 @@
         "shopType": "Tipo di negozio",
         "image": "URL immagine",
         "domains": "Domini",
-        "domainsHint": "Uno per riga. I domini sono normalizzati in minuscolo, senza schema o percorso."
+        "domainsHint": "Uno per riga. I domini sono normalizzati in minuscolo, senza schema o percorso.",
+        "phone": "Telefono",
+        "email": "E-mail",
+        "addressline": "Indirizzo",
+        "addresslineExtra": "Indirizzo riga 2",
+        "locality": "Città / Località",
+        "region": "Regione / Stato",
+        "postalCode": "Codice postale",
+        "country": "Paese (codice ISO)",
+        "countryHint": "Codice ISO 3166-1 alpha-2, es. DE o IT",
+        "specialitiesCategories": "Specializzazioni (categorie)",
+        "specialitiesPeriods": "Specializzazioni (periodi)",
+        "specialitiesHint": "Una chiave kebab-case per riga, es. ancient-egypt"
       },
       "create": {
         "title": "Crea negozio",
@@ -1216,13 +1228,21 @@
           "nameRequired": "Inserisci un nome del negozio.",
           "nameTooLong": "Il nome del negozio non può superare 255 caratteri.",
           "domainsRequired": "Inserisci almeno un dominio.",
-          "imageInvalid": "Inserisci un URL immagine valido."
+          "imageInvalid": "Inserisci un URL immagine valido.",
+          "emailInvalid": "Inserire un indirizzo e-mail valido.",
+          "countryInvalid": "Inserire un codice paese ISO 3166-1 alpha-2 valido (es. DE)."
         }
       },
       "edit": {
         "title": "Modifica negozio",
         "description": "Modifica di {{shop}}",
         "success": "Negozio aggiornato."
+      },
+      "sections": {
+        "core": "Dati principali",
+        "contact": "Contatto",
+        "address": "Indirizzo postale",
+        "specialities": "Specializzazioni"
       }
     },
     "applications": {

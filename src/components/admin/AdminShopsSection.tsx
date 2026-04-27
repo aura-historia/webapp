@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useInView } from "react-intersection-observer";
-import { Pencil, Search, ShieldCheck, Globe, Plus } from "lucide-react";
+import { Pencil, Search, ShieldCheck, Globe, Plus, Mail, Phone, MapPin } from "lucide-react";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
@@ -194,6 +194,38 @@ export function AdminShopsSection() {
                                                 title={shop.domains.join(", ")}
                                             >
                                                 {shop.domains.join(", ")}
+                                            </span>
+                                        </div>
+                                    )}
+                                    {(shop.phone || shop.email) && (
+                                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                                            {shop.phone && (
+                                                <span className="flex items-center gap-1">
+                                                    <Phone className="h-3 w-3" aria-hidden="true" />
+                                                    {shop.phone}
+                                                </span>
+                                            )}
+                                            {shop.email && (
+                                                <span className="flex items-center gap-1">
+                                                    <Mail className="h-3 w-3" aria-hidden="true" />
+                                                    {shop.email}
+                                                </span>
+                                            )}
+                                        </div>
+                                    )}
+                                    {shop.structuredAddress && (
+                                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                            <MapPin
+                                                className="h-3 w-3 shrink-0"
+                                                aria-hidden="true"
+                                            />
+                                            <span className="truncate">
+                                                {[
+                                                    shop.structuredAddress.locality,
+                                                    shop.structuredAddress.country,
+                                                ]
+                                                    .filter(Boolean)
+                                                    .join(", ")}
                                             </span>
                                         </div>
                                     )}

@@ -74,4 +74,102 @@ describe("mapToShopDetail", () => {
         const result = mapToShopDetail(mockShopData);
         expect(result.domains).toEqual(["christies.com"]);
     });
+
+    it("maps phone when present", () => {
+        const result = mapToShopDetail({ ...mockShopData, phone: "+49 30 123456" });
+        expect(result.phone).toBe("+49 30 123456");
+    });
+
+    it("phone is undefined when not in response", () => {
+        const result = mapToShopDetail(mockShopData);
+        expect(result.phone).toBeUndefined();
+    });
+
+    it("maps email when present", () => {
+        const result = mapToShopDetail({ ...mockShopData, email: "info@christies.com" });
+        expect(result.email).toBe("info@christies.com");
+    });
+
+    it("email is undefined when not in response", () => {
+        const result = mapToShopDetail(mockShopData);
+        expect(result.email).toBeUndefined();
+    });
+
+    it("maps structuredAddress with all fields", () => {
+        const result = mapToShopDetail({
+            ...mockShopData,
+            structuredAddress: {
+                addressline: "8 King St",
+                addresslineExtra: "Floor 2",
+                locality: "London",
+                region: "England",
+                postalCode: "SW1Y 6QT",
+                country: "GB",
+                continent: "EUROPE",
+            },
+        });
+        expect(result.structuredAddress).toEqual({
+            addressline: "8 King St",
+            addresslineExtra: "Floor 2",
+            locality: "London",
+            region: "England",
+            postalCode: "SW1Y 6QT",
+            country: "GB",
+            continent: "EUROPE",
+        });
+    });
+
+    it("structuredAddress is undefined when not in response", () => {
+        const result = mapToShopDetail(mockShopData);
+        expect(result.structuredAddress).toBeUndefined();
+    });
+
+    it("maps geoAddress when present", () => {
+        const result = mapToShopDetail({
+            ...mockShopData,
+            geoAddress: { lat: 51.5074, lon: -0.1278 },
+        });
+        expect(result.geoAddress).toEqual({ lat: 51.5074, lon: -0.1278 });
+    });
+
+    it("geoAddress is undefined when not in response", () => {
+        const result = mapToShopDetail(mockShopData);
+        expect(result.geoAddress).toBeUndefined();
+    });
+
+    it("maps specialitiesCategories when present", () => {
+        const result = mapToShopDetail({
+            ...mockShopData,
+            specialitiesCategories: ["ancient-egypt", "roman-coins"],
+        });
+        expect(result.specialitiesCategories).toEqual(["ancient-egypt", "roman-coins"]);
+    });
+
+    it("specialitiesCategories is undefined when not in response", () => {
+        const result = mapToShopDetail(mockShopData);
+        expect(result.specialitiesCategories).toBeUndefined();
+    });
+
+    it("specialitiesCategories is undefined when response returns empty array", () => {
+        const result = mapToShopDetail({ ...mockShopData, specialitiesCategories: [] });
+        expect(result.specialitiesCategories).toBeUndefined();
+    });
+
+    it("maps specialitiesPeriods when present", () => {
+        const result = mapToShopDetail({
+            ...mockShopData,
+            specialitiesPeriods: ["roman-period", "medieval"],
+        });
+        expect(result.specialitiesPeriods).toEqual(["roman-period", "medieval"]);
+    });
+
+    it("specialitiesPeriods is undefined when not in response", () => {
+        const result = mapToShopDetail(mockShopData);
+        expect(result.specialitiesPeriods).toBeUndefined();
+    });
+
+    it("specialitiesPeriods is undefined when response returns empty array", () => {
+        const result = mapToShopDetail({ ...mockShopData, specialitiesPeriods: [] });
+        expect(result.specialitiesPeriods).toBeUndefined();
+    });
 });

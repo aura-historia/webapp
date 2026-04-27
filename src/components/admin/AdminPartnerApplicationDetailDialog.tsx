@@ -126,6 +126,56 @@ export function AdminPartnerApplicationDetailDialog({
                                         label={t("adminDashboard.applications.fields.image")}
                                         value={application.payload.shopImage}
                                     />
+                                    {application.payload.shopPhone && (
+                                        <Field
+                                            label={t("adminDashboard.shops.fields.phone")}
+                                            value={application.payload.shopPhone}
+                                        />
+                                    )}
+                                    {application.payload.shopEmail && (
+                                        <Field
+                                            label={t("adminDashboard.shops.fields.email")}
+                                            value={application.payload.shopEmail}
+                                        />
+                                    )}
+                                    {application.payload.shopStructuredAddress && (
+                                        <Field
+                                            label={t("adminDashboard.shops.fields.locality")}
+                                            value={[
+                                                application.payload.shopStructuredAddress
+                                                    .addressline,
+                                                application.payload.shopStructuredAddress.locality,
+                                                application.payload.shopStructuredAddress
+                                                    .postalCode,
+                                                application.payload.shopStructuredAddress.country,
+                                            ]
+                                                .filter(Boolean)
+                                                .join(", ")}
+                                        />
+                                    )}
+                                    {application.payload.shopSpecialitiesCategories &&
+                                        application.payload.shopSpecialitiesCategories.length >
+                                            0 && (
+                                            <Field
+                                                label={t(
+                                                    "adminDashboard.shops.fields.specialitiesCategories",
+                                                )}
+                                                value={application.payload.shopSpecialitiesCategories.join(
+                                                    ", ",
+                                                )}
+                                            />
+                                        )}
+                                    {application.payload.shopSpecialitiesPeriods &&
+                                        application.payload.shopSpecialitiesPeriods.length > 0 && (
+                                            <Field
+                                                label={t(
+                                                    "adminDashboard.shops.fields.specialitiesPeriods",
+                                                )}
+                                                value={application.payload.shopSpecialitiesPeriods.join(
+                                                    ", ",
+                                                )}
+                                            />
+                                        )}
                                 </>
                             ) : (
                                 <Field

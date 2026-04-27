@@ -1205,7 +1205,19 @@
         "shopType": "Tipo de tienda",
         "image": "URL de imagen",
         "domains": "Dominios",
-        "domainsHint": "Uno por línea. Los dominios se normalizan en minúsculas, sin esquema ni ruta."
+        "domainsHint": "Uno por línea. Los dominios se normalizan en minúsculas, sin esquema ni ruta.",
+        "phone": "Teléfono",
+        "email": "Correo electrónico",
+        "addressline": "Dirección",
+        "addresslineExtra": "Dirección línea 2",
+        "locality": "Ciudad / Localidad",
+        "region": "Región / Estado",
+        "postalCode": "Código postal",
+        "country": "País (código ISO)",
+        "countryHint": "Código ISO 3166-1 alpha-2, p. ej. DE o ES",
+        "specialitiesCategories": "Especialidades (categorías)",
+        "specialitiesPeriods": "Especialidades (períodos)",
+        "specialitiesHint": "Una clave kebab-case por línea, p. ej. ancient-egypt"
       },
       "create": {
         "title": "Crear tienda",
@@ -1216,13 +1228,21 @@
           "nameRequired": "Introduzca un nombre de tienda.",
           "nameTooLong": "El nombre de la tienda no puede superar los 255 caracteres.",
           "domainsRequired": "Introduzca al menos un dominio.",
-          "imageInvalid": "Introduzca una URL de imagen válida."
+          "imageInvalid": "Introduzca una URL de imagen válida.",
+          "emailInvalid": "Introduzca una dirección de correo electrónico válida.",
+          "countryInvalid": "Introduzca un código de país ISO 3166-1 alpha-2 válido (p. ej. DE)."
         }
       },
       "edit": {
         "title": "Editar tienda",
         "description": "Editando {{shop}}",
         "success": "Tienda actualizada."
+      },
+      "sections": {
+        "core": "Datos principales",
+        "contact": "Contacto",
+        "address": "Dirección postal",
+        "specialities": "Especialidades"
       }
     },
     "applications": {

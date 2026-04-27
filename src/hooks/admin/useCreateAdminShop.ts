@@ -5,7 +5,12 @@ import {
     type QueryKey,
 } from "@tanstack/react-query";
 import { postShop } from "@/client";
-import { mapToShopDetail, type ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
+import type { StructuredAddressData } from "@/client";
+import {
+    mapToShopDetail,
+    type ShopDetail,
+    type StructuredAddress,
+} from "@/data/internal/shop/ShopDetail.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
 import type { EditableShopType } from "@/components/admin/adminShopFormUtils.ts";
@@ -18,7 +23,22 @@ export type AdminShopCreate = {
     readonly shopType: EditableShopType;
     readonly domains: string[];
     readonly image?: string | null;
+    readonly structuredAddress?: StructuredAddress | null;
+    readonly phone?: string | null;
+    readonly email?: string | null;
+    readonly specialitiesCategories?: string[];
+    readonly specialitiesPeriods?: string[];
 };
+
+function toApiStructuredAddress(addr: StructuredAddress): StructuredAddressData {
+    return {
+        ...addr,
+        // Country and continent are finite enums in the API; the domain
+        // stores them as plain strings.  Cast here so TypeScript is satisfied.
+        country: addr.country as StructuredAddressData["country"],
+        continent: addr.continent as StructuredAddressData["continent"],
+    };
+}
 
 function shopMatchesFilters(shop: ShopDetail, filters?: AdminShopFilters): boolean {
     if (!filters) {
@@ -70,6 +90,19 @@ export function useCreateAdminShop() {
                     shopType,
                     domains: input.domains,
                     image: input.image ?? null,
+                    structuredAddress: input.structuredAddress
+                        ? toApiStructuredAddress(input.structuredAddress)
+                        : undefined,
+                    phone: input.phone ?? undefined,
+                    email: input.email ?? undefined,
+                    specialitiesCategories:
+                        input.specialitiesCategories && input.specialitiesCategories.length > 0
+                            ? input.specialitiesCategories
+                            : undefined,
+                    specialitiesPeriods:
+                        input.specialitiesPeriods && input.specialitiesPeriods.length > 0
+                            ? input.specialitiesPeriods
+                            : undefined,
                 },
             });
 

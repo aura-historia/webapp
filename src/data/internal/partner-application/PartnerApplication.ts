@@ -1,5 +1,6 @@
 import type { GetPartnerShopApplicationData, GetPartnerShopApplicationPayloadData } from "@/client";
 import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
+import type { StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
 
 export const PARTNER_APPLICATION_BUSINESS_STATES = [
     "SUBMITTED",
@@ -24,6 +25,11 @@ export type PartnerApplicationPayload =
           readonly shopType: ShopType;
           readonly shopDomains: string[];
           readonly shopImage?: string;
+          readonly shopStructuredAddress?: StructuredAddress;
+          readonly shopPhone?: string;
+          readonly shopEmail?: string;
+          readonly shopSpecialitiesCategories?: string[];
+          readonly shopSpecialitiesPeriods?: string[];
       };
 
 export type PartnerApplication = {
@@ -60,6 +66,27 @@ function mapPayload(payload: GetPartnerShopApplicationPayloadData): PartnerAppli
         shopType: parseShopType(payload.shopType),
         shopDomains: payload.shopDomains,
         shopImage: payload.shopImage ?? undefined,
+        shopStructuredAddress: payload.shopStructuredAddress
+            ? {
+                  addressline: payload.shopStructuredAddress.addressline,
+                  addresslineExtra: payload.shopStructuredAddress.addresslineExtra,
+                  locality: payload.shopStructuredAddress.locality,
+                  region: payload.shopStructuredAddress.region,
+                  postalCode: payload.shopStructuredAddress.postalCode,
+                  country: payload.shopStructuredAddress.country,
+                  continent: payload.shopStructuredAddress.continent,
+              }
+            : undefined,
+        shopPhone: payload.shopPhone,
+        shopEmail: payload.shopEmail,
+        shopSpecialitiesCategories:
+            payload.shopSpecialitiesCategories && payload.shopSpecialitiesCategories.length > 0
+                ? [...payload.shopSpecialitiesCategories]
+                : undefined,
+        shopSpecialitiesPeriods:
+            payload.shopSpecialitiesPeriods && payload.shopSpecialitiesPeriods.length > 0
+                ? [...payload.shopSpecialitiesPeriods]
+                : undefined,
     };
 }
 
