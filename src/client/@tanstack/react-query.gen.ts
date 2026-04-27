@@ -956,6 +956,10 @@ export const simpleSearchShopsQueryKey = (options?: Options<SimpleSearchShopsDat
  * - `shopNameQuery`
  * - `shopType`
  * - `partnerStatus`
+ * - `specialitiesCategories`
+ * - `specialitiesPeriods`
+ * - `countries`
+ * - `continents`
  * - `created[min]`, `created[max]`
  * - `updated[min]`, `updated[max]`
  *
@@ -1004,7 +1008,7 @@ export const getShopByIdQueryKey = (options: Options<GetShopByIdData>) => create
  * Get shop details by ID
  *
  * Retrieves detailed information about a specific shop by its shop ID (UUID).
- * Returns complete shop metadata including name, domains, image, and timestamps.
+ * Returns complete shop metadata including name, domains, image, address/contact metadata, and timestamps.
  *
  */
 export const getShopByIdOptions = (options: Options<GetShopByIdData>) => queryOptions<GetShopByIdResponse, GetShopByIdError, GetShopByIdResponse, ReturnType<typeof getShopByIdQueryKey>>({
@@ -1081,7 +1085,7 @@ export const getShopBySlugQueryKey = (options: Options<GetShopBySlugData>) => cr
  * Get shop details by slug
  *
  * Retrieves detailed information about a specific shop by its human-readable slug identifier.
- * Returns complete shop metadata including name, domains, image, and timestamps.
+ * Returns complete shop metadata including name, domains, image, address/contact metadata, and timestamps.
  *
  * **Human-Readable Identifiers**: This endpoint uses slug-based identifiers which are human-readable
  * kebab-case strings derived from the shop name (e.g., "tech-store-premium" or "christies").
@@ -1106,7 +1110,7 @@ export const getShopBySlugOptions = (options: Options<GetShopBySlugData>) => que
  * Performs an advanced search for shops using comprehensive filtering criteria.
  * This endpoint accepts a ShopSearchData object in the request body,
  * allowing for complex filtering by shop name, shop type, partner status,
- * and creation/update date ranges.
+ * speciality categories, speciality periods, countries, continents, and creation/update date ranges.
  * Returns a paginated collection of shops matching the search criteria.
  *
  */
@@ -1321,7 +1325,8 @@ export const getPartnerApplicationsOptions = (options?: Options<GetPartnerApplic
  *
  * Submits a new partner shop application for the authenticated user.
  * The application payload specifies either an existing shop (by `shopId`) or a new shop
- * (with name, type, domains, and optional image).
+ * (with name, type, domains, and optional metadata such as image, contact details, address,
+ * and speciality keys).
  * The application is created with `businessState` `SUBMITTED` and `executionState` `PROCESSING`.
  * Both state fields are read-only and cannot be set by the client.
  * Returns the created application with HTTP 201.

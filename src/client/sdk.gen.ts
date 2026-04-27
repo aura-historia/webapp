@@ -696,6 +696,10 @@ export const putNewsletterSubscription = <ThrowOnError extends boolean = false>(
  * - `shopNameQuery`
  * - `shopType`
  * - `partnerStatus`
+ * - `specialitiesCategories`
+ * - `specialitiesPeriods`
+ * - `countries`
+ * - `continents`
  * - `created[min]`, `created[max]`
  * - `updated[min]`, `updated[max]`
  *
@@ -727,7 +731,7 @@ export const postShop = <ThrowOnError extends boolean = false>(options: Options<
  * Get shop details by ID
  *
  * Retrieves detailed information about a specific shop by its shop ID (UUID).
- * Returns complete shop metadata including name, domains, image, and timestamps.
+ * Returns complete shop metadata including name, domains, image, address/contact metadata, and timestamps.
  *
  */
 export const getShopById = <ThrowOnError extends boolean = false>(options: Options<GetShopByIdData, ThrowOnError>) => (options.client ?? client).get<GetShopByIdResponses, GetShopByIdErrors, ThrowOnError>({ url: '/api/v1/shops/{shopId}', ...options });
@@ -779,7 +783,7 @@ export const putShopApiKey = <ThrowOnError extends boolean = false>(options: Opt
  * Get shop details by slug
  *
  * Retrieves detailed information about a specific shop by its human-readable slug identifier.
- * Returns complete shop metadata including name, domains, image, and timestamps.
+ * Returns complete shop metadata including name, domains, image, address/contact metadata, and timestamps.
  *
  * **Human-Readable Identifiers**: This endpoint uses slug-based identifiers which are human-readable
  * kebab-case strings derived from the shop name (e.g., "tech-store-premium" or "christies").
@@ -793,7 +797,7 @@ export const getShopBySlug = <ThrowOnError extends boolean = false>(options: Opt
  * Performs an advanced search for shops using comprehensive filtering criteria.
  * This endpoint accepts a ShopSearchData object in the request body,
  * allowing for complex filtering by shop name, shop type, partner status,
- * and creation/update date ranges.
+ * speciality categories, speciality periods, countries, continents, and creation/update date ranges.
  * Returns a paginated collection of shops matching the search criteria.
  *
  */
@@ -923,7 +927,8 @@ export const getPartnerApplications = <ThrowOnError extends boolean = false>(opt
  *
  * Submits a new partner shop application for the authenticated user.
  * The application payload specifies either an existing shop (by `shopId`) or a new shop
- * (with name, type, domains, and optional image).
+ * (with name, type, domains, and optional metadata such as image, contact details, address,
+ * and speciality keys).
  * The application is created with `businessState` `SUBMITTED` and `executionState` `PROCESSING`.
  * Both state fields are read-only and cannot be set by the client.
  * Returns the created application with HTTP 201.

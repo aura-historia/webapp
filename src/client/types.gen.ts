@@ -1295,6 +1295,83 @@ export type UserSearchFilterCollectionData = {
 };
 
 /**
+ * Lowercase kebab-case category key.
+ */
+export type CategoryIdData = string;
+
+/**
+ * Lowercase kebab-case period key.
+ */
+export type PeriodIdData = string;
+
+/**
+ * ISO 3166-1 alpha-2 country code serialized by the backend.
+ */
+export type CountryCodeData = 'AD' | 'AE' | 'AF' | 'AG' | 'AI' | 'AL' | 'AM' | 'AO' | 'AQ' | 'AR' | 'AS' | 'AT' | 'AU' | 'AW' | 'AX' | 'AZ' | 'BA' | 'BB' | 'BD' | 'BE' | 'BF' | 'BG' | 'BH' | 'BI' | 'BJ' | 'BL' | 'BM' | 'BN' | 'BO' | 'BQ' | 'BR' | 'BS' | 'BT' | 'BV' | 'BW' | 'BY' | 'BZ' | 'CA' | 'CC' | 'CD' | 'CF' | 'CG' | 'CH' | 'CI' | 'CK' | 'CL' | 'CM' | 'CN' | 'CO' | 'CR' | 'CU' | 'CV' | 'CW' | 'CX' | 'CY' | 'CZ' | 'DE' | 'DJ' | 'DK' | 'DM' | 'DO' | 'DZ' | 'EC' | 'EE' | 'EG' | 'EH' | 'ER' | 'ES' | 'ET' | 'FI' | 'FJ' | 'FK' | 'FM' | 'FO' | 'FR' | 'GA' | 'GB' | 'GD' | 'GE' | 'GF' | 'GG' | 'GH' | 'GI' | 'GL' | 'GM' | 'GN' | 'GP' | 'GQ' | 'GR' | 'GS' | 'GT' | 'GU' | 'GW' | 'GY' | 'HK' | 'HM' | 'HN' | 'HR' | 'HT' | 'HU' | 'ID' | 'IE' | 'IL' | 'IM' | 'IN' | 'IO' | 'IQ' | 'IR' | 'IS' | 'IT' | 'JE' | 'JM' | 'JO' | 'JP' | 'KE' | 'KG' | 'KH' | 'KI' | 'KM' | 'KN' | 'KP' | 'KR' | 'KW' | 'KY' | 'KZ' | 'LA' | 'LB' | 'LC' | 'LI' | 'LK' | 'LR' | 'LS' | 'LT' | 'LU' | 'LV' | 'LY' | 'MA' | 'MC' | 'MD' | 'ME' | 'MF' | 'MG' | 'MH' | 'MK' | 'ML' | 'MM' | 'MN' | 'MO' | 'MP' | 'MQ' | 'MR' | 'MS' | 'MT' | 'MU' | 'MV' | 'MW' | 'MX' | 'MY' | 'MZ' | 'NA' | 'NC' | 'NE' | 'NF' | 'NG' | 'NI' | 'NL' | 'NO' | 'NP' | 'NR' | 'NU' | 'NZ' | 'OM' | 'PA' | 'PE' | 'PF' | 'PG' | 'PH' | 'PK' | 'PL' | 'PM' | 'PN' | 'PR' | 'PS' | 'PT' | 'PW' | 'PY' | 'QA' | 'RE' | 'RO' | 'RS' | 'RU' | 'RW' | 'SA' | 'SB' | 'SC' | 'SD' | 'SE' | 'SG' | 'SH' | 'SI' | 'SJ' | 'SK' | 'SL' | 'SM' | 'SN' | 'SO' | 'SR' | 'SS' | 'ST' | 'SV' | 'SX' | 'SY' | 'SZ' | 'TC' | 'TD' | 'TF' | 'TG' | 'TH' | 'TJ' | 'TK' | 'TL' | 'TM' | 'TN' | 'TO' | 'TR' | 'TT' | 'TV' | 'TW' | 'TZ' | 'UA' | 'UG' | 'UM' | 'US' | 'UY' | 'UZ' | 'VA' | 'VC' | 'VE' | 'VG' | 'VI' | 'VN' | 'VU' | 'WF' | 'WS' | 'YE' | 'YT' | 'ZA' | 'ZM' | 'ZW';
+
+/**
+ * Continent derived from a structured-address country code.
+ */
+export type ContinentData = 'AFRICA' | 'ANTARCTICA' | 'ASIA' | 'EUROPE' | 'NORTH_AMERICA' | 'OCEANIA' | 'SOUTH_AMERICA';
+
+/**
+ * Structured postal address used for shop metadata and geocoding.
+ * When supplied in shop create/update payloads, at least one component among `addressline`,
+ * `addresslineExtra`, `locality`, `region`, `postalCode`, or `country` must contain a non-empty
+ * value; `continent` alone does not make the address valid, and otherwise the backend rejects the
+ * request with `400 BAD_BODY_VALUE`.
+ *
+ */
+export type StructuredAddressData = {
+    /**
+     * Primary free-form address line such as street and house number.
+     */
+    addressline?: string;
+    /**
+     * Optional secondary address line such as floor, suite, building, or c/o information.
+     */
+    addresslineExtra?: string;
+    /**
+     * City, town, or locality.
+     */
+    locality?: string;
+    /**
+     * Region, state, province, or administrative area.
+     */
+    region?: string;
+    /**
+     * Postal or ZIP code.
+     */
+    postalCode?: string;
+    /**
+     * ISO 3166-1 alpha-2 country code serialized by the backend.
+     * When `continent` is omitted but `country` is present, the backend derives the continent from this code.
+     *
+     */
+    country?: CountryCodeData;
+    /**
+     * Optional continent value exposed alongside `country` in structured-address data.
+     * If omitted while `country` is present, the backend derives it automatically.
+     *
+     */
+    continent?: ContinentData;
+};
+
+/**
+ * Latitude/longitude coordinates derived by the backend from `structuredAddress`.
+ */
+export type GeoAddressData = {
+    /**
+     * Latitude in decimal degrees.
+     */
+    lat: number;
+    /**
+     * Longitude in decimal degrees.
+     */
+    lon: number;
+};
+
+/**
  * Complete shop information including metadata
  */
 export type GetShopData = {
@@ -1323,6 +1400,24 @@ export type GetShopData = {
      * Optional URL to the shop's logo or image
      */
     image?: string | null;
+    structuredAddress?: StructuredAddressData;
+    geoAddress?: GeoAddressData;
+    /**
+     * Optional public contact phone number of the shop.
+     */
+    phone?: string;
+    /**
+     * Optional public contact email address of the shop.
+     */
+    email?: string;
+    /**
+     * Optional list of speciality category keys associated with the shop. Omitted when empty.
+     */
+    specialitiesCategories?: Array<CategoryIdData>;
+    /**
+     * Optional list of speciality period keys associated with the shop. Omitted when empty.
+     */
+    specialitiesPeriods?: Array<PeriodIdData>;
     partnerStatus: ShopPartnerStatusData;
     /**
      * When the shop was first created (RFC3339 format)
@@ -1335,7 +1430,7 @@ export type GetShopData = {
 };
 
 /**
- * Search filter configuration for shops with optional name, type, partner-status, and date-range filters
+ * Search filter configuration for shops with optional name, type, partner-status, speciality, country, continent, and date-range filters
  */
 export type ShopSearchData = {
     /**
@@ -1352,6 +1447,30 @@ export type ShopSearchData = {
      *
      */
     partnerStatus?: Array<ShopPartnerStatusData> | null;
+    /**
+     * Optional repeated speciality-category filter.
+     * When provided, only shops having at least one of the listed category keys are returned.
+     *
+     */
+    specialitiesCategories?: Array<CategoryIdData>;
+    /**
+     * Optional repeated speciality-period filter.
+     * When provided, only shops having at least one of the listed period keys are returned.
+     *
+     */
+    specialitiesPeriods?: Array<PeriodIdData>;
+    /**
+     * Optional repeated ISO 3166-1 alpha-2 country-code filter.
+     * When provided, only shops having at least one of the listed structured-address country codes are returned.
+     *
+     */
+    countries?: Array<CountryCodeData>;
+    /**
+     * Optional repeated continent filter.
+     * When provided, only shops having at least one of the listed structured-address continents are returned.
+     *
+     */
+    continents?: Array<ContinentData>;
     /**
      * Optional filter by shop creation date range
      */
@@ -1386,6 +1505,29 @@ export type PatchShopData = {
      *
      */
     image?: string | null;
+    /**
+     * Optional updated structured postal address.
+     * When provided with at least one non-empty component, the backend geocodes it and refreshes `geoAddress`.
+     * When omitted or set to `null`, the current address remains unchanged.
+     *
+     */
+    structuredAddress?: StructuredAddressData | null;
+    /**
+     * Optional updated public contact phone number. When omitted or set to `null`, the current phone number remains unchanged.
+     */
+    phone?: string | null;
+    /**
+     * Optional updated public contact email address. When omitted or set to `null`, the current email address remains unchanged.
+     */
+    email?: string | null;
+    /**
+     * Optional replacement list of speciality category keys for the shop.
+     */
+    specialitiesCategories?: Array<CategoryIdData> | null;
+    /**
+     * Optional replacement list of speciality period keys for the shop.
+     */
+    specialitiesPeriods?: Array<PeriodIdData> | null;
 };
 
 /**
@@ -1411,6 +1553,28 @@ export type PostShopData = {
      * Optional URL to the shop's logo or image.
      */
     image?: string | null;
+    /**
+     * Optional structured postal address.
+     * When provided, the backend geocodes it and stores the resulting coordinates in `geoAddress`.
+     *
+     */
+    structuredAddress?: StructuredAddressData | null;
+    /**
+     * Optional public contact phone number of the shop.
+     */
+    phone?: string | null;
+    /**
+     * Optional public contact email address of the shop.
+     */
+    email?: string | null;
+    /**
+     * Optional list of speciality category keys.
+     */
+    specialitiesCategories?: Array<CategoryIdData>;
+    /**
+     * Optional list of speciality period keys.
+     */
+    specialitiesPeriods?: Array<PeriodIdData>;
 };
 
 /**
@@ -2582,7 +2746,7 @@ export type ExecutionStateData = 'PROCESSING' | 'WAITING' | 'COMPLETED';
 /**
  * The payload of a partner shop application. Discriminated by the `type` field.
  * - `EXISTING`: The application targets an existing shop identified by `shopId`.
- * - `NEW`: The application targets a new shop described by name, type, domains, and optional image.
+ * - `NEW`: The application targets a new shop described by name, type, domains, and optional metadata.
  *
  */
 export type GetPartnerShopApplicationPayloadData = {
@@ -2614,6 +2778,23 @@ export type GetPartnerShopApplicationPayloadData = {
      * Optional URL to the new shop's logo or image.
      */
     shopImage?: string | null;
+    shopStructuredAddress?: StructuredAddressData;
+    /**
+     * Optional public contact phone number for the requested new shop.
+     */
+    shopPhone?: string;
+    /**
+     * Optional public contact email address for the requested new shop.
+     */
+    shopEmail?: string;
+    /**
+     * Optional list of speciality category keys for the requested new shop.
+     */
+    shopSpecialitiesCategories?: Array<CategoryIdData>;
+    /**
+     * Optional list of speciality period keys for the requested new shop.
+     */
+    shopSpecialitiesPeriods?: Array<PeriodIdData>;
 };
 
 /**
@@ -2650,7 +2831,7 @@ export type GetPartnerShopApplicationData = {
 /**
  * Request payload for creating a new partner shop application. Discriminated by the `type` field.
  * - `EXISTING`: Apply for partnership for an existing shop identified by `shopId`.
- * - `NEW`: Apply for partnership for a new shop described by name, type, domains, and optional image.
+ * - `NEW`: Apply for partnership for a new shop described by name, type, domains, and optional metadata.
  * The created application always starts with `businessState` `SUBMITTED` and `executionState` `PROCESSING`.
  *
  */
@@ -2683,6 +2864,26 @@ export type PostPartnerShopApplicationPayloadData = {
      * Optional URL to the new shop's logo or image.
      */
     shopImage?: string | null;
+    /**
+     * Optional structured postal address for the requested new shop.
+     */
+    shopStructuredAddress?: StructuredAddressData | null;
+    /**
+     * Optional public contact phone number for the requested new shop.
+     */
+    shopPhone?: string | null;
+    /**
+     * Optional public contact email address for the requested new shop.
+     */
+    shopEmail?: string | null;
+    /**
+     * Optional list of speciality category keys for the requested new shop.
+     */
+    shopSpecialitiesCategories?: Array<CategoryIdData>;
+    /**
+     * Optional list of speciality period keys for the requested new shop.
+     */
+    shopSpecialitiesPeriods?: Array<PeriodIdData>;
 };
 
 /**
@@ -2710,9 +2911,32 @@ export type PatchPartnerShopApplicationData = {
      */
     shopDomains?: Array<string>;
     /**
-     * Updated URL to the shop's logo or image. Set to `null` to remove the image.
+     * Updated URL to the shop's logo or image. When omitted or set to `null`, the current image remains unchanged.
      */
     shopImage?: string | null;
+    /**
+     * Updated structured postal address for the requested new shop.
+     * When provided with at least one non-empty component, the address is later geocoded during shop creation.
+     * When omitted or set to `null`, the current address remains unchanged.
+     *
+     */
+    shopStructuredAddress?: StructuredAddressData | null;
+    /**
+     * Updated public contact phone number for the requested new shop. When omitted or set to `null`, the current value remains unchanged.
+     */
+    shopPhone?: string | null;
+    /**
+     * Updated public contact email address for the requested new shop. When omitted or set to `null`, the current value remains unchanged.
+     */
+    shopEmail?: string | null;
+    /**
+     * Updated replacement list of speciality category keys for the requested new shop.
+     */
+    shopSpecialitiesCategories?: Array<CategoryIdData> | null;
+    /**
+     * Updated replacement list of speciality period keys for the requested new shop.
+     */
+    shopSpecialitiesPeriods?: Array<PeriodIdData> | null;
 };
 
 /**
@@ -2738,9 +2962,32 @@ export type AdminPatchPartnerShopApplicationData = {
      */
     shopDomains?: Array<string>;
     /**
-     * Updated URL to the shop's logo or image. Set to `null` to remove the image.
+     * Updated URL to the shop's logo or image. When omitted or set to `null`, the current image remains unchanged.
      */
     shopImage?: string | null;
+    /**
+     * Updated structured postal address for the requested new shop.
+     * When provided with at least one non-empty component, the address is later geocoded during shop creation.
+     * When omitted or set to `null`, the current address remains unchanged.
+     *
+     */
+    shopStructuredAddress?: StructuredAddressData | null;
+    /**
+     * Updated public contact phone number for the requested new shop. When omitted or set to `null`, the current value remains unchanged.
+     */
+    shopPhone?: string | null;
+    /**
+     * Updated public contact email address for the requested new shop. When omitted or set to `null`, the current value remains unchanged.
+     */
+    shopEmail?: string | null;
+    /**
+     * Updated replacement list of speciality category keys for the requested new shop.
+     */
+    shopSpecialitiesCategories?: Array<CategoryIdData> | null;
+    /**
+     * Updated replacement list of speciality period keys for the requested new shop.
+     */
+    shopSpecialitiesPeriods?: Array<PeriodIdData> | null;
 };
 
 /**
@@ -4689,6 +4936,22 @@ export type SimpleSearchShopsData = {
          */
         partnerStatus?: Array<ShopPartnerStatusData>;
         /**
+         * Optional repeated speciality-category filter.
+         */
+        specialitiesCategories?: Array<CategoryIdData>;
+        /**
+         * Optional repeated speciality-period filter.
+         */
+        specialitiesPeriods?: Array<PeriodIdData>;
+        /**
+         * Optional repeated ISO 3166-1 alpha-2 country-code filter.
+         */
+        countries?: Array<CountryCodeData>;
+        /**
+         * Optional repeated continent filter.
+         */
+        continents?: Array<ContinentData>;
+        /**
          * Field to sort results by
          */
         sort?: SortShopFieldData;
@@ -4951,7 +5214,7 @@ export type SearchShopsData = {
     /**
      * Shop search filter configuration with all filtering criteria.
      * Allows filtering by shop name, shop type, partner status,
-     * and creation/update date ranges.
+     * speciality categories, speciality periods, countries, continents, and creation/update date ranges.
      * If you do not want to restrict the search, supply an empty JSON-Object '{}' as body.
      *
      */
