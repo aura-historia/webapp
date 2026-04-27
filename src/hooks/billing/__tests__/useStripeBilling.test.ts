@@ -118,28 +118,6 @@ describe("useStripeBilling", () => {
 
             expect(result.current.isLoading).toBe(false);
         });
-
-        it("should navigate to login when managing subscription without authentication", async () => {
-            mockUseAuth.mockReturnValue({
-                user: null,
-                isLoading: false,
-                signOut: vi.fn(),
-            } as ReturnType<typeof useAuth>);
-
-            const { result } = renderHook(() => useStripeBilling(), {
-                wrapper: createWrapper(),
-            });
-
-            await act(async () => {
-                await result.current.handleManageSubscription();
-            });
-
-            expect(mockNavigate).toHaveBeenCalledWith({
-                to: "/login",
-                search: { redirect: "/me/account" },
-            });
-            expect(mockPostBillingPortal).not.toHaveBeenCalled();
-        });
     });
 
     describe("Authenticated user", () => {
@@ -209,26 +187,6 @@ describe("useStripeBilling", () => {
             });
         });
 
-        it("should redirect to portal URL when managing an existing subscription", async () => {
-            mockPostBillingPortal.mockResolvedValue({
-                data: { url: "https://billing.stripe.com/p/session/manage_existing" },
-                error: null,
-            });
-
-            const { result } = renderHook(() => useStripeBilling(), {
-                wrapper: createWrapper(),
-            });
-
-            await act(async () => {
-                await result.current.handleManageSubscription();
-            });
-
-            expect(mockPostBillingPortal).toHaveBeenCalledWith();
-            expect(mockNavigate).toHaveBeenCalledWith({
-                href: "https://billing.stripe.com/p/session/manage_existing",
-            });
-        });
-
         it("should set loading state during billing manage request", async () => {
             let resolveBillingManage!: (value: unknown) => void;
             const billingPromise = new Promise((resolve) => {
@@ -260,133 +218,59 @@ describe("useStripeBilling", () => {
             expect(result.current.isLoading).toBe(false);
         });
 
-        it("should set loading state during billing portal request", async () => {
-            let resolveBillingPortal!: (value: unknown) => void;
-            const billingPortalPromise = new Promise((resolve) => {
-                resolveBillingPortal = resolve;
-            });
-            mockPostBillingPortal.mockReturnValue(billingPortalPromise);
-
-            const { result } = renderHook(() => useStripeBilling(), {
-                wrapper: createWrapper(),
-            });
-
-            expect(result.current.isLoading).toBe(false);
-
-            let managePromise!: Promise<void>;
-            act(() => {
-                managePromise = result.current.handleManageSubscription();
-            });
-
-            expect(result.current.isLoading).toBe(true);
-
-            await act(async () => {
-                resolveBillingPortal({
-                    data: { url: "https://billing.stripe.com/p/session/manage_existing" },
-                    error: null,
+        describe("Error handling", () => {
+            it("should show error toast when billing manage fails", async () => {
+                mockPostBillingManage.mockResolvedValue({
+                    data: null,
+                    error: {
+                        status: 500,
+                        error: "INTERNAL_SERVER_ERROR",
+                        title: "Internal Server Error",
+                    },
                 });
-                await managePromise;
+
+                const { result } = renderHook(() => useStripeBilling(), {
+                    wrapper: createWrapper(),
+                });
+
+                await act(async () => {
+                    await result.current.handleSubscribe("PRO", "MONTHLY");
+                });
+
+                expect(mockToast.error).toHaveBeenCalled();
             });
 
-            expect(result.current.isLoading).toBe(false);
-        });
-    });
+            it("should reset loading state after error", async () => {
+                mockPostBillingManage.mockResolvedValue({
+                    data: null,
+                    error: {
+                        status: 500,
+                        error: "INTERNAL_SERVER_ERROR",
+                        title: "Internal Server Error",
+                    },
+                });
 
-    describe("Error handling", () => {
-        it("should show error toast when billing manage fails", async () => {
-            mockPostBillingManage.mockResolvedValue({
-                data: null,
-                error: {
-                    status: 500,
-                    error: "INTERNAL_SERVER_ERROR",
-                    title: "Internal Server Error",
-                },
+                const { result } = renderHook(() => useStripeBilling(), {
+                    wrapper: createWrapper(),
+                });
+
+                await act(async () => {
+                    await result.current.handleSubscribe("PRO", "MONTHLY");
+                });
+
+                expect(result.current.isLoading).toBe(false);
             });
-
-            const { result } = renderHook(() => useStripeBilling(), {
-                wrapper: createWrapper(),
-            });
-
-            await act(async () => {
-                await result.current.handleSubscribe("PRO", "MONTHLY");
-            });
-
-            expect(mockToast.error).toHaveBeenCalled();
-        });
-
-        it("should show error toast when billing portal request fails", async () => {
-            mockPostBillingPortal.mockResolvedValue({
-                data: null,
-                error: {
-                    status: 422,
-                    error: "STRIPE_CUSTOMER_DOES_NOT_EXIST",
-                    title: "Unprocessable Content",
-                },
-            });
-
-            const { result } = renderHook(() => useStripeBilling(), {
-                wrapper: createWrapper(),
-            });
-
-            await act(async () => {
-                await result.current.handleManageSubscription();
-            });
-
-            expect(mockToast.error).toHaveBeenCalled();
         });
 
-        it("should reset loading state after error", async () => {
-            mockPostBillingManage.mockResolvedValue({
-                data: null,
-                error: {
-                    status: 500,
-                    error: "INTERNAL_SERVER_ERROR",
-                    title: "Internal Server Error",
-                },
+        describe("Initial state", () => {
+            it("should return isLoading as false initially", () => {
+                const { result } = renderHook(() => useStripeBilling(), {
+                    wrapper: createWrapper(),
+                });
+
+                expect(result.current.isLoading).toBe(false);
+                expect(typeof result.current.handleSubscribe).toBe("function");
             });
-
-            const { result } = renderHook(() => useStripeBilling(), {
-                wrapper: createWrapper(),
-            });
-
-            await act(async () => {
-                await result.current.handleSubscribe("PRO", "MONTHLY");
-            });
-
-            expect(result.current.isLoading).toBe(false);
-        });
-
-        it("should reset loading state after billing portal error", async () => {
-            mockPostBillingPortal.mockResolvedValue({
-                data: null,
-                error: {
-                    status: 422,
-                    error: "STRIPE_CUSTOMER_DOES_NOT_EXIST",
-                    title: "Unprocessable Content",
-                },
-            });
-
-            const { result } = renderHook(() => useStripeBilling(), {
-                wrapper: createWrapper(),
-            });
-
-            await act(async () => {
-                await result.current.handleManageSubscription();
-            });
-
-            expect(result.current.isLoading).toBe(false);
-        });
-    });
-
-    describe("Initial state", () => {
-        it("should return isLoading as false initially", () => {
-            const { result } = renderHook(() => useStripeBilling(), {
-                wrapper: createWrapper(),
-            });
-
-            expect(result.current.isLoading).toBe(false);
-            expect(typeof result.current.handleSubscribe).toBe("function");
-            expect(typeof result.current.handleManageSubscription).toBe("function");
         });
     });
 });
