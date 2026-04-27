@@ -801,6 +801,12 @@
     "loadingError": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
     "deleteSuccess": "Suchauftrag wurde gelöscht.",
     "delete": "Suchauftrag löschen",
+    "deleteConfirm": {
+      "title": "Suchauftrag \"{{name}}\" löschen?",
+      "description": "Der Suchauftrag wird dauerhaft entfernt und kann nicht wiederhergestellt werden.",
+      "cancel": "Abbrechen",
+      "confirm": "Endgültig löschen"
+    },
     "query": "Suche",
     "moreFilters": "weitere Filter",
     "showDetails": "Details anzeigen",

@@ -66,7 +66,6 @@ export function SearchFilterResults() {
                         className="w-full sm:w-80"
                     />
                     <Button
-                        o
                         size="sm"
                         className="gap-2 shrink-0"
                         onClick={() => {

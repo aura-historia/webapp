@@ -799,6 +799,12 @@
     "loadingError": "Search filters could not be loaded. Please try again later.",
     "deleteSuccess": "Search filter has been deleted.",
     "delete": "Delete search filter",
+    "deleteConfirm": {
+      "title": "Delete search filter \"{{name}}\"?",
+      "description": "The search filter will be permanently removed and cannot be restored.",
+      "cancel": "Cancel",
+      "confirm": "Delete permanently"
+    },
     "query": "Search",
     "moreFilters": "more filters",
     "showDetails": "Show details",

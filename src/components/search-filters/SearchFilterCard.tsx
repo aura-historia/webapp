@@ -23,6 +23,17 @@ import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators
 import { PROVENANCE_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Provenance.ts";
 import { RESTORATION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Restoration.ts";
 import { useUpdateUserSearchFilter } from "@/hooks/search-filters/useUpdateUserSearchFilter.ts";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog.tsx";
 import { serializeSearchParams } from "@/lib/searchValidation.ts";
 import { useQuery } from "@tanstack/react-query";
 import { getCategoriesOptions, getPeriodsOptions } from "@/client/@tanstack/react-query.gen.ts";
@@ -132,22 +143,43 @@ export function SearchFilterCard({ filter, isDeleting, onDelete, onEdit }: Props
                         </TooltipTrigger>
                         <TooltipContent>{t("searchFilters.edit")}</TooltipContent>
                     </Tooltip>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                className="size-10 text-muted-foreground hover:text-destructive"
-                                aria-label={t("searchFilters.delete")}
-                                disabled={isDeleting}
-                                onClick={() => onDelete(filter.id)}
-                            >
-                                <Trash2 className="size-5" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>{t("searchFilters.delete")}</TooltipContent>
-                    </Tooltip>
+                    <AlertDialog>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <AlertDialogTrigger asChild>
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        className="size-10 text-muted-foreground hover:text-destructive"
+                                        aria-label={t("searchFilters.delete")}
+                                        disabled={isDeleting}
+                                    >
+                                        <Trash2 className="size-5" />
+                                    </Button>
+                                </AlertDialogTrigger>
+                            </TooltipTrigger>
+                            <TooltipContent>{t("searchFilters.delete")}</TooltipContent>
+                        </Tooltip>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                    {t("searchFilters.deleteConfirm.title", { name: filter.name })}
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    {t("searchFilters.deleteConfirm.description")}
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>
+                                    {t("searchFilters.deleteConfirm.cancel")}
+                                </AlertDialogCancel>
+                                <AlertDialogAction onClick={() => onDelete(filter.id)}>
+                                    {t("searchFilters.deleteConfirm.confirm")}
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                 </div>
             </div>
 
