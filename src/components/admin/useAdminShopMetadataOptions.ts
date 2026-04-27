@@ -13,6 +13,7 @@ export type AdminShopSelectOption = {
 export function useAdminShopMetadataOptions() {
     const { i18n } = useTranslation();
     const language = parseLanguage(i18n.language);
+    const displayLanguage = i18n.resolvedLanguage ?? i18n.language;
 
     const { data: categoriesData, isPending: isCategoriesPending } = useQuery(
         getCategoriesOptions({
@@ -28,7 +29,7 @@ export function useAdminShopMetadataOptions() {
     const countryOptions = useMemo<AdminShopSelectOption[]>(() => {
         const displayNames =
             typeof Intl.DisplayNames === "function"
-                ? new Intl.DisplayNames([i18n.resolvedLanguage ?? i18n.language, "en"], {
+                ? new Intl.DisplayNames([displayLanguage, "en"], {
                       type: "region",
                   })
                 : null;
@@ -37,7 +38,7 @@ export function useAdminShopMetadataOptions() {
             value: code,
             label: displayNames?.of(code) ?? code,
         })).sort((a, b) => a.label.localeCompare(b.label));
-    }, [i18n.language, i18n.resolvedLanguage]);
+    }, [displayLanguage]);
     const categoryOptions = useMemo<AdminShopSelectOption[]>(
         () =>
             (categoriesData ?? []).map((category) => ({
