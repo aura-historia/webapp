@@ -795,7 +795,8 @@
   },
   "searchFilters": {
     "title": "Meine Suchaufträge",
-    "totalElements": "{{count}} Suchaufträge",
+    "totalElements_one": "{{count}} Suchauftrag",
+    "totalElements_other": "{{count}} Suchaufträge",
     "loadingError": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
     "deleteSuccess": "Suchauftrag wurde gelöscht.",
     "delete": "Suchauftrag löschen",
@@ -813,6 +814,11 @@
     "noResults": {
       "title": "Keine Suchaufträge",
       "description": "Speichern Sie eine Suche, um sie hier zu finden."
+    },
+    "noMatches": {
+      "title": "Keine Treffer gefunden",
+      "description": "Für diesen Suchauftrag gibt es momentan keine passenden Produkte.",
+      "editHint": "Zurück zu den Suchaufträgen"
     },
     "info": {
       "merchant": "Händler",

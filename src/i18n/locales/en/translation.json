@@ -793,7 +793,8 @@
   },
   "searchFilters": {
     "title": "My Search Filters",
-    "totalElements": "{{count}} search filters",
+    "totalElements_one": "{{count}} search filter",
+    "totalElements_other": "{{count}} search filters",
     "loadingError": "Search filters could not be loaded. Please try again later.",
     "deleteSuccess": "Search filter has been deleted.",
     "delete": "Delete search filter",
@@ -811,6 +812,11 @@
     "noResults": {
       "title": "No search filters",
       "description": "Save a search to find it here."
+    },
+    "noMatches": {
+      "title": "No matches found",
+      "description": "There are currently no products matching this search filter.",
+      "editHint": "Back to search filters"
     },
     "info": {
       "merchant": "Merchant",

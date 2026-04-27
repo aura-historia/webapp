@@ -11,6 +11,8 @@ import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { Link } from "@tanstack/react-router";
 
 type Props = {
     readonly filterId: string;
@@ -60,11 +62,14 @@ export function SearchFilterMatches({ filterId }: Props) {
             <div className="flex flex-col items-center gap-4 py-16">
                 <SearchX className="h-16 w-16 text-muted-foreground" />
                 <div className="text-center space-y-2">
-                    <H3>{t("search.messages.noResults.title")}</H3>
+                    <H3>{t("searchFilters.noMatches.title")}</H3>
                     <p className="text-base text-muted-foreground">
-                        {t("search.messages.noResults.description")}
+                        {t("searchFilters.noMatches.description")}
                     </p>
                 </div>
+                <Button variant="outline" asChild>
+                    <Link to="/me/search-filters">{t("searchFilters.noMatches.editHint")}</Link>
+                </Button>
             </div>
         );
     }
