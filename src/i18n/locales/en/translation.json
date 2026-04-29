@@ -252,17 +252,20 @@
       "all": "All",
       "select": "Select",
       "resetTooltip": {
+        "global": "Reset everything",
+        "category": "Reset category filter",
+        "merchant": "Reset merchant filter",
+        "excludeMerchant": "Reset exclude merchant filter",
+        "merchants": "Reset merchant filters",
+        "shopType": "Reset shop type filter",
         "priceSpan": "Reset price range filter",
         "productState": "Reset status filter",
         "creationDate": "Reset creation date filter",
         "updateDate": "Reset update date filter",
         "auctionDate": "Reset auction date filter",
-        "merchant": "Reset merchant filter",
-        "excludeMerchant": "Reset exclude merchant filter",
-        "merchants": "Reset merchant filters",
-        "shopType": "Reset shop type filter",
         "periodId": "Reset period filter",
-        "qualityIndicators": "Reset quality indicators filter"
+        "qualityIndicators": "Reset quality indicators filter",
+        "partnerStatus": "Reset partner status filter"
       },
       "qualityIndicators": "Quality Indicators",
       "periodId": "Period / Style",
@@ -272,7 +275,8 @@
       "condition": "Condition",
       "provenance": "Provenance",
       "restoration": "Restoration",
-      "selected": "{{count}} selected"
+      "selected": "{{count}} selected",
+      "partnerStatus": "Partner status"
     },
     "messages": {
       "minQueryLength": "Please enter at least 3 characters to start the search.",
@@ -759,11 +763,12 @@
     "BAD_SORT_VALUE": "Invalid sorting.",
     "BAD_ORDER_VALUE": "Invalid sort order.",
     "WATCHLIST_QUOTA_EXCEEDED": "You've reached the maximum number of items on your watchlist. There are already 5/5 watchlist entries occupied.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "You've reached the maximum number of saved search filters. There are already 5/5 search filters occupied.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "You have reached the maximum number of saved searches. A maximum of 5 searches can be saved.",
     "INVALID_EMAIL": "The email address is invalid or not accepted by our newsletter provider.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "You already have an active subscription. Please use the customer portal to manage it.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No existing subscription was found. Please start a new checkout.",
-    "unknown": "An unexpected error occurred."
+    "unknown": "An unexpected error occurred.",
+    "undefined": "An unexpected error occurred."
   },
   "watchlist": {
     "title": "My Watchlist",
