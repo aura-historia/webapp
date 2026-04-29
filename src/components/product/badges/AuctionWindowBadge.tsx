@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge.tsx";
 import { CalendarClock } from "lucide-react";
 import type { AuctionWindow } from "@/data/internal/product/AuctionWindow.ts";
 import { useTranslation } from "react-i18next";
+import { useRouteContext } from "@tanstack/react-router";
 import { cn, formatShortDate } from "@/lib/utils.ts";
 
 interface AuctionWindowBadgeProps {
@@ -11,8 +12,9 @@ interface AuctionWindowBadgeProps {
 
 export function AuctionWindowBadge({ auction, className }: AuctionWindowBadgeProps) {
     const { t, i18n } = useTranslation();
+    const { timeZone } = useRouteContext({ from: "__root__" });
     const { start, end } = auction;
-    const formattedDate = (date: Date) => formatShortDate(date, i18n.language);
+    const formattedDate = (date: Date) => formatShortDate(date, i18n.language, timeZone);
 
     let badgeText: string;
     if (start && end) {

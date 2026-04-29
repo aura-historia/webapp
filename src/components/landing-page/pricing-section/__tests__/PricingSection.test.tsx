@@ -6,16 +6,48 @@ import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 
-const mockUseAuthenticator = vi.hoisted(() =>
-    vi.fn(() => ({
-        user: null as any,
-        toSignUp: vi.fn(),
-    })),
-);
+type MockAuthUser = { userId: string; username: string } | null;
 
-vi.mock("@aws-amplify/ui-react", () => ({
-    useAuthenticator: mockUseAuthenticator,
+const createAuthMockValue = (user: MockAuthUser = null) => ({
+    user,
+    isLoading: false,
+    signOut: vi.fn(),
+});
+
+const mockUseAuth = vi.hoisted(() => vi.fn());
+
+const mockPostBillingManage = vi.hoisted(() => vi.fn());
+const mockNavigate = vi.hoisted(() => vi.fn());
+
+vi.mock("@/hooks/auth/useAuth", () => ({
+    useAuth: mockUseAuth,
 }));
+
+vi.mock("@/client", () => ({
+    postBillingManage: mockPostBillingManage,
+}));
+
+vi.mock("@tanstack/react-router", async (importOriginal) => {
+    const actual = await importOriginal<typeof import("@tanstack/react-router")>();
+    return {
+        ...actual,
+        useNavigate: () => mockNavigate,
+    };
+});
+
+vi.mock("@/hooks/common/useApiError", () => ({
+    useApiError: () => ({
+        getErrorMessage: () => "An error occurred",
+    }),
+}));
+
+vi.mock("@/data/internal/hooks/ApiError", () => ({
+    mapToInternalApiError: (error: unknown) => error,
+}));
+
+beforeEach(() => {
+    mockUseAuth.mockReturnValue(createAuthMockValue());
+});
 
 describe("PricingSection", () => {
     beforeEach(async () => {
@@ -230,9 +262,17 @@ describe("PricingSection", () => {
         for (const tier of PRICING_TIERS.filter(
             (pricingTier) => pricingTier.prices && pricingTier.yearlyPrices,
         )) {
+            const { prices, yearlyPrices } = tier;
+            expect(prices).toBeDefined();
+            expect(yearlyPrices).toBeDefined();
+
+            if (!prices || !yearlyPrices) {
+                continue;
+            }
+
             for (const currency of CURRENCIES) {
-                const monthly = tier.prices![currency];
-                const yearly = tier.yearlyPrices![currency];
+                const monthly = prices[currency];
+                const yearly = yearlyPrices[currency];
                 // Yearly should be 10x monthly (rounded)
                 expect(yearly).toBeCloseTo(monthly * 10, 0);
             }
@@ -242,10 +282,9 @@ describe("PricingSection", () => {
 
 describe("PricingSection with logged-in user", () => {
     beforeEach(async () => {
-        mockUseAuthenticator.mockReturnValue({
-            user: { username: "test-user" },
-            toSignUp: vi.fn(),
-        });
+        mockUseAuth.mockReturnValue(
+            createAuthMockValue({ userId: "test-id", username: "test-user" }),
+        );
 
         await act(async () => {
             renderWithRouter(<PricingSection />);
@@ -257,5 +296,161 @@ describe("PricingSection with logged-in user", () => {
         const button = freeButton.closest("button");
         expect(button).toBeInTheDocument();
         expect(button).toBeDisabled();
+    });
+});
+
+describe("PricingSection billing button behavior", () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+
+        Object.defineProperty(window, "location", {
+            value: { href: "" },
+            writable: true,
+        });
+    });
+
+    it("should navigate to login when anonymous user clicks subscribe", async () => {
+        mockUseAuth.mockReturnValue(createAuthMockValue());
+
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+
+        const user = userEvent.setup();
+        const subscribeButtons = screen.getAllByText("Abonnieren");
+
+        await user.click(subscribeButtons[0]);
+
+        expect(mockNavigate).toHaveBeenCalledWith({
+            to: "/login",
+            search: { redirect: "/me/billing/manage?plan=PRO&cycle=YEARLY" },
+        });
+        expect(mockPostBillingManage).not.toHaveBeenCalled();
+    });
+
+    it("should call billing manage with PRO plan and YEARLY cycle when clicking Pro subscribe", async () => {
+        mockUseAuth.mockReturnValue(
+            createAuthMockValue({ userId: "test-id", username: "test-user" }),
+        );
+
+        mockPostBillingManage.mockResolvedValue({
+            data: { url: "https://checkout.stripe.com/c/pay/cs_test_123" },
+            error: null,
+        });
+
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+
+        const user = userEvent.setup();
+        const subscribeButtons = screen.getAllByText("Abonnieren");
+
+        await user.click(subscribeButtons[0]);
+
+        expect(mockPostBillingManage).toHaveBeenCalledWith({
+            body: { plan: "PRO", cycle: "YEARLY" },
+        });
+    });
+
+    it("should call billing manage with ULTIMATE plan and YEARLY cycle when clicking Ultimate subscribe", async () => {
+        mockUseAuth.mockReturnValue(
+            createAuthMockValue({ userId: "test-id", username: "test-user" }),
+        );
+
+        mockPostBillingManage.mockResolvedValue({
+            data: { url: "https://checkout.stripe.com/c/pay/cs_test_456" },
+            error: null,
+        });
+
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+
+        const user = userEvent.setup();
+        const subscribeButtons = screen.getAllByText("Abonnieren");
+
+        await user.click(subscribeButtons[1]);
+
+        expect(mockPostBillingManage).toHaveBeenCalledWith({
+            body: { plan: "ULTIMATE", cycle: "YEARLY" },
+        });
+    });
+
+    it("should call billing manage with MONTHLY cycle after switching to monthly billing", async () => {
+        mockUseAuth.mockReturnValue(
+            createAuthMockValue({ userId: "test-id", username: "test-user" }),
+        );
+
+        mockPostBillingManage.mockResolvedValue({
+            data: { url: "https://checkout.stripe.com/c/pay/cs_test_monthly" },
+            error: null,
+        });
+
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+
+        const user = userEvent.setup();
+        const toggle = screen.getByRole("switch");
+
+        await user.click(toggle);
+
+        const subscribeButtons = screen.getAllByText("Abonnieren");
+        await user.click(subscribeButtons[0]);
+
+        expect(mockPostBillingManage).toHaveBeenCalledWith({
+            body: { plan: "PRO", cycle: "MONTHLY" },
+        });
+    });
+
+    it("should redirect to checkout URL on successful billing manage request", async () => {
+        mockUseAuth.mockReturnValue(
+            createAuthMockValue({ userId: "test-id", username: "test-user" }),
+        );
+
+        mockPostBillingManage.mockResolvedValue({
+            data: { url: "https://checkout.stripe.com/c/pay/cs_test_redirect" },
+            error: null,
+        });
+
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+
+        const user = userEvent.setup();
+        const subscribeButtons = screen.getAllByText("Abonnieren");
+
+        await user.click(subscribeButtons[0]);
+
+        expect(mockNavigate).toHaveBeenCalledWith({
+            href: "https://checkout.stripe.com/c/pay/cs_test_redirect",
+        });
+    });
+
+    it("should redirect to portal URL when billing manage returns portal session", async () => {
+        mockUseAuth.mockReturnValue(
+            createAuthMockValue({ userId: "test-id", username: "test-user" }),
+        );
+
+        mockPostBillingManage.mockResolvedValue({
+            data: { url: "https://billing.stripe.com/p/session/test_portal" },
+            error: null,
+        });
+
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+
+        const user = userEvent.setup();
+        const subscribeButtons = screen.getAllByText("Abonnieren");
+
+        await user.click(subscribeButtons[0]);
+
+        expect(mockPostBillingManage).toHaveBeenCalledWith({
+            body: { plan: "PRO", cycle: "YEARLY" },
+        });
+        expect(mockNavigate).toHaveBeenCalledWith({
+            href: "https://billing.stripe.com/p/session/test_portal",
+        });
     });
 });

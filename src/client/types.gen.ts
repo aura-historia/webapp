@@ -58,6 +58,18 @@ export type GetProductData = {
      *
      */
     category?: LocalizedTextData | null;
+    /**
+     * Optional kebab-case identifier for the level-one period the product has been classified into.
+     * Periods are automatically classified by the system. Examples: "renaissance", "baroque", "art-deco"
+     *
+     */
+    periodId?: string | null;
+    /**
+     * Optional localized display name for the product's level-one period.
+     * Language matches the product's primary content language. Examples: "Barock" (de), "Renaissance" (en)
+     *
+     */
+    period?: LocalizedTextData | null;
     title: LocalizedTextData;
     /**
      * Optional product description
@@ -150,18 +162,6 @@ export type GetProductSummaryData = {
      */
     sellerName: string;
     shopType: ShopTypeData;
-    /**
-     * Optional kebab-case identifier for the level-one category the product has been classified into.
-     * Categories are automatically classified by the system. Examples: "musical-instruments", "antique-furniture", "antique-clocks"
-     *
-     */
-    categoryId?: string | null;
-    /**
-     * Optional localized display name for the product's level-one category.
-     * Language matches the product's primary content language. Examples: "Musikinstrumente" (de), "Antique Musical Instruments" (en)
-     *
-     */
-    category?: LocalizedTextData | null;
     title: LocalizedTextData;
     /**
      * Optional product price
@@ -383,8 +383,6 @@ export type PriceData = {
 export type ProductCreatedEventPayloadData = {
     state: ProductStateData;
     price?: PriceData;
-    priceEstimateMin?: PriceData;
-    priceEstimateMax?: PriceData;
 };
 
 /**
@@ -517,6 +515,10 @@ export type GetProductEventData = {
      * Unique identifier of the shop
      */
     shopId: string;
+    /**
+     * Unique identifier of the seller associated with the product event
+     */
+    sellerId: string;
     /**
      * Shop's unique identifier for the product. Can be any arbitrary string.
      */

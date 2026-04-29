@@ -77,6 +77,20 @@
       "minLength": "Veuillez saisir au moins {{min}} caractères",
       "maxLength": "Veuillez saisir au maximum {{max}} caractères",
       "invalidChars": "Seules les lettres, espaces, tirets et apostrophes sont autorisés"
+    },
+    "email": {
+      "invalid": "Veuillez saisir une adresse e-mail valide"
+    },
+    "password": {
+      "required": "Le mot de passe est requis",
+      "minLength": "Le mot de passe doit comporter au moins {{min}} caractères",
+      "uppercase": "Le mot de passe doit contenir au moins une lettre majuscule",
+      "number": "Le mot de passe doit contenir au moins un chiffre",
+      "mismatch": "Les mots de passe ne correspondent pas"
+    },
+    "confirmCode": {
+      "length": "Le code doit comporter exactement 6 chiffres",
+      "digitsOnly": "Le code ne doit contenir que des chiffres"
     }
   },
   "imprint": {
@@ -111,11 +125,22 @@
       "contact": "Contact",
       "categories": "Catégories",
       "periodsAndStyles": "Périodes et Styles",
-      "collections": "Collections populaires"
+      "collections": "Collections populaires",
+      "discoverMore": "Explorer plus"
     },
     "allCategories": "Toutes les Catégories",
     "allPeriods": "Toutes les Époques et Styles",
-    "allCollections": "Toutes les Collections"
+    "allCollections": "Toutes les Collections",
+    "landingPageLinks": {
+      "recentlyAdded": "Derniers ajouts",
+      "discover": "Transparence",
+      "features": "Fonctionnalités",
+      "howItWorks": "Comment ça marche",
+      "testimonials": "Témoignages",
+      "pricing": "Tarifs",
+      "newsletter": "Newsletter",
+      "faq": "FAQ"
+    }
   },
   "account": {
     "title": "Mon compte",
@@ -132,10 +157,17 @@
       "title": "Supprimer le compte",
       "deleteButton": "Supprimer le compte",
       "warningText": "Êtes-vous sûr de vouloir supprimer votre compte ?",
+      "warningTitle": "Voulez-vous supprimer définitivement votre compte ?",
+      "warningSubtitle": "Cette action est irréversible. Votre compte ne pourra pas être restauré et toutes les données enregistrées seront définitivement perdues.",
       "cancelButton": "Annuler",
       "confirmButton": "Oui, supprimer le compte",
       "successMessage": "Compte supprimé avec succès !",
       "errorMessage": "Erreur lors de la suppression du compte."
+    },
+    "subscription": {
+      "title": "Abonnement",
+      "currentPlanLabel": "Plan actuel",
+      "manageButton": "Gerer l'abonnement"
     },
     "personalData": {
       "title": "Données personnelles",
@@ -731,7 +763,9 @@
     "unknown": "Une erreur inattendue s'est produite.",
     "WATCHLIST_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum d'articles dans votre liste de suivi. Il y a déjà 5/5 entrées de liste de suivi occupées.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum de filtres de recherche enregistrés. Il y a déjà 5/5 filtres de recherche occupés.",
-    "INVALID_EMAIL": "L'adresse e-mail est invalide ou n'est pas acceptée par notre fournisseur de newsletter."
+    "INVALID_EMAIL": "L'adresse e-mail est invalide ou n'est pas acceptée par notre fournisseur de newsletter.",
+    "STRIPE_CUSTOMER_ALREADY_EXISTS": "Vous avez déjà un abonnement actif. Veuillez utiliser le portail client pour le gérer.",
+    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Aucun abonnement existant n'a été trouvé. Veuillez démarrer un nouveau processus de paiement."
   },
   "watchlist": {
     "title": "Mes favoris",
@@ -877,23 +911,36 @@
     "signUp": {
       "firstName": "Prénom",
       "firstNamePlaceholder": "Jean",
-      "lastName": "Nom",
+      "lastName": "Nom de famille",
       "lastNamePlaceholder": "Dupont",
-      "email": "E-mail*",
+      "email": "E-mail",
       "emailPlaceholder": "votre.email@exemple.fr",
       "password": "Mot de passe*",
       "confirmPassword": "Confirmer le mot de passe*",
       "language": "Langue",
       "currency": "Devise",
       "pleaseSelect": "Veuillez sélectionner",
-      "prohibitedContentConsentLabel": "Afficher les produits avec des marquages § 86a StGB",
-      "prohibitedContentConsentTooltip": "Les images des produits peuvent contenir des symboles d'organisations anticonstitutionnelles ou terroristes, en particulier ceux de l'époque nationale-socialiste, tels que définis par le § 86a StGB. En acceptant, vous consentez à ce que nous vous affichions ce contenu."
+      "prohibitedContentConsentLabel": "Afficher les produits avec des marquages §86a StGB",
+      "prohibitedContentConsentTooltip": "Les images des produits peuvent contenir des symboles d'organisations anticonstitutionnelles ou terroristes, en particulier ceux de l'époque nationale-socialiste, tels que définis par le §86a StGB. En acceptant, vous consentez à ce que nous vous affichions ce contenu.",
+      "title": "Créer un compte",
+      "subtitle": "Rejoignez Aura Historia pour suivre les antiquités",
+      "passwordPlaceholder": "Créer un mot de passe",
+      "confirmPasswordPlaceholder": "Répétez votre mot de passe",
+      "submit": "Créer un compte",
+      "haveAccount": "Vous avez déjà un compte ?",
+      "signInLink": "Se connecter"
     },
     "signIn": {
       "email": "E-mail",
-      "emailPlaceholder": "Entrez votre e-mail",
+      "emailPlaceholder": "votre.email@exemple.com",
       "password": "Mot de passe",
-      "passwordPlaceholder": "Entrez votre mot de passe"
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "title": "Bon retour",
+      "subtitle": "Connectez-vous à votre compte pour continuer",
+      "submit": "Se connecter",
+      "noAccount": "Pas encore de compte ?",
+      "signUpLink": "Créer un compte",
+      "forgotPassword": "Mot de passe oublié ?"
     },
     "languages": {
       "de": "Allemand",
@@ -908,7 +955,66 @@
       "USD": "USD - Dollar américain",
       "AUD": "AUD - Dollar australien",
       "CAD": "CAD - Dollar canadien",
-      "NZD": "NZD - Dollar néo-zélandais"
+      "NZD": "NZD - Dollar néo-zélandais",
+      "CNY": "CNY - Yuan chinois",
+      "BRL": "BRL - Réal brésilien",
+      "PLN": "PLN - Zloty polonais",
+      "TRY": "TRY - Livre turque",
+      "JPY": "JPY - Yen japonais",
+      "CZK": "CZK - Couronne tchèque",
+      "RUB": "RUB - Rouble russe",
+      "AED": "AED - Dirham des EAU",
+      "SAR": "SAR - Riyal saoudien",
+      "HKD": "HKD - Dollar de Hong Kong",
+      "SGD": "SGD - Dollar de Singapour",
+      "CHF": "CHF - Franc suisse"
+    },
+    "confirm": {
+      "title": "Vérifiez votre e-mail",
+      "subtitle": "Nous avons envoyé un code à 6 chiffres à {{email}}",
+      "codeLabel": "Code de vérification",
+      "codePlaceholder": "000000",
+      "submit": "Vérifier l'e-mail",
+      "noCode": "Vous n'avez pas reçu de code ?",
+      "resend": "Renvoyer le code",
+      "resendSending": "Envoi en cours…",
+      "resendSent": "Code envoyé !"
+    },
+    "userDetails": {
+      "title": "Complétez votre profil",
+      "subtitle": "Ces informations sont facultatives — vous pouvez les mettre à jour à tout moment",
+      "submit": "Enregistrer et continuer",
+      "skip": "Ignorer pour l'instant"
+    },
+    "errors": {
+      "UsernameExistsException": "Un compte avec cette adresse e-mail existe déjà.",
+      "NotAuthorizedException": "Nom d'utilisateur ou mot de passe incorrect.",
+      "UserNotFoundException": "L'utilisateur n'existe pas.",
+      "CodeMismatchException": "Code de vérification non valide, veuillez réessayer.",
+      "LimitExceededException": "Limite de tentatives dépassée, veuillez réessayer plus tard.",
+      "TooManyRequestsException": "Trop de requêtes, veuillez réessayer plus tard.",
+      "InvalidPasswordException": "Le mot de passe n'est pas conforme. Il doit contenir au moins 8 caractères, un chiffre, une lettre minuscule et une lettre majuscule.",
+      "ExpiredCodeException": "Code non valide, veuillez en demander un nouveau.",
+      "UserNotConfirmedException": "L'utilisateur n'est pas confirmé.",
+      "InvalidParameterException": "Paramètre non valide fourni.",
+      "EmptySignInUsername": "Veuillez entrer votre e-mail.",
+      "EmptySignInPassword": "Veuillez entrer votre mot de passe."
+    },
+    "resetPassword": {
+      "title": "Réinitialiser le mot de passe",
+      "subtitle": "Entrez votre adresse e-mail pour recevoir un code de réinitialisation",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "votre.email@exemple.fr",
+      "submit": "Envoyer le code",
+      "backToSignIn": "Retour à la connexion",
+      "confirmTitle": "Entrez le code de réinitialisation",
+      "confirmSubtitle": "Entrez le code envoyé à votre adresse e-mail et votre nouveau mot de passe",
+      "codeLabel": "Code de réinitialisation",
+      "codePlaceholder": "123456",
+      "newPasswordLabel": "Nouveau mot de passe",
+      "newPasswordPlaceholder": "Entrez un nouveau mot de passe",
+      "confirmSubmit": "Réinitialiser le mot de passe",
+      "newPasswordConfirmLabel": "Confirmer le nouveau mot de passe"
     }
   },
   "amplify": {

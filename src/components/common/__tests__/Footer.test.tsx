@@ -1,17 +1,18 @@
 import { renderWithRouter } from "@/test/utils.tsx";
-import { screen, waitFor } from "@testing-library/react";
+import { cleanup, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Footer } from "../Footer.tsx";
 import { t } from "i18next";
 import userEvent from "@testing-library/user-event";
 import { act } from "react";
+import { useLocation } from "@tanstack/react-router";
 
 const { changeLanguageMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
 }));
 
-vi.mock("@aws-amplify/ui-react", () => ({
-    useAuthenticator: vi.fn(() => ({ user: null })),
+vi.mock("@/hooks/auth/useAuth", () => ({
+    useAuth: vi.fn(() => ({ user: null, isLoading: false, signOut: vi.fn() })),
 }));
 
 vi.mock("@/hooks/account/usePatchUserAccount.ts", () => ({
@@ -140,10 +141,53 @@ describe("Footer Component", () => {
 
     it("should render footer section headings", () => {
         expect(screen.getByText("Unternehmen")).toBeInTheDocument();
+        expect(screen.getByText("Mehr entdecken")).toBeInTheDocument();
         expect(screen.getByText("Folge uns")).toBeInTheDocument();
         expect(screen.getByText("Kontakt")).toBeInTheDocument();
         expect(screen.getByText("Kategorien")).toBeInTheDocument();
         expect(screen.getByText("Epochen & Stile")).toBeInTheDocument();
+    });
+
+    it("should render landing page fragment links", () => {
+        expect(screen.getByText("Neueste Zugänge").closest("a")).toHaveAttribute(
+            "href",
+            "/#recently-added",
+        );
+        expect(screen.getByText("Transparenz").closest("a")).toHaveAttribute("href", "/#discover");
+        expect(screen.getByText("Funktionen").closest("a")).toHaveAttribute("href", "/#features");
+        expect(screen.getByText("So funktioniert's").closest("a")).toHaveAttribute(
+            "href",
+            "/#how-it-works",
+        );
+        expect(screen.getByText("Nutzerstimmen").closest("a")).toHaveAttribute(
+            "href",
+            "/#testimonials",
+        );
+        expect(screen.getByText("Preise").closest("a")).toHaveAttribute("href", "/#pricing");
+        expect(screen.getByText("Newsletter").closest("a")).toHaveAttribute("href", "/#newsletter");
+        expect(screen.getByText("FAQ").closest("a")).toHaveAttribute("href", "/#faq");
+    });
+
+    it("should navigate to the landing page fragment from another route", async () => {
+        cleanup();
+        const user = userEvent.setup();
+
+        await act(async () => {
+            renderWithRouter(
+                <>
+                    <Footer />
+                    <LocationProbe />
+                </>,
+                { initialEntries: ["/test"] },
+            );
+        });
+
+        await user.click(screen.getByText("Preise"));
+
+        await waitFor(() => {
+            expect(screen.getByTestId("location-probe")).toHaveTextContent("/");
+            expect(screen.getByTestId("location-probe")).toHaveTextContent("pricing");
+        });
     });
 
     it("should render contact email", () => {
@@ -223,3 +267,16 @@ describe("Footer Component", () => {
         });
     });
 });
+
+function LocationProbe() {
+    const location = useLocation();
+
+    return (
+        <div data-testid="location-probe">
+            {JSON.stringify({
+                pathname: location.pathname,
+                hash: location.hash,
+            })}
+        </div>
+    );
+}
