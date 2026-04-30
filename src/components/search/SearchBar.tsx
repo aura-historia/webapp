@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useLocation, useNavigate, useRouterState, useSearch } from "@tanstack/react-router";
 import { Search, Loader2 } from "lucide-react";
-import { cn, mapFiltersToUrlParams } from "@/lib/utils.ts";
+import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { z } from "zod";
@@ -158,16 +158,72 @@ export function SearchBar({ type }: SearchBarProps) {
         });
     }
 
+    const isBig = type === "big";
+
+    const selectElement = (
+        <Select
+            value={searchType}
+            onValueChange={(value) => setSearchType(value as SearchType)}
+            disabled={!isSearchEnabled}
+        >
+            <SelectTrigger
+                aria-label={t("search.bar.searchTypeLabel")}
+                data-testid="search-type-select"
+                className={
+                    isBig
+                        ? "shrink-0 h-12 w-28 sm:w-36 border-0 rounded-none text-base font-medium focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
+                        : "shrink-0 h-9 w-24 sm:w-32 text-sm rounded-sm focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                }
+            >
+                <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectGroup>
+                    <SelectItem value="products">{t("search.bar.searchType.products")}</SelectItem>
+                    <SelectItem value="shops">{t("search.bar.searchType.shops")}</SelectItem>
+                </SelectGroup>
+            </SelectContent>
+        </Select>
+    );
+
+    const inputField = (
+        <FormField
+            control={form.control}
+            name="query"
+            render={({ field }) => (
+                <FormItem className="grow">
+                    <FormLabel className="sr-only">{t("search.bar.label")}</FormLabel>
+                    <FormControl>
+                        <Input
+                            autoFocus={isBig}
+                            className={
+                                isBig
+                                    ? "h-12 font-medium text-lg border-0 rounded-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
+                                    : "h-9 rounded-sm focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                            }
+                            type="search"
+                            placeholder={isBig ? animatedText : t("search.bar.placeholderShort")}
+                            aria-label={t("search.bar.label")}
+                            disabled={!isSearchEnabled}
+                            {...field}
+                            inputMode="search"
+                            enterKeyHint="search"
+                        />
+                    </FormControl>
+                    {isBig && <FormMessage />}
+                </FormItem>
+            )}
+        />
+    );
+
     return (
         <Form {...form}>
             <form
                 className={
-                    type === "big"
-                        ? "flex items-center w-full gap-4"
-                        : "flex items-start gap-2 w-full"
+                    isBig ? "flex items-center w-full gap-2" : "flex items-start gap-2 w-full"
                 }
                 onSubmit={form.handleSubmit(onSubmit, () => {
-                    if (type === "small") {
+                    if (!isBig) {
                         toast.warning(t("search.validation.queryMinLength"), {
                             position: "top-center",
                             duration: 2000,
@@ -175,73 +231,26 @@ export function SearchBar({ type }: SearchBarProps) {
                     }
                 })}
             >
-                <Select
-                    value={searchType}
-                    onValueChange={(value) => setSearchType(value as SearchType)}
-                    disabled={!isSearchEnabled}
-                >
-                    <SelectTrigger
-                        aria-label={t("search.bar.searchTypeLabel")}
-                        data-testid="search-type-select"
-                        className={cn(
-                            "shrink-0 rounded-sm focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
-                            type === "big"
-                                ? "h-12 w-32 border-0 text-base font-medium sm:w-40"
-                                : "h-9 w-24 sm:w-32 text-sm",
-                        )}
-                    >
-                        <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectItem value="products">
-                                {t("search.bar.searchType.products")}
-                            </SelectItem>
-                            <SelectItem value="shops">
-                                {t("search.bar.searchType.shops")}
-                            </SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
-                <FormField
-                    control={form.control}
-                    name="query"
-                    render={({ field }) => (
-                        <FormItem className="grow">
-                            <FormLabel className="sr-only">{t("search.bar.label")}</FormLabel>
-                            <FormControl>
-                                <Input
-                                    autoFocus={type === "big"}
-                                    className={cn(
-                                        "rounded-sm focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
-                                        type === "big"
-                                            ? "h-12 font-medium text-lg border-0"
-                                            : "h-9 ",
-                                    )}
-                                    type="search"
-                                    placeholder={
-                                        type === "big"
-                                            ? animatedText
-                                            : t("search.bar.placeholderShort")
-                                    }
-                                    aria-label={t("search.bar.label")}
-                                    disabled={!isSearchEnabled}
-                                    {...field}
-                                    inputMode="search"
-                                    enterKeyHint="search"
-                                />
-                            </FormControl>
-                            {type === "big" && <FormMessage />}
-                        </FormItem>
-                    )}
-                />
+                {isBig ? (
+                    /* Unified bar: [Select | divider | Input] */
+                    <div className="flex items-center grow border border-input rounded-sm bg-background overflow-hidden">
+                        {selectElement}
+                        <div className="w-px h-6 shrink-0 bg-border" aria-hidden="true" />
+                        {inputField}
+                    </div>
+                ) : (
+                    <>
+                        {selectElement}
+                        {inputField}
+                    </>
+                )}
 
                 <Button
                     type="submit"
-                    className={type === "big" ? "mt-0 h-12" : "h-9"}
+                    className={isBig ? "mt-0 h-12" : "h-9"}
                     disabled={!isSearchEnabled || showLoading}
                 >
-                    <span className={type === "big" ? "hidden sm:inline text-lg" : "hidden"}>
+                    <span className={isBig ? "hidden sm:inline text-lg" : "hidden"}>
                         {t("search.bar.button")}
                     </span>
                     {showLoading ? <Loader2 className="animate-spin" /> : <Search />}
