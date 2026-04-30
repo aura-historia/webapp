@@ -27,8 +27,10 @@ import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { inferCurrencyFromLocale } from "@/data/internal/common/Currency.ts";
 import { LANDING_PAGE_FRAGMENTS } from "@/components/landing-page/LandingPage.fragments.ts";
+import { getServerUser } from "@/lib/server/amplify.ts";
 
 export const Route = createFileRoute("/")({
+    beforeLoad: async () => ({ serverAuth: await getServerUser() }),
     loader: async ({ context: { queryClient, initialPreferences } }) => {
         const currency = initialPreferences.currency ?? inferCurrencyFromLocale(i18n.language);
         await Promise.all([
