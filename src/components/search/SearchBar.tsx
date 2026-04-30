@@ -163,7 +163,7 @@ export function SearchBar({ type }: SearchBarProps) {
             <form
                 className={
                     type === "big"
-                        ? "flex items-center w-full gap-4"
+                        ? "flex items-start w-full gap-4"
                         : "flex items-start gap-2 w-full"
                 }
                 onSubmit={form.handleSubmit(onSubmit, () => {
@@ -179,7 +179,7 @@ export function SearchBar({ type }: SearchBarProps) {
                     control={form.control}
                     name="query"
                     render={({ field }) => (
-                        <FormItem className="grow flex">
+                        <FormItem className={cn("grow flex", type === "big" ? "flex-col" : "")}>
                             <FormLabel className="sr-only">{t("search.bar.label")}</FormLabel>
                             <div
                                 className={cn(
