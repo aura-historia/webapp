@@ -3,8 +3,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { Info } from "lucide-react";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip.tsx";
 import {
     Dialog,
     DialogContent,
@@ -25,6 +32,7 @@ import { Textarea } from "@/components/ui/textarea.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { useCreateUserSearchFilter } from "@/hooks/search-filters/useCreateUserSearchFilter.ts";
+import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 
 const createSchema = (t: (key: string) => string) =>
@@ -47,6 +55,8 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const { mutate: createFilter, isPending } = useCreateUserSearchFilter();
+    const { data: account } = useUserAccount();
+    const aiDescriptionDisabled = account?.subscriptionType !== "ultimate";
 
     const schema = useMemo(() => createSchema(t), [t]);
 
@@ -112,9 +122,23 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                             name="enhancedSearchDescription"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>
-                                        {t("searchFilter.saveDialog.aiDescriptionLabel")}
-                                    </FormLabel>
+                                    <div className="flex items-center gap-1.5">
+                                        <FormLabel>
+                                            {t("searchFilter.saveDialog.aiDescriptionLabel")}
+                                        </FormLabel>
+                                        {aiDescriptionDisabled && (
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <Info className="size-3.5 text-muted-foreground cursor-pointer shrink-0" />
+                                                    </TooltipTrigger>
+                                                    <TooltipContent>
+                                                        {t("searchFilter.saveDialog.ultimateOnly")}
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+                                        )}
+                                    </div>
                                     <FormControl>
                                         <Textarea
                                             {...field}
@@ -122,6 +146,7 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                                                 "searchFilter.saveDialog.aiDescriptionPlaceholder",
                                             )}
                                             className="min-h-28 bg-transparent"
+                                            disabled={aiDescriptionDisabled}
                                         />
                                     </FormControl>
                                     <FormMessage />
