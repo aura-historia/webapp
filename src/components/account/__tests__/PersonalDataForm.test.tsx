@@ -40,6 +40,7 @@ describe("PersonalDataForm", () => {
         language: "en",
         currency: "EUR",
         prohibitedContentConsent: false,
+        subscriptionType: "free",
         created: new Date("2024-01-01T00:00:00Z"),
         updated: new Date("2024-01-01T00:00:00Z"),
     };
@@ -69,6 +70,9 @@ describe("PersonalDataForm", () => {
     it("should render form with pre-filled user data", () => {
         renderWithQueryClient(<PersonalDataForm />);
 
+        const emailInput = screen.getByLabelText("E-Mail");
+        expect(emailInput).toHaveValue("test@example.com");
+        expect(emailInput).toHaveAttribute("readonly");
         expect(screen.getByDisplayValue("John")).toBeInTheDocument();
         expect(screen.getByDisplayValue("Doe")).toBeInTheDocument();
     });

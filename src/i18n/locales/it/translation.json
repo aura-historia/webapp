@@ -73,6 +73,20 @@
       "minLength": "Inserisci almeno {{min}} caratteri",
       "maxLength": "Inserisci al massimo {{max}} caratteri",
       "invalidChars": "Sono consentiti solo lettere, spazi, trattini e apostrofi"
+    },
+    "email": {
+      "invalid": "Inserisci un indirizzo e-mail valido"
+    },
+    "password": {
+      "required": "La password è obbligatoria",
+      "minLength": "La password deve contenere almeno {{min}} caratteri",
+      "uppercase": "La password deve contenere almeno una lettera maiuscola",
+      "number": "La password deve contenere almeno un numero",
+      "mismatch": "Le password non coincidono"
+    },
+    "confirmCode": {
+      "length": "Il codice deve avere esattamente 6 cifre",
+      "digitsOnly": "Il codice deve contenere solo cifre"
     }
   },
   "imprint": {
@@ -153,10 +167,17 @@
       "title": "Elimina account",
       "deleteButton": "Elimina account",
       "warningText": "Sei sicuro di voler eliminare il tuo account?",
+      "warningTitle": "Vuoi eliminare definitivamente il tuo account?",
+      "warningSubtitle": "Questa azione non può essere annullata. Il tuo account non potrà essere ripristinato e tutti i dati salvati andranno persi definitivamente.",
       "cancelButton": "Annulla",
       "confirmButton": "Sì, elimina account",
       "successMessage": "Account eliminato con successo!",
       "errorMessage": "Errore nell'eliminazione dell'account."
+    },
+    "subscription": {
+      "title": "Abbonamento",
+      "currentPlanLabel": "Piano attuale",
+      "manageButton": "Gestisci abbonamento"
     }
   },
   "search": {
@@ -727,6 +748,8 @@
     "WATCHLIST_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di articoli nella tua lista dei preferiti. Ci sono già 5/5 voci occupate.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di filtri di ricerca salvati. Ci sono già 5/5 filtri di ricerca occupati.",
     "INVALID_EMAIL": "L'indirizzo email non è valido o non è accettato dal nostro fornitore di newsletter.",
+    "STRIPE_CUSTOMER_ALREADY_EXISTS": "Hai già un abbonamento attivo. Utilizza il portale clienti per gestirlo.",
+    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Non è stato trovato alcun abbonamento esistente. Avvia un nuovo processo di pagamento.",
     "unknown": "Si è verificato un errore imprevisto."
   },
   "watchlist": {
@@ -875,21 +898,34 @@
       "firstNamePlaceholder": "Mario",
       "lastName": "Cognome",
       "lastNamePlaceholder": "Rossi",
-      "email": "Email*",
-      "emailPlaceholder": "tua.email@esempio.com",
+      "email": "Email",
+      "emailPlaceholder": "la.tua.email@esempio.it",
       "password": "Password*",
       "confirmPassword": "Conferma password*",
       "language": "Lingua",
       "currency": "Valuta",
       "pleaseSelect": "Seleziona",
-      "prohibitedContentConsentLabel": "Mostra prodotti con simboli ai sensi del § 86a StGB",
-      "prohibitedContentConsentTooltip": "Le immagini dei prodotti possono contenere simboli di organizzazioni incostituzionali o terroristiche, in particolare quelli dell'era nazionalsocialista, come definito dal § 86a StGB. Accettando, acconsenti alla visualizzazione di tali contenuti."
+      "prohibitedContentConsentLabel": "Mostra prodotti con simboli ai sensi del §86a StGB",
+      "prohibitedContentConsentTooltip": "Le immagini dei prodotti potrebbero contenere simboli di organizzazioni incostituzionali o terroristiche, in particolare del periodo nazionalsocialista, come definito dal §86a StGB. Accettando, acconsenti alla visualizzazione di tali contenuti.",
+      "title": "Crea un account",
+      "subtitle": "Unisciti ad Aura Historia per tracciare le antichità",
+      "passwordPlaceholder": "Crea una password",
+      "confirmPasswordPlaceholder": "Ripeti la tua password",
+      "submit": "Crea account",
+      "haveAccount": "Hai già un account?",
+      "signInLink": "Accedi"
     },
     "signIn": {
-      "email": "Email",
-      "emailPlaceholder": "Inserisci la tua email",
+      "email": "E-mail",
+      "emailPlaceholder": "tuo.email@esempio.com",
       "password": "Password",
-      "passwordPlaceholder": "Inserisci la tua password"
+      "passwordPlaceholder": "Inserisci la tua password",
+      "title": "Bentornato",
+      "subtitle": "Accedi al tuo account per continuare",
+      "submit": "Accedi",
+      "noAccount": "Non hai un account?",
+      "signUpLink": "Creane uno",
+      "forgotPassword": "Hai dimenticato la password?"
     },
     "languages": {
       "de": "Tedesco",
@@ -904,7 +940,66 @@
       "USD": "USD - Dollaro americano",
       "AUD": "AUD - Dollaro australiano",
       "CAD": "CAD - Dollaro canadese",
-      "NZD": "NZD - Dollaro neozelandese"
+      "NZD": "NZD - Dollaro neozelandese",
+      "CNY": "CNY - Yuan cinese",
+      "BRL": "BRL - Real brasiliano",
+      "PLN": "PLN - Zloty polacco",
+      "TRY": "TRY - Lira turca",
+      "JPY": "JPY - Yen giapponese",
+      "CZK": "CZK - Corona ceca",
+      "RUB": "RUB - Rublo russo",
+      "AED": "AED - Dirham degli EAU",
+      "SAR": "SAR - Riyal saudita",
+      "HKD": "HKD - Dollaro di Hong Kong",
+      "SGD": "SGD - Dollaro di Singapore",
+      "CHF": "CHF - Franco svizzero"
+    },
+    "confirm": {
+      "title": "Controlla la tua e-mail",
+      "subtitle": "Abbiamo inviato un codice a 6 cifre a {{email}}",
+      "codeLabel": "Codice di verifica",
+      "codePlaceholder": "000000",
+      "submit": "Verifica e-mail",
+      "noCode": "Non hai ricevuto il codice?",
+      "resend": "Invia di nuovo il codice",
+      "resendSending": "Invio in corso…",
+      "resendSent": "Codice inviato!"
+    },
+    "userDetails": {
+      "title": "Completa il tuo profilo",
+      "subtitle": "Questi dati sono facoltativi — puoi aggiornarli in qualsiasi momento",
+      "submit": "Salva e continua",
+      "skip": "Salta per ora"
+    },
+    "errors": {
+      "UsernameExistsException": "Un account con questo indirizzo e-mail esiste già.",
+      "NotAuthorizedException": "Nome utente o password errati.",
+      "UserNotFoundException": "L'utente non esiste.",
+      "CodeMismatchException": "Codice di verifica non valido, riprova.",
+      "LimitExceededException": "Limite di tentativi superato, riprova più tardi.",
+      "TooManyRequestsException": "Troppe richieste, riprova più tardi.",
+      "InvalidPasswordException": "La password non è conforme ai requisiti. Deve contenere almeno 8 caratteri, un numero, una lettera minuscola e una lettera maiuscola.",
+      "ExpiredCodeException": "Codice non valido, richiedi un nuovo codice.",
+      "UserNotConfirmedException": "L'utente non è confermato.",
+      "InvalidParameterException": "Parametro non valido fornito.",
+      "EmptySignInUsername": "Inserisci la tua e-mail.",
+      "EmptySignInPassword": "Inserisci la tua password."
+    },
+    "resetPassword": {
+      "title": "Reimposta la password",
+      "subtitle": "Inserisci la tua email per ricevere un codice di reimpostazione",
+      "emailLabel": "Email",
+      "emailPlaceholder": "tua.email@esempio.it",
+      "submit": "Invia codice",
+      "backToSignIn": "Torna all'accesso",
+      "confirmTitle": "Inserisci il codice di reimpostazione",
+      "confirmSubtitle": "Inserisci il codice inviato alla tua email e la tua nuova password",
+      "codeLabel": "Codice di reimpostazione",
+      "codePlaceholder": "123456",
+      "newPasswordLabel": "Nuova password",
+      "newPasswordPlaceholder": "Inserisci una nuova password",
+      "confirmSubmit": "Reimposta la password",
+      "newPasswordConfirmLabel": "Conferma nuova password"
     }
   },
   "amplify": {

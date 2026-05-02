@@ -73,6 +73,20 @@
       "minLength": "Por favor, introduzca al menos {{min}} caracteres",
       "maxLength": "Por favor, introduzca un máximo de {{max}} caracteres",
       "invalidChars": "Solo se permiten letras, espacios, guiones y apóstrofes"
+    },
+    "email": {
+      "invalid": "Por favor introduce una dirección de correo válida"
+    },
+    "password": {
+      "required": "La contraseña es obligatoria",
+      "minLength": "La contraseña debe tener al menos {{min}} caracteres",
+      "uppercase": "La contraseña debe contener al menos una letra mayúscula",
+      "number": "La contraseña debe contener al menos un número",
+      "mismatch": "Las contraseñas no coinciden"
+    },
+    "confirmCode": {
+      "length": "El código debe tener exactamente 6 dígitos",
+      "digitsOnly": "El código solo debe contener dígitos"
     }
   },
   "imprint": {
@@ -139,6 +153,8 @@
       "title": "Eliminar cuenta",
       "deleteButton": "Eliminar cuenta",
       "warningText": "¿Está seguro de que desea eliminar su cuenta?",
+      "warningTitle": "¿Desea eliminar su cuenta de forma permanente?",
+      "warningSubtitle": "Esta acción no se puede deshacer. Su cuenta no se podrá restaurar y todos los datos guardados se perderán de forma permanente.",
       "cancelButton": "Cancelar",
       "confirmButton": "Sí, eliminar cuenta",
       "successMessage": "¡Cuenta eliminada con éxito!",
@@ -157,6 +173,11 @@
       "successMessage": "Datos personales actualizados con éxito",
       "prohibitedContentConsentLabel": "Mostrar productos con marcas del § 86a StGB",
       "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el § 86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido."
+    },
+    "subscription": {
+      "title": "Suscripción",
+      "currentPlanLabel": "Plan actual",
+      "manageButton": "Gestionar suscripción"
     }
   },
   "search": {
@@ -727,7 +748,9 @@
     "unknown": "Se produjo un error inesperado.",
     "WATCHLIST_QUOTA_EXCEEDED": "Has alcanzado el número máximo de artículos en tu lista de seguimiento. Ya hay 5/5 entradas ocupadas en la lista de seguimiento.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "Has alcanzado el número máximo de filtros de búsqueda guardados. Ya hay 5/5 filtros de búsqueda ocupados.",
-    "INVALID_EMAIL": "La dirección de correo electrónico no es válida o no es aceptada por nuestro proveedor de boletín."
+    "INVALID_EMAIL": "La dirección de correo electrónico no es válida o no es aceptada por nuestro proveedor de boletín.",
+    "STRIPE_CUSTOMER_ALREADY_EXISTS": "Ya tiene una suscripción activa. Por favor, utilice el portal de cliente para gestionarla.",
+    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No se encontró ninguna suscripción existente. Por favor, inicie un nuevo proceso de pago."
   },
   "watchlist": {
     "title": "Mi lista de seguimiento",
@@ -875,21 +898,34 @@
       "firstNamePlaceholder": "Juan",
       "lastName": "Apellido",
       "lastNamePlaceholder": "García",
-      "email": "Correo electrónico*",
-      "emailPlaceholder": "su.correo@ejemplo.com",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "tu.correo@ejemplo.es",
       "password": "Contraseña*",
       "confirmPassword": "Confirmar contraseña*",
       "language": "Idioma",
       "currency": "Moneda",
-      "pleaseSelect": "Por favor seleccione",
-      "prohibitedContentConsentLabel": "Mostrar productos con marcas del § 86a StGB",
-      "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el § 86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido."
+      "pleaseSelect": "Por favor selecciona",
+      "prohibitedContentConsentLabel": "Mostrar productos con marcas del §86a StGB",
+      "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el §86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido.",
+      "title": "Crear una cuenta",
+      "subtitle": "Únete a Aura Historia para rastrear antigüedades",
+      "passwordPlaceholder": "Crea una contraseña",
+      "confirmPasswordPlaceholder": "Repite tu contraseña",
+      "submit": "Crear cuenta",
+      "haveAccount": "¿Ya tienes una cuenta?",
+      "signInLink": "Iniciar sesión"
     },
     "signIn": {
       "email": "Correo electrónico",
-      "emailPlaceholder": "Introduzca su correo electrónico",
+      "emailPlaceholder": "tu.correo@ejemplo.com",
       "password": "Contraseña",
-      "passwordPlaceholder": "Introduzca su contraseña"
+      "passwordPlaceholder": "Introduce tu contraseña",
+      "title": "Bienvenido de nuevo",
+      "subtitle": "Inicia sesión en tu cuenta para continuar",
+      "submit": "Iniciar sesión",
+      "noAccount": "¿No tienes cuenta?",
+      "signUpLink": "Crear una",
+      "forgotPassword": "¿Has olvidado tu contraseña?"
     },
     "languages": {
       "de": "Alemán",
@@ -904,7 +940,66 @@
       "USD": "USD - Dólar estadounidense",
       "AUD": "AUD - Dólar australiano",
       "CAD": "CAD - Dólar canadiense",
-      "NZD": "NZD - Dólar neozelandés"
+      "NZD": "NZD - Dólar neozelandés",
+      "CNY": "CNY - Yuan chino",
+      "BRL": "BRL - Real brasileño",
+      "PLN": "PLN - Zloty polaco",
+      "TRY": "TRY - Lira turca",
+      "JPY": "JPY - Yen japonés",
+      "CZK": "CZK - Corona checa",
+      "RUB": "RUB - Rublo ruso",
+      "AED": "AED - Dirham de los EAU",
+      "SAR": "SAR - Riyal saudí",
+      "HKD": "HKD - Dólar de Hong Kong",
+      "SGD": "SGD - Dólar de Singapur",
+      "CHF": "CHF - Franco suizo"
+    },
+    "confirm": {
+      "title": "Revisa tu correo",
+      "subtitle": "Te enviamos un código de 6 dígitos a {{email}}",
+      "codeLabel": "Código de verificación",
+      "codePlaceholder": "000000",
+      "submit": "Verificar correo",
+      "noCode": "¿No recibiste el código?",
+      "resend": "Reenviar código",
+      "resendSending": "Enviando…",
+      "resendSent": "¡Código enviado!"
+    },
+    "userDetails": {
+      "title": "Completa tu perfil",
+      "subtitle": "Estos datos son opcionales — puedes actualizarlos en cualquier momento",
+      "submit": "Guardar y continuar",
+      "skip": "Omitir por ahora"
+    },
+    "errors": {
+      "UsernameExistsException": "Ya existe una cuenta con este correo electrónico.",
+      "NotAuthorizedException": "Nombre de usuario o contraseña incorrectos.",
+      "UserNotFoundException": "El usuario no existe.",
+      "CodeMismatchException": "Código de verificación no válido, por favor inténtalo de nuevo.",
+      "LimitExceededException": "Límite de intentos excedido, por favor inténtalo más tarde.",
+      "TooManyRequestsException": "Demasiadas peticiones, por favor inténtalo más tarde.",
+      "InvalidPasswordException": "La contraseña no cumple con las directrices. Debe contener al menos 8 caracteres, un número, una letra minúscula y una letra mayúscula.",
+      "ExpiredCodeException": "Código no válido, por favor solicita un código nuevo.",
+      "UserNotConfirmedException": "El usuario no está confirmado.",
+      "InvalidParameterException": "Parámetro proporcionado no válido.",
+      "EmptySignInUsername": "Por favor introduce tu correo electrónico.",
+      "EmptySignInPassword": "Por favor introduce tu contraseña."
+    },
+    "resetPassword": {
+      "title": "Restablecer la contraseña",
+      "subtitle": "Introduce tu correo electrónico para recibir un código de restablecimiento",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "tu.email@ejemplo.es",
+      "submit": "Enviar código",
+      "backToSignIn": "Volver a iniciar sesión",
+      "confirmTitle": "Introduce el código de restablecimiento",
+      "confirmSubtitle": "Introduce el código enviado a tu correo electrónico y tu nueva contraseña",
+      "codeLabel": "Código de restablecimiento",
+      "codePlaceholder": "123456",
+      "newPasswordLabel": "Nueva contraseña",
+      "newPasswordPlaceholder": "Introduce una nueva contraseña",
+      "confirmSubmit": "Restablecer la contraseña",
+      "newPasswordConfirmLabel": "Confirmar nueva contraseña"
     }
   },
   "amplify": {

@@ -4,6 +4,15 @@ import { ProductHistory } from "@/components/product/detail/ProductHistory.tsx";
 import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 
+vi.mock("@tanstack/react-router", async () => {
+    const actual =
+        await vi.importActual<typeof import("@tanstack/react-router")>("@tanstack/react-router");
+    return {
+        ...actual,
+        useRouteContext: () => ({ timeZone: "UTC" }),
+    };
+});
+
 vi.mock("@/components/ui/timeline", () => ({
     Timeline: ({ children }: { children: React.ReactNode }) => (
         <div data-testid="timeline">{children}</div>

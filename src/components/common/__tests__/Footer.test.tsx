@@ -11,8 +11,8 @@ const { changeLanguageMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
 }));
 
-vi.mock("@aws-amplify/ui-react", () => ({
-    useAuthenticator: vi.fn(() => ({ user: null })),
+vi.mock("@/hooks/auth/useAuth", () => ({
+    useAuth: vi.fn(() => ({ user: null, isLoading: false, signOut: vi.fn() })),
 }));
 
 vi.mock("@/hooks/account/usePatchUserAccount.ts", () => ({
