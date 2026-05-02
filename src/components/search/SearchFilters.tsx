@@ -18,8 +18,12 @@ import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpan
 import { AuctionDateSpanFilter } from "@/components/search/filters/AuctionDateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useAuth } from "@/hooks/auth/useAuth.ts";
 import { SaveSearchFilterDialog } from "@/components/search/SaveSearchFilterDialog.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
+import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
+import { useUserSearchFilters } from "@/hooks/search-filters/useUserSearchFilters.ts";
+import { SEARCH_FILTER_QUOTA } from "@/data/internal/account/SubscriptionType.ts";
 import { BookmarkPlus } from "lucide-react";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { FILTER_DEFAULTS, MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
@@ -207,7 +211,17 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
     const { t } = useTranslation();
     const { getQuery } = useSearchQueryContext();
-    const { user } = useAuthenticator((context) => [context.user]);
+    const { user } = useAuth();
+    const { data: account } = useUserAccount();
+    const { data: savedFilters } = useUserSearchFilters(!!user);
+    const saveDisabled =
+        !user ||
+        (savedFilters?.total ?? 0) >= SEARCH_FILTER_QUOTA[account?.subscriptionType ?? "free"];
+    const saveTooltip = !user
+        ? t("searchFilter.loginRequired")
+        : saveDisabled
+          ? t("searchFilter.quotaReached")
+          : undefined;
 
     const getEffectiveQuery = useCallback((): string => {
         const currentQuery = getQuery()?.trim();
@@ -321,18 +335,24 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                 >
                     {t("search.resetAllFilters")}
                 </Button>
-                {user && (
-                    <SaveSearchFilterDialog searchArgs={searchFilters}>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            className="w-full border-outline-variant text-primary uppercase text-sm shadow-none hover:bg-primary/8"
-                        >
-                            <BookmarkPlus className="size-4" />
-                            {t("searchFilter.saveButton")}
-                        </Button>
-                    </SaveSearchFilterDialog>
-                )}
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <span className="w-full">
+                            <SaveSearchFilterDialog searchArgs={searchFilters}>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    className="w-full border-outline-variant text-primary uppercase text-sm shadow-none hover:bg-primary/8"
+                                    disabled={saveDisabled}
+                                >
+                                    <BookmarkPlus className="size-4" />
+                                    {t("searchFilter.saveButton")}
+                                </Button>
+                            </SaveSearchFilterDialog>
+                        </span>
+                    </TooltipTrigger>
+                    {saveTooltip && <TooltipContent>{saveTooltip}</TooltipContent>}
+                </Tooltip>
             </form>
         </Form>
     );
