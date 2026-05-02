@@ -1,5 +1,7 @@
 import { useUserSearchFilters } from "@/hooks/search-filters/useUserSearchFilters.ts";
 import { useDeleteUserSearchFilter } from "@/hooks/search-filters/useDeleteUserSearchFilter.ts";
+import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
+import { SEARCH_FILTER_QUOTA } from "@/data/internal/account/SubscriptionType.ts";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Plus, SearchX } from "lucide-react";
@@ -10,6 +12,12 @@ import { SearchFilterCard } from "@/components/search-filters/SearchFilterCard.t
 import { SearchFilterCardSkeleton } from "@/components/search-filters/SearchFilterCardSkeleton.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip.tsx";
 import { useState } from "react";
 import { CreateSearchFilterWizard } from "@/components/search-filters/CreateSearchFilterWizard.tsx";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
@@ -20,9 +28,16 @@ export function SearchFilterResults() {
     const { t } = useTranslation();
     const { data, isPending, error } = useUserSearchFilters();
     const { mutate: deleteFilter, isPending: isDeleting } = useDeleteUserSearchFilter();
+    const { data: account, isPending: isAccountPending } = useUserAccount();
     const [query, setQuery] = useState("");
     const [wizardOpen, setWizardOpen] = useState(false);
     const [editFilter, setEditFilter] = useState<UserSearchFilter | undefined>(undefined);
+
+    const canCreate =
+        !isAccountPending &&
+        !isPending &&
+        account != null &&
+        (data?.total ?? data?.size ?? 0) < SEARCH_FILTER_QUOTA[account.subscriptionType];
 
     const items = data?.items ?? [];
     const filtered = query.trim()
@@ -65,17 +80,31 @@ export function SearchFilterResults() {
                         onChange={(e) => setQuery(e.target.value)}
                         className="w-full sm:w-80"
                     />
-                    <Button
-                        size="sm"
-                        className="gap-2 shrink-0"
-                        onClick={() => {
-                            setEditFilter(undefined);
-                            setWizardOpen(true);
-                        }}
-                    >
-                        <Plus className="size-4" />
-                        {t("searchFilters.create")}
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <span>
+                                    <Button
+                                        size="sm"
+                                        className="gap-2 shrink-0"
+                                        disabled={!canCreate}
+                                        onClick={() => {
+                                            setEditFilter(undefined);
+                                            setWizardOpen(true);
+                                        }}
+                                    >
+                                        <Plus className="size-4" />
+                                        {t("searchFilters.create")}
+                                    </Button>
+                                </span>
+                            </TooltipTrigger>
+                            {!canCreate && !isAccountPending && (
+                                <TooltipContent>
+                                    {t("searchFilters.createUpgradeTooltip")}
+                                </TooltipContent>
+                            )}
+                        </Tooltip>
+                    </TooltipProvider>
                 </div>
             </div>
 
