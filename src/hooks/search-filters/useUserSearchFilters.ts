@@ -7,11 +7,12 @@ import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 
-export function useUserSearchFilters(): UseQueryResult<UserSearchFilterCollection> {
+export function useUserSearchFilters(enabled = true): UseQueryResult<UserSearchFilterCollection> {
     const { getErrorMessage } = useApiError();
 
     return useQuery({
         queryKey: ["userSearchFilters"],
+        enabled,
         queryFn: async () => {
             const result = await getUserSearchFilters({
                 query: { sort: "created", order: "desc" },
