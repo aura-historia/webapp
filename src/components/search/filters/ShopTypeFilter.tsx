@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import { SHOP_TYPES, SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { FilterCard } from "./FilterCard.tsx";
 
-export function ShopTypeFilter() {
+export function ShopTypeFilter({ disabled = false }: { disabled?: boolean }) {
     const { control } = useFormContext<FilterSchema>();
     const { t } = useTranslation();
     const resetAndNavigate = useFilterNavigation();
@@ -26,6 +26,7 @@ export function ShopTypeFilter() {
             title={t("search.filter.shopType")}
             resetTooltip={t("search.filter.resetTooltip.shopType")}
             onReset={() => resetAndNavigate("shopType")}
+            disabled={disabled}
         >
             <Controller
                 name="shopType"
