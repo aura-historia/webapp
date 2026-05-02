@@ -31,6 +31,7 @@ import { Route as AuthMeNotificationsRouteImport } from './routes/_auth.me.notif
 import { Route as AuthMeAccountRouteImport } from './routes/_auth.me.account'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
 import { Route as AuthMeSearchFilterFilterIdRouteImport } from './routes/_auth.me.search-filter.$filterId'
+import { Route as AuthMeBillingManageRouteImport } from './routes/_auth.me.billing.manage'
 
 const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
   id: '/terms-and-conditions',
@@ -145,6 +146,11 @@ const AuthMeSearchFilterFilterIdRoute =
     path: '/me/search-filter/$filterId',
     getParentRoute: () => AuthRoute,
   } as any)
+const AuthMeBillingManageRoute = AuthMeBillingManageRouteImport.update({
+  id: '/me/billing/manage',
+  path: '/me/billing/manage',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -166,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
+  '/me/billing/manage': typeof AuthMeBillingManageRoute
   '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -189,6 +196,7 @@ export interface FileRoutesByTo {
   '/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId': typeof ShopsShopSlugIdIndexRoute
+  '/me/billing/manage': typeof AuthMeBillingManageRoute
   '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -214,6 +222,7 @@ export interface FileRoutesById {
   '/_auth/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
+  '/_auth/me/billing/manage': typeof AuthMeBillingManageRoute
   '/_auth/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
@@ -239,6 +248,7 @@ export interface FileRouteTypes {
     | '/me/watchlist'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/'
+    | '/me/billing/manage'
     | '/me/search-filter/$filterId'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesByTo: FileRoutesByTo
@@ -262,6 +272,7 @@ export interface FileRouteTypes {
     | '/me/watchlist'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId'
+    | '/me/billing/manage'
     | '/me/search-filter/$filterId'
     | '/shops/$shopSlugId/products/$productSlugId'
   id:
@@ -286,6 +297,7 @@ export interface FileRouteTypes {
     | '/_auth/me/watchlist'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/'
+    | '/_auth/me/billing/manage'
     | '/_auth/me/search-filter/$filterId'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesById: FileRoutesById
@@ -466,6 +478,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthMeSearchFilterFilterIdRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/me/billing/manage': {
+      id: '/_auth/me/billing/manage'
+      path: '/me/billing/manage'
+      fullPath: '/me/billing/manage'
+      preLoaderRoute: typeof AuthMeBillingManageRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
 
@@ -474,6 +493,7 @@ interface AuthRouteChildren {
   AuthMeNotificationsRoute: typeof AuthMeNotificationsRoute
   AuthMeSearchFiltersRoute: typeof AuthMeSearchFiltersRoute
   AuthMeWatchlistRoute: typeof AuthMeWatchlistRoute
+  AuthMeBillingManageRoute: typeof AuthMeBillingManageRoute
   AuthMeSearchFilterFilterIdRoute: typeof AuthMeSearchFilterFilterIdRoute
 }
 
@@ -482,6 +502,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthMeNotificationsRoute: AuthMeNotificationsRoute,
   AuthMeSearchFiltersRoute: AuthMeSearchFiltersRoute,
   AuthMeWatchlistRoute: AuthMeWatchlistRoute,
+  AuthMeBillingManageRoute: AuthMeBillingManageRoute,
   AuthMeSearchFilterFilterIdRoute: AuthMeSearchFilterFilterIdRoute,
 }
 

@@ -6,12 +6,7 @@ import { toast } from "sonner";
 import { Info } from "lucide-react";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
 import {
     Dialog,
     DialogContent,
@@ -135,6 +130,12 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                                 </li>
                             ))}
                         </ul>
+                        <a
+                            href="/#pricing"
+                            className="inline-flex items-center gap-1 text-sm text-primary underline underline-offset-2 font-medium"
+                        >
+                            {t("searchFilter.upgradeNow")}
+                        </a>
                         <div className="flex justify-end gap-2 pt-2">
                             <Button
                                 type="button"
@@ -184,18 +185,24 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                                                 {t("searchFilter.saveDialog.aiDescriptionLabel")}
                                             </FormLabel>
                                             {aiDescriptionDisabled && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <Info className="size-3.5 text-muted-foreground cursor-pointer shrink-0" />
-                                                        </TooltipTrigger>
-                                                        <TooltipContent>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <Info className="size-3.5 text-muted-foreground cursor-pointer shrink-0" />
+                                                    </TooltipTrigger>
+                                                    <TooltipContent className="flex flex-col gap-1 max-w-56 text-center">
+                                                        <span>
                                                             {t(
                                                                 "searchFilter.saveDialog.ultimateOnly",
                                                             )}
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
+                                                        </span>
+                                                        <a
+                                                            href="/#pricing"
+                                                            className="text-primary underline underline-offset-2 font-medium"
+                                                        >
+                                                            {t("searchFilter.upgradeNow")}
+                                                        </a>
+                                                    </TooltipContent>
+                                                </Tooltip>
                                             )}
                                         </div>
                                         <FormControl>

@@ -7,7 +7,9 @@ import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { AnimatePresence, motion } from "motion/react";
+import { Info } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
 import {
     Form,
     FormControl,
@@ -44,6 +46,7 @@ import { CreationDateSpanFilter } from "@/components/search/filters/CreationDate
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
 import { useCreateUserSearchFilter } from "@/hooks/search-filters/useCreateUserSearchFilter.ts";
 import { useUpdateUserSearchFilter } from "@/hooks/search-filters/useUpdateUserSearchFilter.ts";
+import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useQuery } from "@tanstack/react-query";
@@ -77,11 +80,15 @@ const variants: Variants = {
 
 /**
  * Filter steps for the wizard (steps 2–6).
- * Defined outside the component to avoid recreation on re-render.
- * Reuses the same filter components as the /search page via SearchFilterFormProvider.
- * Uses render functions (not static JSX elements) so each step renders fresh in the tree.
+ * `restricted: true` marks steps that require a paid plan.
+ * `content` receives `disabled` so filter components can be grayed out for FREE users.
  */
-const FILTER_STEPS: { label: string; desc: string; content: () => ReactNode }[] = [
+const FILTER_STEPS: {
+    label: string;
+    desc: string;
+    restricted?: boolean;
+    content: (disabled: boolean) => ReactNode;
+}[] = [
     {
         label: "searchFilter.wizard.step.priceStatus",
         desc: "searchFilter.wizard.step.priceStatusDescription",
@@ -105,26 +112,29 @@ const FILTER_STEPS: { label: string; desc: string; content: () => ReactNode }[] 
     {
         label: "searchFilter.wizard.step.quality",
         desc: "searchFilter.wizard.step.qualityDescription",
-        content: () => <QualityIndicatorsFilter />,
+        restricted: true,
+        content: (disabled) => <QualityIndicatorsFilter disabled={disabled} />,
     },
     {
         label: "searchFilter.wizard.step.shop",
         desc: "searchFilter.wizard.step.shopDescription",
-        content: () => (
+        restricted: true,
+        content: (disabled) => (
             <>
-                <ShopTypeFilter />
-                <MerchantFilters />
+                <ShopTypeFilter disabled={disabled} />
+                <MerchantFilters disabled={disabled} />
             </>
         ),
     },
     {
         label: "searchFilter.wizard.step.date",
         desc: "searchFilter.wizard.step.dateDescription",
-        content: () => (
+        restricted: true,
+        content: (disabled) => (
             <>
-                <AuctionDateSpanFilter defaultOpen />
-                <CreationDateSpanFilter defaultOpen />
-                <UpdateDateSpanFilter defaultOpen />
+                <AuctionDateSpanFilter defaultOpen disabled={disabled} />
+                <CreationDateSpanFilter defaultOpen disabled={disabled} />
+                <UpdateDateSpanFilter defaultOpen disabled={disabled} />
             </>
         ),
     },
@@ -137,17 +147,22 @@ function StepHeader({
     title,
     description,
     optional = false,
+    restricted = false,
 }: {
     title: string;
     description: string;
     optional?: boolean;
+    restricted?: boolean;
 }) {
     const { t } = useTranslation();
     return (
         <div className="space-y-2 mb-6">
             <div className="flex items-center gap-2">
                 <H3>{title}</H3>
-                {optional && <Badge variant="secondary">{t("common.optional")}</Badge>}
+                {optional && <Badge variant="secondary">{t("searchFilter.optional")}</Badge>}
+                {restricted && (
+                    <Badge variant="secondary">{t("searchFilter.upgradeRequired")}</Badge>
+                )}
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
         </div>
@@ -172,6 +187,10 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
     const { mutate: createFilter, isPending: isCreating } = useCreateUserSearchFilter();
     const { mutate: updateFilter, isPending: isUpdating } = useUpdateUserSearchFilter();
     const isPending = isCreating || isUpdating;
+
+    const { data: account } = useUserAccount();
+    const isFree = !account || account.subscriptionType === "free";
+    const isUltimate = account?.subscriptionType === "ultimate";
 
     const nameForm = useForm<NameFormData>({
         resolver: zodResolver(nameSchema),
@@ -349,9 +368,31 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
                                 name="enhancedSearchDescription"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>
-                                            {t("searchFilter.saveDialog.aiDescriptionLabel")}
-                                        </FormLabel>
+                                        <div className="flex items-center gap-1.5">
+                                            <FormLabel>
+                                                {t("searchFilter.saveDialog.aiDescriptionLabel")}
+                                            </FormLabel>
+                                            {!isUltimate && (
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <Info className="size-3.5 text-muted-foreground cursor-pointer shrink-0" />
+                                                    </TooltipTrigger>
+                                                    <TooltipContent className="flex flex-col gap-1 max-w-56 text-center">
+                                                        <span>
+                                                            {t(
+                                                                "searchFilter.saveDialog.ultimateOnly",
+                                                            )}
+                                                        </span>
+                                                        <a
+                                                            href="/#pricing"
+                                                            className="text-primary underline underline-offset-2 font-medium"
+                                                        >
+                                                            {t("searchFilter.upgradeNow")}
+                                                        </a>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            )}
+                                        </div>
                                         <FormControl>
                                             <Textarea
                                                 {...field}
@@ -359,6 +400,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
                                                     "searchFilter.saveDialog.aiDescriptionPlaceholder",
                                                 )}
                                                 className="min-h-28"
+                                                disabled={!isUltimate}
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -379,10 +421,16 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
                 />
             );
         const fs = FILTER_STEPS[step - 2];
+        const disabled = isFree && !!fs.restricted;
         return (
             <>
-                <StepHeader title={t(fs.label)} description={t(fs.desc)} optional />
-                {fs.content()}
+                <StepHeader
+                    title={t(fs.label)}
+                    description={t(fs.desc)}
+                    optional
+                    restricted={disabled}
+                />
+                {fs.content(disabled)}
             </>
         );
     };
