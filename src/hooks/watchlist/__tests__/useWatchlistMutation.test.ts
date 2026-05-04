@@ -238,5 +238,24 @@ describe("useWatchlistMutation", () => {
                 expect(mockToast.error).toHaveBeenCalled();
             });
         });
+
+        it("should show error toast when mutation error has no response", async () => {
+            const errorMessage = "Network error";
+            mockAddWatchlistProduct.mockResolvedValue({
+                data: null,
+                error: { message: errorMessage },
+            });
+            mockGetErrorMessage.mockReturnValue(errorMessage);
+
+            const { result } = renderHook(() => useWatchlistMutation(shopId, shopsProductId), {
+                wrapper: createWrapper(),
+            });
+
+            result.current.mutate("addToWatchlist");
+
+            await waitFor(() => {
+                expect(mockToast.error).toHaveBeenCalledWith(errorMessage);
+            });
+        });
     });
 });

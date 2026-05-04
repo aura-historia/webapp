@@ -35,10 +35,12 @@ export function useWatchlistMutation(shopId: string, shopsProductId: string) {
                       });
 
             if (result.error) {
-                if (result.response.status === 401) {
+                const status = result.response?.status;
+
+                if (status === 401) {
                     toast.info(t("watchlist.loginRequired"));
                     return;
-                } else if (result.response.status === 422) {
+                } else if (status === 422) {
                     toast.warning(getErrorMessage(mapToInternalApiError(result.error)));
                     return;
                 }
