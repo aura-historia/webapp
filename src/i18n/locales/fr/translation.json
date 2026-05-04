@@ -255,7 +255,9 @@
         "merchants": "Réinitialiser les filtres de marchands",
         "shopType": "Réinitialiser le filtre de type de boutique",
         "periodId": "Réinitialiser le filtre de période",
-        "partnerStatus": "Réinitialiser le filtre de statut de partenariat"
+        "partnerStatus": "Réinitialiser le filtre de statut de partenariat",
+        "global": "Réinitialiser tout",
+        "category": "Réinitialiser le filtre de catégorie"
       },
       "all": "Tous",
       "select": "Sélectionner",
@@ -762,10 +764,11 @@
     "BAD_ORDER_VALUE": "Ordre de tri invalide.",
     "unknown": "Une erreur inattendue s'est produite.",
     "WATCHLIST_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum d'articles dans votre liste de suivi. Il y a déjà 5/5 entrées de liste de suivi occupées.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum de filtres de recherche enregistrés. Il y a déjà 5/5 filtres de recherche occupés.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum de recherches sauvegardées. Un maximum de 5 recherches peut être sauvegardé.",
     "INVALID_EMAIL": "L'adresse e-mail est invalide ou n'est pas acceptée par notre fournisseur de newsletter.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Vous avez déjà un abonnement actif. Veuillez utiliser le portail client pour le gérer.",
-    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Aucun abonnement existant n'a été trouvé. Veuillez démarrer un nouveau processus de paiement."
+    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Aucun abonnement existant n'a été trouvé. Veuillez démarrer un nouveau processus de paiement.",
+    "undefined": "Une erreur inattendue s'est produite."
   },
   "watchlist": {
     "title": "Mes favoris",
