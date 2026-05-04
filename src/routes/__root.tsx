@@ -36,6 +36,7 @@ import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
 import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { ConsentBanner } from "@/components/common/ConsentBanner.tsx";
 import { SONNER_TOASTER_PROPS } from "@/lib/ui/sonnerToasterConfig";
+import { getServerUser } from "@/lib/server/amplify.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -149,7 +150,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
             ...serverPreferences,
         };
         const timeZone = await getServerTimezone();
-        return { initialPreferences, timeZone };
+        const auth = await getServerUser();
+        return { initialPreferences, timeZone, serverAuth: auth };
     },
     shellComponent: RootDocument,
     notFoundComponent: NotFoundComponent,
