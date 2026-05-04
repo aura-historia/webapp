@@ -5,12 +5,14 @@ import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { useTranslation } from "react-i18next";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 
 const PAGE_SIZE = 20;
 
 export function useWatchlist() {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
+    const { preferences } = useUserPreferences();
 
     return useInfiniteQuery({
         queryKey: ["watchlist", i18n.language],
@@ -18,6 +20,7 @@ export function useWatchlist() {
             const result = await getWatchlistProducts({
                 query: {
                     language: parseLanguage(i18n.language),
+                    currency: preferences.currency,
                     searchAfter: pageParam,
                     size: PAGE_SIZE,
                     sort: "created",
