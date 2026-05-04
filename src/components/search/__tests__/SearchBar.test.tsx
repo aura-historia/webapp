@@ -45,7 +45,7 @@ describe("SearchBar", () => {
             const input = screen.getByLabelText("Suche");
             const button = screen.getByRole("button", { name: /suchen/i });
 
-            expect(input).toHaveClass("h-12");
+            expect(input).toHaveClass("h-full");
             expect(button).toHaveClass("h-12");
         });
 

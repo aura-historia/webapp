@@ -200,7 +200,7 @@ export function SearchBar({ type }: SearchBarProps) {
                                             "shrink-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
                                             type === "big"
                                                 ? "h-full w-32 rounded-none border-0 border-r bg-background px-4 text-base text-foreground shadow-none sm:w-40"
-                                                : "h-9 w-24 rounded-sm text-sm sm:w-32",
+                                                : "h-9 rounded-sm text-sm lg:w-32",
                                         )}
                                     >
                                         <SelectValue />

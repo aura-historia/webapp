@@ -61,7 +61,7 @@ function RouteComponent() {
                             <div className="flex flex-col gap-4 pb-4">
                                 <div className="flex flex-col gap-3">
                                     <div className="flex flex-wrap items-end gap-3">
-                                        <H1 className="break-words text-4xl sm:text-5xl">
+                                        <H1 className="wrap-break-word text-4xl sm:text-5xl">
                                             {t("search.shopResultsFor")} "{searchArgs.q}"
                                         </H1>
                                         {totalResults !== null && (
