@@ -1,8 +1,8 @@
 import {
-    getSortModeFieldLabel,
-    SEARCH_RESULT_SORT_FIELDS,
-    type SortMode,
-} from "@/data/internal/search/SortMode.ts";
+    getShopSortModeFieldLabel,
+    SHOP_SEARCH_SORT_FIELDS,
+    type ShopSortMode,
+} from "@/data/internal/search/ShopSortMode.ts";
 import {
     Select,
     SelectContent,
@@ -14,19 +14,23 @@ import { useTranslation } from "react-i18next";
 import { SortAsc, SortDesc } from "lucide-react";
 import { cn } from "@/lib/utils.ts";
 
-export type SortModeSelectionProps = {
-    readonly sortMode: SortMode;
-    readonly updateSortMode: (newSortMode: SortMode) => void;
+export type ShopSortModeSelectionProps = {
+    readonly sortMode: ShopSortMode;
+    readonly updateSortMode: (newSortMode: ShopSortMode) => void;
     readonly className?: string;
 };
 
-export function SortModeSelection({ sortMode, updateSortMode, className }: SortModeSelectionProps) {
+export function ShopSortModeSelection({
+    sortMode,
+    updateSortMode,
+    className,
+}: ShopSortModeSelectionProps) {
     const { t } = useTranslation();
 
     return (
         <div
             className={cn(
-                "flex flex-col ms-2 lg:ms-0 sm:flex-row sm:flex-wrap items-end sm:gap-y-2",
+                "flex flex-col sm:flex-row sm:flex-wrap items-center gap-x-4 sm:gap-y-2",
                 className,
             )}
         >
@@ -35,19 +39,19 @@ export function SortModeSelection({ sortMode, updateSortMode, className }: SortM
                     {t("search.sortMode.sortBy")}
                 </span>
                 <Select
-                    onValueChange={(value: SortMode["field"]) => {
+                    onValueChange={(value: ShopSortMode["field"]) => {
                         updateSortMode({ ...sortMode, field: value });
                     }}
                     value={sortMode.field}
                 >
                     <SelectTrigger className="h-6 rounded-none border-0 bg-transparent p-0 sm:pr-5 text-xs font-bold text-primary shadow-none hover:bg-transparent focus-visible:ring-0 dark:bg-transparent dark:hover:bg-transparent">
-                        {t(getSortModeFieldLabel(sortMode.field))}
+                        {t(getShopSortModeFieldLabel(sortMode.field))}
                     </SelectTrigger>
                     <SelectContent className="border-outline-variant">
                         <SelectGroup>
-                            {SEARCH_RESULT_SORT_FIELDS.map((field) => (
+                            {SHOP_SEARCH_SORT_FIELDS.map((field) => (
                                 <SelectItem key={field} value={field}>
-                                    {t(getSortModeFieldLabel(field))}
+                                    {t(getShopSortModeFieldLabel(field))}
                                 </SelectItem>
                             ))}
                         </SelectGroup>
@@ -60,7 +64,7 @@ export function SortModeSelection({ sortMode, updateSortMode, className }: SortM
                     {t("search.sortMode.order.label")}
                 </span>
                 <Select
-                    onValueChange={(value: SortMode["order"]) => {
+                    onValueChange={(value: ShopSortMode["order"]) => {
                         updateSortMode({ ...sortMode, order: value });
                     }}
                     value={sortMode.order}

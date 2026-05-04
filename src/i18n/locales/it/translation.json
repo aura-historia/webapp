@@ -66,6 +66,10 @@
     "terms": {
       "title": "Termini e condizioni | Aura Historia",
       "description": "Termini e condizioni per l'utilizzo di Aura Historia, comprese le informazioni sui servizi a pagamento e l'elaborazione dei pagamenti."
+    },
+    "searchShops": {
+      "title": "Cerca negozi | Aura Historia",
+      "description": "Scopri negozi, case d'asta e rivenditori di fiducia su Aura Historia."
     }
   },
   "validation": {
@@ -212,7 +216,12 @@
         "Specchio rococò",
         "Miniatura persiana",
         "Poltrona Luigi XV"
-      ]
+      ],
+      "searchTypeLabel": "Tipo di ricerca",
+      "searchType": {
+        "products": "Articoli",
+        "shops": "Negozi"
+      }
     },
     "applyFilters": "Applica filtri",
     "validation": {
@@ -253,7 +262,8 @@
         "merchants": "Reimposta filtri commercianti",
         "shopType": "Reimposta filtro tipo di negozio",
         "periodId": "Reimposta filtro periodo",
-        "qualityIndicators": "Reimposta filtro indicatori di qualità"
+        "qualityIndicators": "Reimposta filtro indicatori di qualità",
+        "partnerStatus": "Reimposta filtro stato di partnership"
       },
       "qualityIndicators": "Indicatori di qualità",
       "periodId": "Periodo / Stile",
@@ -263,7 +273,8 @@
       "condition": "Condizione",
       "provenance": "Provenienza",
       "restoration": "Restauro",
-      "selected": "{{count}} selezionati"
+      "selected": "{{count}} selezionati",
+      "partnerStatus": "Stato di partnership"
     },
     "messages": {
       "minQueryLength": "Inserisci almeno 3 caratteri per avviare la ricerca.",
@@ -286,8 +297,12 @@
         "label": "Ordine:",
         "asc": "Crescente",
         "desc": "Decrescente"
-      }
-    }
+      },
+      "name": "Nome"
+    },
+    "shopResultsFor": "Risultati dei negozi per:",
+    "totalShopResults_one": "{{count}} negozio",
+    "totalShopResults_other": "{{count}} negozi"
   },
   "product": {
     "unknownPrice": "Prezzo sconosciuto",
@@ -1181,6 +1196,9 @@
         "title": "Impossibile caricare gli articoli",
         "description": "Si è verificato un errore durante il caricamento degli articoli. Riprova più tardi."
       }
+    },
+    "card": {
+      "viewShop": "Vedi negozio"
     }
   },
   "notifications": {

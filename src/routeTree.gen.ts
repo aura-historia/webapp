@@ -20,6 +20,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PeriodsIndexRouteImport } from './routes/periods.index'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
 import { Route as CategoriesIndexRouteImport } from './routes/categories.index'
+import { Route as SearchShopsRouteImport } from './routes/search_.shops'
 import { Route as PeriodsPeriodIdRouteImport } from './routes/periods.$periodId'
 import { Route as CollectionsCombinationSlugRouteImport } from './routes/collections.$combinationSlug'
 import { Route as CategoriesCategoryIdRouteImport } from './routes/categories.$categoryId'
@@ -83,6 +84,11 @@ const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
 const CategoriesIndexRoute = CategoriesIndexRouteImport.update({
   id: '/categories/',
   path: '/categories/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchShopsRoute = SearchShopsRouteImport.update({
+  id: '/search_/shops',
+  path: '/search/shops',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PeriodsPeriodIdRoute = PeriodsPeriodIdRouteImport.update({
@@ -150,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
+  '/search/shops': typeof SearchShopsRoute
   '/categories/': typeof CategoriesIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/periods/': typeof PeriodsIndexRoute
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
+  '/search/shops': typeof SearchShopsRoute
   '/categories': typeof CategoriesIndexRoute
   '/collections': typeof CollectionsIndexRoute
   '/periods': typeof PeriodsIndexRoute
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/categories/$categoryId': typeof CategoriesCategoryIdRoute
   '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
   '/periods/$periodId': typeof PeriodsPeriodIdRoute
+  '/search_/shops': typeof SearchShopsRoute
   '/categories/': typeof CategoriesIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/periods/': typeof PeriodsIndexRoute
@@ -220,6 +229,7 @@ export interface FileRouteTypes {
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
+    | '/search/shops'
     | '/categories/'
     | '/collections/'
     | '/periods/'
@@ -242,6 +252,7 @@ export interface FileRouteTypes {
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
+    | '/search/shops'
     | '/categories'
     | '/collections'
     | '/periods'
@@ -265,6 +276,7 @@ export interface FileRouteTypes {
     | '/categories/$categoryId'
     | '/collections/$combinationSlug'
     | '/periods/$periodId'
+    | '/search_/shops'
     | '/categories/'
     | '/collections/'
     | '/periods/'
@@ -289,6 +301,7 @@ export interface RootRouteChildren {
   CategoriesCategoryIdRoute: typeof CategoriesCategoryIdRoute
   CollectionsCombinationSlugRoute: typeof CollectionsCombinationSlugRoute
   PeriodsPeriodIdRoute: typeof PeriodsPeriodIdRoute
+  SearchShopsRoute: typeof SearchShopsRoute
   CategoriesIndexRoute: typeof CategoriesIndexRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
   PeriodsIndexRoute: typeof PeriodsIndexRoute
@@ -374,6 +387,13 @@ declare module '@tanstack/react-router' {
       path: '/categories'
       fullPath: '/categories/'
       preLoaderRoute: typeof CategoriesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search_/shops': {
+      id: '/search_/shops'
+      path: '/search/shops'
+      fullPath: '/search/shops'
+      preLoaderRoute: typeof SearchShopsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/periods/$periodId': {
@@ -477,6 +497,7 @@ const rootRouteChildren: RootRouteChildren = {
   CategoriesCategoryIdRoute: CategoriesCategoryIdRoute,
   CollectionsCombinationSlugRoute: CollectionsCombinationSlugRoute,
   PeriodsPeriodIdRoute: PeriodsPeriodIdRoute,
+  SearchShopsRoute: SearchShopsRoute,
   CategoriesIndexRoute: CategoriesIndexRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
   PeriodsIndexRoute: PeriodsIndexRoute,

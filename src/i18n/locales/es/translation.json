@@ -66,6 +66,10 @@
     "terms": {
       "title": "Términos y condiciones | Aura Historia",
       "description": "Términos y condiciones para utilizar Aura Historia, incluida la información sobre servicios de pago y procesamiento de pagos."
+    },
+    "searchShops": {
+      "title": "Buscar tiendas | Aura Historia",
+      "description": "Descubre tiendas, casas de subastas y distribuidores de confianza en Aura Historia."
     }
   },
   "validation": {
@@ -212,7 +216,12 @@
         "Espejo rococó",
         "Miniatura persa",
         "Sillón Luis XV"
-      ]
+      ],
+      "searchTypeLabel": "Tipo de búsqueda",
+      "searchType": {
+        "products": "Artículos",
+        "shops": "Tiendas"
+      }
     },
     "applyFilters": "Aplicar filtros",
     "validation": {
@@ -245,7 +254,8 @@
         "excludeMerchant": "Restablecer filtro de exclusión de comerciante",
         "merchants": "Restablecer filtros de comerciantes",
         "shopType": "Restablecer filtro de tipo de tienda",
-        "periodId": "Restablecer filtro de período"
+        "periodId": "Restablecer filtro de período",
+        "partnerStatus": "Restablecer filtro de estado de asociación"
       },
       "all": "Todo",
       "select": "Seleccionar",
@@ -263,7 +273,8 @@
       "searchExcludeMerchants": "Buscar comerciantes para excluir...",
       "shopType": "Tipo de tienda",
       "auctionDate": "Fecha de subasta",
-      "auctionDateDisabledTooltip": "Solo disponible para casas de subastas"
+      "auctionDateDisabledTooltip": "Solo disponible para casas de subastas",
+      "partnerStatus": "Estado de asociación"
     },
     "messages": {
       "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
@@ -286,8 +297,12 @@
         "label": "Orden:",
         "asc": "Ascendente",
         "desc": "Descendente"
-      }
-    }
+      },
+      "name": "Nombre"
+    },
+    "shopResultsFor": "Resultados de tiendas para:",
+    "totalShopResults_one": "{{count}} tienda",
+    "totalShopResults_other": "{{count}} tiendas"
   },
   "product": {
     "unknownPrice": "Precio desconocido",
@@ -1181,6 +1196,9 @@
         "title": "No se pudieron cargar los artículos",
         "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
       }
+    },
+    "card": {
+      "viewShop": "Ver tienda"
     }
   },
   "notifications": {
