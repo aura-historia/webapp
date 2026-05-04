@@ -17,6 +17,7 @@ export type AdminShopPatch = {
     readonly shopId: string;
     readonly shopType?: ShopType;
     readonly domains?: string[];
+    readonly url?: string | null;
     readonly image?: string | null;
     readonly structuredAddress?: StructuredAddress | null;
     readonly phone?: string | null;
@@ -49,6 +50,9 @@ export function usePatchAdminShop() {
             }
             if (input.domains !== undefined) {
                 body.domains = input.domains;
+            }
+            if (input.url !== undefined) {
+                body.url = input.url;
             }
             if (input.image !== undefined) {
                 body.image = input.image;

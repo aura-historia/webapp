@@ -39,6 +39,7 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
     const { t } = useTranslation();
     const patchShop = usePatchAdminShop();
     const [shopType, setShopType] = useState<ShopType>("UNKNOWN");
+    const [url, setUrl] = useState<string>("");
     const [image, setImage] = useState<string>("");
     const [domainsRaw, setDomainsRaw] = useState<string>("");
     const [phone, setPhone] = useState<string>("");
@@ -62,6 +63,7 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
     useEffect(() => {
         if (shop) {
             setShopType(shop.shopType);
+            setUrl(shop.url ?? "");
             setImage(shop.image ?? "");
             setDomainsRaw(shop.domains.join("\n"));
             setPhone(shop.phone ?? "");
@@ -110,6 +112,7 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
 
     const handleSave = () => {
         const trimmedImage = image.trim();
+        const trimmedUrl = url.trim();
         const trimmedPhone = phone.trim();
         const trimmedEmail = email.trim();
 
@@ -118,6 +121,7 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                 shopId: shop.shopId,
                 shopType: shopType !== "UNKNOWN" ? shopType : undefined,
                 domains: parseShopDomains(domainsRaw),
+                url: trimmedUrl === "" ? null : trimmedUrl,
                 image: trimmedImage === "" ? null : trimmedImage,
                 phone: trimmedPhone === "" ? null : trimmedPhone,
                 email: trimmedEmail === "" ? null : trimmedEmail,
@@ -136,7 +140,7 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[90vh] w-[min(96vw,72rem)] max-w-5xl overflow-y-auto">
+            <DialogContent className="max-h-[90vh] w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] overflow-y-auto sm:w-[min(calc(100vw-4rem),88rem)] sm:max-w-[min(calc(100vw-4rem),88rem)]">
                 <DialogHeader>
                     <DialogTitle>{t("adminDashboard.shops.edit.title")}</DialogTitle>
                     <DialogDescription>
@@ -149,54 +153,72 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                         <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
                             {t("adminDashboard.shops.sections.core")}
                         </h3>
-                        <div className="flex flex-col gap-1.5">
-                            <Label htmlFor="admin-shop-type">
-                                {t("adminDashboard.shops.fields.shopType")}
-                            </Label>
-                            <Select
-                                value={shopType}
-                                onValueChange={(v) => setShopType(v as ShopType)}
-                            >
-                                <SelectTrigger id="admin-shop-type">
-                                    <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {EDITABLE_SHOP_TYPES.map((type) => (
-                                        <SelectItem key={type} value={type}>
-                                            {t(SHOP_TYPE_TRANSLATION_CONFIG[type].translationKey)}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        <div className="grid gap-4 lg:grid-cols-2">
+                            <div className="flex flex-col gap-1.5">
+                                <Label htmlFor="admin-shop-type">
+                                    {t("adminDashboard.shops.fields.shopType")}
+                                </Label>
+                                <Select
+                                    value={shopType}
+                                    onValueChange={(v) => setShopType(v as ShopType)}
+                                >
+                                    <SelectTrigger id="admin-shop-type">
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {EDITABLE_SHOP_TYPES.map((type) => (
+                                            <SelectItem key={type} value={type}>
+                                                {t(
+                                                    SHOP_TYPE_TRANSLATION_CONFIG[type]
+                                                        .translationKey,
+                                                )}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
 
-                        <div className="flex flex-col gap-1.5">
-                            <Label htmlFor="admin-shop-image">
-                                {t("adminDashboard.shops.fields.image")}
-                            </Label>
-                            <Input
-                                id="admin-shop-image"
-                                type="url"
-                                value={image}
-                                onChange={(e) => setImage(e.target.value)}
-                                placeholder="https://..."
-                            />
-                        </div>
+                            <div className="flex flex-col gap-1.5">
+                                <Label htmlFor="admin-shop-url">
+                                    {t("adminDashboard.shops.fields.url")}
+                                </Label>
+                                <Input
+                                    id="admin-shop-url"
+                                    type="url"
+                                    value={url}
+                                    onChange={(e) => setUrl(e.target.value)}
+                                    placeholder="https://shop.example.com"
+                                />
+                            </div>
 
-                        <div className="flex flex-col gap-1.5">
-                            <Label htmlFor="admin-shop-domains">
-                                {t("adminDashboard.shops.fields.domains")}
-                            </Label>
-                            <textarea
-                                id="admin-shop-domains"
-                                className="flex min-h-[96px] w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                value={domainsRaw}
-                                onChange={(e) => setDomainsRaw(e.target.value)}
-                                placeholder="example.com"
-                            />
-                            <span className="text-xs text-muted-foreground">
-                                {t("adminDashboard.shops.fields.domainsHint")}
-                            </span>
+                            <div className="flex flex-col gap-1.5">
+                                <Label htmlFor="admin-shop-image">
+                                    {t("adminDashboard.shops.fields.image")}
+                                </Label>
+                                <Input
+                                    id="admin-shop-image"
+                                    type="url"
+                                    value={image}
+                                    onChange={(e) => setImage(e.target.value)}
+                                    placeholder="https://..."
+                                />
+                            </div>
+
+                            <div className="flex flex-col gap-1.5 lg:col-span-2">
+                                <Label htmlFor="admin-shop-domains">
+                                    {t("adminDashboard.shops.fields.domains")}
+                                </Label>
+                                <textarea
+                                    id="admin-shop-domains"
+                                    className="flex min-h-[96px] w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                    value={domainsRaw}
+                                    onChange={(e) => setDomainsRaw(e.target.value)}
+                                    placeholder="example.com"
+                                />
+                                <span className="text-xs text-muted-foreground">
+                                    {t("adminDashboard.shops.fields.domainsHint")}
+                                </span>
+                            </div>
                         </div>
                     </section>
 

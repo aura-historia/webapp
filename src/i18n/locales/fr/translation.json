@@ -1203,6 +1203,7 @@
       "fields": {
         "name": "Nom de la boutique",
         "shopType": "Type de boutique",
+        "url": "URL principale de la boutique",
         "image": "URL de l'image",
         "domains": "Domaines",
         "domainsHint": "Un par ligne. Les domaines sont normalisés en minuscules, sans schéma ni chemin.",
@@ -1213,12 +1214,12 @@
         "locality": "Ville / Localité",
         "region": "Région / État",
         "postalCode": "Code postal",
-        "country": "Pays (code ISO)",
-        "countryHint": "Code ISO 3166-1 alpha-2, p. ex. DE ou FR",
+        "country": "Pays",
+        "countryHint": "Sélectionnez le pays associé à l’adresse de la boutique.",
         "specialitiesCategories": "Spécialités (catégories)",
         "specialitiesPeriods": "Spécialités (périodes)",
         "specialitiesHint": "Une clé kebab-case par ligne, p. ex. ancient-egypt",
-        "countryPlaceholder": "Sélectionner le code pays",
+        "countryPlaceholder": "Sélectionner le pays",
         "countryNone": "Aucun pays",
         "specialitiesPlaceholder": "Sélectionner des entrées",
         "searchCategories": "Rechercher des catégories…",
@@ -1235,9 +1236,10 @@
           "nameRequired": "Veuillez saisir un nom de boutique.",
           "nameTooLong": "Le nom de la boutique ne doit pas dépasser 255 caractères.",
           "domainsRequired": "Veuillez saisir au moins un domaine.",
+          "urlInvalid": "Veuillez saisir une URL de boutique valide.",
           "imageInvalid": "Veuillez saisir une URL d'image valide.",
           "emailInvalid": "Veuillez saisir une adresse e-mail valide.",
-          "countryInvalid": "Veuillez saisir un code pays ISO 3166-1 alpha-2 valide (p. ex. DE)."
+          "countryInvalid": "Veuillez sélectionner un pays valide."
         }
       },
       "edit": {

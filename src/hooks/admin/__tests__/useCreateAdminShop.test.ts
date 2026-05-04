@@ -147,6 +147,7 @@ describe("useCreateAdminShop", () => {
             shopType: "MARKETPLACE",
             partnerStatus: "SCRAPED",
             domains: ["metadata.example.com"],
+            url: "https://metadata.example.com",
             image: null,
             structuredAddress: {
                 addressline: "Main Street 1",
@@ -176,6 +177,7 @@ describe("useCreateAdminShop", () => {
                 name: "Metadata Shop",
                 shopType: "MARKETPLACE",
                 domains: ["metadata.example.com"],
+                url: "https://metadata.example.com",
                 image: null,
                 structuredAddress: {
                     addressline: "Main Street 1",
@@ -196,6 +198,7 @@ describe("useCreateAdminShop", () => {
                 name: "Metadata Shop",
                 shopType: "MARKETPLACE",
                 domains: ["metadata.example.com"],
+                url: "https://metadata.example.com",
                 image: null,
                 structuredAddress: {
                     addressline: "Main Street 1",

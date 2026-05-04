@@ -47,6 +47,18 @@ export type GetProductData = {
     sellerName: string;
     shopType: ShopTypeData;
     /**
+     * Optional structured address propagated from the selling shop when available.
+     * This is the address that backs the product's geo-search filters.
+     *
+     */
+    structuredAddress?: StructuredAddressData | null;
+    /**
+     * Optional latitude/longitude coordinates propagated from the selling shop when available.
+     * This is the coordinate data used by product geo-distance search.
+     *
+     */
+    geoAddress?: GeoAddressData | null;
+    /**
      * Optional kebab-case identifier for the level-one category the product has been classified into.
      * Categories are automatically classified by the system. Examples: "musical-instruments", "antique-furniture", "antique-clocks"
      *
@@ -311,7 +323,8 @@ export type NotificationUserStateData = {
 /**
  * User's saved-search-filter match state for a product.
  * When `matched` is `true`, at least one of the user's saved search filters matched this product.
- * `userSearchFilterId`, `userSearchFilterName` and `matchReason` are only present when `matched` is `true`.
+ * `userSearchFilterId`, `userSearchFilterName`, `matchReason`, and `matchFeedback` are only
+ * present when `matched` is `true`.
  * Defaults to `matched: false` when the user has no saved search filters or none of them matched.
  * When `hidden` is `true`, the match exceeds the user's monthly search-filter match quota and the
  * product data is anonymized (nil IDs, placeholder title, unknown enums, nulled timestamps).
@@ -353,6 +366,13 @@ export type SearchFilterUserStateData = {
      *
      */
     matchReason?: string;
+    /**
+     * Optional feedback previously recorded by the authenticated user for this saved-search match.
+     * Present only when `matched` is `true` and feedback has been explicitly stored for the match.
+     * `true` marks the match as relevant, `false` marks it as not relevant.
+     *
+     */
+    matchFeedback?: boolean;
 };
 
 /**
@@ -935,6 +955,22 @@ export type ProductSearchData = {
      */
     shopType?: Array<ShopTypeData> | null;
     /**
+     * Optional filter by one or more structured-address country codes of the selling shop.
+     * Uses ISO 3166-1 alpha-2 codes.
+     *
+     */
+    country?: Array<CountryCodeData>;
+    /**
+     * Optional filter by one or more structured-address continents of the selling shop.
+     */
+    continent?: Array<ContinentData>;
+    /**
+     * Optional geospatial proximity filter for the selling shop's indexed coordinates.
+     * Matches products whose indexed shop coordinates fall within the given distance of the provided point.
+     *
+     */
+    geoAddress?: GeoDistanceQueryData | null;
+    /**
      * Optional price range filter in minor currency units for the selected/requested currency
      */
     price?: RangeQueryUInt64 | null;
@@ -1008,7 +1044,7 @@ export type PostUserSearchFilterData = {
 /**
  * Partial search filter update data.
  * All fields are optional and only provided fields will be updated.
- * Can update the search filter name, enhanced search description, notifications preference, and/or the search filter criteria.
+ * Can update the search filter name, enhanced search description, notifications preference, activation state, and/or the search filter criteria.
  *
  */
 export type PatchUserSearchFilterData = {
@@ -1034,9 +1070,31 @@ export type PatchUserSearchFilterData = {
      */
     notifications?: boolean | null;
     /**
+     * Optional activation state update for this saved search filter.
+     * `ACTIVE` reactivates the filter if the current user tier still permits the configured search features and quota.
+     * `INACTIVE_BY_USER` manually disables the filter.
+     * Omit to leave the current state unchanged.
+     *
+     */
+    state?: PatchResourceStateData | null;
+    /**
      * Partial search filter criteria to update
      */
     search?: PatchProductSearchData | null;
+};
+
+/**
+ * Partial update payload for a saved-search product match.
+ * Omitting `feedback` leaves the stored match feedback unchanged.
+ *
+ */
+export type PatchUserSearchFilterMatchData = {
+    /**
+     * Optional relevance feedback for the matched product.
+     * `true` marks the product as relevant to the saved search filter, `false` marks it as not relevant.
+     *
+     */
+    feedback?: boolean;
 };
 
 /**
@@ -1131,6 +1189,18 @@ export type PatchProductSearchData = {
      */
     shopType?: Array<ShopTypeData> | null;
     /**
+     * Optional replacement filter by structured-address country codes of the selling shop.
+     */
+    country?: Array<CountryCodeData> | null;
+    /**
+     * Optional replacement filter by structured-address continents of the selling shop.
+     */
+    continent?: Array<ContinentData> | null;
+    /**
+     * Optional replacement geo-distance filter for the selling shop's indexed coordinates.
+     */
+    geoAddress?: GeoDistanceQueryData | null;
+    /**
      * Optional price range filter in minor currency units for the selected/requested currency
      */
     price?: RangeQueryUInt64 | null;
@@ -1212,6 +1282,7 @@ export type UserSearchFilterData = {
      *
      */
     notifications: boolean;
+    state: ResourceStateData;
     search: ProductSearchData;
     /**
      * When the search filter was created (RFC3339 format)
@@ -1219,6 +1290,63 @@ export type UserSearchFilterData = {
     created: string;
     /**
      * When the search filter was last updated (RFC3339 format)
+     */
+    updated: string;
+};
+
+/**
+ * Activation state of a stored user-owned resource such as a saved search filter.
+ * `ACTIVE` resources are eligible for their normal runtime behavior.
+ * `INACTIVE_BY_USER` resources were explicitly deactivated by the user.
+ * `INACTIVE_BY_RESTRICTED_PLAN` resources remain stored but are inactive because the user's current tier no longer allows them to stay active.
+ *
+ */
+export type ResourceStateData = 'ACTIVE' | 'INACTIVE_BY_USER' | 'INACTIVE_BY_RESTRICTED_PLAN';
+
+/**
+ * Client-settable activation state for resources that support manual activation toggles.
+ * Clients may reactivate a resource with `ACTIVE` or manually disable it with `INACTIVE_BY_USER`.
+ * `INACTIVE_BY_RESTRICTED_PLAN` is managed internally by the backend and is never accepted from clients.
+ *
+ */
+export type PatchResourceStateData = 'ACTIVE' | 'INACTIVE_BY_USER';
+
+/**
+ * Stored product-match record for one of a user's saved search filters.
+ */
+export type SearchFilterProductMatchData = {
+    /**
+     * Unique identifier of the user who owns the matched search filter.
+     */
+    userId: string;
+    /**
+     * Unique identifier of the saved search filter that matched the product.
+     */
+    userSearchFilterId: string;
+    /**
+     * Unique identifier of the shop that owns the matched product.
+     */
+    shopId: string;
+    /**
+     * Shop's own identifier for the matched product.
+     */
+    shopsProductId: string;
+    /**
+     * Unique internal identifier of the matched product.
+     */
+    productId: string;
+    /**
+     * Optional feedback recorded by the user for this saved-search match.
+     * Present only after the user has explicitly marked the match as relevant or not relevant.
+     *
+     */
+    feedback?: boolean;
+    /**
+     * When the search-filter product match was originally created (RFC3339 format).
+     */
+    created: string;
+    /**
+     * When the search-filter product match was last updated (RFC3339 format).
      */
     updated: string;
 };
@@ -1263,6 +1391,37 @@ export type RangeQueryInt32 = {
      * Maximum value (inclusive)
      */
     max?: number;
+};
+
+/**
+ * Supported units for geo-distance filters.
+ */
+export type DistanceUnitData = 'MILES' | 'YARDS' | 'FEET' | 'INCHES' | 'KILOMETERS' | 'METERS' | 'CENTIMETERS' | 'MILLIMETERS' | 'NAUTICAL_MILES';
+
+/**
+ * Scalar distance value used by geo-distance filters.
+ */
+export type DistanceData = {
+    /**
+     * Numeric distance amount.
+     */
+    amount: number;
+    unit: DistanceUnitData;
+};
+
+/**
+ * Geospatial filter matching indexed coordinates within a distance of a reference point.
+ */
+export type GeoDistanceQueryData = {
+    /**
+     * Reference latitude in decimal degrees.
+     */
+    lat: number;
+    /**
+     * Reference longitude in decimal degrees.
+     */
+    lon: number;
+    distance: DistanceData;
 };
 
 /**
@@ -1397,6 +1556,10 @@ export type GetShopData = {
      */
     domains: Array<string>;
     /**
+     * Optional primary URL of the shop website. Read responses may include backend-managed UTM tracking parameters.
+     */
+    url?: string | null;
+    /**
      * Optional URL to the shop's logo or image
      */
     image?: string | null;
@@ -1500,6 +1663,12 @@ export type PatchShopData = {
      */
     domains?: Array<string> | null;
     /**
+     * Optional updated primary URL of the shop website.
+     * When omitted or set to `null`, the current URL remains unchanged.
+     *
+     */
+    url?: string | null;
+    /**
      * Optional updated URL to the shop's logo or image.
      * When omitted or set to `null`, the current image is left unchanged.
      *
@@ -1549,6 +1718,10 @@ export type PostShopData = {
      *
      */
     domains: Array<string>;
+    /**
+     * Optional primary URL of the shop website.
+     */
+    url?: string | null;
     /**
      * Optional URL to the shop's logo or image.
      */
@@ -1831,6 +2004,14 @@ export type WatchlistProductPatch = {
      * Whether to enable or disable notifications for this watchlist product
      */
     notifications?: boolean;
+    /**
+     * Optional activation state update for this watchlist entry.
+     * `ACTIVE` reactivates the entry if the user's current tier still has watchlist quota.
+     * `INACTIVE_BY_USER` manually disables the entry.
+     * Omit to leave the current state unchanged.
+     *
+     */
+    state?: PatchResourceStateData | null;
 };
 
 /**
@@ -1942,6 +2123,18 @@ export type UserSearchData = {
      */
     role?: Array<UserRoleData>;
     /**
+     * Filter matching users to one or more structured-address country codes.
+     */
+    country?: Array<CountryCodeData>;
+    /**
+     * Filter matching users to one or more structured-address continents.
+     */
+    continent?: Array<ContinentData>;
+    /**
+     * Filter matching users whose indexed coordinates lie within the given distance of the provided point.
+     */
+    geoAddress?: GeoDistanceQueryData | null;
+    /**
      * Optional created-at range filter (RFC3339 timestamps).
      */
     created?: {
@@ -2008,6 +2201,14 @@ export type GetUserAccountData = {
      */
     stripeCustomerId?: string;
     /**
+     * Optional structured postal address stored on the user account.
+     */
+    structuredAddress?: StructuredAddressData | null;
+    /**
+     * Optional latitude/longitude coordinates derived by the backend from `structuredAddress`.
+     */
+    geoAddress?: GeoAddressData | null;
+    /**
      * When the user account was created (RFC3339 format)
      */
     created: string;
@@ -2055,6 +2256,10 @@ export type PatchAdminUserData = {
      * New Stripe customer identifier to persist for the user.
      */
     stripeCustomerId?: string | null;
+    /**
+     * Optional structured postal address to persist for the user. When provided, the backend geocodes it and refreshes `geoAddress`.
+     */
+    structuredAddress?: StructuredAddressData | null;
 };
 
 /**
@@ -2083,6 +2288,10 @@ export type PatchUserAccountData = {
      * New consent state for displaying prohibited content
      */
     prohibitedContentConsent?: boolean | null;
+    /**
+     * Optional structured postal address to persist for the user. When provided, the backend geocodes it and refreshes `geoAddress`.
+     */
+    structuredAddress?: StructuredAddressData | null;
 };
 
 /**
@@ -2495,6 +2704,14 @@ export type PostProductData = {
      */
     sellerName?: string | null;
     /**
+     * Optional structured address to attach to the product for geo-aware indexing and search.
+     */
+    structuredAddress?: StructuredAddressData | null;
+    /**
+     * Optional coordinates to attach to the product for geo-aware indexing and search.
+     */
+    geoAddress?: GeoAddressData | null;
+    /**
      * Authenticity classification. Defaults to `UNKNOWN` when omitted.
      */
     authenticity?: AuthenticityData;
@@ -2688,6 +2905,14 @@ export type PutProductData = {
      */
     sellerName?: string | null;
     /**
+     * Optional structured address to attach to the product for geo-aware indexing and search. Used only when creating a new product.
+     */
+    structuredAddress?: StructuredAddressData | null;
+    /**
+     * Optional coordinates to attach to the product for geo-aware indexing and search. Used only when creating a new product.
+     */
+    geoAddress?: GeoAddressData | null;
+    /**
      * Authenticity classification. Defaults to `UNKNOWN` when omitted. Used only when creating a new product.
      */
     authenticity?: AuthenticityData;
@@ -2746,7 +2971,7 @@ export type ExecutionStateData = 'PROCESSING' | 'WAITING' | 'COMPLETED';
 /**
  * The payload of a partner shop application. Discriminated by the `type` field.
  * - `EXISTING`: The application targets an existing shop identified by `shopId`.
- * - `NEW`: The application targets a new shop described by name, type, domains, and optional metadata.
+ * - `NEW`: The application targets a new shop described by name, type, domains, and optional metadata such as a primary URL, image, address, and contact details.
  *
  */
 export type GetPartnerShopApplicationPayloadData = {
@@ -2774,6 +2999,10 @@ export type GetPartnerShopApplicationPayloadData = {
      *
      */
     shopDomains: Array<string>;
+    /**
+     * Optional primary URL of the requested new shop website.
+     */
+    shopUrl?: string | null;
     /**
      * Optional URL to the new shop's logo or image.
      */
@@ -2831,7 +3060,7 @@ export type GetPartnerShopApplicationData = {
 /**
  * Request payload for creating a new partner shop application. Discriminated by the `type` field.
  * - `EXISTING`: Apply for partnership for an existing shop identified by `shopId`.
- * - `NEW`: Apply for partnership for a new shop described by name, type, domains, and optional metadata.
+ * - `NEW`: Apply for partnership for a new shop described by name, type, domains, and optional metadata such as a primary URL, image, address, and contact details.
  * The created application always starts with `businessState` `SUBMITTED` and `executionState` `PROCESSING`.
  *
  */
@@ -2860,6 +3089,10 @@ export type PostPartnerShopApplicationPayloadData = {
      *
      */
     shopDomains: Array<string>;
+    /**
+     * Optional primary URL of the requested new shop website.
+     */
+    shopUrl?: string | null;
     /**
      * Optional URL to the new shop's logo or image.
      */
@@ -2911,6 +3144,10 @@ export type PatchPartnerShopApplicationData = {
      */
     shopDomains?: Array<string>;
     /**
+     * Updated primary URL of the requested new shop website. When omitted or set to `null`, the current value remains unchanged.
+     */
+    shopUrl?: string | null;
+    /**
      * Updated URL to the shop's logo or image. When omitted or set to `null`, the current image remains unchanged.
      */
     shopImage?: string | null;
@@ -2961,6 +3198,10 @@ export type AdminPatchPartnerShopApplicationData = {
      *
      */
     shopDomains?: Array<string>;
+    /**
+     * Updated primary URL of the requested new shop website. When omitted or set to `null`, the current value remains unchanged.
+     */
+    shopUrl?: string | null;
     /**
      * Updated URL to the shop's logo or image. When omitted or set to `null`, the current image remains unchanged.
      */
@@ -3455,6 +3696,24 @@ export type SimpleSearchProductsData = {
          */
         shopType?: Array<ShopTypeData>;
         /**
+         * Optional filter by one or more structured-address country codes of the selling shop.
+         * Uses ISO 3166-1 alpha-2 codes and matches products whose indexed shop address country is one of the provided values.
+         *
+         */
+        country?: Array<CountryCodeData>;
+        /**
+         * Optional filter by one or more structured-address continents of the selling shop.
+         * Matches products whose indexed shop address continent is one of the provided values.
+         *
+         */
+        continent?: Array<ContinentData>;
+        /**
+         * Optional geospatial proximity filter for the selling shop's indexed coordinates.
+         * Use deep-object encoding with `geoAddress[lat]`, `geoAddress[lon]`, `geoAddress[distance][amount]`, and `geoAddress[distance][unit]`.
+         *
+         */
+        geoAddress?: GeoDistanceQueryData;
+        /**
          * Optional price range filter in minor currency units (e.g. cents for most supported currencies, whole yen for JPY).
          * Use `price[min]` and/or `price[max]` to specify the range bounds.
          *
@@ -3614,7 +3873,7 @@ export type ComplexSearchProductsData = {
     /**
      * Search filter configuration with all filtering criteria.
      * Unlike the simple text search, this allows filtering by multiple fields,
-     * price ranges, product states, and date ranges.
+     * geo filters, price ranges, product states, and date ranges.
      *
      */
     body: ProductSearchData;
@@ -3868,7 +4127,7 @@ export type UpdateUserSearchFilterErrors = {
      */
     404: ApiError;
     /**
-     * Unprocessable Entity - restricted feature used for the user's tier
+     * Unprocessable Entity - restricted feature used for the user's tier or quota exceeded during reactivation
      */
     422: ApiError;
     /**
@@ -3959,6 +4218,62 @@ export type GetSearchFilterMatchedProductsResponses = {
 };
 
 export type GetSearchFilterMatchedProductsResponse = GetSearchFilterMatchedProductsResponses[keyof GetSearchFilterMatchedProductsResponses];
+
+export type UpdateSearchFilterProductMatchFeedbackData = {
+    /**
+     * Feedback patch for an existing search-filter product match.
+     * An empty JSON object `{}` is valid.
+     * Omitting `feedback` inside the JSON object leaves the stored feedback unchanged.
+     *
+     */
+    body: PatchUserSearchFilterMatchData;
+    path: {
+        /**
+         * Unique identifier of the saved search filter that produced the match
+         */
+        userSearchFilterId: string;
+        /**
+         * Unique identifier of the shop that owns the matched product
+         */
+        shopId: string;
+        /**
+         * Shop's own identifier of the matched product
+         */
+        shopsProductId: string;
+    };
+    query?: never;
+    url: '/api/v1/me/search-filters/{userSearchFilterId}/products/{shopId}/{shopsProductId}';
+};
+
+export type UpdateSearchFilterProductMatchFeedbackErrors = {
+    /**
+     * Bad request - invalid parameters or body
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * Search-filter product match not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type UpdateSearchFilterProductMatchFeedbackError = UpdateSearchFilterProductMatchFeedbackErrors[keyof UpdateSearchFilterProductMatchFeedbackErrors];
+
+export type UpdateSearchFilterProductMatchFeedbackResponses = {
+    /**
+     * Search-filter product match updated successfully
+     */
+    200: SearchFilterProductMatchData;
+};
+
+export type UpdateSearchFilterProductMatchFeedbackResponse = UpdateSearchFilterProductMatchFeedbackResponses[keyof UpdateSearchFilterProductMatchFeedbackResponses];
 
 export type GetWatchlistProductsData = {
     body?: never;
@@ -4106,6 +4421,20 @@ export type AdminSearchUsersData = {
          * Optional filter by one or more user roles.
          */
         role?: Array<UserRoleData>;
+        /**
+         * Optional filter by one or more structured-address country codes (ISO 3166-1 alpha-2).
+         */
+        country?: Array<CountryCodeData>;
+        /**
+         * Optional filter by one or more structured-address continents.
+         */
+        continent?: Array<ContinentData>;
+        /**
+         * Optional geospatial proximity filter for the user's indexed coordinates.
+         * Use deep-object encoding with `geoAddress[lat]`, `geoAddress[lon]`, `geoAddress[distance][amount]`, and `geoAddress[distance][unit]`.
+         *
+         */
+        geoAddress?: GeoDistanceQueryData;
         /**
          * Optional lower bound for the user's `created` timestamp (RFC3339).
          */
@@ -4637,6 +4966,10 @@ export type PatchWatchlistProductErrors = {
      * Watchlist entry not found
      */
     404: ApiError;
+    /**
+     * Unprocessable Entity - watchlist quota exceeded during reactivation
+     */
+    422: ApiError;
     /**
      * Internal server error
      */

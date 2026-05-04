@@ -54,6 +54,7 @@ const DEFAULT_VALUES = {
     name: "",
     shopType: "AUCTION_HOUSE" as EditableShopType,
     domains: "",
+    url: "",
     image: "",
     phone: "",
     email: "",
@@ -81,6 +82,13 @@ function createAdminShopSchema(t: (key: string) => string) {
             .refine(
                 (value) => parseShopDomains(value).length > 0,
                 t("adminDashboard.shops.create.validation.domainsRequired"),
+            ),
+        url: z
+            .string()
+            .trim()
+            .refine(
+                (value) => value === "" || z.url().safeParse(value).success,
+                t("adminDashboard.shops.create.validation.urlInvalid"),
             ),
         image: z
             .string()
@@ -173,6 +181,7 @@ export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDia
                 name: values.name.trim(),
                 shopType: values.shopType,
                 domains: parseShopDomains(values.domains),
+                url: values.url.trim() === "" ? null : values.url.trim(),
                 image: values.image.trim() === "" ? null : values.image.trim(),
                 phone: values.phone === "" ? null : values.phone,
                 email: values.email === "" ? null : values.email,
@@ -196,7 +205,7 @@ export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDia
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[90vh] w-[min(96vw,72rem)] max-w-5xl overflow-y-auto">
+            <DialogContent className="max-h-[90vh] w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] overflow-y-auto sm:w-[min(calc(100vw-4rem),88rem)] sm:max-w-[min(calc(100vw-4rem),88rem)]">
                 <DialogHeader>
                     <DialogTitle>{t("adminDashboard.shops.create.title")}</DialogTitle>
                     <DialogDescription>
@@ -211,90 +220,116 @@ export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDia
                             <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
                                 {t("adminDashboard.shops.sections.core")}
                             </h3>
-                            <FormField
-                                control={form.control}
-                                name="name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>
-                                            {t("adminDashboard.shops.fields.name")}
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input {...field} maxLength={255} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={form.control}
-                                name="shopType"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>
-                                            {t("adminDashboard.shops.fields.shopType")}
-                                        </FormLabel>
-                                        <Select value={field.value} onValueChange={field.onChange}>
+                            <div className="grid gap-4 lg:grid-cols-2">
+                                <FormField
+                                    control={form.control}
+                                    name="name"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {t("adminDashboard.shops.fields.name")}
+                                            </FormLabel>
                                             <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue />
-                                                </SelectTrigger>
+                                                <Input {...field} maxLength={255} />
                                             </FormControl>
-                                            <SelectContent>
-                                                {EDITABLE_SHOP_TYPES.map((shopType) => (
-                                                    <SelectItem key={shopType} value={shopType}>
-                                                        {t(
-                                                            SHOP_TYPE_TRANSLATION_CONFIG[shopType]
-                                                                .translationKey,
-                                                        )}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
 
-                            <FormField
-                                control={form.control}
-                                name="domains"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>
-                                            {t("adminDashboard.shops.fields.domains")}
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Textarea {...field} className="min-h-[96px]" />
-                                        </FormControl>
-                                        <FormDescription>
-                                            {t("adminDashboard.shops.fields.domainsHint")}
-                                        </FormDescription>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                                <FormField
+                                    control={form.control}
+                                    name="shopType"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {t("adminDashboard.shops.fields.shopType")}
+                                            </FormLabel>
+                                            <Select
+                                                value={field.value}
+                                                onValueChange={field.onChange}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {EDITABLE_SHOP_TYPES.map((shopType) => (
+                                                        <SelectItem key={shopType} value={shopType}>
+                                                            {t(
+                                                                SHOP_TYPE_TRANSLATION_CONFIG[
+                                                                    shopType
+                                                                ].translationKey,
+                                                            )}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
 
-                            <FormField
-                                control={form.control}
-                                name="image"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>
-                                            {t("adminDashboard.shops.fields.image")}
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                type="url"
-                                                placeholder="https://..."
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                                <FormField
+                                    control={form.control}
+                                    name="url"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {t("adminDashboard.shops.fields.url")}
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    type="url"
+                                                    placeholder="https://shop.example.com"
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="image"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {t("adminDashboard.shops.fields.image")}
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    type="url"
+                                                    placeholder="https://..."
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="domains"
+                                    render={({ field }) => (
+                                        <FormItem className="lg:col-span-2">
+                                            <FormLabel>
+                                                {t("adminDashboard.shops.fields.domains")}
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Textarea {...field} className="min-h-[96px]" />
+                                            </FormControl>
+                                            <FormDescription>
+                                                {t("adminDashboard.shops.fields.domainsHint")}
+                                            </FormDescription>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                         </section>
 
                         {/* Contact */}

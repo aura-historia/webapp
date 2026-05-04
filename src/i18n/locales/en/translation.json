@@ -1203,6 +1203,7 @@
       "fields": {
         "name": "Shop name",
         "shopType": "Shop type",
+        "url": "Primary shop URL",
         "image": "Image URL",
         "domains": "Domains",
         "domainsHint": "One per line. Domains are normalized to lowercase, without scheme or path.",
@@ -1213,12 +1214,12 @@
         "locality": "City / Locality",
         "region": "Region / State",
         "postalCode": "Postal Code",
-        "country": "Country (ISO code)",
-        "countryHint": "ISO 3166-1 alpha-2 code, e.g. DE or US",
+        "country": "Country",
+        "countryHint": "Select the country associated with the shop address.",
         "specialitiesCategories": "Speciality Categories",
         "specialitiesPeriods": "Speciality Periods",
         "specialitiesHint": "One kebab-case key per line, e.g. ancient-egypt",
-        "countryPlaceholder": "Select country code",
+        "countryPlaceholder": "Select country",
         "countryNone": "No country",
         "specialitiesPlaceholder": "Select entries",
         "searchCategories": "Search categories…",
@@ -1235,9 +1236,10 @@
           "nameRequired": "Please enter a shop name.",
           "nameTooLong": "The shop name must not exceed 255 characters.",
           "domainsRequired": "Please enter at least one domain.",
+          "urlInvalid": "Please enter a valid shop URL.",
           "imageInvalid": "Please enter a valid image URL.",
           "emailInvalid": "Please enter a valid email address.",
-          "countryInvalid": "Please enter a valid ISO 3166-1 alpha-2 country code (e.g. DE)."
+          "countryInvalid": "Please select a valid country."
         }
       },
       "edit": {

@@ -1203,6 +1203,7 @@
       "fields": {
         "name": "Nome del negozio",
         "shopType": "Tipo di negozio",
+        "url": "URL principale del negozio",
         "image": "URL immagine",
         "domains": "Domini",
         "domainsHint": "Uno per riga. I domini sono normalizzati in minuscolo, senza schema o percorso.",
@@ -1213,12 +1214,12 @@
         "locality": "Città / Località",
         "region": "Regione / Stato",
         "postalCode": "Codice postale",
-        "country": "Paese (codice ISO)",
-        "countryHint": "Codice ISO 3166-1 alpha-2, es. DE o IT",
+        "country": "Paese",
+        "countryHint": "Seleziona il paese associato all’indirizzo del negozio.",
         "specialitiesCategories": "Specializzazioni (categorie)",
         "specialitiesPeriods": "Specializzazioni (periodi)",
         "specialitiesHint": "Una chiave kebab-case per riga, es. ancient-egypt",
-        "countryPlaceholder": "Seleziona codice paese",
+        "countryPlaceholder": "Seleziona paese",
         "countryNone": "Nessun paese",
         "specialitiesPlaceholder": "Seleziona voci",
         "searchCategories": "Cerca categorie…",
@@ -1235,9 +1236,10 @@
           "nameRequired": "Inserisci un nome del negozio.",
           "nameTooLong": "Il nome del negozio non può superare 255 caratteri.",
           "domainsRequired": "Inserisci almeno un dominio.",
+          "urlInvalid": "Inserisci un URL valido del negozio.",
           "imageInvalid": "Inserisci un URL immagine valido.",
           "emailInvalid": "Inserire un indirizzo e-mail valido.",
-          "countryInvalid": "Inserire un codice paese ISO 3166-1 alpha-2 valido (es. DE)."
+          "countryInvalid": "Seleziona un paese valido."
         }
       },
       "edit": {

@@ -75,6 +75,16 @@ describe("mapToShopDetail", () => {
         expect(result.domains).toEqual(["christies.com"]);
     });
 
+    it("maps url when present", () => {
+        const result = mapToShopDetail({ ...mockShopData, url: "https://www.christies.com" });
+        expect(result.url).toBe("https://www.christies.com");
+    });
+
+    it("url is undefined when not in response", () => {
+        const result = mapToShopDetail(mockShopData);
+        expect(result.url).toBeUndefined();
+    });
+
     it("maps phone when present", () => {
         const result = mapToShopDetail({ ...mockShopData, phone: "+49 30 123456" });
         expect(result.phone).toBe("+49 30 123456");

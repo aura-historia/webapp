@@ -22,6 +22,7 @@ export type AdminShopCreate = {
     readonly name: string;
     readonly shopType: EditableShopType;
     readonly domains: string[];
+    readonly url?: string | null;
     readonly image?: string | null;
     readonly structuredAddress?: StructuredAddress | null;
     readonly phone?: string | null;
@@ -91,6 +92,9 @@ export function useCreateAdminShop() {
                 shopType,
                 domains: input.domains,
             };
+            if (input.url !== undefined) {
+                body.url = input.url;
+            }
             if (input.image !== undefined) {
                 body.image = input.image;
             }
