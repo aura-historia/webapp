@@ -18,7 +18,7 @@ export function AccountImage({ firstName = "", lastName = "" }: ProfileImageProp
 
     return (
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white border border-primary font-bold text-primary select-none">
-            {initials ? initials : <User className="h-6 w-6" />}
+            {initials || <User className="h-6 w-6" />}
         </div>
     );
 }
