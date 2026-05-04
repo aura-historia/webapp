@@ -1,9 +1,18 @@
 import type { ProductUserStateData } from "@/client";
 
+export type SearchFilterProductData = {
+    readonly matched: boolean;
+    readonly hidden: boolean;
+    readonly matchFeedback?: boolean;
+    readonly matchReason?: string;
+    readonly userSearchFilterId?: string;
+};
+
 export type UserProductData = {
     readonly watchlistData: WatchlistProductData;
     readonly notificationData: NotificationProductData;
     readonly restrictedContentData: UserRestrictedContentData;
+    readonly searchFilterData?: SearchFilterProductData;
 };
 
 type WatchlistProductData = {
@@ -32,6 +41,13 @@ export function mapToInternalUserProductData(apiData: ProductUserStateData): Use
         },
         restrictedContentData: {
             consentGiven: apiData.prohibitedContent.consent ?? false,
+        },
+        searchFilterData: {
+            matched: apiData.searchFilter.matched,
+            hidden: apiData.searchFilter.hidden,
+            matchFeedback: apiData.searchFilter.matchFeedback,
+            matchReason: apiData.searchFilter.matchReason,
+            userSearchFilterId: apiData.searchFilter.userSearchFilterId,
         },
     };
 }

@@ -1,6 +1,7 @@
 import { useUserSearchFilter } from "@/hooks/search-filters/useUserSearchFilter.ts";
 import { useSearchFilterMatchedProducts } from "@/hooks/search-filters/useSearchFilterMatchedProducts.ts";
-import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
+import { SearchFilterMatchCard } from "@/components/search-filters/SearchFilterMatchCard.tsx";
+import { HiddenMatchCard } from "@/components/product/overview/HiddenMatchCard.tsx";
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
@@ -90,9 +91,16 @@ export function SearchFilterMatches({ filterId }: Props) {
                 </span>
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                {allProducts.map((product: OverviewProduct) => (
-                    <ProductCard key={product.productId} product={product} />
-                ))}
+                {allProducts.map((product: OverviewProduct, index) => {
+                    const isHidden = product.userData?.searchFilterData?.hidden === true;
+                    const key = isHidden ? `hidden-${index}` : product.productId;
+
+                    return isHidden ? (
+                        <HiddenMatchCard key={key} />
+                    ) : (
+                        <SearchFilterMatchCard key={key} product={product} filterId={filterId} />
+                    );
+                })}
             </div>
             {showLoaderRow && (
                 <div ref={ref}>
