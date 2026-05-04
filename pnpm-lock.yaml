@@ -174,8 +174,8 @@ importers:
         specifier: ^19.2.5
         version: 19.2.5
       react-apexcharts:
-        specifier: ^1.9.0
-        version: 1.9.0(apexcharts@5.10.4)(react@19.2.5)
+        specifier: ^2.1.0
+        version: 2.1.0(apexcharts@5.10.4)(react@19.2.5)
       react-day-picker:
         specifier: ^9.14.0
         version: 9.14.0(react@19.2.5)
@@ -4148,10 +4148,10 @@ packages:
   rc9@3.0.1:
     resolution: {integrity: sha512-gMDyleLWVE+i6Sgtc0QbbY6pEKqYs97NGi6isHQPqYlLemPoO8dxQ3uGi0f4NiP98c+jMW6cG1Kx9dDwfvqARQ==}
 
-  react-apexcharts@1.9.0:
-    resolution: {integrity: sha512-DDBzQFuKdwyCEZnji1yIcjlnV8hRr4VDabS5Y3iuem/WcTq6n4VbjWPzbPm3aOwW4I+rf/gA3zWqhws4z9CwLw==}
+  react-apexcharts@2.1.0:
+    resolution: {integrity: sha512-xrmeTKRKHh3cvvLc8SasqFjlOgIqGpyHc81qjnRtcjUM0Fu7qEjgVRWGPokGFjqhwRZVgEym8zmuEyYr5LMYIg==}
     peerDependencies:
-      apexcharts: '>=4.0.0'
+      apexcharts: '>=5.10.1'
       react: '>=16.8.0'
 
   react-day-picker@9.14.0:
@@ -9196,7 +9196,7 @@ snapshots:
       defu: 6.1.7
       destr: 2.0.5
 
-  react-apexcharts@1.9.0(apexcharts@5.10.4)(react@19.2.5):
+  react-apexcharts@2.1.0(apexcharts@5.10.4)(react@19.2.5):
     dependencies:
       apexcharts: 5.10.4
       prop-types: 15.8.1
