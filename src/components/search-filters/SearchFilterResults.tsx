@@ -31,6 +31,7 @@ export function SearchFilterResults() {
     const { data: account, isPending: isAccountPending } = useUserAccount();
     const [query, setQuery] = useState("");
     const [wizardOpen, setWizardOpen] = useState(false);
+    const [wizardMode, setWizardMode] = useState<"create" | "edit" | "duplicate">("create");
     const [editFilter, setEditFilter] = useState<UserSearchFilter | undefined>(undefined);
 
     const canCreate =
@@ -89,6 +90,7 @@ export function SearchFilterResults() {
                                         className="gap-2 shrink-0"
                                         disabled={!canCreate}
                                         onClick={() => {
+                                            setWizardMode("create");
                                             setEditFilter(undefined);
                                             setWizardOpen(true);
                                         }}
@@ -111,6 +113,7 @@ export function SearchFilterResults() {
             <CreateSearchFilterWizard
                 open={wizardOpen}
                 onOpenChange={setWizardOpen}
+                mode={wizardMode}
                 filter={editFilter}
             />
 
@@ -131,7 +134,14 @@ export function SearchFilterResults() {
                             key={filter.id}
                             filter={filter}
                             onDelete={handleDelete}
+                            canDuplicate={canCreate}
                             onEdit={(f) => {
+                                setWizardMode("edit");
+                                setEditFilter(f);
+                                setWizardOpen(true);
+                            }}
+                            onDuplicate={(f) => {
+                                setWizardMode("duplicate");
                                 setEditFilter(f);
                                 setWizardOpen(true);
                             }}

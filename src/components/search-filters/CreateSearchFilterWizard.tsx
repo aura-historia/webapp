@@ -172,10 +172,11 @@ function StepHeader({
 type Props = {
     readonly open: boolean;
     readonly onOpenChange: (open: boolean) => void;
+    readonly mode: "create" | "edit" | "duplicate";
     readonly filter?: UserSearchFilter;
 };
 
-export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) {
+export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: Props) {
     const { t, i18n } = useTranslation();
     const lang = parseLanguage(i18n.language);
     const nameSchema = useMemo(() => createNameSchema(t), [t]);
@@ -200,14 +201,17 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
     useEffect(() => {
         if (!open) return;
         nameForm.reset({
-            name: filter?.name ?? "",
+            name:
+                mode === "duplicate"
+                    ? t("searchFilters.duplicateNamePrefix", { name: filter?.name })
+                    : (filter?.name ?? ""),
             q: filter?.search.q ?? "",
             enhancedSearchDescription: filter?.enhancedSearchDescription ?? "",
         });
         setFilters(filter?.search ?? EMPTY_FILTERS);
         setStep(1);
         setDirection(1);
-    }, [open, filter, nameForm.reset]);
+    }, [open, filter, mode, nameForm.reset, t]);
 
     const { data: periodsData } = useQuery(getPeriodsOptions({ query: { language: lang } }));
     const { data: categoriesData } = useQuery(getCategoriesOptions({ query: { language: lang } }));
@@ -247,7 +251,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
             },
             onError: (e: Error) => toast.error(e.message),
         };
-        if (filter) {
+        if (mode === "edit" && filter) {
             updateFilter(
                 {
                     id: filter.id,
@@ -269,7 +273,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, filter }: Props) 
                 callbacks,
             );
         }
-    }, [filter, createFilter, updateFilter, nameForm, filters, t, onOpenChange]);
+    }, [filter, createFilter, updateFilter, nameForm, filters, t, onOpenChange, mode]);
 
     /**
      * Step labels shown in the sidebar.

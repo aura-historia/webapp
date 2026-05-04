@@ -1270,6 +1270,8 @@
         "title": "My Search Filters",
         "create": "Create Search Filter",
         "createUpgradeTooltip": "Upgrade your account to create more search filters",
+        "duplicate": "Duplicate search filter",
+        "duplicateNamePrefix": "Copy of {{name}}",
         "edit": "Edit",
         "delete": "Delete",
         "deleteSuccess": "Search filter deleted successfully",

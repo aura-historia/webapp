@@ -1279,6 +1279,8 @@
         "title": "Meine Suchaufträge",
         "create": "Neuer Suchauftrag",
         "createUpgradeTooltip": "Upgraden Sie Ihr Konto, um mehr Suchaufträge zu erstellen",
+        "duplicate": "Suchauftrag duplizieren",
+        "duplicateNamePrefix": "Kopie von {{name}}",
         "edit": "Suchauftrag bearbeiten",
         "delete": "Suchauftrag löschen",
         "deleteSuccess": "Suchauftrag wurde gelöscht.",

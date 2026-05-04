@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Bell, BellRing, ScanSearch, Search, Settings2, Trash2 } from "lucide-react";
+import { Bell, BellRing, Copy, ScanSearch, Search, Settings2, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
@@ -46,11 +46,20 @@ import { FilterDetailRow } from "@/components/search-filters/FilterDetailRow.tsx
 type Props = {
     readonly filter: UserSearchFilter;
     readonly isDeleting: boolean;
+    readonly canDuplicate: boolean;
     readonly onDelete: (id: string) => void;
     readonly onEdit: (filter: UserSearchFilter) => void;
+    readonly onDuplicate: (filter: UserSearchFilter) => void;
 };
 
-export function SearchFilterCard({ filter, isDeleting, onDelete, onEdit }: Props) {
+export function SearchFilterCard({
+    filter,
+    isDeleting,
+    canDuplicate,
+    onDelete,
+    onEdit,
+    onDuplicate,
+}: Props) {
     const { t, i18n } = useTranslation();
     const { search } = filter;
     const updateFilter = useUpdateUserSearchFilter();
@@ -127,6 +136,26 @@ export function SearchFilterCard({ filter, isDeleting, onDelete, onEdit }: Props
                             </Button>
                         </TooltipTrigger>
                         <TooltipContent>{notificationsLabel}</TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="size-10 text-muted-foreground hover:text-primary"
+                                aria-label={t("searchFilters.duplicate")}
+                                disabled={!canDuplicate}
+                                onClick={() => onDuplicate(filter)}
+                            >
+                                <Copy className="size-5" />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            {canDuplicate
+                                ? t("searchFilters.duplicate")
+                                : t("searchFilters.createUpgradeTooltip")}
+                        </TooltipContent>
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
