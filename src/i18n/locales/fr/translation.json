@@ -66,6 +66,10 @@
     "terms": {
       "title": "Conditions générales | Aura Historia",
       "description": "Conditions générales d'utilisation d'Aura Historia, y compris les informations sur les services payants et le traitement des paiements."
+    },
+    "searchShops": {
+      "title": "Rechercher des boutiques | Aura Historia",
+      "description": "Découvrez les boutiques, maisons de ventes aux enchères et marchands de confiance sur Aura Historia."
     }
   },
   "validation": {
@@ -212,7 +216,12 @@
         "Miroir Rococo",
         "Miniature persane",
         "Fauteuil Louis XV"
-      ]
+      ],
+      "searchTypeLabel": "Type de recherche",
+      "searchType": {
+        "products": "Articles",
+        "shops": "Boutiques"
+      }
     },
     "applyFilters": "Appliquer les filtres",
     "validation": {
@@ -245,7 +254,8 @@
         "excludeMerchant": "Réinitialiser le filtre d'exclusion de marchand",
         "merchants": "Réinitialiser les filtres de marchands",
         "shopType": "Réinitialiser le filtre de type de boutique",
-        "periodId": "Réinitialiser le filtre de période"
+        "periodId": "Réinitialiser le filtre de période",
+        "partnerStatus": "Réinitialiser le filtre de statut de partenariat"
       },
       "all": "Tous",
       "select": "Sélectionner",
@@ -263,7 +273,8 @@
       "searchExcludeMerchants": "Rechercher des marchands à exclure...",
       "shopType": "Type de boutique",
       "auctionDate": "Date de vente aux enchères",
-      "auctionDateDisabledTooltip": "Disponible uniquement pour les maisons de vente aux enchères"
+      "auctionDateDisabledTooltip": "Disponible uniquement pour les maisons de vente aux enchères",
+      "partnerStatus": "Statut de partenariat"
     },
     "messages": {
       "minQueryLength": "Veuillez saisir au moins 3 caractères pour lancer la recherche.",
@@ -286,8 +297,12 @@
         "label": "Ordre :",
         "asc": "Croissant",
         "desc": "Décroissant"
-      }
-    }
+      },
+      "name": "Nom"
+    },
+    "shopResultsFor": "Résultats de boutiques pour :",
+    "totalShopResults_one": "{{count}} boutique",
+    "totalShopResults_other": "{{count}} boutiques"
   },
   "product": {
     "unknownPrice": "Prix inconnu",
@@ -1181,6 +1196,9 @@
         "title": "Impossible de charger les articles",
         "description": "Une erreur s'est produite lors du chargement des articles. Veuillez réessayer plus tard."
       }
+    },
+    "card": {
+      "viewShop": "Voir la boutique"
     }
   },
   "notifications": {

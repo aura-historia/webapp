@@ -45,7 +45,7 @@ describe("SearchBar", () => {
             const input = screen.getByLabelText("Suche");
             const button = screen.getByRole("button", { name: /suchen/i });
 
-            expect(input).toHaveClass("h-12");
+            expect(input).toHaveClass("h-full");
             expect(button).toHaveClass("h-12");
         });
 
@@ -198,6 +198,38 @@ describe("SearchBar", () => {
             });
             const input = screen.getByLabelText("Suche") as HTMLInputElement;
             expect(input.value).toBe("");
+        });
+    });
+
+    describe("Product/Shop type selector", () => {
+        it("renders the search type selector defaulting to products", async () => {
+            await act(async () => {
+                renderWithRouter(<SearchBar type={"big"} />);
+            });
+            const trigger = screen.getByTestId("search-type-select");
+            expect(trigger).toBeInTheDocument();
+            expect(trigger).toHaveTextContent("Artikel");
+        });
+
+        it("defaults the selector to shops when rendered on the /search/shops page", async () => {
+            await act(async () => {
+                renderWithRouter(<SearchBar type={"small"} />, {
+                    initialEntries: ["/search/shops?q=auction"],
+                });
+            });
+            const trigger = screen.getByTestId("search-type-select");
+            expect(trigger).toHaveTextContent("Shops");
+        });
+
+        it("can switch between products and shops", async () => {
+            await act(async () => {
+                renderWithRouter(<SearchBar type={"big"} />);
+            });
+            const trigger = screen.getByTestId("search-type-select");
+            await user.click(trigger);
+            const shopsOption = await screen.findByRole("option", { name: "Shops" });
+            await user.click(shopsOption);
+            expect(trigger).toHaveTextContent("Shops");
         });
     });
 });

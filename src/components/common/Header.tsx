@@ -214,17 +214,17 @@ export function Header() {
 
             {/* Desktop Menu */}
             {isLoginEnabled && (
-                <div className="hidden md:flex items-center justify-end gap-4 w-full">
+                <div className="hidden md:flex items-center justify-end w-full">
                     {serverAuth.authenticated ? (
                         <div
                             className={cn(
-                                "flex items-center gap-4 transition-all duration-300",
+                                "flex items-center transition-all duration-300",
                                 isFloating
                                     ? "bg-background rounded-xs px-4 py-2 hero-search-shadow"
                                     : "",
                             )}
                         >
-                            <NavigationMenu className={"md:inline flex-none"}>
+                            <NavigationMenu className={"md:inline flex-none gap-2"}>
                                 <NavigationMenuList>
                                     <NavigationMenuItem>
                                         <NavigationMenuLink asChild>
@@ -242,15 +242,17 @@ export function Header() {
                                             </Link>
                                         </NavigationMenuLink>
                                     </NavigationMenuItem>
+
+                                    <NavigationMenuItem>
+                                        <NotificationBell />
+                                    </NavigationMenuItem>
                                 </NavigationMenuList>
                             </NavigationMenu>
 
-                            <NotificationBell />
-
                             <DropdownMenu>
-                                <DropdownMenuTrigger className="flex items-center gap-4">
+                                <DropdownMenuTrigger className="flex items-center gap-4 hover:bg-accent transition-all px-4">
                                     {userAccount?.firstName && (
-                                        <span>
+                                        <span className={"hidden md:inline"}>
                                             {t("header.hello")}, {userAccount.firstName}
                                         </span>
                                     )}
