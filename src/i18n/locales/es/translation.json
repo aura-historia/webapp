@@ -986,6 +986,7 @@
     "userDetails": {
       "title": "Completa tu perfil",
       "subtitle": "Estos datos son opcionales — puedes actualizarlos en cualquier momento",
+      "newsletterConsentText": "Deseo recibir por correo electrónico el boletín de Aura Historia con antigüedades seleccionadas, tendencias del mercado y ofertas. Puedo revocar mi consentimiento en cualquier momento. Más información en la <privacyLink>política de privacidad</privacyLink>.",
       "submit": "Guardar y continuar",
       "skip": "Omitir por ahora"
     },

@@ -1000,6 +1000,7 @@
     "userDetails": {
       "title": "Complete your profile",
       "subtitle": "These details are optional — you can always update them later",
+      "newsletterConsentText": "I would like to receive the Aura Historia newsletter by email with selected antiques, market trends, and offers. I can revoke my consent at any time. More information is available in the <privacyLink>privacy policy</privacyLink>.",
       "submit": "Save and continue",
       "skip": "Skip for now"
     },

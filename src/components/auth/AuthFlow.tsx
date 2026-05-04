@@ -4,6 +4,7 @@ import { SignUpForm } from "@/components/auth/SignUpForm.tsx";
 import { ConfirmSignUpForm } from "@/components/auth/ConfirmSignUpForm.tsx";
 import { UserDetailsForm } from "@/components/auth/UserDetailsForm.tsx";
 import { ResetPasswordForm } from "@/components/auth/ResetPasswordForm.tsx";
+import { getStoredPendingEmail, storePendingEmail } from "@/components/auth/pendingSignUpEmail.ts";
 
 type AuthStep = "sign-in" | "sign-up" | "confirm" | "user-details" | "reset-password";
 
@@ -16,7 +17,7 @@ type AuthFlowProps = {
 
 export function AuthFlow({ step, onStepChange, onComplete }: AuthFlowProps) {
     // Stored between sign-up and confirm steps so we can auto-sign-in after confirm
-    const [pendingEmail, setPendingEmail] = useState("");
+    const [pendingEmail, setPendingEmail] = useState(getStoredPendingEmail);
     const [pendingPassword, setPendingPassword] = useState("");
 
     return (
@@ -34,6 +35,7 @@ export function AuthFlow({ step, onStepChange, onComplete }: AuthFlowProps) {
                     onSwitchToSignIn={() => onStepChange("sign-in")}
                     onSuccess={(email, password) => {
                         setPendingEmail(email);
+                        storePendingEmail(email);
                         setPendingPassword(password);
                         onStepChange("confirm");
                     }}
@@ -48,7 +50,15 @@ export function AuthFlow({ step, onStepChange, onComplete }: AuthFlowProps) {
                 />
             )}
 
-            {step === "user-details" && <UserDetailsForm onSuccess={onComplete} />}
+            {step === "user-details" && (
+                <UserDetailsForm
+                    email={pendingEmail}
+                    onSuccess={() => {
+                        storePendingEmail("");
+                        onComplete();
+                    }}
+                />
+            )}
 
             {step === "reset-password" && (
                 <ResetPasswordForm
