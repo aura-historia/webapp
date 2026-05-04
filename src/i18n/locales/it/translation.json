@@ -263,7 +263,9 @@
         "shopType": "Reimposta filtro tipo di negozio",
         "periodId": "Reimposta filtro periodo",
         "qualityIndicators": "Reimposta filtro indicatori di qualità",
-        "partnerStatus": "Reimposta filtro stato di partnership"
+        "partnerStatus": "Reimposta filtro stato di partnership",
+        "global": "Reimposta tutto",
+        "category": "Reimposta filtro categoria"
       },
       "qualityIndicators": "Indicatori di qualità",
       "periodId": "Periodo / Stile",
@@ -761,11 +763,12 @@
     "BAD_SORT_VALUE": "Ordinamento non valido.",
     "BAD_ORDER_VALUE": "Ordine di ordinamento non valido.",
     "WATCHLIST_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di articoli nella tua lista dei preferiti. Ci sono già 5/5 voci occupate.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di filtri di ricerca salvati. Ci sono già 5/5 filtri di ricerca occupati.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di ricerche salvate. È possibile salvare un massimo di 5 ricerche.",
     "INVALID_EMAIL": "L'indirizzo email non è valido o non è accettato dal nostro fornitore di newsletter.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Hai già un abbonamento attivo. Utilizza il portale clienti per gestirlo.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Non è stato trovato alcun abbonamento esistente. Avvia un nuovo processo di pagamento.",
-    "unknown": "Si è verificato un errore imprevisto."
+    "unknown": "Si è verificato un errore imprevisto.",
+    "undefined": "Si è verificato un errore imprevisto."
   },
   "watchlist": {
     "title": "La mia lista dei preferiti",
