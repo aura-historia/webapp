@@ -66,6 +66,10 @@
     "terms": {
       "title": "Termini e condizioni | Aura Historia",
       "description": "Termini e condizioni per l'utilizzo di Aura Historia, comprese le informazioni sui servizi a pagamento e l'elaborazione dei pagamenti."
+    },
+    "searchShops": {
+      "title": "Cerca negozi | Aura Historia",
+      "description": "Scopri negozi, case d'asta e rivenditori di fiducia su Aura Historia."
     }
   },
   "validation": {
@@ -212,7 +216,12 @@
         "Specchio rococò",
         "Miniatura persiana",
         "Poltrona Luigi XV"
-      ]
+      ],
+      "searchTypeLabel": "Tipo di ricerca",
+      "searchType": {
+        "products": "Articoli",
+        "shops": "Negozi"
+      }
     },
     "applyFilters": "Applica filtri",
     "validation": {
@@ -253,7 +262,10 @@
         "merchants": "Reimposta filtri commercianti",
         "shopType": "Reimposta filtro tipo di negozio",
         "periodId": "Reimposta filtro periodo",
-        "qualityIndicators": "Reimposta filtro indicatori di qualità"
+        "qualityIndicators": "Reimposta filtro indicatori di qualità",
+        "partnerStatus": "Reimposta filtro stato di partnership",
+        "global": "Reimposta tutto",
+        "category": "Reimposta filtro categoria"
       },
       "qualityIndicators": "Indicatori di qualità",
       "periodId": "Periodo / Stile",
@@ -263,7 +275,8 @@
       "condition": "Condizione",
       "provenance": "Provenienza",
       "restoration": "Restauro",
-      "selected": "{{count}} selezionati"
+      "selected": "{{count}} selezionati",
+      "partnerStatus": "Stato di partnership"
     },
     "messages": {
       "minQueryLength": "Inserisci almeno 3 caratteri per avviare la ricerca.",
@@ -286,8 +299,12 @@
         "label": "Ordine:",
         "asc": "Crescente",
         "desc": "Decrescente"
-      }
-    }
+      },
+      "name": "Nome"
+    },
+    "shopResultsFor": "Risultati dei negozi per:",
+    "totalShopResults_one": "{{count}} negozio",
+    "totalShopResults_other": "{{count}} negozi"
   },
   "product": {
     "unknownPrice": "Prezzo sconosciuto",
@@ -746,11 +763,12 @@
     "BAD_SORT_VALUE": "Ordinamento non valido.",
     "BAD_ORDER_VALUE": "Ordine di ordinamento non valido.",
     "WATCHLIST_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di articoli nella tua lista dei preferiti. Ci sono già 5/5 voci occupate.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di filtri di ricerca salvati. Ci sono già 5/5 filtri di ricerca occupati.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di ricerche salvate. È possibile salvare un massimo di 5 ricerche.",
     "INVALID_EMAIL": "L'indirizzo email non è valido o non è accettato dal nostro fornitore di newsletter.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Hai già un abbonamento attivo. Utilizza il portale clienti per gestirlo.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Non è stato trovato alcun abbonamento esistente. Avvia un nuovo processo di pagamento.",
-    "unknown": "Si è verificato un errore imprevisto."
+    "unknown": "Si è verificato un errore imprevisto.",
+    "undefined": "Si è verificato un errore imprevisto."
   },
   "watchlist": {
     "title": "La mia lista dei preferiti",
@@ -1181,6 +1199,9 @@
         "title": "Impossibile caricare gli articoli",
         "description": "Si è verificato un errore durante il caricamento degli articoli. Riprova più tardi."
       }
+    },
+    "card": {
+      "viewShop": "Vedi negozio"
     }
   },
   "notifications": {

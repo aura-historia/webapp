@@ -66,6 +66,10 @@
     "terms": {
       "title": "Conditions générales | Aura Historia",
       "description": "Conditions générales d'utilisation d'Aura Historia, y compris les informations sur les services payants et le traitement des paiements."
+    },
+    "searchShops": {
+      "title": "Rechercher des boutiques | Aura Historia",
+      "description": "Découvrez les boutiques, maisons de ventes aux enchères et marchands de confiance sur Aura Historia."
     }
   },
   "validation": {
@@ -212,7 +216,12 @@
         "Miroir Rococo",
         "Miniature persane",
         "Fauteuil Louis XV"
-      ]
+      ],
+      "searchTypeLabel": "Type de recherche",
+      "searchType": {
+        "products": "Articles",
+        "shops": "Boutiques"
+      }
     },
     "applyFilters": "Appliquer les filtres",
     "validation": {
@@ -245,7 +254,10 @@
         "excludeMerchant": "Réinitialiser le filtre d'exclusion de marchand",
         "merchants": "Réinitialiser les filtres de marchands",
         "shopType": "Réinitialiser le filtre de type de boutique",
-        "periodId": "Réinitialiser le filtre de période"
+        "periodId": "Réinitialiser le filtre de période",
+        "partnerStatus": "Réinitialiser le filtre de statut de partenariat",
+        "global": "Réinitialiser tout",
+        "category": "Réinitialiser le filtre de catégorie"
       },
       "all": "Tous",
       "select": "Sélectionner",
@@ -263,7 +275,8 @@
       "searchExcludeMerchants": "Rechercher des marchands à exclure...",
       "shopType": "Type de boutique",
       "auctionDate": "Date de vente aux enchères",
-      "auctionDateDisabledTooltip": "Disponible uniquement pour les maisons de vente aux enchères"
+      "auctionDateDisabledTooltip": "Disponible uniquement pour les maisons de vente aux enchères",
+      "partnerStatus": "Statut de partenariat"
     },
     "messages": {
       "minQueryLength": "Veuillez saisir au moins 3 caractères pour lancer la recherche.",
@@ -286,8 +299,12 @@
         "label": "Ordre :",
         "asc": "Croissant",
         "desc": "Décroissant"
-      }
-    }
+      },
+      "name": "Nom"
+    },
+    "shopResultsFor": "Résultats de boutiques pour :",
+    "totalShopResults_one": "{{count}} boutique",
+    "totalShopResults_other": "{{count}} boutiques"
   },
   "product": {
     "unknownPrice": "Prix inconnu",
@@ -747,10 +764,11 @@
     "BAD_ORDER_VALUE": "Ordre de tri invalide.",
     "unknown": "Une erreur inattendue s'est produite.",
     "WATCHLIST_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum d'articles dans votre liste de suivi. Il y a déjà 5/5 entrées de liste de suivi occupées.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum de filtres de recherche enregistrés. Il y a déjà 5/5 filtres de recherche occupés.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum de recherches sauvegardées. Un maximum de 5 recherches peut être sauvegardé.",
     "INVALID_EMAIL": "L'adresse e-mail est invalide ou n'est pas acceptée par notre fournisseur de newsletter.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Vous avez déjà un abonnement actif. Veuillez utiliser le portail client pour le gérer.",
-    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Aucun abonnement existant n'a été trouvé. Veuillez démarrer un nouveau processus de paiement."
+    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Aucun abonnement existant n'a été trouvé. Veuillez démarrer un nouveau processus de paiement.",
+    "undefined": "Une erreur inattendue s'est produite."
   },
   "watchlist": {
     "title": "Mes favoris",
@@ -1181,6 +1199,9 @@
         "title": "Impossible de charger les articles",
         "description": "Une erreur s'est produite lors du chargement des articles. Veuillez réessayer plus tard."
       }
+    },
+    "card": {
+      "viewShop": "Voir la boutique"
     }
   },
   "notifications": {

@@ -13,6 +13,7 @@ export type ShopDetail = {
     readonly partnerStatus: ShopPartnerStatus;
     readonly image?: string;
     readonly domains: string[];
+    readonly url?: string;
     readonly created: Date;
     readonly updated: Date;
 };
@@ -30,6 +31,7 @@ export function mapToShopDetail(data: GetShopData): ShopDetail {
         partnerStatus: parseShopPartnerStatus(data.partnerStatus),
         image: data.image ?? undefined,
         domains: data.domains,
+        url: data.url ?? undefined,
         created: new Date(data.created),
         updated: new Date(data.updated),
     };

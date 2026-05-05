@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.13/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.14/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -16,8 +16,7 @@
       "**/vitest.config.ts",
       "!**/src/routeTree.gen.ts",
       "!**/src/client",
-      "!**/src/assets",
-      "!**/src/i18n/locales"
+      "!**/src/assets"
     ]
   },
   "formatter": {

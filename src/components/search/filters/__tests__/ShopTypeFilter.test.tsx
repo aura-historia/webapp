@@ -29,7 +29,7 @@ describe("ShopTypeFilter", () => {
     it("renders with correct heading and dropdown trigger", () => {
         render(
             <FormWrapper>
-                <ShopTypeFilter />
+                <ShopTypeFilter onReset={() => {}} />
             </FormWrapper>,
         );
 
@@ -40,7 +40,7 @@ describe("ShopTypeFilter", () => {
     it("displays placeholder when no options are selected", () => {
         render(
             <FormWrapper>
-                <ShopTypeFilter />
+                <ShopTypeFilter onReset={() => {}} />
             </FormWrapper>,
         );
 
@@ -60,7 +60,7 @@ describe("ShopTypeFilter", () => {
                     ],
                 }}
             >
-                <ShopTypeFilter />
+                <ShopTypeFilter onReset={() => {}} />
             </FormWrapper>,
         );
 
@@ -70,7 +70,7 @@ describe("ShopTypeFilter", () => {
     it("displays labels inline when some options are selected", () => {
         render(
             <FormWrapper defaultValues={{ shopType: ["AUCTION_HOUSE", "COMMERCIAL_DEALER"] }}>
-                <ShopTypeFilter />
+                <ShopTypeFilter onReset={() => {}} />
             </FormWrapper>,
         );
 
@@ -82,7 +82,7 @@ describe("ShopTypeFilter", () => {
 
         render(
             <FormWrapper>
-                <ShopTypeFilter />
+                <ShopTypeFilter onReset={() => {}} />
             </FormWrapper>,
         );
 
@@ -101,7 +101,7 @@ describe("ShopTypeFilter", () => {
 
         render(
             <FormWrapper>
-                <ShopTypeFilter />
+                <ShopTypeFilter onReset={() => {}} />
             </FormWrapper>,
         );
 
@@ -119,7 +119,7 @@ describe("ShopTypeFilter", () => {
 
         render(
             <FormWrapper>
-                <ShopTypeFilter />
+                <ShopTypeFilter onReset={() => {}} />
             </FormWrapper>,
         );
 

@@ -13,10 +13,6 @@ type ShopHeaderProps = {
     readonly productCount?: number;
 };
 
-function buildMerchantUrl(domain: string): string {
-    return /^https?:\/\//i.test(domain) ? domain : `https://${domain}`;
-}
-
 export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
     const { t, i18n } = useTranslation();
 
@@ -29,7 +25,7 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
     const formattedProductCount = new Intl.NumberFormat(i18n.language).format(productCount ?? 0);
 
     const shopTypeName = t(SHOP_TYPE_TRANSLATION_CONFIG[shop.shopType].translationKey);
-    const merchantUrl = shop.domains[0] ? buildMerchantUrl(shop.domains[0]) : null;
+    const merchantUrl = shop.url;
 
     return (
         <header className="flex flex-col">

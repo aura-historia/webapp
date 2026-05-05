@@ -103,7 +103,7 @@ export default function PricingSection() {
                 />
 
                 {/* Billing interval toggle */}
-                <div className="mt-8 flex items-center justify-center gap-3">
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
                     <span
                         className={`text-sm font-medium transition-colors duration-300 ${
                             !isYearly ? "text-foreground" : "text-muted-foreground"
@@ -117,16 +117,18 @@ export default function PricingSection() {
                             setBillingInterval(checked ? "yearly" : "monthly")
                         }
                     />
-                    <span
-                        className={`text-sm font-medium transition-colors duration-300 ${
-                            isYearly ? "text-foreground" : "text-muted-foreground"
-                        }`}
-                    >
-                        {t("landingPage.pricing.yearly")}
-                    </span>
-                    <span className="rounded-sm bg-tertiary/10 px-2 py-0.5 text-xs font-semibold text-tertiary">
-                        {t("landingPage.pricing.yearlySavings")}
-                    </span>
+                    <div className="flex items-center gap-2">
+                        <span
+                            className={`text-sm font-medium transition-colors duration-300 ${
+                                isYearly ? "text-foreground" : "text-muted-foreground"
+                            }`}
+                        >
+                            {t("landingPage.pricing.yearly")}
+                        </span>
+                        <span className="rounded-sm bg-tertiary/10 px-2 py-0.5 text-xs font-semibold leading-none text-tertiary">
+                            {t("landingPage.pricing.yearlySavings")}
+                        </span>
+                    </div>
                 </div>
 
                 <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">

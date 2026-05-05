@@ -321,7 +321,9 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                     <PeriodFilter />
                     <CategoryFilter />
                     <QualityIndicatorsFilter />
-                    <ShopTypeFilter />
+                    <ShopTypeFilter
+                        onReset={() => form.setValue("shopType", FILTER_DEFAULTS.shopType)}
+                    />
                     <MerchantFilters />
                     <AuctionDateSpanFilter />
                     <CreationDateSpanFilter />

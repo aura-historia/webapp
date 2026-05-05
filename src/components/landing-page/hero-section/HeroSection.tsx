@@ -44,7 +44,7 @@ export default function HeroSection() {
                     {t("landingPage.subtitle")}
                 </p>
                 <Card
-                    className={`p-2 sm:mt-8 mt-6 hero-search-shadow transition-all duration-500 ease-in-out ${
+                    className={`p-2 sm:mt-8 mt-6 bg-surface-container hero-search-shadow transition-all duration-500 ease-in-out ${
                         isScrolled ? "opacity-0 pointer-events-none" : "opacity-100"
                     }`}
                 >
