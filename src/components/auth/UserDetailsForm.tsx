@@ -4,10 +4,8 @@ import { Trans, useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { Info } from "lucide-react";
 import { z } from "zod";
-import { LANGUAGES } from "@/data/internal/common/Language.ts";
-import { CURRENCIES } from "@/data/internal/common/Currency.ts";
-import { mapToBackendCurrency } from "@/data/internal/common/Currency.ts";
-import { mapToBackendLanguage, parseLanguage } from "@/data/internal/common/Language.ts";
+import { LANGUAGES, mapToBackendLanguage, parseLanguage } from "@/data/internal/common/Language.ts";
+import { CURRENCIES, mapToBackendCurrency } from "@/data/internal/common/Currency.ts";
 import { getAccountEditSchema } from "@/utils/nameValidation";
 import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount";
 import { useNewsletterSubscription } from "@/hooks/newsletter/useNewsletterSubscription.ts";
@@ -97,7 +95,7 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
         }
     };
 
-    const handleSkip = async () => {
+    const handleSkip = () => {
         try {
             onSuccess();
         } catch (err) {
