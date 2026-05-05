@@ -11,8 +11,8 @@ const PRICING_HREF = "/#pricing";
 
 interface FilterCardProps {
     readonly title: string;
-    readonly resetTooltip: string;
-    readonly onReset: () => void;
+    readonly resetTooltip?: string;
+    readonly onReset?: () => void;
     readonly children: ReactNode;
     readonly defaultOpen?: boolean;
     readonly disabled?: boolean;
@@ -71,24 +71,26 @@ export function FilterCard({
                         )}
                     </div>
                     <div className={cn(disabled && "opacity-55")}>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={onReset}
-                                    className="h-7 w-7 p-0 text-primary/75 hover:bg-primary/8 hover:text-primary"
-                                    aria-label={resetTooltip}
-                                    disabled={disabled}
-                                >
-                                    <FilterX className="h-4 w-4" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{resetTooltip}</p>
-                            </TooltipContent>
-                        </Tooltip>
+                        {onReset && (
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={onReset}
+                                        className="h-7 w-7 p-0 text-primary/75 hover:bg-primary/8 hover:text-primary"
+                                        aria-label={resetTooltip}
+                                        disabled={disabled}
+                                    >
+                                        <FilterX className="h-4 w-4" />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{resetTooltip}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        )}
                     </div>
                 </div>
                 <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-y-hidden">

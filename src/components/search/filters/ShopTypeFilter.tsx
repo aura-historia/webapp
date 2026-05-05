@@ -11,7 +11,7 @@ type ShopTypeFilterFormValues = {
 };
 
 type ShopTypeFilterProps = {
-    readonly onReset: () => void;
+    readonly onReset?: () => void;
     readonly shopTypes?: readonly ShopType[];
     readonly disabled?: boolean;
 };
