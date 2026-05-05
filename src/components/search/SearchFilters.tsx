@@ -215,13 +215,15 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const { data: account } = useUserAccount();
     const { data: savedFilters } = useUserSearchFilters(!!user);
     const saveDisabled =
-        !user ||
+        user == null ||
         (savedFilters?.total ?? 0) >= SEARCH_FILTER_QUOTA[account?.subscriptionType ?? "free"];
-    const saveTooltip = !user
-        ? t("searchFilter.loginRequired")
-        : saveDisabled
-          ? t("searchFilter.quotaReached")
-          : undefined;
+
+    let saveTooltip: string | undefined;
+    if (user == null) {
+        saveTooltip = t("searchFilter.loginRequired");
+    } else if (saveDisabled) {
+        saveTooltip = t("searchFilter.quotaReached");
+    }
 
     const getEffectiveQuery = useCallback((): string => {
         const currentQuery = getQuery()?.trim();

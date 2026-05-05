@@ -54,7 +54,7 @@ function fieldHasValue(args: SearchFilterArguments, field: keyof SearchFilterArg
         if (value.length === 0) return false;
         const defaultValues = FIELD_DEFAULTS[field];
         // All options selected = same as no filter → not active
-        return !(defaultValues && value.length === defaultValues.length);
+        return value.length !== defaultValues?.length;
     }
     return true;
 }

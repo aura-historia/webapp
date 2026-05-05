@@ -9,8 +9,8 @@ export function CreationDateSpanFilter({
     defaultOpen = false,
     disabled = false,
 }: {
-    defaultOpen?: boolean;
-    disabled?: boolean;
+    readonly defaultOpen?: boolean;
+    readonly disabled?: boolean;
 }) {
     const { control } = useFormContext<FilterSchema>();
     const { errors } = useFormState({ control, name: ["creationDate.to"] });

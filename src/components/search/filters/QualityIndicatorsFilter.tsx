@@ -9,7 +9,7 @@ import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 import { FilterCard } from "./FilterCard.tsx";
 
-export function QualityIndicatorsFilter({ disabled = false }: { disabled?: boolean }) {
+export function QualityIndicatorsFilter({ disabled = false }: { readonly disabled?: boolean }) {
     const { t } = useTranslation();
     const { setValue } = useFormContext<FilterSchema>();
 

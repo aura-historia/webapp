@@ -49,8 +49,8 @@ function buildFilterQuery(
 
     if (searchArgs.priceFrom != null || searchArgs.priceTo != null) {
         filters.price = {
-            min: searchArgs.priceFrom != null ? searchArgs.priceFrom * 100 : undefined,
-            max: searchArgs.priceTo != null ? searchArgs.priceTo * 100 : undefined,
+            min: searchArgs.priceFrom == null ? undefined : searchArgs.priceFrom * 100,
+            max: searchArgs.priceTo == null ? undefined : searchArgs.priceTo * 100,
         };
     }
 

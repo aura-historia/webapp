@@ -10,8 +10,8 @@ export function AuctionDateSpanFilter({
     defaultOpen = false,
     disabled: tierDisabled = false,
 }: {
-    defaultOpen?: boolean;
-    disabled?: boolean;
+    readonly defaultOpen?: boolean;
+    readonly disabled?: boolean;
 }) {
     const { control, watch } = useFormContext<FilterSchema>();
     const { errors } = useFormState({ control, name: ["auctionDate.from", "auctionDate.to"] });

@@ -55,8 +55,8 @@ export function mapProductSearchDataToSearchFilterArguments(
 ): SearchFilterArguments {
     return {
         q: data.productQuery ?? "",
-        priceFrom: data.price?.min != null ? data.price.min / 100 : undefined,
-        priceTo: data.price?.max != null ? data.price.max / 100 : undefined,
+        priceFrom: data.price?.min == null ? undefined : data.price.min / 100,
+        priceTo: data.price?.max == null ? undefined : data.price.max / 100,
         allowedStates: data.state?.map((s) => parseProductState(s)),
         creationDateFrom: data.created?.min ? new Date(data.created.min) : undefined,
         creationDateTo: data.created?.max ? new Date(data.created.max) : undefined,
@@ -86,8 +86,8 @@ export function mapSearchFilterArgumentsToProductSearchData(
         price:
             args.priceFrom != null || args.priceTo != null
                 ? {
-                      min: args.priceFrom != null ? args.priceFrom * 100 : undefined,
-                      max: args.priceTo != null ? args.priceTo * 100 : undefined,
+                      min: args.priceFrom == null ? undefined : args.priceFrom * 100,
+                      max: args.priceTo == null ? undefined : args.priceTo * 100,
                   }
                 : undefined,
         state: args.allowedStates?.map((s) => mapToBackendState(s)),
