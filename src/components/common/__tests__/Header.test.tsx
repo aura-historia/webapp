@@ -7,6 +7,7 @@ import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/comm
 
 const mockUseAuth = vi.hoisted(() => vi.fn());
 const mockUseUserAccount = vi.hoisted(() => vi.fn());
+const mockUseRouteContext = vi.hoisted(() => vi.fn());
 
 vi.mock("@/hooks/auth/useAuth", () => ({
     useAuth: mockUseAuth,
@@ -16,11 +17,23 @@ vi.mock("@/hooks/account/useUserAccount.ts", () => ({
     useUserAccount: mockUseUserAccount,
 }));
 
+vi.mock("@/routes/__root.tsx", () => ({
+    Route: {
+        useRouteContext: mockUseRouteContext,
+    },
+}));
+
 const setupAuthMock = (isLoggedIn = false) => {
     mockUseAuth.mockReturnValue({
         user: isLoggedIn ? { userId: "test-id", username: "test" } : null,
         isLoading: false,
         signOut: vi.fn(),
+    });
+    mockUseRouteContext.mockReturnValue({
+        serverAuth: {
+            authenticated: isLoggedIn,
+            user: isLoggedIn ? { userId: "test-id", username: "test" } : null,
+        },
     });
 };
 

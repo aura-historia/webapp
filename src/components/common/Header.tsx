@@ -28,6 +28,7 @@ import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/comm
 import { env } from "@/env.ts";
 import logo from "@/assets/logo/logo.svg";
 import logoCompact from "@/assets/logo/logo-compact.svg";
+import { Route } from "@/routes/__root.tsx";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
@@ -54,8 +55,9 @@ export function Header() {
     }, []);
 
     const { user, signOut: amplifySignOut } = useAuth();
+    const { serverAuth } = Route.useRouteContext();
 
-    const { data: userAccount, isLoading } = useUserAccount();
+    const { data: userAccount } = useUserAccount();
 
     const isLandingPage = pathname === "/";
     const isHiddenRoute = SEARCH_BAR_HIDDEN_ROUTES.has(pathname);
@@ -213,7 +215,7 @@ export function Header() {
             {/* Desktop Menu */}
             {isLoginEnabled && (
                 <div className="hidden md:flex items-center justify-end w-full">
-                    {user ? (
+                    {serverAuth.authenticated ? (
                         <div
                             className={cn(
                                 "flex items-center transition-all duration-300",
@@ -257,7 +259,6 @@ export function Header() {
                                     <AccountImage
                                         firstName={userAccount?.firstName || ""}
                                         lastName={userAccount?.lastName || ""}
-                                        isLoading={isLoading}
                                     />
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
