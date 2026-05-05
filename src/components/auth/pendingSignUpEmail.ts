@@ -1,8 +1,7 @@
 const SIGN_UP_EMAIL_STORAGE_KEY = "auth.signUp.pendingEmail";
-const localThis = globalThis;
 
 function canUseSessionStorage() {
-    return !import.meta.env.SSR && "sessionStorage" in localThis;
+    return !import.meta.env.SSR && "sessionStorage" in globalThis;
 }
 
 export function getStoredPendingEmail(): string {
@@ -10,7 +9,7 @@ export function getStoredPendingEmail(): string {
         return "";
     }
 
-    return localThis.sessionStorage.getItem(SIGN_UP_EMAIL_STORAGE_KEY) ?? "";
+    return globalThis.sessionStorage.getItem(SIGN_UP_EMAIL_STORAGE_KEY) ?? "";
 }
 
 export function hasStoredPendingEmail(): boolean {
@@ -23,9 +22,9 @@ export function storePendingEmail(email: string) {
     }
 
     if (email) {
-        localThis.sessionStorage.setItem(SIGN_UP_EMAIL_STORAGE_KEY, email);
+        globalThis.sessionStorage.setItem(SIGN_UP_EMAIL_STORAGE_KEY, email);
         return;
     }
 
-    localThis.sessionStorage.removeItem(SIGN_UP_EMAIL_STORAGE_KEY);
+    globalThis.sessionStorage.removeItem(SIGN_UP_EMAIL_STORAGE_KEY);
 }
