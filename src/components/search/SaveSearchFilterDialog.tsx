@@ -40,7 +40,7 @@ const createSchema = (t: (key: string) => string) =>
             .string()
             .min(1, t("searchFilter.wizard.nameRequired"))
             .max(255, t("searchFilter.wizard.nameTooLong")),
-        enhancedSearchDescription: z.string().max(2000).optional(),
+        enhancedSearchDescription: z.string().max(1000).optional(),
     });
 
 type FormData = { name: string; enhancedSearchDescription?: string };
@@ -213,9 +213,15 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                                                 )}
                                                 className="min-h-28 bg-transparent"
                                                 disabled={aiDescriptionDisabled}
+                                                maxLength={1000}
                                             />
                                         </FormControl>
-                                        <FormMessage />
+                                        <div className="flex justify-between items-center">
+                                            <FormMessage />
+                                            <span className="text-xs text-muted-foreground ml-auto">
+                                                {field.value?.length ?? 0}/1000
+                                            </span>
+                                        </div>
                                     </FormItem>
                                 )}
                             />

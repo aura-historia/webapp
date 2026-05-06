@@ -64,7 +64,7 @@ const createNameSchema = (t: (key: string) => string) =>
             .min(1, t("searchFilter.wizard.nameRequired"))
             .max(255, t("searchFilter.wizard.nameTooLong")),
         q: z.string().min(3, t("searchFilter.wizard.queryTooShort")),
-        enhancedSearchDescription: z.string().max(2000).optional(),
+        enhancedSearchDescription: z.string().max(1000).optional(),
     });
 
 type NameFormData = { name: string; q: string; enhancedSearchDescription?: string };
@@ -405,9 +405,15 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                                 )}
                                                 className="min-h-28"
                                                 disabled={!isUltimate}
+                                                maxLength={1000}
                                             />
                                         </FormControl>
-                                        <FormMessage />
+                                        <div className="flex justify-between items-center">
+                                            <FormMessage />
+                                            <span className="text-xs text-muted-foreground ml-auto">
+                                                {field.value?.length ?? 0}/1000
+                                            </span>
+                                        </div>
                                     </FormItem>
                                 )}
                             />
