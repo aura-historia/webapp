@@ -18,10 +18,6 @@ import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchF
 import { hasAdvancedFilterDetails } from "@/data/internal/search/SearchFilterArguments.ts";
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
-import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Authenticity.ts";
-import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Condition.ts";
-import { PROVENANCE_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Provenance.ts";
-import { RESTORATION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Restoration.ts";
 import { useUpdateUserSearchFilter } from "@/hooks/search-filters/useUpdateUserSearchFilter.ts";
 import {
     AlertDialog,
@@ -42,6 +38,24 @@ import { mapToPeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { useMemo } from "react";
 import { FilterDetailRow } from "@/components/search-filters/FilterDetailRow.tsx";
+import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
+import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
+import {
+    AUTHENTICITIES,
+    AUTHENTICITY_TRANSLATION_CONFIG,
+} from "@/data/internal/quality-indicators/Authenticity.ts";
+import {
+    CONDITIONS,
+    CONDITION_TRANSLATION_CONFIG,
+} from "@/data/internal/quality-indicators/Condition.ts";
+import {
+    PROVENANCES,
+    PROVENANCE_TRANSLATION_CONFIG,
+} from "@/data/internal/quality-indicators/Provenance.ts";
+import {
+    RESTORATIONS,
+    RESTORATION_TRANSLATION_CONFIG,
+} from "@/data/internal/quality-indicators/Restoration.ts";
 
 type Props = {
     readonly filter: UserSearchFilter;
@@ -222,16 +236,22 @@ export function SearchFilterCard({
                 )}
                 {!!search.allowedStates?.length && (
                     <span className="inline-flex flex-wrap gap-1.5">
-                        {search.allowedStates.map((s) => (
-                            <StatusBadge key={s} status={s} showIcon={false} />
-                        ))}
+                        {search.allowedStates.length === PRODUCT_STATES.length ? (
+                            <Badge variant="outline">{t("search.filter.all")}</Badge>
+                        ) : (
+                            search.allowedStates.map((s) => (
+                                <StatusBadge key={s} status={s} showIcon={false} />
+                            ))
+                        )}
                     </span>
                 )}
                 {!!search.shopType?.length && (
                     <span className="inline-flex flex-wrap gap-1.5">
-                        {search.shopType.map((st) => (
-                            <ShopTypeBadge key={st} shopType={st} />
-                        ))}
+                        {search.shopType.length === SHOP_TYPES.length ? (
+                            <Badge variant="outline">{t("search.filter.all")}</Badge>
+                        ) : (
+                            search.shopType.map((st) => <ShopTypeBadge key={st} shopType={st} />)
+                        )}
                     </span>
                 )}
                 {!!search.periodId?.length && (
@@ -282,30 +302,55 @@ export function SearchFilterCard({
                                 <FilterDetailRow
                                     variant="text"
                                     label={t("search.filter.authenticity")}
-                                    values={(search.authenticity ?? []).map((a) =>
-                                        t(AUTHENTICITY_TRANSLATION_CONFIG[a].translationKey),
-                                    )}
+                                    values={
+                                        (search.authenticity ?? []).length === AUTHENTICITIES.length
+                                            ? [t("search.filter.all")]
+                                            : (search.authenticity ?? []).map((a) =>
+                                                  t(
+                                                      AUTHENTICITY_TRANSLATION_CONFIG[a]
+                                                          .translationKey,
+                                                  ),
+                                              )
+                                    }
                                 />
                                 <FilterDetailRow
                                     variant="text"
                                     label={t("search.filter.condition")}
-                                    values={(search.condition ?? []).map((c) =>
-                                        t(CONDITION_TRANSLATION_CONFIG[c].translationKey),
-                                    )}
+                                    values={
+                                        (search.condition ?? []).length === CONDITIONS.length
+                                            ? [t("search.filter.all")]
+                                            : (search.condition ?? []).map((c) =>
+                                                  t(CONDITION_TRANSLATION_CONFIG[c].translationKey),
+                                              )
+                                    }
                                 />
                                 <FilterDetailRow
                                     variant="text"
                                     label={t("search.filter.provenance")}
-                                    values={(search.provenance ?? []).map((p) =>
-                                        t(PROVENANCE_TRANSLATION_CONFIG[p].translationKey),
-                                    )}
+                                    values={
+                                        (search.provenance ?? []).length === PROVENANCES.length
+                                            ? [t("search.filter.all")]
+                                            : (search.provenance ?? []).map((p) =>
+                                                  t(
+                                                      PROVENANCE_TRANSLATION_CONFIG[p]
+                                                          .translationKey,
+                                                  ),
+                                              )
+                                    }
                                 />
                                 <FilterDetailRow
                                     variant="text"
                                     label={t("search.filter.restoration")}
-                                    values={(search.restoration ?? []).map((r) =>
-                                        t(RESTORATION_TRANSLATION_CONFIG[r].translationKey),
-                                    )}
+                                    values={
+                                        (search.restoration ?? []).length === RESTORATIONS.length
+                                            ? [t("search.filter.all")]
+                                            : (search.restoration ?? []).map((r) =>
+                                                  t(
+                                                      RESTORATION_TRANSLATION_CONFIG[r]
+                                                          .translationKey,
+                                                  ),
+                                              )
+                                    }
                                 />
                                 {(search.creationDateFrom != null ||
                                     search.creationDateTo != null) && (

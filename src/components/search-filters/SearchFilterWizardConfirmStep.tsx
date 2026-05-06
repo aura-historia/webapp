@@ -9,10 +9,24 @@ import {
 import type { PeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
 import type { CategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
 import type { ReactNode } from "react";
-import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Authenticity.ts";
-import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Condition.ts";
-import { PROVENANCE_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Provenance.ts";
-import { RESTORATION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Restoration.ts";
+import {
+    AUTHENTICITY_TRANSLATION_CONFIG,
+    AUTHENTICITIES,
+} from "@/data/internal/quality-indicators/Authenticity.ts";
+import {
+    CONDITION_TRANSLATION_CONFIG,
+    CONDITIONS,
+} from "@/data/internal/quality-indicators/Condition.ts";
+import {
+    PROVENANCE_TRANSLATION_CONFIG,
+    PROVENANCES,
+} from "@/data/internal/quality-indicators/Provenance.ts";
+import {
+    RESTORATION_TRANSLATION_CONFIG,
+    RESTORATIONS,
+} from "@/data/internal/quality-indicators/Restoration.ts";
+import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
+import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
 import {
     FilterDetailRow,
     FilterDetailRowBadges,
@@ -44,6 +58,9 @@ type Props = {
     readonly periods: PeriodOverview[];
     readonly categories: CategoryOverview[];
 };
+
+/** Returns true when all available variants are selected (= no restriction active). */
+const isAllSelected = (count: number, total: number) => count === total;
 
 export function SearchFilterWizardConfirmStep({ name, filters, periods, categories }: Props) {
     const { t } = useTranslation();
@@ -119,9 +136,16 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                     )}
                     {formValues.productState.length > 0 && (
                         <FilterDetailRowBadges label={t("search.filter.productState")}>
-                            {formValues.productState.map((s) => (
-                                <StatusBadge key={s} status={s} showIcon={false} />
-                            ))}
+                            {isAllSelected(
+                                formValues.productState.length,
+                                PRODUCT_STATES.length,
+                            ) ? (
+                                <Badge variant="outline">{t("search.filter.all")}</Badge>
+                            ) : (
+                                formValues.productState.map((s) => (
+                                    <StatusBadge key={s} status={s} showIcon={false} />
+                                ))
+                            )}
                         </FilterDetailRowBadges>
                     )}
                 </ConfirmSection>
@@ -159,39 +183,59 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                     <FilterDetailRow
                         variant="badges"
                         label={t("search.filter.authenticity")}
-                        values={formValues.authenticity.map((a) =>
-                            t(AUTHENTICITY_TRANSLATION_CONFIG[a].translationKey),
-                        )}
+                        values={
+                            isAllSelected(formValues.authenticity.length, AUTHENTICITIES.length)
+                                ? [t("search.filter.all")]
+                                : formValues.authenticity.map((a) =>
+                                      t(AUTHENTICITY_TRANSLATION_CONFIG[a].translationKey),
+                                  )
+                        }
                     />
                     <FilterDetailRow
                         variant="badges"
                         label={t("search.filter.condition")}
-                        values={formValues.condition.map((c) =>
-                            t(CONDITION_TRANSLATION_CONFIG[c].translationKey),
-                        )}
+                        values={
+                            isAllSelected(formValues.condition.length, CONDITIONS.length)
+                                ? [t("search.filter.all")]
+                                : formValues.condition.map((c) =>
+                                      t(CONDITION_TRANSLATION_CONFIG[c].translationKey),
+                                  )
+                        }
                     />
                     <FilterDetailRow
                         variant="badges"
                         label={t("search.filter.provenance")}
-                        values={formValues.provenance.map((p) =>
-                            t(PROVENANCE_TRANSLATION_CONFIG[p].translationKey),
-                        )}
+                        values={
+                            isAllSelected(formValues.provenance.length, PROVENANCES.length)
+                                ? [t("search.filter.all")]
+                                : formValues.provenance.map((p) =>
+                                      t(PROVENANCE_TRANSLATION_CONFIG[p].translationKey),
+                                  )
+                        }
                     />
                     <FilterDetailRow
                         variant="badges"
                         label={t("search.filter.restoration")}
-                        values={formValues.restoration.map((r) =>
-                            t(RESTORATION_TRANSLATION_CONFIG[r].translationKey),
-                        )}
+                        values={
+                            isAllSelected(formValues.restoration.length, RESTORATIONS.length)
+                                ? [t("search.filter.all")]
+                                : formValues.restoration.map((r) =>
+                                      t(RESTORATION_TRANSLATION_CONFIG[r].translationKey),
+                                  )
+                        }
                     />
                 </ConfirmSection>
 
                 {/* Shop & Händler */}
                 <ConfirmSection label={t("searchFilter.wizard.step.shop")} show={hasShop}>
                     <FilterDetailRowBadges label={t("search.filter.shopType")}>
-                        {formValues.shopType.map((st) => (
-                            <ShopTypeBadge key={st} shopType={st} />
-                        ))}
+                        {isAllSelected(formValues.shopType.length, SHOP_TYPES.length) ? (
+                            <Badge variant="outline">{t("search.filter.all")}</Badge>
+                        ) : (
+                            formValues.shopType.map((st) => (
+                                <ShopTypeBadge key={st} shopType={st} />
+                            ))
+                        )}
                     </FilterDetailRowBadges>
                     <FilterDetailRow
                         variant="badges"
