@@ -984,6 +984,7 @@
     "userDetails": {
       "title": "Profil vervollständigen",
       "subtitle": "Diese Angaben sind optional — Sie können sie jederzeit später aktualisieren",
+      "newsletterConsentText": "Ich möchte den Aura Historia Newsletter per E-Mail mit ausgewählten Antiquitäten, Markttrends und Angeboten erhalten. Meine Einwilligung kann ich jederzeit mit Wirkung für die Zukunft widerrufen. Weitere Informationen finde ich in der <privacyLink>Datenschutzerklärung</privacyLink>.",
       "submit": "Speichern und fortfahren",
       "skip": "Vorerst überspringen"
     },

@@ -986,6 +986,7 @@
     "userDetails": {
       "title": "Complétez votre profil",
       "subtitle": "Ces informations sont facultatives — vous pouvez les mettre à jour à tout moment",
+      "newsletterConsentText": "Je souhaite recevoir par e-mail la newsletter Aura Historia avec une sélection d'antiquités, des tendances du marché et des offres. Je peux retirer mon consentement à tout moment. Plus d'informations sont disponibles dans la <privacyLink>politique de confidentialité</privacyLink>.",
       "submit": "Enregistrer et continuer",
       "skip": "Ignorer pour l'instant"
     },
