@@ -11,11 +11,16 @@ type ShopTypeFilterFormValues = {
 };
 
 type ShopTypeFilterProps = {
-    readonly onReset: () => void;
+    readonly onReset?: () => void;
     readonly shopTypes?: readonly ShopType[];
+    readonly disabled?: boolean;
 };
 
-export function ShopTypeFilter({ onReset, shopTypes = SHOP_TYPES }: ShopTypeFilterProps) {
+export function ShopTypeFilter({
+    onReset,
+    shopTypes = SHOP_TYPES,
+    disabled = false,
+}: ShopTypeFilterProps) {
     const { control } = useFormContext<ShopTypeFilterFormValues>();
     const { t } = useTranslation();
 
@@ -33,6 +38,7 @@ export function ShopTypeFilter({ onReset, shopTypes = SHOP_TYPES }: ShopTypeFilt
             title={t("search.filter.shopType")}
             resetTooltip={t("search.filter.resetTooltip.shopType")}
             onReset={onReset}
+            disabled={disabled}
         >
             <Controller
                 name="shopType"

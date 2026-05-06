@@ -6,7 +6,13 @@ import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
 import { FilterCard } from "./FilterCard.tsx";
 import { useMemo } from "react";
 
-export function AuctionDateSpanFilter() {
+export function AuctionDateSpanFilter({
+    defaultOpen = false,
+    disabled: tierDisabled = false,
+}: {
+    readonly defaultOpen?: boolean;
+    readonly disabled?: boolean;
+}) {
     const { control, watch } = useFormContext<FilterSchema>();
     const { errors } = useFormState({ control, name: ["auctionDate.from", "auctionDate.to"] });
     const { t } = useTranslation();
@@ -14,9 +20,11 @@ export function AuctionDateSpanFilter() {
 
     const selectedShopTypes = watch("shopType");
 
-    const isDisabled = useMemo(() => {
+    const isAuctionDisabled = useMemo(() => {
         return selectedShopTypes?.length > 0 && !selectedShopTypes.includes("AUCTION_HOUSE");
     }, [selectedShopTypes]);
+
+    const isDisabled = tierDisabled || isAuctionDisabled;
 
     return (
         <FilterCard
@@ -27,7 +35,7 @@ export function AuctionDateSpanFilter() {
                     : t("search.filter.resetTooltip.auctionDate")
             }
             onReset={() => resetAndNavigate("auctionDate")}
-            defaultOpen={false}
+            defaultOpen={defaultOpen}
             disabled={isDisabled}
         >
             <div className="flex min-w-0 w-full flex-col gap-2">

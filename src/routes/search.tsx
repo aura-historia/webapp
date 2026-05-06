@@ -9,7 +9,6 @@ import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from "@/components/
 import { Button } from "@/components/ui/button.tsx";
 import { Filter } from "lucide-react";
 import { useState } from "react";
-
 import type { SortMode } from "@/data/internal/search/SortMode.ts";
 import { SortModeSelection } from "@/components/search/SortModeSelection.tsx";
 import { SearchResults } from "@/components/search/SearchResults.tsx";

@@ -10,6 +10,7 @@ import { z } from "zod";
 import { MerchantFilters } from "@/components/search/filters/MerchantFilters.tsx";
 import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter.tsx";
 import { PeriodFilter } from "@/components/search/filters/PeriodFilter.tsx";
+import { CategoryFilter } from "@/components/search/filters/CategoryFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useCallback, useEffect, useMemo } from "react";
@@ -17,6 +18,13 @@ import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpan
 import { AuctionDateSpanFilter } from "@/components/search/filters/AuctionDateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
+import { useAuth } from "@/hooks/auth/useAuth.ts";
+import { SaveSearchFilterDialog } from "@/components/search/SaveSearchFilterDialog.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
+import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
+import { useUserSearchFilters } from "@/hooks/search-filters/useUserSearchFilters.ts";
+import { SEARCH_FILTER_QUOTA } from "@/data/internal/account/SubscriptionType.ts";
+import { BookmarkPlus } from "lucide-react";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { FILTER_DEFAULTS, MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 import { useSearchQueryContext } from "@/hooks/search/useSearchQueryContext.tsx";
@@ -30,7 +38,7 @@ import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 import { serializeSearchParams } from "@/lib/searchValidation.ts";
 import { useDebouncedCallback } from "use-debounce";
 
-const createFilterSchema = (t: TFunction) =>
+export const createFilterSchema = (t: TFunction) =>
     z
         .object({
             priceSpan: z
@@ -56,6 +64,7 @@ const createFilterSchema = (t: TFunction) =>
             excludeMerchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
             shopType: z.array(z.enum(SHOP_TYPES)),
             periodId: z.array(z.string()),
+            categoryId: z.array(z.string()),
             originYearSpan: z
                 .object({
                     min: z.number().optional().or(z.undefined()),
@@ -124,7 +133,7 @@ type SearchFilterProps = {
  * Maps URL search params (SearchFilterArguments) to the form's value shape (FilterSchema).
  * Used by the RHF `values` prop for declarative URL→Form synchronization.
  */
-function mapSearchFiltersToFormValues(filters: SearchFilterArguments): FilterSchema {
+export function mapSearchFiltersToFormValues(filters: SearchFilterArguments): FilterSchema {
     return {
         priceSpan: {
             min: filters.priceFrom,
@@ -147,6 +156,7 @@ function mapSearchFiltersToFormValues(filters: SearchFilterArguments): FilterSch
         excludeMerchant: filters.excludeMerchant,
         shopType: filters.shopType ?? FILTER_DEFAULTS.shopType,
         periodId: filters.periodId ?? [],
+        categoryId: filters.categoryId ?? [],
         originYearSpan: {
             min: filters.originYearMin,
             max: filters.originYearMax,
@@ -158,8 +168,39 @@ function mapSearchFiltersToFormValues(filters: SearchFilterArguments): FilterSch
     };
 }
 
-const DEBOUNCE_DELAY_MS = 500;
-const DEBOUNCED_FIELDS = new Set([
+/** Converts form values (FilterSchema) to SearchFilterArguments. Used by SearchFilterFormProvider and SearchFilters. */
+export function mapFormValuesToSearchFilterArguments(
+    data: FilterSchema,
+    q: string,
+): SearchFilterArguments {
+    return {
+        q,
+        priceFrom: data.priceSpan?.min,
+        priceTo: data.priceSpan?.max,
+        allowedStates: data.productState,
+        creationDateFrom: data.creationDate.from,
+        creationDateTo: data.creationDate.to,
+        updateDateFrom: data.updateDate.from,
+        updateDateTo: data.updateDate.to,
+        auctionDateFrom: data.auctionDate.from,
+        auctionDateTo: data.auctionDate.to,
+        merchant: data.merchant?.length ? data.merchant : undefined,
+        excludeMerchant: data.excludeMerchant?.length ? data.excludeMerchant : undefined,
+        shopType: data.shopType,
+        periodId: data.periodId?.length ? data.periodId : undefined,
+        categoryId: data.categoryId?.length ? data.categoryId : undefined,
+        originYearMin: data.originYearSpan?.min,
+        originYearMax: data.originYearSpan?.max,
+        authenticity: data.authenticity,
+        condition: data.condition,
+        provenance: data.provenance,
+        restoration: data.restoration,
+    };
+}
+
+export const DEBOUNCE_DELAY_MS = 500;
+
+export const DEBOUNCED_FIELDS = new Set([
     "priceSpan.min",
     "priceSpan.max",
     "originYearSpan.min",
@@ -170,6 +211,19 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
     const { t } = useTranslation();
     const { getQuery } = useSearchQueryContext();
+    const { user } = useAuth();
+    const { data: account } = useUserAccount();
+    const { data: savedFilters } = useUserSearchFilters(!!user);
+    const saveDisabled =
+        user == null ||
+        (savedFilters?.total ?? 0) >= SEARCH_FILTER_QUOTA[account?.subscriptionType ?? "free"];
+
+    let saveTooltip: string | undefined;
+    if (user == null) {
+        saveTooltip = t("searchFilter.loginRequired");
+    } else if (saveDisabled) {
+        saveTooltip = t("searchFilter.quotaReached");
+    }
 
     const getEffectiveQuery = useCallback((): string => {
         const currentQuery = getQuery()?.trim();
@@ -212,6 +266,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                         excludeMerchant: data.excludeMerchant,
                         shopType: data.shopType,
                         periodId: data.periodId,
+                        categoryId: data.categoryId,
                         originYearSpan: data.originYearSpan,
                         authenticity: data.authenticity,
                         condition: data.condition,
@@ -266,6 +321,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                     <ProductStateFilter />
                     <PriceSpanFilter />
                     <PeriodFilter />
+                    <CategoryFilter />
                     <QualityIndicatorsFilter />
                     <ShopTypeFilter
                         onReset={() => form.setValue("shopType", FILTER_DEFAULTS.shopType)}
@@ -283,6 +339,24 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                 >
                     {t("search.resetAllFilters")}
                 </Button>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <span className="w-full">
+                            <SaveSearchFilterDialog searchArgs={searchFilters}>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    className="w-full border-outline-variant text-primary uppercase text-sm shadow-none hover:bg-primary/8"
+                                    disabled={saveDisabled}
+                                >
+                                    <BookmarkPlus className="size-4" />
+                                    {t("searchFilter.saveButton")}
+                                </Button>
+                            </SaveSearchFilterDialog>
+                        </span>
+                    </TooltipTrigger>
+                    {saveTooltip && <TooltipContent>{saveTooltip}</TooltipContent>}
+                </Tooltip>
             </form>
         </Form>
     );

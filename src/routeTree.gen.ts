@@ -27,9 +27,11 @@ import { Route as CategoriesCategoryIdRouteImport } from './routes/categories.$c
 import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
 import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
 import { Route as AuthMeWatchlistRouteImport } from './routes/_auth.me.watchlist'
+import { Route as AuthMeSearchFiltersRouteImport } from './routes/_auth.me.search-filters'
 import { Route as AuthMeNotificationsRouteImport } from './routes/_auth.me.notifications'
 import { Route as AuthMeAccountRouteImport } from './routes/_auth.me.account'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
+import { Route as AuthMeSearchFilterFilterIdRouteImport } from './routes/_auth.me.search-filter.$filterId'
 import { Route as AuthMeBillingManageRouteImport } from './routes/_auth.me.billing.manage'
 
 const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
@@ -123,6 +125,11 @@ const AuthMeWatchlistRoute = AuthMeWatchlistRouteImport.update({
   path: '/me/watchlist',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthMeSearchFiltersRoute = AuthMeSearchFiltersRouteImport.update({
+  id: '/me/search-filters',
+  path: '/me/search-filters',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthMeNotificationsRoute = AuthMeNotificationsRouteImport.update({
   id: '/me/notifications',
   path: '/me/notifications',
@@ -138,6 +145,12 @@ const ShopsShopSlugIdProductsProductSlugIdRoute =
     id: '/shops/$shopSlugId/products/$productSlugId',
     path: '/shops/$shopSlugId/products/$productSlugId',
     getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthMeSearchFilterFilterIdRoute =
+  AuthMeSearchFilterFilterIdRouteImport.update({
+    id: '/me/search-filter/$filterId',
+    path: '/me/search-filter/$filterId',
+    getParentRoute: () => AuthRoute,
   } as any)
 const AuthMeBillingManageRoute = AuthMeBillingManageRouteImport.update({
   id: '/me/billing/manage',
@@ -162,10 +175,12 @@ export interface FileRoutesByFullPath {
   '/periods/': typeof PeriodsIndexRoute
   '/me/account': typeof AuthMeAccountRoute
   '/me/notifications': typeof AuthMeNotificationsRoute
+  '/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/me/billing/manage': typeof AuthMeBillingManageRoute
+  '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRoutesByTo {
@@ -185,10 +200,12 @@ export interface FileRoutesByTo {
   '/periods': typeof PeriodsIndexRoute
   '/me/account': typeof AuthMeAccountRoute
   '/me/notifications': typeof AuthMeNotificationsRoute
+  '/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId': typeof ShopsShopSlugIdIndexRoute
   '/me/billing/manage': typeof AuthMeBillingManageRoute
+  '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRoutesById {
@@ -210,10 +227,12 @@ export interface FileRoutesById {
   '/periods/': typeof PeriodsIndexRoute
   '/_auth/me/account': typeof AuthMeAccountRoute
   '/_auth/me/notifications': typeof AuthMeNotificationsRoute
+  '/_auth/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/_auth/me/watchlist': typeof AuthMeWatchlistRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/_auth/me/billing/manage': typeof AuthMeBillingManageRoute
+  '/_auth/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRouteTypes {
@@ -235,10 +254,12 @@ export interface FileRouteTypes {
     | '/periods/'
     | '/me/account'
     | '/me/notifications'
+    | '/me/search-filters'
     | '/me/watchlist'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/'
     | '/me/billing/manage'
+    | '/me/search-filter/$filterId'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -258,10 +279,12 @@ export interface FileRouteTypes {
     | '/periods'
     | '/me/account'
     | '/me/notifications'
+    | '/me/search-filters'
     | '/me/watchlist'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId'
     | '/me/billing/manage'
+    | '/me/search-filter/$filterId'
     | '/shops/$shopSlugId/products/$productSlugId'
   id:
     | '__root__'
@@ -282,10 +305,12 @@ export interface FileRouteTypes {
     | '/periods/'
     | '/_auth/me/account'
     | '/_auth/me/notifications'
+    | '/_auth/me/search-filters'
     | '/_auth/me/watchlist'
     | '/product/$shopId/$shopsProductId'
     | '/shops/$shopSlugId/'
     | '/_auth/me/billing/manage'
+    | '/_auth/me/search-filter/$filterId'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesById: FileRoutesById
 }
@@ -438,6 +463,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthMeWatchlistRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/me/search-filters': {
+      id: '/_auth/me/search-filters'
+      path: '/me/search-filters'
+      fullPath: '/me/search-filters'
+      preLoaderRoute: typeof AuthMeSearchFiltersRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/me/notifications': {
       id: '/_auth/me/notifications'
       path: '/me/notifications'
@@ -459,6 +491,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopsShopSlugIdProductsProductSlugIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/me/search-filter/$filterId': {
+      id: '/_auth/me/search-filter/$filterId'
+      path: '/me/search-filter/$filterId'
+      fullPath: '/me/search-filter/$filterId'
+      preLoaderRoute: typeof AuthMeSearchFilterFilterIdRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/me/billing/manage': {
       id: '/_auth/me/billing/manage'
       path: '/me/billing/manage'
@@ -472,15 +511,19 @@ declare module '@tanstack/react-router' {
 interface AuthRouteChildren {
   AuthMeAccountRoute: typeof AuthMeAccountRoute
   AuthMeNotificationsRoute: typeof AuthMeNotificationsRoute
+  AuthMeSearchFiltersRoute: typeof AuthMeSearchFiltersRoute
   AuthMeWatchlistRoute: typeof AuthMeWatchlistRoute
   AuthMeBillingManageRoute: typeof AuthMeBillingManageRoute
+  AuthMeSearchFilterFilterIdRoute: typeof AuthMeSearchFilterFilterIdRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthMeAccountRoute: AuthMeAccountRoute,
   AuthMeNotificationsRoute: AuthMeNotificationsRoute,
+  AuthMeSearchFiltersRoute: AuthMeSearchFiltersRoute,
   AuthMeWatchlistRoute: AuthMeWatchlistRoute,
   AuthMeBillingManageRoute: AuthMeBillingManageRoute,
+  AuthMeSearchFilterFilterIdRoute: AuthMeSearchFilterFilterIdRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)

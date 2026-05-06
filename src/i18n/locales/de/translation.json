@@ -70,6 +70,9 @@
     "searchShops": {
       "title": "Shops suchen | Aura Historia",
       "description": "Entdecken Sie vertrauenswürdige Shops, Auktionshäuser und Händler auf Aura Historia."
+    },
+    "searchFilters": {
+      "title": "Meine Suchaufträge | Aura Historia"
     }
   },
   "validation": {
@@ -109,7 +112,8 @@
     "logout": "Ausloggen",
     "hello": "Hallo",
     "register": "Registrieren",
-    "login": "Einloggen"
+    "login": "Einloggen",
+    "searchFilters": "Suchaufträge"
   },
   "footer": {
     "brandName": "Aura Historia",
@@ -263,7 +267,8 @@
         "shopType": "Filter für den Shop-Typ zurücksetzen",
         "periodId": "Filter für Epoche zurücksetzen",
         "qualityIndicators": "Filter für die Qualitätsmerkmale zurücksetzen",
-        "partnerStatus": "Partnerstatus-Filter zurücksetzen"
+        "partnerStatus": "Partnerstatus-Filter zurücksetzen",
+        "categoryId": "Filter für Kategorie zurücksetzen"
       },
       "qualityIndicators": "Qualitätsmerkmale",
       "periodId": "Epoche / Stil",
@@ -274,7 +279,9 @@
       "provenance": "Herkunftsnachweis",
       "restoration": "Restaurierung",
       "selected": "{{count}} ausgewählt",
-      "partnerStatus": "Partnerstatus"
+      "partnerStatus": "Partnerstatus",
+      "categoryId": "Kategorie",
+      "searchCategories": "Kategorien suchen..."
     },
     "messages": {
       "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",
@@ -761,12 +768,13 @@
     "BAD_SORT_VALUE": "Ungültige Sortierung.",
     "BAD_ORDER_VALUE": "Ungültige Sortierreihenfolge.",
     "WATCHLIST_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an Artikeln auf Ihrer Merkliste erreicht. Es können maximal 5 Artikel gespeichert werden.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an gespeicherten Suchaufträgen erreicht. Es können maximal 5 Suchaufträge gespeichert werden.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an Suchaufträgen für Ihren Account erreicht.",
     "INVALID_EMAIL": "Die E-Mail-Adresse ist ungültig oder wird von unserem Newsletter-Anbieter nicht akzeptiert.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Sie haben bereits ein aktives Abonnement. Bitte nutzen Sie das Kundenportal zur Verwaltung.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Es wurde kein bestehendes Abonnement gefunden. Bitte starten Sie einen neuen Checkout.",
     "unknown": "Ein unerwarteter Fehler ist aufgetreten.",
-    "undefined": "Ein unerwarteter Fehler ist aufgetreten."
+    "undefined": "Ein unerwarteter Fehler ist aufgetreten.",
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Einige Ihrer aktiven Filter sind nur für Premium-Nutzer verfügbar. Bitte entfernen Sie diese Filter, um einen Suchauftrag zu speichern."
   },
   "watchlist": {
     "title": "Meine Merkliste",
@@ -1232,5 +1240,118 @@
     "card": {
       "viewShop": "Shop ansehen"
     }
+  },
+  "searchFilter": {
+    "saveButton": "Suchauftrag speichern",
+    "saveSuccess": "Suchauftrag erfolgreich gespeichert!",
+    "loginRequired": "Bitte melden Sie sich an oder registrieren Sie sich, um Suchaufträge zu speichern.",
+    "quotaReached": "Sie haben die maximale Anzahl an Suchaufträgen erreicht. Upgraden Sie Ihr Abonnement für mehr.",
+    "saveDialog": {
+      "title": "Suchauftrag speichern",
+      "nameLabel": "Name des Suchauftrags",
+      "namePlaceholder": "z. B. Mater Dolorosa Barockgemälde",
+      "queryLabel": "Suchbegriff",
+      "aiDescriptionLabel": "KI-gestützte Beschreibung (optional)",
+      "aiDescriptionPlaceholder": "Jungfrau Maria Ölgemälde auf Leinwand, nicht Holz, Barockrahmen mit Blattgold auf Kreidegrund (Gesso). Das Motiv soll Mater Dolorosa sein. Signatur des Künstlers muss enthalten sein. Das Gemälde darf keine sichtbaren Beschädigungen enthalten und der Rahmen muss vollständig intakt sein. Falls das Gemälde aus dem spanischen Barock stammt, dann muss es mindestens 40x60 cm groß sein. Für den italienischen Barock muss das nicht gelten.",
+      "aiDescriptionUltimateOnly": "Nur für Ultimate-Abonnenten verfügbar",
+      "ultimateOnly": "Nur für Ultimate-Abonnenten verfügbar.",
+      "cancelButton": "Abbrechen",
+      "saveButton": "Speichern",
+      "restrictedFiltersHint": "Diese Filter sind in deinem aktuellen Abonnement leider nicht verfügbar und können nicht gespeichert werden. Upgrade dein Abonnement, um sie zu nutzen – oder speichere den Suchauftrag ohne diese Filter.",
+      "resetAndSaveButton": "Ohne diese Filter speichern",
+      "queryPlaceholder": "z. B. Mater Dolorosa Ölgemälde Leinwand Barock"
+    },
+    "wizard": {
+      "title": "Neuen Suchauftrag anlegen",
+      "back": "Zurück",
+      "next": "Weiter",
+      "nameRequired": "Bitte gib einen Namen ein.",
+      "nameTooLong": "Der Name darf maximal 255 Zeichen lang sein.",
+      "queryTooShort": "Der Suchbegriff muss mindestens 3 Zeichen lang sein.",
+      "noFiltersConfigured": "Keine zusätzlichen Filter konfiguriert.",
+      "upgradeBanner": "Diese Filter sind in deinem aktuellen Tarif nicht verfügbar. Upgrade dein Konto, um sie zu nutzen.",
+      "step": {
+        "name": "Suchbegriff & Name",
+        "nameDescription": "Vergib deinem Suchauftrag einen Namen und gib an, wonach du suchst – optional kannst du die Suche mit einer KI-gestützten Beschreibung noch weiter präzisieren.",
+        "priceStatus": "Preis & Status",
+        "theme": "Kategorie & Epoche",
+        "quality": "Zustand & Echtheit",
+        "shop": "Händler & Shop-Typ",
+        "date": "Zeitraum",
+        "confirm": "Zusammenfassung",
+        "confirmDescription": "Überprüfe deine konfigurierten Suchkriterien und speichere den Auftrag. Du wirst umgehend benachrichtigt, sobald ein passendes Objekt auf dem Markt erscheint.",
+        "priceStatusDescription": "Definiere deinen Preisrahmen und wähle den gewünschten Anzeigenstatus – etwa ausschließlich verfügbare Objekte oder auch bereits versteigerte Stücke zur Marktrecherche.",
+        "themeDescription": "Präzisiere deine Suche nach Sammelgebiet (z. B. Alte Meister, Möbel, Silber) und kunsthistorischer Epoche (z. B. Renaissance, Rokoko, Biedermeier).",
+        "qualityDescription": "Filtere nach Erhaltungsgrad, Authentizitätsstatus, Herkunftsnachweis, Restaurierungsumfang und dem Entstehungszeitraum des Objekts.",
+        "shopDescription": "Wähle gezielt Anbietertypen – renommierte Auktionshäuser, spezialisierte Kunsthändler oder Marktplätze – und schließe einzelne Häuser ein oder aus.",
+        "dateDescription": "Grenze die Suche zeitlich ein – nach Auktionstermin, Datum der Erstveröffentlichung oder der letzten Aktualisierung des Inserats."
+      },
+      "subtitle": "Konfiguriere deinen persönlichen Suchauftrag Schritt für Schritt.",
+      "configuredFilters": "Konfigurierte Filter"
+    },
+    "optional": "optional",
+    "upgradeRequired": "Nur für Pro & Ultimate",
+    "upgradeNow": "Jetzt upgraden →"
+  },
+  "searchFilters": {
+    "title": "Meine Suchaufträge",
+    "create": "Neuer Suchauftrag",
+    "createUpgradeTooltip": "Upgraden Sie Ihr Konto, um mehr Suchaufträge zu erstellen",
+    "duplicate": "Suchauftrag duplizieren",
+    "duplicateNamePrefix": "Kopie von {{name}}",
+    "edit": "Suchauftrag bearbeiten",
+    "delete": "Suchauftrag löschen",
+    "deleteSuccess": "Suchauftrag wurde gelöscht.",
+    "deleteConfirm": {
+      "title": "Suchauftrag \"{{name}}\" löschen?",
+      "description": "Der Suchauftrag wird dauerhaft entfernt und kann nicht wiederhergestellt werden.",
+      "cancel": "Abbrechen",
+      "confirm": "Endgültig löschen"
+    },
+    "notificationsOn": "Benachrichtigungen aktiv",
+    "notificationsOff": "Keine Benachrichtigungen",
+    "loadingError": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+    "noResults": {
+      "title": "Keine Suchaufträge",
+      "description": "Speichern Sie eine Suche, um sie hier zu finden."
+    },
+    "noMatches": {
+      "title": "Keine Treffer gefunden",
+      "description": "Für diesen Suchauftrag gibt es momentan keine passenden Produkte.",
+      "editHint": "Zurück zu den Suchaufträgen"
+    },
+    "totalElements_one": "{{count}} Suchauftrag",
+    "totalElements_other": "{{count}} Suchaufträge",
+    "matchingProducts": "Alle Suchtreffer anzeigen",
+    "searchPlaceholder": "Suchaufträge durchsuchen …",
+    "showDetails": "Details anzeigen",
+    "showResults": "Suchergebnisse anzeigen",
+    "info": {
+      "merchant": "Händler",
+      "excludeMerchant": "Ausgeschl.",
+      "period": "Epoche",
+      "creationDate": "Hinzugefügt",
+      "updateDate": "Aktualisiert",
+      "auctionDate": "Auktion",
+      "created": "Erstellt am",
+      "updated": "Geändert am"
+    },
+    "query": "Suche",
+    "moreFilters": "weitere Filter",
+    "cardLabel": "Suchauftrag",
+    "hiddenMatch": {
+      "title": "Verborgen",
+      "description": "Dieses Match überschreitet dein monatliches Kontingent und ist ausgeblendet. Upgrade dein Konto, um alle Treffer zu sehen.",
+      "upgradeButton": "Jetzt upgraden"
+    },
+    "feedback": {
+      "relevant": "Relevant",
+      "notRelevant": "Nicht relevant",
+      "label": "Hilfreich?",
+      "relevantHint": "Treffer ist relevant",
+      "notRelevantHint": "Treffer ist nicht relevant"
+    },
+    "matchReason": "KI-Begründung",
+    "feedbackError": "Feedback konnte nicht gespeichert werden."
   }
 }

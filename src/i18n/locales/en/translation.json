@@ -70,6 +70,9 @@
     "searchShops": {
       "title": "Search Shops | Aura Historia",
       "description": "Search and discover trusted shops, auction houses, and dealers on Aura Historia."
+    },
+    "searchFilters": {
+      "title": "My Search Filters | Aura Historia"
     }
   },
   "validation": {
@@ -104,6 +107,7 @@
   },
   "header": {
     "watchlist": "Watchlist",
+    "searchFilters": "Search Filters",
     "myAccount": "My Account",
     "editAccount": "Edit Account",
     "logout": "Logout",
@@ -265,11 +269,14 @@
         "auctionDate": "Reset auction date filter",
         "periodId": "Reset period filter",
         "qualityIndicators": "Reset quality indicators filter",
-        "partnerStatus": "Reset partner status filter"
+        "partnerStatus": "Reset partner status filter",
+        "categoryId": "Reset category filter"
       },
       "qualityIndicators": "Quality Indicators",
       "periodId": "Period / Style",
       "searchPeriods": "Search periods...",
+      "categoryId": "Category",
+      "searchCategories": "Search categories...",
       "originYear": "Year of Origin",
       "authenticity": "Authenticity",
       "condition": "Condition",
@@ -767,6 +774,7 @@
     "INVALID_EMAIL": "The email address is invalid or not accepted by our newsletter provider.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "You already have an active subscription. Please use the customer portal to manage it.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No existing subscription was found. Please start a new checkout.",
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "This feature is only available for certain subscriptions. Please upgrade your account.",
     "unknown": "An unexpected error occurred.",
     "undefined": "An unexpected error occurred."
   },
@@ -1234,5 +1242,102 @@
     "card": {
       "viewShop": "View shop"
     }
+  },
+  "searchFilter": {
+    "saveButton": "Save Search Filter",
+    "saveSuccess": "Search filter saved successfully!",
+    "loginRequired": "Please log in or register to save search filters.",
+    "quotaReached": "You have reached the maximum number of search filters. Upgrade your subscription for more.",
+    "saveDialog": {
+      "title": "Save Search Filter",
+      "nameLabel": "Name",
+      "namePlaceholder": "e.g. Mater Dolorosa Baroque Painting",
+      "queryLabel": "Search Query",
+      "aiDescriptionLabel": "AI Description (optional)",
+      "aiDescriptionPlaceholder": "Virgin Mary oil painting on canvas, not wood, Baroque frame with gold leaf on chalk ground (gesso). The motif should be Mater Dolorosa. The artist's signature must be included. The painting must not contain any visible damage and the frame must be completely intact. If the painting is from the Spanish Baroque, it must be at least 40x60 cm in size. This does not apply to the Italian Baroque.",
+      "aiDescriptionUltimateOnly": "Available for Ultimate subscribers only",
+      "ultimateOnly": "Available for Ultimate subscribers only",
+      "cancelButton": "Cancel",
+      "saveButton": "Save",
+      "restrictedFiltersHint": "These filters are unfortunately not available in your current subscription and cannot be saved. Upgrade your subscription to use them – or save the search filter without these filters.",
+      "resetAndSaveButton": "Save without these filters",
+      "queryPlaceholder": "e.g. Mater Dolorosa oil painting canvas Baroque"
+    },
+    "wizard": {
+      "title": "Create Search Filter",
+      "back": "Back",
+      "next": "Next",
+      "nameRequired": "Please enter a name",
+      "nameTooLong": "Name must not exceed 255 characters",
+      "queryTooShort": "The search query must contain at least 3 characters",
+      "noFiltersConfigured": "No filters configured",
+      "upgradeBanner": "These filters are not available in your current plan. Upgrade your account to unlock them.",
+      "step": {
+        "name": "Name",
+        "nameDescription": "Give your search filter a name",
+        "priceStatus": "Price & Status",
+        "theme": "Theme",
+        "quality": "Quality",
+        "shop": "Shop",
+        "date": "Date",
+        "confirm": "Confirm",
+        "confirmDescription": "Review your search filter before saving"
+      }
+    },
+    "optional": "optional",
+    "upgradeRequired": "Pro & Ultimate only",
+    "upgradeNow": "Upgrade now →"
+  },
+  "searchFilters": {
+    "title": "My Search Filters",
+    "create": "Create Search Filter",
+    "createUpgradeTooltip": "Upgrade your account to create more search filters",
+    "duplicate": "Duplicate search filter",
+    "duplicateNamePrefix": "Copy of {{name}}",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteSuccess": "Search filter deleted successfully",
+    "deleteConfirm": {
+      "title": "Delete \"{{name}}\"?",
+      "description": "This search filter will be permanently deleted and cannot be restored.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    },
+    "notificationsOn": "Notifications active",
+    "notificationsOff": "Notifications inactive",
+    "loadingError": "Search filters could not be loaded. Please try again later.",
+    "noResults": {
+      "title": "No Search Filters",
+      "description": "You have not saved any search filters yet."
+    },
+    "noMatches": {
+      "title": "No Matches",
+      "description": "No matching items have been found for this search filter yet.",
+      "editHint": "Try adjusting the search filter."
+    },
+    "totalElements": "{{count}} search filter(s)",
+    "matchingProducts": "{{count}} matches",
+    "searchPlaceholder": "Search filters...",
+    "showDetails": "Show details",
+    "showResults": "Show results",
+    "info": {
+      "creationDate": "Created: {{date}}",
+      "updateDate": "Updated: {{date}}",
+      "auctionDate": "Auction date: {{date}}"
+    },
+    "hiddenMatch": {
+      "title": "Hidden",
+      "description": "This match exceeds your monthly quota and is hidden. Upgrade your account to see all results.",
+      "upgradeButton": "Upgrade now"
+    },
+    "feedback": {
+      "relevant": "Relevant",
+      "notRelevant": "Not relevant",
+      "label": "Helpful?",
+      "relevantHint": "Match is relevant",
+      "notRelevantHint": "Match is not relevant"
+    },
+    "matchReason": "AI reason",
+    "feedbackError": "Failed to save feedback."
   }
 }

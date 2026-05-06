@@ -9,7 +9,7 @@ import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 import { FilterCard } from "./FilterCard.tsx";
 
-export function QualityIndicatorsFilter() {
+export function QualityIndicatorsFilter({ disabled = false }: { readonly disabled?: boolean }) {
     const { t } = useTranslation();
     const { setValue } = useFormContext<FilterSchema>();
 
@@ -26,6 +26,7 @@ export function QualityIndicatorsFilter() {
             title={t("search.filter.qualityIndicators")}
             resetTooltip={t("search.filter.resetTooltip.qualityIndicators")}
             onReset={handleReset}
+            disabled={disabled}
         >
             <div className="flex flex-col gap-4">
                 <OriginYearFilter />
