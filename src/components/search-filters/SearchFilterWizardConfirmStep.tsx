@@ -100,16 +100,20 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                         formValues.productState.length > 0
                     }
                 >
-                    <FilterDetailRowBadges label={t("search.filter.priceSpan")}>
-                        {(filters.priceFrom != null || filters.priceTo != null) && (
+                    {(filters.priceFrom != null || filters.priceTo != null) && (
+                        <FilterDetailRowBadges label={t("search.filter.priceSpan")}>
                             <Badge variant="outline">
                                 {filters.priceFrom ?? "?"} – {filters.priceTo ?? "?"} €
                             </Badge>
-                        )}
-                        {formValues.productState.map((s) => (
-                            <StatusBadge key={s} status={s} showIcon={false} />
-                        ))}
-                    </FilterDetailRowBadges>
+                        </FilterDetailRowBadges>
+                    )}
+                    {formValues.productState.length > 0 && (
+                        <FilterDetailRowBadges label={t("search.filter.productState")}>
+                            {formValues.productState.map((s) => (
+                                <StatusBadge key={s} status={s} showIcon={false} />
+                            ))}
+                        </FilterDetailRowBadges>
+                    )}
                 </ConfirmSection>
 
                 {/* Epoche & Kategorie */}
