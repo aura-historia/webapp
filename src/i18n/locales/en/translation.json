@@ -1247,20 +1247,21 @@
     "saveButton": "Save Search Filter",
     "saveSuccess": "Search filter saved successfully!",
     "loginRequired": "Please log in or register to save search filters.",
-    "quotaReached": "You have reached the maximum number of search filters. Upgrade your account for more.",
+    "quotaReached": "You have reached the maximum number of search filters. Upgrade your subscription for more.",
     "saveDialog": {
       "title": "Save Search Filter",
       "nameLabel": "Name",
-      "namePlaceholder": "e.g. Baroque Furniture",
+      "namePlaceholder": "e.g. Mater Dolorosa Baroque Painting",
       "queryLabel": "Search Query",
       "aiDescriptionLabel": "AI Description (optional)",
-      "aiDescriptionPlaceholder": "Describe in detail what you are looking for...",
+      "aiDescriptionPlaceholder": "Virgin Mary oil painting on canvas, not wood, Baroque frame with gold leaf on chalk ground (gesso). The motif should be Mater Dolorosa. The artist's signature must be included. The painting must not contain any visible damage and the frame must be completely intact. If the painting is from the Spanish Baroque, it must be at least 40x60 cm in size. This does not apply to the Italian Baroque.",
       "aiDescriptionUltimateOnly": "Available for Ultimate subscribers only",
       "ultimateOnly": "Available for Ultimate subscribers only",
       "cancelButton": "Cancel",
       "saveButton": "Save",
-      "restrictedFiltersHint": "These filters are not available in your current plan and cannot be saved. Upgrade your account to use them – or save the search filter without these filters.",
-      "resetAndSaveButton": "Save without these filters"
+      "restrictedFiltersHint": "These filters are unfortunately not available in your current subscription and cannot be saved. Upgrade your subscription to use them – or save the search filter without these filters.",
+      "resetAndSaveButton": "Save without these filters",
+      "queryPlaceholder": "e.g. Mater Dolorosa oil painting canvas Baroque"
     },
     "wizard": {
       "title": "Create Search Filter",

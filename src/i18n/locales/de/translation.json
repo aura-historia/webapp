@@ -1245,21 +1245,21 @@
     "saveButton": "Suchauftrag speichern",
     "saveSuccess": "Suchauftrag erfolgreich gespeichert!",
     "loginRequired": "Bitte melden Sie sich an oder registrieren Sie sich, um Suchaufträge zu speichern.",
-    "quotaReached": "Sie haben die maximale Anzahl an Suchaufträgen erreicht. Upgraden Sie Ihr Konto für mehr.",
+    "quotaReached": "Sie haben die maximale Anzahl an Suchaufträgen erreicht. Upgraden Sie Ihr Abonnement für mehr.",
     "saveDialog": {
       "title": "Suchauftrag speichern",
       "nameLabel": "Name des Suchauftrags",
-      "namePlaceholder": "z. B. Französische Antiquitäten",
+      "namePlaceholder": "z. B. Mater Dolorosa Barockgemälde",
       "queryLabel": "Suchbegriff",
       "aiDescriptionLabel": "KI-gestützte Beschreibung (optional)",
-      "aiDescriptionPlaceholder": "z. B. Louis-XVI-Kommode aus Mahagoni, Paris ca. 1785, vergoldete Bronzebeschläge, drei Schubladen, exzellenter Erhaltungszustand, mit Herkunftsnachweis, max. 15.000 €",
+      "aiDescriptionPlaceholder": "Jungfrau Maria Ölgemälde auf Leinwand, nicht Holz, Barockrahmen mit Blattgold auf Kreidegrund (Gesso). Das Motiv soll Mater Dolorosa sein. Signatur des Künstlers muss enthalten sein. Das Gemälde darf keine sichtbaren Beschädigungen enthalten und der Rahmen muss vollständig intakt sein. Falls das Gemälde aus dem spanischen Barock stammt, dann muss es mindestens 40x60 cm groß sein. Für den italienischen Barock muss das nicht gelten.",
       "aiDescriptionUltimateOnly": "Nur für Ultimate-Abonnenten verfügbar",
       "ultimateOnly": "Nur für Ultimate-Abonnenten verfügbar. Jetzt upgraden.",
       "cancelButton": "Abbrechen",
       "saveButton": "Speichern",
-      "restrictedFiltersHint": "Diese Filter sind in deinem aktuellen Tarif leider nicht verfügbar und können nicht gespeichert werden. Upgrade dein Konto, um sie zu nutzen – oder speichere den Suchauftrag ohne diese Filter.",
+      "restrictedFiltersHint": "Diese Filter sind in deinem aktuellen Abonnement leider nicht verfügbar und können nicht gespeichert werden. Upgrade dein Abonnement, um sie zu nutzen – oder speichere den Suchauftrag ohne diese Filter.",
       "resetAndSaveButton": "Ohne diese Filter speichern",
-      "queryPlaceholder": "z. B. Louis-XVI-Kommode Mahagoni"
+      "queryPlaceholder": "z. B. Mater Dolorosa Ölgemälde Leinwand Barock"
     },
     "wizard": {
       "title": "Neuen Suchauftrag anlegen",
