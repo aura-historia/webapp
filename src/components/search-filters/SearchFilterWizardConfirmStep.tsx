@@ -91,6 +91,16 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                     <span className="font-semibold text-base">{name}</span>
                 </div>
 
+                {/* Suchbegriff */}
+                {filters.q && (
+                    <div className="px-5 py-4 flex flex-col gap-0.5">
+                        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.08em]">
+                            {t("searchFilter.saveDialog.queryLabel")}
+                        </span>
+                        <span className="font-semibold text-base">{filters.q}</span>
+                    </div>
+                )}
+
                 {/* Preis & Produktstatus */}
                 <ConfirmSection
                     label={t("searchFilter.wizard.step.priceStatus")}
