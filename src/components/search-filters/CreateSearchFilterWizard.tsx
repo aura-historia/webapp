@@ -447,7 +447,11 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="w-full max-w-[95vw] lg:max-w-[1000px] h-[90vh] lg:h-[700px] flex flex-col gap-0 p-0 overflow-hidden shadow-2xl">
+            <DialogContent
+                className="w-full max-w-[95vw] lg:max-w-[1000px] h-[100dvh] lg:h-[700px] flex flex-col gap-0 p-0 overflow-hidden shadow-2xl"
+                onInteractOutside={(e) => e.preventDefault()}
+                onEscapeKeyDown={(e) => e.preventDefault()}
+            >
                 <Stepper
                     value={step}
                     onValueChange={goTo}
@@ -503,7 +507,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
-                                        className="px-8 py-8"
+                                        className="px-4 py-6 lg:px-8 lg:py-8"
                                     >
                                         {renderStepContent()}
                                     </motion.div>
@@ -511,7 +515,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                             </div>
                         </SearchFilterFormProvider>
 
-                        <div className="flex justify-between gap-3 px-8 py-5 border-t bg-muted/20 shrink-0">
+                        <div className="flex justify-between gap-3 px-4 py-4 lg:px-8 lg:py-5 border-t bg-muted/20 shrink-0">
                             <Button
                                 type="button"
                                 variant="outline"
