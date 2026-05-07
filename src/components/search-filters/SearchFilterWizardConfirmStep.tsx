@@ -108,7 +108,7 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                     <span className="font-semibold text-base">{name}</span>
                 </div>
 
-                {/* Suchbegriff */}
+                {/* Search query */}
                 {filters.q && (
                     <div className="px-5 py-4 flex flex-col gap-0.5">
                         <span className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.08em]">
@@ -118,7 +118,7 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                     </div>
                 )}
 
-                {/* Preis & Produktstatus */}
+                {/* Price & product status */}
                 <ConfirmSection
                     label={t("searchFilter.wizard.step.priceStatus")}
                     show={
@@ -150,7 +150,7 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                     )}
                 </ConfirmSection>
 
-                {/* Epoche & Kategorie */}
+                {/* Era & category */}
                 <ConfirmSection
                     label={t("searchFilter.wizard.step.theme")}
                     show={!!filters.periodId?.length || !!filters.categoryId?.length}
@@ -171,7 +171,7 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                     />
                 </ConfirmSection>
 
-                {/* Qualitätsmerkmale */}
+                {/* Quality indicators */}
                 <ConfirmSection label={t("searchFilter.wizard.step.quality")} show={hasQuality}>
                     {(filters.originYearMin != null || filters.originYearMax != null) && (
                         <FilterDetailRowBadges label={t("search.filter.originYear")}>
@@ -226,7 +226,7 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                     />
                 </ConfirmSection>
 
-                {/* Shop & Händler */}
+                {/* Shop & merchant */}
                 <ConfirmSection label={t("searchFilter.wizard.step.shop")} show={hasShop}>
                     <FilterDetailRowBadges label={t("search.filter.shopType")}>
                         {isAllSelected(formValues.shopType.length, SHOP_TYPES.length) ? (
@@ -250,7 +250,7 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                     />
                 </ConfirmSection>
 
-                {/* Datum */}
+                {/* Date */}
                 <ConfirmSection label={t("searchFilter.wizard.step.date")} show={hasDate}>
                     {(filters.auctionDateFrom != null || filters.auctionDateTo != null) && (
                         <FilterDetailRow
@@ -281,7 +281,7 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                     )}
                 </ConfirmSection>
 
-                {/* Kein Filter gesetzt */}
+                {/* No filters configured */}
                 {!hasAnyFilter && (
                     <div className="px-5 py-4">
                         <span className="text-sm text-muted-foreground italic">
