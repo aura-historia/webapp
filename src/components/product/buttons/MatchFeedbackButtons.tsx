@@ -6,21 +6,21 @@ import { cn } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import type { ComponentType, SVGProps } from "react";
 
-interface MatchFeedbackButtonsProps {
+type MatchFeedbackButtonsProps = {
     readonly filterId: string;
     readonly shopId: string;
     readonly shopsProductId: string;
     readonly currentFeedback?: boolean;
-}
+};
 
-interface FeedbackButtonProps {
+type FeedbackButtonProps = {
     readonly icon: ComponentType<SVGProps<SVGSVGElement>>;
     readonly tooltip: string;
     readonly active: boolean;
     readonly activeClass: string;
     readonly disabled: boolean;
     readonly onClick: () => void;
-}
+};
 
 function FeedbackButton({
     icon: Icon,

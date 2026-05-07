@@ -6,7 +6,11 @@ import { MerchantIncludeFilter } from "@/components/search/filters/MerchantInclu
 import { MerchantExcludeFilter } from "@/components/search/filters/MerchantExcludeFilter.tsx";
 import { FilterCard } from "./FilterCard.tsx";
 
-export function MerchantFilters({ disabled = false }: { readonly disabled?: boolean }) {
+type Props = {
+    readonly disabled?: boolean;
+};
+
+export function MerchantFilters({ disabled = false }: Props) {
     const { t } = useTranslation();
     const { setValue } = useFormContext<FilterSchema>();
 

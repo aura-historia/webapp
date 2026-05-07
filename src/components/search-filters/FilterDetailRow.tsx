@@ -41,13 +41,12 @@ export function FilterDetailRow({ label, values, variant, badgeVariant = "outlin
  * Same layout as FilterDetailRow but accepts custom badge nodes (e.g. StatusBadge, ShopTypeBadge).
  * Renders nothing when children is empty.
  */
-export function FilterDetailRowBadges({
-    label,
-    children,
-}: {
+type BadgesProps = {
     readonly label: string;
     readonly children: ReactNode;
-}) {
+};
+
+export function FilterDetailRowBadges({ label, children }: BadgesProps) {
     if (!Children.count(children)) return null;
     return (
         <div className="flex items-start gap-3">

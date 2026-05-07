@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import { FilterX, ChevronDown, Lock } from "lucide-react";
@@ -7,16 +8,14 @@ import { useState } from "react";
 import { cn } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 
-const PRICING_HREF = "/#pricing";
-
-interface FilterCardProps {
+type FilterCardProps = {
     readonly title: string;
     readonly resetTooltip?: string;
     readonly onReset?: () => void;
     readonly children: ReactNode;
     readonly defaultOpen?: boolean;
     readonly disabled?: boolean;
-}
+};
 
 export function FilterCard({
     title,

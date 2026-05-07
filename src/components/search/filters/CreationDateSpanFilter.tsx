@@ -5,13 +5,12 @@ import { useTranslation } from "react-i18next";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
 import { FilterCard } from "./FilterCard.tsx";
 
-export function CreationDateSpanFilter({
-    defaultOpen = false,
-    disabled = false,
-}: {
+type Props = {
     readonly defaultOpen?: boolean;
     readonly disabled?: boolean;
-}) {
+};
+
+export function CreationDateSpanFilter({ defaultOpen = false, disabled = false }: Props) {
     const { control } = useFormContext<FilterSchema>();
     const { errors } = useFormState({ control, name: ["creationDate.to"] });
     const { t } = useTranslation();

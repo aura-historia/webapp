@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { AnimatePresence, motion } from "motion/react";
 import { Info } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog.tsx";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
 import {
@@ -143,17 +144,14 @@ const FILTER_STEPS: {
 // Step 1 (name) + N filter steps + confirm step
 const TOTAL_STEPS = FILTER_STEPS.length + 2;
 
-function StepHeader({
-    title,
-    description,
-    optional = false,
-    restricted = false,
-}: {
-    title: string;
-    description: string;
-    optional?: boolean;
-    restricted?: boolean;
-}) {
+type StepHeaderProps = {
+    readonly title: string;
+    readonly description: string;
+    readonly optional?: boolean;
+    readonly restricted?: boolean;
+};
+
+function StepHeader({ title, description, optional = false, restricted = false }: StepHeaderProps) {
     const { t } = useTranslation();
     return (
         <div className="space-y-2 mb-6">
