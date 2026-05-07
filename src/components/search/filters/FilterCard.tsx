@@ -59,13 +59,14 @@ export function FilterCard({
                                 </TooltipTrigger>
                                 <TooltipContent className="flex flex-col gap-1 max-w-56 text-center">
                                     <span>{t("searchFilter.upgradeRequired")}</span>
-                                    <a
-                                        href={PRICING_HREF}
+                                    <Link
+                                        to="/"
+                                        hash="pricing"
                                         className="text-primary underline underline-offset-2 font-medium"
                                         onClick={(e) => e.stopPropagation()}
                                     >
                                         {t("searchFilter.upgradeNow")}
-                                    </a>
+                                    </Link>
                                 </TooltipContent>
                             </Tooltip>
                         )}

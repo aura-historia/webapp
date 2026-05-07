@@ -387,12 +387,13 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                                                 "searchFilter.saveDialog.ultimateOnly",
                                                             )}
                                                         </span>
-                                                        <a
-                                                            href="/#pricing"
+                                                        <Link
+                                                            to="/"
+                                                            hash="pricing"
                                                             className="text-primary underline underline-offset-2 font-medium"
                                                         >
                                                             {t("searchFilter.upgradeNow")}
-                                                        </a>
+                                                        </Link>
                                                     </TooltipContent>
                                                 </Tooltip>
                                             )}

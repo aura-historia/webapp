@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -130,12 +131,13 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                                 </li>
                             ))}
                         </ul>
-                        <a
-                            href="/#pricing"
+                        <Link
+                            to="/"
+                            hash="pricing"
                             className="inline-flex items-center gap-1 text-sm text-primary underline underline-offset-2 font-medium"
                         >
                             {t("searchFilter.upgradeNow")}
-                        </a>
+                        </Link>
                         <div className="flex justify-end gap-2 pt-2">
                             <Button
                                 type="button"
@@ -195,12 +197,13 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                                                                 "searchFilter.saveDialog.ultimateOnly",
                                                             )}
                                                         </span>
-                                                        <a
-                                                            href="/#pricing"
+                                                        <Link
+                                                            to="/"
+                                                            hash="pricing"
                                                             className="text-primary underline underline-offset-2 font-medium"
                                                         >
                                                             {t("searchFilter.upgradeNow")}
-                                                        </a>
+                                                        </Link>
                                                     </TooltipContent>
                                                 </Tooltip>
                                             )}
