@@ -7,7 +7,7 @@ import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { AnimatePresence, motion } from "motion/react";
-import { Info } from "lucide-react";
+import { Lock } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog.tsx";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
@@ -377,7 +377,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                             {!isUltimate && (
                                                 <Tooltip>
                                                     <TooltipTrigger asChild>
-                                                        <Info className="size-3.5 text-muted-foreground cursor-pointer shrink-0" />
+                                                        <Lock className="size-3.5 text-muted-foreground cursor-pointer shrink-0" />
                                                     </TooltipTrigger>
                                                     <TooltipContent className="flex flex-col gap-1 max-w-56 text-center">
                                                         <span>

@@ -134,7 +134,7 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                         <Link
                             to="/"
                             hash="pricing"
-                            className="inline-flex items-center gap-1 text-sm text-primary underline underline-offset-2 font-medium"
+                            className="text-xs text-primary underline underline-offset-2 font-medium"
                         >
                             {t("searchFilter.upgradeNow")}
                         </Link>
