@@ -457,6 +457,13 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
         );
     };
 
+    const wizardTitle =
+        mode === "edit"
+            ? t("searchFilter.wizard.titleEdit")
+            : mode === "duplicate"
+              ? t("searchFilter.wizard.titleDuplicate")
+              : t("searchFilter.wizard.title");
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
@@ -473,7 +480,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                     <div className="hidden lg:flex flex-col w-52 shrink-0 bg-muted/30 px-5 pt-8 pb-6 border-r">
                         <DialogHeader className="mb-6">
                             <DialogTitle className="text-base font-bold tracking-tight leading-tight">
-                                {t("searchFilter.wizard.title")}
+                                {wizardTitle}
                             </DialogTitle>
                         </DialogHeader>
                         <StepperNav className="flex-col items-stretch gap-0">
@@ -505,9 +512,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                     <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
                         {/* Mobile/tablet progress header */}
                         <div className="lg:hidden flex flex-col gap-2.5 px-4 pt-4 pb-3 border-b bg-muted/30 shrink-0">
-                            <p className="text-sm font-bold tracking-tight">
-                                {t("searchFilter.wizard.title")}
-                            </p>
+                            <p className="text-sm font-bold tracking-tight">{wizardTitle}</p>
                             <div className="flex gap-1">
                                 {stepLabels.map((label, i) => (
                                     <div

@@ -1291,7 +1291,9 @@
         "dateDescription": "Grenze die Suche zeitlich ein – nach Auktionstermin, Datum der Erstveröffentlichung oder der letzten Aktualisierung des Inserats."
       },
       "subtitle": "Konfiguriere deinen persönlichen Suchauftrag Schritt für Schritt.",
-      "configuredFilters": "Konfigurierte Filter"
+      "configuredFilters": "Konfigurierte Filter",
+      "titleEdit": "Suchauftrag bearbeiten",
+      "titleDuplicate": "Suchauftrag duplizieren"
     },
     "optional": "optional",
     "upgradeRequired": "Nur für Pro & Ultimate",

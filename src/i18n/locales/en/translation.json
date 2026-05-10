@@ -1286,7 +1286,9 @@
         "date": "Date",
         "confirm": "Confirm",
         "confirmDescription": "Review your search filter before saving"
-      }
+      },
+      "titleEdit": "Edit search filter",
+      "titleDuplicate": "Duplicate search filter"
     },
     "optional": "optional",
     "upgradeRequired": "Pro & Ultimate only",
