@@ -1325,7 +1325,7 @@
     "matchingProducts": "{{count}} matches",
     "searchPlaceholder": "Search filters...",
     "showDetails": "Show details",
-    "showResults": "Show results",
+    "showResults": "Search now",
     "info": {
       "creationDate": "Created: {{date}}",
       "updateDate": "Updated: {{date}}",
