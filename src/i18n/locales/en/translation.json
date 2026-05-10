@@ -255,6 +255,7 @@
       "anyDate": "Any",
       "all": "All",
       "select": "Select",
+      "requireSelection": "At least 1 selection required",
       "resetTooltip": {
         "global": "Reset everything",
         "category": "Reset category filter",

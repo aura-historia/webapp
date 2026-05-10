@@ -23,7 +23,6 @@ import {
     mapToBackendRestoration,
 } from "@/data/internal/quality-indicators/Restoration.ts";
 import { parseShopType, mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
-import { isEqual, isEmpty } from "lodash";
 import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 
 export type UserSearchFilter = {
@@ -148,37 +147,36 @@ export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserS
  * Restoration, shopType) as default values in the URL – even if the user has never used these fields before.
  * If these are included when saving, the API rejects the request for FREE users with a 422 SEARCH_FILTER_RESTRICTED_FEATURE error.
  *
- * Solution: Fields that match their default values or are empty ([]) are omitted (undefined).
- *
- * TBD: If the user deselects all options ([] = nothing), we send “undefined” to the backend.
- * The backend nevertheless returns all results – so what we send (nothing) ultimately amounts to everything.
- * This contradicts the behaviour of the live search and should be discussed. Similarly, the user would create a search filter that would end up being incorrect.
+ * Solution: Fields that match their default values are omitted (undefined).
+ * Empty arrays ([] = nothing selected) cannot occur in the wizard due to requireSelection enforcement.
  */
 
 export function mapToBackendCreateUserSearchFilter(
     data: UserSearchFilterCreateData,
 ): PostUserSearchFilterData {
     const search = mapSearchFilterArgumentsToProductSearchData(data.search);
-    const omit = (value: unknown[] | undefined, defaults: unknown[]) =>
-        isEmpty(value ?? []) || isEqual(value, defaults);
+    const arraysEqual = <T>(a: T[], b: T[]): boolean =>
+        a.length === b.length && a.every((v) => b.includes(v));
+    const isDefaultOrEmpty = (value: unknown[] | undefined, defaults: unknown[]) =>
+        !value?.length || arraysEqual(value, defaults);
     return {
         name: data.name,
         enhancedSearchDescription: data.enhancedSearchDescription,
         search: {
             ...search,
-            authenticity: omit(data.search.authenticity, FILTER_DEFAULTS.authenticity)
+            authenticity: isDefaultOrEmpty(data.search.authenticity, FILTER_DEFAULTS.authenticity)
                 ? undefined
                 : search.authenticity,
-            condition: omit(data.search.condition, FILTER_DEFAULTS.condition)
+            condition: isDefaultOrEmpty(data.search.condition, FILTER_DEFAULTS.condition)
                 ? undefined
                 : search.condition,
-            provenance: omit(data.search.provenance, FILTER_DEFAULTS.provenance)
+            provenance: isDefaultOrEmpty(data.search.provenance, FILTER_DEFAULTS.provenance)
                 ? undefined
                 : search.provenance,
-            restoration: omit(data.search.restoration, FILTER_DEFAULTS.restoration)
+            restoration: isDefaultOrEmpty(data.search.restoration, FILTER_DEFAULTS.restoration)
                 ? undefined
                 : search.restoration,
-            shopType: omit(data.search.shopType, FILTER_DEFAULTS.shopType)
+            shopType: isDefaultOrEmpty(data.search.shopType, FILTER_DEFAULTS.shopType)
                 ? undefined
                 : search.shopType,
         },

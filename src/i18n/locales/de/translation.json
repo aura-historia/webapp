@@ -281,7 +281,8 @@
       "selected": "{{count}} ausgewählt",
       "partnerStatus": "Partnerstatus",
       "categoryId": "Kategorie",
-      "searchCategories": "Kategorien suchen..."
+      "searchCategories": "Kategorien suchen...",
+      "requireSelection": "Mindestens 1 Auswahl erforderlich"
     },
     "messages": {
       "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",

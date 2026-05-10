@@ -9,11 +9,7 @@ import {
     RESTORATION_TRANSLATION_CONFIG,
 } from "@/data/internal/quality-indicators/Restoration.ts";
 
-type RestorationFilterProps = {
-    readonly requireSelection?: boolean;
-};
-
-export function RestorationFilter({ requireSelection = false }: RestorationFilterProps) {
+export function RestorationFilter() {
     const { control } = useFormContext<FilterSchema>();
     const { t } = useTranslation();
 
@@ -43,7 +39,8 @@ export function RestorationFilter({ requireSelection = false }: RestorationFilte
                         allSelectedLabel={t("search.filter.all")}
                         placeholder={t("search.filter.select")}
                         infoButtonLabel={t("common.infoButton")}
-                        requireSelection={requireSelection}
+                        requireSelection
+                        requireSelectionLabel={t("search.filter.requireSelection")}
                     />
                 )}
             />

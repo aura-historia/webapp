@@ -69,16 +69,17 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
 
     const hasAnyFilter = hasActiveFilters(filters);
 
+    // Only show checkbox fields in summary when user made a partial selection (not all = default).
     const hasQuality =
-        formValues.authenticity.length > 0 ||
-        formValues.condition.length > 0 ||
-        formValues.provenance.length > 0 ||
-        formValues.restoration.length > 0 ||
+        !isAllSelected(formValues.authenticity.length, AUTHENTICITIES.length) ||
+        !isAllSelected(formValues.condition.length, CONDITIONS.length) ||
+        !isAllSelected(formValues.provenance.length, PROVENANCES.length) ||
+        !isAllSelected(formValues.restoration.length, RESTORATIONS.length) ||
         filters.originYearMin != null ||
         filters.originYearMax != null;
 
     const hasShop =
-        formValues.shopType.length > 0 ||
+        !isAllSelected(formValues.shopType.length, SHOP_TYPES.length) ||
         !!filters.merchant?.length ||
         !!filters.excludeMerchant?.length;
 
@@ -185,7 +186,7 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                         label={t("search.filter.authenticity")}
                         values={
                             isAllSelected(formValues.authenticity.length, AUTHENTICITIES.length)
-                                ? [t("search.filter.all")]
+                                ? []
                                 : formValues.authenticity.map((a) =>
                                       t(AUTHENTICITY_TRANSLATION_CONFIG[a].translationKey),
                                   )
@@ -196,7 +197,7 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                         label={t("search.filter.condition")}
                         values={
                             isAllSelected(formValues.condition.length, CONDITIONS.length)
-                                ? [t("search.filter.all")]
+                                ? []
                                 : formValues.condition.map((c) =>
                                       t(CONDITION_TRANSLATION_CONFIG[c].translationKey),
                                   )
@@ -207,7 +208,7 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                         label={t("search.filter.provenance")}
                         values={
                             isAllSelected(formValues.provenance.length, PROVENANCES.length)
-                                ? [t("search.filter.all")]
+                                ? []
                                 : formValues.provenance.map((p) =>
                                       t(PROVENANCE_TRANSLATION_CONFIG[p].translationKey),
                                   )
@@ -218,7 +219,7 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
                         label={t("search.filter.restoration")}
                         values={
                             isAllSelected(formValues.restoration.length, RESTORATIONS.length)
-                                ? [t("search.filter.all")]
+                                ? []
                                 : formValues.restoration.map((r) =>
                                       t(RESTORATION_TRANSLATION_CONFIG[r].translationKey),
                                   )
@@ -228,15 +229,13 @@ export function SearchFilterWizardConfirmStep({ name, filters, periods, categori
 
                 {/* Shop & merchant */}
                 <ConfirmSection label={t("searchFilter.wizard.step.shop")} show={hasShop}>
-                    <FilterDetailRowBadges label={t("search.filter.shopType")}>
-                        {isAllSelected(formValues.shopType.length, SHOP_TYPES.length) ? (
-                            <Badge variant="outline">{t("search.filter.all")}</Badge>
-                        ) : (
-                            formValues.shopType.map((st) => (
+                    {!isAllSelected(formValues.shopType.length, SHOP_TYPES.length) && (
+                        <FilterDetailRowBadges label={t("search.filter.shopType")}>
+                            {formValues.shopType.map((st) => (
                                 <ShopTypeBadge key={st} shopType={st} />
-                            ))
-                        )}
-                    </FilterDetailRowBadges>
+                            ))}
+                        </FilterDetailRowBadges>
+                    )}
                     <FilterDetailRow
                         variant="badges"
                         label={t("search.filter.merchant")}

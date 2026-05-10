@@ -21,6 +21,7 @@ export type CheckboxMultiSelectProps = {
     readonly searchPlaceholder?: string;
     readonly infoButtonLabel?: string;
     readonly requireSelection?: boolean;
+    readonly requireSelectionLabel?: string;
 };
 
 export function CheckboxMultiSelect({
@@ -33,6 +34,7 @@ export function CheckboxMultiSelect({
     searchPlaceholder = "Search...",
     infoButtonLabel = "More information",
     requireSelection = false,
+    requireSelectionLabel = "At least 1 selection required",
 }: CheckboxMultiSelectProps) {
     const [open, setOpen] = React.useState(false);
     const [visibleCount, setVisibleCount] = React.useState(1);
@@ -201,7 +203,6 @@ export function CheckboxMultiSelect({
                     </div>
                 )}
                 <div className="max-h-60 overflow-auto p-1" onWheel={(e) => e.stopPropagation()}>
-                    {" "}
                     {!search && (
                         <>
                             <div
@@ -237,12 +238,15 @@ export function CheckboxMultiSelect({
                     )}
                     {filteredOptions.map((option) => {
                         const isSelected = displayValue.includes(option.value);
-                        return (
+                        const isLastSelected =
+                            requireSelection && pendingValue.length === 1 && isSelected;
+                        const row = (
                             <div
                                 key={option.value}
                                 className={cn(
                                     "relative flex cursor-pointer select-none items-center rounded-none px-2 py-1.5 text-sm outline-none transition-colors duration-300 ease-out hover:bg-accent hover:text-accent-foreground",
                                     isSelected && "bg-accent/50",
+                                    isLastSelected && "cursor-not-allowed opacity-60",
                                 )}
                                 onClick={() => handleToggle(option.value)}
                                 onKeyDown={(e) => {
@@ -285,6 +289,16 @@ export function CheckboxMultiSelect({
                                     </Tooltip>
                                 )}
                             </div>
+                        );
+                        return isLastSelected ? (
+                            <Tooltip key={option.value}>
+                                <TooltipTrigger asChild>{row}</TooltipTrigger>
+                                <TooltipContent side="right">
+                                    <p>{requireSelectionLabel}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        ) : (
+                            row
                         );
                     })}
                 </div>

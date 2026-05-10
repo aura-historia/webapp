@@ -9,11 +9,7 @@ import {
     AUTHENTICITY_TRANSLATION_CONFIG,
 } from "@/data/internal/quality-indicators/Authenticity.ts";
 
-type AuthenticityFilterProps = {
-    readonly requireSelection?: boolean;
-};
-
-export function AuthenticityFilter({ requireSelection = false }: AuthenticityFilterProps) {
+export function AuthenticityFilter() {
     const { control } = useFormContext<FilterSchema>();
     const { t } = useTranslation();
 
@@ -43,7 +39,8 @@ export function AuthenticityFilter({ requireSelection = false }: AuthenticityFil
                         allSelectedLabel={t("search.filter.all")}
                         placeholder={t("search.filter.select")}
                         infoButtonLabel={t("common.infoButton")}
-                        requireSelection={requireSelection}
+                        requireSelection
+                        requireSelectionLabel={t("search.filter.requireSelection")}
                     />
                 )}
             />

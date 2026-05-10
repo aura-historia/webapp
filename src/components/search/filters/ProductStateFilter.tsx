@@ -32,11 +32,13 @@ export function ProductStateFilter() {
                         control={control}
                         render={({ field }) => {
                             const isChecked = field.value?.includes(state);
+                            const isLastSelected = field.value?.length === 1 && isChecked;
                             return (
                                 <div className="flex items-center gap-2 rounded-sm px-2 py-1.5 hover:bg-surface-container-low">
                                     <Checkbox
                                         id={`checkbox-${state}`}
                                         checked={isChecked}
+                                        disabled={isLastSelected}
                                         className="size-[1.1rem] cursor-pointer rounded-none border-outline-variant/70 data-[state=checked]:border-primary data-[state=checked]:bg-primary"
                                         onCheckedChange={(checked) =>
                                             handleCheckedChange(field, state, checked)
@@ -45,9 +47,10 @@ export function ProductStateFilter() {
                                     <button
                                         type="button"
                                         className="cursor-pointer select-none border-0 bg-transparent p-0"
-                                        onClick={() =>
-                                            handleCheckedChange(field, state, !isChecked)
-                                        }
+                                        onClick={() => {
+                                            if (isLastSelected) return;
+                                            handleCheckedChange(field, state, !isChecked);
+                                        }}
                                     >
                                         <StatusBadge
                                             status={state}

@@ -9,11 +9,7 @@ import {
     CONDITION_TRANSLATION_CONFIG,
 } from "@/data/internal/quality-indicators/Condition.ts";
 
-type ConditionFilterProps = {
-    readonly requireSelection?: boolean;
-};
-
-export function ConditionFilter({ requireSelection = false }: ConditionFilterProps) {
+export function ConditionFilter() {
     const { control } = useFormContext<FilterSchema>();
     const { t } = useTranslation();
 
@@ -43,7 +39,8 @@ export function ConditionFilter({ requireSelection = false }: ConditionFilterPro
                         allSelectedLabel={t("search.filter.all")}
                         placeholder={t("search.filter.select")}
                         infoButtonLabel={t("common.infoButton")}
-                        requireSelection={requireSelection}
+                        requireSelection
+                        requireSelectionLabel={t("search.filter.requireSelection")}
                     />
                 )}
             />
