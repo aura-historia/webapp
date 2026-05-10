@@ -9,7 +9,11 @@ import {
     PROVENANCE_TRANSLATION_CONFIG,
 } from "@/data/internal/quality-indicators/Provenance.ts";
 
-export function ProvenanceFilter() {
+type ProvenanceFilterProps = {
+    readonly requireSelection?: boolean;
+};
+
+export function ProvenanceFilter({ requireSelection = false }: ProvenanceFilterProps) {
     const { control } = useFormContext<FilterSchema>();
     const { t } = useTranslation();
 
@@ -39,6 +43,7 @@ export function ProvenanceFilter() {
                         allSelectedLabel={t("search.filter.all")}
                         placeholder={t("search.filter.select")}
                         infoButtonLabel={t("common.infoButton")}
+                        requireSelection={requireSelection}
                     />
                 )}
             />

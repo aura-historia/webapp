@@ -20,6 +20,7 @@ export type CheckboxMultiSelectProps = {
     readonly searchable?: boolean;
     readonly searchPlaceholder?: string;
     readonly infoButtonLabel?: string;
+    readonly requireSelection?: boolean;
 };
 
 export function CheckboxMultiSelect({
@@ -31,6 +32,7 @@ export function CheckboxMultiSelect({
     searchable = false,
     searchPlaceholder = "Search...",
     infoButtonLabel = "More information",
+    requireSelection = false,
 }: CheckboxMultiSelectProps) {
     const [open, setOpen] = React.useState(false);
     const [visibleCount, setVisibleCount] = React.useState(1);
@@ -68,6 +70,8 @@ export function CheckboxMultiSelect({
     }, [options, search]);
 
     const handleToggle = (optionValue: string) => {
+        if (requireSelection && pendingValue.length === 1 && pendingValue.includes(optionValue))
+            return;
         setPendingValue((prev) =>
             prev.includes(optionValue)
                 ? prev.filter((v) => v !== optionValue)
@@ -76,6 +80,7 @@ export function CheckboxMultiSelect({
     };
 
     const handleToggleAll = () => {
+        if (requireSelection && allSelected) return;
         setPendingValue(allSelected ? [] : options.map((opt) => opt.value));
     };
 

@@ -117,7 +117,7 @@ const FILTER_STEPS: FilterStep[] = [
         label: "searchFilter.wizard.step.quality",
         desc: "searchFilter.wizard.step.qualityDescription",
         restricted: true,
-        content: (disabled) => <QualityIndicatorsFilter disabled={disabled} />,
+        content: (disabled) => <QualityIndicatorsFilter disabled={disabled} requireSelection />,
     },
     {
         label: "searchFilter.wizard.step.shop",
@@ -125,7 +125,7 @@ const FILTER_STEPS: FilterStep[] = [
         restricted: true,
         content: (disabled) => (
             <>
-                <ShopTypeFilter disabled={disabled} />
+                <ShopTypeFilter disabled={disabled} requireSelection />
                 <MerchantFilters disabled={disabled} />
             </>
         ),

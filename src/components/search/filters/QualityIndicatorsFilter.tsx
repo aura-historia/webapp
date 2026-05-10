@@ -11,9 +11,10 @@ import { FilterCard } from "./FilterCard.tsx";
 
 type Props = {
     readonly disabled?: boolean;
+    readonly requireSelection?: boolean;
 };
 
-export function QualityIndicatorsFilter({ disabled = false }: Props) {
+export function QualityIndicatorsFilter({ disabled = false, requireSelection = false }: Props) {
     const { t } = useTranslation();
     const { setValue } = useFormContext<FilterSchema>();
 
@@ -34,10 +35,10 @@ export function QualityIndicatorsFilter({ disabled = false }: Props) {
         >
             <div className="flex flex-col gap-4">
                 <OriginYearFilter />
-                <AuthenticityFilter />
-                <ConditionFilter />
-                <ProvenanceFilter />
-                <RestorationFilter />
+                <AuthenticityFilter requireSelection={requireSelection} />
+                <ConditionFilter requireSelection={requireSelection} />
+                <ProvenanceFilter requireSelection={requireSelection} />
+                <RestorationFilter requireSelection={requireSelection} />
             </div>
         </FilterCard>
     );

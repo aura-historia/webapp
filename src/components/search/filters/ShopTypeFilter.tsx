@@ -14,12 +14,14 @@ type ShopTypeFilterProps = {
     readonly onReset?: () => void;
     readonly shopTypes?: readonly ShopType[];
     readonly disabled?: boolean;
+    readonly requireSelection?: boolean;
 };
 
 export function ShopTypeFilter({
     onReset,
     shopTypes = SHOP_TYPES,
     disabled = false,
+    requireSelection = false,
 }: ShopTypeFilterProps) {
     const { control } = useFormContext<ShopTypeFilterFormValues>();
     const { t } = useTranslation();
@@ -51,6 +53,7 @@ export function ShopTypeFilter({
                         allSelectedLabel={t("search.filter.all")}
                         placeholder={t("search.filter.select")}
                         infoButtonLabel={t("common.infoButton")}
+                        requireSelection={requireSelection}
                     />
                 )}
             />
