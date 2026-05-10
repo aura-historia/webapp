@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils.ts";
 import type React from "react";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -79,17 +80,19 @@ const variants: Variants = {
     exit: { opacity: 0, transition: { duration: 0.08 } },
 };
 
+type FilterStep = {
+    readonly label: string;
+    readonly desc: string;
+    readonly restricted?: boolean;
+    readonly content: (disabled: boolean) => ReactNode;
+};
+
 /**
  * Filter steps for the wizard (steps 2–6).
  * `restricted: true` marks steps that require a paid plan.
  * `content` receives `disabled` so filter components can be grayed out for FREE users.
  */
-const FILTER_STEPS: {
-    label: string;
-    desc: string;
-    restricted?: boolean;
-    content: (disabled: boolean) => ReactNode;
-}[] = [
+const FILTER_STEPS: FilterStep[] = [
     {
         label: "searchFilter.wizard.step.priceStatus",
         desc: "searchFilter.wizard.step.priceStatusDescription",
@@ -447,7 +450,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
-                className="w-full max-w-[95vw] lg:max-w-[1000px] h-[100dvh] lg:h-[700px] flex flex-col gap-0 p-0 overflow-hidden shadow-2xl"
+                className="w-full max-w-[95vw] lg:max-w-[1000px] h-[100dvh] md:h-[700px] flex flex-col gap-0 p-0 overflow-hidden shadow-2xl"
                 onInteractOutside={(e) => e.preventDefault()}
                 onEscapeKeyDown={(e) => e.preventDefault()}
             >
@@ -456,8 +459,8 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                     onValueChange={goTo}
                     className="flex flex-1 flex-row min-h-0 overflow-hidden gap-0"
                 >
-                    {/* Sidebar */}
-                    <div className="w-52 shrink-0 flex flex-col bg-muted/30 px-5 pt-8 pb-6 border-r">
+                    {/* Sidebar – desktop only */}
+                    <div className="hidden lg:flex flex-col w-52 shrink-0 bg-muted/30 px-5 pt-8 pb-6 border-r">
                         <DialogHeader className="mb-6">
                             <DialogTitle className="text-base font-bold tracking-tight leading-tight">
                                 {t("searchFilter.wizard.title")}
@@ -490,6 +493,33 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
 
                     {/* Content */}
                     <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+                        {/* Mobile/tablet progress header */}
+                        <div className="lg:hidden flex flex-col gap-2.5 px-4 pt-4 pb-3 border-b bg-muted/30 shrink-0">
+                            <p className="text-sm font-bold tracking-tight">
+                                {t("searchFilter.wizard.title")}
+                            </p>
+                            <div className="flex gap-1">
+                                {stepLabels.map((label, i) => (
+                                    <div
+                                        key={label}
+                                        className={cn(
+                                            "flex-1 h-1.5 rounded-full transition-colors duration-300",
+                                            i < step ? "bg-primary" : "bg-muted",
+                                        )}
+                                    />
+                                ))}
+                            </div>
+                            <div className="flex items-center justify-between gap-4">
+                                <span className="text-xs font-semibold truncate">
+                                    {stepLabels[step - 1]}
+                                </span>
+                                {step < TOTAL_STEPS && (
+                                    <span className="text-xs text-muted-foreground truncate shrink-0">
+                                        {stepLabels[step]}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
                         <SearchFilterFormProvider value={filters} onChange={setFilters}>
                             <div
                                 ref={scrollRef}
