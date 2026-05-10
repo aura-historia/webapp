@@ -227,7 +227,7 @@ export function Header() {
                                     : "",
                             )}
                         >
-                            <NavigationMenu className={"md:inline flex-none gap-2"}>
+                            <NavigationMenu className={"hidden xl:inline flex-none gap-2"}>
                                 <NavigationMenuList>
                                     <NavigationMenuItem>
                                         <NavigationMenuLink asChild>
@@ -261,17 +261,15 @@ export function Header() {
                                             </Link>
                                         </NavigationMenuLink>
                                     </NavigationMenuItem>
-
-                                    <NavigationMenuItem>
-                                        <NotificationBell />
-                                    </NavigationMenuItem>
                                 </NavigationMenuList>
                             </NavigationMenu>
+
+                            <NotificationBell />
 
                             <DropdownMenu>
                                 <DropdownMenuTrigger className="flex items-center gap-4 hover:bg-accent transition-all px-4">
                                     {userAccount?.firstName && (
-                                        <span className={"hidden md:inline"}>
+                                        <span>
                                             {t("header.hello")}, {userAccount.firstName}
                                         </span>
                                     )}
@@ -284,6 +282,15 @@ export function Header() {
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
+                                    <DropdownMenuItem asChild className="xl:hidden">
+                                        <Link to="/me/watchlist">{t("header.watchlist")}</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild className="xl:hidden">
+                                        <Link to="/me/search-filters">
+                                            {t("header.searchFilters")}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator className="xl:hidden" />
                                     <DropdownMenuItem asChild>
                                         <Link to="/me/account">{t("header.editAccount")}</Link>
                                     </DropdownMenuItem>
