@@ -1262,7 +1262,10 @@
       "saveButton": "Save",
       "restrictedFiltersHint": "These filters are unfortunately not available in your current subscription and cannot be saved. Upgrade your subscription to use them – or save the search filter without these filters.",
       "resetAndSaveButton": "Save without these filters",
-      "queryPlaceholder": "e.g. Mater Dolorosa oil painting canvas Baroque"
+      "queryPlaceholder": "e.g. Mater Dolorosa oil painting canvas Baroque",
+      "nameHint": "Give your search filter a unique name.",
+      "queryHint": "Keyword that will be matched against product titles.",
+      "aiDescriptionHint": "Describe in detail what you are looking for – the AI will find better matches."
     },
     "wizard": {
       "title": "Create Search Filter",

@@ -15,6 +15,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import {
     Form,
     FormControl,
+    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -333,6 +334,9 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                         <FormLabel>
                                             {t("searchFilter.saveDialog.nameLabel")}
                                         </FormLabel>
+                                        <FormDescription className="text-xs -mt-1">
+                                            {t("searchFilter.saveDialog.nameHint")}
+                                        </FormDescription>
                                         <FormControl>
                                             <Input
                                                 {...field}
@@ -355,6 +359,9 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                         <FormLabel>
                                             {t("searchFilter.saveDialog.queryLabel")}
                                         </FormLabel>
+                                        <FormDescription className="text-xs -mt-1">
+                                            {t("searchFilter.saveDialog.queryHint")}
+                                        </FormDescription>
                                         <FormControl>
                                             <Input
                                                 {...field}
@@ -399,6 +406,9 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                                 </Tooltip>
                                             )}
                                         </div>
+                                        <FormDescription className="text-xs -mt-1">
+                                            {t("searchFilter.saveDialog.aiDescriptionHint")}
+                                        </FormDescription>
                                         <FormControl>
                                             <Textarea
                                                 {...field}
