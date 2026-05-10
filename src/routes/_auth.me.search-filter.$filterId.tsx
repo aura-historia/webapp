@@ -15,7 +15,7 @@ function RouteComponent() {
     const { filterId } = Route.useParams();
 
     return (
-        <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto">
+        <div className="max-w-6xl mx-auto flex flex-col gap-8 py-8 px-8">
             <SearchFilterMatches filterId={filterId} />
         </div>
     );
