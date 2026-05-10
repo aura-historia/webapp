@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
-import { SearchFilterMatches } from "@/components/search-filters/SearchFilterMatches.tsx";
+import { SearchFilterMatches } from "@/components/search-filters/match/SearchFilterMatches.tsx";
 
 export const Route = createFileRoute("/_auth/me/search-filter/$filterId")({
     head: () =>

@@ -1,6 +1,6 @@
 import { useUserSearchFilter } from "@/hooks/search-filters/useUserSearchFilter.ts";
 import { useSearchFilterMatchedProducts } from "@/hooks/search-filters/useSearchFilterMatchedProducts.ts";
-import { SearchFilterMatchCard } from "@/components/search-filters/SearchFilterMatchCard.tsx";
+import { SearchFilterMatchCard } from "@/components/search-filters/match/SearchFilterMatchCard.tsx";
 import { HiddenMatchCard } from "@/components/product/overview/HiddenMatchCard.tsx";
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";

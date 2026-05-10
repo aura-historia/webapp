@@ -2,12 +2,12 @@ import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
 import { MatchFeedbackButtons } from "@/components/product/buttons/MatchFeedbackButtons.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 
-interface SearchFilterMatchCardProps {
+type Props = {
     readonly product: OverviewProduct;
     readonly filterId: string;
-}
+};
 
-export function SearchFilterMatchCard({ product, filterId }: SearchFilterMatchCardProps) {
+export function SearchFilterMatchCard({ product, filterId }: Props) {
     const searchFilterData = product.userData?.searchFilterData;
 
     return (
