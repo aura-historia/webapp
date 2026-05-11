@@ -26,6 +26,24 @@ export type AdminShopPatch = {
     readonly specialitiesPeriods?: string[] | null;
 };
 
+function replaceUpdatedShopInPages(
+    old: InfiniteData<AdminShopPage> | undefined,
+    updatedShop: ShopDetail,
+): InfiniteData<AdminShopPage> | undefined {
+    if (!old || !("pages" in old) || !Array.isArray(old.pages)) return old;
+
+    const pages = old.pages.map((page) => ({
+        ...page,
+        items: page.items.map((item) => (item.shopId === updatedShop.shopId ? updatedShop : item)),
+    }));
+
+    return {
+        ...old,
+        pageParams: old.pageParams,
+        pages,
+    };
+}
+
 export function usePatchAdminShop() {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
@@ -75,19 +93,7 @@ export function usePatchAdminShop() {
         onSuccess: (updatedShop) => {
             queryClient.setQueriesData<InfiniteData<AdminShopPage>>(
                 { queryKey: ["admin", "shops"] },
-                (old) => {
-                    if (!old) return old;
-                    return {
-                        ...old,
-                        pageParams: old.pageParams,
-                        pages: old.pages.map((page) => ({
-                            ...page,
-                            items: page.items.map((item) =>
-                                item.shopId === updatedShop.shopId ? updatedShop : item,
-                            ),
-                        })),
-                    };
-                },
+                (old) => replaceUpdatedShopInPages(old, updatedShop),
             );
             queryClient.invalidateQueries({ queryKey: ["admin", "shops"], refetchType: "none" });
         },

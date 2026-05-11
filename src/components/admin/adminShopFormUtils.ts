@@ -27,7 +27,7 @@ export function parseShopDomains(input: string): string[] {
     const seen = new Set<string>();
 
     return input
-        .split(/[\s,;\n]+/)
+        .split(/[\s,;]+/)
         .map(normalizeShopDomain)
         .filter((domain) => {
             if (domain === "" || seen.has(domain)) {

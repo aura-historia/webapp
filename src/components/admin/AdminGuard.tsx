@@ -36,7 +36,7 @@ export function AdminGuard({ children }: AdminGuardProps) {
         );
     }
 
-    if (isError || !data || data.role !== "ADMIN") {
+    if (isError || data?.role !== "ADMIN") {
         return (
             <div
                 className="flex w-full flex-col items-center gap-4 px-6 py-24 text-center"

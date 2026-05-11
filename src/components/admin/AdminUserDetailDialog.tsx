@@ -332,6 +332,37 @@ export function AdminUserDetailDialog({ userId, open, onOpenChange }: AdminUserD
     const { t } = useTranslation();
     const { data: user, isPending, isError, refetch } = useAdminUser(userId, open);
 
+    const renderUserContent = () => {
+        if (isPending) {
+            return (
+                <div className="flex justify-center py-10" role="status" aria-live="polite">
+                    <Spinner />
+                </div>
+            );
+        }
+
+        if (isError || !user) {
+            return (
+                <div className="flex flex-col items-center gap-3 py-10 text-center">
+                    <p className="text-sm text-muted-foreground">
+                        {t("adminDashboard.users.detail.loadError")}
+                    </p>
+                    <Button size="sm" variant="outline" onClick={() => refetch()}>
+                        {t("adminDashboard.actions.retry")}
+                    </Button>
+                </div>
+            );
+        }
+
+        return (
+            <AdminUserEditForm
+                key={`${user.userId}-${user.updated.toISOString()}`}
+                user={user}
+                onClose={() => onOpenChange(false)}
+            />
+        );
+    };
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
@@ -342,26 +373,7 @@ export function AdminUserDetailDialog({ userId, open, onOpenChange }: AdminUserD
                     </DialogDescription>
                 </DialogHeader>
 
-                {isPending ? (
-                    <div className="flex justify-center py-10" role="status" aria-live="polite">
-                        <Spinner />
-                    </div>
-                ) : isError || !user ? (
-                    <div className="flex flex-col items-center gap-3 py-10 text-center">
-                        <p className="text-sm text-muted-foreground">
-                            {t("adminDashboard.users.detail.loadError")}
-                        </p>
-                        <Button size="sm" variant="outline" onClick={() => refetch()}>
-                            {t("adminDashboard.actions.retry")}
-                        </Button>
-                    </div>
-                ) : (
-                    <AdminUserEditForm
-                        key={`${user.userId}-${user.updated.toISOString()}`}
-                        user={user}
-                        onClose={() => onOpenChange(false)}
-                    />
-                )}
+                {renderUserContent()}
             </DialogContent>
         </Dialog>
     );

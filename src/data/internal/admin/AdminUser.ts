@@ -1,20 +1,13 @@
-import type {
-    CurrencyData,
-    GetUserAccountData,
-    LanguageData,
-    PatchAdminUserData,
-    UserRoleData,
-    UserTierData,
-} from "@/client";
+import type { GetUserAccountData, PatchAdminUserData, UserTierData } from "@/client";
 import {
+    type Currency,
     mapToBackendCurrency,
     parseCurrency,
-    type Currency,
 } from "@/data/internal/common/Currency.ts";
 import {
+    type Language,
     mapToBackendLanguage,
     parseLanguage,
-    type Language,
 } from "@/data/internal/common/Language.ts";
 import {
     mapToBackendUserRole,
@@ -78,26 +71,30 @@ export function mapToAdminUser(data: GetUserAccountData): AdminUser {
 }
 
 export function mapToAdminUserPatch(data: Omit<AdminUserPatch, "userId">): PatchAdminUserData {
-    const body: PatchAdminUserData = {};
-    if (data.firstName !== undefined) body.firstName = data.firstName;
-    if (data.lastName !== undefined) body.lastName = data.lastName;
-    if (data.language !== undefined) {
-        body.language =
-            data.language === null ? null : (mapToBackendLanguage(data.language) as LanguageData);
-    }
-    if (data.currency !== undefined) {
-        body.currency =
-            data.currency === null ? null : (mapToBackendCurrency(data.currency) as CurrencyData);
-    }
-    if (data.prohibitedContentConsent !== undefined) {
-        body.prohibitedContentConsent = data.prohibitedContentConsent;
-    }
-    if (data.tier !== undefined) {
-        body.tier = data.tier === null ? null : mapToBackendUserTier(data.tier);
-    }
-    if (data.role !== undefined) {
-        body.role = data.role === null ? null : (mapToBackendUserRole(data.role) as UserRoleData);
-    }
-    if (data.stripeCustomerId !== undefined) body.stripeCustomerId = data.stripeCustomerId;
-    return body;
+    return {
+        ...(data.firstName !== undefined ? { firstName: data.firstName } : {}),
+        ...(data.lastName !== undefined ? { lastName: data.lastName } : {}),
+        ...(data.language !== undefined
+            ? {
+                  language: data.language === null ? null : mapToBackendLanguage(data.language),
+              }
+            : {}),
+        ...(data.currency !== undefined
+            ? {
+                  currency: data.currency === null ? null : mapToBackendCurrency(data.currency),
+              }
+            : {}),
+        ...(data.prohibitedContentConsent !== undefined
+            ? { prohibitedContentConsent: data.prohibitedContentConsent }
+            : {}),
+        ...(data.tier !== undefined
+            ? { tier: data.tier === null ? null : mapToBackendUserTier(data.tier) }
+            : {}),
+        ...(data.role !== undefined
+            ? {
+                  role: data.role === null ? null : mapToBackendUserRole(data.role),
+              }
+            : {}),
+        ...(data.stripeCustomerId !== undefined ? { stripeCustomerId: data.stripeCustomerId } : {}),
+    };
 }

@@ -31,6 +31,29 @@ export type AdminUserPage = {
     readonly total?: number;
 };
 
+function replaceUpdatedUserInPages(
+    old: InfiniteData<AdminUserPage> | undefined,
+    updatedUser: AdminUser,
+): InfiniteData<AdminUserPage> | undefined {
+    if (!old || !("pages" in old) || !Array.isArray(old.pages)) return old;
+
+    const pages = old.pages.map((page) => {
+        const items = page.items.map((item) =>
+            item.userId === updatedUser.userId ? updatedUser : item,
+        );
+        return {
+            ...page,
+            items,
+        };
+    });
+
+    return {
+        ...old,
+        pageParams: old.pageParams,
+        pages,
+    };
+}
+
 export function useAdminUsers(filters: AdminUserFilters) {
     const { getErrorMessage } = useApiError();
 
@@ -110,19 +133,7 @@ export function usePatchAdminUser() {
             queryClient.setQueryData(["admin", "users", "detail", updatedUser.userId], updatedUser);
             queryClient.setQueriesData<InfiniteData<AdminUserPage>>(
                 { queryKey: ["admin", "users"] },
-                (old) => {
-                    if (!old || !("pages" in old) || !Array.isArray(old.pages)) return old;
-                    return {
-                        ...old,
-                        pageParams: old.pageParams,
-                        pages: old.pages.map((page) => ({
-                            ...page,
-                            items: page.items.map((item) =>
-                                item.userId === updatedUser.userId ? updatedUser : item,
-                            ),
-                        })),
-                    };
-                },
+                (old) => replaceUpdatedUserInPages(old, updatedUser),
             );
             queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
         },

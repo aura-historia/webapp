@@ -54,6 +54,46 @@ export function AdminPartnerApplicationDetailDialog({
         ? [applicant.firstName, applicant.lastName].filter(Boolean).join(" ") || applicant.email
         : undefined;
 
+    const renderApplicantContent = () => {
+        if (isApplicantPending) {
+            return (
+                <div className="flex justify-center py-6" role="status" aria-live="polite">
+                    <Spinner />
+                </div>
+            );
+        }
+
+        if (isApplicantError || !applicant) {
+            return (
+                <div className="mt-3 flex flex-col items-start gap-3">
+                    <p className="text-sm text-muted-foreground">
+                        {t("adminDashboard.applications.detail.applicantLoadError")}
+                    </p>
+                    <Button size="sm" variant="outline" onClick={() => refetchApplicant()}>
+                        {t("adminDashboard.actions.retry")}
+                    </Button>
+                </div>
+            );
+        }
+
+        return (
+            <div className="mt-3 flex flex-col gap-3">
+                <dl className="grid gap-3 sm:grid-cols-2">
+                    <Field label={t("adminDashboard.users.fields.email")} value={applicant.email} />
+                    <Field label={t("adminDashboard.users.fields.name")} value={applicantName} />
+                    <Field label={t("adminDashboard.users.fields.tier")} value={applicant.tier} />
+                    <Field label={t("adminDashboard.users.fields.role")} value={applicant.role} />
+                </dl>
+                <Button asChild size="sm" className="w-fit">
+                    <Link to="/admin/users" search={{ userId: applicant.userId }}>
+                        {t("adminDashboard.applications.detail.openApplicant")}
+                        <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
+                    </Link>
+                </Button>
+            </div>
+        );
+    };
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
@@ -197,55 +237,7 @@ export function AdminPartnerApplicationDetailDialog({
                             </h3>
                         </div>
 
-                        {isApplicantPending ? (
-                            <div
-                                className="flex justify-center py-6"
-                                role="status"
-                                aria-live="polite"
-                            >
-                                <Spinner />
-                            </div>
-                        ) : isApplicantError || !applicant ? (
-                            <div className="mt-3 flex flex-col items-start gap-3">
-                                <p className="text-sm text-muted-foreground">
-                                    {t("adminDashboard.applications.detail.applicantLoadError")}
-                                </p>
-                                <Button
-                                    size="sm"
-                                    variant="outline"
-                                    onClick={() => refetchApplicant()}
-                                >
-                                    {t("adminDashboard.actions.retry")}
-                                </Button>
-                            </div>
-                        ) : (
-                            <div className="mt-3 flex flex-col gap-3">
-                                <dl className="grid gap-3 sm:grid-cols-2">
-                                    <Field
-                                        label={t("adminDashboard.users.fields.email")}
-                                        value={applicant.email}
-                                    />
-                                    <Field
-                                        label={t("adminDashboard.users.fields.name")}
-                                        value={applicantName}
-                                    />
-                                    <Field
-                                        label={t("adminDashboard.users.fields.tier")}
-                                        value={applicant.tier}
-                                    />
-                                    <Field
-                                        label={t("adminDashboard.users.fields.role")}
-                                        value={applicant.role}
-                                    />
-                                </dl>
-                                <Button asChild size="sm" className="w-fit">
-                                    <Link to="/admin/users" search={{ userId: applicant.userId }}>
-                                        {t("adminDashboard.applications.detail.openApplicant")}
-                                        <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
-                                    </Link>
-                                </Button>
-                            </div>
-                        )}
+                        {renderApplicantContent()}
                     </section>
                 </div>
             </DialogContent>

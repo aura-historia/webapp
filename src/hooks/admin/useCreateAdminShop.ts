@@ -43,11 +43,7 @@ function shopMatchesFilters(shop: ShopDetail, filters?: AdminShopFilters): boole
         return false;
     }
 
-    if (filters.partnerStatus && !filters.partnerStatus.includes(shop.partnerStatus)) {
-        return false;
-    }
-
-    return true;
+    return !(filters.partnerStatus && !filters.partnerStatus.includes(shop.partnerStatus));
 }
 
 function extractAdminShopFilters(queryKey: QueryKey): AdminShopFilters | undefined {
@@ -140,7 +136,7 @@ export function useCreateAdminShop() {
                             ? {
                                   ...page,
                                   items: [createdShop, ...page.items],
-                                  total: page.total !== undefined ? page.total + 1 : undefined,
+                                  total: page.total === undefined ? undefined : page.total + 1,
                               }
                             : page,
                     ),

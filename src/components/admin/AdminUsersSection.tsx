@@ -125,6 +125,95 @@ export function AdminUsersSection({
     const items = data?.pages.flatMap((page) => page.items) ?? [];
     const total = data?.pages[0]?.total;
 
+    const renderUsersList = () => {
+        if (isPending) {
+            return (
+                <div className="flex justify-center py-10" role="status" aria-live="polite">
+                    <Spinner />
+                </div>
+            );
+        }
+
+        if (isError) {
+            return (
+                <div className="flex flex-col items-center gap-3 py-10 text-center">
+                    <p className="text-sm text-muted-foreground">
+                        {t("adminDashboard.users.loadError")}
+                    </p>
+                    <Button size="sm" variant="outline" onClick={() => refetch()}>
+                        {t("adminDashboard.actions.retry")}
+                    </Button>
+                </div>
+            );
+        }
+
+        if (items.length === 0) {
+            return (
+                <p className="py-10 text-center text-sm text-muted-foreground">
+                    {t("adminDashboard.users.empty")}
+                </p>
+            );
+        }
+
+        return (
+            <>
+                {total !== undefined && (
+                    <p className="text-xs text-muted-foreground">
+                        {t("adminDashboard.users.totalCount", { count: total })}
+                    </p>
+                )}
+                <ul className="flex flex-col gap-2">
+                    {items.map((user) => (
+                        <li key={user.userId}>
+                            <button
+                                type="button"
+                                className="flex w-full flex-col gap-2 rounded-md border bg-surface-container-low p-3 text-left transition-colors hover:border-primary"
+                                onClick={() => onSelectedUserIdChange(user.userId)}
+                            >
+                                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                    <UserRound
+                                        className="h-4 w-4 text-muted-foreground"
+                                        aria-hidden="true"
+                                    />
+                                    <span className="font-medium">{displayName(user)}</span>
+                                    <Badge variant={userBadgeVariant(user.role)}>{user.role}</Badge>
+                                    <Badge variant={userBadgeVariant(user.tier)}>{user.tier}</Badge>
+                                </div>
+                                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                                    <span className="flex items-center gap-1">
+                                        <Mail className="h-3 w-3" aria-hidden="true" />
+                                        {user.email}
+                                    </span>
+                                    {user.stripeCustomerId && (
+                                        <span className="font-mono" title={user.stripeCustomerId}>
+                                            {user.stripeCustomerId}
+                                        </span>
+                                    )}
+                                    <span>
+                                        {t("adminDashboard.users.updatedAt", {
+                                            date: formatShortDate(user.updated, i18n.language),
+                                        })}
+                                    </span>
+                                </div>
+                                {user.prohibitedContentConsent && (
+                                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                        <Shield className="h-3 w-3" aria-hidden="true" />
+                                        {t("adminDashboard.users.fields.prohibitedContentConsent")}
+                                    </div>
+                                )}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+                {hasNextPage && (
+                    <div ref={loadMoreRef} className="flex justify-center py-4">
+                        {isFetchingNextPage ? <Spinner /> : null}
+                    </div>
+                )}
+            </>
+        );
+    };
+
     return (
         <section className="flex flex-col gap-4">
             <header className="flex flex-col gap-1">
@@ -288,89 +377,7 @@ export function AdminUsersSection({
                 </div>
             </Form>
 
-            {isPending ? (
-                <div className="flex justify-center py-10" role="status" aria-live="polite">
-                    <Spinner />
-                </div>
-            ) : isError ? (
-                <div className="flex flex-col items-center gap-3 py-10 text-center">
-                    <p className="text-sm text-muted-foreground">
-                        {t("adminDashboard.users.loadError")}
-                    </p>
-                    <Button size="sm" variant="outline" onClick={() => refetch()}>
-                        {t("adminDashboard.actions.retry")}
-                    </Button>
-                </div>
-            ) : items.length === 0 ? (
-                <p className="py-10 text-center text-sm text-muted-foreground">
-                    {t("adminDashboard.users.empty")}
-                </p>
-            ) : (
-                <>
-                    {total !== undefined && (
-                        <p className="text-xs text-muted-foreground">
-                            {t("adminDashboard.users.totalCount", { count: total })}
-                        </p>
-                    )}
-                    <ul className="flex flex-col gap-2">
-                        {items.map((user) => (
-                            <li key={user.userId}>
-                                <button
-                                    type="button"
-                                    className="flex w-full flex-col gap-2 rounded-md border bg-surface-container-low p-3 text-left transition-colors hover:border-primary"
-                                    onClick={() => onSelectedUserIdChange(user.userId)}
-                                >
-                                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                                        <UserRound
-                                            className="h-4 w-4 text-muted-foreground"
-                                            aria-hidden="true"
-                                        />
-                                        <span className="font-medium">{displayName(user)}</span>
-                                        <Badge variant={userBadgeVariant(user.role)}>
-                                            {user.role}
-                                        </Badge>
-                                        <Badge variant={userBadgeVariant(user.tier)}>
-                                            {user.tier}
-                                        </Badge>
-                                    </div>
-                                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                                        <span className="flex items-center gap-1">
-                                            <Mail className="h-3 w-3" aria-hidden="true" />
-                                            {user.email}
-                                        </span>
-                                        {user.stripeCustomerId && (
-                                            <span
-                                                className="font-mono"
-                                                title={user.stripeCustomerId}
-                                            >
-                                                {user.stripeCustomerId}
-                                            </span>
-                                        )}
-                                        <span>
-                                            {t("adminDashboard.users.updatedAt", {
-                                                date: formatShortDate(user.updated, i18n.language),
-                                            })}
-                                        </span>
-                                    </div>
-                                    {user.prohibitedContentConsent && (
-                                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                            <Shield className="h-3 w-3" aria-hidden="true" />
-                                            {t(
-                                                "adminDashboard.users.fields.prohibitedContentConsent",
-                                            )}
-                                        </div>
-                                    )}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                    {hasNextPage && (
-                        <div ref={loadMoreRef} className="flex justify-center py-4">
-                            {isFetchingNextPage ? <Spinner /> : null}
-                        </div>
-                    )}
-                </>
-            )}
+            {renderUsersList()}
 
             <AdminUserDetailDialog
                 userId={selectedUserId}

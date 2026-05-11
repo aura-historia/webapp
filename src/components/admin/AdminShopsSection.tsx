@@ -57,6 +57,173 @@ export function AdminShopsSection() {
     const items = data?.pages.flatMap((p) => p.items) ?? [];
     const total = data?.pages[0]?.total;
 
+    const renderShopsList = () => {
+        if (isPending) {
+            return (
+                <div className="flex justify-center py-10" role="status" aria-live="polite">
+                    <Spinner />
+                </div>
+            );
+        }
+
+        if (isError) {
+            return (
+                <div className="flex flex-col items-center gap-3 py-10 text-center">
+                    <p className="text-sm text-muted-foreground">
+                        {t("adminDashboard.shops.loadError")}
+                    </p>
+                    <Button size="sm" variant="outline" onClick={() => refetch()}>
+                        {t("adminDashboard.actions.retry")}
+                    </Button>
+                </div>
+            );
+        }
+
+        if (items.length === 0) {
+            return (
+                <p className="py-10 text-center text-sm text-muted-foreground">
+                    {t("adminDashboard.shops.empty")}
+                </p>
+            );
+        }
+
+        return (
+            <>
+                {total !== undefined && (
+                    <p className="text-xs text-muted-foreground">
+                        {t("adminDashboard.shops.totalCount", { count: total })}
+                    </p>
+                )}
+                <ul className="flex flex-col gap-2">
+                    {items.map((shop) => (
+                        <li
+                            key={shop.shopId}
+                            className="flex flex-row items-start gap-3 rounded-md border bg-surface-container-low p-3"
+                        >
+                            <div className="hidden h-10 w-10 shrink-0 overflow-hidden rounded-sm border bg-muted sm:block">
+                                {shop.image ? (
+                                    <ImageWithFallback
+                                        src={shop.image}
+                                        alt={t("adminDashboard.shops.shopImageAlt", {
+                                            shop: shop.name,
+                                        })}
+                                        className="h-full w-full object-contain"
+                                    />
+                                ) : (
+                                    <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
+                                        —
+                                    </div>
+                                )}
+                            </div>
+                            <div className="flex min-w-0 flex-1 flex-col gap-1">
+                                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                    <span className="truncate font-medium" title={shop.name}>
+                                        {shop.name}
+                                    </span>
+                                    <Badge
+                                        variant={
+                                            shop.partnerStatus === "PARTNERED"
+                                                ? "default"
+                                                : "secondary"
+                                        }
+                                        className="gap-1"
+                                    >
+                                        {shop.partnerStatus === "PARTNERED" && (
+                                            <ShieldCheck className="h-3 w-3" aria-hidden="true" />
+                                        )}
+                                        {partnerStatusLabel(t, shop.partnerStatus)}
+                                    </Badge>
+                                    <Badge variant="outline">
+                                        {shopTypeLabel(t, shop.shopType)}
+                                    </Badge>
+                                </div>
+                                {shop.domains.length > 0 && (
+                                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+                                        <Globe className="h-3 w-3" aria-hidden="true" />
+                                        <span className="truncate" title={shop.domains.join(", ")}>
+                                            {shop.domains.join(", ")}
+                                        </span>
+                                    </div>
+                                )}
+                                {shop.url && (
+                                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                        <Globe className="h-3 w-3 shrink-0" aria-hidden="true" />
+                                        <a
+                                            href={shop.url}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="truncate underline underline-offset-2"
+                                            title={shop.url}
+                                        >
+                                            {shop.url}
+                                        </a>
+                                    </div>
+                                )}
+                                {(shop.phone || shop.email) && (
+                                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                                        {shop.phone && (
+                                            <span className="flex items-center gap-1">
+                                                <Phone className="h-3 w-3" aria-hidden="true" />
+                                                {shop.phone}
+                                            </span>
+                                        )}
+                                        {shop.email && (
+                                            <span className="flex items-center gap-1">
+                                                <Mail className="h-3 w-3" aria-hidden="true" />
+                                                {shop.email}
+                                            </span>
+                                        )}
+                                    </div>
+                                )}
+                                {shop.structuredAddress && (
+                                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                        <MapPin className="h-3 w-3 shrink-0" aria-hidden="true" />
+                                        <span className="truncate">
+                                            {[
+                                                shop.structuredAddress.locality,
+                                                shop.structuredAddress.country,
+                                            ]
+                                                .filter(Boolean)
+                                                .join(", ")}
+                                        </span>
+                                    </div>
+                                )}
+                                <div className="flex flex-wrap items-center gap-x-3 text-xs text-muted-foreground">
+                                    <span title={shop.shopId} className="font-mono">
+                                        {shop.shopSlugId}
+                                    </span>
+                                    <span>
+                                        {t("adminDashboard.shops.updatedAt", {
+                                            date: formatShortDate(shop.updated, i18n.language),
+                                        })}
+                                    </span>
+                                </div>
+                            </div>
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => setEditTarget(shop)}
+                                aria-label={t("adminDashboard.shops.editAriaLabel", {
+                                    shop: shop.name,
+                                })}
+                            >
+                                <Pencil className="h-4 w-4" aria-hidden="true" />
+                                <span className="hidden sm:inline">
+                                    {t("adminDashboard.actions.edit")}
+                                </span>
+                            </Button>
+                        </li>
+                    ))}
+                </ul>
+                {hasNextPage && (
+                    <div ref={loadMoreRef} className="flex justify-center py-4">
+                        {isFetchingNextPage ? <Spinner /> : null}
+                    </div>
+                )}
+            </>
+        );
+    };
+
     return (
         <section className="flex flex-col gap-4">
             <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -116,170 +283,7 @@ export function AdminShopsSection() {
                 </div>
             </form>
 
-            {isPending ? (
-                <div className="flex justify-center py-10" role="status" aria-live="polite">
-                    <Spinner />
-                </div>
-            ) : isError ? (
-                <div className="flex flex-col items-center gap-3 py-10 text-center">
-                    <p className="text-sm text-muted-foreground">
-                        {t("adminDashboard.shops.loadError")}
-                    </p>
-                    <Button size="sm" variant="outline" onClick={() => refetch()}>
-                        {t("adminDashboard.actions.retry")}
-                    </Button>
-                </div>
-            ) : items.length === 0 ? (
-                <p className="py-10 text-center text-sm text-muted-foreground">
-                    {t("adminDashboard.shops.empty")}
-                </p>
-            ) : (
-                <>
-                    {total !== undefined && (
-                        <p className="text-xs text-muted-foreground">
-                            {t("adminDashboard.shops.totalCount", { count: total })}
-                        </p>
-                    )}
-                    <ul className="flex flex-col gap-2">
-                        {items.map((shop) => (
-                            <li
-                                key={shop.shopId}
-                                className="flex flex-row items-start gap-3 rounded-md border bg-surface-container-low p-3"
-                            >
-                                <div className="hidden h-10 w-10 shrink-0 overflow-hidden rounded-sm border bg-muted sm:block">
-                                    {shop.image ? (
-                                        <ImageWithFallback
-                                            src={shop.image}
-                                            alt={t("adminDashboard.shops.shopImageAlt", {
-                                                shop: shop.name,
-                                            })}
-                                            className="h-full w-full object-contain"
-                                        />
-                                    ) : (
-                                        <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
-                                            —
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="flex min-w-0 flex-1 flex-col gap-1">
-                                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                                        <span className="truncate font-medium" title={shop.name}>
-                                            {shop.name}
-                                        </span>
-                                        <Badge
-                                            variant={
-                                                shop.partnerStatus === "PARTNERED"
-                                                    ? "default"
-                                                    : "secondary"
-                                            }
-                                            className="gap-1"
-                                        >
-                                            {shop.partnerStatus === "PARTNERED" && (
-                                                <ShieldCheck
-                                                    className="h-3 w-3"
-                                                    aria-hidden="true"
-                                                />
-                                            )}
-                                            {partnerStatusLabel(t, shop.partnerStatus)}
-                                        </Badge>
-                                        <Badge variant="outline">
-                                            {shopTypeLabel(t, shop.shopType)}
-                                        </Badge>
-                                    </div>
-                                    {shop.domains.length > 0 && (
-                                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
-                                            <Globe className="h-3 w-3" aria-hidden="true" />
-                                            <span
-                                                className="truncate"
-                                                title={shop.domains.join(", ")}
-                                            >
-                                                {shop.domains.join(", ")}
-                                            </span>
-                                        </div>
-                                    )}
-                                    {shop.url && (
-                                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                            <Globe
-                                                className="h-3 w-3 shrink-0"
-                                                aria-hidden="true"
-                                            />
-                                            <a
-                                                href={shop.url}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="truncate underline underline-offset-2"
-                                                title={shop.url}
-                                            >
-                                                {shop.url}
-                                            </a>
-                                        </div>
-                                    )}
-                                    {(shop.phone || shop.email) && (
-                                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                                            {shop.phone && (
-                                                <span className="flex items-center gap-1">
-                                                    <Phone className="h-3 w-3" aria-hidden="true" />
-                                                    {shop.phone}
-                                                </span>
-                                            )}
-                                            {shop.email && (
-                                                <span className="flex items-center gap-1">
-                                                    <Mail className="h-3 w-3" aria-hidden="true" />
-                                                    {shop.email}
-                                                </span>
-                                            )}
-                                        </div>
-                                    )}
-                                    {shop.structuredAddress && (
-                                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                            <MapPin
-                                                className="h-3 w-3 shrink-0"
-                                                aria-hidden="true"
-                                            />
-                                            <span className="truncate">
-                                                {[
-                                                    shop.structuredAddress.locality,
-                                                    shop.structuredAddress.country,
-                                                ]
-                                                    .filter(Boolean)
-                                                    .join(", ")}
-                                            </span>
-                                        </div>
-                                    )}
-                                    <div className="flex flex-wrap items-center gap-x-3 text-xs text-muted-foreground">
-                                        <span title={shop.shopId} className="font-mono">
-                                            {shop.shopSlugId}
-                                        </span>
-                                        <span>
-                                            {t("adminDashboard.shops.updatedAt", {
-                                                date: formatShortDate(shop.updated, i18n.language),
-                                            })}
-                                        </span>
-                                    </div>
-                                </div>
-                                <Button
-                                    size="sm"
-                                    variant="outline"
-                                    onClick={() => setEditTarget(shop)}
-                                    aria-label={t("adminDashboard.shops.editAriaLabel", {
-                                        shop: shop.name,
-                                    })}
-                                >
-                                    <Pencil className="h-4 w-4" aria-hidden="true" />
-                                    <span className="hidden sm:inline">
-                                        {t("adminDashboard.actions.edit")}
-                                    </span>
-                                </Button>
-                            </li>
-                        ))}
-                    </ul>
-                    {hasNextPage && (
-                        <div ref={loadMoreRef} className="flex justify-center py-4">
-                            {isFetchingNextPage ? <Spinner /> : null}
-                        </div>
-                    )}
-                </>
-            )}
+            {renderShopsList()}
 
             <AdminShopCreateDialog open={createOpen} onOpenChange={setCreateOpen} />
             <AdminShopEditDialog

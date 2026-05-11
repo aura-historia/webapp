@@ -38,7 +38,7 @@ const EDITABLE_SHOP_TYPES = SHOP_TYPES.filter((t) => t !== "UNKNOWN");
 
 function parseDomains(input: string): string[] {
     return input
-        .split(/[\s,;\n]+/)
+        .split(/[\s,;]+/)
         .map((d) => d.trim().toLowerCase())
         .filter(Boolean);
 }
@@ -64,7 +64,7 @@ export function AdminApplicationEditDialog({
         }
     }, [application]);
 
-    if (!application || application.payload.type !== "NEW") {
+    if (application?.payload.type !== "NEW") {
         return null;
     }
 
@@ -74,7 +74,7 @@ export function AdminApplicationEditDialog({
             {
                 partnerApplicationId: application.id,
                 shopName: shopName.trim() || undefined,
-                shopType: shopType !== "UNKNOWN" ? shopType : undefined,
+                shopType: shopType === "UNKNOWN" ? undefined : shopType,
                 shopDomains: parseDomains(domainsRaw),
                 shopImage: trimmedImage === "" ? null : trimmedImage,
             },

@@ -94,6 +94,171 @@ export function AdminPartnerApplicationsSection() {
         );
     };
 
+    const renderApplicationsList = () => {
+        if (isPending) {
+            return (
+                <div className="flex justify-center py-10" role="status" aria-live="polite">
+                    <Spinner />
+                </div>
+            );
+        }
+
+        if (isError) {
+            return (
+                <div className="flex flex-col items-center gap-3 py-10 text-center">
+                    <p className="text-sm text-muted-foreground">
+                        {t("adminDashboard.applications.loadError")}
+                    </p>
+                    <Button size="sm" variant="outline" onClick={() => refetch()}>
+                        {t("adminDashboard.actions.retry")}
+                    </Button>
+                </div>
+            );
+        }
+
+        if (filtered.length === 0) {
+            return (
+                <p className="py-10 text-center text-sm text-muted-foreground">
+                    {t("adminDashboard.applications.empty")}
+                </p>
+            );
+        }
+
+        return (
+            <ul className="flex flex-col gap-2">
+                {filtered.map((application) => {
+                    const isNew = application.payload.type === "NEW";
+                    const reviewable =
+                        application.businessState === "IN_REVIEW" &&
+                        application.executionState === "WAITING";
+                    const editable = isNew && application.businessState !== "APPROVED";
+                    return (
+                        <li
+                            key={application.id}
+                            className="flex flex-col gap-2 rounded-md border bg-surface-container-low p-3"
+                        >
+                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                <Store
+                                    className="h-4 w-4 text-muted-foreground"
+                                    aria-hidden="true"
+                                />
+                                {application.payload.type === "NEW" ? (
+                                    <span className="font-medium">
+                                        {application.payload.shopName}
+                                    </span>
+                                ) : (
+                                    <span
+                                        className="font-mono text-sm"
+                                        title={application.payload.shopId}
+                                    >
+                                        {t("adminDashboard.applications.existingShop")}:{" "}
+                                        {application.payload.shopId}
+                                    </span>
+                                )}
+                                <Badge variant={businessStateVariant(application.businessState)}>
+                                    {t(BUSINESS_STATE_TRANSLATION_KEY[application.businessState])}
+                                </Badge>
+                                <Badge variant="outline">
+                                    {t(EXECUTION_STATE_TRANSLATION_KEY[application.executionState])}
+                                </Badge>
+                                <Badge variant="outline">
+                                    {application.payload.type === "NEW"
+                                        ? t("adminDashboard.applications.payloadType.new")
+                                        : t("adminDashboard.applications.payloadType.existing")}
+                                </Badge>
+                            </div>
+
+                            {application.payload.type === "NEW" && (
+                                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                                    <span>{shopTypeLabel(t, application.payload.shopType)}</span>
+                                    {application.payload.shopDomains.length > 0 && (
+                                        <span className="flex items-center gap-1">
+                                            <Globe className="h-3 w-3" aria-hidden="true" />
+                                            <span
+                                                className="truncate"
+                                                title={application.payload.shopDomains.join(", ")}
+                                            >
+                                                {application.payload.shopDomains.join(", ")}
+                                            </span>
+                                        </span>
+                                    )}
+                                </div>
+                            )}
+
+                            <div className="flex flex-wrap items-center gap-x-3 text-xs text-muted-foreground">
+                                <span title={application.id} className="font-mono">
+                                    #{application.id.slice(0, 8)}
+                                </span>
+                                <span className="flex items-center gap-1">
+                                    <UserRound className="h-3 w-3" aria-hidden="true" />
+                                    <span className="font-mono">
+                                        {application.applicantUserId.slice(0, 8)}
+                                    </span>
+                                </span>
+                                <span>
+                                    {t("adminDashboard.applications.submittedAt", {
+                                        date: formatShortDate(application.created, i18n.language),
+                                    })}
+                                </span>
+                                <span>
+                                    {t("adminDashboard.applications.updatedAt", {
+                                        date: formatShortDate(application.updated, i18n.language),
+                                    })}
+                                </span>
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-2 pt-1">
+                                <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => setDetailTarget(application)}
+                                >
+                                    <Eye className="h-4 w-4" aria-hidden="true" />
+                                    {t("adminDashboard.applications.actions.details")}
+                                </Button>
+                                <Button
+                                    size="sm"
+                                    variant="default"
+                                    disabled={!reviewable || decision.isPending}
+                                    onClick={() => handleDecision(application, "APPROVE")}
+                                    aria-label={t(
+                                        "adminDashboard.applications.actions.approveAriaLabel",
+                                    )}
+                                >
+                                    <Check className="h-4 w-4" aria-hidden="true" />
+                                    {t("adminDashboard.applications.actions.approve")}
+                                </Button>
+                                <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    disabled={!reviewable || decision.isPending}
+                                    onClick={() => handleDecision(application, "REJECT")}
+                                    aria-label={t(
+                                        "adminDashboard.applications.actions.rejectAriaLabel",
+                                    )}
+                                >
+                                    <X className="h-4 w-4" aria-hidden="true" />
+                                    {t("adminDashboard.applications.actions.reject")}
+                                </Button>
+                                {editable && (
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => setEditTarget(application)}
+                                        disabled={patch.isPending}
+                                    >
+                                        <Pencil className="h-4 w-4" aria-hidden="true" />
+                                        {t("adminDashboard.actions.edit")}
+                                    </Button>
+                                )}
+                            </div>
+                        </li>
+                    );
+                })}
+            </ul>
+        );
+    };
+
     return (
         <section className="flex flex-col gap-4">
             <header className="flex flex-col gap-1">
@@ -117,176 +282,7 @@ export function AdminPartnerApplicationsSection() {
                 ))}
             </div>
 
-            {isPending ? (
-                <div className="flex justify-center py-10" role="status" aria-live="polite">
-                    <Spinner />
-                </div>
-            ) : isError ? (
-                <div className="flex flex-col items-center gap-3 py-10 text-center">
-                    <p className="text-sm text-muted-foreground">
-                        {t("adminDashboard.applications.loadError")}
-                    </p>
-                    <Button size="sm" variant="outline" onClick={() => refetch()}>
-                        {t("adminDashboard.actions.retry")}
-                    </Button>
-                </div>
-            ) : filtered.length === 0 ? (
-                <p className="py-10 text-center text-sm text-muted-foreground">
-                    {t("adminDashboard.applications.empty")}
-                </p>
-            ) : (
-                <ul className="flex flex-col gap-2">
-                    {filtered.map((application) => {
-                        const isNew = application.payload.type === "NEW";
-                        const reviewable =
-                            application.businessState === "IN_REVIEW" &&
-                            application.executionState === "WAITING";
-                        const editable = isNew && application.businessState !== "APPROVED";
-                        return (
-                            <li
-                                key={application.id}
-                                className="flex flex-col gap-2 rounded-md border bg-surface-container-low p-3"
-                            >
-                                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                                    <Store
-                                        className="h-4 w-4 text-muted-foreground"
-                                        aria-hidden="true"
-                                    />
-                                    {application.payload.type === "NEW" ? (
-                                        <span className="font-medium">
-                                            {application.payload.shopName}
-                                        </span>
-                                    ) : (
-                                        <span
-                                            className="font-mono text-sm"
-                                            title={application.payload.shopId}
-                                        >
-                                            {t("adminDashboard.applications.existingShop")}:{" "}
-                                            {application.payload.shopId}
-                                        </span>
-                                    )}
-                                    <Badge
-                                        variant={businessStateVariant(application.businessState)}
-                                    >
-                                        {t(
-                                            BUSINESS_STATE_TRANSLATION_KEY[
-                                                application.businessState
-                                            ],
-                                        )}
-                                    </Badge>
-                                    <Badge variant="outline">
-                                        {t(
-                                            EXECUTION_STATE_TRANSLATION_KEY[
-                                                application.executionState
-                                            ],
-                                        )}
-                                    </Badge>
-                                    <Badge variant="outline">
-                                        {application.payload.type === "NEW"
-                                            ? t("adminDashboard.applications.payloadType.new")
-                                            : t("adminDashboard.applications.payloadType.existing")}
-                                    </Badge>
-                                </div>
-
-                                {application.payload.type === "NEW" && (
-                                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                                        <span>
-                                            {shopTypeLabel(t, application.payload.shopType)}
-                                        </span>
-                                        {application.payload.shopDomains.length > 0 && (
-                                            <span className="flex items-center gap-1">
-                                                <Globe className="h-3 w-3" aria-hidden="true" />
-                                                <span
-                                                    className="truncate"
-                                                    title={application.payload.shopDomains.join(
-                                                        ", ",
-                                                    )}
-                                                >
-                                                    {application.payload.shopDomains.join(", ")}
-                                                </span>
-                                            </span>
-                                        )}
-                                    </div>
-                                )}
-
-                                <div className="flex flex-wrap items-center gap-x-3 text-xs text-muted-foreground">
-                                    <span title={application.id} className="font-mono">
-                                        #{application.id.slice(0, 8)}
-                                    </span>
-                                    <span className="flex items-center gap-1">
-                                        <UserRound className="h-3 w-3" aria-hidden="true" />
-                                        <span className="font-mono">
-                                            {application.applicantUserId.slice(0, 8)}
-                                        </span>
-                                    </span>
-                                    <span>
-                                        {t("adminDashboard.applications.submittedAt", {
-                                            date: formatShortDate(
-                                                application.created,
-                                                i18n.language,
-                                            ),
-                                        })}
-                                    </span>
-                                    <span>
-                                        {t("adminDashboard.applications.updatedAt", {
-                                            date: formatShortDate(
-                                                application.updated,
-                                                i18n.language,
-                                            ),
-                                        })}
-                                    </span>
-                                </div>
-
-                                <div className="flex flex-wrap items-center gap-2 pt-1">
-                                    <Button
-                                        size="sm"
-                                        variant="outline"
-                                        onClick={() => setDetailTarget(application)}
-                                    >
-                                        <Eye className="h-4 w-4" aria-hidden="true" />
-                                        {t("adminDashboard.applications.actions.details")}
-                                    </Button>
-                                    <Button
-                                        size="sm"
-                                        variant="default"
-                                        disabled={!reviewable || decision.isPending}
-                                        onClick={() => handleDecision(application, "APPROVE")}
-                                        aria-label={t(
-                                            "adminDashboard.applications.actions.approveAriaLabel",
-                                        )}
-                                    >
-                                        <Check className="h-4 w-4" aria-hidden="true" />
-                                        {t("adminDashboard.applications.actions.approve")}
-                                    </Button>
-                                    <Button
-                                        size="sm"
-                                        variant="destructive"
-                                        disabled={!reviewable || decision.isPending}
-                                        onClick={() => handleDecision(application, "REJECT")}
-                                        aria-label={t(
-                                            "adminDashboard.applications.actions.rejectAriaLabel",
-                                        )}
-                                    >
-                                        <X className="h-4 w-4" aria-hidden="true" />
-                                        {t("adminDashboard.applications.actions.reject")}
-                                    </Button>
-                                    {editable && (
-                                        <Button
-                                            size="sm"
-                                            variant="outline"
-                                            onClick={() => setEditTarget(application)}
-                                            disabled={patch.isPending}
-                                        >
-                                            <Pencil className="h-4 w-4" aria-hidden="true" />
-                                            {t("adminDashboard.actions.edit")}
-                                        </Button>
-                                    )}
-                                </div>
-                            </li>
-                        );
-                    })}
-                </ul>
-            )}
+            {renderApplicationsList()}
 
             <AdminApplicationEditDialog
                 application={editTarget}
