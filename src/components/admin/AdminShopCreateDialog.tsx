@@ -50,24 +50,6 @@ interface AdminShopCreateDialogProps {
     readonly onOpenChange: (open: boolean) => void;
 }
 
-const DEFAULT_VALUES = {
-    name: "",
-    shopType: "AUCTION_HOUSE" as EditableShopType,
-    domains: "",
-    url: "",
-    image: "",
-    phone: "",
-    email: "",
-    addressline: "",
-    addresslineExtra: "",
-    locality: "",
-    region: "",
-    postalCode: "",
-    country: "",
-    specialitiesCategories: [] as string[],
-    specialitiesPeriods: [] as string[],
-};
-
 function createAdminShopSchema(t: (key: string) => string) {
     return z.object({
         name: z
@@ -117,6 +99,24 @@ function createAdminShopSchema(t: (key: string) => string) {
 }
 
 type AdminShopCreateFormData = z.infer<ReturnType<typeof createAdminShopSchema>>;
+
+const DEFAULT_VALUES: AdminShopCreateFormData = {
+    name: "",
+    shopType: "AUCTION_HOUSE" as EditableShopType,
+    domains: "",
+    url: "",
+    image: "",
+    phone: "",
+    email: "",
+    addressline: "",
+    addresslineExtra: "",
+    locality: "",
+    region: "",
+    postalCode: "",
+    country: "",
+    specialitiesCategories: [],
+    specialitiesPeriods: [],
+};
 
 export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDialogProps) {
     const { t } = useTranslation();

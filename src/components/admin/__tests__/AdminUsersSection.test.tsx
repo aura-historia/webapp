@@ -68,7 +68,7 @@ describe("AdminUsersSection", () => {
 
         expect(screen.getByText("Ada Lovelace")).toBeInTheDocument();
         expect(screen.getByText("ada@example.com")).toBeInTheDocument();
-        expect(screen.getByText("§ 86a Zustimmung")).toBeInTheDocument();
+        expect(screen.getByText("Zustimmung zu eingeschränkten Inhalten")).toBeInTheDocument();
 
         await user.click(screen.getByRole("button", { name: /Ada Lovelace/i }));
 
