@@ -72,29 +72,15 @@ export function mapToAdminUser(data: GetUserAccountData): AdminUser {
 
 export function mapToAdminUserPatch(data: Omit<AdminUserPatch, "userId">): PatchAdminUserData {
     return {
-        ...(data.firstName !== undefined ? { firstName: data.firstName } : {}),
-        ...(data.lastName !== undefined ? { lastName: data.lastName } : {}),
-        ...(data.language !== undefined
-            ? {
-                  language: data.language === null ? null : mapToBackendLanguage(data.language),
-              }
-            : {}),
-        ...(data.currency !== undefined
-            ? {
-                  currency: data.currency === null ? null : mapToBackendCurrency(data.currency),
-              }
-            : {}),
-        ...(data.prohibitedContentConsent !== undefined
-            ? { prohibitedContentConsent: data.prohibitedContentConsent }
-            : {}),
-        ...(data.tier !== undefined
-            ? { tier: data.tier === null ? null : mapToBackendUserTier(data.tier) }
-            : {}),
-        ...(data.role !== undefined
-            ? {
-                  role: data.role === null ? null : mapToBackendUserRole(data.role),
-              }
-            : {}),
-        ...(data.stripeCustomerId !== undefined ? { stripeCustomerId: data.stripeCustomerId } : {}),
+        ...(data.firstName && { firstName: data.firstName }),
+        ...(data.lastName && { lastName: data.lastName }),
+        ...(data.language && { language: mapToBackendLanguage(data.language) }),
+        ...(data.currency && { currency: mapToBackendCurrency(data.currency) }),
+        ...(data.prohibitedContentConsent && {
+            prohibitedContentConsent: data.prohibitedContentConsent,
+        }),
+        ...(data.tier && { tier: mapToBackendUserTier(data.tier) }),
+        ...(data.role && { role: mapToBackendUserRole(data.role) }),
+        ...(data.stripeCustomerId && { stripeCustomerId: data.stripeCustomerId }),
     };
 }

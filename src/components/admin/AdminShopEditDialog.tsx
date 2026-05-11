@@ -183,7 +183,7 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
         patchShop.mutate(
             {
                 shopId: shop.shopId,
-                shopType: values.shopType !== "UNKNOWN" ? values.shopType : undefined,
+                shopType: values.shopType === "UNKNOWN" ? undefined : values.shopType,
                 domains: parseShopDomains(values.domains),
                 url: values.url === "" ? null : values.url,
                 image: values.image === "" ? null : values.image,

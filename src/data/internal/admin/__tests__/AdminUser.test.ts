@@ -49,9 +49,7 @@ describe("AdminUser", () => {
             }),
         ).toEqual({
             firstName: "Ada",
-            lastName: null,
             language: "en",
-            currency: null,
             prohibitedContentConsent: true,
             tier: "ULTIMATE",
             role: "ADMIN",

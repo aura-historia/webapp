@@ -54,6 +54,29 @@ function replaceUpdatedUserInPages(
     };
 }
 
+/**
+ * Remove the deleted user from an InfiniteData<AdminUserPage> structure.
+ * Extracted to avoid deep nesting inside mutation callbacks.
+ */
+function removeDeletedUserFromPages(
+    old: InfiniteData<AdminUserPage> | undefined,
+    deletedUserId: string,
+): InfiniteData<AdminUserPage> | undefined {
+    if (!old || !("pages" in old) || !Array.isArray(old.pages)) return old;
+
+    const pages = old.pages.map((page) => ({
+        ...page,
+        items: page.items.filter((item) => item.userId !== deletedUserId),
+        total: page.total === undefined ? undefined : Math.max(0, page.total - 1),
+    }));
+
+    return {
+        ...old,
+        pageParams: old.pageParams,
+        pages,
+    };
+}
+
 export function useAdminUsers(filters: AdminUserFilters) {
     const { getErrorMessage } = useApiError();
 
@@ -159,19 +182,7 @@ export function useDeleteAdminUser() {
             queryClient.removeQueries({ queryKey: ["admin", "users", "detail", deletedUserId] });
             queryClient.setQueriesData<InfiniteData<AdminUserPage>>(
                 { queryKey: ["admin", "users"] },
-                (old) => {
-                    if (!old || !("pages" in old) || !Array.isArray(old.pages)) return old;
-                    return {
-                        ...old,
-                        pageParams: old.pageParams,
-                        pages: old.pages.map((page) => ({
-                            ...page,
-                            items: page.items.filter((item) => item.userId !== deletedUserId),
-                            total:
-                                page.total === undefined ? undefined : Math.max(0, page.total - 1),
-                        })),
-                    };
-                },
+                (old) => removeDeletedUserFromPages(old, deletedUserId),
             );
             queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
         },
