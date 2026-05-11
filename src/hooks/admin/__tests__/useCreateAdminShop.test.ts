@@ -204,7 +204,6 @@ describe("useCreateAdminShop", () => {
                     addressline: "Main Street 1",
                     locality: "Berlin",
                     country: "DE",
-                    continent: undefined,
                 },
                 phone: "+49 30 123456",
                 email: "info@metadata.example.com",

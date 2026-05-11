@@ -1,12 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useInView } from "react-intersection-observer";
+import { z } from "zod";
 import { Mail, Search, Shield, UserRound } from "lucide-react";
+import { AdminUserDetailDialog } from "@/components/admin/AdminUserDetailDialog.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { Spinner } from "@/components/ui/spinner.tsx";
 import {
     Select,
     SelectContent,
@@ -14,7 +18,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select.tsx";
-import { AdminUserDetailDialog } from "@/components/admin/AdminUserDetailDialog.tsx";
+import { Spinner } from "@/components/ui/spinner.tsx";
 import { USER_TIERS, type AdminUser, type UserTier } from "@/data/internal/admin/AdminUser.ts";
 import { USER_ROLES, type UserRole } from "@/data/internal/account/UserRole.ts";
 import { useAdminUsers, type AdminUserFilters } from "@/hooks/admin/useAdminUsers.ts";
@@ -27,6 +31,14 @@ interface AdminUsersSectionProps {
 
 type SortMode = "updated-desc" | "created-desc" | "email-asc" | "tier-asc" | "role-asc";
 
+const SORT_MODES = [
+    "updated-desc",
+    "created-desc",
+    "email-asc",
+    "tier-asc",
+    "role-asc",
+] as const satisfies readonly SortMode[];
+
 const SORT_MODE_CONFIG: Record<SortMode, Pick<AdminUserFilters, "sort" | "order">> = {
     "updated-desc": { sort: "updated", order: "desc" },
     "created-desc": { sort: "created", order: "desc" },
@@ -34,6 +46,26 @@ const SORT_MODE_CONFIG: Record<SortMode, Pick<AdminUserFilters, "sort" | "order"
     "tier-asc": { sort: "tier", order: "asc" },
     "role-asc": { sort: "role", order: "asc" },
 };
+
+const DEFAULT_FILTER_VALUES = {
+    query: "",
+    email: "",
+    name: "",
+    tierFilter: "ALL" as UserTier | "ALL",
+    roleFilter: "ALL" as UserRole | "ALL",
+    sortMode: "updated-desc" as SortMode,
+};
+
+const adminUsersFilterSchema = z.object({
+    query: z.string().trim(),
+    email: z.string().trim(),
+    name: z.string().trim(),
+    tierFilter: z.union([z.literal("ALL"), z.enum(USER_TIERS)]),
+    roleFilter: z.union([z.literal("ALL"), z.enum(USER_ROLES)]),
+    sortMode: z.enum(SORT_MODES),
+});
+
+type AdminUsersFilterFormData = z.infer<typeof adminUsersFilterSchema>;
 
 function displayName(user: AdminUser): string {
     return [user.firstName, user.lastName].filter(Boolean).join(" ") || "—";
@@ -50,30 +82,36 @@ export function AdminUsersSection({
     onSelectedUserIdChange,
 }: AdminUsersSectionProps) {
     const { t, i18n } = useTranslation();
-    const [queryInput, setQueryInput] = useState("");
-    const [emailInput, setEmailInput] = useState("");
-    const [nameInput, setNameInput] = useState("");
-    const [appliedQuery, setAppliedQuery] = useState("");
-    const [appliedEmail, setAppliedEmail] = useState("");
-    const [appliedName, setAppliedName] = useState("");
-    const [tierFilter, setTierFilter] = useState<UserTier | "ALL">("ALL");
-    const [roleFilter, setRoleFilter] = useState<UserRole | "ALL">("ALL");
-    const [sortMode, setSortMode] = useState<SortMode>("updated-desc");
+    const [submittedSearch, setSubmittedSearch] = useState(() => ({
+        query: DEFAULT_FILTER_VALUES.query,
+        email: DEFAULT_FILTER_VALUES.email,
+        name: DEFAULT_FILTER_VALUES.name,
+    }));
     const { ref: loadMoreRef, inView } = useInView();
 
+    const form = useForm<AdminUsersFilterFormData>({
+        resolver: zodResolver(adminUsersFilterSchema),
+        defaultValues: DEFAULT_FILTER_VALUES,
+    });
+
+    const tierFilter = form.watch("tierFilter");
+    const roleFilter = form.watch("roleFilter");
+    const sortMode = form.watch("sortMode");
+
     const filters = useMemo<AdminUserFilters>(() => {
-        const [firstName, ...lastNameParts] = appliedName.split(/\s+/).filter(Boolean);
+        const [firstName, ...lastNameParts] = submittedSearch.name.split(/\s+/).filter(Boolean);
         const lastName = lastNameParts.join(" ");
+
         return {
-            query: appliedQuery || undefined,
-            email: appliedEmail || undefined,
+            query: submittedSearch.query || undefined,
+            email: submittedSearch.email || undefined,
             firstName: firstName || undefined,
             lastName: lastName || undefined,
             tier: tierFilter === "ALL" ? undefined : [tierFilter],
             role: roleFilter === "ALL" ? undefined : [roleFilter],
             ...SORT_MODE_CONFIG[sortMode],
         };
-    }, [appliedQuery, appliedEmail, appliedName, tierFilter, roleFilter, sortMode]);
+    }, [roleFilter, sortMode, submittedSearch, tierFilter]);
 
     const { data, isPending, isError, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
         useAdminUsers(filters);
@@ -96,105 +134,159 @@ export function AdminUsersSection({
                 </p>
             </header>
 
-            <form
-                className="grid gap-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto]"
-                onSubmit={(event) => {
-                    event.preventDefault();
-                    setAppliedQuery(queryInput.trim());
-                    setAppliedEmail(emailInput.trim());
-                    setAppliedName(nameInput.trim());
-                }}
-            >
-                <div className="relative">
-                    <Search
-                        className="pointer-events-none absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground"
-                        aria-hidden="true"
+            <Form {...form}>
+                <form
+                    className="grid gap-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto]"
+                    onSubmit={form.handleSubmit(({ query, email, name }) => {
+                        setSubmittedSearch({ query, email, name });
+                    })}
+                >
+                    <FormField
+                        control={form.control}
+                        name="query"
+                        render={({ field }) => (
+                            <FormItem className="relative">
+                                <Search
+                                    className="pointer-events-none absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground"
+                                    aria-hidden="true"
+                                />
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        type="search"
+                                        placeholder={t("adminDashboard.users.searchPlaceholder")}
+                                        aria-label={t("adminDashboard.users.searchPlaceholder")}
+                                        className="pl-8"
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
                     />
-                    <Input
-                        type="search"
-                        value={queryInput}
-                        onChange={(event) => setQueryInput(event.target.value)}
-                        placeholder={t("adminDashboard.users.searchPlaceholder")}
-                        aria-label={t("adminDashboard.users.searchPlaceholder")}
-                        className="pl-8"
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        type="search"
+                                        placeholder={t(
+                                            "adminDashboard.users.emailSearchPlaceholder",
+                                        )}
+                                        aria-label={t(
+                                            "adminDashboard.users.emailSearchPlaceholder",
+                                        )}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        type="search"
+                                        placeholder={t(
+                                            "adminDashboard.users.nameSearchPlaceholder",
+                                        )}
+                                        aria-label={t("adminDashboard.users.nameSearchPlaceholder")}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <Button type="submit">{t("adminDashboard.users.search")}</Button>
+                </form>
+
+                <div className="flex flex-wrap gap-2">
+                    <FormField
+                        control={form.control}
+                        name="tierFilter"
+                        render={({ field }) => (
+                            <FormItem>
+                                <Select value={field.value} onValueChange={field.onChange}>
+                                    <FormControl>
+                                        <SelectTrigger
+                                            className="w-full sm:w-44"
+                                            aria-label={t("adminDashboard.users.fields.tier")}
+                                        >
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="ALL">
+                                            {t("adminDashboard.users.filters.allTiers")}
+                                        </SelectItem>
+                                        {USER_TIERS.map((tier) => (
+                                            <SelectItem key={tier} value={tier}>
+                                                {tier}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="roleFilter"
+                        render={({ field }) => (
+                            <FormItem>
+                                <Select value={field.value} onValueChange={field.onChange}>
+                                    <FormControl>
+                                        <SelectTrigger
+                                            className="w-full sm:w-44"
+                                            aria-label={t("adminDashboard.users.fields.role")}
+                                        >
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="ALL">
+                                            {t("adminDashboard.users.filters.allRoles")}
+                                        </SelectItem>
+                                        {USER_ROLES.map((role) => (
+                                            <SelectItem key={role} value={role}>
+                                                {role}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="sortMode"
+                        render={({ field }) => (
+                            <FormItem>
+                                <Select value={field.value} onValueChange={field.onChange}>
+                                    <FormControl>
+                                        <SelectTrigger
+                                            className="w-full sm:w-52"
+                                            aria-label={t("adminDashboard.users.sort.label")}
+                                        >
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {SORT_MODES.map((mode) => (
+                                            <SelectItem key={mode} value={mode}>
+                                                {t(`adminDashboard.users.sort.${mode}`)}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </FormItem>
+                        )}
                     />
                 </div>
-                <Input
-                    type="search"
-                    value={emailInput}
-                    onChange={(event) => setEmailInput(event.target.value)}
-                    placeholder={t("adminDashboard.users.emailSearchPlaceholder")}
-                    aria-label={t("adminDashboard.users.emailSearchPlaceholder")}
-                />
-                <Input
-                    type="search"
-                    value={nameInput}
-                    onChange={(event) => setNameInput(event.target.value)}
-                    placeholder={t("adminDashboard.users.nameSearchPlaceholder")}
-                    aria-label={t("adminDashboard.users.nameSearchPlaceholder")}
-                />
-                <Button type="submit">{t("adminDashboard.users.search")}</Button>
-            </form>
-
-            <div className="flex flex-wrap gap-2">
-                <Select
-                    value={tierFilter}
-                    onValueChange={(value) => setTierFilter(value as UserTier | "ALL")}
-                >
-                    <SelectTrigger
-                        className="w-full sm:w-44"
-                        aria-label={t("adminDashboard.users.fields.tier")}
-                    >
-                        <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="ALL">
-                            {t("adminDashboard.users.filters.allTiers")}
-                        </SelectItem>
-                        {USER_TIERS.map((tier) => (
-                            <SelectItem key={tier} value={tier}>
-                                {tier}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-                <Select
-                    value={roleFilter}
-                    onValueChange={(value) => setRoleFilter(value as UserRole | "ALL")}
-                >
-                    <SelectTrigger
-                        className="w-full sm:w-44"
-                        aria-label={t("adminDashboard.users.fields.role")}
-                    >
-                        <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="ALL">
-                            {t("adminDashboard.users.filters.allRoles")}
-                        </SelectItem>
-                        {USER_ROLES.map((role) => (
-                            <SelectItem key={role} value={role}>
-                                {role}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-                <Select value={sortMode} onValueChange={(value) => setSortMode(value as SortMode)}>
-                    <SelectTrigger
-                        className="w-full sm:w-52"
-                        aria-label={t("adminDashboard.users.sort.label")}
-                    >
-                        <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {(Object.keys(SORT_MODE_CONFIG) as SortMode[]).map((mode) => (
-                            <SelectItem key={mode} value={mode}>
-                                {t(`adminDashboard.users.sort.${mode}`)}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
+            </Form>
 
             {isPending ? (
                 <div className="flex justify-center py-10" role="status" aria-live="polite">
@@ -259,13 +351,15 @@ export function AdminUsersSection({
                                                 date: formatShortDate(user.updated, i18n.language),
                                             })}
                                         </span>
-                                        {user.prohibitedContentConsent && (
-                                            <span className="flex items-center gap-1">
-                                                <Shield className="h-3 w-3" aria-hidden="true" />
-                                                {t("adminDashboard.users.prohibitedContentAllowed")}
-                                            </span>
-                                        )}
                                     </div>
+                                    {user.prohibitedContentConsent && (
+                                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                            <Shield className="h-3 w-3" aria-hidden="true" />
+                                            {t(
+                                                "adminDashboard.users.fields.prohibitedContentConsent",
+                                            )}
+                                        </div>
+                                    )}
                                 </button>
                             </li>
                         ))}
@@ -280,9 +374,11 @@ export function AdminUsersSection({
 
             <AdminUserDetailDialog
                 userId={selectedUserId}
-                open={selectedUserId !== undefined}
-                onOpenChange={(open) => {
-                    if (!open) onSelectedUserIdChange(undefined);
+                open={Boolean(selectedUserId)}
+                onOpenChange={(nextOpen) => {
+                    if (!nextOpen) {
+                        onSelectedUserIdChange(undefined);
+                    }
                 }}
             />
         </section>

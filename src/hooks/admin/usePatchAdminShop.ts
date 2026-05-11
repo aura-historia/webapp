@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { InfiniteData } from "@tanstack/react-query";
 import { patchShopById } from "@/client";
-import type { PatchShopData, StructuredAddressData } from "@/client";
+import type { PatchShopData } from "@/client";
 import {
     mapToShopDetail,
     type ShopDetail,
@@ -26,18 +26,6 @@ export type AdminShopPatch = {
     readonly specialitiesPeriods?: string[] | null;
 };
 
-function toApiStructuredAddress(addr: StructuredAddress): StructuredAddressData {
-    return {
-        ...addr,
-        // `country` and `continent` are finite enums in the generated API type
-        // but plain optional strings in the domain model.  Cast so TypeScript
-        // is satisfied; the backend validates and derives `continent` when
-        // it is omitted.
-        country: addr.country as StructuredAddressData["country"],
-        continent: addr.continent as StructuredAddressData["continent"],
-    };
-}
-
 export function usePatchAdminShop() {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
@@ -58,9 +46,7 @@ export function usePatchAdminShop() {
                 body.image = input.image;
             }
             if (input.structuredAddress !== undefined) {
-                body.structuredAddress = input.structuredAddress
-                    ? toApiStructuredAddress(input.structuredAddress)
-                    : null;
+                body.structuredAddress = input.structuredAddress ?? null;
             }
             if (input.phone !== undefined) {
                 body.phone = input.phone;

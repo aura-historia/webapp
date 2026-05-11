@@ -110,14 +110,7 @@ function createAdminShopSchema(t: (key: string) => string) {
         locality: z.string().trim(),
         region: z.string().trim(),
         postalCode: z.string().trim(),
-        country: z
-            .string()
-            .trim()
-            .refine(
-                (value) =>
-                    value === "" || COUNTRY_CODES.includes(value as (typeof COUNTRY_CODES)[number]),
-                t("adminDashboard.shops.create.validation.countryInvalid"),
-            ),
+        country: z.union([z.literal(""), z.enum(COUNTRY_CODES)]),
         specialitiesCategories: z.array(z.string()),
         specialitiesPeriods: z.array(z.string()),
     });

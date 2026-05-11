@@ -5,7 +5,7 @@ import {
     type QueryKey,
 } from "@tanstack/react-query";
 import { postShop } from "@/client";
-import type { PostShopData, StructuredAddressData } from "@/client";
+import type { PostShopData } from "@/client";
 import {
     mapToShopDetail,
     type ShopDetail,
@@ -30,18 +30,6 @@ export type AdminShopCreate = {
     readonly specialitiesCategories?: string[];
     readonly specialitiesPeriods?: string[];
 };
-
-function toApiStructuredAddress(addr: StructuredAddress): StructuredAddressData {
-    return {
-        ...addr,
-        // `country` and `continent` are finite enums in the generated API type
-        // but plain optional strings in the domain model.  Cast so TypeScript
-        // is satisfied; the backend validates and derives `continent` when
-        // it is omitted.
-        country: addr.country as StructuredAddressData["country"],
-        continent: addr.continent as StructuredAddressData["continent"],
-    };
-}
 
 function shopMatchesFilters(shop: ShopDetail, filters?: AdminShopFilters): boolean {
     if (!filters) {
@@ -99,7 +87,7 @@ export function useCreateAdminShop() {
                 body.image = input.image;
             }
             if (input.structuredAddress) {
-                body.structuredAddress = toApiStructuredAddress(input.structuredAddress);
+                body.structuredAddress = input.structuredAddress;
             }
             if (input.phone !== undefined) {
                 body.phone = input.phone;

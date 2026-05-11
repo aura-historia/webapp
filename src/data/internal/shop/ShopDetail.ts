@@ -1,24 +1,13 @@
-import type { GetShopData } from "@/client";
+import type { GeoAddressData, GetShopData, StructuredAddressData } from "@/client";
 import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import {
     parseShopPartnerStatus,
     type ShopPartnerStatus,
 } from "@/data/internal/shop/ShopPartnerStatus.ts";
 
-export type StructuredAddress = {
-    readonly addressline?: string;
-    readonly addresslineExtra?: string;
-    readonly locality?: string;
-    readonly region?: string;
-    readonly postalCode?: string;
-    readonly country?: string;
-    readonly continent?: string;
-};
+export type StructuredAddress = StructuredAddressData;
 
-export type GeoAddress = {
-    readonly lat: number;
-    readonly lon: number;
-};
+export type GeoAddress = GeoAddressData;
 
 export type ShopDetail = {
     readonly shopId: string;

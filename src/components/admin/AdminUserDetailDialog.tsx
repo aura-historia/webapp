@@ -54,6 +54,7 @@ function AdminUserEditForm({ user, onClose }: AdminUserEditFormProps) {
     const { t, i18n } = useTranslation();
     const patch = usePatchAdminUser();
     const deleteUser = useDeleteAdminUser();
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [firstName, setFirstName] = useState(user.firstName ?? "");
     const [lastName, setLastName] = useState(user.lastName ?? "");
     const [language, setLanguage] = useState<Language | "NONE">(user.language ?? "NONE");
@@ -89,15 +90,10 @@ function AdminUserEditForm({ user, onClose }: AdminUserEditFormProps) {
     };
 
     const handleDelete = () => {
-        if (
-            !window.confirm(t("adminDashboard.users.detail.deleteConfirm", { email: user.email }))
-        ) {
-            return;
-        }
-
         deleteUser.mutate(user.userId, {
             onSuccess: () => {
                 toast.success(t("adminDashboard.users.detail.deleteSuccess"));
+                setDeleteDialogOpen(false);
                 onClose();
             },
         });
@@ -269,7 +265,7 @@ function AdminUserEditForm({ user, onClose }: AdminUserEditFormProps) {
                 <Button
                     type="button"
                     variant="destructive"
-                    onClick={handleDelete}
+                    onClick={() => setDeleteDialogOpen(true)}
                     disabled={deleteUser.isPending || patch.isPending}
                 >
                     {deleteUser.isPending ? (
@@ -298,6 +294,36 @@ function AdminUserEditForm({ user, onClose }: AdminUserEditFormProps) {
                     </Button>
                 </div>
             </DialogFooter>
+
+            <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                <DialogContent showCloseButton={false} className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle>{t("adminDashboard.users.detail.delete")}</DialogTitle>
+                        <DialogDescription>
+                            {t("adminDashboard.users.detail.deleteConfirm", { email: user.email })}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => setDeleteDialogOpen(false)}
+                            disabled={deleteUser.isPending}
+                        >
+                            {t("adminDashboard.actions.cancel")}
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            onClick={handleDelete}
+                            disabled={deleteUser.isPending}
+                        >
+                            {deleteUser.isPending && <Spinner className="mr-2 h-4 w-4" />}
+                            {t("adminDashboard.users.detail.delete")}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
