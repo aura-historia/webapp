@@ -1,0 +1,153 @@
+import {
+    useMutation,
+    useQueryClient,
+    type InfiniteData,
+    type QueryKey,
+} from "@tanstack/react-query";
+import { postShop } from "@/client";
+import type { PostShopData } from "@/client";
+import {
+    mapToShopDetail,
+    type ShopDetail,
+    type StructuredAddress,
+} from "@/data/internal/shop/ShopDetail.ts";
+import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
+import { mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
+import type { EditableShopType } from "@/components/admin/adminShopFormUtils.ts";
+import { useApiError } from "@/hooks/common/useApiError.ts";
+import type { AdminShopFilters, AdminShopPage } from "@/hooks/admin/useAdminShops.ts";
+import { toast } from "sonner";
+
+export type AdminShopCreate = {
+    readonly name: string;
+    readonly shopType: EditableShopType;
+    readonly domains: string[];
+    readonly url?: string | null;
+    readonly image?: string | null;
+    readonly structuredAddress?: StructuredAddress | null;
+    readonly phone?: string | null;
+    readonly email?: string | null;
+    readonly specialitiesCategories?: string[];
+    readonly specialitiesPeriods?: string[];
+};
+
+function shopMatchesFilters(shop: ShopDetail, filters?: AdminShopFilters): boolean {
+    if (!filters) {
+        return true;
+    }
+
+    if (
+        filters.nameQuery &&
+        !shop.name.toLocaleLowerCase().includes(filters.nameQuery.toLocaleLowerCase())
+    ) {
+        return false;
+    }
+
+    return !(filters.partnerStatus && !filters.partnerStatus.includes(shop.partnerStatus));
+}
+
+function extractAdminShopFilters(queryKey: QueryKey): AdminShopFilters | undefined {
+    if (
+        queryKey.length < 3 ||
+        typeof queryKey[2] !== "object" ||
+        queryKey[2] === null ||
+        Array.isArray(queryKey[2])
+    ) {
+        return undefined;
+    }
+
+    return queryKey[2] as AdminShopFilters;
+}
+
+export function useCreateAdminShop() {
+    const queryClient = useQueryClient();
+    const { getErrorMessage } = useApiError();
+
+    return useMutation({
+        mutationFn: async (input: AdminShopCreate): Promise<ShopDetail> => {
+            const shopType = mapToBackendShopType(input.shopType);
+
+            if (!shopType) {
+                throw new Error("Invalid shop type");
+            }
+
+            const body: PostShopData = {
+                name: input.name,
+                shopType,
+                domains: input.domains,
+            };
+            if (input.url !== undefined) {
+                body.url = input.url;
+            }
+            if (input.image !== undefined) {
+                body.image = input.image;
+            }
+            if (input.structuredAddress) {
+                body.structuredAddress = input.structuredAddress;
+            }
+            if (input.phone !== undefined) {
+                body.phone = input.phone;
+            }
+            if (input.email !== undefined) {
+                body.email = input.email;
+            }
+            if (input.specialitiesCategories && input.specialitiesCategories.length > 0) {
+                body.specialitiesCategories = input.specialitiesCategories;
+            }
+            if (input.specialitiesPeriods && input.specialitiesPeriods.length > 0) {
+                body.specialitiesPeriods = input.specialitiesPeriods;
+            }
+
+            const response = await postShop({ body });
+
+            if (response.error) {
+                throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
+            }
+
+            return mapToShopDetail(response.data);
+        },
+        onSuccess: (createdShop) => {
+            const cachedQueries = queryClient.getQueriesData<InfiniteData<AdminShopPage>>({
+                queryKey: ["admin", "shops"],
+            });
+
+            for (const [queryKey, currentData] of cachedQueries) {
+                if (!currentData || currentData.pages.length === 0) {
+                    continue;
+                }
+
+                if (!shopMatchesFilters(createdShop, extractAdminShopFilters(queryKey))) {
+                    continue;
+                }
+
+                const alreadyCached = currentData.pages.some((page) =>
+                    page.items.some((item) => item.shopId === createdShop.shopId),
+                );
+
+                if (alreadyCached) {
+                    continue;
+                }
+
+                queryClient.setQueryData<InfiniteData<AdminShopPage>>(queryKey, {
+                    ...currentData,
+                    pageParams: currentData.pageParams,
+                    pages: currentData.pages.map((page, index) =>
+                        index === 0
+                            ? {
+                                  ...page,
+                                  items: [createdShop, ...page.items],
+                                  total: page.total === undefined ? undefined : page.total + 1,
+                              }
+                            : page,
+                    ),
+                });
+            }
+
+            queryClient.invalidateQueries({ queryKey: ["admin", "shops"], refetchType: "none" });
+        },
+        onError: (error) => {
+            console.error("[useCreateAdminShop]", error);
+            toast.error(error.message);
+        },
+    });
+}
