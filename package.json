@@ -102,7 +102,7 @@
         "zod": "^4.3.6"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.4.14",
+        "@biomejs/biome": "2.4.15",
         "@hey-api/openapi-ts": "0.97.1",
         "@playwright/test": "^1.59.1",
         "@tanstack/devtools-vite": "^0.6.0",
@@ -110,7 +110,7 @@
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.3.2",
         "@testing-library/user-event": "^14.6.1",
-        "@types/node": "^25.6.0",
+        "@types/node": "^25.6.2",
         "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.2",
         "@vitejs/plugin-react": "^6.0.1",
@@ -119,9 +119,9 @@
         "jsdom": "^29.1.1",
         "lint-staged": "^16.4.0",
         "typescript": "^6.0.3",
-        "vite": "^8.0.10",
+        "vite": "^8.0.11",
         "vitest": "^4.1.5",
         "web-vitals": "^5.2.0",
-        "wrangler": "4.87.0"
+        "wrangler": "4.90.0"
     }
 }
