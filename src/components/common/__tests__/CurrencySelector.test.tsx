@@ -5,8 +5,8 @@ import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 
 // Mock external dependencies
-vi.mock("@aws-amplify/ui-react", () => ({
-    useAuthenticator: vi.fn(() => ({ user: null })),
+vi.mock("@/hooks/auth/useAuth", () => ({
+    useAuth: vi.fn(() => ({ user: null, isLoading: false, signOut: vi.fn() })),
 }));
 
 vi.mock("@/hooks/account/usePatchUserAccount.ts", () => ({
@@ -103,8 +103,12 @@ describe("CurrencySelector", () => {
         );
         useUpdateUserAccount.mockReturnValue({ mutate } as never);
 
-        const { useAuthenticator } = vi.mocked(await import("@aws-amplify/ui-react"));
-        useAuthenticator.mockReturnValue({ user: { username: "test" } } as never);
+        const { useAuth } = vi.mocked(await import("@/hooks/auth/useAuth"));
+        useAuth.mockReturnValue({
+            user: { userId: "test", username: "test" },
+            isLoading: false,
+            signOut: vi.fn(),
+        } as never);
 
         renderCurrencySelector();
         fireEvent.click(screen.getByRole("combobox"));

@@ -10,7 +10,7 @@ import {
     type PricingTier,
 } from "@/components/landing-page/pricing-section/PricingSection.data.ts";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { Route } from "@/routes/index.tsx";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useStripeBilling } from "@/hooks/billing/useStripeBilling.ts";
@@ -22,7 +22,7 @@ export default function PricingSection() {
     const { preferences } = useUserPreferences();
     const currency = preferences.currency ?? "EUR";
     const [billingInterval, setBillingInterval] = useState<BillingInterval>("yearly");
-    const { user, toSignUp } = useAuthenticator((context) => [context.user, context.toSignUp]);
+    const { serverAuth } = Route.useRouteContext();
     const { handleSubscribe, isLoading } = useStripeBilling();
 
     const isYearly = billingInterval === "yearly";
@@ -103,7 +103,7 @@ export default function PricingSection() {
                 />
 
                 {/* Billing interval toggle */}
-                <div className="mt-8 flex items-center justify-center gap-3">
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
                     <span
                         className={`text-sm font-medium transition-colors duration-300 ${
                             !isYearly ? "text-foreground" : "text-muted-foreground"
@@ -117,16 +117,18 @@ export default function PricingSection() {
                             setBillingInterval(checked ? "yearly" : "monthly")
                         }
                     />
-                    <span
-                        className={`text-sm font-medium transition-colors duration-300 ${
-                            isYearly ? "text-foreground" : "text-muted-foreground"
-                        }`}
-                    >
-                        {t("landingPage.pricing.yearly")}
-                    </span>
-                    <span className="rounded-sm bg-tertiary/10 px-2 py-0.5 text-xs font-semibold text-tertiary">
-                        {t("landingPage.pricing.yearlySavings")}
-                    </span>
+                    <div className="flex items-center gap-2">
+                        <span
+                            className={`text-sm font-medium transition-colors duration-300 ${
+                                isYearly ? "text-foreground" : "text-muted-foreground"
+                            }`}
+                        >
+                            {t("landingPage.pricing.yearly")}
+                        </span>
+                        <span className="rounded-sm bg-tertiary/10 px-2 py-0.5 text-xs font-semibold leading-none text-tertiary">
+                            {t("landingPage.pricing.yearlySavings")}
+                        </span>
+                    </div>
                 </div>
 
                 <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -188,18 +190,13 @@ export default function PricingSection() {
                                     ))}
                                 </ul>
                                 {tier.id === "free" ? (
-                                    user ? (
+                                    serverAuth.authenticated ? (
                                         <Button variant="outline" className="mt-8 w-full" disabled>
                                             {t("landingPage.pricing.getStartedFree")}
                                         </Button>
                                     ) : (
-                                        <Button
-                                            asChild
-                                            onClick={toSignUp}
-                                            variant="outline"
-                                            className="mt-8 w-full"
-                                        >
-                                            <Link to="/login">
+                                        <Button asChild variant="outline" className="mt-8 w-full">
+                                            <Link to="/login" search={{ mode: "sign-up" }}>
                                                 {t("landingPage.pricing.getStartedFree")}
                                             </Link>
                                         </Button>

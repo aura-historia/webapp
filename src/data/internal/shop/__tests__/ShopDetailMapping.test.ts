@@ -8,6 +8,7 @@ const mockShopData: GetShopData = {
     name: "Christie's",
     shopType: "AUCTION_HOUSE",
     domains: ["christies.com"],
+    url: "https://shop.christies.com?utm_source=aura",
     image: "https://example.com/logo.png",
     partnerStatus: "PARTNERED",
     created: "2024-01-15T08:00:00Z",
@@ -76,12 +77,17 @@ describe("mapToShopDetail", () => {
     });
 
     it("maps url when present", () => {
-        const result = mapToShopDetail({ ...mockShopData, url: "https://www.christies.com" });
-        expect(result.url).toBe("https://www.christies.com");
+        const result = mapToShopDetail(mockShopData);
+        expect(result.url).toBe("https://shop.christies.com?utm_source=aura");
     });
 
-    it("url is undefined when not in response", () => {
-        const result = mapToShopDetail(mockShopData);
+    it("maps url to undefined when missing", () => {
+        const result = mapToShopDetail({ ...mockShopData, url: undefined });
+        expect(result.url).toBeUndefined();
+    });
+
+    it("maps url to undefined when null", () => {
+        const result = mapToShopDetail({ ...mockShopData, url: null });
         expect(result.url).toBeUndefined();
     });
 

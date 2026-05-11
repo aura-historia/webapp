@@ -1,28 +1,25 @@
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, useFormContext, type FieldValues, type Path } from "react-hook-form";
 import { useState } from "react";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
-import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, X } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar.tsx";
 import { useTranslation } from "react-i18next";
 
-export function DatePicker({
+/**
+ * A reusable date picker control bound to a react-hook-form field.
+ * Works with any form schema (e.g. product search filters, shop search filters).
+ */
+export function DatePicker<TFormValues extends FieldValues = FieldValues>({
     fieldName,
     disabled = false,
 }: {
-    readonly fieldName:
-        | "creationDate.from"
-        | "creationDate.to"
-        | "updateDate.from"
-        | "updateDate.to"
-        | "auctionDate.from"
-        | "auctionDate.to";
+    readonly fieldName: Path<TFormValues>;
     readonly disabled?: boolean;
 }) {
-    const { control, setValue } = useFormContext<FilterSchema>();
+    const { control, setValue } = useFormContext<TFormValues>();
     const [calendarOpen, setCalendarOpen] = useState(false);
     const { t } = useTranslation();
 
@@ -58,7 +55,7 @@ export function DatePicker({
                             className="ml-auto h-7 w-7 shrink-0 p-0 text-primary/70 hover:bg-primary/8 hover:text-primary"
                             disabled={disabled}
                             onClick={() =>
-                                setValue(fieldName, undefined, {
+                                setValue(fieldName, undefined as never, {
                                     shouldDirty: false,
                                     shouldValidate: false,
                                 })

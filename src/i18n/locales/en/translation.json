@@ -69,6 +69,10 @@
     "terms": {
       "title": "Terms & Conditions | Aura Historia",
       "description": "Terms and conditions for using Aura Historia, including information on paid services and payment processing."
+    },
+    "searchShops": {
+      "title": "Search Shops | Aura Historia",
+      "description": "Search and discover trusted shops, auction houses, and dealers on Aura Historia."
     }
   },
   "validation": {
@@ -76,6 +80,20 @@
       "minLength": "Please enter at least {{min}} characters",
       "maxLength": "Please enter no more than {{max}} characters",
       "invalidChars": "Only letters, spaces, hyphens, and apostrophes are allowed"
+    },
+    "email": {
+      "invalid": "Please enter a valid email address"
+    },
+    "password": {
+      "required": "Password is required",
+      "minLength": "Password must be at least {{min}} characters",
+      "uppercase": "Password must contain at least one uppercase letter",
+      "number": "Password must contain at least one number",
+      "mismatch": "Passwords do not match"
+    },
+    "confirmCode": {
+      "length": "Code must be exactly 6 digits",
+      "digitsOnly": "Code must contain only digits"
     }
   },
   "imprint": {
@@ -201,7 +219,12 @@
         "Rococo mirror",
         "Persian miniature painting",
         "Louis XV armchair"
-      ]
+      ],
+      "searchTypeLabel": "Search type",
+      "searchType": {
+        "products": "Items",
+        "shops": "Shops"
+      }
     },
     "applyFilters": "Apply filters",
     "validation": {
@@ -232,17 +255,20 @@
       "all": "All",
       "select": "Select",
       "resetTooltip": {
+        "global": "Reset everything",
+        "category": "Reset category filter",
+        "merchant": "Reset merchant filter",
+        "excludeMerchant": "Reset exclude merchant filter",
+        "merchants": "Reset merchant filters",
+        "shopType": "Reset shop type filter",
         "priceSpan": "Reset price range filter",
         "productState": "Reset status filter",
         "creationDate": "Reset creation date filter",
         "updateDate": "Reset update date filter",
         "auctionDate": "Reset auction date filter",
-        "merchant": "Reset merchant filter",
-        "excludeMerchant": "Reset exclude merchant filter",
-        "merchants": "Reset merchant filters",
-        "shopType": "Reset shop type filter",
         "periodId": "Reset period filter",
-        "qualityIndicators": "Reset quality indicators filter"
+        "qualityIndicators": "Reset quality indicators filter",
+        "partnerStatus": "Reset partner status filter"
       },
       "qualityIndicators": "Quality Indicators",
       "periodId": "Period / Style",
@@ -252,7 +278,8 @@
       "condition": "Condition",
       "provenance": "Provenance",
       "restoration": "Restoration",
-      "selected": "{{count}} selected"
+      "selected": "{{count}} selected",
+      "partnerStatus": "Partner status"
     },
     "messages": {
       "minQueryLength": "Please enter at least 3 characters to start the search.",
@@ -275,8 +302,12 @@
         "label": "Order:",
         "asc": "Ascending",
         "desc": "Descending"
-      }
-    }
+      },
+      "name": "Name"
+    },
+    "shopResultsFor": "Shop search results for:",
+    "totalShopResults_one": "{{count}} shop",
+    "totalShopResults_other": "{{count}} shops"
   },
   "product": {
     "unknownPrice": "Price unknown",
@@ -736,11 +767,12 @@
     "BAD_SORT_VALUE": "Invalid sorting.",
     "BAD_ORDER_VALUE": "Invalid sort order.",
     "WATCHLIST_QUOTA_EXCEEDED": "You've reached the maximum number of items on your watchlist. There are already 5/5 watchlist entries occupied.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "You've reached the maximum number of saved search filters. There are already 5/5 search filters occupied.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "You have reached the maximum number of saved searches. A maximum of 5 searches can be saved.",
     "INVALID_EMAIL": "The email address is invalid or not accepted by our newsletter provider.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "You already have an active subscription. Please use the customer portal to manage it.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No existing subscription was found. Please start a new checkout.",
-    "unknown": "An unexpected error occurred."
+    "unknown": "An unexpected error occurred.",
+    "undefined": "An unexpected error occurred."
   },
   "watchlist": {
     "title": "My Watchlist",
@@ -866,6 +898,20 @@
     "goHome": "Go to homepage"
   },
   "auth": {
+    "errors": {
+      "UsernameExistsException": "An account with this email already exists.",
+      "NotAuthorizedException": "Incorrect username or password.",
+      "UserNotFoundException": "User does not exist.",
+      "CodeMismatchException": "Invalid verification code provided, please try again.",
+      "LimitExceededException": "Attempt limit exceeded, please try after some time.",
+      "TooManyRequestsException": "Too many requests, please try again later.",
+      "InvalidPasswordException": "Password does not conform to policy. It must contain at least 8 characters, a number, a lowercase letter, and an uppercase letter.",
+      "ExpiredCodeException": "Invalid code provided, please request a code again.",
+      "UserNotConfirmedException": "User is not confirmed.",
+      "InvalidParameterException": "Invalid parameter provided.",
+      "EmptySignInUsername": "Please enter your email.",
+      "EmptySignInPassword": "Please enter your password."
+    },
     "subtitle": "Over 120,000 antiques from 500 dealers. Compare, save, and track prices on Aura Historia.",
     "welcome": "Welcome",
     "welcomeWithName": "Welcome, {{name}}!",
@@ -888,21 +934,34 @@
       "firstNamePlaceholder": "John",
       "lastName": "Last name",
       "lastNamePlaceholder": "Doe",
-      "email": "Email*",
+      "email": "Email",
       "emailPlaceholder": "your.email@example.com",
       "password": "Password*",
       "confirmPassword": "Confirm password*",
       "language": "Language",
       "currency": "Currency",
       "pleaseSelect": "Please select",
-      "prohibitedContentConsentLabel": "Show products with § 86a StGB markings",
-      "prohibitedContentConsentTooltip": "Product images may contain symbols of unconstitutional or terrorist organizations, particularly those from the National Socialist era, as defined under § 86a StGB. By agreeing, you consent to us displaying such content to you."
+      "prohibitedContentConsentLabel": "Show products with §86a StGB markings",
+      "prohibitedContentConsentTooltip": "Product images may contain symbols of unconstitutional or terrorist organizations, particularly those from the National Socialist era, as defined under §86a StGB. By agreeing, you consent to us displaying such content to you.",
+      "title": "Create an account",
+      "subtitle": "Join Aura Historia to start tracking antiques",
+      "passwordPlaceholder": "Create a password",
+      "confirmPasswordPlaceholder": "Repeat your password",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign in"
     },
     "signIn": {
       "email": "Email",
-      "emailPlaceholder": "Enter your email",
+      "emailPlaceholder": "your.email@example.com",
       "password": "Password",
-      "passwordPlaceholder": "Enter your password"
+      "passwordPlaceholder": "Enter your password",
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account to continue",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Create one",
+      "forgotPassword": "Forgot password?"
     },
     "languages": {
       "de": "German",
@@ -930,6 +989,40 @@
       "HKD": "HKD - Hong Kong Dollar",
       "SGD": "SGD - Singapore Dollar",
       "CHF": "CHF - Swiss Franc"
+    },
+    "confirm": {
+      "title": "Check your email",
+      "subtitle": "We sent a 6-digit code to {{email}}",
+      "codeLabel": "Verification code",
+      "codePlaceholder": "000000",
+      "submit": "Verify email",
+      "noCode": "Didn't receive a code?",
+      "resend": "Resend code",
+      "resendSending": "Sending…",
+      "resendSent": "Code sent!"
+    },
+    "userDetails": {
+      "title": "Complete your profile",
+      "subtitle": "These details are optional — you can always update them later",
+      "newsletterConsentText": "I would like to receive the Aura Historia newsletter by email with selected antiques, market trends, and offers. I can revoke my consent at any time. More information is available in the <privacyLink>privacy policy</privacyLink>.",
+      "submit": "Save and continue",
+      "skip": "Skip for now"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "subtitle": "Enter your email to receive a reset code",
+      "emailLabel": "Email",
+      "emailPlaceholder": "your.email@example.com",
+      "submit": "Send code",
+      "backToSignIn": "Back to sign in",
+      "confirmTitle": "Enter reset code",
+      "confirmSubtitle": "Enter the code sent to your email and your new password",
+      "codeLabel": "Reset code",
+      "codePlaceholder": "123456",
+      "newPasswordLabel": "New password",
+      "newPasswordConfirmLabel": "Confirm new password",
+      "newPasswordPlaceholder": "Enter new password",
+      "confirmSubmit": "Reset password"
     }
   },
   "amplify": {
@@ -1142,6 +1235,9 @@
         "title": "Could not load items",
         "description": "An error occurred while loading items. Please try again later."
       }
+    },
+    "card": {
+      "viewShop": "View shop"
     }
   },
   "adminDashboard": {

@@ -69,6 +69,10 @@
     "terms": {
       "title": "AGB | Aura Historia",
       "description": "Allgemeine Geschäftsbedingungen für die Nutzung von Aura Historia sowie Informationen zu kostenpflichtigen Leistungen und Zahlungsabwicklung."
+    },
+    "searchShops": {
+      "title": "Shops suchen | Aura Historia",
+      "description": "Entdecken Sie vertrauenswürdige Shops, Auktionshäuser und Händler auf Aura Historia."
     }
   },
   "validation": {
@@ -76,6 +80,20 @@
       "minLength": "Bitte geben Sie mindestens {{min}} Zeichen ein",
       "maxLength": "Bitte geben Sie maximal {{max}} Zeichen ein",
       "invalidChars": "Nur Buchstaben, Leerzeichen, Bindestriche und Apostrophe erlaubt"
+    },
+    "email": {
+      "invalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+    },
+    "password": {
+      "required": "Passwort ist erforderlich",
+      "minLength": "Passwort muss mindestens {{min}} Zeichen lang sein",
+      "uppercase": "Passwort muss mindestens einen Großbuchstaben enthalten",
+      "number": "Passwort muss mindestens eine Zahl enthalten",
+      "mismatch": "Passwörter stimmen nicht überein"
+    },
+    "confirmCode": {
+      "length": "Code muss genau 6 Stellen haben",
+      "digitsOnly": "Code darf nur Ziffern enthalten"
     }
   },
   "imprint": {
@@ -201,7 +219,12 @@
         "Rokoko-Spiegel",
         "Persische Miniaturmalerei",
         "Louis XV Fauteuil"
-      ]
+      ],
+      "searchTypeLabel": "Suchtyp",
+      "searchType": {
+        "products": "Artikel",
+        "shops": "Shops"
+      }
     },
     "applyFilters": "Filter anwenden",
     "validation": {
@@ -242,7 +265,8 @@
         "merchants": "Filter für die Händler zurücksetzen",
         "shopType": "Filter für den Shop-Typ zurücksetzen",
         "periodId": "Filter für Epoche zurücksetzen",
-        "qualityIndicators": "Filter für die Qualitätsmerkmale zurücksetzen"
+        "qualityIndicators": "Filter für die Qualitätsmerkmale zurücksetzen",
+        "partnerStatus": "Partnerstatus-Filter zurücksetzen"
       },
       "qualityIndicators": "Qualitätsmerkmale",
       "periodId": "Epoche / Stil",
@@ -252,7 +276,8 @@
       "condition": "Zustand",
       "provenance": "Herkunftsnachweis",
       "restoration": "Restaurierung",
-      "selected": "{{count}} ausgewählt"
+      "selected": "{{count}} ausgewählt",
+      "partnerStatus": "Partnerstatus"
     },
     "messages": {
       "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",
@@ -275,8 +300,12 @@
         "label": "Reihenfolge:",
         "asc": "Aufsteigend",
         "desc": "Absteigend"
-      }
-    }
+      },
+      "name": "Name"
+    },
+    "shopResultsFor": "Shop-Suchergebnisse für:",
+    "totalShopResults_one": "{{count}} Shop",
+    "totalShopResults_other": "{{count}} Shops"
   },
   "product": {
     "unknownPrice": "Preis unbekannt",
@@ -889,21 +918,34 @@
       "firstNamePlaceholder": "Max",
       "lastName": "Nachname",
       "lastNamePlaceholder": "Mustermann",
-      "email": "E-Mail*",
+      "email": "E-Mail",
       "emailPlaceholder": "ihre.email@beispiel.de",
       "password": "Passwort*",
       "confirmPassword": "Passwort bestätigen*",
       "language": "Sprache",
       "currency": "Währung",
       "pleaseSelect": "Bitte wählen",
-      "prohibitedContentConsentLabel": "Produkte mit § 86a StGB-Kennzeichnungen anzeigen",
-      "prohibitedContentConsentTooltip": "Bilder von Produkten können Kennzeichen verfassungswidriger oder terroristischer Organisationen, insbesondere solcher aus der Zeit des Nationalsozialismus, nach § 86a StGB enthalten. Hiermit stimmen Sie zu, dass wir Ihnen solche Inhalte anzeigen dürfen."
+      "prohibitedContentConsentLabel": "Produkte mit §86a StGB-Kennzeichnungen anzeigen",
+      "prohibitedContentConsentTooltip": "Bilder von Produkten können Kennzeichen verfassungswidriger oder terroristischer Organisationen, insbesondere solcher aus der Zeit des Nationalsozialismus, nach §86a StGB enthalten. Hiermit stimmen Sie zu, dass wir Ihnen solche Inhalte anzeigen dürfen.",
+      "title": "Konto erstellen",
+      "subtitle": "Treten Sie Aura Historia bei, um Antiquitäten zu verfolgen",
+      "passwordPlaceholder": "Passwort erstellen",
+      "confirmPasswordPlaceholder": "Passwort wiederholen",
+      "submit": "Konto erstellen",
+      "haveAccount": "Bereits ein Konto?",
+      "signInLink": "Anmelden"
     },
     "signIn": {
       "email": "E-Mail",
-      "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
+      "emailPlaceholder": "ihre.email@beispiel.de",
       "password": "Passwort",
-      "passwordPlaceholder": "Geben Sie Ihr Passwort ein"
+      "passwordPlaceholder": "Geben Sie Ihr Passwort ein",
+      "title": "Willkommen zurück",
+      "subtitle": "Melden Sie sich bei Ihrem Konto an",
+      "submit": "Anmelden",
+      "noAccount": "Noch kein Konto?",
+      "signUpLink": "Jetzt registrieren",
+      "forgotPassword": "Passwort vergessen?"
     },
     "languages": {
       "de": "Deutsch",
@@ -931,6 +973,54 @@
       "HKD": "HKD - Hongkong-Dollar",
       "SGD": "SGD - Singapur-Dollar",
       "CHF": "CHF - Schweizer Franken"
+    },
+    "confirm": {
+      "title": "E-Mail überprüfen",
+      "subtitle": "Wir haben einen 6-stelligen Code an {{email}} gesendet",
+      "codeLabel": "Bestätigungscode",
+      "codePlaceholder": "000000",
+      "submit": "E-Mail bestätigen",
+      "noCode": "Keinen Code erhalten?",
+      "resend": "Code erneut senden",
+      "resendSending": "Wird gesendet…",
+      "resendSent": "Code gesendet!"
+    },
+    "userDetails": {
+      "title": "Profil vervollständigen",
+      "subtitle": "Diese Angaben sind optional — Sie können sie jederzeit später aktualisieren",
+      "newsletterConsentText": "Ich möchte den Aura Historia Newsletter per E-Mail mit ausgewählten Antiquitäten, Markttrends und Angeboten erhalten. Meine Einwilligung kann ich jederzeit mit Wirkung für die Zukunft widerrufen. Weitere Informationen finde ich in der <privacyLink>Datenschutzerklärung</privacyLink>.",
+      "submit": "Speichern und fortfahren",
+      "skip": "Vorerst überspringen"
+    },
+    "errors": {
+      "UsernameExistsException": "Ein Konto mit dieser E-Mail-Adresse existiert bereits.",
+      "NotAuthorizedException": "Falscher Benutzername oder Passwort.",
+      "UserNotFoundException": "Benutzer existiert nicht.",
+      "CodeMismatchException": "Ungültiger Bestätigungscode, bitte versuchen Sie es erneut.",
+      "LimitExceededException": "Versuchslimit überschritten, bitte versuchen Sie es später erneut.",
+      "TooManyRequestsException": "Zu viele Anfragen, bitte versuchen Sie es später erneut.",
+      "InvalidPasswordException": "Das Passwort entspricht nicht den Richtlinien. Es muss mindestens 8 Zeichen, eine Zahl, einen Kleinbuchstaben und einen Großbuchstaben enthalten.",
+      "ExpiredCodeException": "Ungültiger Code, bitte fordern Sie einen neuen Code an.",
+      "UserNotConfirmedException": "Benutzer ist nicht bestätigt.",
+      "InvalidParameterException": "Ungültiger Parameter angegeben.",
+      "EmptySignInUsername": "Bitte geben Sie Ihre E-Mail-Adresse ein.",
+      "EmptySignInPassword": "Bitte geben Sie Ihr Passwort ein."
+    },
+    "resetPassword": {
+      "title": "Passwort zurücksetzen",
+      "subtitle": "Geben Sie Ihre E-Mail-Adresse ein, um einen Zurücksetzungscode zu erhalten",
+      "emailLabel": "E-Mail",
+      "emailPlaceholder": "ihre.email@beispiel.de",
+      "submit": "Code senden",
+      "backToSignIn": "Zurück zur Anmeldung",
+      "confirmTitle": "Zurücksetzungscode eingeben",
+      "confirmSubtitle": "Geben Sie den an Ihre E-Mail gesendeten Code und Ihr neues Passwort ein",
+      "codeLabel": "Zurücksetzungscode",
+      "codePlaceholder": "123456",
+      "newPasswordLabel": "Neues Passwort",
+      "newPasswordConfirmLabel": "Neues Passwort bestätigen",
+      "newPasswordPlaceholder": "Neues Passwort eingeben",
+      "confirmSubmit": "Passwort zurücksetzen"
     }
   },
   "amplify": {
@@ -1143,6 +1233,9 @@
         "title": "Artikel konnten nicht geladen werden",
         "description": "Beim Laden der Artikel ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
       }
+    },
+    "card": {
+      "viewShop": "Shop ansehen"
     }
   },
   "adminDashboard": {

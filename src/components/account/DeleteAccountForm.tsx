@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useAuth } from "@/hooks/auth/useAuth.ts";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 
@@ -19,7 +19,7 @@ import { useDeleteUserAccount } from "@/hooks/account/useDeleteUserAccount";
 export function DeleteAccountForm() {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { signOut } = useAuthenticator((context) => [context.signOut]);
+    const { signOut } = useAuth();
     const { mutate: deleteUserAccount, isPending } = useDeleteUserAccount();
     const [open, setOpen] = useState(false);
 

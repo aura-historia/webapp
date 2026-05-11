@@ -16,6 +16,7 @@ type HeadMeta = {
 type PageMetaKey =
     | "home"
     | "search"
+    | "searchShops"
     | "login"
     | "imprint"
     | "privacy"
@@ -37,6 +38,10 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     search: {
         title: "meta.search.title",
         description: "meta.search.description",
+    },
+    searchShops: {
+        title: "meta.searchShops.title",
+        description: "meta.searchShops.description",
     },
     login: {
         title: "meta.login.title",

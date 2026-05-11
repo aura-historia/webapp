@@ -214,6 +214,28 @@ describe("useWatchlistNotificationMutation", () => {
             });
         });
 
+        it("should show error toast when mutation error has no response", async () => {
+            const errorMessage = "Network error";
+            mockPatchWatchlistProduct.mockResolvedValue({
+                data: null,
+                error: { message: errorMessage },
+            });
+            mockGetErrorMessage.mockReturnValue(errorMessage);
+
+            const { result } = renderHook(
+                () => useWatchlistNotificationMutation(shopId, shopsProductId),
+                {
+                    wrapper: createWrapper(),
+                },
+            );
+
+            result.current.mutate(true);
+
+            await waitFor(() => {
+                expect(mockToast.error).toHaveBeenCalledWith(errorMessage);
+            });
+        });
+
         it("should not update query data when response is null", async () => {
             mockPatchWatchlistProduct.mockResolvedValue({
                 data: null,

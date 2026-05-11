@@ -38,7 +38,7 @@ export function useSimilarProducts(
                 throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
 
-            if (result.response.status === 202) {
+            if (result.response?.status === 202) {
                 return {
                     products: [],
                     isEmbeddingsPending: true,

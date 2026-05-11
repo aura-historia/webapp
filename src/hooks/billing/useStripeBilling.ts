@@ -1,5 +1,5 @@
-import { postBillingManage, postBillingPortal } from "@/client";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { postBillingManage } from "@/client";
+import { useAuth } from "@/hooks/auth/useAuth.ts";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useApiError } from "@/hooks/common/useApiError.ts";
@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 
 export function useStripeBilling() {
-    const { user } = useAuthenticator((context) => [context.user]);
+    const { user } = useAuth();
     const navigate = useNavigate();
     const { getErrorMessage } = useApiError();
     const [isLoading, setIsLoading] = useState(false);
@@ -52,31 +52,5 @@ export function useStripeBilling() {
         }
     };
 
-    const handleManageSubscription = async () => {
-        // Should not happen, since this is ideally only available to signed in users
-        if (!user) {
-            await navigate({
-                to: "/login",
-                search: { redirect: "/me/account" },
-            });
-            return;
-        }
-
-        setIsLoading(true);
-
-        try {
-            const billingPortalResponse = await postBillingPortal();
-
-            if (billingPortalResponse.data) {
-                await redirectToBillingUrl(billingPortalResponse.data.url);
-                return;
-            }
-
-            toast.error(getErrorMessage(mapToInternalApiError(billingPortalResponse.error)));
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    return { handleSubscribe, handleManageSubscription, isLoading };
+    return { handleSubscribe, isLoading };
 }

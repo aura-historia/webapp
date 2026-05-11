@@ -25,6 +25,17 @@ import { env } from "@/env.ts";
 import { useAnimatedPlaceholder } from "@/hooks/useAnimatedPlaceholder";
 import { serializeSearchParams } from "@/lib/searchValidation.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+export const SEARCH_TYPES = ["products", "shops"] as const;
+export type SearchType = (typeof SEARCH_TYPES)[number];
+
 interface SearchBarProps {
     readonly type: "small" | "big";
 }
@@ -63,7 +74,22 @@ export function SearchBar({ type }: SearchBarProps) {
     const showLoading = isSubmitting && isNavigating;
 
     const searchParams = useSearch({ strict: false });
-    const currentQuery = pathname === "/search" ? (searchParams.q as string) || "" : "";
+    const isOnProductSearch = pathname === "/search";
+    const isOnShopSearch = pathname === "/search/shops";
+    const currentQuery =
+        isOnProductSearch || isOnShopSearch ? (searchParams.q as string) || "" : "";
+
+    // Default to "products" unless the user is currently on the shop search page.
+    const [searchType, setSearchType] = useState<SearchType>(isOnShopSearch ? "shops" : "products");
+
+    // Keep the selector in sync with the current route (e.g. after navigation).
+    useEffect(() => {
+        if (isOnShopSearch) {
+            setSearchType("shops");
+        } else if (isOnProductSearch) {
+            setSearchType("products");
+        }
+    }, [isOnProductSearch, isOnShopSearch]);
 
     const searchFormSchema = useMemo(() => createSearchFormSchema(t), [t]);
 
@@ -95,6 +121,15 @@ export function SearchBar({ type }: SearchBarProps) {
 
     function onSubmit(values: SearchFormSchema) {
         setIsSubmitting(true);
+        if (searchType === "shops") {
+            navigate({
+                to: "/search/shops",
+                search: {
+                    q: values.query,
+                },
+            });
+            return;
+        }
         navigate({
             to: "/search",
             search: (prev) => {
@@ -144,30 +179,66 @@ export function SearchBar({ type }: SearchBarProps) {
                     control={form.control}
                     name="query"
                     render={({ field }) => (
-                        <FormItem className="grow">
+                        <FormItem className={cn("grow flex", type === "big" ? "flex-col" : "")}>
                             <FormLabel className="sr-only">{t("search.bar.label")}</FormLabel>
-                            <FormControl>
-                                <Input
-                                    autoFocus={type === "big"}
-                                    className={cn(
-                                        "rounded-sm focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
-                                        type === "big"
-                                            ? "h-12 font-medium text-lg border-0"
-                                            : "h-9 ",
-                                    )}
-                                    type="search"
-                                    placeholder={
-                                        type === "big"
-                                            ? animatedText
-                                            : t("search.bar.placeholderShort")
-                                    }
-                                    aria-label={t("search.bar.label")}
+                            <div
+                                className={cn(
+                                    type === "big"
+                                        ? "flex items-center h-12 w-full overflow-hidden rounded-sm bg-background shadow-sm"
+                                        : "contents",
+                                )}
+                            >
+                                <Select
+                                    value={searchType}
+                                    onValueChange={(value) => setSearchType(value as SearchType)}
                                     disabled={!isSearchEnabled}
-                                    {...field}
-                                    inputMode="search"
-                                    enterKeyHint="search"
-                                />
-                            </FormControl>
+                                >
+                                    <SelectTrigger
+                                        aria-label={t("search.bar.searchTypeLabel")}
+                                        data-testid="search-type-select"
+                                        className={cn(
+                                            "shrink-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
+                                            type === "big"
+                                                ? "h-full w-32 rounded-none border-0 border-r bg-background px-4 text-base text-foreground shadow-none sm:w-40"
+                                                : "h-9 rounded-sm text-sm lg:w-32",
+                                        )}
+                                    >
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="products">
+                                                {t("search.bar.searchType.products")}
+                                            </SelectItem>
+                                            <SelectItem value="shops">
+                                                {t("search.bar.searchType.shops")}
+                                            </SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                                <FormControl>
+                                    <Input
+                                        autoFocus={type === "big"}
+                                        className={cn(
+                                            "focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
+                                            type === "big"
+                                                ? "h-full rounded-none border-0 bg-transparent font-medium shadow-none text-base!"
+                                                : "h-9 rounded-sm",
+                                        )}
+                                        type="search"
+                                        placeholder={
+                                            type === "big"
+                                                ? animatedText
+                                                : t("search.bar.placeholderShort")
+                                        }
+                                        aria-label={t("search.bar.label")}
+                                        disabled={!isSearchEnabled}
+                                        {...field}
+                                        inputMode="search"
+                                        enterKeyHint="search"
+                                    />
+                                </FormControl>
+                            </div>
                             {type === "big" && <FormMessage />}
                         </FormItem>
                     )}
@@ -175,7 +246,7 @@ export function SearchBar({ type }: SearchBarProps) {
 
                 <Button
                     type="submit"
-                    className={type === "big" ? "mt-0 h-12" : "h-9"}
+                    className={type === "big" ? "mt-0 h-12 shadow-sm" : "h-9"}
                     disabled={!isSearchEnabled || showLoading}
                 >
                     <span className={type === "big" ? "hidden sm:inline text-lg" : "hidden"}>

@@ -26,7 +26,7 @@ export function useWatchlistNotificationMutation(shopId: string, shopsProductId:
             });
 
             if (result.error) {
-                if (result.response.status === 401) {
+                if (result.response?.status === 401) {
                     toast.info(t("watchlist.loginRequired"));
                     return;
                 }

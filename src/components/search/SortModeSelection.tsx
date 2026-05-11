@@ -26,7 +26,7 @@ export function SortModeSelection({ sortMode, updateSortMode, className }: SortM
     return (
         <div
             className={cn(
-                "flex flex-col sm:flex-row sm:flex-wrap items-center gap-x-4 sm:gap-y-2",
+                "flex flex-col ms-2 lg:ms-0 sm:flex-row sm:flex-wrap items-end sm:gap-y-2",
                 className,
             )}
         >

@@ -5,23 +5,35 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "../Header.tsx";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
 
-const mockUseAuthenticator = vi.hoisted(() => vi.fn());
+const mockUseAuth = vi.hoisted(() => vi.fn());
 const mockUseUserAccount = vi.hoisted(() => vi.fn());
+const mockUseRouteContext = vi.hoisted(() => vi.fn());
 
-vi.mock("@aws-amplify/ui-react", () => ({
-    useAuthenticator: mockUseAuthenticator,
+vi.mock("@/hooks/auth/useAuth", () => ({
+    useAuth: mockUseAuth,
 }));
 
 vi.mock("@/hooks/account/useUserAccount.ts", () => ({
     useUserAccount: mockUseUserAccount,
 }));
 
+vi.mock("@/routes/__root.tsx", () => ({
+    Route: {
+        useRouteContext: mockUseRouteContext,
+    },
+}));
+
 const setupAuthMock = (isLoggedIn = false) => {
-    mockUseAuthenticator.mockReturnValue({
-        toSignUp: vi.fn(),
-        toSignIn: vi.fn(),
-        user: isLoggedIn ? {} : null,
+    mockUseAuth.mockReturnValue({
+        user: isLoggedIn ? { userId: "test-id", username: "test" } : null,
+        isLoading: false,
         signOut: vi.fn(),
+    });
+    mockUseRouteContext.mockReturnValue({
+        serverAuth: {
+            authenticated: isLoggedIn,
+            user: isLoggedIn ? { userId: "test-id", username: "test" } : null,
+        },
     });
 };
 

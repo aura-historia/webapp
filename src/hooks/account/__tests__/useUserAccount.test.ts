@@ -25,9 +25,11 @@ vi.mock("@/data/internal/hooks/ApiError", () => ({
     mapToInternalApiError: (error: unknown) => error,
 }));
 
-vi.mock("@aws-amplify/ui-react", () => ({
-    useAuthenticator: () => ({
-        user: { username: "test-user" },
+vi.mock("@/hooks/auth/useAuth", () => ({
+    useAuth: () => ({
+        user: { userId: "test-user-id", username: "test-user" },
+        isLoading: false,
+        signOut: vi.fn(),
     }),
 }));
 

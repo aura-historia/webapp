@@ -32,6 +32,10 @@ vi.mock("lottie-react", () => ({
     default: () => <div data-testid="lottie-animation" />,
 }));
 
+vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
+    useUserPreferences: () => ({ preferences: { currency: "EUR" }, updatePreferences: vi.fn() }),
+}));
+
 const mockUseInfiniteQuery = vi.mocked(useInfiniteQuery);
 
 const createMockProduct = (overrides: Partial<OverviewProduct> = {}): OverviewProduct => ({

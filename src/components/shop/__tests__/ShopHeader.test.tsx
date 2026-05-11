@@ -11,6 +11,7 @@ const mockShop: ShopDetail = {
     partnerStatus: "PARTNERED",
     image: "https://example.com/logo.png",
     domains: ["christies.com"],
+    url: "https://shop.christies.com?utm_source=aura",
     created: new Date("2024-01-15T08:00:00Z"),
     updated: new Date("2024-06-20T12:30:00Z"),
 };
@@ -69,27 +70,39 @@ describe("ShopHeader", () => {
         expect(screen.getByRole("heading", { name: "Sotheby's" })).toBeInTheDocument();
     });
 
-    it("renders go-to-merchant button linking to the first domain with https", () => {
+    it("renders go-to-merchant button linking to the provided shop url", () => {
         render(<ShopHeader shop={mockShop} productCount={42} />);
         const link = screen.getByRole("link", { name: /Zur Seite des Händlers/i });
-        expect(link).toHaveAttribute("href", "https://christies.com");
+        expect(link).toHaveAttribute("href", "https://shop.christies.com?utm_source=aura");
         expect(link).toHaveAttribute("target", "_blank");
         expect(link).toHaveAttribute("rel", "nofollow noopener noreferrer");
     });
 
-    it("does not render go-to-merchant button when domains list is empty", () => {
-        const shopNoDomains: ShopDetail = { ...mockShop, domains: [] };
-        render(<ShopHeader shop={shopNoDomains} productCount={42} />);
+    it("does not render go-to-merchant button when url is undefined", () => {
+        const shopWithoutUrl: ShopDetail = { ...mockShop, url: undefined };
+        render(<ShopHeader shop={shopWithoutUrl} productCount={42} />);
         expect(
             screen.queryByRole("link", { name: /Zur Seite des Händlers/i }),
         ).not.toBeInTheDocument();
     });
 
-    it("keeps existing https scheme in domain unchanged", () => {
-        const shopWithHttpsDomain: ShopDetail = { ...mockShop, domains: ["https://christies.com"] };
-        render(<ShopHeader shop={shopWithHttpsDomain} productCount={42} />);
+    it("does not derive a merchant link from domains when url is missing", () => {
+        const shopWithoutUrl: ShopDetail = {
+            ...mockShop,
+            url: undefined,
+            domains: ["christies.com"],
+        };
+        render(<ShopHeader shop={shopWithoutUrl} productCount={42} />);
+        expect(
+            screen.queryByRole("link", { name: /Zur Seite des Händlers/i }),
+        ).not.toBeInTheDocument();
+    });
+
+    it("keeps the provided shop url unchanged", () => {
+        const shopWithHttpUrl: ShopDetail = { ...mockShop, url: "http://christies.com" };
+        render(<ShopHeader shop={shopWithHttpUrl} productCount={42} />);
         const link = screen.getByRole("link", { name: /Zur Seite des Händlers/i });
-        expect(link).toHaveAttribute("href", "https://christies.com");
+        expect(link).toHaveAttribute("href", "http://christies.com");
     });
 
     it("renders the partner status badge for PARTNERED status", () => {
