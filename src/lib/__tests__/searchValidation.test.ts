@@ -266,6 +266,29 @@ describe("validateSearchParams", () => {
         });
     });
 
+    describe("categoryId parameter", () => {
+        it("should parse valid categoryId array", () => {
+            const result = validateSearchParams({
+                q: "test",
+                categoryId: ["cat-1", "cat-2"],
+            } as RawSearchParams);
+            expect(result.categoryId).toEqual(["cat-1", "cat-2"]);
+        });
+
+        it("should deduplicate categoryId values", () => {
+            const result = validateSearchParams({
+                q: "test",
+                categoryId: ["cat-1", "cat-1", "cat-2"],
+            } as RawSearchParams);
+            expect(result.categoryId).toEqual(["cat-1", "cat-2"]);
+        });
+
+        it("should return undefined when categoryId is undefined", () => {
+            const result = validateSearchParams({ q: "test" } as RawSearchParams);
+            expect(result.categoryId).toBeUndefined();
+        });
+    });
+
     describe("sort parameters", () => {
         it("should parse valid sortField", () => {
             const result = validateSearchParams({
@@ -559,6 +582,17 @@ describe("serializeSearchParams", () => {
             expect(serialized.q).toBe("");
             expect(serialized.sortField).toBe("RELEVANCE");
             expect(serialized.sortOrder).toBe("DESC");
+        });
+
+        it("should preserve categoryId through serialize/validate roundtrip", () => {
+            const validated = validateSearchParams({
+                q: "test",
+                categoryId: ["cat-1", "cat-2"],
+            } as RawSearchParams);
+            const serialized = serializeSearchParams(validated);
+            const revalidated = validateSearchParams(serialized as RawSearchParams);
+
+            expect(revalidated.categoryId).toEqual(["cat-1", "cat-2"]);
         });
     });
 });

@@ -120,4 +120,22 @@ describe("RestorationFilter", () => {
 
         expect(screen.getAllByText("Alle")).toHaveLength(2);
     });
+
+    it("does not deselect the last remaining option", async () => {
+        const user = userEvent.setup();
+
+        render(
+            <FormWrapper defaultValues={{ restoration: ["NONE"] }}>
+                <RestorationFilter />
+            </FormWrapper>,
+        );
+
+        const trigger = screen.getByRole("combobox");
+        await user.click(trigger);
+
+        const option = screen.getAllByText("Keine");
+        await user.click(option[0]);
+
+        expect(screen.getAllByText(/Keine/).length).toBeGreaterThan(0);
+    });
 });

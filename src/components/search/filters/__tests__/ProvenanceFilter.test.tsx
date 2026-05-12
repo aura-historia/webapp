@@ -121,4 +121,22 @@ describe("ProvenanceFilter", () => {
 
         expect(screen.getAllByText("Alle")).toHaveLength(2);
     });
+
+    it("does not deselect the last remaining option", async () => {
+        const user = userEvent.setup();
+
+        render(
+            <FormWrapper defaultValues={{ provenance: ["COMPLETE"] }}>
+                <ProvenanceFilter />
+            </FormWrapper>,
+        );
+
+        const trigger = screen.getByRole("combobox");
+        await user.click(trigger);
+
+        const option = screen.getAllByText("Vollständig");
+        await user.click(option[0]);
+
+        expect(screen.getAllByText(/Vollständig/).length).toBeGreaterThan(0);
+    });
 });

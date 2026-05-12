@@ -122,4 +122,23 @@ describe("ConditionFilter", () => {
 
         expect(screen.getAllByText("Alle")).toHaveLength(2);
     });
+
+    it("does not deselect the last remaining option", async () => {
+        const user = userEvent.setup();
+
+        render(
+            <FormWrapper defaultValues={{ condition: ["EXCELLENT"] }}>
+                <ConditionFilter />
+            </FormWrapper>,
+        );
+
+        const trigger = screen.getByRole("combobox");
+        await user.click(trigger);
+
+        const option = screen.getAllByText("Exzellent");
+        await user.click(option[0]);
+
+        // Should still be selected
+        expect(screen.getAllByText(/Exzellent/).length).toBeGreaterThan(0);
+    });
 });

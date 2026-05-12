@@ -101,7 +101,35 @@ describe("CreateSearchFilterWizard", () => {
                     <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
                 ),
             );
-            expect(screen.getByText("Neuen Suchauftrag anlegen")).toBeInTheDocument();
+            expect(screen.getAllByText("Neuen Suchauftrag anlegen").length).toBeGreaterThan(0);
+        });
+
+        it("renders edit title in edit mode", async () => {
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard
+                        open
+                        onOpenChange={vi.fn()}
+                        mode="edit"
+                        filter={mockFilter}
+                    />,
+                ),
+            );
+            expect(screen.getAllByText("Suchauftrag bearbeiten").length).toBeGreaterThan(0);
+        });
+
+        it("renders duplicate title in duplicate mode", async () => {
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard
+                        open
+                        onOpenChange={vi.fn()}
+                        mode="duplicate"
+                        filter={mockFilter}
+                    />,
+                ),
+            );
+            expect(screen.getAllByText("Suchauftrag duplizieren").length).toBeGreaterThan(0);
         });
 
         it("renders name and query input fields on step 1", async () => {
@@ -122,7 +150,7 @@ describe("CreateSearchFilterWizard", () => {
                     <CreateSearchFilterWizard open={false} onOpenChange={vi.fn()} mode="create" />,
                 ),
             );
-            expect(screen.queryByText("Neuen Suchauftrag anlegen")).not.toBeInTheDocument();
+            expect(screen.queryAllByText("Neuen Suchauftrag anlegen")).toHaveLength(0);
         });
     });
 

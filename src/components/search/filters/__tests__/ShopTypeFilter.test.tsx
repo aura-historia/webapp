@@ -132,4 +132,22 @@ describe("ShopTypeFilter", () => {
         // Should show "Alle" in trigger
         expect(screen.getAllByText("Alle")).toHaveLength(2); // One in trigger, one in dropdown
     });
+
+    it("does not deselect the last remaining option", async () => {
+        const user = userEvent.setup();
+
+        render(
+            <FormWrapper defaultValues={{ shopType: ["AUCTION_HOUSE"] }}>
+                <ShopTypeFilter onReset={() => {}} />
+            </FormWrapper>,
+        );
+
+        const trigger = screen.getByRole("combobox");
+        await user.click(trigger);
+
+        const option = screen.getAllByText("Auktionshaus");
+        await user.click(option[0]);
+
+        expect(screen.getAllByText(/Auktionshaus/).length).toBeGreaterThan(0);
+    });
 });

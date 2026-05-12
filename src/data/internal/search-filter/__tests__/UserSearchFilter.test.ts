@@ -8,6 +8,10 @@ import {
 } from "../UserSearchFilter.ts";
 import type { UserSearchFilterData } from "@/client";
 import { AUTHENTICITIES } from "@/data/internal/quality-indicators/Authenticity.ts";
+import { CONDITIONS } from "@/data/internal/quality-indicators/Condition.ts";
+import { PROVENANCES } from "@/data/internal/quality-indicators/Provenance.ts";
+import { RESTORATIONS } from "@/data/internal/quality-indicators/Restoration.ts";
+import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 
 const baseFilterData: UserSearchFilterData = {
     userId: "user-1",
@@ -193,5 +197,63 @@ describe("mapToBackendPatchUserSearchFilter", () => {
     it("maps search when provided", () => {
         const result = mapToBackendPatchUserSearchFilter({ search: { q: "Lampe" } });
         expect(result.search?.productQuery).toBe("Lampe");
+    });
+});
+
+describe("isDefaultOrEmpty behaviour in mapToBackendCreateUserSearchFilter", () => {
+    it("omits condition when set to full defaults", () => {
+        const result = mapToBackendCreateUserSearchFilter({
+            name: "Test",
+            search: { q: "", condition: [...CONDITIONS] },
+        });
+        expect(result.search.condition).toBeUndefined();
+    });
+
+    it("omits provenance when set to full defaults", () => {
+        const result = mapToBackendCreateUserSearchFilter({
+            name: "Test",
+            search: { q: "", provenance: [...PROVENANCES] },
+        });
+        expect(result.search.provenance).toBeUndefined();
+    });
+
+    it("omits restoration when set to full defaults", () => {
+        const result = mapToBackendCreateUserSearchFilter({
+            name: "Test",
+            search: { q: "", restoration: [...RESTORATIONS] },
+        });
+        expect(result.search.restoration).toBeUndefined();
+    });
+
+    it("omits shopType when set to full defaults", () => {
+        const result = mapToBackendCreateUserSearchFilter({
+            name: "Test",
+            search: { q: "", shopType: [...SHOP_TYPES] },
+        });
+        expect(result.search.shopType).toBeUndefined();
+    });
+
+    it("includes condition when a subset is selected", () => {
+        const result = mapToBackendCreateUserSearchFilter({
+            name: "Test",
+            search: { q: "", condition: ["EXCELLENT"] },
+        });
+        expect(result.search.condition).toBeDefined();
+    });
+
+    it("omits authenticity when empty array (treated as default = all)", () => {
+        const result = mapToBackendCreateUserSearchFilter({
+            name: "Test",
+            search: { q: "", authenticity: [] },
+        });
+        expect(result.search.authenticity).toBeUndefined();
+    });
+
+    it("includes authenticity when a subset is selected", () => {
+        const result = mapToBackendCreateUserSearchFilter({
+            name: "Test",
+            search: { q: "", authenticity: ["ORIGINAL"] },
+        });
+        expect(result.search.authenticity).toBeDefined();
     });
 });
