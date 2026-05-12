@@ -181,7 +181,7 @@ export function CheckboxMultiSelect({
                 </div>
             </PopoverTrigger>
             <PopoverContent
-                className="w-[var(--radix-popover-trigger-width)] p-0"
+                className="w-[var(--radix-popover-trigger-width)] p-0 overflow-hidden"
                 align="start"
                 onOpenAutoFocus={(e) => {
                     if (searchable) {
@@ -202,7 +202,11 @@ export function CheckboxMultiSelect({
                         />
                     </div>
                 )}
-                <div className="max-h-60 overflow-auto p-1" onWheel={(e) => e.stopPropagation()}>
+                <div
+                    className="max-h-[min(16rem,var(--radix-popover-content-available-height))] overflow-y-auto overscroll-contain p-1"
+                    onWheel={(e) => e.stopPropagation()}
+                >
+                    {" "}
                     {!search && (
                         <>
                             <div

@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trans, useTranslation } from "react-i18next";
-import { useMutation } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -20,13 +19,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { H2 } from "@/components/typography/H2.tsx";
-import { putNewsletterSubscriptionMutation } from "@/client/@tanstack/react-query.gen.ts";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { parseLanguage, mapToBackendLanguage } from "@/data/internal/common/Language.ts";
 import { mapToBackendCurrency } from "@/data/internal/common/Currency.ts";
-import { useApiError } from "@/hooks/common/useApiError.ts";
-import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
-import type { PutNewsletterSubscriptionError } from "@/client";
+import { useNewsletterSubscription } from "@/hooks/newsletter/useNewsletterSubscription.ts";
 
 function getNewsletterSchema(t: (key: string) => string) {
     return z.object({
@@ -44,7 +40,6 @@ type NewsletterFormData = z.infer<ReturnType<typeof getNewsletterSchema>>;
 export default function NewsletterSection() {
     const { t, i18n } = useTranslation();
     const { preferences } = useUserPreferences();
-    const { getErrorMessage } = useApiError();
     const [isSuccess, setIsSuccess] = useState(false);
     const [subscribedEmail, setSubscribedEmail] = useState("");
 
@@ -59,29 +54,24 @@ export default function NewsletterSection() {
         },
     });
 
-    const { mutate: subscribe, isPending } = useMutation({
-        ...putNewsletterSubscriptionMutation(),
-        onSuccess: () => {
-            setIsSuccess(true);
-            toast.success(t("landingPage.newsletter.successMessage"));
-            form.reset();
-        },
-        onError: (error: PutNewsletterSubscriptionError) => {
-            toast.error(getErrorMessage(mapToInternalApiError(error)));
-        },
-    });
+    const { mutateAsync: subscribe, isPending } = useNewsletterSubscription();
 
-    const onSubmit = (data: NewsletterFormData) => {
+    const onSubmit = async (data: NewsletterFormData) => {
         setSubscribedEmail(data.email);
-        subscribe({
-            body: {
+        try {
+            await subscribe({
                 email: data.email,
                 firstName: data.firstName || undefined,
                 lastName: data.lastName || undefined,
                 language: mapToBackendLanguage(parseLanguage(i18n.language)),
                 currency: mapToBackendCurrency(preferences.currency),
-            },
-        });
+            });
+            setIsSuccess(true);
+            toast.success(t("landingPage.newsletter.successMessage"));
+            form.reset();
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : t("apiErrors.unknown"));
+        }
     };
 
     return (
@@ -138,7 +128,7 @@ export default function NewsletterSection() {
 
                     {/* Right column — form card */}
                     <div className="mx-auto w-full max-w-lg lg:mx-0 lg:ml-auto">
-                        <div className="border border-primary-foreground/10 bg-primary-foreground/[0.06] p-8 backdrop-blur-sm sm:p-10">
+                        <div className="border border-primary-foreground/10 bg-primary-foreground/6 p-8 backdrop-blur-sm sm:p-10">
                             {isSuccess ? (
                                 <div className="flex flex-col items-center gap-5 py-8 text-center">
                                     <div className="flex size-16 items-center justify-center bg-primary-foreground/10">

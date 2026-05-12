@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { AuthFlow } from "@/components/auth/AuthFlow.tsx";
+import { hasStoredPendingEmail } from "@/components/auth/pendingSignUpEmail.ts";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
 import { useAuth } from "@/hooks/auth/useAuth.ts";
@@ -43,9 +44,12 @@ function LoginPage() {
     const { user, isLoading } = useAuth();
 
     useEffect(() => {
-        // Redirect existing sessions away from login, but let the post-signup
-        // confirm and user-details steps finish their in-flow navigation.
-        if (!isLoading && user && mode !== "confirm" && mode !== "user-details") {
+        const isOnboardingStep = mode === "confirm" || mode === "user-details";
+        const canContinueOnboarding = isOnboardingStep && hasStoredPendingEmail();
+
+        // Redirect existing sessions away from login unless they are still
+        // finishing the post-signup onboarding handoff in this browser session.
+        if (!isLoading && user && !canContinueOnboarding) {
             navigate({
                 to: redirectParam || "/",
                 viewTransition: true,

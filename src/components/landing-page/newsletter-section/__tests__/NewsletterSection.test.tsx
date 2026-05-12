@@ -2,7 +2,7 @@ import NewsletterSection from "@/components/landing-page/newsletter-section/News
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { putNewsletterSubscriptionMutation } from "@/client/@tanstack/react-query.gen.ts";
+import { useNewsletterSubscription } from "@/hooks/newsletter/useNewsletterSubscription.ts";
 
 const mockToast = vi.hoisted(() => ({
     success: vi.fn(),
@@ -13,9 +13,10 @@ vi.mock("sonner", () => ({
     toast: mockToast,
 }));
 
-vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
-    putNewsletterSubscriptionMutation: vi.fn(() => ({
-        mutationFn: vi.fn().mockResolvedValue(undefined),
+vi.mock("@/hooks/newsletter/useNewsletterSubscription.ts", () => ({
+    useNewsletterSubscription: vi.fn(() => ({
+        mutateAsync: vi.fn().mockResolvedValue(undefined),
+        isPending: false,
     })),
 }));
 
@@ -102,13 +103,16 @@ describe("NewsletterSection", () => {
 
 describe("NewsletterSection error handling", () => {
     it("shows INVALID_EMAIL error toast when the provider rejects the email address", async () => {
-        vi.mocked(putNewsletterSubscriptionMutation).mockReturnValue({
-            mutationFn: vi.fn().mockRejectedValue({
-                status: 400,
-                title: "Bad Request",
-                error: "INVALID_EMAIL",
-            }),
-        });
+        vi.mocked(useNewsletterSubscription).mockReturnValue({
+            mutateAsync: vi
+                .fn()
+                .mockRejectedValue(
+                    new Error(
+                        "Die E-Mail-Adresse ist ungültig oder wird von unserem Newsletter-Anbieter nicht akzeptiert.",
+                    ),
+                ),
+            isPending: false,
+        } as unknown as ReturnType<typeof useNewsletterSubscription>);
 
         await act(async () => {
             renderWithRouter(<NewsletterSection />);
@@ -126,13 +130,16 @@ describe("NewsletterSection error handling", () => {
     });
 
     it("shows a server error toast for unexpected 5xx failures", async () => {
-        vi.mocked(putNewsletterSubscriptionMutation).mockReturnValue({
-            mutationFn: vi.fn().mockRejectedValue({
-                status: 500,
-                title: "Internal Server Error",
-                error: "INTERNAL_SERVER_ERROR",
-            }),
-        });
+        vi.mocked(useNewsletterSubscription).mockReturnValue({
+            mutateAsync: vi
+                .fn()
+                .mockRejectedValue(
+                    new Error(
+                        "Es ist ein interner Serverfehler aufgetreten. Bitte versuchen Sie es später erneut.",
+                    ),
+                ),
+            isPending: false,
+        } as unknown as ReturnType<typeof useNewsletterSubscription>);
 
         await act(async () => {
             renderWithRouter(<NewsletterSection />);

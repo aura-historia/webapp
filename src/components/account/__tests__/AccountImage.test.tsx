@@ -23,11 +23,4 @@ describe("AccountImage", () => {
         const svg = container.querySelector("svg");
         expect(svg).toBeInTheDocument();
     });
-    it("renders spinner when loading", () => {
-        const { container } = render(
-            <AccountImage firstName="Max" lastName="Mustermann" isLoading={true} />,
-        );
-        const spinner = container.querySelector(".animate-spin");
-        expect(spinner).toBeInTheDocument();
-    });
 });

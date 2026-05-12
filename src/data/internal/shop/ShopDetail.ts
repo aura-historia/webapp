@@ -1,9 +1,13 @@
-import type { GetShopData } from "@/client";
+import type { GeoAddressData, GetShopData, StructuredAddressData } from "@/client";
 import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import {
     parseShopPartnerStatus,
     type ShopPartnerStatus,
 } from "@/data/internal/shop/ShopPartnerStatus.ts";
+
+export type StructuredAddress = StructuredAddressData;
+
+export type GeoAddress = GeoAddressData;
 
 export type ShopDetail = {
     readonly shopId: string;
@@ -12,8 +16,14 @@ export type ShopDetail = {
     readonly shopType: ShopType;
     readonly partnerStatus: ShopPartnerStatus;
     readonly image?: string;
-    readonly domains: string[];
     readonly url?: string;
+    readonly domains: string[];
+    readonly structuredAddress?: StructuredAddress;
+    readonly geoAddress?: GeoAddress;
+    readonly phone?: string;
+    readonly email?: string;
+    readonly specialitiesCategories?: string[];
+    readonly specialitiesPeriods?: string[];
     readonly created: Date;
     readonly updated: Date;
 };
@@ -30,8 +40,32 @@ export function mapToShopDetail(data: GetShopData): ShopDetail {
         shopType: parseShopType(data.shopType),
         partnerStatus: parseShopPartnerStatus(data.partnerStatus),
         image: data.image ?? undefined,
-        domains: data.domains,
         url: data.url ?? undefined,
+        domains: data.domains,
+        structuredAddress: data.structuredAddress
+            ? {
+                  addressline: data.structuredAddress.addressline,
+                  addresslineExtra: data.structuredAddress.addresslineExtra,
+                  locality: data.structuredAddress.locality,
+                  region: data.structuredAddress.region,
+                  postalCode: data.structuredAddress.postalCode,
+                  country: data.structuredAddress.country,
+                  continent: data.structuredAddress.continent,
+              }
+            : undefined,
+        geoAddress: data.geoAddress
+            ? { lat: data.geoAddress.lat, lon: data.geoAddress.lon }
+            : undefined,
+        phone: data.phone,
+        email: data.email,
+        specialitiesCategories:
+            data.specialitiesCategories && data.specialitiesCategories.length > 0
+                ? [...data.specialitiesCategories]
+                : undefined,
+        specialitiesPeriods:
+            data.specialitiesPeriods && data.specialitiesPeriods.length > 0
+                ? [...data.specialitiesPeriods]
+                : undefined,
         created: new Date(data.created),
         updated: new Date(data.updated),
     };
