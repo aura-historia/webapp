@@ -457,12 +457,11 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
         );
     };
 
-    const wizardTitle =
-        mode === "edit"
-            ? t("searchFilter.wizard.titleEdit")
-            : mode === "duplicate"
-              ? t("searchFilter.wizard.titleDuplicate")
-              : t("searchFilter.wizard.title");
+    const wizardTitleByMode: Record<string, string> = {
+        edit: t("searchFilter.wizard.titleEdit"),
+        duplicate: t("searchFilter.wizard.titleDuplicate"),
+    };
+    const wizardTitle = wizardTitleByMode[mode] ?? t("searchFilter.wizard.title");
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -475,6 +474,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                     value={step}
                     onValueChange={goTo}
                     className="flex flex-1 flex-row min-h-0 overflow-hidden gap-0"
+                    onKeyDown={handleContentKeyDown}
                 >
                     {/* Sidebar – desktop only */}
                     <div className="hidden lg:flex flex-col w-52 shrink-0 bg-muted/30 px-5 pt-8 pb-6 border-r">
@@ -538,10 +538,8 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                         <SearchFilterFormProvider value={filters} onChange={setFilters}>
                             <div
                                 ref={scrollRef}
-                                role="group"
                                 tabIndex={-1}
                                 className="flex-1 min-h-0 overflow-y-auto outline-none"
-                                onKeyDown={handleContentKeyDown}
                             >
                                 <AnimatePresence mode="wait" custom={direction}>
                                     <motion.div
