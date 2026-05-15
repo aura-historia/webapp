@@ -101,6 +101,30 @@ describe("useAnimatedPlaceholder", () => {
         expect(result.current).toBe("T");
     });
 
+    it("should reset to empty string when resetKey changes", () => {
+        const { result, rerender } = renderHook(
+            ({ resetKey }: { resetKey: string }) =>
+                useAnimatedPlaceholder({
+                    examples: ["Hello"],
+                    typingSpeed: 100,
+                    enabled: true,
+                    resetKey,
+                }),
+            { initialProps: { resetKey: "products" } },
+        );
+
+        act(() => {
+            vi.advanceTimersByTime(300);
+        });
+        expect(result.current.length).toBeGreaterThan(0);
+
+        act(() => {
+            rerender({ resetKey: "shops" });
+        });
+
+        expect(result.current).toBe("");
+    });
+
     it("should handle multiple examples", () => {
         const { result } = renderHook(() =>
             useAnimatedPlaceholder({
