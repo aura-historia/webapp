@@ -17,11 +17,7 @@ vi.mock("@/hooks/admin/usePatchAdminShop.ts", () => ({
 
 vi.mock("@/components/admin/useAdminShopMetadataOptions.ts", () => ({
     useAdminShopMetadataOptions: () => ({
-        categoryOptions: [{ value: "furniture", label: "Furniture" }],
         countryOptions: [{ value: "DE", label: "Deutschland" }],
-        isCategoriesPending: false,
-        isPeriodsPending: false,
-        periodOptions: [{ value: "baroque", label: "Barock" }],
     }),
 }));
 

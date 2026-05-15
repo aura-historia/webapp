@@ -9,19 +9,7 @@ import {
     SelectValue,
 } from "../ui/select";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
-import {
-    LANDING_PAGE_FOOTER_LINKS,
-    POPULAR_CATEGORY_KEYS,
-    POPULAR_COMBINATION_SLUGS,
-    POPULAR_PERIOD_KEYS,
-    SOCIAL_LINKS,
-} from "./footer/Footer.data.ts";
-import { useQuery } from "@tanstack/react-query";
-import { getCategoriesOptions, getPeriodsOptions } from "@/client/@tanstack/react-query.gen.ts";
-import { mapToCategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
-import { mapToPeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
-import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { COMBINATION_MAP } from "@/data/combinations/combinations.ts";
+import { LANDING_PAGE_FOOTER_LINKS, SOCIAL_LINKS } from "./footer/Footer.data.ts";
 import { CurrencySelector } from "@/components/common/CurrencySelector.tsx";
 
 export function Footer() {
@@ -32,42 +20,6 @@ export function Footer() {
     const handleLanguageChange = async (languageCode: string) => {
         await i18n.changeLanguage(languageCode);
     };
-
-    const { data: categoriesData } = useQuery(
-        getCategoriesOptions({
-            query: { language: parseLanguage(i18n.language) },
-        }),
-    );
-
-    const { data: periodsData } = useQuery(
-        getPeriodsOptions({
-            query: { language: parseLanguage(i18n.language) },
-        }),
-    );
-
-    const categoryKeyPositions = new Map(POPULAR_CATEGORY_KEYS.map((key, i) => [key, i]));
-    const popularCategories = (categoriesData ?? [])
-        .map(mapToCategoryOverview)
-        .filter((c) => categoryKeyPositions.has(c.categoryKey))
-        .sort(
-            (a, b) =>
-                (categoryKeyPositions.get(a.categoryKey) ?? 0) -
-                (categoryKeyPositions.get(b.categoryKey) ?? 0),
-        );
-
-    const periodKeyPositions = new Map(POPULAR_PERIOD_KEYS.map((key, i) => [key, i]));
-    const popularPeriods = (periodsData ?? [])
-        .map(mapToPeriodOverview)
-        .filter((p) => periodKeyPositions.has(p.periodKey))
-        .sort(
-            (a, b) =>
-                (periodKeyPositions.get(a.periodKey) ?? 0) -
-                (periodKeyPositions.get(b.periodKey) ?? 0),
-        );
-
-    const popularCombinations = POPULAR_COMBINATION_SLUGS.map((slug) =>
-        COMBINATION_MAP.get(slug),
-    ).filter((c) => c != null);
 
     return (
         <footer className="w-full border-t border-outline-variant/20 bg-surface-container-low">
@@ -157,93 +109,7 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    {/* Spalte 3: Categories */}
-                    <div>
-                        <h3 className="font-display text-lg leading-7 text-primary-container">
-                            {t("footer.sections.categories")}
-                        </h3>
-                        <ul className="mt-4 space-y-2">
-                            {popularCategories.map((category) => (
-                                <li key={category.categoryId}>
-                                    <Link
-                                        to="/categories/$categoryId"
-                                        params={{ categoryId: category.categoryId }}
-                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                    >
-                                        {category.name}
-                                    </Link>
-                                </li>
-                            ))}
-                            <li>
-                                <Link
-                                    to="/categories"
-                                    className="text-sm font-medium leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                >
-                                    {t("footer.allCategories")}
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Spalte 4: Periods */}
-                    <div>
-                        <h3 className="font-display text-lg leading-7 text-primary-container">
-                            {t("footer.sections.periodsAndStyles")}
-                        </h3>
-                        <ul className="mt-4 space-y-2">
-                            {popularPeriods.map((period) => (
-                                <li key={period.periodId}>
-                                    <Link
-                                        to="/periods/$periodId"
-                                        params={{ periodId: period.periodId }}
-                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                    >
-                                        {period.name}
-                                    </Link>
-                                </li>
-                            ))}
-                            <li>
-                                <Link
-                                    to="/periods"
-                                    className="text-sm font-medium leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                >
-                                    {t("footer.allPeriods")}
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Spalte 5: Collections */}
-                    <div>
-                        <h3 className="font-display text-lg leading-7 text-primary-container">
-                            {t("footer.sections.collections")}
-                        </h3>
-                        <ul className="mt-4 space-y-2">
-                            {popularCombinations.map((combination) => (
-                                <li key={combination.slug}>
-                                    <Link
-                                        to="/collections/$combinationSlug"
-                                        params={{ combinationSlug: combination.slug }}
-                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                    >
-                                        {t(`combination.names.${combination.slug}`, {
-                                            defaultValue: combination.slug,
-                                        })}
-                                    </Link>
-                                </li>
-                            ))}
-                            <li>
-                                <Link
-                                    to="/collections"
-                                    className="text-sm font-medium leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                >
-                                    {t("footer.allCollections")}
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Spalte 6: Follow Us */}
+                    {/* Spalte 3: Follow Us */}
                     <div>
                         <h3 className="font-display text-lg leading-7 text-primary-container">
                             {t("footer.sections.followUs")}
