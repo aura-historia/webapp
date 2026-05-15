@@ -45,7 +45,6 @@ export type OverviewProduct = {
     readonly shopsProductId: string;
     readonly shopName: string;
     readonly title: string;
-    readonly description?: string;
     readonly price?: string;
     readonly priceEstimate?: PriceEstimate;
     readonly state: ProductState;
@@ -82,7 +81,6 @@ function mapProductDataToOverviewProduct(
         shopType: parseShopType(productData.shopType),
         auction: productData.auction ? mapToInternalAuctionWindow(productData.auction) : undefined,
         title: productData.title.text,
-        description: productData.description?.text,
         price: productData.price?.offer ? formatPrice(productData.price.offer, locale) : undefined,
         priceEstimate: parsePriceEstimate(
             productData.price?.estimate?.min ?? undefined,

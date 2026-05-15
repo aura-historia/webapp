@@ -45,7 +45,6 @@ describe("ProductInfo", () => {
         shopName: "Test Shop",
         shopType: "AUCTION_HOUSE",
         title: "Test Product Title",
-        description: "This is a test description",
         price: "99,99 €",
         state: "AVAILABLE",
         url: new URL("https://example.com"),
@@ -66,17 +65,6 @@ describe("ProductInfo", () => {
         expect(screen.getByText("Test Product Title")).toBeInTheDocument();
         expect(screen.getByText("Test Shop")).toBeInTheDocument();
         expect(screen.getByText("99,99 €")).toBeInTheDocument();
-    });
-
-    it("should render the description correctly", () => {
-        renderWithQueryClient(<ProductInfo product={mockProduct} />);
-        expect(screen.getByText("This is a test description")).toBeInTheDocument();
-    });
-
-    it("should render 'Keine Beschreibung verfügbar' when description is not provided", () => {
-        const productWithoutDescription = { ...mockProduct, description: undefined };
-        renderWithQueryClient(<ProductInfo product={productWithoutDescription} />);
-        expect(screen.getByText("Keine Beschreibung verfügbar")).toBeInTheDocument();
     });
 
     it("should render the shop type badge", () => {

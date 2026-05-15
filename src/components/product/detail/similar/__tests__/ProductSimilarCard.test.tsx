@@ -31,7 +31,6 @@ describe("ProductSimilarCard", () => {
         shopName: "Test Shop",
         shopType: "AUCTION_HOUSE",
         title: "Test Product Title",
-        description: "Test Description",
         price: "99,99 €",
         state: "AVAILABLE",
         url: new URL("https://example.com"),
