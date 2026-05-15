@@ -1263,39 +1263,39 @@
       "ultimateOnly": "Nur für Ultimate-Abonnenten verfügbar.",
       "cancelButton": "Abbrechen",
       "saveButton": "Speichern",
-      "restrictedFiltersHint": "Diese Filter sind in deinem aktuellen Abonnement leider nicht verfügbar und können nicht gespeichert werden. Upgrade dein Abonnement, um sie zu nutzen – oder speichere den Suchauftrag ohne diese Filter.",
+      "restrictedFiltersHint": "Diese Filter sind in Ihrem aktuellen Abonnement leider nicht verfügbar und können nicht gespeichert werden. Upgraden Sie Ihr Abonnement, um sie zu nutzen – oder speichern Sie den Suchauftrag ohne diese Filter.",
       "resetAndSaveButton": "Ohne diese Filter speichern",
       "queryPlaceholder": "z. B. Mater Dolorosa Ölgemälde Leinwand Barock",
-      "nameHint": "Gib deinem Suchauftrag einen eindeutigen Namen.",
+      "nameHint": "Geben Sie Ihrem Suchauftrag einen eindeutigen Namen.",
       "queryHint": "Schlüsselwort das in Produkttiteln gesucht wird.",
-      "aiDescriptionHint": "Beschreibe detailliert was du suchst – die KI findet so passendere Treffer."
+      "aiDescriptionHint": "Beschreiben Sie detailliert, was Sie suchen – die KI findet so passendere Treffer."
     },
     "wizard": {
       "title": "Neuen Suchauftrag anlegen",
       "back": "Zurück",
       "next": "Weiter",
-      "nameRequired": "Bitte gib einen Namen ein.",
+      "nameRequired": "Bitte geben Sie einen Namen ein.",
       "nameTooLong": "Der Name darf maximal 255 Zeichen lang sein.",
       "queryTooShort": "Der Suchbegriff muss mindestens 3 Zeichen lang sein.",
       "noFiltersConfigured": "Keine zusätzlichen Filter konfiguriert.",
-      "upgradeBanner": "Diese Filter sind in deinem aktuellen Tarif nicht verfügbar. Upgrade dein Konto, um sie zu nutzen.",
+      "upgradeBanner": "Diese Filter sind in Ihrem aktuellen Tarif nicht verfügbar. Upgraden Sie Ihr Konto, um sie zu nutzen.",
       "step": {
         "name": "Suchbegriff & Name",
-        "nameDescription": "Vergib deinem Suchauftrag einen Namen und gib an, wonach du suchst – optional kannst du die Suche mit einer KI-gestützten Beschreibung noch weiter präzisieren.",
+        "nameDescription": "Geben Sie Ihrem Suchauftrag einen Namen und geben Sie an, wonach Sie suchen – optional können Sie die Suche mit einer KI-gestützten Beschreibung noch weiter präzisieren.",
         "priceStatus": "Preis & Status",
         "theme": "Kategorie & Epoche",
         "quality": "Zustand & Echtheit",
         "shop": "Händler & Shop-Typ",
         "date": "Zeitraum",
         "confirm": "Zusammenfassung",
-        "confirmDescription": "Überprüfe deine konfigurierten Suchkriterien und speichere den Auftrag. Du wirst umgehend benachrichtigt, sobald ein passendes Objekt auf dem Markt erscheint.",
-        "priceStatusDescription": "Definiere deinen Preisrahmen und wähle den gewünschten Anzeigenstatus – etwa ausschließlich verfügbare Objekte oder auch bereits versteigerte Stücke zur Marktrecherche.",
-        "themeDescription": "Präzisiere deine Suche nach Sammelgebiet (z. B. Alte Meister, Möbel, Silber) und kunsthistorischer Epoche (z. B. Renaissance, Rokoko, Biedermeier).",
-        "qualityDescription": "Filtere nach Erhaltungsgrad, Authentizitätsstatus, Herkunftsnachweis, Restaurierungsumfang und dem Entstehungszeitraum des Objekts.",
-        "shopDescription": "Wähle gezielt Anbietertypen – renommierte Auktionshäuser, spezialisierte Kunsthändler oder Marktplätze – und schließe einzelne Häuser ein oder aus.",
-        "dateDescription": "Grenze die Suche zeitlich ein – nach Auktionstermin, Datum der Erstveröffentlichung oder der letzten Aktualisierung des Inserats."
+        "confirmDescription": "Überprüfen Sie Ihre konfigurierten Suchkriterien und speichern Sie den Auftrag. Sie werden umgehend benachrichtigt, sobald ein passendes Objekt auf dem Markt erscheint.",
+        "priceStatusDescription": "Definieren Sie Ihren Preisrahmen und wählen Sie den gewünschten Anzeigenstatus – etwa ausschließlich verfügbare Objekte oder auch bereits versteigerte Stücke zur Marktrecherche.",
+        "themeDescription": "Präzisieren Sie Ihre Suche nach Sammelgebiet (z. B. Alte Meister, Möbel, Silber) und kunsthistorischer Epoche (z. B. Renaissance, Rokoko, Biedermeier).",
+        "qualityDescription": "Filtern Sie nach Erhaltungsgrad, Authentizitätsstatus, Herkunftsnachweis, Restaurierungsumfang und dem Entstehungszeitraum des Objekts.",
+        "shopDescription": "Wählen Sie gezielt Anbietertypen – renommierte Auktionshäuser, spezialisierte Kunsthändler oder Marktplätze – und schließen Sie einzelne Häuser ein oder aus.",
+        "dateDescription": "Grenzen Sie die Suche zeitlich ein – nach Auktionstermin, Datum der Erstveröffentlichung oder der letzten Aktualisierung des Inserats."
       },
-      "subtitle": "Konfiguriere deinen persönlichen Suchauftrag Schritt für Schritt.",
+      "subtitle": "Konfigurieren Sie Ihren persönlichen Suchauftrag Schritt für Schritt.",
       "configuredFilters": "Konfigurierte Filter",
       "titleEdit": "Suchauftrag bearbeiten",
       "titleDuplicate": "Suchauftrag duplizieren"
@@ -1352,7 +1352,7 @@
     "cardLabel": "Suchauftrag",
     "hiddenMatch": {
       "title": "Verborgen",
-      "description": "Dieses Match überschreitet dein monatliches Kontingent und ist ausgeblendet. Upgrade dein Konto, um alle Treffer zu sehen.",
+      "description": "Dieses Match überschreitet Ihr monatliches Kontingent und ist ausgeblendet. Upgraden Sie Ihr Konto, um alle Treffer zu sehen.",
       "upgradeButton": "Jetzt upgraden"
     },
     "feedback": {
