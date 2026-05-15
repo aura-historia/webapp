@@ -13,14 +13,10 @@ import { ProductSharer } from "@/components/product/detail/ProductSharer.tsx";
 import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
 import { ProductPriceEstimate } from "@/components/product/detail/ProductPriceEstimate.tsx";
-import { ProductQualityIndicators } from "@/components/product/detail/quality-indicator/ProductQualityIndicators.tsx";
-import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Condition.ts";
 import { H1 } from "@/components/typography/H1.tsx";
 
 export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();
-    const conditionReportHeading = t("product.conditionReportTitle");
-    const conditionReportText = t(CONDITION_TRANSLATION_CONFIG[product.condition].descriptionKey);
     const isWatching = product.userData?.watchlistData.isWatching ?? false;
 
     return (
@@ -125,22 +121,6 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                             showIcon={false}
                         />
                     </div>
-
-                    <div className="mt-8">
-                        <ProductQualityIndicators product={product} />
-                    </div>
-                </div>
-            </section>
-
-            <section className="grid grid-cols-1 gap-8 border-y border-border/30 pt-8 pb-16 lg:grid-cols-12 lg:gap-12">
-                <div className="lg:col-span-4">
-                    <h2 className="font-display text-2xl uppercase tracking-[-0.02em] text-primary">
-                        {conditionReportHeading}
-                    </h2>
-                    <span className="mt-4 block h-0.5 w-12 bg-primary" />
-                </div>
-                <div className="lg:col-span-8">
-                    <p className="text-sm leading-6 text-muted-foreground">{conditionReportText}</p>
                 </div>
             </section>
         </>

@@ -45,8 +45,6 @@ export function useCombinationProducts(
                     size: PAGE_SIZE,
                     sort: "updated",
                     order: "desc",
-                    categoryId: [categoryId],
-                    periodId: [periodId],
                 },
             });
 

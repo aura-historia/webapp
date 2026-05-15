@@ -3,10 +3,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
 
-const mockGetSearchFilterMatchedProducts = vi.hoisted(() => vi.fn());
+const mockGetSearchFilterMatches = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn(() => "Fehler"));
 
-vi.mock("@/client", () => ({ getSearchFilterMatchedProducts: mockGetSearchFilterMatchedProducts }));
+vi.mock("@/client", () => ({ getSearchFilterMatches: mockGetSearchFilterMatches }));
 vi.mock("@/hooks/common/useApiError", () => ({
     useApiError: () => ({ getErrorMessage: mockGetErrorMessage }),
 }));
@@ -65,7 +65,7 @@ describe("useSearchFilterMatchedProducts", () => {
     });
 
     it("fetches matched products and returns first page", async () => {
-        mockGetSearchFilterMatchedProducts.mockResolvedValue({ data: mockPageData, error: null });
+        mockGetSearchFilterMatches.mockResolvedValue({ data: mockPageData, error: null });
 
         const { result } = renderHook(() => useSearchFilterMatchedProducts("filter-1"), {
             wrapper: createWrapper(),
@@ -78,15 +78,15 @@ describe("useSearchFilterMatchedProducts", () => {
     });
 
     it("calls API with correct path and query params", async () => {
-        mockGetSearchFilterMatchedProducts.mockResolvedValue({ data: mockPageData, error: null });
+        mockGetSearchFilterMatches.mockResolvedValue({ data: mockPageData, error: null });
 
         renderHook(() => useSearchFilterMatchedProducts("filter-abc"), {
             wrapper: createWrapper(),
         });
 
-        await waitFor(() => expect(mockGetSearchFilterMatchedProducts).toHaveBeenCalled());
+        await waitFor(() => expect(mockGetSearchFilterMatches).toHaveBeenCalled());
 
-        expect(mockGetSearchFilterMatchedProducts).toHaveBeenCalledWith(
+        expect(mockGetSearchFilterMatches).toHaveBeenCalledWith(
             expect.objectContaining({
                 path: { userSearchFilterId: "filter-abc" },
                 query: expect.objectContaining({ sort: "created", order: "desc", size: 20 }),
@@ -100,11 +100,11 @@ describe("useSearchFilterMatchedProducts", () => {
         });
 
         expect(result.current.fetchStatus).toBe("idle");
-        expect(mockGetSearchFilterMatchedProducts).not.toHaveBeenCalled();
+        expect(mockGetSearchFilterMatches).not.toHaveBeenCalled();
     });
 
     it("sets isError when API returns error", async () => {
-        mockGetSearchFilterMatchedProducts.mockResolvedValue({
+        mockGetSearchFilterMatches.mockResolvedValue({
             data: null,
             error: { status: 403 },
         });
@@ -117,7 +117,7 @@ describe("useSearchFilterMatchedProducts", () => {
     });
 
     it("returns undefined nextPageParam when searchAfter is null", async () => {
-        mockGetSearchFilterMatchedProducts.mockResolvedValue({ data: mockPageData, error: null });
+        mockGetSearchFilterMatches.mockResolvedValue({ data: mockPageData, error: null });
 
         const { result } = renderHook(() => useSearchFilterMatchedProducts("filter-1"), {
             wrapper: createWrapper(),

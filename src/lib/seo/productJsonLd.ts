@@ -19,7 +19,6 @@ type ProductJsonLd = {
             name: string;
         };
     };
-    category?: string;
     dateCreated?: string;
     dateModified?: string;
 };
@@ -76,9 +75,6 @@ export function generateProductJsonLd(apiData: PersonalizedGetProductData): Prod
             },
         };
     }
-
-    // Add category for antiques
-    jsonLd.category = "Antiques";
 
     return jsonLd;
 }

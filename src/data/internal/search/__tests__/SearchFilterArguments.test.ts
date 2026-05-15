@@ -25,22 +25,6 @@ describe("hasActiveFilters", () => {
         expect(hasActiveFilters({ q: "", shopType: ["AUCTION_HOUSE"] })).toBe(true);
     });
 
-    it("returns true when periodId has entries", () => {
-        expect(hasActiveFilters({ q: "", periodId: ["baroque"] })).toBe(true);
-    });
-
-    it("returns true when categoryId has entries", () => {
-        expect(hasActiveFilters({ q: "", categoryId: ["cat-1"] })).toBe(true);
-    });
-
-    it("returns false when categoryId is empty array", () => {
-        expect(hasActiveFilters({ q: "", categoryId: [] })).toBe(false);
-    });
-
-    it("returns true when originYearMin is set", () => {
-        expect(hasActiveFilters({ q: "", originYearMin: 1800 })).toBe(true);
-    });
-
     it("returns true for advanced filter (merchant)", () => {
         expect(hasActiveFilters({ q: "", merchant: ["Shop A"] })).toBe(true);
     });
@@ -57,22 +41,6 @@ describe("hasAdvancedFilterDetails", () => {
 
     it("returns true when excludeMerchant is set", () => {
         expect(hasAdvancedFilterDetails({ q: "", excludeMerchant: ["Shop B"] })).toBe(true);
-    });
-
-    it("returns true when authenticity is set", () => {
-        expect(hasAdvancedFilterDetails({ q: "", authenticity: ["ORIGINAL"] })).toBe(true);
-    });
-
-    it("returns true when condition is set", () => {
-        expect(hasAdvancedFilterDetails({ q: "", condition: ["EXCELLENT"] })).toBe(true);
-    });
-
-    it("returns true when provenance is set", () => {
-        expect(hasAdvancedFilterDetails({ q: "", provenance: ["COMPLETE"] })).toBe(true);
-    });
-
-    it("returns true when restoration is set", () => {
-        expect(hasAdvancedFilterDetails({ q: "", restoration: ["NONE"] })).toBe(true);
     });
 
     it("returns true when creationDateFrom is set", () => {

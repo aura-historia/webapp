@@ -219,76 +219,6 @@ describe("validateSearchParams", () => {
         });
     });
 
-    describe("periodId parameter", () => {
-        it("should parse valid period IDs array", () => {
-            const result = validateSearchParams({
-                q: "test",
-                periodId: ["renaissance", "baroque"],
-            } as RawSearchParams);
-            expect(result.periodId).toEqual(["renaissance", "baroque"]);
-        });
-
-        it("should deduplicate period IDs", () => {
-            const result = validateSearchParams({
-                q: "test",
-                periodId: ["renaissance", "renaissance", "baroque"],
-            } as RawSearchParams);
-            expect(result.periodId).toEqual(["renaissance", "baroque"]);
-        });
-
-        it("should filter out empty strings", () => {
-            const result = validateSearchParams({
-                q: "test",
-                periodId: ["renaissance", "", "baroque"],
-            } as RawSearchParams);
-            expect(result.periodId).toEqual(["renaissance", "baroque"]);
-        });
-
-        it("should filter out non-string values", () => {
-            const result = validateSearchParams({
-                q: "test",
-                periodId: ["renaissance", 123, null, "baroque"],
-            } as unknown as RawSearchParams);
-            expect(result.periodId).toEqual(["renaissance", "baroque"]);
-        });
-
-        it("should return undefined when periodId is not an array", () => {
-            const result = validateSearchParams({
-                q: "test",
-                periodId: "renaissance",
-            } as unknown as RawSearchParams);
-            expect(result.periodId).toBeUndefined();
-        });
-
-        it("should return undefined when periodId is undefined", () => {
-            const result = validateSearchParams({ q: "test" } as RawSearchParams);
-            expect(result.periodId).toBeUndefined();
-        });
-    });
-
-    describe("categoryId parameter", () => {
-        it("should parse valid categoryId array", () => {
-            const result = validateSearchParams({
-                q: "test",
-                categoryId: ["cat-1", "cat-2"],
-            } as RawSearchParams);
-            expect(result.categoryId).toEqual(["cat-1", "cat-2"]);
-        });
-
-        it("should deduplicate categoryId values", () => {
-            const result = validateSearchParams({
-                q: "test",
-                categoryId: ["cat-1", "cat-1", "cat-2"],
-            } as RawSearchParams);
-            expect(result.categoryId).toEqual(["cat-1", "cat-2"]);
-        });
-
-        it("should return undefined when categoryId is undefined", () => {
-            const result = validateSearchParams({ q: "test" } as RawSearchParams);
-            expect(result.categoryId).toBeUndefined();
-        });
-    });
-
     describe("sort parameters", () => {
         it("should parse valid sortField", () => {
             const result = validateSearchParams({
@@ -378,22 +308,19 @@ describe("validateSearchParams", () => {
     });
 
     describe("default filters for initial search", () => {
-        it("should apply default allowedStates and authenticity when not provided in URL", () => {
+        it("should apply default allowedStates when not provided in URL", () => {
             const result = validateSearchParams({ q: "vase" } as RawSearchParams);
 
             expect(result.allowedStates).toEqual(FILTER_DEFAULTS.productState);
-            expect(result.authenticity).toEqual(FILTER_DEFAULTS.authenticity);
         });
 
-        it("should not override explicitly provided allowedStates or authenticity", () => {
+        it("should not override explicitly provided allowedStates", () => {
             const result = validateSearchParams({
                 q: "vase",
                 allowedStates: ["SOLD"],
-                authenticity: ["REPRODUCTION"],
             } as RawSearchParams);
 
             expect(result.allowedStates).toEqual(["SOLD"]);
-            expect(result.authenticity).toEqual(["REPRODUCTION"]);
         });
     });
 });
@@ -496,8 +423,6 @@ describe("serializeSearchParams", () => {
                 merchant: ["Shop A", "Shop B"],
                 excludeMerchant: ["Excluded Shop"],
                 shopType: ["AUCTION_HOUSE"],
-                authenticity: ["ORIGINAL"],
-                condition: ["EXCELLENT"],
             } as RawSearchParams);
 
             const serialized = serializeSearchParams(validated);
@@ -506,8 +431,6 @@ describe("serializeSearchParams", () => {
             expect(serialized.merchant).toEqual(["Shop A", "Shop B"]);
             expect(serialized.excludeMerchant).toEqual(["Excluded Shop"]);
             expect(serialized.shopType).toEqual(["AUCTION_HOUSE"]);
-            expect(serialized.authenticity).toEqual(["ORIGINAL"]);
-            expect(serialized.condition).toEqual(["EXCELLENT"]);
         });
     });
 
@@ -582,17 +505,6 @@ describe("serializeSearchParams", () => {
             expect(serialized.q).toBe("");
             expect(serialized.sortField).toBe("RELEVANCE");
             expect(serialized.sortOrder).toBe("DESC");
-        });
-
-        it("should preserve categoryId through serialize/validate roundtrip", () => {
-            const validated = validateSearchParams({
-                q: "test",
-                categoryId: ["cat-1", "cat-2"],
-            } as RawSearchParams);
-            const serialized = serializeSearchParams(validated);
-            const revalidated = validateSearchParams(serialized as RawSearchParams);
-
-            expect(revalidated.categoryId).toEqual(["cat-1", "cat-2"]);
         });
     });
 });

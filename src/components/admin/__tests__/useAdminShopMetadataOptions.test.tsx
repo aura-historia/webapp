@@ -1,17 +1,6 @@
 import { renderHook } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { useAdminShopMetadataOptions } from "../useAdminShopMetadataOptions.ts";
-
-const mockUseQuery = vi.hoisted(() => vi.fn());
-
-vi.mock("@tanstack/react-query", () => ({
-    useQuery: mockUseQuery,
-}));
-
-vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
-    getCategoriesOptions: () => ({ queryKey: ["getCategories"] }),
-    getPeriodsOptions: () => ({ queryKey: ["getPeriods"] }),
-}));
 
 vi.mock("react-i18next", () => ({
     useTranslation: () => ({
@@ -23,40 +12,9 @@ vi.mock("react-i18next", () => ({
 }));
 
 describe("useAdminShopMetadataOptions", () => {
-    beforeEach(() => {
-        vi.clearAllMocks();
-        mockUseQuery
-            .mockReturnValueOnce({
-                data: [
-                    {
-                        categoryId: "furniture",
-                        name: { text: "Furniture", language: "en" },
-                    },
-                ],
-                isPending: false,
-            })
-            .mockReturnValueOnce({
-                data: [
-                    {
-                        periodId: "baroque",
-                        name: { text: "Baroque", language: "en" },
-                    },
-                ],
-                isPending: false,
-            });
-    });
-
-    it("uses readable labels for category, period, and country options", () => {
+    it("returns readable country options", () => {
         const { result } = renderHook(() => useAdminShopMetadataOptions());
 
-        expect(result.current.categoryOptions).toContainEqual({
-            value: "furniture",
-            label: "Furniture",
-        });
-        expect(result.current.periodOptions).toContainEqual({
-            value: "baroque",
-            label: "Baroque",
-        });
         expect(result.current.countryOptions).toContainEqual({
             value: "DE",
             label: "Germany",

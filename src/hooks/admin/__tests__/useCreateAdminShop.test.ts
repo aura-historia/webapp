@@ -157,8 +157,7 @@ describe("useCreateAdminShop", () => {
             },
             phone: "+49 30 123456",
             email: "info@metadata.example.com",
-            specialitiesCategories: ["furniture"],
-            specialitiesPeriods: ["baroque"],
+
             created: "2026-04-25T00:00:00Z",
             updated: "2026-04-25T00:00:00Z",
         };
@@ -186,8 +185,6 @@ describe("useCreateAdminShop", () => {
                 },
                 phone: "+49 30 123456",
                 email: "info@metadata.example.com",
-                specialitiesCategories: ["furniture"],
-                specialitiesPeriods: ["baroque"],
             });
         });
 
@@ -207,8 +204,6 @@ describe("useCreateAdminShop", () => {
                 },
                 phone: "+49 30 123456",
                 email: "info@metadata.example.com",
-                specialitiesCategories: ["furniture"],
-                specialitiesPeriods: ["baroque"],
             },
         });
     });

@@ -97,8 +97,6 @@ describe("useCombinationProducts", () => {
             query: expect.objectContaining({
                 language: "de",
                 currency: "EUR",
-                categoryId: ["furniture"],
-                periodId: ["biedermeier"],
                 size: 20,
                 sort: "updated",
                 order: "desc",

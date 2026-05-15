@@ -100,7 +100,6 @@ describe("useCategoryProducts", () => {
                 size: 20,
                 sort: "updated",
                 order: "desc",
-                categoryId: ["ancient-pottery"],
             }),
         });
     });

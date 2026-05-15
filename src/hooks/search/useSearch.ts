@@ -14,10 +14,6 @@ import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { mapToBackendAuthenticity } from "@/data/internal/quality-indicators/Authenticity.ts";
-import { mapToBackendCondition } from "@/data/internal/quality-indicators/Condition.ts";
-import { mapToBackendProvenance } from "@/data/internal/quality-indicators/Provenance.ts";
-import { mapToBackendRestoration } from "@/data/internal/quality-indicators/Restoration.ts";
 import { mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
 import { env } from "@/env.ts";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
@@ -28,14 +24,7 @@ const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 const EMPTY_RESULT: SearchResultData = { products: [], size: 0, total: 0, searchAfter: undefined };
 
 function hasEmptyArrayFilter(args: SearchFilterArguments): boolean {
-    return (
-        args.allowedStates?.length === 0 ||
-        args.shopType?.length === 0 ||
-        args.authenticity?.length === 0 ||
-        args.condition?.length === 0 ||
-        args.provenance?.length === 0 ||
-        args.restoration?.length === 0
-    );
+    return args.allowedStates?.length === 0 || args.shopType?.length === 0;
 }
 /**
  * Builds filter query parameters from search arguments.
@@ -92,37 +81,6 @@ function buildFilterQuery(
             .map((type) => mapToBackendShopType(type))
             .filter((t) => t !== undefined);
         if (mapped.length > 0) filters.shopType = mapped;
-    }
-
-    if (searchArgs.periodId && searchArgs.periodId.length > 0) {
-        filters.periodId = searchArgs.periodId;
-    }
-
-    if (searchArgs.categoryId && searchArgs.categoryId.length > 0) {
-        filters.categoryId = searchArgs.categoryId;
-    }
-
-    if (searchArgs.originYearMin != null || searchArgs.originYearMax != null) {
-        filters.originYear = {
-            min: searchArgs.originYearMin,
-            max: searchArgs.originYearMax,
-        };
-    }
-
-    if (searchArgs.authenticity && searchArgs.authenticity.length > 0) {
-        filters.authenticity = searchArgs.authenticity.map((a) => mapToBackendAuthenticity(a));
-    }
-
-    if (searchArgs.condition && searchArgs.condition.length > 0) {
-        filters.condition = searchArgs.condition.map((c) => mapToBackendCondition(c));
-    }
-
-    if (searchArgs.provenance && searchArgs.provenance.length > 0) {
-        filters.provenance = searchArgs.provenance.map((p) => mapToBackendProvenance(p));
-    }
-
-    if (searchArgs.restoration && searchArgs.restoration.length > 0) {
-        filters.restoration = searchArgs.restoration.map((r) => mapToBackendRestoration(r));
     }
 
     return filters;

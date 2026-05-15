@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminGetPartnerApplicationData, AdminGetPartnerApplicationErrors, AdminGetPartnerApplicationResponses, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsErrors, AdminGetPartnerApplicationsResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationErrors, AdminPatchPartnerApplicationResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionErrors, AdminPostPartnerApplicationDecisionResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAllNotificationsData, DeleteAllNotificationsErrors, DeleteAllNotificationsResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeletePartnerApplicationData, DeletePartnerApplicationErrors, DeletePartnerApplicationResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetNotificationsData, GetNotificationsErrors, GetNotificationsResponses, GetPartnerApplicationData, GetPartnerApplicationErrors, GetPartnerApplicationResponses, GetPartnerApplicationsData, GetPartnerApplicationsErrors, GetPartnerApplicationsResponses, GetPartnerShopsData, GetPartnerShopsErrors, GetPartnerShopsResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsErrors, GetSearchFilterMatchedProductsResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchAllNotificationsData, PatchAllNotificationsErrors, PatchAllNotificationsResponses, PatchNotificationData2, PatchNotificationErrors, PatchNotificationResponses, PatchPartnerApplicationData, PatchPartnerApplicationErrors, PatchPartnerApplicationResponses, PatchPartnerProductsData, PatchPartnerProductsErrors, PatchPartnerProductsResponses, PatchShopByIdData, PatchShopByIdErrors, PatchShopByIdResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostPartnerApplicationData, PostPartnerApplicationErrors, PostPartnerApplicationResponses, PostPartnerProductsData, PostPartnerProductsErrors, PostPartnerProductsResponses, PostShopData2, PostShopErrors, PostShopResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductsData, PutPartnerProductsErrors, PutPartnerProductsResponses, PutShopApiKeyData, PutShopApiKeyErrors, PutShopApiKeyResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateSearchFilterProductMatchFeedbackData, UpdateSearchFilterProductMatchFeedbackErrors, UpdateSearchFilterProductMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminGetPartnerApplicationData, AdminGetPartnerApplicationErrors, AdminGetPartnerApplicationResponses, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsErrors, AdminGetPartnerApplicationsResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationErrors, AdminPatchPartnerApplicationResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionErrors, AdminPostPartnerApplicationDecisionResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAllNotificationsData, DeleteAllNotificationsErrors, DeleteAllNotificationsResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeletePartnerApplicationData, DeletePartnerApplicationErrors, DeletePartnerApplicationResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetNotificationsData, GetNotificationsErrors, GetNotificationsResponses, GetPartnerApplicationData, GetPartnerApplicationErrors, GetPartnerApplicationResponses, GetPartnerApplicationsData, GetPartnerApplicationsErrors, GetPartnerApplicationsResponses, GetPartnerShopsData, GetPartnerShopsErrors, GetPartnerShopsResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetSearchFilterLiveProductsData, GetSearchFilterLiveProductsErrors, GetSearchFilterLiveProductsResponses, GetSearchFilterMatchesData, GetSearchFilterMatchesErrors, GetSearchFilterMatchesResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, PatchAllNotificationsData, PatchAllNotificationsErrors, PatchAllNotificationsResponses, PatchNotificationData2, PatchNotificationErrors, PatchNotificationResponses, PatchPartnerApplicationData, PatchPartnerApplicationErrors, PatchPartnerApplicationResponses, PatchPartnerProductsData, PatchPartnerProductsErrors, PatchPartnerProductsResponses, PatchShopByIdData, PatchShopByIdErrors, PatchShopByIdResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostPartnerApplicationData, PostPartnerApplicationErrors, PostPartnerApplicationResponses, PostPartnerProductsData, PostPartnerProductsErrors, PostPartnerProductsResponses, PostShopData2, PostShopErrors, PostShopResponses, PostWoocommerceWebhookData, PostWoocommerceWebhookErrors, PostWoocommerceWebhookResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductsData, PutPartnerProductsErrors, PutPartnerProductsResponses, PutShopApiKeyData, PutShopApiKeyErrors, PutShopApiKeyResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackErrors, UpdateSearchFilterMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -86,13 +86,39 @@ export const postPartnerProducts = <ThrowOnError extends boolean = false>(option
  *
  * An empty `errors` map in the response indicates all products were upserted successfully.
  *
- * All fields except `shopsProductId` are optional. The `authenticity`, `condition`,
- * `provenance`, and `restoration` fields each default to `UNKNOWN` when omitted.
- *
  */
 export const putPartnerProducts = <ThrowOnError extends boolean = false>(options: Options<PutPartnerProductsData, ThrowOnError>) => (options.client ?? client).put<PutPartnerProductsResponses, PutPartnerProductsErrors, ThrowOnError>({
     security: [{ name: 'x-api-key', type: 'apiKey' }],
     url: '/api/v1/shops/{shopId}/products',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Ingest a WooCommerce product webhook (Partner API)
+ *
+ * Accepts a single WooCommerce product webhook event for a partner shop using API key authentication.
+ * This endpoint is intended for partner shops and does **not** use Cognito JWT authentication.
+ *
+ * The caller must provide:
+ * - the partner shop API key in the `x-api-key` header,
+ * - the WooCommerce topic in `x-wc-webhook-topic`, and
+ * - the base64-encoded HMAC-SHA256 signature of the raw request body in `x-wc-webhook-signature`.
+ *
+ * Topic-specific payload requirements:
+ * - `product.created` and `product.updated` require `id`, `name`, and `permalink`
+ * - `product.deleted` requires only `id`
+ *
+ * The shop identified by `shopId` must have a stored `woocommerceWebhookSecret`.
+ * If a non-empty `price` is sent, the shop must also have `woocommerceCurrency` configured.
+ *
+ */
+export const postWoocommerceWebhook = <ThrowOnError extends boolean = false>(options: Options<PostWoocommerceWebhookData, ThrowOnError>) => (options.client ?? client).post<PostWoocommerceWebhookResponses, PostWoocommerceWebhookErrors, ThrowOnError>({
+    security: [{ name: 'x-api-key', type: 'apiKey' }],
+    url: '/api/v1/webhooks/woocommerce/{shopId}',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -186,8 +212,6 @@ export const getSimilarProducts = <ThrowOnError extends boolean = false>(options
  *
  * Additional optional filters from `ProductSearchData` are also supported as query parameters
  * using the same field names:
- * - `categoryId`
- * - `periodId`
  * - `shopName`
  * - `excludeShopName`
  * - `shopSlugId`
@@ -200,11 +224,6 @@ export const getSimilarProducts = <ThrowOnError extends boolean = false>(options
  * - `geoAddress[lat]`, `geoAddress[lon]`, `geoAddress[distance][amount]`, `geoAddress[distance][unit]`
  * - `price[min]`, `price[max]`
  * - `state`
- * - `originYear[min]`, `originYear[max]`
- * - `authenticity`
- * - `condition`
- * - `provenance`
- * - `restoration`
  * - `created[min]`, `created[max]`
  * - `updated[min]`, `updated[max]`
  * - `auctionStart[min]`, `auctionStart[max]`
@@ -263,7 +282,7 @@ export const getUserSearchFilters = <ThrowOnError extends boolean = false>(optio
  * Requires valid Cognito JWT authentication.
  *
  * The number of allowed search filters and the set of usable search filter fields depend on the user's tier:
- * - `FREE`: Up to 1 search filter. Only the following filter fields are allowed: `productQuery`, `categoryId`, `periodId`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+ * - `FREE`: Up to 1 search filter. Only the following filter fields are allowed: `productQuery`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
  * - `PRO`: Up to 5 search filters. All filter fields are allowed.
  * - `ULTIMATE`: Unlimited search filters. All filter fields are allowed.
  *
@@ -315,7 +334,7 @@ export const getUserSearchFilter = <ThrowOnError extends boolean = false>(option
  * Requires valid Cognito JWT authentication.
  *
  * The set of usable search filter fields depends on the user's tier:
- * - `FREE`: Only the following filter fields are allowed: `productQuery`, `categoryId`, `periodId`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+ * - `FREE`: Only the following filter fields are allowed: `productQuery`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
  * - `PRO`: All filter fields are allowed.
  * - `ULTIMATE`: All filter fields are allowed.
  *
@@ -331,22 +350,53 @@ export const updateUserSearchFilter = <ThrowOnError extends boolean = false>(opt
 });
 
 /**
- * List products matched by a search filter
+ * Run a live product search for a saved search filter
  *
- * Retrieves all products that have been matched by the given search filter for the authenticated user.
- * Results are paginated using search-after cursor-based pagination sorted by match creation time.
- * Mirrors the behavior of `GET /api/v1/me/watchlist`.
+ * Runs a live product search for the authenticated user's saved search filter using the filter's stored
+ * search criteria. The request only controls response localization (`language`, `currency`) and the
+ * maximum number of returned products.
+ *
+ * The backend rejects client-provided `searchAfter` pagination cursors for this endpoint and caps the
+ * response size at 10 products.
+ *
+ * When the saved search filter contains an `enhancedSearchDescription` and enhanced matching is available,
+ * the backend re-evaluates each returned product for this specific filter and overwrites
+ * `userState.searchFilter` with the live result:
+ * - `matched`
+ * - `hidden` (always `false` in this flow)
+ * - optional `matchReason`
+ *
+ * In that enhanced flow, `userSearchFilterId`, `userSearchFilterName`, and `matchFeedback` are omitted
+ * from `userState.searchFilter`.
+ *
+ * Without an enhanced description, the endpoint behaves like the normal personalized product search and
+ * returns the shared product-search user state unchanged.
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getSearchFilterMatchedProducts = <ThrowOnError extends boolean = false>(options: Options<GetSearchFilterMatchedProductsData, ThrowOnError>) => (options.client ?? client).get<GetSearchFilterMatchedProductsResponses, GetSearchFilterMatchedProductsErrors, ThrowOnError>({
+export const getSearchFilterLiveProducts = <ThrowOnError extends boolean = false>(options: Options<GetSearchFilterLiveProductsData, ThrowOnError>) => (options.client ?? client).get<GetSearchFilterLiveProductsResponses, GetSearchFilterLiveProductsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/me/search-filters/{userSearchFilterId}/products',
     ...options
 });
 
 /**
- * Update feedback for a search-filter product match
+ * List products matched by a search filter
+ *
+ * Retrieves the persisted matched-product list for the given saved search filter and authenticated user.
+ * Results are paginated using search-after cursor-based pagination sorted by match creation time.
+ * Mirrors the behavior of `GET /api/v1/me/watchlist`.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getSearchFilterMatches = <ThrowOnError extends boolean = false>(options: Options<GetSearchFilterMatchesData, ThrowOnError>) => (options.client ?? client).get<GetSearchFilterMatchesResponses, GetSearchFilterMatchesErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/me/search-filters/{userSearchFilterId}/matches',
+    ...options
+});
+
+/**
+ * Update feedback for a search-filter match
  *
  * Updates the authenticated user's feedback for a specific product match created by one of
  * their saved search filters.
@@ -359,9 +409,9 @@ export const getSearchFilterMatchedProducts = <ThrowOnError extends boolean = fa
  * - `{}` performs a no-op update and returns the existing stored match unchanged.
  *
  */
-export const updateSearchFilterProductMatchFeedback = <ThrowOnError extends boolean = false>(options: Options<UpdateSearchFilterProductMatchFeedbackData, ThrowOnError>) => (options.client ?? client).patch<UpdateSearchFilterProductMatchFeedbackResponses, UpdateSearchFilterProductMatchFeedbackErrors, ThrowOnError>({
+export const updateSearchFilterMatchFeedback = <ThrowOnError extends boolean = false>(options: Options<UpdateSearchFilterMatchFeedbackData, ThrowOnError>) => (options.client ?? client).patch<UpdateSearchFilterMatchFeedbackResponses, UpdateSearchFilterMatchFeedbackErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/api/v1/me/search-filters/{userSearchFilterId}/products/{shopId}/{shopsProductId}',
+    url: '/api/v1/me/search-filters/{userSearchFilterId}/matches/{shopId}/{shopsProductId}',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -724,8 +774,6 @@ export const putNewsletterSubscription = <ThrowOnError extends boolean = false>(
  * - `shopNameQuery`
  * - `shopType`
  * - `partnerStatus`
- * - `specialitiesCategories`
- * - `specialitiesPeriods`
  * - `countries`
  * - `continents`
  * - `created[min]`, `created[max]`
@@ -769,9 +817,9 @@ export const getShopById = <ThrowOnError extends boolean = false>(options: Optio
  *
  * Updates mutable shop metadata for the specified shop.
  *
- * Requires a valid Cognito JWT. The caller must either:
- * - be the partner user assigned to the shop, or
- * - have the `ADMIN` role.
+ * Requires either:
+ * - a valid Cognito JWT for the partner user assigned to the shop or for an `ADMIN`, or
+ * - the partner shop's `x-api-key` when no Cognito identity is present.
  *
  * The request body uses `PatchShopData`. Only fields present in the JSON body are applied;
  * omitted or `null` fields are left unchanged. The HTTP request body itself must not be absent
@@ -779,7 +827,7 @@ export const getShopById = <ThrowOnError extends boolean = false>(options: Optio
  *
  */
 export const patchShopById = <ThrowOnError extends boolean = false>(options: Options<PatchShopByIdData, ThrowOnError>) => (options.client ?? client).patch<PatchShopByIdResponses, PatchShopByIdErrors, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
+    security: [{ scheme: 'bearer', type: 'http' }, { name: 'x-api-key', type: 'apiKey' }],
     url: '/api/v1/shops/{shopId}',
     ...options,
     headers: {
@@ -825,7 +873,7 @@ export const getShopBySlug = <ThrowOnError extends boolean = false>(options: Opt
  * Performs an advanced search for shops using comprehensive filtering criteria.
  * This endpoint accepts a ShopSearchData object in the request body,
  * allowing for complex filtering by shop name, shop type, partner status,
- * speciality categories, speciality periods, countries, continents, and creation/update date ranges.
+ * countries, continents, and creation/update date ranges.
  * Returns a paginated collection of shops matching the search criteria.
  *
  */
@@ -841,6 +889,8 @@ export const searchShops = <ThrowOnError extends boolean = false>(options: Optio
 /**
  * Get all categories or simple-search categories
  *
+ * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
+ *
  * Retrieves all product categories with localized names when no query parameters are supplied.
  * When query parameters are present, this endpoint performs simple category search and behaves
  * like `POST /api/v1/categories/search` using query-string input instead of a JSON body.
@@ -850,24 +900,34 @@ export const searchShops = <ThrowOnError extends boolean = false>(options: Optio
  * - `nameQuery` (optional)
  * - `sort` and `order` (optional)
  *
+ *
+ * @deprecated
  */
 export const getCategories = <ThrowOnError extends boolean = false>(options?: Options<GetCategoriesData, ThrowOnError>) => (options?.client ?? client).get<GetCategoriesResponses, GetCategoriesErrors, ThrowOnError>({ url: '/api/v1/categories', ...options });
 
 /**
  * Get category details by ID
  *
+ * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
+ *
  * Retrieves detailed category information by its kebab-case category ID.
  * Localization is based on the optional `language` query parameter (defaults to `en`).
  *
+ *
+ * @deprecated
  */
 export const getCategoryById = <ThrowOnError extends boolean = false>(options: Options<GetCategoryByIdData, ThrowOnError>) => (options.client ?? client).get<GetCategoryByIdResponses, GetCategoryByIdErrors, ThrowOnError>({ url: '/api/v1/categories/{categoryId}', ...options });
 
 /**
  * Search categories
  *
+ * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
+ *
  * Searches categories using a localized name query.
  * Provide an optional language and optionally a nameQuery to filter results.
  *
+ *
+ * @deprecated
  */
 export const searchCategories = <ThrowOnError extends boolean = false>(options: Options<SearchCategoriesData, ThrowOnError>) => (options.client ?? client).post<SearchCategoriesResponses, SearchCategoriesErrors, ThrowOnError>({
     url: '/api/v1/categories/search',
@@ -881,6 +941,8 @@ export const searchCategories = <ThrowOnError extends boolean = false>(options: 
 /**
  * Get all periods or simple-search periods
  *
+ * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
+ *
  * Retrieves all product periods with localized names when no query parameters are supplied.
  * When query parameters are present, this endpoint performs simple period search and behaves
  * like `POST /api/v1/periods/search` using query-string input instead of a JSON body.
@@ -890,24 +952,34 @@ export const searchCategories = <ThrowOnError extends boolean = false>(options: 
  * - `nameQuery` (optional)
  * - `sort` and `order` (optional)
  *
+ *
+ * @deprecated
  */
 export const getPeriods = <ThrowOnError extends boolean = false>(options?: Options<GetPeriodsData, ThrowOnError>) => (options?.client ?? client).get<GetPeriodsResponses, GetPeriodsErrors, ThrowOnError>({ url: '/api/v1/periods', ...options });
 
 /**
  * Get period details by ID
  *
+ * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
+ *
  * Retrieves detailed period information by its kebab-case period ID.
  * Localization is based on the optional `language` query parameter (defaults to `en`).
  *
+ *
+ * @deprecated
  */
 export const getPeriodById = <ThrowOnError extends boolean = false>(options: Options<GetPeriodByIdData, ThrowOnError>) => (options.client ?? client).get<GetPeriodByIdResponses, GetPeriodByIdErrors, ThrowOnError>({ url: '/api/v1/periods/{periodId}', ...options });
 
 /**
  * Search periods
  *
+ * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
+ *
  * Searches periods using a localized name query.
  * Provide an optional language and optionally a nameQuery to filter results.
  *
+ *
+ * @deprecated
  */
 export const searchPeriods = <ThrowOnError extends boolean = false>(options: Options<SearchPeriodsData, ThrowOnError>) => (options.client ?? client).post<SearchPeriodsResponses, SearchPeriodsErrors, ThrowOnError>({
     url: '/api/v1/periods/search',

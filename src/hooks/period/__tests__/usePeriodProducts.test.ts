@@ -100,7 +100,6 @@ describe("usePeriodProducts", () => {
                 size: 20,
                 sort: "updated",
                 order: "desc",
-                periodId: ["renaissance"],
             }),
         });
     });

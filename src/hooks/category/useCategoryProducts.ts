@@ -38,7 +38,6 @@ export function useCategoryProducts(
                     size: PAGE_SIZE,
                     sort: "updated",
                     order: "desc",
-                    categoryId: [categoryId],
                 },
             });
 

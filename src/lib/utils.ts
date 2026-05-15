@@ -10,10 +10,6 @@ import {
 } from "@/lib/eventFilters.ts";
 import type { ProductState } from "@/data/internal/product/ProductState.ts";
 import type { TFunction } from "i18next";
-import type { Authenticity } from "@/data/internal/quality-indicators/Authenticity.ts";
-import type { Condition } from "@/data/internal/quality-indicators/Condition.ts";
-import type { Provenance } from "@/data/internal/quality-indicators/Provenance.ts";
-import type { Restoration } from "@/data/internal/quality-indicators/Restoration.ts";
 import type { ShopType } from "@/data/internal/shop/ShopType.ts";
 import { CURRENCY_SYMBOLS, type Currency } from "@/data/internal/common/Currency.ts";
 import type { CheckedState } from "@radix-ui/react-checkbox";
@@ -77,16 +73,6 @@ export type SearchFilterData = {
     merchant?: string[];
     excludeMerchant?: string[];
     shopType?: ShopType[];
-    periodId?: string[];
-    categoryId?: string[];
-    originYearSpan?: {
-        min?: number;
-        max?: number;
-    };
-    authenticity?: Authenticity[];
-    condition?: Condition[];
-    provenance?: Provenance[];
-    restoration?: Restoration[];
 };
 
 export type SearchUrlParams = {
@@ -103,14 +89,6 @@ export type SearchUrlParams = {
     merchant?: string[];
     excludeMerchant?: string[];
     shopType?: ShopType[];
-    periodId?: string[];
-    categoryId?: string[];
-    originYearMin?: number;
-    originYearMax?: number;
-    authenticity?: Authenticity[];
-    condition?: Condition[];
-    provenance?: Provenance[];
-    restoration?: Restoration[];
 };
 
 function mapDateRangeToParams(range?: { from?: Date; to?: Date }) {
@@ -142,14 +120,6 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
         merchant: data.merchant?.length ? data.merchant : undefined,
         excludeMerchant: data.excludeMerchant?.length ? data.excludeMerchant : undefined,
         shopType: data.shopType?.length ? data.shopType : undefined,
-        periodId: data.periodId?.length ? data.periodId : undefined,
-        categoryId: data.categoryId?.length ? data.categoryId : undefined,
-        originYearMin: data.originYearSpan?.min,
-        originYearMax: data.originYearSpan?.max,
-        authenticity: data.authenticity?.length ? data.authenticity : FILTER_DEFAULTS.authenticity,
-        condition: data.condition?.length ? data.condition : undefined,
-        provenance: data.provenance?.length ? data.provenance : undefined,
-        restoration: data.restoration?.length ? data.restoration : undefined,
     };
 }
 

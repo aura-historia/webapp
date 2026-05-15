@@ -22,8 +22,6 @@ export type AdminShopPatch = {
     readonly structuredAddress?: StructuredAddress | null;
     readonly phone?: string | null;
     readonly email?: string | null;
-    readonly specialitiesCategories?: string[] | null;
-    readonly specialitiesPeriods?: string[] | null;
 };
 
 function replaceUpdatedShopInPages(
@@ -72,13 +70,6 @@ export function usePatchAdminShop() {
             if (input.email !== undefined) {
                 body.email = input.email;
             }
-            if (input.specialitiesCategories !== undefined) {
-                body.specialitiesCategories = input.specialitiesCategories;
-            }
-            if (input.specialitiesPeriods !== undefined) {
-                body.specialitiesPeriods = input.specialitiesPeriods;
-            }
-
             const response = await patchShopById({
                 path: { shopId: input.shopId },
                 body,

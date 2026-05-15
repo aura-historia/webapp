@@ -44,7 +44,6 @@ export function usePeriodProducts(
                     size: PAGE_SIZE,
                     sort: "updated",
                     order: "desc",
-                    periodId: [periodId],
                 },
             });
 

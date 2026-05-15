@@ -264,20 +264,9 @@
         "excludeMerchant": "Reimposta filtro escludi commerciante",
         "merchants": "Reimposta filtri commercianti",
         "shopType": "Reimposta filtro tipo di negozio",
-        "periodId": "Reimposta filtro periodo",
-        "qualityIndicators": "Reimposta filtro indicatori di qualità",
         "partnerStatus": "Reimposta filtro stato di partnership",
-        "global": "Reimposta tutto",
-        "category": "Reimposta filtro categoria"
+        "global": "Reimposta tutto"
       },
-      "qualityIndicators": "Indicatori di qualità",
-      "periodId": "Periodo / Stile",
-      "searchPeriods": "Cerca periodi...",
-      "originYear": "Anno di origine",
-      "authenticity": "Autenticità",
-      "condition": "Condizione",
-      "provenance": "Provenienza",
-      "restoration": "Restauro",
       "selected": "{{count}} selezionati",
       "partnerStatus": "Stato di partnership"
     },
@@ -314,81 +303,12 @@
     "details": "Dettagli",
     "toMerchant": "Vai al commerciante",
     "noImage": "Nessuna immagine disponibile",
-    "conditionReportTitle": "Rapporto sullo stato",
     "watchlist": {
       "add": "Aggiungi alla lista di interesse",
       "remove": "Rimuovi dalla lista di interesse"
     },
     "imageLoadError": "Impossibile caricare l'immagine",
     "prohibitedImage": "Immagine nascosta per restrizioni sui contenuti",
-    "qualityIndicators": {
-      "title": "Indicatori di qualità",
-      "noData": "Nessuna informazione aggiuntiva disponibile",
-      "originYear": {
-        "label": "Anno di origine",
-        "range": "{{min}}–{{max}}",
-        "from": "dal {{year}}",
-        "until": "fino al {{year}}",
-        "unknown": "Sconosciuto",
-        "exactDescription": "Questo pezzo risale al {{year}}.",
-        "rangeDescription": "Questo pezzo è stato realizzato tra il {{min}} e il {{max}}.",
-        "fromDescription": "Questo pezzo è stato realizzato a partire dal {{year}}.",
-        "untilDescription": "Questo pezzo è stato realizzato fino al {{year}}.",
-        "unknownDescription": "L'anno di fabbricazione di questo pezzo è sconosciuto."
-      },
-      "authenticity": {
-        "label": "Autenticità",
-        "original": "Originale",
-        "originalDescription": "Un originale verificato del periodo indicato.",
-        "later_copy": "Copia successiva",
-        "later_copyDescription": "Una copia storica realizzata successivamente all'originale.",
-        "reproduction": "Riproduzione",
-        "reproductionDescription": "Una replica moderna senza valore storico.",
-        "questionable": "Dubbia",
-        "questionableDescription": "L'autenticità di questo pezzo è contestata o non può essere chiaramente confermata.",
-        "unknown": "Sconosciuta",
-        "unknownDescription": "L'autenticità non è stata ancora verificata."
-      },
-      "condition": {
-        "label": "Condizione",
-        "excellent": "Eccellente",
-        "excellentDescription": "Condizioni quasi perfette senza segni significativi di usura.",
-        "great": "Molto buono",
-        "greatDescription": "Molto ben conservato con solo lievi segni di invecchiamento.",
-        "good": "Buono",
-        "goodDescription": "Ben conservato con segni di usura visibili ma accettabili.",
-        "fair": "Discreto",
-        "fairDescription": "Segni di usura evidenti, ma ancora completo e stabile.",
-        "poor": "Scadente",
-        "poorDescription": "Danni significativi o forte usura.",
-        "unknown": "Sconosciuta",
-        "unknownDescription": "La condizione non è stata valutata."
-      },
-      "provenance": {
-        "label": "Provenienza",
-        "complete": "Completa",
-        "completeDescription": "La provenienza è completamente documentata dalla creazione ad oggi.",
-        "partial": "Parziale",
-        "partialDescription": "La provenienza è parzialmente documentata ma presenta lacune.",
-        "claimed": "Dichiarata",
-        "claimedDescription": "Il venditore dichiara una provenienza, ma non è supportata da documenti.",
-        "none": "Nessuna",
-        "noneDescription": "Non esiste alcuna documentazione sulla provenienza.",
-        "unknown": "Sconosciuta",
-        "unknownDescription": "La provenienza non è stata ancora determinata."
-      },
-      "restoration": {
-        "label": "Restauro",
-        "none": "Nessuno",
-        "noneDescription": "Nessun restauro effettuato, il pezzo è in condizioni originali.",
-        "minor": "Minore",
-        "minorDescription": "Lavori di restauro leggeri come pulizia o piccole riparazioni.",
-        "major": "Importante",
-        "majorDescription": "Restauro estensivo o ricostruzione parziale.",
-        "unknown": "Sconosciuto",
-        "unknownDescription": "Non sono disponibili informazioni sul restauro."
-      }
-    },
     "similar": {
       "title": "Articoli simili",
       "error": {
@@ -425,12 +345,7 @@
         "estimatePriceChanged": "Fascia di prezzo stimata aggiornata.",
         "urlChanged": "URL del prodotto aggiornato.",
         "imagesChanged": "Immagini aggiornate • {{count}} immagine/i.",
-        "auctionTimeChanged": "Periodo d'asta aggiornato.",
-        "originYearChanged": "Anno di origine aggiornato.",
-        "authenticityChanged": "Autenticità aggiornata • {{value}}.",
-        "conditionChanged": "Condizione aggiornata • {{value}}.",
-        "provenanceChanged": "Provenienza aggiornata • {{value}}.",
-        "restorationChanged": "Restauro aggiornato • {{value}}."
+        "auctionTimeChanged": "Periodo d'asta aggiornato."
       }
     },
     "priceEstimate": {
@@ -550,8 +465,7 @@
     "recentlyAdded": {
       "eyebrow": "Aggiunti di recente",
       "title": "Le ultime acquisizioni",
-      "foundAt": "Trovato presso {{shopName}}.",
-      "foundAtWithYear": "Trovato presso {{shopName}}. Circa {{year}}."
+      "foundAt": "Trovato presso {{shopName}}."
     },
     "features": {
       "title": "L'antiquariato è sparso ovunque online - la tua ricerca non dovrebbe esserlo",

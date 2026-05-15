@@ -252,26 +252,15 @@
         "creationDate": "Restablecer filtro de fecha de creación",
         "updateDate": "Restablecer filtro de fecha de actualización",
         "merchant": "Restablecer filtro de vendedor",
-        "qualityIndicators": "Restablecer filtro de indicadores de calidad",
         "auctionDate": "Restablecer filtro de fecha de subasta",
         "excludeMerchant": "Restablecer filtro de exclusión de comerciante",
         "merchants": "Restablecer filtros de comerciantes",
         "shopType": "Restablecer filtro de tipo de tienda",
-        "periodId": "Restablecer filtro de período",
         "partnerStatus": "Restablecer filtro de estado de asociación",
-        "global": "Restablecer todo",
-        "category": "Restablecer filtro de categoría"
+        "global": "Restablecer todo"
       },
       "all": "Todo",
       "select": "Seleccionar",
-      "qualityIndicators": "Indicadores de Calidad",
-      "periodId": "Período / Estilo",
-      "searchPeriods": "Buscar períodos...",
-      "originYear": "Año de Origen",
-      "authenticity": "Autenticidad",
-      "condition": "Condición",
-      "provenance": "Proveniencia",
-      "restoration": "Restauración",
       "selected": "{{count}} seleccionados",
       "merchants": "Comerciantes",
       "excludeMerchant": "Excluir comerciante",
@@ -314,7 +303,6 @@
     "details": "Detalles",
     "toMerchant": "Ir al vendedor",
     "noImage": "No hay imagen disponible",
-    "conditionReportTitle": "Informe de estado",
     "watchlist": {
       "add": "Añadir a la lista de seguimiento",
       "remove": "Quitar de la lista de seguimiento"
@@ -357,12 +345,7 @@
         "estimatePriceChanged": "Rango de precio estimado actualizado.",
         "urlChanged": "URL del producto actualizada.",
         "imagesChanged": "Imágenes actualizadas • {{count}} imagen(es).",
-        "auctionTimeChanged": "Período de subasta actualizado.",
-        "originYearChanged": "Año de origen actualizado.",
-        "authenticityChanged": "Autenticidad actualizada • {{value}}.",
-        "conditionChanged": "Condición actualizada • {{value}}.",
-        "provenanceChanged": "Procedencia actualizada • {{value}}.",
-        "restorationChanged": "Restauración actualizada • {{value}}."
+        "auctionTimeChanged": "Período de subasta actualizado."
       }
     },
     "priceEstimate": {
@@ -384,74 +367,6 @@
         "6m": "6M",
         "1y": "1A",
         "all": "Todo"
-      }
-    },
-    "qualityIndicators": {
-      "title": "Indicadores de Calidad",
-      "noData": "No hay información adicional disponible",
-      "originYear": {
-        "label": "Año de Origen",
-        "range": "{{min}}–{{max}}",
-        "from": "desde {{year}}",
-        "until": "hasta {{year}}",
-        "unknown": "Desconocido",
-        "exactDescription": "Esta pieza data del año {{year}}.",
-        "rangeDescription": "Esta pieza fue fabricada entre {{min}} y {{max}}.",
-        "fromDescription": "Esta pieza fue fabricada a partir del año {{year}}.",
-        "untilDescription": "Esta pieza fue fabricada hasta el año {{year}}.",
-        "unknownDescription": "El año de fabricación de esta pieza es desconocido."
-      },
-      "authenticity": {
-        "label": "Autenticidad",
-        "original": "Original",
-        "originalDescription": "Un original verificado del período indicado.",
-        "later_copy": "Copia Posterior",
-        "later_copyDescription": "Una copia histórica realizada posteriormente al original.",
-        "reproduction": "Reproducción",
-        "reproductionDescription": "Una réplica moderna sin valor histórico.",
-        "questionable": "Cuestionable",
-        "questionableDescription": "La autenticidad de esta pieza está en duda o no puede ser confirmada claramente.",
-        "unknown": "Desconocido",
-        "unknownDescription": "La autenticidad aún no ha sido verificada."
-      },
-      "condition": {
-        "label": "Condición",
-        "excellent": "Excelente",
-        "excellentDescription": "Condición casi perfecta sin signos significativos de desgaste.",
-        "great": "Muy Buena",
-        "greatDescription": "Muy bien conservada con solo signos menores de envejecimiento.",
-        "good": "Buena",
-        "goodDescription": "Bien conservada con signos visibles pero aceptables de desgaste.",
-        "fair": "Regular",
-        "fairDescription": "Presenta signos notables de desgaste, pero sigue siendo completa y estable.",
-        "poor": "Mala",
-        "poorDescription": "Daños significativos o desgaste severo.",
-        "unknown": "Desconocido",
-        "unknownDescription": "La condición no ha sido evaluada."
-      },
-      "provenance": {
-        "label": "Procedencia",
-        "complete": "Completa",
-        "completeDescription": "La procedencia está completamente documentada desde su creación hasta la actualidad.",
-        "partial": "Parcial",
-        "partialDescription": "La procedencia está parcialmente documentada pero tiene lagunas.",
-        "claimed": "Reclamada",
-        "claimedDescription": "El vendedor declara una procedencia, pero no está respaldada por documentos.",
-        "none": "Ninguna",
-        "noneDescription": "No existe documentación de procedencia.",
-        "unknown": "Desconocido",
-        "unknownDescription": "La procedencia aún no ha podido determinarse."
-      },
-      "restoration": {
-        "label": "Restauración",
-        "none": "Ninguna",
-        "noneDescription": "No se ha realizado restauración, la pieza está en su estado original.",
-        "minor": "Menor",
-        "minorDescription": "Trabajo de restauración ligero, como limpieza o pequeñas reparaciones.",
-        "major": "Mayor",
-        "majorDescription": "Restauración extensa o reconstrucción parcial.",
-        "unknown": "Desconocido",
-        "unknownDescription": "No hay información disponible sobre restauraciones."
       }
     },
     "unseenNotification": "Actualizado",
@@ -550,8 +465,7 @@
     "recentlyAdded": {
       "eyebrow": "Agregado recientemente",
       "title": "Las últimas adquisiciones",
-      "foundAt": "Encontrado en {{shopName}}.",
-      "foundAtWithYear": "Encontrado en {{shopName}}. Hacia {{year}}."
+      "foundAt": "Encontrado en {{shopName}}."
     },
     "features": {
       "title": "Las antigüedades están dispersas por toda la web: tu búsqueda no debería estarlo",

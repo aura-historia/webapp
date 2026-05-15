@@ -64,13 +64,6 @@ const baseProduct: OverviewProduct = {
     images: [],
     created: new Date("2024-01-01"),
     updated: new Date("2024-06-01"),
-    originYear: undefined,
-    originYearMin: undefined,
-    originYearMax: undefined,
-    authenticity: "UNKNOWN",
-    condition: "UNKNOWN",
-    provenance: "UNKNOWN",
-    restoration: "UNKNOWN",
 };
 
 function buildInfiniteData(pages: PeriodProductsPage[]): InfiniteData<PeriodProductsPage> {

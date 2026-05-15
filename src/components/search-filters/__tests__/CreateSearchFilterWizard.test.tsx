@@ -46,15 +46,6 @@ vi.mock("@/components/search/filters/PriceSpanFilter.tsx", () => ({
 vi.mock("@/components/search/filters/ProductStateFilter.tsx", () => ({
     ProductStateFilter: () => <div data-testid="state-filter" />,
 }));
-vi.mock("@/components/search/filters/PeriodFilter.tsx", () => ({
-    PeriodFilter: () => <div data-testid="period-filter" />,
-}));
-vi.mock("@/components/search/filters/CategoryFilter.tsx", () => ({
-    CategoryFilter: () => <div data-testid="category-filter" />,
-}));
-vi.mock("@/components/search/filters/QualityIndicatorsFilter.tsx", () => ({
-    QualityIndicatorsFilter: () => <div data-testid="quality-filter" />,
-}));
 vi.mock("@/components/search/filters/ShopTypeFilter.tsx", () => ({
     ShopTypeFilter: () => <div data-testid="shop-type-filter" />,
 }));
@@ -81,7 +72,7 @@ const mockFilter: UserSearchFilter = {
     updated: new Date("2024-03-01"),
 };
 
-const TOTAL_STEPS = 7;
+const TOTAL_STEPS = 5;
 
 async function navigateToConfirmStep(user: ReturnType<typeof userEvent.setup>) {
     for (let i = 1; i < TOTAL_STEPS; i++) {
