@@ -24,6 +24,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const conditionReportHeading = t("product.conditionReportTitle");
     const conditionReportText = t(CONDITION_TRANSLATION_CONFIG[product.condition].descriptionKey);
     const isWatching = product.userData?.watchlistData.isWatching ?? false;
+    const isRemoved = product.state === "REMOVED";
 
     return (
         <>
@@ -99,16 +100,24 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                         <Button
                             variant="default"
                             className="h-14 w-full rounded-none text-xs tracking-[0.12em] uppercase"
-                            asChild
+                            disabled={isRemoved}
+                            asChild={!isRemoved}
                         >
-                            <a
-                                href={product.url?.href}
-                                target="_blank"
-                                rel="nofollow noopener noreferrer"
-                            >
-                                <ArrowUpRight />
-                                <span>{t("product.toMerchant")}</span>
-                            </a>
+                            {isRemoved ? (
+                                <>
+                                    <ArrowUpRight />
+                                    <span>{t("product.toMerchant")}</span>
+                                </>
+                            ) : (
+                                <a
+                                    href={product.url?.href}
+                                    target="_blank"
+                                    rel="nofollow noopener noreferrer"
+                                >
+                                    <ArrowUpRight />
+                                    <span>{t("product.toMerchant")}</span>
+                                </a>
+                            )}
                         </Button>
 
                         <WatchlistButton
