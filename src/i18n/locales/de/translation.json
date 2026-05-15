@@ -202,7 +202,7 @@
       "placeholder": "Ich suche nach...",
       "placeholderShort": "Suche",
       "button": "Suchen",
-      "placeholderExamples": [
+      "placeholderExamplesProducts": [
         "Ölgemälde Maria Magdalena",
         "Meissener Porzellanservice",
         "Louis XVI Kommode",
@@ -223,6 +223,23 @@
         "Rokoko-Spiegel",
         "Persische Miniaturmalerei",
         "Louis XV Fauteuil"
+      ],
+      "placeholderExamplesShops": [
+        "Sotheby's",
+        "Christie's",
+        "Bonhams",
+        "Dorotheum",
+        "Lempertz",
+        "Ketterer Kunst",
+        "Van Ham",
+        "Phillip Antiques",
+        "Heritage Auctions",
+        "1stDibs",
+        "Catawiki",
+        "Barnebys",
+        "Invaluable",
+        "LiveAuctioneers",
+        "Poly Auction"
       ],
       "searchTypeLabel": "Suchtyp",
       "searchType": {

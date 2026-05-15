@@ -198,7 +198,7 @@
       "placeholder": "Sto cercando...",
       "placeholderShort": "Cerca",
       "button": "Cerca",
-      "placeholderExamples": [
+      "placeholderExamplesProducts": [
         "Dipinto a olio Maria Maddalena",
         "Servizio in porcellana di Meissen",
         "Comò Luigi XVI",
@@ -219,6 +219,23 @@
         "Specchio rococò",
         "Miniatura persiana",
         "Poltrona Luigi XV"
+      ],
+      "placeholderExamplesShops": [
+        "Sotheby's",
+        "Christie's",
+        "Pandolfini",
+        "Catawiki",
+        "1stDibs",
+        "LiveAuctioneers",
+        "Invaluable",
+        "Bonhams",
+        "Dorotheum",
+        "Cambi",
+        "The Saleroom",
+        "Drouot",
+        "Barnebys",
+        "Vinterior",
+        "Heritage Auctions"
       ],
       "searchTypeLabel": "Tipo di ricerca",
       "searchType": {
