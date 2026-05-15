@@ -77,7 +77,7 @@ export function Header() {
     return (
         <header
             className={cn(
-                "flex justify-between gap-2 md:justify-normal md:grid md:grid-cols-3 items-center z-50 sticky top-0 md:px-8 px-4 py-4 h-20 w-full transition-all duration-300",
+                "flex justify-between gap-2 lg:justify-normal lg:grid lg:grid-cols-3 items-center z-50 sticky top-0 lg:px-8 px-4 py-4 h-20 w-full transition-all duration-300",
                 isFloating
                     ? "bg-transparent border-transparent"
                     : "bg-background border-b border-border",
@@ -89,16 +89,16 @@ export function Header() {
                         className={cn(
                             "transition-all duration-300",
                             isFloating
-                                ? "bg-background rounded-xs px-2 md:px-4 py-2 hero-search-shadow"
+                                ? "bg-background rounded-xs px-2 lg:px-4 py-2 hero-search-shadow"
                                 : "",
                         )}
                     >
                         <img
                             src={logo}
                             alt=""
-                            className={"w-48 lg:w-64 md:inline hidden translate-y-1"}
+                            className={"w-48 lg:w-64 lg:inline hidden translate-y-1"}
                         />
-                        <div className="h-10 overflow-hidden md:hidden">
+                        <div className="h-10 overflow-hidden lg:hidden">
                             <img src={logoCompact} alt="" className="h-30 -translate-y-10" />
                         </div>
                     </div>
@@ -107,7 +107,7 @@ export function Header() {
             </div>
 
             {/* Desktop Search bar */}
-            <div className="hidden justify-center md:flex">
+            <div className="hidden justify-center lg:flex">
                 <div
                     className={cn(
                         "w-full transition-all duration-500",
@@ -121,7 +121,7 @@ export function Header() {
                 </div>
             </div>
 
-            <div className="flex md:hidden items-center justify-end gap-2">
+            <div className="flex lg:hidden items-center justify-end gap-2">
                 {/* Mobile Search bar */}
                 <div
                     className={cn(
@@ -219,7 +219,7 @@ export function Header() {
 
             {/* Desktop Menu */}
             {isLoginEnabled && (
-                <div className="hidden md:flex items-center justify-end w-full">
+                <div className="hidden lg:flex items-center justify-end w-full">
                     {serverAuth.authenticated ? (
                         <div
                             className={cn(
