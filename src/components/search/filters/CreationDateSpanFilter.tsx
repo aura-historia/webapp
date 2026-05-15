@@ -5,7 +5,12 @@ import { useTranslation } from "react-i18next";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
 import { FilterCard } from "./FilterCard.tsx";
 
-export function CreationDateSpanFilter() {
+type Props = {
+    readonly defaultOpen?: boolean;
+    readonly disabled?: boolean;
+};
+
+export function CreationDateSpanFilter({ defaultOpen = false, disabled = false }: Props) {
     const { control } = useFormContext<FilterSchema>();
     const { errors } = useFormState({ control, name: ["creationDate.to"] });
     const { t } = useTranslation();
@@ -16,7 +21,8 @@ export function CreationDateSpanFilter() {
             title={t("search.filter.creationDate")}
             resetTooltip={t("search.filter.resetTooltip.creationDate")}
             onReset={() => resetAndNavigate("creationDate")}
-            defaultOpen={false}
+            defaultOpen={defaultOpen}
+            disabled={disabled}
         >
             <div className="flex min-w-0 w-full flex-col gap-2">
                 <div className="flex min-w-0 items-center gap-3">

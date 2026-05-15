@@ -149,6 +149,24 @@ describe("ProductStateFilter", () => {
         expect(checkboxes[2]).toBeChecked();
     });
 
+    it("does not uncheck the last remaining checked item", async () => {
+        render(
+            <FormWrapper defaultValues={{ productState: ["LISTED"] }}>
+                <ProductStateFilter />
+            </FormWrapper>,
+        );
+
+        const user = userEvent.setup();
+        const checkboxes = screen.getAllByRole("checkbox");
+
+        // Only LISTED is checked – clicking it should be blocked
+        expect(checkboxes[0]).toBeChecked();
+        await user.click(checkboxes[0]);
+
+        // Should still be checked
+        expect(checkboxes[0]).toBeChecked();
+    });
+
     it("works correctly with initially empty selection", () => {
         render(
             <FormWrapper defaultValues={{ productState: [] }}>

@@ -25,6 +25,18 @@ import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 const PAGE_SIZE = 30;
 const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
+const EMPTY_RESULT: SearchResultData = { products: [], size: 0, total: 0, searchAfter: undefined };
+
+function hasEmptyArrayFilter(args: SearchFilterArguments): boolean {
+    return (
+        args.allowedStates?.length === 0 ||
+        args.shopType?.length === 0 ||
+        args.authenticity?.length === 0 ||
+        args.condition?.length === 0 ||
+        args.provenance?.length === 0 ||
+        args.restoration?.length === 0
+    );
+}
 /**
  * Builds filter query parameters from search arguments.
  * Returns a strongly typed Partial of SimpleSearchProductsData's query object,
@@ -37,8 +49,8 @@ function buildFilterQuery(
 
     if (searchArgs.priceFrom != null || searchArgs.priceTo != null) {
         filters.price = {
-            min: searchArgs.priceFrom ? searchArgs.priceFrom * 100 : undefined,
-            max: searchArgs.priceTo ? searchArgs.priceTo * 100 : undefined,
+            min: searchArgs.priceFrom == null ? undefined : searchArgs.priceFrom * 100,
+            max: searchArgs.priceTo == null ? undefined : searchArgs.priceTo * 100,
         };
     }
 
@@ -48,22 +60,22 @@ function buildFilterQuery(
 
     if (searchArgs.creationDateFrom != null || searchArgs.creationDateTo != null) {
         filters.created = {
-            min: searchArgs.creationDateFrom?.toISOString() || undefined,
-            max: searchArgs.creationDateTo?.toISOString() || undefined,
+            min: searchArgs.creationDateFrom?.toISOString(),
+            max: searchArgs.creationDateTo?.toISOString(),
         };
     }
 
     if (searchArgs.updateDateFrom != null || searchArgs.updateDateTo != null) {
         filters.updated = {
-            min: searchArgs.updateDateFrom?.toISOString() || undefined,
-            max: searchArgs.updateDateTo?.toISOString() || undefined,
+            min: searchArgs.updateDateFrom?.toISOString(),
+            max: searchArgs.updateDateTo?.toISOString(),
         };
     }
 
     if (searchArgs.auctionDateFrom != null || searchArgs.auctionDateTo != null) {
         filters.auctionStart = {
-            min: searchArgs.auctionDateFrom?.toISOString() || undefined,
-            max: searchArgs.auctionDateTo?.toISOString() || undefined,
+            min: searchArgs.auctionDateFrom?.toISOString(),
+            max: searchArgs.auctionDateTo?.toISOString(),
         };
     }
 
@@ -79,19 +91,21 @@ function buildFilterQuery(
         const mapped = searchArgs.shopType
             .map((type) => mapToBackendShopType(type))
             .filter((t) => t !== undefined);
-        if (mapped.length > 0) {
-            filters.shopType = mapped;
-        }
+        if (mapped.length > 0) filters.shopType = mapped;
     }
 
     if (searchArgs.periodId && searchArgs.periodId.length > 0) {
         filters.periodId = searchArgs.periodId;
     }
 
+    if (searchArgs.categoryId && searchArgs.categoryId.length > 0) {
+        filters.categoryId = searchArgs.categoryId;
+    }
+
     if (searchArgs.originYearMin != null || searchArgs.originYearMax != null) {
         filters.originYear = {
-            min: searchArgs.originYearMin ?? undefined,
-            max: searchArgs.originYearMax ?? undefined,
+            min: searchArgs.originYearMin,
+            max: searchArgs.originYearMax,
         };
     }
 
@@ -125,14 +139,7 @@ export function useSearch(
         queryKey: ["search", searchArgs, i18n.language, preferences.currency],
         enabled: isSearchEnabled && searchArgs.q.length >= MIN_SEARCH_QUERY_LENGTH,
         queryFn: async ({ pageParam }) => {
-            // Api treats no allowed states as "all states allowed", we don't want that
-            if (searchArgs.allowedStates?.length === 0) {
-                return {
-                    products: [],
-                    size: 0,
-                    total: 0,
-                };
-            }
+            if (hasEmptyArrayFilter(searchArgs)) return EMPTY_RESULT;
 
             const result = await simpleSearchProducts({
                 query: {
@@ -167,8 +174,6 @@ export function useSearch(
             };
         },
         initialPageParam: undefined as Array<unknown> | undefined,
-        getNextPageParam: (lastPage) => {
-            return lastPage.searchAfter ?? undefined;
-        },
+        getNextPageParam: (lastPage) => lastPage.searchAfter ?? undefined,
     });
 }

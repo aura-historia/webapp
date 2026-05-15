@@ -30,6 +30,7 @@ export type RawSearchParams = {
     excludeMerchant?: string | string[];
     shopType?: ShopType[];
     periodId?: string[];
+    categoryId?: string[];
     sortField?: string;
     sortOrder?: string;
     originYearMin?: number;
@@ -140,6 +141,7 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         excludeMerchant: parseExcludeMerchant(search.excludeMerchant),
         shopType: parseShopTypes(search.shopType),
         periodId: parsePeriodIds(search.periodId),
+        categoryId: parsePeriodIds(search.categoryId),
         sortField: parseSortField(search.sortField),
         sortOrder: parseSortOrder(search.sortOrder),
         originYearMin: parseOptionalNumber(search.originYearMin),
@@ -177,6 +179,7 @@ export function serializeSearchParams(
         excludeMerchant: params.excludeMerchant,
         shopType: params.shopType,
         periodId: params.periodId,
+        categoryId: params.categoryId,
         sortField: params.sortField,
         sortOrder: params.sortOrder,
         originYearMin: params.originYearMin,

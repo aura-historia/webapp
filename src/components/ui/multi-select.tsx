@@ -98,7 +98,7 @@ export function MultiSelect({
                 </div>
             )}
             {/* Search input */}
-            <div className="group border bg-background border-input px-3 py-2 text-sm rounded-md">
+            <div className="group border bg-background border-outline-variant px-3 py-2 text-sm rounded-none">
                 <div className="flex gap-2 items-center">
                     {/* Avoid having the "Search" Icon */}
                     <CommandPrimitive.Input
@@ -114,7 +114,7 @@ export function MultiSelect({
             </div>
             <div className="relative mt-2">
                 {open && (selectables.length > 0 || isLoading || inputValue.length > 0) ? (
-                    <div className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
+                    <div className="absolute top-0 z-10 w-full rounded-none border border-outline-variant bg-popover text-popover-foreground shadow-md outline-none animate-in">
                         <CommandList>
                             {isLoading && selectables.length === 0 ? (
                                 <div className="py-6 text-center text-sm text-muted-foreground">

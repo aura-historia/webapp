@@ -39,6 +39,8 @@ export function AuthenticityFilter() {
                         allSelectedLabel={t("search.filter.all")}
                         placeholder={t("search.filter.select")}
                         infoButtonLabel={t("common.infoButton")}
+                        requireSelection
+                        requireSelectionLabel={t("search.filter.requireSelection")}
                     />
                 )}
             />

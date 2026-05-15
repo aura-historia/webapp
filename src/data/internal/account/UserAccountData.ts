@@ -2,7 +2,10 @@ import type { GetUserAccountData, PatchUserAccountData } from "@/client";
 import { type Language, parseLanguage, mapToBackendLanguage } from "../common/Language.ts";
 import { type Currency, parseCurrency, mapToBackendCurrency } from "../common/Currency.ts";
 import { type UserRole, parseUserRole } from "./UserRole.ts";
-import { type SubscriptionType, parseSubscriptionType } from "./SubscriptionType.ts";
+import {
+    parseSubscriptionType,
+    type SubscriptionType,
+} from "@/data/internal/account/SubscriptionType.ts";
 
 export type UserAccountData = {
     readonly userId: string;

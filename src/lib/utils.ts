@@ -78,6 +78,7 @@ export type SearchFilterData = {
     excludeMerchant?: string[];
     shopType?: ShopType[];
     periodId?: string[];
+    categoryId?: string[];
     originYearSpan?: {
         min?: number;
         max?: number;
@@ -103,6 +104,7 @@ export type SearchUrlParams = {
     excludeMerchant?: string[];
     shopType?: ShopType[];
     periodId?: string[];
+    categoryId?: string[];
     originYearMin?: number;
     originYearMax?: number;
     authenticity?: Authenticity[];
@@ -141,6 +143,7 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
         excludeMerchant: data.excludeMerchant?.length ? data.excludeMerchant : undefined,
         shopType: data.shopType?.length ? data.shopType : undefined,
         periodId: data.periodId?.length ? data.periodId : undefined,
+        categoryId: data.categoryId?.length ? data.categoryId : undefined,
         originYearMin: data.originYearSpan?.min,
         originYearMax: data.originYearSpan?.max,
         authenticity: data.authenticity?.length ? data.authenticity : FILTER_DEFAULTS.authenticity,

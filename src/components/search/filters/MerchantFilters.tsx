@@ -6,7 +6,11 @@ import { MerchantIncludeFilter } from "@/components/search/filters/MerchantInclu
 import { MerchantExcludeFilter } from "@/components/search/filters/MerchantExcludeFilter.tsx";
 import { FilterCard } from "./FilterCard.tsx";
 
-export function MerchantFilters() {
+type Props = {
+    readonly disabled?: boolean;
+};
+
+export function MerchantFilters({ disabled = false }: Props) {
     const { t } = useTranslation();
     const { setValue } = useFormContext<FilterSchema>();
 
@@ -20,6 +24,7 @@ export function MerchantFilters() {
             title={t("search.filter.merchants")}
             resetTooltip={t("search.filter.resetTooltip.merchants")}
             onReset={handleReset}
+            disabled={disabled}
         >
             <div className="flex flex-col gap-4">
                 <MerchantIncludeFilter />

@@ -20,6 +20,8 @@ export type CheckboxMultiSelectProps = {
     readonly searchable?: boolean;
     readonly searchPlaceholder?: string;
     readonly infoButtonLabel?: string;
+    readonly requireSelection?: boolean;
+    readonly requireSelectionLabel?: string;
 };
 
 export function CheckboxMultiSelect({
@@ -31,6 +33,8 @@ export function CheckboxMultiSelect({
     searchable = false,
     searchPlaceholder = "Search...",
     infoButtonLabel = "More information",
+    requireSelection = false,
+    requireSelectionLabel = "At least 1 selection required",
 }: CheckboxMultiSelectProps) {
     const [open, setOpen] = React.useState(false);
     const [visibleCount, setVisibleCount] = React.useState(1);
@@ -68,6 +72,8 @@ export function CheckboxMultiSelect({
     }, [options, search]);
 
     const handleToggle = (optionValue: string) => {
+        if (requireSelection && pendingValue.length === 1 && pendingValue.includes(optionValue))
+            return;
         setPendingValue((prev) =>
             prev.includes(optionValue)
                 ? prev.filter((v) => v !== optionValue)
@@ -76,6 +82,7 @@ export function CheckboxMultiSelect({
     };
 
     const handleToggleAll = () => {
+        if (requireSelection && allSelected) return;
         setPendingValue(allSelected ? [] : options.map((opt) => opt.value));
     };
 
@@ -174,7 +181,7 @@ export function CheckboxMultiSelect({
                 </div>
             </PopoverTrigger>
             <PopoverContent
-                className="w-[var(--radix-popover-trigger-width)] rounded-none border-outline-variant p-0 overflow-hidden"
+                className="w-[var(--radix-popover-trigger-width)] p-0 overflow-hidden"
                 align="start"
                 onOpenAutoFocus={(e) => {
                     if (searchable) {
@@ -197,8 +204,9 @@ export function CheckboxMultiSelect({
                 )}
                 <div
                     className="max-h-[min(16rem,var(--radix-popover-content-available-height))] overflow-y-auto overscroll-contain p-1"
-                    onWheelCapture={(event) => event.stopPropagation()}
+                    onWheel={(e) => e.stopPropagation()}
                 >
+                    {" "}
                     {!search && (
                         <>
                             <div
@@ -234,12 +242,15 @@ export function CheckboxMultiSelect({
                     )}
                     {filteredOptions.map((option) => {
                         const isSelected = displayValue.includes(option.value);
-                        return (
+                        const isLastSelected =
+                            requireSelection && pendingValue.length === 1 && isSelected;
+                        const row = (
                             <div
                                 key={option.value}
                                 className={cn(
                                     "relative flex cursor-pointer select-none items-center rounded-none px-2 py-1.5 text-sm outline-none transition-colors duration-300 ease-out hover:bg-accent hover:text-accent-foreground",
                                     isSelected && "bg-accent/50",
+                                    isLastSelected && "cursor-not-allowed opacity-60",
                                 )}
                                 onClick={() => handleToggle(option.value)}
                                 onKeyDown={(e) => {
@@ -282,6 +293,16 @@ export function CheckboxMultiSelect({
                                     </Tooltip>
                                 )}
                             </div>
+                        );
+                        return isLastSelected ? (
+                            <Tooltip key={option.value}>
+                                <TooltipTrigger asChild>{row}</TooltipTrigger>
+                                <TooltipContent side="right">
+                                    <p>{requireSelectionLabel}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        ) : (
+                            row
                         );
                     })}
                 </div>

@@ -4,17 +4,23 @@ import { createFileRoute } from "@tanstack/react-router";
 import { serializeSearchParams, validateSearchParams } from "@/lib/searchValidation.ts";
 import { useTranslation } from "react-i18next";
 import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
+import { FloatingSaveSearchFilterButton } from "@/components/search/FloatingSaveSearchFilterButton.tsx";
+import { SaveSearchFilterDialog } from "@/components/search/SaveSearchFilterDialog.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { Filter } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
+import { Filter, BookmarkPlus } from "lucide-react";
 import { useState } from "react";
-
 import type { SortMode } from "@/data/internal/search/SortMode.ts";
 import { SortModeSelection } from "@/components/search/SortModeSelection.tsx";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
+import { useAuth } from "@/hooks/auth/useAuth.ts";
+import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
+import { useUserSearchFilters } from "@/hooks/search-filters/useUserSearchFilters.ts";
+import { SEARCH_FILTER_QUOTA } from "@/data/internal/account/SubscriptionType.ts";
 
 export const Route = createFileRoute("/search")({
     head: () =>
@@ -31,6 +37,20 @@ function RouteComponent() {
     const navigate = Route.useNavigate();
     const { t } = useTranslation();
     const [totalResults, setTotalResults] = useState<number | null>(null);
+    const { user } = useAuth();
+    const { data: account } = useUserAccount();
+    const { data: savedFilters } = useUserSearchFilters(!!user);
+
+    const saveDisabled =
+        user == null ||
+        (savedFilters?.total ?? 0) >= SEARCH_FILTER_QUOTA[account?.subscriptionType ?? "free"];
+
+    let saveTooltip: string | undefined;
+    if (user == null) {
+        saveTooltip = t("searchFilter.loginRequired");
+    } else if (saveDisabled) {
+        saveTooltip = t("searchFilter.quotaReached");
+    }
 
     const sortMode = {
         field: searchArgs.sortField ?? "RELEVANCE",
@@ -79,11 +99,32 @@ function RouteComponent() {
                                     </span>
                                 )}
 
-                                <div className="hidden justify-start border-b border-primary/20 pb-4 lg:flex">
+                                <div className="hidden justify-between items-center border-b border-primary/20 pb-4 lg:flex">
                                     <SortModeSelection
                                         sortMode={sortMode}
                                         updateSortMode={updateSortMode}
                                     />
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <span>
+                                                <SaveSearchFilterDialog searchArgs={searchArgs}>
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        size="sm"
+                                                        disabled={saveDisabled}
+                                                        className="border-outline-variant text-primary shadow-none hover:bg-primary/8"
+                                                    >
+                                                        <BookmarkPlus className="size-4" />
+                                                        {t("searchFilter.saveButton")}
+                                                    </Button>
+                                                </SaveSearchFilterDialog>
+                                            </span>
+                                        </TooltipTrigger>
+                                        {saveTooltip && (
+                                            <TooltipContent>{saveTooltip}</TooltipContent>
+                                        )}
+                                    </Tooltip>
                                 </div>
 
                                 <div className="mt-2 flex flex-row justify-between w-full gap-2 lg:hidden">
@@ -125,6 +166,11 @@ function RouteComponent() {
                     </div>
                 </div>
             </div>
+            <FloatingSaveSearchFilterButton
+                searchArgs={searchArgs}
+                disabled={saveDisabled}
+                tooltip={saveTooltip}
+            />
             <ScrollToTopButton />
         </>
     );

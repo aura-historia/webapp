@@ -128,4 +128,24 @@ describe("AuthenticityFilter", () => {
         // Should show "Alle" in trigger
         expect(screen.getAllByText("Alle")).toHaveLength(2); // One in trigger, one in dropdown
     });
+
+    it("does not deselect the last remaining option", async () => {
+        const user = userEvent.setup();
+
+        render(
+            <FormWrapper defaultValues={{ authenticity: ["ORIGINAL"] }}>
+                <AuthenticityFilter />
+            </FormWrapper>,
+        );
+
+        const trigger = screen.getByRole("combobox");
+        await user.click(trigger);
+
+        // Only ORIGINAL is selected – clicking it should be blocked by requireSelection
+        const originalOption = screen.getAllByText("Original");
+        await user.click(originalOption[0]);
+
+        // Trigger still shows ORIGINAL (still selected)
+        expect(screen.getAllByText(/Original/).length).toBeGreaterThan(0);
+    });
 });

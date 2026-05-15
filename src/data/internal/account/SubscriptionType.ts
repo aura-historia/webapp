@@ -10,6 +10,12 @@ export const SUBSCRIPTION_TYPE_TRANSLATION_KEYS: Record<SubscriptionType, string
     ultimate: "landingPage.pricing.ultimate.name",
 };
 
+export const SEARCH_FILTER_QUOTA: Record<SubscriptionType, number> = {
+    free: 1,
+    pro: 5,
+    ultimate: Number.POSITIVE_INFINITY,
+};
+
 export function parseSubscriptionType(userTier?: string): SubscriptionType {
     const uppercasedUserTier = userTier?.toUpperCase() ?? "FREE";
 
