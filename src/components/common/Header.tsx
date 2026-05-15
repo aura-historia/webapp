@@ -77,7 +77,7 @@ export function Header() {
     return (
         <header
             className={cn(
-                "flex justify-between gap-2 lg:justify-normal lg:grid lg:grid-cols-3 items-center z-50 sticky top-0 lg:px-8 px-4 py-4 h-20 w-full transition-all duration-300",
+                "flex justify-between gap-2 lg:justify-normal lg:grid lg:grid-cols-3 items-center z-50 sticky top-0 xl:px-8 px-4 py-4 h-20 w-full transition-all duration-300",
                 isFloating
                     ? "bg-transparent border-transparent"
                     : "bg-background border-b border-border",
@@ -229,7 +229,7 @@ export function Header() {
                                     : "",
                             )}
                         >
-                            <NavigationMenu className={"hidden xl:inline flex-none gap-2"}>
+                            <NavigationMenu className={"hidden lg:inline flex-none gap-2"}>
                                 <NavigationMenuList>
                                     <NavigationMenuItem>
                                         <NavigationMenuLink asChild>
@@ -271,7 +271,7 @@ export function Header() {
                             <DropdownMenu>
                                 <DropdownMenuTrigger className="flex items-center gap-4 hover:bg-accent transition-all px-4">
                                     {userAccount?.firstName && (
-                                        <span>
+                                        <span className="hidden 2xl:block">
                                             {t("header.hello")}, {userAccount.firstName}
                                         </span>
                                     )}
