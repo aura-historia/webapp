@@ -17,6 +17,7 @@ import {
     getCategoriesOptions,
     getPeriodsOptions,
     simpleSearchProductsOptions,
+    simpleSearchShopsOptions,
 } from "@/client/@tanstack/react-query.gen.ts";
 import { mapToCategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
 import { mapToPeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
@@ -93,6 +94,7 @@ function LandingPage() {
             },
         }),
     );
+    const { data: shopData } = useQuery(simpleSearchShopsOptions());
 
     const categories = (categoriesData ?? []).map(mapToCategoryOverview);
     const periods = (periodsData ?? []).map(mapToPeriodOverview);
@@ -121,7 +123,10 @@ function LandingPage() {
                 </div>
             )}
             <div id={LANDING_PAGE_FRAGMENTS.discover} className="scroll-mt-24">
-                <DiscoverSection />
+                <DiscoverSection
+                    productCount={recentlyAddedData?.total ?? undefined}
+                    shopCount={shopData?.total ?? undefined}
+                />
             </div>
             <div id={LANDING_PAGE_FRAGMENTS.features} className="scroll-mt-24">
                 <FeaturesSection />

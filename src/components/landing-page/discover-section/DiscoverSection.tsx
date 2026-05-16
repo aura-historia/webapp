@@ -9,7 +9,12 @@ import { ClientOnly } from "@tanstack/react-router";
 
 const NumberFlow = lazy(() => import("@number-flow/react"));
 
-export default function DiscoverSection() {
+type DiscoverSectionProps = {
+    productCount?: number;
+    shopCount?: number;
+};
+
+export default function DiscoverSection({ productCount, shopCount }: DiscoverSectionProps) {
     const { t } = useTranslation();
     const [isVisible, setIsVisible] = useState(false);
     const statsRef = useRef<HTMLDivElement>(null);
@@ -28,6 +33,11 @@ export default function DiscoverSection() {
 
         return () => observer.disconnect();
     }, []);
+
+    const liveCounts: Record<string, number | undefined> = {
+        "discover.stats.shops": shopCount,
+        "discover.stats.items": productCount,
+    };
 
     return (
         <section className="bg-surface-container-low border-t border-b border-outline-variant/10 py-24 px-4">
@@ -65,32 +75,37 @@ export default function DiscoverSection() {
                     <div className="flex-1" ref={statsRef}>
                         <div className="bg-surface-container-highest/30 backdrop-blur-sm border border-outline-variant/10 rounded p-8">
                             <div className="grid grid-cols-2 gap-6">
-                                {DISCOVER_STATS.map((stat) => (
-                                    <div
-                                        key={stat.labelKey}
-                                        className="flex flex-col justify-center bg-white border border-outline-variant/10 p-8 text-center"
-                                    >
-                                        {stat.amount ? (
-                                            <span className="text-2xl sm:text-4xl font-display text-primary block">
-                                                <ClientOnly fallback={<>0</>}>
-                                                    <Suspense fallback={<>0</>}>
-                                                        <NumberFlow
-                                                            value={isVisible ? stat.amount : 0}
-                                                            suffix="+"
-                                                        />
-                                                    </Suspense>
-                                                </ClientOnly>
-                                            </span>
-                                        ) : (
-                                            <p className="text-2xl sm:text-4xl font-display text-primary mb-2">
-                                                {t(stat.valueKey)}+
+                                {DISCOVER_STATS.map((stat) => {
+                                    const amount = liveCounts[stat.valueKey] ?? stat.amount;
+                                    return (
+                                        <div
+                                            key={stat.labelKey}
+                                            className="flex flex-col justify-center bg-white border border-outline-variant/10 p-8 text-center"
+                                        >
+                                            {stat.amount != null ? (
+                                                <span className="text-2xl sm:text-4xl font-display text-primary block">
+                                                    <ClientOnly fallback={<>0</>}>
+                                                        <Suspense fallback={<>0</>}>
+                                                            <NumberFlow
+                                                                value={
+                                                                    isVisible ? (amount ?? 0) : 0
+                                                                }
+                                                                suffix="+"
+                                                            />
+                                                        </Suspense>
+                                                    </ClientOnly>
+                                                </span>
+                                            ) : (
+                                                <p className="text-2xl sm:text-4xl font-display text-primary mb-2">
+                                                    {t(stat.valueKey)}+
+                                                </p>
+                                            )}
+                                            <p className="text-xs font-medium text-secondary uppercase tracking-widest">
+                                                {t(stat.labelKey)}
                                             </p>
-                                        )}
-                                        <p className="text-xs font-medium text-secondary uppercase tracking-widest">
-                                            {t(stat.labelKey)}
-                                        </p>
-                                    </div>
-                                ))}
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>
