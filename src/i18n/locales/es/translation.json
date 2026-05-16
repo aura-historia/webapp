@@ -73,9 +73,6 @@
     "searchShops": {
       "title": "Buscar tiendas | Aura Historia",
       "description": "Descubre tiendas, casas de subastas y distribuidores de confianza en Aura Historia."
-    },
-    "searchFilters": {
-      "title": "Mis Filtros de Búsqueda | Aura Historia"
     }
   },
   "validation": {
@@ -115,8 +112,7 @@
     "logout": "Cerrar sesión",
     "hello": "Hola",
     "register": "Registrarse",
-    "login": "Iniciar sesión",
-    "searchFilters": "Filtros de Búsqueda"
+    "login": "Iniciar sesión"
   },
   "footer": {
     "brandName": "Aura Historia",
@@ -264,8 +260,7 @@
         "periodId": "Restablecer filtro de período",
         "partnerStatus": "Restablecer filtro de estado de asociación",
         "global": "Restablecer todo",
-        "category": "Restablecer filtro de categoría",
-        "categoryId": "Restablecer filtro de categoría"
+        "category": "Restablecer filtro de categoría"
       },
       "all": "Todo",
       "select": "Seleccionar",
@@ -284,10 +279,7 @@
       "shopType": "Tipo de tienda",
       "auctionDate": "Fecha de subasta",
       "auctionDateDisabledTooltip": "Solo disponible para casas de subastas",
-      "partnerStatus": "Estado de asociación",
-      "requireSelection": "Se requiere al menos 1 selección",
-      "categoryId": "Categoría",
-      "searchCategories": "Buscar categorías..."
+      "partnerStatus": "Estado de asociación"
     },
     "messages": {
       "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
@@ -776,12 +768,11 @@
     "BAD_ORDER_VALUE": "Orden de clasificación no válido.",
     "unknown": "Se produjo un error inesperado.",
     "WATCHLIST_QUOTA_EXCEEDED": "Has alcanzado el número máximo de artículos en tu lista de seguimiento. Ya hay 5/5 entradas ocupadas en la lista de seguimiento.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Has alcanzado el número máximo de filtros de búsqueda guardados para tu cuenta.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Has alcanzado el número máximo de búsquedas guardadas. Se pueden guardar un máximo de 5 búsquedas.",
     "INVALID_EMAIL": "La dirección de correo electrónico no es válida o no es aceptada por nuestro proveedor de boletín.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Ya tiene una suscripción activa. Por favor, utilice el portal de cliente para gestionarla.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No se encontró ninguna suscripción existente. Por favor, inicie un nuevo proceso de pago.",
-    "undefined": "Ocurrió un error inesperado.",
-    "SEARCH_FILTER_RESTRICTED_FEATURE": "Esta función solo está disponible para ciertas suscripciones. Por favor, actualiza tu cuenta."
+    "undefined": "Ocurrió un error inesperado."
   },
   "watchlist": {
     "title": "Mi lista de seguimiento",
@@ -1476,107 +1467,5 @@
         "deleteSuccess": "Usuario eliminado."
       }
     }
-  },
-  "searchFilter": {
-    "saveButton": "Guardar Filtro de Búsqueda",
-    "saveSuccess": "¡Filtro de búsqueda guardado con éxito!",
-    "loginRequired": "Por favor, inicia sesión o regístrate para guardar filtros de búsqueda.",
-    "quotaReached": "Has alcanzado el número máximo de filtros de búsqueda. Mejora tu suscripción para obtener más.",
-    "saveDialog": {
-      "title": "Guardar Filtro de Búsqueda",
-      "nameLabel": "Nombre",
-      "namePlaceholder": "p. ej. Pintura Barroca Mater Dolorosa",
-      "queryLabel": "Consulta de Búsqueda",
-      "aiDescriptionLabel": "Descripción AI (opcional)",
-      "aiDescriptionPlaceholder": "Pintura al óleo de la Virgen María sobre lienzo, no madera, marco barroco con pan de oro sobre base de yeso. El motivo debe ser Mater Dolorosa. La firma del artista debe estar incluida. La pintura no debe contener daños visibles y el marco debe estar completamente intacto. Si la pintura es del Barroco español, debe tener al menos 40x60 cm de tamaño. Esto no aplica al Barroco italiano.",
-      "aiDescriptionUltimateOnly": "Disponible solo para suscriptores Ultimate",
-      "ultimateOnly": "Disponible solo para suscriptores Ultimate",
-      "cancelButton": "Cancelar",
-      "saveButton": "Guardar",
-      "restrictedFiltersHint": "Estos filtros no están disponibles en tu suscripción actual y no pueden ser guardados. Mejora tu suscripción para usarlos – o guarda el filtro de búsqueda sin estos filtros.",
-      "resetAndSaveButton": "Guardar sin estos filtros",
-      "queryPlaceholder": "p. ej. Pintura al óleo Mater Dolorosa lienzo Barroco",
-      "nameHint": "Dale un nombre único a tu filtro de búsqueda.",
-      "queryHint": "Palabra clave que se comparará con los títulos de los productos.",
-      "aiDescriptionHint": "Describe en detalle lo que buscas – la IA encontrará mejores coincidencias."
-    },
-    "wizard": {
-      "title": "Crear Filtro de Búsqueda",
-      "back": "Atrás",
-      "next": "Siguiente",
-      "nameRequired": "Por favor, introduce un nombre",
-      "nameTooLong": "El nombre no debe exceder los 255 caracteres",
-      "queryTooShort": "La consulta de búsqueda debe contener al menos 3 caracteres",
-      "noFiltersConfigured": "No se han configurado filtros",
-      "upgradeBanner": "Estos filtros no están disponibles en tu plan actual. Mejora tu cuenta para desbloquearlos.",
-      "step": {
-        "name": "Nombre",
-        "nameDescription": "Dale un nombre a tu filtro de búsqueda",
-        "priceStatus": "Precio y Estado",
-        "theme": "Tema",
-        "quality": "Calidad",
-        "shop": "Tienda",
-        "date": "Fecha",
-        "confirm": "Confirmar",
-        "confirmDescription": "Revisa tu filtro de búsqueda antes de guardarlo"
-      },
-      "titleEdit": "Editar filtro de búsqueda",
-      "titleDuplicate": "Duplicar filtro de búsqueda"
-    },
-    "optional": "opcional",
-    "upgradeRequired": "Solo Pro y Ultimate",
-    "upgradeNow": "Mejorar ahora"
-  },
-  "searchFilters": {
-    "title": "Mis Filtros de Búsqueda",
-    "create": "Crear Filtro de Búsqueda",
-    "createUpgradeTooltip": "Mejora tu cuenta para crear más filtros de búsqueda",
-    "duplicate": "Duplicar filtro de búsqueda",
-    "duplicateNamePrefix": "Copia de {{name}}",
-    "edit": "Editar",
-    "delete": "Eliminar",
-    "deleteSuccess": "Filtro de búsqueda eliminado con éxito",
-    "deleteConfirm": {
-      "title": "¿Eliminar \"{{name}}\"?",
-      "description": "Este filtro de búsqueda se eliminará permanentemente y no se podrá recuperar.",
-      "cancel": "Cancelar",
-      "confirm": "Eliminar"
-    },
-    "notificationsOn": "Notificaciones activas",
-    "notificationsOff": "Notificaciones inactivas",
-    "loadingError": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtalo de nuevo más tarde.",
-    "noResults": {
-      "title": "No hay Filtros de Búsqueda",
-      "description": "Aún no has guardado ningún filtro de búsqueda."
-    },
-    "noMatches": {
-      "title": "Sin Coincidencias",
-      "description": "Aún no se han encontrado elementos que coincidan con este filtro de búsqueda.",
-      "editHint": "Intenta ajustar el filtro de búsqueda."
-    },
-    "totalElements": "{{count}} filtro(s) de búsqueda",
-    "matchingProducts": "{{count}} coincidencia(s)",
-    "searchPlaceholder": "Buscar filtros...",
-    "showDetails": "Mostrar detalles",
-    "showResults": "Buscar ahora",
-    "info": {
-      "creationDate": "Creado: {{date}}",
-      "updateDate": "Actualizado: {{date}}",
-      "auctionDate": "Fecha de subasta: {{date}}"
-    },
-    "hiddenMatch": {
-      "title": "Oculto",
-      "description": "Esta coincidencia excede tu cuota mensual y está oculta. Mejora tu cuenta para ver todos los resultados.",
-      "upgradeButton": "Mejorar ahora"
-    },
-    "feedback": {
-      "relevant": "Relevante",
-      "notRelevant": "No relevante",
-      "label": "¿Útil?",
-      "relevantHint": "La coincidencia es relevante",
-      "notRelevantHint": "La coincidencia no es relevante"
-    },
-    "matchReason": "Razón AI",
-    "feedbackError": "No se pudo guardar el comentario."
   }
 }
