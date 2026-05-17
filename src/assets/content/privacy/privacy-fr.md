@@ -1,10 +1,10 @@
-La présente politique de confidentialité informe, conformément aux articles 13 et 14 du Règlement général sur la protection des données (RGPD) ainsi qu’à la loi sur la protection des données des télécommunications et des télémédias (TTDSG), sur la nature, l’étendue et la finalité du traitement des données à caractère personnel dans le cadre de notre offre en ligne.
+Les présentes notices de confidentialité expliquent, conformément aux articles 13 et 14 du Règlement général sur la protection des données (RGPD) ainsi qu’à l’article 25 de la loi allemande sur la protection des données des télécommunications et des services numériques (TDDDG), comment nous traitons les données à caractère personnel en lien avec notre site web, les comptes utilisateurs, les fonctionnalités SaaS et les processus connexes de communication, de paiement et d’assistance.
 
 ---
 
 ## 1. Responsable du Traitement
 
-Responsable au sens de l'art. 4, point 7 du RGPD :
+Responsable au sens de l’art. 4, point 7 du RGPD :
 
 **Julian Bruder Einzelunternehmen**  
 (Nom commercial : Aura Historia)  
@@ -17,280 +17,343 @@ Contact : [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
 ---
 
-## 2. Principes Généraux du Traitement des Données
+## 2. Origine et catégories des données traitées
 
-Nous traitons les données à caractère personnel exclusivement :
+Nous traitons des données à caractère personnel qui :
 
-- conformément aux dispositions légales du RGPD
-- selon les principes de **minimisation des données**, de **limitation de la finalité** et d’**intégrité**
-- uniquement dans la mesure nécessaire à la finalité respective
+- nous sont fournies directement par vous, par exemple lors de l’inscription, de l’utilisation de votre compte, d’une prise de contact, d’une inscription à la newsletter ou d’une commande,
+- sont générées techniquement lorsque vous utilisez le site web ou le service,
+- sont fournies par nos prestataires dans le cadre de l’authentification, du paiement, de l’hébergement, de la sécurité ou de l’analyse,
+- proviennent de sources accessibles publiquement lorsque des contenus sont indexés, documentés ou analysés pour la plateforme.
 
-L'analyse statistique de l'utilisation du site web est effectuée sous forme anonymisée. Le suivi personnalisé et l'utilisation de cookies à des fins d'analyse n'ont lieu qu'avec votre consentement explicite (voir la section 6.3).
+Selon votre utilisation, cela peut notamment inclure :
 
----
-
-## 3. Catégories de Données Traitées
-
-### 3.1 Comptes Utilisateurs (Inscription)
-
-Lors de l’inscription d’un compte utilisateur, seules les données à caractère personnel suivantes sont traitées :
-
-- adresse e-mail
-- identifiant utilisateur interne (ID utilisateur)
-- données d’authentification (chiffrées / hachées)
-- prénom (facultatif, pour la personnalisation)
-- nom de famille (facultatif, pour la personnalisation)
-- langue préférée (facultatif, pour la personnalisation)
-- devise préférée (facultatif, pour la personnalisation)
-
-Lorsque des services numériques payants sont souscrits, nous traitons en outre, dans la mesure nécessaire dans le cadre du traitement des paiements via [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irlande) en tant que **prestataire de services de paiement**, notamment :
-
-- des identifiants de commande, de transaction ou de client
-- le statut de l’abonnement, sa durée et les informations de renouvellement
-- le pays ou pays fiscal ainsi que les informations relatives à la TVA lorsque cela est nécessaire
-
-Nous ne recevons **pas** les données de paiement complètes telles que les informations de carte bancaire ou de compte bancaire.
+- des données d’identification et de contact (par ex. adresse e-mail, nom)
+- des données de compte et d’authentification
+- des données de préférences et de paramétrage
+- des métadonnées contractuelles, de facturation et de paiement
+- des données d’usage, de journalisation et d’appareil
+- des données de contenu et d’interaction au sein du service
+- des données provenant de sources accessibles publiquement, y compris des contenus historiques ou d’antiquités
 
 ---
 
-### 3.2 Données Techniques d’Accès (Journaux du Serveur)
+## 3. Accès au site web et fourniture technique
 
-Lors de l’accès à la plateforme, les données suivantes sont traitées automatiquement :
+Lorsque vous accédez à notre site web ou à notre application, des données techniquement nécessaires sont traitées, notamment :
 
-- adresse IP (abrégée ou anonymisée lorsque cela est techniquement possible)
-- date et heure de l’accès
-- pages / ressources consultées
-- agent utilisateur (type de navigateur, système d’exploitation)
+- l’adresse IP
+- la date et l’heure d’accès
+- les pages, fichiers et ressources consultés
+- les informations relatives au navigateur ou au user agent
+- les données techniques de connexion et de sécurité
 
-Ces données sont techniquement nécessaires pour :
+Le traitement poursuit les finalités suivantes :
 
-- garantir la sécurité du système
-- l’analyse des erreurs et la stabilité
-- la détection des abus et des attaques
+- mise à disposition du site web et du service
+- délivrance des contenus
+- sécurité informatique, prévention des abus et détection des attaques
+- analyse des erreurs, stabilité et performance
 
-Aucune mise en relation avec des données utilisateur n’a lieu.
+**Bases juridiques :**
+
+- **Art. 6, par. 1, point f RGPD** – intérêt légitime à l’exploitation sûre et fonctionnelle de notre site web et de nos systèmes
+- **§ 25, al. 2 TDDDG** – dans la mesure où l’accès au stockage du terminal est strictement nécessaire au fonctionnement technique
 
 ---
 
-### 3.3 Newsletter et Zoho Campaigns
+## 4. Comptes utilisateurs, authentification et données de compte
 
-Si vous vous inscrivez à notre newsletter, nous traitons notamment :
+Si vous créez ou utilisez un compte utilisateur, nous traitons notamment :
+
+- l’adresse e-mail
+- l’identifiant utilisateur interne (user ID)
+- le statut de vérification et de connexion
+- les informations d’authentification et de session
+- le prénom et le nom, lorsqu’ils sont fournis
+- la langue et la devise préférées, lorsqu’elles sont fournies
+- le statut de consentement pour l’affichage de contenus sensibles (`prohibitedContentConsent`), lorsqu’il est utilisé
+- les rôles, autorisations et le statut d’abonnement
+
+L’authentification est gérée techniquement via AWS Amplify et Amazon Cognito.
+
+**Finalités du traitement :**
+
+- inscription et connexion
+- gestion du compte et contrôle d’accès
+- sécurité du compte
+- fourniture de paramètres et de fonctionnalités personnalisés
+
+**Bases juridiques :**
+
+- **Art. 6, par. 1, point b RGPD** – exécution du contrat utilisateur et mesures précontractuelles
+- **Art. 6, par. 1, point f RGPD** – prévention des abus, sécurité informatique et protection du compte
+
+---
+
+## 5. Utilisation des fonctionnalités SaaS
+
+Lorsque vous utilisez notre service, nous pouvons traiter des données supplémentaires, notamment :
+
+- les requêtes de recherche et paramètres de filtre
+- les filtres de recherche enregistrés et les configurations associées
+- les entrées de watchlist / liste de suivi
+- les paramètres de notification et de mise en correspondance
+- les interactions avec les produits et contenus, telles que les retours sur les correspondances
+- les données de préférences relatives à l’affichage et à l’utilisation du service
+- les contenus d’assistance ou de demande lorsque vous nous contactez
+
+Lorsque des fonctionnalités partenaires, boutique ou d’administration sont utilisées, nous pouvons également traiter :
+
+- des données de boutique, de domaine, de contact et d’adresse
+- des candidatures de partenaires et les données de statut ou d’examen associées
+- des données d’accès API ou des données d’administration associées
+- des informations de rôle et d’activation
+
+**Finalités du traitement :**
+
+- fourniture et personnalisation du service
+- gestion des fonctions de recherche, de watchlist et de notification
+- vérifications d’autorisation et prévention des abus
+- gestion des fonctionnalités partenaires et API
+
+**Bases juridiques :**
+
+- **Art. 6, par. 1, point b RGPD** – exécution du contrat
+- **Art. 6, par. 1, point f RGPD** – exploitation du produit, sécurité, prévention des abus et développement continu
+
+---
+
+## 6. Services payants, abonnements et traitement des paiements
+
+Si vous achetez des services numériques payants ou des abonnements, nous traitons notamment :
+
+- l’offre choisie et la période de facturation
+- les identifiants de commande, de client, de checkout et d’abonnement
+- le statut du paiement, les métadonnées de transaction et de facturation
+- le pays, le pays fiscal et les informations pertinentes en matière de TVA
+- les informations client et portail Stripe
+
+Le traitement des paiements est réalisé via [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irlande). Nous ne stockons pas les données complètes de carte de paiement ; celles-ci sont traitées directement par Stripe. Selon le contexte juridique concret, Stripe peut agir en partie comme responsable indépendant et en partie comme prestataire de services.
+
+**Finalités du traitement :**
+
+- conclusion et exécution du contrat
+- facturation, traitement des paiements et émission de factures
+- gestion des abonnements, durées, renouvellements et résiliations
+- respect des obligations fiscales et commerciales
+
+**Bases juridiques :**
+
+- **Art. 6, par. 1, point b RGPD** – exécution du contrat
+- **Art. 6, par. 1, point c RGPD** – obligations légales de conservation, de facturation et de fiscalité
+- **Art. 6, par. 1, point f RGPD** – prévention de la fraude, gestion des créances et sécurité du système
+
+---
+
+## 7. Newsletter et communications marketing
+
+Si vous vous abonnez à notre newsletter ou nous accordez d’une autre manière votre consentement à des communications marketing, nous traitons notamment :
 
 - votre adresse e-mail
-- l’horodatage, l’adresse IP et la langue du consentement dans le cadre de la procédure de **double opt-in**
-- lorsque cela est légalement permis, des informations relatives à la distribution, à l’ouverture et aux clics des campagnes
+- vos prénom et nom, lorsqu’ils sont fournis
+- des informations sur la langue et la devise, lorsqu’elles sont fournies
+- les preuves du double opt-in, notamment l’horodatage, l’adresse IP et le statut du consentement
+- les informations relatives à l’envoi, à la distribution, à l’ouverture et aux clics, lorsque cela est légalement permis
 
-Les newsletters sont envoyées via **Zoho Campaigns** en utilisant des **serveurs situés dans l’UE**. L’inscription ne prend effet qu’après confirmation réussie du double opt-in. Vous pouvez vous désinscrire à tout moment pour l’avenir.
+Pour les fonctions de newsletter, nous utilisons **Zoho Campaigns**, lorsqu’il est activé. L’inscription ne prend effet qu’après confirmation réussie du double opt-in. Vous pouvez vous désinscrire à tout moment pour l’avenir.
 
----
+**Base juridique :**
 
-## 4. Finalités du Traitement des Données
+- **Art. 6, par. 1, point a RGPD** – votre consentement
 
-Les données à caractère personnel sont traitées aux fins suivantes :
-
-- fourniture et exploitation de la plateforme
-- authentification des utilisateurs et contrôle des accès
-- gestion des accès numériques payants et des abonnements
-- envoi de newsletters et de communications marketing sur la base de votre consentement
-- sécurité du système et surveillance technique
-- respect des obligations légales
+Le retrait de votre consentement n’affecte pas la licéité du traitement effectué avant ce retrait.
 
 ---
 
-## 5. Bases Juridiques du Traitement
+## 8. Cookies, stockage local et stockage de session
 
-Le traitement est effectué sur la base des fondements juridiques suivants :
+Nous utilisons des mécanismes de stockage du navigateur techniquement nécessaires et, uniquement lorsque cela est légalement autorisé, des mécanismes de stockage optionnels pour des fonctions d’analyse et de confort.
 
-- **Art. 6, par. 1, point b RGPD** – exécution de mesures précontractuelles, gestion du compte utilisateur et fourniture de services numériques
-- **Art. 6, par. 1, point a RGPD** – consentement à l’envoi de la newsletter, à la preuve du double opt-in et à d’autres communications marketing
-- **Art. 6, par. 1, point f RGPD** – intérêt légitime (sécurité informatique, exploitation, prévention des abus et communication adaptée aux besoins)
-- **Art. 6, par. 1, point c RGPD** – obligations légales
+À ce jour, les mécanismes de stockage suivants sont notamment utilisés :
 
----
+- **`user-preferences` (cookie, jusqu’à 1 an) :** stocke des préférences fonctionnelles telles que la devise et le statut de votre choix en matière d’analytics / suivi ; il sert à appliquer vos paramètres de manière cohérente côté serveur et côté client
+- **`user-preferences` (local storage) :** stocke localement dans votre navigateur les mêmes préférences fonctionnelles jusqu’à leur suppression par vos soins
+- **`i18nextLng` (local storage) :** stocke la langue sélectionnée jusqu’à sa suppression ou son remplacement
+- **`auth.signUp.pendingEmail` (session storage) :** stocke temporairement votre adresse e-mail pendant un processus d’inscription en plusieurs étapes et est généralement supprimé à la fin de la session du navigateur
 
-## 6. Utilisation de Cookies et du Stockage Local
+Des stockages techniquement nécessaires supplémentaires peuvent être utilisés par des mécanismes d’authentification, de sécurité ou de consentement. Les noms exacts des clés peuvent évoluer dans le temps.
 
-Notre plateforme utilise des **cookies fonctionnels** qui sont techniquement nécessaires au fonctionnement du service.
+**Bases juridiques :**
 
-### 6.1 Cookies Fonctionnels
-
-Les cookies fonctionnels suivants sont utilisés :
-
-- **i18next** : Stocke la préférence linguistique de l'utilisateur
-  - Finalité : Mémorisation de la langue sélectionnée entre les sessions
-  - Expiration : 1 an
-  - Type : Fonctionnel (nécessaire)
-
-- **Cookies AWS Amplify / Amazon Cognito** : Utilisés pour l'authentification des utilisateurs et la gestion des sessions
-  - Finalité : Maintien des sessions utilisateur, contrôle d'accès et état d'authentification
-  - Expiration : 1 an
-  - Type : Fonctionnel (nécessaire pour l'authentification)
-  - Fournisseur : Amazon Web Services (AWS Cognito)
-
-### 6.2 Stockage Local
-
-En plus des cookies fonctionnels, le **stockage local** est utilisé pour des fonctions techniquement nécessaires, notamment :
-
-- gestion des sessions
-- stockage des préférences fonctionnelles des utilisateurs
-
-### 6.3 Google Analytics
-
-Ce site web utilise Google Analytics, un service d'analyse web fourni par Google Ireland Limited (« Google »). Google Analytics utilise des « cookies », qui sont des fichiers texte placés sur votre ordinateur, pour aider le site web à analyser l'utilisation du site par ses utilisateurs.
-
-#### 6.3.1 Anonymisation de l'IP
-
-Nous avons activé la fonction d'anonymisation de l'IP sur ce site web. Votre adresse IP sera donc raccourcie par Google dans les États membres de l'Union européenne ou dans d'autres États signataires de l'accord sur l'Espace économique européen avant d'être transmise aux États-Unis. L'adresse IP transmise par votre navigateur dans le cadre de Google Analytics n'est pas recoupée avec d'autres données de Google.
-
-#### 6.3.2 Base Juridique et Révocation
-
-La base juridique pour l'utilisation de cookies et le suivi personnalisé est votre consentement conformément à l'art. 6, par. 1, point a du RGPD et au § 25, al. 1 de la TTDSG. Le traitement d'événements de suivi anonymisés (sans cookies) à des fins d'analyse statistique est effectué sur la base de notre intérêt légitime pour la conception et l'optimisation de notre site web en fonction des besoins, conformément à l'art. 6, par. 1, point f du RGPD.
-
-Vous pouvez configurer le logiciel de votre navigateur afin d'empêcher l'enregistrement de cookies ; nous vous signalons toutefois que, dans ce cas, vous ne pourrez peut-être pas utiliser toutes les fonctions de ce site web dans leur intégralité. Vous pouvez également révoquer votre consentement à tout moment et désactiver Google Analytics en modifiant vos préférences de consentement dans la bannière de cookies.
-
-
-## 7. Web Scraping et Traitement de Contenus Externes
-
-La plateforme traite des contenus provenant de **sources Internet accessibles publiquement** au moyen de procédés automatisés.
-
-Il s’applique ce qui suit :
-
-- **aucune restriction d’accès n’est contournée**
-- **aucune collecte ciblée de données à caractère personnel** n’est effectuée
-
-Si des données à caractère personnel font néanmoins partie de contenus accessibles publiquement, le traitement est effectué sur la base de :
-
-- **Art. 6, par. 1, point f RGPD** (intérêt légitime à un traitement historique, scientifique et documentaire)
+- **§ 25, al. 2 TDDDG** et **Art. 6, par. 1, point f RGPD** – pour les stockages techniquement nécessaires
+- **§ 25, al. 1 TDDDG** et **Art. 6, par. 1, point a RGPD** – pour les stockages optionnels d’analyse ou de marketing lorsque le consentement est requis
 
 ---
 
-### 7.1 Droit d’Opposition concernant les Contenus Externes
+## 9. Gestion du consentement et Google Analytics
 
-Les personnes concernées ou les titulaires de droits peuvent s’opposer à tout moment au traitement de leurs contenus :
+Notre site web utilise une bannière de consentement et des paramètres de consentement distincts. Les stockages optionnels à des fins d’analyse ou de marketing ne sont activés que dans la mesure légalement autorisée.
+
+Nous utilisons **Google Analytics 4** fourni par **Google Ireland Limited**, Gordon House, Barrow Street, Dublin 4, Irlande.
+
+Dans notre implémentation technique actuelle, les cookies d’analyse ou un stockage optionnel comparable ne sont en principe activés qu’après votre consentement. En même temps, l’implémentation de gestion du consentement ou Google Consent Mode peut déjà impliquer une communication technique limitée avec Google avant votre consentement, par exemple pour transmettre l’état du consentement ou des signaux techniques réduits sans cookies. Lorsque cela se produit, cela sert uniquement à gérer techniquement l’état du consentement et non à activer une analyse complète basée sur les cookies.
+
+Si vous accordez votre consentement, les données suivantes peuvent notamment être traitées à des fins statistiques :
+
+- pages visitées et événements
+- informations techniques relatives à l’appareil et au navigateur
+- informations approximatives de localisation et de langue
+- données d’interaction et d’usage
+
+Vous pouvez retirer votre consentement à tout moment avec effet pour l’avenir via les paramètres de consentement.
+
+**Bases juridiques :**
+
+- **Art. 6, par. 1, point a RGPD** et **§ 25, al. 1 TDDDG** – pour le traitement via Google Analytics et le stockage optionnel d’analyse après votre consentement
+- **Art. 6, par. 1, point f RGPD** – uniquement dans la mesure où, avant le consentement, des signaux purement techniques sont traités afin d’appliquer et de documenter votre choix de consentement
+
+Pour plus d’informations, veuillez consulter la [Politique de confidentialité de Google](https://policies.google.com/privacy).
+
+---
+
+## 10. Sources accessibles publiquement, web scraping et contenus historiques
+
+Notre plateforme traite également des informations provenant de sources accessibles publiquement sur internet. Selon la source, cela peut notamment inclure :
+
+- descriptions, images, prix et métadonnées relatives à des objets historiques ou d’antiquités
+- données de boutique, de contact ou d’entreprise lorsqu’elles sont publiques
+- matériel de documentation historique, informations contextuelles et références de sources
+- dans certains cas, des données à caractère personnel lorsque de telles données font partie de contenus accessibles publiquement
+
+Conformément à notre modèle d’exploitation prévu, aucune restriction d’accès n’est contournée et aucune zone manifestement protégée n’est techniquement franchie.
+
+**Finalités du traitement :**
+
+- recherche, indexation et trouvabilité
+- documentation et archivage
+- préparation scientifique, historique et éducative
+- analyse technique, classification et contextualisation
+
+**Base juridique :**
+
+- **Art. 6, par. 1, point f RGPD** – notre intérêt légitime à la recherche, à la documentation, à l’indexation et à la préparation d’informations accessibles publiquement dans un contexte historique et d’antiquités
+
+Lorsque les données à caractère personnel ne sont pas collectées directement auprès de la personne concernée, l’information est fournie par le biais des présentes notices de confidentialité publiques conformément à l’art. 14 RGPD. Compte tenu du grand nombre de sources et d’ensembles de données potentiels, une notification individuelle peut, dans certains cas, être impossible ou impliquer un effort disproportionné.
+
+Les personnes concernées et les titulaires de droits peuvent s’opposer dans le cadre prévu par la loi ou demander un examen à l’adresse suivante :
 
 **E-mail :** [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-Après examen, les contenus concernés seront **supprimés ou bloqués**, dans la mesure où aucune raison légale impérative ne s’y oppose.
+Après examen, nous supprimons, bloquons ou limitons les contenus lorsque cela est juridiquement requis ou lorsque nos intérêts légitimes ne prévalent pas dans le cas d’espèce.
 
 ---
 
-## 8. Contenus Historiques et Périodes Sensibles
+## 11. Traitement assisté par l’IA et absence de décisions individuelles automatisées
 
-La plateforme traite des contenus historiques, y compris ceux provenant de périodes sensibles (par ex. 1933–1945 en Allemagne).
+Nous pouvons utiliser des procédés automatisés et assistés par l’IA, notamment pour :
 
-Le traitement est effectué exclusivement à des fins :
+- la classification et la structuration des contenus
+- la recherche de similarité et le classement
+- le filtrage de sécurité et de sensibilité
+- l’extraction, l’enrichissement et la contextualisation d’informations
 
-- scientifiques
-- documentaires
-- archivistiques
-- éducatives
+Ces procédés servent d’assistance technique à notre service. Nous ne prenons pas de décisions fondées exclusivement sur un tel traitement produisant des effets juridiques ou vous affectant de manière significative de façon similaire au sens de l’art. 22 RGPD.
 
-Toute utilisation idéologique, politique ou propagandiste est exclue.
+Les contenus historiques ou sensibles peuvent en outre être soumis à des mesures techniques de protection, à des avertissements ou à des restrictions d’affichage fondées sur le consentement.
 
----
+**Bases juridiques :**
 
-## 9. Utilisation de l’Intelligence Artificielle
-
-Des systèmes d’IA modernes sont utilisés pour l’analyse, la classification et le filtrage des contenus.
-
-Il s’applique ce qui suit :
-
-- aucune décision automatisée produisant des effets juridiques conformément à l’art. 22 RGPD
-- aucun profilage des utilisateurs
-- les résultats de l’IA servent exclusivement d’assistance technique
-
-Malgré des méthodes modernes, il ne peut être exclu que les résultats de l’IA soient erronés ou incomplets.
+- **Art. 6, par. 1, point b RGPD** – lorsqu’il est nécessaire de fournir des fonctionnalités contractuelles
+- **Art. 6, par. 1, point f RGPD** – intérêt légitime à la fonctionnalité du produit, à l’assurance qualité, à la sécurité et à la contextualisation
 
 ---
 
-## 10. Hébergement et Traitement des Données
+## 12. Destinataires, prestataires et transferts vers des pays tiers
 
-### 10.1 Hébergement
+Nous faisons appel à des prestataires de services et d’infrastructure externes. Les données à caractère personnel peuvent être transférées ou divulguées aux catégories de destinataires suivantes :
 
-La plateforme est hébergée auprès des fournisseurs suivants :
+- **Amazon Web Services (AWS) / Amazon Cognito** – notamment pour l’inscription, la connexion et l’authentification
+- **Cloudflare** – notamment pour la diffusion du site web, la performance, le cache, la sécurité et les fonctions de protection
+- **Hetzner Online GmbH** – lorsque certains composants backend, d’hébergement ou de stockage y sont exploités
+- **Stripe** – pour le traitement des paiements, la gestion des abonnements, le checkout et le portail client
+- **Zoho Campaigns** – lorsque la newsletter et les communications marketing sont activées
+- **Google** – lorsque Google Analytics ou des fonctions de consent mode sont utilisés
+- **d’autres prestataires techniques, juridiques, fiscaux ou organisationnels** – lorsque cela est nécessaire pour l’exploitation, l’assistance, la sécurité, la conformité ou la défense de droits
+- **autorités, juridictions et tiers** – lorsque nous y sommes légalement tenus ou lorsque cela est nécessaire à la défense de droits en justice
 
-- **Amazon Web Services (AWS)** avec centre de données en **Allemagne (Francfort)**
-- **Cloudflare** avec centre de données en **Allemagne (Francfort)**
-- **Hetzner Online GmbH** avec centres de données en **Allemagne (Falkenstein et Nuremberg)**
+Certains de ces destinataires peuvent traiter des données en dehors de l’Union européenne ou de l’Espace économique européen, ou accéder aux données depuis des pays tiers. Cela concerne en particulier des prestataires technologiques mondiaux tels que Google, Stripe, Cloudflare, AWS ou Zoho.
 
-Les données à caractère personnel liées à l’hébergement de la plateforme sont traitées **en Allemagne**.
+Lorsque des transferts vers des pays tiers ont lieu, nous nous appuyons – selon le prestataire et la situation – notamment sur :
 
----
+- des décisions d’adéquation de la Commission européenne (par ex. le cadre EU-U.S. Data Privacy Framework lorsque cela s’applique),
+- les clauses contractuelles types de la Commission européenne,
+- des garanties contractuelles, techniques et organisationnelles complémentaires.
 
-### 10.2 Traitement pour le Compte de Tiers
-
-La plateforme est exploitée avec des fournisseurs externes d’hébergement et d’infrastructure.
-Des accords de traitement des données conformément à l’art. 28 RGPD ont été conclus avec Amazon Web Services (AWS), Cloudflare et Hetzner Online GmbH.
-
-Pour l’envoi de la newsletter, nous utilisons en outre **Zoho Campaigns** en tant que sous-traitant avec des **serveurs situés dans l’UE**. Un accord de traitement des données a également été conclu pour ce service.
-
----
-
-### 10.3 Traitement des paiements via Stripe en tant que prestataire de services de paiement
-
-Le traitement des paiements pour les services numériques payants est assuré par [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irlande) en tant que **prestataire de services de paiement**. Stripe traite les données de paiement pour le compte d'Aura Historia en tant que sous-traitant conformément à l'art. 28 du RGPD. Un contrat de sous-traitance correspondant a été conclu.
-
-Stripe est certifié PCI-DSS. Les données complètes de carte de paiement (par ex. numéros de carte de crédit) ne sont pas transmises à Aura Historia. Nous ne recevons de Stripe que les données nécessaires à l'activation, à l'attribution et à la gestion de votre accès numérique (par ex. identifiant de transaction, statut du paiement, pays).
-
-Pour plus d'informations sur le traitement des données par Stripe, veuillez consulter la [Politique de Confidentialité de Stripe](https://stripe.com/privacy).
+Sur demande, nous vous fournirons volontiers davantage d’informations sur les garanties applicables dans le cas concret.
 
 ---
 
-## 11. Sécurité des Données
+## 13. Durée de conservation
 
-Nous mettons en œuvre des mesures techniques et organisationnelles appropriées (TOM), notamment :
+Nous conservons les données à caractère personnel uniquement pendant la durée nécessaire aux finalités respectives ou aussi longtemps que des obligations légales de conservation existent.
 
-- chiffrement TLS lors de la transmission des données
-- chiffrement des données au repos (encryption at rest)
-- restrictions d’accès selon le principe du besoin d’en connaître
-- contrôles de sécurité réguliers
+Les critères suivants s’appliquent généralement en particulier :
 
----
+- **Données de compte :** jusqu’à la suppression du compte ou à la fin de la relation d’utilisation ; ensuite suppression ou blocage sauf si des obligations légales de conservation s’y opposent
+- **Données contractuelles, de facturation et fiscales :** pendant la durée des obligations légales de conservation en droit commercial et fiscal
+- **Données de newsletter et preuves de consentement :** jusqu’au désabonnement ou au retrait du consentement et au-delà si nécessaire pour documenter ou défendre des droits
+- **Journaux serveur, edge et sécurité :** pendant une période limitée lorsqu’ils sont nécessaires pour garantir la sécurité, la stabilité et l’analyse des erreurs
+- **Données provenant de sources publiques :** aussi longtemps qu’elles sont nécessaires à des fins de documentation, de recherche ou de plateforme, ou jusqu’à ce qu’une demande justifiée de suppression ou de blocage doive être satisfaite
+- **Stockage du navigateur :** jusqu’à l’expiration de la durée correspondante ou jusqu’à suppression par vos soins
 
-## 12. Durée de Conservation
-
-Les données à caractère personnel ne sont conservées que pendant la durée nécessaire aux finalités respectives :
-
-- comptes utilisateurs : jusqu’à leur suppression par l’utilisateur ou sur demande
-- journaux du serveur : conservés pour une durée limitée et supprimés automatiquement
-
-Les obligations légales de conservation demeurent inchangées.
+Les sauvegardes et répliques techniques peuvent n’être écrasées qu’avec un certain délai pour des raisons système.
 
 ---
 
-## 13. Droits des Personnes Concernées
+## 14. Droits des personnes concernées
 
-Les personnes concernées disposent des droits suivants :
+Sous réserve des conditions légales, vous disposez notamment des droits suivants :
 
 - **Art. 15 RGPD** – droit d’accès
 - **Art. 16 RGPD** – droit de rectification
 - **Art. 17 RGPD** – droit à l’effacement
 - **Art. 18 RGPD** – droit à la limitation du traitement
 - **Art. 20 RGPD** – droit à la portabilité des données
-- **Art. 21 RGPD** – droit d’opposition
+- **Art. 21 RGPD** – droit d’opposition aux traitements fondés sur l’art. 6, par. 1, point f RGPD
+- **Art. 7, par. 3 RGPD** – droit de retirer les consentements pour l’avenir
 
 Les demandes peuvent être adressées à :
 
 [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-Tout utilisateur enregistré peut supprimer son compte de manière autonome et ainsi supprimer immédiatement et irrévocablement toutes les données non anonymisées qui lui sont associées de ce service. La suppression peut être effectuée via le lien suivant :
+Les utilisateurs enregistrés peuvent également supprimer leur compte via l’espace compte :
 
 [https://aura-historia.com/account](https://aura-historia.com/account)
 
----
-
-## 14. Droit d’Introduire une Réclamation auprès d’une Autorité de Contrôle
-
-Les personnes concernées ont le droit d’introduire une réclamation auprès d’une autorité de contrôle en matière de protection des données.
-
-L’autorité compétente est le délégué à la protection des données du Land concerné.
+Veuillez noter qu’une suppression n’est pas possible dans la mesure ou aussi longtemps que nous avons encore besoin des données pour respecter des obligations légales, faire valoir, exercer ou défendre des droits en justice, ou pour des raisons de sécurité informatique.
 
 ---
 
-## 15. Modifications de la Présente Politique de Confidentialité
+## 15. Droit d’introduire une réclamation auprès d’une autorité de contrôle
 
-La présente politique de confidentialité peut être adaptée afin de refléter des changements juridiques, techniques ou de contenu.
+Vous avez le droit d’introduire une réclamation auprès d’une autorité de contrôle en matière de protection des données. L’autorité particulièrement compétente pour nous est :
+
+**Sächsische Datenschutz- und Transparenzbeauftragte**  
+Maternistraße 17  
+01067 Dresden  
+Allemagne  
+Site web : [https://www.saechsdsb.de/](https://www.saechsdsb.de/)  
+E-mail : [post@sdtb.sachsen.de](mailto:post@sdtb.sachsen.de)
+
+Vous pouvez également vous adresser à toute autre autorité de contrôle compétente, en particulier celle de votre lieu de résidence, de votre lieu de travail ou du lieu de l’infraction alléguée.
 
 ---
 
-*État : 12.04.2026*
+## 16. Modifications des présentes notices de confidentialité
+
+Nous pouvons adapter les présentes notices de confidentialité lorsque cela devient nécessaire en raison de changements juridiques, techniques, organisationnels ou de contenu. La version publiée sur notre site web fait foi.
+
+---
+
+*État : 17.05.2026*
