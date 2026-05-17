@@ -1,4 +1,4 @@
-Informazioni ai sensi del § 5 TMG e § 18 MStV
+Informazioni ai sensi del § 5 DDG e del § 18 comma 2 MStV
 
 ## Fornitore del servizio
 
@@ -6,7 +6,7 @@ Informazioni ai sensi del § 5 TMG e § 18 MStV
 
 **Nome commerciale:** Aura Historia
 
-**Indirizzo:** Hardenbergstraße 80, 04275 Leipzig, Germania
+**Indirizzo:** Hardenbergstraße 80, 04275 Lipsia, Germania
 
 **E-mail (personale):** [julian.bruder@aura-historia.com](mailto:julian.bruder@aura-historia.com)
 
@@ -16,134 +16,91 @@ Informazioni ai sensi del § 5 TMG e § 18 MStV
 
 ---
 
-## Responsabile per i contenuti (§ 18 comma 2 MStV)
+## Responsabile dei contenuti giornalistico-redazionali ai sensi del § 18 comma 2 MStV
 
-Julian Bruder Einzelunternehmen
-Hardenbergstraße 80, 04275 Leipzig, Germania
+Nella misura in cui su questo sito web o all’interno del servizio vengano pubblicati contenuti giornalistico-redazionali, il responsabile è:
 
-*Ciò non si applica ai contenuti provenienti da fonti esterne raccolti tramite procedure automatizzate (web scraping) o tramite integrazioni di negozi partner.*
-
----
-
-## Tipo di servizio
-
-Il servizio offerto è una piattaforma Software-as-a-Service (SaaS) per funzioni digitali di ricerca, scoperta e analisi relative a contenuti storici e antiquariali.
-
-L'elaborazione dei pagamenti per i servizi digitali a pagamento o gli abbonamenti avviene tramite [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublino, Irlanda) come **fornitore di servizi di pagamento**. Aura Historia, in qualità di venditore diretto, è la parte contrattuale dell'utente ed è responsabile della fatturazione, dell'IVA e di tutti gli obblighi contrattuali. Stripe tratta i dati di pagamento esclusivamente per conto di Aura Historia come responsabile del trattamento ai sensi dell'art. 28 del RGPD.
-
-Aura Historia rimane il fornitore della piattaforma digitale. I contratti per l’acquisto di specifici oggetti d’antiquariato o da collezione non vengono conclusi con Aura Historia ma, se del caso, con il relativo fornitore terzo indicato per l’articolo.
+Julian Bruder Einzelunternehmen  
+Hardenbergstraße 80  
+04275 Lipsia  
+Germania
 
 ---
 
-## Orientamento dei contenuti
+## Tipo di offerta
 
-La piattaforma serve alla **raccolta, analisi e preparazione di dati storici e antiquari**, in particolare da fonti pubblicamente accessibili su Internet.
+Aura Historia gestisce una piattaforma software-as-a-service (SaaS) per funzioni digitali di ricerca, scoperta e analisi relative a contenuti storici e antiquariali.
 
-Ciò include anche **contenuti storici di periodi sensibili**, compreso il periodo del nazionalsocialismo (1933–1945) in Germania.
+L’offerta può comprendere in particolare:
 
-### Chiara presa di distanza e definizione dello scopo
+- funzioni di ricerca, filtro e analisi
+- watchlist, notifiche e impostazioni personalizzate
+- accessi digitali gratuiti e a pagamento
+- informazioni elaborate a livello editoriale o con il supporto dell’IA
+- funzioni per shop partner o interfacce tecniche, ove offerte
 
-La fornitura, l'elaborazione o l'analisi di tali contenuti avviene **esclusivamente per i seguenti scopi**:
+L’elaborazione dei pagamenti per servizi digitali a pagamento o abbonamenti avviene tramite [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublino, Irlanda). Aura Historia rimane la controparte contrattuale dell’utente per i servizi digitali offerti. A seconda dei requisiti del diritto dei pagamenti e della protezione dei dati, Stripe può operare in parte come titolare autonomo e in parte come prestatore di servizi.
 
-- Ricerca scientifica e storica
-- Documentazione e archiviazione
-- Analisi tecnica e contestualizzazione
-- Istruzione e divulgazione pubblica
-
-**Non vi è alcun intento politico, ideologico o propagandistico**.
-
----
-
-## Gestione dei simboli incostituzionali (§ 86a StGB)
-
-La piattaforma utilizza **tecnologie AI allo stato dell'arte (SOTA)** per analizzare e filtrare automaticamente i contenuti.
-
-In particolare, vengono adottate misure per:
-
-- Rilevamento e limitazione dei simboli ai sensi del § 86a StGB
-- Classificazione contestuale delle rappresentazioni storiche
-- Prevenzione della visualizzazione illecita o abusiva
-
-Nel caso in cui contenuti rientranti nel § 86a StGB vengano comunque visualizzati o elaborati, ciò avviene **esclusivamente nell'ambito delle eccezioni legalmente consentite**, in particolare per scopi di scienza, ricerca o insegnamento.
-
-Si noti che **per impostazione predefinita**, tutti i contenuti identificati come incostituzionali vengono **resi irriconoscibili**.
-La registrazione al servizio consente, tramite esplicito **opt-in**, la visualizzazione permanente di tali contenuti.
-Gli utenti non registrati hanno la possibilità di visualizzare i contenuti pertinenti **temporaneamente** navigando verso tali contenuti attraverso più passaggi di interazione deliberata.
+Quando sulla piattaforma vengono mostrati oggetti d’antiquariato, articoli da collezione o altri beni di terzi, eventuali contratti di acquisto relativi a tali beni non sono conclusi con Aura Historia, bensì esclusivamente con il terzo indicato per il relativo articolo.
 
 ---
 
-## Responsabilità per i contenuti
+## Fonti pubbliche, contenuti storici e rappresentazioni sensibili
 
-In qualità di fornitore di servizi, siamo responsabili dei nostri contenuti ai sensi del § 7 comma 1 TMG secondo le leggi generali.
+La piattaforma tratta e indicizza anche contenuti provenienti da fonti pubblicamente accessibili su internet. Non è previsto aggirare restrizioni di accesso né superare tecnicamente aree manifestamente protette.
 
-Tuttavia, non assumiamo **alcuna garanzia per l'accuratezza, la completezza o l'attualità** dei contenuti forniti, in particolare poiché:
+Il servizio è gestito esclusivamente per finalità legittime, in particolare:
 
-- vengono elaborati automaticamente
-- si basano su fonti esterne e pubblicamente accessibili
-- vengono analizzati e preparati utilizzando sistemi di IA
+- documentazione
+- ricerca e analisi scientifica
+- archiviazione
+- educazione e informazione pubblica
+- analisi tecnica e contestualizzazione
 
-L'uso di moderne tecnologie di IA non può escludere completamente **errori, classificazioni errate o risultati incompleti**.
+Ciò può includere anche contenuti provenienti da periodi storici sensibili, comprese rappresentazioni dell’epoca del nazionalsocialismo. Non si intende alcuna approvazione politica, ideologica o propagandistica di tali contenuti.
 
----
-
-## Responsabilità per contenuti e fonti esterni
-
-La piattaforma elabora contenuti da **siti web esterni** sui quali **non abbiamo alcuna influenza**.
-
-Pertanto, non assumiamo **alcuna responsabilità per contenuti di terzi**, in particolare riguardo a:
-
-- accuratezza
-- legalità
-- completezza
-
-Al momento dell'elaborazione, non erano evidenti violazioni legali.
+Laddove determinati contenuti possano essere soggetti a restrizioni legali, in particolare in relazione al § 86a StGB, possono essere utilizzate misure tecniche di protezione, avvertenze, offuscamenti o limitazioni di visualizzazione legate a una decisione espressa dell’utente.
 
 ---
 
-## Web Scraping / Raccolta dati
+## Avvertenze sui contenuti e responsabilità
 
-La piattaforma utilizza procedure automatizzate per la **raccolta di contenuti pubblicamente accessibili** da Internet.
+Siamo responsabili dei nostri contenuti ai sensi delle leggi generali. Tuttavia, non assumiamo alcuna garanzia circa l’esattezza, la completezza, la liceità o l’attualità delle informazioni raccolte automaticamente, provenienti da fonti pubbliche, fornite da terzi o analizzate con il supporto dell’IA.
 
-**Non vengono aggirate restrizioni di accesso** e non vengono raccolti contenuti deliberatamente protetti.
+Nonostante un’attenta verifica, non si può escludere che fonti di dati esterne contengano informazioni errate, obsolete o illecite, oppure che procedure automatizzate e sistemi di IA effettuino classificazioni inesatte.
 
-### Opposizione alla raccolta dati
-
-Se non sei d'accordo con la raccolta o l'elaborazione dei tuoi contenuti, puoi contattarci in qualsiasi momento:
-
-**Email:** [contact@aura-historia.com](mailto:contact@aura-historia.com)
-
-Dopo la verifica, **rimuoveremo i contenuti pertinenti o cesseremo l'elaborazione**, a condizione che nessun obbligo legale lo impedisca.
+Quando veniamo a conoscenza di violazioni concrete della legge, esaminiamo i contenuti o i collegamenti interessati nella misura richiesta dalla legge e, se necessario, li rimuoviamo, li blocchiamo o interrompiamo l’ulteriore trattamento.
 
 ---
 
-## Esclusione di responsabilità / Forza maggiore
+## Segnalazione di violazioni / Notice-and-Takedown
 
-La piattaforma viene gestita "**così com'è**".
+Se ritenete che contenuti presenti sul nostro sito web o all’interno del servizio violino diritti o siano trattati illecitamente, potete contattarci al seguente indirizzo:
 
-Non assumiamo alcuna responsabilità per danni derivanti da:
+**E-mail:** [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-- guasti tecnici
-- forza maggiore
-- errori di sistema imprevedibili
-- output errati dell'IA
-- perdita di dati o problemi di disponibilità
-
-Non esiste alcun diritto alla disponibilità o funzionalità permanente.
+Vi preghiamo di descrivere il contenuto interessato nel modo più preciso possibile e, ove disponibile, di allegare prove della vostra legittimazione o del vostro coinvolgimento. Esaminiamo tali segnalazioni con adeguata priorità.
 
 ---
 
-## Diritto d'autore
+## Risoluzione delle controversie dei consumatori
 
-I contenuti creati dal fornitore del servizio sono soggetti alla legge tedesca sul diritto d'autore.
+Informazione ai sensi del § 36 VSBG: attualmente non siamo né obbligati né disponibili a partecipare a procedure di risoluzione delle controversie davanti a un organismo di conciliazione per i consumatori.
 
-I contenuti di terzi sono identificati come tali o provengono da fonti pubblicamente accessibili.
+---
+
+## Diritto d’autore
+
+I contenuti, le strutture, i testi, le grafiche, gli elementi di banca dati e le altre opere create da Aura Historia su questo sito web sono protetti dal diritto d’autore tedesco e da altri diritti di proprietà intellettuale, salvo diversa indicazione nel singolo caso.
+
+I contenuti provenienti da fonti pubbliche o esterne restano di titolarità dei rispettivi aventi diritto. La loro visualizzazione sulla piattaforma non conferisce all’utente alcun diritto di utilizzo.
 
 ---
 
 ## Diritto applicabile
 
-Si applica esclusivamente il **diritto della Repubblica Federale di Germania**.
+Il diritto tedesco si applica alle presenti informazioni sul prestatore e alle questioni giuridiche derivanti da o connesse all’uso di questo sito web, salvo che norme imperative di legge, in particolare a tutela dei consumatori, dispongano diversamente.
 
 ---
 
-*Stato: 12.04.2026*
+*Stato: 17.05.2026*
