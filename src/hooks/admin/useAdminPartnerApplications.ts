@@ -9,7 +9,6 @@ import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 
 const ADMIN_QUERY_OPTIONS = {
     staleTime: 0,
-    gcTime: 0,
     refetchOnMount: "always" as const,
     refetchOnReconnect: "always" as const,
     refetchOnWindowFocus: "always" as const,
