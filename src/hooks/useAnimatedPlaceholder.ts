@@ -25,6 +25,10 @@ interface UseAnimatedPlaceholderOptions {
      * @default true
      */
     enabled?: boolean;
+    /**
+     * When this value changes, the animation resets to the first example.
+     */
+    resetKey?: string;
 }
 
 /**
@@ -37,11 +41,19 @@ export function useAnimatedPlaceholder({
     deletingSpeed = 50,
     delayBetweenExamples = 2000,
     enabled = true,
+    resetKey,
 }: UseAnimatedPlaceholderOptions): string {
     const [currentText, setCurrentText] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+    useEffect(() => {
+        if (resetKey === undefined) return;
+        setCurrentText("");
+        setCurrentIndex(0);
+        setIsDeleting(false);
+    }, [resetKey]);
 
     useEffect(() => {
         if (!enabled || examples.length === 0) {

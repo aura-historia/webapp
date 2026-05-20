@@ -175,7 +175,7 @@
       "placeholder": "Je recherche...",
       "placeholderShort": "Rechercher",
       "button": "Rechercher",
-      "placeholderExamples": [
+      "placeholderExamplesProducts": [
         "Peinture à l'huile Marie-Madeleine",
         "Service en porcelaine de Meissen",
         "Commode Louis XVI",
@@ -196,6 +196,23 @@
         "Miroir Rococo",
         "Miniature persane",
         "Fauteuil Louis XV"
+      ],
+      "placeholderExamplesShops": [
+        "Sotheby's",
+        "Christie's",
+        "Drouot",
+        "Artcurial",
+        "Catawiki",
+        "1stDibs",
+        "LiveAuctioneers",
+        "Invaluable",
+        "Bonhams",
+        "Dorotheum",
+        "The Saleroom",
+        "Aguttes",
+        "Barnebys",
+        "Vinterior",
+        "Chairish"
       ],
       "searchTypeLabel": "Type de recherche",
       "searchType": {

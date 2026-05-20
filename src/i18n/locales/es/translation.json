@@ -175,7 +175,7 @@
       "placeholder": "Estoy buscando...",
       "placeholderShort": "Buscar",
       "button": "Buscar",
-      "placeholderExamples": [
+      "placeholderExamplesProducts": [
         "Óleo de María Magdalena",
         "Servicio de porcelana Meissen",
         "Cómoda Luis XVI",
@@ -196,6 +196,23 @@
         "Espejo rococó",
         "Miniatura persa",
         "Sillón Luis XV"
+      ],
+      "placeholderExamplesShops": [
+        "Sotheby's",
+        "Christie's",
+        "Catawiki",
+        "1stDibs",
+        "LiveAuctioneers",
+        "Invaluable",
+        "Bonhams",
+        "Dorotheum",
+        "Balclis",
+        "Setdart",
+        "The Saleroom",
+        "Barnebys",
+        "Chairish",
+        "Heritage Auctions",
+        "Drouot"
       ],
       "searchTypeLabel": "Tipo de búsqueda",
       "searchType": {
