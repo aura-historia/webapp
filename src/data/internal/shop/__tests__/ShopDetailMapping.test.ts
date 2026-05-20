@@ -152,40 +152,4 @@ describe("mapToShopDetail", () => {
         const result = mapToShopDetail(mockShopData);
         expect(result.geoAddress).toBeUndefined();
     });
-
-    it("maps specialitiesCategories when present", () => {
-        const result = mapToShopDetail({
-            ...mockShopData,
-            specialitiesCategories: ["ancient-egypt", "roman-coins"],
-        });
-        expect(result.specialitiesCategories).toEqual(["ancient-egypt", "roman-coins"]);
-    });
-
-    it("specialitiesCategories is undefined when not in response", () => {
-        const result = mapToShopDetail(mockShopData);
-        expect(result.specialitiesCategories).toBeUndefined();
-    });
-
-    it("specialitiesCategories is undefined when response returns empty array", () => {
-        const result = mapToShopDetail({ ...mockShopData, specialitiesCategories: [] });
-        expect(result.specialitiesCategories).toBeUndefined();
-    });
-
-    it("maps specialitiesPeriods when present", () => {
-        const result = mapToShopDetail({
-            ...mockShopData,
-            specialitiesPeriods: ["roman-period", "medieval"],
-        });
-        expect(result.specialitiesPeriods).toEqual(["roman-period", "medieval"]);
-    });
-
-    it("specialitiesPeriods is undefined when not in response", () => {
-        const result = mapToShopDetail(mockShopData);
-        expect(result.specialitiesPeriods).toBeUndefined();
-    });
-
-    it("specialitiesPeriods is undefined when response returns empty array", () => {
-        const result = mapToShopDetail({ ...mockShopData, specialitiesPeriods: [] });
-        expect(result.specialitiesPeriods).toBeUndefined();
-    });
 });

@@ -8,11 +8,6 @@ import {
     type ProductUrlChangedPayload,
     type ProductImagesChangedPayload,
     type ProductAuctionTimeChangedPayload,
-    type ProductOriginYearChangedPayload,
-    type ProductAuthenticityChangedPayload,
-    type ProductConditionChangedPayload,
-    type ProductProvenanceChangedPayload,
-    type ProductRestorationChangedPayload,
     mapToDetailProduct,
 } from "../ProductDetails.ts";
 
@@ -31,10 +26,6 @@ const baseApiItem: PersonalizedGetProductData["item"] = {
     state: "AVAILABLE",
     url: "https://example.com/item",
     images: [],
-    authenticity: "UNKNOWN" as const,
-    condition: "UNKNOWN" as const,
-    provenance: "UNKNOWN" as const,
-    restoration: "UNKNOWN" as const,
     created: "2023-01-01T00:00:00Z",
     updated: "2023-01-02T00:00:00Z",
 };
@@ -325,93 +316,5 @@ describe("mapToDetailProduct", () => {
         const payload = result.history?.[0]?.payload as ProductAuctionTimeChangedPayload;
         expect(payload.auctionStart).toBeUndefined();
         expect(payload.auctionEnd).toBeUndefined();
-    });
-
-    it("should map ORIGIN_YEAR_CHANGED event with an exact year", () => {
-        const historyData: GetProductEventData[] = [
-            makeEvent({
-                eventType: "ORIGIN_YEAR_CHANGED",
-                payload: { originYear: { year: 1890 } },
-            }),
-        ];
-
-        const result = mapToDetailProduct({ item: baseApiItem }, historyData, "de");
-
-        const payload = result.history?.[0]?.payload as ProductOriginYearChangedPayload;
-        expect(payload.originYear).toBe(1890);
-        expect(payload.originYearMin).toBeUndefined();
-        expect(payload.originYearMax).toBeUndefined();
-    });
-
-    it("should map ORIGIN_YEAR_CHANGED event with a min/max range", () => {
-        const historyData: GetProductEventData[] = [
-            makeEvent({
-                eventType: "ORIGIN_YEAR_CHANGED",
-                payload: { originYear: { min: 1850, max: 1900 } },
-            }),
-        ];
-
-        const result = mapToDetailProduct({ item: baseApiItem }, historyData, "de");
-
-        const payload = result.history?.[0]?.payload as ProductOriginYearChangedPayload;
-        expect(payload.originYear).toBeUndefined();
-        expect(payload.originYearMin).toBe(1850);
-        expect(payload.originYearMax).toBe(1900);
-    });
-
-    it("should map AUTHENTICITY_CHANGED event", () => {
-        const historyData: GetProductEventData[] = [
-            makeEvent({
-                eventType: "AUTHENTICITY_CHANGED",
-                payload: { authenticity: "ORIGINAL" as const },
-            }),
-        ];
-
-        const result = mapToDetailProduct({ item: baseApiItem }, historyData, "de");
-
-        const payload = result.history?.[0]?.payload as ProductAuthenticityChangedPayload;
-        expect(payload.authenticity).toBe("ORIGINAL");
-    });
-
-    it("should map CONDITION_CHANGED event", () => {
-        const historyData: GetProductEventData[] = [
-            makeEvent({
-                eventType: "CONDITION_CHANGED",
-                payload: { condition: "EXCELLENT" as const },
-            }),
-        ];
-
-        const result = mapToDetailProduct({ item: baseApiItem }, historyData, "de");
-
-        const payload = result.history?.[0]?.payload as ProductConditionChangedPayload;
-        expect(payload.condition).toBe("EXCELLENT");
-    });
-
-    it("should map PROVENANCE_CHANGED event", () => {
-        const historyData: GetProductEventData[] = [
-            makeEvent({
-                eventType: "PROVENANCE_CHANGED",
-                payload: { provenance: "COMPLETE" as const },
-            }),
-        ];
-
-        const result = mapToDetailProduct({ item: baseApiItem }, historyData, "de");
-
-        const payload = result.history?.[0]?.payload as ProductProvenanceChangedPayload;
-        expect(payload.provenance).toBe("COMPLETE");
-    });
-
-    it("should map RESTORATION_CHANGED event", () => {
-        const historyData: GetProductEventData[] = [
-            makeEvent({
-                eventType: "RESTORATION_CHANGED",
-                payload: { restoration: "MINOR" as const },
-            }),
-        ];
-
-        const result = mapToDetailProduct({ item: baseApiItem }, historyData, "de");
-
-        const payload = result.history?.[0]?.payload as ProductRestorationChangedPayload;
-        expect(payload.restoration).toBe("MINOR");
     });
 });

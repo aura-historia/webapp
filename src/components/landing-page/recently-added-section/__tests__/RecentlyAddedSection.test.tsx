@@ -4,10 +4,6 @@ import RecentlyAddedSection from "../RecentlyAddedSection.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { parseShopType } from "@/data/internal/shop/ShopType.ts";
 import { parseProductState } from "@/data/internal/product/ProductState.ts";
-import { parseAuthenticity } from "@/data/internal/quality-indicators/Authenticity.ts";
-import { parseCondition } from "@/data/internal/quality-indicators/Condition.ts";
-import { parseProvenance } from "@/data/internal/quality-indicators/Provenance.ts";
-import { parseRestoration } from "@/data/internal/quality-indicators/Restoration.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act } from "react";
 
@@ -55,10 +51,6 @@ const createMockProduct = (id: string, title: string): OverviewProduct => ({
     images: [],
     created: new Date(),
     updated: new Date(),
-    authenticity: parseAuthenticity("UNKNOWN"),
-    condition: parseCondition("UNKNOWN"),
-    provenance: parseProvenance("UNKNOWN"),
-    restoration: parseRestoration("UNKNOWN"),
 });
 
 const mockProducts: OverviewProduct[] = [

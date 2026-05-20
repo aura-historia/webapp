@@ -22,39 +22,6 @@ export interface LandingPageFooterLink {
     fragment: string;
 }
 
-export const POPULAR_CATEGORY_KEYS: string[] = [
-    "JEWELRY_PERSONAL_ADORNMENT",
-    "FURNITURE",
-    "VISUAL_ART",
-    "COINS_CURRENCY_MEDALS",
-    "CLOCKS_TIMEKEEPING",
-    "BOOKS_MANUSCRIPTS_PRINTED_MEDIA",
-    "DECORATIVE_OBJECTS",
-    "WEAPONS",
-];
-
-export const POPULAR_PERIOD_KEYS: string[] = [
-    "BAROQUE",
-    "ART_NOUVEAU",
-    "ART_DECO",
-    "ANTIQUITY",
-    "RENAISSANCE",
-    "HISTORICISM",
-    "BIEDERMEIER",
-    "MID_CENTURY_MODERN",
-];
-
-export const POPULAR_COMBINATION_SLUGS: string[] = [
-    "biedermeier-furniture",
-    "art-nouveau-jewelry",
-    "art-deco-furniture",
-    "ancient-weapons",
-    "baroque-furniture",
-    "renaissance-paintings",
-    "ancient-coins",
-    "mid-century-furniture",
-];
-
 export const LANDING_PAGE_FOOTER_LINKS: LandingPageFooterLink[] = [
     {
         translationKey: "footer.landingPageLinks.recentlyAdded",

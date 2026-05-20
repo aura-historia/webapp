@@ -27,8 +27,6 @@ export type AdminShopCreate = {
     readonly structuredAddress?: StructuredAddress | null;
     readonly phone?: string | null;
     readonly email?: string | null;
-    readonly specialitiesCategories?: string[];
-    readonly specialitiesPeriods?: string[];
 };
 
 function shopMatchesFilters(shop: ShopDetail, filters?: AdminShopFilters): boolean {
@@ -91,13 +89,6 @@ export function useCreateAdminShop() {
             if (input.email !== undefined) {
                 body.email = input.email;
             }
-            if (input.specialitiesCategories && input.specialitiesCategories.length > 0) {
-                body.specialitiesCategories = input.specialitiesCategories;
-            }
-            if (input.specialitiesPeriods && input.specialitiesPeriods.length > 0) {
-                body.specialitiesPeriods = input.specialitiesPeriods;
-            }
-
             const response = await postShop({ body });
 
             if (response.error) {

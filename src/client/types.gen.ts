@@ -58,30 +58,6 @@ export type GetProductData = {
      *
      */
     geoAddress?: GeoAddressData | null;
-    /**
-     * Optional kebab-case identifier for the level-one category the product has been classified into.
-     * Categories are automatically classified by the system. Examples: "musical-instruments", "antique-furniture", "antique-clocks"
-     *
-     */
-    categoryId?: string | null;
-    /**
-     * Optional localized display name for the product's level-one category.
-     * Language matches the product's primary content language. Examples: "Musikinstrumente" (de), "Antique Musical Instruments" (en)
-     *
-     */
-    category?: LocalizedTextData | null;
-    /**
-     * Optional kebab-case identifier for the level-one period the product has been classified into.
-     * Periods are automatically classified by the system. Examples: "renaissance", "baroque", "art-deco"
-     *
-     */
-    periodId?: string | null;
-    /**
-     * Optional localized display name for the product's level-one period.
-     * Language matches the product's primary content language. Examples: "Barock" (de), "Renaissance" (en)
-     *
-     */
-    period?: LocalizedTextData | null;
     title: LocalizedTextData;
     /**
      * Optional product description
@@ -103,16 +79,6 @@ export type GetProductData = {
      */
     images: Array<ProductImageData>;
     /**
-     * Origin year information for the antique product.
-     * Can be an exact year or a year range.
-     *
-     */
-    originYear?: OriginYearData | null;
-    authenticity: AuthenticityData;
-    condition: ConditionData;
-    provenance: ProvenanceData;
-    restoration: RestorationData;
-    /**
      * Optional auction time window information.
      * Only present for products from auction houses with scheduled auction times.
      * Contains start and/or end timestamps for the auction.
@@ -132,7 +98,7 @@ export type GetProductData = {
 /**
  * Lightweight product summary information for use in search results and similar products listings.
  * Contains essential product details without extended metadata fields like description, estimates,
- * origin year details, authenticity, condition, provenance, restoration, or history.
+ * or history.
  *
  */
 export type GetProductSummaryData = {
@@ -340,7 +306,7 @@ export type SearchFilterUserStateData = {
     /**
      * Whether this match is hidden because the user has exceeded their monthly search-filter match quota.
      * When `true`, the product data in the response is anonymized: the `productId` is set to a nil UUID,
-     * the title becomes a language-specific placeholder, `condition` is set to `Unknown`, all other UUID
+     * the title becomes a language-specific placeholder, all other UUID
      * fields are nil, enum fields are set to their unknown variants, optional fields are omitted, and
      * timestamps are set to the Unix epoch.
      * Defaults to `false`.
@@ -484,41 +450,6 @@ export type ProductEventAuctionTimeChangedPayloadData = {
 };
 
 /**
- * Payload for origin year change events, containing the new origin year.
- */
-export type ProductEventOriginYearChangedPayloadData = {
-    originYear: OriginYearData;
-};
-
-/**
- * Payload for authenticity change events, containing the new authenticity classification.
- */
-export type ProductEventAuthenticityChangedPayloadData = {
-    authenticity: AuthenticityData;
-};
-
-/**
- * Payload for condition change events, containing the new condition classification.
- */
-export type ProductEventConditionChangedPayloadData = {
-    condition: ConditionData;
-};
-
-/**
- * Payload for provenance change events, containing the new provenance classification.
- */
-export type ProductEventProvenanceChangedPayloadData = {
-    provenance: ProvenanceData;
-};
-
-/**
- * Payload for restoration change events, containing the new restoration classification.
- */
-export type ProductEventRestorationChangedPayloadData = {
-    restoration: RestorationData;
-};
-
-/**
  * Historical event for a product
  */
 export type GetProductEventData = {
@@ -612,17 +543,6 @@ export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD' | 'CNY'
 export type ProductStateData = 'LISTED' | 'AVAILABLE' | 'RESERVED' | 'SOLD' | 'REMOVED' | 'UNKNOWN';
 
 /**
- * Authenticity classification of the antique product:
- * - ORIGINAL: Verified original antique from the stated period
- * - LATER_COPY: Antique copy made at a later time but still historical
- * - REPRODUCTION: Modern reproduction or replica
- * - QUESTIONABLE: Authenticity is disputed or uncertain
- * - UNKNOWN: Authenticity has not been determined
- *
- */
-export type AuthenticityData = 'ORIGINAL' | 'LATER_COPY' | 'REPRODUCTION' | 'QUESTIONABLE' | 'UNKNOWN';
-
-/**
  * Auction time window information for products from auction houses.
  * Contains optional start and end timestamps for scheduled auctions.
  * At least one of the fields (start or end) must be present when this object is included.
@@ -643,47 +563,6 @@ export type AuctionData = {
      *
      */
     end?: string | null;
-};
-
-/**
- * Physical condition assessment of the antique product:
- * - EXCELLENT: Near-perfect condition with minimal wear
- * - GREAT: Very good condition with minor signs of age
- * - GOOD: Good condition with moderate wear consistent with age
- * - FAIR: Fair condition with significant wear but structurally sound
- * - POOR: Poor condition with major damage or deterioration
- * - UNKNOWN: Condition has not been assessed
- *
- */
-export type ConditionData = 'EXCELLENT' | 'GREAT' | 'GOOD' | 'FAIR' | 'POOR' | 'UNKNOWN';
-
-/**
- * Origin year information for antique products.
- * Can represent either an exact year or a year range.
- * At least one of the fields (min, year, or max) will be present when this object is included.
- *
- */
-export type OriginYearData = {
-    /**
-     * Lower end of the year range when the antique is estimated to have originated.
-     * Only present when the origin year is expressed as a range (year will be null).
-     * Can be present alone (without max) to indicate "after this year".
-     *
-     */
-    min?: number | null;
-    /**
-     * Exact year the antique is estimated to have originated.
-     * When this value is present, both min and max will typically be null.
-     *
-     */
-    year?: number | null;
-    /**
-     * Upper end of the year range when the antique is estimated to have originated.
-     * Only present when the origin year is expressed as a range (year will be null).
-     * Can be present alone (without min) to indicate "before this year".
-     *
-     */
-    max?: number | null;
 };
 
 /**
@@ -721,27 +600,6 @@ export type PricingData = {
      */
     estimate?: PriceEstimateData | null;
 };
-
-/**
- * Documentation trail and ownership history of the antique product:
- * - COMPLETE: Full documented history from origin to present
- * - PARTIAL: Some documentation exists but history has gaps
- * - CLAIMED: Provenance is claimed by seller but lacks documentation
- * - NONE: No provenance documentation available
- * - UNKNOWN: Provenance status has not been determined
- *
- */
-export type ProvenanceData = 'COMPLETE' | 'PARTIAL' | 'CLAIMED' | 'NONE' | 'UNKNOWN';
-
-/**
- * Level of restoration work performed on the antique product:
- * - NONE: No restoration, original condition preserved
- * - MINOR: Minor restoration or conservation work (cleaning, small repairs)
- * - MAJOR: Significant restoration or reconstruction work
- * - UNKNOWN: Restoration history has not been determined
- *
- */
-export type RestorationData = 'NONE' | 'MINOR' | 'MAJOR' | 'UNKNOWN';
 
 /**
  * Classification of prohibited or sensitive content that may be present in product images:
@@ -790,12 +648,11 @@ export type ProductImageData = {
  * Fields available for sorting:
  * - score: Sort by relevance score (default, only available when searching with text query)
  * - price: Sort by product price
- * - originYear: Sort by product origin year
  * - updated: Sort by last updated timestamp
  * - created: Sort by creation timestamp
  *
  */
-export type SortProductFieldData = 'score' | 'price' | 'originYear' | 'updated' | 'created';
+export type SortProductFieldData = 'score' | 'price' | 'updated' | 'created';
 
 /**
  * Types of events that can occur for a product:
@@ -806,14 +663,9 @@ export type SortProductFieldData = 'score' | 'price' | 'originYear' | 'updated' 
  * - URL_CHANGED: Product URL was updated
  * - IMAGES_CHANGED: Product image list was updated
  * - AUCTION_TIME_CHANGED: Product auction start or end time was updated
- * - ORIGIN_YEAR_CHANGED: Product origin year was updated
- * - AUTHENTICITY_CHANGED: Product authenticity classification was updated
- * - CONDITION_CHANGED: Product condition classification was updated
- * - PROVENANCE_CHANGED: Product provenance classification was updated
- * - RESTORATION_CHANGED: Product restoration classification was updated
  *
  */
-export type ProductEventTypeData = 'CREATED' | 'STATE_CHANGED' | 'PRICE_CHANGED' | 'ESTIMATE_PRICE_CHANGED' | 'URL_CHANGED' | 'IMAGES_CHANGED' | 'AUCTION_TIME_CHANGED' | 'ORIGIN_YEAR_CHANGED' | 'AUTHENTICITY_CHANGED' | 'CONDITION_CHANGED' | 'PROVENANCE_CHANGED' | 'RESTORATION_CHANGED';
+export type ProductEventTypeData = 'CREATED' | 'STATE_CHANGED' | 'PRICE_CHANGED' | 'ESTIMATE_PRICE_CHANGED' | 'URL_CHANGED' | 'IMAGES_CHANGED' | 'AUCTION_TIME_CHANGED';
 
 /**
  * Event-specific payload data. The structure varies depending on the event type:
@@ -824,14 +676,9 @@ export type ProductEventTypeData = 'CREATED' | 'STATE_CHANGED' | 'PRICE_CHANGED'
  * - URL_CHANGED: ProductEventUrlChangedPayloadData (new URL)
  * - IMAGES_CHANGED: ProductEventImagesChangedPayloadData (new image list)
  * - AUCTION_TIME_CHANGED: ProductEventAuctionTimeChangedPayloadData (new auction start/end times)
- * - ORIGIN_YEAR_CHANGED: ProductEventOriginYearChangedPayloadData (new origin year)
- * - AUTHENTICITY_CHANGED: ProductEventAuthenticityChangedPayloadData (new authenticity classification)
- * - CONDITION_CHANGED: ProductEventConditionChangedPayloadData (new condition classification)
- * - PROVENANCE_CHANGED: ProductEventProvenanceChangedPayloadData (new provenance classification)
- * - RESTORATION_CHANGED: ProductEventRestorationChangedPayloadData (new restoration classification)
  *
  */
-export type ProductEventPayloadData = ProductCreatedEventPayloadData | ProductEventStateChangedPayloadData | ProductEventPriceChangedPayloadData | ProductEventEstimatePriceChangedPayloadData | ProductEventUrlChangedPayloadData | ProductEventImagesChangedPayloadData | ProductEventAuctionTimeChangedPayloadData | ProductEventOriginYearChangedPayloadData | ProductEventAuthenticityChangedPayloadData | ProductEventConditionChangedPayloadData | ProductEventProvenanceChangedPayloadData | ProductEventRestorationChangedPayloadData;
+export type ProductEventPayloadData = ProductCreatedEventPayloadData | ProductEventStateChangedPayloadData | ProductEventPriceChangedPayloadData | ProductEventEstimatePriceChangedPayloadData | ProductEventUrlChangedPayloadData | ProductEventImagesChangedPayloadData | ProductEventAuctionTimeChangedPayloadData;
 
 /**
  * Standard error response format (RFC 9457)
@@ -880,20 +727,6 @@ export type ProductSearchData = {
      * Optional text query for searching products (minimum 1 character when provided)
      */
     productQuery?: string | null;
-    /**
-     * Optional set of kebab-case level-one category identifiers to filter products by.
-     * When provided, products matching any of the categories are returned.
-     * Examples: ["musical-instruments"], ["antique-furniture", "antique-clocks"]
-     *
-     */
-    categoryId?: Array<string>;
-    /**
-     * Optional set of kebab-case level-one period identifiers to filter products by.
-     * When provided, products matching any of the periods are returned.
-     * Examples: ["renaissance"], ["baroque", "decorative-objects"]
-     *
-     */
-    periodId?: Array<string>;
     /**
      * Optional filter by exact shop names (keyword matching).
      * Filters products to only those from shops with names exactly matching one of the provided values.
@@ -979,26 +812,6 @@ export type ProductSearchData = {
      */
     state?: Array<ProductStateData> | null;
     /**
-     * Optional filter by product origin year range
-     */
-    originYear?: RangeQueryInt32 | null;
-    /**
-     * Optional filter by authenticity classifications
-     */
-    authenticity?: Array<AuthenticityData> | null;
-    /**
-     * Optional filter by product condition assessments
-     */
-    condition?: Array<ConditionData> | null;
-    /**
-     * Optional filter by provenance documentation levels
-     */
-    provenance?: Array<ProvenanceData> | null;
-    /**
-     * Optional filter by restoration work levels
-     */
-    restoration?: Array<RestorationData> | null;
-    /**
      * Optional filter by product creation date range
      */
     created?: RangeQueryDateTime | null;
@@ -1034,7 +847,7 @@ export type PostUserSearchFilterData = {
      * Optional natural-language description used by the AI-enhanced search filter matching service.
      * When provided, a language model evaluates each matched product against this description and only
      * keeps products that are a true match, attaching a user-facing reason to every confirmed hit.
-     * Whitespace is trimmed and the value is silently truncated to 500 characters if longer.
+     * Whitespace is trimmed and the value is silently truncated to 1000 characters if longer.
      *
      */
     enhancedSearchDescription?: string;
@@ -1056,7 +869,7 @@ export type PatchUserSearchFilterData = {
      * Optional natural-language description used by the AI-enhanced search filter matching service.
      * When provided, a language model evaluates each matched product against this description and only
      * keeps products that are a true match, attaching a user-facing reason to every confirmed hit.
-     * Whitespace is trimmed and the value is silently truncated to 500 characters if longer.
+     * Whitespace is trimmed and the value is silently truncated to 1000 characters if longer.
      * Omit to leave unchanged.
      *
      */
@@ -1116,20 +929,6 @@ export type PatchProductSearchData = {
      * Text query for searching products (minimum 1 character when provided)
      */
     productQuery?: string | null;
-    /**
-     * Optional set of kebab-case level-one category identifiers to filter products by.
-     * When provided, products matching any of the categories are returned.
-     * Examples: ["musical-instruments"], ["antique-furniture", "antique-clocks"]
-     *
-     */
-    categoryId?: Array<string> | null;
-    /**
-     * Optional set of kebab-case level-one period identifiers to filter products by.
-     * When provided, products matching any of the periods are returned.
-     * Examples: ["renaissance"], ["baroque", "decorative-objects"]
-     *
-     */
-    periodId?: Array<string> | null;
     /**
      * Optional filter by exact shop names (keyword matching).
      * Filters products to only those from shops with names exactly matching one of the provided values.
@@ -1208,26 +1007,6 @@ export type PatchProductSearchData = {
      * Optional filter by product states
      */
     state?: Array<ProductStateData> | null;
-    /**
-     * Optional filter by product origin year range
-     */
-    originYear?: RangeQueryInt32 | null;
-    /**
-     * Optional filter by authenticity classifications
-     */
-    authenticity?: Array<AuthenticityData> | null;
-    /**
-     * Optional filter by product condition assessments
-     */
-    condition?: Array<ConditionData> | null;
-    /**
-     * Optional filter by provenance documentation levels
-     */
-    provenance?: Array<ProvenanceData> | null;
-    /**
-     * Optional filter by restoration work levels
-     */
-    restoration?: Array<RestorationData> | null;
     /**
      * Optional filter by product creation date range
      */
@@ -1454,16 +1233,6 @@ export type UserSearchFilterCollectionData = {
 };
 
 /**
- * Lowercase kebab-case category key.
- */
-export type CategoryIdData = string;
-
-/**
- * Lowercase kebab-case period key.
- */
-export type PeriodIdData = string;
-
-/**
  * ISO 3166-1 alpha-2 country code serialized by the backend.
  */
 export type CountryCodeData = 'AD' | 'AE' | 'AF' | 'AG' | 'AI' | 'AL' | 'AM' | 'AO' | 'AQ' | 'AR' | 'AS' | 'AT' | 'AU' | 'AW' | 'AX' | 'AZ' | 'BA' | 'BB' | 'BD' | 'BE' | 'BF' | 'BG' | 'BH' | 'BI' | 'BJ' | 'BL' | 'BM' | 'BN' | 'BO' | 'BQ' | 'BR' | 'BS' | 'BT' | 'BV' | 'BW' | 'BY' | 'BZ' | 'CA' | 'CC' | 'CD' | 'CF' | 'CG' | 'CH' | 'CI' | 'CK' | 'CL' | 'CM' | 'CN' | 'CO' | 'CR' | 'CU' | 'CV' | 'CW' | 'CX' | 'CY' | 'CZ' | 'DE' | 'DJ' | 'DK' | 'DM' | 'DO' | 'DZ' | 'EC' | 'EE' | 'EG' | 'EH' | 'ER' | 'ES' | 'ET' | 'FI' | 'FJ' | 'FK' | 'FM' | 'FO' | 'FR' | 'GA' | 'GB' | 'GD' | 'GE' | 'GF' | 'GG' | 'GH' | 'GI' | 'GL' | 'GM' | 'GN' | 'GP' | 'GQ' | 'GR' | 'GS' | 'GT' | 'GU' | 'GW' | 'GY' | 'HK' | 'HM' | 'HN' | 'HR' | 'HT' | 'HU' | 'ID' | 'IE' | 'IL' | 'IM' | 'IN' | 'IO' | 'IQ' | 'IR' | 'IS' | 'IT' | 'JE' | 'JM' | 'JO' | 'JP' | 'KE' | 'KG' | 'KH' | 'KI' | 'KM' | 'KN' | 'KP' | 'KR' | 'KW' | 'KY' | 'KZ' | 'LA' | 'LB' | 'LC' | 'LI' | 'LK' | 'LR' | 'LS' | 'LT' | 'LU' | 'LV' | 'LY' | 'MA' | 'MC' | 'MD' | 'ME' | 'MF' | 'MG' | 'MH' | 'MK' | 'ML' | 'MM' | 'MN' | 'MO' | 'MP' | 'MQ' | 'MR' | 'MS' | 'MT' | 'MU' | 'MV' | 'MW' | 'MX' | 'MY' | 'MZ' | 'NA' | 'NC' | 'NE' | 'NF' | 'NG' | 'NI' | 'NL' | 'NO' | 'NP' | 'NR' | 'NU' | 'NZ' | 'OM' | 'PA' | 'PE' | 'PF' | 'PG' | 'PH' | 'PK' | 'PL' | 'PM' | 'PN' | 'PR' | 'PS' | 'PT' | 'PW' | 'PY' | 'QA' | 'RE' | 'RO' | 'RS' | 'RU' | 'RW' | 'SA' | 'SB' | 'SC' | 'SD' | 'SE' | 'SG' | 'SH' | 'SI' | 'SJ' | 'SK' | 'SL' | 'SM' | 'SN' | 'SO' | 'SR' | 'SS' | 'ST' | 'SV' | 'SX' | 'SY' | 'SZ' | 'TC' | 'TD' | 'TF' | 'TG' | 'TH' | 'TJ' | 'TK' | 'TL' | 'TM' | 'TN' | 'TO' | 'TR' | 'TT' | 'TV' | 'TW' | 'TZ' | 'UA' | 'UG' | 'UM' | 'US' | 'UY' | 'UZ' | 'VA' | 'VC' | 'VE' | 'VG' | 'VI' | 'VN' | 'VU' | 'WF' | 'WS' | 'YE' | 'YT' | 'ZA' | 'ZM' | 'ZW';
@@ -1556,6 +1325,23 @@ export type GetShopData = {
      */
     domains: Array<string>;
     /**
+     * Optional normalized Shopify storefront domain associated with the shop.
+     * Used by the backend to match Shopify product lifecycle events to the shop.
+     * Normalized with the same rules as `domains` (lowercase, no scheme, no `www.` prefix, no path/query/fragment).
+     *
+     */
+    shopifyDomain?: string | null;
+    /**
+     * Optional Shopify currency configured for the shop, serialized as an ISO 4217 code.
+     */
+    shopifyCurrency?: CurrencyData | null;
+    /**
+     * Optional WooCommerce currency configured for webhook-ingested products, serialized as an ISO 4217 code.
+     * When WooCommerce webhooks send a non-empty `price`, the backend parses that amount in this currency.
+     *
+     */
+    woocommerceCurrency?: CurrencyData | null;
+    /**
      * Optional primary URL of the shop website. Read responses may include backend-managed UTM tracking parameters.
      */
     url?: string | null;
@@ -1573,14 +1359,6 @@ export type GetShopData = {
      * Optional public contact email address of the shop.
      */
     email?: string;
-    /**
-     * Optional list of speciality category keys associated with the shop. Omitted when empty.
-     */
-    specialitiesCategories?: Array<CategoryIdData>;
-    /**
-     * Optional list of speciality period keys associated with the shop. Omitted when empty.
-     */
-    specialitiesPeriods?: Array<PeriodIdData>;
     partnerStatus: ShopPartnerStatusData;
     /**
      * When the shop was first created (RFC3339 format)
@@ -1610,18 +1388,6 @@ export type ShopSearchData = {
      *
      */
     partnerStatus?: Array<ShopPartnerStatusData> | null;
-    /**
-     * Optional repeated speciality-category filter.
-     * When provided, only shops having at least one of the listed category keys are returned.
-     *
-     */
-    specialitiesCategories?: Array<CategoryIdData>;
-    /**
-     * Optional repeated speciality-period filter.
-     * When provided, only shops having at least one of the listed period keys are returned.
-     *
-     */
-    specialitiesPeriods?: Array<PeriodIdData>;
     /**
      * Optional repeated ISO 3166-1 alpha-2 country-code filter.
      * When provided, only shops having at least one of the listed structured-address country codes are returned.
@@ -1663,6 +1429,26 @@ export type PatchShopData = {
      */
     domains?: Array<string> | null;
     /**
+     * Optional updated Shopify storefront domain used for Shopify partner-shop event matching.
+     * Normalized with the same rules as `domains`.
+     * When omitted or set to `null`, the current Shopify domain remains unchanged.
+     *
+     */
+    shopifyDomain?: string | null;
+    /**
+     * Optional updated Shopify currency for the shop, serialized as an ISO 4217 code.
+     * When omitted or set to `null`, the current Shopify currency remains unchanged.
+     *
+     */
+    shopifyCurrency?: CurrencyData | null;
+    /**
+     * Optional updated WooCommerce currency for the shop, serialized as an ISO 4217 code.
+     * When omitted or set to `null`, the current WooCommerce currency remains unchanged.
+     * This currency is used when WooCommerce webhook payloads provide a non-empty `price`.
+     *
+     */
+    woocommerceCurrency?: CurrencyData | null;
+    /**
      * Optional updated primary URL of the shop website.
      * When omitted or set to `null`, the current URL remains unchanged.
      *
@@ -1689,14 +1475,6 @@ export type PatchShopData = {
      * Optional updated public contact email address. When omitted or set to `null`, the current email address remains unchanged.
      */
     email?: string | null;
-    /**
-     * Optional replacement list of speciality category keys for the shop.
-     */
-    specialitiesCategories?: Array<CategoryIdData> | null;
-    /**
-     * Optional replacement list of speciality period keys for the shop.
-     */
-    specialitiesPeriods?: Array<PeriodIdData> | null;
 };
 
 /**
@@ -1719,6 +1497,23 @@ export type PostShopData = {
      */
     domains: Array<string>;
     /**
+     * Optional Shopify storefront domain associated with the shop.
+     * Used by the backend to match Shopify product lifecycle events to the shop.
+     * Input values are normalized with the same rules as `domains`.
+     *
+     */
+    shopifyDomain?: string | null;
+    /**
+     * Optional Shopify currency associated with the shop, serialized as an ISO 4217 code.
+     */
+    shopifyCurrency?: CurrencyData | null;
+    /**
+     * Optional WooCommerce currency associated with the shop, serialized as an ISO 4217 code.
+     * This currency is used when WooCommerce webhook payloads provide a non-empty `price`.
+     *
+     */
+    woocommerceCurrency?: CurrencyData | null;
+    /**
      * Optional primary URL of the shop website.
      */
     url?: string | null;
@@ -1740,14 +1535,6 @@ export type PostShopData = {
      * Optional public contact email address of the shop.
      */
     email?: string | null;
-    /**
-     * Optional list of speciality category keys.
-     */
-    specialitiesCategories?: Array<CategoryIdData>;
-    /**
-     * Optional list of speciality period keys.
-     */
-    specialitiesPeriods?: Array<PeriodIdData>;
 };
 
 /**
@@ -1800,6 +1587,8 @@ export type ShopSearchResultData = {
 
 /**
  * Search configuration for categories
+ *
+ * @deprecated
  */
 export type CategorySearchData = {
     language?: LanguageData;
@@ -1816,11 +1605,15 @@ export type CategorySearchData = {
  * - updated: Sort by last updated timestamp
  * - created: Sort by creation timestamp
  *
+ *
+ * @deprecated
  */
 export type SortCategoryFieldData = 'score' | 'name' | 'updated' | 'created';
 
 /**
  * Summary information about a category
+ *
+ * @deprecated
  */
 export type GetCategorySummaryData = {
     /**
@@ -1851,6 +1644,8 @@ export type GetCategorySummaryData = {
 
 /**
  * Detailed category information
+ *
+ * @deprecated
  */
 export type GetCategoryData = {
     /**
@@ -1881,6 +1676,8 @@ export type GetCategoryData = {
 
 /**
  * Search configuration for periods
+ *
+ * @deprecated
  */
 export type PeriodSearchData = {
     language?: LanguageData;
@@ -1897,11 +1694,15 @@ export type PeriodSearchData = {
  * - updated: Sort by last updated timestamp
  * - created: Sort by creation timestamp
  *
+ *
+ * @deprecated
  */
 export type SortPeriodFieldData = 'score' | 'name' | 'updated' | 'created';
 
 /**
  * Summary information about a period
+ *
+ * @deprecated
  */
 export type GetPeriodSummaryData = {
     /**
@@ -1932,6 +1733,8 @@ export type GetPeriodSummaryData = {
 
 /**
  * Detailed period information
+ *
+ * @deprecated
  */
 export type GetPeriodData = {
     /**
@@ -2352,7 +2155,7 @@ export type PutNewsletterSubscriptionData = {
 
 /**
  * The user's subscription tier, which determines limits and feature access (e.g. max watchlist entries, max search filters, allowed search filter fields).
- * - `FREE`: Default tier for all users. Allows up to 20 watchlist entries, up to 1 search filter (limited to `productQuery`, `categoryId`, `periodId`, `price`, and `state` filter fields), and up to 10 product matches per filter.
+ * - `FREE`: Default tier for all users. Allows up to 20 watchlist entries, up to 1 search filter (limited to `productQuery`, `price`, and `state` filter fields), and up to 10 product matches per filter.
  * - `PRO`: Premium tier. Allows up to 100 watchlist entries, up to 5 search filters with access to all filter fields, and unlimited product matches per filter.
  * - `ULTIMATE`: Highest tier. Allows unlimited watchlist entries, unlimited search filters with access to all filter fields, and unlimited product matches per filter.
  *
@@ -2647,7 +2450,6 @@ export type NotificationCollectionData = {
 
 /**
  * Data for creating a single product via the partner batch-create endpoint.
- * `authenticity`, `condition`, `provenance`, and `restoration` each default to `UNKNOWN`
  * when omitted from the request.
  *
  */
@@ -2692,10 +2494,6 @@ export type PostProductData = {
      */
     auctionEnd?: string | null;
     /**
-     * Optional origin year information for the antique product
-     */
-    originYear?: OriginYearData | null;
-    /**
      * Optional raw name of the secondary seller for this product.
      * Only applicable for `AUCTION_PLATFORM` and `MARKETPLACE` shop types.
      * When provided, the backend resolves the seller shop by this name and associates the product with that seller.
@@ -2711,22 +2509,6 @@ export type PostProductData = {
      * Optional coordinates to attach to the product for geo-aware indexing and search.
      */
     geoAddress?: GeoAddressData | null;
-    /**
-     * Authenticity classification. Defaults to `UNKNOWN` when omitted.
-     */
-    authenticity?: AuthenticityData;
-    /**
-     * Condition classification. Defaults to `UNKNOWN` when omitted.
-     */
-    condition?: ConditionData;
-    /**
-     * Provenance classification. Defaults to `UNKNOWN` when omitted.
-     */
-    provenance?: ProvenanceData;
-    /**
-     * Restoration classification. Defaults to `UNKNOWN` when omitted.
-     */
-    restoration?: RestorationData;
 };
 
 /**
@@ -2789,26 +2571,6 @@ export type PatchProductData = {
      * Optional updated RFC3339 timestamp of when the auction ends. Omit to leave the current value unchanged.
      */
     auctionEnd?: string | null;
-    /**
-     * Optional updated origin year information. Omit to leave the current value unchanged.
-     */
-    originYear?: OriginYearData | null;
-    /**
-     * Optional updated authenticity classification. Omit to leave the current value unchanged.
-     */
-    authenticity?: AuthenticityData | null;
-    /**
-     * Optional updated condition classification. Omit to leave the current value unchanged.
-     */
-    condition?: ConditionData | null;
-    /**
-     * Optional updated provenance classification. Omit to leave the current value unchanged.
-     */
-    provenance?: ProvenanceData | null;
-    /**
-     * Optional updated restoration classification. Omit to leave the current value unchanged.
-     */
-    restoration?: RestorationData | null;
 };
 
 /**
@@ -2838,7 +2600,6 @@ export type PatchProductsResponse = {
  * - If the product **already exists**, only `state` and `price` are updated; all other
  * fields are ignored for the update path.
  *
- * The `authenticity`, `condition`, `provenance`, and `restoration` fields each default
  * to `UNKNOWN` when omitted.
  *
  */
@@ -2892,10 +2653,6 @@ export type PutProductData = {
      */
     auctionEnd?: string | null;
     /**
-     * Optional origin year information for the antique product. Used only when creating a new product.
-     */
-    originYear?: OriginYearData | null;
-    /**
      * Optional raw name of the secondary seller for this product.
      * Only applicable for `AUCTION_PLATFORM` and `MARKETPLACE` shop types.
      * When provided, the backend resolves the seller shop by this name and associates the product with that seller.
@@ -2912,22 +2669,6 @@ export type PutProductData = {
      * Optional coordinates to attach to the product for geo-aware indexing and search. Used only when creating a new product.
      */
     geoAddress?: GeoAddressData | null;
-    /**
-     * Authenticity classification. Defaults to `UNKNOWN` when omitted. Used only when creating a new product.
-     */
-    authenticity?: AuthenticityData;
-    /**
-     * Condition classification. Defaults to `UNKNOWN` when omitted. Used only when creating a new product.
-     */
-    condition?: ConditionData;
-    /**
-     * Provenance classification. Defaults to `UNKNOWN` when omitted. Used only when creating a new product.
-     */
-    provenance?: ProvenanceData;
-    /**
-     * Restoration classification. Defaults to `UNKNOWN` when omitted. Used only when creating a new product.
-     */
-    restoration?: RestorationData;
 };
 
 /**
@@ -2945,6 +2686,95 @@ export type PutProductsResponse = {
     errors: {
         [key: string]: string;
     };
+};
+
+/**
+ * Response for the WooCommerce webhook ingestion endpoint.
+ * The `errors` value is the number of failed product upsert operations reported by the backend.
+ * Because each webhook request contains exactly one event, the value is `0` or `1`.
+ *
+ */
+export type WoocommerceWebhookResponse = {
+    /**
+     * Number of failed product upsert operations for the processed webhook event.
+     */
+    errors: number;
+};
+
+/**
+ * Image object extracted from a WooCommerce product payload.
+ */
+export type WoocommerceProductWebhookImageData = {
+    /**
+     * Absolute URL of a product image.
+     */
+    src: string;
+};
+
+/**
+ * WooCommerce product payload accepted for `product.created` and `product.updated`.
+ * The backend requires `id`, `name`, and `permalink` for these topics.
+ *
+ */
+export type WoocommerceProductWebhookUpsertData = {
+    /**
+     * WooCommerce product identifier. It is converted to the internal `shopsProductId`.
+     */
+    id: number;
+    /**
+     * Product title from WooCommerce.
+     */
+    name: string;
+    /**
+     * Public URL of the WooCommerce product.
+     */
+    permalink: string;
+    /**
+     * Optional HTML product description. The backend converts it to plain text for indexing.
+     */
+    description?: string | null;
+    /**
+     * Optional HTML short description used when `description` is absent.
+     */
+    short_description?: string | null;
+    /**
+     * Optional decimal price string from WooCommerce.
+     * The backend accepts ASCII digits with an optional fractional part, trims whitespace,
+     * and truncates the fractional part to at most two digits before storing the amount in
+     * the shop's configured `woocommerceCurrency`.
+     *
+     */
+    price?: string | null;
+    /**
+     * Optional WooCommerce product status string.
+     * Recognized mappings are: `publish` -> `AVAILABLE` unless `stock_status` is `outofstock`,
+     * `draft` / `pending` / `private` -> `LISTED`, `trash` -> `REMOVED`, and any other value -> `UNKNOWN`.
+     *
+     */
+    status?: string | null;
+    /**
+     * Optional WooCommerce stock-status string.
+     * When `status` is `publish`, `outofstock` maps to `SOLD`; all other values map to `AVAILABLE`.
+     *
+     */
+    stock_status?: string | null;
+    /**
+     * Optional list of WooCommerce product images. Missing payload fields are treated as an empty list.
+     */
+    images?: Array<WoocommerceProductWebhookImageData>;
+};
+
+/**
+ * WooCommerce product payload accepted for `product.deleted`.
+ * Only `id` is required. If `name` or `permalink` are provided they may still be used by the backend,
+ * but the event remains valid with just the product ID.
+ *
+ */
+export type WoocommerceProductWebhookDeleteData = {
+    /**
+     * WooCommerce product identifier. It is converted to the internal `shopsProductId`.
+     */
+    id: number;
 };
 
 /**
@@ -3016,14 +2846,6 @@ export type GetPartnerShopApplicationPayloadData = {
      * Optional public contact email address for the requested new shop.
      */
     shopEmail?: string;
-    /**
-     * Optional list of speciality category keys for the requested new shop.
-     */
-    shopSpecialitiesCategories?: Array<CategoryIdData>;
-    /**
-     * Optional list of speciality period keys for the requested new shop.
-     */
-    shopSpecialitiesPeriods?: Array<PeriodIdData>;
 };
 
 /**
@@ -3109,14 +2931,6 @@ export type PostPartnerShopApplicationPayloadData = {
      * Optional public contact email address for the requested new shop.
      */
     shopEmail?: string | null;
-    /**
-     * Optional list of speciality category keys for the requested new shop.
-     */
-    shopSpecialitiesCategories?: Array<CategoryIdData>;
-    /**
-     * Optional list of speciality period keys for the requested new shop.
-     */
-    shopSpecialitiesPeriods?: Array<PeriodIdData>;
 };
 
 /**
@@ -3166,14 +2980,6 @@ export type PatchPartnerShopApplicationData = {
      * Updated public contact email address for the requested new shop. When omitted or set to `null`, the current value remains unchanged.
      */
     shopEmail?: string | null;
-    /**
-     * Updated replacement list of speciality category keys for the requested new shop.
-     */
-    shopSpecialitiesCategories?: Array<CategoryIdData> | null;
-    /**
-     * Updated replacement list of speciality period keys for the requested new shop.
-     */
-    shopSpecialitiesPeriods?: Array<PeriodIdData> | null;
 };
 
 /**
@@ -3221,14 +3027,6 @@ export type AdminPatchPartnerShopApplicationData = {
      * Updated public contact email address for the requested new shop. When omitted or set to `null`, the current value remains unchanged.
      */
     shopEmail?: string | null;
-    /**
-     * Updated replacement list of speciality category keys for the requested new shop.
-     */
-    shopSpecialitiesCategories?: Array<CategoryIdData> | null;
-    /**
-     * Updated replacement list of speciality period keys for the requested new shop.
-     */
-    shopSpecialitiesPeriods?: Array<PeriodIdData> | null;
 };
 
 /**
@@ -3241,6 +3039,148 @@ export type PartnerShopApplicationDecisionData = 'APPROVE' | 'REJECT';
  */
 export type PostPartnerShopApplicationDecisionData = {
     decision: PartnerShopApplicationDecisionData;
+};
+
+/**
+ * Partial update for a shop.
+ * Only the fields present in the request body are applied; omitted or `null` fields are left unchanged.
+ * All fields are optional, so `{}` is accepted as a no-op update when sent as the JSON request body.
+ *
+ */
+export type PatchShopDataWritable = {
+    /**
+     * Optional updated shop type classification.
+     */
+    shopType?: ShopTypeData | null;
+    /**
+     * Optional updated set of domains for the shop.
+     * When provided, this replaces the existing domains entirely.
+     * Domains are normalized (lowercase, no scheme, no www prefix, no path/query/fragment).
+     *
+     */
+    domains?: Array<string> | null;
+    /**
+     * Optional updated Shopify storefront domain used for Shopify partner-shop event matching.
+     * Normalized with the same rules as `domains`.
+     * When omitted or set to `null`, the current Shopify domain remains unchanged.
+     *
+     */
+    shopifyDomain?: string | null;
+    /**
+     * Optional updated Shopify currency for the shop, serialized as an ISO 4217 code.
+     * When omitted or set to `null`, the current Shopify currency remains unchanged.
+     *
+     */
+    shopifyCurrency?: CurrencyData | null;
+    /**
+     * Optional replacement WooCommerce webhook secret used to validate HMAC signatures on
+     * `POST /api/v1/webhooks/woocommerce/{shopId}`.
+     * When omitted or set to `null`, the current webhook secret remains unchanged.
+     * This field is write-only and is never returned by read responses.
+     *
+     */
+    woocommerceWebhookSecret?: string | null;
+    /**
+     * Optional updated WooCommerce currency for the shop, serialized as an ISO 4217 code.
+     * When omitted or set to `null`, the current WooCommerce currency remains unchanged.
+     * This currency is used when WooCommerce webhook payloads provide a non-empty `price`.
+     *
+     */
+    woocommerceCurrency?: CurrencyData | null;
+    /**
+     * Optional updated primary URL of the shop website.
+     * When omitted or set to `null`, the current URL remains unchanged.
+     *
+     */
+    url?: string | null;
+    /**
+     * Optional updated URL to the shop's logo or image.
+     * When omitted or set to `null`, the current image is left unchanged.
+     *
+     */
+    image?: string | null;
+    /**
+     * Optional updated structured postal address.
+     * When provided with at least one non-empty component, the backend geocodes it and refreshes `geoAddress`.
+     * When omitted or set to `null`, the current address remains unchanged.
+     *
+     */
+    structuredAddress?: StructuredAddressData | null;
+    /**
+     * Optional updated public contact phone number. When omitted or set to `null`, the current phone number remains unchanged.
+     */
+    phone?: string | null;
+    /**
+     * Optional updated public contact email address. When omitted or set to `null`, the current email address remains unchanged.
+     */
+    email?: string | null;
+};
+
+/**
+ * Payload for creating a new shop.
+ * The backend derives `shopSlugId` from `name`, stores `domains` as a unique normalized set,
+ * and initializes the created shop with `partnerStatus` set to `SCRAPED`.
+ *
+ */
+export type PostShopDataWritable = {
+    /**
+     * Display name of the shop. Used to derive the human-readable `shopSlugId`.
+     */
+    name: string;
+    shopType: ShopTypeData;
+    /**
+     * Unique set of domains associated with the shop.
+     * Input values are normalized by stripping any `http://` or `https://` scheme, optional `www.` prefix,
+     * and any port, path, query, or fragment, then lowercasing the remaining domain.
+     *
+     */
+    domains: Array<string>;
+    /**
+     * Optional Shopify storefront domain associated with the shop.
+     * Used by the backend to match Shopify product lifecycle events to the shop.
+     * Input values are normalized with the same rules as `domains`.
+     *
+     */
+    shopifyDomain?: string | null;
+    /**
+     * Optional Shopify currency associated with the shop, serialized as an ISO 4217 code.
+     */
+    shopifyCurrency?: CurrencyData | null;
+    /**
+     * Optional WooCommerce webhook secret stored for validating HMAC signatures on
+     * `POST /api/v1/webhooks/woocommerce/{shopId}`.
+     * This field is write-only and is never returned by read responses.
+     *
+     */
+    woocommerceWebhookSecret?: string | null;
+    /**
+     * Optional WooCommerce currency associated with the shop, serialized as an ISO 4217 code.
+     * This currency is used when WooCommerce webhook payloads provide a non-empty `price`.
+     *
+     */
+    woocommerceCurrency?: CurrencyData | null;
+    /**
+     * Optional primary URL of the shop website.
+     */
+    url?: string | null;
+    /**
+     * Optional URL to the shop's logo or image.
+     */
+    image?: string | null;
+    /**
+     * Optional structured postal address.
+     * When provided, the backend geocodes it and stores the resulting coordinates in `geoAddress`.
+     *
+     */
+    structuredAddress?: StructuredAddressData | null;
+    /**
+     * Optional public contact phone number of the shop.
+     */
+    phone?: string | null;
+    /**
+     * Optional public contact email address of the shop.
+     */
+    email?: string | null;
 };
 
 export type PatchPartnerProductsData = {
@@ -3404,6 +3344,79 @@ export type PutPartnerProductsResponses = {
 };
 
 export type PutPartnerProductsResponse = PutPartnerProductsResponses[keyof PutPartnerProductsResponses];
+
+export type PostWoocommerceWebhookData = {
+    /**
+     * Topic-specific WooCommerce product payload.
+     * For `product.created` and `product.updated`, `id`, `name`, and `permalink` are required.
+     * For `product.deleted`, only `id` is required; all other fields are optional and ignored when absent.
+     *
+     */
+    body: WoocommerceProductWebhookUpsertData | WoocommerceProductWebhookDeleteData;
+    headers: {
+        /**
+         * WooCommerce webhook topic that determines how the payload is interpreted.
+         * Only the listed topic values are accepted.
+         *
+         */
+        'x-wc-webhook-topic': 'product.created' | 'product.updated' | 'product.deleted';
+        /**
+         * Base64-encoded HMAC-SHA256 signature of the raw HTTP request body, calculated with the
+         * shop's configured `woocommerceWebhookSecret`.
+         *
+         */
+        'x-wc-webhook-signature': string;
+    };
+    path: {
+        /**
+         * Unique identifier of the partner shop that should receive the WooCommerce webhook
+         */
+        shopId: string;
+    };
+    query?: never;
+    url: '/api/v1/webhooks/woocommerce/{shopId}';
+};
+
+export type PostWoocommerceWebhookErrors = {
+    /**
+     * Bad request — invalid or missing shop ID, missing body, malformed JSON, unsupported
+     * WooCommerce topic, or a payload that does not satisfy the selected topic's requirements.
+     *
+     */
+    400: ApiError;
+    /**
+     * Unauthorized — the `x-api-key` header is missing, malformed, or does not match the
+     * stored partner key, or the WooCommerce signature header is missing/invalid.
+     *
+     */
+    401: ApiError;
+    /**
+     * Forbidden — the shop exists but has not been granted partner status
+     */
+    403: ApiError;
+    /**
+     * Not found — the specified shop does not exist
+     */
+    404: ApiError;
+    /**
+     * Internal server error — the shop has no configured WooCommerce webhook secret or another unexpected failure occurred
+     */
+    500: ApiError;
+};
+
+export type PostWoocommerceWebhookError = PostWoocommerceWebhookErrors[keyof PostWoocommerceWebhookErrors];
+
+export type PostWoocommerceWebhookResponses = {
+    /**
+     * Webhook processed successfully.
+     * The `errors` count is the number of failed upsert operations and is therefore `0` or `1`
+     * because this endpoint processes exactly one webhook event per request.
+     *
+     */
+    200: WoocommerceWebhookResponse;
+};
+
+export type PostWoocommerceWebhookResponse = PostWoocommerceWebhookResponses[keyof PostWoocommerceWebhookResponses];
 
 export type GetProductData2 = {
     body?: never;
@@ -3644,18 +3657,6 @@ export type SimpleSearchProductsData = {
          */
         productQuery?: string;
         /**
-         * Optional set of kebab-case level-one category identifiers to filter products by.
-         * When provided, products matching any of the given categories are returned.
-         *
-         */
-        categoryId?: Array<string>;
-        /**
-         * Optional set of kebab-case level-one period identifiers to filter products by.
-         * When provided, products matching any of the given periods are returned.
-         *
-         */
-        periodId?: Array<string>;
-        /**
          * Optional filter by exact shop names (keyword matching).
          * Products are filtered to those from shops whose names exactly match one of the provided values.
          *
@@ -3732,37 +3733,6 @@ export type SimpleSearchProductsData = {
          * Optional filter by product states. When provided, only products in the given states are returned.
          */
         state?: Array<ProductStateData>;
-        /**
-         * Optional filter by product origin year range.
-         * Use `originYear[min]` and/or `originYear[max]` to specify the year bounds.
-         *
-         */
-        originYear?: {
-            /**
-             * Minimum origin year (inclusive)
-             */
-            min?: number;
-            /**
-             * Maximum origin year (inclusive)
-             */
-            max?: number;
-        };
-        /**
-         * Optional filter by authenticity classifications. When provided, only products with the given authenticity values are returned.
-         */
-        authenticity?: Array<AuthenticityData>;
-        /**
-         * Optional filter by product condition assessments. When provided, only products with the given condition values are returned.
-         */
-        condition?: Array<ConditionData>;
-        /**
-         * Optional filter by provenance documentation levels. When provided, only products with the given provenance values are returned.
-         */
-        provenance?: Array<ProvenanceData>;
-        /**
-         * Optional filter by restoration work levels. When provided, only products with the given restoration values are returned.
-         */
-        restoration?: Array<RestorationData>;
         /**
          * Optional filter by product creation date range (RFC3339 format).
          * Use `created[min]` and/or `created[max]` to specify the datetime bounds.
@@ -4147,7 +4117,73 @@ export type UpdateUserSearchFilterResponses = {
 
 export type UpdateUserSearchFilterResponse = UpdateUserSearchFilterResponses[keyof UpdateUserSearchFilterResponses];
 
-export type GetSearchFilterMatchedProductsData = {
+export type GetSearchFilterLiveProductsData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the search filter
+         */
+        userSearchFilterId: string;
+    };
+    query?: {
+        /**
+         * Currency used for price normalization in the live search response
+         */
+        currency?: CurrencyData;
+        /**
+         * Maximum number of products to return.
+         * Values above `10` are accepted but capped to `10` by the backend.
+         *
+         */
+        size?: number;
+        /**
+         * Must not be provided for this endpoint.
+         * Any non-null cursor value is rejected with `BAD_QUERY_PARAMETER_VALUE` because client-driven pagination
+         * is not supported for live search-filter product previews.
+         *
+         */
+        searchAfter?: Array<unknown> | null;
+        /**
+         * Preferred language for localized content.
+         * Defaults to `en` when omitted.
+         *
+         */
+        language?: LanguageData;
+    };
+    url: '/api/v1/me/search-filters/{userSearchFilterId}/products';
+};
+
+export type GetSearchFilterLiveProductsErrors = {
+    /**
+     * Bad request - invalid parameters
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * Search filter not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetSearchFilterLiveProductsError = GetSearchFilterLiveProductsErrors[keyof GetSearchFilterLiveProductsErrors];
+
+export type GetSearchFilterLiveProductsResponses = {
+    /**
+     * Live search results retrieved successfully
+     */
+    200: PersonalizedProductSearchResultData;
+};
+
+export type GetSearchFilterLiveProductsResponse = GetSearchFilterLiveProductsResponses[keyof GetSearchFilterLiveProductsResponses];
+
+export type GetSearchFilterMatchesData = {
     body?: never;
     path: {
         /**
@@ -4186,10 +4222,10 @@ export type GetSearchFilterMatchedProductsData = {
          */
         language?: LanguageData;
     };
-    url: '/api/v1/me/search-filters/{userSearchFilterId}/products';
+    url: '/api/v1/me/search-filters/{userSearchFilterId}/matches';
 };
 
-export type GetSearchFilterMatchedProductsErrors = {
+export type GetSearchFilterMatchesErrors = {
     /**
      * Bad request - invalid parameters
      */
@@ -4208,18 +4244,18 @@ export type GetSearchFilterMatchedProductsErrors = {
     500: ApiError;
 };
 
-export type GetSearchFilterMatchedProductsError = GetSearchFilterMatchedProductsErrors[keyof GetSearchFilterMatchedProductsErrors];
+export type GetSearchFilterMatchesError = GetSearchFilterMatchesErrors[keyof GetSearchFilterMatchesErrors];
 
-export type GetSearchFilterMatchedProductsResponses = {
+export type GetSearchFilterMatchesResponses = {
     /**
      * Matched products retrieved successfully
      */
     200: SearchFilterMatchProductCollectionData;
 };
 
-export type GetSearchFilterMatchedProductsResponse = GetSearchFilterMatchedProductsResponses[keyof GetSearchFilterMatchedProductsResponses];
+export type GetSearchFilterMatchesResponse = GetSearchFilterMatchesResponses[keyof GetSearchFilterMatchesResponses];
 
-export type UpdateSearchFilterProductMatchFeedbackData = {
+export type UpdateSearchFilterMatchFeedbackData = {
     /**
      * Feedback patch for an existing search-filter product match.
      * An empty JSON object `{}` is valid.
@@ -4242,10 +4278,10 @@ export type UpdateSearchFilterProductMatchFeedbackData = {
         shopsProductId: string;
     };
     query?: never;
-    url: '/api/v1/me/search-filters/{userSearchFilterId}/products/{shopId}/{shopsProductId}';
+    url: '/api/v1/me/search-filters/{userSearchFilterId}/matches/{shopId}/{shopsProductId}';
 };
 
-export type UpdateSearchFilterProductMatchFeedbackErrors = {
+export type UpdateSearchFilterMatchFeedbackErrors = {
     /**
      * Bad request - invalid parameters or body
      */
@@ -4264,16 +4300,16 @@ export type UpdateSearchFilterProductMatchFeedbackErrors = {
     500: ApiError;
 };
 
-export type UpdateSearchFilterProductMatchFeedbackError = UpdateSearchFilterProductMatchFeedbackErrors[keyof UpdateSearchFilterProductMatchFeedbackErrors];
+export type UpdateSearchFilterMatchFeedbackError = UpdateSearchFilterMatchFeedbackErrors[keyof UpdateSearchFilterMatchFeedbackErrors];
 
-export type UpdateSearchFilterProductMatchFeedbackResponses = {
+export type UpdateSearchFilterMatchFeedbackResponses = {
     /**
      * Search-filter product match updated successfully
      */
     200: SearchFilterProductMatchData;
 };
 
-export type UpdateSearchFilterProductMatchFeedbackResponse = UpdateSearchFilterProductMatchFeedbackResponses[keyof UpdateSearchFilterProductMatchFeedbackResponses];
+export type UpdateSearchFilterMatchFeedbackResponse = UpdateSearchFilterMatchFeedbackResponses[keyof UpdateSearchFilterMatchFeedbackResponses];
 
 export type GetWatchlistProductsData = {
     body?: never;
@@ -5269,14 +5305,6 @@ export type SimpleSearchShopsData = {
          */
         partnerStatus?: Array<ShopPartnerStatusData>;
         /**
-         * Optional repeated speciality-category filter.
-         */
-        specialitiesCategories?: Array<CategoryIdData>;
-        /**
-         * Optional repeated speciality-period filter.
-         */
-        specialitiesPeriods?: Array<PeriodIdData>;
-        /**
          * Optional repeated ISO 3166-1 alpha-2 country-code filter.
          */
         countries?: Array<CountryCodeData>;
@@ -5332,7 +5360,7 @@ export type PostShopData2 = {
     /**
      * Complete payload for creating a new shop.
      */
-    body: PostShopData;
+    body: PostShopDataWritable;
     path?: never;
     query?: never;
     url: '/api/v1/shops';
@@ -5414,7 +5442,7 @@ export type PatchShopByIdData = {
     /**
      * Partial shop update payload. Send only the fields that should change.
      */
-    body: PatchShopData;
+    body: PatchShopDataWritable;
     path: {
         /**
          * Unique identifier of the shop (UUID format)
@@ -5431,7 +5459,7 @@ export type PatchShopByIdErrors = {
      */
     400: ApiError;
     /**
-     * Unauthorized – invalid or missing JWT token.
+     * Unauthorized – invalid or missing Cognito JWT when using bearer auth, or missing/malformed/mismatched `x-api-key` when using partner API-key auth.
      */
     401: ApiError;
     /**
@@ -5547,7 +5575,7 @@ export type SearchShopsData = {
     /**
      * Shop search filter configuration with all filtering criteria.
      * Allows filtering by shop name, shop type, partner status,
-     * speciality categories, speciality periods, countries, continents, and creation/update date ranges.
+     * countries, continents, and creation/update date ranges.
      * If you do not want to restrict the search, supply an empty JSON-Object '{}' as body.
      *
      */

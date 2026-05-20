@@ -17,11 +17,7 @@ vi.mock("@/hooks/admin/usePatchAdminShop.ts", () => ({
 
 vi.mock("@/components/admin/useAdminShopMetadataOptions.ts", () => ({
     useAdminShopMetadataOptions: () => ({
-        categoryOptions: [{ value: "furniture", label: "Furniture" }],
         countryOptions: [{ value: "DE", label: "Deutschland" }],
-        isCategoriesPending: false,
-        isPeriodsPending: false,
-        periodOptions: [{ value: "baroque", label: "Barock" }],
     }),
 }));
 
@@ -55,8 +51,7 @@ describe("AdminShopEditDialog", () => {
                         locality: "Berlin",
                         country: "DE",
                     },
-                    specialitiesCategories: ["furniture"],
-                    specialitiesPeriods: ["baroque"],
+
                     created: new Date("2024-01-01T00:00:00Z"),
                     updated: new Date("2024-01-02T00:00:00Z"),
                 }}
@@ -85,8 +80,6 @@ describe("AdminShopEditDialog", () => {
                     locality: "Berlin",
                     country: "DE",
                 },
-                specialitiesCategories: ["furniture"],
-                specialitiesPeriods: ["baroque"],
             },
             expect.objectContaining({
                 onSuccess: expect.any(Function),

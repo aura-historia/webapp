@@ -26,15 +26,6 @@ function getRecentlyAddedMetaText(
     t: (key: string, options?: Record<string, unknown>) => string,
     product: OverviewProduct,
 ) {
-    const circaYear = product.originYear ?? product.originYearMin ?? product.originYearMax;
-
-    if (circaYear != null) {
-        return t("landingPage.recentlyAdded.foundAtWithYear", {
-            shopName: product.shopName,
-            year: circaYear,
-        });
-    }
-
     return t("landingPage.recentlyAdded.foundAt", {
         shopName: product.shopName,
     });

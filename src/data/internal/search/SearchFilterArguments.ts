@@ -1,9 +1,5 @@
 import type { ProductState } from "@/data/internal/product/ProductState.ts";
 import type { SortMode } from "@/data/internal/search/SortMode.ts";
-import type { Authenticity } from "@/data/internal/quality-indicators/Authenticity.ts";
-import type { Condition } from "@/data/internal/quality-indicators/Condition.ts";
-import type { Provenance } from "@/data/internal/quality-indicators/Provenance.ts";
-import type { Restoration } from "@/data/internal/quality-indicators/Restoration.ts";
 import type { ShopType } from "@/data/internal/shop/ShopType.ts";
 
 export type SearchFilterArguments = {
@@ -20,30 +16,18 @@ export type SearchFilterArguments = {
     merchant?: string[];
     excludeMerchant?: string[];
     shopType?: ShopType[];
-    periodId?: string[];
-    categoryId?: string[];
     sortField?: SortMode["field"];
     sortOrder?: SortMode["order"];
-    originYearMin?: number;
-    originYearMax?: number;
-    authenticity?: Authenticity[];
-    condition?: Condition[];
-    provenance?: Provenance[];
-    restoration?: Restoration[];
 };
 
 /**
  * Returns true if any "advanced" filter detail is set — those shown in the
- * collapsed accordion section of SearchFilterCard (merchants, quality, dates).
+ * collapsed accordion section of SearchFilterCard (merchants, dates).
  */
 export function hasAdvancedFilterDetails(filters: SearchFilterArguments): boolean {
     return (
         !!filters.merchant?.length ||
         !!filters.excludeMerchant?.length ||
-        !!filters.authenticity?.length ||
-        !!filters.condition?.length ||
-        !!filters.provenance?.length ||
-        !!filters.restoration?.length ||
         filters.creationDateFrom != null ||
         filters.creationDateTo != null ||
         filters.updateDateFrom != null ||
@@ -60,10 +44,6 @@ export function hasActiveFilters(filters: SearchFilterArguments): boolean {
         filters.priceTo != null ||
         filters.allowedStates != null ||
         filters.shopType != null ||
-        !!filters.periodId?.length ||
-        !!filters.categoryId?.length ||
-        filters.originYearMin != null ||
-        filters.originYearMax != null ||
         hasAdvancedFilterDetails(filters)
     );
 }

@@ -9,7 +9,6 @@ import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts
 import { ArrowUpRight, Eye } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { ProductQualityBadges } from "@/components/product/badges/ProductQualityBadges.tsx";
 import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
 import { ProductCardImageCarousel } from "@/components/product/overview/ProductCardImageCarousel.tsx";
@@ -120,7 +119,6 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                             className="text-xs rounded-none border border-outline-variant/20"
                         />
                     )}
-                    <ProductQualityBadges product={product} />
                 </div>
 
                 <div className="mt-5 flex flex-1 flex-col justify-end gap-3">
