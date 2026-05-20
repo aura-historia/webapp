@@ -11,7 +11,11 @@ import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
 import RecentlyAddedSection from "@/components/landing-page/recently-added-section/RecentlyAddedSection.tsx";
 import { useQuery } from "@tanstack/react-query";
-import { simpleSearchProductsOptions } from "@/client/@tanstack/react-query.gen.ts";
+import {
+    simpleSearchProductsOptions,
+    simpleSearchShopsOptions,
+} from "@/client/@tanstack/react-query.gen.ts";
+
 import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import i18n from "@/i18n/i18n.ts";
@@ -59,6 +63,7 @@ function LandingPage() {
             },
         }),
     );
+    const { data: shopData } = useQuery(simpleSearchShopsOptions());
 
     const recentlyAdded = (recentlyAddedData?.items ?? []).map((p) =>
         mapPersonalizedGetProductSummaryDataToOverviewProduct(p, i18n.language),
@@ -75,7 +80,10 @@ function LandingPage() {
                 </div>
             )}
             <div id={LANDING_PAGE_FRAGMENTS.discover} className="scroll-mt-24">
-                <DiscoverSection />
+                <DiscoverSection
+                    productCount={recentlyAddedData?.total ?? undefined}
+                    shopCount={shopData?.total ?? undefined}
+                />
             </div>
             <div id={LANDING_PAGE_FRAGMENTS.features} className="scroll-mt-24">
                 <FeaturesSection />

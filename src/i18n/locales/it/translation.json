@@ -52,6 +52,9 @@
     "searchShops": {
       "title": "Cerca negozi | Aura Historia",
       "description": "Scopri negozi, case d'asta e rivenditori di fiducia su Aura Historia."
+    },
+    "searchFilters": {
+      "title": "I miei filtri di ricerca | Aura Historia"
     }
   },
   "validation": {
@@ -91,7 +94,8 @@
     "logout": "Esci",
     "hello": "Ciao",
     "register": "Registrati",
-    "login": "Accedi"
+    "login": "Accedi",
+    "searchFilters": "Filtri di ricerca"
   },
   "footer": {
     "brandName": "Aura Historia",
@@ -171,7 +175,7 @@
       "placeholder": "Sto cercando...",
       "placeholderShort": "Cerca",
       "button": "Cerca",
-      "placeholderExamples": [
+      "placeholderExamplesProducts": [
         "Dipinto a olio Maria Maddalena",
         "Servizio in porcellana di Meissen",
         "Comò Luigi XVI",
@@ -192,6 +196,23 @@
         "Specchio rococò",
         "Miniatura persiana",
         "Poltrona Luigi XV"
+      ],
+      "placeholderExamplesShops": [
+        "Sotheby's",
+        "Christie's",
+        "Pandolfini",
+        "Catawiki",
+        "1stDibs",
+        "LiveAuctioneers",
+        "Invaluable",
+        "Bonhams",
+        "Dorotheum",
+        "Cambi",
+        "The Saleroom",
+        "Drouot",
+        "Barnebys",
+        "Vinterior",
+        "Heritage Auctions"
       ],
       "searchTypeLabel": "Tipo di ricerca",
       "searchType": {
@@ -238,10 +259,12 @@
         "merchants": "Reimposta filtri commercianti",
         "shopType": "Reimposta filtro tipo di negozio",
         "partnerStatus": "Reimposta filtro stato di partnership",
-        "global": "Reimposta tutto"
+        "global": "Reimposta tutto",
+        "category": "Reimposta filtro categoria"
       },
       "selected": "{{count}} selezionati",
-      "partnerStatus": "Stato di partnership"
+      "partnerStatus": "Stato di partnership",
+      "requireSelection": "È richiesta almeno 1 selezione"
     },
     "messages": {
       "minQueryLength": "Inserisci almeno 3 caratteri per avviare la ricerca.",
@@ -637,7 +660,8 @@
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Hai già un abbonamento attivo. Utilizza il portale clienti per gestirlo.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Non è stato trovato alcun abbonamento esistente. Avvia un nuovo processo di pagamento.",
     "unknown": "Si è verificato un errore imprevisto.",
-    "undefined": "Si è verificato un errore imprevisto."
+    "undefined": "Si è verificato un errore imprevisto.",
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Questa funzione è disponibile solo per determinati abbonamenti. Effettua l'upgrade del tuo account."
   },
   "watchlist": {
     "title": "La mia lista dei preferiti",
@@ -1149,5 +1173,107 @@
         "deleteSuccess": "Utente eliminato."
       }
     }
+  },
+  "searchFilter": {
+    "saveButton": "Salva filtro di ricerca",
+    "saveSuccess": "Filtro di ricerca salvato con successo!",
+    "loginRequired": "Effettua il login o registrati per salvare i filtri di ricerca.",
+    "quotaReached": "Hai raggiunto il numero massimo di filtri di ricerca. Effettua l'upgrade del tuo abbonamento per aggiungerne altri.",
+    "saveDialog": {
+      "title": "Salva filtro di ricerca",
+      "nameLabel": "Nome",
+      "namePlaceholder": "es. Mater Dolorosa dipinto barocco",
+      "queryLabel": "Query di ricerca",
+      "aiDescriptionLabel": "Descrizione AI (opzionale)",
+      "aiDescriptionPlaceholder": "Dipinto a olio della Vergine Maria su tela, non su legno, cornice barocca con foglia d'oro su base di gesso. Il motivo dovrebbe essere Mater Dolorosa. Deve essere inclusa la firma dell'artista. Il dipinto non deve presentare danni visibili e la cornice deve essere completamente integra. Se il dipinto è del barocco spagnolo, deve avere dimensioni di almeno 40x60 cm. Questo non si applica al barocco italiano.",
+      "aiDescriptionUltimateOnly": "Disponibile solo per abbonati Ultimate",
+      "ultimateOnly": "Disponibile solo per abbonati Ultimate",
+      "cancelButton": "Annulla",
+      "saveButton": "Salva",
+      "restrictedFiltersHint": "Questi filtri non sono disponibili nel tuo attuale abbonamento e non possono essere salvati. Effettua l'upgrade del tuo abbonamento per utilizzarli – oppure salva il filtro di ricerca senza questi filtri.",
+      "resetAndSaveButton": "Salva senza questi filtri",
+      "queryPlaceholder": "es. Mater Dolorosa dipinto olio tela barocco",
+      "nameHint": "Dai un nome unico al tuo filtro di ricerca.",
+      "queryHint": "Parola chiave che verrà confrontata con i titoli dei prodotti.",
+      "aiDescriptionHint": "Descrivi in dettaglio ciò che stai cercando – l'AI troverà corrispondenze migliori."
+    },
+    "wizard": {
+      "title": "Crea filtro di ricerca",
+      "back": "Indietro",
+      "next": "Avanti",
+      "nameRequired": "Inserisci un nome",
+      "nameTooLong": "Il nome non deve superare i 255 caratteri",
+      "queryTooShort": "La query di ricerca deve contenere almeno 3 caratteri",
+      "noFiltersConfigured": "Nessun filtro configurato",
+      "upgradeBanner": "Questi filtri non sono disponibili nel tuo piano attuale. Effettua l'upgrade del tuo account per sbloccarli.",
+      "step": {
+        "name": "Nome",
+        "nameDescription": "Dai un nome al tuo filtro di ricerca",
+        "priceStatus": "Prezzo e stato",
+        "theme": "Tema",
+        "quality": "Qualità",
+        "shop": "Negozio",
+        "date": "Data",
+        "confirm": "Conferma",
+        "confirmDescription": "Rivedi il tuo filtro di ricerca prima di salvarlo"
+      },
+      "titleEdit": "Modifica filtro di ricerca",
+      "titleDuplicate": "Duplica filtro di ricerca"
+    },
+    "optional": "opzionale",
+    "upgradeRequired": "Solo Pro & Ultimate",
+    "upgradeNow": "Effettua l'upgrade ora"
+  },
+  "searchFilters": {
+    "title": "I miei filtri di ricerca",
+    "create": "Crea filtro di ricerca",
+    "createUpgradeTooltip": "Effettua l'upgrade del tuo account per creare più filtri di ricerca",
+    "duplicate": "Duplica filtro di ricerca",
+    "duplicateNamePrefix": "Copia di {{name}}",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "deleteSuccess": "Filtro di ricerca eliminato con successo",
+    "deleteConfirm": {
+      "title": "Eliminare \"{{name}}\"?",
+      "description": "Questo filtro di ricerca sarà eliminato definitivamente e non potrà essere recuperato.",
+      "cancel": "Annulla",
+      "confirm": "Elimina"
+    },
+    "notificationsOn": "Notifiche attive",
+    "notificationsOff": "Notifiche inattive",
+    "loadingError": "I filtri di ricerca non possono essere caricati. Riprova più tardi.",
+    "noResults": {
+      "title": "Nessun filtro di ricerca",
+      "description": "Non hai ancora salvato alcun filtro di ricerca."
+    },
+    "noMatches": {
+      "title": "Nessuna corrispondenza",
+      "description": "Non sono stati trovati articoli corrispondenti per questo filtro di ricerca.",
+      "editHint": "Prova a modificare il filtro di ricerca."
+    },
+    "totalElements": "{{count}} filtro/i di ricerca",
+    "matchingProducts": "{{count}} corrispondenze",
+    "searchPlaceholder": "Cerca filtri di ricerca...",
+    "showDetails": "Mostra dettagli",
+    "showResults": "Cerca ora",
+    "info": {
+      "creationDate": "Creato: {{date}}",
+      "updateDate": "Aggiornato: {{date}}",
+      "auctionDate": "Data asta: {{date}}"
+    },
+    "hiddenMatch": {
+      "title": "Nascosto",
+      "description": "Questa corrispondenza supera la tua quota mensile ed è nascosta. Effettua l'upgrade del tuo account per vedere tutti i risultati.",
+      "upgradeButton": "Effettua l'upgrade ora"
+    },
+    "feedback": {
+      "relevant": "Rilevante",
+      "notRelevant": "Non rilevante",
+      "label": "Utile?",
+      "relevantHint": "La corrispondenza è rilevante",
+      "notRelevantHint": "La corrispondenza non è rilevante"
+    },
+    "matchReason": "Motivo AI",
+    "feedbackError": "Impossibile salvare il feedback."
   }
 }
