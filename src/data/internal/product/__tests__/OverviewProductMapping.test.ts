@@ -20,6 +20,7 @@ describe("OverviewProduct mappers", () => {
                     price: { offer: { amount: 1099, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/item",
+                    viewUrl: "https://affiliate.example.com/item",
                     images: [{ url: "https://example.com/image1.jpg", prohibitedContent: "NONE" }],
 
                     created: "2023-01-01T00:00:00Z",
@@ -38,6 +39,7 @@ describe("OverviewProduct mappers", () => {
             expect(result.price).toBe("$10.99");
             expect(result.state).toBe("AVAILABLE");
             expect(result.url?.href).toBe("https://example.com/item");
+            expect(result.viewUrl?.href).toBe("https://affiliate.example.com/item");
             expect(result.images[0].url?.href).toEqual("https://example.com/image1.jpg");
             expect(result.created.getTime()).toBe(new Date("2023-01-01T00:00:00Z").getTime());
             expect(result.updated.getTime()).toBe(new Date("2023-01-02T00:00:00Z").getTime());
@@ -59,6 +61,7 @@ describe("OverviewProduct mappers", () => {
                     price: { offer: { amount: 2550, currency: "EUR" } },
                     state: "LISTED",
                     url: "",
+                    viewUrl: "",
                     images: [],
 
                     created: "2023-01-01T00:00:00Z",
@@ -69,6 +72,7 @@ describe("OverviewProduct mappers", () => {
             const result = mapPersonalizedGetProductDataToOverviewProduct(apiData, "de");
 
             expect(result.url).toBeNull();
+            expect(result.viewUrl).toBeNull();
             expect(result.images).toEqual([]);
         });
 
@@ -88,6 +92,7 @@ describe("OverviewProduct mappers", () => {
                     price: { offer: { amount: 5000, currency: "USD" } },
                     state: "SOLD",
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item",
                     images: [{ url: "invalid-url", prohibitedContent: "NONE" }],
 
                     created: "2023-01-01T00:00:00Z",
@@ -116,6 +121,7 @@ describe("OverviewProduct mappers", () => {
                     price: { offer: { amount: 1099, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item",
                     images: [],
 
                     created: "2023-01-01T00:00:00Z",

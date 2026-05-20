@@ -145,17 +145,17 @@ export function AdminShopsSection() {
                                         </span>
                                     </div>
                                 )}
-                                {shop.url && (
+                                {(shop.viewUrl ?? shop.url) && (
                                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                                         <Globe className="h-3 w-3 shrink-0" aria-hidden="true" />
                                         <a
-                                            href={shop.url}
+                                            href={shop.viewUrl ?? shop.url}
                                             target="_blank"
                                             rel="noreferrer"
                                             className="truncate underline underline-offset-2"
-                                            title={shop.url}
+                                            title={shop.viewUrl ?? shop.url}
                                         >
-                                            {shop.url}
+                                            {shop.viewUrl ?? shop.url}
                                         </a>
                                     </div>
                                 )}

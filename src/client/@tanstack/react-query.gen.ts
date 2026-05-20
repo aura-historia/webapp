@@ -4,7 +4,7 @@ import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
 import { addWatchlistProduct, adminDeleteUser, adminGetPartnerApplication, adminGetPartnerApplications, adminGetUser, adminPatchPartnerApplication, adminPatchUser, adminPostPartnerApplicationDecision, adminSearchUsers, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deletePartnerApplication, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPartnerApplication, getPartnerApplications, getPartnerShops, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterLiveProducts, getSearchFilterMatches, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchPartnerApplication, patchPartnerProducts, patchShopById, patchWatchlistProduct, postBillingCheckout, postBillingManage, postBillingPortal, postPartnerApplication, postPartnerProducts, postShop, postWoocommerceWebhook, putNewsletterSubscription, putPartnerProducts, putShopApiKey, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateSearchFilterMatchFeedback, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminDeleteUserData, AdminDeleteUserError, AdminDeleteUserResponse, AdminGetPartnerApplicationData, AdminGetPartnerApplicationError, AdminGetPartnerApplicationResponse, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsError, AdminGetPartnerApplicationsResponse, AdminGetUserData, AdminGetUserError, AdminGetUserResponse, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationError, AdminPatchPartnerApplicationResponse, AdminPatchUserData, AdminPatchUserError, AdminPatchUserResponse, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionError, AdminPostPartnerApplicationDecisionResponse, AdminSearchUsersData, AdminSearchUsersError, AdminSearchUsersResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeletePartnerApplicationData, DeletePartnerApplicationError, DeletePartnerApplicationResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPartnerApplicationData, GetPartnerApplicationError, GetPartnerApplicationResponse, GetPartnerApplicationsData, GetPartnerApplicationsError, GetPartnerApplicationsResponse, GetPartnerShopsData, GetPartnerShopsError, GetPartnerShopsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterLiveProductsData, GetSearchFilterLiveProductsError, GetSearchFilterLiveProductsResponse, GetSearchFilterMatchesData, GetSearchFilterMatchesError, GetSearchFilterMatchesResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchPartnerApplicationData, PatchPartnerApplicationError, PatchPartnerApplicationResponse, PatchPartnerProductsData, PatchPartnerProductsError, PatchPartnerProductsResponse, PatchShopByIdData, PatchShopByIdError, PatchShopByIdResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostBillingCheckoutData2, PostBillingCheckoutError, PostBillingCheckoutResponse, PostBillingManageData, PostBillingManageError, PostBillingManageResponse, PostBillingPortalData, PostBillingPortalError, PostBillingPortalResponse, PostPartnerApplicationData, PostPartnerApplicationError, PostPartnerApplicationResponse, PostPartnerProductsData, PostPartnerProductsError, PostPartnerProductsResponse, PostShopData2, PostShopError, PostShopResponse, PostWoocommerceWebhookData, PostWoocommerceWebhookError, PostWoocommerceWebhookResponse, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductsData, PutPartnerProductsError, PutPartnerProductsResponse, PutShopApiKeyData, PutShopApiKeyError, PutShopApiKeyResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackError, UpdateSearchFilterMatchFeedbackResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminDeleteUserData, AdminDeleteUserError, AdminDeleteUserResponse, AdminGetPartnerApplicationData, AdminGetPartnerApplicationError, AdminGetPartnerApplicationResponse, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsError, AdminGetPartnerApplicationsResponse, AdminGetUserData, AdminGetUserError, AdminGetUserResponse, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationError, AdminPatchPartnerApplicationResponse, AdminPatchUserData, AdminPatchUserError, AdminPatchUserResponse, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionError, AdminPostPartnerApplicationDecisionResponse, AdminSearchUsersData, AdminSearchUsersError, AdminSearchUsersResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeletePartnerApplicationData, DeletePartnerApplicationError, DeletePartnerApplicationResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPartnerApplicationData, GetPartnerApplicationError, GetPartnerApplicationResponse, GetPartnerApplicationsData, GetPartnerApplicationsError, GetPartnerApplicationsResponse, GetPartnerShopsData, GetPartnerShopsError, GetPartnerShopsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterLiveProductsData, GetSearchFilterLiveProductsError, GetSearchFilterLiveProductsResponse, GetSearchFilterMatchesData, GetSearchFilterMatchesError, GetSearchFilterMatchesResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchPartnerApplicationData, PatchPartnerApplicationError, PatchPartnerApplicationResponse, PatchPartnerProductsData, PatchPartnerProductsError, PatchPartnerProductsResponse, PatchShopByIdData, PatchShopByIdError, PatchShopByIdResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostBillingCheckoutData2, PostBillingCheckoutError, PostBillingCheckoutResponse, PostBillingManageData, PostBillingManageError, PostBillingManageResponse, PostBillingPortalData, PostBillingPortalError, PostBillingPortalResponse, PostPartnerApplicationData, PostPartnerApplicationError, PostPartnerApplicationResponse, PostPartnerProductsData, PostPartnerProductsError, PostPartnerProductsResponse, PostShopData2, PostShopError, PostShopResponse, PostWoocommerceWebhookData, PostWoocommerceWebhookError, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductsData, PutPartnerProductsError, PutPartnerProductsResponse, PutShopApiKeyData, PutShopApiKeyError, PutShopApiKeyResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackError, UpdateSearchFilterMatchFeedbackResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 /**
  * Batch update products (Partner API)
@@ -14,11 +14,14 @@ import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistPro
  * and have an API key configured. It does **not** use Cognito JWT authentication.
  *
  * The request body is an array of `PatchProductData` objects. Only the fields provided in
- * each entry are updated; omitted optional fields are left unchanged. Products are processed
- * individually: if some products fail to update, the response still returns HTTP 200 with
- * a partial-failure map in the `errors` field. Only entries that failed are present in the map.
+ * each entry are updated; omitted optional fields are left unchanged. Each entry is forwarded
+ * individually to the asynchronous partner-product ingestion queue.
  *
- * An empty `errors` map in the response indicates all products were updated successfully.
+ * The response returns HTTP 202 with an array containing only the `shopsProductId` values
+ * that failed to be forwarded to the queue. An empty array indicates that all updates were
+ * accepted for asynchronous processing. Because persistence happens asynchronously, acceptance
+ * does not guarantee that the referenced product currently exists or that the update will
+ * later succeed.
  *
  */
 export const patchPartnerProductsMutation = (options?: Partial<Options<PatchPartnerProductsData>>): UseMutationOptions<PatchPartnerProductsResponse, PatchPartnerProductsError, Options<PatchPartnerProductsData>> => {
@@ -42,11 +45,12 @@ export const patchPartnerProductsMutation = (options?: Partial<Options<PatchPart
  * This endpoint is intended for partner shops — shops that have been granted partner status
  * and have an API key configured. It does **not** use Cognito JWT authentication.
  *
- * The request body is an array of `PostProductData` objects. Products are processed
- * individually: if some products fail to create, the response still returns HTTP 200 with
- * a partial-failure map in the `errors` field. Only entries that failed are present in the map.
+ * The request body is an array of `PostProductData` objects. Each entry is forwarded
+ * individually to the asynchronous partner-product ingestion queue.
  *
- * An empty `errors` map in the response indicates all products were created successfully.
+ * The response returns HTTP 202 with an array containing only the `shopsProductId` values
+ * that failed to be forwarded to the queue. An empty array indicates that all products were
+ * accepted for asynchronous processing.
  *
  */
 export const postPartnerProductsMutation = (options?: Partial<Options<PostPartnerProductsData>>): UseMutationOptions<PostPartnerProductsResponse, PostPartnerProductsError, Options<PostPartnerProductsData>> => {
@@ -71,16 +75,15 @@ export const postPartnerProductsMutation = (options?: Partial<Options<PostPartne
  * that have been granted partner status and have an API key configured. It does **not**
  * use Cognito JWT authentication.
  *
- * The request body is an array of `PutProductData` objects. For each entry the backend
- * checks whether a product with the given `shopsProductId` already exists in the shop:
+ * The request body is an array of `PutProductData` objects. Each entry is forwarded
+ * individually to the asynchronous partner-product ingestion queue as an upsert command.
+ * When the queued command is later ingested:
  * - **Existing product** — only `state` and `price` are updated (other fields are ignored).
  * - **New product** — a full product is created using all provided fields.
  *
- * Products are processed individually: if some products fail to upsert, the response
- * still returns HTTP 200 with a partial-failure map in the `errors` field. Only entries
- * that failed are present in the map.
- *
- * An empty `errors` map in the response indicates all products were upserted successfully.
+ * The response returns HTTP 202 with an array containing only the `shopsProductId` values
+ * that failed to be forwarded to the queue. An empty array indicates that all upserts were
+ * accepted for asynchronous processing.
  *
  */
 export const putPartnerProductsMutation = (options?: Partial<Options<PutPartnerProductsData>>): UseMutationOptions<PutPartnerProductsResponse, PutPartnerProductsError, Options<PutPartnerProductsData>> => {
@@ -112,12 +115,13 @@ export const putPartnerProductsMutation = (options?: Partial<Options<PutPartnerP
  * - `product.created` and `product.updated` require `id`, `name`, and `permalink`
  * - `product.deleted` requires only `id`
  *
- * The shop identified by `shopId` must have a stored `woocommerceWebhookSecret`.
+ * The shop identified by `shopId` must have a stored `woocommerceWebhookSecret`
+ * and a configured `woocommerceLanguage`.
  * If a non-empty `price` is sent, the shop must also have `woocommerceCurrency` configured.
  *
  */
-export const postWoocommerceWebhookMutation = (options?: Partial<Options<PostWoocommerceWebhookData>>): UseMutationOptions<PostWoocommerceWebhookResponse, PostWoocommerceWebhookError, Options<PostWoocommerceWebhookData>> => {
-    const mutationOptions: UseMutationOptions<PostWoocommerceWebhookResponse, PostWoocommerceWebhookError, Options<PostWoocommerceWebhookData>> = {
+export const postWoocommerceWebhookMutation = (options?: Partial<Options<PostWoocommerceWebhookData>>): UseMutationOptions<unknown, PostWoocommerceWebhookError, Options<PostWoocommerceWebhookData>> => {
+    const mutationOptions: UseMutationOptions<unknown, PostWoocommerceWebhookError, Options<PostWoocommerceWebhookData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await postWoocommerceWebhook({
                 ...options,
@@ -293,6 +297,8 @@ export const simpleSearchProductsQueryKey = (options: Options<SimpleSearchProduc
  * using the same field names:
  * - `shopName`
  * - `excludeShopName`
+ * - `sellerName`
+ * - `excludeSellerName`
  * - `shopSlugId`
  * - `excludeShopSlugId`
  * - `sellerSlugId`

@@ -39,6 +39,7 @@ export type OverviewProduct = {
     readonly priceEstimate?: PriceEstimate;
     readonly state: ProductState;
     readonly url: URL | null;
+    readonly viewUrl?: URL | null;
     readonly images: readonly ProductImage[];
     readonly created: Date;
     readonly updated: Date;
@@ -71,6 +72,7 @@ function mapProductDataToOverviewProduct(
         ),
         state: parseProductState(productData.state),
         url: URL.parse(productData.url),
+        viewUrl: URL.parse(productData.viewUrl),
         images: sortImagesRestrictedLast(
             productData.images == null
                 ? []
@@ -104,6 +106,7 @@ function mapProductSummaryDataToOverviewProduct(
         price: productData.price ? formatPrice(productData.price, locale) : undefined,
         state: parseProductState(productData.state),
         url: URL.parse(productData.url),
+        viewUrl: URL.parse(productData.viewUrl),
         images: sortImagesRestrictedLast(
             productData.images == null
                 ? []

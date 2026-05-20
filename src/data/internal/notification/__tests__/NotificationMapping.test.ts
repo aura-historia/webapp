@@ -19,6 +19,8 @@ const mockWatchlistPriceChangeNotification: GetNotificationData = {
         shopName: "Antique Shop",
         title: { text: "Vintage Vase", language: "en" },
         image: null,
+        url: "https://example.com/products/vintage-vase",
+        viewUrl: "https://affiliate.example.com/products/vintage-vase",
         watchlistPayload: {
             type: "PRICE_CHANGE",
             oldPrice: { amount: 10000, currency: "EUR" },
@@ -44,6 +46,8 @@ const mockWatchlistStateChangeNotification: GetNotificationData = {
         shopName: "Old Books",
         title: { text: "Rare Book", language: "en" },
         image: null,
+        url: "https://example.com/products/rare-book",
+        viewUrl: "https://affiliate.example.com/products/rare-book",
         watchlistPayload: {
             type: "STATE_CHANGE",
             oldState: "AVAILABLE",
@@ -69,6 +73,8 @@ const mockSearchFilterNotification: GetNotificationData = {
         shopName: "Art Gallery",
         title: { text: "Baroque Painting", language: "en" },
         image: null,
+        url: "https://example.com/products/baroque-painting",
+        viewUrl: "https://affiliate.example.com/products/baroque-painting",
         searchFilterPayload: {
             userSearchFilterId: "filter-abc",
             userSearchFilterName: "My Baroque Filter",

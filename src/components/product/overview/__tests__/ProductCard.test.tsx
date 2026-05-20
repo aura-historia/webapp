@@ -21,6 +21,7 @@ describe("ProductCard", () => {
         productSlugId: "sample-product",
         updated: new Date(),
         url: new URL("https://example.com"),
+        viewUrl: new URL("https://affiliate.example.com/product"),
         title: "Sample Product",
         shopName: "Sample Shop",
         shopType: "AUCTION_HOUSE",
@@ -111,6 +112,17 @@ describe("ProductCard", () => {
         expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
             "rel",
             "nofollow noopener noreferrer",
+        );
+    });
+
+    it("should prefer the product viewUrl for the merchant link", async () => {
+        await act(() => {
+            renderWithRouter(<ProductCard product={mockProduct} />);
+        });
+
+        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
+            "href",
+            "https://affiliate.example.com/product",
         );
     });
 

@@ -12,6 +12,7 @@ const mockShop: ShopDetail = {
     image: "https://example.com/logo.png",
     domains: ["christies.com"],
     url: "https://shop.christies.com?utm_source=aura",
+    viewUrl: "https://affiliate.example.com/christies",
     created: new Date("2024-01-15T08:00:00Z"),
     updated: new Date("2024-06-20T12:30:00Z"),
 };
@@ -70,16 +71,16 @@ describe("ShopHeader", () => {
         expect(screen.getByRole("heading", { name: "Sotheby's" })).toBeInTheDocument();
     });
 
-    it("renders go-to-merchant button linking to the provided shop url", () => {
+    it("renders go-to-merchant button linking to the provided shop view url", () => {
         render(<ShopHeader shop={mockShop} productCount={42} />);
         const link = screen.getByRole("link", { name: /Zur Seite des Händlers/i });
-        expect(link).toHaveAttribute("href", "https://shop.christies.com?utm_source=aura");
+        expect(link).toHaveAttribute("href", "https://affiliate.example.com/christies");
         expect(link).toHaveAttribute("target", "_blank");
         expect(link).toHaveAttribute("rel", "nofollow noopener noreferrer");
     });
 
-    it("does not render go-to-merchant button when url is undefined", () => {
-        const shopWithoutUrl: ShopDetail = { ...mockShop, url: undefined };
+    it("does not render go-to-merchant button when url and viewUrl are undefined", () => {
+        const shopWithoutUrl: ShopDetail = { ...mockShop, url: undefined, viewUrl: undefined };
         render(<ShopHeader shop={shopWithoutUrl} productCount={42} />);
         expect(
             screen.queryByRole("link", { name: /Zur Seite des Händlers/i }),
@@ -90,6 +91,7 @@ describe("ShopHeader", () => {
         const shopWithoutUrl: ShopDetail = {
             ...mockShop,
             url: undefined,
+            viewUrl: undefined,
             domains: ["christies.com"],
         };
         render(<ShopHeader shop={shopWithoutUrl} productCount={42} />);
@@ -98,8 +100,12 @@ describe("ShopHeader", () => {
         ).not.toBeInTheDocument();
     });
 
-    it("keeps the provided shop url unchanged", () => {
-        const shopWithHttpUrl: ShopDetail = { ...mockShop, url: "http://christies.com" };
+    it("falls back to the raw shop url when viewUrl is missing", () => {
+        const shopWithHttpUrl: ShopDetail = {
+            ...mockShop,
+            url: "http://christies.com",
+            viewUrl: undefined,
+        };
         render(<ShopHeader shop={shopWithHttpUrl} productCount={42} />);
         const link = screen.getByRole("link", { name: /Zur Seite des Händlers/i });
         expect(link).toHaveAttribute("href", "http://christies.com");

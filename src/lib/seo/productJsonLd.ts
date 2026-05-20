@@ -29,6 +29,7 @@ type ProductJsonLd = {
  */
 export function generateProductJsonLd(apiData: PersonalizedGetProductData): ProductJsonLd {
     const product = apiData.item;
+    const productUrl = product.viewUrl || product.url;
 
     const jsonLd: ProductJsonLd = {
         "@context": "https://schema.org/",
@@ -47,8 +48,8 @@ export function generateProductJsonLd(apiData: PersonalizedGetProductData): Prod
         jsonLd.image = [BANNER_IMAGE_URL];
     }
 
-    if (product.url) {
-        jsonLd.url = product.url;
+    if (productUrl) {
+        jsonLd.url = productUrl;
     }
 
     if (product.price?.offer) {
@@ -68,7 +69,7 @@ export function generateProductJsonLd(apiData: PersonalizedGetProductData): Prod
             priceCurrency: product.price.offer.currency,
             price: product.price.offer.amount / 100,
             availability,
-            url: product.url,
+            url: productUrl,
             seller: {
                 "@type": "Organization",
                 name: product.shopName,
