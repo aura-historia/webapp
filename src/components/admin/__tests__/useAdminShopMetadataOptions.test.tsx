@@ -12,12 +12,20 @@ vi.mock("react-i18next", () => ({
 }));
 
 describe("useAdminShopMetadataOptions", () => {
-    it("returns readable country options", () => {
+    it("returns readable country, currency, and language options", () => {
         const { result } = renderHook(() => useAdminShopMetadataOptions());
 
         expect(result.current.countryOptions).toContainEqual({
             value: "DE",
             label: "Germany",
+        });
+        expect(result.current.currencyOptions).toContainEqual({
+            value: "EUR",
+            label: "Euro (EUR)",
+        });
+        expect(result.current.languageOptions).toContainEqual({
+            value: "de",
+            label: "German",
         });
     });
 });
