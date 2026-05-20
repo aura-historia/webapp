@@ -17,123 +17,117 @@ import { H1 } from "@/components/typography/H1.tsx";
 
 export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();
-    const conditionReportHeading = t("product.conditionReportTitle");
-    const conditionReportText = t(CONDITION_TRANSLATION_CONFIG[product.condition].descriptionKey);
     const isWatching = product.userData?.watchlistData.isWatching ?? false;
     const isRemoved = product.state === "REMOVED";
 
     return (
-        <>
-            <section className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 pb-8">
-                <div className="shrink-0 lg:col-span-7">
-                    <ProductImageGallery
-                        images={product.images}
-                        productId={product.productId}
-                        userData={product.userData}
+        <section className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 pb-8">
+            <div className="shrink-0 lg:col-span-7">
+                <ProductImageGallery
+                    images={product.images}
+                    productId={product.productId}
+                    userData={product.userData}
+                />
+            </div>
+            <div className="flex min-w-0 flex-col lg:col-span-5">
+                <div className="flex items-center justify-between gap-4">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <StatusBadge status={product.state} />
+                        <ShopTypeBadge shopType={product.shopType} />
+                        {product.auction && <AuctionWindowBadge auction={product.auction} />}
+                    </div>
+                    <div className="ml-auto shrink-0 self-start">
+                        <div className="hidden gap-2 md:flex">
+                            <ProductSharer title={product.title} />
+
+                            <NotificationButton
+                                variant="ghost"
+                                size="icon"
+                                shopId={product.shopId}
+                                shopsProductId={product.shopsProductId}
+                                isNotificationEnabled={
+                                    product.userData?.watchlistData.isNotificationEnabled ?? false
+                                }
+                                isVisible={isWatching}
+                            />
+                        </div>
+                        <div className="flex gap-2 md:hidden">
+                            <ProductSharer title={product.title} variant="outline" />
+
+                            <NotificationButton
+                                variant="outline"
+                                size="icon"
+                                shopId={product.shopId}
+                                shopsProductId={product.shopsProductId}
+                                isNotificationEnabled={
+                                    product.userData?.watchlistData.isNotificationEnabled ?? false
+                                }
+                                isVisible={isWatching}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <H1 className="mt-8 overflow-hidden leading-[1.2] md:leading-tight font-normal">
+                    {product.title}
+                </H1>
+                <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted-foreground/80">
+                    {product.shopName}
+                </p>
+
+                <div className="mt-5 flex flex-wrap items-end gap-3">
+                    <PriceText className="line-clamp-none overflow-visible whitespace-nowrap text-[2.25rem] leading-none font-display font-normal italic text-primary">
+                        {product.price ?? t("product.unknownPrice")}
+                    </PriceText>
+                    {product.priceEstimate && (
+                        <ProductPriceEstimate
+                            priceEstimate={product.priceEstimate}
+                            shopType={product.shopType}
+                        />
+                    )}
+                </div>
+
+                <div className="mt-8 flex flex-col gap-3">
+                    <Button
+                        variant="default"
+                        className="h-14 w-full rounded-none text-xs tracking-[0.12em] uppercase"
+                        disabled={isRemoved}
+                        asChild={!isRemoved}
+                    >
+                        {isRemoved ? (
+                            <>
+                                <ArrowUpRight />
+                                <span>{t("product.toMerchant")}</span>
+                            </>
+                        ) : (
+                            <a
+                                href={product.url?.href}
+                                target="_blank"
+                                rel="nofollow noopener noreferrer"
+                            >
+                                <ArrowUpRight />
+                                <span>{t("product.toMerchant")}</span>
+                            </a>
+                        )}
+                    </Button>
+
+                    <WatchlistButton
+                        variant={isWatching ? "default" : "outline"}
+                        className={`h-14 w-full justify-center rounded-none text-xs tracking-[0.12em] uppercase ${
+                            isWatching
+                                ? "bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                                : "text-primary"
+                        }`}
+                        shopId={product.shopId}
+                        shopsProductId={product.shopsProductId}
+                        isWatching={isWatching}
+                        label={`${isWatching ? "-" : "+"} ${t(
+                            isWatching ? "product.watchlist.remove" : "product.watchlist.add",
+                        )}`}
+                        showIcon={false}
                     />
                 </div>
-                <div className="flex min-w-0 flex-col lg:col-span-5">
-                    <div className="flex items-center justify-between gap-4">
-                        <div className="flex flex-wrap items-center gap-2">
-                            <StatusBadge status={product.state} />
-                            <ShopTypeBadge shopType={product.shopType} />
-                            {product.auction && <AuctionWindowBadge auction={product.auction} />}
-                        </div>
-                        <div className="ml-auto shrink-0 self-start">
-                            <div className="hidden gap-2 md:flex">
-                                <ProductSharer title={product.title} />
-
-                                <NotificationButton
-                                    variant="ghost"
-                                    size="icon"
-                                    shopId={product.shopId}
-                                    shopsProductId={product.shopsProductId}
-                                    isNotificationEnabled={
-                                        product.userData?.watchlistData.isNotificationEnabled ??
-                                        false
-                                    }
-                                    isVisible={isWatching}
-                                />
-                            </div>
-                            <div className="flex gap-2 md:hidden">
-                                <ProductSharer title={product.title} variant="outline" />
-
-                                <NotificationButton
-                                    variant="outline"
-                                    size="icon"
-                                    shopId={product.shopId}
-                                    shopsProductId={product.shopsProductId}
-                                    isNotificationEnabled={
-                                        product.userData?.watchlistData.isNotificationEnabled ??
-                                        false
-                                    }
-                                    isVisible={isWatching}
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <H1 className="mt-8 overflow-hidden leading-[1.2] md:leading-[1.25] font-normal">
-                        {product.title}
-                    </H1>
-                    <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted-foreground/80">
-                        {product.shopName}
-                    </p>
-
-                    <div className="mt-5 flex flex-wrap items-end gap-3">
-                        <PriceText className="line-clamp-none overflow-visible whitespace-nowrap text-[2.25rem] leading-none font-display font-normal italic text-primary">
-                            {product.price ?? t("product.unknownPrice")}
-                        </PriceText>
-                        {product.priceEstimate && (
-                            <ProductPriceEstimate
-                                priceEstimate={product.priceEstimate}
-                                shopType={product.shopType}
-                            />
-                        )}
-                    </div>
-
-                    <div className="mt-8 flex flex-col gap-3">
-                        <Button
-                            variant="default"
-                            className="h-14 w-full rounded-none text-xs tracking-[0.12em] uppercase"
-                            disabled={isRemoved}
-                            asChild={!isRemoved}
-                        >
-                            {isRemoved ? (
-                                <>
-                                    <ArrowUpRight />
-                                    <span>{t("product.toMerchant")}</span>
-                                </>
-                            ) : (
-                                <a
-                                    href={product.url?.href}
-                                    target="_blank"
-                                    rel="nofollow noopener noreferrer"
-                                >
-                                    <ArrowUpRight />
-                                    <span>{t("product.toMerchant")}</span>
-                                </a>
-                            )}
-                        </Button>
-
-                        <WatchlistButton
-                            variant={isWatching ? "default" : "outline"}
-                            className={`h-14 w-full justify-center rounded-none text-xs tracking-[0.12em] uppercase ${
-                                isWatching
-                                    ? "bg-secondary text-secondary-foreground hover:bg-secondary/90"
-                                    : "text-primary"
-                            }`}
-                            shopId={product.shopId}
-                            shopsProductId={product.shopsProductId}
-                            isWatching={isWatching}
-                            label={`${isWatching ? "-" : "+"} ${t(
-                                isWatching ? "product.watchlist.remove" : "product.watchlist.add",
-                            )}`}
-                            showIcon={false}
-                        />
-                    </div>
-                </div>
-            </section>
-        </>
+            </div>
+        </section>
     );
 }
