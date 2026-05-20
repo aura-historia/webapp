@@ -24,6 +24,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
     const markSeen = useMarkNotificationSeen();
 
     const isRemoved = product.state === "REMOVED";
+    const merchantUrl = product.viewUrl?.href ?? product.url?.href;
 
     const handleProductClick = useCallback(() => {
         if (hasUnseenNotification && originEventId) {
@@ -158,7 +159,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                                 </>
                             ) : (
                                 <a
-                                    href={product.url?.href}
+                                    href={merchantUrl}
                                     target="_blank"
                                     rel="nofollow noopener noreferrer"
                                 >

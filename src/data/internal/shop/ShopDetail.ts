@@ -23,6 +23,7 @@ export type ShopDetail = {
     readonly partnerStatus: ShopPartnerStatus;
     readonly image?: string;
     readonly url?: string;
+    readonly viewUrl?: string;
     readonly domains: string[];
     readonly shopifyDomain?: string;
     readonly shopifyCurrency?: CurrencyData;
@@ -50,6 +51,7 @@ export function mapToShopDetail(data: GetShopData): ShopDetail {
         partnerStatus: parseShopPartnerStatus(data.partnerStatus),
         image: data.image ?? undefined,
         url: data.url ?? undefined,
+        viewUrl: data.viewUrl ?? undefined,
         domains: data.domains,
         shopifyDomain: data.shopifyDomain ?? undefined,
         shopifyCurrency: data.shopifyCurrency ?? undefined,

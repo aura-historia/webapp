@@ -175,7 +175,7 @@
       "placeholder": "I'm looking for...",
       "placeholderShort": "Search",
       "button": "Search",
-      "placeholderExamples": [
+      "placeholderExamplesProducts": [
         "Oil painting Mary Magdalene",
         "Meissen porcelain service",
         "Louis XVI commode",
@@ -196,6 +196,23 @@
         "Rococo mirror",
         "Persian miniature painting",
         "Louis XV armchair"
+      ],
+      "placeholderExamplesShops": [
+        "Sotheby's",
+        "Christie's",
+        "Bonhams",
+        "Dorotheum",
+        "1stDibs",
+        "Catawiki",
+        "LiveAuctioneers",
+        "Invaluable",
+        "Heritage Auctions",
+        "Chairish",
+        "The Saleroom",
+        "Ruby Lane",
+        "Vinterior",
+        "HiBid",
+        "Barnebys"
       ],
       "searchTypeLabel": "Search type",
       "searchType": {

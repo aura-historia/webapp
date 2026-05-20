@@ -52,6 +52,9 @@
     "searchShops": {
       "title": "Rechercher des boutiques | Aura Historia",
       "description": "Découvrez les boutiques, maisons de ventes aux enchères et marchands de confiance sur Aura Historia."
+    },
+    "searchFilters": {
+      "title": "Mes filtres de recherche | Aura Historia"
     }
   },
   "validation": {
@@ -91,7 +94,8 @@
     "logout": "Se déconnecter",
     "hello": "Bonjour",
     "register": "S'inscrire",
-    "login": "Se connecter"
+    "login": "Se connecter",
+    "searchFilters": "Filtres de recherche"
   },
   "footer": {
     "brandName": "Aura Historia",
@@ -171,7 +175,7 @@
       "placeholder": "Je recherche...",
       "placeholderShort": "Rechercher",
       "button": "Rechercher",
-      "placeholderExamples": [
+      "placeholderExamplesProducts": [
         "Peinture à l'huile Marie-Madeleine",
         "Service en porcelaine de Meissen",
         "Commode Louis XVI",
@@ -192,6 +196,23 @@
         "Miroir Rococo",
         "Miniature persane",
         "Fauteuil Louis XV"
+      ],
+      "placeholderExamplesShops": [
+        "Sotheby's",
+        "Christie's",
+        "Drouot",
+        "Artcurial",
+        "Catawiki",
+        "1stDibs",
+        "LiveAuctioneers",
+        "Invaluable",
+        "Bonhams",
+        "Dorotheum",
+        "The Saleroom",
+        "Aguttes",
+        "Barnebys",
+        "Vinterior",
+        "Chairish"
       ],
       "searchTypeLabel": "Type de recherche",
       "searchType": {
@@ -230,7 +251,8 @@
         "merchants": "Réinitialiser les filtres de marchands",
         "shopType": "Réinitialiser le filtre de type de boutique",
         "partnerStatus": "Réinitialiser le filtre de statut de partenariat",
-        "global": "Réinitialiser tout"
+        "global": "Réinitialiser tout",
+        "category": "Réinitialiser le filtre de catégorie"
       },
       "all": "Tous",
       "select": "Sélectionner",
@@ -241,7 +263,8 @@
       "shopType": "Type de boutique",
       "auctionDate": "Date de vente aux enchères",
       "auctionDateDisabledTooltip": "Disponible uniquement pour les maisons de vente aux enchères",
-      "partnerStatus": "Statut de partenariat"
+      "partnerStatus": "Statut de partenariat",
+      "requireSelection": "Au moins une sélection requise"
     },
     "messages": {
       "minQueryLength": "Veuillez saisir au moins 3 caractères pour lancer la recherche.",
@@ -637,7 +660,8 @@
     "INVALID_EMAIL": "L'adresse e-mail est invalide ou n'est pas acceptée par notre fournisseur de newsletter.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Vous avez déjà un abonnement actif. Veuillez utiliser le portail client pour le gérer.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Aucun abonnement existant n'a été trouvé. Veuillez démarrer un nouveau processus de paiement.",
-    "undefined": "Une erreur inattendue s'est produite."
+    "undefined": "Une erreur inattendue s'est produite.",
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Cette fonctionnalité est uniquement disponible pour certains abonnements. Veuillez mettre à niveau votre compte."
   },
   "watchlist": {
     "title": "Mes favoris",
@@ -1160,5 +1184,107 @@
         "deleteSuccess": "Utilisateur supprimé."
       }
     }
+  },
+  "searchFilter": {
+    "saveButton": "Enregistrer le filtre de recherche",
+    "saveSuccess": "Filtre de recherche enregistré avec succès !",
+    "loginRequired": "Veuillez vous connecter ou vous inscrire pour enregistrer des filtres de recherche.",
+    "quotaReached": "Vous avez atteint le nombre maximum de filtres de recherche. Mettez à niveau votre abonnement pour en ajouter davantage.",
+    "saveDialog": {
+      "title": "Enregistrer le filtre de recherche",
+      "nameLabel": "Nom",
+      "namePlaceholder": "ex. Peinture baroque Mater Dolorosa",
+      "queryLabel": "Requête de recherche",
+      "aiDescriptionLabel": "Description IA (facultatif)",
+      "aiDescriptionPlaceholder": "Peinture à l'huile de la Vierge Marie sur toile, pas sur bois, cadre baroque avec feuille d'or sur fond de craie (gesso). Le motif doit être Mater Dolorosa. La signature de l'artiste doit être incluse. La peinture ne doit pas présenter de dommages visibles et le cadre doit être entièrement intact. Si la peinture est du baroque espagnol, elle doit mesurer au moins 40x60 cm. Cela ne s'applique pas au baroque italien.",
+      "aiDescriptionUltimateOnly": "Disponible uniquement pour les abonnés Ultimate",
+      "ultimateOnly": "Disponible uniquement pour les abonnés Ultimate",
+      "cancelButton": "Annuler",
+      "saveButton": "Enregistrer",
+      "restrictedFiltersHint": "Ces filtres ne sont malheureusement pas disponibles dans votre abonnement actuel et ne peuvent pas être enregistrés. Mettez à niveau votre abonnement pour les utiliser – ou enregistrez le filtre de recherche sans ces filtres.",
+      "resetAndSaveButton": "Enregistrer sans ces filtres",
+      "queryPlaceholder": "ex. Peinture à l'huile Mater Dolorosa toile baroque",
+      "nameHint": "Donnez un nom unique à votre filtre de recherche.",
+      "queryHint": "Mot-clé qui sera comparé aux titres des produits.",
+      "aiDescriptionHint": "Décrivez en détail ce que vous recherchez – l'IA trouvera de meilleures correspondances."
+    },
+    "wizard": {
+      "title": "Créer un filtre de recherche",
+      "back": "Retour",
+      "next": "Suivant",
+      "nameRequired": "Veuillez entrer un nom",
+      "nameTooLong": "Le nom ne doit pas dépasser 255 caractères",
+      "queryTooShort": "La requête de recherche doit contenir au moins 3 caractères",
+      "noFiltersConfigured": "Aucun filtre configuré",
+      "upgradeBanner": "Ces filtres ne sont pas disponibles dans votre plan actuel. Mettez à niveau votre compte pour les débloquer.",
+      "step": {
+        "name": "Nom",
+        "nameDescription": "Donnez un nom à votre filtre de recherche",
+        "priceStatus": "Prix & Statut",
+        "theme": "Thème",
+        "quality": "Qualité",
+        "shop": "Boutique",
+        "date": "Date",
+        "confirm": "Confirmer",
+        "confirmDescription": "Vérifiez votre filtre de recherche avant de l'enregistrer"
+      },
+      "titleEdit": "Modifier le filtre de recherche",
+      "titleDuplicate": "Dupliquer le filtre de recherche"
+    },
+    "optional": "facultatif",
+    "upgradeRequired": "Pro & Ultimate uniquement",
+    "upgradeNow": "Mettez à niveau maintenant"
+  },
+  "searchFilters": {
+    "title": "Mes filtres de recherche",
+    "create": "Créer un filtre de recherche",
+    "createUpgradeTooltip": "Mettez à niveau votre compte pour créer plus de filtres de recherche",
+    "duplicate": "Dupliquer le filtre de recherche",
+    "duplicateNamePrefix": "Copie de {{name}}",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "deleteSuccess": "Filtre de recherche supprimé avec succès",
+    "deleteConfirm": {
+      "title": "Supprimer \"{{name}}\" ?",
+      "description": "Ce filtre de recherche sera définitivement supprimé et ne pourra pas être restauré.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer"
+    },
+    "notificationsOn": "Notifications actives",
+    "notificationsOff": "Notifications inactives",
+    "loadingError": "Les filtres de recherche n'ont pas pu être chargés. Veuillez réessayer plus tard.",
+    "noResults": {
+      "title": "Aucun filtre de recherche",
+      "description": "Vous n'avez encore enregistré aucun filtre de recherche."
+    },
+    "noMatches": {
+      "title": "Aucune correspondance",
+      "description": "Aucun élément correspondant n'a encore été trouvé pour ce filtre de recherche.",
+      "editHint": "Essayez d'ajuster le filtre de recherche."
+    },
+    "totalElements": "{{count}} filtre(s) de recherche",
+    "matchingProducts": "{{count}} correspondance(s)",
+    "searchPlaceholder": "Rechercher des filtres...",
+    "showDetails": "Afficher les détails",
+    "showResults": "Rechercher maintenant",
+    "info": {
+      "creationDate": "Créé : {{date}}",
+      "updateDate": "Mis à jour : {{date}}",
+      "auctionDate": "Date de la vente : {{date}}"
+    },
+    "hiddenMatch": {
+      "title": "Caché",
+      "description": "Cette correspondance dépasse votre quota mensuel et est masquée. Mettez à niveau votre compte pour voir tous les résultats.",
+      "upgradeButton": "Mettez à niveau maintenant"
+    },
+    "feedback": {
+      "relevant": "Pertinent",
+      "notRelevant": "Non pertinent",
+      "label": "Utile ?",
+      "relevantHint": "La correspondance est pertinente",
+      "notRelevantHint": "La correspondance n'est pas pertinente"
+    },
+    "matchReason": "Raison IA",
+    "feedbackError": "Échec de l'enregistrement des commentaires."
   }
 }

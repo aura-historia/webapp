@@ -21,7 +21,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 15000, currency: "EUR" } },
                     state: "AVAILABLE",
                     url: "https://example.com/products/vintage-vase",
-                    viewUrl: "https://example.com/products/vintage-vase",
+                    viewUrl: "https://affiliate.example.com/products/vintage-vase",
                     images: [
                         {
                             url: "https://example.com/images/vase1.jpg",
@@ -44,7 +44,7 @@ describe("productJsonLd", () => {
             expect(result["@type"]).toBe("Product");
             expect(result.name).toBe("Vintage Vase from 1920s");
             expect(result.sku).toBe("shop-789-shop-item-101");
-            expect(result.url).toBe("https://example.com/products/vintage-vase");
+            expect(result.url).toBe("https://affiliate.example.com/products/vintage-vase");
             expect(result.image).toEqual([
                 "https://example.com/images/vase1.jpg",
                 "https://example.com/images/vase2.jpg",
@@ -67,7 +67,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 25000, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/chair",
-                    viewUrl: "https://example.com/chair",
+                    viewUrl: "https://affiliate.example.com/chair",
                     images: [],
 
                     created: "2024-01-01T00:00:00Z",
@@ -82,7 +82,7 @@ describe("productJsonLd", () => {
             expect(result.offers?.priceCurrency).toBe("USD");
             expect(result.offers?.price).toBe(250.0);
             expect(result.offers?.availability).toBe("https://schema.org/InStock");
-            expect(result.offers?.url).toBe("https://example.com/chair");
+            expect(result.offers?.url).toBe("https://affiliate.example.com/chair");
             expect(result.offers?.seller?.["@type"]).toBe("Organization");
             expect(result.offers?.seller?.name).toBe("Antique Dealer");
         });

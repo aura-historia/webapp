@@ -19,6 +19,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();
     const isWatching = product.userData?.watchlistData.isWatching ?? false;
     const isRemoved = product.state === "REMOVED";
+    const merchantUrl = product.viewUrl?.href ?? product.url?.href;
 
     return (
         <section className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 pb-8">
@@ -101,7 +102,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                             </>
                         ) : (
                             <a
-                                href={product.url?.href}
+                                href={merchantUrl}
                                 target="_blank"
                                 rel="nofollow noopener noreferrer"
                             >
