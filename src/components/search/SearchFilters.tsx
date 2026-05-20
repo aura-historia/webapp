@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MerchantFilters } from "@/components/search/filters/MerchantFilters.tsx";
+import { SellerFilters } from "@/components/search/filters/SellerFilters.tsx";
 import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
@@ -48,6 +49,8 @@ export const createFilterSchema = (t: TFunction) =>
             }),
             merchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
             excludeMerchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
+            seller: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
+            excludeSeller: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
             shopType: z.array(z.enum(SHOP_TYPES)),
         })
         .superRefine((data, ctx) => {
@@ -117,6 +120,8 @@ export function mapSearchFiltersToFormValues(filters: SearchFilterArguments): Fi
         },
         merchant: filters.merchant,
         excludeMerchant: filters.excludeMerchant,
+        seller: filters.seller,
+        excludeSeller: filters.excludeSeller,
         shopType: filters.shopType ?? FILTER_DEFAULTS.shopType,
     };
 }
@@ -191,6 +196,8 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                         auctionDate: data.auctionDate,
                         merchant: data.merchant,
                         excludeMerchant: data.excludeMerchant,
+                        seller: data.seller,
+                        excludeSeller: data.excludeSeller,
                         shopType: data.shopType,
                     }),
                 }),
@@ -244,6 +251,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                         onReset={() => form.setValue("shopType", FILTER_DEFAULTS.shopType)}
                     />
                     <MerchantFilters />
+                    <SellerFilters />
                     <AuctionDateSpanFilter />
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />
