@@ -31,6 +31,7 @@ describe("ProductDetailPage", () => {
         shopSlugId: "test-shop",
         shopsProductId: "",
         shopName: "Test Shop",
+        sellerName: "Test Shop",
         shopType: "AUCTION_HOUSE",
         title: "Test Product",
         price: "99€",

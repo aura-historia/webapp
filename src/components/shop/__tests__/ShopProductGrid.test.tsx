@@ -47,6 +47,7 @@ const baseProduct: OverviewProduct = {
     shopSlugId: "shop-1",
     shopsProductId: "si1",
     shopName: "Test Shop",
+    sellerName: "Test Shop",
     shopType: "AUCTION_HOUSE",
     title: "Ancient Vase",
     price: "100 €",

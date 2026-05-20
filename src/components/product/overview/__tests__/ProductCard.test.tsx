@@ -24,6 +24,7 @@ describe("ProductCard", () => {
         viewUrl: new URL("https://affiliate.example.com/product"),
         title: "Sample Product",
         shopName: "Sample Shop",
+        sellerName: "Sample Shop",
         shopType: "AUCTION_HOUSE",
         state: "AVAILABLE",
         price: "100€",

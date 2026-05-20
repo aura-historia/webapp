@@ -23,6 +23,7 @@ describe("ProductGridItem", () => {
         url: new URL("https://example.com"),
         title: "Sample Product",
         shopName: "Sample Shop",
+        sellerName: "Sample Shop",
         shopType: "AUCTION_HOUSE",
         state: "AVAILABLE",
         price: "100€",
