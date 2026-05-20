@@ -18,6 +18,14 @@ vi.mock("@/hooks/admin/usePatchAdminShop.ts", () => ({
 vi.mock("@/components/admin/useAdminShopMetadataOptions.ts", () => ({
     useAdminShopMetadataOptions: () => ({
         countryOptions: [{ value: "DE", label: "Deutschland" }],
+        currencyOptions: [
+            { value: "EUR", label: "Euro (EUR)" },
+            { value: "USD", label: "US Dollar (USD)" },
+        ],
+        languageOptions: [
+            { value: "de", label: "Deutsch" },
+            { value: "en", label: "English" },
+        ],
     }),
 }));
 
@@ -42,6 +50,11 @@ describe("AdminShopEditDialog", () => {
                     shopType: "AUCTION_HOUSE",
                     partnerStatus: "PARTNERED",
                     domains: ["aurora.example.com"],
+                    shopifyDomain: "aurora.myshopify.com",
+                    shopifyCurrency: "EUR",
+                    shopifyLanguage: "de",
+                    woocommerceCurrency: "USD",
+                    woocommerceLanguage: "en",
                     url: "https://aurora.example.com",
                     image: "https://example.com/logo.png",
                     phone: "+49 30 123456",
@@ -71,6 +84,11 @@ describe("AdminShopEditDialog", () => {
                 shopId: "shop-1",
                 shopType: "AUCTION_HOUSE",
                 domains: ["aurora.example.com"],
+                shopifyDomain: "aurora.myshopify.com",
+                shopifyCurrency: "EUR",
+                shopifyLanguage: "de",
+                woocommerceCurrency: "USD",
+                woocommerceLanguage: "en",
                 url: "https://aurora.example.com",
                 image: "https://example.com/logo.png",
                 phone: "+49 30 123456",

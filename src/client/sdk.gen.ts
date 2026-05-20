@@ -26,11 +26,14 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
  * and have an API key configured. It does **not** use Cognito JWT authentication.
  *
  * The request body is an array of `PatchProductData` objects. Only the fields provided in
- * each entry are updated; omitted optional fields are left unchanged. Products are processed
- * individually: if some products fail to update, the response still returns HTTP 200 with
- * a partial-failure map in the `errors` field. Only entries that failed are present in the map.
+ * each entry are updated; omitted optional fields are left unchanged. Each entry is forwarded
+ * individually to the asynchronous partner-product ingestion queue.
  *
- * An empty `errors` map in the response indicates all products were updated successfully.
+ * The response returns HTTP 202 with an array containing only the `shopsProductId` values
+ * that failed to be forwarded to the queue. An empty array indicates that all updates were
+ * accepted for asynchronous processing. Because persistence happens asynchronously, acceptance
+ * does not guarantee that the referenced product currently exists or that the update will
+ * later succeed.
  *
  */
 export const patchPartnerProducts = <ThrowOnError extends boolean = false>(options: Options<PatchPartnerProductsData, ThrowOnError>) => (options.client ?? client).patch<PatchPartnerProductsResponses, PatchPartnerProductsErrors, ThrowOnError>({
@@ -50,11 +53,12 @@ export const patchPartnerProducts = <ThrowOnError extends boolean = false>(optio
  * This endpoint is intended for partner shops — shops that have been granted partner status
  * and have an API key configured. It does **not** use Cognito JWT authentication.
  *
- * The request body is an array of `PostProductData` objects. Products are processed
- * individually: if some products fail to create, the response still returns HTTP 200 with
- * a partial-failure map in the `errors` field. Only entries that failed are present in the map.
+ * The request body is an array of `PostProductData` objects. Each entry is forwarded
+ * individually to the asynchronous partner-product ingestion queue.
  *
- * An empty `errors` map in the response indicates all products were created successfully.
+ * The response returns HTTP 202 with an array containing only the `shopsProductId` values
+ * that failed to be forwarded to the queue. An empty array indicates that all products were
+ * accepted for asynchronous processing.
  *
  */
 export const postPartnerProducts = <ThrowOnError extends boolean = false>(options: Options<PostPartnerProductsData, ThrowOnError>) => (options.client ?? client).post<PostPartnerProductsResponses, PostPartnerProductsErrors, ThrowOnError>({
@@ -75,16 +79,15 @@ export const postPartnerProducts = <ThrowOnError extends boolean = false>(option
  * that have been granted partner status and have an API key configured. It does **not**
  * use Cognito JWT authentication.
  *
- * The request body is an array of `PutProductData` objects. For each entry the backend
- * checks whether a product with the given `shopsProductId` already exists in the shop:
+ * The request body is an array of `PutProductData` objects. Each entry is forwarded
+ * individually to the asynchronous partner-product ingestion queue as an upsert command.
+ * When the queued command is later ingested:
  * - **Existing product** — only `state` and `price` are updated (other fields are ignored).
  * - **New product** — a full product is created using all provided fields.
  *
- * Products are processed individually: if some products fail to upsert, the response
- * still returns HTTP 200 with a partial-failure map in the `errors` field. Only entries
- * that failed are present in the map.
- *
- * An empty `errors` map in the response indicates all products were upserted successfully.
+ * The response returns HTTP 202 with an array containing only the `shopsProductId` values
+ * that failed to be forwarded to the queue. An empty array indicates that all upserts were
+ * accepted for asynchronous processing.
  *
  */
 export const putPartnerProducts = <ThrowOnError extends boolean = false>(options: Options<PutPartnerProductsData, ThrowOnError>) => (options.client ?? client).put<PutPartnerProductsResponses, PutPartnerProductsErrors, ThrowOnError>({
@@ -112,7 +115,8 @@ export const putPartnerProducts = <ThrowOnError extends boolean = false>(options
  * - `product.created` and `product.updated` require `id`, `name`, and `permalink`
  * - `product.deleted` requires only `id`
  *
- * The shop identified by `shopId` must have a stored `woocommerceWebhookSecret`.
+ * The shop identified by `shopId` must have a stored `woocommerceWebhookSecret`
+ * and a configured `woocommerceLanguage`.
  * If a non-empty `price` is sent, the shop must also have `woocommerceCurrency` configured.
  *
  */
@@ -214,6 +218,8 @@ export const getSimilarProducts = <ThrowOnError extends boolean = false>(options
  * using the same field names:
  * - `shopName`
  * - `excludeShopName`
+ * - `sellerName`
+ * - `excludeSellerName`
  * - `shopSlugId`
  * - `excludeShopSlugId`
  * - `sellerSlugId`

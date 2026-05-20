@@ -1,4 +1,10 @@
-import type { GeoAddressData, GetShopData, StructuredAddressData } from "@/client";
+import type {
+    CurrencyData,
+    GeoAddressData,
+    GetShopData,
+    LanguageData,
+    StructuredAddressData,
+} from "@/client";
 import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import {
     parseShopPartnerStatus,
@@ -18,6 +24,11 @@ export type ShopDetail = {
     readonly image?: string;
     readonly url?: string;
     readonly domains: string[];
+    readonly shopifyDomain?: string;
+    readonly shopifyCurrency?: CurrencyData;
+    readonly shopifyLanguage?: LanguageData;
+    readonly woocommerceCurrency?: CurrencyData;
+    readonly woocommerceLanguage?: LanguageData;
     readonly structuredAddress?: StructuredAddress;
     readonly geoAddress?: GeoAddress;
     readonly phone?: string;
@@ -40,6 +51,11 @@ export function mapToShopDetail(data: GetShopData): ShopDetail {
         image: data.image ?? undefined,
         url: data.url ?? undefined,
         domains: data.domains,
+        shopifyDomain: data.shopifyDomain ?? undefined,
+        shopifyCurrency: data.shopifyCurrency ?? undefined,
+        shopifyLanguage: data.shopifyLanguage ?? undefined,
+        woocommerceCurrency: data.woocommerceCurrency ?? undefined,
+        woocommerceLanguage: data.woocommerceLanguage ?? undefined,
         structuredAddress: data.structuredAddress
             ? {
                   addressline: data.structuredAddress.addressline,

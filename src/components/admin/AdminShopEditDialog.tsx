@@ -31,15 +31,38 @@ import {
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import { useAdminShopMetadataOptions } from "@/components/admin/useAdminShopMetadataOptions.ts";
-import { EDITABLE_SHOP_TYPES, parseShopDomains } from "@/components/admin/adminShopFormUtils.ts";
+import {
+    EDITABLE_SHOP_TYPES,
+    normalizeShopDomain,
+    parseShopDomains,
+} from "@/components/admin/adminShopFormUtils.ts";
 import type { ShopDetail, StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { COUNTRY_CODES } from "@/data/internal/shop/CountryCode.ts";
+import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { usePatchAdminShop } from "@/hooks/admin/usePatchAdminShop.ts";
 import { toast } from "sonner";
 
 const NO_COUNTRY_VALUE = "__none__";
+const NO_CURRENCY_VALUE = "__none__";
+const NO_LANGUAGE_VALUE = "__none__";
 const EDITABLE_OR_UNKNOWN_SHOP_TYPES = ["UNKNOWN", ...EDITABLE_SHOP_TYPES] as const;
+const SHOP_LANGUAGES = [
+    "de",
+    "en",
+    "fr",
+    "es",
+    "it",
+    "zh",
+    "pt",
+    "pl",
+    "tr",
+    "nl",
+    "cs",
+    "ja",
+    "ru",
+    "ar",
+] as const;
 
 interface AdminShopEditDialogProps {
     readonly shop: ShopDetail | null;
@@ -79,6 +102,11 @@ function createAdminShopEditSchema(t: (key: string) => string) {
                 (value) => value === "" || z.email().safeParse(value).success,
                 t("adminDashboard.shops.create.validation.emailInvalid"),
             ),
+        shopifyDomain: z.string().trim(),
+        shopifyCurrency: z.union([z.literal(""), z.enum(CURRENCIES)]),
+        shopifyLanguage: z.union([z.literal(""), z.enum(SHOP_LANGUAGES)]),
+        woocommerceCurrency: z.union([z.literal(""), z.enum(CURRENCIES)]),
+        woocommerceLanguage: z.union([z.literal(""), z.enum(SHOP_LANGUAGES)]),
         addressline: z.string().trim(),
         addresslineExtra: z.string().trim(),
         locality: z.string().trim(),
@@ -93,6 +121,11 @@ type AdminShopEditFormData = z.infer<ReturnType<typeof createAdminShopEditSchema
 const DEFAULT_VALUES: AdminShopEditFormData = {
     shopType: "UNKNOWN",
     domains: "",
+    shopifyDomain: "",
+    shopifyCurrency: "",
+    shopifyLanguage: "",
+    woocommerceCurrency: "",
+    woocommerceLanguage: "",
     url: "",
     image: "",
     phone: "",
@@ -109,6 +142,11 @@ function mapShopToFormValues(shop: ShopDetail): AdminShopEditFormData {
     return {
         shopType: shop.shopType,
         domains: shop.domains.join("\n"),
+        shopifyDomain: shop.shopifyDomain ?? "",
+        shopifyCurrency: shop.shopifyCurrency ?? "",
+        shopifyLanguage: shop.shopifyLanguage ?? "",
+        woocommerceCurrency: shop.woocommerceCurrency ?? "",
+        woocommerceLanguage: shop.woocommerceLanguage ?? "",
         url: shop.url ?? "",
         image: shop.image ?? "",
         phone: shop.phone ?? "",
@@ -149,7 +187,7 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
     const { t } = useTranslation();
     const patchShop = usePatchAdminShop();
     const editShopSchema = useMemo(() => createAdminShopEditSchema(t), [t]);
-    const { countryOptions } = useAdminShopMetadataOptions();
+    const { countryOptions, currencyOptions, languageOptions } = useAdminShopMetadataOptions();
 
     const form = useForm<AdminShopEditFormData>({
         resolver: zodResolver(editShopSchema),
@@ -172,6 +210,16 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                 shopId: shop.shopId,
                 shopType: values.shopType === "UNKNOWN" ? undefined : values.shopType,
                 domains: parseShopDomains(values.domains),
+                shopifyDomain:
+                    normalizeShopDomain(values.shopifyDomain) === ""
+                        ? null
+                        : normalizeShopDomain(values.shopifyDomain),
+                shopifyCurrency: values.shopifyCurrency === "" ? null : values.shopifyCurrency,
+                shopifyLanguage: values.shopifyLanguage === "" ? null : values.shopifyLanguage,
+                woocommerceCurrency:
+                    values.woocommerceCurrency === "" ? null : values.woocommerceCurrency,
+                woocommerceLanguage:
+                    values.woocommerceLanguage === "" ? null : values.woocommerceLanguage,
                 url: values.url === "" ? null : values.url,
                 image: values.image === "" ? null : values.image,
                 phone: values.phone === "" ? null : values.phone,
@@ -292,6 +340,208 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                                             <span className="text-xs text-muted-foreground">
                                                 {t("adminDashboard.shops.fields.domainsHint")}
                                             </span>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="shopifyDomain"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {t("adminDashboard.shops.fields.shopifyDomain")}
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    placeholder="shop-name.myshopify.com"
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="shopifyCurrency"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {t("adminDashboard.shops.fields.shopifyCurrency")}
+                                            </FormLabel>
+                                            <Select
+                                                value={field.value || NO_CURRENCY_VALUE}
+                                                onValueChange={(value) =>
+                                                    field.onChange(
+                                                        value === NO_CURRENCY_VALUE ? "" : value,
+                                                    )
+                                                }
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue
+                                                            placeholder={t(
+                                                                "adminDashboard.shops.fields.currencyPlaceholder",
+                                                            )}
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value={NO_CURRENCY_VALUE}>
+                                                        {t(
+                                                            "adminDashboard.shops.fields.currencyNone",
+                                                        )}
+                                                    </SelectItem>
+                                                    {currencyOptions.map((option) => (
+                                                        <SelectItem
+                                                            key={option.value}
+                                                            value={option.value}
+                                                        >
+                                                            {option.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="shopifyLanguage"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {t("adminDashboard.shops.fields.shopifyLanguage")}
+                                            </FormLabel>
+                                            <Select
+                                                value={field.value || NO_LANGUAGE_VALUE}
+                                                onValueChange={(value) =>
+                                                    field.onChange(
+                                                        value === NO_LANGUAGE_VALUE ? "" : value,
+                                                    )
+                                                }
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue
+                                                            placeholder={t(
+                                                                "adminDashboard.shops.fields.languagePlaceholder",
+                                                            )}
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value={NO_LANGUAGE_VALUE}>
+                                                        {t(
+                                                            "adminDashboard.shops.fields.languageNone",
+                                                        )}
+                                                    </SelectItem>
+                                                    {languageOptions.map((option) => (
+                                                        <SelectItem
+                                                            key={option.value}
+                                                            value={option.value}
+                                                        >
+                                                            {option.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="woocommerceCurrency"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {t(
+                                                    "adminDashboard.shops.fields.woocommerceCurrency",
+                                                )}
+                                            </FormLabel>
+                                            <Select
+                                                value={field.value || NO_CURRENCY_VALUE}
+                                                onValueChange={(value) =>
+                                                    field.onChange(
+                                                        value === NO_CURRENCY_VALUE ? "" : value,
+                                                    )
+                                                }
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue
+                                                            placeholder={t(
+                                                                "adminDashboard.shops.fields.currencyPlaceholder",
+                                                            )}
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value={NO_CURRENCY_VALUE}>
+                                                        {t(
+                                                            "adminDashboard.shops.fields.currencyNone",
+                                                        )}
+                                                    </SelectItem>
+                                                    {currencyOptions.map((option) => (
+                                                        <SelectItem
+                                                            key={option.value}
+                                                            value={option.value}
+                                                        >
+                                                            {option.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="woocommerceLanguage"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {t(
+                                                    "adminDashboard.shops.fields.woocommerceLanguage",
+                                                )}
+                                            </FormLabel>
+                                            <Select
+                                                value={field.value || NO_LANGUAGE_VALUE}
+                                                onValueChange={(value) =>
+                                                    field.onChange(
+                                                        value === NO_LANGUAGE_VALUE ? "" : value,
+                                                    )
+                                                }
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue
+                                                            placeholder={t(
+                                                                "adminDashboard.shops.fields.languagePlaceholder",
+                                                            )}
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value={NO_LANGUAGE_VALUE}>
+                                                        {t(
+                                                            "adminDashboard.shops.fields.languageNone",
+                                                        )}
+                                                    </SelectItem>
+                                                    {languageOptions.map((option) => (
+                                                        <SelectItem
+                                                            key={option.value}
+                                                            value={option.value}
+                                                        >
+                                                            {option.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
                                             <FormMessage />
                                         </FormItem>
                                     )}
