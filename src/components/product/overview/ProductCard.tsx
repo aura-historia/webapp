@@ -23,6 +23,8 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
     const originEventId = product.userData?.notificationData?.originEventId;
     const markSeen = useMarkNotificationSeen();
 
+    const isRemoved = product.state === "REMOVED";
+
     const handleProductClick = useCallback(() => {
         if (hasUnseenNotification && originEventId) {
             markSeen.mutate(originEventId);
@@ -146,16 +148,24 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                         <Button
                             variant={"outline"}
                             className="w-full rounded-none border-outline-variant/20 bg-transparent px-3 py-2 text-[10px] uppercase tracking-[0.12em] text-primary hover:bg-primary/8"
-                            asChild
+                            disabled={isRemoved}
+                            asChild={!isRemoved}
                         >
-                            <a
-                                href={product.url?.href}
-                                target="_blank"
-                                rel="nofollow noopener noreferrer"
-                            >
-                                <ArrowUpRight />
-                                <span>{t("product.toMerchant")}</span>
-                            </a>
+                            {isRemoved ? (
+                                <>
+                                    <ArrowUpRight />
+                                    <span>{t("product.toMerchant")}</span>
+                                </>
+                            ) : (
+                                <a
+                                    href={product.url?.href}
+                                    target="_blank"
+                                    rel="nofollow noopener noreferrer"
+                                >
+                                    <ArrowUpRight />
+                                    <span>{t("product.toMerchant")}</span>
+                                </a>
+                            )}
                         </Button>
                     </div>
                 </div>

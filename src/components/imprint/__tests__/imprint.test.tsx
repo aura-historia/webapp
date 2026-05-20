@@ -60,12 +60,14 @@ describe("Imprint Component", () => {
     });
 
     it("renders main section headings", () => {
-        expect(screen.getByText("Art des Dienstes")).toBeInTheDocument();
-        expect(screen.getByText("Inhaltliche Ausrichtung")).toBeInTheDocument();
+        expect(screen.getByText("Art des Angebots")).toBeInTheDocument();
+        expect(
+            screen.getByText("Öffentliche Quellen, historische Inhalte und sensible Darstellungen"),
+        ).toBeInTheDocument();
     });
 
     it("renders legal section headings", () => {
-        expect(screen.getByText("Haftung für Inhalte")).toBeInTheDocument();
+        expect(screen.getByText("Hinweise zu Inhalten und Haftung")).toBeInTheDocument();
         expect(screen.getByText("Urheberrecht")).toBeInTheDocument();
         expect(screen.getByText("Anwendbares Recht")).toBeInTheDocument();
     });
@@ -160,17 +162,21 @@ describe("Imprint Page Logic", () => {
         it("should contain expected sections in German content", () => {
             const germanContent = IMPRINT_LOCALE_MAP.de;
             expect(germanContent).toContain("Diensteanbieter");
-            expect(germanContent).toContain("Art des Dienstes");
-            expect(germanContent).toContain("Inhaltliche Ausrichtung");
-            expect(germanContent).toContain("Haftung für Inhalte");
+            expect(germanContent).toContain("Art des Angebots");
+            expect(germanContent).toContain(
+                "Öffentliche Quellen, historische Inhalte und sensible Darstellungen",
+            );
+            expect(germanContent).toContain("Hinweise zu Inhalten und Haftung");
         });
 
         it("should contain expected sections in English content", () => {
             const englishContent = IMPRINT_LOCALE_MAP.en;
             expect(englishContent).toContain("Service Provider");
-            expect(englishContent).toContain("Type of Service");
-            expect(englishContent).toContain("Content Orientation");
-            expect(englishContent).toContain("Liability for Content");
+            expect(englishContent).toContain("Type of Offering");
+            expect(englishContent).toContain(
+                "Public Sources, Historical Content, and Sensitive Depictions",
+            );
+            expect(englishContent).toContain("Content Notice and Liability");
         });
 
         it("should contain contact email in all locales", () => {

@@ -114,6 +114,24 @@ describe("ProductCard", () => {
         );
     });
 
+    it("should render merchant button as a link when state is not REMOVED", async () => {
+        await act(() => {
+            renderWithRouter(<ProductCard product={mockProduct} />);
+        });
+        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toBeInTheDocument();
+    });
+
+    it("should disable merchant button when state is REMOVED", async () => {
+        const removedProduct = { ...mockProduct, state: "REMOVED" as const };
+        await act(() => {
+            renderWithRouter(<ProductCard product={removedProduct} />);
+        });
+        expect(
+            screen.queryByRole("link", { name: "Zur Seite des Händlers" }),
+        ).not.toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Zur Seite des Händlers" })).toBeDisabled();
+    });
+
     describe("unseen notification highlight", () => {
         const mockProductWithUnseenNotification: OverviewProduct = {
             ...mockProduct,

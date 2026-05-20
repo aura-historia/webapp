@@ -105,6 +105,20 @@ describe("ProductInfo", () => {
         );
     });
 
+    it("should render merchant button as a link when state is not REMOVED", () => {
+        renderWithQueryClient(<ProductInfo product={mockProduct} />);
+        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toBeInTheDocument();
+    });
+
+    it("should disable merchant button when state is REMOVED", () => {
+        const removedProduct = { ...mockProduct, state: "REMOVED" as const };
+        renderWithQueryClient(<ProductInfo product={removedProduct} />);
+        expect(
+            screen.queryByRole("link", { name: "Zur Seite des Händlers" }),
+        ).not.toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Zur Seite des Händlers" })).toBeDisabled();
+    });
+
     it("should render action buttons without fixed floating positioning", () => {
         renderWithQueryClient(<ProductInfo product={mockProduct} />);
 
