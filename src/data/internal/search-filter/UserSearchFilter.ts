@@ -49,6 +49,8 @@ export function mapProductSearchDataToSearchFilterArguments(
         auctionDateTo: data.auctionStart?.max ? new Date(data.auctionStart.max) : undefined,
         merchant: data.shopName,
         excludeMerchant: data.excludeShopName,
+        seller: data.sellerName,
+        excludeSeller: data.excludeSellerName,
         shopType: data.shopType?.map((t) => parseShopType(t)),
     };
 }
@@ -89,6 +91,8 @@ export function mapSearchFilterArgumentsToProductSearchData(
                 : undefined,
         shopName: args.merchant,
         excludeShopName: args.excludeMerchant,
+        sellerName: args.seller,
+        excludeSellerName: args.excludeSeller,
         shopType: args.shopType
             ?.map((t) => mapToBackendShopType(t))
             .filter((t): t is NonNullable<typeof t> => t !== undefined),
