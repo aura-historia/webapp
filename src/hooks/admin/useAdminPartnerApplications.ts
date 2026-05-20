@@ -7,6 +7,14 @@ import {
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 
+const ADMIN_QUERY_OPTIONS = {
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: "always" as const,
+    refetchOnReconnect: "always" as const,
+    refetchOnWindowFocus: "always" as const,
+};
+
 export function useAdminPartnerApplications(enabled: boolean = true) {
     const { getErrorMessage } = useApiError();
 
@@ -20,6 +28,6 @@ export function useAdminPartnerApplications(enabled: boolean = true) {
             return response.data.map(mapToPartnerApplication);
         },
         enabled,
-        staleTime: 30 * 1000,
+        ...ADMIN_QUERY_OPTIONS,
     });
 }

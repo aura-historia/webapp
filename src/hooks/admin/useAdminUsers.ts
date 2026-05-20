@@ -1,5 +1,4 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { InfiniteData } from "@tanstack/react-query";
 import { adminDeleteUser, adminGetUser, adminPatchUser, adminSearchUsers } from "@/client";
 import type { SortUserFieldData, UserRoleData, UserTierData } from "@/client";
 import {
@@ -13,6 +12,13 @@ import { useApiError } from "@/hooks/common/useApiError.ts";
 import { toast } from "sonner";
 
 const PAGE_SIZE = 25;
+const ADMIN_QUERY_OPTIONS = {
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: "always" as const,
+    refetchOnReconnect: "always" as const,
+    refetchOnWindowFocus: "always" as const,
+};
 
 export type AdminUserFilters = {
     readonly query?: string;
@@ -30,52 +36,6 @@ export type AdminUserPage = {
     readonly searchAfter?: unknown[];
     readonly total?: number;
 };
-
-function replaceUpdatedUserInPages(
-    old: InfiniteData<AdminUserPage> | undefined,
-    updatedUser: AdminUser,
-): InfiniteData<AdminUserPage> | undefined {
-    if (!old || !("pages" in old) || !Array.isArray(old.pages)) return old;
-
-    const pages = old.pages.map((page) => {
-        const items = page.items.map((item) =>
-            item.userId === updatedUser.userId ? updatedUser : item,
-        );
-        return {
-            ...page,
-            items,
-        };
-    });
-
-    return {
-        ...old,
-        pageParams: old.pageParams,
-        pages,
-    };
-}
-
-/**
- * Remove the deleted user from an InfiniteData<AdminUserPage> structure.
- * Extracted to avoid deep nesting inside mutation callbacks.
- */
-function removeDeletedUserFromPages(
-    old: InfiniteData<AdminUserPage> | undefined,
-    deletedUserId: string,
-): InfiniteData<AdminUserPage> | undefined {
-    if (!old || !("pages" in old) || !Array.isArray(old.pages)) return old;
-
-    const pages = old.pages.map((page) => ({
-        ...page,
-        items: page.items.filter((item) => item.userId !== deletedUserId),
-        total: page.total === undefined ? undefined : Math.max(0, page.total - 1),
-    }));
-
-    return {
-        ...old,
-        pageParams: old.pageParams,
-        pages,
-    };
-}
 
 export function useAdminUsers(filters: AdminUserFilters) {
     const { getErrorMessage } = useApiError();
@@ -110,7 +70,7 @@ export function useAdminUsers(filters: AdminUserFilters) {
         },
         initialPageParam: undefined as unknown[] | undefined,
         getNextPageParam: (lastPage) => lastPage.searchAfter ?? undefined,
-        staleTime: 30 * 1000,
+        ...ADMIN_QUERY_OPTIONS,
     });
 }
 
@@ -131,7 +91,7 @@ export function useAdminUser(userId?: string, enabled = true) {
             return mapToAdminUser(response.data);
         },
         enabled: enabled && Boolean(userId),
-        staleTime: 30 * 1000,
+        ...ADMIN_QUERY_OPTIONS,
     });
 }
 
@@ -152,12 +112,7 @@ export function usePatchAdminUser() {
 
             return mapToAdminUser(response.data);
         },
-        onSuccess: (updatedUser) => {
-            queryClient.setQueryData(["admin", "users", "detail", updatedUser.userId], updatedUser);
-            queryClient.setQueriesData<InfiniteData<AdminUserPage>>(
-                { queryKey: ["admin", "users"] },
-                (old) => replaceUpdatedUserInPages(old, updatedUser),
-            );
+        onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
         },
         onError: (error) => {
@@ -178,12 +133,7 @@ export function useDeleteAdminUser() {
                 throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
             }
         },
-        onSuccess: (_, deletedUserId) => {
-            queryClient.removeQueries({ queryKey: ["admin", "users", "detail", deletedUserId] });
-            queryClient.setQueriesData<InfiniteData<AdminUserPage>>(
-                { queryKey: ["admin", "users"] },
-                (old) => removeDeletedUserFromPages(old, deletedUserId),
-            );
+        onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
         },
         onError: (error) => {

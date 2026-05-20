@@ -13,7 +13,6 @@ import {
     type ShopPartnerStatus,
 } from "@/data/internal/shop/ShopPartnerStatus.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG, type ShopType } from "@/data/internal/shop/ShopType.ts";
-import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { useAdminShops } from "@/hooks/admin/useAdminShops.ts";
 import { formatShortDate } from "@/lib/utils.ts";
 import { AdminShopEditDialog } from "@/components/admin/AdminShopEditDialog.tsx";
@@ -34,7 +33,7 @@ export function AdminShopsSection() {
     const [appliedName, setAppliedName] = useState("");
     const [partnerFilter, setPartnerFilter] = useState<ShopPartnerStatus | "ALL">("ALL");
     const [createOpen, setCreateOpen] = useState(false);
-    const [editTarget, setEditTarget] = useState<ShopDetail | null>(null);
+    const [selectedShopId, setSelectedShopId] = useState<string>();
     const { ref: loadMoreRef, inView } = useInView();
 
     const filters = useMemo(
@@ -202,7 +201,7 @@ export function AdminShopsSection() {
                             <Button
                                 size="sm"
                                 variant="outline"
-                                onClick={() => setEditTarget(shop)}
+                                onClick={() => setSelectedShopId(shop.shopId)}
                                 aria-label={t("adminDashboard.shops.editAriaLabel", {
                                     shop: shop.name,
                                 })}
@@ -287,10 +286,10 @@ export function AdminShopsSection() {
 
             <AdminShopCreateDialog open={createOpen} onOpenChange={setCreateOpen} />
             <AdminShopEditDialog
-                shop={editTarget}
-                open={editTarget !== null}
+                shopId={selectedShopId}
+                open={Boolean(selectedShopId)}
                 onOpenChange={(open) => {
-                    if (!open) setEditTarget(null);
+                    if (!open) setSelectedShopId(undefined);
                 }}
             />
         </section>

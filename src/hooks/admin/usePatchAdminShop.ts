@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { InfiniteData } from "@tanstack/react-query";
 import { patchShopById } from "@/client";
 import type { CurrencyData, LanguageData, PatchShopData } from "@/client";
 import {
@@ -11,7 +10,6 @@ import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { mapToBackendShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import { toast } from "sonner";
-import type { AdminShopPage } from "@/hooks/admin/useAdminShops.ts";
 
 export type AdminShopPatch = {
     readonly shopId: string;
@@ -28,24 +26,6 @@ export type AdminShopPatch = {
     readonly phone?: string | null;
     readonly email?: string | null;
 };
-
-function replaceUpdatedShopInPages(
-    old: InfiniteData<AdminShopPage> | undefined,
-    updatedShop: ShopDetail,
-): InfiniteData<AdminShopPage> | undefined {
-    if (!old || !("pages" in old) || !Array.isArray(old.pages)) return old;
-
-    const pages = old.pages.map((page) => ({
-        ...page,
-        items: page.items.map((item) => (item.shopId === updatedShop.shopId ? updatedShop : item)),
-    }));
-
-    return {
-        ...old,
-        pageParams: old.pageParams,
-        pages,
-    };
-}
 
 export function usePatchAdminShop() {
     const queryClient = useQueryClient();
@@ -101,13 +81,8 @@ export function usePatchAdminShop() {
 
             return mapToShopDetail(response.data);
         },
-        onSuccess: (updatedShop) => {
-            queryClient.setQueryData(["admin", "shops", "detail", updatedShop.shopId], updatedShop);
-            queryClient.setQueriesData<InfiniteData<AdminShopPage>>(
-                { queryKey: ["admin", "shops"] },
-                (old) => replaceUpdatedShopInPages(old, updatedShop),
-            );
-            queryClient.invalidateQueries({ queryKey: ["admin", "shops"], refetchType: "none" });
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["admin", "shops"] });
         },
         onError: (error) => {
             console.error("[usePatchAdminShop]", error);

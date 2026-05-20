@@ -2,7 +2,6 @@ import { act, renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { AdminShopPage } from "../useAdminShops.ts";
 import { usePatchAdminShop } from "../usePatchAdminShop.ts";
 
 const mockPatchShopById = vi.hoisted(() => vi.fn());
@@ -52,17 +51,7 @@ describe("usePatchAdminShop", () => {
         );
     });
 
-    it("patches shop metadata and keeps the server-confirmed response in cached admin lists", async () => {
-        const existingShop = {
-            shopId: "shop-1",
-            shopSlugId: "existing-shop",
-            name: "Existing Shop",
-            shopType: "AUCTION_HOUSE" as const,
-            partnerStatus: "SCRAPED" as const,
-            domains: ["old.example.com"],
-            created: new Date("2026-04-25T00:00:00Z"),
-            updated: new Date("2026-04-25T00:00:00Z"),
-        };
+    it("patches shop metadata and refetches admin shop queries from the server", async () => {
         const updatedShop = {
             shopId: "shop-1",
             shopSlugId: "existing-shop",
@@ -94,18 +83,6 @@ describe("usePatchAdminShop", () => {
             data: updatedShop,
             error: null,
         });
-
-        queryClient.setQueryData(["admin", "shops", {}], {
-            pageParams: [undefined],
-            pages: [
-                {
-                    items: [existingShop],
-                    searchAfter: undefined,
-                    total: 1,
-                } satisfies AdminShopPage,
-            ],
-        });
-        queryClient.setQueryData(["admin", "shops", "detail", "shop-1"], existingShop);
 
         const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
 
@@ -159,32 +136,7 @@ describe("usePatchAdminShop", () => {
             },
         });
 
-        const cache = queryClient.getQueryData<{ pages: AdminShopPage[] }>(["admin", "shops", {}]);
-        expect(cache?.pages[0]?.items[0]).toMatchObject({
-            shopId: "shop-1",
-            shopType: "MARKETPLACE",
-            domains: ["new.example.com"],
-            shopifyDomain: "new.myshopify.com",
-            shopifyCurrency: "EUR",
-            shopifyLanguage: "de",
-            woocommerceCurrency: "USD",
-            woocommerceLanguage: "en",
-            url: "https://new.example.com",
-            phone: "+49 30 123456",
-            email: "info@example.com",
-        });
-        expect(queryClient.getQueryData(["admin", "shops", "detail", "shop-1"])).toMatchObject({
-            shopId: "shop-1",
-            shopifyDomain: "new.myshopify.com",
-            shopifyCurrency: "EUR",
-            shopifyLanguage: "de",
-            woocommerceCurrency: "USD",
-            woocommerceLanguage: "en",
-        });
-        expect(invalidateSpy).toHaveBeenCalledWith({
-            queryKey: ["admin", "shops"],
-            refetchType: "none",
-        });
+        expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["admin", "shops"] });
     });
 
     it("shows an error toast when shop patching fails", async () => {

@@ -20,8 +20,8 @@ vi.mock("../AdminShopCreateDialog.tsx", () => ({
 }));
 
 vi.mock("../AdminShopEditDialog.tsx", () => ({
-    AdminShopEditDialog: ({ shop, open }: { shop: { shopId: string } | null; open: boolean }) =>
-        open ? <div>edit-dialog:{shop?.shopId}</div> : null,
+    AdminShopEditDialog: ({ shopId, open }: { shopId?: string; open: boolean }) =>
+        open ? <div>edit-dialog:{shopId}</div> : null,
 }));
 
 describe("AdminShopsSection", () => {

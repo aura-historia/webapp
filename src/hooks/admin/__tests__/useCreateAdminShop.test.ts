@@ -2,7 +2,6 @@ import { act, renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { AdminShopPage } from "../useAdminShops.ts";
 import { useCreateAdminShop } from "../useCreateAdminShop.ts";
 
 const mockPostShop = vi.hoisted(() => vi.fn());
@@ -52,7 +51,7 @@ describe("useCreateAdminShop", () => {
         );
     });
 
-    it("creates a shop and updates matching cached admin shop lists", async () => {
+    it("creates a shop and refetches admin shop queries from the server", async () => {
         const createdShop = {
             shopId: "shop-1",
             shopSlugId: "new-shop",
@@ -68,28 +67,6 @@ describe("useCreateAdminShop", () => {
         mockPostShop.mockResolvedValue({
             data: createdShop,
             error: null,
-        });
-
-        queryClient.setQueryData(["admin", "shops", { partnerStatus: ["SCRAPED"] }], {
-            pageParams: [undefined],
-            pages: [
-                {
-                    items: [],
-                    searchAfter: undefined,
-                    total: 0,
-                } satisfies AdminShopPage,
-            ],
-        });
-
-        queryClient.setQueryData(["admin", "shops", { nameQuery: "other" }], {
-            pageParams: [undefined],
-            pages: [
-                {
-                    items: [],
-                    searchAfter: undefined,
-                    total: 0,
-                } satisfies AdminShopPage,
-            ],
         });
 
         const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
@@ -118,25 +95,7 @@ describe("useCreateAdminShop", () => {
             },
         });
 
-        const matchingCache = queryClient.getQueryData<{
-            pages: AdminShopPage[];
-        }>(["admin", "shops", { partnerStatus: ["SCRAPED"] }]);
-        expect(matchingCache?.pages[0]?.items).toHaveLength(1);
-        expect(matchingCache?.pages[0]?.items[0]).toMatchObject({
-            shopId: "shop-1",
-            name: "New Shop",
-        });
-        expect(matchingCache?.pages[0]?.total).toBe(1);
-
-        const nonMatchingCache = queryClient.getQueryData<{
-            pages: AdminShopPage[];
-        }>(["admin", "shops", { nameQuery: "other" }]);
-        expect(nonMatchingCache?.pages[0]?.items).toHaveLength(0);
-
-        expect(invalidateSpy).toHaveBeenCalledWith({
-            queryKey: ["admin", "shops"],
-            refetchType: "none",
-        });
+        expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["admin", "shops"] });
     });
 
     it("passes optional metadata fields in the create payload", async () => {

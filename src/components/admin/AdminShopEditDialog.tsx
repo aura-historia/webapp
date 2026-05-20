@@ -66,7 +66,7 @@ const SHOP_LANGUAGES = [
 ] as const;
 
 interface AdminShopEditDialogProps {
-    readonly shop: ShopDetail | null;
+    readonly shopId?: string;
     readonly open: boolean;
     readonly onOpenChange: (open: boolean) => void;
 }
@@ -184,7 +184,7 @@ function buildStructuredAddress(values: AdminShopEditFormData): StructuredAddres
     };
 }
 
-export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditDialogProps) {
+export function AdminShopEditDialog({ shopId, open, onOpenChange }: AdminShopEditDialogProps) {
     const { t } = useTranslation();
     const patchShop = usePatchAdminShop();
     const editShopSchema = useMemo(() => createAdminShopEditSchema(t), [t]);
@@ -194,7 +194,7 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
         isPending: isShopPending,
         isError: isShopError,
         refetch: refetchShop,
-    } = useAdminShop(shop?.shopId, open);
+    } = useAdminShop(shopId, open);
 
     const form = useForm<AdminShopEditFormData>({
         resolver: zodResolver(editShopSchema),
@@ -207,14 +207,14 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
         }
     }, [open, loadedShop, form]);
 
-    if (!shop) {
+    if (!shopId) {
         return null;
     }
 
     const onSubmit = (values: AdminShopEditFormData) => {
         patchShop.mutate(
             {
-                shopId: shop.shopId,
+                shopId,
                 shopType: values.shopType === "UNKNOWN" ? undefined : values.shopType,
                 domains: parseShopDomains(values.domains),
                 shopifyDomain:
@@ -247,11 +247,13 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
             <DialogContent className="max-h-[90vh] w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] overflow-y-auto sm:w-[min(calc(100vw-4rem),88rem)] sm:max-w-[min(calc(100vw-4rem),88rem)]">
                 <DialogHeader>
                     <DialogTitle>{t("adminDashboard.shops.edit.title")}</DialogTitle>
-                    <DialogDescription>
-                        {t("adminDashboard.shops.edit.description", {
-                            shop: loadedShop?.name ?? shop.name,
-                        })}
-                    </DialogDescription>
+                    {loadedShop && (
+                        <DialogDescription>
+                            {t("adminDashboard.shops.edit.description", {
+                                shop: loadedShop.name,
+                            })}
+                        </DialogDescription>
+                    )}
                 </DialogHeader>
 
                 {isShopPending ? (

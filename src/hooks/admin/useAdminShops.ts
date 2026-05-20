@@ -6,6 +6,13 @@ import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 
 const PAGE_SIZE = 25;
+const ADMIN_QUERY_OPTIONS = {
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: "always" as const,
+    refetchOnReconnect: "always" as const,
+    refetchOnWindowFocus: "always" as const,
+};
 
 export type AdminShopFilters = {
     readonly nameQuery?: string;
@@ -47,7 +54,7 @@ export function useAdminShops(filters: AdminShopFilters) {
         },
         initialPageParam: undefined as unknown[] | undefined,
         getNextPageParam: (lastPage) => lastPage.searchAfter ?? undefined,
-        staleTime: 30 * 1000,
+        ...ADMIN_QUERY_OPTIONS,
     });
 }
 
@@ -69,6 +76,6 @@ export function useAdminShop(shopId?: string, enabled = true) {
             return mapToShopDetail(response.data);
         },
         enabled: enabled && Boolean(shopId),
-        staleTime: 30 * 1000,
+        ...ADMIN_QUERY_OPTIONS,
     });
 }

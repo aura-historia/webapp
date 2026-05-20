@@ -1,8 +1,7 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
-import { type InfiniteData, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { AdminUserPage } from "../useAdminUsers.ts";
 import {
     useAdminUser,
     useAdminUsers,
@@ -113,6 +112,53 @@ describe("useAdminUsers hooks", () => {
         });
     });
 
+    it("refetches admin user search results on remount instead of reusing cached list data", async () => {
+        mockAdminSearchUsers.mockResolvedValue({
+            data: {
+                items: [
+                    {
+                        userId: "user-1",
+                        email: "ada@example.com",
+                        firstName: "Ada",
+                        lastName: "Lovelace",
+                        language: "en",
+                        currency: "EUR",
+                        prohibitedContentConsent: true,
+                        tier: "PRO",
+                        role: "ADMIN",
+                        stripeCustomerId: "cus_123",
+                        created: "2024-01-01T00:00:00Z",
+                        updated: "2024-01-02T00:00:00Z",
+                    },
+                ],
+                total: 1,
+                searchAfter: undefined,
+            },
+            error: null,
+        });
+
+        const firstRender = renderHook(
+            () => useAdminUsers({ query: "ada", sort: "updated", order: "desc" }),
+            {
+                wrapper: createWrapper(),
+            },
+        );
+
+        await waitFor(() => expect(firstRender.result.current.isSuccess).toBe(true));
+        firstRender.unmount();
+
+        const secondRender = renderHook(
+            () => useAdminUsers({ query: "ada", sort: "updated", order: "desc" }),
+            {
+                wrapper: createWrapper(),
+            },
+        );
+
+        await waitFor(() => expect(secondRender.result.current.isSuccess).toBe(true));
+
+        expect(mockAdminSearchUsers).toHaveBeenCalledTimes(2);
+    });
+
     it("loads a single admin user", async () => {
         mockAdminGetUser.mockResolvedValue({
             data: {
@@ -145,7 +191,42 @@ describe("useAdminUsers hooks", () => {
         });
     });
 
-    it("updates cached admin users after a patch", async () => {
+    it("refetches admin users on remount instead of reusing cached detail data", async () => {
+        mockAdminGetUser.mockResolvedValue({
+            data: {
+                userId: "user-2",
+                email: "grace@example.com",
+                firstName: "Grace",
+                lastName: "Hopper",
+                language: "en",
+                currency: "USD",
+                prohibitedContentConsent: false,
+                tier: "ULTIMATE",
+                role: "USER",
+                stripeCustomerId: null,
+                created: "2024-01-01T00:00:00Z",
+                updated: "2024-01-02T00:00:00Z",
+            },
+            error: null,
+        });
+
+        const firstRender = renderHook(() => useAdminUser("user-2"), {
+            wrapper: createWrapper(),
+        });
+
+        await waitFor(() => expect(firstRender.result.current.isSuccess).toBe(true));
+        firstRender.unmount();
+
+        const secondRender = renderHook(() => useAdminUser("user-2"), {
+            wrapper: createWrapper(),
+        });
+
+        await waitFor(() => expect(secondRender.result.current.isSuccess).toBe(true));
+
+        expect(mockAdminGetUser).toHaveBeenCalledTimes(2);
+    });
+
+    it("patches a user and refetches admin user queries from the server", async () => {
         mockAdminPatchUser.mockResolvedValue({
             data: {
                 userId: "user-3",
@@ -164,34 +245,6 @@ describe("useAdminUsers hooks", () => {
             error: null,
         });
 
-        queryClient.setQueryData(["admin", "users", "detail", "user-3"], {
-            userId: "user-3",
-            email: "old@example.com",
-        });
-        queryClient.setQueryData<InfiniteData<AdminUserPage>>(
-            ["admin", "users", { sort: "updated", order: "desc" }],
-            {
-                pageParams: [undefined],
-                pages: [
-                    {
-                        items: [
-                            {
-                                userId: "user-3",
-                                email: "old@example.com",
-                                prohibitedContentConsent: false,
-                                tier: "FREE",
-                                role: "USER",
-                                created: new Date("2024-01-01T00:00:00Z"),
-                                updated: new Date("2024-01-01T00:00:00Z"),
-                            },
-                        ],
-                        total: 1,
-                        searchAfter: undefined,
-                    },
-                ],
-            },
-        );
-
         const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
 
         const { result } = renderHook(() => usePatchAdminUser(), {
@@ -206,52 +259,12 @@ describe("useAdminUsers hooks", () => {
             });
         });
 
-        expect(queryClient.getQueryData(["admin", "users", "detail", "user-3"])).toMatchObject({
-            email: "patch@example.com",
-            role: "ADMIN",
-        });
-        expect(
-            queryClient.getQueryData<InfiniteData<AdminUserPage>>([
-                "admin",
-                "users",
-                { sort: "updated", order: "desc" },
-            ])?.pages[0].items[0],
-        ).toMatchObject({
-            email: "patch@example.com",
-            role: "ADMIN",
-        });
         expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["admin", "users"] });
     });
 
-    it("removes cached admin users after deletion", async () => {
+    it("deletes a user and refetches admin user queries from the server", async () => {
         mockAdminDeleteUser.mockResolvedValue({ data: null, error: null });
-
-        queryClient.setQueryData(["admin", "users", "detail", "user-4"], {
-            userId: "user-4",
-        });
-        queryClient.setQueryData<InfiniteData<AdminUserPage>>(
-            ["admin", "users", { sort: "updated", order: "desc" }],
-            {
-                pageParams: [undefined],
-                pages: [
-                    {
-                        items: [
-                            {
-                                userId: "user-4",
-                                email: "delete@example.com",
-                                prohibitedContentConsent: false,
-                                tier: "FREE",
-                                role: "USER",
-                                created: new Date("2024-01-01T00:00:00Z"),
-                                updated: new Date("2024-01-01T00:00:00Z"),
-                            },
-                        ],
-                        total: 1,
-                        searchAfter: undefined,
-                    },
-                ],
-            },
-        );
+        const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
 
         const { result } = renderHook(() => useDeleteAdminUser(), {
             wrapper: createWrapper(),
@@ -261,14 +274,7 @@ describe("useAdminUsers hooks", () => {
             await result.current.mutateAsync("user-4");
         });
 
-        expect(queryClient.getQueryData(["admin", "users", "detail", "user-4"])).toBeUndefined();
-        expect(
-            queryClient.getQueryData<InfiniteData<AdminUserPage>>([
-                "admin",
-                "users",
-                { sort: "updated", order: "desc" },
-            ])?.pages[0].items,
-        ).toEqual([]);
+        expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["admin", "users"] });
     });
 
     it("shows an error toast when patching fails", async () => {

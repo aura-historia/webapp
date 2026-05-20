@@ -72,6 +72,38 @@ describe("useAdminPartnerApplications", () => {
         ]);
     });
 
+    it("refetches partner applications on remount instead of reusing cached data", async () => {
+        mockAdminGetPartnerApplications.mockResolvedValue({
+            data: [
+                {
+                    id: "app-1",
+                    applicantUserId: "user-1",
+                    businessState: "IN_REVIEW",
+                    executionState: "WAITING",
+                    payload: { type: "EXISTING", shopId: "shop-1" },
+                    created: "2024-01-01T00:00:00Z",
+                    updated: "2024-01-02T00:00:00Z",
+                },
+            ],
+            error: null,
+        });
+
+        const firstRender = renderHook(() => useAdminPartnerApplications(), {
+            wrapper: createWrapper(),
+        });
+
+        await waitFor(() => expect(firstRender.result.current.isSuccess).toBe(true));
+        firstRender.unmount();
+
+        const secondRender = renderHook(() => useAdminPartnerApplications(), {
+            wrapper: createWrapper(),
+        });
+
+        await waitFor(() => expect(secondRender.result.current.isSuccess).toBe(true));
+
+        expect(mockAdminGetPartnerApplications).toHaveBeenCalledTimes(2);
+    });
+
     it("surfaces mapped API errors", async () => {
         mockAdminGetPartnerApplications.mockResolvedValue({
             data: null,

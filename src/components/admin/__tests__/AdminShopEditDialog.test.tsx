@@ -77,22 +77,7 @@ describe("AdminShopEditDialog", () => {
     it("loads shop detail and displays saved platform metadata values", async () => {
         const user = userEvent.setup();
 
-        render(
-            <AdminShopEditDialog
-                shop={{
-                    shopId: "shop-1",
-                    shopSlugId: "aurora-antiques",
-                    name: "Aurora Antiques",
-                    shopType: "AUCTION_HOUSE",
-                    partnerStatus: "PARTNERED",
-                    domains: ["aurora.example.com"],
-                    created: new Date("2024-01-01T00:00:00Z"),
-                    updated: new Date("2024-01-02T00:00:00Z"),
-                }}
-                open
-                onOpenChange={vi.fn()}
-            />,
-        );
+        render(<AdminShopEditDialog shopId="shop-1" open onOpenChange={vi.fn()} />);
 
         await waitFor(() =>
             expect(screen.getByDisplayValue("https://aurora.example.com")).toBeInTheDocument(),
