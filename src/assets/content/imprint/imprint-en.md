@@ -1,4 +1,4 @@
-Information according to § 5 TMG and § 18 MStV
+Information pursuant to § 5 DDG and § 18 para. 2 MStV
 
 ## Service Provider
 
@@ -16,134 +16,91 @@ Information according to § 5 TMG and § 18 MStV
 
 ---
 
-## Responsible for Content (§ 18 para. 2 MStV)
+## Responsible for Journalistic-Editorial Content pursuant to § 18 para. 2 MStV
 
-Julian Bruder Einzelunternehmen
-Hardenbergstraße 80, 04275 Leipzig, Germany
+To the extent journalistic-editorial content is published on this website or within the service, the responsible party is:
 
-*This does not apply to content from external sources collected via automated procedures (web scraping) or through partner shop integrations.*
-
----
-
-## Type of Service
-
-The offered service is a Software-as-a-Service (SaaS) platform for digital research, discovery, and analysis functions relating to historical and antiquarian content.
-
-Payment processing for paid digital services or subscriptions is handled by [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Ireland) as the **payment service provider**. Aura Historia, as the direct seller, is the contracting party of the user and responsible for invoicing, VAT, and all contractual obligations. Stripe processes payment data exclusively on behalf of Aura Historia as a data processor pursuant to Art. 28 GDPR.
-
-Aura Historia remains the provider of the digital platform. Contracts for the purchase of specific antiques or collectibles are not concluded with Aura Historia, but, where applicable, with the respective third-party provider identified for the item.
+Julian Bruder Einzelunternehmen  
+Hardenbergstraße 80  
+04275 Leipzig  
+Germany
 
 ---
 
-## Content Orientation
+## Type of Offering
 
-The platform serves the **collection, analysis, and preparation of historical and antiquarian data**, in particular from publicly accessible sources on the internet.
+Aura Historia operates a software-as-a-service (SaaS) platform for digital research, discovery, and analysis relating to historical and antiquarian content.
 
-This also includes **historical content from sensitive periods**, including the period of National Socialism (1933–1945) in Germany.
+The scope of the service may include in particular:
 
-### Clear Distancing and Purpose Definition
+- search, filtering, and analysis functions
+- watchlists, notifications, and personalized settings
+- free and paid digital access
+- AI-assisted or editorially prepared information
+- partner-shop or technical interface features where offered
 
-The provision, processing, or analysis of such content is carried out **exclusively for the following purposes**:
+Payment processing for paid digital services or subscriptions is handled via [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Ireland). Aura Historia remains the contractual partner of the user for the offered digital services. Depending on payment-law and data-protection-law requirements, Stripe may be involved partly as an independent controller and partly as a service provider.
 
-- Scientific and historical research
-- Documentation and archiving
-- Technical analysis and contextualization
-- Education and public enlightenment
-
-There is **no political, ideological, or propagandistic intent whatsoever**.
-
----
-
-## Handling of Unconstitutional Symbols (§ 86a StGB)
-
-The platform uses **state-of-the-art (SOTA) AI technologies** to automatically analyze and filter content.
-
-In particular, measures are taken for:
-
-- Detection and restriction of symbols pursuant to § 86a StGB
-- Contextual classification of historical representations
-- Prevention of unlawful or abusive display
-
-Should content falling under § 86a StGB nevertheless be displayed or processed, this occurs **exclusively within the scope of legally permitted exceptions**, in particular for purposes of science, research, or teaching.
-
-It should be noted that **by default**, all content identified as unconstitutional is **rendered unrecognizable**.
-Registration with the service enables, through explicit **opt-in**, the permanent display of such content.
-Unregistered users are given the opportunity to view the relevant content **temporarily** by navigating to such content through multiple and deliberate interaction steps.
+Where antiques, collectibles, or other goods from third parties are displayed on the platform, any purchase contract for such goods is concluded not with Aura Historia but exclusively with the respective third-party provider identified for the item.
 
 ---
 
-## Liability for Content
+## Public Sources, Historical Content, and Sensitive Depictions
 
-As a service provider, we are responsible for our own content in accordance with § 7 para. 1 TMG under general laws.
+The platform also processes and indexes content from publicly accessible sources on the internet. In doing so, no access restrictions are intended to be circumvented and no obviously protected areas should be technically bypassed.
 
-However, we assume **no guarantee for the accuracy, completeness, or timeliness** of the provided content, in particular as it is:
+The service is operated exclusively for legitimate purposes, in particular:
 
-- processed automatically
-- based on external, publicly accessible sources
-- analyzed and prepared using AI systems
+- documentation
+- research and scholarly engagement
+- archiving
+- education and public information
+- technical analysis and contextualization
 
-The use of modern AI technologies cannot completely exclude **errors, misclassifications, or incomplete results**.
+This may also include content from sensitive historical periods, including depictions from the era of National Socialism. No political, ideological, or propagandistic endorsement of such content is intended.
 
----
-
-## Liability for External Content and Sources
-
-The platform processes content from **external websites** over which we have **no influence**.
-
-Therefore, we assume **no liability for third-party content**, in particular regarding:
-
-- accuracy
-- legality
-- completeness
-
-At the time of processing, no legal violations were apparent.
+Where content may be subject to legal restrictions, in particular in connection with § 86a StGB, technical safeguards, warnings, blurring, or display restrictions tied to an explicit user decision may be used.
 
 ---
 
-## Web Scraping / Data Collection
+## Content Notice and Liability
 
-The platform uses automated procedures for the **collection of publicly accessible content** from the internet.
+We are responsible for our own content under the general laws. However, we do not assume any guarantee for the accuracy, completeness, legality, or timeliness of information that has been collected automatically, originates from public sources, is provided by third parties, or has been analyzed with AI support.
 
-**No access restrictions are circumvented**, and no deliberately protected content is collected.
+Despite careful review, it cannot be ruled out that external data sources contain erroneous, outdated, or unlawful content, or that automated procedures and AI systems make incorrect classifications.
 
-### Objection to Data Collection
+Upon obtaining knowledge of specific legal infringements, we will review the affected content or links to the extent legally required and, where necessary, remove, block, or stop further processing.
 
-If you do not agree with the collection or processing of your content, you may contact us at any time:
+---
+
+## Notice-and-Takedown / Reports of Legal Violations
+
+If you believe that content on our website or within the service infringes rights or is processed unlawfully, please contact us at:
 
 **Email:** [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-After review, we will **remove the relevant content or cease processing**, provided that no legal obligations prevent this.
+Please describe the affected content as specifically as possible and, where available, attach proof of your affected status or entitlement. We review such notices with appropriate priority.
 
 ---
 
-## Disclaimer / Force Majeure
+## Consumer Dispute Resolution
 
-The platform is operated “**as is**”.
-
-We assume no liability for damages arising from:
-
-- technical failures
-- force majeure
-- unforeseeable system errors
-- faulty AI outputs
-- data loss or availability issues
-
-There is no entitlement to permanent availability or functionality.
+Information pursuant to § 36 VSBG: We are currently neither obliged nor willing to participate in dispute resolution proceedings before a consumer arbitration board.
 
 ---
 
 ## Copyright
 
-The content created by the service provider is subject to German copyright law.
+The content, structures, texts, graphics, database elements, and other works created by Aura Historia on this website are protected by German copyright law and other intellectual property rights unless stated otherwise in the individual case.
 
-Third-party content is identified as such or originates from publicly accessible sources.
+Content originating from public or external sources remains with the respective rights holders. Its display on the platform does not grant any rights of use to the user.
 
 ---
 
 ## Applicable Law
 
-The **law of the Federal Republic of Germany** shall apply exclusively.
+German law applies to this provider identification and to legal questions arising out of or in connection with the use of this website, unless mandatory statutory provisions, in particular mandatory consumer-protection rules, provide otherwise.
 
 ---
 
-*Status: 12 April 2026*
+*Status: 17 May 2026*

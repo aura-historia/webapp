@@ -62,7 +62,7 @@
         "@tanstack/react-table": "^8.21.2",
         "@tanstack/react-virtual": "^3.13.23",
         "@tanstack/router-plugin": "^1.167.4",
-        "@tanstack/start-server-core": "^1.167.3",
+        "@tanstack/start-server-core": "^1.168.0",
         "accept-language": "^3.0.20",
         "apexcharts": "^5.10.4",
         "aws-amplify": "^6.16.3",

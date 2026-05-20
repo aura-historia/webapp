@@ -28,8 +28,6 @@ export type PartnerApplicationPayload =
           readonly shopStructuredAddress?: StructuredAddress;
           readonly shopPhone?: string;
           readonly shopEmail?: string;
-          readonly shopSpecialitiesCategories?: string[];
-          readonly shopSpecialitiesPeriods?: string[];
       };
 
 export type PartnerApplication = {
@@ -79,14 +77,6 @@ function mapPayload(payload: GetPartnerShopApplicationPayloadData): PartnerAppli
             : undefined,
         shopPhone: payload.shopPhone,
         shopEmail: payload.shopEmail,
-        shopSpecialitiesCategories:
-            payload.shopSpecialitiesCategories && payload.shopSpecialitiesCategories.length > 0
-                ? [...payload.shopSpecialitiesCategories]
-                : undefined,
-        shopSpecialitiesPeriods:
-            payload.shopSpecialitiesPeriods && payload.shopSpecialitiesPeriods.length > 0
-                ? [...payload.shopSpecialitiesPeriods]
-                : undefined,
     };
 }
 

@@ -12,7 +12,6 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { CheckboxMultiSelect } from "@/components/ui/checkbox-multi-select.tsx";
 import {
     Form,
     FormControl,
@@ -93,8 +92,6 @@ function createAdminShopSchema(t: (key: string) => string) {
         region: z.string().trim(),
         postalCode: z.string().trim(),
         country: z.union([z.literal(""), z.enum(COUNTRY_CODES)]),
-        specialitiesCategories: z.array(z.string()),
-        specialitiesPeriods: z.array(z.string()),
     });
 }
 
@@ -114,21 +111,13 @@ const DEFAULT_VALUES: AdminShopCreateFormData = {
     region: "",
     postalCode: "",
     country: "",
-    specialitiesCategories: [],
-    specialitiesPeriods: [],
 };
 
 export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDialogProps) {
     const { t } = useTranslation();
     const createShopSchema = useMemo(() => createAdminShopSchema(t), [t]);
     const createShop = useCreateAdminShop();
-    const {
-        categoryOptions,
-        countryOptions,
-        isCategoriesPending,
-        isPeriodsPending,
-        periodOptions,
-    } = useAdminShopMetadataOptions();
+    const { countryOptions } = useAdminShopMetadataOptions();
 
     const form = useForm<AdminShopCreateFormData>({
         resolver: zodResolver(createShopSchema),
@@ -179,12 +168,6 @@ export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDia
                 phone: values.phone === "" ? null : values.phone,
                 email: values.email === "" ? null : values.email,
                 structuredAddress: buildStructuredAddress(values),
-                specialitiesCategories:
-                    values.specialitiesCategories.length > 0
-                        ? values.specialitiesCategories
-                        : undefined,
-                specialitiesPeriods:
-                    values.specialitiesPeriods.length > 0 ? values.specialitiesPeriods : undefined,
             },
             {
                 onSuccess: () => {
@@ -497,89 +480,6 @@ export function AdminShopCreateDialog({ open, onOpenChange }: AdminShopCreateDia
                                             <FormDescription>
                                                 {t("adminDashboard.shops.fields.countryHint")}
                                             </FormDescription>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        </section>
-
-                        {/* Specialities */}
-                        <section className="flex flex-col gap-4">
-                            <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-                                {t("adminDashboard.shops.sections.specialities")}
-                            </h3>
-                            <div className="grid gap-4 sm:grid-cols-2">
-                                <FormField
-                                    control={form.control}
-                                    name="specialitiesCategories"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                {t(
-                                                    "adminDashboard.shops.fields.specialitiesCategories",
-                                                )}
-                                            </FormLabel>
-                                            <FormControl>
-                                                <CheckboxMultiSelect
-                                                    options={categoryOptions}
-                                                    value={field.value}
-                                                    onChange={field.onChange}
-                                                    allSelectedLabel={t(
-                                                        "adminDashboard.shops.fields.allOptions",
-                                                    )}
-                                                    placeholder={
-                                                        isCategoriesPending
-                                                            ? t(
-                                                                  "adminDashboard.shops.fields.loadingOptions",
-                                                              )
-                                                            : t(
-                                                                  "adminDashboard.shops.fields.specialitiesPlaceholder",
-                                                              )
-                                                    }
-                                                    searchable
-                                                    searchPlaceholder={t(
-                                                        "adminDashboard.shops.fields.searchCategories",
-                                                    )}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="specialitiesPeriods"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                {t(
-                                                    "adminDashboard.shops.fields.specialitiesPeriods",
-                                                )}
-                                            </FormLabel>
-                                            <FormControl>
-                                                <CheckboxMultiSelect
-                                                    options={periodOptions}
-                                                    value={field.value}
-                                                    onChange={field.onChange}
-                                                    allSelectedLabel={t(
-                                                        "adminDashboard.shops.fields.allOptions",
-                                                    )}
-                                                    placeholder={
-                                                        isPeriodsPending
-                                                            ? t(
-                                                                  "adminDashboard.shops.fields.loadingOptions",
-                                                              )
-                                                            : t(
-                                                                  "adminDashboard.shops.fields.specialitiesPlaceholder",
-                                                              )
-                                                    }
-                                                    searchable
-                                                    searchPlaceholder={t(
-                                                        "adminDashboard.shops.fields.searchPeriods",
-                                                    )}
-                                                />
-                                            </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}

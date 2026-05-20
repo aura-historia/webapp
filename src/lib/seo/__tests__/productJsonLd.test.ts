@@ -18,10 +18,6 @@ describe("productJsonLd", () => {
                     shopName: "Antique Store",
                     shopType: "AUCTION_HOUSE",
                     title: { text: "Vintage Vase from 1920s", language: "en" },
-                    description: {
-                        text: "Beautiful Art Deco vase in excellent condition",
-                        language: "en",
-                    },
                     price: { offer: { amount: 15000, currency: "EUR" } },
                     state: "AVAILABLE",
                     url: "https://example.com/products/vintage-vase",
@@ -35,10 +31,7 @@ describe("productJsonLd", () => {
                             prohibitedContent: "NONE",
                         },
                     ],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-15T10:00:00Z",
                     updated: "2024-01-20T15:30:00Z",
                 },
@@ -49,14 +42,12 @@ describe("productJsonLd", () => {
             expect(result["@context"]).toBe("https://schema.org/");
             expect(result["@type"]).toBe("Product");
             expect(result.name).toBe("Vintage Vase from 1920s");
-            expect(result.description).toBe("Beautiful Art Deco vase in excellent condition");
             expect(result.sku).toBe("shop-789-shop-item-101");
             expect(result.url).toBe("https://example.com/products/vintage-vase");
             expect(result.image).toEqual([
                 "https://example.com/images/vase1.jpg",
                 "https://example.com/images/vase2.jpg",
             ]);
-            expect(result.category).toBe("Antiques");
         });
 
         it("should include offer details with InStock availability for AVAILABLE state", () => {
@@ -76,10 +67,7 @@ describe("productJsonLd", () => {
                     state: "AVAILABLE",
                     url: "https://example.com/chair",
                     images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -114,10 +102,7 @@ describe("productJsonLd", () => {
                     state: "LISTED",
                     url: "https://example.com/painting",
                     images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -145,10 +130,7 @@ describe("productJsonLd", () => {
                     state: "RESERVED",
                     url: "https://example.com/reserved",
                     images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -176,10 +158,7 @@ describe("productJsonLd", () => {
                     state: "SOLD",
                     url: "https://example.com/sold",
                     images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -207,10 +186,7 @@ describe("productJsonLd", () => {
                     state: "REMOVED" as unknown as ProductStateData,
                     url: "https://example.com/item",
                     images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -219,38 +195,6 @@ describe("productJsonLd", () => {
             const result = generateProductJsonLd(apiData);
 
             expect(result.offers?.availability).toBe("https://schema.org/Discontinued");
-        });
-
-        it("should handle missing description", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    sellerName: "",
-                    shopSlugId: "test-shop-slug",
-                    shopName: "Store",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "Item Without Description", language: "en" },
-                    description: undefined,
-                    price: { offer: { amount: 1000, currency: "USD" } },
-                    state: "AVAILABLE",
-                    url: "https://example.com/item",
-                    images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.description).toBeUndefined();
         });
 
         it("should handle missing images", () => {
@@ -270,10 +214,7 @@ describe("productJsonLd", () => {
                     state: "AVAILABLE",
                     url: "https://example.com/item",
                     images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -301,10 +242,7 @@ describe("productJsonLd", () => {
                     state: "AVAILABLE",
                     url: "https://example.com/item",
                     images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -345,10 +283,7 @@ describe("productJsonLd", () => {
                             prohibitedContent: "NONE",
                         },
                     ],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -379,10 +314,7 @@ describe("productJsonLd", () => {
                     state: "AVAILABLE",
                     url: "",
                     images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -411,10 +343,7 @@ describe("productJsonLd", () => {
                     state: "AVAILABLE",
                     url: "https://example.com/item",
                     images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -442,10 +371,7 @@ describe("productJsonLd", () => {
                     state: "AVAILABLE",
                     url: "https://example.com/item",
                     images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -454,37 +380,6 @@ describe("productJsonLd", () => {
             const result = generateProductJsonLd(apiData);
 
             expect(result.offers?.price).toBe(123.45);
-        });
-
-        it("should always include Antiques category", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Store",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "Any Item", language: "en" },
-                    price: { offer: { amount: 1000, currency: "USD" } },
-                    state: "AVAILABLE",
-                    url: "https://example.com/item",
-                    images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.category).toBe("Antiques");
         });
 
         it("should generate correct SKU from shopId and shopsProductId", () => {
@@ -504,10 +399,7 @@ describe("productJsonLd", () => {
                     state: "AVAILABLE",
                     url: "https://example.com/item",
                     images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -542,10 +434,7 @@ describe("productJsonLd", () => {
                             prohibitedContent: "NONE",
                         },
                     ],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -576,7 +465,6 @@ describe("productJsonLd", () => {
                     shopName: "Store",
                     shopType: "COMMERCIAL_DEALER",
                     title: { text: "Comparison Test", language: "en" },
-                    description: { text: "Test description", language: "en" },
                     price: { offer: { amount: 10000, currency: "USD" } },
                     state: "SOLD",
                     url: "https://example.com/test",
@@ -586,10 +474,7 @@ describe("productJsonLd", () => {
                             prohibitedContent: "NONE",
                         },
                     ],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -618,10 +503,7 @@ describe("productJsonLd", () => {
                     state: "AVAILABLE",
                     url: "https://example.com/item",
                     images: [],
-                    authenticity: "UNKNOWN" as const,
-                    condition: "UNKNOWN" as const,
-                    provenance: "UNKNOWN" as const,
-                    restoration: "UNKNOWN" as const,
+
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },

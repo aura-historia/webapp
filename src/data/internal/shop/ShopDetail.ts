@@ -22,8 +22,6 @@ export type ShopDetail = {
     readonly geoAddress?: GeoAddress;
     readonly phone?: string;
     readonly email?: string;
-    readonly specialitiesCategories?: string[];
-    readonly specialitiesPeriods?: string[];
     readonly created: Date;
     readonly updated: Date;
 };
@@ -58,14 +56,6 @@ export function mapToShopDetail(data: GetShopData): ShopDetail {
             : undefined,
         phone: data.phone,
         email: data.email,
-        specialitiesCategories:
-            data.specialitiesCategories && data.specialitiesCategories.length > 0
-                ? [...data.specialitiesCategories]
-                : undefined,
-        specialitiesPeriods:
-            data.specialitiesPeriods && data.specialitiesPeriods.length > 0
-                ? [...data.specialitiesPeriods]
-                : undefined,
         created: new Date(data.created),
         updated: new Date(data.updated),
     };

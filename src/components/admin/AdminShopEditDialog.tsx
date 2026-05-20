@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
-import { CheckboxMultiSelect } from "@/components/ui/checkbox-multi-select.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import {
     Dialog,
@@ -86,8 +85,6 @@ function createAdminShopEditSchema(t: (key: string) => string) {
         region: z.string().trim(),
         postalCode: z.string().trim(),
         country: z.union([z.literal(""), z.enum(COUNTRY_CODES)]),
-        specialitiesCategories: z.array(z.string()),
-        specialitiesPeriods: z.array(z.string()),
     });
 }
 
@@ -106,8 +103,6 @@ const DEFAULT_VALUES: AdminShopEditFormData = {
     region: "",
     postalCode: "",
     country: "",
-    specialitiesCategories: [],
-    specialitiesPeriods: [],
 };
 
 function mapShopToFormValues(shop: ShopDetail): AdminShopEditFormData {
@@ -124,8 +119,6 @@ function mapShopToFormValues(shop: ShopDetail): AdminShopEditFormData {
         region: shop.structuredAddress?.region ?? "",
         postalCode: shop.structuredAddress?.postalCode ?? "",
         country: shop.structuredAddress?.country ?? "",
-        specialitiesCategories: shop.specialitiesCategories ?? [],
-        specialitiesPeriods: shop.specialitiesPeriods ?? [],
     };
 }
 
@@ -156,13 +149,7 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
     const { t } = useTranslation();
     const patchShop = usePatchAdminShop();
     const editShopSchema = useMemo(() => createAdminShopEditSchema(t), [t]);
-    const {
-        categoryOptions,
-        countryOptions,
-        isCategoriesPending,
-        isPeriodsPending,
-        periodOptions,
-    } = useAdminShopMetadataOptions();
+    const { countryOptions } = useAdminShopMetadataOptions();
 
     const form = useForm<AdminShopEditFormData>({
         resolver: zodResolver(editShopSchema),
@@ -190,8 +177,6 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                 phone: values.phone === "" ? null : values.phone,
                 email: values.email === "" ? null : values.email,
                 structuredAddress: buildStructuredAddress(values),
-                specialitiesCategories: values.specialitiesCategories,
-                specialitiesPeriods: values.specialitiesPeriods,
             },
             {
                 onSuccess: () => {
@@ -484,88 +469,6 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                                             <span className="text-xs text-muted-foreground">
                                                 {t("adminDashboard.shops.fields.countryHint")}
                                             </span>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        </section>
-
-                        <section className="flex flex-col gap-4">
-                            <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-                                {t("adminDashboard.shops.sections.specialities")}
-                            </h3>
-                            <div className="grid gap-4 sm:grid-cols-2">
-                                <FormField
-                                    control={form.control}
-                                    name="specialitiesCategories"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                {t(
-                                                    "adminDashboard.shops.fields.specialitiesCategories",
-                                                )}
-                                            </FormLabel>
-                                            <FormControl>
-                                                <CheckboxMultiSelect
-                                                    options={categoryOptions}
-                                                    value={field.value}
-                                                    onChange={field.onChange}
-                                                    allSelectedLabel={t(
-                                                        "adminDashboard.shops.fields.allOptions",
-                                                    )}
-                                                    placeholder={
-                                                        isCategoriesPending
-                                                            ? t(
-                                                                  "adminDashboard.shops.fields.loadingOptions",
-                                                              )
-                                                            : t(
-                                                                  "adminDashboard.shops.fields.specialitiesPlaceholder",
-                                                              )
-                                                    }
-                                                    searchable
-                                                    searchPlaceholder={t(
-                                                        "adminDashboard.shops.fields.searchCategories",
-                                                    )}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="specialitiesPeriods"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                {t(
-                                                    "adminDashboard.shops.fields.specialitiesPeriods",
-                                                )}
-                                            </FormLabel>
-                                            <FormControl>
-                                                <CheckboxMultiSelect
-                                                    options={periodOptions}
-                                                    value={field.value}
-                                                    onChange={field.onChange}
-                                                    allSelectedLabel={t(
-                                                        "adminDashboard.shops.fields.allOptions",
-                                                    )}
-                                                    placeholder={
-                                                        isPeriodsPending
-                                                            ? t(
-                                                                  "adminDashboard.shops.fields.loadingOptions",
-                                                              )
-                                                            : t(
-                                                                  "adminDashboard.shops.fields.specialitiesPlaceholder",
-                                                              )
-                                                    }
-                                                    searchable
-                                                    searchPlaceholder={t(
-                                                        "adminDashboard.shops.fields.searchPeriods",
-                                                    )}
-                                                />
-                                            </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}

@@ -106,17 +106,21 @@ export function SearchBar({ type }: SearchBarProps) {
         setQuery(queryValue);
     }, [queryValue, setQuery]);
 
-    // Get animated placeholder examples from i18n
     const placeholderExamples = useMemo(() => {
-        const examples = t("search.bar.placeholderExamples", { returnObjects: true });
-        // Validate that we received an array of strings, fallback to empty array
+        const examples = t(
+            searchType === "shops"
+                ? "search.bar.placeholderExamplesShops"
+                : "search.bar.placeholderExamplesProducts",
+            { returnObjects: true },
+        );
         return Array.isArray(examples) ? examples : [];
-    }, [t]);
+    }, [t, searchType]);
 
     // Use animated placeholder only for big variant and when input is empty
     const animatedText = useAnimatedPlaceholder({
         examples: placeholderExamples,
         enabled: type === "big" && !queryValue,
+        resetKey: searchType,
     });
 
     function onSubmit(values: SearchFormSchema) {

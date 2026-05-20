@@ -1,7 +1,6 @@
 import { CreationDateSpanFilter } from "@/components/search/filters/CreationDateSpanFilter.tsx";
 import { ProductStateFilter } from "@/components/search/filters/ProductStateFilter.tsx";
 import { PriceSpanFilter } from "@/components/search/filters/PriceSpanFilter.tsx";
-import { QualityIndicatorsFilter } from "@/components/search/filters/QualityIndicatorsFilter.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Form } from "@/components/ui/form.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,8 +8,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MerchantFilters } from "@/components/search/filters/MerchantFilters.tsx";
 import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter.tsx";
-import { PeriodFilter } from "@/components/search/filters/PeriodFilter.tsx";
-import { CategoryFilter } from "@/components/search/filters/CategoryFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useCallback, useEffect, useMemo } from "react";
@@ -22,10 +19,6 @@ import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { FILTER_DEFAULTS, MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
 import { useSearchQueryContext } from "@/hooks/search/useSearchQueryContext.tsx";
 import { toast } from "sonner";
-import { RESTORATIONS } from "@/data/internal/quality-indicators/Restoration.ts";
-import { PROVENANCES } from "@/data/internal/quality-indicators/Provenance.ts";
-import { CONDITIONS } from "@/data/internal/quality-indicators/Condition.ts";
-import { AUTHENTICITIES } from "@/data/internal/quality-indicators/Authenticity.ts";
 import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 import { serializeSearchParams } from "@/lib/searchValidation.ts";
@@ -56,18 +49,6 @@ export const createFilterSchema = (t: TFunction) =>
             merchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
             excludeMerchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
             shopType: z.array(z.enum(SHOP_TYPES)),
-            periodId: z.array(z.string()),
-            categoryId: z.array(z.string()),
-            originYearSpan: z
-                .object({
-                    min: z.number().optional().or(z.undefined()),
-                    max: z.number().optional().or(z.undefined()),
-                })
-                .optional(),
-            authenticity: z.array(z.enum(AUTHENTICITIES)),
-            condition: z.array(z.enum(CONDITIONS)),
-            provenance: z.array(z.enum(PROVENANCES)),
-            restoration: z.array(z.enum(RESTORATIONS)),
         })
         .superRefine((data, ctx) => {
             if (
@@ -101,17 +82,6 @@ export const createFilterSchema = (t: TFunction) =>
                     code: "custom",
                     message: t("search.validation.dateOrder"),
                     path: ["auctionDate", "to"],
-                });
-            }
-            if (
-                data.originYearSpan?.min &&
-                data.originYearSpan?.max &&
-                data.originYearSpan.min > data.originYearSpan.max
-            ) {
-                ctx.addIssue({
-                    code: "custom",
-                    message: t("search.validation.dateOrder"),
-                    path: ["originYearSpan", "max"],
                 });
             }
         });
@@ -148,16 +118,6 @@ export function mapSearchFiltersToFormValues(filters: SearchFilterArguments): Fi
         merchant: filters.merchant,
         excludeMerchant: filters.excludeMerchant,
         shopType: filters.shopType ?? FILTER_DEFAULTS.shopType,
-        periodId: filters.periodId ?? [],
-        categoryId: filters.categoryId ?? [],
-        originYearSpan: {
-            min: filters.originYearMin,
-            max: filters.originYearMax,
-        },
-        authenticity: filters.authenticity ?? FILTER_DEFAULTS.authenticity,
-        condition: filters.condition ?? FILTER_DEFAULTS.condition,
-        provenance: filters.provenance ?? FILTER_DEFAULTS.provenance,
-        restoration: filters.restoration ?? FILTER_DEFAULTS.restoration,
     };
 }
 
@@ -180,25 +140,12 @@ export function mapFormValuesToSearchFilterArguments(
         merchant: data.merchant?.length ? data.merchant : undefined,
         excludeMerchant: data.excludeMerchant?.length ? data.excludeMerchant : undefined,
         shopType: data.shopType,
-        periodId: data.periodId?.length ? data.periodId : undefined,
-        categoryId: data.categoryId?.length ? data.categoryId : undefined,
-        originYearMin: data.originYearSpan?.min,
-        originYearMax: data.originYearSpan?.max,
-        authenticity: data.authenticity,
-        condition: data.condition,
-        provenance: data.provenance,
-        restoration: data.restoration,
     };
 }
 
 export const DEBOUNCE_DELAY_MS = 500;
 
-export const DEBOUNCED_FIELDS = new Set([
-    "priceSpan.min",
-    "priceSpan.max",
-    "originYearSpan.min",
-    "originYearSpan.max",
-]);
+export const DEBOUNCED_FIELDS = new Set(["priceSpan.min", "priceSpan.max"]);
 
 export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/search" });
@@ -245,13 +192,6 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                         merchant: data.merchant,
                         excludeMerchant: data.excludeMerchant,
                         shopType: data.shopType,
-                        periodId: data.periodId,
-                        categoryId: data.categoryId,
-                        originYearSpan: data.originYearSpan,
-                        authenticity: data.authenticity,
-                        condition: data.condition,
-                        provenance: data.provenance,
-                        restoration: data.restoration,
                     }),
                 }),
             });
@@ -300,9 +240,6 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                 <div className="flex min-w-0 w-full flex-col gap-4 overflow-visible">
                     <ProductStateFilter />
                     <PriceSpanFilter />
-                    <PeriodFilter />
-                    <CategoryFilter />
-                    <QualityIndicatorsFilter />
                     <ShopTypeFilter
                         onReset={() => form.setValue("shopType", FILTER_DEFAULTS.shopType)}
                     />

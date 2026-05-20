@@ -49,20 +49,12 @@ const baseProduct: OverviewProduct = {
     shopName: "Test Shop",
     shopType: "AUCTION_HOUSE",
     title: "Ancient Vase",
-    description: undefined,
     price: "100 €",
     state: "AVAILABLE",
     url: null,
     images: [],
     created: new Date("2024-01-01"),
     updated: new Date("2024-06-01"),
-    originYear: undefined,
-    originYearMin: undefined,
-    originYearMax: undefined,
-    authenticity: "UNKNOWN",
-    condition: "UNKNOWN",
-    provenance: "UNKNOWN",
-    restoration: "UNKNOWN",
 };
 
 function buildInfiniteData(pages: ShopProductsPage[]): InfiniteData<ShopProductsPage> {

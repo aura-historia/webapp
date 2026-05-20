@@ -2,16 +2,6 @@ import type { SearchSchemaInput } from "@tanstack/react-router";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { type ProductState, parseProductState } from "@/data/internal/product/ProductState.ts";
 import { SEARCH_RESULT_SORT_FIELDS, type SortMode } from "@/data/internal/search/SortMode.ts";
-import {
-    type Authenticity,
-    parseAuthenticity,
-} from "@/data/internal/quality-indicators/Authenticity.ts";
-import { type Condition, parseCondition } from "@/data/internal/quality-indicators/Condition.ts";
-import { type Provenance, parseProvenance } from "@/data/internal/quality-indicators/Provenance.ts";
-import {
-    type Restoration,
-    parseRestoration,
-} from "@/data/internal/quality-indicators/Restoration.ts";
 import { type ShopType, parseShopType } from "@/data/internal/shop/ShopType.ts";
 import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 
@@ -29,16 +19,8 @@ export type RawSearchParams = {
     merchant?: string | string[];
     excludeMerchant?: string | string[];
     shopType?: ShopType[];
-    periodId?: string[];
-    categoryId?: string[];
     sortField?: string;
     sortOrder?: string;
-    originYearMin?: number;
-    originYearMax?: number;
-    authenticity?: Authenticity[];
-    condition?: Condition[];
-    provenance?: Provenance[];
-    restoration?: Restoration[];
 } & SearchSchemaInput;
 
 function parseOptionalNumber(value: unknown): number | undefined {
@@ -83,45 +65,10 @@ function parseSortOrder(order: string | undefined): SortMode["order"] {
     return order === "ASC" || order === "DESC" ? order : "DESC";
 }
 
-function parseAuthenticities(values: unknown): Authenticity[] | undefined {
-    if (!Array.isArray(values)) return undefined;
-    return values
-        .map((authenticity) => parseAuthenticity(authenticity))
-        .filter((elem, index, self) => index === self.indexOf(elem));
-}
-
-function parseConditions(values: unknown): Condition[] | undefined {
-    if (!Array.isArray(values)) return undefined;
-    return values
-        .map((condition) => parseCondition(condition))
-        .filter((elem, index, self) => index === self.indexOf(elem));
-}
-
-function parseProvenances(values: unknown): Provenance[] | undefined {
-    if (!Array.isArray(values)) return undefined;
-    return values
-        .map((provenance) => parseProvenance(provenance))
-        .filter((elem, index, self) => index === self.indexOf(elem));
-}
-
-function parseRestorations(values: unknown): Restoration[] | undefined {
-    if (!Array.isArray(values)) return undefined;
-    return values
-        .map((restoration) => parseRestoration(restoration))
-        .filter((elem, index, self) => index === self.indexOf(elem));
-}
-
 function parseShopTypes(values: unknown): ShopType[] | undefined {
     if (!Array.isArray(values)) return undefined;
     return values
         .map((shopType) => parseShopType(shopType))
-        .filter((elem, index, self) => index === self.indexOf(elem));
-}
-
-function parsePeriodIds(values: unknown): string[] | undefined {
-    if (!Array.isArray(values)) return undefined;
-    return values
-        .filter((v): v is string => typeof v === "string" && v.length > 0)
         .filter((elem, index, self) => index === self.indexOf(elem));
 }
 
@@ -140,16 +87,8 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         merchant: parseMerchant(search.merchant),
         excludeMerchant: parseExcludeMerchant(search.excludeMerchant),
         shopType: parseShopTypes(search.shopType),
-        periodId: parsePeriodIds(search.periodId),
-        categoryId: parsePeriodIds(search.categoryId),
         sortField: parseSortField(search.sortField),
         sortOrder: parseSortOrder(search.sortOrder),
-        originYearMin: parseOptionalNumber(search.originYearMin),
-        originYearMax: parseOptionalNumber(search.originYearMax),
-        authenticity: parseAuthenticities(search.authenticity) ?? FILTER_DEFAULTS.authenticity,
-        condition: parseConditions(search.condition),
-        provenance: parseProvenances(search.provenance),
-        restoration: parseRestorations(search.restoration),
     };
 }
 
@@ -178,15 +117,7 @@ export function serializeSearchParams(
         merchant: params.merchant,
         excludeMerchant: params.excludeMerchant,
         shopType: params.shopType,
-        periodId: params.periodId,
-        categoryId: params.categoryId,
         sortField: params.sortField,
         sortOrder: params.sortOrder,
-        originYearMin: params.originYearMin,
-        originYearMax: params.originYearMax,
-        authenticity: params.authenticity,
-        condition: params.condition,
-        provenance: params.provenance,
-        restoration: params.restoration,
     };
 }

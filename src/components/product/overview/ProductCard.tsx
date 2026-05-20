@@ -9,7 +9,6 @@ import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts
 import { ArrowUpRight, Eye } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { ProductQualityBadges } from "@/components/product/badges/ProductQualityBadges.tsx";
 import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
 import { ProductCardImageCarousel } from "@/components/product/overview/ProductCardImageCarousel.tsx";
@@ -23,6 +22,8 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
         product.userData?.notificationData?.hasUnseenNotification ?? false;
     const originEventId = product.userData?.notificationData?.originEventId;
     const markSeen = useMarkNotificationSeen();
+
+    const isRemoved = product.state === "REMOVED";
 
     const handleProductClick = useCallback(() => {
         if (hasUnseenNotification && originEventId) {
@@ -70,12 +71,6 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                                 {product.title}
                             </H2>
                         </Link>
-
-                        {product.description && (
-                            <p className="mt-2 line-clamp-2 text-sm leading-6 text-on-surface/80">
-                                {product.description}
-                            </p>
-                        )}
                     </div>
 
                     <div className="flex shrink-0 items-center gap-1.5">
@@ -124,7 +119,6 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                             className="text-xs rounded-none border border-outline-variant/20"
                         />
                     )}
-                    <ProductQualityBadges product={product} />
                 </div>
 
                 <div className="mt-5 flex flex-1 flex-col justify-end gap-3">
@@ -154,16 +148,24 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                         <Button
                             variant={"outline"}
                             className="w-full rounded-none border-outline-variant/20 bg-transparent px-3 py-2 text-[10px] uppercase tracking-[0.12em] text-primary hover:bg-primary/8"
-                            asChild
+                            disabled={isRemoved}
+                            asChild={!isRemoved}
                         >
-                            <a
-                                href={product.url?.href}
-                                target="_blank"
-                                rel="nofollow noopener noreferrer"
-                            >
-                                <ArrowUpRight />
-                                <span>{t("product.toMerchant")}</span>
-                            </a>
+                            {isRemoved ? (
+                                <>
+                                    <ArrowUpRight />
+                                    <span>{t("product.toMerchant")}</span>
+                                </>
+                            ) : (
+                                <a
+                                    href={product.url?.href}
+                                    target="_blank"
+                                    rel="nofollow noopener noreferrer"
+                                >
+                                    <ArrowUpRight />
+                                    <span>{t("product.toMerchant")}</span>
+                                </a>
+                            )}
                         </Button>
                     </div>
                 </div>

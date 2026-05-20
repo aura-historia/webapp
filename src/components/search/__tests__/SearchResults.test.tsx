@@ -132,20 +132,12 @@ describe("SearchResults", () => {
             productSlugId: "product-1",
             shopName: "Shop 1",
             shopType: "AUCTION_HOUSE",
-            description: undefined,
             price: "10 €",
             state: "AVAILABLE",
             url: null,
             images: [],
             created: new Date(),
             updated: new Date(),
-            originYear: undefined,
-            originYearMin: undefined,
-            originYearMax: undefined,
-            authenticity: "UNKNOWN",
-            condition: "UNKNOWN",
-            provenance: "UNKNOWN",
-            restoration: "UNKNOWN",
         } as const;
 
         setSearchMock({

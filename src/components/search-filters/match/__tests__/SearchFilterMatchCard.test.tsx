@@ -40,10 +40,6 @@ const baseProduct: OverviewProduct = {
     images: [],
     created: new Date("2024-01-01"),
     updated: new Date("2024-01-01"),
-    authenticity: "UNKNOWN",
-    condition: "UNKNOWN",
-    provenance: "UNKNOWN",
-    restoration: "UNKNOWN",
 };
 
 describe("SearchFilterMatchCard", () => {
