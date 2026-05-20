@@ -17,6 +17,7 @@ export type ShopDetail = {
     readonly partnerStatus: ShopPartnerStatus;
     readonly image?: string;
     readonly url?: string;
+    readonly viewUrl?: string;
     readonly domains: string[];
     readonly structuredAddress?: StructuredAddress;
     readonly geoAddress?: GeoAddress;
@@ -39,6 +40,7 @@ export function mapToShopDetail(data: GetShopData): ShopDetail {
         partnerStatus: parseShopPartnerStatus(data.partnerStatus),
         image: data.image ?? undefined,
         url: data.url ?? undefined,
+        viewUrl: data.viewUrl ?? undefined,
         domains: data.domains,
         structuredAddress: data.structuredAddress
             ? {

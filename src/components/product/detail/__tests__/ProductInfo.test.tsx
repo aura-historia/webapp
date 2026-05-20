@@ -48,6 +48,7 @@ describe("ProductInfo", () => {
         price: "99,99 €",
         state: "AVAILABLE",
         url: new URL("https://example.com"),
+        viewUrl: new URL("https://affiliate.example.com/product"),
         images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
         created: new Date(),
         updated: new Date(),
@@ -102,6 +103,15 @@ describe("ProductInfo", () => {
         expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
             "rel",
             "nofollow noopener noreferrer",
+        );
+    });
+
+    it("should prefer the product viewUrl for the merchant link", () => {
+        renderWithQueryClient(<ProductInfo product={mockProduct} />);
+
+        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
+            "href",
+            "https://affiliate.example.com/product",
         );
     });
 

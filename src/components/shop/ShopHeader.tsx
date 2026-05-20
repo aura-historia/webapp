@@ -25,7 +25,7 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
     const formattedProductCount = new Intl.NumberFormat(i18n.language).format(productCount ?? 0);
 
     const shopTypeName = t(SHOP_TYPE_TRANSLATION_CONFIG[shop.shopType].translationKey);
-    const merchantUrl = shop.url;
+    const merchantUrl = shop.viewUrl ?? shop.url;
 
     return (
         <header className="flex flex-col">
