@@ -21,8 +21,6 @@ const mockWatchlistPriceChangeNotification: GetNotificationData = {
         url: "https://example.com/product/vintage-vase",
         viewUrl: "https://example.com/product/vintage-vase?utm_source=test",
         image: null,
-        url: "https://example.com/products/vintage-vase",
-        viewUrl: "https://affiliate.example.com/products/vintage-vase",
         watchlistPayload: {
             type: "PRICE_CHANGE",
             oldPrice: { amount: 10000, currency: "EUR" },
@@ -50,8 +48,6 @@ const mockWatchlistStateChangeNotification: GetNotificationData = {
         url: "https://example.com/product/rare-book",
         viewUrl: "https://example.com/product/rare-book?utm_source=test",
         image: null,
-        url: "https://example.com/products/rare-book",
-        viewUrl: "https://affiliate.example.com/products/rare-book",
         watchlistPayload: {
             type: "STATE_CHANGE",
             oldState: "AVAILABLE",
@@ -79,8 +75,6 @@ const mockSearchFilterNotification: GetNotificationData = {
         url: "https://example.com/product/baroque-painting",
         viewUrl: "https://example.com/product/baroque-painting?utm_source=test",
         image: null,
-        url: "https://example.com/products/baroque-painting",
-        viewUrl: "https://affiliate.example.com/products/baroque-painting",
         searchFilterPayload: {
             userSearchFilterId: "filter-abc",
             userSearchFilterName: "My Baroque Filter",
