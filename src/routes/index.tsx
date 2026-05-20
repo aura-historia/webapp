@@ -11,8 +11,10 @@ import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
 import RecentlyAddedSection from "@/components/landing-page/recently-added-section/RecentlyAddedSection.tsx";
 import { useQuery } from "@tanstack/react-query";
-import { simpleSearchProductsOptions } from "@/client/@tanstack/react-query.gen.ts";
-import { simpleSearchShopsOptions } from "@/client/@tanstack/react-query.gen.ts";
+import {
+    simpleSearchProductsOptions,
+    simpleSearchShopsOptions,
+} from "@/client/@tanstack/react-query.gen.ts";
 
 import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
