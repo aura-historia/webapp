@@ -10,8 +10,8 @@ import { ClientOnly } from "@tanstack/react-router";
 const NumberFlow = lazy(() => import("@number-flow/react"));
 
 type DiscoverSectionProps = {
-    productCount?: number;
-    shopCount?: number;
+    readonly productCount?: number;
+    readonly shopCount?: number;
 };
 
 export default function DiscoverSection({ productCount, shopCount }: DiscoverSectionProps) {
@@ -82,7 +82,11 @@ export default function DiscoverSection({ productCount, shopCount }: DiscoverSec
                                             key={stat.labelKey}
                                             className="flex flex-col justify-center bg-white border border-outline-variant/10 p-8 text-center"
                                         >
-                                            {stat.amount != null ? (
+                                            {stat.amount == null ? (
+                                                <p className="text-2xl sm:text-4xl font-display text-primary mb-2">
+                                                    {t(stat.valueKey)}+
+                                                </p>
+                                            ) : (
                                                 <span className="text-2xl sm:text-4xl font-display text-primary block">
                                                     <ClientOnly fallback={<>0</>}>
                                                         <Suspense fallback={<>0</>}>
@@ -95,10 +99,6 @@ export default function DiscoverSection({ productCount, shopCount }: DiscoverSec
                                                         </Suspense>
                                                     </ClientOnly>
                                                 </span>
-                                            ) : (
-                                                <p className="text-2xl sm:text-4xl font-display text-primary mb-2">
-                                                    {t(stat.valueKey)}+
-                                                </p>
                                             )}
                                             <p className="text-xs font-medium text-secondary uppercase tracking-widest">
                                                 {t(stat.labelKey)}
