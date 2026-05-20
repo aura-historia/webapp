@@ -5,7 +5,6 @@ type ProductJsonLd = {
     "@context": "https://schema.org/";
     "@type": "Product";
     name: string;
-    description?: string;
     image?: string[];
     url?: string;
     sku?: string;
@@ -38,10 +37,6 @@ export function generateProductJsonLd(apiData: PersonalizedGetProductData): Prod
         name: product.title.text,
         sku: `${product.shopId}-${product.shopsProductId}`,
     };
-
-    if (product.description?.text) {
-        jsonLd.description = product.description.text;
-    }
 
     if (product.images && product.images.length > 0) {
         const validImages = product.images

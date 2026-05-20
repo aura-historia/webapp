@@ -33,7 +33,6 @@ describe("ProductDetailPage", () => {
         shopName: "Test Shop",
         shopType: "AUCTION_HOUSE",
         title: "Test Product",
-        description: "Test description",
         price: "99€",
         state: "AVAILABLE",
         url: new URL("https://example.com"),

@@ -58,7 +58,6 @@ const baseProduct: OverviewProduct = {
     shopName: "Test Shop",
     shopType: "AUCTION_HOUSE",
     title: "Ancient Vase",
-    description: undefined,
     price: "100 €",
     state: "AVAILABLE",
     url: null,

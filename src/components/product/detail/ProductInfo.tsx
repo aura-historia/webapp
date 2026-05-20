@@ -19,8 +19,6 @@ import { H1 } from "@/components/typography/H1.tsx";
 
 export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();
-    const descriptionText = product.description ?? t("product.noDescription");
-    const descriptionHeading = t("product.descriptionTitle");
     const conditionReportHeading = t("product.conditionReportTitle");
     const conditionReportText = t(CONDITION_TRANSLATION_CONFIG[product.condition].descriptionKey);
     const isWatching = product.userData?.watchlistData.isWatching ?? false;
@@ -146,22 +144,12 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
             <section className="grid grid-cols-1 gap-8 border-y border-border/30 pt-8 pb-16 lg:grid-cols-12 lg:gap-12">
                 <div className="lg:col-span-4">
                     <h2 className="font-display text-2xl uppercase tracking-[-0.02em] text-primary">
-                        {descriptionHeading}
+                        {conditionReportHeading}
                     </h2>
                     <span className="mt-4 block h-0.5 w-12 bg-primary" />
                 </div>
                 <div className="lg:col-span-8">
-                    <p className="text-base leading-[1.65] text-muted-foreground">
-                        {descriptionText}
-                    </p>
-                    <div className="mt-6 border-l-4 border-primary/20 bg-surface-container-low px-6 py-5">
-                        <p className="text-xs uppercase tracking-[0.12em] text-on-surface">
-                            {conditionReportHeading}
-                        </p>
-                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                            {conditionReportText}
-                        </p>
-                    </div>
+                    <p className="text-sm leading-6 text-muted-foreground">{conditionReportText}</p>
                 </div>
             </section>
         </>

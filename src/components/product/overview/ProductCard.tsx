@@ -72,12 +72,6 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                                 {product.title}
                             </H2>
                         </Link>
-
-                        {product.description && (
-                            <p className="mt-2 line-clamp-2 text-sm leading-6 text-on-surface/80">
-                                {product.description}
-                            </p>
-                        )}
                     </div>
 
                     <div className="flex shrink-0 items-center gap-1.5">

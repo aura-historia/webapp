@@ -17,7 +17,6 @@ describe("OverviewProduct mappers", () => {
                     shopName: "Antique Shop",
                     shopType: "AUCTION_HOUSE",
                     title: { text: "Vintage Vase", language: "de" },
-                    description: { text: "Beautiful vintage vase", language: "de" },
                     price: { offer: { amount: 1099, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/item",
@@ -39,7 +38,6 @@ describe("OverviewProduct mappers", () => {
             expect(result.shopsProductId).toBe("shop-item-101");
             expect(result.shopName).toBe("Antique Shop");
             expect(result.title).toBe("Vintage Vase");
-            expect(result.description).toBe("Beautiful vintage vase");
             expect(result.price).toBe("$10.99");
             expect(result.state).toBe("AVAILABLE");
             expect(result.url?.href).toBe("https://example.com/item");
@@ -61,7 +59,6 @@ describe("OverviewProduct mappers", () => {
                     shopName: "Antique Shop",
                     shopType: "AUCTION_HOUSE",
                     title: { text: "Vintage Vase", language: "de" },
-                    description: undefined,
                     price: { offer: { amount: 2550, currency: "EUR" } },
                     state: "LISTED",
                     url: "",
@@ -77,7 +74,6 @@ describe("OverviewProduct mappers", () => {
 
             const result = mapPersonalizedGetProductDataToOverviewProduct(apiData, "de");
 
-            expect(result.description).toBeUndefined();
             expect(result.url).toBeNull();
             expect(result.images).toEqual([]);
         });
@@ -126,7 +122,6 @@ describe("OverviewProduct mappers", () => {
                     shopName: "Antique Shop",
                     shopType: "AUCTION_HOUSE",
                     title: { text: "Vintage Vase", language: "de" },
-                    description: { text: "Beautiful vintage vase", language: "de" },
                     price: { offer: { amount: 1099, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/item",

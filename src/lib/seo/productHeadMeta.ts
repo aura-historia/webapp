@@ -28,7 +28,6 @@ export function generateProductHeadMeta(
     params: ProductHeadParams,
 ): HeadMeta {
     const productTitle = loaderData?.item.title.text ?? "Product";
-    const productDescription = loaderData?.item.description?.text;
     const productImage =
         loaderData?.item.images?.find((img) => img.prohibitedContent === "NONE")?.url ??
         BANNER_IMAGE_URL;
@@ -39,27 +38,11 @@ export function generateProductHeadMeta(
             {
                 title: `${productTitle} | Aura Historia`,
             },
-            ...(productDescription
-                ? [
-                      {
-                          name: "description",
-                          content: productDescription,
-                      },
-                  ]
-                : []),
             // Open Graph tags
             {
                 property: "og:title",
                 content: productTitle,
             },
-            ...(productDescription
-                ? [
-                      {
-                          property: "og:description",
-                          content: productDescription,
-                      },
-                  ]
-                : []),
             {
                 property: "og:type",
                 content: "product",
@@ -85,14 +68,6 @@ export function generateProductHeadMeta(
                 name: "twitter:title",
                 content: productTitle,
             },
-            ...(productDescription
-                ? [
-                      {
-                          name: "twitter:description",
-                          content: productDescription,
-                      },
-                  ]
-                : []),
             {
                 name: "twitter:image",
                 content: productImage,
