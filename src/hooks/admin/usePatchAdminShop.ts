@@ -102,6 +102,7 @@ export function usePatchAdminShop() {
             return mapToShopDetail(response.data);
         },
         onSuccess: (updatedShop) => {
+            queryClient.setQueryData(["admin", "shops", "detail", updatedShop.shopId], updatedShop);
             queryClient.setQueriesData<InfiniteData<AdminShopPage>>(
                 { queryKey: ["admin", "shops"] },
                 (old) => replaceUpdatedShopInPages(old, updatedShop),

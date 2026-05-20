@@ -105,6 +105,7 @@ describe("usePatchAdminShop", () => {
                 } satisfies AdminShopPage,
             ],
         });
+        queryClient.setQueryData(["admin", "shops", "detail", "shop-1"], existingShop);
 
         const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
 
@@ -171,6 +172,14 @@ describe("usePatchAdminShop", () => {
             url: "https://new.example.com",
             phone: "+49 30 123456",
             email: "info@example.com",
+        });
+        expect(queryClient.getQueryData(["admin", "shops", "detail", "shop-1"])).toMatchObject({
+            shopId: "shop-1",
+            shopifyDomain: "new.myshopify.com",
+            shopifyCurrency: "EUR",
+            shopifyLanguage: "de",
+            woocommerceCurrency: "USD",
+            woocommerceLanguage: "en",
         });
         expect(invalidateSpy).toHaveBeenCalledWith({
             queryKey: ["admin", "shops"],
