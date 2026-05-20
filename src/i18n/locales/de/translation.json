@@ -1159,6 +1159,8 @@
       },
       "sections": {
         "core": "Kerndaten",
+        "shopify": "Shopify",
+        "woocommerce": "WooCommerce",
         "contact": "Kontakt",
         "address": "Postanschrift",
         "specialities": "Spezialgebiete"

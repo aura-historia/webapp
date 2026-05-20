@@ -1036,6 +1036,8 @@
       },
       "sections": {
         "core": "Datos principales",
+        "shopify": "Shopify",
+        "woocommerce": "WooCommerce",
         "contact": "Contacto",
         "address": "Dirección postal",
         "specialities": "Especialidades"

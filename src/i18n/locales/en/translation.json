@@ -1145,6 +1145,8 @@
       },
       "sections": {
         "core": "Core",
+        "shopify": "Shopify",
+        "woocommerce": "WooCommerce",
         "contact": "Contact",
         "address": "Postal Address",
         "specialities": "Specialities"
