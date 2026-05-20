@@ -21,6 +21,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 15000, currency: "EUR" } },
                     state: "AVAILABLE",
                     url: "https://example.com/products/vintage-vase",
+                    viewUrl: "https://example.com/products/vintage-vase",
                     images: [
                         {
                             url: "https://example.com/images/vase1.jpg",
@@ -66,6 +67,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 25000, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/chair",
+                    viewUrl: "https://example.com/chair",
                     images: [],
 
                     created: "2024-01-01T00:00:00Z",
@@ -101,6 +103,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 500000, currency: "GBP" } },
                     state: "LISTED",
                     url: "https://example.com/painting",
+                    viewUrl: "https://example.com/painting",
                     images: [],
 
                     created: "2024-01-01T00:00:00Z",
@@ -129,6 +132,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 10000, currency: "EUR" } },
                     state: "RESERVED",
                     url: "https://example.com/reserved",
+                    viewUrl: "https://example.com/reserved",
                     images: [],
 
                     created: "2024-01-01T00:00:00Z",
@@ -157,6 +161,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 75000, currency: "USD" } },
                     state: "SOLD",
                     url: "https://example.com/sold",
+                    viewUrl: "https://example.com/sold",
                     images: [],
 
                     created: "2024-01-01T00:00:00Z",
@@ -185,6 +190,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 5000, currency: "EUR" } },
                     state: "REMOVED" as unknown as ProductStateData,
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item",
                     images: [],
 
                     created: "2024-01-01T00:00:00Z",
@@ -213,6 +219,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 1000, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item",
                     images: [],
 
                     created: "2024-01-01T00:00:00Z",
@@ -241,6 +248,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 1000, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item",
                     images: [],
 
                     created: "2024-01-01T00:00:00Z",
@@ -269,6 +277,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 1000, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item",
                     images: [
                         {
                             url: "https://example.com/image1.jpg",
@@ -313,6 +322,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 1000, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "",
+                    viewUrl: "",
                     images: [],
 
                     created: "2024-01-01T00:00:00Z",
@@ -342,6 +352,7 @@ describe("productJsonLd", () => {
                     price: undefined,
                     state: "AVAILABLE",
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item",
                     images: [],
 
                     created: "2024-01-01T00:00:00Z",
@@ -370,6 +381,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 12345, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item",
                     images: [],
 
                     created: "2024-01-01T00:00:00Z",
@@ -398,6 +410,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 1000, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item",
                     images: [],
 
                     created: "2024-01-01T00:00:00Z",
@@ -428,6 +441,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 5000, currency: "EUR" } },
                     state: "AVAILABLE",
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item",
                     images: [
                         {
                             url: "https://example.com/image.jpg",
@@ -468,6 +482,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 10000, currency: "USD" } },
                     state: "SOLD",
                     url: "https://example.com/test",
+                    viewUrl: "https://example.com/test",
                     images: [
                         {
                             url: "https://example.com/img1.jpg",
@@ -502,6 +517,7 @@ describe("productJsonLd", () => {
                     price: { offer: { amount: 1000, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item",
                     images: [],
 
                     created: "2024-01-01T00:00:00Z",

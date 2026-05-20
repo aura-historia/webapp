@@ -18,6 +18,8 @@ const mockWatchlistPriceChangeNotification: GetNotificationData = {
         productSlugId: "vintage-vase",
         shopName: "Antique Shop",
         title: { text: "Vintage Vase", language: "en" },
+        url: "https://example.com/product/vintage-vase",
+        viewUrl: "https://example.com/product/vintage-vase?utm_source=test",
         image: null,
         watchlistPayload: {
             type: "PRICE_CHANGE",
@@ -43,6 +45,8 @@ const mockWatchlistStateChangeNotification: GetNotificationData = {
         productSlugId: "rare-book",
         shopName: "Old Books",
         title: { text: "Rare Book", language: "en" },
+        url: "https://example.com/product/rare-book",
+        viewUrl: "https://example.com/product/rare-book?utm_source=test",
         image: null,
         watchlistPayload: {
             type: "STATE_CHANGE",
@@ -68,6 +72,8 @@ const mockSearchFilterNotification: GetNotificationData = {
         productSlugId: "baroque-painting",
         shopName: "Art Gallery",
         title: { text: "Baroque Painting", language: "en" },
+        url: "https://example.com/product/baroque-painting",
+        viewUrl: "https://example.com/product/baroque-painting?utm_source=test",
         image: null,
         searchFilterPayload: {
             userSearchFilterId: "filter-abc",

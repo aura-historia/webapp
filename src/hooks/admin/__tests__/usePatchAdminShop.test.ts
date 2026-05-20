@@ -141,6 +141,11 @@ describe("usePatchAdminShop", () => {
             body: {
                 shopType: "MARKETPLACE",
                 domains: ["new.example.com"],
+                shopifyDomain: "new.myshopify.com",
+                shopifyCurrency: "EUR",
+                shopifyLanguage: "de",
+                woocommerceCurrency: "USD",
+                woocommerceLanguage: "en",
                 url: "https://new.example.com",
                 image: null,
                 structuredAddress: {

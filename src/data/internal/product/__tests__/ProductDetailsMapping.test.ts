@@ -25,6 +25,7 @@ const baseApiItem: PersonalizedGetProductData["item"] = {
     price: { offer: { amount: 1000, currency: "EUR" } },
     state: "AVAILABLE",
     url: "https://example.com/item",
+    viewUrl: "https://example.com/item?utm_source=test",
     images: [],
     created: "2023-01-01T00:00:00Z",
     updated: "2023-01-02T00:00:00Z",

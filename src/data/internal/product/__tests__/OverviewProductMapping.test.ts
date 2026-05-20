@@ -20,6 +20,7 @@ describe("OverviewProduct mappers", () => {
                     price: { offer: { amount: 1099, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item?utm_source=test",
                     images: [{ url: "https://example.com/image1.jpg", prohibitedContent: "NONE" }],
 
                     created: "2023-01-01T00:00:00Z",
@@ -59,6 +60,7 @@ describe("OverviewProduct mappers", () => {
                     price: { offer: { amount: 2550, currency: "EUR" } },
                     state: "LISTED",
                     url: "",
+                    viewUrl: "",
                     images: [],
 
                     created: "2023-01-01T00:00:00Z",
@@ -88,6 +90,7 @@ describe("OverviewProduct mappers", () => {
                     price: { offer: { amount: 5000, currency: "USD" } },
                     state: "SOLD",
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item?utm_source=test",
                     images: [{ url: "invalid-url", prohibitedContent: "NONE" }],
 
                     created: "2023-01-01T00:00:00Z",
@@ -116,6 +119,7 @@ describe("OverviewProduct mappers", () => {
                     price: { offer: { amount: 1099, currency: "USD" } },
                     state: "AVAILABLE",
                     url: "https://example.com/item",
+                    viewUrl: "https://example.com/item?utm_source=test",
                     images: [],
 
                     created: "2023-01-01T00:00:00Z",
