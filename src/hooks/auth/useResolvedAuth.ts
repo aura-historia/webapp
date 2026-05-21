@@ -1,4 +1,3 @@
-import { Route } from "@/routes/__root.tsx";
 import { getCurrentUser, signOut as amplifySignOut } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
 import { useCallback, useEffect, useState } from "react";
@@ -57,15 +56,13 @@ function useAuth(): UseAuthReturn {
 
 export function useResolvedAuth() {
     const { user, isLoading, signOut } = useAuth();
-    const { serverAuth } = Route.useRouteContext();
-    const isAuthenticated = isLoading ? serverAuth.authenticated : !!user;
+    const isAuthenticated = !isLoading && !!user;
 
     return {
         user,
-        serverUser: serverAuth.user,
         isAuthenticated,
         isLoading,
-        isResolved: isAuthenticated || !isLoading,
+        isResolved: !isLoading,
         signOut,
     };
 }

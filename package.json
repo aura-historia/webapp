@@ -27,7 +27,6 @@
         ]
     },
     "dependencies": {
-        "@aws-amplify/auth": "^6.20.0",
         "@cloudflare/vite-plugin": "^1.36.3",
         "@faker-js/faker": "^10.4.0",
         "@fontsource-variable/manrope": "^5.2.8",

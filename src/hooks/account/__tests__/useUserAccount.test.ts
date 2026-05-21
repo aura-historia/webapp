@@ -28,7 +28,6 @@ vi.mock("@/data/internal/hooks/ApiError", () => ({
 vi.mock("@/hooks/auth/useResolvedAuth", () => ({
     useResolvedAuth: () => ({
         user: { userId: "test-user-id", username: "test-user" },
-        serverUser: null,
         isAuthenticated: true,
         isLoading: false,
         isResolved: true,
@@ -249,7 +248,7 @@ describe("useUserAccount", () => {
             expect(mockGetUserAccount).toHaveBeenCalledTimes(1);
         });
 
-        it("should have correct staleTime configuration", () => {
+        it("should define a query state for the user account cache", () => {
             mockGetUserAccount.mockResolvedValue({
                 data: { firstName: "Max" },
                 error: null,
@@ -261,7 +260,6 @@ describe("useUserAccount", () => {
 
             const queryState = queryClient.getQueryState(["userAccount"]);
 
-            // staleTime should be 5 minutes (5 * 60 * 1000)
             expect(queryState).toBeDefined();
         });
     });

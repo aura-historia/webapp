@@ -803,6 +803,7 @@
   "apiErrors": {
     "PRODUCT_NOT_FOUND": "Cet article n'a pas été trouvé.",
     "UNAUTHORIZED": "Échec de l'authentification. Veuillez vous connecter.",
+    "USER_NOT_FOUND": "Votre session n'est plus valide. Veuillez vous reconnecter.",
     "INTERNAL_SERVER_ERROR": "Une erreur interne du serveur s'est produite. Veuillez réessayer plus tard.",
     "GATEWAY_TIMEOUT": "Délai d'attente de la requête dépassé. Veuillez réessayer plus tard.",
     "WATCHLIST_ENTRY_NOT_FOUND": "Cet article ne figure pas dans votre liste de favoris.",
