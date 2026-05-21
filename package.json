@@ -48,6 +48,7 @@
         "@radix-ui/react-slot": "^1.2.4",
         "@radix-ui/react-switch": "^1.2.6",
         "@radix-ui/react-tooltip": "^1.2.8",
+        "@scalar/api-reference-react": "0.9.38",
         "@t3-oss/env-core": "^0.13.11",
         "@tailwindcss/vite": "^4.3.0",
         "@tanstack/match-sorter-utils": "^8.19.4",

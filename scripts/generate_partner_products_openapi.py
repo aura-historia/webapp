@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-from collections import deque
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -11,33 +10,6 @@ SOURCE_URL = "https://raw.githubusercontent.com/aura-historia/internal-api/refs/
 TARGET_PATH = "/api/v1/shops/{shopId}/products"
 TARGET_METHODS = ("put", "post", "patch")
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "public" / "partner-products.openapi.json"
-
-
-def iter_refs(value: object):
-    if isinstance(value, dict):
-        for key, nested in value.items():
-            if key == "$ref" and isinstance(nested, str):
-                yield nested
-            else:
-                yield from iter_refs(nested)
-    elif isinstance(value, list):
-        for item in value:
-            yield from iter_refs(item)
-
-
-def parse_component_ref(ref: str) -> tuple[str, str] | None:
-    prefix = "#/components/"
-    if not ref.startswith(prefix):
-        return None
-
-    remainder = ref[len(prefix) :]
-    section, _, name = remainder.partition("/")
-    if not section or not name:
-        return None
-
-    return section, name
-
-
 def main() -> None:
     with urlopen(SOURCE_URL) as response:  # noqa: S310 - trusted repository source
         spec = yaml.safe_load(response.read().decode("utf-8"))
@@ -47,39 +19,6 @@ def main() -> None:
         for method in TARGET_METHODS
         if method in spec["paths"][TARGET_PATH]
     }
-
-    selected_components: dict[str, dict[str, object]] = {}
-    seen_refs: set[tuple[str, str]] = set()
-    refs_to_process: deque[tuple[str, str]] = deque()
-    security_scheme_names: set[str] = set()
-
-    for method_config in selected_path_item.values():
-        for ref in iter_refs(method_config):
-            parsed_ref = parse_component_ref(ref)
-            if parsed_ref and parsed_ref not in seen_refs:
-                seen_refs.add(parsed_ref)
-                refs_to_process.append(parsed_ref)
-
-        for security_requirement in method_config.get("security", []):
-            security_scheme_names.update(security_requirement.keys())
-
-    while refs_to_process:
-        section, name = refs_to_process.popleft()
-        component_value = spec["components"][section][name]
-        selected_components.setdefault(section, {})[name] = component_value
-
-        for ref in iter_refs(component_value):
-            parsed_ref = parse_component_ref(ref)
-            if parsed_ref and parsed_ref not in seen_refs:
-                seen_refs.add(parsed_ref)
-                refs_to_process.append(parsed_ref)
-
-    if security_scheme_names:
-        security_schemes = spec.get("components", {}).get("securitySchemes", {})
-        selected_components.setdefault("securitySchemes", {})
-        for name in sorted(security_scheme_names):
-            if name in security_schemes:
-                selected_components["securitySchemes"][name] = security_schemes[name]
 
     used_tags = {
         tag
@@ -102,7 +41,7 @@ def main() -> None:
         "paths": {
             TARGET_PATH: selected_path_item,
         },
-        "components": selected_components,
+        "components": spec.get("components", {}),
     }
 
     if filtered_tags:

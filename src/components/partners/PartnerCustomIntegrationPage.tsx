@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { cn } from "@/lib/utils.ts";
+import { ClientOnly } from "@tanstack/react-router";
 import { ArrowRight, Code2, ExternalLink, KeyRound, RefreshCw, Send, Store } from "lucide-react";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type GuideStepKey = "requestKey" | "preparePayload" | "sendBatch" | "keepInSync" | "verifyShop";
@@ -79,6 +80,10 @@ const ENDPOINTS: readonly EndpointDefinition[] = [
         docsUrl: "https://docs.api.aura-historia.com/#/Products/patchPartnerProducts",
     },
 ];
+
+const LazyPartnerProductsApiReference = lazy(
+    () => import("@/components/partners/PartnerProductsApiReference.tsx"),
+);
 
 export default function PartnerCustomIntegrationPage() {
     const { t } = useTranslation();
@@ -431,12 +436,24 @@ export default function PartnerCustomIntegrationPage() {
                             </div>
                         </CardHeader>
                         <CardContent className="border-t border-border/60 p-0">
-                            <iframe
-                                title={t("partners.customIntegrationPage.endpoints.embedTitle")}
-                                src="/partner-products-reference.html"
-                                loading="lazy"
-                                className="h-[1200px] w-full border-0 bg-white"
-                            />
+                            <div>
+                                <p className="sr-only">
+                                    {t("partners.customIntegrationPage.endpoints.embedTitle")}
+                                </p>
+                                <ClientOnly
+                                    fallback={
+                                        <div className="h-[960px] w-full animate-pulse bg-white" />
+                                    }
+                                >
+                                    <Suspense
+                                        fallback={
+                                            <div className="h-[960px] w-full animate-pulse bg-white" />
+                                        }
+                                    >
+                                        <LazyPartnerProductsApiReference />
+                                    </Suspense>
+                                </ClientOnly>
+                            </div>
                         </CardContent>
                     </Card>
                 </div>

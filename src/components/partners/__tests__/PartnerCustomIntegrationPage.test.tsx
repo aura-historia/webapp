@@ -1,6 +1,11 @@
+import { vi } from "vitest";
 import PartnerCustomIntegrationPage from "@/components/partners/PartnerCustomIntegrationPage.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, fireEvent, screen } from "@testing-library/react";
+
+vi.mock("@/components/partners/PartnerProductsApiReference.tsx", () => ({
+    default: () => <div data-testid="partner-products-api-reference">Partner API reference</div>,
+}));
 
 describe("PartnerCustomIntegrationPage", () => {
     beforeEach(async () => {
@@ -29,10 +34,7 @@ describe("PartnerCustomIntegrationPage", () => {
 
         expect(methodBadges).toHaveLength(3);
         expect(methodBadges.map((badge) => badge.textContent)).toEqual(["PUT", "POST", "PATCH"]);
-        expect(screen.getByTitle("Partner Produkt-API Referenz")).toHaveAttribute(
-            "src",
-            "/partner-products-reference.html",
-        );
+        expect(screen.getByTestId("partner-products-api-reference")).toBeInTheDocument();
     });
 
     it("builds the final shop-page CTA from the entered shop slug", () => {

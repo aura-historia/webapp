@@ -883,7 +883,7 @@
         "title": "Partner endpoints embedded directly on the page",
         "subtitle": "These Scalar embeds link straight into our OpenAPI documentation and cover the three batch endpoints relevant for partner integrations.",
         "generatedReferenceTitle": "One focused API reference for these three endpoints",
-        "generatedReferenceDescription": "This embedded Scalar view is generated automatically from our OpenAPI spec and only includes PUT, POST, and PATCH for partner products plus the required component types.",
+        "generatedReferenceDescription": "This embedded Scalar view is generated automatically from our OpenAPI spec and bundles the three relevant partner endpoints into one focused, interactive reference.",
         "externalDocsCta": "Open endpoint separately",
         "embedTitle": "Partner product API reference",
         "items": {
