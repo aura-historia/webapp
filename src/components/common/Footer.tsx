@@ -9,7 +9,11 @@ import {
     SelectValue,
 } from "../ui/select";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
-import { LANDING_PAGE_FOOTER_LINKS, SOCIAL_LINKS } from "./footer/Footer.data.ts";
+import {
+    LANDING_PAGE_FOOTER_LINKS,
+    PARTNER_PROGRAM_FOOTER_LINKS,
+    SOCIAL_LINKS,
+} from "./footer/Footer.data.ts";
 import { CurrencySelector } from "@/components/common/CurrencySelector.tsx";
 
 export function Footer() {
@@ -109,7 +113,26 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    {/* Spalte 3: Follow Us */}
+                    {/* Spalte 3: Partner-Programm */}
+                    <div>
+                        <h3 className="font-display text-lg leading-7 text-primary-container">
+                            {t("footer.sections.partnerProgram")}
+                        </h3>
+                        <ul className="mt-4 space-y-2">
+                            {PARTNER_PROGRAM_FOOTER_LINKS.map((partnerLink) => (
+                                <li key={partnerLink.href}>
+                                    <a
+                                        href={partnerLink.href}
+                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                    >
+                                        {t(partnerLink.translationKey)}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Spalte 4: Follow Us */}
                     <div>
                         <h3 className="font-display text-lg leading-7 text-primary-container">
                             {t("footer.sections.followUs")}
