@@ -18,6 +18,8 @@ export type RawSearchParams = {
     auctionDateTo?: string;
     merchant?: string | string[];
     excludeMerchant?: string | string[];
+    seller?: string | string[];
+    excludeSeller?: string | string[];
     shopType?: ShopType[];
     sortField?: string;
     sortOrder?: string;
@@ -55,6 +57,18 @@ function parseExcludeMerchant(
     return undefined;
 }
 
+function parseSeller(seller: string | string[] | undefined): string[] | undefined {
+    if (Array.isArray(seller)) return seller;
+    if (typeof seller === "string") return [seller];
+    return undefined;
+}
+
+function parseExcludeSeller(excludeSeller: string | string[] | undefined): string[] | undefined {
+    if (Array.isArray(excludeSeller)) return excludeSeller;
+    if (typeof excludeSeller === "string") return [excludeSeller];
+    return undefined;
+}
+
 function parseSortField(field: string | undefined): SortMode["field"] {
     return SEARCH_RESULT_SORT_FIELDS.includes(field as SortMode["field"])
         ? (field as SortMode["field"])
@@ -86,6 +100,8 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         auctionDateTo: parseOptionalDate(search.auctionDateTo),
         merchant: parseMerchant(search.merchant),
         excludeMerchant: parseExcludeMerchant(search.excludeMerchant),
+        seller: parseSeller(search.seller),
+        excludeSeller: parseExcludeSeller(search.excludeSeller),
         shopType: parseShopTypes(search.shopType),
         sortField: parseSortField(search.sortField),
         sortOrder: parseSortOrder(search.sortOrder),
@@ -116,6 +132,8 @@ export function serializeSearchParams(
         auctionDateTo: serializeOptionalDate(params.auctionDateTo),
         merchant: params.merchant,
         excludeMerchant: params.excludeMerchant,
+        seller: params.seller,
+        excludeSeller: params.excludeSeller,
         shopType: params.shopType,
         sortField: params.sortField,
         sortOrder: params.sortOrder,

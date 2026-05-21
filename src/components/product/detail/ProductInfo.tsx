@@ -73,7 +73,16 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                     {product.title}
                 </H1>
                 <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted-foreground/80">
-                    {product.shopName}
+                    {product.sellerName !== product.shopName ? (
+                        <>
+                            {product.sellerName}
+                            <span className="ml-2 text-muted-foreground/60">
+                                {t("product.soldOn")} {product.shopName}
+                            </span>
+                        </>
+                    ) : (
+                        product.shopName
+                    )}
                 </p>
 
                 <div className="mt-5 flex flex-wrap items-end gap-3">

@@ -72,6 +72,8 @@ export type SearchFilterData = {
     };
     merchant?: string[];
     excludeMerchant?: string[];
+    seller?: string[];
+    excludeSeller?: string[];
     shopType?: ShopType[];
 };
 
@@ -88,6 +90,8 @@ export type SearchUrlParams = {
     auctionDateTo?: string;
     merchant?: string[];
     excludeMerchant?: string[];
+    seller?: string[];
+    excludeSeller?: string[];
     shopType?: ShopType[];
 };
 
@@ -119,6 +123,8 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
         auctionDateTo: auctionDate.to,
         merchant: data.merchant?.length ? data.merchant : undefined,
         excludeMerchant: data.excludeMerchant?.length ? data.excludeMerchant : undefined,
+        seller: data.seller?.length ? data.seller : undefined,
+        excludeSeller: data.excludeSeller?.length ? data.excludeSeller : undefined,
         shopType: data.shopType?.length ? data.shopType : undefined,
     };
 }

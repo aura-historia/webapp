@@ -76,6 +76,14 @@ function buildFilterQuery(
         filters.excludeShopName = searchArgs.excludeMerchant;
     }
 
+    if (searchArgs.seller && searchArgs.seller.length > 0) {
+        filters.sellerName = searchArgs.seller;
+    }
+
+    if (searchArgs.excludeSeller && searchArgs.excludeSeller.length > 0) {
+        filters.excludeSellerName = searchArgs.excludeSeller;
+    }
+
     if (searchArgs.shopType && searchArgs.shopType.length > 0) {
         const mapped = searchArgs.shopType
             .map((type) => mapToBackendShopType(type))

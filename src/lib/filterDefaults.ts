@@ -12,5 +12,7 @@ export const FILTER_DEFAULTS: FilterSchema = {
     auctionDate: { from: undefined, to: undefined },
     merchant: undefined,
     excludeMerchant: undefined,
+    seller: undefined,
+    excludeSeller: undefined,
     shopType: [...SHOP_TYPES],
 };
