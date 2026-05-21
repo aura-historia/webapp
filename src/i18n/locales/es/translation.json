@@ -58,7 +58,7 @@
     },
     "partners": {
       "title": "Programa de Partners | Aura Historia",
-      "description": "Conviértete en tienda partner de Aura Historia, el buscador de antigüedades y arte. Gratis, sin comisiones, conectado en minutos."
+      "description": "Conviértete en tienda partner de Aura Historia, la plataforma global de antigüedades y arte. Gratis, sin comisiones y conectada en minutos."
     }
   },
   "validation": {
@@ -647,7 +647,7 @@
     "hero": {
       "badge": "Programa de Partners",
       "title": "¿Vendes antigüedades o arte online?<br/>Llega a coleccionistas en todo el mundo.",
-      "subtitle": "Únete a Aura Historia, el buscador con el que los coleccionistas encuentran justo lo que tú vendes. Gratis, sin compromiso y listo en minutos.",
+      "subtitle": "Únete a Aura Historia, la plataforma global de antigüedades y arte donde los coleccionistas encuentran justo lo que vendes. Gratis, sin compromiso y lista en minutos.",
       "primaryCta": "Hazte partner",
       "secondaryCta": "Saber más",
       "trustBadges": {
@@ -695,11 +695,11 @@
       },
       "newBuyers": {
         "value": "XX %",
-        "label": "Compradores nuevos que no habrías alcanzado"
+        "label": "Aumento de la tasa de conversión gracias a los compradores de Aura Historia"
       },
       "countries": {
         "value": "XX",
-        "label": "Países desde los que llegan solicitudes"
+        "label": "Nuevos países de los que llegan solicitudes"
       },
       "setup": {
         "value": "< 15 min",
@@ -712,7 +712,7 @@
       "subtitle": "Elige la integración que mejor encaja. Todas se sincronizan en minutos, sin tocar código.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Instala nuestra extensión desde el directorio de plugins de WordPress. Un clic y listo.",
+        "description": "Instala nuestra extensión desde el directorio de plugins de WordPress.",
         "cta": "Ver integración",
         "badge": "Recomendado"
       },

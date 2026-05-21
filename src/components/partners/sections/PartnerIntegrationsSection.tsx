@@ -57,9 +57,11 @@ export default function PartnerIntegrationsSection() {
                             className="group block focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary"
                         >
                             <Card className="relative flex h-full flex-col border-2 border-border/20 transition-all duration-300 hover:border-primary/50 hover:-translate-y-1 hover:shadow-lg">
-                                <span className="absolute -top-3 left-6 bg-primary px-3 py-1 text-[10px] font-medium uppercase tracking-widest text-primary-foreground">
-                                    {t(`partners.integrations.${integration.key}.badge`)}
-                                </span>
+                                {integration.key === "customApi" && (
+                                    <span className="absolute -top-3 left-6 bg-primary px-3 py-1 text-[10px] font-medium uppercase tracking-widest text-primary-foreground">
+                                        {t(`partners.integrations.${integration.key}.badge`)}
+                                    </span>
+                                )}
                                 <CardHeader className="pt-10">
                                     <div
                                         className="flex items-center gap-3 mb-4 text-primary"

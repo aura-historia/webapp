@@ -58,7 +58,7 @@
     },
     "partners": {
       "title": "Partner-Programm | Aura Historia",
-      "description": "Werden Sie Partner-Shop bei Aura Historia – die Suchmaschine für Antiquitäten und Kunst. Kostenlos, ohne Provision, in Minuten verbunden."
+      "description": "Werden Sie Partner-Shop bei Aura Historia – der globalen Plattform für Antiquitäten & Kunst. Kostenlos, ohne Provision, in Minuten verbunden."
     }
   },
   "validation": {
@@ -645,7 +645,7 @@
     "hero": {
       "badge": "Partner-Programm",
       "title": "Verkaufen Sie Antiquitäten oder Kunst online?<br/>Erreichen Sie Sammler weltweit.",
-      "subtitle": "Werden Sie Teil von Aura Historia – der Suchmaschine, mit der Sammler genau das finden, was Sie verkaufen. Kostenlos, unverbindlich und in wenigen Minuten eingerichtet.",
+      "subtitle": "Werden Sie Teil von Aura Historia – der globalen Plattform für Antiquitäten & Kunst, auf der Sammler genau das finden, was Sie verkaufen. Kostenlos, unverbindlich und in wenigen Minuten eingerichtet.",
       "primaryCta": "Partner werden",
       "secondaryCta": "Mehr erfahren",
       "trustBadges": {
@@ -693,11 +693,11 @@
       },
       "newBuyers": {
         "value": "XX %",
-        "label": "Neukunden, die Sie sonst nie erreicht hätten"
+        "label": "Höhere Conversion-Rate durch Aura-Historia-Käufer"
       },
       "countries": {
         "value": "XX",
-        "label": "Länder, aus denen Anfragen kommen"
+        "label": "Neue Länder, aus denen Anfragen kommen"
       },
       "setup": {
         "value": "< 15 Min.",
@@ -710,7 +710,7 @@
       "subtitle": "Wählen Sie die Integration, die zu Ihrem Setup passt. Alle Wege führen in wenigen Minuten zur Live-Synchronisation – ohne dass Sie Code anfassen müssen.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Installieren Sie unsere Erweiterung über das WordPress-Plugin-Verzeichnis. Ein Klick – fertig.",
+        "description": "Installieren Sie unsere Erweiterung über das WordPress-Plugin-Verzeichnis.",
         "cta": "Integration ansehen",
         "badge": "Empfohlen"
       },

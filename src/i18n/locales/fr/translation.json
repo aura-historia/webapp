@@ -58,7 +58,7 @@
     },
     "partners": {
       "title": "Programme partenaires | Aura Historia",
-      "description": "Devenez boutique partenaire d'Aura Historia, le moteur de recherche d'antiquités et d'art. Gratuit, sans commission, connecté en quelques minutes."
+      "description": "Devenez boutique partenaire d'Aura Historia, la plateforme mondiale pour les antiquités et l'art. Gratuit, sans commission, connectée en quelques minutes."
     }
   },
   "validation": {
@@ -647,7 +647,7 @@
     "hero": {
       "badge": "Programme partenaires",
       "title": "Vous vendez des antiquités ou de l'art en ligne ?<br/>Atteignez des collectionneurs dans le monde entier.",
-      "subtitle": "Rejoignez Aura Historia, le moteur de recherche que les collectionneurs utilisent pour trouver exactement ce que vous vendez. Gratuit, sans engagement, prêt en quelques minutes.",
+      "subtitle": "Rejoignez Aura Historia, la plateforme mondiale pour les antiquités et l'art où les collectionneurs trouvent exactement ce que vous vendez. Gratuit, sans engagement, prêt en quelques minutes.",
       "primaryCta": "Devenir partenaire",
       "secondaryCta": "En savoir plus",
       "trustBadges": {
@@ -695,11 +695,11 @@
       },
       "newBuyers": {
         "value": "XX %",
-        "label": "Nouveaux acheteurs que vous n'auriez pas touchés"
+        "label": "Hausse du taux de conversion grâce aux acheteurs Aura Historia"
       },
       "countries": {
         "value": "XX",
-        "label": "Pays d'où proviennent les demandes"
+        "label": "Nouveaux pays d'où viennent les demandes"
       },
       "setup": {
         "value": "< 15 min",
@@ -712,7 +712,7 @@
       "subtitle": "Choisissez l'intégration qui convient à votre installation. Toutes synchronisent en quelques minutes – sans toucher au code.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Installez notre extension depuis le répertoire de plugins WordPress. Un clic suffit.",
+        "description": "Installez notre extension depuis le répertoire des extensions WordPress.",
         "cta": "Voir l'intégration",
         "badge": "Recommandé"
       },

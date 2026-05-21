@@ -58,7 +58,7 @@
     },
     "partners": {
       "title": "Partner Program | Aura Historia",
-      "description": "Become a partner shop on Aura Historia – the antiques and art search engine. Free, commission-free, connected in minutes."
+      "description": "Become a partner shop on Aura Historia – the global platform for antiques & art. Free, commission-free, connected in minutes."
     }
   },
   "validation": {
@@ -647,7 +647,7 @@
     "hero": {
       "badge": "Partner Program",
       "title": "Sell antiques or art online?<br/>Reach collectors worldwide.",
-      "subtitle": "Join Aura Historia – the search engine collectors use to find exactly what you sell. Free, no commitment, set up in minutes.",
+      "subtitle": "Join Aura Historia – the global platform for antiques & art where collectors find exactly what you sell. Free, no commitment, set up in minutes.",
       "primaryCta": "Become a partner",
       "secondaryCta": "Learn more",
       "trustBadges": {
@@ -695,11 +695,11 @@
       },
       "newBuyers": {
         "value": "XX%",
-        "label": "New buyers you wouldn't have reached otherwise"
+        "label": "Increase in conversion rate from Aura Historia buyers"
       },
       "countries": {
         "value": "XX",
-        "label": "Countries enquiries come from"
+        "label": "New countries enquiries come from"
       },
       "setup": {
         "value": "< 15 min",
@@ -712,7 +712,7 @@
       "subtitle": "Pick the integration that fits your setup. Every option syncs in minutes – no code required.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Install our extension straight from the WordPress plugin directory. One click – done.",
+        "description": "Install our extension from the WordPress plugin directory.",
         "cta": "View integration",
         "badge": "Recommended"
       },

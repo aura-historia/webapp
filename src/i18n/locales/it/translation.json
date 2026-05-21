@@ -58,7 +58,7 @@
     },
     "partners": {
       "title": "Programma Partner | Aura Historia",
-      "description": "Diventa partner di Aura Historia, il motore di ricerca per antiquariato e arte. Gratis, senza commissioni, connesso in pochi minuti."
+      "description": "Diventa partner di Aura Historia, la piattaforma globale per antiquariato e arte. Gratis, senza commissioni e connessa in pochi minuti."
     }
   },
   "validation": {
@@ -647,7 +647,7 @@
     "hero": {
       "badge": "Programma Partner",
       "title": "Vendi antiquariato o arte online?<br/>Raggiungi collezionisti in tutto il mondo.",
-      "subtitle": "Entra in Aura Historia, il motore di ricerca con cui i collezionisti trovano esattamente ciò che vendi. Gratis, senza vincoli, pronto in pochi minuti.",
+      "subtitle": "Entra in Aura Historia, la piattaforma globale per antiquariato e arte dove i collezionisti trovano esattamente ciò che vendi. Gratis, senza vincoli e pronta in pochi minuti.",
       "primaryCta": "Diventa partner",
       "secondaryCta": "Scopri di più",
       "trustBadges": {
@@ -695,11 +695,11 @@
       },
       "newBuyers": {
         "value": "XX %",
-        "label": "Nuovi acquirenti che non avresti raggiunto"
+        "label": "Aumento del tasso di conversione grazie agli acquirenti di Aura Historia"
       },
       "countries": {
         "value": "XX",
-        "label": "Paesi da cui arrivano richieste"
+        "label": "Nuovi Paesi da cui arrivano richieste"
       },
       "setup": {
         "value": "< 15 min",
@@ -712,7 +712,7 @@
       "subtitle": "Scegli l'integrazione adatta al tuo setup. Tutte le opzioni sincronizzano in pochi minuti, senza toccare codice.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Installa la nostra estensione dal repository plugin di WordPress. Un clic e sei pronto.",
+        "description": "Installa la nostra estensione dal repository plugin di WordPress.",
         "cta": "Vedi integrazione",
         "badge": "Consigliato"
       },
