@@ -25,6 +25,8 @@ export type RawSearchParams = {
     sortOrder?: string;
 } & SearchSchemaInput;
 
+type OptionalStringList = string | string[] | undefined;
+
 function parseOptionalNumber(value: unknown): number | undefined {
     const num = Number(value);
     return Number.isNaN(num) ? undefined : num;
@@ -43,27 +45,25 @@ function parseProductStates(states: unknown): ProductState[] | undefined {
         .filter((elem, index, self) => index === self.indexOf(elem));
 }
 
-function parseMerchant(merchant: string | string[] | undefined): string[] | undefined {
+function parseMerchant(merchant: OptionalStringList): string[] | undefined {
     if (Array.isArray(merchant)) return merchant;
     if (typeof merchant === "string") return [merchant];
     return undefined;
 }
 
-function parseExcludeMerchant(
-    excludeMerchant: string | string[] | undefined,
-): string[] | undefined {
+function parseExcludeMerchant(excludeMerchant: OptionalStringList): string[] | undefined {
     if (Array.isArray(excludeMerchant)) return excludeMerchant;
     if (typeof excludeMerchant === "string") return [excludeMerchant];
     return undefined;
 }
 
-function parseSeller(seller: string | string[] | undefined): string[] | undefined {
+function parseSeller(seller: OptionalStringList): string[] | undefined {
     if (Array.isArray(seller)) return seller;
     if (typeof seller === "string") return [seller];
     return undefined;
 }
 
-function parseExcludeSeller(excludeSeller: string | string[] | undefined): string[] | undefined {
+function parseExcludeSeller(excludeSeller: OptionalStringList): string[] | undefined {
     if (Array.isArray(excludeSeller)) return excludeSeller;
     if (typeof excludeSeller === "string") return [excludeSeller];
     return undefined;

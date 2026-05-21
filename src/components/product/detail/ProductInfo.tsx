@@ -74,7 +74,15 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                     {product.title}
                 </H1>
                 <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted-foreground/80">
-                    {product.sellerName !== product.shopName ? (
+                    {product.sellerName === product.shopName ? (
+                        <Link
+                            to="/shops/$shopSlugId"
+                            params={{ shopSlugId: product.shopSlugId }}
+                            className="transition-colors hover:text-foreground hover:underline"
+                        >
+                            {product.shopName}
+                        </Link>
+                    ) : (
                         <>
                             {product.sellerName}
                             <span className="ml-2 text-muted-foreground/80">
@@ -88,14 +96,6 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                                 </Link>
                             </span>
                         </>
-                    ) : (
-                        <Link
-                            to="/shops/$shopSlugId"
-                            params={{ shopSlugId: product.shopSlugId }}
-                            className="transition-colors hover:text-foreground hover:underline"
-                        >
-                            {product.shopName}
-                        </Link>
                     )}
                 </p>
 
