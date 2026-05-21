@@ -17,7 +17,7 @@ import { SortModeSelection } from "@/components/search/SortModeSelection.tsx";
 import { SearchResults } from "@/components/search/SearchResults.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
-import { useAuth } from "@/hooks/auth/useAuth.ts";
+import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
 import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import { useUserSearchFilters } from "@/hooks/search-filters/useUserSearchFilters.ts";
 import { SEARCH_FILTER_QUOTA } from "@/data/internal/account/SubscriptionType.ts";
@@ -37,16 +37,16 @@ function RouteComponent() {
     const navigate = Route.useNavigate();
     const { t } = useTranslation();
     const [totalResults, setTotalResults] = useState<number | null>(null);
-    const { user } = useAuth();
+    const { isAuthenticated } = useResolvedAuth();
     const { data: account } = useUserAccount();
-    const { data: savedFilters } = useUserSearchFilters(!!user);
+    const { data: savedFilters } = useUserSearchFilters(isAuthenticated);
 
     const saveDisabled =
-        user == null ||
+        !isAuthenticated ||
         (savedFilters?.total ?? 0) >= SEARCH_FILTER_QUOTA[account?.subscriptionType ?? "free"];
 
     let saveTooltip: string | undefined;
-    if (user == null) {
+    if (!isAuthenticated) {
         saveTooltip = t("searchFilter.loginRequired");
     } else if (saveDisabled) {
         saveTooltip = t("searchFilter.quotaReached");

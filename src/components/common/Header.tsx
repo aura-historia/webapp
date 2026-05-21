@@ -9,7 +9,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
-import { useAuth } from "@/hooks/auth/useAuth.ts";
+import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -28,7 +28,6 @@ import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/comm
 import { env } from "@/env.ts";
 import logo from "@/assets/logo/logo.svg";
 import logoCompact from "@/assets/logo/logo-compact.svg";
-import { Route } from "@/routes/__root.tsx";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
@@ -54,8 +53,11 @@ export function Header() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const { user, signOut: amplifySignOut } = useAuth();
-    const { serverAuth } = Route.useRouteContext();
+    const {
+        isAuthenticated,
+        isResolved: isAuthResolved,
+        signOut: amplifySignOut,
+    } = useResolvedAuth();
 
     const { data: userAccount } = useUserAccount();
 
@@ -67,12 +69,123 @@ export function Header() {
     const queryClient = useQueryClient();
 
     const signOut = async () => {
-        amplifySignOut();
+        await amplifySignOut();
         queryClient.removeQueries({ queryKey: ["userAccount"] });
         await navigate({
             to: "/",
         });
     };
+
+    const desktopMenuContent = (() => {
+        if (!isAuthResolved) {
+            return null;
+        }
+
+        if (isAuthenticated) {
+            return (
+                <div
+                    className={cn(
+                        "flex items-center transition-all duration-300",
+                        isFloating ? "bg-background rounded-xs px-4 py-2 hero-search-shadow" : "",
+                    )}
+                >
+                    <NavigationMenu className={"hidden lg:inline flex-none gap-2"}>
+                        <NavigationMenuList>
+                            <NavigationMenuItem>
+                                <NavigationMenuLink asChild>
+                                    <Link to="/me/watchlist">
+                                        <span
+                                            className={cn(
+                                                pathname === "/me/watchlist" ? "underline" : "",
+                                                "text-base",
+                                            )}
+                                        >
+                                            {t("header.watchlist")}
+                                        </span>
+                                    </Link>
+                                </NavigationMenuLink>
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <NavigationMenuLink asChild>
+                                    <Link to="/me/search-filters">
+                                        <span
+                                            className={cn(
+                                                pathname === "/me/search-filters"
+                                                    ? "underline"
+                                                    : "",
+                                                "text-base",
+                                            )}
+                                        >
+                                            {t("header.searchFilters")}
+                                        </span>
+                                    </Link>
+                                </NavigationMenuLink>
+                            </NavigationMenuItem>
+                        </NavigationMenuList>
+                    </NavigationMenu>
+
+                    <NotificationBell />
+
+                    <DropdownMenu>
+                        <DropdownMenuTrigger className="flex items-center gap-4 hover:bg-accent transition-all px-4">
+                            {userAccount?.firstName && (
+                                <span className="hidden 2xl:block">
+                                    {t("header.hello")}, {userAccount.firstName}
+                                </span>
+                            )}
+                            <AccountImage
+                                firstName={userAccount?.firstName || ""}
+                                lastName={userAccount?.lastName || ""}
+                            />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem asChild className="xl:hidden">
+                                <Link to="/me/watchlist">{t("header.watchlist")}</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild className="xl:hidden">
+                                <Link to="/me/search-filters">{t("header.searchFilters")}</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator className="xl:hidden" />
+                            <DropdownMenuItem asChild>
+                                <Link to="/me/account">{t("header.editAccount")}</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => signOut()}>
+                                {t("header.logout")}
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            );
+        }
+
+        return (
+            <div
+                className={cn(
+                    "flex items-center gap-3 transition-all duration-300",
+                    isFloating ? "bg-background rounded-xs p-2 hero-search-shadow" : "",
+                )}
+            >
+                <Button asChild variant="default">
+                    <Link
+                        to="/login"
+                        search={{ redirect: pathname + searchString, mode: "sign-up" }}
+                    >
+                        {t("header.register")}
+                    </Link>
+                </Button>
+                <Button asChild variant="outline">
+                    <Link
+                        to="/login"
+                        search={{ redirect: pathname + searchString, mode: "sign-in" }}
+                    >
+                        {t("header.login")}
+                    </Link>
+                </Button>
+            </div>
+        );
+    })();
 
     return (
         <header
@@ -136,7 +249,7 @@ export function Header() {
                 </div>
 
                 {/* Mobile Notification Bell */}
-                {isLoginEnabled && user && (
+                {isLoginEnabled && isAuthenticated && (
                     <div
                         className={cn(
                             isFloating
@@ -149,7 +262,7 @@ export function Header() {
                 )}
 
                 {/* Mobile Menu */}
-                {isLoginEnabled && (
+                {isLoginEnabled && isAuthResolved && (
                     <div
                         className={cn(
                             isFloating
@@ -164,7 +277,7 @@ export function Header() {
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
-                                {user ? (
+                                {isAuthenticated ? (
                                     <>
                                         <DropdownMenuLabel>
                                             {t("header.myAccount")}
@@ -220,112 +333,7 @@ export function Header() {
             {/* Desktop Menu */}
             {isLoginEnabled && (
                 <div className="hidden lg:flex items-center justify-end w-full">
-                    {serverAuth.authenticated ? (
-                        <div
-                            className={cn(
-                                "flex items-center transition-all duration-300",
-                                isFloating
-                                    ? "bg-background rounded-xs px-4 py-2 hero-search-shadow"
-                                    : "",
-                            )}
-                        >
-                            <NavigationMenu className={"hidden lg:inline flex-none gap-2"}>
-                                <NavigationMenuList>
-                                    <NavigationMenuItem>
-                                        <NavigationMenuLink asChild>
-                                            <Link to="/me/watchlist">
-                                                <span
-                                                    className={cn(
-                                                        pathname === "/me/watchlist"
-                                                            ? "underline"
-                                                            : "",
-                                                        "text-base",
-                                                    )}
-                                                >
-                                                    {t("header.watchlist")}
-                                                </span>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                    </NavigationMenuItem>
-                                    <NavigationMenuItem>
-                                        <NavigationMenuLink asChild>
-                                            <Link to="/me/search-filters">
-                                                <span
-                                                    className={cn(
-                                                        pathname === "/me/search-filters"
-                                                            ? "underline"
-                                                            : "",
-                                                        "text-base",
-                                                    )}
-                                                >
-                                                    {t("header.searchFilters")}
-                                                </span>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                    </NavigationMenuItem>
-                                </NavigationMenuList>
-                            </NavigationMenu>
-
-                            <NotificationBell />
-
-                            <DropdownMenu>
-                                <DropdownMenuTrigger className="flex items-center gap-4 hover:bg-accent transition-all px-4">
-                                    {userAccount?.firstName && (
-                                        <span className="hidden 2xl:block">
-                                            {t("header.hello")}, {userAccount.firstName}
-                                        </span>
-                                    )}
-                                    <AccountImage
-                                        firstName={userAccount?.firstName || ""}
-                                        lastName={userAccount?.lastName || ""}
-                                    />
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                    <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem asChild className="xl:hidden">
-                                        <Link to="/me/watchlist">{t("header.watchlist")}</Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem asChild className="xl:hidden">
-                                        <Link to="/me/search-filters">
-                                            {t("header.searchFilters")}
-                                        </Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator className="xl:hidden" />
-                                    <DropdownMenuItem asChild>
-                                        <Link to="/me/account">{t("header.editAccount")}</Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onSelect={() => signOut()}>
-                                        {t("header.logout")}
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
-                    ) : (
-                        <div
-                            className={cn(
-                                "flex items-center gap-3 transition-all duration-300",
-                                isFloating ? "bg-background rounded-xs p-2 hero-search-shadow" : "",
-                            )}
-                        >
-                            <Button asChild variant="default">
-                                <Link
-                                    to="/login"
-                                    search={{ redirect: pathname + searchString, mode: "sign-up" }}
-                                >
-                                    {t("header.register")}
-                                </Link>
-                            </Button>
-                            <Button asChild variant="outline">
-                                <Link
-                                    to="/login"
-                                    search={{ redirect: pathname + searchString, mode: "sign-in" }}
-                                >
-                                    {t("header.login")}
-                                </Link>
-                            </Button>
-                        </div>
-                    )}
+                    {desktopMenuContent}
                 </div>
             )}
         </header>

@@ -1,30 +1,14 @@
 import "@testing-library/jest-dom";
-import "@/i18n/i18nForTests";
+import testI18n from "@/i18n/i18nForTests";
 import { vi } from "vitest";
 
-function createStorageMock(): Storage {
-    const store = new Map<string, string>();
+vi.mock("@/i18n/i18n", () => ({
+    default: testI18n,
+}));
 
-    return {
-        get length() {
-            return store.size;
-        },
-        clear: () => store.clear(),
-        getItem: (key: string) => store.get(key) ?? null,
-        key: (index: number) => Array.from(store.keys())[index] ?? null,
-        removeItem: (key: string) => {
-            store.delete(key);
-        },
-        setItem: (key: string, value: string) => {
-            store.set(key, value);
-        },
-    };
-}
-
-Object.defineProperty(globalThis, "localStorage", {
-    value: createStorageMock(),
-    configurable: true,
-});
+vi.mock("@/i18n/i18n.ts", () => ({
+    default: testI18n,
+}));
 
 // Mock the env module so tests don't require real secrets
 // This is especially important for Dependabot PRs which can't access repo secrets
@@ -71,6 +55,25 @@ class IntersectionObserverMock {
 
 globalThis.IntersectionObserver =
     IntersectionObserverMock as unknown as typeof IntersectionObserver;
+
+if (!globalThis.localStorage) {
+    const storage = new Map<string, string>();
+    const localStorageMock: Storage = {
+        get length() {
+            return storage.size;
+        },
+        clear: () => storage.clear(),
+        getItem: (key) => storage.get(key) ?? null,
+        key: (index) => Array.from(storage.keys())[index] ?? null,
+        removeItem: (key) => storage.delete(key),
+        setItem: (key, value) => storage.set(key, value),
+    };
+
+    Object.defineProperty(globalThis, "localStorage", {
+        configurable: true,
+        value: localStorageMock,
+    });
+}
 
 // Mock pointer capture methods which are not available in JSDOM but used by Radix UI
 if (!Element.prototype.hasPointerCapture) {
