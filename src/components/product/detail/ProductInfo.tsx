@@ -76,7 +76,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                 <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted-foreground/80">
                     {product.sellerName !== product.shopName ? (
                         <>
-                            {"test"}
+                            {product.sellerName}
                             <span className="ml-2 text-muted-foreground/80">
                                 {t("product.soldOn")}{" "}
                                 <Link
