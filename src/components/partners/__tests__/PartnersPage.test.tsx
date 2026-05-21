@@ -26,6 +26,13 @@ describe("PartnersPage", () => {
         }
     });
 
+    it("uses the shared contact email in the final CTA", () => {
+        expect(screen.getByRole("link", { name: /E-Mail an Partner-Team/i })).toHaveAttribute(
+            "href",
+            "mailto:contact@aura-historia.com",
+        );
+    });
+
     it("renders integration cards linking to dummy integration paths", () => {
         const woocommerce = screen.getByText("WordPress · WooCommerce").closest("a");
         expect(woocommerce).toHaveAttribute("href", "/partners/woocommerce");
@@ -34,7 +41,7 @@ describe("PartnersPage", () => {
         expect(shopify).toHaveAttribute("href", "/partners/shopify");
 
         const customApi = screen.getByText("Eigene Integration · API-Key").closest("a");
-        expect(customApi).toHaveAttribute("href", "/partners/custom-api");
+        expect(customApi).toHaveAttribute("href", "/partners/custom-integration");
     });
 
     it("highlights that the program is free and cancellable in trust badges", () => {

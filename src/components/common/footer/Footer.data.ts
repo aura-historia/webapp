@@ -42,7 +42,7 @@ export const PARTNER_PROGRAM_FOOTER_LINKS: PartnerProgramFooterLink[] = [
     },
     {
         translationKey: "footer.partnerProgramLinks.customApi",
-        href: "/partners/custom-api",
+        href: "/partners/custom-integration",
     },
     {
         translationKey: "footer.partnerProgramLinks.apply",

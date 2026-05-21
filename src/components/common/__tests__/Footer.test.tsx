@@ -127,7 +127,7 @@ describe("Footer Component", () => {
         );
         expect(screen.getByText("Eigene Integration").closest("a")).toHaveAttribute(
             "href",
-            "/partners/custom-api",
+            "/partners/custom-integration",
         );
         expect(screen.getByText("Jetzt bewerben").closest("a")).toHaveAttribute(
             "href",

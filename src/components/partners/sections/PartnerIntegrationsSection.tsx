@@ -29,7 +29,7 @@ const INTEGRATIONS: readonly Integration[] = [
     },
     {
         key: "customApi",
-        href: "/partners/custom-api",
+        href: "/partners/custom-integration",
         logos: [Code2],
     },
 ];

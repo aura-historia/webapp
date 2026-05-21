@@ -39,7 +39,7 @@ export default function PartnerFinalCtaSection() {
                         variant="outline"
                         className="min-h-12 border-primary-foreground/40 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
                     >
-                        <a href="mailto:partners@aura-historia.com">
+                        <a href="mailto:contact@aura-historia.com">
                             <Mail className="mr-2 h-4 w-4" aria-hidden="true" />
                             {t("partners.finalCta.secondary")}
                         </a>

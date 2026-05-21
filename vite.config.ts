@@ -15,7 +15,7 @@ const EXCLUDED_ROUTES = new Set([
     "/partners/apply",
     "/partners/woocommerce",
     "/partners/shopify",
-    "/partners/custom-api",
+    "/partners/custom-integration",
 ]);
 
 export default defineConfig({
