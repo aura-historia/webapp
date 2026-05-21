@@ -1,1290 +1,1451 @@
 {
-  "common": {
-    "auraHistoria": "Aura Historia",
-    "infoButton": "Más información"
-  },
-  "meta": {
-    "siteName": "Aura Historia | Motor de búsqueda de antigüedades líder",
-    "defaultDescription": "Encuentra antigüedades con Aura Historia. Datos en tiempo real de más de 1000 casas de subastas, comerciantes y mercados.",
-    "home": {
-      "title": "Aura Historia | Motor de búsqueda de antigüedades líder",
-      "description": "Encuentra antigüedades con Aura Historia. Datos en tiempo real de más de 1000 casas de subastas, comerciantes y mercados."
+    "common": {
+        "auraHistoria": "Aura Historia",
+        "infoButton": "Más información"
     },
-    "search": {
-      "title": "Buscar antigüedades | Aura Historia",
-      "description": "Busca y descubre antigüedades únicas de comerciantes de confianza en Aura Historia."
+    "meta": {
+        "siteName": "Aura Historia | Motor de búsqueda de antigüedades líder",
+        "defaultDescription": "Encuentra antigüedades con Aura Historia. Datos en tiempo real de más de 1000 casas de subastas, comerciantes y mercados.",
+        "home": {
+            "title": "Aura Historia | Motor de búsqueda de antigüedades líder",
+            "description": "Encuentra antigüedades con Aura Historia. Datos en tiempo real de más de 1000 casas de subastas, comerciantes y mercados."
+        },
+        "search": {
+            "title": "Buscar antigüedades | Aura Historia",
+            "description": "Busca y descubre antigüedades únicas de comerciantes de confianza en Aura Historia."
+        },
+        "login": {
+            "title": "Iniciar sesión | Aura Historia",
+            "description": "Inicia sesión en tu cuenta de Aura Historia para gestionar tu lista de seguimiento y preferencias."
+        },
+        "imprint": {
+            "title": "Aviso legal | Aura Historia",
+            "description": "Información legal y aviso legal para Aura Historia."
+        },
+        "privacy": {
+            "title": "Política de privacidad | Aura Historia",
+            "description": "Política de privacidad e información sobre protección de datos para Aura Historia."
+        },
+        "consentSettings": {
+            "title": "Configuración de cookies | Aura Historia",
+            "description": "Administra tus preferencias de cookies y seguimiento en Aura Historia."
+        },
+        "account": {
+            "title": "Mi cuenta | Aura Historia"
+        },
+        "watchlist": {
+            "title": "Mi lista de seguimiento | Aura Historia"
+        },
+        "shop": {
+            "defaultName": "Tienda"
+        },
+        "notifications": {
+            "title": "Notificaciones | Aura Historia"
+        },
+        "terms": {
+            "title": "Términos y condiciones | Aura Historia",
+            "description": "Términos y condiciones para utilizar Aura Historia, incluida la información sobre servicios de pago y procesamiento de pagos."
+        },
+        "admin": {
+            "title": "Panel de administración | Aura Historia"
+        },
+        "searchShops": {
+            "title": "Buscar tiendas | Aura Historia",
+            "description": "Descubre tiendas, casas de subastas y distribuidores de confianza en Aura Historia."
+        },
+        "searchFilters": {
+            "title": "Mis Filtros de Búsqueda | Aura Historia"
+        },
+        "partners": {
+            "title": "Programa de Partners | Aura Historia",
+            "description": "Conviértete en tienda partner de Aura Historia, el buscador de antigüedades y arte. Gratis, sin comisiones, conectado en minutos."
+        }
     },
-    "login": {
-      "title": "Iniciar sesión | Aura Historia",
-      "description": "Inicia sesión en tu cuenta de Aura Historia para gestionar tu lista de seguimiento y preferencias."
+    "validation": {
+        "name": {
+            "minLength": "Por favor, introduzca al menos {{min}} caracteres",
+            "maxLength": "Por favor, introduzca un máximo de {{max}} caracteres",
+            "invalidChars": "Solo se permiten letras, espacios, guiones y apóstrofes"
+        },
+        "email": {
+            "invalid": "Por favor introduce una dirección de correo válida"
+        },
+        "password": {
+            "required": "La contraseña es obligatoria",
+            "minLength": "La contraseña debe tener al menos {{min}} caracteres",
+            "uppercase": "La contraseña debe contener al menos una letra mayúscula",
+            "number": "La contraseña debe contener al menos un número",
+            "mismatch": "Las contraseñas no coinciden"
+        },
+        "confirmCode": {
+            "length": "El código debe tener exactamente 6 dígitos",
+            "digitsOnly": "El código solo debe contener dígitos"
+        }
     },
     "imprint": {
-      "title": "Aviso legal | Aura Historia",
-      "description": "Información legal y aviso legal para Aura Historia."
+        "title": "Aviso legal"
     },
     "privacy": {
-      "title": "Política de privacidad | Aura Historia",
-      "description": "Política de privacidad e información sobre protección de datos para Aura Historia."
-    },
-    "consentSettings": {
-      "title": "Configuración de cookies | Aura Historia",
-      "description": "Administra tus preferencias de cookies y seguimiento en Aura Historia."
-    },
-    "account": {
-      "title": "Mi cuenta | Aura Historia"
-    },
-    "watchlist": {
-      "title": "Mi lista de seguimiento | Aura Historia"
-    },
-    "shop": {
-      "defaultName": "Tienda"
-    },
-    "notifications": {
-      "title": "Notificaciones | Aura Historia"
+        "title": "Política de privacidad"
     },
     "terms": {
-      "title": "Términos y condiciones | Aura Historia",
-      "description": "Términos y condiciones para utilizar Aura Historia, incluida la información sobre servicios de pago y procesamiento de pagos."
+        "title": "Términos y condiciones"
     },
-    "admin": {
-      "title": "Panel de administración | Aura Historia"
+    "header": {
+        "watchlist": "Lista de seguimiento",
+        "myAccount": "Mi cuenta",
+        "editAccount": "Editar cuenta",
+        "logout": "Cerrar sesión",
+        "hello": "Hola",
+        "register": "Registrarse",
+        "login": "Iniciar sesión",
+        "searchFilters": "Filtros de Búsqueda"
     },
-    "searchShops": {
-      "title": "Buscar tiendas | Aura Historia",
-      "description": "Descubre tiendas, casas de subastas y distribuidores de confianza en Aura Historia."
+    "footer": {
+        "brandName": "Aura Historia",
+        "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
+        "imprint": "Aviso legal",
+        "privacy": "Política de privacidad",
+        "cookieSettings": "Configuración de cookies",
+        "terms": "Términos y condiciones",
+        "copyright": "© {{year}} Aura Historia",
+        "sections": {
+            "company": "Empresa",
+            "followUs": "Síguenos",
+            "contact": "Contacto",
+            "discoverMore": "Descubrir más",
+            "partnerProgram": "Programa de Partners"
+        },
+        "landingPageLinks": {
+            "recentlyAdded": "Últimas incorporaciones",
+            "discover": "Transparencia",
+            "features": "Funciones",
+            "howItWorks": "Cómo funciona",
+            "testimonials": "Testimonios",
+            "pricing": "Precios",
+            "newsletter": "Newsletter",
+            "faq": "FAQ"
+        },
+        "partnerProgramLinks": {
+            "overview": "Visión general",
+            "woocommerce": "WooCommerce",
+            "shopify": "Shopify",
+            "customApi": "Integración propia",
+            "apply": "Solicitar acceso"
+        }
+    },
+    "account": {
+        "title": "Mi cuenta",
+        "changePassword": {
+            "title": "Cambiar contraseña",
+            "currentPasswordLabel": "Contraseña actual",
+            "newPasswordLabel": "Nueva contraseña",
+            "confirmPasswordLabel": "Confirmar nueva contraseña",
+            "saveButton": "Guardar contraseña",
+            "successMessage": "¡Contraseña cambiada con éxito!",
+            "errorMessage": "Error al cambiar la contraseña."
+        },
+        "deleteAccount": {
+            "title": "Eliminar cuenta",
+            "deleteButton": "Eliminar cuenta",
+            "warningText": "¿Está seguro de que desea eliminar su cuenta?",
+            "warningTitle": "¿Desea eliminar su cuenta de forma permanente?",
+            "warningSubtitle": "Esta acción no se puede deshacer. Su cuenta no se podrá restaurar y todos los datos guardados se perderán de forma permanente.",
+            "cancelButton": "Cancelar",
+            "confirmButton": "Sí, eliminar cuenta",
+            "successMessage": "¡Cuenta eliminada con éxito!",
+            "errorMessage": "Error al eliminar la cuenta."
+        },
+        "personalData": {
+            "title": "Datos Personales",
+            "emailLabel": "Correo Electrónico",
+            "firstNameLabel": "Nombre",
+            "lastNameLabel": "Apellido",
+            "languageLabel": "Idioma",
+            "languagePlaceholder": "Seleccionar idioma",
+            "currencyLabel": "Moneda",
+            "currencyPlaceholder": "Seleccionar moneda",
+            "saveButton": "Guardar Cambios",
+            "successMessage": "Datos personales actualizados con éxito",
+            "prohibitedContentConsentLabel": "Mostrar productos con marcas del § 86a StGB",
+            "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el § 86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido."
+        },
+        "subscription": {
+            "title": "Suscripción",
+            "currentPlanLabel": "Plan actual",
+            "manageButton": "Gestionar suscripción"
+        }
+    },
+    "search": {
+        "filters": "Filtros",
+        "resultsFor": "Resultados de búsqueda para:",
+        "resetAllFilters": "Restablecer todos los filtros",
+        "totalResults_one": "{{count}} artículo",
+        "totalResults_other": "{{count}} artículos",
+        "bar": {
+            "label": "Búsqueda",
+            "placeholder": "Estoy buscando...",
+            "placeholderShort": "Buscar",
+            "button": "Buscar",
+            "placeholderExamplesProducts": [
+                "Óleo de María Magdalena",
+                "Servicio de porcelana Meissen",
+                "Cómoda Luis XVI",
+                "Reloj de pie barroco",
+                "Escritorio Biedermeier",
+                "Vitrina Art Nouveau",
+                "Alfombra persa Tabriz",
+                "Candelabros rococó de plata",
+                "Escultura de bronce antigua",
+                "Consola Imperio",
+                "Librería Gründerzeit",
+                "Jarrón dinastía Ming china",
+                "Reloj de bolsillo oro Patek Philippe",
+                "Escultura de madera barroca",
+                "Broche de diamantes Art Deco",
+                "Lámpara de araña Murano veneciana",
+                "Astrolabio antiguo",
+                "Espejo rococó",
+                "Miniatura persa",
+                "Sillón Luis XV"
+            ],
+            "placeholderExamplesShops": [
+                "Sotheby's",
+                "Christie's",
+                "Catawiki",
+                "1stDibs",
+                "LiveAuctioneers",
+                "Invaluable",
+                "Bonhams",
+                "Dorotheum",
+                "Balclis",
+                "Setdart",
+                "The Saleroom",
+                "Barnebys",
+                "Chairish",
+                "Heritage Auctions",
+                "Drouot"
+            ],
+            "searchTypeLabel": "Tipo de búsqueda",
+            "searchType": {
+                "products": "Artículos",
+                "shops": "Tiendas"
+            }
+        },
+        "applyFilters": "Aplicar filtros",
+        "validation": {
+            "queryMinLength": "Por favor, introduzca al menos 3 caracteres",
+            "dateOrder": "La fecha de inicio debe ser anterior a la fecha de fin"
+        },
+        "filter": {
+            "creationDate": "Añadido",
+            "from": "Desde:",
+            "to": "Hasta:",
+            "productState": "Estado del anuncio",
+            "merchant": "Vendedor",
+            "anyMerchant": "Cualquier vendedor",
+            "searchMerchants": "Buscar vendedores...",
+            "noMerchantsFound": "No se encontraron vendedores",
+            "priceSpan": "Rango de precios",
+            "min": "Mín",
+            "max": "Máx",
+            "priceSpanAria": "Rango de precios",
+            "updateDate": "Actualizado",
+            "anyDate": "Cualquiera",
+            "resetTooltip": {
+                "priceSpan": "Restablecer filtro de rango de precios",
+                "productState": "Restablecer filtro de estado",
+                "creationDate": "Restablecer filtro de fecha de creación",
+                "updateDate": "Restablecer filtro de fecha de actualización",
+                "merchant": "Restablecer filtro de vendedor",
+                "auctionDate": "Restablecer filtro de fecha de subasta",
+                "excludeMerchant": "Restablecer filtro de exclusión de comerciante",
+                "merchants": "Restablecer filtros de comerciantes",
+                "shopType": "Restablecer filtro de tipo de tienda",
+                "partnerStatus": "Restablecer filtro de estado de asociación",
+                "global": "Restablecer todo",
+                "category": "Restablecer filtro de categoría"
+            },
+            "all": "Todo",
+            "select": "Seleccionar",
+            "selected": "{{count}} seleccionados",
+            "merchants": "Comerciantes",
+            "excludeMerchant": "Excluir comerciante",
+            "searchExcludeMerchants": "Buscar comerciantes para excluir...",
+            "shopType": "Tipo de tienda",
+            "auctionDate": "Fecha de subasta",
+            "auctionDateDisabledTooltip": "Solo disponible para casas de subastas",
+            "partnerStatus": "Estado de asociación",
+            "requireSelection": "Se requiere al menos 1 selección"
+        },
+        "messages": {
+            "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
+            "error": "Error al cargar los resultados de búsqueda. ¡Por favor, inténtelo de nuevo más tarde!",
+            "noResults": {
+                "title": "No se encontraron resultados",
+                "description": "Intente ajustar su término de búsqueda o filtros."
+            },
+            "loadingMore": "Cargando más resultados...",
+            "allLoaded_one": "Ha visto {{count}} resultado que coincide con sus filtros.",
+            "allLoaded_other": "Ha visto los {{count}} resultados que coinciden con sus filtros."
+        },
+        "sortMode": {
+            "sortBy": "Ordenar por:",
+            "relevance": "Relevancia",
+            "creationDate": "Fecha de creación",
+            "updateDate": "Última actualización",
+            "price": "Precio",
+            "order": {
+                "label": "Orden:",
+                "asc": "Ascendente",
+                "desc": "Descendente"
+            },
+            "name": "Nombre"
+        },
+        "shopResultsFor": "Resultados de tiendas para:",
+        "totalShopResults_one": "{{count}} tienda",
+        "totalShopResults_other": "{{count}} tiendas"
+    },
+    "product": {
+        "unknownPrice": "Precio desconocido",
+        "details": "Detalles",
+        "toMerchant": "Ir al vendedor",
+        "noImage": "No hay imagen disponible",
+        "watchlist": {
+            "add": "Añadir a la lista de seguimiento",
+            "remove": "Quitar de la lista de seguimiento"
+        },
+        "imageLoadError": "No se pudo cargar la imagen",
+        "prohibitedImage": "Imagen oculta por restricciones de contenido",
+        "similar": {
+            "title": "Artículos similares",
+            "error": {
+                "title": "Error de carga",
+                "description": "No se pudieron cargar los artículos similares."
+            },
+            "embeddingsPending": {
+                "title": "En preparación",
+                "description": "Los artículos similares se están preparando. Esto puede tardar hasta 24 horas para artículos nuevos."
+            },
+            "noData": {
+                "title": "Sin artículos similares",
+                "description": "No se encontraron productos similares para este artículo."
+            }
+        },
+        "history": {
+            "title": "Historial",
+            "noData": "No hay datos disponibles para este artículo.",
+            "noEvents": "No hay eventos disponibles para este filtro.",
+            "filters": {
+                "all": "Todos",
+                "price": "Precio",
+                "availability": "Disponibilidad",
+                "details": "Detalles"
+            },
+            "events": {
+                "statusChanged": "Estado cambiado de {{oldState}} a {{newState}}.",
+                "priceDiscovered": "Precio descubierto • {{price}}.",
+                "priceChanged": "El precio ha {{verb}} de {{oldPrice}} a {{newPrice}}.",
+                "priceFallen": "bajado",
+                "priceIncreased": "subido",
+                "priceRemoved": "Precio eliminado • Último precio: {{price}}.",
+                "created": "Añadido al sistema",
+                "estimatePriceChanged": "Rango de precio estimado actualizado.",
+                "urlChanged": "URL del producto actualizada.",
+                "imagesChanged": "Imágenes actualizadas • {{count}} imagen(es).",
+                "auctionTimeChanged": "Período de subasta actualizado."
+            }
+        },
+        "priceEstimate": {
+            "tooltip": "Estimación de precio de {{shopType}}",
+            "tooltipUnknown": "Estimación de precio",
+            "minOnly": "Mín. {{min}}",
+            "maxOnly": "Máx. {{max}}",
+            "range": "{{min}} - {{max}}"
+        },
+        "priceChart": {
+            "title": "Historial de precios",
+            "noData": "No hay datos de precios disponibles para este artículo.",
+            "seriesName": "Precio",
+            "timeRanges": {
+                "1d": "1D",
+                "5d": "5D",
+                "1m": "1M",
+                "3m": "3M",
+                "6m": "6M",
+                "1y": "1A",
+                "all": "Todo"
+            }
+        },
+        "unseenNotification": "Actualizado",
+        "auction": {
+            "title": "Período de subasta",
+            "start": "desde {{date}}",
+            "end": "hasta {{date}}",
+            "range": "{{start}} – {{end}}"
+        }
+    },
+    "priceBadge": {
+        "discovered": "Precio descubierto",
+        "dropped": "Precio rebajado",
+        "increased": "Precio aumentado",
+        "removed": "Precio eliminado"
+    },
+    "productState": {
+        "listed": "Listado",
+        "available": "Disponible",
+        "reserved": "Reservado",
+        "sold": "Vendido",
+        "removed": "Eliminado",
+        "unknown": "Desconocido",
+        "listedDescription": "Este artículo es visible pero aún no está disponible para la compra.",
+        "availableDescription": "Este artículo está disponible para la compra.",
+        "reservedDescription": "Este artículo está actualmente reservado. Podría estar disponible nuevamente.",
+        "soldDescription": "Este artículo ya ha sido vendido.",
+        "removedDescription": "Este artículo fue retirado por el vendedor y ya no puede ser rastreado.",
+        "unknownDescription": "La disponibilidad actual de este artículo no está clara."
+    },
+    "shopType": {
+        "auctionHouse": "Casa de subastas",
+        "commercialDealer": "Vendedor",
+        "marketplace": "Mercado",
+        "unknown": "Desconocido",
+        "auctionPlatform": "Plataforma de subastas"
+    },
+    "shopPartnerStatus": {
+        "partnered": "Socio oficial",
+        "scraped": "Indexado públicamente"
+    },
+    "discover": {
+        "title": "Traemos transparencia al opaco panorama de las antigüedades en línea",
+        "p1": "Buscamos entre las vastas ofertas de miles de anticuarios, casas de subastas y mercados dispersos en todo el mundo todos los días y agrupamos sus artículos en un solo lugar central.",
+        "p2": "No solo capturamos artículos actuales y próximos, sino que también rastreamos cambios de precio y disponibilidad. De esta manera, nunca te perderás una ganga y siempre estarás al tanto del mercado.",
+        "highlight1": {
+            "title": "Más de 500 anticuarios, casas de subastas y mercados",
+            "description": "Buscamos continuamente anticuarios, casas de subastas y mercados renombrados de toda Europa y más allá."
+        },
+        "highlight2": {
+            "title": "Monitoreo casi en tiempo real",
+            "description": "Las antigüedades recién ofrecidas, así como los cambios de precio o disponibilidad, se capturan automáticamente casi en tiempo real."
+        },
+        "highlight3": {
+            "title": "Completamente independiente del idioma",
+            "description": "Traducimos cada antigüedad a múltiples idiomas. El idioma en el que busques no importa. Actualmente, soportamos inglés, alemán, francés, español e italiano."
+        },
+        "stats": {
+            "shops": "500",
+            "shopsLabel": "Tiendas conectadas",
+            "items": "120.000",
+            "itemsLabel": "Artículos únicos",
+            "updates": "24/7",
+            "updatesLabel": "Actualizaciones casi en tiempo real",
+            "countries": "15",
+            "countriesLabel": "Países cubiertos"
+        }
+    },
+    "landingPage": {
+        "badge": "Busca más allá de los mercados habituales",
+        "titleFirstLine": "Descubre antigüedades raras<1/>en el mercado global",
+        "subtitle": "Aura Historia busca en anticuarios, casas de subastas y mercados de todo el mundo, ayudándote a encontrar piezas que otros nunca ven.",
+        "trustBadge1": "Anticuarios y casas de subastas en todo el mundo",
+        "trustBadge2": "Listados actualizados continuamente",
+        "trustBadge3": "Diseñado para coleccionistas serios",
+        "recentlyAdded": {
+            "eyebrow": "Agregado recientemente",
+            "title": "Las últimas adquisiciones",
+            "foundAt": "Encontrado en {{shopName}}."
+        },
+        "features": {
+            "title": "Las antigüedades están dispersas por toda la web: tu búsqueda no debería estarlo",
+            "subtitle": "Somos el motor de búsqueda más sofisticado para antigüedades y te proporcionamos todas las herramientas para buscar eficientemente en el mercado de antigüedades.",
+            "previewBadge": "Próximamente",
+            "search": {
+                "title": "Búsqueda inteligente",
+                "description": "Busca entre cientos de miles de artículos con nuestro potente motor de búsqueda. Elimina todo el ruido filtrando por estado, precio, vendedor y mucho más."
+            },
+            "global": {
+                "title": "Cobertura mundial",
+                "description": "Te conectamos con anticuarios renombrados de más de 15 países, desde Alemania hasta Estados Unidos. No importa cuán pequeño sea el vendedor, si tiene una tienda en línea, lo estamos añadiendo."
+            },
+            "history": {
+                "title": "Historial de cambios",
+                "description": "Rastrea todos los cambios de un artículo, desde ajustes de precio hasta cambios de estado. Optamos por la máxima transparencia."
+            },
+            "watchlist": {
+                "title": "Lista de seguimiento personal",
+                "description": "Guarda artículos interesantes y sigue su desarrollo. Recibe notificaciones cuando cambien el precio o la disponibilidad."
+            },
+            "translations": {
+                "title": "Traducciones automáticas",
+                "description": "Busca y descubre todos los artículos en tu idioma preferido, sin barreras. Actualmente, soportamos inglés, alemán, francés, español e italiano."
+            },
+            "personalFilter": {
+                "title": "Solicitudes de búsqueda",
+                "description": "Guarda tu solicitud de búsqueda y recibe notificaciones sobre nuevas ofertas o artículos actualizados. Las antigüedades que solías buscar ahora vienen a ti."
+            },
+            "aiSearchAgent": {
+                "title": "Agente de búsqueda personal con IA",
+                "description": "Tu agente personal de IA te ayuda a encontrar las antigüedades más específicas. En combinación con las solicitudes de búsqueda, describe lo que buscas en lenguaje sencillo, tan detallado como desees. Te notificaremos tan pronto como haya coincidencias con lo que describiste."
+            },
+            "communityWishes": {
+                "title": "Tus deseos",
+                "description": "¿Tienes críticas, te falta algo o tienes una idea de lo que deberíamos mejorar o añadir? Escucharemos muy atentamente. Contáctanos en contact@aura-historia.com y lo haremos realidad."
+            }
+        },
+        "howItWorks": {
+            "title": "Cómo funciona",
+            "subtitle": "Solo unos pocos pasos para tus piezas soñadas.",
+            "step1": {
+                "title": "Buscar",
+                "description": "Introduzca lo que busca – ya sean muebles, joyas, arte u objetos de colección."
+            },
+            "step2": {
+                "title": "Descubrir",
+                "description": "Explora resultados de miles de vendedores de un vistazo."
+            },
+            "step3": {
+                "title": "Guardar",
+                "description": "Guarda artículos interesantes en tu lista de seguimiento o guarda tus criterios de búsqueda como una alerta."
+            },
+            "step4": {
+                "title": "Recibe notificaciones",
+                "description": "Recibe notificaciones por correo electrónico tan pronto como un artículo en tu lista de seguimiento cambie o uno nuevo coincida con tus criterios."
+            }
+        },
+        "testimonials": {
+            "title": "Lo que dicen nuestros usuarios",
+            "subtitle": "Descubre cómo ayudamos a los coleccionistas a vivir su pasión.",
+            "testimonial1": {
+                "name": "Margarete W.",
+                "role": "Colecciona muebles Art Nouveau",
+                "quote": "Por fin una plataforma que facilita la búsqueda de piezas raras. Las alertas de precio me han ayudado varias veces a encontrar verdaderas gangas."
+            },
+            "testimonial2": {
+                "name": "Heinrich K.",
+                "role": "Anticuario",
+                "quote": "Como vendedor, uso Aura Historia para vigilar el mercado. Las evoluciones de precios me ayudan enormemente con mi propia fijación de precios."
+            },
+            "testimonial3": {
+                "name": "Elisabeth M.",
+                "role": "Coleccionista aficionada desde hace 20 años",
+                "quote": "Estoy asombrada por la claridad. Antes, pasaba horas buscando en diferentes sitios de vendedores. Ahora encuentro todo en un solo lugar."
+            }
+        },
+        "newsletter": {
+            "title": "Manténgase informado",
+            "description": "Reciba semanalmente hallazgos seleccionados, tendencias del mercado e información exclusiva directamente en su bandeja de entrada.",
+            "placeholder": "Su dirección de correo electrónico",
+            "button": "Suscribirse al boletín",
+            "privacy": "Al suscribirse, acepta nuestra <privacyLink>política de privacidad</privacyLink>. Puede darse de baja en cualquier momento.",
+            "successMessage": "¡Gracias por suscribirse! Por favor, confirme su dirección de correo electrónico.",
+            "benefit1": "Destacados personalizados",
+            "benefit2": "Nuevas funciones y ofertas",
+            "benefit3": "Cancelar en cualquier momento",
+            "firstNameLabel": "Nombre",
+            "firstNamePlaceholder": "Su nombre",
+            "lastNameLabel": "Apellido",
+            "lastNamePlaceholder": "Su apellido",
+            "emailLabel": "Dirección de correo electrónico",
+            "emailRequired": "Por favor, introduzca una dirección de correo electrónico válida.",
+            "errorMessage": "Algo salió mal. Por favor, inténtelo de nuevo más tarde.",
+            "eyebrow": "Boletín",
+            "successEmailSent": "Se ha enviado un correo de confirmación a {{email}}.",
+            "successTiming": "Puede tardar unos minutos en llegar el correo."
+        },
+        "faq": {
+            "title": "Preguntas frecuentes",
+            "subtitle": "Aquí encontrará respuestas a las preguntas más importantes sobre Aura Historia.",
+            "items": {
+                "howItWorks": {
+                    "question": "¿Cómo funciona Aura Historia?",
+                    "answer": "Aura Historia busca continuamente en los sitios web de más de 500 anticuarios, casas de subastas y mercados en todo el mundo y recopila todas las ofertas en un solo lugar central. Nuestra búsqueda inteligente te permite encontrar exactamente lo que estás buscando."
+                },
+                "directPurchase": {
+                    "question": "¿Puedo comprar artículos directamente a través de Aura Historia?",
+                    "answer": "No, Aura Historia es una plataforma de búsqueda pura. Si desea comprar un artículo, será redirigido directamente al sitio web del vendedor correspondiente donde puede completar la compra."
+                },
+                "priceAlerts": {
+                    "question": "¿Cómo funcionan las notificaciones de precio y disponibilidad?",
+                    "answer": "Una vez que añades un artículo a tu lista de seguimiento, rastreamos automáticamente su desarrollo de precio y disponibilidad por ti. Tan pronto como algo cambie con tu artículo, recibirás una notificación por correo electrónico."
+                },
+                "updateFrequency": {
+                    "question": "¿Con qué frecuencia se actualizan los datos?",
+                    "answer": "Nuestros datos se actualizan continuamente. Operamos casi en tiempo real."
+                },
+                "dealers": {
+                    "question": "¿Qué tiendas de antigüedades en línea están en Aura Historia?",
+                    "answer": "Incluimos datos de más de 500 anticuarios renombrados de más de 15 países. Entre ellos encontrarás tanto grandes casas de subastas como vendedores especializados en todas las áreas de antigüedades."
+                },
+                "dealerRequest": {
+                    "question": "Conozco un anticuario/casa de subastas/mercado en línea que aún no está en Aura Historia. ¿Podemos añadirlo?",
+                    "answer": "¡Sí! Envíanos un correo electrónico a contact@aura-historia.com e incluye la URL/enlace de la tienda junto con cualquier información adicional que desees proporcionar. Verificaremos la tienda y la incluiremos en cuestión de horas."
+                },
+                "comparisonBarnebys": {
+                    "question": "¿Cómo se compara Aura Historia con Barnebys?",
+                    "answer": "Aunque Barnebys también es un motor de búsqueda de antigüedades, solo se enfoca en los jugadores más grandes: las grandes casas de subastas y anticuarios. Esto aumenta mucho las posibilidades de que te pierdas lo que realmente estás buscando. Pregúntate, ¿dónde encontré mis mayores tesoros? Probablemente fue en un pequeño anticuario local o incluso en una tienda de segunda mano."
+                },
+                "comparisonPriceDatabase": {
+                    "question": "¿Cómo se compara Aura Historia con bases de datos de precios como WorthPoint y the saleroom?",
+                    "answer": "Las bases de datos de precios aprovechan la gran cantidad de datos históricos con resultados de subastas que se remontan a los años 90. Si bien esto ayuda a encontrar comparaciones para piezas astronómicamente raras, a menudo no reflejan el valor de mercado actual ni la disponibilidad de las antigüedades. Si tu objetivo es encontrar antigüedades o investigar su valor actual, Aura Historia es el lugar adecuado. También queremos tomar una postura firme contra la monetización de los datos históricos de precios de antigüedades. No deberías tener que pagar para saber qué se vendió y a qué precio."
+                }
+            }
+        },
+        "pricing": {
+            "title": "Elija su plan",
+            "subtitle": "Desde coleccionistas ocasionales hasta profesionales — tenemos el plan perfecto para usted.",
+            "comingSoon": "Próximamente",
+            "mostPopular": "Más popular",
+            "free": {
+                "name": "Gratis",
+                "description": "Perfecto para comenzar en el mundo de las antigüedades.",
+                "features": {
+                    "watchlistItems": "20 artículos en la lista de seguimiento",
+                    "searchAlerts": "1 alerta de búsqueda",
+                    "alertMatches": "10 coincidencias de alertas al mes",
+                    "alertType": "Alertas de búsqueda simples",
+                    "notificationSpeed": "Notificación en pocas horas",
+                    "searchType": "Búsqueda de texto clásica"
+                }
+            },
+            "pro": {
+                "name": "Pro",
+                "description": "Para coleccionistas dedicados que quieren descubrir más.",
+                "features": {
+                    "watchlistItems": "100 artículos en la lista de seguimiento",
+                    "searchAlerts": "5 alertas de búsqueda",
+                    "alertMatches": "Coincidencias de alertas ilimitadas al mes",
+                    "alertType": "Alertas de búsqueda completas",
+                    "notificationSpeed": "Notificaciones en tiempo real",
+                    "searchType": "Búsqueda híbrida — encuentra por palabra clave y significado"
+                }
+            },
+            "ultimate": {
+                "name": "Ultimate",
+                "description": "Para profesionales que desean aprovechar todo el potencial.",
+                "features": {
+                    "watchlistItems": "Lista de seguimiento ilimitada",
+                    "searchAlerts": "Alertas de búsqueda ilimitadas",
+                    "alertMatches": "Coincidencias de alertas ilimitadas al mes",
+                    "alertType": "Alertas de búsqueda completas",
+                    "notificationSpeed": "Notificaciones prioritarias en tiempo real",
+                    "searchType": "Búsqueda híbrida (Texto + Semántica)",
+                    "aiAgent": "Agente de búsqueda IA"
+                }
+            },
+            "billingNote": "mensual, IVA incluido",
+            "monthly": "Mensual",
+            "yearly": "Anual",
+            "yearlySavings": "Ahorra 2 meses",
+            "billingNoteMonthly": "al mes, IVA incluido",
+            "billingNoteYearly": "al mes, facturado anualmente, IVA incluido",
+            "getStartedFree": "Empezar gratis",
+            "subscribe": "Suscribirse",
+            "perMonth": "/mes"
+        }
+    },
+    "partners": {
+        "hero": {
+            "badge": "Programa de Partners",
+            "title": "¿Vendes antigüedades o arte online?<br/>Llega a coleccionistas en todo el mundo.",
+            "subtitle": "Únete a Aura Historia, el buscador con el que los coleccionistas encuentran justo lo que tú vendes. Gratis, sin compromiso y listo en minutos.",
+            "primaryCta": "Hazte partner",
+            "secondaryCta": "Saber más",
+            "trustBadges": {
+                "free": "100 % gratis",
+                "noTech": "Sin conocimientos técnicos",
+                "cancel": "Cancela cuando quieras"
+            }
+        },
+        "motivation": {
+            "title": "¿Por qué unirse?",
+            "subtitle": "Aura Historia conecta a coleccionistas motivados directamente con tus piezas, sin comisiones por venta.",
+            "items": {
+                "audience": {
+                    "title": "Comunidad global de coleccionistas",
+                    "description": "Llega a compradores en más de 15 países que buscan antigüedades y arte de forma activa."
+                },
+                "traffic": {
+                    "title": "Más tráfico cualificado",
+                    "description": "Enviamos a los interesados directamente a tu tienda: cada clic cuenta para ti, no para nosotros."
+                },
+                "highIntent": {
+                    "title": "Leads con alta intención",
+                    "description": "Nuestra plataforma inteligente conecta a coleccionistas con lo que realmente buscan. Resultado: solicitudes con verdadera intención de compra."
+                },
+                "trust": {
+                    "title": "Distintivo Partner-Shop",
+                    "description": "Destaca con el sello verificado Partner-Shop y gana la confianza de los coleccionistas más exigentes."
+                },
+                "realtime": {
+                    "title": "Sincronización en tiempo real",
+                    "description": "Las piezas nuevas aparecen al instante en nuestro buscador: tus compradores se enteran antes que nadie."
+                },
+                "noCommission": {
+                    "title": "Sin comisión por venta",
+                    "description": "No ganamos con tus ventas. Te quedas con el 100 % de tus ingresos."
+                }
+            }
+        },
+        "stats": {
+            "title": "Lo que viven nuestros partners",
+            "subtitle": "Promedios actuales de nuestra red de partners.",
+            "trafficIncrease": {
+                "value": "XX %",
+                "label": "Más tráfico tras 8 semanas"
+            },
+            "newBuyers": {
+                "value": "XX %",
+                "label": "Compradores nuevos que no habrías alcanzado"
+            },
+            "countries": {
+                "value": "XX",
+                "label": "Países desde los que llegan solicitudes"
+            },
+            "setup": {
+                "value": "< 15 min",
+                "label": "Hasta que tu primer producto esté online"
+            },
+            "disclaimer": "Las cifras son promedios de tiendas partner activas. Los resultados individuales pueden variar."
+        },
+        "integrations": {
+            "title": "Conecta tu tienda en minutos",
+            "subtitle": "Elige la integración que mejor encaja. Todas se sincronizan en minutos, sin tocar código.",
+            "woocommerce": {
+                "title": "WordPress · WooCommerce",
+                "description": "Instala nuestra extensión desde el directorio de plugins de WordPress. Un clic y listo.",
+                "cta": "Ver integración",
+                "badge": "Recomendado"
+            },
+            "shopify": {
+                "title": "App de Shopify",
+                "description": "Conecta tu tienda Shopify con un clic desde la Shopify App Store.",
+                "cta": "Ver integración",
+                "badge": "Popular"
+            },
+            "customApi": {
+                "title": "Integración propia · API key",
+                "description": "Control total sobre los endpoints REST mediante una API key con permisos limitados, ideal para sistemas a medida.",
+                "cta": "Documentación API",
+                "badge": "Para desarrolladores"
+            }
+        },
+        "howEasy": {
+            "title": "Online en tres pasos",
+            "subtitle": "Sin código, sin requisitos previos, sin riesgo. Así te conviertes en partner.",
+            "steps": {
+                "apply": {
+                    "title": "Solicita acceso",
+                    "description": "Rellena un formulario breve. Revisamos tu tienda y te respondemos en pocos días."
+                },
+                "claim": {
+                    "title": "Configura tu tienda",
+                    "description": "Reclama tu tienda y completa tu perfil en nuestro panel."
+                },
+                "connect": {
+                    "title": "Activa la integración",
+                    "description": "Elige WooCommerce, Shopify o nuestra API: tus productos aparecen en directo automáticamente."
+                }
+            }
+        },
+        "faq": {
+            "title": "Programa de Partners · preguntas frecuentes",
+            "subtitle": "Respuestas a las dudas que más nos plantean.",
+            "items": {
+                "free": {
+                    "question": "¿Qué cuesta el programa de Partners?",
+                    "answer": "El programa es totalmente gratuito. No hay tarifas de alta, listado ni de venta: no ganamos con tus ventas."
+                },
+                "cancel": {
+                    "question": "¿Puedo darme de baja cuando quiera?",
+                    "answer": "Sí. Puedes finalizar tu participación en cualquier momento, sin preaviso ni justificación. Si lo deseas, retiramos tus productos al instante."
+                },
+                "technical": {
+                    "question": "¿Necesito conocimientos técnicos?",
+                    "answer": "No. Para WooCommerce y Shopify basta un clic para instalar. Nuestra extensión hace el resto. Solo la integración con API a medida requiere algo de experiencia técnica."
+                },
+                "exclusivity": {
+                    "question": "¿Tengo que vender en exclusiva con Aura Historia?",
+                    "answer": "No. Sigues vendiendo en tu propia web y en cualquier otra plataforma. Te aportamos tráfico adicional, no sustituimos nada."
+                },
+                "data": {
+                    "question": "¿Qué ocurre con los datos de mis productos?",
+                    "answer": "Solo sincronizamos información pública para que sea encontrable en nuestro buscador. Las compras se producen en tu web. Mantienes el control total de tus datos."
+                },
+                "transactions": {
+                    "question": "¿Las ventas se gestionan en Aura Historia?",
+                    "answer": "No. Los compradores van directamente a tu tienda para finalizar la compra. Conservas la relación con tu cliente, tu pasarela de pago y el 100 % de tus ingresos."
+                },
+                "fit": {
+                    "question": "¿Qué tiendas encajan en el programa?",
+                    "answer": "Buscamos tiendas online serias de antigüedades, arte, coleccionables y objetos históricos. Las casas de subastas y los especialistas son especialmente bienvenidos."
+                },
+                "support": {
+                    "question": "¿Recibiré ayuda durante la configuración?",
+                    "answer": "Sí. Nuestro equipo de partners te acompaña personalmente en el onboarding y está disponible por correo, también después del lanzamiento."
+                }
+            }
+        },
+        "finalCta": {
+            "title": "¿Listo para llegar a coleccionistas en todo el mundo?",
+            "subtitle": "Solicítalo gratis en menos de dos minutos. Sin contrato, sin riesgo, con control total.",
+            "primary": "Hazte partner",
+            "secondary": "Escribir al equipo de Partners"
+        }
+    },
+    "apiErrors": {
+        "PRODUCT_NOT_FOUND": "Este artículo no fue encontrado.",
+        "UNAUTHORIZED": "Autenticación fallida. Por favor, inicie sesión.",
+        "INTERNAL_SERVER_ERROR": "Se produjo un error interno del servidor. Por favor, inténtelo de nuevo más tarde.",
+        "GATEWAY_TIMEOUT": "Tiempo de espera de la solicitud agotado. Por favor, inténtelo de nuevo más tarde.",
+        "WATCHLIST_ENTRY_NOT_FOUND": "Este artículo no está en su lista de seguimiento.",
+        "SEARCH_FILTER_NOT_FOUND": "Este filtro de búsqueda no existe.",
+        "TEXT_QUERY_TOO_SHORT": "La consulta de búsqueda debe contener al menos 3 caracteres.",
+        "BAD_PATH_PARAMETER_VALUE": "El enlace no es válido.",
+        "INVALID_UUID": "El enlace no es válido.",
+        "SERVICE_UNAVAILABLE": "El servicio no está disponible actualmente. Por favor, inténtelo de nuevo más tarde.",
+        "BAD_QUERY_PARAMETER_VALUE": "Su búsqueda contiene configuraciones no válidas.",
+        "SHOP_NOT_FOUND": "Esta tienda ya no está disponible.",
+        "INVALID_SHOP_IDENTIFIER": "El identificador de la tienda no es válido.",
+        "INVALID_DOMAIN": "El dominio de la tienda no es válido.",
+        "SHOP_EXISTS_ALREADY": "Ya existe una tienda con el mismo slug.",
+        "FORBIDDEN": "Esta acción no está disponible para usted.",
+        "BAD_BODY_VALUE": "Algunos detalles son incorrectos. Por favor, verifique su entrada.",
+        "MONETARY_AMOUNT_OVERFLOW": "El precio es demasiado alto y no se puede procesar.",
+        "BAD_PAGE_FROM_VALUE": "Número de página no válido.",
+        "BAD_PAGE_SIZE_VALUE": "Número de elementos por página no válido.",
+        "BAD_SORT_VALUE": "Ordenación no válida.",
+        "BAD_ORDER_VALUE": "Orden de clasificación no válido.",
+        "unknown": "Se produjo un error inesperado.",
+        "WATCHLIST_QUOTA_EXCEEDED": "Has alcanzado el número máximo de artículos en tu lista de seguimiento. Ya hay 5/5 entradas ocupadas en la lista de seguimiento.",
+        "SEARCH_FILTER_QUOTA_EXCEEDED": "Has alcanzado el número máximo de búsquedas guardadas. Se pueden guardar un máximo de 5 búsquedas.",
+        "INVALID_EMAIL": "La dirección de correo electrónico no es válida o no es aceptada por nuestro proveedor de boletín.",
+        "STRIPE_CUSTOMER_ALREADY_EXISTS": "Ya tiene una suscripción activa. Por favor, utilice el portal de cliente para gestionarla.",
+        "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No se encontró ninguna suscripción existente. Por favor, inicie un nuevo proceso de pago.",
+        "undefined": "Ocurrió un error inesperado.",
+        "SEARCH_FILTER_RESTRICTED_FEATURE": "Esta función solo está disponible para ciertas suscripciones. Por favor, actualice su cuenta."
+    },
+    "watchlist": {
+        "title": "Mi lista de seguimiento",
+        "loginRequired": "Por favor, inicie sesión para usar la lista de seguimiento.",
+        "totalElements": "{{count}} artículos",
+        "loadingError": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde.",
+        "loadingMore": "Cargando más resultados...",
+        "allLoaded_one": "Ha visto {{count}} artículo de su lista de seguimiento.",
+        "allLoaded_other": "Ha visto los {{count}} artículos de su lista de seguimiento.",
+        "noResults": {
+            "title": "No se encontraron artículos",
+            "description": "Añada artículos a su lista de seguimiento para verlos aquí."
+        }
+    },
+    "share": {
+        "copyLink": "Copiar enlace",
+        "copied": "¡Copiado!",
+        "shareProduct": "Compartir producto",
+        "foundOnAuraHistoria": "¡He encontrado {{title}} en Aura Historia! ¡Podría interesarte!"
+    },
+    "notFound": {
+        "title": "Página no encontrada",
+        "description": "La página que busca no fue encontrada.",
+        "goHome": "Ir a la página principal"
+    },
+    "error": {
+        "title": "Algo salió mal",
+        "description": "Se produjo un error inesperado. Por favor, inténtelo de nuevo más tarde.",
+        "goHome": "Ir a la página principal"
+    },
+    "auth": {
+        "subtitle": "Más de 120.000 antigüedades de 500 vendedores. Compare, guarde y siga precios en Aura Historia.",
+        "welcome": "Bienvenido",
+        "welcomeWithName": "¡Bienvenido, {{name}}!",
+        "welcomeBack": "Bienvenido de nuevo",
+        "welcomeBackWithName": "¡Bienvenido de nuevo, {{name}}!",
+        "completingRegistration": "El registro se está completando, ¡por favor espere un momento!",
+        "completingLogin": "El inicio de sesión se está completando, ¡por favor espere un momento!",
+        "retry": "Intentar de nuevo",
+        "backToLogin": "Volver al inicio de sesión",
+        "backToHomepage": "Volver a la página principal",
+        "errorTitle": "Datos de usuario no guardados",
+        "timeout": {
+            "title": "¡Registro exitoso!",
+            "message": "¡Su registro se completó con éxito! Los datos personales no pudieron guardarse debido al alto tráfico de usuarios.",
+            "hint": "Puede añadir esta información en cualquier momento en la configuración de su cuenta.",
+            "noteLabel": "Nota:"
+        },
+        "signUp": {
+            "firstName": "Nombre",
+            "firstNamePlaceholder": "Juan",
+            "lastName": "Apellido",
+            "lastNamePlaceholder": "García",
+            "email": "Correo electrónico",
+            "emailPlaceholder": "tu.correo@ejemplo.es",
+            "password": "Contraseña*",
+            "confirmPassword": "Confirmar contraseña*",
+            "language": "Idioma",
+            "currency": "Moneda",
+            "pleaseSelect": "Por favor selecciona",
+            "prohibitedContentConsentLabel": "Mostrar productos con marcas del §86a StGB",
+            "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el §86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido.",
+            "title": "Crear una cuenta",
+            "subtitle": "Únete a Aura Historia para rastrear antigüedades",
+            "passwordPlaceholder": "Crea una contraseña",
+            "confirmPasswordPlaceholder": "Repite tu contraseña",
+            "submit": "Crear cuenta",
+            "haveAccount": "¿Ya tienes una cuenta?",
+            "signInLink": "Iniciar sesión"
+        },
+        "signIn": {
+            "email": "Correo electrónico",
+            "emailPlaceholder": "tu.correo@ejemplo.com",
+            "password": "Contraseña",
+            "passwordPlaceholder": "Introduce tu contraseña",
+            "title": "Bienvenido de nuevo",
+            "subtitle": "Inicia sesión en tu cuenta para continuar",
+            "submit": "Iniciar sesión",
+            "noAccount": "¿No tienes cuenta?",
+            "signUpLink": "Crear una",
+            "forgotPassword": "¿Has olvidado tu contraseña?"
+        },
+        "languages": {
+            "de": "Alemán",
+            "en": "Inglés",
+            "fr": "Francés",
+            "es": "Español",
+            "it": "Italiano"
+        },
+        "currencies": {
+            "EUR": "EUR - Euro",
+            "GBP": "GBP - Libra esterlina",
+            "USD": "USD - Dólar estadounidense",
+            "AUD": "AUD - Dólar australiano",
+            "CAD": "CAD - Dólar canadiense",
+            "NZD": "NZD - Dólar neozelandés",
+            "CNY": "CNY - Yuan chino",
+            "BRL": "BRL - Real brasileño",
+            "PLN": "PLN - Zloty polaco",
+            "TRY": "TRY - Lira turca",
+            "JPY": "JPY - Yen japonés",
+            "CZK": "CZK - Corona checa",
+            "RUB": "RUB - Rublo ruso",
+            "AED": "AED - Dirham de los EAU",
+            "SAR": "SAR - Riyal saudí",
+            "HKD": "HKD - Dólar de Hong Kong",
+            "SGD": "SGD - Dólar de Singapur",
+            "CHF": "CHF - Franco suizo"
+        },
+        "confirm": {
+            "title": "Revisa tu correo",
+            "subtitle": "Te enviamos un código de 6 dígitos a {{email}}",
+            "codeLabel": "Código de verificación",
+            "codePlaceholder": "000000",
+            "submit": "Verificar correo",
+            "noCode": "¿No recibiste el código?",
+            "resend": "Reenviar código",
+            "resendSending": "Enviando…",
+            "resendSent": "¡Código enviado!"
+        },
+        "userDetails": {
+            "title": "Completa tu perfil",
+            "subtitle": "Estos datos son opcionales — puedes actualizarlos en cualquier momento",
+            "newsletterConsentText": "Deseo recibir por correo electrónico el boletín de Aura Historia con antigüedades seleccionadas, tendencias del mercado y ofertas. Puedo revocar mi consentimiento en cualquier momento. Más información en la <privacyLink>política de privacidad</privacyLink>.",
+            "submit": "Guardar y continuar",
+            "skip": "Omitir por ahora"
+        },
+        "errors": {
+            "UsernameExistsException": "Ya existe una cuenta con este correo electrónico.",
+            "NotAuthorizedException": "Nombre de usuario o contraseña incorrectos.",
+            "UserNotFoundException": "El usuario no existe.",
+            "CodeMismatchException": "Código de verificación no válido, por favor inténtalo de nuevo.",
+            "LimitExceededException": "Límite de intentos excedido, por favor inténtalo más tarde.",
+            "TooManyRequestsException": "Demasiadas peticiones, por favor inténtalo más tarde.",
+            "InvalidPasswordException": "La contraseña no cumple con las directrices. Debe contener al menos 8 caracteres, un número, una letra minúscula y una letra mayúscula.",
+            "ExpiredCodeException": "Código no válido, por favor solicita un código nuevo.",
+            "UserNotConfirmedException": "El usuario no está confirmado.",
+            "InvalidParameterException": "Parámetro proporcionado no válido.",
+            "EmptySignInUsername": "Por favor introduce tu correo electrónico.",
+            "EmptySignInPassword": "Por favor introduce tu contraseña."
+        },
+        "resetPassword": {
+            "title": "Restablecer la contraseña",
+            "subtitle": "Introduce tu correo electrónico para recibir un código de restablecimiento",
+            "emailLabel": "Correo electrónico",
+            "emailPlaceholder": "tu.email@ejemplo.es",
+            "submit": "Enviar código",
+            "backToSignIn": "Volver a iniciar sesión",
+            "confirmTitle": "Introduce el código de restablecimiento",
+            "confirmSubtitle": "Introduce el código enviado a tu correo electrónico y tu nueva contraseña",
+            "codeLabel": "Código de restablecimiento",
+            "codePlaceholder": "123456",
+            "newPasswordLabel": "Nueva contraseña",
+            "newPasswordPlaceholder": "Introduce una nueva contraseña",
+            "confirmSubmit": "Restablecer la contraseña",
+            "newPasswordConfirmLabel": "Confirmar nueva contraseña"
+        }
+    },
+    "amplify": {
+        "email": "Correo electrónico*",
+        "password": "Contraseña*",
+        "confirmPassword": "Confirmar contraseña*",
+        "signIn": "Iniciar sesión",
+        "signUp": "Registrarse",
+        "createAccount": "Crear cuenta",
+        "forgotYourPassword": "¿Olvidó su contraseña?",
+        "resetPassword": "Restablecer contraseña",
+        "backToSignIn": "Volver a iniciar sesión",
+        "sendCode": "Enviar código",
+        "confirm": "Confirmar",
+        "submit": "Enviar",
+        "verify": "Verificar",
+        "skip": "Omitir",
+        "code": "Código",
+        "newPassword": "Nueva contraseña",
+        "enterYourEmail": "Introduzca su correo electrónico",
+        "enterYourPassword": "Introduzca su contraseña",
+        "pleaseConfirmYourPassword": "Por favor confirme su contraseña",
+        "weEmailedYou": "Le enviamos un correo electrónico",
+        "weSentACode": "Enviamos un código",
+        "weTextedYou": "Le enviamos un SMS",
+        "codeOnTheWayEmail": "Su código está en camino. Para iniciar sesión, introduzca el código que enviamos a",
+        "codeOnTheWaySent": "Su código está en camino. Para iniciar sesión, introduzca el código que le enviamos",
+        "codeOnTheWayText": "Su código está en camino. Para iniciar sesión, introduzca el código que enviamos por SMS a",
+        "itMayTakeAMinuteToArrive": "Puede tardar un minuto en llegar",
+        "confirmationCode": "Código de confirmación",
+        "enterYourConfirmationCode": "Introduzca su código de confirmación",
+        "resendCode": "Reenviar código",
+        "incorrectUsernameOrPassword": "Nombre de usuario o contraseña incorrectos.",
+        "userDoesNotExist": "El usuario no existe.",
+        "userAlreadyExists": "El usuario ya existe.",
+        "invalidVerificationCode": "Código de verificación inválido, por favor intente de nuevo.",
+        "invalidPasswordFormat": "Formato de contraseña inválido.",
+        "passwordAttemptsExceeded": "Demasiados intentos. Por favor intente más tarde.",
+        "attemptLimitExceeded": "Límite de intentos excedido, por favor intente más tarde.",
+        "alreadySignedInUser": "Ya hay un usuario conectado.",
+        "passwordPolicyNotLongEnough": "La contraseña no es suficientemente larga.",
+        "passwordPolicyMustHaveLowercase": "La contraseña debe contener minúsculas.",
+        "passwordPolicyMustHaveUppercase": "La contraseña debe contener mayúsculas.",
+        "passwordPolicyMustHaveSymbol": "La contraseña debe contener caracteres especiales.",
+        "passwordMustHaveUppercase": "La contraseña debe contener mayúsculas.",
+        "passwordMustHaveLowercase": "La contraseña debe contener minúsculas.",
+        "passwordMustHaveNumeric": "La contraseña debe contener números.",
+        "passwordMustHaveSymbol": "La contraseña debe contener caracteres especiales.",
+        "passwordMustHaveAtLeast8Chars": "La contraseña debe tener al menos 8 caracteres.",
+        "yourPasswordsMustMatch": "Las contraseñas deben coincidir.",
+        "userIsNotConfirmed": "El usuario no está confirmado.",
+        "userIsDisabled": "El usuario está deshabilitado.",
+        "usernameCannotBeEmpty": "El nombre de usuario no puede estar vacío.",
+        "passwordCannotBeEmpty": "La contraseña no puede estar vacía.",
+        "networkError": "Error de red. Por favor verifique su conexión a Internet.",
+        "accountWithEmailAlreadyExists": "Ya existe una cuenta con este correo electrónico.",
+        "invalidEmailAddressFormat": "Formato de correo electrónico inválido.",
+        "codeMismatch": "El código introducido es incorrecto.",
+        "confirmationCodeCannotBeEmpty": "El código de confirmación no puede estar vacío.",
+        "invalidCodeProvidedRequestAgain": "Código inválido, por favor solicite uno nuevo."
+    },
+    "consent": {
+        "title": "Valoramos tu privacidad",
+        "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Al hacer clic en 'Aceptar', das tu consentimiento para el uso de cookies con estos fines. Puede encontrar más información en nuestra <1>política de privacidad</1>.",
+        "accept": "Aceptar",
+        "reject": "Rechazar"
+    },
+    "consentSettings": {
+        "title": "Configuración de cookies",
+        "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Puede encontrar más información en nuestra <1>política de privacidad</1>.",
+        "analyticsLabel": "Análisis y seguimiento",
+        "analyticsDescription": "Nos permite analizar el uso y mejorar tu experiencia a través de Google Analytics. Incluye almacenamiento de anuncios, almacenamiento de analíticas, datos de usuario de anuncios y personalización de anuncios.",
+        "saved": "Tus preferencias de cookies han sido guardadas."
+    },
+    "shop": {
+        "header": {
+            "archiveLabel": "Tienda",
+            "overviewTitle": "Resumen de la tienda",
+            "indexedItems": "Artículos indexados",
+            "imageAlt": "Logotipo de {{shop}}",
+            "noImage": "No hay logotipo disponible",
+            "addedOn": "Añadido el {{date}}",
+            "metaDescription": "Explore antigüedades y objetos de colección de {{shop}} en Aura Historia."
+        },
+        "products": {
+            "loadingMore": "Cargando más artículos...",
+            "allLoaded_one": "Ha visto {{count}} artículo de esta tienda.",
+            "allLoaded_other": "Ha visto los {{count}} artículos de esta tienda.",
+            "noResults": {
+                "title": "No se encontraron artículos",
+                "description": "Actualmente no hay artículos de esta tienda."
+            },
+            "error": {
+                "title": "No se pudieron cargar los artículos",
+                "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
+            }
+        },
+        "card": {
+            "viewShop": "Ver tienda"
+        }
+    },
+    "notifications": {
+        "title": "Notificaciones",
+        "markAllRead": "Marcar todo como leído",
+        "noNotifications": "Sin notificaciones",
+        "ariaLabel": "Abrir notificaciones",
+        "types": {
+            "priceChange": "Cambio de precio",
+            "stateChange": "Cambio de estado",
+            "newMatch": "Nueva coincidencia",
+            "partnerApplicationApproved": "Solicitud aprobada",
+            "partnerApplicationRejected": "Solicitud rechazada",
+            "partnerApplication": "Solicitud de socio",
+            "partnerApplicationSubmitted": "Enviada",
+            "partnerApplicationStatusApproved": "Aprobada",
+            "partnerApplicationStatusRejected": "Rechazada"
+        },
+        "delete": "Eliminar",
+        "deleteAll": "Eliminar todo",
+        "markRead": "Marcar como leído",
+        "loadingError": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde.",
+        "loadingMore": "Cargando más notificaciones...",
+        "allLoaded_one": "{{count}} notificación cargada",
+        "allLoaded_other": "Todas las {{count}} notificaciones cargadas",
+        "noResults": {
+            "title": "Sin notificaciones",
+            "description": "Aún no has recibido ninguna notificación."
+        },
+        "totalElements_one": "{{count}} notificación",
+        "totalElements_other": "{{count}} notificaciones",
+        "showAll": "Mostrar todas las notificaciones"
+    },
+    "adminDashboard": {
+        "loading": "Cargando…",
+        "sidebarLabel": "Secciones de administración",
+        "forbidden": {
+            "title": "Acceso denegado",
+            "description": "No tienes permiso para ver el panel de administración. Inicia sesión con una cuenta de administrador."
+        },
+        "nav": {
+            "overview": "Resumen",
+            "shops": "Tiendas",
+            "partnerApplications": "Solicitudes de socios",
+            "users": "Usuarios"
+        },
+        "overview": {
+            "title": "Panel de administración",
+            "description": "Gestiona tiendas, revisa solicitudes de socios y administra cuentas de usuario.",
+            "shops": {
+                "title": "Tiendas",
+                "description": "Explora, busca y edita los metadatos de las tiendas."
+            },
+            "applications": {
+                "title": "Solicitudes de socios",
+                "description": "Revisa y decide sobre las solicitudes entrantes.",
+                "pendingCount_one": "{{count}} solicitud pendiente de revisión",
+                "pendingCount_other": "{{count}} solicitudes pendientes de revisión"
+            },
+            "users": {
+                "title": "Usuarios",
+                "description": "Busca cuentas, revisa detalles de usuario y gestiona roles, planes, preferencias y asignaciones de Stripe.",
+                "totalCount_one": "{{count}} cuenta de usuario",
+                "totalCount_other": "{{count}} cuentas de usuario"
+            }
+        },
+        "actions": {
+            "edit": "Editar",
+            "save": "Guardar",
+            "cancel": "Cancelar",
+            "retry": "Reintentar"
+        },
+        "shops": {
+            "title": "Tiendas",
+            "description": "Busca en el catálogo de tiendas, crea nuevas tiendas y edita sus metadatos.",
+            "searchPlaceholder": "Buscar tiendas por nombre…",
+            "loadError": "No se pudieron cargar las tiendas.",
+            "empty": "Ninguna tienda coincide con el filtro actual.",
+            "totalCount_one": "{{count}} tienda",
+            "totalCount_other": "{{count}} tiendas",
+            "updatedAt": "Actualizado {{date}}",
+            "shopImageAlt": "Logotipo de {{shop}}",
+            "editAriaLabel": "Editar {{shop}}",
+            "filter": {
+                "all": "Todas"
+            },
+            "actions": {
+                "create": "Crear tienda"
+            },
+            "fields": {
+                "name": "Nombre de la tienda",
+                "shopType": "Tipo de tienda",
+                "url": "URL principal de la tienda",
+                "shopifyDomain": "Dominio de Shopify",
+                "shopifyCurrency": "Moneda de Shopify",
+                "shopifyLanguage": "Idioma de Shopify",
+                "woocommerceCurrency": "Moneda de WooCommerce",
+                "woocommerceLanguage": "Idioma de WooCommerce",
+                "image": "URL de imagen",
+                "domains": "Dominios",
+                "domainsHint": "Uno por línea. Los dominios se normalizan en minúsculas, sin esquema ni ruta.",
+                "phone": "Teléfono",
+                "email": "Correo electrónico",
+                "addressline": "Dirección",
+                "addresslineExtra": "Dirección línea 2",
+                "locality": "Ciudad / Localidad",
+                "region": "Región / Estado",
+                "postalCode": "Código postal",
+                "country": "País",
+                "countryHint": "Selecciona el país asociado a la dirección de la tienda.",
+                "specialitiesHint": "Una clave kebab-case por línea, p. ej. ancient-egypt",
+                "currencyPlaceholder": "Seleccionar moneda",
+                "currencyNone": "Sin moneda",
+                "languagePlaceholder": "Seleccionar idioma",
+                "languageNone": "Sin idioma",
+                "countryPlaceholder": "Seleccionar país",
+                "countryNone": "Sin país",
+                "specialitiesPlaceholder": "Seleccionar entradas",
+                "loadingOptions": "Cargando opciones…",
+                "allOptions": "Todas"
+            },
+            "create": {
+                "title": "Crear tienda",
+                "description": "Añade un nuevo registro de tienda. El slug se deriva automáticamente del nombre de la tienda.",
+                "submit": "Crear tienda",
+                "success": "Tienda creada.",
+                "validation": {
+                    "nameRequired": "Introduzca un nombre de tienda.",
+                    "nameTooLong": "El nombre de la tienda no puede superar los 255 caracteres.",
+                    "domainsRequired": "Introduzca al menos un dominio.",
+                    "urlInvalid": "Introduzca una URL válida de la tienda.",
+                    "imageInvalid": "Introduzca una URL de imagen válida.",
+                    "emailInvalid": "Introduzca una dirección de correo electrónico válida.",
+                    "countryInvalid": "Seleccione un país válido."
+                }
+            },
+            "edit": {
+                "title": "Editar tienda",
+                "description": "Editando {{shop}}",
+                "success": "Tienda actualizada."
+            },
+            "sections": {
+                "core": "Datos principales",
+                "shopify": "Shopify",
+                "woocommerce": "WooCommerce",
+                "contact": "Contacto",
+                "address": "Dirección postal",
+                "specialities": "Especialidades"
+            }
+        },
+        "applications": {
+            "title": "Solicitudes de socios",
+            "description": "Revisa las solicitudes de los socios y apruébalas o recházalas.",
+            "loadError": "No se pudieron cargar las solicitudes.",
+            "empty": "Ninguna solicitud coincide con el filtro actual.",
+            "submittedAt": "Enviada {{date}}",
+            "updatedAt": "Actualizada {{date}}",
+            "existingShop": "Tienda existente",
+            "tabs": {
+                "pending": "Pendientes",
+                "decided": "Decididas",
+                "all": "Todas"
+            },
+            "businessState": {
+                "submitted": "Enviada",
+                "inReview": "En revisión",
+                "approved": "Aprobada",
+                "rejected": "Rechazada"
+            },
+            "executionState": {
+                "processing": "Procesando",
+                "waiting": "Esperando decisión",
+                "completed": "Completada"
+            },
+            "payloadType": {
+                "new": "Nueva tienda",
+                "existing": "Tienda existente"
+            },
+            "actions": {
+                "approve": "Aprobar",
+                "approveAriaLabel": "Aprobar solicitud",
+                "reject": "Rechazar",
+                "rejectAriaLabel": "Rechazar solicitud",
+                "details": "Detalles"
+            },
+            "decision": {
+                "approveSuccess": "Solicitud aprobada.",
+                "rejectSuccess": "Solicitud rechazada."
+            },
+            "fields": {
+                "shopName": "Nombre de la tienda",
+                "shopType": "Tipo de tienda",
+                "image": "URL de imagen",
+                "domains": "Dominios",
+                "domainsHint": "Uno por línea. Los dominios se normalizan en minúsculas, sin esquema ni ruta."
+            },
+            "edit": {
+                "title": "Editar solicitud",
+                "description": "Actualiza los datos de la solicitud antes de decidir.",
+                "success": "Solicitud actualizada."
+            },
+            "detail": {
+                "title": "Detalles de la solicitud de socio",
+                "description": "Revisa los datos de la solicitud, el estado de procesamiento y la cuenta de usuario asociada.",
+                "applicationId": "ID de solicitud",
+                "payloadType": "Tipo de solicitud",
+                "createdAt": "Creada",
+                "updatedAt": "Actualizada",
+                "shopSection": "Información de la tienda",
+                "shopId": "ID de tienda",
+                "applicantSection": "Usuario solicitante",
+                "applicantUnavailable": "La respuesta actual de la API no expone un ID de usuario para esta solicitud.",
+                "applicantLoadError": "No se pudo cargar el usuario solicitante.",
+                "openApplicant": "Abrir perfil de usuario"
+            }
+        },
+        "users": {
+            "title": "Usuarios",
+            "description": "Busca cuentas de usuario, abre detalles completos, actualiza datos de perfil y facturación o elimina cuentas.",
+            "search": "Buscar",
+            "searchPlaceholder": "Buscar en todos los campos de usuario…",
+            "emailSearchPlaceholder": "Filtrar por correo electrónico…",
+            "nameSearchPlaceholder": "Filtrar por nombre…",
+            "loadError": "No se pudieron cargar los usuarios.",
+            "empty": "Ningún usuario coincide con el filtro actual.",
+            "totalCount_one": "{{count}} usuario",
+            "totalCount_other": "{{count}} usuarios",
+            "updatedAt": "Actualizado {{date}}",
+            "prohibitedContentAllowed": "Consentimiento § 86a",
+            "filters": {
+                "allTiers": "Todos los planes",
+                "allRoles": "Todos los roles"
+            },
+            "sort": {
+                "label": "Ordenar usuarios",
+                "updated-desc": "Actualizados recientemente",
+                "created-desc": "Cuentas más recientes",
+                "email-asc": "Correo A–Z",
+                "tier-asc": "Plan A–Z",
+                "role-asc": "Rol A–Z"
+            },
+            "fields": {
+                "email": "Correo electrónico",
+                "name": "Nombre",
+                "firstName": "Nombre",
+                "lastName": "Apellido",
+                "language": "Idioma",
+                "currency": "Moneda",
+                "tier": "Plan",
+                "role": "Rol",
+                "stripeCustomerId": "ID de cliente de Stripe",
+                "prohibitedContentConsent": "Consentimiento para contenido restringido",
+                "prohibitedContentConsentHint": "Controla si el usuario puede ver productos con símbolos restringidos.",
+                "notSet": "No establecido"
+            },
+            "detail": {
+                "title": "Detalles del usuario",
+                "description": "Revisa la cuenta y actualiza los campos administrados.",
+                "loadError": "No se pudo cargar este usuario.",
+                "createdAt": "Creado {{date}}",
+                "updatedAt": "Actualizado {{date}}",
+                "updateSuccess": "Usuario actualizado.",
+                "delete": "Eliminar usuario",
+                "deleteConfirm": "¿Eliminar el usuario {{email}}? Esta acción no se puede deshacer.",
+                "deleteSuccess": "Usuario eliminado."
+            }
+        }
+    },
+    "searchFilter": {
+        "saveButton": "Guardar Filtro de Búsqueda",
+        "saveSuccess": "¡Filtro de búsqueda guardado exitosamente!",
+        "loginRequired": "Por favor, inicie sesión o regístrese para guardar filtros de búsqueda.",
+        "quotaReached": "Ha alcanzado el número máximo de filtros de búsqueda. Actualice su suscripción para más.",
+        "saveDialog": {
+            "title": "Guardar Filtro de Búsqueda",
+            "nameLabel": "Nombre",
+            "namePlaceholder": "Ej.: Pintura Barroca Mater Dolorosa",
+            "queryLabel": "Consulta de Búsqueda",
+            "aiDescriptionLabel": "Descripción AI (opcional)",
+            "aiDescriptionPlaceholder": "Pintura al óleo de la Virgen María sobre lienzo, no madera, marco barroco con pan de oro sobre base de yeso. El motivo debe ser Mater Dolorosa. La firma del artista debe estar incluida. La pintura no debe tener daños visibles y el marco debe estar completamente intacto. Si la pintura es del Barroco español, debe tener al menos 40x60 cm de tamaño. Esto no aplica al Barroco italiano.",
+            "aiDescriptionUltimateOnly": "Disponible solo para suscriptores Ultimate",
+            "ultimateOnly": "Disponible solo para suscriptores Ultimate",
+            "cancelButton": "Cancelar",
+            "saveButton": "Guardar",
+            "restrictedFiltersHint": "Estos filtros no están disponibles en su suscripción actual y no pueden ser guardados. Actualice su suscripción para utilizarlos – o guarde el filtro de búsqueda sin estos filtros.",
+            "resetAndSaveButton": "Guardar sin estos filtros",
+            "queryPlaceholder": "Ej.: Pintura al óleo Mater Dolorosa lienzo Barroco",
+            "nameHint": "Asigne un nombre único a su filtro de búsqueda.",
+            "queryHint": "Palabra clave que se comparará con los títulos de los productos.",
+            "aiDescriptionHint": "Describa en detalle lo que está buscando – la IA encontrará mejores coincidencias."
+        },
+        "wizard": {
+            "title": "Crear Filtro de Búsqueda",
+            "back": "Atrás",
+            "next": "Siguiente",
+            "nameRequired": "Por favor, ingrese un nombre",
+            "nameTooLong": "El nombre no debe exceder los 255 caracteres",
+            "queryTooShort": "La consulta de búsqueda debe contener al menos 3 caracteres",
+            "noFiltersConfigured": "No se han configurado filtros",
+            "upgradeBanner": "Estos filtros no están disponibles en su plan actual. Actualice su cuenta para desbloquearlos.",
+            "step": {
+                "name": "Nombre",
+                "nameDescription": "Asigne un nombre a su filtro de búsqueda",
+                "priceStatus": "Precio y Estado",
+                "theme": "Tema",
+                "quality": "Calidad",
+                "shop": "Tienda",
+                "date": "Fecha",
+                "confirm": "Confirmar",
+                "confirmDescription": "Revise su filtro de búsqueda antes de guardarlo"
+            },
+            "titleEdit": "Editar filtro de búsqueda",
+            "titleDuplicate": "Duplicar filtro de búsqueda"
+        },
+        "optional": "opcional",
+        "upgradeRequired": "Solo Pro y Ultimate",
+        "upgradeNow": "Actualizar ahora"
     },
     "searchFilters": {
-      "title": "Mis Filtros de Búsqueda | Aura Historia"
-    }
-  },
-  "validation": {
-    "name": {
-      "minLength": "Por favor, introduzca al menos {{min}} caracteres",
-      "maxLength": "Por favor, introduzca un máximo de {{max}} caracteres",
-      "invalidChars": "Solo se permiten letras, espacios, guiones y apóstrofes"
-    },
-    "email": {
-      "invalid": "Por favor introduce una dirección de correo válida"
-    },
-    "password": {
-      "required": "La contraseña es obligatoria",
-      "minLength": "La contraseña debe tener al menos {{min}} caracteres",
-      "uppercase": "La contraseña debe contener al menos una letra mayúscula",
-      "number": "La contraseña debe contener al menos un número",
-      "mismatch": "Las contraseñas no coinciden"
-    },
-    "confirmCode": {
-      "length": "El código debe tener exactamente 6 dígitos",
-      "digitsOnly": "El código solo debe contener dígitos"
-    }
-  },
-  "imprint": {
-    "title": "Aviso legal"
-  },
-  "privacy": {
-    "title": "Política de privacidad"
-  },
-  "terms": {
-    "title": "Términos y condiciones"
-  },
-  "header": {
-    "watchlist": "Lista de seguimiento",
-    "myAccount": "Mi cuenta",
-    "editAccount": "Editar cuenta",
-    "logout": "Cerrar sesión",
-    "hello": "Hola",
-    "register": "Registrarse",
-    "login": "Iniciar sesión",
-    "searchFilters": "Filtros de Búsqueda"
-  },
-  "footer": {
-    "brandName": "Aura Historia",
-    "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
-    "imprint": "Aviso legal",
-    "privacy": "Política de privacidad",
-    "cookieSettings": "Configuración de cookies",
-    "terms": "Términos y condiciones",
-    "copyright": "© {{year}} Aura Historia",
-    "sections": {
-      "company": "Empresa",
-      "followUs": "Síguenos",
-      "contact": "Contacto",
-      "discoverMore": "Descubrir más"
-    },
-    "landingPageLinks": {
-      "recentlyAdded": "Últimas incorporaciones",
-      "discover": "Transparencia",
-      "features": "Funciones",
-      "howItWorks": "Cómo funciona",
-      "testimonials": "Testimonios",
-      "pricing": "Precios",
-      "newsletter": "Newsletter",
-      "faq": "FAQ"
-    }
-  },
-  "account": {
-    "title": "Mi cuenta",
-    "changePassword": {
-      "title": "Cambiar contraseña",
-      "currentPasswordLabel": "Contraseña actual",
-      "newPasswordLabel": "Nueva contraseña",
-      "confirmPasswordLabel": "Confirmar nueva contraseña",
-      "saveButton": "Guardar contraseña",
-      "successMessage": "¡Contraseña cambiada con éxito!",
-      "errorMessage": "Error al cambiar la contraseña."
-    },
-    "deleteAccount": {
-      "title": "Eliminar cuenta",
-      "deleteButton": "Eliminar cuenta",
-      "warningText": "¿Está seguro de que desea eliminar su cuenta?",
-      "warningTitle": "¿Desea eliminar su cuenta de forma permanente?",
-      "warningSubtitle": "Esta acción no se puede deshacer. Su cuenta no se podrá restaurar y todos los datos guardados se perderán de forma permanente.",
-      "cancelButton": "Cancelar",
-      "confirmButton": "Sí, eliminar cuenta",
-      "successMessage": "¡Cuenta eliminada con éxito!",
-      "errorMessage": "Error al eliminar la cuenta."
-    },
-    "personalData": {
-      "title": "Datos Personales",
-      "emailLabel": "Correo Electrónico",
-      "firstNameLabel": "Nombre",
-      "lastNameLabel": "Apellido",
-      "languageLabel": "Idioma",
-      "languagePlaceholder": "Seleccionar idioma",
-      "currencyLabel": "Moneda",
-      "currencyPlaceholder": "Seleccionar moneda",
-      "saveButton": "Guardar Cambios",
-      "successMessage": "Datos personales actualizados con éxito",
-      "prohibitedContentConsentLabel": "Mostrar productos con marcas del § 86a StGB",
-      "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el § 86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido."
-    },
-    "subscription": {
-      "title": "Suscripción",
-      "currentPlanLabel": "Plan actual",
-      "manageButton": "Gestionar suscripción"
-    }
-  },
-  "search": {
-    "filters": "Filtros",
-    "resultsFor": "Resultados de búsqueda para:",
-    "resetAllFilters": "Restablecer todos los filtros",
-    "totalResults_one": "{{count}} artículo",
-    "totalResults_other": "{{count}} artículos",
-    "bar": {
-      "label": "Búsqueda",
-      "placeholder": "Estoy buscando...",
-      "placeholderShort": "Buscar",
-      "button": "Buscar",
-      "placeholderExamplesProducts": [
-        "Óleo de María Magdalena",
-        "Servicio de porcelana Meissen",
-        "Cómoda Luis XVI",
-        "Reloj de pie barroco",
-        "Escritorio Biedermeier",
-        "Vitrina Art Nouveau",
-        "Alfombra persa Tabriz",
-        "Candelabros rococó de plata",
-        "Escultura de bronce antigua",
-        "Consola Imperio",
-        "Librería Gründerzeit",
-        "Jarrón dinastía Ming china",
-        "Reloj de bolsillo oro Patek Philippe",
-        "Escultura de madera barroca",
-        "Broche de diamantes Art Deco",
-        "Lámpara de araña Murano veneciana",
-        "Astrolabio antiguo",
-        "Espejo rococó",
-        "Miniatura persa",
-        "Sillón Luis XV"
-      ],
-      "placeholderExamplesShops": [
-        "Sotheby's",
-        "Christie's",
-        "Catawiki",
-        "1stDibs",
-        "LiveAuctioneers",
-        "Invaluable",
-        "Bonhams",
-        "Dorotheum",
-        "Balclis",
-        "Setdart",
-        "The Saleroom",
-        "Barnebys",
-        "Chairish",
-        "Heritage Auctions",
-        "Drouot"
-      ],
-      "searchTypeLabel": "Tipo de búsqueda",
-      "searchType": {
-        "products": "Artículos",
-        "shops": "Tiendas"
-      }
-    },
-    "applyFilters": "Aplicar filtros",
-    "validation": {
-      "queryMinLength": "Por favor, introduzca al menos 3 caracteres",
-      "dateOrder": "La fecha de inicio debe ser anterior a la fecha de fin"
-    },
-    "filter": {
-      "creationDate": "Añadido",
-      "from": "Desde:",
-      "to": "Hasta:",
-      "productState": "Estado del anuncio",
-      "merchant": "Vendedor",
-      "anyMerchant": "Cualquier vendedor",
-      "searchMerchants": "Buscar vendedores...",
-      "noMerchantsFound": "No se encontraron vendedores",
-      "priceSpan": "Rango de precios",
-      "min": "Mín",
-      "max": "Máx",
-      "priceSpanAria": "Rango de precios",
-      "updateDate": "Actualizado",
-      "anyDate": "Cualquiera",
-      "resetTooltip": {
-        "priceSpan": "Restablecer filtro de rango de precios",
-        "productState": "Restablecer filtro de estado",
-        "creationDate": "Restablecer filtro de fecha de creación",
-        "updateDate": "Restablecer filtro de fecha de actualización",
-        "merchant": "Restablecer filtro de vendedor",
-        "auctionDate": "Restablecer filtro de fecha de subasta",
-        "excludeMerchant": "Restablecer filtro de exclusión de comerciante",
-        "merchants": "Restablecer filtros de comerciantes",
-        "shopType": "Restablecer filtro de tipo de tienda",
-        "partnerStatus": "Restablecer filtro de estado de asociación",
-        "global": "Restablecer todo",
-        "category": "Restablecer filtro de categoría"
-      },
-      "all": "Todo",
-      "select": "Seleccionar",
-      "selected": "{{count}} seleccionados",
-      "merchants": "Comerciantes",
-      "excludeMerchant": "Excluir comerciante",
-      "searchExcludeMerchants": "Buscar comerciantes para excluir...",
-      "shopType": "Tipo de tienda",
-      "auctionDate": "Fecha de subasta",
-      "auctionDateDisabledTooltip": "Solo disponible para casas de subastas",
-      "partnerStatus": "Estado de asociación",
-      "requireSelection": "Se requiere al menos 1 selección"
-    },
-    "messages": {
-      "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
-      "error": "Error al cargar los resultados de búsqueda. ¡Por favor, inténtelo de nuevo más tarde!",
-      "noResults": {
-        "title": "No se encontraron resultados",
-        "description": "Intente ajustar su término de búsqueda o filtros."
-      },
-      "loadingMore": "Cargando más resultados...",
-      "allLoaded_one": "Ha visto {{count}} resultado que coincide con sus filtros.",
-      "allLoaded_other": "Ha visto los {{count}} resultados que coinciden con sus filtros."
-    },
-    "sortMode": {
-      "sortBy": "Ordenar por:",
-      "relevance": "Relevancia",
-      "creationDate": "Fecha de creación",
-      "updateDate": "Última actualización",
-      "price": "Precio",
-      "order": {
-        "label": "Orden:",
-        "asc": "Ascendente",
-        "desc": "Descendente"
-      },
-      "name": "Nombre"
-    },
-    "shopResultsFor": "Resultados de tiendas para:",
-    "totalShopResults_one": "{{count}} tienda",
-    "totalShopResults_other": "{{count}} tiendas"
-  },
-  "product": {
-    "unknownPrice": "Precio desconocido",
-    "details": "Detalles",
-    "toMerchant": "Ir al vendedor",
-    "noImage": "No hay imagen disponible",
-    "watchlist": {
-      "add": "Añadir a la lista de seguimiento",
-      "remove": "Quitar de la lista de seguimiento"
-    },
-    "imageLoadError": "No se pudo cargar la imagen",
-    "prohibitedImage": "Imagen oculta por restricciones de contenido",
-    "similar": {
-      "title": "Artículos similares",
-      "error": {
-        "title": "Error de carga",
-        "description": "No se pudieron cargar los artículos similares."
-      },
-      "embeddingsPending": {
-        "title": "En preparación",
-        "description": "Los artículos similares se están preparando. Esto puede tardar hasta 24 horas para artículos nuevos."
-      },
-      "noData": {
-        "title": "Sin artículos similares",
-        "description": "No se encontraron productos similares para este artículo."
-      }
-    },
-    "history": {
-      "title": "Historial",
-      "noData": "No hay datos disponibles para este artículo.",
-      "noEvents": "No hay eventos disponibles para este filtro.",
-      "filters": {
-        "all": "Todos",
-        "price": "Precio",
-        "availability": "Disponibilidad",
-        "details": "Detalles"
-      },
-      "events": {
-        "statusChanged": "Estado cambiado de {{oldState}} a {{newState}}.",
-        "priceDiscovered": "Precio descubierto • {{price}}.",
-        "priceChanged": "El precio ha {{verb}} de {{oldPrice}} a {{newPrice}}.",
-        "priceFallen": "bajado",
-        "priceIncreased": "subido",
-        "priceRemoved": "Precio eliminado • Último precio: {{price}}.",
-        "created": "Añadido al sistema",
-        "estimatePriceChanged": "Rango de precio estimado actualizado.",
-        "urlChanged": "URL del producto actualizada.",
-        "imagesChanged": "Imágenes actualizadas • {{count}} imagen(es).",
-        "auctionTimeChanged": "Período de subasta actualizado."
-      }
-    },
-    "priceEstimate": {
-      "tooltip": "Estimación de precio de {{shopType}}",
-      "tooltipUnknown": "Estimación de precio",
-      "minOnly": "Mín. {{min}}",
-      "maxOnly": "Máx. {{max}}",
-      "range": "{{min}} - {{max}}"
-    },
-    "priceChart": {
-      "title": "Historial de precios",
-      "noData": "No hay datos de precios disponibles para este artículo.",
-      "seriesName": "Precio",
-      "timeRanges": {
-        "1d": "1D",
-        "5d": "5D",
-        "1m": "1M",
-        "3m": "3M",
-        "6m": "6M",
-        "1y": "1A",
-        "all": "Todo"
-      }
-    },
-    "unseenNotification": "Actualizado",
-    "auction": {
-      "title": "Período de subasta",
-      "start": "desde {{date}}",
-      "end": "hasta {{date}}",
-      "range": "{{start}} – {{end}}"
-    }
-  },
-  "priceBadge": {
-    "discovered": "Precio descubierto",
-    "dropped": "Precio rebajado",
-    "increased": "Precio aumentado",
-    "removed": "Precio eliminado"
-  },
-  "productState": {
-    "listed": "Listado",
-    "available": "Disponible",
-    "reserved": "Reservado",
-    "sold": "Vendido",
-    "removed": "Eliminado",
-    "unknown": "Desconocido",
-    "listedDescription": "Este artículo es visible pero aún no está disponible para la compra.",
-    "availableDescription": "Este artículo está disponible para la compra.",
-    "reservedDescription": "Este artículo está actualmente reservado. Podría estar disponible nuevamente.",
-    "soldDescription": "Este artículo ya ha sido vendido.",
-    "removedDescription": "Este artículo fue retirado por el vendedor y ya no puede ser rastreado.",
-    "unknownDescription": "La disponibilidad actual de este artículo no está clara."
-  },
-  "shopType": {
-    "auctionHouse": "Casa de subastas",
-    "commercialDealer": "Vendedor",
-    "marketplace": "Mercado",
-    "unknown": "Desconocido",
-    "auctionPlatform": "Plataforma de subastas"
-  },
-  "shopPartnerStatus": {
-    "partnered": "Socio oficial",
-    "scraped": "Indexado públicamente"
-  },
-  "discover": {
-    "title": "Traemos transparencia al opaco panorama de las antigüedades en línea",
-    "p1": "Buscamos entre las vastas ofertas de miles de anticuarios, casas de subastas y mercados dispersos en todo el mundo todos los días y agrupamos sus artículos en un solo lugar central.",
-    "p2": "No solo capturamos artículos actuales y próximos, sino que también rastreamos cambios de precio y disponibilidad. De esta manera, nunca te perderás una ganga y siempre estarás al tanto del mercado.",
-    "highlight1": {
-      "title": "Más de 500 anticuarios, casas de subastas y mercados",
-      "description": "Buscamos continuamente anticuarios, casas de subastas y mercados renombrados de toda Europa y más allá."
-    },
-    "highlight2": {
-      "title": "Monitoreo casi en tiempo real",
-      "description": "Las antigüedades recién ofrecidas, así como los cambios de precio o disponibilidad, se capturan automáticamente casi en tiempo real."
-    },
-    "highlight3": {
-      "title": "Completamente independiente del idioma",
-      "description": "Traducimos cada antigüedad a múltiples idiomas. El idioma en el que busques no importa. Actualmente, soportamos inglés, alemán, francés, español e italiano."
-    },
-    "stats": {
-      "shops": "500",
-      "shopsLabel": "Tiendas conectadas",
-      "items": "120.000",
-      "itemsLabel": "Artículos únicos",
-      "updates": "24/7",
-      "updatesLabel": "Actualizaciones casi en tiempo real",
-      "countries": "15",
-      "countriesLabel": "Países cubiertos"
-    }
-  },
-  "landingPage": {
-    "badge": "Busca más allá de los mercados habituales",
-    "titleFirstLine": "Descubre antigüedades raras<1/>en el mercado global",
-    "subtitle": "Aura Historia busca en anticuarios, casas de subastas y mercados de todo el mundo, ayudándote a encontrar piezas que otros nunca ven.",
-    "trustBadge1": "Anticuarios y casas de subastas en todo el mundo",
-    "trustBadge2": "Listados actualizados continuamente",
-    "trustBadge3": "Diseñado para coleccionistas serios",
-    "recentlyAdded": {
-      "eyebrow": "Agregado recientemente",
-      "title": "Las últimas adquisiciones",
-      "foundAt": "Encontrado en {{shopName}}."
-    },
-    "features": {
-      "title": "Las antigüedades están dispersas por toda la web: tu búsqueda no debería estarlo",
-      "subtitle": "Somos el motor de búsqueda más sofisticado para antigüedades y te proporcionamos todas las herramientas para buscar eficientemente en el mercado de antigüedades.",
-      "previewBadge": "Próximamente",
-      "search": {
-        "title": "Búsqueda inteligente",
-        "description": "Busca entre cientos de miles de artículos con nuestro potente motor de búsqueda. Elimina todo el ruido filtrando por estado, precio, vendedor y mucho más."
-      },
-      "global": {
-        "title": "Cobertura mundial",
-        "description": "Te conectamos con anticuarios renombrados de más de 15 países, desde Alemania hasta Estados Unidos. No importa cuán pequeño sea el vendedor, si tiene una tienda en línea, lo estamos añadiendo."
-      },
-      "history": {
-        "title": "Historial de cambios",
-        "description": "Rastrea todos los cambios de un artículo, desde ajustes de precio hasta cambios de estado. Optamos por la máxima transparencia."
-      },
-      "watchlist": {
-        "title": "Lista de seguimiento personal",
-        "description": "Guarda artículos interesantes y sigue su desarrollo. Recibe notificaciones cuando cambien el precio o la disponibilidad."
-      },
-      "translations": {
-        "title": "Traducciones automáticas",
-        "description": "Busca y descubre todos los artículos en tu idioma preferido, sin barreras. Actualmente, soportamos inglés, alemán, francés, español e italiano."
-      },
-      "personalFilter": {
-        "title": "Solicitudes de búsqueda",
-        "description": "Guarda tu solicitud de búsqueda y recibe notificaciones sobre nuevas ofertas o artículos actualizados. Las antigüedades que solías buscar ahora vienen a ti."
-      },
-      "aiSearchAgent": {
-        "title": "Agente de búsqueda personal con IA",
-        "description": "Tu agente personal de IA te ayuda a encontrar las antigüedades más específicas. En combinación con las solicitudes de búsqueda, describe lo que buscas en lenguaje sencillo, tan detallado como desees. Te notificaremos tan pronto como haya coincidencias con lo que describiste."
-      },
-      "communityWishes": {
-        "title": "Tus deseos",
-        "description": "¿Tienes críticas, te falta algo o tienes una idea de lo que deberíamos mejorar o añadir? Escucharemos muy atentamente. Contáctanos en contact@aura-historia.com y lo haremos realidad."
-      }
-    },
-    "howItWorks": {
-      "title": "Cómo funciona",
-      "subtitle": "Solo unos pocos pasos para tus piezas soñadas.",
-      "step1": {
-        "title": "Buscar",
-        "description": "Introduzca lo que busca – ya sean muebles, joyas, arte u objetos de colección."
-      },
-      "step2": {
-        "title": "Descubrir",
-        "description": "Explora resultados de miles de vendedores de un vistazo."
-      },
-      "step3": {
-        "title": "Guardar",
-        "description": "Guarda artículos interesantes en tu lista de seguimiento o guarda tus criterios de búsqueda como una alerta."
-      },
-      "step4": {
-        "title": "Recibe notificaciones",
-        "description": "Recibe notificaciones por correo electrónico tan pronto como un artículo en tu lista de seguimiento cambie o uno nuevo coincida con tus criterios."
-      }
-    },
-    "testimonials": {
-      "title": "Lo que dicen nuestros usuarios",
-      "subtitle": "Descubre cómo ayudamos a los coleccionistas a vivir su pasión.",
-      "testimonial1": {
-        "name": "Margarete W.",
-        "role": "Colecciona muebles Art Nouveau",
-        "quote": "Por fin una plataforma que facilita la búsqueda de piezas raras. Las alertas de precio me han ayudado varias veces a encontrar verdaderas gangas."
-      },
-      "testimonial2": {
-        "name": "Heinrich K.",
-        "role": "Anticuario",
-        "quote": "Como vendedor, uso Aura Historia para vigilar el mercado. Las evoluciones de precios me ayudan enormemente con mi propia fijación de precios."
-      },
-      "testimonial3": {
-        "name": "Elisabeth M.",
-        "role": "Coleccionista aficionada desde hace 20 años",
-        "quote": "Estoy asombrada por la claridad. Antes, pasaba horas buscando en diferentes sitios de vendedores. Ahora encuentro todo en un solo lugar."
-      }
-    },
-    "newsletter": {
-      "title": "Manténgase informado",
-      "description": "Reciba semanalmente hallazgos seleccionados, tendencias del mercado e información exclusiva directamente en su bandeja de entrada.",
-      "placeholder": "Su dirección de correo electrónico",
-      "button": "Suscribirse al boletín",
-      "privacy": "Al suscribirse, acepta nuestra <privacyLink>política de privacidad</privacyLink>. Puede darse de baja en cualquier momento.",
-      "successMessage": "¡Gracias por suscribirse! Por favor, confirme su dirección de correo electrónico.",
-      "benefit1": "Destacados personalizados",
-      "benefit2": "Nuevas funciones y ofertas",
-      "benefit3": "Cancelar en cualquier momento",
-      "firstNameLabel": "Nombre",
-      "firstNamePlaceholder": "Su nombre",
-      "lastNameLabel": "Apellido",
-      "lastNamePlaceholder": "Su apellido",
-      "emailLabel": "Dirección de correo electrónico",
-      "emailRequired": "Por favor, introduzca una dirección de correo electrónico válida.",
-      "errorMessage": "Algo salió mal. Por favor, inténtelo de nuevo más tarde.",
-      "eyebrow": "Boletín",
-      "successEmailSent": "Se ha enviado un correo de confirmación a {{email}}.",
-      "successTiming": "Puede tardar unos minutos en llegar el correo."
-    },
-    "faq": {
-      "title": "Preguntas frecuentes",
-      "subtitle": "Aquí encontrará respuestas a las preguntas más importantes sobre Aura Historia.",
-      "items": {
-        "howItWorks": {
-          "question": "¿Cómo funciona Aura Historia?",
-          "answer": "Aura Historia busca continuamente en los sitios web de más de 500 anticuarios, casas de subastas y mercados en todo el mundo y recopila todas las ofertas en un solo lugar central. Nuestra búsqueda inteligente te permite encontrar exactamente lo que estás buscando."
+        "title": "Mis Filtros de Búsqueda",
+        "create": "Crear Filtro de Búsqueda",
+        "createUpgradeTooltip": "Actualice su cuenta para crear más filtros de búsqueda",
+        "duplicate": "Duplicar filtro de búsqueda",
+        "duplicateNamePrefix": "Copia de {{name}}",
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "deleteSuccess": "Filtro de búsqueda eliminado exitosamente",
+        "deleteConfirm": {
+            "title": "¿Eliminar \"{{name}}\"?",
+            "description": "Este filtro de búsqueda será eliminado permanentemente y no podrá ser restaurado.",
+            "cancel": "Cancelar",
+            "confirm": "Eliminar"
         },
-        "directPurchase": {
-          "question": "¿Puedo comprar artículos directamente a través de Aura Historia?",
-          "answer": "No, Aura Historia es una plataforma de búsqueda pura. Si desea comprar un artículo, será redirigido directamente al sitio web del vendedor correspondiente donde puede completar la compra."
+        "notificationsOn": "Notificaciones activas",
+        "notificationsOff": "Notificaciones inactivas",
+        "loadingError": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtelo de nuevo más tarde.",
+        "noResults": {
+            "title": "Sin Filtros de Búsqueda",
+            "description": "Aún no ha guardado ningún filtro de búsqueda."
         },
-        "priceAlerts": {
-          "question": "¿Cómo funcionan las notificaciones de precio y disponibilidad?",
-          "answer": "Una vez que añades un artículo a tu lista de seguimiento, rastreamos automáticamente su desarrollo de precio y disponibilidad por ti. Tan pronto como algo cambie con tu artículo, recibirás una notificación por correo electrónico."
+        "noMatches": {
+            "title": "Sin Coincidencias",
+            "description": "Aún no se han encontrado artículos que coincidan con este filtro de búsqueda.",
+            "editHint": "Intente ajustar el filtro de búsqueda."
         },
-        "updateFrequency": {
-          "question": "¿Con qué frecuencia se actualizan los datos?",
-          "answer": "Nuestros datos se actualizan continuamente. Operamos casi en tiempo real."
+        "totalElements": "{{count}} filtro(s) de búsqueda",
+        "matchingProducts": "{{count}} coincidencia(s)",
+        "searchPlaceholder": "Buscar filtros de búsqueda...",
+        "showDetails": "Mostrar detalles",
+        "showResults": "Buscar ahora",
+        "info": {
+            "creationDate": "Creado: {{date}}",
+            "updateDate": "Actualizado: {{date}}",
+            "auctionDate": "Fecha de subasta: {{date}}"
         },
-        "dealers": {
-          "question": "¿Qué tiendas de antigüedades en línea están en Aura Historia?",
-          "answer": "Incluimos datos de más de 500 anticuarios renombrados de más de 15 países. Entre ellos encontrarás tanto grandes casas de subastas como vendedores especializados en todas las áreas de antigüedades."
+        "hiddenMatch": {
+            "title": "Oculto",
+            "description": "Esta coincidencia excede su cuota mensual y está oculta. Actualice su cuenta para ver todos los resultados.",
+            "upgradeButton": "Actualizar ahora"
         },
-        "dealerRequest": {
-          "question": "Conozco un anticuario/casa de subastas/mercado en línea que aún no está en Aura Historia. ¿Podemos añadirlo?",
-          "answer": "¡Sí! Envíanos un correo electrónico a contact@aura-historia.com e incluye la URL/enlace de la tienda junto con cualquier información adicional que desees proporcionar. Verificaremos la tienda y la incluiremos en cuestión de horas."
+        "feedback": {
+            "relevant": "Relevante",
+            "notRelevant": "No relevante",
+            "label": "¿Útil?",
+            "relevantHint": "La coincidencia es relevante",
+            "notRelevantHint": "La coincidencia no es relevante"
         },
-        "comparisonBarnebys": {
-          "question": "¿Cómo se compara Aura Historia con Barnebys?",
-          "answer": "Aunque Barnebys también es un motor de búsqueda de antigüedades, solo se enfoca en los jugadores más grandes: las grandes casas de subastas y anticuarios. Esto aumenta mucho las posibilidades de que te pierdas lo que realmente estás buscando. Pregúntate, ¿dónde encontré mis mayores tesoros? Probablemente fue en un pequeño anticuario local o incluso en una tienda de segunda mano."
-        },
-        "comparisonPriceDatabase": {
-          "question": "¿Cómo se compara Aura Historia con bases de datos de precios como WorthPoint y the saleroom?",
-          "answer": "Las bases de datos de precios aprovechan la gran cantidad de datos históricos con resultados de subastas que se remontan a los años 90. Si bien esto ayuda a encontrar comparaciones para piezas astronómicamente raras, a menudo no reflejan el valor de mercado actual ni la disponibilidad de las antigüedades. Si tu objetivo es encontrar antigüedades o investigar su valor actual, Aura Historia es el lugar adecuado. También queremos tomar una postura firme contra la monetización de los datos históricos de precios de antigüedades. No deberías tener que pagar para saber qué se vendió y a qué precio."
-        }
-      }
-    },
-    "pricing": {
-      "title": "Elija su plan",
-      "subtitle": "Desde coleccionistas ocasionales hasta profesionales — tenemos el plan perfecto para usted.",
-      "comingSoon": "Próximamente",
-      "mostPopular": "Más popular",
-      "free": {
-        "name": "Gratis",
-        "description": "Perfecto para comenzar en el mundo de las antigüedades.",
-        "features": {
-          "watchlistItems": "20 artículos en la lista de seguimiento",
-          "searchAlerts": "1 alerta de búsqueda",
-          "alertMatches": "10 coincidencias de alertas al mes",
-          "alertType": "Alertas de búsqueda simples",
-          "notificationSpeed": "Notificación en pocas horas",
-          "searchType": "Búsqueda de texto clásica"
-        }
-      },
-      "pro": {
-        "name": "Pro",
-        "description": "Para coleccionistas dedicados que quieren descubrir más.",
-        "features": {
-          "watchlistItems": "100 artículos en la lista de seguimiento",
-          "searchAlerts": "5 alertas de búsqueda",
-          "alertMatches": "Coincidencias de alertas ilimitadas al mes",
-          "alertType": "Alertas de búsqueda completas",
-          "notificationSpeed": "Notificaciones en tiempo real",
-          "searchType": "Búsqueda híbrida — encuentra por palabra clave y significado"
-        }
-      },
-      "ultimate": {
-        "name": "Ultimate",
-        "description": "Para profesionales que desean aprovechar todo el potencial.",
-        "features": {
-          "watchlistItems": "Lista de seguimiento ilimitada",
-          "searchAlerts": "Alertas de búsqueda ilimitadas",
-          "alertMatches": "Coincidencias de alertas ilimitadas al mes",
-          "alertType": "Alertas de búsqueda completas",
-          "notificationSpeed": "Notificaciones prioritarias en tiempo real",
-          "searchType": "Búsqueda híbrida (Texto + Semántica)",
-          "aiAgent": "Agente de búsqueda IA"
-        }
-      },
-      "billingNote": "mensual, IVA incluido",
-      "monthly": "Mensual",
-      "yearly": "Anual",
-      "yearlySavings": "Ahorra 2 meses",
-      "billingNoteMonthly": "al mes, IVA incluido",
-      "billingNoteYearly": "al mes, facturado anualmente, IVA incluido",
-      "getStartedFree": "Empezar gratis",
-      "subscribe": "Suscribirse",
-      "perMonth": "/mes"
+        "matchReason": "Razón AI",
+        "feedbackError": "No se pudo guardar el comentario."
     }
-  },
-  "apiErrors": {
-    "PRODUCT_NOT_FOUND": "Este artículo no fue encontrado.",
-    "UNAUTHORIZED": "Autenticación fallida. Por favor, inicie sesión.",
-    "INTERNAL_SERVER_ERROR": "Se produjo un error interno del servidor. Por favor, inténtelo de nuevo más tarde.",
-    "GATEWAY_TIMEOUT": "Tiempo de espera de la solicitud agotado. Por favor, inténtelo de nuevo más tarde.",
-    "WATCHLIST_ENTRY_NOT_FOUND": "Este artículo no está en su lista de seguimiento.",
-    "SEARCH_FILTER_NOT_FOUND": "Este filtro de búsqueda no existe.",
-    "TEXT_QUERY_TOO_SHORT": "La consulta de búsqueda debe contener al menos 3 caracteres.",
-    "BAD_PATH_PARAMETER_VALUE": "El enlace no es válido.",
-    "INVALID_UUID": "El enlace no es válido.",
-    "SERVICE_UNAVAILABLE": "El servicio no está disponible actualmente. Por favor, inténtelo de nuevo más tarde.",
-    "BAD_QUERY_PARAMETER_VALUE": "Su búsqueda contiene configuraciones no válidas.",
-    "SHOP_NOT_FOUND": "Esta tienda ya no está disponible.",
-    "INVALID_SHOP_IDENTIFIER": "El identificador de la tienda no es válido.",
-    "INVALID_DOMAIN": "El dominio de la tienda no es válido.",
-    "SHOP_EXISTS_ALREADY": "Ya existe una tienda con el mismo slug.",
-    "FORBIDDEN": "Esta acción no está disponible para usted.",
-    "BAD_BODY_VALUE": "Algunos detalles son incorrectos. Por favor, verifique su entrada.",
-    "MONETARY_AMOUNT_OVERFLOW": "El precio es demasiado alto y no se puede procesar.",
-    "BAD_PAGE_FROM_VALUE": "Número de página no válido.",
-    "BAD_PAGE_SIZE_VALUE": "Número de elementos por página no válido.",
-    "BAD_SORT_VALUE": "Ordenación no válida.",
-    "BAD_ORDER_VALUE": "Orden de clasificación no válido.",
-    "unknown": "Se produjo un error inesperado.",
-    "WATCHLIST_QUOTA_EXCEEDED": "Has alcanzado el número máximo de artículos en tu lista de seguimiento. Ya hay 5/5 entradas ocupadas en la lista de seguimiento.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Has alcanzado el número máximo de búsquedas guardadas. Se pueden guardar un máximo de 5 búsquedas.",
-    "INVALID_EMAIL": "La dirección de correo electrónico no es válida o no es aceptada por nuestro proveedor de boletín.",
-    "STRIPE_CUSTOMER_ALREADY_EXISTS": "Ya tiene una suscripción activa. Por favor, utilice el portal de cliente para gestionarla.",
-    "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No se encontró ninguna suscripción existente. Por favor, inicie un nuevo proceso de pago.",
-    "undefined": "Ocurrió un error inesperado.",
-    "SEARCH_FILTER_RESTRICTED_FEATURE": "Esta función solo está disponible para ciertas suscripciones. Por favor, actualice su cuenta."
-  },
-  "watchlist": {
-    "title": "Mi lista de seguimiento",
-    "loginRequired": "Por favor, inicie sesión para usar la lista de seguimiento.",
-    "totalElements": "{{count}} artículos",
-    "loadingError": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde.",
-    "loadingMore": "Cargando más resultados...",
-    "allLoaded_one": "Ha visto {{count}} artículo de su lista de seguimiento.",
-    "allLoaded_other": "Ha visto los {{count}} artículos de su lista de seguimiento.",
-    "noResults": {
-      "title": "No se encontraron artículos",
-      "description": "Añada artículos a su lista de seguimiento para verlos aquí."
-    }
-  },
-  "share": {
-    "copyLink": "Copiar enlace",
-    "copied": "¡Copiado!",
-    "shareProduct": "Compartir producto",
-    "foundOnAuraHistoria": "¡He encontrado {{title}} en Aura Historia! ¡Podría interesarte!"
-  },
-  "notFound": {
-    "title": "Página no encontrada",
-    "description": "La página que busca no fue encontrada.",
-    "goHome": "Ir a la página principal"
-  },
-  "error": {
-    "title": "Algo salió mal",
-    "description": "Se produjo un error inesperado. Por favor, inténtelo de nuevo más tarde.",
-    "goHome": "Ir a la página principal"
-  },
-  "auth": {
-    "subtitle": "Más de 120.000 antigüedades de 500 vendedores. Compare, guarde y siga precios en Aura Historia.",
-    "welcome": "Bienvenido",
-    "welcomeWithName": "¡Bienvenido, {{name}}!",
-    "welcomeBack": "Bienvenido de nuevo",
-    "welcomeBackWithName": "¡Bienvenido de nuevo, {{name}}!",
-    "completingRegistration": "El registro se está completando, ¡por favor espere un momento!",
-    "completingLogin": "El inicio de sesión se está completando, ¡por favor espere un momento!",
-    "retry": "Intentar de nuevo",
-    "backToLogin": "Volver al inicio de sesión",
-    "backToHomepage": "Volver a la página principal",
-    "errorTitle": "Datos de usuario no guardados",
-    "timeout": {
-      "title": "¡Registro exitoso!",
-      "message": "¡Su registro se completó con éxito! Los datos personales no pudieron guardarse debido al alto tráfico de usuarios.",
-      "hint": "Puede añadir esta información en cualquier momento en la configuración de su cuenta.",
-      "noteLabel": "Nota:"
-    },
-    "signUp": {
-      "firstName": "Nombre",
-      "firstNamePlaceholder": "Juan",
-      "lastName": "Apellido",
-      "lastNamePlaceholder": "García",
-      "email": "Correo electrónico",
-      "emailPlaceholder": "tu.correo@ejemplo.es",
-      "password": "Contraseña*",
-      "confirmPassword": "Confirmar contraseña*",
-      "language": "Idioma",
-      "currency": "Moneda",
-      "pleaseSelect": "Por favor selecciona",
-      "prohibitedContentConsentLabel": "Mostrar productos con marcas del §86a StGB",
-      "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el §86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido.",
-      "title": "Crear una cuenta",
-      "subtitle": "Únete a Aura Historia para rastrear antigüedades",
-      "passwordPlaceholder": "Crea una contraseña",
-      "confirmPasswordPlaceholder": "Repite tu contraseña",
-      "submit": "Crear cuenta",
-      "haveAccount": "¿Ya tienes una cuenta?",
-      "signInLink": "Iniciar sesión"
-    },
-    "signIn": {
-      "email": "Correo electrónico",
-      "emailPlaceholder": "tu.correo@ejemplo.com",
-      "password": "Contraseña",
-      "passwordPlaceholder": "Introduce tu contraseña",
-      "title": "Bienvenido de nuevo",
-      "subtitle": "Inicia sesión en tu cuenta para continuar",
-      "submit": "Iniciar sesión",
-      "noAccount": "¿No tienes cuenta?",
-      "signUpLink": "Crear una",
-      "forgotPassword": "¿Has olvidado tu contraseña?"
-    },
-    "languages": {
-      "de": "Alemán",
-      "en": "Inglés",
-      "fr": "Francés",
-      "es": "Español",
-      "it": "Italiano"
-    },
-    "currencies": {
-      "EUR": "EUR - Euro",
-      "GBP": "GBP - Libra esterlina",
-      "USD": "USD - Dólar estadounidense",
-      "AUD": "AUD - Dólar australiano",
-      "CAD": "CAD - Dólar canadiense",
-      "NZD": "NZD - Dólar neozelandés",
-      "CNY": "CNY - Yuan chino",
-      "BRL": "BRL - Real brasileño",
-      "PLN": "PLN - Zloty polaco",
-      "TRY": "TRY - Lira turca",
-      "JPY": "JPY - Yen japonés",
-      "CZK": "CZK - Corona checa",
-      "RUB": "RUB - Rublo ruso",
-      "AED": "AED - Dirham de los EAU",
-      "SAR": "SAR - Riyal saudí",
-      "HKD": "HKD - Dólar de Hong Kong",
-      "SGD": "SGD - Dólar de Singapur",
-      "CHF": "CHF - Franco suizo"
-    },
-    "confirm": {
-      "title": "Revisa tu correo",
-      "subtitle": "Te enviamos un código de 6 dígitos a {{email}}",
-      "codeLabel": "Código de verificación",
-      "codePlaceholder": "000000",
-      "submit": "Verificar correo",
-      "noCode": "¿No recibiste el código?",
-      "resend": "Reenviar código",
-      "resendSending": "Enviando…",
-      "resendSent": "¡Código enviado!"
-    },
-    "userDetails": {
-      "title": "Completa tu perfil",
-      "subtitle": "Estos datos son opcionales — puedes actualizarlos en cualquier momento",
-      "newsletterConsentText": "Deseo recibir por correo electrónico el boletín de Aura Historia con antigüedades seleccionadas, tendencias del mercado y ofertas. Puedo revocar mi consentimiento en cualquier momento. Más información en la <privacyLink>política de privacidad</privacyLink>.",
-      "submit": "Guardar y continuar",
-      "skip": "Omitir por ahora"
-    },
-    "errors": {
-      "UsernameExistsException": "Ya existe una cuenta con este correo electrónico.",
-      "NotAuthorizedException": "Nombre de usuario o contraseña incorrectos.",
-      "UserNotFoundException": "El usuario no existe.",
-      "CodeMismatchException": "Código de verificación no válido, por favor inténtalo de nuevo.",
-      "LimitExceededException": "Límite de intentos excedido, por favor inténtalo más tarde.",
-      "TooManyRequestsException": "Demasiadas peticiones, por favor inténtalo más tarde.",
-      "InvalidPasswordException": "La contraseña no cumple con las directrices. Debe contener al menos 8 caracteres, un número, una letra minúscula y una letra mayúscula.",
-      "ExpiredCodeException": "Código no válido, por favor solicita un código nuevo.",
-      "UserNotConfirmedException": "El usuario no está confirmado.",
-      "InvalidParameterException": "Parámetro proporcionado no válido.",
-      "EmptySignInUsername": "Por favor introduce tu correo electrónico.",
-      "EmptySignInPassword": "Por favor introduce tu contraseña."
-    },
-    "resetPassword": {
-      "title": "Restablecer la contraseña",
-      "subtitle": "Introduce tu correo electrónico para recibir un código de restablecimiento",
-      "emailLabel": "Correo electrónico",
-      "emailPlaceholder": "tu.email@ejemplo.es",
-      "submit": "Enviar código",
-      "backToSignIn": "Volver a iniciar sesión",
-      "confirmTitle": "Introduce el código de restablecimiento",
-      "confirmSubtitle": "Introduce el código enviado a tu correo electrónico y tu nueva contraseña",
-      "codeLabel": "Código de restablecimiento",
-      "codePlaceholder": "123456",
-      "newPasswordLabel": "Nueva contraseña",
-      "newPasswordPlaceholder": "Introduce una nueva contraseña",
-      "confirmSubmit": "Restablecer la contraseña",
-      "newPasswordConfirmLabel": "Confirmar nueva contraseña"
-    }
-  },
-  "amplify": {
-    "email": "Correo electrónico*",
-    "password": "Contraseña*",
-    "confirmPassword": "Confirmar contraseña*",
-    "signIn": "Iniciar sesión",
-    "signUp": "Registrarse",
-    "createAccount": "Crear cuenta",
-    "forgotYourPassword": "¿Olvidó su contraseña?",
-    "resetPassword": "Restablecer contraseña",
-    "backToSignIn": "Volver a iniciar sesión",
-    "sendCode": "Enviar código",
-    "confirm": "Confirmar",
-    "submit": "Enviar",
-    "verify": "Verificar",
-    "skip": "Omitir",
-    "code": "Código",
-    "newPassword": "Nueva contraseña",
-    "enterYourEmail": "Introduzca su correo electrónico",
-    "enterYourPassword": "Introduzca su contraseña",
-    "pleaseConfirmYourPassword": "Por favor confirme su contraseña",
-    "weEmailedYou": "Le enviamos un correo electrónico",
-    "weSentACode": "Enviamos un código",
-    "weTextedYou": "Le enviamos un SMS",
-    "codeOnTheWayEmail": "Su código está en camino. Para iniciar sesión, introduzca el código que enviamos a",
-    "codeOnTheWaySent": "Su código está en camino. Para iniciar sesión, introduzca el código que le enviamos",
-    "codeOnTheWayText": "Su código está en camino. Para iniciar sesión, introduzca el código que enviamos por SMS a",
-    "itMayTakeAMinuteToArrive": "Puede tardar un minuto en llegar",
-    "confirmationCode": "Código de confirmación",
-    "enterYourConfirmationCode": "Introduzca su código de confirmación",
-    "resendCode": "Reenviar código",
-    "incorrectUsernameOrPassword": "Nombre de usuario o contraseña incorrectos.",
-    "userDoesNotExist": "El usuario no existe.",
-    "userAlreadyExists": "El usuario ya existe.",
-    "invalidVerificationCode": "Código de verificación inválido, por favor intente de nuevo.",
-    "invalidPasswordFormat": "Formato de contraseña inválido.",
-    "passwordAttemptsExceeded": "Demasiados intentos. Por favor intente más tarde.",
-    "attemptLimitExceeded": "Límite de intentos excedido, por favor intente más tarde.",
-    "alreadySignedInUser": "Ya hay un usuario conectado.",
-    "passwordPolicyNotLongEnough": "La contraseña no es suficientemente larga.",
-    "passwordPolicyMustHaveLowercase": "La contraseña debe contener minúsculas.",
-    "passwordPolicyMustHaveUppercase": "La contraseña debe contener mayúsculas.",
-    "passwordPolicyMustHaveSymbol": "La contraseña debe contener caracteres especiales.",
-    "passwordMustHaveUppercase": "La contraseña debe contener mayúsculas.",
-    "passwordMustHaveLowercase": "La contraseña debe contener minúsculas.",
-    "passwordMustHaveNumeric": "La contraseña debe contener números.",
-    "passwordMustHaveSymbol": "La contraseña debe contener caracteres especiales.",
-    "passwordMustHaveAtLeast8Chars": "La contraseña debe tener al menos 8 caracteres.",
-    "yourPasswordsMustMatch": "Las contraseñas deben coincidir.",
-    "userIsNotConfirmed": "El usuario no está confirmado.",
-    "userIsDisabled": "El usuario está deshabilitado.",
-    "usernameCannotBeEmpty": "El nombre de usuario no puede estar vacío.",
-    "passwordCannotBeEmpty": "La contraseña no puede estar vacía.",
-    "networkError": "Error de red. Por favor verifique su conexión a Internet.",
-    "accountWithEmailAlreadyExists": "Ya existe una cuenta con este correo electrónico.",
-    "invalidEmailAddressFormat": "Formato de correo electrónico inválido.",
-    "codeMismatch": "El código introducido es incorrecto.",
-    "confirmationCodeCannotBeEmpty": "El código de confirmación no puede estar vacío.",
-    "invalidCodeProvidedRequestAgain": "Código inválido, por favor solicite uno nuevo."
-  },
-  "consent": {
-    "title": "Valoramos tu privacidad",
-    "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Al hacer clic en 'Aceptar', das tu consentimiento para el uso de cookies con estos fines. Puede encontrar más información en nuestra <1>política de privacidad</1>.",
-    "accept": "Aceptar",
-    "reject": "Rechazar"
-  },
-  "consentSettings": {
-    "title": "Configuración de cookies",
-    "description": "Utilizamos cookies para analizar el tráfico web y mejorar tu experiencia de usuario. Puede encontrar más información en nuestra <1>política de privacidad</1>.",
-    "analyticsLabel": "Análisis y seguimiento",
-    "analyticsDescription": "Nos permite analizar el uso y mejorar tu experiencia a través de Google Analytics. Incluye almacenamiento de anuncios, almacenamiento de analíticas, datos de usuario de anuncios y personalización de anuncios.",
-    "saved": "Tus preferencias de cookies han sido guardadas."
-  },
-  "shop": {
-    "header": {
-      "archiveLabel": "Tienda",
-      "overviewTitle": "Resumen de la tienda",
-      "indexedItems": "Artículos indexados",
-      "imageAlt": "Logotipo de {{shop}}",
-      "noImage": "No hay logotipo disponible",
-      "addedOn": "Añadido el {{date}}",
-      "metaDescription": "Explore antigüedades y objetos de colección de {{shop}} en Aura Historia."
-    },
-    "products": {
-      "loadingMore": "Cargando más artículos...",
-      "allLoaded_one": "Ha visto {{count}} artículo de esta tienda.",
-      "allLoaded_other": "Ha visto los {{count}} artículos de esta tienda.",
-      "noResults": {
-        "title": "No se encontraron artículos",
-        "description": "Actualmente no hay artículos de esta tienda."
-      },
-      "error": {
-        "title": "No se pudieron cargar los artículos",
-        "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
-      }
-    },
-    "card": {
-      "viewShop": "Ver tienda"
-    }
-  },
-  "notifications": {
-    "title": "Notificaciones",
-    "markAllRead": "Marcar todo como leído",
-    "noNotifications": "Sin notificaciones",
-    "ariaLabel": "Abrir notificaciones",
-    "types": {
-      "priceChange": "Cambio de precio",
-      "stateChange": "Cambio de estado",
-      "newMatch": "Nueva coincidencia",
-      "partnerApplicationApproved": "Solicitud aprobada",
-      "partnerApplicationRejected": "Solicitud rechazada",
-      "partnerApplication": "Solicitud de socio",
-      "partnerApplicationSubmitted": "Enviada",
-      "partnerApplicationStatusApproved": "Aprobada",
-      "partnerApplicationStatusRejected": "Rechazada"
-    },
-    "delete": "Eliminar",
-    "deleteAll": "Eliminar todo",
-    "markRead": "Marcar como leído",
-    "loadingError": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde.",
-    "loadingMore": "Cargando más notificaciones...",
-    "allLoaded_one": "{{count}} notificación cargada",
-    "allLoaded_other": "Todas las {{count}} notificaciones cargadas",
-    "noResults": {
-      "title": "Sin notificaciones",
-      "description": "Aún no has recibido ninguna notificación."
-    },
-    "totalElements_one": "{{count}} notificación",
-    "totalElements_other": "{{count}} notificaciones",
-    "showAll": "Mostrar todas las notificaciones"
-  },
-  "adminDashboard": {
-    "loading": "Cargando…",
-    "sidebarLabel": "Secciones de administración",
-    "forbidden": {
-      "title": "Acceso denegado",
-      "description": "No tienes permiso para ver el panel de administración. Inicia sesión con una cuenta de administrador."
-    },
-    "nav": {
-      "overview": "Resumen",
-      "shops": "Tiendas",
-      "partnerApplications": "Solicitudes de socios",
-      "users": "Usuarios"
-    },
-    "overview": {
-      "title": "Panel de administración",
-      "description": "Gestiona tiendas, revisa solicitudes de socios y administra cuentas de usuario.",
-      "shops": {
-        "title": "Tiendas",
-        "description": "Explora, busca y edita los metadatos de las tiendas."
-      },
-      "applications": {
-        "title": "Solicitudes de socios",
-        "description": "Revisa y decide sobre las solicitudes entrantes.",
-        "pendingCount_one": "{{count}} solicitud pendiente de revisión",
-        "pendingCount_other": "{{count}} solicitudes pendientes de revisión"
-      },
-      "users": {
-        "title": "Usuarios",
-        "description": "Busca cuentas, revisa detalles de usuario y gestiona roles, planes, preferencias y asignaciones de Stripe.",
-        "totalCount_one": "{{count}} cuenta de usuario",
-        "totalCount_other": "{{count}} cuentas de usuario"
-      }
-    },
-    "actions": {
-      "edit": "Editar",
-      "save": "Guardar",
-      "cancel": "Cancelar",
-      "retry": "Reintentar"
-    },
-    "shops": {
-      "title": "Tiendas",
-      "description": "Busca en el catálogo de tiendas, crea nuevas tiendas y edita sus metadatos.",
-      "searchPlaceholder": "Buscar tiendas por nombre…",
-      "loadError": "No se pudieron cargar las tiendas.",
-      "empty": "Ninguna tienda coincide con el filtro actual.",
-      "totalCount_one": "{{count}} tienda",
-      "totalCount_other": "{{count}} tiendas",
-      "updatedAt": "Actualizado {{date}}",
-      "shopImageAlt": "Logotipo de {{shop}}",
-      "editAriaLabel": "Editar {{shop}}",
-      "filter": {
-        "all": "Todas"
-      },
-      "actions": {
-        "create": "Crear tienda"
-      },
-      "fields": {
-        "name": "Nombre de la tienda",
-        "shopType": "Tipo de tienda",
-        "url": "URL principal de la tienda",
-        "shopifyDomain": "Dominio de Shopify",
-        "shopifyCurrency": "Moneda de Shopify",
-        "shopifyLanguage": "Idioma de Shopify",
-        "woocommerceCurrency": "Moneda de WooCommerce",
-        "woocommerceLanguage": "Idioma de WooCommerce",
-        "image": "URL de imagen",
-        "domains": "Dominios",
-        "domainsHint": "Uno por línea. Los dominios se normalizan en minúsculas, sin esquema ni ruta.",
-        "phone": "Teléfono",
-        "email": "Correo electrónico",
-        "addressline": "Dirección",
-        "addresslineExtra": "Dirección línea 2",
-        "locality": "Ciudad / Localidad",
-        "region": "Región / Estado",
-        "postalCode": "Código postal",
-        "country": "País",
-        "countryHint": "Selecciona el país asociado a la dirección de la tienda.",
-        "specialitiesHint": "Una clave kebab-case por línea, p. ej. ancient-egypt",
-        "currencyPlaceholder": "Seleccionar moneda",
-        "currencyNone": "Sin moneda",
-        "languagePlaceholder": "Seleccionar idioma",
-        "languageNone": "Sin idioma",
-        "countryPlaceholder": "Seleccionar país",
-        "countryNone": "Sin país",
-        "specialitiesPlaceholder": "Seleccionar entradas",
-        "loadingOptions": "Cargando opciones…",
-        "allOptions": "Todas"
-      },
-      "create": {
-        "title": "Crear tienda",
-        "description": "Añade un nuevo registro de tienda. El slug se deriva automáticamente del nombre de la tienda.",
-        "submit": "Crear tienda",
-        "success": "Tienda creada.",
-        "validation": {
-          "nameRequired": "Introduzca un nombre de tienda.",
-          "nameTooLong": "El nombre de la tienda no puede superar los 255 caracteres.",
-          "domainsRequired": "Introduzca al menos un dominio.",
-          "urlInvalid": "Introduzca una URL válida de la tienda.",
-          "imageInvalid": "Introduzca una URL de imagen válida.",
-          "emailInvalid": "Introduzca una dirección de correo electrónico válida.",
-          "countryInvalid": "Seleccione un país válido."
-        }
-      },
-      "edit": {
-        "title": "Editar tienda",
-        "description": "Editando {{shop}}",
-        "success": "Tienda actualizada."
-      },
-      "sections": {
-        "core": "Datos principales",
-        "shopify": "Shopify",
-        "woocommerce": "WooCommerce",
-        "contact": "Contacto",
-        "address": "Dirección postal",
-        "specialities": "Especialidades"
-      }
-    },
-    "applications": {
-      "title": "Solicitudes de socios",
-      "description": "Revisa las solicitudes de los socios y apruébalas o recházalas.",
-      "loadError": "No se pudieron cargar las solicitudes.",
-      "empty": "Ninguna solicitud coincide con el filtro actual.",
-      "submittedAt": "Enviada {{date}}",
-      "updatedAt": "Actualizada {{date}}",
-      "existingShop": "Tienda existente",
-      "tabs": {
-        "pending": "Pendientes",
-        "decided": "Decididas",
-        "all": "Todas"
-      },
-      "businessState": {
-        "submitted": "Enviada",
-        "inReview": "En revisión",
-        "approved": "Aprobada",
-        "rejected": "Rechazada"
-      },
-      "executionState": {
-        "processing": "Procesando",
-        "waiting": "Esperando decisión",
-        "completed": "Completada"
-      },
-      "payloadType": {
-        "new": "Nueva tienda",
-        "existing": "Tienda existente"
-      },
-      "actions": {
-        "approve": "Aprobar",
-        "approveAriaLabel": "Aprobar solicitud",
-        "reject": "Rechazar",
-        "rejectAriaLabel": "Rechazar solicitud",
-        "details": "Detalles"
-      },
-      "decision": {
-        "approveSuccess": "Solicitud aprobada.",
-        "rejectSuccess": "Solicitud rechazada."
-      },
-      "fields": {
-        "shopName": "Nombre de la tienda",
-        "shopType": "Tipo de tienda",
-        "image": "URL de imagen",
-        "domains": "Dominios",
-        "domainsHint": "Uno por línea. Los dominios se normalizan en minúsculas, sin esquema ni ruta."
-      },
-      "edit": {
-        "title": "Editar solicitud",
-        "description": "Actualiza los datos de la solicitud antes de decidir.",
-        "success": "Solicitud actualizada."
-      },
-      "detail": {
-        "title": "Detalles de la solicitud de socio",
-        "description": "Revisa los datos de la solicitud, el estado de procesamiento y la cuenta de usuario asociada.",
-        "applicationId": "ID de solicitud",
-        "payloadType": "Tipo de solicitud",
-        "createdAt": "Creada",
-        "updatedAt": "Actualizada",
-        "shopSection": "Información de la tienda",
-        "shopId": "ID de tienda",
-        "applicantSection": "Usuario solicitante",
-        "applicantUnavailable": "La respuesta actual de la API no expone un ID de usuario para esta solicitud.",
-        "applicantLoadError": "No se pudo cargar el usuario solicitante.",
-        "openApplicant": "Abrir perfil de usuario"
-      }
-    },
-    "users": {
-      "title": "Usuarios",
-      "description": "Busca cuentas de usuario, abre detalles completos, actualiza datos de perfil y facturación o elimina cuentas.",
-      "search": "Buscar",
-      "searchPlaceholder": "Buscar en todos los campos de usuario…",
-      "emailSearchPlaceholder": "Filtrar por correo electrónico…",
-      "nameSearchPlaceholder": "Filtrar por nombre…",
-      "loadError": "No se pudieron cargar los usuarios.",
-      "empty": "Ningún usuario coincide con el filtro actual.",
-      "totalCount_one": "{{count}} usuario",
-      "totalCount_other": "{{count}} usuarios",
-      "updatedAt": "Actualizado {{date}}",
-      "prohibitedContentAllowed": "Consentimiento § 86a",
-      "filters": {
-        "allTiers": "Todos los planes",
-        "allRoles": "Todos los roles"
-      },
-      "sort": {
-        "label": "Ordenar usuarios",
-        "updated-desc": "Actualizados recientemente",
-        "created-desc": "Cuentas más recientes",
-        "email-asc": "Correo A–Z",
-        "tier-asc": "Plan A–Z",
-        "role-asc": "Rol A–Z"
-      },
-      "fields": {
-        "email": "Correo electrónico",
-        "name": "Nombre",
-        "firstName": "Nombre",
-        "lastName": "Apellido",
-        "language": "Idioma",
-        "currency": "Moneda",
-        "tier": "Plan",
-        "role": "Rol",
-        "stripeCustomerId": "ID de cliente de Stripe",
-        "prohibitedContentConsent": "Consentimiento para contenido restringido",
-        "prohibitedContentConsentHint": "Controla si el usuario puede ver productos con símbolos restringidos.",
-        "notSet": "No establecido"
-      },
-      "detail": {
-        "title": "Detalles del usuario",
-        "description": "Revisa la cuenta y actualiza los campos administrados.",
-        "loadError": "No se pudo cargar este usuario.",
-        "createdAt": "Creado {{date}}",
-        "updatedAt": "Actualizado {{date}}",
-        "updateSuccess": "Usuario actualizado.",
-        "delete": "Eliminar usuario",
-        "deleteConfirm": "¿Eliminar el usuario {{email}}? Esta acción no se puede deshacer.",
-        "deleteSuccess": "Usuario eliminado."
-      }
-    }
-  },
-  "searchFilter": {
-    "saveButton": "Guardar Filtro de Búsqueda",
-    "saveSuccess": "¡Filtro de búsqueda guardado exitosamente!",
-    "loginRequired": "Por favor, inicie sesión o regístrese para guardar filtros de búsqueda.",
-    "quotaReached": "Ha alcanzado el número máximo de filtros de búsqueda. Actualice su suscripción para más.",
-    "saveDialog": {
-      "title": "Guardar Filtro de Búsqueda",
-      "nameLabel": "Nombre",
-      "namePlaceholder": "Ej.: Pintura Barroca Mater Dolorosa",
-      "queryLabel": "Consulta de Búsqueda",
-      "aiDescriptionLabel": "Descripción AI (opcional)",
-      "aiDescriptionPlaceholder": "Pintura al óleo de la Virgen María sobre lienzo, no madera, marco barroco con pan de oro sobre base de yeso. El motivo debe ser Mater Dolorosa. La firma del artista debe estar incluida. La pintura no debe tener daños visibles y el marco debe estar completamente intacto. Si la pintura es del Barroco español, debe tener al menos 40x60 cm de tamaño. Esto no aplica al Barroco italiano.",
-      "aiDescriptionUltimateOnly": "Disponible solo para suscriptores Ultimate",
-      "ultimateOnly": "Disponible solo para suscriptores Ultimate",
-      "cancelButton": "Cancelar",
-      "saveButton": "Guardar",
-      "restrictedFiltersHint": "Estos filtros no están disponibles en su suscripción actual y no pueden ser guardados. Actualice su suscripción para utilizarlos – o guarde el filtro de búsqueda sin estos filtros.",
-      "resetAndSaveButton": "Guardar sin estos filtros",
-      "queryPlaceholder": "Ej.: Pintura al óleo Mater Dolorosa lienzo Barroco",
-      "nameHint": "Asigne un nombre único a su filtro de búsqueda.",
-      "queryHint": "Palabra clave que se comparará con los títulos de los productos.",
-      "aiDescriptionHint": "Describa en detalle lo que está buscando – la IA encontrará mejores coincidencias."
-    },
-    "wizard": {
-      "title": "Crear Filtro de Búsqueda",
-      "back": "Atrás",
-      "next": "Siguiente",
-      "nameRequired": "Por favor, ingrese un nombre",
-      "nameTooLong": "El nombre no debe exceder los 255 caracteres",
-      "queryTooShort": "La consulta de búsqueda debe contener al menos 3 caracteres",
-      "noFiltersConfigured": "No se han configurado filtros",
-      "upgradeBanner": "Estos filtros no están disponibles en su plan actual. Actualice su cuenta para desbloquearlos.",
-      "step": {
-        "name": "Nombre",
-        "nameDescription": "Asigne un nombre a su filtro de búsqueda",
-        "priceStatus": "Precio y Estado",
-        "theme": "Tema",
-        "quality": "Calidad",
-        "shop": "Tienda",
-        "date": "Fecha",
-        "confirm": "Confirmar",
-        "confirmDescription": "Revise su filtro de búsqueda antes de guardarlo"
-      },
-      "titleEdit": "Editar filtro de búsqueda",
-      "titleDuplicate": "Duplicar filtro de búsqueda"
-    },
-    "optional": "opcional",
-    "upgradeRequired": "Solo Pro y Ultimate",
-    "upgradeNow": "Actualizar ahora"
-  },
-  "searchFilters": {
-    "title": "Mis Filtros de Búsqueda",
-    "create": "Crear Filtro de Búsqueda",
-    "createUpgradeTooltip": "Actualice su cuenta para crear más filtros de búsqueda",
-    "duplicate": "Duplicar filtro de búsqueda",
-    "duplicateNamePrefix": "Copia de {{name}}",
-    "edit": "Editar",
-    "delete": "Eliminar",
-    "deleteSuccess": "Filtro de búsqueda eliminado exitosamente",
-    "deleteConfirm": {
-      "title": "¿Eliminar \"{{name}}\"?",
-      "description": "Este filtro de búsqueda será eliminado permanentemente y no podrá ser restaurado.",
-      "cancel": "Cancelar",
-      "confirm": "Eliminar"
-    },
-    "notificationsOn": "Notificaciones activas",
-    "notificationsOff": "Notificaciones inactivas",
-    "loadingError": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtelo de nuevo más tarde.",
-    "noResults": {
-      "title": "Sin Filtros de Búsqueda",
-      "description": "Aún no ha guardado ningún filtro de búsqueda."
-    },
-    "noMatches": {
-      "title": "Sin Coincidencias",
-      "description": "Aún no se han encontrado artículos que coincidan con este filtro de búsqueda.",
-      "editHint": "Intente ajustar el filtro de búsqueda."
-    },
-    "totalElements": "{{count}} filtro(s) de búsqueda",
-    "matchingProducts": "{{count}} coincidencia(s)",
-    "searchPlaceholder": "Buscar filtros de búsqueda...",
-    "showDetails": "Mostrar detalles",
-    "showResults": "Buscar ahora",
-    "info": {
-      "creationDate": "Creado: {{date}}",
-      "updateDate": "Actualizado: {{date}}",
-      "auctionDate": "Fecha de subasta: {{date}}"
-    },
-    "hiddenMatch": {
-      "title": "Oculto",
-      "description": "Esta coincidencia excede su cuota mensual y está oculta. Actualice su cuenta para ver todos los resultados.",
-      "upgradeButton": "Actualizar ahora"
-    },
-    "feedback": {
-      "relevant": "Relevante",
-      "notRelevant": "No relevante",
-      "label": "¿Útil?",
-      "relevantHint": "La coincidencia es relevante",
-      "notRelevantHint": "La coincidencia no es relevante"
-    },
-    "matchReason": "Razón AI",
-    "feedbackError": "No se pudo guardar el comentario."
-  }
 }

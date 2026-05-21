@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ImprintRouteImport } from './routes/imprint'
 import { Route as ConsentSettingsRouteImport } from './routes/consent-settings'
@@ -46,6 +47,11 @@ const SearchRoute = SearchRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -157,6 +163,7 @@ export interface FileRoutesByFullPath {
   '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
@@ -181,6 +188,7 @@ export interface FileRoutesByTo {
   '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
@@ -206,6 +214,7 @@ export interface FileRoutesById {
   '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
@@ -232,6 +241,7 @@ export interface FileRouteTypes {
     | '/consent-settings'
     | '/imprint'
     | '/login'
+    | '/partners'
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
@@ -256,6 +266,7 @@ export interface FileRouteTypes {
     | '/consent-settings'
     | '/imprint'
     | '/login'
+    | '/partners'
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
@@ -280,6 +291,7 @@ export interface FileRouteTypes {
     | '/consent-settings'
     | '/imprint'
     | '/login'
+    | '/partners'
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
@@ -306,6 +318,7 @@ export interface RootRouteChildren {
   ConsentSettingsRoute: typeof ConsentSettingsRoute
   ImprintRoute: typeof ImprintRoute
   LoginRoute: typeof LoginRoute
+  PartnersRoute: typeof PartnersRoute
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
@@ -336,6 +349,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -527,6 +547,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConsentSettingsRoute: ConsentSettingsRoute,
   ImprintRoute: ImprintRoute,
   LoginRoute: LoginRoute,
+  PartnersRoute: PartnersRoute,
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   TermsAndConditionsRoute: TermsAndConditionsRoute,

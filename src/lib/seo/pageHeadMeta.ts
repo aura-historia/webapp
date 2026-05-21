@@ -26,6 +26,7 @@ type PageMetaKey =
     | "searchFilters"
     | "notifications"
     | "consentSettings"
+    | "partners"
     | "admin";
 
 const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string }> = {
@@ -72,6 +73,10 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     consentSettings: {
         title: "meta.consentSettings.title",
         description: "meta.consentSettings.description",
+    },
+    partners: {
+        title: "meta.partners.title",
+        description: "meta.partners.description",
     },
     admin: {
         title: "meta.admin.title",
