@@ -25,10 +25,13 @@ vi.mock("@/data/internal/hooks/ApiError", () => ({
     mapToInternalApiError: (error: unknown) => error,
 }));
 
-vi.mock("@/hooks/auth/useAuth", () => ({
-    useAuth: () => ({
+vi.mock("@/hooks/auth/useResolvedAuth", () => ({
+    useResolvedAuth: () => ({
         user: { userId: "test-user-id", username: "test-user" },
+        serverUser: null,
+        isAuthenticated: true,
         isLoading: false,
+        isResolved: true,
         signOut: vi.fn(),
     }),
 }));

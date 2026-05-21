@@ -1,8 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { screen, act } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { SubscriptionPlanSection } from "../SubscriptionPlanSection.tsx";
 import type { UserAccountData } from "@/data/internal/account/UserAccountData.ts";
+import { renderWithRouter } from "@/test/utils.tsx";
 
 vi.mock("@/hooks/account/useUserAccount");
 vi.mock("@/hooks/billing/useStripeBilling");
@@ -13,7 +14,7 @@ describe("SubscriptionPlanSection", () => {
         email: "test@example.com",
         firstName: "John",
         lastName: "Doe",
-        language: "en",
+        language: "de",
         currency: "EUR",
         prohibitedContentConsent: false,
         role: "USER",
@@ -41,8 +42,10 @@ describe("SubscriptionPlanSection", () => {
         });
     });
 
-    it("renders current subscription plan and manage button", () => {
-        render(<SubscriptionPlanSection />);
+    it("renders current subscription plan and manage button", async () => {
+        await act(async () => {
+            renderWithRouter(<SubscriptionPlanSection />);
+        });
 
         expect(screen.getByText("Abonnement")).toBeInTheDocument();
         expect(screen.getByText("Aktuelles Abo")).toBeInTheDocument();

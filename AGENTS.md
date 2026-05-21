@@ -116,6 +116,7 @@ variables/token are set.
 - Place test files as `*.test.ts(x)` or `*.spec.ts(x)` alongside source OR under `src/**/__tests__/`.
 - Coverage excludes generated files & UI library primitives.
 - Tests are configured to use german translations by default - You do not need to mock any translation related functions yourself
+- Avoid manually mocking Providers, instead use the `renderWithRouter` helper from `src/test/utils.tsx` which wraps components with necessary context providers (e.g., React Query, Router).
 - Avoid implementation-detail assertions; prefer DOM queries via Testing Library.
 - For React Query tests, wrap components with a QueryClientProvider (you can define a helper in `src/test/utils.tsx`).
 - E2E tests located in `e2e/` use Playwright; they start dev server automatically (command `pnpm dev`). Ensure port 3000

@@ -9,7 +9,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
-import { useAuth } from "@/hooks/auth/useAuth.ts";
+import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -28,7 +28,6 @@ import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/comm
 import { env } from "@/env.ts";
 import logo from "@/assets/logo/logo.svg";
 import logoCompact from "@/assets/logo/logo-compact.svg";
-import { Route } from "@/routes/__root.tsx";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
@@ -54,8 +53,11 @@ export function Header() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const { user, signOut: amplifySignOut } = useAuth();
-    const { serverAuth } = Route.useRouteContext();
+    const {
+        isAuthenticated,
+        isResolved: isAuthResolved,
+        signOut: amplifySignOut,
+    } = useResolvedAuth();
 
     const { data: userAccount } = useUserAccount();
 
@@ -67,7 +69,7 @@ export function Header() {
     const queryClient = useQueryClient();
 
     const signOut = async () => {
-        amplifySignOut();
+        await amplifySignOut();
         queryClient.removeQueries({ queryKey: ["userAccount"] });
         await navigate({
             to: "/",
@@ -136,7 +138,7 @@ export function Header() {
                 </div>
 
                 {/* Mobile Notification Bell */}
-                {isLoginEnabled && user && (
+                {isLoginEnabled && isAuthenticated && (
                     <div
                         className={cn(
                             isFloating
@@ -149,7 +151,7 @@ export function Header() {
                 )}
 
                 {/* Mobile Menu */}
-                {isLoginEnabled && (
+                {isLoginEnabled && isAuthResolved && (
                     <div
                         className={cn(
                             isFloating
@@ -164,7 +166,7 @@ export function Header() {
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
-                                {user ? (
+                                {isAuthenticated ? (
                                     <>
                                         <DropdownMenuLabel>
                                             {t("header.myAccount")}
@@ -220,7 +222,7 @@ export function Header() {
             {/* Desktop Menu */}
             {isLoginEnabled && (
                 <div className="hidden lg:flex items-center justify-end w-full">
-                    {serverAuth.authenticated ? (
+                    {!isAuthResolved ? null : isAuthenticated ? (
                         <div
                             className={cn(
                                 "flex items-center transition-all duration-300",
