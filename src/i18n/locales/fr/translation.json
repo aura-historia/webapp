@@ -55,6 +55,10 @@
     },
     "searchFilters": {
       "title": "Mes filtres de recherche | Aura Historia"
+    },
+    "partners": {
+      "title": "Programme partenaires | Aura Historia",
+      "description": "Devenez boutique partenaire d'Aura Historia, le moteur de recherche d'antiquités et d'art. Gratuit, sans commission, connecté en quelques minutes."
     }
   },
   "validation": {
@@ -109,7 +113,8 @@
       "company": "Entreprise",
       "followUs": "Suivez-nous",
       "contact": "Contact",
-      "discoverMore": "Explorer plus"
+      "discoverMore": "Explorer plus",
+      "partnerProgram": "Programme partenaires"
     },
     "landingPageLinks": {
       "recentlyAdded": "Derniers ajouts",
@@ -120,6 +125,13 @@
       "pricing": "Tarifs",
       "newsletter": "Newsletter",
       "faq": "FAQ"
+    },
+    "partnerProgramLinks": {
+      "overview": "Vue d'ensemble",
+      "woocommerce": "WooCommerce",
+      "shopify": "Shopify",
+      "customApi": "Intégration personnalisée",
+      "apply": "Postuler"
     }
   },
   "account": {
@@ -629,6 +641,155 @@
       "getStartedFree": "Commencer gratuitement",
       "subscribe": "S'abonner",
       "perMonth": "/mois"
+    }
+  },
+  "partners": {
+    "hero": {
+      "badge": "Programme partenaires",
+      "title": "Vous vendez des antiquités ou de l'art en ligne ?<br/>Atteignez des collectionneurs dans le monde entier.",
+      "subtitle": "Rejoignez Aura Historia, le moteur de recherche que les collectionneurs utilisent pour trouver exactement ce que vous vendez. Gratuit, sans engagement, prêt en quelques minutes.",
+      "primaryCta": "Devenir partenaire",
+      "secondaryCta": "En savoir plus",
+      "trustBadges": {
+        "free": "100 % gratuit",
+        "noTech": "Aucune compétence technique",
+        "cancel": "Résiliez à tout moment"
+      }
+    },
+    "motivation": {
+      "title": "Pourquoi nous rejoindre ?",
+      "subtitle": "Aura Historia met les collectionneurs motivés directement en relation avec vos pièces – sans commission sur les ventes.",
+      "items": {
+        "audience": {
+          "title": "Communauté mondiale de collectionneurs",
+          "description": "Touchez des acheteurs dans plus de 15 pays qui recherchent activement des antiquités et œuvres d'art rares."
+        },
+        "traffic": {
+          "title": "Plus de trafic qualifié",
+          "description": "Nous redirigeons les visiteurs intéressés directement vers votre boutique – chaque clic compte pour vous, pas pour nous."
+        },
+        "highIntent": {
+          "title": "Des prospects à forte intention",
+          "description": "Notre plateforme intelligente met en relation les collectionneurs avec ce qu'ils cherchent réellement. Résultat : des demandes à forte intention d'achat."
+        },
+        "trust": {
+          "title": "Badge boutique partenaire",
+          "description": "Démarquez-vous avec le badge vérifié de boutique partenaire et gagnez la confiance des collectionneurs exigeants."
+        },
+        "realtime": {
+          "title": "Synchronisation en temps réel",
+          "description": "Les nouvelles pièces apparaissent immédiatement dans notre recherche – vos acheteurs sont les premiers informés."
+        },
+        "noCommission": {
+          "title": "Sans commission de vente",
+          "description": "Nous ne gagnons rien sur vos ventes. Vous conservez 100 % de votre chiffre d'affaires."
+        }
+      }
+    },
+    "stats": {
+      "title": "Ce que vivent nos partenaires",
+      "subtitle": "Moyennes actuelles observées sur notre réseau de partenaires.",
+      "trafficIncrease": {
+        "value": "XX %",
+        "label": "Trafic supplémentaire après 8 semaines"
+      },
+      "newBuyers": {
+        "value": "XX %",
+        "label": "Nouveaux acheteurs que vous n'auriez pas touchés"
+      },
+      "countries": {
+        "value": "XX",
+        "label": "Pays d'où proviennent les demandes"
+      },
+      "setup": {
+        "value": "< 15 min",
+        "label": "Avant votre premier produit en ligne"
+      },
+      "disclaimer": "Chiffres fondés sur des moyennes de boutiques partenaires actives. Les résultats individuels peuvent varier."
+    },
+    "integrations": {
+      "title": "Connectez votre boutique en quelques minutes",
+      "subtitle": "Choisissez l'intégration qui convient à votre installation. Toutes synchronisent en quelques minutes – sans toucher au code.",
+      "woocommerce": {
+        "title": "WordPress · WooCommerce",
+        "description": "Installez notre extension depuis le répertoire de plugins WordPress. Un clic suffit.",
+        "cta": "Voir l'intégration",
+        "badge": "Recommandé"
+      },
+      "shopify": {
+        "title": "Application Shopify",
+        "description": "Connectez votre boutique Shopify en un clic depuis le Shopify App Store.",
+        "cta": "Voir l'intégration",
+        "badge": "Populaire"
+      },
+      "customApi": {
+        "title": "Intégration personnalisée · clé API",
+        "description": "Contrôle total via des endpoints REST et une clé API à portée limitée – idéal pour les systèmes sur mesure.",
+        "cta": "Documentation API",
+        "badge": "Pour les développeurs"
+      }
+    },
+    "howEasy": {
+      "title": "En ligne en trois étapes",
+      "subtitle": "Pas de code, aucune compétence préalable, aucun risque. Voici comment devenir partenaire.",
+      "steps": {
+        "apply": {
+          "title": "Postulez",
+          "description": "Remplissez un court formulaire. Nous étudions votre boutique et revenons vers vous sous quelques jours."
+        },
+        "claim": {
+          "title": "Configurez votre boutique",
+          "description": "Revendiquez votre boutique et complétez votre profil dans notre tableau de bord."
+        },
+        "connect": {
+          "title": "Activez l'intégration",
+          "description": "Choisissez WooCommerce, Shopify ou notre API – vos produits apparaissent automatiquement en ligne."
+        }
+      }
+    },
+    "faq": {
+      "title": "Programme partenaires · questions fréquentes",
+      "subtitle": "Les réponses aux questions les plus posées.",
+      "items": {
+        "free": {
+          "question": "Combien coûte le programme partenaires ?",
+          "answer": "Le programme est entièrement gratuit. Aucun frais d'inscription, de mise en ligne ou de vente – nous ne gagnons rien sur vos ventes."
+        },
+        "cancel": {
+          "question": "Puis-je arrêter à tout moment ?",
+          "answer": "Oui. Vous pouvez mettre fin au partenariat à tout moment, sans préavis ni justification. Sur demande, nous retirons immédiatement vos produits."
+        },
+        "technical": {
+          "question": "Faut-il des compétences techniques ?",
+          "answer": "Non. Pour WooCommerce et Shopify, un clic suffit pour tout installer. Notre extension s'occupe du reste. Seule l'intégration API personnalisée demande un peu de savoir-faire technique."
+        },
+        "exclusivity": {
+          "question": "Dois-je vendre exclusivement via Aura Historia ?",
+          "answer": "Non. Vous continuez à vendre sur votre site et sur toutes les autres plateformes. Nous vous apportons du trafic supplémentaire – nous ne remplaçons rien."
+        },
+        "data": {
+          "question": "Que devient mes données produits ?",
+          "answer": "Nous synchronisons uniquement les informations produits publiques afin de les rendre visibles dans notre moteur de recherche. Les achats ont lieu sur votre site. Vous gardez la maîtrise de vos données."
+        },
+        "transactions": {
+          "question": "Les ventes sont-elles traitées via Aura Historia ?",
+          "answer": "Non. Les acheteurs sont redirigés directement vers votre boutique pour finaliser leur achat. Vous conservez la relation client, la gestion des paiements et 100 % de votre chiffre d'affaires."
+        },
+        "fit": {
+          "question": "Quelles boutiques peuvent rejoindre le programme ?",
+          "answer": "Nous recherchons des boutiques en ligne sérieuses spécialisées en antiquités, art, objets de collection et pièces historiques. Les maisons de ventes et marchands spécialisés sont les bienvenus."
+        },
+        "support": {
+          "question": "Suis-je accompagné pendant l'installation ?",
+          "answer": "Oui. Notre équipe partenaires vous accompagne personnellement à l'onboarding et reste joignable par e-mail, même longtemps après le lancement."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Prêt à toucher des collectionneurs dans le monde entier ?",
+      "subtitle": "Postulez gratuitement en moins de deux minutes. Sans contrat, sans risque, avec un contrôle total.",
+      "primary": "Devenir partenaire",
+      "secondary": "Écrire à l'équipe partenaires"
     }
   },
   "apiErrors": {

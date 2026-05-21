@@ -55,6 +55,10 @@
     },
     "searchFilters": {
       "title": "Mis Filtros de Búsqueda | Aura Historia"
+    },
+    "partners": {
+      "title": "Programa de Partners | Aura Historia",
+      "description": "Conviértete en tienda partner de Aura Historia, el buscador de antigüedades y arte. Gratis, sin comisiones, conectado en minutos."
     }
   },
   "validation": {
@@ -109,7 +113,8 @@
       "company": "Empresa",
       "followUs": "Síguenos",
       "contact": "Contacto",
-      "discoverMore": "Descubrir más"
+      "discoverMore": "Descubrir más",
+      "partnerProgram": "Programa de Partners"
     },
     "landingPageLinks": {
       "recentlyAdded": "Últimas incorporaciones",
@@ -120,6 +125,13 @@
       "pricing": "Precios",
       "newsletter": "Newsletter",
       "faq": "FAQ"
+    },
+    "partnerProgramLinks": {
+      "overview": "Visión general",
+      "woocommerce": "WooCommerce",
+      "shopify": "Shopify",
+      "customApi": "Integración propia",
+      "apply": "Solicitar acceso"
     }
   },
   "account": {
@@ -629,6 +641,155 @@
       "getStartedFree": "Empezar gratis",
       "subscribe": "Suscribirse",
       "perMonth": "/mes"
+    }
+  },
+  "partners": {
+    "hero": {
+      "badge": "Programa de Partners",
+      "title": "¿Vendes antigüedades o arte online?<br/>Llega a coleccionistas en todo el mundo.",
+      "subtitle": "Únete a Aura Historia, el buscador con el que los coleccionistas encuentran justo lo que tú vendes. Gratis, sin compromiso y listo en minutos.",
+      "primaryCta": "Hazte partner",
+      "secondaryCta": "Saber más",
+      "trustBadges": {
+        "free": "100 % gratis",
+        "noTech": "Sin conocimientos técnicos",
+        "cancel": "Cancela cuando quieras"
+      }
+    },
+    "motivation": {
+      "title": "¿Por qué unirse?",
+      "subtitle": "Aura Historia conecta a coleccionistas motivados directamente con tus piezas, sin comisiones por venta.",
+      "items": {
+        "audience": {
+          "title": "Comunidad global de coleccionistas",
+          "description": "Llega a compradores en más de 15 países que buscan antigüedades y arte de forma activa."
+        },
+        "traffic": {
+          "title": "Más tráfico cualificado",
+          "description": "Enviamos a los interesados directamente a tu tienda: cada clic cuenta para ti, no para nosotros."
+        },
+        "highIntent": {
+          "title": "Leads con alta intención",
+          "description": "Nuestra plataforma inteligente conecta a coleccionistas con lo que realmente buscan. Resultado: solicitudes con verdadera intención de compra."
+        },
+        "trust": {
+          "title": "Distintivo Partner-Shop",
+          "description": "Destaca con el sello verificado Partner-Shop y gana la confianza de los coleccionistas más exigentes."
+        },
+        "realtime": {
+          "title": "Sincronización en tiempo real",
+          "description": "Las piezas nuevas aparecen al instante en nuestro buscador: tus compradores se enteran antes que nadie."
+        },
+        "noCommission": {
+          "title": "Sin comisión por venta",
+          "description": "No ganamos con tus ventas. Te quedas con el 100 % de tus ingresos."
+        }
+      }
+    },
+    "stats": {
+      "title": "Lo que viven nuestros partners",
+      "subtitle": "Promedios actuales de nuestra red de partners.",
+      "trafficIncrease": {
+        "value": "XX %",
+        "label": "Más tráfico tras 8 semanas"
+      },
+      "newBuyers": {
+        "value": "XX %",
+        "label": "Compradores nuevos que no habrías alcanzado"
+      },
+      "countries": {
+        "value": "XX",
+        "label": "Países desde los que llegan solicitudes"
+      },
+      "setup": {
+        "value": "< 15 min",
+        "label": "Hasta que tu primer producto esté online"
+      },
+      "disclaimer": "Las cifras son promedios de tiendas partner activas. Los resultados individuales pueden variar."
+    },
+    "integrations": {
+      "title": "Conecta tu tienda en minutos",
+      "subtitle": "Elige la integración que mejor encaja. Todas se sincronizan en minutos, sin tocar código.",
+      "woocommerce": {
+        "title": "WordPress · WooCommerce",
+        "description": "Instala nuestra extensión desde el directorio de plugins de WordPress. Un clic y listo.",
+        "cta": "Ver integración",
+        "badge": "Recomendado"
+      },
+      "shopify": {
+        "title": "App de Shopify",
+        "description": "Conecta tu tienda Shopify con un clic desde la Shopify App Store.",
+        "cta": "Ver integración",
+        "badge": "Popular"
+      },
+      "customApi": {
+        "title": "Integración propia · API key",
+        "description": "Control total sobre los endpoints REST mediante una API key con permisos limitados, ideal para sistemas a medida.",
+        "cta": "Documentación API",
+        "badge": "Para desarrolladores"
+      }
+    },
+    "howEasy": {
+      "title": "Online en tres pasos",
+      "subtitle": "Sin código, sin requisitos previos, sin riesgo. Así te conviertes en partner.",
+      "steps": {
+        "apply": {
+          "title": "Solicita acceso",
+          "description": "Rellena un formulario breve. Revisamos tu tienda y te respondemos en pocos días."
+        },
+        "claim": {
+          "title": "Configura tu tienda",
+          "description": "Reclama tu tienda y completa tu perfil en nuestro panel."
+        },
+        "connect": {
+          "title": "Activa la integración",
+          "description": "Elige WooCommerce, Shopify o nuestra API: tus productos aparecen en directo automáticamente."
+        }
+      }
+    },
+    "faq": {
+      "title": "Programa de Partners · preguntas frecuentes",
+      "subtitle": "Respuestas a las dudas que más nos plantean.",
+      "items": {
+        "free": {
+          "question": "¿Qué cuesta el programa de Partners?",
+          "answer": "El programa es totalmente gratuito. No hay tarifas de alta, listado ni de venta: no ganamos con tus ventas."
+        },
+        "cancel": {
+          "question": "¿Puedo darme de baja cuando quiera?",
+          "answer": "Sí. Puedes finalizar tu participación en cualquier momento, sin preaviso ni justificación. Si lo deseas, retiramos tus productos al instante."
+        },
+        "technical": {
+          "question": "¿Necesito conocimientos técnicos?",
+          "answer": "No. Para WooCommerce y Shopify basta un clic para instalar. Nuestra extensión hace el resto. Solo la integración con API a medida requiere algo de experiencia técnica."
+        },
+        "exclusivity": {
+          "question": "¿Tengo que vender en exclusiva con Aura Historia?",
+          "answer": "No. Sigues vendiendo en tu propia web y en cualquier otra plataforma. Te aportamos tráfico adicional, no sustituimos nada."
+        },
+        "data": {
+          "question": "¿Qué ocurre con los datos de mis productos?",
+          "answer": "Solo sincronizamos información pública para que sea encontrable en nuestro buscador. Las compras se producen en tu web. Mantienes el control total de tus datos."
+        },
+        "transactions": {
+          "question": "¿Las ventas se gestionan en Aura Historia?",
+          "answer": "No. Los compradores van directamente a tu tienda para finalizar la compra. Conservas la relación con tu cliente, tu pasarela de pago y el 100 % de tus ingresos."
+        },
+        "fit": {
+          "question": "¿Qué tiendas encajan en el programa?",
+          "answer": "Buscamos tiendas online serias de antigüedades, arte, coleccionables y objetos históricos. Las casas de subastas y los especialistas son especialmente bienvenidos."
+        },
+        "support": {
+          "question": "¿Recibiré ayuda durante la configuración?",
+          "answer": "Sí. Nuestro equipo de partners te acompaña personalmente en el onboarding y está disponible por correo, también después del lanzamiento."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "¿Listo para llegar a coleccionistas en todo el mundo?",
+      "subtitle": "Solicítalo gratis en menos de dos minutos. Sin contrato, sin riesgo, con control total.",
+      "primary": "Hazte partner",
+      "secondary": "Escribir al equipo de Partners"
     }
   },
   "apiErrors": {

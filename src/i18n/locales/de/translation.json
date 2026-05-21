@@ -55,6 +55,10 @@
     },
     "searchFilters": {
       "title": "Meine Suchaufträge | Aura Historia"
+    },
+    "partners": {
+      "title": "Partner-Programm | Aura Historia",
+      "description": "Werden Sie Partner-Shop bei Aura Historia – die Suchmaschine für Antiquitäten und Kunst. Kostenlos, ohne Provision, in Minuten verbunden."
     }
   },
   "validation": {
@@ -109,7 +113,8 @@
       "company": "Unternehmen",
       "followUs": "Folge uns",
       "contact": "Kontakt",
-      "discoverMore": "Mehr entdecken"
+      "discoverMore": "Mehr entdecken",
+      "partnerProgram": "Partner-Programm"
     },
     "landingPageLinks": {
       "recentlyAdded": "Neueste Zugänge",
@@ -120,6 +125,13 @@
       "pricing": "Preise",
       "newsletter": "Newsletter",
       "faq": "FAQ"
+    },
+    "partnerProgramLinks": {
+      "overview": "Übersicht",
+      "woocommerce": "WooCommerce",
+      "shopify": "Shopify",
+      "customApi": "Eigene Integration",
+      "apply": "Jetzt bewerben"
     }
   },
   "account": {
@@ -627,6 +639,155 @@
       "getStartedFree": "Kostenlos starten",
       "subscribe": "Abonnieren",
       "perMonth": "/Monat"
+    }
+  },
+  "partners": {
+    "hero": {
+      "badge": "Partner-Programm",
+      "title": "Verkaufen Sie Antiquitäten oder Kunst online?<br/>Erreichen Sie Sammler weltweit.",
+      "subtitle": "Werden Sie Teil von Aura Historia – der Suchmaschine, mit der Sammler genau das finden, was Sie verkaufen. Kostenlos, unverbindlich und in wenigen Minuten eingerichtet.",
+      "primaryCta": "Partner werden",
+      "secondaryCta": "Mehr erfahren",
+      "trustBadges": {
+        "free": "100 % kostenlos",
+        "noTech": "Keine technischen Kenntnisse nötig",
+        "cancel": "Jederzeit kündbar"
+      }
+    },
+    "motivation": {
+      "title": "Warum Partner werden?",
+      "subtitle": "Aura Historia bringt hochmotivierte Sammler direkt zu Ihren Stücken – ohne Provision pro Verkauf.",
+      "items": {
+        "audience": {
+          "title": "Globale Sammler-Community",
+          "description": "Erreichen Sie Käufer in über 15 Ländern, die gezielt nach seltenen Antiquitäten und Kunst suchen."
+        },
+        "traffic": {
+          "title": "Mehr qualifizierter Traffic",
+          "description": "Wir leiten Interessenten direkt auf Ihre Shop-Seite weiter – jeder Klick zählt für Sie, nicht für uns."
+        },
+        "highIntent": {
+          "title": "Hochinteressierte Leads",
+          "description": "Unsere intelligente Plattform matched Sammler mit dem, was sie wirklich suchen. Das Ergebnis: Anfragen mit echter Kaufabsicht."
+        },
+        "trust": {
+          "title": "Partner-Shop-Abzeichen",
+          "description": "Heben Sie sich mit dem verifizierten Partner-Shop-Badge ab und gewinnen Sie das Vertrauen anspruchsvoller Sammler."
+        },
+        "realtime": {
+          "title": "Echtzeit-Synchronisation",
+          "description": "Neue Stücke erscheinen sofort in unserer Suche – Ihre Käufer sind die Ersten, die Bescheid wissen."
+        },
+        "noCommission": {
+          "title": "Keine Verkaufsprovision",
+          "description": "Wir verdienen nicht an Ihren Verkäufen. Sie behalten 100 % Ihres Umsatzes."
+        }
+      }
+    },
+    "stats": {
+      "title": "Was unsere Partner erleben",
+      "subtitle": "Aktuelle Durchschnittswerte aus unserem Partner-Netzwerk.",
+      "trafficIncrease": {
+        "value": "XX %",
+        "label": "Mehr Traffic nach 8 Wochen"
+      },
+      "newBuyers": {
+        "value": "XX %",
+        "label": "Neukunden, die Sie sonst nie erreicht hätten"
+      },
+      "countries": {
+        "value": "XX",
+        "label": "Länder, aus denen Anfragen kommen"
+      },
+      "setup": {
+        "value": "< 15 Min.",
+        "label": "Bis Ihr erstes Produkt live ist"
+      },
+      "disclaimer": "Werte basieren auf Durchschnitten aktiver Partner-Shops. Individuelle Ergebnisse können abweichen."
+    },
+    "integrations": {
+      "title": "So einfach verbinden Sie Ihren Shop",
+      "subtitle": "Wählen Sie die Integration, die zu Ihrem Setup passt. Alle Wege führen in wenigen Minuten zur Live-Synchronisation – ohne dass Sie Code anfassen müssen.",
+      "woocommerce": {
+        "title": "WordPress · WooCommerce",
+        "description": "Installieren Sie unsere Erweiterung über das WordPress-Plugin-Verzeichnis. Ein Klick – fertig.",
+        "cta": "Integration ansehen",
+        "badge": "Empfohlen"
+      },
+      "shopify": {
+        "title": "Shopify-App",
+        "description": "Verbinden Sie Ihren Shopify-Store mit einem Klick aus dem Shopify App Store.",
+        "cta": "Integration ansehen",
+        "badge": "Beliebt"
+      },
+      "customApi": {
+        "title": "Eigene Integration · API-Key",
+        "description": "Vollständige Kontrolle über REST-Endpunkte mit scoped API-Key – ideal für individuelle Shop-Systeme.",
+        "cta": "API-Dokumentation",
+        "badge": "Für Entwickler"
+      }
+    },
+    "howEasy": {
+      "title": "In drei Schritten online",
+      "subtitle": "Kein Code, keine Vorkenntnisse, kein Risiko. So werden Sie Partner.",
+      "steps": {
+        "apply": {
+          "title": "Bewerben",
+          "description": "Füllen Sie ein kurzes Formular aus. Wir prüfen Ihren Shop und melden uns innerhalb weniger Tage."
+        },
+        "claim": {
+          "title": "Shop einrichten",
+          "description": "Beanspruchen Sie Ihren Shop und vervollständigen Sie Ihre Profilangaben in unserem Dashboard."
+        },
+        "connect": {
+          "title": "Integration aktivieren",
+          "description": "Wählen Sie WooCommerce, Shopify oder unsere API – Ihre Produkte erscheinen automatisch live."
+        }
+      }
+    },
+    "faq": {
+      "title": "Häufige Fragen zum Partner-Programm",
+      "subtitle": "Antworten auf die wichtigsten Fragen rund ums Mitmachen.",
+      "items": {
+        "free": {
+          "question": "Was kostet das Partner-Programm?",
+          "answer": "Das Partner-Programm ist vollständig kostenlos. Es fallen keine Einrichtungs-, Listing- oder Verkaufsgebühren an – wir verdienen nicht an Ihren Verkäufen."
+        },
+        "cancel": {
+          "question": "Kann ich jederzeit aussteigen?",
+          "answer": "Ja. Sie können Ihre Partnerschaft jederzeit ohne Frist und ohne Begründung beenden. Auf Wunsch entfernen wir Ihre Produkte umgehend."
+        },
+        "technical": {
+          "question": "Brauche ich technisches Wissen?",
+          "answer": "Nein. Für WooCommerce und Shopify reicht ein Klick zum Installieren. Den Rest übernimmt unsere Erweiterung. Nur für die individuelle API-Integration ist Entwicklungs-Know-how hilfreich."
+        },
+        "exclusivity": {
+          "question": "Muss ich meinen Shop exklusiv über Aura Historia anbieten?",
+          "answer": "Nein. Sie verkaufen weiterhin auf Ihrer eigenen Webseite und auf allen anderen Plattformen, auf denen Sie schon vertreten sind. Wir bringen Ihnen zusätzlichen Traffic – wir ersetzen nichts."
+        },
+        "data": {
+          "question": "Was passiert mit meinen Produktdaten?",
+          "answer": "Wir synchronisieren ausschließlich öffentlich sichtbare Produktinformationen, um sie über unsere Suche auffindbar zu machen. Käufe finden direkt auf Ihrer Webseite statt. Sie behalten die volle Datenhoheit."
+        },
+        "transactions": {
+          "question": "Werden Verkäufe über Aura Historia abgewickelt?",
+          "answer": "Nein, Käufer werden für den Abschluss direkt zu Ihrem Shop weitergeleitet. Sie behalten Ihre Kundenbeziehung, Ihre Zahlungsabwicklung und 100 % Ihres Umsatzes."
+        },
+        "fit": {
+          "question": "Welche Shops passen ins Programm?",
+          "answer": "Wir suchen seriöse Online-Shops mit Antiquitäten, Kunstgegenständen, Sammlerstücken und vergleichbaren historischen Objekten. Auktionshäuser und spezialisierte Fachhändler sind ausdrücklich willkommen."
+        },
+        "support": {
+          "question": "Bekomme ich beim Setup Unterstützung?",
+          "answer": "Ja. Unser Partner-Team begleitet Sie persönlich beim Onboarding und ist per E-Mail erreichbar – auch wenn nach dem Start einmal Fragen aufkommen."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Bereit, Sammler weltweit zu erreichen?",
+      "subtitle": "Bewerben Sie sich kostenlos in unter zwei Minuten. Ohne Vertrag, ohne Risiko, mit voller Kontrolle.",
+      "primary": "Jetzt Partner werden",
+      "secondary": "E-Mail an Partner-Team"
     }
   },
   "apiErrors": {

@@ -22,6 +22,34 @@ export interface LandingPageFooterLink {
     fragment: string;
 }
 
+export interface PartnerProgramFooterLink {
+    translationKey: string;
+    href: string;
+}
+
+export const PARTNER_PROGRAM_FOOTER_LINKS: PartnerProgramFooterLink[] = [
+    {
+        translationKey: "footer.partnerProgramLinks.overview",
+        href: "/partners",
+    },
+    {
+        translationKey: "footer.partnerProgramLinks.woocommerce",
+        href: "/partners/woocommerce",
+    },
+    {
+        translationKey: "footer.partnerProgramLinks.shopify",
+        href: "/partners/shopify",
+    },
+    {
+        translationKey: "footer.partnerProgramLinks.customApi",
+        href: "/partners/custom-api",
+    },
+    {
+        translationKey: "footer.partnerProgramLinks.apply",
+        href: "/partners/apply",
+    },
+];
+
 export const LANDING_PAGE_FOOTER_LINKS: LandingPageFooterLink[] = [
     {
         translationKey: "footer.landingPageLinks.recentlyAdded",

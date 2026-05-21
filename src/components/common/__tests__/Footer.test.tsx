@@ -112,6 +112,27 @@ describe("Footer Component", () => {
         expect(screen.getByText("Mehr entdecken")).toBeInTheDocument();
         expect(screen.getByText("Folge uns")).toBeInTheDocument();
         expect(screen.getByText("Kontakt")).toBeInTheDocument();
+        expect(screen.getByText("Partner-Programm")).toBeInTheDocument();
+    });
+
+    it("should render partner program links with correct href attributes", () => {
+        expect(screen.getByText("Übersicht").closest("a")).toHaveAttribute("href", "/partners");
+        expect(screen.getByText("WooCommerce").closest("a")).toHaveAttribute(
+            "href",
+            "/partners/woocommerce",
+        );
+        expect(screen.getByText("Shopify").closest("a")).toHaveAttribute(
+            "href",
+            "/partners/shopify",
+        );
+        expect(screen.getByText("Eigene Integration").closest("a")).toHaveAttribute(
+            "href",
+            "/partners/custom-api",
+        );
+        expect(screen.getByText("Jetzt bewerben").closest("a")).toHaveAttribute(
+            "href",
+            "/partners/apply",
+        );
     });
 
     it("should render landing page fragment links", () => {

@@ -55,6 +55,10 @@
     },
     "searchFilters": {
       "title": "My Search Filters | Aura Historia"
+    },
+    "partners": {
+      "title": "Partner Program | Aura Historia",
+      "description": "Become a partner shop on Aura Historia – the antiques and art search engine. Free, commission-free, connected in minutes."
     }
   },
   "validation": {
@@ -109,7 +113,8 @@
       "company": "Company",
       "followUs": "Follow Us",
       "contact": "Contact",
-      "discoverMore": "Discover More"
+      "discoverMore": "Discover More",
+      "partnerProgram": "Partner Program"
     },
     "landingPageLinks": {
       "recentlyAdded": "Recently Added",
@@ -120,6 +125,13 @@
       "pricing": "Pricing",
       "newsletter": "Newsletter",
       "faq": "FAQ"
+    },
+    "partnerProgramLinks": {
+      "overview": "Overview",
+      "woocommerce": "WooCommerce",
+      "shopify": "Shopify",
+      "customApi": "Custom integration",
+      "apply": "Apply now"
     }
   },
   "account": {
@@ -629,6 +641,155 @@
       "getStartedFree": "Get Started Free",
       "subscribe": "Subscribe",
       "perMonth": "/mo"
+    }
+  },
+  "partners": {
+    "hero": {
+      "badge": "Partner Program",
+      "title": "Sell antiques or art online?<br/>Reach collectors worldwide.",
+      "subtitle": "Join Aura Historia – the search engine collectors use to find exactly what you sell. Free, no commitment, set up in minutes.",
+      "primaryCta": "Become a partner",
+      "secondaryCta": "Learn more",
+      "trustBadges": {
+        "free": "100% free",
+        "noTech": "No technical skills needed",
+        "cancel": "Cancel any time"
+      }
+    },
+    "motivation": {
+      "title": "Why join the program?",
+      "subtitle": "Aura Historia connects motivated collectors directly with your pieces – with zero sales commission.",
+      "items": {
+        "audience": {
+          "title": "A global collector community",
+          "description": "Reach buyers in 15+ countries who actively search for rare antiques and art."
+        },
+        "traffic": {
+          "title": "More qualified traffic",
+          "description": "We send interested visitors straight to your shop – every click counts for you, not for us."
+        },
+        "highIntent": {
+          "title": "High-intent leads",
+          "description": "Our intelligent platform matches collectors with what they truly want. The result: enquiries with real buying intent."
+        },
+        "trust": {
+          "title": "Partner-Shop badge",
+          "description": "Stand out with the verified Partner-Shop badge and earn the trust of demanding collectors."
+        },
+        "realtime": {
+          "title": "Real-time sync",
+          "description": "New pieces appear in our search instantly – your buyers are the first to know."
+        },
+        "noCommission": {
+          "title": "No sales commission",
+          "description": "We don't earn from your sales. You keep 100% of your revenue."
+        }
+      }
+    },
+    "stats": {
+      "title": "What our partners experience",
+      "subtitle": "Current averages across our partner network.",
+      "trafficIncrease": {
+        "value": "XX%",
+        "label": "More traffic after 8 weeks"
+      },
+      "newBuyers": {
+        "value": "XX%",
+        "label": "New buyers you wouldn't have reached otherwise"
+      },
+      "countries": {
+        "value": "XX",
+        "label": "Countries enquiries come from"
+      },
+      "setup": {
+        "value": "< 15 min",
+        "label": "Until your first product is live"
+      },
+      "disclaimer": "Numbers reflect averages across active partner shops. Individual results may vary."
+    },
+    "integrations": {
+      "title": "Connect your shop in minutes",
+      "subtitle": "Pick the integration that fits your setup. Every option syncs in minutes – no code required.",
+      "woocommerce": {
+        "title": "WordPress · WooCommerce",
+        "description": "Install our extension straight from the WordPress plugin directory. One click – done.",
+        "cta": "View integration",
+        "badge": "Recommended"
+      },
+      "shopify": {
+        "title": "Shopify app",
+        "description": "Connect your Shopify store with one click from the Shopify App Store.",
+        "cta": "View integration",
+        "badge": "Popular"
+      },
+      "customApi": {
+        "title": "Custom integration · API key",
+        "description": "Full control over REST endpoints with a scoped API key – ideal for custom shop systems.",
+        "cta": "API documentation",
+        "badge": "For developers"
+      }
+    },
+    "howEasy": {
+      "title": "Online in three steps",
+      "subtitle": "No code, no prior knowledge, no risk. Here's how you become a partner.",
+      "steps": {
+        "apply": {
+          "title": "Apply",
+          "description": "Fill in a short form. We review your shop and get back to you within a few days."
+        },
+        "claim": {
+          "title": "Set up your shop",
+          "description": "Claim your shop and complete your profile in our dashboard."
+        },
+        "connect": {
+          "title": "Activate the integration",
+          "description": "Choose WooCommerce, Shopify or our API – your products appear live automatically."
+        }
+      }
+    },
+    "faq": {
+      "title": "Partner program · frequently asked questions",
+      "subtitle": "Answers to the questions partners ask us most.",
+      "items": {
+        "free": {
+          "question": "What does the partner program cost?",
+          "answer": "The partner program is entirely free. There are no setup, listing or sales fees – we don't earn from your sales."
+        },
+        "cancel": {
+          "question": "Can I leave at any time?",
+          "answer": "Yes. You can end your partnership at any time, without notice and without giving a reason. We remove your products on request right away."
+        },
+        "technical": {
+          "question": "Do I need technical skills?",
+          "answer": "No. For WooCommerce and Shopify, a single click installs everything. Our extension handles the rest. Only the custom API integration benefits from development experience."
+        },
+        "exclusivity": {
+          "question": "Do I have to sell exclusively through Aura Historia?",
+          "answer": "No. You keep selling on your own website and every other platform you already use. We bring you additional traffic – we don't replace anything."
+        },
+        "data": {
+          "question": "What happens to my product data?",
+          "answer": "We only sync publicly visible product information to make it discoverable in our search. Purchases happen on your website. You retain full control over your data."
+        },
+        "transactions": {
+          "question": "Are sales processed through Aura Historia?",
+          "answer": "No. Buyers are sent straight to your shop to complete the purchase. You keep your customer relationship, your payment processing and 100% of your revenue."
+        },
+        "fit": {
+          "question": "Which shops fit the program?",
+          "answer": "We look for reputable online shops selling antiques, art, collectibles and comparable historical objects. Auction houses and specialised dealers are explicitly welcome."
+        },
+        "support": {
+          "question": "Will I get help during setup?",
+          "answer": "Yes. Our partner team supports you personally during onboarding and is reachable by email – also long after launch."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Ready to reach collectors worldwide?",
+      "subtitle": "Apply for free in under two minutes. No contract, no risk, full control.",
+      "primary": "Become a partner now",
+      "secondary": "Email the partner team"
     }
   },
   "apiErrors": {
