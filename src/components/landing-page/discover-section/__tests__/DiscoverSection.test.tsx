@@ -78,7 +78,7 @@ describe("DiscoverSection", () => {
         });
 
         it("renders text-only stat as translation string", () => {
-            expect(screen.getByText("24/7+")).toBeInTheDocument();
+            expect(screen.getByText("24/7")).toBeInTheDocument();
         });
     });
 
