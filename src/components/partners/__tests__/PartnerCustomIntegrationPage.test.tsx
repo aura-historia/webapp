@@ -1,0 +1,52 @@
+import PartnerCustomIntegrationPage from "@/components/partners/PartnerCustomIntegrationPage.tsx";
+import { renderWithRouter } from "@/test/utils.tsx";
+import { act, fireEvent, screen } from "@testing-library/react";
+
+describe("PartnerCustomIntegrationPage", () => {
+    beforeEach(async () => {
+        await act(async () => {
+            renderWithRouter(<PartnerCustomIntegrationPage />);
+        });
+    });
+
+    it("renders the custom integration guide hero and primary CTA", () => {
+        expect(
+            screen.getByRole("heading", { name: "Eigene Integration per API" }),
+        ).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: /API-Key jetzt holen/i })).toHaveAttribute(
+            "href",
+            "/partners/apply",
+        );
+    });
+
+    it("explains the asynchronous event-sink concept", () => {
+        expect(screen.getByText("Event-Sink statt klassischer REST-Antworten")).toBeInTheDocument();
+        expect(screen.getByText(/202 Accepted/i)).toBeInTheDocument();
+    });
+
+    it("embeds all relevant partner API endpoints", () => {
+        expect(screen.getByTitle("POST /api/v1/shops/{shopId}/products")).toHaveAttribute(
+            "src",
+            "https://docs.api.aura-historia.com/#/Products/postPartnerProducts",
+        );
+        expect(screen.getByTitle("PATCH /api/v1/shops/{shopId}/products")).toHaveAttribute(
+            "src",
+            "https://docs.api.aura-historia.com/#/Products/patchPartnerProducts",
+        );
+        expect(screen.getByTitle("PUT /api/v1/shops/{shopId}/products")).toHaveAttribute(
+            "src",
+            "https://docs.api.aura-historia.com/#/Products/putPartnerProducts",
+        );
+    });
+
+    it("builds the final shop-page CTA from the entered shop slug", () => {
+        const input = screen.getByLabelText("Ihre Shop-Slug-ID");
+
+        fireEvent.change(input, { target: { value: "mein-laden" } });
+
+        expect(screen.getByRole("link", { name: /Meine Shop-Seite öffnen/i })).toHaveAttribute(
+            "href",
+            "/shops/mein-laden",
+        );
+    });
+});

@@ -783,6 +783,119 @@
         }
       }
     },
+    "customIntegrationPage": {
+      "hero": {
+        "eyebrow": "Partner-Programm · Eigene Integration",
+        "title": "Eigene Integration per API",
+        "subtitle": "Nutzen Sie unsere Partner-API, wenn Sie Ihr eigenes Shop-System anbinden möchten. Der Ablauf ist bewusst asynchron: Sie senden Ereignisse an Aura Historia, wir verarbeiten sie im Hintergrund und Ihre Produkte erscheinen kurz darauf auf Ihrer Shop-Seite.",
+        "primaryCta": "API-Key jetzt holen",
+        "secondaryCta": "API-Dokumentation öffnen"
+      },
+      "concept": {
+        "title": "Event-Sink statt klassischer REST-Antworten",
+        "description": "Die Partner-API bestätigt nur, dass wir Ihr Batch entgegengenommen haben. Validierung, Verarbeitung und Sichtbarkeit laufen anschließend asynchron. Genau deshalb sollten Sie mit kurzen Wartezeiten rechnen, bevor Produkte auf Aura Historia sichtbar werden.",
+        "flowLabel": "Typischer Ablauf",
+        "flow": {
+          "accepted": "202 Accepted · Batch angenommen",
+          "processing": "Verarbeitung im Hintergrund",
+          "visible": "Produkte erscheinen wenige Minuten später"
+        },
+        "benefits": {
+          "async": {
+            "title": "Asynchron denken",
+            "description": "Behandeln Sie die API wie einen Ereignis-Eingang: Batch senden, Annahme protokollieren und das Ergebnis später auf Ihrer Shop-Seite prüfen."
+          },
+          "polling": {
+            "title": "Mit vollständigen Batches arbeiten",
+            "description": "Für neue Produkte nutzen Sie POST. Änderungen laufen über PATCH oder PUT, damit Ihr externer Katalog und Aura Historia dauerhaft synchron bleiben."
+          }
+        }
+      },
+      "summary": {
+        "title": "Was Sie für den ersten Sync brauchen",
+        "subtitle": "Mit diesen drei Bausteinen kommen Sie ohne Umwege vom API-Key bis zum ersten Produktbatch.",
+        "items": {
+          "apiKey": {
+            "title": "Partner-Zugang und API-Key",
+            "description": "Beantragen Sie den Zugang über unser Partner-Team. Nach der Freischaltung erhalten Sie Ihren scoped API-Key."
+          },
+          "shopId": {
+            "title": "Ihre interne Shop-ID auf Aura Historia",
+            "description": "Sie benötigen die Shop-ID aus dem Onboarding, damit Ihre Batches dem richtigen Shop zugeordnet werden."
+          },
+          "productBatch": {
+            "title": "Ein erstes Batch mit Produktdaten",
+            "description": "Starten Sie mit wenigen validen Produkten, damit Sie den asynchronen Import und die spätere Sichtbarkeit leicht prüfen können."
+          }
+        }
+      },
+      "guide": {
+        "title": "Schritt für Schritt zur ersten Produkt-Synchronisation",
+        "subtitle": "Von der API-Key-Anfrage bis zur Kontrolle Ihrer Shop-Seite: Jeder Schritt enthält eine kurze Erklärung und einen visuellen Platzhalter.",
+        "stepLabel": "Schritt {{number}}",
+        "endpointLabel": "Relevanter Endpunkt",
+        "focusLabel": "Worauf Sie achten sollten",
+        "steps": {
+          "requestKey": {
+            "title": "API-Key für Ihren Partner-Shop anfordern",
+            "description": "Starten Sie mit dem Partner-Onboarding. Nach der Prüfung Ihres Shops erhalten Sie einen API-Key und die Shop-ID, die Sie in allen Batch-Aufrufen verwenden.",
+            "focus": "Achten Sie auf API-Key, Shop-ID und den Ansprechpartner in Ihrer Freischaltungs-E-Mail.",
+            "visualTitle": "Platzhalter · Freischaltung & Zugangsdaten",
+            "visualCaption": "Roter Fokus auf API-Key und Shop-ID"
+          },
+          "preparePayload": {
+            "title": "Erstes Produkt-Batch vorbereiten",
+            "description": "Erstellen Sie ein kleines Batch mit den Pflichtfeldern Ihrer Produkte. Prüfen Sie insbesondere IDs, Titel, Preise, Bilder und Links zu Ihrer Detailseite.",
+            "focus": "Beginnen Sie mit wenigen Produkten, damit Sie Fehler leichter erkennen und den ersten Import schnell validieren können.",
+            "visualTitle": "Platzhalter · JSON-Payload vorbereiten",
+            "visualCaption": "Roter Fokus auf Batch-Struktur und Pflichtfelder"
+          },
+          "sendBatch": {
+            "title": "Erstes Batch an Aura Historia senden",
+            "description": "Senden Sie Ihr erstes Batch via POST an den Partner-Endpunkt. Wenn Ihr Request angenommen wird, startet die Verarbeitung im Hintergrund.",
+            "focus": "Ein akzeptierter Request bedeutet noch nicht, dass die Produkte sofort sichtbar sind. Planen Sie einige Minuten Verarbeitungszeit ein.",
+            "visualTitle": "Platzhalter · Batch absenden",
+            "visualCaption": "Roter Fokus auf Request-Button und 202-Antwort"
+          },
+          "keepInSync": {
+            "title": "Änderungen per PATCH oder PUT nachziehen",
+            "description": "Sobald der erste Import läuft, halten Sie Ihren Bestand mit PATCH-Updates oder PUT-Upserts aktuell. So bleibt Aura Historia mit Ihrem Quellsystem synchron.",
+            "focus": "Nutzen Sie PATCH für gezielte Änderungen und PUT, wenn Sie Datensätze vollständig upserten möchten.",
+            "visualTitle": "Platzhalter · Synchronisation aktualisieren",
+            "visualCaption": "Roter Fokus auf Update- und Upsert-Aktion"
+          },
+          "verifyShop": {
+            "title": "Shop-Seite öffnen und Synchronisation prüfen",
+            "description": "Öffnen Sie nach dem ersten Batch Ihre Shop-Seite auf Aura Historia. Nach wenigen Minuten sollten dort die ersten Produkte erscheinen.",
+            "focus": "Nutzen Sie Ihre Shop-Slug-ID, um direkt zu Ihrer Aura-Shop-Seite zu springen und den ersten Sync zu kontrollieren.",
+            "inputLabel": "Ihre Shop-Slug-ID",
+            "inputPlaceholder": "z. B. mein-antiquitaetenhaus",
+            "inputHint": "Tragen Sie hier die Slug-ID Ihres Shops ein. Der Button öffnet anschließend direkt Ihre Shop-Seite.",
+            "cta": "Meine Shop-Seite öffnen",
+            "visualTitle": "Platzhalter · Shop-Seite kontrollieren",
+            "visualCaption": "Roter Fokus auf Produktgrid und Shop-Header"
+          }
+        }
+      },
+      "endpoints": {
+        "title": "Partner-relevante Endpunkte direkt eingebettet",
+        "subtitle": "Die folgenden Scalar-Embeds verlinken direkt in unsere OpenAPI-Dokumentation und zeigen die drei Batch-Endpunkte für Partner-Integrationen.",
+        "items": {
+          "create": {
+            "title": "Batch create products (Partner API)",
+            "description": "Legen Sie ein neues Batch mit Produkten für Ihren Shop an. Ideal für den ersten Import oder für komplett neue Artikel."
+          },
+          "update": {
+            "title": "Batch update products (Partner API)",
+            "description": "Aktualisieren Sie bestehende Produkte gezielt, wenn sich Titel, Preise, Bilder oder Verfügbarkeiten ändern."
+          },
+          "upsert": {
+            "title": "Batch upsert products (Partner API)",
+            "description": "Synchronisieren Sie Ihren Bestand robust per Upsert, wenn Sie neue und bestehende Produkte in einem Schritt verarbeiten möchten."
+          }
+        }
+      }
+    },
     "finalCta": {
       "title": "Bereit, Sammler weltweit zu erreichen?",
       "subtitle": "Bewerben Sie sich kostenlos in unter zwei Minuten. Ohne Vertrag, ohne Risiko, mit voller Kontrolle.",
