@@ -5,35 +5,31 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "../Header.tsx";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
 
-const mockUseAuth = vi.hoisted(() => vi.fn());
+const mockUseResolvedAuth = vi.hoisted(() => vi.fn());
 const mockUseUserAccount = vi.hoisted(() => vi.fn());
-const mockUseRouteContext = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/auth/useAuth", () => ({
-    useAuth: mockUseAuth,
+vi.mock("@/hooks/auth/useResolvedAuth", () => ({
+    useResolvedAuth: mockUseResolvedAuth,
 }));
 
 vi.mock("@/hooks/account/useUserAccount.ts", () => ({
     useUserAccount: mockUseUserAccount,
 }));
 
-vi.mock("@/routes/__root.tsx", () => ({
-    Route: {
-        useRouteContext: mockUseRouteContext,
-    },
-}));
-
-const setupAuthMock = (isLoggedIn = false) => {
-    mockUseAuth.mockReturnValue({
-        user: isLoggedIn ? { userId: "test-id", username: "test" } : null,
-        isLoading: false,
+const setupAuthMock = ({
+    isAuthenticated = false,
+    isLoading = false,
+}: {
+    isAuthenticated?: boolean;
+    isLoading?: boolean;
+} = {}) => {
+    mockUseResolvedAuth.mockReturnValue({
+        user: isAuthenticated ? { userId: "test-id", username: "test" } : null,
+        serverUser: null,
+        isAuthenticated,
+        isLoading,
+        isResolved: isAuthenticated || !isLoading,
         signOut: vi.fn(),
-    });
-    mockUseRouteContext.mockReturnValue({
-        serverAuth: {
-            authenticated: isLoggedIn,
-            user: isLoggedIn ? { userId: "test-id", username: "test" } : null,
-        },
     });
 };
 
@@ -44,7 +40,7 @@ describe("Header Component", () => {
 
     describe("Not logged in user", () => {
         beforeEach(async () => {
-            setupAuthMock(false);
+            setupAuthMock();
             mockUseUserAccount.mockReturnValue({ data: undefined, isLoading: false });
             await act(async () => {
                 renderWithRouter(<Header />);
@@ -65,7 +61,7 @@ describe("Header Component", () => {
 
     describe("Logged in user", () => {
         beforeEach(async () => {
-            setupAuthMock(true);
+            setupAuthMock({ isAuthenticated: true });
             mockUseUserAccount.mockReturnValue({
                 data: {
                     firstName: "Max",
@@ -107,6 +103,40 @@ describe("Header Component", () => {
         it("should not show auth buttons", () => {
             expect(screen.queryByText("Registrieren")).not.toBeInTheDocument();
             expect(screen.queryByText("Einloggen")).not.toBeInTheDocument();
+        });
+    });
+
+    describe("Cloudflare prerendered auth state", () => {
+        it("uses the client Amplify session when server auth was rendered as logged out", async () => {
+            setupAuthMock({ isAuthenticated: true });
+            mockUseUserAccount.mockReturnValue({
+                data: {
+                    firstName: "Max",
+                    lastName: "Mustermann",
+                },
+                isLoading: false,
+            });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            expect(screen.getByText("MM")).toBeInTheDocument();
+            expect(screen.queryByText("Registrieren")).not.toBeInTheDocument();
+            expect(screen.queryByText("Einloggen")).not.toBeInTheDocument();
+        });
+
+        it("does not show logged-out actions while the client session is still loading", async () => {
+            setupAuthMock({ isLoading: true });
+            mockUseUserAccount.mockReturnValue({ data: undefined, isLoading: false });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            expect(screen.queryByText("Registrieren")).not.toBeInTheDocument();
+            expect(screen.queryByText("Einloggen")).not.toBeInTheDocument();
+            expect(screen.queryByRole("button", { name: "Menu" })).not.toBeInTheDocument();
         });
     });
 
@@ -248,7 +278,7 @@ describe("Header Component", () => {
 
     describe("Greeting logic", () => {
         it("should display greeting with firstName when user is logged in", async () => {
-            setupAuthMock(true);
+            setupAuthMock({ isAuthenticated: true });
             mockUseUserAccount.mockReturnValue({
                 data: {
                     firstName: "Max",
@@ -265,7 +295,7 @@ describe("Header Component", () => {
         });
 
         it("should not display greeting when user is not logged in", async () => {
-            setupAuthMock(false);
+            setupAuthMock();
             mockUseUserAccount.mockReturnValue({
                 data: undefined,
                 isLoading: false,
@@ -279,7 +309,7 @@ describe("Header Component", () => {
         });
 
         it("should not display greeting when user is logged in but firstName is missing", async () => {
-            setupAuthMock(true);
+            setupAuthMock({ isAuthenticated: true });
             mockUseUserAccount.mockReturnValue({
                 data: {
                     firstName: undefined,
@@ -296,7 +326,7 @@ describe("Header Component", () => {
         });
 
         it("should not display greeting when user account data is still loading", async () => {
-            setupAuthMock(true);
+            setupAuthMock({ isAuthenticated: true });
             mockUseUserAccount.mockReturnValue({
                 data: undefined,
                 isLoading: true,
@@ -310,7 +340,7 @@ describe("Header Component", () => {
         });
 
         it("should display greeting with different firstName", async () => {
-            setupAuthMock(true);
+            setupAuthMock({ isAuthenticated: true });
             mockUseUserAccount.mockReturnValue({
                 data: {
                     firstName: "Anna",
@@ -327,7 +357,7 @@ describe("Header Component", () => {
         });
 
         it("should display greeting in dropdown trigger for desktop view", async () => {
-            setupAuthMock(true);
+            setupAuthMock({ isAuthenticated: true });
             mockUseUserAccount.mockReturnValue({
                 data: {
                     firstName: "Max",
@@ -346,7 +376,7 @@ describe("Header Component", () => {
         });
 
         it("should show AccountImage alongside greeting", async () => {
-            setupAuthMock(true);
+            setupAuthMock({ isAuthenticated: true });
             mockUseUserAccount.mockReturnValue({
                 data: {
                     firstName: "Max",

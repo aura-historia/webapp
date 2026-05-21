@@ -84,7 +84,7 @@ export default function DiscoverSection({ productCount, shopCount }: DiscoverSec
                                         >
                                             {stat.amount == null ? (
                                                 <p className="text-2xl sm:text-4xl font-display text-primary mb-2">
-                                                    {t(stat.valueKey)}+
+                                                    {t(stat.valueKey)}
                                                 </p>
                                             ) : (
                                                 <span className="text-2xl sm:text-4xl font-display text-primary block">
@@ -94,7 +94,7 @@ export default function DiscoverSection({ productCount, shopCount }: DiscoverSec
                                                                 value={
                                                                     isVisible ? (amount ?? 0) : 0
                                                                 }
-                                                                suffix="+"
+                                                                suffix={amount ? "+" : ""}
                                                             />
                                                         </Suspense>
                                                     </ClientOnly>
