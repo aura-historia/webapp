@@ -61,6 +61,12 @@ const GUIDE_STEPS: readonly GuideStep[] = [
 
 const ENDPOINTS: readonly EndpointDefinition[] = [
     {
+        key: "upsert",
+        method: "PUT",
+        path: "/api/v1/shops/{shopId}/products",
+        docsUrl: "https://docs.api.aura-historia.com/#/Products/putPartnerProducts",
+    },
+    {
         key: "create",
         method: "POST",
         path: "/api/v1/shops/{shopId}/products",
@@ -71,12 +77,6 @@ const ENDPOINTS: readonly EndpointDefinition[] = [
         method: "PATCH",
         path: "/api/v1/shops/{shopId}/products",
         docsUrl: "https://docs.api.aura-historia.com/#/Products/patchPartnerProducts",
-    },
-    {
-        key: "upsert",
-        method: "PUT",
-        path: "/api/v1/shops/{shopId}/products",
-        docsUrl: "https://docs.api.aura-historia.com/#/Products/putPartnerProducts",
     },
 ];
 
@@ -366,49 +366,79 @@ export default function PartnerCustomIntegrationPage() {
                         showDivider={false}
                     />
 
-                    <div className="mt-16 grid gap-8 xl:grid-cols-3">
-                        {ENDPOINTS.map((endpoint) => (
-                            <Card key={endpoint.key} className="overflow-hidden border-border/60">
-                                <CardHeader className="space-y-4">
-                                    <div className="flex items-center gap-3">
-                                        <span className="inline-flex rounded-full border border-primary/15 bg-primary/10 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-primary">
-                                            {endpoint.method}
-                                        </span>
-                                        <code className="text-sm text-primary">
-                                            {endpoint.path}
-                                        </code>
-                                    </div>
-                                    <CardTitle className="text-2xl font-normal text-primary">
-                                        {t(
-                                            `partners.customIntegrationPage.endpoints.items.${endpoint.key}.title`,
-                                        )}
-                                    </CardTitle>
-                                    <p className="text-sm leading-6 text-muted-foreground">
-                                        {t(
-                                            `partners.customIntegrationPage.endpoints.items.${endpoint.key}.description`,
-                                        )}
-                                    </p>
-                                    <a
-                                        href={endpoint.docsUrl}
-                                        target="_blank"
-                                        rel="noreferrer noopener"
-                                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                    <Card className="mx-auto mt-16 max-w-5xl overflow-hidden border-border/60">
+                        <CardHeader className="space-y-6">
+                            <div className="space-y-2">
+                                <CardTitle className="text-2xl font-normal text-primary">
+                                    {t(
+                                        "partners.customIntegrationPage.endpoints.generatedReferenceTitle",
+                                    )}
+                                </CardTitle>
+                                <p className="text-sm leading-6 text-muted-foreground">
+                                    {t(
+                                        "partners.customIntegrationPage.endpoints.generatedReferenceDescription",
+                                    )}
+                                </p>
+                            </div>
+
+                            <div className="space-y-4">
+                                {ENDPOINTS.map((endpoint) => (
+                                    <div
+                                        key={endpoint.key}
+                                        className="rounded-2xl border border-border/70 bg-background px-4 py-4"
                                     >
-                                        {endpoint.method} {endpoint.path}
-                                        <ExternalLink className="size-4" aria-hidden="true" />
-                                    </a>
-                                </CardHeader>
-                                <CardContent className="border-t border-border/60 p-0">
-                                    <iframe
-                                        title={`${endpoint.method} ${endpoint.path}`}
-                                        src={endpoint.docsUrl}
-                                        loading="lazy"
-                                        className="h-[420px] w-full border-0 bg-white"
-                                    />
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
+                                        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                            <div className="space-y-3">
+                                                <div className="flex flex-wrap items-center gap-3">
+                                                    <span className="inline-flex rounded-full border border-primary/15 bg-primary/10 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-primary">
+                                                        {endpoint.method}
+                                                    </span>
+                                                    <code className="text-sm text-primary">
+                                                        {endpoint.path}
+                                                    </code>
+                                                </div>
+                                                <div className="space-y-1">
+                                                    <p className="font-medium text-primary">
+                                                        {t(
+                                                            `partners.customIntegrationPage.endpoints.items.${endpoint.key}.title`,
+                                                        )}
+                                                    </p>
+                                                    <p className="text-sm leading-6 text-muted-foreground">
+                                                        {t(
+                                                            `partners.customIntegrationPage.endpoints.items.${endpoint.key}.description`,
+                                                        )}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <a
+                                                href={endpoint.docsUrl}
+                                                target="_blank"
+                                                rel="noreferrer noopener"
+                                                className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                                            >
+                                                {t(
+                                                    "partners.customIntegrationPage.endpoints.externalDocsCta",
+                                                )}
+                                                <ExternalLink
+                                                    className="size-4"
+                                                    aria-hidden="true"
+                                                />
+                                            </a>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </CardHeader>
+                        <CardContent className="border-t border-border/60 p-0">
+                            <iframe
+                                title={t("partners.customIntegrationPage.endpoints.embedTitle")}
+                                src="/partner-products-reference.html"
+                                loading="lazy"
+                                className="h-[1200px] w-full border-0 bg-white"
+                            />
+                        </CardContent>
+                    </Card>
                 </div>
             </section>
         </div>

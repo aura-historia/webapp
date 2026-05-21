@@ -1,0 +1,1532 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Aura Historia Partner Product API Reference",
+    "description": "Generated subset of the Aura Historia OpenAPI specification containing only the partner product batch endpoints and the components they require.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Aura-Historia Team",
+      "url": "https://aura-historia.com/"
+    },
+    "license": {
+      "name": "License",
+      "url": "https://github.com/aura-historia/backend/blob/develop/LICENSE"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.dev.aura-historia.com",
+      "description": "Full Development-Server"
+    }
+  ],
+  "paths": {
+    "/api/v1/shops/{shopId}/products": {
+      "put": {
+        "summary": "Batch upsert products (Partner API)",
+        "description": "Creates new products or updates existing ones for a shop in a single batch call,\nusing API key authentication. This endpoint is intended for partner shops \u2014 shops\nthat have been granted partner status and have an API key configured. It does **not**\nuse Cognito JWT authentication.\n\nThe request body is an array of `PutProductData` objects. Each entry is forwarded\nindividually to the asynchronous partner-product ingestion queue as an upsert command.\nWhen the queued command is later ingested:\n- **Existing product** \u2014 only `state` and `price` are updated (other fields are ignored).\n- **New product** \u2014 a full product is created using all provided fields.\n\nThe response returns HTTP 202 with an array containing only the `shopsProductId` values\nthat failed to be forwarded to the queue. An empty array indicates that all upserts were\naccepted for asynchronous processing.\n",
+        "operationId": "putPartnerProducts",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "shopId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the partner shop",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "550e8400-e29b-41d4-a716-446655440000"
+            }
+          }
+        ],
+        "security": [
+          {
+            "PartnerApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Array of products to upsert. Must not be empty.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PutProductData"
+                }
+              },
+              "examples": {
+                "create_new": {
+                  "summary": "Create a new product",
+                  "value": [
+                    {
+                      "shopsProductId": "baroque-violin-001",
+                      "title": {
+                        "text": "Baroque Violin",
+                        "language": "en"
+                      },
+                      "description": {
+                        "text": "A beautiful 18th-century baroque violin in excellent condition.",
+                        "language": "en"
+                      },
+                      "price": {
+                        "currency": "EUR",
+                        "amount": 4500
+                      },
+                      "state": "AVAILABLE",
+                      "url": "https://my-shop.com/products/baroque-violin",
+                      "images": [
+                        "https://my-shop.com/images/violin-1.jpg"
+                      ]
+                    }
+                  ]
+                },
+                "update_existing": {
+                  "summary": "Update an existing product's state",
+                  "value": [
+                    {
+                      "shopsProductId": "baroque-violin-001",
+                      "state": "SOLD"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Batch upsert request accepted for asynchronous processing. Returns an array containing\nthe `shopsProductId` values that failed to be forwarded to the ingestion queue.\nAn empty array means all upserts were accepted.\n",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "description": "CORS header",
+                "schema": {
+                  "type": "string"
+                },
+                "example": "*"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerProductEnqueueFailuresResponse"
+                },
+                "examples": {
+                  "all_accepted": {
+                    "summary": "All upserts accepted for asynchronous processing",
+                    "value": []
+                  },
+                  "partial_failure": {
+                    "summary": "Some products failed to be forwarded to the queue",
+                    "value": [
+                      "baroque-violin-002"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request \u2014 request body is missing, empty, or contains invalid JSON",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "examples": {
+                  "missing_body": {
+                    "summary": "Request body is absent or empty",
+                    "value": {
+                      "status": 400,
+                      "title": "Bad Request",
+                      "error": "BAD_BODY_VALUE",
+                      "detail": "Body cannot be empty."
+                    }
+                  },
+                  "invalid_json": {
+                    "summary": "Request body is not valid JSON",
+                    "value": {
+                      "status": 400,
+                      "title": "Bad Request",
+                      "error": "INVALID_JSON",
+                      "detail": "expected value at line 1 column 1"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized \u2014 the `x-api-key` header is missing, malformed, or the API key does not\nmatch the key stored for the shop.\n",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "examples": {
+                  "missing_header": {
+                    "summary": "x-api-key header is missing or empty",
+                    "value": {
+                      "status": 401,
+                      "title": "Unauthorized",
+                      "error": "BAD_HEADER_VALUE",
+                      "source": {
+                        "field": "x-api-key",
+                        "sourceType": "header"
+                      },
+                      "detail": "Missing or empty 'x-api-key' header."
+                    }
+                  },
+                  "api_key_mismatch": {
+                    "summary": "API key does not match the shop's stored key",
+                    "value": {
+                      "status": 401,
+                      "title": "Unauthorized",
+                      "error": "PARTNER_SHOP_API_KEY_MISMATCH"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden \u2014 the shop exists but has not been granted partner status",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 403,
+                  "title": "Forbidden",
+                  "error": "PARTNER_SHOP_NOT_PARTNERED"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found \u2014 the specified shop does not exist",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 404,
+                  "title": "Not Found",
+                  "error": "SHOP_NOT_FOUND"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable \u2014 all product commands failed to be forwarded to the asynchronous ingestion queue",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 503,
+                  "title": "Service Unavailable",
+                  "error": "SERVICE_UNAVAILABLE"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 500,
+                  "title": "Internal Server Error",
+                  "error": "INTERNAL_SERVER_ERROR"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Batch create products (Partner API)",
+        "description": "Creates one or more products for a shop using API key authentication.\nThis endpoint is intended for partner shops \u2014 shops that have been granted partner status\nand have an API key configured. It does **not** use Cognito JWT authentication.\n\nThe request body is an array of `PostProductData` objects. Each entry is forwarded\nindividually to the asynchronous partner-product ingestion queue.\n\nThe response returns HTTP 202 with an array containing only the `shopsProductId` values\nthat failed to be forwarded to the queue. An empty array indicates that all products were\naccepted for asynchronous processing.\n",
+        "operationId": "postPartnerProducts",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "shopId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the partner shop",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "550e8400-e29b-41d4-a716-446655440000"
+            }
+          }
+        ],
+        "security": [
+          {
+            "PartnerApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Array of products to create. Must not be empty.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PostProductData"
+                }
+              },
+              "example": [
+                {
+                  "shopsProductId": "baroque-violin-001",
+                  "title": {
+                    "text": "Baroque Violin",
+                    "language": "en"
+                  },
+                  "description": {
+                    "text": "A beautiful 18th-century baroque violin in excellent condition.",
+                    "language": "en"
+                  },
+                  "price": {
+                    "currency": "EUR",
+                    "amount": 4500
+                  },
+                  "state": "AVAILABLE",
+                  "url": "https://my-shop.com/products/baroque-violin",
+                  "images": [
+                    "https://my-shop.com/images/violin-1.jpg",
+                    "https://my-shop.com/images/violin-2.jpg"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Batch create request accepted for asynchronous processing. Returns an array containing\nthe `shopsProductId` values that failed to be forwarded to the ingestion queue.\nAn empty array means all products were accepted.\n",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "description": "CORS header",
+                "schema": {
+                  "type": "string"
+                },
+                "example": "*"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerProductEnqueueFailuresResponse"
+                },
+                "examples": {
+                  "all_accepted": {
+                    "summary": "All products accepted for asynchronous processing",
+                    "value": []
+                  },
+                  "partial_failure": {
+                    "summary": "Some products failed to be forwarded to the queue",
+                    "value": [
+                      "baroque-violin-002"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request \u2014 request body is missing, empty, or contains invalid JSON",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "examples": {
+                  "missing_body": {
+                    "summary": "Request body is absent or empty",
+                    "value": {
+                      "status": 400,
+                      "title": "Bad Request",
+                      "error": "BAD_BODY_VALUE",
+                      "detail": "Body cannot be empty."
+                    }
+                  },
+                  "invalid_json": {
+                    "summary": "Request body is not valid JSON",
+                    "value": {
+                      "status": 400,
+                      "title": "Bad Request",
+                      "error": "INVALID_JSON",
+                      "detail": "expected value at line 1 column 1"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized \u2014 the `x-api-key` header is missing, malformed, or the API key does not\nmatch the key stored for the shop.\n",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "examples": {
+                  "missing_header": {
+                    "summary": "x-api-key header is missing or empty",
+                    "value": {
+                      "status": 401,
+                      "title": "Unauthorized",
+                      "error": "BAD_HEADER_VALUE",
+                      "source": {
+                        "field": "x-api-key",
+                        "sourceType": "header"
+                      },
+                      "detail": "Missing or empty 'x-api-key' header."
+                    }
+                  },
+                  "api_key_mismatch": {
+                    "summary": "API key does not match the shop's stored key",
+                    "value": {
+                      "status": 401,
+                      "title": "Unauthorized",
+                      "error": "PARTNER_SHOP_API_KEY_MISMATCH"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden \u2014 the shop exists but has not been granted partner status",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 403,
+                  "title": "Forbidden",
+                  "error": "PARTNER_SHOP_NOT_PARTNERED"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found \u2014 the specified shop does not exist",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 404,
+                  "title": "Not Found",
+                  "error": "SHOP_NOT_FOUND"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable \u2014 all product commands failed to be forwarded to the asynchronous ingestion queue",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 503,
+                  "title": "Service Unavailable",
+                  "error": "SERVICE_UNAVAILABLE"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 500,
+                  "title": "Internal Server Error",
+                  "error": "INTERNAL_SERVER_ERROR"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Batch update products (Partner API)",
+        "description": "Updates one or more existing products for a shop using API key authentication.\nThis endpoint is intended for partner shops \u2014 shops that have been granted partner status\nand have an API key configured. It does **not** use Cognito JWT authentication.\n\nThe request body is an array of `PatchProductData` objects. Only the fields provided in\neach entry are updated; omitted optional fields are left unchanged. Each entry is forwarded\nindividually to the asynchronous partner-product ingestion queue.\n\nThe response returns HTTP 202 with an array containing only the `shopsProductId` values\nthat failed to be forwarded to the queue. An empty array indicates that all updates were\naccepted for asynchronous processing. Because persistence happens asynchronously, acceptance\ndoes not guarantee that the referenced product currently exists or that the update will\nlater succeed.\n",
+        "operationId": "patchPartnerProducts",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "shopId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the partner shop",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "550e8400-e29b-41d4-a716-446655440000"
+            }
+          }
+        ],
+        "security": [
+          {
+            "PartnerApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Array of product updates to apply. Must not be empty.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PatchProductData"
+                }
+              },
+              "example": [
+                {
+                  "shopsProductId": "baroque-violin-001",
+                  "state": "SOLD"
+                },
+                {
+                  "shopsProductId": "baroque-violin-002",
+                  "price": {
+                    "currency": "EUR",
+                    "amount": 5000
+                  },
+                  "state": "AVAILABLE"
+                }
+              ]
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Batch update request accepted for asynchronous processing. Returns an array containing\nthe `shopsProductId` values that failed to be forwarded to the ingestion queue.\nAn empty array means all updates were accepted.\n",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "description": "CORS header",
+                "schema": {
+                  "type": "string"
+                },
+                "example": "*"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartnerProductEnqueueFailuresResponse"
+                },
+                "examples": {
+                  "all_accepted": {
+                    "summary": "All updates accepted for asynchronous processing",
+                    "value": []
+                  },
+                  "partial_failure": {
+                    "summary": "Some products failed to be forwarded to the queue",
+                    "value": [
+                      "baroque-violin-002"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request \u2014 request body is missing, empty, or contains invalid JSON",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "examples": {
+                  "missing_body": {
+                    "summary": "Request body is absent or empty",
+                    "value": {
+                      "status": 400,
+                      "title": "Bad Request",
+                      "error": "BAD_BODY_VALUE",
+                      "detail": "Body cannot be empty."
+                    }
+                  },
+                  "invalid_json": {
+                    "summary": "Request body is not valid JSON",
+                    "value": {
+                      "status": 400,
+                      "title": "Bad Request",
+                      "error": "INVALID_JSON",
+                      "detail": "expected value at line 1 column 1"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized \u2014 the `x-api-key` header is missing, malformed, or the API key does not\nmatch the key stored for the shop.\n",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "examples": {
+                  "missing_header": {
+                    "summary": "x-api-key header is missing or empty",
+                    "value": {
+                      "status": 401,
+                      "title": "Unauthorized",
+                      "error": "BAD_HEADER_VALUE",
+                      "source": {
+                        "field": "x-api-key",
+                        "sourceType": "header"
+                      },
+                      "detail": "Missing or empty 'x-api-key' header."
+                    }
+                  },
+                  "api_key_mismatch": {
+                    "summary": "API key does not match the shop's stored key",
+                    "value": {
+                      "status": 401,
+                      "title": "Unauthorized",
+                      "error": "PARTNER_SHOP_API_KEY_MISMATCH"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden \u2014 the shop exists but has not been granted partner status",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 403,
+                  "title": "Forbidden",
+                  "error": "PARTNER_SHOP_NOT_PARTNERED"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found \u2014 the specified shop does not exist",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 404,
+                  "title": "Not Found",
+                  "error": "SHOP_NOT_FOUND"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable \u2014 all product commands failed to be forwarded to the asynchronous ingestion queue",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 503,
+                  "title": "Service Unavailable",
+                  "error": "SERVICE_UNAVAILABLE"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 500,
+                  "title": "Internal Server Error",
+                  "error": "INTERNAL_SERVER_ERROR"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PutProductData": {
+        "type": "object",
+        "description": "Data for upserting a single product via the partner batch-upsert endpoint.\nOnly `shopsProductId` is required. All other fields are optional.\n\nDuring later asynchronous ingestion:\n- If the product **does not yet exist**, it is created using all provided fields.\n  Omitting `title`, `url`, or `state` will result in placeholder defaults being applied\n  internally (empty title, a placeholder URL, and `LISTED` state respectively).\n- If the product **already exists**, only `state` and `price` are updated; all other\n  fields are ignored for the update path.\n\nto `UNKNOWN` when omitted.\n",
+        "required": [
+          "shopsProductId"
+        ],
+        "properties": {
+          "shopsProductId": {
+            "type": "string",
+            "description": "The shop's own identifier for the product. Must be unique within the shop.",
+            "example": "baroque-violin-001"
+          },
+          "title": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LocalizedTextData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional localized title for the product. Used only when creating a new product."
+          },
+          "description": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LocalizedTextData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional localized description of the product. Used only when creating a new product."
+          },
+          "price": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PriceData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional asking price for the product. Applied on both create and update paths."
+          },
+          "priceEstimateMin": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PriceData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional lower bound of the estimated price range. Used only when creating a new product."
+          },
+          "priceEstimateMax": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PriceData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional upper bound of the estimated price range. Used only when creating a new product."
+          },
+          "state": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductStateData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional product state. Applied on both create and update paths."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "URL to the product on the shop's website. Used only when creating a new product.",
+            "example": "https://my-shop.com/products/baroque-violin"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "nullable": true,
+            "description": "List of image URLs for the product. Used only when creating a new product.",
+            "example": [
+              "https://my-shop.com/images/violin-1.jpg",
+              "https://my-shop.com/images/violin-2.jpg"
+            ]
+          },
+          "auctionStart": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "RFC3339 timestamp of when the auction for this product starts.\nOnly relevant for auction-house shop types. Used only when creating a new product.\n",
+            "example": "2025-05-01T12:00:00Z"
+          },
+          "auctionEnd": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "RFC3339 timestamp of when the auction for this product ends.\nOnly relevant for auction-house shop types. Used only when creating a new product.\n",
+            "example": "2025-05-10T12:00:00Z"
+          },
+          "sellerName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional raw name of the secondary seller for this product.\nOnly applicable for `AUCTION_PLATFORM` and `MARKETPLACE` shop types.\nWhen provided, the backend resolves the seller shop by this name and associates the product with that seller.\nWhen omitted, or when the shop type is neither `AUCTION_PLATFORM` nor `MARKETPLACE`, the partner shop itself is used as the seller.\nUsed only when creating a new product.\n",
+            "example": "Christie's London"
+          },
+          "structuredAddress": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/StructuredAddressData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional structured address to attach to the product for geo-aware indexing and search. Used only when creating a new product."
+          },
+          "geoAddress": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoAddressData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional coordinates to attach to the product for geo-aware indexing and search. Used only when creating a new product."
+          }
+        }
+      },
+      "PartnerProductEnqueueFailuresResponse": {
+        "type": "array",
+        "description": "Response for the partner batch product enqueue endpoints.\nContains only the `shopsProductId` values that failed to be forwarded to the\nasynchronous ingestion queue. An empty array indicates that all commands were\naccepted for asynchronous processing.\n",
+        "items": {
+          "type": "string",
+          "description": "A `shopsProductId` that failed to be forwarded to the queue.",
+          "example": "baroque-violin-002"
+        },
+        "example": [
+          "baroque-violin-002"
+        ]
+      },
+      "ApiError": {
+        "type": "object",
+        "description": "Standard error response format (RFC 9457)",
+        "required": [
+          "status",
+          "title",
+          "error"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "HTTP status code",
+            "example": 400
+          },
+          "title": {
+            "type": "string",
+            "description": "HTTP status code in human-readable form",
+            "example": "Bad Request"
+          },
+          "error": {
+            "type": "string",
+            "description": "Error code identifier",
+            "example": "BAD_PARAMETER"
+          },
+          "source": {
+            "$ref": "#/components/schemas/ApiErrorSource"
+          },
+          "detail": {
+            "type": "string",
+            "description": "Human-readable error message",
+            "example": "Expected any of: 'true' or 'false'. Got: 'invalid'"
+          }
+        }
+      },
+      "PostProductData": {
+        "type": "object",
+        "description": "Data for creating a single product via the partner batch-create endpoint.\nwhen omitted from the request.\n",
+        "required": [
+          "shopsProductId",
+          "title",
+          "description",
+          "state",
+          "url",
+          "images"
+        ],
+        "properties": {
+          "shopsProductId": {
+            "type": "string",
+            "description": "The shop's own identifier for the product. Must be unique within the shop.",
+            "example": "baroque-violin-001"
+          },
+          "title": {
+            "$ref": "#/components/schemas/LocalizedTextData"
+          },
+          "description": {
+            "$ref": "#/components/schemas/LocalizedTextData"
+          },
+          "price": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PriceData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional asking price for the product"
+          },
+          "priceEstimateMin": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PriceData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional lower bound of the estimated price range"
+          },
+          "priceEstimateMax": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PriceData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional upper bound of the estimated price range"
+          },
+          "state": {
+            "$ref": "#/components/schemas/ProductStateData"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the product on the shop's website",
+            "example": "https://my-shop.com/products/baroque-violin"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "List of image URLs for the product. May be empty.",
+            "example": [
+              "https://my-shop.com/images/violin-1.jpg",
+              "https://my-shop.com/images/violin-2.jpg"
+            ]
+          },
+          "auctionStart": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "RFC3339 timestamp of when the auction for this product starts.\nOnly relevant for auction-house shop types. Omit for non-auction products.\n",
+            "example": "2025-05-01T12:00:00Z"
+          },
+          "auctionEnd": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "RFC3339 timestamp of when the auction for this product ends.\nOnly relevant for auction-house shop types. Omit for non-auction products.\n",
+            "example": "2025-05-10T12:00:00Z"
+          },
+          "sellerName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional raw name of the secondary seller for this product.\nOnly applicable for `AUCTION_PLATFORM` and `MARKETPLACE` shop types.\nWhen provided, the backend resolves the seller shop by this name and associates the product with that seller.\nWhen omitted, or when the shop type is neither `AUCTION_PLATFORM` nor `MARKETPLACE`, the partner shop itself is used as the seller.\n",
+            "example": "Christie's London"
+          },
+          "structuredAddress": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/StructuredAddressData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional structured address to attach to the product for geo-aware indexing and search."
+          },
+          "geoAddress": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoAddressData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional coordinates to attach to the product for geo-aware indexing and search."
+          }
+        }
+      },
+      "PatchProductData": {
+        "type": "object",
+        "description": "Data for enqueuing an update for a single product via the partner batch-update endpoint.\nOnly `shopsProductId` is required; all other fields are optional and, when omitted,\nthe corresponding product attribute is left unchanged during later asynchronous ingestion.\n",
+        "required": [
+          "shopsProductId"
+        ],
+        "properties": {
+          "shopsProductId": {
+            "type": "string",
+            "description": "The shop's own identifier for the product to update. The request is accepted for asynchronous processing even though product existence is evaluated later during ingestion.",
+            "example": "baroque-violin-001"
+          },
+          "price": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PriceData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional updated asking price for the product. Omit to leave the current price unchanged."
+          },
+          "state": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductStateData"
+              }
+            ],
+            "description": "Optional updated product state. Omit to leave the current state unchanged."
+          },
+          "priceEstimateMin": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PriceData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional updated lower bound of the estimated price range. Omit to leave the current value unchanged."
+          },
+          "priceEstimateMax": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PriceData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional updated upper bound of the estimated price range. Omit to leave the current value unchanged."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "Optional updated URL to the product on the shop's website. Omit to leave the current URL unchanged.",
+            "example": "https://my-shop.com/products/baroque-violin"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "nullable": true,
+            "description": "Optional updated list of image URLs for the product. Omit to leave the current images unchanged.",
+            "example": [
+              "https://my-shop.com/images/violin-1.jpg"
+            ]
+          },
+          "auctionStart": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Optional updated RFC3339 timestamp of when the auction starts. Omit to leave the current value unchanged.",
+            "example": "2026-04-10T10:00:00Z"
+          },
+          "auctionEnd": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Optional updated RFC3339 timestamp of when the auction ends. Omit to leave the current value unchanged.",
+            "example": "2026-04-10T12:00:00Z"
+          }
+        }
+      },
+      "LocalizedTextData": {
+        "type": "object",
+        "description": "Text content with language information",
+        "required": [
+          "text",
+          "language"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text content"
+          },
+          "language": {
+            "$ref": "#/components/schemas/LanguageData"
+          }
+        }
+      },
+      "PriceData": {
+        "type": "object",
+        "description": "Price information with currency",
+        "required": [
+          "currency",
+          "amount"
+        ],
+        "properties": {
+          "currency": {
+            "$ref": "#/components/schemas/CurrencyData"
+          },
+          "amount": {
+            "type": "integer",
+            "description": "Price amount in minor currency units (e.g., cents for most supported currencies, whole yen for JPY)",
+            "minimum": 0,
+            "example": 2999
+          }
+        }
+      },
+      "ProductStateData": {
+        "type": "string",
+        "enum": [
+          "LISTED",
+          "AVAILABLE",
+          "RESERVED",
+          "SOLD",
+          "REMOVED",
+          "UNKNOWN"
+        ],
+        "description": "Current state of the product:\n- LISTED: Product has been listed\n- AVAILABLE: Product is available for purchase\n- RESERVED: Product is reserved by a buyer\n- SOLD: Product has been sold\n- REMOVED: Product has been removed and can no longer be tracked\n- UNKNOWN: Product has an unknown state\n",
+        "example": "AVAILABLE"
+      },
+      "StructuredAddressData": {
+        "type": "object",
+        "description": "Structured postal address used for shop metadata and geocoding.\nWhen supplied in shop create/update payloads, at least one component among `addressline`,\n`addresslineExtra`, `locality`, `region`, `postalCode`, or `country` must contain a non-empty\nvalue; `continent` alone does not make the address valid, and otherwise the backend rejects the\nrequest with `400 BAD_BODY_VALUE`.\n",
+        "properties": {
+          "addressline": {
+            "type": "string",
+            "description": "Primary free-form address line such as street and house number.",
+            "example": "Pariser Platz 1"
+          },
+          "addresslineExtra": {
+            "type": "string",
+            "description": "Optional secondary address line such as floor, suite, building, or c/o information.",
+            "example": "2. Etage"
+          },
+          "locality": {
+            "type": "string",
+            "description": "City, town, or locality.",
+            "example": "Berlin"
+          },
+          "region": {
+            "type": "string",
+            "description": "Region, state, province, or administrative area.",
+            "example": "Berlin"
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "Postal or ZIP code.",
+            "example": "10117"
+          },
+          "country": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CountryCodeData"
+              }
+            ],
+            "description": "ISO 3166-1 alpha-2 country code serialized by the backend.\nWhen `continent` is omitted but `country` is present, the backend derives the continent from this code.\n"
+          },
+          "continent": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContinentData"
+              }
+            ],
+            "description": "Optional continent value exposed alongside `country` in structured-address data.\nIf omitted while `country` is present, the backend derives it automatically.\n"
+          }
+        }
+      },
+      "GeoAddressData": {
+        "type": "object",
+        "description": "Latitude/longitude coordinates derived by the backend from `structuredAddress`.",
+        "required": [
+          "lat",
+          "lon"
+        ],
+        "properties": {
+          "lat": {
+            "type": "number",
+            "format": "double",
+            "description": "Latitude in decimal degrees.",
+            "example": 52.516275
+          },
+          "lon": {
+            "type": "number",
+            "format": "double",
+            "description": "Longitude in decimal degrees.",
+            "example": 13.377704
+          }
+        }
+      },
+      "ApiErrorSource": {
+        "type": "object",
+        "description": "Information about the source of the error",
+        "required": [
+          "field",
+          "sourceType"
+        ],
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Name of the field that caused the error",
+            "example": "shopId"
+          },
+          "sourceType": {
+            "type": "string",
+            "enum": [
+              "query",
+              "path",
+              "header",
+              "body"
+            ],
+            "description": "Type of parameter that caused the error",
+            "example": "path"
+          }
+        }
+      },
+      "LanguageData": {
+        "type": "string",
+        "enum": [
+          "de",
+          "en",
+          "fr",
+          "es",
+          "it",
+          "zh",
+          "pt",
+          "pl",
+          "tr",
+          "nl",
+          "cs",
+          "ja",
+          "ru",
+          "ar"
+        ],
+        "description": "Supported language codes (ISO 639-1 canonical values):\n- de: German (includes de-DE, de-AT, de-CH, de-LU, de-LI)\n- en: English (includes en-US, en-GB, en-AU, en-CA, en-NZ, and backend-specific accepted alias en_IE)\n- fr: French (includes fr-FR, fr-CA, fr-BE, fr-CH, fr-LU)\n- es: Spanish (includes es-ES, es-MX, es-AR, es-CO, es-CL, es-PE, es-VE)\n- it: Italian (includes it-IT, it-CH)\n- zh: Chinese (Simplified) (includes zh-CN, zh-Hans)\n- pt: Portuguese (includes pt-PT, pt-BR)\n- pl: Polish (includes pl-PL)\n- tr: Turkish (includes tr-TR)\n- nl: Dutch (includes nl-NL, nl-BE)\n- cs: Czech (includes cs-CZ)\n- ja: Japanese (includes ja-JP)\n- ru: Russian (includes ru-RU)\n- ar: Arabic (includes ar-SA, ar-EG, ar-AE)\n\n`de`, `en`, `fr`, `es`, and `it` are fully supported localization/translation-target languages.\n`zh`, `pt`, `pl`, `tr`, `nl`, `cs`, `ja`, `ru`, and `ar` are ingestion-only languages:\nthey can appear in stored/native content and are accepted anywhere `LanguageData` is used,\nbut backend-generated translations and fallback localized strings are not produced in these languages.\n",
+        "default": "en",
+        "example": "de"
+      },
+      "CurrencyData": {
+        "type": "string",
+        "enum": [
+          "EUR",
+          "GBP",
+          "USD",
+          "AUD",
+          "CAD",
+          "NZD",
+          "CNY",
+          "BRL",
+          "PLN",
+          "TRY",
+          "JPY",
+          "CZK",
+          "RUB",
+          "AED",
+          "SAR",
+          "HKD",
+          "SGD",
+          "CHF"
+        ],
+        "description": "Supported currencies (ISO 4217 codes):\n- EUR: Euro\n- GBP: British Pound\n- USD: US Dollar\n- AUD: Australian Dollar\n- CAD: Canadian Dollar\n- NZD: New Zealand Dollar\n- CNY: Chinese Yuan\n- BRL: Brazilian Real\n- PLN: Polish Z\u0142oty\n- TRY: Turkish Lira\n- JPY: Japanese Yen\n- CZK: Czech Koruna\n- RUB: Russian Ruble\n- AED: UAE Dirham\n- SAR: Saudi Riyal\n- HKD: Hong Kong Dollar\n- SGD: Singapore Dollar\n- CHF: Swiss Franc\n",
+        "default": "EUR",
+        "example": "EUR"
+      },
+      "CountryCodeData": {
+        "type": "string",
+        "description": "ISO 3166-1 alpha-2 country code serialized by the backend.",
+        "enum": [
+          "AD",
+          "AE",
+          "AF",
+          "AG",
+          "AI",
+          "AL",
+          "AM",
+          "AO",
+          "AQ",
+          "AR",
+          "AS",
+          "AT",
+          "AU",
+          "AW",
+          "AX",
+          "AZ",
+          "BA",
+          "BB",
+          "BD",
+          "BE",
+          "BF",
+          "BG",
+          "BH",
+          "BI",
+          "BJ",
+          "BL",
+          "BM",
+          "BN",
+          "BO",
+          "BQ",
+          "BR",
+          "BS",
+          "BT",
+          "BV",
+          "BW",
+          "BY",
+          "BZ",
+          "CA",
+          "CC",
+          "CD",
+          "CF",
+          "CG",
+          "CH",
+          "CI",
+          "CK",
+          "CL",
+          "CM",
+          "CN",
+          "CO",
+          "CR",
+          "CU",
+          "CV",
+          "CW",
+          "CX",
+          "CY",
+          "CZ",
+          "DE",
+          "DJ",
+          "DK",
+          "DM",
+          "DO",
+          "DZ",
+          "EC",
+          "EE",
+          "EG",
+          "EH",
+          "ER",
+          "ES",
+          "ET",
+          "FI",
+          "FJ",
+          "FK",
+          "FM",
+          "FO",
+          "FR",
+          "GA",
+          "GB",
+          "GD",
+          "GE",
+          "GF",
+          "GG",
+          "GH",
+          "GI",
+          "GL",
+          "GM",
+          "GN",
+          "GP",
+          "GQ",
+          "GR",
+          "GS",
+          "GT",
+          "GU",
+          "GW",
+          "GY",
+          "HK",
+          "HM",
+          "HN",
+          "HR",
+          "HT",
+          "HU",
+          "ID",
+          "IE",
+          "IL",
+          "IM",
+          "IN",
+          "IO",
+          "IQ",
+          "IR",
+          "IS",
+          "IT",
+          "JE",
+          "JM",
+          "JO",
+          "JP",
+          "KE",
+          "KG",
+          "KH",
+          "KI",
+          "KM",
+          "KN",
+          "KP",
+          "KR",
+          "KW",
+          "KY",
+          "KZ",
+          "LA",
+          "LB",
+          "LC",
+          "LI",
+          "LK",
+          "LR",
+          "LS",
+          "LT",
+          "LU",
+          "LV",
+          "LY",
+          "MA",
+          "MC",
+          "MD",
+          "ME",
+          "MF",
+          "MG",
+          "MH",
+          "MK",
+          "ML",
+          "MM",
+          "MN",
+          "MO",
+          "MP",
+          "MQ",
+          "MR",
+          "MS",
+          "MT",
+          "MU",
+          "MV",
+          "MW",
+          "MX",
+          "MY",
+          "MZ",
+          "NA",
+          "NC",
+          "NE",
+          "NF",
+          "NG",
+          "NI",
+          "NL",
+          false,
+          "NP",
+          "NR",
+          "NU",
+          "NZ",
+          "OM",
+          "PA",
+          "PE",
+          "PF",
+          "PG",
+          "PH",
+          "PK",
+          "PL",
+          "PM",
+          "PN",
+          "PR",
+          "PS",
+          "PT",
+          "PW",
+          "PY",
+          "QA",
+          "RE",
+          "RO",
+          "RS",
+          "RU",
+          "RW",
+          "SA",
+          "SB",
+          "SC",
+          "SD",
+          "SE",
+          "SG",
+          "SH",
+          "SI",
+          "SJ",
+          "SK",
+          "SL",
+          "SM",
+          "SN",
+          "SO",
+          "SR",
+          "SS",
+          "ST",
+          "SV",
+          "SX",
+          "SY",
+          "SZ",
+          "TC",
+          "TD",
+          "TF",
+          "TG",
+          "TH",
+          "TJ",
+          "TK",
+          "TL",
+          "TM",
+          "TN",
+          "TO",
+          "TR",
+          "TT",
+          "TV",
+          "TW",
+          "TZ",
+          "UA",
+          "UG",
+          "UM",
+          "US",
+          "UY",
+          "UZ",
+          "VA",
+          "VC",
+          "VE",
+          "VG",
+          "VI",
+          "VN",
+          "VU",
+          "WF",
+          "WS",
+          "YE",
+          "YT",
+          "ZA",
+          "ZM",
+          "ZW"
+        ],
+        "example": "DE"
+      },
+      "ContinentData": {
+        "type": "string",
+        "description": "Continent derived from a structured-address country code.",
+        "enum": [
+          "AFRICA",
+          "ANTARCTICA",
+          "ASIA",
+          "EUROPE",
+          "NORTH_AMERICA",
+          "OCEANIA",
+          "SOUTH_AMERICA"
+        ],
+        "example": "EUROPE"
+      }
+    },
+    "securitySchemes": {
+      "PartnerApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "API key for partner shops. Issued to shops that have been granted partner status.\nThe key must be provided in the `x-api-key` request header.\nThis scheme is separate from user authentication (Cognito JWT) and is used\nby partner shops for programmatic product ingestion, WooCommerce webhook delivery,\nand selected partner-authorized shop operations.\n"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Products",
+      "description": "Operations related to product retrieval and search"
+    }
+  ]
+}

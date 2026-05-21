@@ -25,17 +25,13 @@ describe("PartnerCustomIntegrationPage", () => {
     });
 
     it("embeds all relevant partner API endpoints", () => {
-        expect(screen.getByTitle("POST /api/v1/shops/{shopId}/products")).toHaveAttribute(
+        const methodBadges = screen.getAllByText(/^(PUT|POST|PATCH)$/);
+
+        expect(methodBadges).toHaveLength(3);
+        expect(methodBadges.map((badge) => badge.textContent)).toEqual(["PUT", "POST", "PATCH"]);
+        expect(screen.getByTitle("Partner Produkt-API Referenz")).toHaveAttribute(
             "src",
-            "https://docs.api.aura-historia.com/#/Products/postPartnerProducts",
-        );
-        expect(screen.getByTitle("PATCH /api/v1/shops/{shopId}/products")).toHaveAttribute(
-            "src",
-            "https://docs.api.aura-historia.com/#/Products/patchPartnerProducts",
-        );
-        expect(screen.getByTitle("PUT /api/v1/shops/{shopId}/products")).toHaveAttribute(
-            "src",
-            "https://docs.api.aura-historia.com/#/Products/putPartnerProducts",
+            "/partner-products-reference.html",
         );
     });
 

@@ -13,7 +13,7 @@
         "format:fix": "biome format --write",
         "lint": "biome lint",
         "check": "biome check",
-        "openapi-ts": "openapi-ts",
+        "openapi-ts": "openapi-ts && python scripts/generate_partner_products_openapi.py",
         "prepare": "husky",
         "preview": "vite preview",
         "deploy": "wrangler deploy",
