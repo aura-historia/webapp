@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { generateProductHeadMeta } from "@/lib/seo/productHeadMeta.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
+import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
 
 export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId")({
     loader: async ({
@@ -47,7 +48,8 @@ export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId
     },
     head: ({ loaderData, params }) => generateProductHeadMeta(loaderData, params),
     pendingComponent: ProductDetailPageSkeleton,
-    errorComponent: NotFoundComponent,
+    errorComponent: ErrorComponent,
+    notFoundComponent: NotFoundComponent,
     component: ProductDetailComponent,
 });
 

@@ -34,6 +34,7 @@ const baseProduct: OverviewProduct = {
     productSlugId: "prod-slug",
     title: "Barocktisch",
     shopName: "Antik AG",
+    sellerName: "Antik AG",
     shopType: "AUCTION_HOUSE",
     state: "AVAILABLE",
     url: null,

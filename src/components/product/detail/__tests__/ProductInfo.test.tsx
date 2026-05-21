@@ -1,3 +1,5 @@
+import type React from "react";
+
 vi.mock("lottie-react", () => ({
     default: () => null,
 }));
@@ -8,6 +10,21 @@ vi.mock("@tanstack/react-router", async () => {
 
     return {
         ...actual,
+        Link: ({
+            to,
+            params,
+            children,
+            ...props
+        }: {
+            to: string;
+            params?: Record<string, string>;
+            children: React.ReactNode;
+            className?: string;
+        }) => (
+            <a href={to.replace("$shopSlugId", params?.shopSlugId ?? "")} {...props}>
+                {children}
+            </a>
+        ),
         useParams: () => ({}),
         useRouteContext: () => ({ timeZone: "UTC" }),
     };
@@ -43,6 +60,7 @@ describe("ProductInfo", () => {
         shopSlugId: "test-shop",
         shopsProductId: "",
         shopName: "Test Shop",
+        sellerName: "Test Shop",
         shopType: "AUCTION_HOUSE",
         title: "Test Product Title",
         price: "99,99 €",
@@ -59,6 +77,34 @@ describe("ProductInfo", () => {
         expect(screen.getByText("Test Product Title")).toBeInTheDocument();
         expect(screen.getByText("Test Shop")).toBeInTheDocument();
         expect(screen.getByText("99,99 €")).toBeInTheDocument();
+    });
+
+    it("should link the shop name to the shop page", () => {
+        renderWithQueryClient(<ProductInfo product={mockProduct} />);
+
+        expect(screen.getByRole("link", { name: "Test Shop" })).toHaveAttribute(
+            "href",
+            "/shops/test-shop",
+        );
+    });
+
+    it("should link the shop name when a secondary seller is shown", () => {
+        renderWithQueryClient(
+            <ProductInfo
+                product={{
+                    ...mockProduct,
+                    shopName: "Main Shop",
+                    sellerName: "Secondary Seller",
+                    shopSlugId: "main-shop",
+                }}
+            />,
+        );
+
+        expect(screen.getByText("Secondary Seller")).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "Main Shop" })).toHaveAttribute(
+            "href",
+            "/shops/main-shop",
+        );
     });
 
     it("should render the shop type badge", () => {

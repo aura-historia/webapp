@@ -131,6 +131,7 @@ describe("SearchResults", () => {
             shopsProductId: "si1",
             productSlugId: "product-1",
             shopName: "Shop 1",
+            sellerName: "Shop 1",
             shopType: "AUCTION_HOUSE",
             price: "10 €",
             state: "AVAILABLE",

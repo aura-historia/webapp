@@ -44,6 +44,7 @@ const createMockProduct = (id: string, title: string): OverviewProduct => ({
     shopSlugId: `shop-slug-${id}`,
     shopsProductId: `shops-product-${id}`,
     shopName: `Shop Name ${id}`,
+    sellerName: `Shop Name ${id}`,
     shopType: parseShopType("UNKNOWN"),
     title,
     state: parseProductState("AVAILABLE"),
