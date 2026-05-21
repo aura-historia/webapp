@@ -4,6 +4,23 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import type React from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
+    simpleSearchShopsOptions: () => ({
+        queryKey: ["simpleSearchShops"],
+        queryFn: vi.fn().mockResolvedValue({ items: [] }),
+        enabled: false,
+    }),
+}));
+
+const createTestQueryClient = () =>
+    new QueryClient({
+        defaultOptions: {
+            queries: { retry: false },
+            mutations: { retry: false },
+        },
+    });
 
 const FormWrapper = ({
     children,
@@ -18,7 +35,13 @@ const FormWrapper = ({
             ...defaultValues,
         },
     });
-    return <FormProvider {...methods}>{children}</FormProvider>;
+    const queryClient = createTestQueryClient();
+
+    return (
+        <QueryClientProvider client={queryClient}>
+            <FormProvider {...methods}>{children}</FormProvider>
+        </QueryClientProvider>
+    );
 };
 
 describe("SellerExcludeFilter", () => {

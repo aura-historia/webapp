@@ -2,6 +2,30 @@ import "@testing-library/jest-dom";
 import "@/i18n/i18nForTests";
 import { vi } from "vitest";
 
+function createStorageMock(): Storage {
+    const store = new Map<string, string>();
+
+    return {
+        get length() {
+            return store.size;
+        },
+        clear: () => store.clear(),
+        getItem: (key: string) => store.get(key) ?? null,
+        key: (index: number) => Array.from(store.keys())[index] ?? null,
+        removeItem: (key: string) => {
+            store.delete(key);
+        },
+        setItem: (key: string, value: string) => {
+            store.set(key, value);
+        },
+    };
+}
+
+Object.defineProperty(globalThis, "localStorage", {
+    value: createStorageMock(),
+    configurable: true,
+});
+
 // Mock the env module so tests don't require real secrets
 // This is especially important for Dependabot PRs which can't access repo secrets
 vi.mock("@/env", () => ({

@@ -14,6 +14,7 @@ import { NotificationButton } from "@/components/product/buttons/NotificationBut
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
 import { ProductPriceEstimate } from "@/components/product/detail/ProductPriceEstimate.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
+import { Link } from "@tanstack/react-router";
 
 export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();
@@ -75,13 +76,26 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                 <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted-foreground/80">
                     {product.sellerName !== product.shopName ? (
                         <>
-                            {product.sellerName}
-                            <span className="ml-2 text-muted-foreground/60">
-                                {t("product.soldOn")} {product.shopName}
+                            {"test"}
+                            <span className="ml-2 text-muted-foreground/80">
+                                {t("product.soldOn")}{" "}
+                                <Link
+                                    to="/shops/$shopSlugId"
+                                    params={{ shopSlugId: product.shopSlugId }}
+                                    className="transition-colors hover:text-foreground hover:underline"
+                                >
+                                    {product.shopName}
+                                </Link>
                             </span>
                         </>
                     ) : (
-                        product.shopName
+                        <Link
+                            to="/shops/$shopSlugId"
+                            params={{ shopSlugId: product.shopSlugId }}
+                            className="transition-colors hover:text-foreground hover:underline"
+                        >
+                            {product.shopName}
+                        </Link>
                     )}
                 </p>
 
