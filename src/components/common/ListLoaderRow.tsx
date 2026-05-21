@@ -24,7 +24,7 @@ export function ListLoaderRow({
         <Card className="bg-surface-container-low border-0 p-4 flex justify-center items-center shadow-none">
             <CardContent className="flex justify-center items-center w-full px-2">
                 {isFetchingNextPage ? (
-                    <div className="flex flex-row items-center gap-2">
+                    <div className="h-12 flex flex-row items-center gap-2">
                         <Spinner />
                         <SectionInfoText>{t(loadingMoreKey)}</SectionInfoText>
                     </div>
