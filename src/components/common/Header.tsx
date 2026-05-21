@@ -222,7 +222,7 @@ export function Header() {
             {/* Desktop Menu */}
             {isLoginEnabled && (
                 <div className="hidden lg:flex items-center justify-end w-full">
-                    {!isAuthResolved ? null : isAuthenticated ? (
+                    {isAuthResolved && isAuthenticated ? (
                         <div
                             className={cn(
                                 "flex items-center transition-all duration-300",
