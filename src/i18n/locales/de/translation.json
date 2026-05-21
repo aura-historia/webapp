@@ -878,8 +878,8 @@
         }
       },
       "endpoints": {
-        "title": "Partner-relevante Endpunkte direkt eingebettet",
-        "subtitle": "Die folgenden Scalar-Embeds verlinken direkt in unsere OpenAPI-Dokumentation und zeigen die drei Batch-Endpunkte für Partner-Integrationen.",
+        "title": "Interaktive Partner Produkt-API-Referenz",
+        "subtitle": "Diese vollbreite Scalar-Referenz wird automatisch aus unserer OpenAPI-Spezifikation erzeugt und bleibt auf die drei relevanten Batch-Endpunkte für Partner-Integrationen fokussiert.",
         "generatedReferenceTitle": "Eine fokussierte API-Referenz für genau diese drei Endpunkte",
         "generatedReferenceDescription": "Diese eingebettete Scalar-Ansicht wird automatisch aus unserer OpenAPI-Spezifikation erzeugt und bündelt die drei relevanten Partner-Endpunkte in einer fokussierten, interaktiven Referenz.",
         "externalDocsCta": "Endpoint separat öffnen",

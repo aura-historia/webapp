@@ -11,8 +11,6 @@ import { useTranslation } from "react-i18next";
 
 type GuideStepKey = "requestKey" | "preparePayload" | "sendBatch" | "keepInSync" | "verifyShop";
 
-type EndpointKey = "create" | "update" | "upsert";
-
 type VisualVariant = "key" | "payload" | "send" | "sync" | "shop";
 
 type GuideStep = {
@@ -20,13 +18,6 @@ type GuideStep = {
     readonly icon: typeof KeyRound;
     readonly variant: VisualVariant;
     readonly endpoint?: string;
-};
-
-type EndpointDefinition = {
-    readonly key: EndpointKey;
-    readonly method: "POST" | "PATCH" | "PUT";
-    readonly path: string;
-    readonly docsUrl: string;
 };
 
 const GUIDE_STEPS: readonly GuideStep[] = [
@@ -57,27 +48,6 @@ const GUIDE_STEPS: readonly GuideStep[] = [
         icon: Store,
         variant: "shop",
         endpoint: "/shops/{shopSlugId}",
-    },
-];
-
-const ENDPOINTS: readonly EndpointDefinition[] = [
-    {
-        key: "upsert",
-        method: "PUT",
-        path: "/api/v1/shops/{shopId}/products",
-        docsUrl: "https://docs.api.aura-historia.com/#/Products/putPartnerProducts",
-    },
-    {
-        key: "create",
-        method: "POST",
-        path: "/api/v1/shops/{shopId}/products",
-        docsUrl: "https://docs.api.aura-historia.com/#/Products/postPartnerProducts",
-    },
-    {
-        key: "update",
-        method: "PATCH",
-        path: "/api/v1/shops/{shopId}/products",
-        docsUrl: "https://docs.api.aura-historia.com/#/Products/patchPartnerProducts",
     },
 ];
 
@@ -371,71 +341,8 @@ export default function PartnerCustomIntegrationPage() {
                         showDivider={false}
                     />
 
-                    <Card className="mx-auto mt-16 max-w-5xl overflow-hidden border-border/60">
-                        <CardHeader className="space-y-6">
-                            <div className="space-y-2">
-                                <CardTitle className="text-2xl font-normal text-primary">
-                                    {t(
-                                        "partners.customIntegrationPage.endpoints.generatedReferenceTitle",
-                                    )}
-                                </CardTitle>
-                                <p className="text-sm leading-6 text-muted-foreground">
-                                    {t(
-                                        "partners.customIntegrationPage.endpoints.generatedReferenceDescription",
-                                    )}
-                                </p>
-                            </div>
-
-                            <div className="space-y-4">
-                                {ENDPOINTS.map((endpoint) => (
-                                    <div
-                                        key={endpoint.key}
-                                        className="rounded-2xl border border-border/70 bg-background px-4 py-4"
-                                    >
-                                        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                                            <div className="space-y-3">
-                                                <div className="flex flex-wrap items-center gap-3">
-                                                    <span className="inline-flex rounded-full border border-primary/15 bg-primary/10 px-3 py-1 text-xs font-semibold tracking-[0.2em] text-primary">
-                                                        {endpoint.method}
-                                                    </span>
-                                                    <code className="text-sm text-primary">
-                                                        {endpoint.path}
-                                                    </code>
-                                                </div>
-                                                <div className="space-y-1">
-                                                    <p className="font-medium text-primary">
-                                                        {t(
-                                                            `partners.customIntegrationPage.endpoints.items.${endpoint.key}.title`,
-                                                        )}
-                                                    </p>
-                                                    <p className="text-sm leading-6 text-muted-foreground">
-                                                        {t(
-                                                            `partners.customIntegrationPage.endpoints.items.${endpoint.key}.description`,
-                                                        )}
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            <a
-                                                href={endpoint.docsUrl}
-                                                target="_blank"
-                                                rel="noreferrer noopener"
-                                                className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                                            >
-                                                {t(
-                                                    "partners.customIntegrationPage.endpoints.externalDocsCta",
-                                                )}
-                                                <ExternalLink
-                                                    className="size-4"
-                                                    aria-hidden="true"
-                                                />
-                                            </a>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </CardHeader>
-                        <CardContent className="border-t border-border/60 p-0">
+                    <Card className="mt-16 overflow-hidden rounded-[32px] border border-border/60 bg-linear-to-b from-card via-background to-card/70 shadow-xs">
+                        <div className="p-0">
                             <div>
                                 <p className="sr-only">
                                     {t("partners.customIntegrationPage.endpoints.embedTitle")}
@@ -454,7 +361,7 @@ export default function PartnerCustomIntegrationPage() {
                                     </Suspense>
                                 </ClientOnly>
                             </div>
-                        </CardContent>
+                        </div>
                     </Card>
                 </div>
             </section>

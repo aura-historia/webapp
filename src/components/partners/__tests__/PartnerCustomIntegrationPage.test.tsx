@@ -29,12 +29,12 @@ describe("PartnerCustomIntegrationPage", () => {
         expect(screen.getByText(/202 Accepted/i)).toBeInTheDocument();
     });
 
-    it("embeds all relevant partner API endpoints", () => {
-        const methodBadges = screen.getAllByText(/^(PUT|POST|PATCH)$/);
-
-        expect(methodBadges).toHaveLength(3);
-        expect(methodBadges.map((badge) => badge.textContent)).toEqual(["PUT", "POST", "PATCH"]);
+    it("embeds the interactive partner API reference without redundant endpoint cards", () => {
         expect(screen.getByTestId("partner-products-api-reference")).toBeInTheDocument();
+        expect(
+            screen.queryByText("Eine fokussierte API-Referenz für genau diese drei Endpunkte"),
+        ).not.toBeInTheDocument();
+        expect(screen.queryByText("Endpoint separat öffnen")).not.toBeInTheDocument();
     });
 
     it("builds the final shop-page CTA from the entered shop slug", () => {
