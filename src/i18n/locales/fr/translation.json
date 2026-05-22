@@ -94,6 +94,7 @@
   "header": {
     "watchlist": "Liste de surveillance",
     "myAccount": "Mon compte",
+    "admin": "Admin",
     "editAccount": "Modifier le compte",
     "logout": "Se déconnecter",
     "hello": "Bonjour",

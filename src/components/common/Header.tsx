@@ -60,6 +60,7 @@ export function Header() {
     } = useResolvedAuth();
 
     const { data: userAccount } = useUserAccount();
+    const isAdmin = userAccount?.role === "ADMIN";
 
     const isLandingPage = pathname === "/";
     const isHiddenRoute = SEARCH_BAR_HIDDEN_ROUTES.has(pathname);
@@ -121,6 +122,25 @@ export function Header() {
                                     </Link>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
+                            {isAdmin && (
+                                <NavigationMenuItem>
+                                    <NavigationMenuLink asChild>
+                                        <Link to="/admin">
+                                            <span
+                                                className={cn(
+                                                    pathname === "/admin" ||
+                                                        pathname.startsWith("/admin/")
+                                                        ? "underline"
+                                                        : "",
+                                                    "text-base",
+                                                )}
+                                            >
+                                                {t("header.admin")}
+                                            </span>
+                                        </Link>
+                                    </NavigationMenuLink>
+                                </NavigationMenuItem>
+                            )}
                         </NavigationMenuList>
                     </NavigationMenu>
 
@@ -147,6 +167,11 @@ export function Header() {
                             <DropdownMenuItem asChild className="xl:hidden">
                                 <Link to="/me/search-filters">{t("header.searchFilters")}</Link>
                             </DropdownMenuItem>
+                            {isAdmin && (
+                                <DropdownMenuItem asChild className="xl:hidden">
+                                    <Link to="/admin">{t("header.admin")}</Link>
+                                </DropdownMenuItem>
+                            )}
                             <DropdownMenuSeparator className="xl:hidden" />
                             <DropdownMenuItem asChild>
                                 <Link to="/me/account">{t("header.editAccount")}</Link>
@@ -294,6 +319,11 @@ export function Header() {
                                         <DropdownMenuItem asChild>
                                             <Link to="/me/account">{t("header.editAccount")}</Link>
                                         </DropdownMenuItem>
+                                        {isAdmin && (
+                                            <DropdownMenuItem asChild>
+                                                <Link to="/admin">{t("header.admin")}</Link>
+                                            </DropdownMenuItem>
+                                        )}
                                         <DropdownMenuItem onSelect={() => signOut()}>
                                             {t("header.logout")}
                                         </DropdownMenuItem>

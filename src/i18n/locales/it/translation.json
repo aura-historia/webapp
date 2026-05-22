@@ -94,6 +94,7 @@
   "header": {
     "watchlist": "Lista dei preferiti",
     "myAccount": "Il mio account",
+    "admin": "Admin",
     "editAccount": "Modifica account",
     "logout": "Esci",
     "hello": "Ciao",
