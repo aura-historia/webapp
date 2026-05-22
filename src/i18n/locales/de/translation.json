@@ -94,6 +94,7 @@
   "header": {
     "watchlist": "Merkliste",
     "myAccount": "Mein Account",
+    "admin": "Admin",
     "editAccount": "Account bearbeiten",
     "logout": "Ausloggen",
     "hello": "Hallo",
