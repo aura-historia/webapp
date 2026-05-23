@@ -1433,7 +1433,7 @@
       "editHint": "Essayez d'ajuster le filtre de recherche."
     },
     "totalElements": "{{count}} filtre(s) de recherche",
-    "matchingProducts": "{{count}} correspondance(s)",
+    "matchingProducts": "Afficher les correspondances",
     "searchPlaceholder": "Rechercher des filtres...",
     "showDetails": "Afficher les détails",
     "showResults": "Rechercher maintenant",

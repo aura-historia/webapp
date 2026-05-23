@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { SearchFilterCard } from "../SearchFilterCard.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
+import i18n from "@/i18n/i18nForTests";
 
 const mockUpdateMutate = vi.fn();
 
@@ -43,6 +44,7 @@ const defaultProps = {
 describe("SearchFilterCard", () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        void i18n.changeLanguage("de");
     });
 
     it("renders the filter name", async () => {
@@ -156,5 +158,16 @@ describe("SearchFilterCard", () => {
                 patch: { notifications: true },
             }),
         );
+    });
+
+    it("renders the matching products button label without an unresolved placeholder in english", async () => {
+        await i18n.changeLanguage("en");
+
+        await act(() => {
+            renderWithRouter(<SearchFilterCard {...defaultProps} />);
+        });
+
+        expect(screen.getByRole("link", { name: "Show matches" })).toBeInTheDocument();
+        expect(screen.queryByText(/\{\{count\}\}/)).not.toBeInTheDocument();
     });
 });

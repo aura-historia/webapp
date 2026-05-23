@@ -1433,7 +1433,7 @@
       "editHint": "Intente ajustar el filtro de búsqueda."
     },
     "totalElements": "{{count}} filtro(s) de búsqueda",
-    "matchingProducts": "{{count}} coincidencia(s)",
+    "matchingProducts": "Mostrar coincidencias",
     "searchPlaceholder": "Buscar filtros de búsqueda...",
     "showDetails": "Mostrar detalles",
     "showResults": "Buscar ahora",

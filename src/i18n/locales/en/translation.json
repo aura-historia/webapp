@@ -1198,7 +1198,7 @@
       "editHint": "Try adjusting the search filter."
     },
     "totalElements": "{{count}} search filter(s)",
-    "matchingProducts": "{{count}} matches",
+    "matchingProducts": "Show matches",
     "searchPlaceholder": "Search filters...",
     "showDetails": "Show details",
     "showResults": "Search now",
