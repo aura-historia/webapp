@@ -31,6 +31,10 @@ export function NotificationCard({ notification }: { readonly notification: Noti
     const consentGiven = userAccount?.prohibitedContentConsent ?? false;
     const { payload, seen, originEventId } = notification;
     const changeParts = getNotificationChangeParts(payload, t, i18n.language);
+    const productImage = isProductNotification(payload) ? payload.image : undefined;
+    const notificationImageUrl = isProductNotification(payload)
+        ? payload.image?.url?.href
+        : payload.image;
 
     return (
         <Card
@@ -47,15 +51,15 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                     )}
                     aria-hidden="true"
                 />
-                {isProductNotification(payload) && payload.image ? (
-                    isRestrictedImage(payload.image, consentGiven) ? (
+                {notificationImageUrl ? (
+                    productImage && isRestrictedImage(productImage, consentGiven) ? (
                         <ProhibitedImagePlaceholder
                             className="size-48 shrink-0 rounded-lg"
                             showLabel={false}
                         />
                     ) : (
                         <ImageWithFallback
-                            src={payload.image.url?.href}
+                            src={notificationImageUrl}
                             alt=""
                             loading="lazy"
                             className="size-48 shrink-0 object-cover"
