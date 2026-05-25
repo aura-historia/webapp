@@ -92,6 +92,7 @@ const mockPartnerApplicationApprovedNotification: GetNotificationData = {
     payload: {
         type: "PARTNER_APPLICATION",
         shopName: "Antique Shop",
+        image: "https://example.com/logo.png",
         partnerApplicationPayload: {
             type: "APPROVED",
             partnerApplicationId: "pa-1",
@@ -109,6 +110,7 @@ const mockPartnerApplicationRejectedNotification: GetNotificationData = {
     payload: {
         type: "PARTNER_APPLICATION",
         shopName: "Old Books",
+        image: null,
         partnerApplicationPayload: {
             type: "REJECTED",
             partnerApplicationId: "pa-2",
@@ -223,6 +225,12 @@ describe("mapToInternalNotification", () => {
             expect(result.payload.shopName).toBe("Antique Shop");
         });
 
+        it("maps optional image correctly", () => {
+            const result = mapToInternalNotification(mockPartnerApplicationApprovedNotification);
+            if (result.payload.type !== "PARTNER_APPLICATION") throw new Error("wrong type");
+            expect(result.payload.image).toBe("https://example.com/logo.png");
+        });
+
         it("maps APPROVED partnerApplicationPayload correctly", () => {
             const result = mapToInternalNotification(mockPartnerApplicationApprovedNotification);
             if (result.payload.type !== "PARTNER_APPLICATION") throw new Error("wrong type");
@@ -233,6 +241,7 @@ describe("mapToInternalNotification", () => {
         it("maps REJECTED partnerApplicationPayload correctly", () => {
             const result = mapToInternalNotification(mockPartnerApplicationRejectedNotification);
             if (result.payload.type !== "PARTNER_APPLICATION") throw new Error("wrong type");
+            expect(result.payload.image).toBeUndefined();
             expect(result.payload.partnerApplicationPayload.type).toBe("REJECTED");
             expect(result.payload.partnerApplicationPayload.partnerApplicationId).toBe("pa-2");
         });
