@@ -10,7 +10,6 @@ type MockAuthUser = { userId: string; username: string } | null;
 
 const createAuthMockValue = (user: MockAuthUser = null) => ({
     user,
-    serverUser: null,
     isAuthenticated: !!user,
     isLoading: false,
     isResolved: true,

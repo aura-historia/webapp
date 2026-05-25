@@ -8,7 +8,6 @@ import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 vi.mock("@/hooks/auth/useResolvedAuth", () => ({
     useResolvedAuth: vi.fn(() => ({
         user: null,
-        serverUser: null,
         isAuthenticated: false,
         isLoading: false,
         isResolved: true,
@@ -113,7 +112,6 @@ describe("CurrencySelector", () => {
         const { useResolvedAuth } = vi.mocked(await import("@/hooks/auth/useResolvedAuth"));
         useResolvedAuth.mockReturnValue({
             user: { userId: "test", username: "test" },
-            serverUser: null,
             isAuthenticated: true,
             isLoading: false,
             isResolved: true,

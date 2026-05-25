@@ -20,7 +20,6 @@ vi.mock("@/client", () => ({
 vi.mock("@/hooks/auth/useResolvedAuth", () => ({
     useResolvedAuth: vi.fn(() => ({
         user: { userId: "test-user-id", username: "test-user" },
-        serverUser: null,
         isAuthenticated: true,
         isLoading: false,
         isResolved: true,
@@ -67,7 +66,6 @@ describe("useStripeBilling", () => {
 
         mockUseResolvedAuth.mockReturnValue({
             user: { userId: "test-user-id", username: "test-user" },
-            serverUser: null,
             isAuthenticated: true,
             isLoading: false,
             isResolved: true,
@@ -86,7 +84,6 @@ describe("useStripeBilling", () => {
         it("should navigate to login when user is not authenticated", async () => {
             mockUseResolvedAuth.mockReturnValue({
                 user: null,
-                serverUser: null,
                 isAuthenticated: false,
                 isLoading: false,
                 isResolved: true,
@@ -111,7 +108,6 @@ describe("useStripeBilling", () => {
         it("should not set loading state for anonymous user redirect", async () => {
             mockUseResolvedAuth.mockReturnValue({
                 user: null,
-                serverUser: null,
                 isAuthenticated: false,
                 isLoading: false,
                 isResolved: true,

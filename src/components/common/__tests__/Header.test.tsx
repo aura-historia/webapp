@@ -25,7 +25,6 @@ const setupAuthMock = ({
 } = {}) => {
     mockUseResolvedAuth.mockReturnValue({
         user: isAuthenticated ? { userId: "test-id", username: "test" } : null,
-        serverUser: null,
         isAuthenticated,
         isLoading,
         isResolved: isAuthenticated || !isLoading,

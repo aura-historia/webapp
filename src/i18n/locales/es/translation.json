@@ -804,6 +804,7 @@
   "apiErrors": {
     "PRODUCT_NOT_FOUND": "Este artículo no fue encontrado.",
     "UNAUTHORIZED": "Autenticación fallida. Por favor, inicie sesión.",
+    "USER_NOT_FOUND": "Su sesión ya no es válida. Por favor, inicie sesión de nuevo.",
     "INTERNAL_SERVER_ERROR": "Se produjo un error interno del servidor. Por favor, inténtelo de nuevo más tarde.",
     "GATEWAY_TIMEOUT": "Tiempo de espera de la solicitud agotado. Por favor, inténtelo de nuevo más tarde.",
     "WATCHLIST_ENTRY_NOT_FOUND": "Este artículo no está en su lista de seguimiento.",
