@@ -27,15 +27,13 @@ function isCurrentUserNotFoundError(error: unknown): error is ApiError {
 }
 
 async function signOutMissingUserSession() {
-    if (!pendingUserNotFoundSignOut) {
-        pendingUserNotFoundSignOut = signOut()
-            .catch((error) => {
-                console.error("[Auth] Failed to sign out missing user session.", error);
-            })
-            .finally(() => {
-                pendingUserNotFoundSignOut = undefined;
-            });
-    }
+    pendingUserNotFoundSignOut ??= signOut()
+        .catch((error) => {
+            console.error("[Auth] Failed to sign out missing user session.", error);
+        })
+        .finally(() => {
+            pendingUserNotFoundSignOut = undefined;
+        });
 
     await pendingUserNotFoundSignOut;
 }
