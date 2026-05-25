@@ -7,7 +7,7 @@ import Lottie from "lottie-react";
 
 type ListLoaderRowProps = {
     readonly isFetchingNextPage: boolean;
-    readonly totalCount: number;
+    readonly totalCount?: number;
     readonly loadingMoreKey?: string;
     readonly allLoadedKey?: string;
 };
@@ -33,7 +33,11 @@ export function ListLoaderRow({
                         <div className="h-12 w-12 shrink-0">
                             <Lottie className="h-12 w-12" animationData={tick} loop={false} />
                         </div>
-                        <SectionInfoText>{t(allLoadedKey, { count: totalCount })}</SectionInfoText>
+                        {totalCount && (
+                            <SectionInfoText>
+                                {t(allLoadedKey, { count: totalCount })}
+                            </SectionInfoText>
+                        )}
                     </div>
                 )}
             </CardContent>

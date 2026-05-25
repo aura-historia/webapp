@@ -13,7 +13,7 @@ import { useInView } from "react-intersection-observer";
 
 type SearchResultsProps = {
     readonly searchFilters: SearchFilterArguments;
-    readonly onTotalChange?: (total: number) => void;
+    readonly onTotalChange?: (total?: number) => void;
 };
 
 const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as const;
@@ -26,7 +26,7 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
 
     const allProducts = data?.pages.flatMap((page: SearchResultData) => page.products) ?? [];
 
-    const totalProducts = data?.pages[0]?.total ?? 0;
+    const totalProducts = data?.pages[0]?.total;
     const allLoaded = allProducts.length > 0 && !hasNextPage;
 
     useEffect(() => {
