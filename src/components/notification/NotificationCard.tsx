@@ -31,6 +31,7 @@ export function NotificationCard({ notification }: { readonly notification: Noti
     const consentGiven = userAccount?.prohibitedContentConsent ?? false;
     const { payload, seen, originEventId } = notification;
     const changeParts = getNotificationChangeParts(payload, t, i18n.language);
+    const productImage = isProductNotification(payload) ? payload.image : undefined;
     const notificationImageUrl = isProductNotification(payload)
         ? payload.image?.url?.href
         : payload.image;
@@ -51,8 +52,7 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                     aria-hidden="true"
                 />
                 {notificationImageUrl ? (
-                    isProductNotification(payload) &&
-                    isRestrictedImage(payload.image, consentGiven) ? (
+                    productImage && isRestrictedImage(productImage, consentGiven) ? (
                         <ProhibitedImagePlaceholder
                             className="size-48 shrink-0 rounded-lg"
                             showLabel={false}
