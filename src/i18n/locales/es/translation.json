@@ -94,6 +94,7 @@
   "header": {
     "watchlist": "Lista de seguimiento",
     "myAccount": "Mi cuenta",
+    "admin": "Admin",
     "editAccount": "Editar cuenta",
     "logout": "Cerrar sesión",
     "hello": "Hola",
