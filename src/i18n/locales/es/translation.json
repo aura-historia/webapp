@@ -1392,10 +1392,13 @@
         "name": "Nombre",
         "nameDescription": "Asigne un nombre a su filtro de búsqueda",
         "priceStatus": "Precio y Estado",
+        "priceStatusDescription": "Defina su rango de precios y seleccione el estado de publicación deseado – por ejemplo, solo artículos disponibles o también piezas ya subastadas para investigación de mercado.",
         "theme": "Tema",
         "quality": "Calidad",
         "shop": "Tienda",
+        "shopDescription": "Seleccione específicamente tipos de proveedores – renombradas casas de subastas, marchantes de arte especializados o mercados – e incluya o excluya proveedores individuales.",
         "date": "Fecha",
+        "dateDescription": "Acote la búsqueda por tiempo – por fecha de subasta, fecha de primera publicación o la última actualización del anuncio.",
         "confirm": "Confirmar",
         "confirmDescription": "Revise su filtro de búsqueda antes de guardarlo"
       },
@@ -1434,7 +1437,7 @@
       "editHint": "Intente ajustar el filtro de búsqueda."
     },
     "totalElements": "{{count}} filtro(s) de búsqueda",
-    "matchingProducts": "{{count}} coincidencia(s)",
+    "matchingProducts": "Mostrar todas las coincidencias",
     "searchPlaceholder": "Buscar filtros de búsqueda...",
     "showDetails": "Mostrar detalles",
     "showResults": "Buscar ahora",

@@ -1392,10 +1392,13 @@
         "name": "Nom",
         "nameDescription": "Donnez un nom à votre filtre de recherche",
         "priceStatus": "Prix & Statut",
+        "priceStatusDescription": "Définissez votre fourchette de prix et sélectionnez le statut d'annonce souhaité – par exemple, uniquement les articles disponibles ou aussi les pièces déjà vendues aux enchères pour la recherche de marché.",
         "theme": "Thème",
         "quality": "Qualité",
         "shop": "Boutique",
+        "shopDescription": "Sélectionnez précisément les types de fournisseurs – maisons de ventes aux enchères renommées, marchands d'art spécialisés ou marchés – et incluez ou excluez des fournisseurs individuels.",
         "date": "Date",
+        "dateDescription": "Affinez la recherche par date – par date de vente aux enchères, date de première publication ou dernière mise à jour de l'annonce.",
         "confirm": "Confirmer",
         "confirmDescription": "Vérifiez votre filtre de recherche avant de l'enregistrer"
       },
@@ -1434,7 +1437,7 @@
       "editHint": "Essayez d'ajuster le filtre de recherche."
     },
     "totalElements": "{{count}} filtre(s) de recherche",
-    "matchingProducts": "{{count}} correspondance(s)",
+    "matchingProducts": "Afficher toutes les correspondances",
     "searchPlaceholder": "Rechercher des filtres...",
     "showDetails": "Afficher les détails",
     "showResults": "Rechercher maintenant",

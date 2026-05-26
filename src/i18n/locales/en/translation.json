@@ -1157,10 +1157,13 @@
         "name": "Name",
         "nameDescription": "Give your search filter a name",
         "priceStatus": "Price & Status",
+        "priceStatusDescription": "Define your price range and select the desired listing status – such as only available items, or also already auctioned pieces for market research.",
         "theme": "Theme",
         "quality": "Quality",
         "shop": "Shop",
+        "shopDescription": "Specifically select provider types – renowned auction houses, specialized art dealers or marketplaces – and include or exclude individual providers.",
         "date": "Date",
+        "dateDescription": "Narrow down the search by time – by auction date, date of first publication, or the last update of the listing.",
         "confirm": "Confirm",
         "confirmDescription": "Review your search filter before saving"
       },
@@ -1199,7 +1202,7 @@
       "editHint": "Try adjusting the search filter."
     },
     "totalElements": "{{count}} search filter(s)",
-    "matchingProducts": "{{count}} matches",
+    "matchingProducts": "Show all matches",
     "searchPlaceholder": "Search filters...",
     "showDetails": "Show details",
     "showResults": "Search now",
