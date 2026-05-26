@@ -3,9 +3,14 @@ import PartnerCustomIntegrationPage from "@/features/partners/components/custom-
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, fireEvent, screen } from "@testing-library/react";
 
-vi.mock("@/features/partners/components/PartnerProductsApiReference.tsx", () => ({
-    default: () => <div data-testid="partner-products-api-reference">Partner API reference</div>,
-}));
+vi.mock(
+    "@/features/partners/components/custom-integration/PartnerProductsApiReference.tsx",
+    () => ({
+        default: () => (
+            <div data-testid="partner-products-api-reference">Partner API reference</div>
+        ),
+    }),
+);
 
 describe("PartnerCustomIntegrationPage", () => {
     beforeEach(async () => {
