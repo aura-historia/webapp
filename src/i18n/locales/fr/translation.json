@@ -723,9 +723,9 @@
         "badge": "Populaire"
       },
       "customApi": {
-        "title": "Intégration personnalisée · clé API",
-        "description": "Contrôle total via des endpoints REST et une clé API à portée limitée – idéal pour les systèmes sur mesure.",
-        "cta": "Documentation API",
+        "title": "Intégration API personnalisée",
+        "description": "Connectez un système de boutique sur mesure avec une clé API et une synchronisation produit par lot.",
+        "cta": "Voir la documentation API",
         "badge": "Pour les développeurs"
       }
     },
@@ -790,6 +790,123 @@
       "subtitle": "Postulez gratuitement en moins de deux minutes. Sans contrat, sans risque, avec un contrôle total.",
       "primary": "Devenir partenaire",
       "secondary": "Écrire à l'équipe partenaires"
+    },
+    "customIntegrationPage": {
+      "hero": {
+        "eyebrow": "Programme partenaire · Intégration API personnalisée",
+        "title": "Connectez votre boutique avec notre API",
+        "subtitle": "Utilisez l’API partenaire si votre boutique repose sur un système sur mesure ou si vous voulez garder le contrôle complet de la synchronisation. Envoyez vos lots de produits à Aura Historia, nous les traitons en arrière-plan, puis les produits apparaissent sur votre page boutique.",
+        "primaryCta": "Demander une clé API",
+        "secondaryCta": "Ouvrir la documentation API"
+      },
+      "concept": {
+        "title": "Conçu pour des imports de produits asynchrones",
+        "description": "L’API confirme que votre lot a bien été reçu. La validation, le traitement et la publication se font ensuite en arrière-plan. Une réponse 202 signifie donc que l’import a commencé, pas que tous les produits sont déjà visibles.",
+        "flowLabel": "Flux habituel",
+        "flow": {
+          "accepted": "202 Accepted · lot reçu",
+          "processing": "Traitement des produits en arrière-plan",
+          "visible": "Les produits validés apparaissent quelques minutes plus tard"
+        },
+        "benefits": {
+          "async": {
+            "title": "Traiter les imports de façon asynchrone",
+            "description": "Envoyez un lot, conservez la réponse d’acceptation, puis vérifiez le résultat sur votre page boutique Aura Historia une fois le traitement terminé."
+          },
+          "polling": {
+            "title": "Commencer petit, puis synchroniser régulièrement",
+            "description": "Utilisez POST pour votre premier lot de produits. Dès que l’import fonctionne, gardez votre catalogue à jour avec des mises à jour PATCH ou des upserts PUT."
+          }
+        }
+      },
+      "summary": {
+        "title": "Ce qu’il vous faut pour la première synchronisation",
+        "subtitle": "Ces trois éléments suffisent pour envoyer un premier lot de produits facile à vérifier.",
+        "items": {
+          "apiKey": {
+            "title": "Accès partenaire et clé API",
+            "description": "Demandez l’accès à notre équipe partenaire. Après validation, vous recevez une clé API limitée à votre boutique."
+          },
+          "shopId": {
+            "title": "Votre ID de boutique Aura Historia",
+            "description": "Utilisez l’ID de boutique reçu lors de l’onboarding dans chaque requête par lot afin d’associer les produits à la bonne boutique."
+          },
+          "productBatch": {
+            "title": "Un petit lot de produits",
+            "description": "Commencez avec quelques produits valides pour vérifier rapidement l’import, le mapping des données et le résultat publié."
+          }
+        }
+      },
+      "guide": {
+        "title": "De la clé API à la première synchronisation",
+        "subtitle": "Un parcours pratique pour connecter un système de boutique sur mesure à Aura Historia.",
+        "stepLabel": "Étape {{number}}",
+        "endpointLabel": "Endpoint concerné",
+        "focusLabel": "À vérifier",
+        "steps": {
+          "requestKey": {
+            "title": "Demander l’accès pour votre boutique partenaire",
+            "description": "Commencez par l’onboarding partenaire. Une fois votre boutique validée, vous recevez la clé API et l’ID de boutique nécessaires aux requêtes par lot.",
+            "focus": "Conservez la clé API, l’ID de boutique et le contact d’onboarding dans un endroit accessible de façon sécurisée à votre équipe d’intégration.",
+            "visualTitle": "Activation et identifiants",
+            "visualCaption": "Clé API et ID de boutique"
+          },
+          "preparePayload": {
+            "title": "Préparer votre premier payload produit",
+            "description": "Créez un petit lot avec les champs produit requis. Vérifiez les IDs, titres, prix, images, disponibilités et liens vers vos pages produit.",
+            "focus": "Limitez-vous à quelques produits au départ. La validation sera plus lisible et le premier import plus simple à déboguer.",
+            "visualTitle": "Préparer le payload JSON",
+            "visualCaption": "Structure du lot et champs requis"
+          },
+          "sendBatch": {
+            "title": "Envoyer le premier lot",
+            "description": "Envoyez le lot avec POST vers l’endpoint partenaire. Dès que la requête est acceptée, le traitement démarre en arrière-plan.",
+            "focus": "Une réponse d’acceptation ne rend pas les produits visibles immédiatement. Prévoyez quelques minutes de traitement.",
+            "visualTitle": "Envoyer le lot de produits",
+            "visualCaption": "Requête et réponse 202"
+          },
+          "keepInSync": {
+            "title": "Maintenir votre catalogue à jour",
+            "description": "Après le premier import réussi, utilisez PATCH pour des changements ciblés ou PUT lorsque votre synchronisation envoie des enregistrements complets à créer ou mettre à jour.",
+            "focus": "Utilisez PATCH pour les changements connus et PUT pour les upserts lorsque le lot peut contenir des produits nouveaux et existants.",
+            "visualTitle": "Mettre à jour la synchronisation",
+            "visualCaption": "Actions update et upsert"
+          },
+          "verifyShop": {
+            "title": "Ouvrir votre page boutique et vérifier le résultat",
+            "description": "Après le traitement, ouvrez votre page boutique Aura Historia. Vos premiers produits synchronisés devraient y apparaître après un court délai.",
+            "focus": "Utilisez le slug de votre boutique pour accéder directement à la page publique et vérifier que les produits importés s’affichent correctement.",
+            "inputLabel": "Slug de votre boutique",
+            "inputPlaceholder": "ex. ma-galerie-antiquites",
+            "inputHint": "Saisissez le slug de l’URL de votre boutique Aura Historia. Le bouton ouvre directement la page publique de la boutique.",
+            "cta": "Ouvrir ma page boutique",
+            "visualTitle": "Vérifier la page boutique",
+            "visualCaption": "Grille de produits et en-tête boutique"
+          }
+        }
+      },
+      "endpoints": {
+        "title": "Référence de l’API produits partenaire",
+        "subtitle": "La référence OpenAPI intégrée se concentre sur les endpoints par lot nécessaires à une intégration personnalisée.",
+        "generatedReferenceTitle": "Les trois endpoints de synchronisation produit",
+        "generatedReferenceDescription": "Cette référence interactive est générée depuis notre spécification OpenAPI et regroupe les endpoints de création, mise à jour et upsert par lot.",
+        "externalDocsCta": "Ouvrir l’endpoint séparément",
+        "embedTitle": "Référence de l’API produits partenaire",
+        "items": {
+          "create": {
+            "title": "Batch create products (Partner API)",
+            "description": "Créez des produits pour votre boutique. Idéal pour l’import initial ou pour les lots qui ne contiennent que de nouveaux produits."
+          },
+          "update": {
+            "title": "Batch update products (Partner API)",
+            "description": "Mettez à jour des produits existants lorsque les titres, prix, images, disponibilités ou liens changent."
+          },
+          "upsert": {
+            "title": "Batch upsert products (Partner API)",
+            "description": "Créez ou mettez à jour des produits dans un seul lot lorsque votre synchronisation peut contenir des enregistrements nouveaux et existants."
+          }
+        }
+      }
     }
   },
   "apiErrors": {

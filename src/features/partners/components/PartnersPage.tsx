@@ -1,11 +1,11 @@
-import PartnerFAQSection from "@/components/partners/sections/PartnerFAQSection.tsx";
-import PartnerFinalCtaSection from "@/components/partners/sections/PartnerFinalCtaSection.tsx";
-import PartnerHeroSection from "@/components/partners/sections/PartnerHeroSection.tsx";
-import PartnerHowEasySection from "@/components/partners/sections/PartnerHowEasySection.tsx";
-import PartnerIntegrationsSection from "@/components/partners/sections/PartnerIntegrationsSection.tsx";
-import PartnerMotivationSection from "@/components/partners/sections/PartnerMotivationSection.tsx";
-import PartnerStatsSection from "@/components/partners/sections/PartnerStatsSection.tsx";
-import { PARTNERS_PAGE_FRAGMENTS } from "@/components/partners/PartnersPage.fragments.ts";
+import { PARTNERS_PAGE_FRAGMENTS } from "@/features/partners/components/PartnersPage.fragments.ts";
+import PartnerFAQSection from "@/features/partners/components/sections/PartnerFAQSection.tsx";
+import PartnerFinalCtaSection from "@/features/partners/components/sections/PartnerFinalCtaSection.tsx";
+import PartnerHeroSection from "@/features/partners/components/sections/PartnerHeroSection.tsx";
+import PartnerHowEasySection from "@/features/partners/components/sections/PartnerHowEasySection.tsx";
+import PartnerIntegrationsSection from "@/features/partners/components/sections/PartnerIntegrationsSection.tsx";
+import PartnerMotivationSection from "@/features/partners/components/sections/PartnerMotivationSection.tsx";
+import PartnerStatsSection from "@/features/partners/components/sections/PartnerStatsSection.tsx";
 
 export default function PartnersPage() {
     return (

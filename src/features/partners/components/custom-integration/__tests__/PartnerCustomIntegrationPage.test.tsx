@@ -1,9 +1,9 @@
 import { vi } from "vitest";
-import PartnerCustomIntegrationPage from "@/components/partners/PartnerCustomIntegrationPage.tsx";
+import PartnerCustomIntegrationPage from "@/features/partners/components/custom-integration/PartnerCustomIntegrationPage.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, fireEvent, screen } from "@testing-library/react";
 
-vi.mock("@/components/partners/PartnerProductsApiReference.tsx", () => ({
+vi.mock("@/features/partners/components/PartnerProductsApiReference.tsx", () => ({
     default: () => <div data-testid="partner-products-api-reference">Partner API reference</div>,
 }));
 
@@ -15,30 +15,28 @@ describe("PartnerCustomIntegrationPage", () => {
     });
 
     it("renders the custom integration guide hero and primary CTA", () => {
-        expect(
-            screen.getByRole("heading", { name: "Eigene Integration per API" }),
-        ).toBeInTheDocument();
-        expect(screen.getByRole("link", { name: /API-Key jetzt holen/i })).toHaveAttribute(
+        expect(screen.getByRole("heading", { name: "Shop per API anbinden" })).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: /API-Key anfragen/i })).toHaveAttribute(
             "href",
             "/partners/apply",
         );
     });
 
     it("explains the asynchronous event-sink concept", () => {
-        expect(screen.getByText("Event-Sink statt klassischer REST-Antworten")).toBeInTheDocument();
+        expect(screen.getByText("Für asynchrone Produktimporte gebaut")).toBeInTheDocument();
         expect(screen.getByText(/202 Accepted/i)).toBeInTheDocument();
     });
 
     it("embeds the interactive partner API reference without redundant endpoint cards", () => {
         expect(screen.getByTestId("partner-products-api-reference")).toBeInTheDocument();
         expect(
-            screen.queryByText("Eine fokussierte API-Referenz für genau diese drei Endpunkte"),
+            screen.queryByText("Die drei Endpunkte für den Produkt-Sync"),
         ).not.toBeInTheDocument();
-        expect(screen.queryByText("Endpoint separat öffnen")).not.toBeInTheDocument();
+        expect(screen.queryByText("Endpunkt separat öffnen")).not.toBeInTheDocument();
     });
 
     it("builds the final shop-page CTA from the entered shop slug", () => {
-        const input = screen.getByLabelText("Ihre Shop-Slug-ID");
+        const input = screen.getByLabelText("Ihr Shop-Slug");
 
         fireEvent.change(input, { target: { value: "mein-laden" } });
 

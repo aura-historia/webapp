@@ -52,7 +52,8 @@ const GUIDE_STEPS: readonly GuideStep[] = [
 ];
 
 const LazyPartnerProductsApiReference = lazy(
-    () => import("@/components/partners/PartnerProductsApiReference.tsx"),
+    () =>
+        import("@/features/partners/components/custom-integration/PartnerProductsApiReference.tsx"),
 );
 
 export default function PartnerCustomIntegrationPage() {
@@ -115,21 +116,21 @@ export default function PartnerCustomIntegrationPage() {
                             </p>
                         </CardHeader>
                         <CardContent className="space-y-5">
-                            <div className="rounded-2xl border border-primary/10 bg-primary/5 p-5">
-                                <p className="text-sm font-medium uppercase tracking-[0.2em] text-primary">
+                            <div className="border border-primary/10 bg-primary/5 p-5">
+                                <p className="text-sm font-medium uppercase tracking-widest text-primary">
                                     {t("partners.customIntegrationPage.concept.flowLabel")}
                                 </p>
-                                <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                <div className="mt-4 grid gap-3 sm:grid-cols-3">
                                     {(["accepted", "processing", "visible"] as const).map(
                                         (flowStep, index) => (
                                             <div
                                                 key={flowStep}
-                                                className="flex flex-1 items-center gap-3 rounded-xl border border-border/70 bg-background px-4 py-3"
+                                                className="flex h-full items-center gap-3 border border-border/70 bg-background px-4 py-3"
                                             >
-                                                <span className="flex size-8 items-center justify-center rounded-full bg-tertiary/20 text-sm font-medium text-primary">
+                                                <span className="flex size-8 shrink-0 aspect-square items-center justify-center rounded-full bg-tertiary/20 text-sm font-medium text-primary">
                                                     {index + 1}
                                                 </span>
-                                                <span className="text-sm text-foreground">
+                                                <span className="text-sm text-foreground hyphens-auto">
                                                     {t(
                                                         `partners.customIntegrationPage.concept.flow.${flowStep}`,
                                                     )}
@@ -143,7 +144,7 @@ export default function PartnerCustomIntegrationPage() {
                                 {(["async", "polling"] as const).map((benefit) => (
                                     <div
                                         key={benefit}
-                                        className="rounded-2xl border border-border/70 bg-card px-5 py-4"
+                                        className="border border-border/70 bg-card px-5 py-4"
                                     >
                                         <p className="font-medium text-primary">
                                             {t(
@@ -174,9 +175,9 @@ export default function PartnerCustomIntegrationPage() {
                             {(["apiKey", "shopId", "productBatch"] as const).map((item) => (
                                 <div
                                     key={item}
-                                    className="flex items-start gap-3 rounded-2xl border border-border/70 px-4 py-4"
+                                    className="flex items-start gap-3  border border-border/70 px-4 py-4"
                                 >
-                                    <span className="mt-0.5 flex size-7 items-center justify-center rounded-full bg-primary/10 text-sm font-medium text-primary">
+                                    <span className="mt-0.5 flex size-7 shrink-0 aspect-square items-center justify-center rounded-full bg-primary/10 text-sm font-medium text-primary">
                                         ✓
                                     </span>
                                     <div>
@@ -222,7 +223,7 @@ export default function PartnerCustomIntegrationPage() {
                                     >
                                         <div className="flex-1 space-y-5">
                                             <div className="flex items-center gap-3">
-                                                <span className="flex size-11 items-center justify-center rounded-full bg-primary/10 text-primary">
+                                                <span className="flex size-11 shrink-0 aspect-square items-center justify-center rounded-full bg-primary/10 text-primary">
                                                     <Icon className="size-5" aria-hidden="true" />
                                                 </span>
                                                 <div>
@@ -245,8 +246,8 @@ export default function PartnerCustomIntegrationPage() {
                                             </p>
 
                                             {step.endpoint && (
-                                                <div className="rounded-2xl border border-dashed border-primary/25 bg-primary/5 px-4 py-3">
-                                                    <p className="text-xs font-medium uppercase tracking-[0.2em] text-primary/70">
+                                                <div className=" border border-dashed border-primary/25 bg-primary/5 px-4 py-3">
+                                                    <p className="text-xs font-medium uppercase tracking-widest text-primary/70">
                                                         {t(
                                                             "partners.customIntegrationPage.guide.endpointLabel",
                                                         )}
@@ -257,7 +258,7 @@ export default function PartnerCustomIntegrationPage() {
                                                 </div>
                                             )}
 
-                                            <div className="rounded-2xl border border-border/70 bg-background px-4 py-4">
+                                            <div className=" border border-border/70 bg-background px-4 py-4">
                                                 <p className="text-sm font-medium text-primary">
                                                     {t(
                                                         "partners.customIntegrationPage.guide.focusLabel",
@@ -269,7 +270,7 @@ export default function PartnerCustomIntegrationPage() {
                                             </div>
 
                                             {step.key === "verifyShop" && (
-                                                <div className="space-y-3 rounded-2xl border border-border/70 bg-background px-4 py-4">
+                                                <div className="space-y-3  border border-border/70 bg-background px-4 py-4">
                                                     <label
                                                         htmlFor="custom-integration-shop-slug"
                                                         className="block text-sm font-medium text-primary"
@@ -311,6 +312,7 @@ export default function PartnerCustomIntegrationPage() {
                                                             disabled
                                                         >
                                                             {t(`${translationBase}.cta`)}
+                                                            <ArrowRight aria-hidden="true" />
                                                         </Button>
                                                     )}
                                                 </div>
@@ -341,7 +343,7 @@ export default function PartnerCustomIntegrationPage() {
                         showDivider={false}
                     />
 
-                    <Card className="mt-16 overflow-hidden rounded-[32px] border border-border/60 bg-linear-to-b from-card via-background to-card/70 shadow-xs">
+                    <Card className="mt-16 py-0 overflow-hidden border border-border/60 bg-linear-to-b from-card via-background to-card/70 shadow-xs">
                         <div className="p-0">
                             <div>
                                 <p className="sr-only">
@@ -392,9 +394,9 @@ function StepVisual({
             <div className="mt-4 rounded-[24px] border border-border/70 bg-background p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex gap-2">
-                        <span className="size-2.5 rounded-full bg-destructive/60" />
-                        <span className="size-2.5 rounded-full bg-primary/30" />
-                        <span className="size-2.5 rounded-full bg-tertiary/40" />
+                        <span className="size-2.5 shrink-0 aspect-square rounded-full bg-destructive/60" />
+                        <span className="size-2.5 shrink-0 aspect-square rounded-full bg-primary/30" />
+                        <span className="size-2.5 shrink-0 aspect-square rounded-full bg-tertiary/40" />
                     </div>
                     <span className="text-xs text-muted-foreground">Step {stepNumber}</span>
                 </div>
@@ -403,20 +405,20 @@ function StepVisual({
                     <div className="h-4 w-2/3 rounded-full bg-muted" />
                     <div className="grid gap-3 sm:grid-cols-2">
                         <div className="space-y-3">
-                            <div className="h-10 rounded-xl bg-muted" />
-                            <div className="h-10 rounded-xl bg-muted" />
+                            <div className="h-10  bg-muted" />
+                            <div className="h-10  bg-muted" />
                             <div
                                 className={cn(
-                                    "rounded-xl border-2 border-destructive/80 bg-destructive/10",
+                                    " border-2 border-destructive/80 bg-destructive/10",
                                     variant === "key" ? "h-11" : "h-8",
                                 )}
                             />
                         </div>
                         <div className="space-y-3">
-                            <div className="h-20 rounded-2xl bg-muted/80" />
+                            <div className="h-20  bg-muted/80" />
                             <div
                                 className={cn(
-                                    "rounded-2xl bg-muted/80",
+                                    " bg-muted/80",
                                     variant === "send" &&
                                         "border-2 border-destructive/80 bg-destructive/10",
                                     variant === "sync" &&
@@ -429,15 +431,15 @@ function StepVisual({
                         </div>
                     </div>
                     <div className="grid grid-cols-3 gap-3">
-                        <div className="h-9 rounded-xl bg-muted" />
+                        <div className="h-9  bg-muted" />
                         <div
                             className={cn(
-                                "h-9 rounded-xl bg-muted",
+                                "h-9  bg-muted",
                                 (variant === "send" || variant === "shop") &&
                                     "border-2 border-destructive/80 bg-destructive/10",
                             )}
                         />
-                        <div className="h-9 rounded-xl bg-muted" />
+                        <div className="h-9  bg-muted" />
                     </div>
                 </div>
             </div>

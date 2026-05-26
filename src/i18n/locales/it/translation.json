@@ -723,9 +723,9 @@
         "badge": "Popolare"
       },
       "customApi": {
-        "title": "Integrazione personalizzata · chiave API",
-        "description": "Controllo totale sugli endpoint REST con chiave API a permessi limitati, ideale per shop su misura.",
-        "cta": "Documentazione API",
+        "title": "Integrazione API personalizzata",
+        "description": "Collega un sistema shop personalizzato con una chiave API e sincronizzazione prodotti in batch.",
+        "cta": "Vedi documentazione API",
         "badge": "Per sviluppatori"
       }
     },
@@ -790,6 +790,123 @@
       "subtitle": "Candidati gratuitamente in meno di due minuti. Senza contratti, senza rischi, con pieno controllo.",
       "primary": "Diventa partner ora",
       "secondary": "Scrivi al team partner"
+    },
+    "customIntegrationPage": {
+      "hero": {
+        "eyebrow": "Programma partner · Integrazione API personalizzata",
+        "title": "Collega il tuo shop con la nostra API",
+        "subtitle": "Usa l’API partner se il tuo shop gira su un sistema personalizzato o se vuoi controllare completamente la sincronizzazione. Invia batch di prodotti ad Aura Historia, noi li elaboriamo in background e i prodotti compaiono poco dopo sulla pagina del tuo shop.",
+        "primaryCta": "Richiedi una chiave API",
+        "secondaryCta": "Apri la documentazione API"
+      },
+      "concept": {
+        "title": "Pensata per import asincroni dei prodotti",
+        "description": "L’API conferma che il batch è stato ricevuto. Validazione, elaborazione e pubblicazione avvengono poi in background. Una risposta 202 significa quindi che l’import è iniziato, non che tutti i prodotti siano già visibili.",
+        "flowLabel": "Flusso tipico",
+        "flow": {
+          "accepted": "202 Accepted · batch ricevuto",
+          "processing": "I prodotti vengono elaborati in background",
+          "visible": "I prodotti approvati compaiono dopo pochi minuti"
+        },
+        "benefits": {
+          "async": {
+            "title": "Gestisci gli import in modo asincrono",
+            "description": "Invia un batch, salva la risposta di accettazione e controlla il risultato sulla pagina del tuo shop Aura Historia quando l’elaborazione è terminata."
+          },
+          "polling": {
+            "title": "Parti in piccolo, poi tieni tutto sincronizzato",
+            "description": "Usa POST per il primo batch di prodotti. Quando l’import funziona, mantieni aggiornato il catalogo con aggiornamenti PATCH o upsert PUT."
+          }
+        }
+      },
+      "summary": {
+        "title": "Cosa serve per la prima sincronizzazione",
+        "subtitle": "Questi tre elementi bastano per inviare un primo batch di prodotti facile da controllare.",
+        "items": {
+          "apiKey": {
+            "title": "Accesso partner e chiave API",
+            "description": "Richiedi l’accesso al nostro team partner. Dopo l’approvazione riceverai una chiave API limitata al tuo shop."
+          },
+          "shopId": {
+            "title": "Il tuo ID shop su Aura Historia",
+            "description": "Usa l’ID shop ricevuto durante l’onboarding in ogni richiesta batch, così i prodotti vengono associati allo shop corretto."
+          },
+          "productBatch": {
+            "title": "Un piccolo batch di prodotti",
+            "description": "Inizia con pochi prodotti validi per verificare rapidamente import, mapping dei dati e risultato pubblicato."
+          }
+        }
+      },
+      "guide": {
+        "title": "Dalla chiave API alla prima sincronizzazione",
+        "subtitle": "Un flusso pratico per collegare un sistema shop personalizzato ad Aura Historia.",
+        "stepLabel": "Passo {{number}}",
+        "endpointLabel": "Endpoint rilevante",
+        "focusLabel": "Cosa controllare",
+        "steps": {
+          "requestKey": {
+            "title": "Richiedi l’accesso per il tuo shop partner",
+            "description": "Inizia con l’onboarding partner. Quando lo shop viene approvato, ricevi la chiave API e l’ID shop necessari per le richieste batch.",
+            "focus": "Conserva chiave API, ID shop e contatto di onboarding in un punto accessibile in modo sicuro al team che gestisce l’integrazione.",
+            "visualTitle": "Attivazione e credenziali",
+            "visualCaption": "Chiave API e ID shop"
+          },
+          "preparePayload": {
+            "title": "Prepara il primo payload prodotti",
+            "description": "Crea un piccolo batch con i campi prodotto obbligatori. Controlla ID, titoli, prezzi, immagini, disponibilità e link alle pagine prodotto.",
+            "focus": "All’inizio usa solo pochi prodotti. La validazione sarà più chiara e il primo import più semplice da debuggare.",
+            "visualTitle": "Preparare il payload JSON",
+            "visualCaption": "Struttura del batch e campi obbligatori"
+          },
+          "sendBatch": {
+            "title": "Invia il primo batch",
+            "description": "Invia il batch con POST all’endpoint partner. Quando la richiesta viene accettata, parte l’elaborazione in background.",
+            "focus": "Una risposta di accettazione non rende i prodotti visibili immediatamente. Considera qualche minuto per l’elaborazione.",
+            "visualTitle": "Inviare il batch prodotti",
+            "visualCaption": "Richiesta e risposta 202"
+          },
+          "keepInSync": {
+            "title": "Mantieni aggiornato il catalogo",
+            "description": "Dopo il primo import riuscito, usa PATCH per modifiche mirate o PUT quando la sincronizzazione invia record completi da creare o aggiornare.",
+            "focus": "Usa PATCH per modifiche note e PUT per upsert quando il batch può contenere prodotti nuovi ed esistenti.",
+            "visualTitle": "Aggiornare la sincronizzazione",
+            "visualCaption": "Azioni update e upsert"
+          },
+          "verifyShop": {
+            "title": "Apri la pagina shop e verifica il risultato",
+            "description": "Dopo l’elaborazione, apri la pagina del tuo shop su Aura Historia. I primi prodotti sincronizzati dovrebbero comparire dopo una breve attesa.",
+            "focus": "Usa lo slug del tuo shop per andare direttamente alla pagina pubblica e verificare che i prodotti importati siano corretti.",
+            "inputLabel": "Slug del tuo shop",
+            "inputPlaceholder": "es. la-mia-galleria-antica",
+            "inputHint": "Inserisci lo slug dell’URL del tuo shop su Aura Historia. Il pulsante apre direttamente la pagina pubblica dello shop.",
+            "cta": "Apri la pagina del mio shop",
+            "visualTitle": "Verificare la pagina shop",
+            "visualCaption": "Griglia prodotti e header dello shop"
+          }
+        }
+      },
+      "endpoints": {
+        "title": "Riferimento API prodotti partner",
+        "subtitle": "Il riferimento OpenAPI integrato si concentra sugli endpoint batch necessari per un’integrazione personalizzata.",
+        "generatedReferenceTitle": "I tre endpoint per sincronizzare i prodotti",
+        "generatedReferenceDescription": "Questo riferimento interattivo è generato dalla nostra specifica OpenAPI e mostra in un unico punto gli endpoint batch di creazione, aggiornamento e upsert.",
+        "externalDocsCta": "Apri endpoint separatamente",
+        "embedTitle": "Riferimento API prodotti partner",
+        "items": {
+          "create": {
+            "title": "Batch create products (Partner API)",
+            "description": "Crea prodotti per il tuo shop. Ideale per l’import iniziale o per batch che contengono solo prodotti nuovi."
+          },
+          "update": {
+            "title": "Batch update products (Partner API)",
+            "description": "Aggiorna prodotti esistenti quando cambiano titoli, prezzi, immagini, disponibilità o link."
+          },
+          "upsert": {
+            "title": "Batch upsert products (Partner API)",
+            "description": "Crea o aggiorna prodotti in un unico batch quando la sincronizzazione può includere record nuovi ed esistenti."
+          }
+        }
+      }
     }
   },
   "apiErrors": {
