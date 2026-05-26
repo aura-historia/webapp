@@ -6,25 +6,25 @@ import partnerProductsApiReferenceCss from "./PartnerProductsApiReference.css?ra
 export const PARTNER_PRODUCTS_OPENAPI_SPEC_URL = "/partner-products.openapi.json";
 
 function isSamePageHashUpdate(url: string | URL | null | undefined) {
-    if (!url || typeof window === "undefined") {
+    if (!url || import.meta.env.SSR) {
         return false;
     }
 
-    const nextUrl = new URL(url, window.location.href);
+    const nextUrl = new URL(url, globalThis.location.href);
     return (
-        nextUrl.origin === window.location.origin &&
-        nextUrl.pathname === window.location.pathname &&
-        nextUrl.search === window.location.search &&
+        nextUrl.origin === globalThis.location.origin &&
+        nextUrl.pathname === globalThis.location.pathname &&
+        nextUrl.search === globalThis.location.search &&
         nextUrl.hash !== ""
     );
 }
 
 export default function PartnerProductsApiReference() {
     useEffect(() => {
-        const originalPushState = window.history.pushState;
-        const originalReplaceState = window.history.replaceState;
+        const originalPushState = globalThis.history.pushState;
+        const originalReplaceState = globalThis.history.replaceState;
 
-        window.history.pushState = function pushStateWithoutScalarHashRouting(
+        globalThis.history.pushState = function pushStateWithoutScalarHashRouting(
             data: unknown,
             unused: string,
             url?: string | URL | null,
@@ -36,7 +36,7 @@ export default function PartnerProductsApiReference() {
             return originalPushState.call(this, data, unused, url);
         };
 
-        window.history.replaceState = function replaceStateWithoutScalarHashRouting(
+        globalThis.history.replaceState = function replaceStateWithoutScalarHashRouting(
             data: unknown,
             unused: string,
             url?: string | URL | null,
@@ -49,8 +49,8 @@ export default function PartnerProductsApiReference() {
         };
 
         return () => {
-            window.history.pushState = originalPushState;
-            window.history.replaceState = originalReplaceState;
+            globalThis.history.pushState = originalPushState;
+            globalThis.history.replaceState = originalReplaceState;
         };
     }, []);
 
