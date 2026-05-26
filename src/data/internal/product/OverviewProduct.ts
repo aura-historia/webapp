@@ -34,6 +34,7 @@ export type OverviewProduct = {
     readonly shopSlugId: string;
     readonly shopsProductId: string;
     readonly shopName: string;
+    readonly sellerName: string;
     readonly title: string;
     readonly price?: string;
     readonly priceEstimate?: PriceEstimate;
@@ -61,6 +62,7 @@ function mapProductDataToOverviewProduct(
         shopSlugId: productData.shopSlugId,
         shopsProductId: productData.shopsProductId,
         shopName: productData.shopName,
+        sellerName: productData.sellerName,
         shopType: parseShopType(productData.shopType),
         auction: productData.auction ? mapToInternalAuctionWindow(productData.auction) : undefined,
         title: productData.title.text,
@@ -100,6 +102,7 @@ function mapProductSummaryDataToOverviewProduct(
         shopSlugId: productData.shopSlugId,
         shopsProductId: productData.shopsProductId,
         shopName: productData.shopName,
+        sellerName: productData.sellerName,
         shopType: parseShopType(productData.shopType),
         auction: productData.auction ? mapToInternalAuctionWindow(productData.auction) : undefined,
         title: productData.title.text,

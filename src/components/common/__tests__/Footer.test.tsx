@@ -11,10 +11,6 @@ const { changeLanguageMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
 }));
 
-vi.mock("@/hooks/auth/useAuth", () => ({
-    useAuth: vi.fn(() => ({ user: null, isLoading: false, signOut: vi.fn() })),
-}));
-
 vi.mock("@/hooks/account/usePatchUserAccount.ts", () => ({
     useUpdateUserAccount: vi.fn(() => ({ mutate: vi.fn() })),
 }));

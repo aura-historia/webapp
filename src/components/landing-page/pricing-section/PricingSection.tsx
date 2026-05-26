@@ -10,19 +10,19 @@ import {
     type PricingTier,
 } from "@/components/landing-page/pricing-section/PricingSection.data.ts";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
-import { Route } from "@/routes/index.tsx";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useStripeBilling } from "@/hooks/billing/useStripeBilling.ts";
 import type { BillingCycle } from "@/data/internal/billing/BillingCycle.ts";
 import type { BillingPlan } from "@/data/internal/billing/BillingPlan.ts";
+import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
 
 export default function PricingSection() {
     const { t, i18n } = useTranslation();
     const { preferences } = useUserPreferences();
     const currency = preferences.currency ?? "EUR";
     const [billingInterval, setBillingInterval] = useState<BillingInterval>("yearly");
-    const { serverAuth } = Route.useRouteContext();
+    const { isAuthenticated, isResolved: isAuthResolved } = useResolvedAuth();
     const { handleSubscribe, isLoading } = useStripeBilling();
 
     const isYearly = billingInterval === "yearly";
@@ -190,7 +190,7 @@ export default function PricingSection() {
                                     ))}
                                 </ul>
                                 {tier.id === "free" ? (
-                                    serverAuth.authenticated ? (
+                                    !isAuthResolved || isAuthenticated ? (
                                         <Button variant="outline" className="mt-8 w-full" disabled>
                                             {t("landingPage.pricing.getStartedFree")}
                                         </Button>

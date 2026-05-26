@@ -29,6 +29,7 @@ describe("ProductSimilarCard", () => {
         shopSlugId: "test-shop",
         shopsProductId: "item-456",
         shopName: "Test Shop",
+        sellerName: "Test Shop",
         shopType: "AUCTION_HOUSE",
         title: "Test Product Title",
         price: "99,99 €",

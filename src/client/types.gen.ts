@@ -2446,6 +2446,13 @@ export type PartnerApplicationNotificationPayloadData = {
      * Display name of the shop referenced by the partner application.
      */
     shopName: string;
+    /**
+     * Optional shop logo URL included with partner-application notifications when the related
+     * application or linked existing shop has an image configured.
+     * Absent when no shop logo URL is available.
+     *
+     */
+    image?: string | null;
     partnerApplicationPayload: PartnerApplicationPayloadData;
 };
 
@@ -2528,7 +2535,6 @@ export type NotificationCollectionData = {
 
 /**
  * Data for creating a single product via the partner batch-create endpoint.
- * when omitted from the request.
  *
  */
 export type PostProductData = {
@@ -2651,10 +2657,14 @@ export type PatchProductData = {
  * - If the product **does not yet exist**, it is created using all provided fields.
  * Omitting `title`, `url`, or `state` will result in placeholder defaults being applied
  * internally (empty title, a placeholder URL, and `LISTED` state respectively).
- * - If the product **already exists**, only `state` and `price` are updated; all other
- * fields are ignored for the update path.
- *
- * to `UNKNOWN` when omitted.
+ * - If the product **already exists**, `price`, `priceEstimateMin`,
+ * `priceEstimateMax`, `state`, `url`, `images`, `auctionStart`, and `auctionEnd`
+ * participate in the update path.
+ * - On the update path, omitting or sending `null` for `price`, `priceEstimateMin`,
+ * `priceEstimateMax`, `url`, `auctionStart`, or `auctionEnd` leaves the stored value
+ * unchanged.
+ * - On the update path, omitting `images` or sending `null` is treated as an empty list
+ * and therefore clears all stored images.
  *
  */
 export type PutProductData = {
@@ -2671,15 +2681,15 @@ export type PutProductData = {
      */
     description?: LocalizedTextData | null;
     /**
-     * Optional asking price for the product. Applied on both create and update paths.
+     * Optional asking price for the product. Applied on create and on update when a non-null value is provided. Omit or send `null` to leave the current stored price unchanged.
      */
     price?: PriceData | null;
     /**
-     * Optional lower bound of the estimated price range. Used only when creating a new product.
+     * Optional lower bound of the estimated price range. Applied on both create and update paths. Omit or send `null` to leave the current stored lower bound unchanged.
      */
     priceEstimateMin?: PriceData | null;
     /**
-     * Optional upper bound of the estimated price range. Used only when creating a new product.
+     * Optional upper bound of the estimated price range. Applied on both create and update paths. Omit or send `null` to leave the current stored upper bound unchanged.
      */
     priceEstimateMax?: PriceData | null;
     /**
@@ -2687,22 +2697,24 @@ export type PutProductData = {
      */
     state?: ProductStateData | null;
     /**
-     * URL to the product on the shop's website. Used only when creating a new product.
+     * URL to the product on the shop's website. Applied on both create and update paths. Omit or send `null` to leave the current stored URL unchanged.
      */
     url?: string | null;
     /**
-     * List of image URLs for the product. Used only when creating a new product.
+     * List of image URLs for the product. Applied on both create and update paths. On update, the provided array replaces the stored image set; omitting `images` or sending `null` is treated as an empty list and therefore clears all stored images.
      */
     images?: Array<string> | null;
     /**
      * RFC3339 timestamp of when the auction for this product starts.
-     * Only relevant for auction-house shop types. Used only when creating a new product.
+     * Only relevant for auction-house shop types. Applied on both create and update paths.
+     * Omit or send `null` to leave the current stored start timestamp unchanged.
      *
      */
     auctionStart?: string | null;
     /**
      * RFC3339 timestamp of when the auction for this product ends.
-     * Only relevant for auction-house shop types. Used only when creating a new product.
+     * Only relevant for auction-house shop types. Applied on both create and update paths.
+     * Omit or send `null` to leave the current stored end timestamp unchanged.
      *
      */
     auctionEnd?: string | null;

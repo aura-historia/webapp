@@ -5,7 +5,7 @@ import { AuthFlow } from "@/components/auth/AuthFlow.tsx";
 import { hasStoredPendingEmail } from "@/components/auth/pendingSignUpEmail.ts";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
-import { useAuth } from "@/hooks/auth/useAuth.ts";
+import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
 import "../amplify-config";
 
 type LoginSearch = {
@@ -41,7 +41,7 @@ function LoginPage() {
     const { redirect: redirectParam, mode } = Route.useSearch();
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { user, isLoading } = useAuth();
+    const { isAuthenticated, isResolved } = useResolvedAuth();
 
     useEffect(() => {
         const isOnboardingStep = mode === "confirm" || mode === "user-details";
@@ -49,13 +49,13 @@ function LoginPage() {
 
         // Redirect existing sessions away from login unless they are still
         // finishing the post-signup onboarding handoff in this browser session.
-        if (!isLoading && user && !canContinueOnboarding) {
+        if (isResolved && isAuthenticated && !canContinueOnboarding) {
             navigate({
                 to: redirectParam || "/",
                 viewTransition: true,
             });
         }
-    }, [user, isLoading, mode, navigate, redirectParam]);
+    }, [isAuthenticated, isResolved, mode, navigate, redirectParam]);
 
     return (
         <div className="flex flex-col gap-8 lg:gap-0 lg:grid lg:grid-cols-[2fr_auto_3fr] min-h-screen w-full">

@@ -13,11 +13,7 @@ type UseAuthReturn = {
     signOut: () => Promise<void>;
 };
 
-/**
- * Shared hook for auth state. Replaces `useAuthenticator` from @aws-amplify/ui-react.
- * Backed directly by aws-amplify/auth primitives and reacts to Hub auth events.
- */
-export function useAuth(): UseAuthReturn {
+function useAuth(): UseAuthReturn {
     const [user, setUser] = useState<AuthUser | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -50,8 +46,23 @@ export function useAuth(): UseAuthReturn {
     }, [fetchUser]);
 
     const signOut = useCallback(async () => {
+        setUser(null);
+        setIsLoading(false);
         await amplifySignOut();
     }, []);
 
     return { user, isLoading, signOut };
+}
+
+export function useResolvedAuth() {
+    const { user, isLoading, signOut } = useAuth();
+    const isAuthenticated = !isLoading && !!user;
+
+    return {
+        user,
+        isAuthenticated,
+        isLoading,
+        isResolved: !isLoading,
+        signOut,
+    };
 }
