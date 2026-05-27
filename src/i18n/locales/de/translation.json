@@ -730,9 +730,9 @@
         "badge": "Beliebt"
       },
       "customApi": {
-        "title": "Eigene Integration · API-Key",
-        "description": "Vollständige Kontrolle über REST-Endpunkte mit scoped API-Key – ideal für individuelle Shop-Systeme.",
-        "cta": "API-Dokumentation",
+        "title": "Eigene API-Integration",
+        "description": "Binden Sie ein eigenes Shopsystem per API-Key und Produkt-Batch-Sync an.",
+        "cta": "API-Dokumentation ansehen",
         "badge": "Für Entwickler"
       }
     },
@@ -789,6 +789,123 @@
         "support": {
           "question": "Bekomme ich beim Setup Unterstützung?",
           "answer": "Ja. Unser Partner-Team begleitet Sie persönlich beim Onboarding und ist per E-Mail erreichbar – auch wenn nach dem Start einmal Fragen aufkommen."
+        }
+      }
+    },
+    "customIntegrationPage": {
+      "hero": {
+        "eyebrow": "Partnerprogramm · Eigene API-Integration",
+        "title": "Shop per API anbinden",
+        "subtitle": "Nutzen Sie die Partner-API, wenn Ihr Shop auf einem eigenen System läuft oder Sie die Synchronisation vollständig steuern möchten. Sie senden Produkt-Batches an Aura Historia, wir verarbeiten sie im Hintergrund, und die Produkte erscheinen kurz darauf auf Ihrer Shop-Seite.",
+        "primaryCta": "API-Key anfragen",
+        "secondaryCta": "API-Dokumentation öffnen"
+      },
+      "concept": {
+        "title": "Für asynchrone Produktimporte gebaut",
+        "description": "Die API bestätigt, dass Ihr Batch eingegangen ist. Validierung, Verarbeitung und Veröffentlichung laufen danach im Hintergrund. Eine 202-Antwort bedeutet also: Der Import wurde gestartet, nicht dass alle Produkte bereits sichtbar sind.",
+        "flowLabel": "Typischer Ablauf",
+        "flow": {
+          "accepted": "202 Accepted · Batch empfangen",
+          "processing": "Produkte werden im Hintergrund verarbeitet",
+          "visible": "Freigegebene Produkte erscheinen wenige Minuten später"
+        },
+        "benefits": {
+          "async": {
+            "title": "Importe asynchron behandeln",
+            "description": "Senden Sie ein Batch, speichern Sie die Annahmeantwort und prüfen Sie das Ergebnis nach der Verarbeitung auf Ihrer Aura-Historia-Shop-Seite."
+          },
+          "polling": {
+            "title": "Klein starten, dann aktuell halten",
+            "description": "Nutzen Sie POST für das erste Produkt-Batch. Sobald der Import funktioniert, halten Sie Ihren Katalog mit PATCH-Updates oder PUT-Upserts aktuell."
+          }
+        }
+      },
+      "summary": {
+        "title": "Was Sie für den ersten Sync brauchen",
+        "subtitle": "Diese drei Angaben reichen aus, um ein erstes, gut prüfbares Produkt-Batch zu senden.",
+        "items": {
+          "apiKey": {
+            "title": "Partnerzugang und API-Key",
+            "description": "Beantragen Sie den Zugang über unser Partner-Team. Nach der Freigabe erhalten Sie einen auf Ihren Shop begrenzten API-Key."
+          },
+          "shopId": {
+            "title": "Ihre Aura-Historia-Shop-ID",
+            "description": "Verwenden Sie die Shop-ID aus dem Onboarding in jedem Batch-Request, damit Produkte dem richtigen Shop zugeordnet werden."
+          },
+          "productBatch": {
+            "title": "Ein kleines Produkt-Batch",
+            "description": "Starten Sie mit wenigen validen Produkten, damit Sie Import, Datenzuordnung und veröffentlichtes Ergebnis schnell prüfen können."
+          }
+        }
+      },
+      "guide": {
+        "title": "Vom API-Key zum ersten Produkt-Sync",
+        "subtitle": "Ein praktischer Ablauf, um ein eigenes Shopsystem mit Aura Historia zu verbinden.",
+        "stepLabel": "Schritt {{number}}",
+        "endpointLabel": "Relevanter Endpunkt",
+        "focusLabel": "Worauf Sie achten sollten",
+        "steps": {
+          "requestKey": {
+            "title": "Zugang für Ihren Partner-Shop anfragen",
+            "description": "Starten Sie mit dem Partner-Onboarding. Nach der Freigabe Ihres Shops erhalten Sie den API-Key und die Shop-ID für Batch-Requests.",
+            "focus": "Halten Sie API-Key, Shop-ID und Onboarding-Kontakt so bereit, dass Ihr Integrationsteam sicher darauf zugreifen kann.",
+            "visualTitle": "Freischaltung und Zugangsdaten",
+            "visualCaption": "API-Key und Shop-ID"
+          },
+          "preparePayload": {
+            "title": "Ersten Produkt-Payload vorbereiten",
+            "description": "Erstellen Sie ein kleines Batch mit den erforderlichen Produktfeldern. Prüfen Sie IDs, Titel, Preise, Bilder, Verfügbarkeit und Links zu Ihren Produktseiten.",
+            "focus": "Beginnen Sie mit wenigen Produkten. Das macht die Validierung übersichtlicher und den ersten Import leichter zu debuggen.",
+            "visualTitle": "JSON-Payload vorbereiten",
+            "visualCaption": "Batch-Struktur und Pflichtfelder"
+          },
+          "sendBatch": {
+            "title": "Erstes Batch senden",
+            "description": "Senden Sie das Batch per POST an den Partner-Endpunkt. Sobald der Request angenommen wird, startet die Verarbeitung im Hintergrund.",
+            "focus": "Eine erfolgreiche Annahmeantwort bedeutet nicht, dass die Produkte sofort sichtbar sind. Planen Sie einige Minuten Verarbeitungszeit ein.",
+            "visualTitle": "Produkt-Batch senden",
+            "visualCaption": "Request und 202-Antwort"
+          },
+          "keepInSync": {
+            "title": "Katalog aktuell halten",
+            "description": "Nach dem ersten erfolgreichen Import nutzen Sie PATCH für gezielte Änderungen oder PUT, wenn Ihre Synchronisation vollständige Datensätze anlegt oder aktualisiert.",
+            "focus": "Nutzen Sie PATCH für bekannte Änderungen und PUT für Upserts, wenn ein Batch neue und bestehende Produkte enthalten kann.",
+            "visualTitle": "Sync aktualisieren",
+            "visualCaption": "Update- und Upsert-Aktionen"
+          },
+          "verifyShop": {
+            "title": "Shop-Seite öffnen und Ergebnis prüfen",
+            "description": "Öffnen Sie nach der Verarbeitung Ihre Aura-Historia-Shop-Seite. Die ersten synchronisierten Produkte sollten dort nach kurzer Verzögerung erscheinen.",
+            "focus": "Nutzen Sie Ihren Shop-Slug, um direkt zur öffentlichen Shop-Seite zu springen und die importierten Produkte zu prüfen.",
+            "inputLabel": "Ihr Shop-Slug",
+            "inputPlaceholder": "z. B. mein-antiquitaetenhaus",
+            "inputHint": "Tragen Sie den Shop-Slug aus Ihrer Aura-Historia-Shop-URL ein. Der Button öffnet direkt die öffentliche Shop-Seite.",
+            "cta": "Meine Shop-Seite öffnen",
+            "visualTitle": "Shop-Seite prüfen",
+            "visualCaption": "Produktgrid und Shop-Header"
+          }
+        }
+      },
+      "endpoints": {
+        "title": "Partner-Produkt-API-Referenz",
+        "subtitle": "Die eingebettete OpenAPI-Referenz konzentriert sich auf die Batch-Endpunkte, die Sie für eine eigene Integration brauchen.",
+        "generatedReferenceTitle": "Die drei Endpunkte für den Produkt-Sync",
+        "generatedReferenceDescription": "Diese interaktive Referenz wird aus unserer OpenAPI-Spezifikation erzeugt und zeigt Create-, Update- und Upsert-Batch-Endpunkte an einer Stelle.",
+        "externalDocsCta": "Endpunkt separat öffnen",
+        "embedTitle": "Partner-Produkt-API-Referenz",
+        "items": {
+          "create": {
+            "title": "Batch create products (Partner API)",
+            "description": "Legen Sie Produkte für Ihren Shop an. Am besten geeignet für den ersten Import oder Batches, die nur neue Produkte enthalten."
+          },
+          "update": {
+            "title": "Batch update products (Partner API)",
+            "description": "Aktualisieren Sie bestehende Produkte, wenn sich Titel, Preise, Bilder, Verfügbarkeit oder Links ändern."
+          },
+          "upsert": {
+            "title": "Batch upsert products (Partner API)",
+            "description": "Legen Sie Produkte in einem Batch an oder aktualisieren Sie sie, wenn Ihre Synchronisation neue und bestehende Datensätze enthalten kann."
+          }
         }
       }
     },

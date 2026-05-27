@@ -732,9 +732,9 @@
         "badge": "Popular"
       },
       "customApi": {
-        "title": "Custom integration · API key",
-        "description": "Full control over REST endpoints with a scoped API key – ideal for custom shop systems.",
-        "cta": "API documentation",
+        "title": "Custom API integration",
+        "description": "Connect a custom shop system with a scoped API key and batch product sync.",
+        "cta": "View API docs",
         "badge": "For developers"
       }
     },
@@ -791,6 +791,123 @@
         "support": {
           "question": "Will I get help during setup?",
           "answer": "Yes. Our partner team supports you personally during onboarding and is reachable by email – also long after launch."
+        }
+      }
+    },
+    "customIntegrationPage": {
+      "hero": {
+        "eyebrow": "Partner program · Custom API integration",
+        "title": "Connect your shop with our API",
+        "subtitle": "Use the Partner API when your shop runs on a custom system or you want full control over the sync. Send product batches to Aura Historia, we process them in the background, and your products appear on your shop page shortly afterwards.",
+        "primaryCta": "Request an API key",
+        "secondaryCta": "Open API documentation"
+      },
+      "concept": {
+        "title": "Built for asynchronous product imports",
+        "description": "The API confirms that your batch was received. Validation, processing, and publication happen afterwards in the background, so a 202 response means the import has started, not that every product is already visible.",
+        "flowLabel": "Typical flow",
+        "flow": {
+          "accepted": "202 Accepted · batch received",
+          "processing": "Products are processed in the background",
+          "visible": "Approved products appear a few minutes later"
+        },
+        "benefits": {
+          "async": {
+            "title": "Handle imports asynchronously",
+            "description": "Send a batch, store the acceptance response, and check the result on your Aura Historia shop page once processing has finished."
+          },
+          "polling": {
+            "title": "Start small, then keep syncing",
+            "description": "Use POST for your first product batch. Once the import works, keep your catalog current with PATCH updates or PUT upserts."
+          }
+        }
+      },
+      "summary": {
+        "title": "What you need for the first sync",
+        "subtitle": "These three pieces are enough to send a first, easy-to-check product batch.",
+        "items": {
+          "apiKey": {
+            "title": "Partner access and API key",
+            "description": "Request access through our partner team. After approval, you receive a scoped API key for your shop."
+          },
+          "shopId": {
+            "title": "Your Aura Historia shop ID",
+            "description": "Use the shop ID from onboarding in every batch request so products are assigned to the correct shop."
+          },
+          "productBatch": {
+            "title": "A small product batch",
+            "description": "Begin with a few valid products so you can quickly verify the import, the data mapping, and the published result."
+          }
+        }
+      },
+      "guide": {
+        "title": "From API key to first product sync",
+        "subtitle": "A practical setup flow for connecting a custom shop system to Aura Historia.",
+        "stepLabel": "Step {{number}}",
+        "endpointLabel": "Relevant endpoint",
+        "focusLabel": "What to check",
+        "steps": {
+          "requestKey": {
+            "title": "Request access for your partner shop",
+            "description": "Start with partner onboarding. Once your shop is approved, you receive the API key and shop ID required for batch requests.",
+            "focus": "Keep the API key, shop ID, and onboarding contact details somewhere your integration team can access securely.",
+            "visualTitle": "Activation and credentials",
+            "visualCaption": "API key and shop ID"
+          },
+          "preparePayload": {
+            "title": "Prepare your first product payload",
+            "description": "Build a small batch with the required product fields. Check IDs, titles, prices, images, availability, and links to your product pages.",
+            "focus": "Use only a few products at first. It makes validation clearer and keeps the first import easy to debug.",
+            "visualTitle": "Prepare JSON payload",
+            "visualCaption": "Batch structure and required fields"
+          },
+          "sendBatch": {
+            "title": "Send the first batch",
+            "description": "Submit the batch with POST to the partner endpoint. When the request is accepted, background processing starts.",
+            "focus": "A successful acceptance response does not mean the products are visible immediately. Allow a few minutes for processing.",
+            "visualTitle": "Send product batch",
+            "visualCaption": "Request and 202 response"
+          },
+          "keepInSync": {
+            "title": "Keep your catalog up to date",
+            "description": "After the first import works, use PATCH for targeted updates or PUT when your sync sends complete records that should be created or updated.",
+            "focus": "Use PATCH for known changes and PUT for upserts where the batch may contain new and existing products.",
+            "visualTitle": "Update the sync",
+            "visualCaption": "Update and upsert actions"
+          },
+          "verifyShop": {
+            "title": "Open your shop page and verify the result",
+            "description": "After processing, open your Aura Historia shop page. Your first synced products should appear there after a short delay.",
+            "focus": "Use your shop slug to jump directly to the public shop page and confirm that the imported products look right.",
+            "inputLabel": "Your shop slug",
+            "inputPlaceholder": "e.g. my-antique-gallery",
+            "inputHint": "Enter the shop slug from your Aura Historia shop URL. The button opens the public shop page directly.",
+            "cta": "Open my shop page",
+            "visualTitle": "Verify shop page",
+            "visualCaption": "Product grid and shop header"
+          }
+        }
+      },
+      "endpoints": {
+        "title": "Partner product API reference",
+        "subtitle": "The embedded OpenAPI reference focuses on the batch endpoints you need for a custom integration.",
+        "generatedReferenceTitle": "The three endpoints for product sync",
+        "generatedReferenceDescription": "This interactive reference is generated from our OpenAPI specification and shows the create, update, and upsert batch endpoints in one place.",
+        "externalDocsCta": "Open endpoint separately",
+        "embedTitle": "Partner product API reference",
+        "items": {
+          "create": {
+            "title": "Batch create products (Partner API)",
+            "description": "Create products for your shop. Best for the initial import or batches that contain only new products."
+          },
+          "update": {
+            "title": "Batch update products (Partner API)",
+            "description": "Update existing products when titles, prices, images, availability, or links change."
+          },
+          "upsert": {
+            "title": "Batch upsert products (Partner API)",
+            "description": "Create or update products in one batch when your sync may contain both new and existing records."
+          }
         }
       }
     },

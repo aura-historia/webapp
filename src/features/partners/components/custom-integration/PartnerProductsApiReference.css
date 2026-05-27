@@ -1,0 +1,183 @@
+.partner-products-api-reference,
+.partner-products-api-reference .light-mode,
+.partner-products-api-reference .dark-mode,
+.partner-products-api-reference .scalar-app {
+    --scalar-font: var(--font-body);
+    --scalar-font-code: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+    --scalar-radius: var(--radius-lg);
+    --scalar-radius-lg: var(--radius-xl);
+    --scalar-radius-xl: calc(var(--radius-xl) + 4px);
+    --scalar-sidebar-padding: 20px;
+
+    --scalar-background-1: var(--color-background);
+    --scalar-background-2: var(--color-background-accent);
+    --scalar-background-3: var(--color-muted);
+    --scalar-background-accent: color-mix(in srgb, var(--color-primary), transparent 93%);
+    --scalar-color-1: var(--color-foreground);
+    --scalar-color-2: var(--color-muted-foreground);
+    --scalar-color-3: var(--color-on-surface-variant);
+    --scalar-color-accent: var(--color-primary);
+    --scalar-border-color: var(--color-border);
+    --scalar-link-color: var(--color-primary);
+    --scalar-link-color-hover: var(--primary-hover);
+    --scalar-link-color-visited: var(--color-primary);
+    --scalar-text-decoration-color: color-mix(in srgb, var(--color-primary), transparent 65%);
+    --scalar-text-decoration-color-hover: var(--color-primary);
+    --scalar-button-1: var(--color-primary);
+    --scalar-button-1-hover: var(--primary-hover);
+    --scalar-button-1-color: var(--color-primary-foreground);
+    --scalar-sidebar-background-1: var(--color-background-accent);
+    --scalar-sidebar-color-1: var(--color-foreground);
+    --scalar-sidebar-color-2: var(--color-muted-foreground);
+    --scalar-sidebar-border-color: var(--color-border);
+    --scalar-sidebar-item-hover-background: var(--scalar-background-accent);
+    --scalar-sidebar-item-hover-color: var(--color-primary);
+    --scalar-sidebar-item-active-background: color-mix(
+        in srgb,
+        var(--color-primary),
+        transparent 90%
+    );
+    --scalar-sidebar-color-active: var(--color-primary);
+    --scalar-sidebar-indent-border: var(--color-border);
+    --scalar-sidebar-indent-border-hover: var(--color-outline);
+    --scalar-sidebar-indent-border-active: var(--color-primary);
+    --scalar-sidebar-search-background: var(--color-background);
+    --scalar-sidebar-search-color: var(--color-muted-foreground);
+    --scalar-sidebar-search-border-color: var(--color-border);
+    --refs-sidebar-height: 100%;
+    --full-height: 100%;
+
+    color-scheme: light;
+}
+
+.partner-products-api-reference {
+    overflow: hidden;
+}
+
+.partner-products-api-reference > div,
+.partner-products-api-reference > div > div,
+.partner-products-api-reference .scalar-app,
+.partner-products-api-reference .scalar-api-reference,
+.partner-products-api-reference .references-layout {
+    height: 100%;
+    min-height: 0;
+}
+
+.partner-products-api-reference .scalar-app,
+.partner-products-api-reference .scalar-api-reference,
+.partner-products-api-reference .references-layout {
+    max-height: 100%;
+    overflow: hidden;
+    background: var(--color-background);
+}
+
+.partner-products-api-reference .scalar-api-reference {
+    --refs-sidebar-height: 100%;
+    --full-height: 100%;
+}
+
+.partner-products-api-reference .t-doc__sidebar,
+.partner-products-api-reference .references-sidebar aside {
+    position: sticky;
+    top: 0;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.partner-products-api-reference .t-doc__sidebar .custom-scroll,
+.partner-products-api-reference .references-rendered {
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.partner-products-api-reference .references-rendered {
+    height: 100%;
+    min-height: 0;
+    overscroll-behavior: contain;
+}
+
+.partner-products-api-reference .narrow-references-container {
+    min-height: 100%;
+}
+
+.partner-products-api-reference .references-sidebar {
+    border-right-color: var(--color-border);
+    background: linear-gradient(180deg, var(--color-background-accent) 0%, var(--color-muted) 100%);
+    color: var(--color-foreground);
+}
+
+.partner-products-api-reference .references-sidebar a,
+.partner-products-api-reference .sidebar-heading,
+.partner-products-api-reference .sidebar-group,
+.partner-products-api-reference .sidebar-item {
+    color: var(--color-muted-foreground);
+}
+
+.partner-products-api-reference .references-sidebar a:hover,
+.partner-products-api-reference .references-sidebar a.active,
+.partner-products-api-reference .sidebar-heading.active {
+    color: var(--color-primary);
+    background: var(--scalar-background-accent);
+}
+
+.partner-products-api-reference .section-container,
+.partner-products-api-reference .endpoint {
+    border-color: var(--color-border);
+    background: var(--color-background-accent);
+}
+
+.partner-products-api-reference .http-verb,
+.partner-products-api-reference .property-name {
+    color: var(--color-primary);
+}
+
+.partner-products-api-reference .badge {
+    --badge-text-color: var(--color-muted-foreground);
+    --badge-background-color: var(--color-background-accent);
+    --badge-border-color: var(--color-border);
+}
+
+.partner-products-api-reference .bg-c-accent.text-c-accent,
+.partner-products-api-reference .badge.bg-c-accent,
+.partner-products-api-reference .badge.bg-c-accent.text-c-accent {
+    --badge-text-color: var(--color-primary-foreground);
+    color: var(--color-primary-foreground);
+}
+
+.partner-products-api-reference code,
+.partner-products-api-reference pre,
+.partner-products-api-reference .code-block {
+    border-color: var(--color-border);
+    background: var(--color-muted);
+    color: var(--color-foreground);
+}
+
+.partner-products-api-reference button,
+.partner-products-api-reference .scalar-button,
+.partner-products-api-reference .download-button,
+.partner-products-api-reference .download-link {
+    border-radius: var(--scalar-radius);
+}
+
+.partner-products-api-reference .download-button,
+.partner-products-api-reference .download-button *,
+.partner-products-api-reference .download-link {
+    --font-color: var(--color-primary);
+    --font-visited: var(--color-primary);
+    color: var(--background);
+    font-weight: 600;
+}
+
+.partner-products-api-reference .download-button:hover,
+.partner-products-api-reference .download-button:focus-visible,
+.partner-products-api-reference .download-link:hover,
+.partner-products-api-reference .download-link:focus-visible {
+    color: var(--color-foreground);
+}
+
+.partner-products-api-reference .download-button::before {
+    border-color: var(--color-border);
+    background: var(--color-background-accent);
+}

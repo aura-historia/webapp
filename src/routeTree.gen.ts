@@ -18,7 +18,9 @@ import { Route as ImprintRouteImport } from './routes/imprint'
 import { Route as ConsentSettingsRouteImport } from './routes/consent-settings'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PartnersIndexRouteImport } from './routes/partners.index'
 import { Route as SearchShopsRouteImport } from './routes/search_.shops'
+import { Route as PartnersCustomIntegrationRouteImport } from './routes/partners.custom-integration'
 import { Route as AuthAdminRouteImport } from './routes/_auth.admin'
 import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
@@ -78,11 +80,22 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PartnersIndexRoute = PartnersIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PartnersRoute,
+} as any)
 const SearchShopsRoute = SearchShopsRouteImport.update({
   id: '/search_/shops',
   path: '/search/shops',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PartnersCustomIntegrationRoute =
+  PartnersCustomIntegrationRouteImport.update({
+    id: '/custom-integration',
+    path: '/custom-integration',
+    getParentRoute: () => PartnersRoute,
+  } as any)
 const AuthAdminRoute = AuthAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -163,12 +176,14 @@ export interface FileRoutesByFullPath {
   '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
-  '/partners': typeof PartnersRoute
+  '/partners': typeof PartnersRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/admin': typeof AuthAdminRouteWithChildren
+  '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
+  '/partners/': typeof PartnersIndexRoute
   '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/admin/shops': typeof AuthAdminShopsRoute
   '/admin/users': typeof AuthAdminUsersRoute
@@ -188,11 +203,12 @@ export interface FileRoutesByTo {
   '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
-  '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
+  '/partners': typeof PartnersIndexRoute
   '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/admin/shops': typeof AuthAdminShopsRoute
   '/admin/users': typeof AuthAdminUsersRoute
@@ -214,12 +230,14 @@ export interface FileRoutesById {
   '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
-  '/partners': typeof PartnersRoute
+  '/partners': typeof PartnersRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/_auth/admin': typeof AuthAdminRouteWithChildren
+  '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search_/shops': typeof SearchShopsRoute
+  '/partners/': typeof PartnersIndexRoute
   '/_auth/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/_auth/admin/shops': typeof AuthAdminShopsRoute
   '/_auth/admin/users': typeof AuthAdminUsersRoute
@@ -246,7 +264,9 @@ export interface FileRouteTypes {
     | '/search'
     | '/terms-and-conditions'
     | '/admin'
+    | '/partners/custom-integration'
     | '/search/shops'
+    | '/partners/'
     | '/admin/partner-applications'
     | '/admin/shops'
     | '/admin/users'
@@ -266,11 +286,12 @@ export interface FileRouteTypes {
     | '/consent-settings'
     | '/imprint'
     | '/login'
-    | '/partners'
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
+    | '/partners/custom-integration'
     | '/search/shops'
+    | '/partners'
     | '/admin/partner-applications'
     | '/admin/shops'
     | '/admin/users'
@@ -296,7 +317,9 @@ export interface FileRouteTypes {
     | '/search'
     | '/terms-and-conditions'
     | '/_auth/admin'
+    | '/partners/custom-integration'
     | '/search_/shops'
+    | '/partners/'
     | '/_auth/admin/partner-applications'
     | '/_auth/admin/shops'
     | '/_auth/admin/users'
@@ -318,7 +341,7 @@ export interface RootRouteChildren {
   ConsentSettingsRoute: typeof ConsentSettingsRoute
   ImprintRoute: typeof ImprintRoute
   LoginRoute: typeof LoginRoute
-  PartnersRoute: typeof PartnersRoute
+  PartnersRoute: typeof PartnersRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
@@ -393,12 +416,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/partners/': {
+      id: '/partners/'
+      path: '/'
+      fullPath: '/partners/'
+      preLoaderRoute: typeof PartnersIndexRouteImport
+      parentRoute: typeof PartnersRoute
+    }
     '/search_/shops': {
       id: '/search_/shops'
       path: '/search/shops'
       fullPath: '/search/shops'
       preLoaderRoute: typeof SearchShopsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/partners/custom-integration': {
+      id: '/partners/custom-integration'
+      path: '/custom-integration'
+      fullPath: '/partners/custom-integration'
+      preLoaderRoute: typeof PartnersCustomIntegrationRouteImport
+      parentRoute: typeof PartnersRoute
     }
     '/_auth/admin': {
       id: '/_auth/admin'
@@ -541,13 +578,27 @@ const AuthRouteChildren: AuthRouteChildren = {
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
+interface PartnersRouteChildren {
+  PartnersCustomIntegrationRoute: typeof PartnersCustomIntegrationRoute
+  PartnersIndexRoute: typeof PartnersIndexRoute
+}
+
+const PartnersRouteChildren: PartnersRouteChildren = {
+  PartnersCustomIntegrationRoute: PartnersCustomIntegrationRoute,
+  PartnersIndexRoute: PartnersIndexRoute,
+}
+
+const PartnersRouteWithChildren = PartnersRoute._addFileChildren(
+  PartnersRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
   ConsentSettingsRoute: ConsentSettingsRoute,
   ImprintRoute: ImprintRoute,
   LoginRoute: LoginRoute,
-  PartnersRoute: PartnersRoute,
+  PartnersRoute: PartnersRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   TermsAndConditionsRoute: TermsAndConditionsRoute,
