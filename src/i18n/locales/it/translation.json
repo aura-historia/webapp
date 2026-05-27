@@ -1392,10 +1392,13 @@
         "name": "Nome",
         "nameDescription": "Dai un nome al tuo filtro di ricerca",
         "priceStatus": "Prezzo e stato",
+        "priceStatusDescription": "Definisci il tuo intervallo di prezzi e seleziona lo stato dell'annuncio desiderato – ad esempio solo articoli disponibili o anche pezzi già venduti all'asta per la ricerca di mercato.",
         "theme": "Tema",
         "quality": "Qualità",
         "shop": "Negozio",
+        "shopDescription": "Seleziona specificamente i tipi di fornitori – rinominate case d'aste, commercianti d'arte specializzati o mercati – e includi o escludi fornitori individuali.",
         "date": "Data",
+        "dateDescription": "Restringi la ricerca per data – per data d'asta, data di prima pubblicazione o ultimo aggiornamento dell'inserzione.",
         "confirm": "Conferma",
         "confirmDescription": "Rivedi il tuo filtro di ricerca prima di salvarlo"
       },
@@ -1434,7 +1437,7 @@
       "editHint": "Prova a modificare il filtro di ricerca."
     },
     "totalElements": "{{count}} filtro/i di ricerca",
-    "matchingProducts": "{{count}} corrispondenze",
+    "matchingProducts": "Mostra tutte le corrispondenze",
     "searchPlaceholder": "Cerca filtri di ricerca...",
     "showDetails": "Mostra dettagli",
     "showResults": "Cerca ora",
