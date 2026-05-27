@@ -732,9 +732,9 @@
         "badge": "Popular"
       },
       "customApi": {
-        "title": "Integración API propia",
-        "description": "Conecta un sistema de tienda propio con una API key y sincronización de productos por lotes.",
-        "cta": "Ver documentación API",
+        "title": "Integración de API personalizada",
+        "description": "Conecta un sistema de tienda personalizado con una clave API con alcance y sincronización por lotes de productos.",
+        "cta": "Ver documentación de la API",
         "badge": "Para desarrolladores"
       }
     },

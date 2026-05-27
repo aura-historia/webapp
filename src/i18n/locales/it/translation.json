@@ -733,8 +733,8 @@
       },
       "customApi": {
         "title": "Integrazione API personalizzata",
-        "description": "Collega un sistema shop personalizzato con una chiave API e sincronizzazione prodotti in batch.",
-        "cta": "Vedi documentazione API",
+        "description": "Collega un sistema di negozio personalizzato con una chiave API con ambito e sincronizzazione batch dei prodotti.",
+        "cta": "Visualizza la documentazione API",
         "badge": "Per sviluppatori"
       }
     },

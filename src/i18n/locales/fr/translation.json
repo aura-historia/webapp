@@ -733,7 +733,7 @@
       },
       "customApi": {
         "title": "Intégration API personnalisée",
-        "description": "Connectez un système de boutique sur mesure avec une clé API et une synchronisation produit par lot.",
+        "description": "Connectez un système de boutique personnalisé avec une clé API à portée et une synchronisation par lots des produits.",
         "cta": "Voir la documentation API",
         "badge": "Pour les développeurs"
       }
