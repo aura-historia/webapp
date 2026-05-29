@@ -323,6 +323,10 @@
       "remove": "Von der Merkliste entfernen"
     },
     "unseenNotification": "Aktualisiert",
+    "searchFilter": {
+      "matchedBadge": "Treffer",
+      "matchedBy": "Suchauftrag"
+    },
     "imageLoadError": "Bild konnte nicht geladen werden",
     "prohibitedImage": "Bild aufgrund von Inhaltsbeschränkungen ausgeblendet",
     "similar": {

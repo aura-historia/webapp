@@ -325,6 +325,10 @@
       "remove": "Remove from watchlist"
     },
     "unseenNotification": "Updated",
+    "searchFilter": {
+      "matchedBadge": "Match",
+      "matchedBy": "Search Filter"
+    },
     "imageLoadError": "Image could not be loaded",
     "prohibitedImage": "Image hidden due to content restrictions",
     "similar": {
