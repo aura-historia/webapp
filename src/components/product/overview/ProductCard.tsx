@@ -2,6 +2,7 @@ import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
 import { AuctionWindowBadge } from "@/components/product/badges/AuctionWindowBadge.tsx";
 import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotificationBadge.tsx";
+import { SearchFilterMatchBadge } from "@/components/product/badges/SearchFilterMatchBadge.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -23,6 +24,12 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
     const originEventId = product.userData?.notificationData?.originEventId;
     const markSeen = useMarkNotificationSeen();
 
+    const searchFilterData = product.userData?.searchFilterData;
+    const matchedFilterId =
+        searchFilterData?.matched && !searchFilterData.hidden
+            ? searchFilterData.userSearchFilterId
+            : undefined;
+
     const isRemoved = product.state === "REMOVED";
     const merchantUrl = product.viewUrl?.href ?? product.url?.href;
 
@@ -38,6 +45,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                 "relative flex h-full min-w-0 flex-col overflow-hidden border border-outline-variant/20 bg-surface-container-lowest transition-all duration-300 ease-out",
                 "shadow-[0_12px_40px_rgba(28,28,22,0.06)]",
                 hasUnseenNotification && "border-primary",
+                !hasUnseenNotification && matchedFilterId && "border-tertiary",
             )}
         >
             <div className="relative">
@@ -52,6 +60,16 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                 {hasUnseenNotification && (
                     <div className="absolute left-3 top-3 z-20">
                         <UnseenNotificationBadge />
+                    </div>
+                )}
+
+                {!hasUnseenNotification && matchedFilterId && (
+                    <div className="absolute left-3 top-3 z-20">
+                        <SearchFilterMatchBadge
+                            filterId={matchedFilterId}
+                            filterName={searchFilterData?.userSearchFilterName}
+                            matchReason={searchFilterData?.matchReason}
+                        />
                     </div>
                 )}
             </div>
