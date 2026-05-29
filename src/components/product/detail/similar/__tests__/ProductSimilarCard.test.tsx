@@ -181,6 +181,67 @@ describe("ProductSimilarCard", () => {
         expect(priceElement).not.toBeInTheDocument();
     });
 
+    describe("search filter highlight", () => {
+        const mockProductMatched: OverviewProduct = {
+            ...mockProduct,
+            userData: {
+                watchlistData: { isWatching: false, isNotificationEnabled: false },
+                notificationData: { hasUnseenNotification: false },
+                restrictedContentData: { consentGiven: false },
+                searchFilterData: {
+                    matched: true,
+                    hidden: false,
+                    userSearchFilterId: "filter-123",
+                    userSearchFilterName: "Jugendstil Schmuck",
+                    matchReason: "Passt zum Suchauftrag.",
+                },
+            },
+        };
+
+        it("should render border-tertiary when matched and not hidden", () => {
+            const { container } = render(<ProductSimilarCard product={mockProductMatched} />);
+            expect(container.querySelector(".border-tertiary")).toBeInTheDocument();
+        });
+
+        it("should render the search filter match badge", () => {
+            render(<ProductSimilarCard product={mockProductMatched} />);
+            expect(screen.getByText("Treffer")).toBeInTheDocument();
+        });
+
+        it("should NOT render border-tertiary when not matched", () => {
+            const { container } = render(<ProductSimilarCard product={mockProduct} />);
+            expect(container.querySelector(".border-tertiary")).not.toBeInTheDocument();
+        });
+
+        it("should NOT render match badge or border-tertiary when hidden=true", () => {
+            const hiddenProduct: OverviewProduct = {
+                ...mockProduct,
+                userData: {
+                    watchlistData: { isWatching: false, isNotificationEnabled: false },
+                    notificationData: { hasUnseenNotification: false },
+                    restrictedContentData: { consentGiven: false },
+                    searchFilterData: { matched: true, hidden: true },
+                },
+            };
+            const { container } = render(<ProductSimilarCard product={hiddenProduct} />);
+            expect(screen.queryByText("Treffer")).not.toBeInTheDocument();
+            expect(container.querySelector(".border-tertiary")).not.toBeInTheDocument();
+        });
+
+        it("should prefer border-primary over border-tertiary when notification is present", () => {
+            const productWithBoth: OverviewProduct = {
+                ...mockProductMatched,
+                userData: {
+                    ...mockProductMatched.userData!,
+                    notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
+                },
+            };
+            const { container } = render(<ProductSimilarCard product={productWithBoth} />);
+            expect(container.querySelector(".border-primary")).toBeInTheDocument();
+            expect(container.querySelector(".border-tertiary")).not.toBeInTheDocument();
+        });
+    });
+
     describe("unseen notification highlight", () => {
         const mockProductWithUnseenNotification: OverviewProduct = {
             ...mockProduct,
