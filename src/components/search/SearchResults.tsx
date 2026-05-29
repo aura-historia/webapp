@@ -1,4 +1,5 @@
 import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
+import { HiddenMatchCard } from "@/components/product/overview/HiddenMatchCard.tsx";
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { useEffect } from "react";
@@ -78,9 +79,14 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
     return (
         <div className="space-y-8">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                {allProducts.map((product) => (
-                    <ProductCard key={product.productId} product={product} />
-                ))}
+                {allProducts.map((product) => {
+                    const isHidden = product.userData?.searchFilterData?.hidden === true;
+                    return isHidden ? (
+                        <HiddenMatchCard key={product.productId} />
+                    ) : (
+                        <ProductCard key={product.productId} product={product} />
+                    );
+                })}
             </div>
 
             {showLoaderRow && (
