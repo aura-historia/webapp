@@ -1,5 +1,15 @@
 import { useTranslation } from "react-i18next";
-import { Bell, BellRing, Copy, ScanSearch, Search, Settings2, Trash2 } from "lucide-react";
+import {
+    Bell,
+    BellRing,
+    Copy,
+    Pause,
+    Play,
+    ScanSearch,
+    Search,
+    Settings2,
+    Trash2,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
@@ -61,20 +71,31 @@ export function SearchFilterCard({
         ? t("searchFilters.notificationsOn")
         : t("searchFilters.notificationsOff");
 
+    const isActive = filter.state === "ACTIVE";
+    const isRestrictedByPlan = filter.state === "INACTIVE_BY_RESTRICTED_PLAN";
+    const stateToggleLabel = isActive ? t("searchFilters.deactivate") : t("searchFilters.activate");
+
     return (
         <Card className="flex flex-col p-6 gap-5 shadow-md min-w-0 h-full transition-colors hover:bg-accent">
             <div className="flex justify-between">
                 <div className="flex flex-col gap-2 min-w-0 overflow-hidden">
-                    <div className="flex items-center gap-3 min-w-0">
-                        <H2 className="text-ellipsis line-clamp-1">{filter.name}</H2>
-                        <span
-                            className="text-sm text-muted-foreground shrink-0"
-                            suppressHydrationWarning
-                        >
+                    <H2 className="text-ellipsis line-clamp-1">{filter.name}</H2>
+                    <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-sm text-muted-foreground" suppressHydrationWarning>
                             {intlFormatDistance(filter.created, new Date(), {
                                 locale: i18n.language,
                             })}
                         </span>
+                        {filter.state === "INACTIVE_BY_USER" && (
+                            <Badge variant="secondary" className="text-xs">
+                                {t("searchFilters.stateInactiveByUser")}
+                            </Badge>
+                        )}
+                        {isRestrictedByPlan && (
+                            <Badge variant="destructive" className="text-xs">
+                                {t("searchFilters.stateInactiveByPlan")}
+                            </Badge>
+                        )}
                     </div>
                     {search.q && (
                         <H3 variant="muted" className="line-clamp-1 text-ellipsis">
@@ -95,8 +116,40 @@ export function SearchFilterCard({
                                 variant="ghost"
                                 size="icon"
                                 className="size-10 text-muted-foreground"
+                                aria-label={stateToggleLabel}
+                                disabled={updateFilter.isPending || isRestrictedByPlan}
+                                onClick={() =>
+                                    updateFilter.mutate({
+                                        id: filter.id,
+                                        patch: { state: isActive ? "INACTIVE_BY_USER" : "ACTIVE" },
+                                    })
+                                }
+                            >
+                                <div className="relative size-5">
+                                    <Pause
+                                        className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-75"}`}
+                                    />
+                                    <Play
+                                        className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out ${isActive ? "opacity-0 scale-75" : "opacity-100 scale-100"}`}
+                                    />
+                                </div>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            {isRestrictedByPlan
+                                ? t("searchFilters.stateInactiveByPlanTooltip")
+                                : stateToggleLabel}
+                        </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="size-10 text-muted-foreground"
                                 aria-label={notificationsLabel}
-                                disabled={updateFilter.isPending}
+                                disabled={updateFilter.isPending || !isActive}
                                 onClick={() =>
                                     updateFilter.mutate({
                                         id: filter.id,
@@ -281,12 +334,38 @@ export function SearchFilterCard({
                         {t("searchFilters.showResults")}
                     </Link>
                 </Button>
-                <Button size="sm" className="gap-2 flex-1" asChild>
-                    <Link to="/me/search-filter/$filterId" params={{ filterId: filter.id }}>
-                        <ScanSearch className="size-4" />
-                        {t("searchFilters.matchingProducts")}
-                    </Link>
-                </Button>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <span className="flex-1">
+                            <Button
+                                size="sm"
+                                className="gap-2 w-full"
+                                disabled={isRestrictedByPlan}
+                                asChild={!isRestrictedByPlan}
+                            >
+                                {!isRestrictedByPlan ? (
+                                    <Link
+                                        to="/me/search-filter/$filterId"
+                                        params={{ filterId: filter.id }}
+                                    >
+                                        <ScanSearch className="size-4" />
+                                        {t("searchFilters.matchingProducts")}
+                                    </Link>
+                                ) : (
+                                    <>
+                                        <ScanSearch className="size-4" />
+                                        {t("searchFilters.matchingProducts")}
+                                    </>
+                                )}
+                            </Button>
+                        </span>
+                    </TooltipTrigger>
+                    {isRestrictedByPlan && (
+                        <TooltipContent>
+                            {t("searchFilters.matchingProductsInactive")}
+                        </TooltipContent>
+                    )}
+                </Tooltip>
             </div>
         </Card>
     );
