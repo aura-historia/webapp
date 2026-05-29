@@ -1,5 +1,6 @@
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotificationBadge.tsx";
+import { SearchFilterMatchBadge } from "@/components/product/badges/SearchFilterMatchBadge.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { ImageOff } from "lucide-react";
@@ -20,6 +21,12 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
     const originEventId = product.userData?.notificationData?.originEventId;
     const markSeen = useMarkNotificationSeen();
 
+    const searchFilterData = product.userData?.searchFilterData;
+    const matchedFilterId =
+        searchFilterData?.matched && !searchFilterData.hidden
+            ? searchFilterData.userSearchFilterId
+            : undefined;
+
     const handleProductClick = useCallback(() => {
         if (hasUnseenNotification && originEventId) {
             markSeen.mutate(originEventId);
@@ -31,6 +38,7 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
             className={cn(
                 "h-full min-w-0 overflow-hidden border-0 bg-card p-0 shadow-none",
                 hasUnseenNotification && "border-2 border-primary",
+                !hasUnseenNotification && matchedFilterId && "border-2 border-tertiary",
             )}
         >
             <Link
@@ -42,7 +50,16 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                 className="group flex h-full gap-4 bg-card p-2 transition-colors hover:bg-surface-container"
                 onClick={handleProductClick}
             >
-                <div className="size-24 shrink-0 overflow-hidden bg-background">
+                <div className="relative size-24 shrink-0 overflow-hidden bg-background">
+                    {!hasUnseenNotification && matchedFilterId && (
+                        <div className="absolute left-1 top-1 z-10">
+                            <SearchFilterMatchBadge
+                                filterId={matchedFilterId}
+                                filterName={searchFilterData?.userSearchFilterName}
+                                matchReason={searchFilterData?.matchReason}
+                            />
+                        </div>
+                    )}
                     {product.images.length > 0 ? (
                         isRestrictedImage(
                             product.images[0],

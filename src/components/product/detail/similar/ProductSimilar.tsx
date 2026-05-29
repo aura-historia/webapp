@@ -1,5 +1,6 @@
 import { useSimilarProducts } from "@/hooks/useSimilarProducts.ts";
 import { ProductSimilarCard } from "@/components/product/detail/similar/ProductSimilarCard.tsx";
+import { HiddenMatchCard } from "@/components/product/overview/HiddenMatchCard.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
 import { useTranslation } from "react-i18next";
@@ -105,9 +106,14 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
         <section className="flex min-w-0 flex-col gap-8">
             <SimilarSectionHeading title={t("product.similar.title")} />
             <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
-                {data.products.map((product) => (
-                    <ProductSimilarCard key={product.productId} product={product} />
-                ))}
+                {data.products.map((product) => {
+                    const isHidden = product.userData?.searchFilterData?.hidden === true;
+                    return isHidden ? (
+                        <HiddenMatchCard key={product.productId} />
+                    ) : (
+                        <ProductSimilarCard key={product.productId} product={product} />
+                    );
+                })}
             </div>
         </section>
     );
