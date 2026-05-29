@@ -6,6 +6,7 @@ export type SearchFilterProductData = {
     readonly matchFeedback?: boolean;
     readonly matchReason?: string;
     readonly userSearchFilterId?: string;
+    readonly userSearchFilterName?: string;
 };
 
 export type UserProductData = {
@@ -48,6 +49,7 @@ export function mapToInternalUserProductData(apiData: ProductUserStateData): Use
             matchFeedback: apiData.searchFilter.matchFeedback,
             matchReason: apiData.searchFilter.matchReason,
             userSearchFilterId: apiData.searchFilter.userSearchFilterId,
+            userSearchFilterName: apiData.searchFilter.userSearchFilterName,
         },
     };
 }
