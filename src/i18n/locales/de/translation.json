@@ -1588,5 +1588,31 @@
         "deleteSuccess": "Benutzer gelöscht."
       }
     }
+  },
+  "oauth": {
+    "authorize": {
+      "title": "Anwendung autorisieren",
+      "description": "\"{{appName}}\" möchte auf Ihr Aura-Historia-Konto zugreifen. Bitte überprüfen Sie die angeforderten Berechtigungen.",
+      "scopesTitle": "Diese Anwendung fordert folgende Berechtigungen an:",
+      "approve": "Autorisieren",
+      "deny": "Ablehnen",
+      "approveAriaLabel": "{{appName}} den Zugriff auf Ihr Konto erlauben",
+      "denyAriaLabel": "Autorisierung für {{appName}} ablehnen",
+      "securityNote": "Sie können diesen Zugriff jederzeit in Ihren Kontoeinstellungen widerrufen. Autorisieren Sie nur Anwendungen, denen Sie vertrauen.",
+      "error": {
+        "title": "Ungültige Autorisierungsanfrage",
+        "description": "Die Anwendung konnte nicht identifiziert werden. Der Autorisierungslink ist möglicherweise ungültig oder abgelaufen. Bitte versuchen Sie es erneut über die Anwendung."
+      }
+    },
+    "scopes": {
+      "products_write": {
+        "label": "Produkte verwalten",
+        "description": "Produktangebote in Ihrem Namen erstellen, aktualisieren und verwalten."
+      },
+      "shops_manage": {
+        "label": "Shops verwalten",
+        "description": "Auf Ihre Shop-Einstellungen und -Konfiguration zugreifen und diese verwalten."
+      }
+    }
   }
 }

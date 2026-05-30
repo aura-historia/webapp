@@ -1577,5 +1577,31 @@
     },
     "matchReason": "Motivo AI",
     "feedbackError": "Impossibile salvare il feedback."
+  },
+  "oauth": {
+    "authorize": {
+      "title": "Autorizza applicazione",
+      "description": "\"{{appName}}\" richiede l'accesso al tuo account Aura Historia. Controlla le autorizzazioni richieste di seguito.",
+      "scopesTitle": "Questa applicazione richiede le seguenti autorizzazioni:",
+      "approve": "Autorizza",
+      "deny": "Rifiuta",
+      "approveAriaLabel": "Autorizza {{appName}} ad accedere al tuo account",
+      "denyAriaLabel": "Rifiuta l'autorizzazione per {{appName}}",
+      "securityNote": "Puoi revocare questo accesso in qualsiasi momento dalle impostazioni del tuo account. Autorizza solo applicazioni di cui ti fidi.",
+      "error": {
+        "title": "Richiesta di autorizzazione non valida",
+        "description": "L'applicazione non è stata identificata. Il link di autorizzazione potrebbe essere non valido o scaduto. Riprova dall'applicazione."
+      }
+    },
+    "scopes": {
+      "products_write": {
+        "label": "Gestisci prodotti",
+        "description": "Creare, aggiornare e gestire gli annunci di prodotti per tuo conto."
+      },
+      "shops_manage": {
+        "label": "Gestisci negozi",
+        "description": "Accedere e gestire le impostazioni del tuo negozio."
+      }
+    }
   }
 }

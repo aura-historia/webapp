@@ -1577,5 +1577,31 @@
     },
     "matchReason": "Razón AI",
     "feedbackError": "No se pudo guardar el comentario."
+  },
+  "oauth": {
+    "authorize": {
+      "title": "Autorizar aplicación",
+      "description": "\"{{appName}}\" solicita acceso a su cuenta de Aura Historia. Revise los permisos solicitados a continuación.",
+      "scopesTitle": "Esta aplicación solicita los siguientes permisos:",
+      "approve": "Autorizar",
+      "deny": "Rechazar",
+      "approveAriaLabel": "Autorizar a {{appName}} para acceder a su cuenta",
+      "denyAriaLabel": "Rechazar la autorización para {{appName}}",
+      "securityNote": "Puede revocar este acceso en cualquier momento desde la configuración de su cuenta. Solo autorice aplicaciones de confianza.",
+      "error": {
+        "title": "Solicitud de autorización inválida",
+        "description": "No se pudo identificar la aplicación. El enlace de autorización puede ser inválido o haber expirado. Inténtelo de nuevo desde la aplicación."
+      }
+    },
+    "scopes": {
+      "products_write": {
+        "label": "Gestionar productos",
+        "description": "Crear, actualizar y gestionar listados de productos en su nombre."
+      },
+      "shops_manage": {
+        "label": "Gestionar tiendas",
+        "description": "Acceder y gestionar la configuración de su tienda."
+      }
+    }
   }
 }

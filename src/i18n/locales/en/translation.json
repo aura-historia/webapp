@@ -1577,5 +1577,31 @@
         "deleteSuccess": "User deleted."
       }
     }
+  },
+  "oauth": {
+    "authorize": {
+      "title": "Authorize Application",
+      "description": "\"{{appName}}\" is requesting access to your Aura Historia account. Please review the requested permissions below.",
+      "scopesTitle": "This application is requesting the following permissions:",
+      "approve": "Authorize",
+      "deny": "Decline",
+      "approveAriaLabel": "Authorize {{appName}} to access your account",
+      "denyAriaLabel": "Decline authorization for {{appName}}",
+      "securityNote": "You can revoke this access at any time from your account settings. Only authorize applications you trust.",
+      "error": {
+        "title": "Invalid Authorization Request",
+        "description": "The application could not be identified. The authorization link may be invalid or expired. Please try again from the application."
+      }
+    },
+    "scopes": {
+      "products_write": {
+        "label": "Manage Products",
+        "description": "Create, update, and manage product listings on your behalf."
+      },
+      "shops_manage": {
+        "label": "Manage Shops",
+        "description": "Access and manage your shop settings and configuration."
+      }
+    }
   }
 }

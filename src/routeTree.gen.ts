@@ -25,6 +25,7 @@ import { Route as AuthAdminRouteImport } from './routes/_auth.admin'
 import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
 import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
+import { Route as AuthOauthAuthorizeRouteImport } from './routes/_auth.oauth.authorize'
 import { Route as AuthMeWatchlistRouteImport } from './routes/_auth.me.watchlist'
 import { Route as AuthMeSearchFiltersRouteImport } from './routes/_auth.me.search-filters'
 import { Route as AuthMeNotificationsRouteImport } from './routes/_auth.me.notifications'
@@ -117,6 +118,11 @@ const ProductShopIdShopsProductIdRoute =
     path: '/product/$shopId/$shopsProductId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthOauthAuthorizeRoute = AuthOauthAuthorizeRouteImport.update({
+  id: '/oauth/authorize',
+  path: '/oauth/authorize',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthMeWatchlistRoute = AuthMeWatchlistRouteImport.update({
   id: '/me/watchlist',
   path: '/me/watchlist',
@@ -191,6 +197,7 @@ export interface FileRoutesByFullPath {
   '/me/notifications': typeof AuthMeNotificationsRoute
   '/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
+  '/oauth/authorize': typeof AuthOauthAuthorizeRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin/': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
@@ -216,6 +223,7 @@ export interface FileRoutesByTo {
   '/me/notifications': typeof AuthMeNotificationsRoute
   '/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
+  '/oauth/authorize': typeof AuthOauthAuthorizeRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId': typeof ShopsShopSlugIdIndexRoute
@@ -245,6 +253,7 @@ export interface FileRoutesById {
   '/_auth/me/notifications': typeof AuthMeNotificationsRoute
   '/_auth/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/_auth/me/watchlist': typeof AuthMeWatchlistRoute
+  '/_auth/oauth/authorize': typeof AuthOauthAuthorizeRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/_auth/admin/': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
@@ -274,6 +283,7 @@ export interface FileRouteTypes {
     | '/me/notifications'
     | '/me/search-filters'
     | '/me/watchlist'
+    | '/oauth/authorize'
     | '/product/$shopId/$shopsProductId'
     | '/admin/'
     | '/shops/$shopSlugId/'
@@ -299,6 +309,7 @@ export interface FileRouteTypes {
     | '/me/notifications'
     | '/me/search-filters'
     | '/me/watchlist'
+    | '/oauth/authorize'
     | '/product/$shopId/$shopsProductId'
     | '/admin'
     | '/shops/$shopSlugId'
@@ -327,6 +338,7 @@ export interface FileRouteTypes {
     | '/_auth/me/notifications'
     | '/_auth/me/search-filters'
     | '/_auth/me/watchlist'
+    | '/_auth/oauth/authorize'
     | '/product/$shopId/$shopsProductId'
     | '/_auth/admin/'
     | '/shops/$shopSlugId/'
@@ -465,6 +477,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductShopIdShopsProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/oauth/authorize': {
+      id: '/_auth/oauth/authorize'
+      path: '/oauth/authorize'
+      fullPath: '/oauth/authorize'
+      preLoaderRoute: typeof AuthOauthAuthorizeRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/me/watchlist': {
       id: '/_auth/me/watchlist'
       path: '/me/watchlist'
@@ -562,6 +581,7 @@ interface AuthRouteChildren {
   AuthMeNotificationsRoute: typeof AuthMeNotificationsRoute
   AuthMeSearchFiltersRoute: typeof AuthMeSearchFiltersRoute
   AuthMeWatchlistRoute: typeof AuthMeWatchlistRoute
+  AuthOauthAuthorizeRoute: typeof AuthOauthAuthorizeRoute
   AuthMeBillingManageRoute: typeof AuthMeBillingManageRoute
   AuthMeSearchFilterFilterIdRoute: typeof AuthMeSearchFilterFilterIdRoute
 }
@@ -572,6 +592,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthMeNotificationsRoute: AuthMeNotificationsRoute,
   AuthMeSearchFiltersRoute: AuthMeSearchFiltersRoute,
   AuthMeWatchlistRoute: AuthMeWatchlistRoute,
+  AuthOauthAuthorizeRoute: AuthOauthAuthorizeRoute,
   AuthMeBillingManageRoute: AuthMeBillingManageRoute,
   AuthMeSearchFilterFilterIdRoute: AuthMeSearchFilterFilterIdRoute,
 }
