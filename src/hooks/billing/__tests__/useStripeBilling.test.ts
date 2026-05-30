@@ -17,10 +17,12 @@ vi.mock("@/client", () => ({
     postBillingPortal: mockPostBillingPortal,
 }));
 
-vi.mock("@/hooks/auth/useAuth", () => ({
-    useAuth: vi.fn(() => ({
+vi.mock("@/hooks/auth/useResolvedAuth", () => ({
+    useResolvedAuth: vi.fn(() => ({
         user: { userId: "test-user-id", username: "test-user" },
+        isAuthenticated: true,
         isLoading: false,
+        isResolved: true,
         signOut: vi.fn(),
     })),
 }));
@@ -43,8 +45,8 @@ vi.mock("sonner", () => ({
     toast: mockToast,
 }));
 
-const { useAuth } = await import("@/hooks/auth/useAuth");
-const mockUseAuth = vi.mocked(useAuth);
+const { useResolvedAuth } = await import("@/hooks/auth/useResolvedAuth");
+const mockUseResolvedAuth = vi.mocked(useResolvedAuth);
 
 describe("useStripeBilling", () => {
     let queryClient: QueryClient;
@@ -62,11 +64,13 @@ describe("useStripeBilling", () => {
             },
         });
 
-        mockUseAuth.mockReturnValue({
+        mockUseResolvedAuth.mockReturnValue({
             user: { userId: "test-user-id", username: "test-user" },
+            isAuthenticated: true,
             isLoading: false,
+            isResolved: true,
             signOut: vi.fn(),
-        } as ReturnType<typeof useAuth>);
+        } as ReturnType<typeof useResolvedAuth>);
 
         mockGetErrorMessage.mockImplementation(() => "An error occurred");
 
@@ -78,11 +82,13 @@ describe("useStripeBilling", () => {
 
     describe("Anonymous user", () => {
         it("should navigate to login when user is not authenticated", async () => {
-            mockUseAuth.mockReturnValue({
+            mockUseResolvedAuth.mockReturnValue({
                 user: null,
+                isAuthenticated: false,
                 isLoading: false,
+                isResolved: true,
                 signOut: vi.fn(),
-            } as ReturnType<typeof useAuth>);
+            } as ReturnType<typeof useResolvedAuth>);
 
             const { result } = renderHook(() => useStripeBilling(), {
                 wrapper: createWrapper(),
@@ -100,11 +106,13 @@ describe("useStripeBilling", () => {
         });
 
         it("should not set loading state for anonymous user redirect", async () => {
-            mockUseAuth.mockReturnValue({
+            mockUseResolvedAuth.mockReturnValue({
                 user: null,
+                isAuthenticated: false,
                 isLoading: false,
+                isResolved: true,
                 signOut: vi.fn(),
-            } as ReturnType<typeof useAuth>);
+            } as ReturnType<typeof useResolvedAuth>);
 
             const { result } = renderHook(() => useStripeBilling(), {
                 wrapper: createWrapper(),

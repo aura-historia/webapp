@@ -1,9 +1,5 @@
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import type { SubscriptionType } from "@/data/internal/account/SubscriptionType.ts";
-import { AUTHENTICITIES } from "@/data/internal/quality-indicators/Authenticity.ts";
-import { CONDITIONS } from "@/data/internal/quality-indicators/Condition.ts";
-import { PROVENANCES } from "@/data/internal/quality-indicators/Provenance.ts";
-import { RESTORATIONS } from "@/data/internal/quality-indicators/Restoration.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 
 type FilterGroup = {
@@ -23,26 +19,11 @@ const FILTER_GROUPS_RESTRICTED_FOR_FREE: FilterGroup[] = [
         displayNameKey: "search.filter.creationDate",
     },
     { formFields: ["updateDateFrom", "updateDateTo"], displayNameKey: "search.filter.updateDate" },
-    {
-        formFields: [
-            "originYearMin",
-            "originYearMax",
-            "authenticity",
-            "condition",
-            "provenance",
-            "restoration",
-        ],
-        displayNameKey: "search.filter.qualityIndicators",
-    },
 ];
 
 // Default (= "no filter applied") values for array fields.
 // If the current value equals the full default, the filter is considered inactive.
 const FIELD_DEFAULTS: Partial<Record<keyof SearchFilterArguments, readonly unknown[]>> = {
-    authenticity: AUTHENTICITIES,
-    condition: CONDITIONS,
-    provenance: PROVENANCES,
-    restoration: RESTORATIONS,
     shopType: SHOP_TYPES,
 };
 

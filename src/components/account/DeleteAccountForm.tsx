@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "@/hooks/auth/useAuth.ts";
+import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 
@@ -19,7 +19,7 @@ import { useDeleteUserAccount } from "@/hooks/account/useDeleteUserAccount";
 export function DeleteAccountForm() {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { signOut } = useAuth();
+    const { signOut } = useResolvedAuth();
     const { mutate: deleteUserAccount, isPending } = useDeleteUserAccount();
     const [open, setOpen] = useState(false);
 
@@ -28,7 +28,7 @@ export function DeleteAccountForm() {
             onSuccess: async () => {
                 toast.success(t("account.deleteAccount.successMessage"));
                 setOpen(false);
-                signOut();
+                await signOut();
                 await navigate({ to: "/" });
             },
             onError: (error) => {

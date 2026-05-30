@@ -31,9 +31,9 @@ describe("ProductDetailPage", () => {
         shopSlugId: "test-shop",
         shopsProductId: "",
         shopName: "Test Shop",
+        sellerName: "Test Shop",
         shopType: "AUCTION_HOUSE",
         title: "Test Product",
-        description: "Test description",
         price: "99€",
         state: "AVAILABLE",
         url: new URL("https://example.com"),
@@ -41,14 +41,6 @@ describe("ProductDetailPage", () => {
         created: new Date(),
         updated: new Date(),
         history: [],
-
-        originYear: undefined,
-        originYearMin: undefined,
-        originYearMax: undefined,
-        authenticity: "UNKNOWN",
-        condition: "UNKNOWN",
-        provenance: "UNKNOWN",
-        restoration: "UNKNOWN",
     };
 
     it("should render ProductInfo component", () => {

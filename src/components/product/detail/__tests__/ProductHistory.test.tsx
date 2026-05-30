@@ -174,9 +174,9 @@ describe("ProductHistory", () => {
             productId: "item-1",
             shopId: "shop-1",
             shopsProductId: "shops-item-1",
-            eventType: "CONDITION_CHANGED",
+            eventType: "ESTIMATE_PRICE_CHANGED",
             timestamp: new Date("2024-01-17T12:00:00Z"),
-            payload: { condition: "EXCELLENT" },
+            payload: {},
         };
 
         render(
@@ -196,9 +196,9 @@ describe("ProductHistory", () => {
             productId: "item-1",
             shopId: "shop-1",
             shopsProductId: "shops-item-1",
-            eventType: "CONDITION_CHANGED",
+            eventType: "ESTIMATE_PRICE_CHANGED",
             timestamp: new Date("2024-01-17T12:00:00Z"),
-            payload: { condition: "EXCELLENT" },
+            payload: {},
         };
 
         render(<ProductHistory history={[mockStateEvent, mockConditionEvent]} />);

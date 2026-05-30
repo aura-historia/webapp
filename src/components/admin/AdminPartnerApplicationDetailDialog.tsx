@@ -193,29 +193,6 @@ export function AdminPartnerApplicationDetailDialog({
                                                 .join(", ")}
                                         />
                                     )}
-                                    {application.payload.shopSpecialitiesCategories &&
-                                        application.payload.shopSpecialitiesCategories.length >
-                                            0 && (
-                                            <Field
-                                                label={t(
-                                                    "adminDashboard.shops.fields.specialitiesCategories",
-                                                )}
-                                                value={application.payload.shopSpecialitiesCategories.join(
-                                                    ", ",
-                                                )}
-                                            />
-                                        )}
-                                    {application.payload.shopSpecialitiesPeriods &&
-                                        application.payload.shopSpecialitiesPeriods.length > 0 && (
-                                            <Field
-                                                label={t(
-                                                    "adminDashboard.shops.fields.specialitiesPeriods",
-                                                )}
-                                                value={application.payload.shopSpecialitiesPeriods.join(
-                                                    ", ",
-                                                )}
-                                            />
-                                        )}
                                 </>
                             ) : (
                                 <Field

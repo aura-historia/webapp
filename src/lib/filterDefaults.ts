@@ -1,8 +1,4 @@
 import type { FilterSchema } from "@/components/search/SearchFilters";
-import { RESTORATIONS } from "@/data/internal/quality-indicators/Restoration.ts";
-import { PROVENANCES } from "@/data/internal/quality-indicators/Provenance.ts";
-import { CONDITIONS } from "@/data/internal/quality-indicators/Condition.ts";
-import { AUTHENTICITIES } from "@/data/internal/quality-indicators/Authenticity.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 
 /** Minimum number of characters required for a search query */
@@ -16,12 +12,7 @@ export const FILTER_DEFAULTS: FilterSchema = {
     auctionDate: { from: undefined, to: undefined },
     merchant: undefined,
     excludeMerchant: undefined,
+    seller: undefined,
+    excludeSeller: undefined,
     shopType: [...SHOP_TYPES],
-    periodId: [],
-    categoryId: [],
-    originYearSpan: { min: undefined, max: undefined },
-    authenticity: [...AUTHENTICITIES],
-    condition: [...CONDITIONS],
-    provenance: [...PROVENANCES],
-    restoration: [...RESTORATIONS],
 };

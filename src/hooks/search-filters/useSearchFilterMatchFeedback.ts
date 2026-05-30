@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateSearchFilterProductMatchFeedback } from "@/client";
+import { updateSearchFilterMatchFeedback } from "@/client";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useApiError } from "@/hooks/common/useApiError.ts";
@@ -16,7 +16,7 @@ export function useSearchFilterMatchFeedback(
 
     return useMutation({
         mutationFn: async (feedback: boolean) => {
-            const result = await updateSearchFilterProductMatchFeedback({
+            const result = await updateSearchFilterMatchFeedback({
                 path: { userSearchFilterId: filterId, shopId, shopsProductId },
                 body: { feedback },
             });

@@ -18,6 +18,8 @@ const mockWatchlistPriceChangeNotification: GetNotificationData = {
         productSlugId: "vintage-vase",
         shopName: "Antique Shop",
         title: { text: "Vintage Vase", language: "en" },
+        url: "https://example.com/product/vintage-vase",
+        viewUrl: "https://example.com/product/vintage-vase?utm_source=test",
         image: null,
         watchlistPayload: {
             type: "PRICE_CHANGE",
@@ -43,6 +45,8 @@ const mockWatchlistStateChangeNotification: GetNotificationData = {
         productSlugId: "rare-book",
         shopName: "Old Books",
         title: { text: "Rare Book", language: "en" },
+        url: "https://example.com/product/rare-book",
+        viewUrl: "https://example.com/product/rare-book?utm_source=test",
         image: null,
         watchlistPayload: {
             type: "STATE_CHANGE",
@@ -68,6 +72,8 @@ const mockSearchFilterNotification: GetNotificationData = {
         productSlugId: "baroque-painting",
         shopName: "Art Gallery",
         title: { text: "Baroque Painting", language: "en" },
+        url: "https://example.com/product/baroque-painting",
+        viewUrl: "https://example.com/product/baroque-painting?utm_source=test",
         image: null,
         searchFilterPayload: {
             userSearchFilterId: "filter-abc",
@@ -86,6 +92,7 @@ const mockPartnerApplicationApprovedNotification: GetNotificationData = {
     payload: {
         type: "PARTNER_APPLICATION",
         shopName: "Antique Shop",
+        image: "https://example.com/logo.png",
         partnerApplicationPayload: {
             type: "APPROVED",
             partnerApplicationId: "pa-1",
@@ -103,6 +110,7 @@ const mockPartnerApplicationRejectedNotification: GetNotificationData = {
     payload: {
         type: "PARTNER_APPLICATION",
         shopName: "Old Books",
+        image: null,
         partnerApplicationPayload: {
             type: "REJECTED",
             partnerApplicationId: "pa-2",
@@ -217,6 +225,12 @@ describe("mapToInternalNotification", () => {
             expect(result.payload.shopName).toBe("Antique Shop");
         });
 
+        it("maps optional image correctly", () => {
+            const result = mapToInternalNotification(mockPartnerApplicationApprovedNotification);
+            if (result.payload.type !== "PARTNER_APPLICATION") throw new Error("wrong type");
+            expect(result.payload.image).toBe("https://example.com/logo.png");
+        });
+
         it("maps APPROVED partnerApplicationPayload correctly", () => {
             const result = mapToInternalNotification(mockPartnerApplicationApprovedNotification);
             if (result.payload.type !== "PARTNER_APPLICATION") throw new Error("wrong type");
@@ -227,6 +241,7 @@ describe("mapToInternalNotification", () => {
         it("maps REJECTED partnerApplicationPayload correctly", () => {
             const result = mapToInternalNotification(mockPartnerApplicationRejectedNotification);
             if (result.payload.type !== "PARTNER_APPLICATION") throw new Error("wrong type");
+            expect(result.payload.image).toBeUndefined();
             expect(result.payload.partnerApplicationPayload.type).toBe("REJECTED");
             expect(result.payload.partnerApplicationPayload.partnerApplicationId).toBe("pa-2");
         });

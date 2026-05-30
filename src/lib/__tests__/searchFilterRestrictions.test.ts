@@ -4,10 +4,6 @@ import {
     stripRestrictedFilters,
 } from "../searchFilterRestrictions.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import { AUTHENTICITIES } from "@/data/internal/quality-indicators/Authenticity.ts";
-import { CONDITIONS } from "@/data/internal/quality-indicators/Condition.ts";
-import { PROVENANCES } from "@/data/internal/quality-indicators/Provenance.ts";
-import { RESTORATIONS } from "@/data/internal/quality-indicators/Restoration.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 
 const emptyArgs: SearchFilterArguments = { q: "" };
@@ -27,22 +23,8 @@ const argsWithAuctionDate: SearchFilterArguments = {
     auctionDateFrom: new Date("2024-01-01"),
 };
 
-const argsWithOriginYear: SearchFilterArguments = {
-    q: "",
-    originYearMin: 1900,
-};
-
-const argsWithAuthenticity: SearchFilterArguments = {
-    q: "",
-    authenticity: ["ORIGINAL"], // subset → active
-};
-
 const argsAllDefaults: SearchFilterArguments = {
     q: "",
-    authenticity: [...AUTHENTICITIES],
-    condition: [...CONDITIONS],
-    provenance: [...PROVENANCES],
-    restoration: [...RESTORATIONS],
     shopType: [...SHOP_TYPES],
 };
 
@@ -76,16 +58,6 @@ describe("getActiveRestrictedFilterLabels", () => {
     it("returns label for auctionDate when active for free user", () => {
         const labels = getActiveRestrictedFilterLabels(argsWithAuctionDate, "free");
         expect(labels).toContain("search.filter.auctionDate");
-    });
-
-    it("returns label for qualityIndicators when originYear is set for free user", () => {
-        const labels = getActiveRestrictedFilterLabels(argsWithOriginYear, "free");
-        expect(labels).toContain("search.filter.qualityIndicators");
-    });
-
-    it("returns label for qualityIndicators when authenticity subset is set for free user", () => {
-        const labels = getActiveRestrictedFilterLabels(argsWithAuthenticity, "free");
-        expect(labels).toContain("search.filter.qualityIndicators");
     });
 
     it("returns multiple labels when multiple restricted filters are active", () => {
@@ -129,11 +101,6 @@ describe("stripRestrictedFilters", () => {
     it("removes auctionDateFrom for free user", () => {
         const result = stripRestrictedFilters(argsWithAuctionDate, "free");
         expect(result.auctionDateFrom).toBeUndefined();
-    });
-
-    it("removes originYearMin for free user", () => {
-        const result = stripRestrictedFilters(argsWithOriginYear, "free");
-        expect(result.originYearMin).toBeUndefined();
     });
 
     it("preserves q and non-restricted fields for free user", () => {

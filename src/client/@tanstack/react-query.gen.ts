@@ -3,8 +3,8 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistProduct, adminDeleteUser, adminGetPartnerApplication, adminGetPartnerApplications, adminGetUser, adminPatchPartnerApplication, adminPatchUser, adminPostPartnerApplicationDecision, adminSearchUsers, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deletePartnerApplication, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPartnerApplication, getPartnerApplications, getPartnerShops, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterMatchedProducts, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchPartnerApplication, patchPartnerProducts, patchShopById, patchWatchlistProduct, postBillingCheckout, postBillingManage, postBillingPortal, postPartnerApplication, postPartnerProducts, postShop, putNewsletterSubscription, putPartnerProducts, putShopApiKey, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateSearchFilterProductMatchFeedback, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminDeleteUserData, AdminDeleteUserError, AdminDeleteUserResponse, AdminGetPartnerApplicationData, AdminGetPartnerApplicationError, AdminGetPartnerApplicationResponse, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsError, AdminGetPartnerApplicationsResponse, AdminGetUserData, AdminGetUserError, AdminGetUserResponse, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationError, AdminPatchPartnerApplicationResponse, AdminPatchUserData, AdminPatchUserError, AdminPatchUserResponse, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionError, AdminPostPartnerApplicationDecisionResponse, AdminSearchUsersData, AdminSearchUsersError, AdminSearchUsersResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeletePartnerApplicationData, DeletePartnerApplicationError, DeletePartnerApplicationResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPartnerApplicationData, GetPartnerApplicationError, GetPartnerApplicationResponse, GetPartnerApplicationsData, GetPartnerApplicationsError, GetPartnerApplicationsResponse, GetPartnerShopsData, GetPartnerShopsError, GetPartnerShopsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterMatchedProductsData, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchPartnerApplicationData, PatchPartnerApplicationError, PatchPartnerApplicationResponse, PatchPartnerProductsData, PatchPartnerProductsError, PatchPartnerProductsResponse, PatchShopByIdData, PatchShopByIdError, PatchShopByIdResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostBillingCheckoutData2, PostBillingCheckoutError, PostBillingCheckoutResponse, PostBillingManageData, PostBillingManageError, PostBillingManageResponse, PostBillingPortalData, PostBillingPortalError, PostBillingPortalResponse, PostPartnerApplicationData, PostPartnerApplicationError, PostPartnerApplicationResponse, PostPartnerProductsData, PostPartnerProductsError, PostPartnerProductsResponse, PostShopData2, PostShopError, PostShopResponse, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductsData, PutPartnerProductsError, PutPartnerProductsResponse, PutShopApiKeyData, PutShopApiKeyError, PutShopApiKeyResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateSearchFilterProductMatchFeedbackData, UpdateSearchFilterProductMatchFeedbackError, UpdateSearchFilterProductMatchFeedbackResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import { addWatchlistProduct, adminDeleteUser, adminGetPartnerApplication, adminGetPartnerApplications, adminGetUser, adminPatchPartnerApplication, adminPatchUser, adminPostPartnerApplicationDecision, adminSearchUsers, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deletePartnerApplication, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPartnerApplication, getPartnerApplications, getPartnerShops, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterLiveProducts, getSearchFilterMatches, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchPartnerApplication, patchPartnerProducts, patchShopById, patchWatchlistProduct, postBillingCheckout, postBillingManage, postBillingPortal, postPartnerApplication, postPartnerProducts, postShop, postWoocommerceWebhook, putNewsletterSubscription, putPartnerProducts, putShopApiKey, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateSearchFilterMatchFeedback, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminDeleteUserData, AdminDeleteUserError, AdminDeleteUserResponse, AdminGetPartnerApplicationData, AdminGetPartnerApplicationError, AdminGetPartnerApplicationResponse, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsError, AdminGetPartnerApplicationsResponse, AdminGetUserData, AdminGetUserError, AdminGetUserResponse, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationError, AdminPatchPartnerApplicationResponse, AdminPatchUserData, AdminPatchUserError, AdminPatchUserResponse, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionError, AdminPostPartnerApplicationDecisionResponse, AdminSearchUsersData, AdminSearchUsersError, AdminSearchUsersResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeletePartnerApplicationData, DeletePartnerApplicationError, DeletePartnerApplicationResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPartnerApplicationData, GetPartnerApplicationError, GetPartnerApplicationResponse, GetPartnerApplicationsData, GetPartnerApplicationsError, GetPartnerApplicationsResponse, GetPartnerShopsData, GetPartnerShopsError, GetPartnerShopsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterLiveProductsData, GetSearchFilterLiveProductsError, GetSearchFilterLiveProductsResponse, GetSearchFilterMatchesData, GetSearchFilterMatchesError, GetSearchFilterMatchesResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchPartnerApplicationData, PatchPartnerApplicationError, PatchPartnerApplicationResponse, PatchPartnerProductsData, PatchPartnerProductsError, PatchPartnerProductsResponse, PatchShopByIdData, PatchShopByIdError, PatchShopByIdResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostBillingCheckoutData2, PostBillingCheckoutError, PostBillingCheckoutResponse, PostBillingManageData, PostBillingManageError, PostBillingManageResponse, PostBillingPortalData, PostBillingPortalError, PostBillingPortalResponse, PostPartnerApplicationData, PostPartnerApplicationError, PostPartnerApplicationResponse, PostPartnerProductsData, PostPartnerProductsError, PostPartnerProductsResponse, PostShopData2, PostShopError, PostShopResponse, PostWoocommerceWebhookData, PostWoocommerceWebhookError, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductsData, PutPartnerProductsError, PutPartnerProductsResponse, PutShopApiKeyData, PutShopApiKeyError, PutShopApiKeyResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackError, UpdateSearchFilterMatchFeedbackResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 /**
  * Batch update products (Partner API)
@@ -14,11 +14,14 @@ import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistPro
  * and have an API key configured. It does **not** use Cognito JWT authentication.
  *
  * The request body is an array of `PatchProductData` objects. Only the fields provided in
- * each entry are updated; omitted optional fields are left unchanged. Products are processed
- * individually: if some products fail to update, the response still returns HTTP 200 with
- * a partial-failure map in the `errors` field. Only entries that failed are present in the map.
+ * each entry are updated; omitted optional fields are left unchanged. Each entry is forwarded
+ * individually to the asynchronous partner-product ingestion queue.
  *
- * An empty `errors` map in the response indicates all products were updated successfully.
+ * The response returns HTTP 202 with an array containing only the `shopsProductId` values
+ * that failed to be forwarded to the queue. An empty array indicates that all updates were
+ * accepted for asynchronous processing. Because persistence happens asynchronously, acceptance
+ * does not guarantee that the referenced product currently exists or that the update will
+ * later succeed.
  *
  */
 export const patchPartnerProductsMutation = (options?: Partial<Options<PatchPartnerProductsData>>): UseMutationOptions<PatchPartnerProductsResponse, PatchPartnerProductsError, Options<PatchPartnerProductsData>> => {
@@ -42,11 +45,12 @@ export const patchPartnerProductsMutation = (options?: Partial<Options<PatchPart
  * This endpoint is intended for partner shops — shops that have been granted partner status
  * and have an API key configured. It does **not** use Cognito JWT authentication.
  *
- * The request body is an array of `PostProductData` objects. Products are processed
- * individually: if some products fail to create, the response still returns HTTP 200 with
- * a partial-failure map in the `errors` field. Only entries that failed are present in the map.
+ * The request body is an array of `PostProductData` objects. Each entry is forwarded
+ * individually to the asynchronous partner-product ingestion queue.
  *
- * An empty `errors` map in the response indicates all products were created successfully.
+ * The response returns HTTP 202 with an array containing only the `shopsProductId` values
+ * that failed to be forwarded to the queue. An empty array indicates that all products were
+ * accepted for asynchronous processing.
  *
  */
 export const postPartnerProductsMutation = (options?: Partial<Options<PostPartnerProductsData>>): UseMutationOptions<PostPartnerProductsResponse, PostPartnerProductsError, Options<PostPartnerProductsData>> => {
@@ -71,25 +75,55 @@ export const postPartnerProductsMutation = (options?: Partial<Options<PostPartne
  * that have been granted partner status and have an API key configured. It does **not**
  * use Cognito JWT authentication.
  *
- * The request body is an array of `PutProductData` objects. For each entry the backend
- * checks whether a product with the given `shopsProductId` already exists in the shop:
+ * The request body is an array of `PutProductData` objects. Each entry is forwarded
+ * individually to the asynchronous partner-product ingestion queue as an upsert command.
+ * When the queued command is later ingested:
  * - **Existing product** — only `state` and `price` are updated (other fields are ignored).
  * - **New product** — a full product is created using all provided fields.
  *
- * Products are processed individually: if some products fail to upsert, the response
- * still returns HTTP 200 with a partial-failure map in the `errors` field. Only entries
- * that failed are present in the map.
- *
- * An empty `errors` map in the response indicates all products were upserted successfully.
- *
- * All fields except `shopsProductId` are optional. The `authenticity`, `condition`,
- * `provenance`, and `restoration` fields each default to `UNKNOWN` when omitted.
+ * The response returns HTTP 202 with an array containing only the `shopsProductId` values
+ * that failed to be forwarded to the queue. An empty array indicates that all upserts were
+ * accepted for asynchronous processing.
  *
  */
 export const putPartnerProductsMutation = (options?: Partial<Options<PutPartnerProductsData>>): UseMutationOptions<PutPartnerProductsResponse, PutPartnerProductsError, Options<PutPartnerProductsData>> => {
     const mutationOptions: UseMutationOptions<PutPartnerProductsResponse, PutPartnerProductsError, Options<PutPartnerProductsData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await putPartnerProducts({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Ingest a WooCommerce product webhook (Partner API)
+ *
+ * Accepts a single WooCommerce product webhook event for a partner shop using API key authentication.
+ * This endpoint is intended for partner shops and does **not** use Cognito JWT authentication.
+ *
+ * The caller must provide:
+ * - the partner shop API key in the `x-api-key` header,
+ * - the WooCommerce topic in `x-wc-webhook-topic`, and
+ * - the base64-encoded HMAC-SHA256 signature of the raw request body in `x-wc-webhook-signature`.
+ *
+ * Topic-specific payload requirements:
+ * - `product.created` and `product.updated` require `id`, `name`, and `permalink`
+ * - `product.deleted` requires only `id`
+ *
+ * The shop identified by `shopId` must have a stored `woocommerceWebhookSecret`
+ * and a configured `woocommerceLanguage`.
+ * If a non-empty `price` is sent, the shop must also have `woocommerceCurrency` configured.
+ *
+ */
+export const postWoocommerceWebhookMutation = (options?: Partial<Options<PostWoocommerceWebhookData>>): UseMutationOptions<unknown, PostWoocommerceWebhookError, Options<PostWoocommerceWebhookData>> => {
+    const mutationOptions: UseMutationOptions<unknown, PostWoocommerceWebhookError, Options<PostWoocommerceWebhookData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await postWoocommerceWebhook({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -261,10 +295,10 @@ export const simpleSearchProductsQueryKey = (options: Options<SimpleSearchProduc
  *
  * Additional optional filters from `ProductSearchData` are also supported as query parameters
  * using the same field names:
- * - `categoryId`
- * - `periodId`
  * - `shopName`
  * - `excludeShopName`
+ * - `sellerName`
+ * - `excludeSellerName`
  * - `shopSlugId`
  * - `excludeShopSlugId`
  * - `sellerSlugId`
@@ -275,11 +309,6 @@ export const simpleSearchProductsQueryKey = (options: Options<SimpleSearchProduc
  * - `geoAddress[lat]`, `geoAddress[lon]`, `geoAddress[distance][amount]`, `geoAddress[distance][unit]`
  * - `price[min]`, `price[max]`
  * - `state`
- * - `originYear[min]`, `originYear[max]`
- * - `authenticity`
- * - `condition`
- * - `provenance`
- * - `restoration`
  * - `created[min]`, `created[max]`
  * - `updated[min]`, `updated[max]`
  * - `auctionStart[min]`, `auctionStart[max]`
@@ -358,7 +387,7 @@ export const getUserSearchFiltersOptions = (options?: Options<GetUserSearchFilte
  * Requires valid Cognito JWT authentication.
  *
  * The number of allowed search filters and the set of usable search filter fields depend on the user's tier:
- * - `FREE`: Up to 1 search filter. Only the following filter fields are allowed: `productQuery`, `categoryId`, `periodId`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+ * - `FREE`: Up to 1 search filter. Only the following filter fields are allowed: `productQuery`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
  * - `PRO`: Up to 5 search filters. All filter fields are allowed.
  * - `ULTIMATE`: Unlimited search filters. All filter fields are allowed.
  *
@@ -431,7 +460,7 @@ export const getUserSearchFilterOptions = (options: Options<GetUserSearchFilterD
  * Requires valid Cognito JWT authentication.
  *
  * The set of usable search filter fields depends on the user's tier:
- * - `FREE`: Only the following filter fields are allowed: `productQuery`, `categoryId`, `periodId`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+ * - `FREE`: Only the following filter fields are allowed: `productQuery`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
  * - `PRO`: All filter fields are allowed.
  * - `ULTIMATE`: All filter fields are allowed.
  *
@@ -450,20 +479,36 @@ export const updateUserSearchFilterMutation = (options?: Partial<Options<UpdateU
     return mutationOptions;
 };
 
-export const getSearchFilterMatchedProductsQueryKey = (options: Options<GetSearchFilterMatchedProductsData>) => createQueryKey('getSearchFilterMatchedProducts', options);
+export const getSearchFilterLiveProductsQueryKey = (options: Options<GetSearchFilterLiveProductsData>) => createQueryKey('getSearchFilterLiveProducts', options);
 
 /**
- * List products matched by a search filter
+ * Run a live product search for a saved search filter
  *
- * Retrieves all products that have been matched by the given search filter for the authenticated user.
- * Results are paginated using search-after cursor-based pagination sorted by match creation time.
- * Mirrors the behavior of `GET /api/v1/me/watchlist`.
+ * Runs a live product search for the authenticated user's saved search filter using the filter's stored
+ * search criteria. The request only controls response localization (`language`, `currency`) and the
+ * maximum number of returned products.
+ *
+ * The backend rejects client-provided `searchAfter` pagination cursors for this endpoint and caps the
+ * response size at 10 products.
+ *
+ * When the saved search filter contains an `enhancedSearchDescription` and enhanced matching is available,
+ * the backend re-evaluates each returned product for this specific filter and overwrites
+ * `userState.searchFilter` with the live result:
+ * - `matched`
+ * - `hidden` (always `false` in this flow)
+ * - optional `matchReason`
+ *
+ * In that enhanced flow, `userSearchFilterId`, `userSearchFilterName`, and `matchFeedback` are omitted
+ * from `userState.searchFilter`.
+ *
+ * Without an enhanced description, the endpoint behaves like the normal personalized product search and
+ * returns the shared product-search user state unchanged.
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getSearchFilterMatchedProductsOptions = (options: Options<GetSearchFilterMatchedProductsData>) => queryOptions<GetSearchFilterMatchedProductsResponse, GetSearchFilterMatchedProductsError, GetSearchFilterMatchedProductsResponse, ReturnType<typeof getSearchFilterMatchedProductsQueryKey>>({
+export const getSearchFilterLiveProductsOptions = (options: Options<GetSearchFilterLiveProductsData>) => queryOptions<GetSearchFilterLiveProductsResponse, GetSearchFilterLiveProductsError, GetSearchFilterLiveProductsResponse, ReturnType<typeof getSearchFilterLiveProductsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getSearchFilterMatchedProducts({
+        const { data } = await getSearchFilterLiveProducts({
             ...options,
             ...queryKey[0],
             signal,
@@ -471,11 +516,35 @@ export const getSearchFilterMatchedProductsOptions = (options: Options<GetSearch
         });
         return data;
     },
-    queryKey: getSearchFilterMatchedProductsQueryKey(options)
+    queryKey: getSearchFilterLiveProductsQueryKey(options)
+});
+
+export const getSearchFilterMatchesQueryKey = (options: Options<GetSearchFilterMatchesData>) => createQueryKey('getSearchFilterMatches', options);
+
+/**
+ * List products matched by a search filter
+ *
+ * Retrieves the persisted matched-product list for the given saved search filter and authenticated user.
+ * Results are paginated using search-after cursor-based pagination sorted by match creation time.
+ * Mirrors the behavior of `GET /api/v1/me/watchlist`.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getSearchFilterMatchesOptions = (options: Options<GetSearchFilterMatchesData>) => queryOptions<GetSearchFilterMatchesResponse, GetSearchFilterMatchesError, GetSearchFilterMatchesResponse, ReturnType<typeof getSearchFilterMatchesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getSearchFilterMatches({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getSearchFilterMatchesQueryKey(options)
 });
 
 /**
- * Update feedback for a search-filter product match
+ * Update feedback for a search-filter match
  *
  * Updates the authenticated user's feedback for a specific product match created by one of
  * their saved search filters.
@@ -488,10 +557,10 @@ export const getSearchFilterMatchedProductsOptions = (options: Options<GetSearch
  * - `{}` performs a no-op update and returns the existing stored match unchanged.
  *
  */
-export const updateSearchFilterProductMatchFeedbackMutation = (options?: Partial<Options<UpdateSearchFilterProductMatchFeedbackData>>): UseMutationOptions<UpdateSearchFilterProductMatchFeedbackResponse, UpdateSearchFilterProductMatchFeedbackError, Options<UpdateSearchFilterProductMatchFeedbackData>> => {
-    const mutationOptions: UseMutationOptions<UpdateSearchFilterProductMatchFeedbackResponse, UpdateSearchFilterProductMatchFeedbackError, Options<UpdateSearchFilterProductMatchFeedbackData>> = {
+export const updateSearchFilterMatchFeedbackMutation = (options?: Partial<Options<UpdateSearchFilterMatchFeedbackData>>): UseMutationOptions<UpdateSearchFilterMatchFeedbackResponse, UpdateSearchFilterMatchFeedbackError, Options<UpdateSearchFilterMatchFeedbackData>> => {
+    const mutationOptions: UseMutationOptions<UpdateSearchFilterMatchFeedbackResponse, UpdateSearchFilterMatchFeedbackError, Options<UpdateSearchFilterMatchFeedbackData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await updateSearchFilterProductMatchFeedback({
+            const { data } = await updateSearchFilterMatchFeedback({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -988,8 +1057,6 @@ export const simpleSearchShopsQueryKey = (options?: Options<SimpleSearchShopsDat
  * - `shopNameQuery`
  * - `shopType`
  * - `partnerStatus`
- * - `specialitiesCategories`
- * - `specialitiesPeriods`
  * - `countries`
  * - `continents`
  * - `created[min]`, `created[max]`
@@ -1061,9 +1128,9 @@ export const getShopByIdOptions = (options: Options<GetShopByIdData>) => queryOp
  *
  * Updates mutable shop metadata for the specified shop.
  *
- * Requires a valid Cognito JWT. The caller must either:
- * - be the partner user assigned to the shop, or
- * - have the `ADMIN` role.
+ * Requires either:
+ * - a valid Cognito JWT for the partner user assigned to the shop or for an `ADMIN`, or
+ * - the partner shop's `x-api-key` when no Cognito identity is present.
  *
  * The request body uses `PatchShopData`. Only fields present in the JSON body are applied;
  * omitted or `null` fields are left unchanged. The HTTP request body itself must not be absent
@@ -1142,7 +1209,7 @@ export const getShopBySlugOptions = (options: Options<GetShopBySlugData>) => que
  * Performs an advanced search for shops using comprehensive filtering criteria.
  * This endpoint accepts a ShopSearchData object in the request body,
  * allowing for complex filtering by shop name, shop type, partner status,
- * speciality categories, speciality periods, countries, continents, and creation/update date ranges.
+ * countries, continents, and creation/update date ranges.
  * Returns a paginated collection of shops matching the search criteria.
  *
  */
@@ -1165,6 +1232,8 @@ export const getCategoriesQueryKey = (options?: Options<GetCategoriesData>) => c
 /**
  * Get all categories or simple-search categories
  *
+ * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
+ *
  * Retrieves all product categories with localized names when no query parameters are supplied.
  * When query parameters are present, this endpoint performs simple category search and behaves
  * like `POST /api/v1/categories/search` using query-string input instead of a JSON body.
@@ -1174,6 +1243,8 @@ export const getCategoriesQueryKey = (options?: Options<GetCategoriesData>) => c
  * - `nameQuery` (optional)
  * - `sort` and `order` (optional)
  *
+ *
+ * @deprecated
  */
 export const getCategoriesOptions = (options?: Options<GetCategoriesData>) => queryOptions<GetCategoriesResponse, GetCategoriesError, GetCategoriesResponse, ReturnType<typeof getCategoriesQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -1193,9 +1264,13 @@ export const getCategoryByIdQueryKey = (options: Options<GetCategoryByIdData>) =
 /**
  * Get category details by ID
  *
+ * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
+ *
  * Retrieves detailed category information by its kebab-case category ID.
  * Localization is based on the optional `language` query parameter (defaults to `en`).
  *
+ *
+ * @deprecated
  */
 export const getCategoryByIdOptions = (options: Options<GetCategoryByIdData>) => queryOptions<GetCategoryByIdResponse, GetCategoryByIdError, GetCategoryByIdResponse, ReturnType<typeof getCategoryByIdQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -1213,9 +1288,13 @@ export const getCategoryByIdOptions = (options: Options<GetCategoryByIdData>) =>
 /**
  * Search categories
  *
+ * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
+ *
  * Searches categories using a localized name query.
  * Provide an optional language and optionally a nameQuery to filter results.
  *
+ *
+ * @deprecated
  */
 export const searchCategoriesMutation = (options?: Partial<Options<SearchCategoriesData>>): UseMutationOptions<SearchCategoriesResponse, SearchCategoriesError, Options<SearchCategoriesData>> => {
     const mutationOptions: UseMutationOptions<SearchCategoriesResponse, SearchCategoriesError, Options<SearchCategoriesData>> = {
@@ -1236,6 +1315,8 @@ export const getPeriodsQueryKey = (options?: Options<GetPeriodsData>) => createQ
 /**
  * Get all periods or simple-search periods
  *
+ * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
+ *
  * Retrieves all product periods with localized names when no query parameters are supplied.
  * When query parameters are present, this endpoint performs simple period search and behaves
  * like `POST /api/v1/periods/search` using query-string input instead of a JSON body.
@@ -1245,6 +1326,8 @@ export const getPeriodsQueryKey = (options?: Options<GetPeriodsData>) => createQ
  * - `nameQuery` (optional)
  * - `sort` and `order` (optional)
  *
+ *
+ * @deprecated
  */
 export const getPeriodsOptions = (options?: Options<GetPeriodsData>) => queryOptions<GetPeriodsResponse, GetPeriodsError, GetPeriodsResponse, ReturnType<typeof getPeriodsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -1264,9 +1347,13 @@ export const getPeriodByIdQueryKey = (options: Options<GetPeriodByIdData>) => cr
 /**
  * Get period details by ID
  *
+ * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
+ *
  * Retrieves detailed period information by its kebab-case period ID.
  * Localization is based on the optional `language` query parameter (defaults to `en`).
  *
+ *
+ * @deprecated
  */
 export const getPeriodByIdOptions = (options: Options<GetPeriodByIdData>) => queryOptions<GetPeriodByIdResponse, GetPeriodByIdError, GetPeriodByIdResponse, ReturnType<typeof getPeriodByIdQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -1284,9 +1371,13 @@ export const getPeriodByIdOptions = (options: Options<GetPeriodByIdData>) => que
 /**
  * Search periods
  *
+ * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
+ *
  * Searches periods using a localized name query.
  * Provide an optional language and optionally a nameQuery to filter results.
  *
+ *
+ * @deprecated
  */
 export const searchPeriodsMutation = (options?: Partial<Options<SearchPeriodsData>>): UseMutationOptions<SearchPeriodsResponse, SearchPeriodsError, Options<SearchPeriodsData>> => {
     const mutationOptions: UseMutationOptions<SearchPeriodsResponse, SearchPeriodsError, Options<SearchPeriodsData>> = {

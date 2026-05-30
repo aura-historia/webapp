@@ -8,11 +8,6 @@ import type {
     ProductEventUrlChangedPayloadData,
     ProductEventImagesChangedPayloadData,
     ProductEventAuctionTimeChangedPayloadData,
-    ProductEventOriginYearChangedPayloadData,
-    ProductEventAuthenticityChangedPayloadData,
-    ProductEventConditionChangedPayloadData,
-    ProductEventProvenanceChangedPayloadData,
-    ProductEventRestorationChangedPayloadData,
     PriceData,
     PersonalizedGetProductData,
 } from "@/client";
@@ -22,16 +17,6 @@ import {
 } from "@/data/internal/product/OverviewProduct.ts";
 import { parseProductState, type ProductState } from "@/data/internal/product/ProductState.ts";
 import { parsePrice, type Price } from "@/data/internal/price/Price.ts";
-import {
-    parseAuthenticity,
-    type Authenticity,
-} from "@/data/internal/quality-indicators/Authenticity.ts";
-import { parseCondition, type Condition } from "@/data/internal/quality-indicators/Condition.ts";
-import { parseProvenance, type Provenance } from "@/data/internal/quality-indicators/Provenance.ts";
-import {
-    parseRestoration,
-    type Restoration,
-} from "@/data/internal/quality-indicators/Restoration.ts";
 
 export type ProductCreatedPayload = {
     readonly state: ProductState;
@@ -74,28 +59,6 @@ export type ProductAuctionTimeChangedPayload = {
     readonly auctionEnd?: Date;
 };
 
-export type ProductOriginYearChangedPayload = {
-    readonly originYear?: number;
-    readonly originYearMin?: number;
-    readonly originYearMax?: number;
-};
-
-export type ProductAuthenticityChangedPayload = {
-    readonly authenticity: Authenticity;
-};
-
-export type ProductConditionChangedPayload = {
-    readonly condition: Condition;
-};
-
-export type ProductProvenanceChangedPayload = {
-    readonly provenance: Provenance;
-};
-
-export type ProductRestorationChangedPayload = {
-    readonly restoration: Restoration;
-};
-
 export type ProductEvent = {
     readonly eventType: string;
     readonly productId: string;
@@ -111,12 +74,7 @@ export type ProductEvent = {
         | ProductEstimatePriceChangedPayload
         | ProductUrlChangedPayload
         | ProductImagesChangedPayload
-        | ProductAuctionTimeChangedPayload
-        | ProductOriginYearChangedPayload
-        | ProductAuthenticityChangedPayload
-        | ProductConditionChangedPayload
-        | ProductProvenanceChangedPayload
-        | ProductRestorationChangedPayload;
+        | ProductAuctionTimeChangedPayload;
     readonly timestamp: Date;
 };
 
@@ -280,40 +238,6 @@ function mapAuctionTimeChangedPayload(
     };
 }
 
-function mapOriginYearChangedPayload(
-    apiPayload: ProductEventOriginYearChangedPayloadData,
-): ProductOriginYearChangedPayload {
-    return {
-        originYear: apiPayload.originYear.year ?? undefined,
-        originYearMin: apiPayload.originYear.min ?? undefined,
-        originYearMax: apiPayload.originYear.max ?? undefined,
-    };
-}
-
-function mapAuthenticityChangedPayload(
-    apiPayload: ProductEventAuthenticityChangedPayloadData,
-): ProductAuthenticityChangedPayload {
-    return { authenticity: parseAuthenticity(apiPayload.authenticity) };
-}
-
-function mapConditionChangedPayload(
-    apiPayload: ProductEventConditionChangedPayloadData,
-): ProductConditionChangedPayload {
-    return { condition: parseCondition(apiPayload.condition) };
-}
-
-function mapProvenanceChangedPayload(
-    apiPayload: ProductEventProvenanceChangedPayloadData,
-): ProductProvenanceChangedPayload {
-    return { provenance: parseProvenance(apiPayload.provenance) };
-}
-
-function mapRestorationChangedPayload(
-    apiPayload: ProductEventRestorationChangedPayloadData,
-): ProductRestorationChangedPayload {
-    return { restoration: parseRestoration(apiPayload.restoration) };
-}
-
 /**
  * Converts any event payload from the API to our internal types
  * Uses event type for new events and structural checks for existing event types
@@ -331,12 +255,7 @@ function mapEventPayload(
     | ProductEstimatePriceChangedPayload
     | ProductUrlChangedPayload
     | ProductImagesChangedPayload
-    | ProductAuctionTimeChangedPayload
-    | ProductOriginYearChangedPayload
-    | ProductAuthenticityChangedPayload
-    | ProductConditionChangedPayload
-    | ProductProvenanceChangedPayload
-    | ProductRestorationChangedPayload {
+    | ProductAuctionTimeChangedPayload {
     switch (eventType) {
         case "ESTIMATE_PRICE_CHANGED":
             return mapEstimatePriceChangedPayload(
@@ -349,26 +268,6 @@ function mapEventPayload(
         case "AUCTION_TIME_CHANGED":
             return mapAuctionTimeChangedPayload(
                 apiPayload as ProductEventAuctionTimeChangedPayloadData,
-            );
-        case "ORIGIN_YEAR_CHANGED":
-            return mapOriginYearChangedPayload(
-                apiPayload as ProductEventOriginYearChangedPayloadData,
-            );
-        case "AUTHENTICITY_CHANGED":
-            return mapAuthenticityChangedPayload(
-                apiPayload as ProductEventAuthenticityChangedPayloadData,
-            );
-        case "CONDITION_CHANGED":
-            return mapConditionChangedPayload(
-                apiPayload as ProductEventConditionChangedPayloadData,
-            );
-        case "PROVENANCE_CHANGED":
-            return mapProvenanceChangedPayload(
-                apiPayload as ProductEventProvenanceChangedPayloadData,
-            );
-        case "RESTORATION_CHANGED":
-            return mapRestorationChangedPayload(
-                apiPayload as ProductEventRestorationChangedPayloadData,
             );
     }
 

@@ -1,4 +1,4 @@
-This privacy policy informs, pursuant to Articles 13 and 14 of the General Data Protection Regulation (GDPR) as well as the Telecommunications and Telemedia Data Protection Act (TTDSG), about the nature, scope, and purpose of the processing of personal data within the scope of our online offering.
+These privacy notices explain, pursuant to Articles 13 and 14 of the General Data Protection Regulation (GDPR) and Section 25 of the German Telecommunications Digital Services Data Protection Act (TDDDG), how we process personal data in connection with our website, user accounts, SaaS features, and related communication, payment, and support processes.
 
 ---
 
@@ -17,280 +17,343 @@ Contact: [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
 ---
 
-## 2. General Principles of Data Processing
+## 2. Sources and Categories of Processed Data
 
-We process personal data exclusively:
+We process personal data that:
 
-- in accordance with the statutory provisions of the GDPR
-- in compliance with the principles of **data minimization**, **purpose limitation**, and **integrity**
-- only to the extent necessary for the respective purpose
+- you provide directly to us, for example when registering, using your account, contacting us, subscribing to newsletters, or placing an order,
+- arises technically when you use the website or service,
+- is provided by our service providers in the context of authentication, payment processing, hosting, security, or analytics,
+- originates from publicly accessible sources where content is indexed, documented, or analyzed for the platform.
 
-Statistical analysis of website use is performed in anonymized form. Personalized tracking and the use of cookies for analysis purposes only take place with your explicit consent (see section 6.3).
+Depending on your use, this may include in particular:
 
----
-
-## 3. Categories of Processed Data
-
-### 3.1 User Accounts (Registration)
-
-When registering a user account, only the following personal data are processed:
-
-- Email address
-- internal user identifier (user ID)
-- authentication data (encrypted / hashed)
-- first name (optional, for personalization)
-- last name (optional, for personalization)
-- preferred language (optional, for personalization)
-- preferred currency (optional, for personalization)
-
-Where paid digital services are booked, we additionally process, to the extent required in the course of payment processing via [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Ireland) as the **payment service provider**, in particular:
-
-- order, transaction, or customer identifiers
-- subscription status, term, and renewal information
-- country or tax country and VAT-related information where necessary
-
-We do **not** receive full payment data such as credit card or bank account information.
+- master and contact data (e.g. email address, name)
+- account and authentication data
+- preference and settings data
+- contract, billing, and payment metadata
+- usage, log, and device data
+- content and interaction data within the service
+- data from publicly accessible sources, including historical or antiquarian content
 
 ---
 
-### 3.2 Technical Access Data (Server Logs)
+## 3. Website Access and Technical Provision
 
-When accessing the platform, the following data are processed automatically:
+When you access our website or app, technically necessary data are processed, in particular:
 
-- IP address (shortened or anonymized where technically possible)
+- IP address
 - date and time of access
-- accessed pages / resources
-- user agent (browser type, operating system)
+- accessed pages, files, and resources
+- browser or user-agent information
+- technical connection and security data
 
-These data are technically required for:
+The processing serves the following purposes:
 
-- ensuring system security
-- error analysis and stability
-- detection of misuse and attacks
+- provision of the website and service
+- delivery of content
+- IT security, abuse prevention, and attack detection
+- error analysis, stability, and performance
 
-No merging with user data takes place.
+**Legal bases:**
+
+- **Art. 6 para. 1 lit. f GDPR** – legitimate interest in the secure and functional operation of our website and systems
+- **Section 25 para. 2 TDDDG** – where access to terminal equipment storage is strictly necessary for technical operation
 
 ---
 
-### 3.3 Newsletter and Zoho Campaigns
+## 4. User Accounts, Authentication, and Account Data
 
-If you subscribe to our newsletter, we process in particular:
+If you create or use a user account, we process in particular:
+
+- email address
+- internal user identifier (user ID)
+- verification and login status
+- authentication and session information
+- first and last name where provided
+- preferred language and currency where provided
+- consent status for sensitive content displays (`prohibitedContentConsent`) where used
+- roles, permissions, and subscription status
+
+Authentication is technically handled via AWS Amplify and Amazon Cognito.
+
+**Purposes of processing:**
+
+- registration and login
+- account management and access control
+- account security
+- provision of personalized settings and features
+
+**Legal bases:**
+
+- **Art. 6 para. 1 lit. b GDPR** – performance of the user contract and pre-contractual steps
+- **Art. 6 para. 1 lit. f GDPR** – abuse prevention, IT security, and protection of the user account
+
+---
+
+## 5. Use of SaaS Features
+
+When you use our service, we may process additional data, in particular:
+
+- search queries and filter settings
+- saved search filters and related configurations
+- watchlist entries
+- notification and matching settings
+- product and content interactions, such as feedback on matches
+- preference data relating to display and use of the service
+- support or inquiry content where you contact us
+
+Where partner, shop, or administration features are used, we may additionally process:
+
+- shop, domain, contact, and address data
+- partner applications and related status or review data
+- API access data or related administration data
+- role and activation information
+
+**Purposes of processing:**
+
+- provision and personalization of the service
+- management of search, watchlist, and notification functions
+- authorization checks and abuse prevention
+- handling of partner and API features
+
+**Legal bases:**
+
+- **Art. 6 para. 1 lit. b GDPR** – performance of the contract
+- **Art. 6 para. 1 lit. f GDPR** – product operation, security, abuse prevention, and further development
+
+---
+
+## 6. Paid Services, Subscriptions, and Payment Processing
+
+If you purchase paid digital services or subscriptions, we process in particular:
+
+- selected plan and billing interval
+- order, customer, checkout, and subscription identifiers
+- payment status, transaction metadata, and invoice metadata
+- country, tax country, and VAT-relevant information
+- Stripe customer and portal information
+
+Payment processing is carried out via [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Ireland). We do not store full payment card data; such data are processed directly by Stripe. Depending on the specific legal context, Stripe may act partly as an independent controller and partly as a service provider.
+
+**Purposes of processing:**
+
+- contract conclusion and performance
+- invoicing, payment processing, and billing
+- management of subscriptions, terms, renewals, and cancellations
+- compliance with tax and commercial-law obligations
+
+**Legal bases:**
+
+- **Art. 6 para. 1 lit. b GDPR** – performance of the contract
+- **Art. 6 para. 1 lit. c GDPR** – statutory retention, invoicing, and tax obligations
+- **Art. 6 para. 1 lit. f GDPR** – fraud prevention, receivables management, and system security
+
+---
+
+## 7. Newsletter and Marketing Communications
+
+If you subscribe to our newsletter or otherwise grant consent to marketing communications, we process in particular:
 
 - your email address
-- timestamp, IP address, and language of consent as part of the **double opt-in process**
-- where legally permissible, campaign-related delivery, open, and click information
+- your first and last name, where provided
+- language and currency information, where provided
+- double opt-in evidence, in particular timestamp, IP address, and consent status
+- send, delivery, open, and click information where legally permissible
 
-Newsletters are sent via **Zoho Campaigns** using **EU-based servers**. Subscription becomes effective only after successful double opt-in confirmation. You may unsubscribe at any time with effect for the future.
+For newsletter functions we use **Zoho Campaigns**, where enabled. Subscription becomes effective only after successful double opt-in confirmation. You may unsubscribe at any time with effect for the future.
 
----
+**Legal basis:**
 
-## 4. Purposes of Data Processing
+- **Art. 6 para. 1 lit. a GDPR** – your consent
 
-Personal data are processed for the following purposes:
-
-- provision and operation of the platform
-- user authentication and access control
-- management of paid digital access and subscriptions
-- sending newsletters and marketing communications based on your consent
-- system security and technical monitoring
-- compliance with legal obligations
+Withdrawal of your consent does not affect the lawfulness of processing carried out before the withdrawal.
 
 ---
 
-## 5. Legal Bases for Processing
+## 8. Cookies, Local Storage, and Session Storage
 
-Processing is carried out on the basis of the following legal grounds:
+We use technically necessary browser storage and, only where legally permissible, optional storage for analytics and convenience features.
 
-- **Art. 6 para. 1 lit. b GDPR** – performance of pre-contractual measures, user account management, and provision of digital services
-- **Art. 6 para. 1 lit. a GDPR** – consent to newsletter delivery, double opt-in evidence, and other marketing communications
-- **Art. 6 para. 1 lit. f GDPR** – legitimate interest (IT security, operation, abuse prevention, needs-based communication)
-- **Art. 6 para. 1 lit. c GDPR** – legal obligations
+At present, the following storage mechanisms are used in particular:
 
----
+- **`user-preferences` (cookie, up to 1 year):** stores functional preferences such as currency and the status of your analytics/tracking choice; this is used to apply your settings consistently on the server and client side
+- **`user-preferences` (local storage):** stores the same functional preferences locally in your browser until you delete them
+- **`i18nextLng` (local storage):** stores your selected language until you delete or overwrite it
+- **`auth.signUp.pendingEmail` (session storage):** temporarily stores your email address during a multi-step sign-up process and is typically deleted at the end of the browser session
 
-## 6. Use of Cookies and Local Storage
+Additional technically necessary storage may be used by authentication, security, or consent mechanisms. The exact key names may change over time.
 
-Our platform uses **functional cookies** that are technically necessary for the operation of the service.
+**Legal bases:**
 
-### 6.1 Functional Cookies
-
-The following functional cookies are used:
-
-- **i18next**: Stores the user's language preference
-  - Purpose: Remembering the selected language across sessions
-  - Expiration: 1 year
-  - Type: Functional (necessary)
-
-- **AWS Amplify / Amazon Cognito cookies**: Used for user authentication and session management
-  - Purpose: Maintaining user login sessions, access control, and authentication state
-  - Expiration: 1 year
-  - Type: Functional (necessary for authentication)
-  - Provider: Amazon Web Services (AWS Cognito)
-
-### 6.2 Local Storage
-
-In addition to functional cookies, **local storage** is used for technically necessary functions, in particular:
-
-- session management
-- storage of functional user preferences
-
-### 6.3 Google Analytics
-
-This website uses Google Analytics, a web analysis service from Google Ireland Limited ("Google"). Google Analytics uses "cookies", text files that are stored on your computer and enable an analysis of your use of the website.
-
-#### 6.3.1 IP Anonymization
-
-We have activated the IP anonymization function on this website. As a result, your IP address will be truncated by Google within member states of the European Union or in other contracting states of the Agreement on the European Economic Area before it is transmitted to the USA. The IP address transmitted by your browser within the scope of Google Analytics will not be merged with other Google data.
-
-#### 6.3.2 Legal Basis and Opt-Out
-
-The legal basis for the use of cookies and personalized tracking is your consent pursuant to Art. 6 para. 1 lit. a GDPR and § 25 para. 1 TTDSG. The processing of anonymized tracking events (without cookies) for the purpose of statistical analysis is carried out on the basis of our legitimate interest in the needs-based design and optimization of our website pursuant to Art. 6 para. 1 lit. f GDPR.
-
-You can prevent the storage of cookies by setting your browser software accordingly; however, please note that if you do this you may not be able to use all the functions of this website to their full extent. You can also revoke your consent at any time and deactivate Google Analytics by modifying your consent preferences in the cookie banner.
-
-
-## 7. Web Scraping and Processing of External Content
-
-The platform processes content from **publicly accessible internet sources** using automated procedures.
-
-The following applies:
-
-- **no access restrictions are circumvented**
-- **no targeted collection of personal data** takes place
-
-Should personal data nevertheless be part of publicly accessible content, processing is carried out on the basis of:
-
-- **Art. 6 para. 1 lit. f GDPR** (legitimate interest in historical, scientific, and documentary processing)
+- **Section 25 para. 2 TDDDG** and **Art. 6 para. 1 lit. f GDPR** – for technically necessary storage
+- **Section 25 para. 1 TDDDG** and **Art. 6 para. 1 lit. a GDPR** – for optional analytics or marketing storage where consent is required
 
 ---
 
-### 7.1 Right to Object Regarding External Content
+## 9. Consent Management and Google Analytics
 
-Affected persons or rights holders may object to the processing of their content at any time:
+Our website uses a consent banner and separate consent settings. Optional analytics or marketing storage is activated only to the extent legally permissible.
+
+We use **Google Analytics 4** provided by **Google Ireland Limited**, Gordon House, Barrow Street, Dublin 4, Ireland.
+
+Under our current technical implementation, analytics cookies or similar optional storage are generally activated only after your consent. At the same time, the consent-management implementation or Google Consent Mode may already involve limited technical communication with Google before your consent, for example to transmit consent status or technically reduced, cookieless signals. Where this occurs, it serves solely to technically manage the consent state and not to activate full cookie-based analytics.
+
+If you grant consent, the following data may in particular be processed for statistical evaluation:
+
+- visited pages and events
+- technical device and browser information
+- approximate location and language information
+- interaction and usage data
+
+You may withdraw your consent at any time with effect for the future via the consent settings.
+
+**Legal bases:**
+
+- **Art. 6 para. 1 lit. a GDPR** and **Section 25 para. 1 TDDDG** – for Google Analytics processing and optional analytics storage after your consent
+- **Art. 6 para. 1 lit. f GDPR** – only insofar as purely technical signals are processed before consent in order to enforce and document your consent choice
+
+For further information, please refer to [Google's Privacy Policy](https://policies.google.com/privacy).
+
+---
+
+## 10. Publicly Accessible Sources, Web Scraping, and Historical Content
+
+Our platform also processes information from publicly accessible sources on the internet. Depending on the source, this may in particular include:
+
+- descriptions, images, prices, and metadata relating to historical or antiquarian objects
+- shop, contact, or company information where publicly accessible
+- historical documentation material, contextual information, and source references
+- in individual cases, personal data where such data form part of publicly accessible content
+
+According to our intended operating model, no access restrictions are circumvented and no obviously protected areas are technically bypassed.
+
+**Purposes of processing:**
+
+- research, indexing, and discoverability
+- documentation and archiving
+- scholarly, historical, and educational preparation
+- technical analysis, classification, and contextualization
+
+**Legal basis:**
+
+- **Art. 6 para. 1 lit. f GDPR** – our legitimate interest in the research, documentation, indexing, and preparation of publicly accessible information in a historical and antiquarian context
+
+Where personal data are not collected directly from the data subject, information is provided through these publicly available privacy notices in accordance with Art. 14 GDPR. Given the large number of potential sources and datasets, individual notification may in individual cases be impossible or would involve disproportionate effort.
+
+Data subjects and rights holders may object within the statutory framework or request review at:
 
 **Email:** [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-After review, the relevant content will be **removed or blocked**, provided that no compelling legal reasons prevent this.
+After review, we remove, block, or restrict content where legally required or where our legitimate interests do not prevail in the individual case.
 
 ---
 
-## 8. Historical Content and Sensitive Periods
+## 11. AI-Assisted Processing and No Automated Individual Decisions
 
-The platform processes historical content, including content from sensitive periods (e.g. 1933–1945 in Germany).
+We may use automated and AI-assisted procedures, in particular for:
 
-Processing is carried out exclusively for:
+- classification and structuring of content
+- similarity search and ranking
+- safety and sensitivity filtering
+- extraction, enrichment, and contextualization of information
 
-- scientific
-- documentary
-- archival
-- educational purposes
+These procedures serve the technical support of our service. We do not make decisions based solely on such processing that produce legal effects or similarly significantly affect you within the meaning of Art. 22 GDPR.
 
-Ideological, political, or propagandistic use is excluded.
+Historical or sensitive content may additionally be subject to technical safeguards, warnings, or consent-based display restrictions.
 
----
+**Legal bases:**
 
-## 9. Use of Artificial Intelligence
-
-Modern AI systems are used for the analysis, classification, and filtering of content.
-
-The following applies:
-
-- no automated decisions with legal effect pursuant to Art. 22 GDPR
-- no profiling of users
-- AI outputs serve exclusively as technical support
-
-Despite modern methods, it cannot be ruled out that AI results may be incorrect or incomplete.
+- **Art. 6 para. 1 lit. b GDPR** – where required to provide contractual features
+- **Art. 6 para. 1 lit. f GDPR** – legitimate interest in product functionality, quality assurance, security, and contextualization
 
 ---
 
-## 10. Hosting and Data Processing
+## 12. Recipients, Service Providers, and Third-Country Transfers
 
-### 10.1 Hosting
+We use external service providers and infrastructure providers. Personal data may be transferred or disclosed to the following categories of recipients:
 
-The platform is hosted with the following providers:
+- **Amazon Web Services (AWS) / Amazon Cognito** – in particular for registration, login, and authentication
+- **Cloudflare** – in particular for website delivery, performance, caching, security, and protection functions
+- **Hetzner Online GmbH** – where certain backend, hosting, or storage components are operated there
+- **Stripe** – for payment processing, subscription management, checkout, and customer portal functions
+- **Zoho Campaigns** – where newsletter and marketing communication are enabled
+- **Google** – where Google Analytics or consent-mode functions are used
+- **additional technical, legal, tax, or organizational service providers** – where required for operations, support, security, compliance, or the enforcement of claims
+- **authorities, courts, and third parties** – where we are legally obliged to do so or where this is necessary to enforce legal claims
 
-- **Amazon Web Services (AWS)** with data center location **Germany (Frankfurt)**
-- **Cloudflare** with data center location **Germany (Frankfurt)**
-- **Hetzner Online GmbH** with data center locations **Germany (Falkenstein and Nuremberg)**
+Some of these recipients may process data outside the European Union or the European Economic Area, or access data from third countries. This applies in particular to global technology providers such as Google, Stripe, Cloudflare, AWS, or Zoho.
 
-Hosting-related personal data of the platform are processed **within Germany**.
+Where third-country transfers take place, we rely – depending on the provider and situation – in particular on:
 
----
+- adequacy decisions of the European Commission (e.g. the EU-U.S. Data Privacy Framework where applicable),
+- the European Commission's Standard Contractual Clauses,
+- supplementary contractual, technical, and organizational safeguards.
 
-### 10.2 Data Processing on Behalf
-
-The platform is operated with external hosting and infrastructure providers.
-Data processing agreements pursuant to Art. 28 GDPR have been concluded with Amazon Web Services (AWS), Cloudflare, and Hetzner Online GmbH.
-
-For newsletter delivery, we additionally use **Zoho Campaigns** as a processor with **EU-based servers**. A data processing agreement has also been concluded for this service.
-
----
-
-### 10.3 Payment Processing via Stripe as Payment Service Provider
-
-Payment processing for paid digital services is handled by [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Ireland) as the **payment service provider**. Stripe processes payment data on behalf of Aura Historia as a data processor pursuant to Art. 28 GDPR. A corresponding data processing agreement has been concluded.
-
-Stripe is PCI-DSS certified. Full payment card data (e.g. credit card numbers) are not transmitted to Aura Historia. We receive from Stripe only the data required to activate, assign, and manage your digital access (e.g. transaction ID, payment status, country).
-
-For further information on data processing by Stripe, please refer to [Stripe's Privacy Policy](https://stripe.com/privacy).
+Upon request, we will be happy to provide further information about the safeguards applicable in the individual case.
 
 ---
 
-## 11. Data Security
+## 13. Storage Duration
 
-We implement appropriate technical and organizational measures (TOMs), including:
+We store personal data only for as long as required for the respective purposes or as long as statutory retention obligations apply.
 
-- TLS encryption during data transmission
-- encryption of data at rest (encryption at rest)
-- access restrictions based on the need-to-know principle
-- regular security reviews
+The following criteria typically apply in particular:
 
----
+- **Account data:** until the account is deleted or the user relationship ends; thereafter deletion or blocking unless statutory retention obligations prevent this
+- **Contract, billing, and tax data:** for the duration of statutory commercial-law and tax-law retention periods
+- **Newsletter data and consent evidence:** until unsubscription or withdrawal and beyond that where necessary to document or defend legal claims
+- **Server, edge, and security logs:** for a limited period where necessary to ensure security, stability, and error analysis
+- **Data from public sources:** as long as required for documentation, research, or platform purposes, or until a justified deletion or blocking request must be complied with
+- **Browser storage:** until expiry of the relevant storage period or until you delete it yourself
 
-## 12. Storage Duration
-
-Personal data are stored only for as long as necessary for the respective purposes:
-
-- user accounts: until deletion by the user or upon request
-- server logs: stored for a limited period and deleted automatically
-
-Statutory retention obligations remain unaffected.
+Backups and technical replicas may be overwritten only with a time delay for system reasons.
 
 ---
 
-## 13. Rights of Data Subjects
+## 14. Rights of Data Subjects
 
-Data subjects have the following rights:
+Subject to the statutory requirements, you have in particular the following rights:
 
 - **Art. 15 GDPR** – right of access
 - **Art. 16 GDPR** – right to rectification
 - **Art. 17 GDPR** – right to erasure
 - **Art. 18 GDPR** – right to restriction of processing
 - **Art. 20 GDPR** – right to data portability
-- **Art. 21 GDPR** – right to object
+- **Art. 21 GDPR** – right to object to processing based on Art. 6 para. 1 lit. f GDPR
+- **Art. 7 para. 3 GDPR** – right to withdraw consents with effect for the future
 
 Requests may be addressed to:
 
 [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-Any registered user may delete their account independently and thereby immediately and irrevocably delete all non-anonymized data associated with them from this service. Deletion can be performed at the following link:
+Registered users may also delete their account via the account area:
 
 [https://aura-historia.com/account](https://aura-historia.com/account)
 
----
-
-## 14. Right to Lodge a Complaint with a Supervisory Authority
-
-Data subjects have the right to lodge a complaint with a data protection supervisory authority.
-
-The competent authority is the state data protection commissioner of the respective federal state.
+Please note that deletion is not possible to the extent or for as long as we still require data to comply with legal obligations, to establish, exercise, or defend legal claims, or for IT-security reasons.
 
 ---
 
-## 15. Changes to This Privacy Policy
+## 15. Right to Lodge a Complaint with a Supervisory Authority
 
-This privacy policy may be adapted to reflect legal, technical, or content-related changes.
+You have the right to lodge a complaint with a data protection supervisory authority. The authority particularly competent for us is:
+
+**Sächsische Datenschutz- und Transparenzbeauftragte**  
+Maternistraße 17  
+01067 Dresden  
+Germany  
+Website: [https://www.saechsdsb.de/](https://www.saechsdsb.de/)  
+Email: [post@sdtb.sachsen.de](mailto:post@sdtb.sachsen.de)
+
+You may also contact any other competent supervisory authority, in particular the authority of your place of residence, place of work, or the place of the alleged infringement.
 
 ---
 
-*Status: 12 April 2026*
+## 16. Changes to These Privacy Notices
+
+We may adapt these privacy notices where this becomes necessary due to legal, technical, organizational, or content-related changes. The version published on our website shall be authoritative.
+
+---
+
+*Status: 17 May 2026*

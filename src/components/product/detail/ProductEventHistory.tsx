@@ -22,20 +22,10 @@ import {
     isUrlChangedEvent,
     isImagesChangedEvent,
     isAuctionTimeChangedEvent,
-    isOriginYearChangedEvent,
-    isAuthenticityChangedEvent,
-    isConditionChangedEvent,
-    isProvenanceChangedEvent,
-    isRestorationChangedEvent,
 } from "@/lib/eventFilters.ts";
 import { useTranslation } from "react-i18next";
 import { useRouteContext } from "@tanstack/react-router";
 import { formatPrice } from "@/data/internal/price/Price.ts";
-import { AUTHENTICITY_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Authenticity.ts";
-import { CONDITION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Condition.ts";
-import { PROVENANCE_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Provenance.ts";
-import { RESTORATION_TRANSLATION_CONFIG } from "@/data/internal/quality-indicators/Restoration.ts";
-import { formatOriginYear } from "@/components/product/detail/quality-indicator/ProductQualityIndicator.helpers.ts";
 
 interface ProductEventHistoryProps {
     readonly event: ProductEvent;
@@ -220,96 +210,6 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
                 </TimelineHeader>
                 <TimelineDescription>
                     {t("product.history.events.auctionTimeChanged")}
-                </TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    if (isOriginYearChangedEvent(event)) {
-        const yearLabel = formatOriginYear(
-            event.payload.originYear,
-            event.payload.originYearMin,
-            event.payload.originYearMax,
-            t,
-        );
-
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>{t("product.history.filters.details")}</TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>
-                    {t("product.history.events.originYearChanged")}
-                    {` • ${yearLabel}`}
-                </TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    if (isAuthenticityChangedEvent(event)) {
-        const config = AUTHENTICITY_TRANSLATION_CONFIG[event.payload.authenticity];
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>{t("product.history.filters.details")}</TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>
-                    {t("product.history.events.authenticityChanged", {
-                        value: t(config.translationKey),
-                    })}
-                </TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    if (isConditionChangedEvent(event)) {
-        const config = CONDITION_TRANSLATION_CONFIG[event.payload.condition];
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>{t("product.history.filters.details")}</TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>
-                    {t("product.history.events.conditionChanged", {
-                        value: t(config.translationKey),
-                    })}
-                </TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    if (isProvenanceChangedEvent(event)) {
-        const config = PROVENANCE_TRANSLATION_CONFIG[event.payload.provenance];
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>{t("product.history.filters.details")}</TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>
-                    {t("product.history.events.provenanceChanged", {
-                        value: t(config.translationKey),
-                    })}
-                </TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    if (isRestorationChangedEvent(event)) {
-        const config = RESTORATION_TRANSLATION_CONFIG[event.payload.restoration];
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>{t("product.history.filters.details")}</TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>
-                    {t("product.history.events.restorationChanged", {
-                        value: t(config.translationKey),
-                    })}
                 </TimelineDescription>
             </TimelineItem>
         );

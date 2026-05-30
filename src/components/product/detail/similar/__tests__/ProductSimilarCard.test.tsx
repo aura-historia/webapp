@@ -29,9 +29,9 @@ describe("ProductSimilarCard", () => {
         shopSlugId: "test-shop",
         shopsProductId: "item-456",
         shopName: "Test Shop",
+        sellerName: "Test Shop",
         shopType: "AUCTION_HOUSE",
         title: "Test Product Title",
-        description: "Test Description",
         price: "99,99 €",
         state: "AVAILABLE",
         url: new URL("https://example.com"),
@@ -43,13 +43,6 @@ describe("ProductSimilarCard", () => {
         ],
         created: new Date(),
         updated: new Date(),
-        originYear: undefined,
-        originYearMin: undefined,
-        originYearMax: undefined,
-        authenticity: "UNKNOWN",
-        condition: "UNKNOWN",
-        provenance: "UNKNOWN",
-        restoration: "UNKNOWN",
     };
 
     it("should render the product title, shop name, and price correctly", () => {

@@ -1,10 +1,10 @@
-Diese Datenschutzerklärung informiert gemäß Art. 13 und 14 der Datenschutz-Grundverordnung (DSGVO) sowie dem Telekommunikation-Telemedien-Datenschutz-Gesetz (TTDSG) über Art, Umfang und Zweck der Verarbeitung personenbezogener Daten im Rahmen unseres Online-Angebots.
+Diese Datenschutzhinweise informieren Sie gemäß Art. 13 und 14 der Datenschutz-Grundverordnung (DSGVO) sowie § 25 des Telekommunikation-Digitale-Dienste-Datenschutz-Gesetzes (TDDDG) über die Verarbeitung personenbezogener Daten im Zusammenhang mit unserer Website, unseren Nutzerkonten, unseren SaaS-Funktionen und ergänzenden Kommunikations-, Zahlungs- und Supportprozessen.
 
 ---
 
 ## 1. Verantwortlicher
 
-Verantwortlicher im Sinne von Art. 4 Nr. 7 DSGVO:
+Verantwortlicher im Sinne von Art. 4 Nr. 7 DSGVO ist:
 
 **Julian Bruder Einzelunternehmen**  
 (Betriebsbezeichnung: Aura Historia)  
@@ -17,280 +17,343 @@ Kontakt: [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
 ---
 
-## 2. Allgemeine Grundsätze der Datenverarbeitung
+## 2. Herkunft und Kategorien der verarbeiteten Daten
 
-Wir verarbeiten personenbezogene Daten ausschließlich:
+Wir verarbeiten personenbezogene Daten, die:
 
-- im Einklang mit den gesetzlichen Vorschriften der DSGVO
-- nach den Grundsätzen der **Datenminimierung**, **Zweckbindung** und **Integrität**
-- nur in dem Umfang, der für den jeweiligen Zweck erforderlich ist
+- Sie uns unmittelbar mitteilen, etwa bei Registrierung, Account-Nutzung, Kontaktaufnahme, Newsletter-Anmeldung oder Bestellung,
+- bei Nutzung der Website oder des Dienstes technisch anfallen,
+- durch unsere Dienstleister im Rahmen von Authentifizierung, Zahlungsabwicklung, Hosting, Sicherheit oder Analyse bereitgestellt werden,
+- aus öffentlich zugänglichen Quellen stammen, soweit Inhalte für die Plattform indexiert, dokumentiert oder analysiert werden.
 
-Die statistische Analyse der Website-Nutzung erfolgt in anonymisierter Form. Ein personalisiertes Tracking sowie der Einsatz von Cookies zu Analysezwecken erfolgen nur mit Ihrer ausdrücklichen Einwilligung (siehe Abschnitt 6.3).
+Je nach Nutzung können insbesondere folgende Kategorien betroffen sein:
+
+- Stammdaten und Kontaktdaten (z. B. E-Mail-Adresse, Name)
+- Kontodaten und Authentifizierungsinformationen
+- Präferenz- und Einstellungsdaten
+- Vertrags-, Abrechnungs- und Zahlungsmetadaten
+- Nutzungs-, Log- und Gerätedaten
+- Inhalts- und Interaktionsdaten innerhalb des Dienstes
+- Daten aus öffentlich zugänglichen Quellen einschließlich historischer oder antiquarischer Inhalte
 
 ---
 
-## 3. Verarbeitete Datenkategorien
+## 3. Zugriff auf Website und technische Bereitstellung
 
-### 3.1 Nutzerkonten (Registrierung)
+Beim Aufruf unserer Website oder App werden technisch erforderliche Daten verarbeitet, insbesondere:
 
-Bei der Registrierung eines Nutzerkontos werden ausschließlich folgende personenbezogene Daten verarbeitet:
+- IP-Adresse
+- Datum und Uhrzeit des Zugriffs
+- aufgerufene Seiten, Dateien und Ressourcen
+- Browser- bzw. User-Agent-Informationen
+- technische Verbindungs- und Sicherheitsdaten
+
+Die Verarbeitung erfolgt zu folgenden Zwecken:
+
+- Bereitstellung der Website und des Dienstes
+- Auslieferung von Inhalten
+- IT-Sicherheit, Missbrauchs- und Angriffserkennung
+- Fehleranalyse, Stabilität und Performance
+
+**Rechtsgrundlagen:**
+
+- **Art. 6 Abs. 1 lit. f DSGVO** – berechtigtes Interesse an sicherem und funktionsfähigem Betrieb unserer Website und Systeme
+- **§ 25 Abs. 2 TDDDG** – soweit für den technischen Betrieb unbedingt erforderliche Zugriffe auf Endgerätespeicher stattfinden
+
+---
+
+## 4. Nutzerkonto, Authentifizierung und Kontodaten
+
+Wenn Sie ein Nutzerkonto anlegen oder verwenden, verarbeiten wir insbesondere:
 
 - E-Mail-Adresse
-- interne Nutzerkennung (User-ID)
-- Authentifizierungsdaten (verschlüsselt / gehasht)
-- Vorname (optional, zur Personalisierung)
-- Nachname (optional, zur Personalisierung)
-- Bevorzugte Sprache (optional, zur Personalisierung)
-- Bevorzugte Währung (optional, zur Personalisierung)
+- interne Nutzerkennung (User ID)
+- Verifikations- und Anmeldestatus
+- Authentifizierungs- und Sitzungsinformationen
+- Vorname und Nachname, soweit angegeben
+- bevorzugte Sprache und Währung, soweit angegeben
+- Einwilligungsstatus für sensible Inhaltsdarstellungen (`prohibitedContentConsent`), soweit genutzt
+- Rollen-, Berechtigungs- und Abonnementstatus
 
-Sofern kostenpflichtige digitale Leistungen gebucht werden, verarbeiten wir zusätzlich – soweit im Rahmen der Zahlungsabwicklung über [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irland) als **Zahlungsdienstleister** erforderlich – insbesondere:
+Die Authentifizierung erfolgt technisch über AWS Amplify bzw. Amazon Cognito.
 
-- Bestell-, Transaktions- oder Kundenkennungen
-- Abonnementstatus, Laufzeit und Verlängerungsinformationen
-- Land bzw. Steuerland sowie umsatzsteuerlich erforderliche Angaben
+**Zwecke der Verarbeitung:**
 
-Wir erhalten **keine vollständigen Zahlungsdaten** wie Kreditkarten- oder Bankkontoinformationen.
+- Registrierung und Login
+- Kontoverwaltung und Zugriffskontrolle
+- Sicherheit des Nutzerkontos
+- Bereitstellung personalisierter Einstellungen und Funktionen
 
----
+**Rechtsgrundlagen:**
 
-### 3.2 Technische Zugriffsdaten (Server-Logs)
-
-Beim Zugriff auf die Plattform werden automatisiert folgende Daten verarbeitet:
-
-- IP-Adresse (gekürzt oder anonymisiert, sofern technisch möglich)
-- Datum und Uhrzeit des Zugriffs
-- aufgerufene Seiten / Ressourcen
-- User-Agent (Browsertyp, Betriebssystem)
-
-Diese Daten sind technisch erforderlich zur:
-
-- Gewährleistung der Systemsicherheit
-- Fehleranalyse und Stabilität
-- Missbrauchs- und Angriffserkennung
-
-Eine Zusammenführung mit Nutzerdaten findet nicht statt.
+- **Art. 6 Abs. 1 lit. b DSGVO** – Erfüllung des Nutzungsvertrags und Durchführung vorvertraglicher Maßnahmen
+- **Art. 6 Abs. 1 lit. f DSGVO** – Missbrauchsprävention, IT-Sicherheit und Schutz des Nutzerkontos
 
 ---
 
-### 3.3 Newsletter und Zoho Campaigns
+## 5. Nutzung der SaaS-Funktionen
 
-Wenn Sie unseren Newsletter abonnieren, verarbeiten wir insbesondere:
+Im Rahmen der Nutzung unseres Dienstes können wir weitere Daten verarbeiten, insbesondere:
+
+- Suchanfragen und Filtereinstellungen
+- gespeicherte Suchfilter und dazugehörige Konfigurationen
+- Watchlist-/Merkliste-Einträge
+- Benachrichtigungs- und Matching-Einstellungen
+- Produkt- und Inhaltsinteraktionen, etwa Feedback zu Treffern
+- Präferenzdaten zur Darstellung und Nutzung des Dienstes
+- Support- oder Rückfrageinhalte, soweit Sie uns kontaktieren
+
+Soweit Partner-, Shop- oder Administrationsfunktionen genutzt werden, können zusätzlich verarbeitet werden:
+
+- Shop-, Domain-, Kontakt- und Adressdaten
+- Partnerbewerbungen und zugehörige Status- bzw. Prüfungsdaten
+- API-Zugangsdaten bzw. deren Verwaltungsdaten
+- Rollen- und Freischaltungsinformationen
+
+**Zwecke der Verarbeitung:**
+
+- Bereitstellung und Personalisierung des Dienstes
+- Verwaltung von Such-, Watchlist- und Benachrichtigungsfunktionen
+- Berechtigungsprüfung und Missbrauchsprävention
+- Bearbeitung von Partner- und API-Funktionen
+
+**Rechtsgrundlagen:**
+
+- **Art. 6 Abs. 1 lit. b DSGVO** – Vertragserfüllung
+- **Art. 6 Abs. 1 lit. f DSGVO** – Produktbetrieb, Sicherheit, Missbrauchsverhinderung und Weiterentwicklung
+
+---
+
+## 6. Kostenpflichtige Leistungen, Abonnements und Zahlungsabwicklung
+
+Wenn Sie kostenpflichtige digitale Leistungen oder Abonnements buchen, verarbeiten wir insbesondere:
+
+- gewählten Tarif und Abrechnungsintervall
+- Bestell-, Kunden-, Checkout- und Abonnementkennungen
+- Zahlungsstatus, Transaktions- und Rechnungsmetadaten
+- Land, Steuerland und umsatzsteuerlich relevante Informationen
+- Stripe-Kunden- und Portalinformationen
+
+Die Zahlungsabwicklung erfolgt über [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irland). Vollständige Zahlungskartendaten werden nicht von uns gespeichert; diese werden unmittelbar von Stripe verarbeitet. Stripe kann je nach Konstellation datenschutzrechtlich teilweise als eigener Verantwortlicher und teilweise als Dienstleister eingebunden sein.
+
+**Zwecke der Verarbeitung:**
+
+- Vertragsschluss und Vertragsdurchführung
+- Abrechnung, Zahlungsabwicklung und Rechnungsstellung
+- Verwaltung von Abonnements, Laufzeiten, Verlängerungen und Kündigungen
+- Erfüllung steuer- und handelsrechtlicher Pflichten
+
+**Rechtsgrundlagen:**
+
+- **Art. 6 Abs. 1 lit. b DSGVO** – Vertragsdurchführung
+- **Art. 6 Abs. 1 lit. c DSGVO** – gesetzliche Aufbewahrungs-, Rechnungs- und Steuerpflichten
+- **Art. 6 Abs. 1 lit. f DSGVO** – Betrugsprävention, Forderungsmanagement und Systemsicherheit
+
+---
+
+## 7. Newsletter und Marketingkommunikation
+
+Wenn Sie unseren Newsletter abonnieren oder uns anderweitig eine Einwilligung in Marketingkommunikation erteilen, verarbeiten wir insbesondere:
 
 - Ihre E-Mail-Adresse
-- Zeitstempel, IP-Adresse und Sprache der Einwilligung im Rahmen des **Double-Opt-In-Verfahrens**
-- gegebenenfalls kampagnenbezogene Zustell-, Öffnungs- und Klickinformationen, soweit dies rechtlich zulässig ist
+- optional Ihren Vor- und Nachnamen
+- optional Sprach- und Währungsinformationen
+- Double-Opt-In-Nachweise, insbesondere Zeitstempel, IP-Adresse und Einwilligungsstatus
+- Versand-, Zustell-, Öffnungs- und Klickinformationen, soweit dies rechtlich zulässig ist
 
-Der Newsletter-Versand erfolgt über **Zoho Campaigns** auf **EU-Servern**. Eine Anmeldung erfolgt erst nach erfolgreicher Double-Opt-In-Bestätigung. Eine Abmeldung ist jederzeit mit Wirkung für die Zukunft möglich.
+Für Newsletter-Funktionen nutzen wir – soweit aktiviert – **Zoho Campaigns**. Eine Anmeldung wird erst mit erfolgreichem Double-Opt-In wirksam. Eine Abmeldung ist jederzeit mit Wirkung für die Zukunft möglich.
 
----
+**Rechtsgrundlage:**
 
-## 4. Zwecke der Datenverarbeitung
+- **Art. 6 Abs. 1 lit. a DSGVO** – Ihre Einwilligung
 
-Die Verarbeitung personenbezogener Daten erfolgt zu folgenden Zwecken:
-
-- Bereitstellung und Betrieb der Plattform
-- Nutzer-Authentifizierung und Zugriffssteuerung
-- Verwaltung kostenpflichtiger digitaler Zugänge und Abonnements
-- Versand von Newslettern und Marketingkommunikation auf Grundlage Ihrer Einwilligung
-- Systemsicherheit und technische Überwachung
-- Einhaltung gesetzlicher Verpflichtungen
+Der Widerruf Ihrer Einwilligung berührt die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung nicht.
 
 ---
 
-## 5. Rechtsgrundlagen der Verarbeitung
+## 8. Cookies, Local Storage und Session Storage
 
-Die Verarbeitung erfolgt auf Grundlage folgender Rechtsgrundlagen:
+Wir verwenden technisch erforderliche Browser-Speicherungen sowie – nur im zulässigen Umfang – optionale Speicherungen für Analyse- und Komfortfunktionen.
 
-- **Art. 6 Abs. 1 lit. b DSGVO** – Durchführung vorvertraglicher Maßnahmen, Nutzerkonto sowie Bereitstellung digitaler Leistungen
-- **Art. 6 Abs. 1 lit. a DSGVO** – Einwilligung in Newsletter-Versand, Double-Opt-In-Nachweis und sonstige Marketingkommunikation
-- **Art. 6 Abs. 1 lit. f DSGVO** – berechtigtes Interesse (IT-Sicherheit, Betrieb, Missbrauchsprävention, bedarfsgerechte Kommunikation)
-- **Art. 6 Abs. 1 lit. c DSGVO** – rechtliche Verpflichtungen
+Derzeit werden insbesondere folgende Speichermechanismen verwendet:
 
----
+- **`user-preferences` (Cookie, bis zu 1 Jahr):** speichert funktionale Präferenzen wie Währung und den Status Ihrer Analytics-/Tracking-Entscheidung; dient dazu, Ihre Einstellungen server- und clientseitig konsistent anzuwenden
+- **`user-preferences` (Local Storage):** speichert dieselben funktionalen Präferenzen lokal im Browser, bis Sie diese löschen
+- **`i18nextLng` (Local Storage):** speichert Ihre gewählte Sprache, bis Sie diese löschen oder überschreiben
+- **`auth.signUp.pendingEmail` (Session Storage):** speichert Ihre E-Mail-Adresse vorübergehend während eines mehrstufigen Registrierungsprozesses und wird typischerweise mit Ende der Browser-Sitzung gelöscht
 
-## 6. Einsatz von Cookies und Local Storage
+Zusätzlich können technisch erforderliche Speicherungen durch Authentifizierungs-, Sicherheits- oder Consent-Mechanismen eingesetzt werden. Deren konkrete Schlüsselnamen können sich im Zeitablauf ändern.
 
-Unsere Plattform verwendet **funktionale Cookies**, die für den technischen Betrieb des Dienstes erforderlich sind.
+**Rechtsgrundlagen:**
 
-### 6.1 Funktionale Cookies
-
-Folgende funktionale Cookies werden eingesetzt:
-
-- **i18next**: Speichert die bevorzugte Sprache des Nutzers
-  - Zweck: Wiederherstellung der gewählten Sprache über Sitzungen hinweg
-  - Speicherdauer: 1 Jahr
-  - Art: Funktional (erforderlich)
-
-- **AWS Amplify / Amazon Cognito Cookies**: Werden für Nutzer-Authentifizierung und Sitzungsverwaltung verwendet
-  - Zweck: Aufrechterhaltung der Nutzersitzung, Zugriffskontrolle und Authentifizierungsstatus
-  - Speicherdauer: 1 Jahr
-  - Art: Funktional (erforderlich für Authentifizierung)
-  - Anbieter: Amazon Web Services (AWS Cognito)
-
-### 6.2 Local Storage
-
-Zusätzlich zu funktionalen Cookies wird **Local Storage** für technisch notwendige Funktionen eingesetzt, insbesondere:
-
-- Sitzungsverwaltung
-- Speicherung funktionaler Nutzerpräferenzen
-
-### 6.3 Google Analytics
-
-Diese Website nutzt Funktionen des Webanalysedienstes Google Analytics. Anbieter ist die Google Ireland Limited („Google“). Google Analytics verwendet so genannte „Cookies“. Das sind Textdateien, die auf Ihrem Computer gespeichert werden und die eine Analyse der Benutzung der Website durch Sie ermöglichen.
-
-#### 6.3.1 IP-Anonymisierung
-
-Wir haben auf dieser Website die Funktion IP-Anonymisierung aktiviert. Dadurch wird Ihre IP-Adresse von Google innerhalb von Mitgliedstaaten der Europäischen Union oder in anderen Vertragsstaaten des Abkommens über den Europäischen Wirtschaftsraum vor der Übermittlung in die USA gekürzt. Die im Rahmen von Google Analytics von Ihrem Browser übermittelte IP-Adresse wird nicht mit anderen Daten von Google zusammengeführt.
-
-#### 6.3.2 Rechtsgrundlage und Widerruf
-
-Die Rechtsgrundlage für den Einsatz von Cookies und personalisiertem Tracking ist Ihre Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TTDSG. Die Verarbeitung anonymisierter Tracking-Events (ohne Cookies) zum Zwecke der statistischen Analyse erfolgt auf Grundlage unseres berechtigten Interesses an der bedarfsgerechten Gestaltung und Optimierung unserer Website gemäß Art. 6 Abs. 1 lit. f DSGVO.
-
-Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihrer Browser-Software verhindern; wir weisen Sie darauf hin, dass Sie in diesem Fall gegebenenfalls nicht sämtliche Funktionen dieser Website vollumfänglich werden nutzen können. Sie können Ihre Einwilligung jederzeit widerrufen und Google Analytics deaktivieren, indem Sie Ihre Präferenzen im Cookie-Banner anpassen.
-
-
-## 7. Web-Scraping und Verarbeitung externer Inhalte
-
-Die Plattform verarbeitet Inhalte aus **öffentlich zugänglichen Internetquellen** mittels automatisierter Verfahren.
-
-Dabei gilt:
-
-- Es werden **keine Zugangsbeschränkungen umgangen**
-- Es erfolgt **keine gezielte Erhebung personenbezogener Daten**
-
-Sollten dennoch personenbezogene Daten Bestandteil öffentlich zugänglicher Inhalte sein, erfolgt die Verarbeitung auf Grundlage von:
-
-- **Art. 6 Abs. 1 lit. f DSGVO** (berechtigtes Interesse an historischer, wissenschaftlicher und dokumentarischer Aufbereitung)
+- **§ 25 Abs. 2 TDDDG** und **Art. 6 Abs. 1 lit. f DSGVO** – für technisch notwendige Speicherungen
+- **§ 25 Abs. 1 TDDDG** und **Art. 6 Abs. 1 lit. a DSGVO** – für optionale Analyse- oder Marketing-Speicherungen, soweit einwilligungsbedürftig
 
 ---
 
-### 7.1 Widerspruchsrecht bei externen Inhalten
+## 9. Einwilligungsmanagement und Google Analytics
 
-Betroffene Personen oder Rechteinhaber können der Verarbeitung ihrer Inhalte jederzeit widersprechen:
+Unsere Website verwendet ein Consent-Banner und gesonderte Consent-Einstellungen. Optionale Analyse- oder Marketing-Speicherungen werden nur im rechtlich zulässigen Umfang aktiviert.
+
+Wir verwenden **Google Analytics 4** der **Google Ireland Limited**, Gordon House, Barrow Street, Dublin 4, Irland.
+
+Nach unserer aktuellen technischen Implementierung werden Analytics-Cookies oder vergleichbare optionale Speicherungen grundsätzlich erst nach Ihrer Einwilligung aktiviert. Zugleich kann im Rahmen des eingesetzten Consent-Managements bzw. Google Consent Mode bereits vor Ihrer Einwilligung eine begrenzte technische Kommunikation mit Google stattfinden, etwa zur Übermittlung des Consent-Status oder von cookielosen, technisch reduzierten Signalen. Soweit dies erfolgt, dient dies ausschließlich der technischen Steuerung des Einwilligungsstatus und nicht der Aktivierung vollumfänglicher, cookiegestützter Analyse.
+
+Erteilen Sie Ihre Einwilligung, können insbesondere folgende Daten für statistische Auswertungen verarbeitet werden:
+
+- aufgerufene Seiten und Ereignisse
+- technische Geräte- und Browserinformationen
+- ungefähre Standort- und Sprachinformationen
+- Interaktions- und Nutzungsdaten
+
+Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft über die Consent-Einstellungen widerrufen.
+
+**Rechtsgrundlagen:**
+
+- **Art. 6 Abs. 1 lit. a DSGVO** und **§ 25 Abs. 1 TDDDG** – für Google-Analytics-Verarbeitung und optionale Analytics-Speicherungen nach Ihrer Einwilligung
+- **Art. 6 Abs. 1 lit. f DSGVO** – nur soweit vor Ihrer Einwilligung rein technische Signale zur Durchsetzung und Dokumentation Ihrer Consent-Entscheidung verarbeitet werden
+
+Weitere Informationen finden Sie in der [Datenschutzerklärung von Google](https://policies.google.com/privacy).
+
+---
+
+## 10. Öffentlich zugängliche Quellen, Web-Scraping und historische Inhalte
+
+Unsere Plattform verarbeitet auch Informationen aus öffentlich zugänglichen Quellen im Internet. Hierzu können – je nach Quelle – insbesondere gehören:
+
+- Beschreibungen, Bilder, Preise und Metadaten zu historischen oder antiquarischen Objekten
+- Shop-, Kontakt- oder Unternehmensangaben, soweit öffentlich zugänglich
+- historisches Dokumentationsmaterial, Kontextinformationen und Quellenverweise
+- in Einzelfällen personenbezogene Daten, soweit diese Bestandteil öffentlich zugänglicher Inhalte sind
+
+Nach unserem Anspruch werden keine Zugangssperren umgangen und keine offensichtlich geschützten Bereiche technisch überwunden.
+
+**Zwecke der Verarbeitung:**
+
+- Recherche, Indexierung und Auffindbarkeit
+- Dokumentation und Archivierung
+- wissenschaftliche, historische und bildungsbezogene Aufbereitung
+- technische Analyse, Klassifikation und Kontextualisierung
+
+**Rechtsgrundlage:**
+
+- **Art. 6 Abs. 1 lit. f DSGVO** – unser berechtigtes Interesse an der Recherche, Dokumentation, Indexierung und Aufbereitung öffentlich zugänglicher Informationen in einem historischen und antiquarischen Kontext
+
+Soweit personenbezogene Daten nicht direkt bei der betroffenen Person erhoben werden, erfolgt die Information hierüber über diese öffentlich zugänglichen Datenschutzhinweise gemäß Art. 14 DSGVO. Aufgrund der Vielzahl potenzieller Quellen und Datensätze kann eine Individualbenachrichtigung im Einzelfall unmöglich oder nur mit unverhältnismäßigem Aufwand möglich sein.
+
+Betroffene Personen und Rechteinhaber können der Verarbeitung im Rahmen der gesetzlichen Voraussetzungen widersprechen oder eine Prüfung verlangen unter:
 
 **E-Mail:** [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-Nach Prüfung werden die betreffenden Inhalte **entfernt oder gesperrt**, sofern keine zwingenden gesetzlichen Gründe entgegenstehen.
+Nach Prüfung entfernen, sperren oder beschränken wir Inhalte, soweit dies rechtlich erforderlich ist oder unsere berechtigten Interessen im Einzelfall nicht überwiegen.
 
 ---
 
-## 8. Historische Inhalte und sensible Zeiträume
+## 11. KI-gestützte Verarbeitung und keine automatisierten Einzelentscheidungen
 
-Die Plattform verarbeitet historische Inhalte, einschließlich solcher aus sensiblen Zeiträumen (z. B. 1933–1945 in Deutschland).
+Wir können automatisierte und KI-gestützte Verfahren einsetzen, insbesondere für:
 
-Die Verarbeitung erfolgt ausschließlich zu:
+- Klassifikation und Strukturierung von Inhalten
+- Ähnlichkeitssuche und Ranking
+- Sicherheits- und Sensitivitätsfilterung
+- Extraktion, Anreicherung und Kontextualisierung von Informationen
 
-- wissenschaftlichen
-- dokumentarischen
-- archivarischen
-- bildenden Zwecken
+Diese Verfahren dienen der technischen Unterstützung unseres Dienstes. Wir treffen auf ihrer Grundlage keine ausschließlich automatisierten Entscheidungen mit rechtlicher Wirkung oder in vergleichbarer Weise erheblichen Beeinträchtigungen im Sinne von Art. 22 DSGVO.
 
-Eine ideologische, politische oder propagandistische Nutzung ist ausgeschlossen.
+Historische oder sensible Inhalte können durch technische Schutzmaßnahmen, Warnhinweise oder Zustimmungslösungen zusätzlich eingeschränkt werden.
 
----
+**Rechtsgrundlagen:**
 
-## 9. Einsatz von Künstlicher Intelligenz
-
-Zur Analyse, Klassifikation und Filterung von Inhalten werden moderne KI-Systeme eingesetzt.
-
-Dabei gilt:
-
-- Keine automatisierten Entscheidungen mit Rechtswirkung gemäß Art. 22 DSGVO
-- Kein Profiling von Nutzern
-- KI-Ausgaben dienen ausschließlich der technischen Unterstützung
-
-Trotz moderner Verfahren kann nicht ausgeschlossen werden, dass KI-Ergebnisse fehlerhaft oder unvollständig sind.
+- **Art. 6 Abs. 1 lit. b DSGVO** – soweit für die Bereitstellung vertraglicher Funktionen erforderlich
+- **Art. 6 Abs. 1 lit. f DSGVO** – berechtigtes Interesse an Produktfunktionalität, Qualitätssicherung, Sicherheit und Kontextualisierung
 
 ---
 
-## 10. Hosting und Datenverarbeitung
+## 12. Empfänger, Dienstleister und Drittlandtransfers
 
-### 10.1 Hosting
+Wir setzen externe Dienstleister und Infrastrukturanbieter ein. Personenbezogene Daten können dabei an folgende Kategorien von Empfängern übermittelt oder offengelegt werden:
 
-Die Plattform wird bei folgenden Anbietern gehostet:
+- **Amazon Web Services (AWS) / Amazon Cognito** – insbesondere für Registrierung, Login und Authentifizierung
+- **Cloudflare** – insbesondere für Auslieferung, Performance, Caching, Sicherheits- und Schutzfunktionen der Website
+- **Hetzner Online GmbH** – soweit bestimmte Backend-, Hosting- oder Speicherkomponenten dort betrieben werden
+- **Stripe** – für Zahlungsabwicklung, Abonnementverwaltung, Checkout- und Kundenportal
+- **Zoho Campaigns** – soweit Newsletter- und Marketingkommunikation aktiviert sind
+- **Google** – soweit Google Analytics bzw. Consent-Mode-Funktionen eingesetzt werden
+- **weitere technische, rechtliche, steuerliche oder organisatorische Dienstleister** – soweit dies für Betrieb, Support, Sicherheit, Compliance oder Durchsetzung von Ansprüchen erforderlich ist
+- **Behörden, Gerichte und Dritte** – soweit wir hierzu gesetzlich verpflichtet sind oder dies zur Rechtsdurchsetzung erforderlich ist
 
-- **Amazon Web Services (AWS)** mit Rechenzentrumsstandort **Deutschland (Frankfurt)**
-- **Cloudflare** mit Rechenzentrumsstandort **Deutschland (Frankfurt)**
-- **Hetzner Online GmbH**: mit Rechenzentrumsstandort **Deutschland (Falkenstein und Nürnberg)**
+Ein Teil dieser Empfänger kann Daten außerhalb der Europäischen Union bzw. des Europäischen Wirtschaftsraums verarbeiten oder aus Drittstaaten darauf zugreifen. Dies gilt insbesondere für global agierende Technologieanbieter wie Google, Stripe, Cloudflare, AWS oder Zoho.
 
-Hosting-bezogene personenbezogene Daten der Plattform werden dabei **innerhalb Deutschlands** verarbeitet.
+Soweit Drittlandtransfers stattfinden, stützen wir diese – je nach Anbieter und Konstellation – insbesondere auf:
 
----
+- Angemessenheitsbeschlüsse der Europäischen Kommission (z. B. EU-U.S. Data Privacy Framework, soweit anwendbar),
+- Standardvertragsklauseln der Europäischen Kommission,
+- ergänzende vertragliche, technische und organisatorische Schutzmaßnahmen.
 
-### 10.2 Auftragsverarbeitung
-
-Die Plattform wird bei externen Hosting- und Infrastruktur-Anbietern betrieben.
-Mit Amazon Web Services (AWS), Cloudflare und Hetzner Online GmbH bestehen abgeschlossene Auftragsverarbeitungsverträge gemäß Art. 28 DSGVO.
-
-Für den Newsletter-Versand setzen wir zusätzlich **Zoho Campaigns** als Auftragsverarbeiter mit **EU-Servern** ein. Auch hierfür besteht ein Vertrag zur Auftragsverarbeitung.
-
----
-
-### 10.3 Zahlungsabwicklung über Stripe als Zahlungsdienstleister
-
-Die Zahlungsabwicklung für kostenpflichtige digitale Leistungen erfolgt über [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irland) als **Zahlungsdienstleister**. Stripe verarbeitet Zahlungsdaten im Auftrag von Aura Historia als Auftragsverarbeiter gemäß Art. 28 DSGVO. Ein entsprechender Auftragsverarbeitungsvertrag wurde abgeschlossen.
-
-Stripe ist PCI-DSS-zertifiziert. Vollständige Zahlungskartendaten (z. B. Kreditkartennummern) werden nicht an Aura Historia übermittelt. Wir erhalten von Stripe lediglich diejenigen Daten, die zur Aktivierung, Zuordnung und Verwaltung Ihres digitalen Zugangs erforderlich sind (z. B. Transaktions-ID, Zahlungsstatus, Land).
-
-Weitere Informationen zur Datenverarbeitung durch Stripe finden Sie in der [Datenschutzerklärung von Stripe](https://stripe.com/privacy).
+Auf Anfrage informieren wir Sie gerne näher über die im Einzelfall einschlägigen Schutzmechanismen.
 
 ---
 
-## 11. Datensicherheit
+## 13. Speicherdauer
 
-Wir setzen geeignete technische und organisatorische Maßnahmen (TOMs) ein, u. a.:
+Wir speichern personenbezogene Daten nur so lange, wie dies für die jeweiligen Zwecke erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen.
 
-- TLS-Verschlüsselung bei Datenübertragung
-- Verschlüsselung ruhender Daten (Encryption at Rest)
-- Zugriffsbeschränkungen nach dem Need-to-Know-Prinzip
-- Regelmäßige Sicherheitsüberprüfungen
+Im Regelfall gelten insbesondere folgende Kriterien:
 
----
+- **Kontodaten:** bis zur Löschung des Kontos oder Beendigung des Nutzungsverhältnisses; anschließend Löschung oder Sperrung, soweit keine gesetzlichen Aufbewahrungspflichten entgegenstehen
+- **Vertrags-, Abrechnungs- und Steuerdaten:** für die Dauer gesetzlicher handels- und steuerrechtlicher Aufbewahrungsfristen
+- **Newsletter-Daten und Einwilligungsnachweise:** bis zur Abmeldung bzw. zum Widerruf und darüber hinaus, soweit erforderlich, zur Dokumentation und Abwehr von Rechtsansprüchen
+- **Server-, Edge- und Sicherheitslogs:** für einen begrenzten Zeitraum, soweit zur Gewährleistung von Sicherheit, Stabilität und Fehleranalyse erforderlich
+- **Daten aus öffentlichen Quellen:** solange dies für die Dokumentations-, Recherche- oder Plattformzwecke erforderlich ist oder bis einer berechtigten Löschungs- bzw. Sperrungsanforderung entsprochen werden muss
+- **Browser-Speicherungen:** bis zum Ablauf der jeweiligen Speicherdauer oder bis Sie diese selbst löschen
 
-## 12. Speicherdauer
-
-Personenbezogene Daten werden nur so lange gespeichert, wie es für die jeweiligen Zwecke erforderlich ist:
-
-- Nutzerkonten: bis zur Löschung durch den Nutzer oder auf Anfrage
-- Server-Logs: zeitlich begrenzt und automatisiert gelöscht
-
-Gesetzliche Aufbewahrungspflichten bleiben unberührt.
+Backups und technische Replikationen können aus Systemgründen zeitlich verzögert überschrieben werden.
 
 ---
 
-## 13. Rechte der betroffenen Personen
+## 14. Rechte der betroffenen Personen
 
-Betroffene Personen haben folgende Rechte:
+Sie haben nach Maßgabe der gesetzlichen Voraussetzungen insbesondere folgende Rechte:
 
 - **Art. 15 DSGVO** – Auskunft
 - **Art. 16 DSGVO** – Berichtigung
 - **Art. 17 DSGVO** – Löschung
 - **Art. 18 DSGVO** – Einschränkung der Verarbeitung
 - **Art. 20 DSGVO** – Datenübertragbarkeit
-- **Art. 21 DSGVO** – Widerspruch
+- **Art. 21 DSGVO** – Widerspruch gegen Verarbeitungen auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO
+- **Art. 7 Abs. 3 DSGVO** – Widerruf erteilter Einwilligungen mit Wirkung für die Zukunft
 
 Anfragen richten Sie bitte an:
 
 [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-Ein jeder registrierter Nutzer kann durch eigenständiges Löschen seines Accounts sofort und unwiederruflich alle nicht anonymisierten und ihm zugehörigen Daten von diesem Dienst löschen. Die Löschung kann unter folgendem Link erfolgen:
+Registrierte Nutzer können ihr Konto außerdem über den Account-Bereich löschen:
 
 [https://aura-historia.com/account](https://aura-historia.com/account)
 
----
-
-## 14. Beschwerderecht bei der Aufsichtsbehörde
-
-Betroffene Personen haben das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren.
-
-Zuständig ist der Landesdatenschutzbeauftragte des jeweiligen Bundeslandes.
+Bitte beachten Sie, dass eine Löschung nicht möglich ist, soweit oder solange wir Daten zur Erfüllung gesetzlicher Pflichten, zur Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen oder aus Gründen der IT-Sicherheit weiterhin benötigen.
 
 ---
 
-## 15. Änderungen dieser Datenschutzerklärung
+## 15. Beschwerderecht bei der Aufsichtsbehörde
 
-Diese Datenschutzerklärung kann angepasst werden, um rechtliche, technische oder inhaltliche Änderungen abzubilden.
+Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren. Zuständig für uns ist insbesondere:
+
+**Sächsische Datenschutz- und Transparenzbeauftragte**  
+Maternistraße 17  
+01067 Dresden  
+Deutschland  
+Website: [https://www.saechsdsb.de/](https://www.saechsdsb.de/)  
+E-Mail: [post@sdtb.sachsen.de](mailto:post@sdtb.sachsen.de)
+
+Sie können sich außerdem an jede andere zuständige Aufsichtsbehörde wenden, insbesondere an die Behörde Ihres Aufenthaltsorts, Arbeitsplatzes oder des Orts des mutmaßlichen Verstoßes.
 
 ---
 
-*Stand: 12.04.2026*
+## 16. Änderungen dieser Datenschutzhinweise
+
+Wir können diese Datenschutzhinweise anpassen, wenn dies aufgrund rechtlicher, technischer, organisatorischer oder inhaltlicher Änderungen erforderlich wird. Maßgeblich ist die jeweils auf unserer Website veröffentlichte Fassung.
+
+---
+
+*Stand: 17.05.2026*

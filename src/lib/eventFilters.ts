@@ -9,11 +9,6 @@ import type {
     ProductUrlChangedPayload,
     ProductImagesChangedPayload,
     ProductAuctionTimeChangedPayload,
-    ProductOriginYearChangedPayload,
-    ProductAuthenticityChangedPayload,
-    ProductConditionChangedPayload,
-    ProductProvenanceChangedPayload,
-    ProductRestorationChangedPayload,
 } from "@/data/internal/product/ProductDetails.ts";
 import type { StateEventType } from "@/types/events";
 
@@ -179,68 +174,13 @@ export function isAuctionTimeChangedEvent(event: ProductEvent): event is Product
 }
 
 /**
- * Filter ORIGIN_YEAR_CHANGED events
- */
-export function isOriginYearChangedEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductOriginYearChangedPayload;
-    eventType: "ORIGIN_YEAR_CHANGED";
-} {
-    return event.eventType === "ORIGIN_YEAR_CHANGED";
-}
-
-/**
- * Filter AUTHENTICITY_CHANGED events
- */
-export function isAuthenticityChangedEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductAuthenticityChangedPayload;
-    eventType: "AUTHENTICITY_CHANGED";
-} {
-    return event.eventType === "AUTHENTICITY_CHANGED";
-}
-
-/**
- * Filter CONDITION_CHANGED events
- */
-export function isConditionChangedEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductConditionChangedPayload;
-    eventType: "CONDITION_CHANGED";
-} {
-    return event.eventType === "CONDITION_CHANGED";
-}
-
-/**
- * Filter PROVENANCE_CHANGED events
- */
-export function isProvenanceChangedEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductProvenanceChangedPayload;
-    eventType: "PROVENANCE_CHANGED";
-} {
-    return event.eventType === "PROVENANCE_CHANGED";
-}
-
-/**
- * Filter RESTORATION_CHANGED events
- */
-export function isRestorationChangedEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductRestorationChangedPayload;
-    eventType: "RESTORATION_CHANGED";
-} {
-    return event.eventType === "RESTORATION_CHANGED";
-}
-
-/**
- * Filter all detail events (the 9 new event types for product attributes)
+ * Filter all detail events (the 4 event types for product attributes)
  */
 export function isDetailsEvent(event: ProductEvent): boolean {
     return (
         isEstimatePriceChangedEvent(event) ||
         isUrlChangedEvent(event) ||
         isImagesChangedEvent(event) ||
-        isAuctionTimeChangedEvent(event) ||
-        isOriginYearChangedEvent(event) ||
-        isAuthenticityChangedEvent(event) ||
-        isConditionChangedEvent(event) ||
-        isProvenanceChangedEvent(event) ||
-        isRestorationChangedEvent(event)
+        isAuctionTimeChangedEvent(event)
     );
 }

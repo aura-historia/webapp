@@ -1,5 +1,5 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { simpleSearchShops } from "@/client";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { getShopById, simpleSearchShops } from "@/client";
 import type { ShopPartnerStatusData } from "@/client";
 import { mapToShopDetail, type ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
@@ -47,6 +47,28 @@ export function useAdminShops(filters: AdminShopFilters) {
         },
         initialPageParam: undefined as unknown[] | undefined,
         getNextPageParam: (lastPage) => lastPage.searchAfter ?? undefined,
+        staleTime: 30 * 1000,
+    });
+}
+
+export function useAdminShop(shopId?: string, enabled = true) {
+    const { getErrorMessage } = useApiError();
+
+    return useQuery({
+        queryKey: ["admin", "shops", "detail", shopId],
+        queryFn: async (): Promise<ShopDetail> => {
+            if (!shopId) {
+                throw new Error("Missing shop id");
+            }
+
+            const response = await getShopById({ path: { shopId } });
+            if (response.error) {
+                throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
+            }
+
+            return mapToShopDetail(response.data);
+        },
+        enabled: enabled && Boolean(shopId),
         staleTime: 30 * 1000,
     });
 }

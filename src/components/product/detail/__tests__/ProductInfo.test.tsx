@@ -1,3 +1,5 @@
+import type React from "react";
+
 vi.mock("lottie-react", () => ({
     default: () => null,
 }));
@@ -8,6 +10,21 @@ vi.mock("@tanstack/react-router", async () => {
 
     return {
         ...actual,
+        Link: ({
+            to,
+            params,
+            children,
+            ...props
+        }: {
+            to: string;
+            params?: Record<string, string>;
+            children: React.ReactNode;
+            className?: string;
+        }) => (
+            <a href={to.replace("$shopSlugId", params?.shopSlugId ?? "")} {...props}>
+                {children}
+            </a>
+        ),
         useParams: () => ({}),
         useRouteContext: () => ({ timeZone: "UTC" }),
     };
@@ -43,22 +60,16 @@ describe("ProductInfo", () => {
         shopSlugId: "test-shop",
         shopsProductId: "",
         shopName: "Test Shop",
+        sellerName: "Test Shop",
         shopType: "AUCTION_HOUSE",
         title: "Test Product Title",
-        description: "This is a test description",
         price: "99,99 €",
         state: "AVAILABLE",
         url: new URL("https://example.com"),
+        viewUrl: new URL("https://affiliate.example.com/product"),
         images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
         created: new Date(),
         updated: new Date(),
-        originYear: undefined,
-        originYearMin: undefined,
-        originYearMax: undefined,
-        authenticity: "UNKNOWN",
-        condition: "UNKNOWN",
-        provenance: "UNKNOWN",
-        restoration: "UNKNOWN",
     };
 
     it("should render the product title, shop name, and price correctly", () => {
@@ -68,15 +79,32 @@ describe("ProductInfo", () => {
         expect(screen.getByText("99,99 €")).toBeInTheDocument();
     });
 
-    it("should render the description correctly", () => {
+    it("should link the shop name to the shop page", () => {
         renderWithQueryClient(<ProductInfo product={mockProduct} />);
-        expect(screen.getByText("This is a test description")).toBeInTheDocument();
+
+        expect(screen.getByRole("link", { name: "Test Shop" })).toHaveAttribute(
+            "href",
+            "/shops/test-shop",
+        );
     });
 
-    it("should render 'Keine Beschreibung verfügbar' when description is not provided", () => {
-        const productWithoutDescription = { ...mockProduct, description: undefined };
-        renderWithQueryClient(<ProductInfo product={productWithoutDescription} />);
-        expect(screen.getByText("Keine Beschreibung verfügbar")).toBeInTheDocument();
+    it("should link the shop name when a secondary seller is shown", () => {
+        renderWithQueryClient(
+            <ProductInfo
+                product={{
+                    ...mockProduct,
+                    shopName: "Main Shop",
+                    sellerName: "Secondary Seller",
+                    shopSlugId: "main-shop",
+                }}
+            />,
+        );
+
+        expect(screen.getByText("Secondary Seller")).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "Main Shop" })).toHaveAttribute(
+            "href",
+            "/shops/main-shop",
+        );
     });
 
     it("should render the shop type badge", () => {
@@ -122,6 +150,29 @@ describe("ProductInfo", () => {
             "rel",
             "nofollow noopener noreferrer",
         );
+    });
+
+    it("should prefer the product viewUrl for the merchant link", () => {
+        renderWithQueryClient(<ProductInfo product={mockProduct} />);
+
+        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
+            "href",
+            "https://affiliate.example.com/product",
+        );
+    });
+
+    it("should render merchant button as a link when state is not REMOVED", () => {
+        renderWithQueryClient(<ProductInfo product={mockProduct} />);
+        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toBeInTheDocument();
+    });
+
+    it("should disable merchant button when state is REMOVED", () => {
+        const removedProduct = { ...mockProduct, state: "REMOVED" as const };
+        renderWithQueryClient(<ProductInfo product={removedProduct} />);
+        expect(
+            screen.queryByRole("link", { name: "Zur Seite des Händlers" }),
+        ).not.toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Zur Seite des Händlers" })).toBeDisabled();
     });
 
     it("should render action buttons without fixed floating positioning", () => {

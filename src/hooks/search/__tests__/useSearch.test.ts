@@ -111,15 +111,8 @@ describe("useSearch", () => {
             merchant: ["Aurora Gallery"],
             excludeMerchant: ["Other Shop"],
             shopType: ["UNKNOWN", "AUCTION_HOUSE"],
-            periodId: ["renaissance"],
             sortField: "PRICE",
             sortOrder: "ASC",
-            originYearMin: 1500,
-            originYearMax: 1650,
-            authenticity: ["ORIGINAL", "UNKNOWN"],
-            condition: ["GREAT", "UNKNOWN"],
-            provenance: ["COMPLETE", "UNKNOWN"],
-            restoration: ["MINOR", "UNKNOWN"],
         };
 
         renderHook(() => useSearch(args), {
@@ -155,12 +148,6 @@ describe("useSearch", () => {
                 shopName: ["Aurora Gallery"],
                 excludeShopName: ["Other Shop"],
                 shopType: ["AUCTION_HOUSE"],
-                periodId: ["renaissance"],
-                originYear: { min: 1500, max: 1650 },
-                authenticity: ["ORIGINAL", "UNKNOWN"],
-                condition: ["GREAT", "UNKNOWN"],
-                provenance: ["COMPLETE", "UNKNOWN"],
-                restoration: ["MINOR", "UNKNOWN"],
             }),
         });
     });

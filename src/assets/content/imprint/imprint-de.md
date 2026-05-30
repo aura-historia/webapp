@@ -1,4 +1,4 @@
-Angaben gemäß § 5 TMG und § 18 MStV
+Angaben gemäß § 5 DDG und § 18 Abs. 2 MStV
 
 ## Diensteanbieter
 
@@ -16,134 +16,91 @@ Angaben gemäß § 5 TMG und § 18 MStV
 
 ---
 
-## Verantwortlicher für den Inhalt gemäß § 18 Abs. 2 MStV
+## Verantwortlich für journalistisch-redaktionelle Inhalte gemäß § 18 Abs. 2 MStV
 
-Julian Bruder Einzelunternehmen
-Hardenbergstraße 80, 04275 Leipzig, Deutschland
+Soweit auf dieser Website oder innerhalb des Dienstes journalistisch-redaktionell gestaltete Inhalte veröffentlicht werden, ist verantwortlich:
 
-*Dies gilt nicht für Inhalte aus externen Quellen, die über automatisierte Verfahren (Web-Scraping) oder durch Partner-Shop-Integrationen erfasst wurden.*
-
----
-
-## Art des Dienstes
-
-Bei dem angebotenen Dienst handelt es sich um eine Software-as-a-Service (SaaS)-Plattform für digitale Recherche-, Discovery- und Analysefunktionen im Bereich historischer und antiquarischer Inhalte.
-
-Die Zahlungsabwicklung für kostenpflichtige digitale Leistungen oder Abonnements erfolgt über [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irland) als **Zahlungsdienstleister**. Aura Historia ist als Direktverkäufer Vertragspartner des Nutzers und verantwortlich für Rechnungsstellung, Umsatzsteuer sowie sämtliche vertraglichen Pflichten. Stripe verarbeitet Zahlungsdaten ausschließlich im Auftrag von Aura Historia als Auftragsverarbeiter gemäß Art. 28 DSGVO.
-
-Aura Historia bleibt Anbieter der digitalen Plattform. Verträge über den Erwerb konkreter Antiquitäten oder Sammlerstücke kommen nicht mit Aura Historia, sondern gegebenenfalls mit dem jeweils ausgewiesenen Drittanbieter zustande.
+Julian Bruder Einzelunternehmen  
+Hardenbergstraße 80  
+04275 Leipzig  
+Deutschland
 
 ---
 
-## Inhaltliche Ausrichtung
+## Art des Angebots
 
-Die Plattform dient der **Sammlung, Analyse und Aufbereitung historischer und antiquarischer Daten**, insbesondere aus öffentlich zugänglichen Quellen im Internet.
+Aura Historia betreibt eine Software-as-a-Service-(SaaS)-Plattform für digitale Recherche-, Discovery- und Analysefunktionen im Bereich historischer und antiquarischer Inhalte.
 
-Hierzu zählen auch **historische Inhalte aus sensiblen Zeiträumen**, einschließlich der Zeit des Nationalsozialismus (1933–1945) in Deutschland.
+Zum Leistungsumfang können insbesondere gehören:
 
-### Klare Distanzierung und Zweckbestimmung
+- Such-, Filter- und Analysefunktionen
+- Merkliste, Benachrichtigungen und personalisierte Einstellungen
+- kostenlose und kostenpflichtige digitale Zugänge
+- KI-gestützte oder redaktionell aufbereitete Informationen
+- Funktionen für Partner-Shops oder technische Schnittstellen, soweit angeboten
 
-Die Bereitstellung, Verarbeitung oder Analyse solcher Inhalte erfolgt **ausschließlich zu folgenden Zwecken**:
+Die Zahlungsabwicklung für kostenpflichtige digitale Leistungen oder Abonnements erfolgt über [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Irland). Aura Historia bleibt Vertragspartner des Nutzers für die angebotenen digitalen Leistungen. Stripe kann je nach Zahlungs- und Datenschutzrecht teilweise als eigener Verantwortlicher und teilweise als Dienstleister eingebunden sein.
 
-- Wissenschaftliche und historische Forschung
-- Dokumentation und Archivierung
-- Technische Analyse und Kontextualisierung
+Soweit auf der Plattform Antiquitäten, Sammlerstücke oder sonstige Waren Dritter angezeigt werden, kommt ein etwaiger Kaufvertrag über diese Gegenstände nicht mit Aura Historia, sondern ausschließlich mit dem jeweils ausgewiesenen Drittanbieter zustande.
+
+---
+
+## Öffentliche Quellen, historische Inhalte und sensible Darstellungen
+
+Die Plattform verarbeitet und indexiert auch Inhalte aus öffentlich zugänglichen Quellen im Internet. Dabei sollen keine Zugangsbeschränkungen umgangen und keine offensichtlich geschützten Bereiche technisch überwunden werden.
+
+Der Dienst dient ausschließlich legitimen Zwecken, insbesondere:
+
+- Dokumentation
+- Forschung und wissenschaftlicher Auseinandersetzung
+- Archivierung
 - Bildung und Aufklärung
+- technischer Analyse und Kontextualisierung
 
-Es besteht **keinerlei politische, ideologische oder propagandistische Absicht**.
+Dies kann auch Inhalte aus sensiblen historischen Zeiträumen umfassen, einschließlich Darstellungen aus der Zeit des Nationalsozialismus. Eine politische, ideologische oder propagandistische Billigung solcher Inhalte ist ausdrücklich nicht bezweckt.
 
----
-
-## Umgang mit verfassungsfeindlichen Symbolen (§ 86a StGB)
-
-Die Plattform verwendet **State-of-the-Art (SOTA) KI-Technologien**, um Inhalte automatisch zu analysieren und zu filtern.
-
-Dabei werden insbesondere Maßnahmen ergriffen zur:
-
-- Erkennung und Einschränkung von Symbolen gemäß § 86a StGB
-- Kontextuellen Einordnung historischer Darstellungen
-- Vermeidung unzulässiger oder missbräuchlicher Darstellung
-
-Sollten dennoch Inhalte angezeigt oder verarbeitet werden, die unter § 86a StGB fallen, geschieht dies **ausschließlich im Rahmen der gesetzlich zulässigen Ausnahmen**, insbesondere zu Zwecken der Wissenschaft, Forschung oder Lehre.
-
-Hierbei ist zu erwähnen, dass **standardmäßig** alle als verfassungsfeindlich erkannten Inhalte **unkenntlich** gemacht werden.
-Die Registrierung beim Dienst ermöglicht durch explizites **Opt-In** das dauerhafte Anzeigen dieser Inhalte.
-Nicht-registrierten Nutzern wird die Möglichkeit geboten, die entsprechenden Inhalte **temporär** einzusehen, indem sie durch mehrfaches und zielgerichtetes Navigieren zu jenen Inhalten gelangen.
+Soweit Inhalte unter rechtliche Beschränkungen fallen können, insbesondere im Zusammenhang mit § 86a StGB, können technische Schutzmaßnahmen, Warnhinweise, Unkenntlichmachungen oder an eine ausdrückliche Nutzerentscheidung geknüpfte Anzeigebeschränkungen eingesetzt werden.
 
 ---
 
-## Haftung für Inhalte
+## Hinweise zu Inhalten und Haftung
 
-Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte nach den allgemeinen Gesetzen verantwortlich.
+Wir sind für eigene Inhalte nach den allgemeinen Gesetzen verantwortlich. Für automatisiert erfasste, aus öffentlichen Quellen stammende, von Dritten bereitgestellte oder KI-gestützt ausgewertete Informationen übernehmen wir jedoch keine Gewähr für Richtigkeit, Vollständigkeit, Rechtmäßigkeit oder Aktualität.
 
-Wir übernehmen jedoch **keine Gewähr für die Richtigkeit, Vollständigkeit oder Aktualität** der bereitgestellten Inhalte, insbesondere da diese:
+Trotz sorgfältiger Prüfung kann nicht ausgeschlossen werden, dass externe Datenquellen fehlerhafte, veraltete oder rechtswidrige Inhalte enthalten oder dass automatisierte Verfahren und KI-Systeme unzutreffende Einordnungen vornehmen.
 
-- automatisiert verarbeitet werden
-- auf externen, öffentlich zugänglichen Quellen basieren
-- mittels KI-Systemen analysiert und aufbereitet werden
-
-Der Einsatz moderner KI-Technologien kann **Fehler, Fehlklassifizierungen oder unvollständige Ergebnisse** nicht vollständig ausschließen.
+Bei Kenntnis von konkreten Rechtsverletzungen werden wir betroffene Inhalte oder Verlinkungen im rechtlich gebotenen Umfang prüfen und erforderlichenfalls entfernen, sperren oder die weitere Verarbeitung einstellen.
 
 ---
 
-## Haftung für externe Inhalte und Quellen
+## Meldung von Rechtsverletzungen / Notice-and-Takedown
 
-Die Plattform verarbeitet Inhalte aus **externen Webseiten**, auf deren Inhalte wir **keinen Einfluss** haben.
-
-Daher übernehmen wir **keine Haftung für fremde Inhalte**, insbesondere für:
-
-- Richtigkeit
-- Rechtmäßigkeit
-- Vollständigkeit
-
-Zum Zeitpunkt der Verarbeitung waren keine Rechtsverstöße erkennbar.
-
----
-
-## Web-Scraping / Datenerhebung
-
-Die Plattform nutzt automatisierte Verfahren zur **Erfassung öffentlich zugänglicher Inhalte** aus dem Internet.
-
-Es werden **keine Zugangsbeschränkungen umgangen** und keine bewusst geschützten Inhalte erfasst.
-
-### Widerspruch gegen Datenerfassung
-
-Sollten Sie mit der Erfassung oder Verarbeitung Ihrer Inhalte nicht einverstanden sein, können Sie jederzeit Kontakt aufnehmen:
+Wenn Sie der Auffassung sind, dass Inhalte auf unserer Website oder innerhalb des Dienstes Rechte verletzen oder unzulässig verarbeitet werden, kontaktieren Sie uns bitte unter:
 
 **E-Mail:** [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-Nach Prüfung werden wir die betreffenden Inhalte **entfernen oder die Verarbeitung einstellen**, sofern dem keine gesetzlichen Verpflichtungen entgegenstehen.
+Bitte beschreiben Sie den betroffenen Inhalt möglichst konkret und fügen Sie, soweit vorhanden, Nachweise Ihrer Betroffenheit oder Berechtigung bei. Wir prüfen entsprechende Hinweise mit angemessener Priorität.
 
 ---
 
-## Haftungsausschluss / Force Majeure
+## Verbraucherstreitbeilegung
 
-Der Betrieb der Plattform erfolgt „**as is**“.
-
-Wir übernehmen keine Haftung für Schäden, die entstehen durch:
-
-- technische Ausfälle
-- höhere Gewalt
-- unvorhersehbare Systemfehler
-- fehlerhafte KI-Ausgaben
-- Datenverlust oder Verfügbarkeitsprobleme
-
-Ein Anspruch auf dauerhafte Erreichbarkeit oder Funktionalität besteht nicht.
+Information nach § 36 VSBG: Wir sind derzeit weder verpflichtet noch bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
 
 ---
 
 ## Urheberrecht
 
-Die durch den Diensteanbieter erstellten Inhalte unterliegen dem deutschen Urheberrecht.
+Die auf dieser Website durch Aura Historia erstellten Inhalte, Strukturen, Texte, Grafiken, Datenbankbestandteile und sonstigen Werke unterliegen dem deutschen Urheberrecht sowie sonstigen Schutzrechten, soweit nicht im Einzelfall anders gekennzeichnet.
 
-Fremde Inhalte werden als solche gekennzeichnet oder stammen aus öffentlich zugänglichen Quellen.
+Inhalte aus öffentlichen oder externen Quellen verbleiben bei den jeweiligen Rechteinhabern. Ihre Anzeige auf der Plattform begründet keine Übertragung von Nutzungsrechten an den Nutzer.
 
 ---
 
 ## Anwendbares Recht
 
-Es gilt ausschließlich das **Recht der Bundesrepublik Deutschland**.
+Für diese Anbieterkennzeichnung sowie für aus oder im Zusammenhang mit der Nutzung dieser Website entstehende Rechtsfragen gilt das Recht der Bundesrepublik Deutschland, soweit dem keine zwingenden gesetzlichen Vorschriften, insbesondere zwingende Verbraucherschutzvorschriften, entgegenstehen.
 
 ---
 
-*Stand: 12.04.2026*
+*Stand: 17.05.2026*

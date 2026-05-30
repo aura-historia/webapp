@@ -21,19 +21,14 @@ describe("ProductCard", () => {
         productSlugId: "sample-product",
         updated: new Date(),
         url: new URL("https://example.com"),
+        viewUrl: new URL("https://affiliate.example.com/product"),
         title: "Sample Product",
         shopName: "Sample Shop",
+        sellerName: "Sample Shop",
         shopType: "AUCTION_HOUSE",
         state: "AVAILABLE",
         price: "100€",
         images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
-        originYear: undefined,
-        originYearMin: undefined,
-        originYearMax: undefined,
-        authenticity: "UNKNOWN",
-        condition: "UNKNOWN",
-        provenance: "UNKNOWN",
-        restoration: "UNKNOWN",
     };
 
     it("should render the product title, shop name, and price correctly", async () => {
@@ -119,6 +114,35 @@ describe("ProductCard", () => {
             "rel",
             "nofollow noopener noreferrer",
         );
+    });
+
+    it("should prefer the product viewUrl for the merchant link", async () => {
+        await act(() => {
+            renderWithRouter(<ProductCard product={mockProduct} />);
+        });
+
+        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
+            "href",
+            "https://affiliate.example.com/product",
+        );
+    });
+
+    it("should render merchant button as a link when state is not REMOVED", async () => {
+        await act(() => {
+            renderWithRouter(<ProductCard product={mockProduct} />);
+        });
+        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toBeInTheDocument();
+    });
+
+    it("should disable merchant button when state is REMOVED", async () => {
+        const removedProduct = { ...mockProduct, state: "REMOVED" as const };
+        await act(() => {
+            renderWithRouter(<ProductCard product={removedProduct} />);
+        });
+        expect(
+            screen.queryByRole("link", { name: "Zur Seite des Händlers" }),
+        ).not.toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Zur Seite des Händlers" })).toBeDisabled();
     });
 
     describe("unseen notification highlight", () => {

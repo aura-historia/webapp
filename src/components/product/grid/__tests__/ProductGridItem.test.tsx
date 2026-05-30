@@ -23,17 +23,11 @@ describe("ProductGridItem", () => {
         url: new URL("https://example.com"),
         title: "Sample Product",
         shopName: "Sample Shop",
+        sellerName: "Sample Shop",
         shopType: "AUCTION_HOUSE",
         state: "AVAILABLE",
         price: "100€",
         images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
-        originYear: undefined,
-        originYearMin: undefined,
-        originYearMax: undefined,
-        authenticity: "UNKNOWN",
-        condition: "UNKNOWN",
-        provenance: "UNKNOWN",
-        restoration: "UNKNOWN",
     };
 
     const mockProductWithUnseenNotification: OverviewProduct = {

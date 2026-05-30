@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { InfiniteData } from "@tanstack/react-query";
 import { patchShopById } from "@/client";
-import type { PatchShopData } from "@/client";
+import type { CurrencyData, LanguageData, PatchShopData } from "@/client";
 import {
     mapToShopDetail,
     type ShopDetail,
@@ -17,13 +17,16 @@ export type AdminShopPatch = {
     readonly shopId: string;
     readonly shopType?: ShopType;
     readonly domains?: string[];
+    readonly shopifyDomain?: string | null;
+    readonly shopifyCurrency?: CurrencyData | null;
+    readonly shopifyLanguage?: LanguageData | null;
+    readonly woocommerceCurrency?: CurrencyData | null;
+    readonly woocommerceLanguage?: LanguageData | null;
     readonly url?: string | null;
     readonly image?: string | null;
     readonly structuredAddress?: StructuredAddress | null;
     readonly phone?: string | null;
     readonly email?: string | null;
-    readonly specialitiesCategories?: string[] | null;
-    readonly specialitiesPeriods?: string[] | null;
 };
 
 function replaceUpdatedShopInPages(
@@ -57,6 +60,21 @@ export function usePatchAdminShop() {
             if (input.domains !== undefined) {
                 body.domains = input.domains;
             }
+            if (input.shopifyDomain !== undefined) {
+                body.shopifyDomain = input.shopifyDomain;
+            }
+            if (input.shopifyCurrency !== undefined) {
+                body.shopifyCurrency = input.shopifyCurrency;
+            }
+            if (input.shopifyLanguage !== undefined) {
+                body.shopifyLanguage = input.shopifyLanguage;
+            }
+            if (input.woocommerceCurrency !== undefined) {
+                body.woocommerceCurrency = input.woocommerceCurrency;
+            }
+            if (input.woocommerceLanguage !== undefined) {
+                body.woocommerceLanguage = input.woocommerceLanguage;
+            }
             if (input.url !== undefined) {
                 body.url = input.url;
             }
@@ -72,13 +90,6 @@ export function usePatchAdminShop() {
             if (input.email !== undefined) {
                 body.email = input.email;
             }
-            if (input.specialitiesCategories !== undefined) {
-                body.specialitiesCategories = input.specialitiesCategories;
-            }
-            if (input.specialitiesPeriods !== undefined) {
-                body.specialitiesPeriods = input.specialitiesPeriods;
-            }
-
             const response = await patchShopById({
                 path: { shopId: input.shopId },
                 body,
@@ -91,6 +102,7 @@ export function usePatchAdminShop() {
             return mapToShopDetail(response.data);
         },
         onSuccess: (updatedShop) => {
+            queryClient.setQueryData(["admin", "shops", "detail", updatedShop.shopId], updatedShop);
             queryClient.setQueriesData<InfiniteData<AdminShopPage>>(
                 { queryKey: ["admin", "shops"] },
                 (old) => replaceUpdatedShopInPages(old, updatedShop),

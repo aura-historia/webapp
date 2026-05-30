@@ -2,7 +2,7 @@ import { CURRENCIES, CURRENCY_SYMBOLS, parseCurrency } from "@/data/internal/com
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount.ts";
 import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
-import { useAuth } from "@/hooks/auth/useAuth.ts";
+import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -17,7 +17,7 @@ export function CurrencySelector() {
     const { preferences, updatePreferences } = useUserPreferences();
     const { mutate: updateAccount } = useUpdateUserAccount();
     const { data: account } = useUserAccount();
-    const { user } = useAuth();
+    const { isAuthenticated } = useResolvedAuth();
     const { i18n } = useTranslation();
 
     // On login: backend currency overwrites local preference to stay in sync across devices
@@ -36,11 +36,11 @@ export function CurrencySelector() {
         (value: string) => {
             const newCurrency = parseCurrency(value);
             updatePreferences({ currency: newCurrency });
-            if (user) {
+            if (isAuthenticated) {
                 updateAccount({ currency: newCurrency });
             }
         },
-        [user, updatePreferences, updateAccount],
+        [isAuthenticated, updatePreferences, updateAccount],
     );
 
     return (

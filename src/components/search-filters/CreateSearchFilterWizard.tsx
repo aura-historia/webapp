@@ -39,9 +39,6 @@ import {
 import { SearchFilterFormProvider } from "@/components/search/SearchFilterFormProvider.tsx";
 import { PriceSpanFilter } from "@/components/search/filters/PriceSpanFilter.tsx";
 import { ProductStateFilter } from "@/components/search/filters/ProductStateFilter.tsx";
-import { PeriodFilter } from "@/components/search/filters/PeriodFilter.tsx";
-import { CategoryFilter } from "@/components/search/filters/CategoryFilter.tsx";
-import { QualityIndicatorsFilter } from "@/components/search/filters/QualityIndicatorsFilter.tsx";
 import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter.tsx";
 import { MerchantFilters } from "@/components/search/filters/MerchantFilters.tsx";
 import { AuctionDateSpanFilter } from "@/components/search/filters/AuctionDateSpanFilter.tsx";
@@ -52,11 +49,6 @@ import { useUpdateUserSearchFilter } from "@/hooks/search-filters/useUpdateUserS
 import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import { useQuery } from "@tanstack/react-query";
-import { getCategoriesOptions, getPeriodsOptions } from "@/client/@tanstack/react-query.gen.ts";
-import { mapToCategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
-import { mapToPeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
-import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { SearchFilterWizardConfirmStep } from "@/components/search-filters/SearchFilterWizardConfirmStep.tsx";
 import type { Variants } from "motion";
 
@@ -103,22 +95,6 @@ const FILTER_STEPS: FilterStep[] = [
                 <ProductStateFilter />
             </>
         ),
-    },
-    {
-        label: "searchFilter.wizard.step.theme",
-        desc: "searchFilter.wizard.step.themeDescription",
-        content: () => (
-            <>
-                <PeriodFilter />
-                <CategoryFilter />
-            </>
-        ),
-    },
-    {
-        label: "searchFilter.wizard.step.quality",
-        desc: "searchFilter.wizard.step.qualityDescription",
-        restricted: true,
-        content: (disabled) => <QualityIndicatorsFilter disabled={disabled} />,
     },
     {
         label: "searchFilter.wizard.step.shop",
@@ -179,8 +155,7 @@ type Props = {
 };
 
 export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: Props) {
-    const { t, i18n } = useTranslation();
-    const lang = parseLanguage(i18n.language);
+    const { t } = useTranslation();
     const nameSchema = useMemo(() => createNameSchema(t), [t]);
 
     const [step, setStep] = useState(1);
@@ -214,14 +189,6 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
         setStep(1);
         setDirection(1);
     }, [open, filter, mode, nameForm.reset, t]);
-
-    const { data: periodsData } = useQuery(getPeriodsOptions({ query: { language: lang } }));
-    const { data: categoriesData } = useQuery(getCategoriesOptions({ query: { language: lang } }));
-    const periods = useMemo(() => (periodsData ?? []).map(mapToPeriodOverview), [periodsData]);
-    const categories = useMemo(
-        () => (categoriesData ?? []).map(mapToCategoryOverview),
-        [categoriesData],
-    );
 
     const goTo = useCallback(
         (next: number) => {
@@ -438,8 +405,6 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                 <SearchFilterWizardConfirmStep
                     name={nameForm.watch("name")}
                     filters={{ ...filters, q: nameForm.watch("q") }}
-                    periods={periods}
-                    categories={categories}
                 />
             );
         const fs = FILTER_STEPS[step - 2];

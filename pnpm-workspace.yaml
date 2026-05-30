@@ -3,4 +3,10 @@
 packages:
   - "."
 
+allowBuilds:
+  esbuild: true
+  sharp: true
+  vue-demi: false
+  workerd: true
+
 minimumReleaseAge: 1440

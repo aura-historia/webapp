@@ -10,7 +10,7 @@ const mockToast = vi.hoisted(() => ({ error: vi.fn() }));
 const mockInvalidateQueries = vi.hoisted(() => vi.fn());
 
 vi.mock("@/client", () => ({
-    updateSearchFilterProductMatchFeedback: mockUpdateFeedback,
+    updateSearchFilterMatchFeedback: mockUpdateFeedback,
 }));
 
 vi.mock("@/hooks/common/useApiError", () => ({

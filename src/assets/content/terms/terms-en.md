@@ -1,31 +1,25 @@
-These Terms & Conditions ("Terms") govern the use of the digital services provided by Aura Historia.
+These Terms & Conditions ("Terms") govern the use of the website, user accounts, digital services, and features provided by Aura Historia.
 
 ---
 
 ## 1. Provider and Scope
 
-These services are offered by **Julian Bruder Einzelunternehmen**, trading as **Aura Historia**, Hardenbergstraße 80, 04275 Leipzig, Germany ("Aura Historia", "we", "us"), as a software-as-a-service platform.
+The provider of the services is **Julian Bruder Einzelunternehmen**, trading as **Aura Historia**, Hardenbergstraße 80, 04275 Leipzig, Germany ("Aura Historia", "we", "us").
 
-These Terms apply to the use of our website, user accounts, and digital features and subscriptions unless otherwise expressly agreed in an individual case.
+These Terms apply to:
 
----
+- the use of our website,
+- free and paid digital features,
+- user accounts and subscription-based SaaS services,
+- supplementary partner, API, or shop features where we provide them,
 
-## 2. Description of Services
+unless separate terms are expressly agreed for individual services.
 
-Aura Historia operates a digital research, discovery, and analysis platform for historical and antiquarian content.
-
-Our services may include in particular:
-
-- search and filtering functions
-- watchlists, notifications, and personalized preferences
-- digital access on a free or paid basis
-- editorially, technically, or AI-assisted prepared information
-
-We do not owe any specific economic outcome, the availability of particular market listings, or uninterrupted availability of specific features.
+Mandatory statutory rights, in particular mandatory consumer-protection rights, remain unaffected.
 
 ---
 
-## 3. User Account
+## 2. User Account and Permitted Use
 
 Certain features require the creation of a user account.
 
@@ -33,49 +27,148 @@ You are obliged to:
 
 - provide accurate and complete information during registration,
 - keep your login credentials confidential,
-- not make your account available to unauthorized third parties, and
+- not make your account available to unauthorized third parties,
 - inform us without undue delay if you suspect misuse.
 
-You are responsible for activities carried out through your account to the extent that you are responsible for the misuse.
+Paid contracts may only be concluded by persons with full legal capacity or with the required consent of their legal representatives.
+
+We may suspend a user account or temporarily restrict individual features where there is an objective reason to do so, in particular in the event of security incidents, suspected misuse, legal violations, or unresolved payment disruptions.
 
 ---
 
-## 4. Contract Formation, Paid Services, and Payment Processing
+## 3. Description of Services
 
-Where paid digital services are offered, the contract for the acquisition and use of such services is concluded **directly with Aura Historia** (Julian Bruder Einzelunternehmen).
+Aura Historia operates a digital research, discovery, and analysis platform for historical and antiquarian content.
+
+Our services may include in particular:
+
+- search, filtering, and analysis functions,
+- watchlists, notifications, and saved search filters,
+- free or paid digital access,
+- AI-assisted or editorially prepared information,
+- partner, shop, or API features where offered.
+
+The specific scope of features depends on the current service description, the selected plan, the technical state of the platform, and any applicable legal or regulatory requirements.
+
+We do not owe any specific economic success, any specific market availability of individual content or items, or the complete, correct, or up-to-date reflection of external data sources at all times.
+
+---
+
+## 4. Free Features and Subscriptions
+
+Some of our services may be available free of charge. Other features, usage limits, or add-on services may only be used within the scope of paid plans or subscriptions.
+
+Where we offer paid plans, the scope of services, restrictions, billing intervals, and any usage quotas result from the respective offer shown during checkout or from supplementary service descriptions on the platform.
+
+---
+
+## 5. Contract Formation, Paid Services, and Payment Processing
+
+A contract for a free user account is formed upon completion of the registration process and activation of the account.
+
+A contract for paid digital services is formed when you complete the order process in a binding manner and we activate access, confirm the order, or otherwise make the paid service available.
 
 As the direct seller, Aura Historia is responsible for:
 
 - the conclusion of contracts for paid digital services,
-- invoicing including the application of statutory VAT,
-- remittance of VAT to the competent tax authorities,
-- fulfilment of all contractual and consumer protection obligations.
+- invoicing including legally due taxes,
+- performance of the contractual obligations owed to the user,
+- handling statutory consumer rights.
 
-Payment processing is handled by [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Ireland) as the **payment service provider**. Stripe processes payment data exclusively on behalf of Aura Historia. Full payment card data are not transmitted to Aura Historia; Stripe is PCI-DSS certified.
+Payment processing is carried out via [Stripe](https://stripe.com/) (Stripe Payments Europe, Limited, Dublin, Ireland). Depending on payment-law and data-protection-law requirements, Stripe may be involved partly as an independent controller and partly as a service provider. Full payment card data are not stored by Aura Historia.
 
----
-
-## 5. Prices, Renewals, Cancellations, and Refunds
-
-Any prices, billing intervals, renewal mechanics, and included services will be shown to you before you place a paid order.
-
-Payment processing is handled by Stripe as the payment service provider. Invoicing, tax handling, cancellations, refunds, and legally required consumer-facing processing are handled by Aura Historia.
-
-Use of already enabled digital services may be limited or ended after an effective cancellation or the end of the billing period.
+Before you complete a paid order, the essential contractual information will be shown to you, in particular the price, scope of services, billing interval, and, where applicable, automatic renewal.
 
 ---
 
-## 6. No Contract for Listed Antiques
+## 6. Prices, Billing, Renewal, Cancellation, and Refunds
+
+The prices, plan features, and billing intervals displayed to you at the time of ordering apply.
+
+Unless otherwise stated in checkout or in the offer, the following applies to subscriptions:
+
+- The subscription starts when the paid service is activated.
+- The subscription runs for the selected billing interval.
+- It renews automatically for further periods of the same length unless cancelled in time before the end of the current interval.
+
+Cancellation may be declared via the account or billing management made available by us, in particular through a Stripe customer portal or a comparable cancellation method designated by us.
+
+After effective cancellation, access to already paid services generally remains available until the end of the current billing period unless there is a right to extraordinary suspension or termination for good cause.
+
+If a payment fails, we may, after appropriate review and, where applicable, reminder, restrict access to paid features until outstanding amounts have been settled.
+
+Unless mandatory law requires otherwise or we expressly promise otherwise, fees that are already due or already paid will not be refunded on a pro rata basis after cancellation.
+
+---
+
+## 7. Right of Withdrawal for Consumers
+
+Consumers generally have a statutory right of withdrawal for distance contracts concluded for consideration.
+
+### 7.1 Withdrawal Instructions
+
+**Right of withdrawal**
+
+You have the right to withdraw from this contract within fourteen days without giving any reason.
+
+The withdrawal period is fourteen days from the date of conclusion of the contract.
+
+To exercise your right of withdrawal, you must inform us:
+
+**Julian Bruder Einzelunternehmen / Aura Historia**  
+Hardenbergstraße 80  
+04275 Leipzig  
+Germany  
+Email: [contact@aura-historia.com](mailto:contact@aura-historia.com)
+
+by means of a clear statement (for example by email or letter) of your decision to withdraw from this contract.
+
+To meet the withdrawal deadline, it is sufficient for you to send your communication concerning your exercise of the right of withdrawal before the withdrawal period has expired.
+
+### 7.2 Effects of Withdrawal
+
+If you withdraw from this contract, we will reimburse to you all payments received from you, including any delivery costs (to the extent any such costs were incurred at all), without undue delay and no later than fourteen days from the day on which we receive notice of your withdrawal.
+
+For this reimbursement, we will use the same means of payment that you used for the original transaction unless expressly agreed otherwise with you. In no event will you be charged any fees because of this reimbursement.
+
+If you requested that the services begin during the withdrawal period, you must pay us an appropriate amount corresponding to the proportion of the services already provided up to the time at which you inform us of the exercise of the right of withdrawal in comparison with the total scope of the services provided for in the contract.
+
+Your right of withdrawal may expire early in the case of services if we have fully performed the service and only began performance after you gave your express consent and at the same time confirmed your knowledge that you lose your right of withdrawal upon full performance of the contract.
+
+### 7.3 Model Withdrawal Form
+
+If you wish to withdraw from the contract, you may use and return the following form:
+
+> To Julian Bruder Einzelunternehmen / Aura Historia, Hardenbergstraße 80, 04275 Leipzig, Germany, email: contact@aura-historia.com  
+> I / We (*) hereby withdraw from the contract concluded by me / us (*) for the purchase of the following digital services (*) / the provision of the following service (*)  
+> Ordered on (*) / received on (*)  
+> Name of consumer(s)  
+> Address of consumer(s)  
+> Signature of consumer(s) (only if this form is notified on paper)  
+> Date  
+> (*) Delete as appropriate.
+
+---
+
+## 8. Statutory Rights for Digital Services and Updates
+
+For consumers, the statutory provisions on digital products and digital services, in particular Sections 327 et seq. German Civil Code (BGB), apply in addition. Statutory rights regarding defects, lack of conformity, update obligations, or remedies remain unaffected.
+
+Where legally required, we provide updates necessary for the conformity, security, and functionality of the digital service.
+
+---
+
+## 9. No Contract for Displayed Antiques or Third-Party Goods
 
 Aura Historia generally **does not broker or conclude any sales contract for antiques, collectibles, or other goods displayed on the platform**.
 
-Listings, prices, descriptions, and availability typically originate from external dealers, auction houses, or other third-party sources. Any purchase contract for such items is concluded exclusively with the respective third-party provider identified for that item.
+Offers, descriptions, images, prices, and availability may originate in whole or in part from external sources. Any contract for the purchase of such items is concluded exclusively with the respective third-party provider identified for the item.
 
 ---
 
-## 7. Acceptable Use
+## 10. Acceptable Use and API Access
 
-You may use the platform only in compliance with applicable law and these Terms.
+You may use the platform only in accordance with applicable law and these Terms.
 
 In particular, the following are prohibited:
 
@@ -85,94 +178,101 @@ In particular, the following are prohibited:
 - using the platform to distribute unlawful, insulting, discriminatory, or extremist content,
 - actions that impair the security, integrity, or availability of the platform.
 
-Where we reasonably suspect a violation, we may take appropriate technical and organizational measures, including restricting functions or suspending accounts.
+If we make an API, developer interface, export function, webhooks, or a comparable machine-readable access path available, you may use it only to the extent expressly permitted by us. In particular, documentation, authentication requirements, usage caps, and rate limits apply. Abusive bulk querying, resale, competitive monitoring, circumvention of security mechanisms, or uses that may impair the platform or third-party systems are prohibited.
 
-If we make an API, developer interface, export endpoint, webhook, or similar machine-readable access path available, you may use it only as expressly authorized by us. In particular, you must comply with the applicable documentation, authentication requirements, usage caps, and rate limits, and you may not use such access for abusive bulk collection, resale, competitive monitoring, security circumvention, or any activity that could impair the platform or third-party systems. We may throttle, suspend, or revoke API access at any time where this is necessary for security, stability, legal compliance, or abuse prevention.
+Where supplementary terms of use, technical guidelines, or security requirements apply to partner or API features, these must also be observed.
+
+We may throttle, suspend, or revoke API access or comparable features for reasons of security, stability, legal compliance, or abuse prevention.
 
 ---
 
-## 8. Newsletter and Marketing Communications
+## 11. Newsletter and Marketing Communications
 
 You will receive marketing emails only where you have expressly consented or where there is another valid legal basis.
 
-We use a **double opt-in process** for newsletter subscriptions. Newsletters are sent via **Zoho Campaigns** using **EU-based servers**. You may unsubscribe at any time with effect for the future.
+We use a **double opt-in process** for newsletter subscriptions. Delivery is carried out – where the feature is enabled – via **Zoho Campaigns**. You may unsubscribe at any time with effect for the future.
 
 There is no entitlement to receive any particular marketing communication.
 
 ---
 
-## 9. Availability, Changes, and Further Development
+## 12. External Content, AI, and Sensitive Historical Depictions
 
-We aim for high availability of the platform but do not owe uninterrupted or error-free operation.
+The platform also processes content from publicly accessible third-party sources and may use automated and AI-assisted procedures for that purpose.
 
-We may adjust features, content, and technical processes provided that this does not unreasonably undermine the contractual purpose. This applies in particular to:
+Despite careful development and review, we do not warrant that external content or AI-assisted classifications will always be complete, accurate, lawful, or up to date.
 
-- security measures,
-- technical improvements,
-- legal or regulatory requirements,
-- changes required by external data sources, providers, or integrations.
+Where content from sensitive historical contexts is displayed or evaluated, this is done exclusively for documentary, scientific, archival, educational, or other legitimate purposes. Technical safeguards, warnings, or consent-based access restrictions remain reserved.
 
 ---
 
-## 10. External Content and AI-Assisted Analysis
-
-The platform also processes content from publicly available third-party sources and may use automated and AI-assisted procedures for that purpose.
-
-Despite careful development and review, we do not warrant that external content or AI-generated classifications will always be complete, accurate, or up to date.
-
-Where content from sensitive historical contexts is displayed, this is done solely for documentary, scientific, archival, educational, or comparably legitimate purposes.
-
----
-
-## 11. Rights in Content
+## 13. Rights in the Platform and Content
 
 All rights in the platform, its structure, software, database logic, design, and content created by us remain with us or our licensors.
 
-Unless mandatory law permits otherwise, content from the platform may not be reproduced, distributed, made publicly available, or commercially exploited without prior permission.
+Unless mandatory law permits otherwise, content from the platform may not be reproduced, distributed, made publicly available, systematically extracted, or commercially exploited without prior permission.
 
 ---
 
-## 12. Liability
+## 14. Availability, Maintenance, Changes, and Updates
+
+We aim for high availability of the platform but do not owe uninterrupted or error-free provision.
+
+Maintenance windows, security-related interruptions, technical improvements, changes in external data sources, or legal requirements may make adjustments, restrictions, or temporary outages necessary.
+
+We may change features, content, and technical processes provided that this does not unreasonably undermine the contractual purpose and that mandatory statutory rights – in particular consumer rights – remain unaffected.
+
+---
+
+## 15. Liability
 
 We are liable without limitation:
 
 - in cases of intent or gross negligence,
 - for injury to life, body, or health,
-- under the German Product Liability Act, and
+- under the German Product Liability Act,
 - to the extent an expressly assumed guarantee is affected.
 
 In the event of a slightly negligent breach of essential contractual obligations, our liability is limited to the foreseeable damage typical for the contract. Essential contractual obligations are those whose fulfilment is necessary for the proper performance of the contract and on whose observance you may regularly rely.
 
 Otherwise, liability for slight negligence is excluded.
 
+Subject to mandatory statutory liability, we assume no liability for the substantive accuracy, completeness, timeliness, or legality of data from public or external sources or for AI-assisted evaluations.
+
 Mandatory statutory rights, in particular under consumer protection law, remain unaffected.
 
 ---
 
-## 13. Term and Termination
+## 16. Term, Termination, and Account Deletion
 
 You may delete your user account at any time yourself or request termination by email at [contact@aura-historia.com](mailto:contact@aura-historia.com).
 
-We may terminate the user relationship for good cause with immediate effect, especially in the event of serious or repeated breaches of these Terms or applicable law.
+We may terminate the user relationship for good cause with immediate effect or suspend accounts, especially in the event of serious or repeated breaches of these Terms, security interests, legal violations, or misuse.
 
-Existing payment claims remain unaffected by a justified suspension or termination.
+Payment claims already arisen, statutory retention obligations, and claims arising from breaches of duty remain unaffected by termination.
 
 ---
 
-## 14. Changes to These Terms
+## 17. Changes to These Terms
 
-We may amend these Terms with future effect where there is a valid reason, in particular changes in the law, the services offered, or the billing model.
+We may amend these Terms with future effect where there is a valid reason, in particular changes in the law, the services offered, the billing model, or technical security requirements.
 
 We will inform you of material changes in an appropriate manner. Where your express consent is legally required, we will obtain it separately.
 
 ---
 
-## 15. Governing Law
+## 18. Consumer Dispute Resolution
 
-The laws of the Federal Republic of Germany apply, excluding the UN Convention on Contracts for the International Sale of Goods, unless mandatory consumer protection provisions of your country of habitual residence provide otherwise.
-
-To the extent legally permissible, the place of jurisdiction is Leipzig, Germany.
+Information pursuant to Section 36 VSBG: We are currently neither obliged nor willing to participate in dispute resolution proceedings before a consumer arbitration board.
 
 ---
 
-*Status: 17 April 2026*
+## 19. Governing Law and Jurisdiction
+
+The laws of the Federal Republic of Germany apply, excluding the UN Convention on Contracts for the International Sale of Goods, unless mandatory consumer-protection provisions of your country of habitual residence provide otherwise.
+
+If you are a merchant, a legal entity under public law, a special fund under public law, or you do not have a general place of jurisdiction in Germany, Leipzig, Germany shall – to the extent legally permissible – be the exclusive place of jurisdiction.
+
+---
+
+*Status: 17 May 2026*

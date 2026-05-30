@@ -147,6 +147,11 @@ describe("useCreateAdminShop", () => {
             shopType: "MARKETPLACE",
             partnerStatus: "SCRAPED",
             domains: ["metadata.example.com"],
+            shopifyDomain: "metadata.myshopify.com",
+            shopifyCurrency: "EUR",
+            shopifyLanguage: "de",
+            woocommerceCurrency: "USD",
+            woocommerceLanguage: "en",
             url: "https://metadata.example.com",
             image: null,
             structuredAddress: {
@@ -157,8 +162,7 @@ describe("useCreateAdminShop", () => {
             },
             phone: "+49 30 123456",
             email: "info@metadata.example.com",
-            specialitiesCategories: ["furniture"],
-            specialitiesPeriods: ["baroque"],
+
             created: "2026-04-25T00:00:00Z",
             updated: "2026-04-25T00:00:00Z",
         };
@@ -177,6 +181,11 @@ describe("useCreateAdminShop", () => {
                 name: "Metadata Shop",
                 shopType: "MARKETPLACE",
                 domains: ["metadata.example.com"],
+                shopifyDomain: "metadata.myshopify.com",
+                shopifyCurrency: "EUR",
+                shopifyLanguage: "de",
+                woocommerceCurrency: "USD",
+                woocommerceLanguage: "en",
                 url: "https://metadata.example.com",
                 image: null,
                 structuredAddress: {
@@ -186,8 +195,6 @@ describe("useCreateAdminShop", () => {
                 },
                 phone: "+49 30 123456",
                 email: "info@metadata.example.com",
-                specialitiesCategories: ["furniture"],
-                specialitiesPeriods: ["baroque"],
             });
         });
 
@@ -198,6 +205,11 @@ describe("useCreateAdminShop", () => {
                 name: "Metadata Shop",
                 shopType: "MARKETPLACE",
                 domains: ["metadata.example.com"],
+                shopifyDomain: "metadata.myshopify.com",
+                shopifyCurrency: "EUR",
+                shopifyLanguage: "de",
+                woocommerceCurrency: "USD",
+                woocommerceLanguage: "en",
                 url: "https://metadata.example.com",
                 image: null,
                 structuredAddress: {
@@ -207,8 +219,6 @@ describe("useCreateAdminShop", () => {
                 },
                 phone: "+49 30 123456",
                 email: "info@metadata.example.com",
-                specialitiesCategories: ["furniture"],
-                specialitiesPeriods: ["baroque"],
             },
         });
     });

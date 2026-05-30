@@ -11,16 +11,6 @@ import {
     type UserProductData,
 } from "@/data/internal/product/UserProductData.ts";
 import {
-    type Authenticity,
-    parseAuthenticity,
-} from "@/data/internal/quality-indicators/Authenticity.ts";
-import { type Condition, parseCondition } from "@/data/internal/quality-indicators/Condition.ts";
-import { type Provenance, parseProvenance } from "@/data/internal/quality-indicators/Provenance.ts";
-import {
-    type Restoration,
-    parseRestoration,
-} from "@/data/internal/quality-indicators/Restoration.ts";
-import {
     mapToInternalProductImage,
     sortImagesRestrictedLast,
     type ProductImage,
@@ -44,26 +34,19 @@ export type OverviewProduct = {
     readonly shopSlugId: string;
     readonly shopsProductId: string;
     readonly shopName: string;
+    readonly sellerName: string;
     readonly title: string;
-    readonly description?: string;
     readonly price?: string;
     readonly priceEstimate?: PriceEstimate;
     readonly state: ProductState;
     readonly url: URL | null;
+    readonly viewUrl?: URL | null;
     readonly images: readonly ProductImage[];
     readonly created: Date;
     readonly updated: Date;
     readonly userData?: UserProductData;
     readonly shopType: ShopType;
     readonly auction?: AuctionWindow;
-
-    readonly originYear?: number;
-    readonly originYearMin?: number;
-    readonly originYearMax?: number;
-    readonly authenticity: Authenticity;
-    readonly condition: Condition;
-    readonly provenance: Provenance;
-    readonly restoration: Restoration;
 };
 
 function mapProductDataToOverviewProduct(
@@ -79,10 +62,10 @@ function mapProductDataToOverviewProduct(
         shopSlugId: productData.shopSlugId,
         shopsProductId: productData.shopsProductId,
         shopName: productData.shopName,
+        sellerName: productData.sellerName,
         shopType: parseShopType(productData.shopType),
         auction: productData.auction ? mapToInternalAuctionWindow(productData.auction) : undefined,
         title: productData.title.text,
-        description: productData.description?.text,
         price: productData.price?.offer ? formatPrice(productData.price.offer, locale) : undefined,
         priceEstimate: parsePriceEstimate(
             productData.price?.estimate?.min ?? undefined,
@@ -91,6 +74,7 @@ function mapProductDataToOverviewProduct(
         ),
         state: parseProductState(productData.state),
         url: URL.parse(productData.url),
+        viewUrl: URL.parse(productData.viewUrl),
         images: sortImagesRestrictedLast(
             productData.images == null
                 ? []
@@ -102,14 +86,6 @@ function mapProductDataToOverviewProduct(
         created: new Date(productData.created),
         updated: new Date(productData.updated),
         userData: userData ? mapToInternalUserProductData(userData) : undefined,
-
-        originYear: productData.originYear?.year ?? undefined,
-        originYearMin: productData.originYear?.min ?? undefined,
-        originYearMax: productData.originYear?.max ?? undefined,
-        authenticity: parseAuthenticity(productData.authenticity),
-        condition: parseCondition(productData.condition),
-        provenance: parseProvenance(productData.provenance),
-        restoration: parseRestoration(productData.restoration),
     };
 }
 
@@ -126,12 +102,14 @@ function mapProductSummaryDataToOverviewProduct(
         shopSlugId: productData.shopSlugId,
         shopsProductId: productData.shopsProductId,
         shopName: productData.shopName,
+        sellerName: productData.sellerName,
         shopType: parseShopType(productData.shopType),
         auction: productData.auction ? mapToInternalAuctionWindow(productData.auction) : undefined,
         title: productData.title.text,
         price: productData.price ? formatPrice(productData.price, locale) : undefined,
         state: parseProductState(productData.state),
         url: URL.parse(productData.url),
+        viewUrl: URL.parse(productData.viewUrl),
         images: sortImagesRestrictedLast(
             productData.images == null
                 ? []
@@ -143,10 +121,6 @@ function mapProductSummaryDataToOverviewProduct(
         created: new Date(productData.created),
         updated: new Date(productData.updated),
         userData: userData ? mapToInternalUserProductData(userData) : undefined,
-        authenticity: parseAuthenticity("UNKNOWN"),
-        condition: parseCondition("UNKNOWN"),
-        provenance: parseProvenance("UNKNOWN"),
-        restoration: parseRestoration("UNKNOWN"),
     };
 }
 

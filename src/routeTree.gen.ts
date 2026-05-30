@@ -12,18 +12,15 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ImprintRouteImport } from './routes/imprint'
 import { Route as ConsentSettingsRouteImport } from './routes/consent-settings'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PeriodsIndexRouteImport } from './routes/periods.index'
-import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
-import { Route as CategoriesIndexRouteImport } from './routes/categories.index'
+import { Route as PartnersIndexRouteImport } from './routes/partners.index'
 import { Route as SearchShopsRouteImport } from './routes/search_.shops'
-import { Route as PeriodsPeriodIdRouteImport } from './routes/periods.$periodId'
-import { Route as CollectionsCombinationSlugRouteImport } from './routes/collections.$combinationSlug'
-import { Route as CategoriesCategoryIdRouteImport } from './routes/categories.$categoryId'
+import { Route as PartnersCustomIntegrationRouteImport } from './routes/partners.custom-integration'
 import { Route as AuthAdminRouteImport } from './routes/_auth.admin'
 import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
@@ -54,6 +51,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -78,42 +80,22 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PeriodsIndexRoute = PeriodsIndexRouteImport.update({
-  id: '/periods/',
-  path: '/periods/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
-  id: '/collections/',
-  path: '/collections/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CategoriesIndexRoute = CategoriesIndexRouteImport.update({
-  id: '/categories/',
-  path: '/categories/',
-  getParentRoute: () => rootRouteImport,
+const PartnersIndexRoute = PartnersIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PartnersRoute,
 } as any)
 const SearchShopsRoute = SearchShopsRouteImport.update({
   id: '/search_/shops',
   path: '/search/shops',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PeriodsPeriodIdRoute = PeriodsPeriodIdRouteImport.update({
-  id: '/periods/$periodId',
-  path: '/periods/$periodId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CollectionsCombinationSlugRoute =
-  CollectionsCombinationSlugRouteImport.update({
-    id: '/collections/$combinationSlug',
-    path: '/collections/$combinationSlug',
-    getParentRoute: () => rootRouteImport,
+const PartnersCustomIntegrationRoute =
+  PartnersCustomIntegrationRouteImport.update({
+    id: '/custom-integration',
+    path: '/custom-integration',
+    getParentRoute: () => PartnersRoute,
   } as any)
-const CategoriesCategoryIdRoute = CategoriesCategoryIdRouteImport.update({
-  id: '/categories/$categoryId',
-  path: '/categories/$categoryId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthAdminRoute = AuthAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -194,17 +176,14 @@ export interface FileRoutesByFullPath {
   '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/partners': typeof PartnersRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/admin': typeof AuthAdminRouteWithChildren
-  '/categories/$categoryId': typeof CategoriesCategoryIdRoute
-  '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
-  '/periods/$periodId': typeof PeriodsPeriodIdRoute
+  '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
-  '/categories/': typeof CategoriesIndexRoute
-  '/collections/': typeof CollectionsIndexRoute
-  '/periods/': typeof PeriodsIndexRoute
+  '/partners/': typeof PartnersIndexRoute
   '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/admin/shops': typeof AuthAdminShopsRoute
   '/admin/users': typeof AuthAdminUsersRoute
@@ -227,13 +206,9 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
-  '/categories/$categoryId': typeof CategoriesCategoryIdRoute
-  '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
-  '/periods/$periodId': typeof PeriodsPeriodIdRoute
+  '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
-  '/categories': typeof CategoriesIndexRoute
-  '/collections': typeof CollectionsIndexRoute
-  '/periods': typeof PeriodsIndexRoute
+  '/partners': typeof PartnersIndexRoute
   '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/admin/shops': typeof AuthAdminShopsRoute
   '/admin/users': typeof AuthAdminUsersRoute
@@ -255,17 +230,14 @@ export interface FileRoutesById {
   '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
+  '/partners': typeof PartnersRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/_auth/admin': typeof AuthAdminRouteWithChildren
-  '/categories/$categoryId': typeof CategoriesCategoryIdRoute
-  '/collections/$combinationSlug': typeof CollectionsCombinationSlugRoute
-  '/periods/$periodId': typeof PeriodsPeriodIdRoute
+  '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search_/shops': typeof SearchShopsRoute
-  '/categories/': typeof CategoriesIndexRoute
-  '/collections/': typeof CollectionsIndexRoute
-  '/periods/': typeof PeriodsIndexRoute
+  '/partners/': typeof PartnersIndexRoute
   '/_auth/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/_auth/admin/shops': typeof AuthAdminShopsRoute
   '/_auth/admin/users': typeof AuthAdminUsersRoute
@@ -287,17 +259,14 @@ export interface FileRouteTypes {
     | '/consent-settings'
     | '/imprint'
     | '/login'
+    | '/partners'
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
     | '/admin'
-    | '/categories/$categoryId'
-    | '/collections/$combinationSlug'
-    | '/periods/$periodId'
+    | '/partners/custom-integration'
     | '/search/shops'
-    | '/categories/'
-    | '/collections/'
-    | '/periods/'
+    | '/partners/'
     | '/admin/partner-applications'
     | '/admin/shops'
     | '/admin/users'
@@ -320,13 +289,9 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
-    | '/categories/$categoryId'
-    | '/collections/$combinationSlug'
-    | '/periods/$periodId'
+    | '/partners/custom-integration'
     | '/search/shops'
-    | '/categories'
-    | '/collections'
-    | '/periods'
+    | '/partners'
     | '/admin/partner-applications'
     | '/admin/shops'
     | '/admin/users'
@@ -347,17 +312,14 @@ export interface FileRouteTypes {
     | '/consent-settings'
     | '/imprint'
     | '/login'
+    | '/partners'
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
     | '/_auth/admin'
-    | '/categories/$categoryId'
-    | '/collections/$combinationSlug'
-    | '/periods/$periodId'
+    | '/partners/custom-integration'
     | '/search_/shops'
-    | '/categories/'
-    | '/collections/'
-    | '/periods/'
+    | '/partners/'
     | '/_auth/admin/partner-applications'
     | '/_auth/admin/shops'
     | '/_auth/admin/users'
@@ -379,16 +341,11 @@ export interface RootRouteChildren {
   ConsentSettingsRoute: typeof ConsentSettingsRoute
   ImprintRoute: typeof ImprintRoute
   LoginRoute: typeof LoginRoute
+  PartnersRoute: typeof PartnersRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
-  CategoriesCategoryIdRoute: typeof CategoriesCategoryIdRoute
-  CollectionsCombinationSlugRoute: typeof CollectionsCombinationSlugRoute
-  PeriodsPeriodIdRoute: typeof PeriodsPeriodIdRoute
   SearchShopsRoute: typeof SearchShopsRoute
-  CategoriesIndexRoute: typeof CategoriesIndexRoute
-  CollectionsIndexRoute: typeof CollectionsIndexRoute
-  PeriodsIndexRoute: typeof PeriodsIndexRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
   ShopsShopSlugIdIndexRoute: typeof ShopsShopSlugIdIndexRoute
   ShopsShopSlugIdProductsProductSlugIdRoute: typeof ShopsShopSlugIdProductsProductSlugIdRoute
@@ -415,6 +372,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -452,26 +416,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/periods/': {
-      id: '/periods/'
-      path: '/periods'
-      fullPath: '/periods/'
-      preLoaderRoute: typeof PeriodsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/collections/': {
-      id: '/collections/'
-      path: '/collections'
-      fullPath: '/collections/'
-      preLoaderRoute: typeof CollectionsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/categories/': {
-      id: '/categories/'
-      path: '/categories'
-      fullPath: '/categories/'
-      preLoaderRoute: typeof CategoriesIndexRouteImport
-      parentRoute: typeof rootRouteImport
+    '/partners/': {
+      id: '/partners/'
+      path: '/'
+      fullPath: '/partners/'
+      preLoaderRoute: typeof PartnersIndexRouteImport
+      parentRoute: typeof PartnersRoute
     }
     '/search_/shops': {
       id: '/search_/shops'
@@ -480,26 +430,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchShopsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/periods/$periodId': {
-      id: '/periods/$periodId'
-      path: '/periods/$periodId'
-      fullPath: '/periods/$periodId'
-      preLoaderRoute: typeof PeriodsPeriodIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/collections/$combinationSlug': {
-      id: '/collections/$combinationSlug'
-      path: '/collections/$combinationSlug'
-      fullPath: '/collections/$combinationSlug'
-      preLoaderRoute: typeof CollectionsCombinationSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/categories/$categoryId': {
-      id: '/categories/$categoryId'
-      path: '/categories/$categoryId'
-      fullPath: '/categories/$categoryId'
-      preLoaderRoute: typeof CategoriesCategoryIdRouteImport
-      parentRoute: typeof rootRouteImport
+    '/partners/custom-integration': {
+      id: '/partners/custom-integration'
+      path: '/custom-integration'
+      fullPath: '/partners/custom-integration'
+      preLoaderRoute: typeof PartnersCustomIntegrationRouteImport
+      parentRoute: typeof PartnersRoute
     }
     '/_auth/admin': {
       id: '/_auth/admin'
@@ -642,22 +578,31 @@ const AuthRouteChildren: AuthRouteChildren = {
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
+interface PartnersRouteChildren {
+  PartnersCustomIntegrationRoute: typeof PartnersCustomIntegrationRoute
+  PartnersIndexRoute: typeof PartnersIndexRoute
+}
+
+const PartnersRouteChildren: PartnersRouteChildren = {
+  PartnersCustomIntegrationRoute: PartnersCustomIntegrationRoute,
+  PartnersIndexRoute: PartnersIndexRoute,
+}
+
+const PartnersRouteWithChildren = PartnersRoute._addFileChildren(
+  PartnersRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
   ConsentSettingsRoute: ConsentSettingsRoute,
   ImprintRoute: ImprintRoute,
   LoginRoute: LoginRoute,
+  PartnersRoute: PartnersRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   TermsAndConditionsRoute: TermsAndConditionsRoute,
-  CategoriesCategoryIdRoute: CategoriesCategoryIdRoute,
-  CollectionsCombinationSlugRoute: CollectionsCombinationSlugRoute,
-  PeriodsPeriodIdRoute: PeriodsPeriodIdRoute,
   SearchShopsRoute: SearchShopsRoute,
-  CategoriesIndexRoute: CategoriesIndexRoute,
-  CollectionsIndexRoute: CollectionsIndexRoute,
-  PeriodsIndexRoute: PeriodsIndexRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
   ShopsShopSlugIdIndexRoute: ShopsShopSlugIdIndexRoute,
   ShopsShopSlugIdProductsProductSlugIdRoute:

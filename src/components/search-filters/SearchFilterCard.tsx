@@ -31,31 +31,9 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog.tsx";
 import { serializeSearchParams } from "@/lib/searchValidation.ts";
-import { useQuery } from "@tanstack/react-query";
-import { getCategoriesOptions, getPeriodsOptions } from "@/client/@tanstack/react-query.gen.ts";
-import { mapToCategoryOverview } from "@/data/internal/category/CategoryOverview.ts";
-import { mapToPeriodOverview } from "@/data/internal/period/PeriodOverview.ts";
-import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { useMemo } from "react";
 import { FilterDetailRow } from "@/components/search-filters/FilterDetailRow.tsx";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
-import {
-    AUTHENTICITIES,
-    AUTHENTICITY_TRANSLATION_CONFIG,
-} from "@/data/internal/quality-indicators/Authenticity.ts";
-import {
-    CONDITIONS,
-    CONDITION_TRANSLATION_CONFIG,
-} from "@/data/internal/quality-indicators/Condition.ts";
-import {
-    PROVENANCES,
-    PROVENANCE_TRANSLATION_CONFIG,
-} from "@/data/internal/quality-indicators/Provenance.ts";
-import {
-    RESTORATIONS,
-    RESTORATION_TRANSLATION_CONFIG,
-} from "@/data/internal/quality-indicators/Restoration.ts";
 
 type Props = {
     readonly filter: UserSearchFilter;
@@ -77,19 +55,6 @@ export function SearchFilterCard({
     const { t, i18n } = useTranslation();
     const { search } = filter;
     const updateFilter = useUpdateUserSearchFilter();
-
-    const { data: periodsData } = useQuery(
-        getPeriodsOptions({ query: { language: parseLanguage(i18n.language) } }),
-    );
-    const periods = useMemo(() => (periodsData ?? []).map(mapToPeriodOverview), [periodsData]);
-
-    const { data: categoriesData } = useQuery(
-        getCategoriesOptions({ query: { language: parseLanguage(i18n.language) } }),
-    );
-    const categories = useMemo(
-        () => (categoriesData ?? []).map(mapToCategoryOverview),
-        [categoriesData],
-    );
 
     const hasAdvancedFilters = hasAdvancedFilterDetails(search);
     const notificationsLabel = filter.notifications
@@ -254,31 +219,6 @@ export function SearchFilterCard({
                         )}
                     </span>
                 )}
-                {!!search.periodId?.length && (
-                    <span className="inline-flex flex-wrap gap-1.5">
-                        {search.periodId.map((p) => (
-                            <Badge key={p} variant="outline">
-                                {periods.find((period) => period.periodId === p)?.name ?? p}
-                            </Badge>
-                        ))}
-                    </span>
-                )}
-                {!!search.categoryId?.length && (
-                    <span className="inline-flex flex-wrap gap-1.5">
-                        {search.categoryId.map((c) => (
-                            <Badge key={c} variant="outline">
-                                {categories.find((cat) => cat.categoryId === c)?.name ?? c}
-                            </Badge>
-                        ))}
-                    </span>
-                )}
-                {(search.originYearMin != null || search.originYearMax != null) && (
-                    <span className="inline-flex flex-wrap gap-1.5">
-                        <Badge variant="outline">
-                            {search.originYearMin ?? "?"} – {search.originYearMax ?? "?"}
-                        </Badge>
-                    </span>
-                )}
             </div>
 
             {hasAdvancedFilters && (
@@ -298,59 +238,6 @@ export function SearchFilterCard({
                                     variant="text"
                                     label={t("search.filter.excludeMerchant")}
                                     values={search.excludeMerchant ?? []}
-                                />
-                                <FilterDetailRow
-                                    variant="text"
-                                    label={t("search.filter.authenticity")}
-                                    values={
-                                        (search.authenticity ?? []).length === AUTHENTICITIES.length
-                                            ? [t("search.filter.all")]
-                                            : (search.authenticity ?? []).map((a) =>
-                                                  t(
-                                                      AUTHENTICITY_TRANSLATION_CONFIG[a]
-                                                          .translationKey,
-                                                  ),
-                                              )
-                                    }
-                                />
-                                <FilterDetailRow
-                                    variant="text"
-                                    label={t("search.filter.condition")}
-                                    values={
-                                        (search.condition ?? []).length === CONDITIONS.length
-                                            ? [t("search.filter.all")]
-                                            : (search.condition ?? []).map((c) =>
-                                                  t(CONDITION_TRANSLATION_CONFIG[c].translationKey),
-                                              )
-                                    }
-                                />
-                                <FilterDetailRow
-                                    variant="text"
-                                    label={t("search.filter.provenance")}
-                                    values={
-                                        (search.provenance ?? []).length === PROVENANCES.length
-                                            ? [t("search.filter.all")]
-                                            : (search.provenance ?? []).map((p) =>
-                                                  t(
-                                                      PROVENANCE_TRANSLATION_CONFIG[p]
-                                                          .translationKey,
-                                                  ),
-                                              )
-                                    }
-                                />
-                                <FilterDetailRow
-                                    variant="text"
-                                    label={t("search.filter.restoration")}
-                                    values={
-                                        (search.restoration ?? []).length === RESTORATIONS.length
-                                            ? [t("search.filter.all")]
-                                            : (search.restoration ?? []).map((r) =>
-                                                  t(
-                                                      RESTORATION_TRANSLATION_CONFIG[r]
-                                                          .translationKey,
-                                                  ),
-                                              )
-                                    }
                                 />
                                 {(search.creationDateFrom != null ||
                                     search.creationDateTo != null) && (

@@ -6,22 +6,6 @@ import type {
 } from "@/client";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { parseProductState, mapToBackendState } from "@/data/internal/product/ProductState.ts";
-import {
-    parseAuthenticity,
-    mapToBackendAuthenticity,
-} from "@/data/internal/quality-indicators/Authenticity.ts";
-import {
-    parseCondition,
-    mapToBackendCondition,
-} from "@/data/internal/quality-indicators/Condition.ts";
-import {
-    parseProvenance,
-    mapToBackendProvenance,
-} from "@/data/internal/quality-indicators/Provenance.ts";
-import {
-    parseRestoration,
-    mapToBackendRestoration,
-} from "@/data/internal/quality-indicators/Restoration.ts";
 import { parseShopType, mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
 import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 
@@ -65,15 +49,9 @@ export function mapProductSearchDataToSearchFilterArguments(
         auctionDateTo: data.auctionStart?.max ? new Date(data.auctionStart.max) : undefined,
         merchant: data.shopName,
         excludeMerchant: data.excludeShopName,
+        seller: data.sellerName,
+        excludeSeller: data.excludeSellerName,
         shopType: data.shopType?.map((t) => parseShopType(t)),
-        periodId: data.periodId,
-        categoryId: data.categoryId,
-        originYearMin: data.originYear?.min,
-        originYearMax: data.originYear?.max,
-        authenticity: data.authenticity?.map((a) => parseAuthenticity(a)),
-        condition: data.condition?.map((c) => parseCondition(c)),
-        provenance: data.provenance?.map((p) => parseProvenance(p)),
-        restoration: data.restoration?.map((r) => parseRestoration(r)),
     };
 }
 
@@ -113,19 +91,11 @@ export function mapSearchFilterArgumentsToProductSearchData(
                 : undefined,
         shopName: args.merchant,
         excludeShopName: args.excludeMerchant,
+        sellerName: args.seller,
+        excludeSellerName: args.excludeSeller,
         shopType: args.shopType
             ?.map((t) => mapToBackendShopType(t))
             .filter((t): t is NonNullable<typeof t> => t !== undefined),
-        periodId: args.periodId,
-        categoryId: args.categoryId,
-        originYear:
-            args.originYearMin != null || args.originYearMax != null
-                ? { min: args.originYearMin, max: args.originYearMax }
-                : undefined,
-        authenticity: args.authenticity?.map((a) => mapToBackendAuthenticity(a)),
-        condition: args.condition?.map((c) => mapToBackendCondition(c)),
-        provenance: args.provenance?.map((p) => mapToBackendProvenance(p)),
-        restoration: args.restoration?.map((r) => mapToBackendRestoration(r)),
     };
 }
 
@@ -143,9 +113,9 @@ export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserS
 }
 
 /**
- * Problem: The search page automatically sets premium filter fields (Authenticity, Condition, Origin,
- * Restoration, shopType) as default values in the URL – even if the user has never used these fields before.
- * If these are included when saving, the API rejects the request for FREE users with a 422 SEARCH_FILTER_RESTRICTED_FEATURE error.
+ * Problem: The search page automatically sets premium filter fields (shopType) as default values
+ * in the URL – even if the user has never used these fields before. If these are included when saving,
+ * the API rejects the request for FREE users with a 422 SEARCH_FILTER_RESTRICTED_FEATURE error.
  *
  * Solution: Fields that match their default values are omitted (undefined).
  * Empty arrays ([] = nothing selected) cannot occur in the wizard due to requireSelection enforcement.
@@ -164,18 +134,6 @@ export function mapToBackendCreateUserSearchFilter(
         enhancedSearchDescription: data.enhancedSearchDescription,
         search: {
             ...search,
-            authenticity: isDefaultOrEmpty(data.search.authenticity, FILTER_DEFAULTS.authenticity)
-                ? undefined
-                : search.authenticity,
-            condition: isDefaultOrEmpty(data.search.condition, FILTER_DEFAULTS.condition)
-                ? undefined
-                : search.condition,
-            provenance: isDefaultOrEmpty(data.search.provenance, FILTER_DEFAULTS.provenance)
-                ? undefined
-                : search.provenance,
-            restoration: isDefaultOrEmpty(data.search.restoration, FILTER_DEFAULTS.restoration)
-                ? undefined
-                : search.restoration,
             shopType: isDefaultOrEmpty(data.search.shopType, FILTER_DEFAULTS.shopType)
                 ? undefined
                 : search.shopType,

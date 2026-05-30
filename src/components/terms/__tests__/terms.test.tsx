@@ -47,7 +47,11 @@ describe("Terms Component", () => {
     });
 
     it("renders API usage restrictions", () => {
-        expect(screen.getByText(/API/i)).toBeInTheDocument();
+        expect(
+            screen.getByRole("heading", {
+                name: /Zulässige Nutzung und API-Zugänge/i,
+            }),
+        ).toBeInTheDocument();
     });
 
     it("renders content within a Card component", () => {

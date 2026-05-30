@@ -1,4 +1,4 @@
-import { getSearchFilterMatchedProducts } from "@/client";
+import { getSearchFilterMatches } from "@/client";
 import {
     mapToInternalSearchFilterMatchProductCollection,
     type SearchFilterMatchProductCollection,
@@ -27,7 +27,7 @@ export function useSearchFilterMatchedProducts(
         queryKey: ["searchFilterMatchedProducts", id, i18n.language, preferences.currency],
         enabled: !!id,
         queryFn: async ({ pageParam }) => {
-            const result = await getSearchFilterMatchedProducts({
+            const result = await getSearchFilterMatches({
                 path: { userSearchFilterId: id },
                 query: {
                     language: parseLanguage(i18n.language),

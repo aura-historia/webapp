@@ -1,4 +1,10 @@
-import type { GeoAddressData, GetShopData, StructuredAddressData } from "@/client";
+import type {
+    CurrencyData,
+    GeoAddressData,
+    GetShopData,
+    LanguageData,
+    StructuredAddressData,
+} from "@/client";
 import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import {
     parseShopPartnerStatus,
@@ -17,13 +23,17 @@ export type ShopDetail = {
     readonly partnerStatus: ShopPartnerStatus;
     readonly image?: string;
     readonly url?: string;
+    readonly viewUrl?: string;
     readonly domains: string[];
+    readonly shopifyDomain?: string;
+    readonly shopifyCurrency?: CurrencyData;
+    readonly shopifyLanguage?: LanguageData;
+    readonly woocommerceCurrency?: CurrencyData;
+    readonly woocommerceLanguage?: LanguageData;
     readonly structuredAddress?: StructuredAddress;
     readonly geoAddress?: GeoAddress;
     readonly phone?: string;
     readonly email?: string;
-    readonly specialitiesCategories?: string[];
-    readonly specialitiesPeriods?: string[];
     readonly created: Date;
     readonly updated: Date;
 };
@@ -41,7 +51,13 @@ export function mapToShopDetail(data: GetShopData): ShopDetail {
         partnerStatus: parseShopPartnerStatus(data.partnerStatus),
         image: data.image ?? undefined,
         url: data.url ?? undefined,
+        viewUrl: data.viewUrl ?? undefined,
         domains: data.domains,
+        shopifyDomain: data.shopifyDomain ?? undefined,
+        shopifyCurrency: data.shopifyCurrency ?? undefined,
+        shopifyLanguage: data.shopifyLanguage ?? undefined,
+        woocommerceCurrency: data.woocommerceCurrency ?? undefined,
+        woocommerceLanguage: data.woocommerceLanguage ?? undefined,
         structuredAddress: data.structuredAddress
             ? {
                   addressline: data.structuredAddress.addressline,
@@ -58,14 +74,6 @@ export function mapToShopDetail(data: GetShopData): ShopDetail {
             : undefined,
         phone: data.phone,
         email: data.email,
-        specialitiesCategories:
-            data.specialitiesCategories && data.specialitiesCategories.length > 0
-                ? [...data.specialitiesCategories]
-                : undefined,
-        specialitiesPeriods:
-            data.specialitiesPeriods && data.specialitiesPeriods.length > 0
-                ? [...data.specialitiesPeriods]
-                : undefined,
         created: new Date(data.created),
         updated: new Date(data.updated),
     };

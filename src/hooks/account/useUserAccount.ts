@@ -6,11 +6,11 @@ import {
 import { getUserAccount } from "@/client";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
-import { useAuth } from "@/hooks/auth/useAuth.ts";
+import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
 
 export function useUserAccount(enabled: boolean = true): UseQueryResult<UserAccountData> {
     const { getErrorMessage } = useApiError();
-    const { user } = useAuth();
+    const { isAuthenticated } = useResolvedAuth();
 
     return useQuery({
         queryKey: ["userAccount"],
@@ -24,9 +24,9 @@ export function useUserAccount(enabled: boolean = true): UseQueryResult<UserAcco
             return mapToInternalUserAccount(userAccountData.data);
         },
 
-        enabled: !!user && enabled,
+        enabled: isAuthenticated && enabled,
         retry: false,
-        staleTime: 5 * 60 * 1000,
+        staleTime: 0,
         gcTime: 10 * 60 * 1000,
     });
 }

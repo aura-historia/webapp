@@ -11,10 +11,6 @@ const { changeLanguageMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
 }));
 
-vi.mock("@/hooks/auth/useAuth", () => ({
-    useAuth: vi.fn(() => ({ user: null, isLoading: false, signOut: vi.fn() })),
-}));
-
 vi.mock("@/hooks/account/usePatchUserAccount.ts", () => ({
     useUpdateUserAccount: vi.fn(() => ({ mutate: vi.fn() })),
 }));
@@ -40,38 +36,6 @@ vi.mock("react-i18next", async () => {
                 language: "de",
                 changeLanguage: changeLanguageMock,
             },
-        }),
-    };
-});
-
-const mockCategoriesData = [
-    {
-        categoryId: "jewelry-personal-adornment",
-        categoryKey: "JEWELRY_PERSONAL_ADORNMENT",
-        name: { text: "Schmuck" },
-    },
-    { categoryId: "furniture", categoryKey: "FURNITURE", name: { text: "Möbel" } },
-    { categoryId: "visual-art", categoryKey: "VISUAL_ART", name: { text: "Bildende Kunst" } },
-];
-
-const mockPeriodsData = [
-    { periodId: "baroque", periodKey: "BAROQUE", name: { text: "Barock" } },
-    { periodId: "art-nouveau", periodKey: "ART_NOUVEAU", name: { text: "Jugendstil" } },
-    { periodId: "art-deco", periodKey: "ART_DECO", name: { text: "Art Déco" } },
-];
-
-vi.mock("@tanstack/react-query", async () => {
-    const actual = await vi.importActual("@tanstack/react-query");
-    return {
-        ...actual,
-        useQuery: vi.fn(({ queryKey }: { queryKey: Array<{ _id?: string }> }) => {
-            if (queryKey[0]?._id === "getCategories") {
-                return { data: mockCategoriesData };
-            }
-            if (queryKey[0]?._id === "getPeriods") {
-                return { data: mockPeriodsData };
-            }
-            return { data: undefined };
         }),
     };
 });
@@ -144,8 +108,27 @@ describe("Footer Component", () => {
         expect(screen.getByText("Mehr entdecken")).toBeInTheDocument();
         expect(screen.getByText("Folge uns")).toBeInTheDocument();
         expect(screen.getByText("Kontakt")).toBeInTheDocument();
-        expect(screen.getByText("Kategorien")).toBeInTheDocument();
-        expect(screen.getByText("Epochen & Stile")).toBeInTheDocument();
+        expect(screen.getByText("Partner-Programm")).toBeInTheDocument();
+    });
+
+    it("should render partner program links with correct href attributes", () => {
+        expect(screen.getByText("Übersicht").closest("a")).toHaveAttribute("href", "/partners");
+        expect(screen.getByText("WooCommerce").closest("a")).toHaveAttribute(
+            "href",
+            "/partners/woocommerce",
+        );
+        expect(screen.getByText("Shopify").closest("a")).toHaveAttribute(
+            "href",
+            "/partners/shopify",
+        );
+        expect(screen.getByText("Eigene Integration").closest("a")).toHaveAttribute(
+            "href",
+            "/partners/custom-integration",
+        );
+        expect(screen.getByText("Jetzt bewerben").closest("a")).toHaveAttribute(
+            "href",
+            "/partners/apply",
+        );
     });
 
     it("should render landing page fragment links", () => {
@@ -195,39 +178,6 @@ describe("Footer Component", () => {
         expect(emailLink).toHaveAttribute("href", "mailto:contact@aura-historia.com");
     });
 
-    it("should render popular category links", () => {
-        const categoriesSection = screen.getByText("Kategorien").closest("div");
-        expect(categoriesSection).not.toBeNull();
-
-        expect(screen.getByText("Schmuck")).toBeInTheDocument();
-        expect(screen.getByText("Möbel")).toBeInTheDocument();
-        expect(screen.getByText("Bildende Kunst")).toBeInTheDocument();
-
-        expect(screen.getByText("Schmuck").closest("a")).toHaveAttribute(
-            "href",
-            "/categories/jewelry-personal-adornment",
-        );
-        expect(screen.getByText("Möbel").closest("a")).toHaveAttribute(
-            "href",
-            "/categories/furniture",
-        );
-    });
-
-    it("should render popular period links", () => {
-        const periodsSection = screen.getByText("Epochen & Stile").closest("div");
-        expect(periodsSection).not.toBeNull();
-
-        expect(screen.getByText("Barock")).toBeInTheDocument();
-        expect(screen.getByText("Jugendstil")).toBeInTheDocument();
-        expect(screen.getByText("Art Déco")).toBeInTheDocument();
-
-        expect(screen.getByText("Barock").closest("a")).toHaveAttribute("href", "/periods/baroque");
-        expect(screen.getByText("Jugendstil").closest("a")).toHaveAttribute(
-            "href",
-            "/periods/art-nouveau",
-        );
-    });
-
     it("should render company and contact sections stacked", () => {
         const companyHeading = screen.getByText("Unternehmen");
         const contactHeading = screen.getByText("Kontakt");
@@ -236,29 +186,12 @@ describe("Footer Component", () => {
         expect(companyContainer).toBe(contactContainer);
     });
 
-    it("should render 'All Categories' link", () => {
-        const link = screen.getByText("Alle Kategorien");
-        expect(link.closest("a")).toHaveAttribute("href", "/categories");
-    });
-
-    it("should render 'All Periods' link", () => {
-        const link = screen.getByText("Alle Epochen & Stile");
-        expect(link.closest("a")).toHaveAttribute("href", "/periods");
-    });
-
-    it("should render 'All Collections' link", () => {
-        const link = screen.getByText("Alle Sammlungen");
-        expect(link.closest("a")).toHaveAttribute("href", "/collections");
-    });
-
     it("should change language", async () => {
         const user = userEvent.setup();
 
-        // Open the select
         const trigger = screen.getByRole("combobox");
         await user.click(trigger);
 
-        // Select English (assuming default is German)
         const option = screen.getByLabelText("Zu English wechseln");
         await user.click(option);
 

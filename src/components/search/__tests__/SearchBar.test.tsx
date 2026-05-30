@@ -1,4 +1,5 @@
 import { SearchBar } from "@/components/search/SearchBar";
+import { useAnimatedPlaceholder } from "@/hooks/useAnimatedPlaceholder";
 import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -9,6 +10,10 @@ vi.mock("sonner", () => ({
     toast: {
         warning: vi.fn(),
     },
+}));
+
+vi.mock("@/hooks/useAnimatedPlaceholder", () => ({
+    useAnimatedPlaceholder: vi.fn(() => ""),
 }));
 
 describe("SearchBar", () => {
@@ -230,6 +235,26 @@ describe("SearchBar", () => {
             const shopsOption = await screen.findByRole("option", { name: "Shops" });
             await user.click(shopsOption);
             expect(trigger).toHaveTextContent("Shops");
+        });
+
+        it("passes resetKey products to animated placeholder by default", async () => {
+            await act(async () => {
+                renderWithRouter(<SearchBar type={"big"} />);
+            });
+            expect(vi.mocked(useAnimatedPlaceholder)).toHaveBeenCalledWith(
+                expect.objectContaining({ resetKey: "products" }),
+            );
+        });
+
+        it("passes resetKey shops to animated placeholder on shop search route", async () => {
+            await act(async () => {
+                renderWithRouter(<SearchBar type={"big"} />, {
+                    initialEntries: ["/search/shops"],
+                });
+            });
+            expect(vi.mocked(useAnimatedPlaceholder)).toHaveBeenCalledWith(
+                expect.objectContaining({ resetKey: "shops" }),
+            );
         });
     });
 });

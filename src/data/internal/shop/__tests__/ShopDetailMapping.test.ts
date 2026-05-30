@@ -9,6 +9,7 @@ const mockShopData: GetShopData = {
     shopType: "AUCTION_HOUSE",
     domains: ["christies.com"],
     url: "https://shop.christies.com?utm_source=aura",
+    viewUrl: "https://affiliate.example.com/christies",
     image: "https://example.com/logo.png",
     partnerStatus: "PARTNERED",
     created: "2024-01-15T08:00:00Z",
@@ -81,6 +82,11 @@ describe("mapToShopDetail", () => {
         expect(result.url).toBe("https://shop.christies.com?utm_source=aura");
     });
 
+    it("maps viewUrl when present", () => {
+        const result = mapToShopDetail(mockShopData);
+        expect(result.viewUrl).toBe("https://affiliate.example.com/christies");
+    });
+
     it("maps url to undefined when missing", () => {
         const result = mapToShopDetail({ ...mockShopData, url: undefined });
         expect(result.url).toBeUndefined();
@@ -89,6 +95,16 @@ describe("mapToShopDetail", () => {
     it("maps url to undefined when null", () => {
         const result = mapToShopDetail({ ...mockShopData, url: null });
         expect(result.url).toBeUndefined();
+    });
+
+    it("maps viewUrl to undefined when missing", () => {
+        const result = mapToShopDetail({ ...mockShopData, viewUrl: undefined });
+        expect(result.viewUrl).toBeUndefined();
+    });
+
+    it("maps viewUrl to undefined when null", () => {
+        const result = mapToShopDetail({ ...mockShopData, viewUrl: null });
+        expect(result.viewUrl).toBeUndefined();
     });
 
     it("maps phone when present", () => {
@@ -151,41 +167,5 @@ describe("mapToShopDetail", () => {
     it("geoAddress is undefined when not in response", () => {
         const result = mapToShopDetail(mockShopData);
         expect(result.geoAddress).toBeUndefined();
-    });
-
-    it("maps specialitiesCategories when present", () => {
-        const result = mapToShopDetail({
-            ...mockShopData,
-            specialitiesCategories: ["ancient-egypt", "roman-coins"],
-        });
-        expect(result.specialitiesCategories).toEqual(["ancient-egypt", "roman-coins"]);
-    });
-
-    it("specialitiesCategories is undefined when not in response", () => {
-        const result = mapToShopDetail(mockShopData);
-        expect(result.specialitiesCategories).toBeUndefined();
-    });
-
-    it("specialitiesCategories is undefined when response returns empty array", () => {
-        const result = mapToShopDetail({ ...mockShopData, specialitiesCategories: [] });
-        expect(result.specialitiesCategories).toBeUndefined();
-    });
-
-    it("maps specialitiesPeriods when present", () => {
-        const result = mapToShopDetail({
-            ...mockShopData,
-            specialitiesPeriods: ["roman-period", "medieval"],
-        });
-        expect(result.specialitiesPeriods).toEqual(["roman-period", "medieval"]);
-    });
-
-    it("specialitiesPeriods is undefined when not in response", () => {
-        const result = mapToShopDetail(mockShopData);
-        expect(result.specialitiesPeriods).toBeUndefined();
-    });
-
-    it("specialitiesPeriods is undefined when response returns empty array", () => {
-        const result = mapToShopDetail({ ...mockShopData, specialitiesPeriods: [] });
-        expect(result.specialitiesPeriods).toBeUndefined();
     });
 });

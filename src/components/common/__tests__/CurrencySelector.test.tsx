@@ -5,8 +5,14 @@ import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 
 // Mock external dependencies
-vi.mock("@/hooks/auth/useAuth", () => ({
-    useAuth: vi.fn(() => ({ user: null, isLoading: false, signOut: vi.fn() })),
+vi.mock("@/hooks/auth/useResolvedAuth", () => ({
+    useResolvedAuth: vi.fn(() => ({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+        isResolved: true,
+        signOut: vi.fn(),
+    })),
 }));
 
 vi.mock("@/hooks/account/usePatchUserAccount.ts", () => ({
@@ -103,10 +109,12 @@ describe("CurrencySelector", () => {
         );
         useUpdateUserAccount.mockReturnValue({ mutate } as never);
 
-        const { useAuth } = vi.mocked(await import("@/hooks/auth/useAuth"));
-        useAuth.mockReturnValue({
+        const { useResolvedAuth } = vi.mocked(await import("@/hooks/auth/useResolvedAuth"));
+        useResolvedAuth.mockReturnValue({
             user: { userId: "test", username: "test" },
+            isAuthenticated: true,
             isLoading: false,
+            isResolved: true,
             signOut: vi.fn(),
         } as never);
 

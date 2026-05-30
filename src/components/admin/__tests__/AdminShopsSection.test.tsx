@@ -42,6 +42,7 @@ describe("AdminShopsSection", () => {
                                 image: "https://example.com/logo.png",
                                 domains: ["aurora.example.com"],
                                 url: "https://aurora.example.com",
+                                viewUrl: "https://affiliate.example.com/aurora",
                                 created: new Date("2024-01-01T00:00:00Z"),
                                 updated: new Date("2024-01-02T00:00:00Z"),
                             },
@@ -67,10 +68,9 @@ describe("AdminShopsSection", () => {
 
         expect(screen.getByText("Aurora Antiques")).toBeInTheDocument();
         expect(screen.getByText("aurora.example.com")).toBeInTheDocument();
-        expect(screen.getByRole("link", { name: "https://aurora.example.com" })).toHaveAttribute(
-            "href",
-            "https://aurora.example.com",
-        );
+        expect(
+            screen.getByRole("link", { name: "https://affiliate.example.com/aurora" }),
+        ).toHaveAttribute("href", "https://affiliate.example.com/aurora");
 
         await user.click(screen.getByRole("button", { name: /Shop anlegen/i }));
         expect(screen.getByText("create-dialog")).toBeInTheDocument();
