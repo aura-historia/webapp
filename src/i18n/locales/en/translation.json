@@ -288,7 +288,10 @@
     },
     "messages": {
       "minQueryLength": "Please enter at least 3 characters to start the search.",
-      "error": "Error loading search results. Please try again later!",
+      "error": {
+        "title": "Error loading results",
+        "description": "The search results could not be loaded. Please try again later."
+      },
       "noResults": {
         "title": "No results found",
         "description": "Try adjusting your search term or filters."
@@ -955,7 +958,10 @@
     "title": "My Watchlist",
     "loginRequired": "Please log in to use the watchlist.",
     "totalElements": "{{count}} items",
-    "loadingError": "The watchlist cannot be reached at this time. Please try again later.",
+    "loadingError": {
+      "title": "Watchlist unavailable",
+      "description": "The watchlist cannot be reached at this time. Please try again later."
+    },
     "loadingMore": "Loading more results...",
     "allLoaded_one": "You have seen {{count}} item from your watchlist.",
     "allLoaded_other": "You have seen all {{count}} items from your watchlist.",
@@ -1199,7 +1205,10 @@
     "delete": "Delete",
     "deleteAll": "Delete all",
     "markRead": "Mark as read",
-    "loadingError": "Notifications could not be loaded. Please try again later.",
+    "loadingError": {
+      "title": "Error loading notifications",
+      "description": "Notifications could not be loaded. Please try again later."
+    },
     "loadingMore": "Loading more notifications...",
     "allLoaded_one": "{{count}} notification loaded",
     "allLoaded_other": "All {{count}} notifications loaded",
@@ -1308,7 +1317,10 @@
     },
     "notificationsOn": "Notifications active",
     "notificationsOff": "Notifications inactive",
-    "loadingError": "Search filters could not be loaded. Please try again later.",
+    "loadingError": {
+      "title": "Error loading filters",
+      "description": "Search filters could not be loaded. Please try again later."
+    },
     "noResults": {
       "title": "No Search Filters",
       "description": "You have not saved any search filters yet."

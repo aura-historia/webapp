@@ -288,7 +288,10 @@
     },
     "messages": {
       "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
-      "error": "Error al cargar los resultados de búsqueda. ¡Por favor, inténtelo de nuevo más tarde!",
+      "error": {
+        "title": "Error de carga",
+        "description": "Los resultados de búsqueda no se pudieron cargar. Por favor, inténtelo de nuevo más tarde."
+      },
       "noResults": {
         "title": "No se encontraron resultados",
         "description": "Intente ajustar su término de búsqueda o filtros."
@@ -387,6 +390,10 @@
       }
     },
     "unseenNotification": "Actualizado",
+    "searchFilter": {
+      "matchedBadge": "Coincidencia",
+      "matchedBy": "Filtro de búsqueda"
+    },
     "auction": {
       "title": "Período de subasta",
       "start": "desde {{date}}",
@@ -955,7 +962,10 @@
     "title": "Mi lista de seguimiento",
     "loginRequired": "Por favor, inicie sesión para usar la lista de seguimiento.",
     "totalElements": "{{count}} artículos",
-    "loadingError": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde.",
+    "loadingError": {
+      "title": "Lista no disponible",
+      "description": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde."
+    },
     "loadingMore": "Cargando más resultados...",
     "allLoaded_one": "Ha visto {{count}} artículo de su lista de seguimiento.",
     "allLoaded_other": "Ha visto los {{count}} artículos de su lista de seguimiento.",
@@ -1226,7 +1236,10 @@
     "delete": "Eliminar",
     "deleteAll": "Eliminar todo",
     "markRead": "Marcar como leído",
-    "loadingError": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde.",
+    "loadingError": {
+      "title": "Error de carga",
+      "description": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde."
+    },
     "loadingMore": "Cargando más notificaciones...",
     "allLoaded_one": "{{count}} notificación cargada",
     "allLoaded_other": "Todas las {{count}} notificaciones cargadas",
@@ -1543,7 +1556,15 @@
     },
     "notificationsOn": "Notificaciones activas",
     "notificationsOff": "Notificaciones inactivas",
-    "loadingError": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtelo de nuevo más tarde.",
+    "activate": "Activar",
+    "deactivate": "Pausar",
+    "stateInactiveByUser": "En pausa",
+    "stateInactiveByPlan": "Bloqueado",
+    "stateInactiveByPlanTooltip": "Este filtro de búsqueda está inactivo debido a su suscripción.",
+    "loadingError": {
+      "title": "Error de carga",
+      "description": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtelo de nuevo más tarde."
+    },
     "noResults": {
       "title": "Sin Filtros de Búsqueda",
       "description": "Aún no ha guardado ningún filtro de búsqueda."
@@ -1555,6 +1576,7 @@
     },
     "totalElements": "{{count}} filtro(s) de búsqueda",
     "matchingProducts": "Mostrar todas las coincidencias",
+    "matchingProductsInactive": "El filtro de búsqueda está inactivo – no hay coincidencias disponibles.",
     "searchPlaceholder": "Buscar filtros de búsqueda...",
     "showDetails": "Mostrar detalles",
     "showResults": "Buscar ahora",

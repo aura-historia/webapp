@@ -286,7 +286,10 @@
     },
     "messages": {
       "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",
-      "error": "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
+      "error": {
+        "title": "Fehler beim Laden",
+        "description": "Die Suchergebnisse konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+      },
       "noResults": {
         "title": "Keine Ergebnisse gefunden",
         "description": "Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen."
@@ -953,7 +956,10 @@
     "title": "Meine Merkliste",
     "loginRequired": "Bitte melden Sie sich an, um die Merkliste nutzen zu können.",
     "totalElements": "{{count}} Artikel",
-    "loadingError": "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
+    "loadingError": {
+      "title": "Merkliste nicht erreichbar",
+      "description": "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut."
+    },
     "loadingMore": "Lade neue Ergebnisse...",
     "allLoaded_one": "Sie haben {{count}} Artikel Ihrer Merkliste gesehen.",
     "allLoaded_other": "Sie haben alle {{count}} Artikel Ihrer Merkliste gesehen.",
@@ -1197,7 +1203,10 @@
     "delete": "Löschen",
     "deleteAll": "Alle löschen",
     "markRead": "Als gelesen markieren",
-    "loadingError": "Benachrichtigungen konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+    "loadingError": {
+      "title": "Fehler beim Laden",
+      "description": "Benachrichtigungen konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+    },
     "loadingMore": "Lade weitere Benachrichtigungen...",
     "allLoaded_one": "{{count}} Benachrichtigung geladen",
     "allLoaded_other": "Alle {{count}} Benachrichtigungen geladen",
@@ -1310,7 +1319,10 @@
     },
     "notificationsOn": "Benachrichtigungen aktiv",
     "notificationsOff": "Keine Benachrichtigungen",
-    "loadingError": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+    "loadingError": {
+      "title": "Fehler beim Laden",
+      "description": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+    },
     "noResults": {
       "title": "Keine Suchaufträge",
       "description": "Speichern Sie eine Suche, um sie hier zu finden."

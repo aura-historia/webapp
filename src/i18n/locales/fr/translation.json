@@ -288,7 +288,10 @@
     },
     "messages": {
       "minQueryLength": "Veuillez saisir au moins 3 caractères pour lancer la recherche.",
-      "error": "Erreur lors du chargement des résultats de recherche. Veuillez réessayer plus tard !",
+      "error": {
+        "title": "Erreur de chargement",
+        "description": "Les résultats de recherche n'ont pas pu être chargés. Veuillez réessayer plus tard."
+      },
       "noResults": {
         "title": "Aucun résultat trouvé",
         "description": "Essayez d'ajuster votre terme de recherche ou vos filtres."
@@ -387,6 +390,10 @@
       }
     },
     "unseenNotification": "Mis à jour",
+    "searchFilter": {
+      "matchedBadge": "Correspondance",
+      "matchedBy": "Filtre de recherche"
+    },
     "auction": {
       "title": "Période de vente aux enchères",
       "start": "à partir du {{date}}",
@@ -955,7 +962,10 @@
     "title": "Mes favoris",
     "loginRequired": "Veuillez vous connecter pour utiliser la liste de favoris.",
     "totalElements": "{{count}} articles",
-    "loadingError": "La liste de favoris est actuellement inaccessible. Veuillez réessayer plus tard.",
+    "loadingError": {
+      "title": "Liste inaccessible",
+      "description": "La liste de favoris est actuellement inaccessible. Veuillez réessayer plus tard."
+    },
     "loadingMore": "Chargement des résultats...",
     "allLoaded_one": "Vous avez consulté {{count}} article de votre liste de favoris.",
     "allLoaded_other": "Vous avez consulté les {{count}} articles de votre liste de favoris.",
@@ -1226,7 +1236,10 @@
     "delete": "Supprimer",
     "deleteAll": "Tout supprimer",
     "markRead": "Marquer comme lu",
-    "loadingError": "Les notifications n'ont pas pu être chargées. Veuillez réessayer plus tard.",
+    "loadingError": {
+      "title": "Erreur de chargement",
+      "description": "Les notifications n'ont pas pu être chargées. Veuillez réessayer plus tard."
+    },
     "loadingMore": "Chargement de plus de notifications...",
     "allLoaded_one": "{{count}} notification chargée",
     "allLoaded_other": "Toutes les {{count}} notifications chargées",
@@ -1543,7 +1556,15 @@
     },
     "notificationsOn": "Notifications actives",
     "notificationsOff": "Notifications inactives",
-    "loadingError": "Les filtres de recherche n'ont pas pu être chargés. Veuillez réessayer plus tard.",
+    "activate": "Activer",
+    "deactivate": "Mettre en pause",
+    "stateInactiveByUser": "En pause",
+    "stateInactiveByPlan": "Verrouillé",
+    "stateInactiveByPlanTooltip": "Ce filtre de recherche est inactif en raison de votre abonnement.",
+    "loadingError": {
+      "title": "Erreur de chargement",
+      "description": "Les filtres de recherche n'ont pas pu être chargés. Veuillez réessayer plus tard."
+    },
     "noResults": {
       "title": "Aucun filtre de recherche",
       "description": "Vous n'avez encore enregistré aucun filtre de recherche."
@@ -1555,6 +1576,7 @@
     },
     "totalElements": "{{count}} filtre(s) de recherche",
     "matchingProducts": "Afficher toutes les correspondances",
+    "matchingProductsInactive": "Le filtre de recherche est inactif – aucune correspondance disponible.",
     "searchPlaceholder": "Rechercher des filtres...",
     "showDetails": "Afficher les détails",
     "showResults": "Rechercher maintenant",
