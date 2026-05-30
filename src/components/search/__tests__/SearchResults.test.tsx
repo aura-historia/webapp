@@ -96,9 +96,10 @@ describe("SearchResults", () => {
     it("renders an error message when there is an error", () => {
         setSearchMock({ error: new Error("API Error") });
         renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
+        expect(screen.getByText("Fehler beim Laden")).toBeInTheDocument();
         expect(
             screen.getByText(
-                "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
+                "Die Suchergebnisse konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
             ),
         ).toBeInTheDocument();
     });
