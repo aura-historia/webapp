@@ -1,13 +1,12 @@
 import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
-import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { H1 } from "@/components/typography/H1.tsx";
 import { useTranslation } from "react-i18next";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import { SearchX } from "lucide-react";
-import { H3 } from "@/components/typography/H3.tsx";
+import { SearchX, ServerCrash } from "lucide-react";
+import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { useWatchlist } from "@/hooks/watchlist/useWatchlist.ts";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
 
@@ -37,7 +36,13 @@ export function WatchlistResults() {
 
     if (error) {
         console.error(error);
-        return <SectionInfoText>{t("watchlist.loadingError")}</SectionInfoText>;
+        return (
+            <EmptyState
+                icon={ServerCrash}
+                title={t("watchlist.loadingError.title")}
+                description={t("watchlist.loadingError.description")}
+            />
+        );
     }
 
     const allProducts: OverviewProduct[] =
@@ -71,15 +76,11 @@ export function WatchlistResults() {
 
     if (allProducts.length === 0) {
         return (
-            <div className="flex flex-col items-center gap-4 py-16">
-                <SearchX className="h-16 w-16 text-muted-foreground" />
-                <div className="text-center space-y-2">
-                    <H3>{t("watchlist.noResults.title")}</H3>
-                    <p className="text-base text-muted-foreground">
-                        {t("watchlist.noResults.description")}
-                    </p>
-                </div>
-            </div>
+            <EmptyState
+                icon={SearchX}
+                title={t("watchlist.noResults.title")}
+                description={t("watchlist.noResults.description")}
+            />
         );
     }
 

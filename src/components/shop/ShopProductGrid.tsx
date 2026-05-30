@@ -4,8 +4,8 @@ import { useShopProducts } from "@/hooks/shop/useShopProducts.ts";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { SearchX } from "lucide-react";
-import { H3 } from "@/components/typography/H3.tsx";
+import { SearchX, ServerCrash } from "lucide-react";
+import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
 
 const SKELETON_COUNT = 8;
@@ -46,15 +46,11 @@ export function ShopProductGrid({ shopName, onTotalChange }: ShopProductGridProp
 
     if (error) {
         return (
-            <div className="flex flex-col items-center gap-4 py-16">
-                <SearchX className="h-16 w-16 text-muted-foreground" />
-                <div className="text-center space-y-2">
-                    <H3>{t("shop.products.error.title")}</H3>
-                    <p className="text-base text-muted-foreground">
-                        {t("shop.products.error.description")}
-                    </p>
-                </div>
-            </div>
+            <EmptyState
+                icon={ServerCrash}
+                title={t("shop.products.error.title")}
+                description={t("shop.products.error.description")}
+            />
         );
     }
 
@@ -62,15 +58,11 @@ export function ShopProductGrid({ shopName, onTotalChange }: ShopProductGridProp
 
     if (allProducts.length === 0) {
         return (
-            <div className="flex flex-col items-center gap-4 py-16">
-                <SearchX className="h-16 w-16 text-muted-foreground" />
-                <div className="text-center space-y-2">
-                    <H3>{t("shop.products.noResults.title")}</H3>
-                    <p className="text-base text-muted-foreground">
-                        {t("shop.products.noResults.description")}
-                    </p>
-                </div>
-            </div>
+            <EmptyState
+                icon={SearchX}
+                title={t("shop.products.noResults.title")}
+                description={t("shop.products.noResults.description")}
+            />
         );
     }
 
