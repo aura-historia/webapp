@@ -1600,15 +1600,236 @@ export type PostShopData = {
 };
 
 /**
- * Response body returned after creating or overwriting a partner shop API key.
+ * Aura Historia access-token scope string.
+ * - `shops:manage`: reserved for shop-management flows
+ * - `products:write`: required for partner batch product ingestion
+ *
  */
-export type PartnerShopApiKeyResponse = {
+export type AccessTokenScopeData = 'shops:manage' | 'products:write';
+
+/**
+ * Token type returned for Aura Historia access tokens.
+ */
+export type AccessTokenTypeData = 'BEARER';
+
+/**
+ * Access-token read model.
+ * `POST /api/v1/me/access-tokens` returns the plaintext bearer token once;
+ * list/get/update endpoints return the masked display value instead.
+ *
+ */
+export type GetAccessTokenData = {
     /**
-     * Plaintext partner shop API key.
-     * Returned only when the key is created; subsequent verification uses the `x-api-key` request header.
+     * Unique identifier of the access token.
+     */
+    accessTokenId: string;
+    /**
+     * User-defined display name of the access token.
+     */
+    name: string;
+    /**
+     * Granted access-token scopes. Omitted when the token has no scopes.
+     */
+    scope?: Array<AccessTokenScopeData>;
+    /**
+     * Plaintext or masked bearer token value.
+     * Create responses return the full token once; subsequent reads return a masked value such as `aurahistoria_abcdefghijk_****`.
      *
      */
-    apiKey: string;
+    token: string;
+    tokenType: AccessTokenTypeData;
+    /**
+     * Optional absolute expiration timestamp in RFC 3339 format.
+     */
+    expiresAt?: string | null;
+    /**
+     * Optional non-negative number of seconds remaining until expiry.
+     */
+    expiresIn?: number | null;
+    /**
+     * Timestamp when the access token was created.
+     */
+    created: string;
+    /**
+     * Timestamp when the access token metadata was last updated.
+     */
+    updated: string;
+};
+
+/**
+ * Request body for creating an Aura Historia access token.
+ */
+export type PostAccessTokenData = {
+    /**
+     * User-defined display name of the new access token.
+     */
+    name: string;
+    /**
+     * Optional scopes granted to the access token. Defaults to an empty set.
+     */
+    scope?: Array<AccessTokenScopeData>;
+    /**
+     * Optional expiration timestamp in RFC 3339 format.
+     */
+    expiresAt?: string | null;
+};
+
+/**
+ * Request body for updating access-token metadata.
+ * Optional fields that are omitted or set to `null` leave the stored value unchanged.
+ *
+ */
+export type PatchAccessTokenData = {
+    /**
+     * Unique identifier of the access token to update.
+     */
+    accessTokenId: string;
+    /**
+     * Optional replacement display name.
+     */
+    name?: string | null;
+    /**
+     * Optional replacement scope set.
+     */
+    scope?: Array<AccessTokenScopeData> | null;
+    /**
+     * Optional replacement expiration timestamp in RFC 3339 format.
+     */
+    expiresAt?: string | null;
+};
+
+/**
+ * Request body for creating OAuth client metadata.
+ * `redirect_uris` must contain at least one HTTPS redirect URI.
+ *
+ */
+export type OAuthClientMetadataRequestData = {
+    /**
+     * Display name of the OAuth client.
+     */
+    client_name: string;
+    /**
+     * Registered HTTPS redirect URIs for the OAuth client.
+     */
+    redirect_uris: Array<string>;
+    /**
+     * Optional allowed scopes for tokens issued to this OAuth client.
+     */
+    scope?: Array<AccessTokenScopeData>;
+};
+
+/**
+ * Request body for updating OAuth client metadata.
+ * Omitted or `null` optional properties leave the stored value unchanged.
+ *
+ */
+export type OAuthClientMetadataPatchData = {
+    /**
+     * Optional replacement display name for the OAuth client.
+     */
+    client_name?: string | null;
+    /**
+     * Optional replacement set of registered HTTPS redirect URIs.
+     */
+    redirect_uris?: Array<string> | null;
+    /**
+     * Optional replacement set of allowed scopes for the OAuth client.
+     */
+    scope?: Array<AccessTokenScopeData> | null;
+};
+
+/**
+ * OAuth client metadata read model.
+ * `client_secret` contains the plaintext secret only in the create response.
+ * List/get/update responses return a masked secret display value instead.
+ *
+ */
+export type OAuthClientMetadataResponseData = {
+    /**
+     * UUIDv7 identifier of the OAuth client.
+     */
+    client_id: string;
+    /**
+     * OAuth client secret.
+     * Create responses return the plaintext secret once; later reads return a masked value such as `aurahistoria_oauth_client_secret_abcdefghijk_****`.
+     *
+     */
+    client_secret: string;
+    /**
+     * Display name of the OAuth client.
+     */
+    client_name: string;
+    /**
+     * Registered redirect URIs for the OAuth client.
+     */
+    redirect_uris: Array<string>;
+    /**
+     * Allowed scopes for tokens issued to this OAuth client.
+     */
+    scope: Array<AccessTokenScopeData>;
+    /**
+     * Unix timestamp (seconds) when the OAuth client was created and its client ID was issued.
+     */
+    client_id_issued_at: number;
+};
+
+/**
+ * Token response returned by `POST /api/v1/oauth/token` after a successful authorization code
+ * exchange (RFC 6749 §5.1). The `access_token` is an Aura Historia bearer access token.
+ * `expires_in` is omitted (`null`) for non-expiring tokens.
+ *
+ */
+export type OAuthTokenResponseData = {
+    /**
+     * The issued Aura Historia access token (plaintext bearer value).
+     */
+    access_token: string;
+    token_type: AccessTokenTypeData;
+    /**
+     * Seconds until the access token expires. `null` when the token does not expire.
+     */
+    expires_in?: number | null;
+    /**
+     * Space-separated list of scopes granted to the access token.
+     */
+    scope: string;
+};
+
+/**
+ * Introspection response returned by `POST /api/v1/oauth/introspect` (RFC 7662).
+ * When `active` is `false` all other fields are omitted.
+ * When `active` is `true` the available token metadata is populated.
+ *
+ */
+export type OAuthIntrospectionResponseData = {
+    /**
+     * Whether the token is currently active (not expired, not revoked, and known to this server).
+     */
+    active: boolean;
+    /**
+     * Space-separated list of scopes granted to the token. Present only when `active` is `true`.
+     */
+    scope?: string;
+    /**
+     * UUIDv7 OAuth client identifier that issued the token. Present only when `active` is `true` and the token was issued via the OAuth flow.
+     */
+    client_id?: string;
+    /**
+     * Subject — the Aura Historia user ID who authorized the token. Present only when `active` is `true`.
+     */
+    sub?: string;
+    /**
+     * Token type. Always `"Bearer"` when `active` is `true`.
+     */
+    token_type?: string;
+    /**
+     * Unix timestamp (seconds) when the token expires. Present only when `active` is `true` and the token has an expiry.
+     */
+    exp?: number;
+    /**
+     * Unix timestamp (seconds) when the token was issued. Present only when `active` is `true` and the issue time is known.
+     */
+    iat?: number;
 };
 
 /**
@@ -3272,13 +3493,13 @@ export type PatchPartnerProductsErrors = {
      */
     400: ApiError;
     /**
-     * Unauthorized — the `x-api-key` header is missing, malformed, or the API key does not
-     * match the key stored for the shop.
+     * Unauthorized — the bearer token is missing, invalid, expired, or the referenced
+     * Aura Historia access token no longer exists.
      *
      */
     401: ApiError;
     /**
-     * Forbidden — the shop exists but has not been granted partner status
+     * Forbidden — the authenticated caller is not allowed to ingest products for this shop
      */
     403: ApiError;
     /**
@@ -3330,13 +3551,13 @@ export type PostPartnerProductsErrors = {
      */
     400: ApiError;
     /**
-     * Unauthorized — the `x-api-key` header is missing, malformed, or the API key does not
-     * match the key stored for the shop.
+     * Unauthorized — the bearer token is missing, invalid, expired, or the referenced
+     * Aura Historia access token no longer exists.
      *
      */
     401: ApiError;
     /**
-     * Forbidden — the shop exists but has not been granted partner status
+     * Forbidden — the authenticated caller is not allowed to ingest products for this shop
      */
     403: ApiError;
     /**
@@ -3388,13 +3609,13 @@ export type PutPartnerProductsErrors = {
      */
     400: ApiError;
     /**
-     * Unauthorized — the `x-api-key` header is missing, malformed, or the API key does not
-     * match the key stored for the shop.
+     * Unauthorized — the bearer token is missing, invalid, expired, or the referenced
+     * Aura Historia access token no longer exists.
      *
      */
     401: ApiError;
     /**
-     * Forbidden — the shop exists but has not been granted partner status
+     * Forbidden — the authenticated caller is not allowed to ingest products for this shop
      */
     403: ApiError;
     /**
@@ -3467,13 +3688,13 @@ export type PostWoocommerceWebhookErrors = {
      */
     400: ApiError;
     /**
-     * Unauthorized — the `x-api-key` header is missing, malformed, or does not match the
-     * stored partner key, or the WooCommerce signature header is missing/invalid.
+     * Unauthorized — the bearer token is missing or invalid, the Aura Historia access token
+     * is unknown, or the WooCommerce signature header is missing/invalid.
      *
      */
     401: ApiError;
     /**
-     * Forbidden — the shop exists but has not been granted partner status
+     * Forbidden — the authenticated caller is not linked to the requested partner shop
      */
     403: ApiError;
     /**
@@ -4883,6 +5104,203 @@ export type UpdateUserAccountResponses = {
 
 export type UpdateUserAccountResponse = UpdateUserAccountResponses[keyof UpdateUserAccountResponses];
 
+export type GetMyAccessTokensData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/access-tokens';
+};
+
+export type GetMyAccessTokensErrors = {
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetMyAccessTokensError = GetMyAccessTokensErrors[keyof GetMyAccessTokensErrors];
+
+export type GetMyAccessTokensResponses = {
+    /**
+     * Access tokens retrieved successfully
+     */
+    200: Array<GetAccessTokenData>;
+};
+
+export type GetMyAccessTokensResponse = GetMyAccessTokensResponses[keyof GetMyAccessTokensResponses];
+
+export type PatchMyAccessTokenData = {
+    /**
+     * Partial access-token update payload.
+     */
+    body: PatchAccessTokenData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/access-tokens';
+};
+
+export type PatchMyAccessTokenErrors = {
+    /**
+     * Bad request - missing, empty, or invalid JSON body
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * Access token not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PatchMyAccessTokenError = PatchMyAccessTokenErrors[keyof PatchMyAccessTokenErrors];
+
+export type PatchMyAccessTokenResponses = {
+    /**
+     * Access token updated successfully
+     */
+    200: GetAccessTokenData;
+};
+
+export type PatchMyAccessTokenResponse = PatchMyAccessTokenResponses[keyof PatchMyAccessTokenResponses];
+
+export type PostMyAccessTokenData = {
+    /**
+     * Access-token creation payload.
+     */
+    body: PostAccessTokenData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/me/access-tokens';
+};
+
+export type PostMyAccessTokenErrors = {
+    /**
+     * Bad request - missing, empty, or invalid JSON body
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * User not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type PostMyAccessTokenError = PostMyAccessTokenErrors[keyof PostMyAccessTokenErrors];
+
+export type PostMyAccessTokenResponses = {
+    /**
+     * Access token created successfully
+     */
+    201: GetAccessTokenData;
+};
+
+export type PostMyAccessTokenResponse = PostMyAccessTokenResponses[keyof PostMyAccessTokenResponses];
+
+export type DeleteMyAccessTokenData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the access token to delete
+         */
+        accessTokenId: string;
+    };
+    query?: never;
+    url: '/api/v1/me/access-tokens/{accessTokenId}';
+};
+
+export type DeleteMyAccessTokenErrors = {
+    /**
+     * Bad request - invalid or missing access-token path parameter
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * Access token not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type DeleteMyAccessTokenError = DeleteMyAccessTokenErrors[keyof DeleteMyAccessTokenErrors];
+
+export type DeleteMyAccessTokenResponses = {
+    /**
+     * Access token deleted successfully
+     */
+    204: void;
+};
+
+export type DeleteMyAccessTokenResponse = DeleteMyAccessTokenResponses[keyof DeleteMyAccessTokenResponses];
+
+export type GetMyAccessTokenData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the access token
+         */
+        accessTokenId: string;
+    };
+    query?: never;
+    url: '/api/v1/me/access-tokens/{accessTokenId}';
+};
+
+export type GetMyAccessTokenErrors = {
+    /**
+     * Bad request - invalid or missing access-token path parameter
+     */
+    400: ApiError;
+    /**
+     * Unauthorized - invalid or missing JWT token
+     */
+    401: ApiError;
+    /**
+     * Access token not found
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type GetMyAccessTokenError = GetMyAccessTokenErrors[keyof GetMyAccessTokenErrors];
+
+export type GetMyAccessTokenResponses = {
+    /**
+     * Access token retrieved successfully
+     */
+    200: GetAccessTokenData;
+};
+
+export type GetMyAccessTokenResponse = GetMyAccessTokenResponses[keyof GetMyAccessTokenResponses];
+
 export type PostBillingCheckoutData2 = {
     /**
      * Desired subscription plan and billing cycle for the new Stripe checkout session.
@@ -5554,7 +5972,7 @@ export type PatchShopByIdErrors = {
      */
     400: ApiError;
     /**
-     * Unauthorized – invalid or missing Cognito JWT when using bearer auth, or missing/malformed/mismatched `x-api-key` when using partner API-key auth.
+     * Unauthorized – the bearer token is missing or invalid.
      */
     401: ApiError;
     /**
@@ -5581,52 +5999,6 @@ export type PatchShopByIdResponses = {
 };
 
 export type PatchShopByIdResponse = PatchShopByIdResponses[keyof PatchShopByIdResponses];
-
-export type PutShopApiKeyData = {
-    body?: never;
-    path: {
-        /**
-         * Unique identifier of the shop (UUID format)
-         */
-        shopId: string;
-    };
-    query?: never;
-    url: '/api/v1/shops/{shopId}/api-key';
-};
-
-export type PutShopApiKeyErrors = {
-    /**
-     * Bad request - invalid or missing shop ID
-     */
-    400: ApiError;
-    /**
-     * Unauthorized – invalid or missing JWT token.
-     */
-    401: ApiError;
-    /**
-     * Forbidden – caller is not allowed to manage an API key for this shop.
-     */
-    403: ApiError;
-    /**
-     * Shop not found
-     */
-    404: ApiError;
-    /**
-     * Internal server error
-     */
-    500: ApiError;
-};
-
-export type PutShopApiKeyError = PutShopApiKeyErrors[keyof PutShopApiKeyErrors];
-
-export type PutShopApiKeyResponses = {
-    /**
-     * API key created successfully
-     */
-    200: PartnerShopApiKeyResponse;
-};
-
-export type PutShopApiKeyResponse = PutShopApiKeyResponses[keyof PutShopApiKeyResponses];
 
 export type GetShopBySlugData = {
     body?: never;
@@ -5992,47 +6364,38 @@ export type SearchPeriodsResponses = {
 
 export type SearchPeriodsResponse = SearchPeriodsResponses[keyof SearchPeriodsResponses];
 
-export type GetPartnerShopsData = {
+export type GetMyPartnerShopsData = {
     body?: never;
-    path: {
-        /**
-         * Unique identifier of the partner user
-         */
-        partnerId: string;
-    };
+    path?: never;
     query?: never;
-    url: '/api/v1/partner/{partnerId}/shops';
+    url: '/api/v1/me/partner-shops';
 };
 
-export type GetPartnerShopsErrors = {
-    /**
-     * Bad request - invalid or missing partner ID
-     */
-    400: ApiError;
+export type GetMyPartnerShopsErrors = {
     /**
      * Unauthorized – invalid or missing JWT token.
      */
     401: ApiError;
     /**
-     * Forbidden – this endpoint requires the `ADMIN` role when requesting another partner's shops.
+     * User not found – the authenticated requester does not have a persisted user record.
      */
-    403: ApiError;
+    404: ApiError;
     /**
      * Internal server error
      */
     500: ApiError;
 };
 
-export type GetPartnerShopsError = GetPartnerShopsErrors[keyof GetPartnerShopsErrors];
+export type GetMyPartnerShopsError = GetMyPartnerShopsErrors[keyof GetMyPartnerShopsErrors];
 
-export type GetPartnerShopsResponses = {
+export type GetMyPartnerShopsResponses = {
     /**
      * Partner shops retrieved successfully
      */
     200: Array<GetShopData>;
 };
 
-export type GetPartnerShopsResponse = GetPartnerShopsResponses[keyof GetPartnerShopsResponses];
+export type GetMyPartnerShopsResponse = GetMyPartnerShopsResponses[keyof GetMyPartnerShopsResponses];
 
 export type GetPartnerApplicationsData = {
     body?: never;
@@ -6417,3 +6780,407 @@ export type AdminPostPartnerApplicationDecisionResponses = {
 };
 
 export type AdminPostPartnerApplicationDecisionResponse = AdminPostPartnerApplicationDecisionResponses[keyof AdminPostPartnerApplicationDecisionResponses];
+
+export type OauthAuthorizeData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * OAuth response type. Must be `code`.
+         */
+        response_type: 'code';
+        /**
+         * UUIDv7 identifier of the registered OAuth client.
+         */
+        client_id: string;
+        /**
+         * Redirect URI registered for the OAuth client. Must exactly match one of the client's registered redirect URIs.
+         */
+        redirect_uri: string;
+        /**
+         * Space-separated list of requested scopes. Must be a subset of the client's allowed scopes.
+         */
+        scope?: string;
+        /**
+         * Opaque client state value. Returned unchanged in the redirect to prevent CSRF attacks.
+         */
+        state?: string;
+        /**
+         * PKCE code challenge. Must be the base64url-encoded SHA256 hash of the `code_verifier` (S256 method).
+         */
+        code_challenge: string;
+        /**
+         * PKCE challenge method. Must be `S256`.
+         */
+        code_challenge_method: 'S256';
+    };
+    url: '/api/v1/oauth/authorize';
+};
+
+export type OauthAuthorizeErrors = {
+    /**
+     * Bad request — a required query parameter is missing or has an unsupported value.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized — the Cognito bearer token is missing, invalid, or the OAuth client was not found / credentials are invalid.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type OauthAuthorizeError = OauthAuthorizeErrors[keyof OauthAuthorizeErrors];
+
+export type OauthTokenData = {
+    /**
+     * Authorization code exchange payload (form-urlencoded).
+     */
+    body: {
+        /**
+         * OAuth grant type. Must be `authorization_code`.
+         */
+        grant_type: 'authorization_code';
+        /**
+         * Single-use authorization code received from the authorize redirect.
+         */
+        code: string;
+        /**
+         * Must exactly match the `redirect_uri` used in the corresponding authorization request.
+         */
+        redirect_uri: string;
+        /**
+         * UUIDv7 OAuth client identifier.
+         */
+        client_id: string;
+        /**
+         * OAuth client secret.
+         */
+        client_secret: string;
+        /**
+         * PKCE code verifier. The SHA256 hash of this value must match the `code_challenge` from the authorization request.
+         */
+        code_verifier: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/oauth/token';
+};
+
+export type OauthTokenErrors = {
+    /**
+     * Bad request — a required form field is missing, `client_id` is not a valid UUID, or an authorization code error occurred (code not found, expired, mismatched client or redirect URI, or invalid PKCE verifier).
+     */
+    400: ApiError;
+    /**
+     * Unauthorized — invalid OAuth client credentials.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type OauthTokenError = OauthTokenErrors[keyof OauthTokenErrors];
+
+export type OauthTokenResponses = {
+    /**
+     * Access token issued successfully.
+     */
+    200: OAuthTokenResponseData;
+};
+
+export type OauthTokenResponse = OauthTokenResponses[keyof OauthTokenResponses];
+
+export type OauthRevokeData = {
+    /**
+     * Token revocation payload (form-urlencoded).
+     */
+    body: {
+        /**
+         * The access token to revoke.
+         */
+        token: string;
+        /**
+         * UUIDv7 OAuth client identifier.
+         */
+        client_id: string;
+        /**
+         * OAuth client secret.
+         */
+        client_secret: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/oauth/revoke';
+};
+
+export type OauthRevokeErrors = {
+    /**
+     * Bad request — a required form field is missing, `client_id` is not a valid UUID, or the token value is invalid.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized — invalid OAuth client credentials.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type OauthRevokeError = OauthRevokeErrors[keyof OauthRevokeErrors];
+
+export type OauthRevokeResponses = {
+    /**
+     * Token revoked successfully (or token was unknown/already inactive). Empty response body.
+     */
+    200: unknown;
+};
+
+export type OauthIntrospectData = {
+    /**
+     * Token introspection payload (form-urlencoded).
+     */
+    body: {
+        /**
+         * The access token to introspect.
+         */
+        token: string;
+        /**
+         * UUIDv7 OAuth client identifier.
+         */
+        client_id: string;
+        /**
+         * OAuth client secret.
+         */
+        client_secret: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/oauth/introspect';
+};
+
+export type OauthIntrospectErrors = {
+    /**
+     * Bad request — a required form field is missing, `client_id` is not a valid UUID, or the token value is invalid.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized — invalid OAuth client credentials.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type OauthIntrospectError = OauthIntrospectErrors[keyof OauthIntrospectErrors];
+
+export type OauthIntrospectResponses = {
+    /**
+     * Introspection result. `active: false` means the token is unknown, expired, or revoked.
+     */
+    200: OAuthIntrospectionResponseData;
+};
+
+export type OauthIntrospectResponse = OauthIntrospectResponses[keyof OauthIntrospectResponses];
+
+export type GetOAuthClientsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/oauth/clients';
+};
+
+export type GetOAuthClientsErrors = {
+    /**
+     * Unauthorized — invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type GetOAuthClientsError = GetOAuthClientsErrors[keyof GetOAuthClientsErrors];
+
+export type GetOAuthClientsResponses = {
+    /**
+     * OAuth client metadata retrieved successfully.
+     */
+    200: Array<OAuthClientMetadataResponseData>;
+};
+
+export type GetOAuthClientsResponse = GetOAuthClientsResponses[keyof GetOAuthClientsResponses];
+
+export type PostOAuthClientData = {
+    /**
+     * OAuth client metadata creation payload.
+     */
+    body: OAuthClientMetadataRequestData;
+    path?: never;
+    query?: never;
+    url: '/api/v1/oauth/clients';
+};
+
+export type PostOAuthClientErrors = {
+    /**
+     * Bad request — missing, empty, malformed JSON body, or invalid OAuth client metadata.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized — invalid or missing JWT token.
+     */
+    401: ApiError;
+    /**
+     * Forbidden — the authenticated user is not an admin.
+     */
+    403: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type PostOAuthClientError = PostOAuthClientErrors[keyof PostOAuthClientErrors];
+
+export type PostOAuthClientResponses = {
+    /**
+     * OAuth client metadata created successfully.
+     */
+    201: OAuthClientMetadataResponseData;
+};
+
+export type PostOAuthClientResponse = PostOAuthClientResponses[keyof PostOAuthClientResponses];
+
+export type DeleteOAuthClientData = {
+    body?: never;
+    path: {
+        /**
+         * UUIDv7 identifier of the OAuth client.
+         */
+        clientId: string;
+    };
+    query?: never;
+    url: '/api/v1/oauth/clients/{clientId}';
+};
+
+export type DeleteOAuthClientErrors = {
+    /**
+     * Bad request — invalid or missing OAuth client path parameter.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized — invalid or missing JWT token, or the OAuth client does not exist.
+     */
+    401: ApiError;
+    /**
+     * Forbidden — the authenticated user is not an admin.
+     */
+    403: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type DeleteOAuthClientError = DeleteOAuthClientErrors[keyof DeleteOAuthClientErrors];
+
+export type DeleteOAuthClientResponses = {
+    /**
+     * OAuth client metadata deleted successfully. Empty response body.
+     */
+    204: void;
+};
+
+export type DeleteOAuthClientResponse = DeleteOAuthClientResponses[keyof DeleteOAuthClientResponses];
+
+export type GetOAuthClientData = {
+    body?: never;
+    path: {
+        /**
+         * UUIDv7 identifier of the OAuth client.
+         */
+        clientId: string;
+    };
+    query?: never;
+    url: '/api/v1/oauth/clients/{clientId}';
+};
+
+export type GetOAuthClientErrors = {
+    /**
+     * Bad request — invalid or missing OAuth client path parameter.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized — invalid or missing JWT token, or the OAuth client does not exist.
+     */
+    401: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type GetOAuthClientError = GetOAuthClientErrors[keyof GetOAuthClientErrors];
+
+export type GetOAuthClientResponses = {
+    /**
+     * OAuth client metadata retrieved successfully.
+     */
+    200: OAuthClientMetadataResponseData;
+};
+
+export type GetOAuthClientResponse = GetOAuthClientResponses[keyof GetOAuthClientResponses];
+
+export type PatchOAuthClientData = {
+    /**
+     * Partial OAuth client metadata update payload.
+     */
+    body: OAuthClientMetadataPatchData;
+    path: {
+        /**
+         * UUIDv7 identifier of the OAuth client.
+         */
+        clientId: string;
+    };
+    query?: never;
+    url: '/api/v1/oauth/clients/{clientId}';
+};
+
+export type PatchOAuthClientErrors = {
+    /**
+     * Bad request — invalid or missing OAuth client path parameter, empty body, malformed JSON body, or invalid OAuth client metadata.
+     */
+    400: ApiError;
+    /**
+     * Unauthorized — invalid or missing JWT token, or the OAuth client does not exist.
+     */
+    401: ApiError;
+    /**
+     * Forbidden — the authenticated user is not an admin.
+     */
+    403: ApiError;
+    /**
+     * Internal server error.
+     */
+    500: ApiError;
+};
+
+export type PatchOAuthClientError = PatchOAuthClientErrors[keyof PatchOAuthClientErrors];
+
+export type PatchOAuthClientResponses = {
+    /**
+     * OAuth client metadata updated successfully.
+     */
+    200: OAuthClientMetadataResponseData;
+};
+
+export type PatchOAuthClientResponse = PatchOAuthClientResponses[keyof PatchOAuthClientResponses];

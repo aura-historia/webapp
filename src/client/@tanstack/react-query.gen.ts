@@ -3,15 +3,18 @@
 import { queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistProduct, adminDeleteUser, adminGetPartnerApplication, adminGetPartnerApplications, adminGetUser, adminPatchPartnerApplication, adminPatchUser, adminPostPartnerApplicationDecision, adminSearchUsers, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteNotification, deletePartnerApplication, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getNotifications, getPartnerApplication, getPartnerApplications, getPartnerShops, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterLiveProducts, getSearchFilterMatches, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, type Options, patchAllNotifications, patchNotification, patchPartnerApplication, patchPartnerProducts, patchShopById, patchWatchlistProduct, postBillingCheckout, postBillingManage, postBillingPortal, postPartnerApplication, postPartnerProducts, postShop, postWoocommerceWebhook, putNewsletterSubscription, putPartnerProducts, putShopApiKey, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateSearchFilterMatchFeedback, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminDeleteUserData, AdminDeleteUserError, AdminDeleteUserResponse, AdminGetPartnerApplicationData, AdminGetPartnerApplicationError, AdminGetPartnerApplicationResponse, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsError, AdminGetPartnerApplicationsResponse, AdminGetUserData, AdminGetUserError, AdminGetUserResponse, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationError, AdminPatchPartnerApplicationResponse, AdminPatchUserData, AdminPatchUserError, AdminPatchUserResponse, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionError, AdminPostPartnerApplicationDecisionResponse, AdminSearchUsersData, AdminSearchUsersError, AdminSearchUsersResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeletePartnerApplicationData, DeletePartnerApplicationError, DeletePartnerApplicationResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetPartnerApplicationData, GetPartnerApplicationError, GetPartnerApplicationResponse, GetPartnerApplicationsData, GetPartnerApplicationsError, GetPartnerApplicationsResponse, GetPartnerShopsData, GetPartnerShopsError, GetPartnerShopsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterLiveProductsData, GetSearchFilterLiveProductsError, GetSearchFilterLiveProductsResponse, GetSearchFilterMatchesData, GetSearchFilterMatchesError, GetSearchFilterMatchesResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchPartnerApplicationData, PatchPartnerApplicationError, PatchPartnerApplicationResponse, PatchPartnerProductsData, PatchPartnerProductsError, PatchPartnerProductsResponse, PatchShopByIdData, PatchShopByIdError, PatchShopByIdResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostBillingCheckoutData2, PostBillingCheckoutError, PostBillingCheckoutResponse, PostBillingManageData, PostBillingManageError, PostBillingManageResponse, PostBillingPortalData, PostBillingPortalError, PostBillingPortalResponse, PostPartnerApplicationData, PostPartnerApplicationError, PostPartnerApplicationResponse, PostPartnerProductsData, PostPartnerProductsError, PostPartnerProductsResponse, PostShopData2, PostShopError, PostShopResponse, PostWoocommerceWebhookData, PostWoocommerceWebhookError, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductsData, PutPartnerProductsError, PutPartnerProductsResponse, PutShopApiKeyData, PutShopApiKeyError, PutShopApiKeyResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackError, UpdateSearchFilterMatchFeedbackResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import { addWatchlistProduct, adminDeleteUser, adminGetPartnerApplication, adminGetPartnerApplications, adminGetUser, adminPatchPartnerApplication, adminPatchUser, adminPostPartnerApplicationDecision, adminSearchUsers, complexSearchProducts, createUserSearchFilter, deleteAllNotifications, deleteMyAccessToken, deleteNotification, deleteOAuthClient, deletePartnerApplication, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getCategories, getCategoryById, getMyAccessToken, getMyAccessTokens, getMyPartnerShops, getNotifications, getOAuthClient, getOAuthClients, getPartnerApplication, getPartnerApplications, getPeriodById, getPeriods, getProduct, getProductBySlug, getProductHistory, getSearchFilterLiveProducts, getSearchFilterMatches, getShopById, getShopBySlug, getSimilarProducts, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProducts, oauthAuthorize, oauthIntrospect, oauthRevoke, oauthToken, type Options, patchAllNotifications, patchMyAccessToken, patchNotification, patchOAuthClient, patchPartnerApplication, patchPartnerProducts, patchShopById, patchWatchlistProduct, postBillingCheckout, postBillingManage, postBillingPortal, postMyAccessToken, postOAuthClient, postPartnerApplication, postPartnerProducts, postShop, postWoocommerceWebhook, putNewsletterSubscription, putPartnerProducts, searchCategories, searchPeriods, searchShops, simpleSearchProducts, simpleSearchShops, updateSearchFilterMatchFeedback, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminDeleteUserData, AdminDeleteUserError, AdminDeleteUserResponse, AdminGetPartnerApplicationData, AdminGetPartnerApplicationError, AdminGetPartnerApplicationResponse, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsError, AdminGetPartnerApplicationsResponse, AdminGetUserData, AdminGetUserError, AdminGetUserResponse, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationError, AdminPatchPartnerApplicationResponse, AdminPatchUserData, AdminPatchUserError, AdminPatchUserResponse, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionError, AdminPostPartnerApplicationDecisionResponse, AdminSearchUsersData, AdminSearchUsersError, AdminSearchUsersResponse, ComplexSearchProductsData, ComplexSearchProductsError, ComplexSearchProductsResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAllNotificationsData, DeleteAllNotificationsError, DeleteAllNotificationsResponse, DeleteMyAccessTokenData, DeleteMyAccessTokenError, DeleteMyAccessTokenResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeleteOAuthClientData, DeleteOAuthClientError, DeleteOAuthClientResponse, DeletePartnerApplicationData, DeletePartnerApplicationError, DeletePartnerApplicationResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetCategoriesData, GetCategoriesError, GetCategoriesResponse, GetCategoryByIdData, GetCategoryByIdError, GetCategoryByIdResponse, GetMyAccessTokenData, GetMyAccessTokenError, GetMyAccessTokenResponse, GetMyAccessTokensData, GetMyAccessTokensError, GetMyAccessTokensResponse, GetMyPartnerShopsData, GetMyPartnerShopsError, GetMyPartnerShopsResponse, GetNotificationsData, GetNotificationsError, GetNotificationsResponse, GetOAuthClientData, GetOAuthClientError, GetOAuthClientResponse, GetOAuthClientsData, GetOAuthClientsError, GetOAuthClientsResponse, GetPartnerApplicationData, GetPartnerApplicationError, GetPartnerApplicationResponse, GetPartnerApplicationsData, GetPartnerApplicationsError, GetPartnerApplicationsResponse, GetPeriodByIdData, GetPeriodByIdError, GetPeriodByIdResponse, GetPeriodsData, GetPeriodsError, GetPeriodsResponse, GetProductBySlugData, GetProductBySlugError, GetProductBySlugResponse, GetProductData2, GetProductError, GetProductHistoryData, GetProductHistoryError, GetProductHistoryResponse, GetProductResponse, GetSearchFilterLiveProductsData, GetSearchFilterLiveProductsError, GetSearchFilterLiveProductsResponse, GetSearchFilterMatchesData, GetSearchFilterMatchesError, GetSearchFilterMatchesResponse, GetShopByIdData, GetShopByIdError, GetShopByIdResponse, GetShopBySlugData, GetShopBySlugError, GetShopBySlugResponse, GetSimilarProductsData, GetSimilarProductsError, GetSimilarProductsResponse, GetUserAccountData2, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductsData, GetWatchlistProductsError, GetWatchlistProductsResponse, OauthAuthorizeData, OauthAuthorizeError, OauthIntrospectData, OauthIntrospectError, OauthIntrospectResponse, OauthRevokeData, OauthRevokeError, OauthTokenData, OauthTokenError, OauthTokenResponse, PatchAllNotificationsData, PatchAllNotificationsError, PatchAllNotificationsResponse, PatchMyAccessTokenData, PatchMyAccessTokenError, PatchMyAccessTokenResponse, PatchNotificationData2, PatchNotificationError, PatchNotificationResponse, PatchOAuthClientData, PatchOAuthClientError, PatchOAuthClientResponse, PatchPartnerApplicationData, PatchPartnerApplicationError, PatchPartnerApplicationResponse, PatchPartnerProductsData, PatchPartnerProductsError, PatchPartnerProductsResponse, PatchShopByIdData, PatchShopByIdError, PatchShopByIdResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostBillingCheckoutData2, PostBillingCheckoutError, PostBillingCheckoutResponse, PostBillingManageData, PostBillingManageError, PostBillingManageResponse, PostBillingPortalData, PostBillingPortalError, PostBillingPortalResponse, PostMyAccessTokenData, PostMyAccessTokenError, PostMyAccessTokenResponse, PostOAuthClientData, PostOAuthClientError, PostOAuthClientResponse, PostPartnerApplicationData, PostPartnerApplicationError, PostPartnerApplicationResponse, PostPartnerProductsData, PostPartnerProductsError, PostPartnerProductsResponse, PostShopData2, PostShopError, PostShopResponse, PostWoocommerceWebhookData, PostWoocommerceWebhookError, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductsData, PutPartnerProductsError, PutPartnerProductsResponse, SearchCategoriesData, SearchCategoriesError, SearchCategoriesResponse, SearchPeriodsData, SearchPeriodsError, SearchPeriodsResponse, SearchShopsData, SearchShopsError, SearchShopsResponse, SimpleSearchProductsData, SimpleSearchProductsError, SimpleSearchProductsResponse, SimpleSearchShopsData, SimpleSearchShopsError, SimpleSearchShopsResponse, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackError, UpdateSearchFilterMatchFeedbackResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 /**
  * Batch update products (Partner API)
  *
- * Updates one or more existing products for a shop using API key authentication.
- * This endpoint is intended for partner shops — shops that have been granted partner status
- * and have an API key configured. It does **not** use Cognito JWT authentication.
+ * Updates one or more existing products for a shop using bearer authentication.
+ * This endpoint is intended for partner shops and accepts:
+ * - a Cognito bearer token for the partner user linked to the shop, or
+ * - an Aura Historia access token owned by that partner user.
+ *
+ * Aura Historia access tokens on this endpoint must include the `products:write` scope.
  *
  * The request body is an array of `PatchProductData` objects. Only the fields provided in
  * each entry are updated; omitted optional fields are left unchanged. Each entry is forwarded
@@ -41,9 +44,12 @@ export const patchPartnerProductsMutation = (options?: Partial<Options<PatchPart
 /**
  * Batch create products (Partner API)
  *
- * Creates one or more products for a shop using API key authentication.
- * This endpoint is intended for partner shops — shops that have been granted partner status
- * and have an API key configured. It does **not** use Cognito JWT authentication.
+ * Creates one or more products for a shop using bearer authentication.
+ * This endpoint is intended for partner shops and accepts:
+ * - a Cognito bearer token for the partner user linked to the shop, or
+ * - an Aura Historia access token owned by that partner user.
+ *
+ * Aura Historia access tokens on this endpoint must include the `products:write` scope.
  *
  * The request body is an array of `PostProductData` objects. Each entry is forwarded
  * individually to the asynchronous partner-product ingestion queue.
@@ -71,15 +77,28 @@ export const postPartnerProductsMutation = (options?: Partial<Options<PostPartne
  * Batch upsert products (Partner API)
  *
  * Creates new products or updates existing ones for a shop in a single batch call,
- * using API key authentication. This endpoint is intended for partner shops — shops
- * that have been granted partner status and have an API key configured. It does **not**
- * use Cognito JWT authentication.
+ * using bearer authentication. This endpoint is intended for partner shops and accepts:
+ * - a Cognito bearer token for the partner user linked to the shop, or
+ * - an Aura Historia access token owned by that partner user.
+ *
+ * Aura Historia access tokens on this endpoint must include the `products:write` scope.
  *
  * The request body is an array of `PutProductData` objects. Each entry is forwarded
  * individually to the asynchronous partner-product ingestion queue as an upsert command.
  * When the queued command is later ingested:
- * - **Existing product** — only `state` and `price` are updated (other fields are ignored).
- * - **New product** — a full product is created using all provided fields.
+ * - **New product** — a full product is created using all provided fields. Omitting
+ * `title`, `url`, or `state` causes the backend to fall back to an empty title,
+ * a placeholder URL, and `LISTED` respectively.
+ * - **Existing product** — the backend applies `price`, `priceEstimateMin`,
+ * `priceEstimateMax`, `state`, `url`, `images`, `auctionStart`, and `auctionEnd`.
+ * `title`, `description`, `sellerName`, `structuredAddress`, and `geoAddress`
+ * are ignored on the update path.
+ * - On the update path, omitting or sending `null` for `price`, `priceEstimateMin`,
+ * `priceEstimateMax`, `url`, `auctionStart`, or `auctionEnd` leaves the stored value
+ * unchanged.
+ * - On the update path, `images` always replaces the stored image set; omitting
+ * `images` or sending `null` is treated as an empty list and therefore clears all
+ * stored images.
  *
  * The response returns HTTP 202 with an array containing only the `shopsProductId` values
  * that failed to be forwarded to the queue. An empty array indicates that all upserts were
@@ -103,11 +122,13 @@ export const putPartnerProductsMutation = (options?: Partial<Options<PutPartnerP
 /**
  * Ingest a WooCommerce product webhook (Partner API)
  *
- * Accepts a single WooCommerce product webhook event for a partner shop using API key authentication.
- * This endpoint is intended for partner shops and does **not** use Cognito JWT authentication.
+ * Accepts a single WooCommerce product webhook event for a partner shop using bearer authentication.
+ * This endpoint is intended for partner shops and accepts:
+ * - a Cognito bearer token for the partner user linked to the shop, or
+ * - an Aura Historia access token owned by that partner user.
  *
  * The caller must provide:
- * - the partner shop API key in the `x-api-key` header,
+ * - the bearer token in the `Authorization` header,
  * - the WooCommerce topic in `x-wc-webhook-topic`, and
  * - the base64-encoded HMAC-SHA256 signature of the raw request body in `x-wc-webhook-signature`.
  *
@@ -782,6 +803,118 @@ export const updateUserAccountMutation = (options?: Partial<Options<UpdateUserAc
     return mutationOptions;
 };
 
+export const getMyAccessTokensQueryKey = (options?: Options<GetMyAccessTokensData>) => createQueryKey('getMyAccessTokens', options);
+
+/**
+ * List Aura Historia access tokens
+ *
+ * Lists the authenticated user's non-expired Aura Historia access tokens.
+ * The `token` field is masked on this endpoint and does not reveal the plaintext bearer token again.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getMyAccessTokensOptions = (options?: Options<GetMyAccessTokensData>) => queryOptions<GetMyAccessTokensResponse, GetMyAccessTokensError, GetMyAccessTokensResponse, ReturnType<typeof getMyAccessTokensQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getMyAccessTokens({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getMyAccessTokensQueryKey(options)
+});
+
+/**
+ * Update an Aura Historia access token
+ *
+ * Updates metadata for one access token owned by the authenticated user.
+ * Omitted or `null` optional properties leave the existing value unchanged.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const patchMyAccessTokenMutation = (options?: Partial<Options<PatchMyAccessTokenData>>): UseMutationOptions<PatchMyAccessTokenResponse, PatchMyAccessTokenError, Options<PatchMyAccessTokenData>> => {
+    const mutationOptions: UseMutationOptions<PatchMyAccessTokenResponse, PatchMyAccessTokenError, Options<PatchMyAccessTokenData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await patchMyAccessToken({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Create an Aura Historia access token
+ *
+ * Creates a new Aura Historia access token for the authenticated user.
+ * The plaintext bearer token is returned only in this create response; later reads return a masked token value.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const postMyAccessTokenMutation = (options?: Partial<Options<PostMyAccessTokenData>>): UseMutationOptions<PostMyAccessTokenResponse, PostMyAccessTokenError, Options<PostMyAccessTokenData>> => {
+    const mutationOptions: UseMutationOptions<PostMyAccessTokenResponse, PostMyAccessTokenError, Options<PostMyAccessTokenData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await postMyAccessToken({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Delete an Aura Historia access token
+ *
+ * Deletes one access token owned by the authenticated user.
+ * The token to delete is identified by the required `{accessTokenId}` path parameter.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const deleteMyAccessTokenMutation = (options?: Partial<Options<DeleteMyAccessTokenData>>): UseMutationOptions<DeleteMyAccessTokenResponse, DeleteMyAccessTokenError, Options<DeleteMyAccessTokenData>> => {
+    const mutationOptions: UseMutationOptions<DeleteMyAccessTokenResponse, DeleteMyAccessTokenError, Options<DeleteMyAccessTokenData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deleteMyAccessToken({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getMyAccessTokenQueryKey = (options: Options<GetMyAccessTokenData>) => createQueryKey('getMyAccessToken', options);
+
+/**
+ * Get one Aura Historia access token
+ *
+ * Retrieves one non-expired Aura Historia access token owned by the authenticated user.
+ * The `token` field is masked on this endpoint and does not reveal the plaintext bearer token again.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getMyAccessTokenOptions = (options: Options<GetMyAccessTokenData>) => queryOptions<GetMyAccessTokenResponse, GetMyAccessTokenError, GetMyAccessTokenResponse, ReturnType<typeof getMyAccessTokenQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getMyAccessToken({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getMyAccessTokenQueryKey(options)
+});
+
 /**
  * Create Stripe checkout session
  *
@@ -1052,6 +1185,10 @@ export const simpleSearchShopsQueryKey = (options?: Options<SimpleSearchShopsDat
  * Performs shop search using query parameters instead of a JSON request body.
  * This is the cache-friendly equivalent of `POST /api/v1/shops/search`.
  *
+ * Authentication is optional on this endpoint:
+ * - unauthenticated requests return cacheable shared responses
+ * - authenticated Cognito JWT or Aura Historia access-token requests return `Cache-Control: no-store`
+ *
  * All optional filters from `ShopSearchData` are supported as query parameters
  * using the same field names:
  * - `shopNameQuery`
@@ -1109,6 +1246,10 @@ export const getShopByIdQueryKey = (options: Options<GetShopByIdData>) => create
  * Retrieves detailed information about a specific shop by its shop ID (UUID).
  * Returns complete shop metadata including name, domains, image, address/contact metadata, and timestamps.
  *
+ * Authentication is optional on this endpoint:
+ * - unauthenticated requests return cacheable shared responses
+ * - authenticated Cognito JWT or Aura Historia access-token requests return `Cache-Control: no-store`
+ *
  */
 export const getShopByIdOptions = (options: Options<GetShopByIdData>) => queryOptions<GetShopByIdResponse, GetShopByIdError, GetShopByIdResponse, ReturnType<typeof getShopByIdQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -1130,7 +1271,7 @@ export const getShopByIdOptions = (options: Options<GetShopByIdData>) => queryOp
  *
  * Requires either:
  * - a valid Cognito JWT for the partner user assigned to the shop or for an `ADMIN`, or
- * - the partner shop's `x-api-key` when no Cognito identity is present.
+ * - a valid Aura Historia access token owned by the partner user assigned to the shop.
  *
  * The request body uses `PatchShopData`. Only fields present in the JSON body are applied;
  * omitted or `null` fields are left unchanged. The HTTP request body itself must not be absent
@@ -1151,33 +1292,6 @@ export const patchShopByIdMutation = (options?: Partial<Options<PatchShopByIdDat
     return mutationOptions;
 };
 
-/**
- * Create or overwrite a partner shop API key
- *
- * Creates a new partner API key for the specified shop and returns the plaintext key in the response.
- * If a key already exists for the shop, it is overwritten.
- *
- * Requires a valid Cognito JWT. The caller must either:
- * - be the partner user assigned to the shop, or
- * - have the `ADMIN` role.
- *
- * The returned key is only available in this response. The backend stores only a hash.
- *
- */
-export const putShopApiKeyMutation = (options?: Partial<Options<PutShopApiKeyData>>): UseMutationOptions<PutShopApiKeyResponse, PutShopApiKeyError, Options<PutShopApiKeyData>> => {
-    const mutationOptions: UseMutationOptions<PutShopApiKeyResponse, PutShopApiKeyError, Options<PutShopApiKeyData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await putShopApiKey({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
 export const getShopBySlugQueryKey = (options: Options<GetShopBySlugData>) => createQueryKey('getShopBySlug', options);
 
 /**
@@ -1185,6 +1299,10 @@ export const getShopBySlugQueryKey = (options: Options<GetShopBySlugData>) => cr
  *
  * Retrieves detailed information about a specific shop by its human-readable slug identifier.
  * Returns complete shop metadata including name, domains, image, address/contact metadata, and timestamps.
+ *
+ * Authentication is optional on this endpoint:
+ * - unauthenticated requests return cacheable shared responses
+ * - authenticated Cognito JWT or Aura Historia access-token requests return `Cache-Control: no-store`
  *
  * **Human-Readable Identifiers**: This endpoint uses slug-based identifiers which are human-readable
  * kebab-case strings derived from the shop name (e.g., "tech-store-premium" or "christies").
@@ -1393,23 +1511,20 @@ export const searchPeriodsMutation = (options?: Partial<Options<SearchPeriodsDat
     return mutationOptions;
 };
 
-export const getPartnerShopsQueryKey = (options: Options<GetPartnerShopsData>) => createQueryKey('getPartnerShops', options);
+export const getMyPartnerShopsQueryKey = (options?: Options<GetMyPartnerShopsData>) => createQueryKey('getMyPartnerShops', options);
 
 /**
- * List shops for a partner user
+ * List the authenticated user's partner shops
  *
- * Returns all shops whose `partner_user_id` matches the requested `partnerId`.
+ * Returns all shops currently linked to the authenticated user's `partnerShops` set.
+ * Requires a valid Cognito JWT and always resolves shops for the current user only.
  *
- * Requires a valid Cognito JWT. The caller may request:
- * - their own shops (`partnerId` equals the JWT `sub`), or
- * - another partner's shops when the caller has the `ADMIN` role.
- *
- * Returns an empty array when the partner currently has no shops.
+ * Returns an empty array when the authenticated user currently has no linked partner shops.
  *
  */
-export const getPartnerShopsOptions = (options: Options<GetPartnerShopsData>) => queryOptions<GetPartnerShopsResponse, GetPartnerShopsError, GetPartnerShopsResponse, ReturnType<typeof getPartnerShopsQueryKey>>({
+export const getMyPartnerShopsOptions = (options?: Options<GetMyPartnerShopsData>) => queryOptions<GetMyPartnerShopsResponse, GetMyPartnerShopsError, GetMyPartnerShopsResponse, ReturnType<typeof getMyPartnerShopsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getPartnerShops({
+        const { data } = await getMyPartnerShops({
             ...options,
             ...queryKey[0],
             signal,
@@ -1417,7 +1532,7 @@ export const getPartnerShopsOptions = (options: Options<GetPartnerShopsData>) =>
         });
         return data;
     },
-    queryKey: getPartnerShopsQueryKey(options)
+    queryKey: getMyPartnerShopsQueryKey(options)
 });
 
 export const getPartnerApplicationsQueryKey = (options?: Options<GetPartnerApplicationsData>) => createQueryKey('getPartnerApplications', options);
@@ -1625,6 +1740,223 @@ export const adminPostPartnerApplicationDecisionMutation = (options?: Partial<Op
     const mutationOptions: UseMutationOptions<AdminPostPartnerApplicationDecisionResponse, AdminPostPartnerApplicationDecisionError, Options<AdminPostPartnerApplicationDecisionData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await adminPostPartnerApplicationDecision({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const oauthAuthorizeQueryKey = (options: Options<OauthAuthorizeData>) => createQueryKey('oauthAuthorize', options);
+
+/**
+ * OAuth2 authorization endpoint
+ *
+ * Starts the OAuth2 authorization code flow (RFC 6749 §4.1).
+ * The authenticated user (resource owner) grants the requesting OAuth client access to their
+ * Aura Historia account. PKCE (RFC 7636) with `S256` is required for all requests.
+ *
+ * On success the endpoint redirects (302) to the `redirect_uri` appending `code` and, if
+ * supplied, `state` as query parameters. The single-use authorization code must be exchanged
+ * for an access token via `POST /api/v1/oauth/token` before it expires.
+ *
+ */
+export const oauthAuthorizeOptions = (options: Options<OauthAuthorizeData>) => queryOptions<unknown, OauthAuthorizeError, unknown, ReturnType<typeof oauthAuthorizeQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await oauthAuthorize({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: oauthAuthorizeQueryKey(options)
+});
+
+/**
+ * OAuth2 token endpoint
+ *
+ * Exchanges a single-use authorization code for an Aura Historia access token (RFC 6749 §4.1.3).
+ * The request body must be `application/x-www-form-urlencoded`. Client authentication is
+ * performed via `client_id` / `client_secret` form fields. PKCE code verification (RFC 7636)
+ * is mandatory: `code_verifier` must produce the `code_challenge` supplied to the authorize
+ * endpoint.
+ *
+ * The issued access token is non-expiring by default (same lifetime as tokens created via
+ * `POST /api/v1/me/access-tokens`).
+ *
+ */
+export const oauthTokenMutation = (options?: Partial<Options<OauthTokenData>>): UseMutationOptions<OauthTokenResponse, OauthTokenError, Options<OauthTokenData>> => {
+    const mutationOptions: UseMutationOptions<OauthTokenResponse, OauthTokenError, Options<OauthTokenData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await oauthToken({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * OAuth2 token revocation endpoint
+ *
+ * Revokes an Aura Historia access token that was issued through the OAuth authorization code
+ * flow (RFC 7009). The request body must be `application/x-www-form-urlencoded`. Client
+ * authentication is performed via `client_id` / `client_secret` form fields.
+ *
+ * After revocation the token is immediately inactive and introspection will return
+ * `active: false`. Attempting to revoke an unknown or already-revoked token is not an error.
+ *
+ */
+export const oauthRevokeMutation = (options?: Partial<Options<OauthRevokeData>>): UseMutationOptions<unknown, OauthRevokeError, Options<OauthRevokeData>> => {
+    const mutationOptions: UseMutationOptions<unknown, OauthRevokeError, Options<OauthRevokeData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await oauthRevoke({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * OAuth2 token introspection endpoint
+ *
+ * Returns metadata about an Aura Historia access token (RFC 7662). The request body must be
+ * `application/x-www-form-urlencoded`. Client authentication is performed via `client_id` /
+ * `client_secret` form fields.
+ *
+ * If the token is unknown, expired, or revoked, `active` is `false` and all other fields are
+ * omitted. Otherwise `active` is `true` and the available token metadata is populated.
+ *
+ */
+export const oauthIntrospectMutation = (options?: Partial<Options<OauthIntrospectData>>): UseMutationOptions<OauthIntrospectResponse, OauthIntrospectError, Options<OauthIntrospectData>> => {
+    const mutationOptions: UseMutationOptions<OauthIntrospectResponse, OauthIntrospectError, Options<OauthIntrospectData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await oauthIntrospect({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getOAuthClientsQueryKey = (options?: Options<GetOAuthClientsData>) => createQueryKey('getOAuthClients', options);
+
+/**
+ * List OAuth client metadata
+ *
+ * Lists registered OAuth client metadata records.
+ * The returned `client_secret` value is masked and does not reveal the plaintext secret.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getOAuthClientsOptions = (options?: Options<GetOAuthClientsData>) => queryOptions<GetOAuthClientsResponse, GetOAuthClientsError, GetOAuthClientsResponse, ReturnType<typeof getOAuthClientsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getOAuthClients({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getOAuthClientsQueryKey(options)
+});
+
+/**
+ * Create OAuth client metadata
+ *
+ * Creates a new OAuth client metadata record.
+ * The plaintext `client_secret` is returned only in this create response; later reads return
+ * a masked secret display value.
+ * Requires valid Cognito JWT authentication and the `ADMIN` role.
+ *
+ */
+export const postOAuthClientMutation = (options?: Partial<Options<PostOAuthClientData>>): UseMutationOptions<PostOAuthClientResponse, PostOAuthClientError, Options<PostOAuthClientData>> => {
+    const mutationOptions: UseMutationOptions<PostOAuthClientResponse, PostOAuthClientError, Options<PostOAuthClientData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await postOAuthClient({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Delete OAuth client metadata
+ *
+ * Deletes one OAuth client metadata record.
+ * Requires valid Cognito JWT authentication and the `ADMIN` role.
+ *
+ */
+export const deleteOAuthClientMutation = (options?: Partial<Options<DeleteOAuthClientData>>): UseMutationOptions<DeleteOAuthClientResponse, DeleteOAuthClientError, Options<DeleteOAuthClientData>> => {
+    const mutationOptions: UseMutationOptions<DeleteOAuthClientResponse, DeleteOAuthClientError, Options<DeleteOAuthClientData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deleteOAuthClient({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getOAuthClientQueryKey = (options: Options<GetOAuthClientData>) => createQueryKey('getOAuthClient', options);
+
+/**
+ * Get OAuth client metadata
+ *
+ * Retrieves one OAuth client metadata record.
+ * The returned `client_secret` value is masked and does not reveal the plaintext secret.
+ * Requires valid Cognito JWT authentication.
+ *
+ */
+export const getOAuthClientOptions = (options: Options<GetOAuthClientData>) => queryOptions<GetOAuthClientResponse, GetOAuthClientError, GetOAuthClientResponse, ReturnType<typeof getOAuthClientQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getOAuthClient({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getOAuthClientQueryKey(options)
+});
+
+/**
+ * Update OAuth client metadata
+ *
+ * Updates one OAuth client metadata record.
+ * Omitted or `null` optional properties leave the existing value unchanged.
+ * The returned `client_secret` value is masked and does not reveal the plaintext secret.
+ * Requires valid Cognito JWT authentication and the `ADMIN` role.
+ *
+ */
+export const patchOAuthClientMutation = (options?: Partial<Options<PatchOAuthClientData>>): UseMutationOptions<PatchOAuthClientResponse, PatchOAuthClientError, Options<PatchOAuthClientData>> => {
+    const mutationOptions: UseMutationOptions<PatchOAuthClientResponse, PatchOAuthClientError, Options<PatchOAuthClientData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await patchOAuthClient({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
