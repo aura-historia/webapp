@@ -69,7 +69,6 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "cmdk": "^1.1.1",
-        "components": "link:@/components",
         "country-flag-icons": "^1.6.15",
         "date-fns": "^4.1.0",
         "embla-carousel": "^8.6.0",
@@ -123,6 +122,6 @@
         "vite": "^8.0.11",
         "vitest": "^4.1.5",
         "web-vitals": "^5.2.0",
-        "wrangler": "4.90.0"
+        "wrangler": "^4.95.0"
     }
 }
