@@ -1365,7 +1365,8 @@
       "overview": "Übersicht",
       "shops": "Shops",
       "partnerApplications": "Partner-Anträge",
-      "users": "Benutzer"
+      "users": "Benutzer",
+      "oauthClients": "OAuth-Clients"
     },
     "overview": {
       "title": "Admin-Dashboard",
@@ -1385,6 +1386,12 @@
         "description": "Konten suchen, Benutzerdetails prüfen und Rolle, Tarif, Einstellungen sowie Stripe-Zuordnungen verwalten.",
         "totalCount_one": "{{count}} Benutzerkonto",
         "totalCount_other": "{{count}} Benutzerkonten"
+      },
+      "oauthClients": {
+        "title": "OAuth-Clients",
+        "description": "Registrierte OAuth-Client-Anwendungen verwalten.",
+        "totalCount_one": "{{count}} OAuth-Client",
+        "totalCount_other": "{{count}} OAuth-Clients"
       }
     },
     "actions": {
@@ -1586,6 +1593,57 @@
         "delete": "Benutzer löschen",
         "deleteConfirm": "Benutzer {{email}} löschen? Dies kann nicht rückgängig gemacht werden.",
         "deleteSuccess": "Benutzer gelöscht."
+      }
+    },
+    "oauthClients": {
+      "title": "OAuth-Clients",
+      "description": "Registrierte OAuth-Client-Anwendungen und ihre Metadaten verwalten.",
+      "loadError": "OAuth-Clients konnten nicht geladen werden.",
+      "empty": "Noch keine OAuth-Clients registriert.",
+      "clientId": "Client-ID",
+      "clientSecret": "Client-Secret",
+      "clientName": "Client-Name",
+      "redirectUris": "Redirect-URIs",
+      "scope": "Scopes",
+      "createdAt": "Erstellt {{date}}",
+      "editAriaLabel": "{{client}} bearbeiten",
+      "deleteAriaLabel": "{{client}} löschen",
+      "actions": {
+        "create": "Client anlegen",
+        "delete": "Löschen"
+      },
+      "deleteConfirm": "Möchten Sie den Client \"{{client}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "deleteSuccess": "OAuth-Client gelöscht.",
+      "create": {
+        "title": "OAuth-Client anlegen",
+        "description": "Einen neuen OAuth-Client registrieren. Das Client-Secret wird nur einmal angezeigt.",
+        "submit": "Client anlegen",
+        "success": "OAuth-Client angelegt.",
+        "secretNotice": "Kopieren Sie das Client-Secret jetzt – es wird nicht erneut angezeigt.",
+        "validation": {
+          "nameRequired": "Bitte geben Sie einen Client-Namen ein.",
+          "nameTooLong": "Der Client-Name darf nicht länger als 255 Zeichen sein.",
+          "redirectUrisRequired": "Bitte geben Sie mindestens eine Redirect-URI ein.",
+          "redirectUriInvalid": "Jede Redirect-URI muss eine gültige HTTPS-URL sein."
+        }
+      },
+      "edit": {
+        "title": "OAuth-Client bearbeiten",
+        "description": "\"{{client}}\" wird bearbeitet",
+        "success": "OAuth-Client aktualisiert.",
+        "validation": {
+          "nameRequired": "Bitte geben Sie einen Client-Namen ein.",
+          "nameTooLong": "Der Client-Name darf nicht länger als 255 Zeichen sein.",
+          "redirectUrisRequired": "Bitte geben Sie mindestens eine Redirect-URI ein.",
+          "redirectUriInvalid": "Jede Redirect-URI muss eine gültige HTTPS-URL sein."
+        }
+      },
+      "fields": {
+        "clientName": "Client-Name",
+        "redirectUris": "Redirect-URIs",
+        "redirectUrisHint": "Eine HTTPS-URI pro Zeile.",
+        "scope": "Scopes",
+        "scopeHint": "Wählen Sie die Scopes aus, die dieser Client anfordern darf."
       }
     }
   }

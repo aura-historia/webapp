@@ -3,10 +3,15 @@ import { describe, expect, it, vi } from "vitest";
 import { AdminOverviewPage } from "../AdminOverviewPage.tsx";
 
 const mockUseAdminPartnerApplications = vi.hoisted(() => vi.fn());
+const mockUseAdminOAuthClients = vi.hoisted(() => vi.fn());
 const mockUseAdminUsers = vi.hoisted(() => vi.fn());
 
 vi.mock("@/hooks/admin/useAdminPartnerApplications.ts", () => ({
     useAdminPartnerApplications: mockUseAdminPartnerApplications,
+}));
+
+vi.mock("@/hooks/admin/useAdminOAuthClients.ts", () => ({
+    useAdminOAuthClients: mockUseAdminOAuthClients,
 }));
 
 vi.mock("@/hooks/admin/useAdminUsers.ts", () => ({
@@ -28,6 +33,9 @@ describe("AdminOverviewPage", () => {
                 { businessState: "APPROVED" },
             ],
         });
+        mockUseAdminOAuthClients.mockReturnValue({
+            data: [{ clientId: "client-1" }, { clientId: "client-2" }],
+        });
         mockUseAdminUsers.mockReturnValue({
             data: {
                 pages: [{ total: 42 }],
@@ -44,11 +52,16 @@ describe("AdminOverviewPage", () => {
             "href",
             "/admin/partner-applications",
         );
+        expect(screen.getByRole("link", { name: /OAuth-Clients/i })).toHaveAttribute(
+            "href",
+            "/admin/oauth-clients",
+        );
         expect(screen.getByRole("link", { name: /Benutzer/i })).toHaveAttribute(
             "href",
             "/admin/users",
         );
         expect(screen.getByText("2 Anträge warten auf Prüfung")).toBeInTheDocument();
+        expect(screen.getByText("2 OAuth-Clients")).toBeInTheDocument();
         expect(screen.getByText("42 Benutzerkonten")).toBeInTheDocument();
     });
 });

@@ -1354,7 +1354,8 @@
       "overview": "Overview",
       "shops": "Shops",
       "partnerApplications": "Partner Applications",
-      "users": "Users"
+      "users": "Users",
+      "oauthClients": "OAuth Clients"
     },
     "overview": {
       "title": "Admin Dashboard",
@@ -1374,6 +1375,12 @@
         "description": "Search accounts, inspect user details, and manage role, tier, preferences, and Stripe mappings.",
         "totalCount_one": "{{count}} user account",
         "totalCount_other": "{{count}} user accounts"
+      },
+      "oauthClients": {
+        "title": "OAuth Clients",
+        "description": "Manage registered OAuth client applications.",
+        "totalCount_one": "{{count}} OAuth client",
+        "totalCount_other": "{{count}} OAuth clients"
       }
     },
     "actions": {
@@ -1575,6 +1582,57 @@
         "delete": "Delete user",
         "deleteConfirm": "Delete user {{email}}? This cannot be undone.",
         "deleteSuccess": "User deleted."
+      }
+    },
+    "oauthClients": {
+      "title": "OAuth Clients",
+      "description": "Manage registered OAuth client applications and their metadata.",
+      "loadError": "Could not load OAuth clients.",
+      "empty": "No OAuth clients registered yet.",
+      "clientId": "Client ID",
+      "clientSecret": "Client Secret",
+      "clientName": "Client Name",
+      "redirectUris": "Redirect URIs",
+      "scope": "Scopes",
+      "createdAt": "Created {{date}}",
+      "editAriaLabel": "Edit {{client}}",
+      "deleteAriaLabel": "Delete {{client}}",
+      "actions": {
+        "create": "Create client",
+        "delete": "Delete"
+      },
+      "deleteConfirm": "Are you sure you want to delete the client \"{{client}}\"? This action cannot be undone.",
+      "deleteSuccess": "OAuth client deleted.",
+      "create": {
+        "title": "Create OAuth Client",
+        "description": "Register a new OAuth client. The client secret will only be shown once.",
+        "submit": "Create client",
+        "success": "OAuth client created.",
+        "secretNotice": "Copy the client secret now — it will not be shown again.",
+        "validation": {
+          "nameRequired": "Please enter a client name.",
+          "nameTooLong": "Client name must not exceed 255 characters.",
+          "redirectUrisRequired": "Please enter at least one redirect URI.",
+          "redirectUriInvalid": "Each redirect URI must be a valid HTTPS URL."
+        }
+      },
+      "edit": {
+        "title": "Edit OAuth Client",
+        "description": "Editing {{client}}",
+        "success": "OAuth client updated.",
+        "validation": {
+          "nameRequired": "Please enter a client name.",
+          "nameTooLong": "Client name must not exceed 255 characters.",
+          "redirectUrisRequired": "Please enter at least one redirect URI.",
+          "redirectUriInvalid": "Each redirect URI must be a valid HTTPS URL."
+        }
+      },
+      "fields": {
+        "clientName": "Client name",
+        "redirectUris": "Redirect URIs",
+        "redirectUrisHint": "One HTTPS URI per line.",
+        "scope": "Scopes",
+        "scopeHint": "Select the scopes this client may request."
       }
     }
   }

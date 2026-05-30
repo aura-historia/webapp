@@ -1249,7 +1249,8 @@
       "overview": "Vue d'ensemble",
       "shops": "Boutiques",
       "partnerApplications": "Candidatures partenaires",
-      "users": "Utilisateurs"
+      "users": "Utilisateurs",
+      "oauthClients": "Clients OAuth"
     },
     "overview": {
       "title": "Tableau de bord admin",
@@ -1269,6 +1270,12 @@
         "description": "Recherchez des comptes, consultez les détails utilisateur et gérez les rôles, offres, préférences et correspondances Stripe.",
         "totalCount_one": "{{count}} compte utilisateur",
         "totalCount_other": "{{count}} comptes utilisateur"
+      },
+      "oauthClients": {
+        "title": "Clients OAuth",
+        "description": "Gérez les applications clientes OAuth enregistrées.",
+        "totalCount_one": "{{count}} client OAuth",
+        "totalCount_other": "{{count}} clients OAuth"
       }
     },
     "actions": {
@@ -1470,6 +1477,57 @@
         "delete": "Supprimer l’utilisateur",
         "deleteConfirm": "Supprimer l’utilisateur {{email}} ? Cette action est irréversible.",
         "deleteSuccess": "Utilisateur supprimé."
+      }
+    },
+    "oauthClients": {
+      "title": "Clients OAuth",
+      "description": "Gérez les applications clientes OAuth enregistrées et leurs métadonnées.",
+      "loadError": "Impossible de charger les clients OAuth.",
+      "empty": "Aucun client OAuth enregistré pour le moment.",
+      "clientId": "ID client",
+      "clientSecret": "Secret client",
+      "clientName": "Nom du client",
+      "redirectUris": "URI de redirection",
+      "scope": "Scopes",
+      "createdAt": "Créé le {{date}}",
+      "editAriaLabel": "Modifier {{client}}",
+      "deleteAriaLabel": "Supprimer {{client}}",
+      "actions": {
+        "create": "Créer un client",
+        "delete": "Supprimer"
+      },
+      "deleteConfirm": "Voulez-vous vraiment supprimer le client « {{client}} » ? Cette action est irréversible.",
+      "deleteSuccess": "Client OAuth supprimé.",
+      "create": {
+        "title": "Créer un client OAuth",
+        "description": "Enregistrez un nouveau client OAuth. Le secret client ne sera affiché qu’une seule fois.",
+        "submit": "Créer le client",
+        "success": "Client OAuth créé.",
+        "secretNotice": "Copiez le secret client maintenant — il ne sera plus affiché.",
+        "validation": {
+          "nameRequired": "Veuillez saisir un nom de client.",
+          "nameTooLong": "Le nom du client ne doit pas dépasser 255 caractères.",
+          "redirectUrisRequired": "Veuillez saisir au moins une URI de redirection.",
+          "redirectUriInvalid": "Chaque URI de redirection doit être une URL HTTPS valide."
+        }
+      },
+      "edit": {
+        "title": "Modifier le client OAuth",
+        "description": "Modification de {{client}}",
+        "success": "Client OAuth mis à jour.",
+        "validation": {
+          "nameRequired": "Veuillez saisir un nom de client.",
+          "nameTooLong": "Le nom du client ne doit pas dépasser 255 caractères.",
+          "redirectUrisRequired": "Veuillez saisir au moins une URI de redirection.",
+          "redirectUriInvalid": "Chaque URI de redirection doit être une URL HTTPS valide."
+        }
+      },
+      "fields": {
+        "clientName": "Nom du client",
+        "redirectUris": "URI de redirection",
+        "redirectUrisHint": "Une URI HTTPS par ligne.",
+        "scope": "Scopes",
+        "scopeHint": "Sélectionnez les scopes que ce client peut demander."
       }
     }
   },
