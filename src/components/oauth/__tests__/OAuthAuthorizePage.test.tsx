@@ -9,6 +9,10 @@ const mockMutate = vi.hoisted(() => vi.fn());
 const mockClientData = vi.hoisted(() => ({
     clientId: "01970f22-2bf0-7000-8000-000000000010",
     clientName: "Test Partner App",
+    tosUri: "https://client.example/terms",
+    policyUri: "https://client.example/privacy",
+    clientUri: "https://client.example",
+    logoUri: "https://client.example/logo.png",
     redirectUris: ["https://client.example/callback"],
     scopes: ["products:write" as const, "shops:manage" as const],
 }));
@@ -73,23 +77,40 @@ describe("OAuthAuthorizePage", () => {
         expect(screen.getByText("Test Partner App")).toBeInTheDocument();
     });
 
-    it("displays requested scopes with labels and descriptions", async () => {
+    it("displays app logo and client metadata links", async () => {
         await act(async () =>
             renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
         );
 
-        expect(screen.getByText("Produkte verwalten")).toBeInTheDocument();
+        expect(screen.getByAltText("Logo von Test Partner App")).toBeInTheDocument();
         expect(
-            screen.getByText(
-                "Produktangebote in Ihrem Namen erstellen, aktualisieren und verwalten.",
-            ),
-        ).toBeInTheDocument();
-        expect(screen.getByText("Shops verwalten")).toBeInTheDocument();
+            screen.getByRole("link", {
+                name: "Mehr über diese App",
+            }),
+        ).toHaveAttribute("href", "https://client.example");
         expect(
-            screen.getByText(
-                "Auf Ihre Shop-Einstellungen und -Konfiguration zugreifen und diese verwalten.",
-            ),
+            screen.getByRole("link", {
+                name: "Datenschutz",
+            }),
+        ).toHaveAttribute("href", "https://client.example/privacy");
+        expect(
+            screen.getByRole("link", {
+                name: "Nutzungsbedingungen",
+            }),
+        ).toHaveAttribute("href", "https://client.example/terms");
+    });
+
+    it("displays requested scope tags with short descriptions", async () => {
+        await act(async () =>
+            renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
+        );
+
+        expect(screen.getByText("products:write")).toBeInTheDocument();
+        expect(
+            screen.getByText("Produkte in Ihrem Namen erstellen oder aktualisieren."),
         ).toBeInTheDocument();
+        expect(screen.getByText("shops:manage")).toBeInTheDocument();
+        expect(screen.getByText("Ihre Shop-Einstellungen verwalten.")).toBeInTheDocument();
     });
 
     it("displays the authorization description with app name", async () => {
@@ -310,7 +331,7 @@ describe("OAuthAuthorizePage", () => {
             renderWithRouter(<OAuthAuthorizePage searchParams={singleScopeParams} />),
         );
 
-        expect(screen.getByText("Produkte verwalten")).toBeInTheDocument();
-        expect(screen.queryByText("Shops verwalten")).not.toBeInTheDocument();
+        expect(screen.getByText("products:write")).toBeInTheDocument();
+        expect(screen.queryByText("shops:manage")).not.toBeInTheDocument();
     });
 });

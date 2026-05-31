@@ -1709,6 +1709,22 @@ export type OAuthClientMetadataRequestData = {
      */
     client_name: string;
     /**
+     * HTTPS URL of the OAuth client's terms-of-service document.
+     */
+    tos_uri: string;
+    /**
+     * HTTPS URL of the OAuth client's privacy policy document.
+     */
+    policy_uri: string;
+    /**
+     * HTTPS URL of the OAuth client's homepage or product site.
+     */
+    client_uri: string;
+    /**
+     * HTTPS URL of the OAuth client's logo image.
+     */
+    logo_uri: string;
+    /**
      * Registered HTTPS redirect URIs for the OAuth client.
      */
     redirect_uris: Array<string>;
@@ -1728,6 +1744,22 @@ export type OAuthClientMetadataPatchData = {
      * Optional replacement display name for the OAuth client.
      */
     client_name?: string | null;
+    /**
+     * Optional replacement terms-of-service document URL for the OAuth client.
+     */
+    tos_uri?: string | null;
+    /**
+     * Optional replacement privacy-policy document URL for the OAuth client.
+     */
+    policy_uri?: string | null;
+    /**
+     * Optional replacement homepage or product-site URL for the OAuth client.
+     */
+    client_uri?: string | null;
+    /**
+     * Optional replacement logo image URL for the OAuth client.
+     */
+    logo_uri?: string | null;
     /**
      * Optional replacement set of registered HTTPS redirect URIs.
      */
@@ -1759,6 +1791,22 @@ export type OAuthClientMetadataResponseData = {
      * Display name of the OAuth client.
      */
     client_name: string;
+    /**
+     * Terms-of-service document URL registered for the OAuth client.
+     */
+    tos_uri: string;
+    /**
+     * Privacy-policy document URL registered for the OAuth client.
+     */
+    policy_uri: string;
+    /**
+     * Homepage or product-site URL registered for the OAuth client.
+     */
+    client_uri: string;
+    /**
+     * Logo image URL registered for the OAuth client.
+     */
+    logo_uri: string;
     /**
      * Registered redirect URIs for the OAuth client.
      */
@@ -6819,7 +6867,7 @@ export type OauthAuthorizeData = {
 
 export type OauthAuthorizeErrors = {
     /**
-     * Bad request — a required query parameter is missing or has an unsupported value.
+     * Bad request — a required query parameter is missing, malformed, or has an unsupported value.
      */
     400: ApiError;
     /**
@@ -6871,7 +6919,7 @@ export type OauthTokenData = {
 
 export type OauthTokenErrors = {
     /**
-     * Bad request — a required form field is missing, `client_id` is not a valid UUID, or an authorization code error occurred (code not found, expired, mismatched client or redirect URI, or invalid PKCE verifier).
+     * Bad request — a required form field is missing, `client_id` is not a valid UUID, `redirect_uri` is malformed, or an authorization code error occurred (code not found, expired, mismatched client or redirect URI, or invalid PKCE verifier).
      */
     400: ApiError;
     /**

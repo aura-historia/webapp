@@ -5,8 +5,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
-import { ShieldCheck, ShieldAlert, AlertTriangle } from "lucide-react";
-import type { OAuthScope } from "@/data/internal/oauth/OAuthClient.ts";
+import { Badge } from "@/components/ui/badge.tsx";
+import { ShieldCheck, ShieldAlert, AlertTriangle, ExternalLink } from "lucide-react";
 
 type OAuthAuthorizeSearchParams = {
     readonly response_type: string;
@@ -28,6 +28,23 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
     const authorize = useOAuthAuthorize();
 
     const requestedScopes = searchParams.scope?.split(" ").filter(Boolean) ?? [];
+    const clientLogoUri = getSafeHttpsUrl(client?.logoUri);
+    const clientLinks = client
+        ? [
+              {
+                  href: getSafeHttpsUrl(client.clientUri),
+                  label: t("oauth.authorize.clientInfoLink"),
+              },
+              {
+                  href: getSafeHttpsUrl(client.policyUri),
+                  label: t("oauth.authorize.privacyLink"),
+              },
+              {
+                  href: getSafeHttpsUrl(client.tosUri),
+                  label: t("oauth.authorize.termsLink"),
+              },
+          ].filter((link): link is { href: string; label: string } => !!link.href)
+        : [];
 
     const handleApprove = () => {
         authorize.mutate(
@@ -94,14 +111,42 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
                 <H1>{t("oauth.authorize.title")}</H1>
 
                 <Card className="gap-4">
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-3">
-                            <ShieldCheck
-                                className="size-6 text-primary shrink-0"
-                                aria-hidden="true"
-                            />
-                            <span>{client.clientName}</span>
-                        </CardTitle>
+                    <CardHeader className="flex flex-row items-start gap-4 space-y-0">
+                        <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-outline-variant/20 bg-surface-container-low">
+                            {clientLogoUri ? (
+                                <img
+                                    src={clientLogoUri}
+                                    alt={t("oauth.authorize.logoAlt", {
+                                        appName: client.clientName,
+                                    })}
+                                    className="h-full w-full object-cover"
+                                />
+                            ) : (
+                                <ShieldCheck
+                                    className="size-6 text-primary shrink-0"
+                                    aria-hidden="true"
+                                />
+                            )}
+                        </div>
+                        <div className="flex min-w-0 flex-1 flex-col gap-2">
+                            <CardTitle className="text-balance">{client.clientName}</CardTitle>
+                            {clientLinks.length > 0 && (
+                                <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted-foreground">
+                                    {clientLinks.map((link) => (
+                                        <a
+                                            key={link.href}
+                                            href={link.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-1 underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                                        >
+                                            <span>{link.label}</span>
+                                            <ExternalLink className="size-3" aria-hidden="true" />
+                                        </a>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </CardHeader>
 
                     <CardContent className="flex flex-col gap-6">
@@ -121,7 +166,7 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
                                     aria-label={t("oauth.authorize.scopesTitle")}
                                 >
                                     {requestedScopes.map((scope) => (
-                                        <ScopeItem key={scope} scope={scope as OAuthScope} />
+                                        <ScopeItem key={scope} scope={scope} />
                                     ))}
                                 </ul>
                             </div>
@@ -184,28 +229,36 @@ function PageContainer({ children }: { readonly children: React.ReactNode }) {
     );
 }
 
-const SCOPE_ICONS: Record<OAuthScope, string> = {
-    "products:write": "📦",
-    "shops:manage": "🏪",
-};
-
-function ScopeItem({ scope }: { readonly scope: OAuthScope }) {
+function ScopeItem({ scope }: { readonly scope: string }) {
     const { t } = useTranslation();
 
     const scopeKey = scope.replace(":", "_");
-    const label = t(`oauth.scopes.${scopeKey}.label`);
     const description = t(`oauth.scopes.${scopeKey}.description`);
-    const icon = SCOPE_ICONS[scope] ?? "🔑";
 
     return (
-        <li className="flex items-start gap-3 rounded-sm border border-outline-variant/20 bg-surface-container-low p-3">
-            <span className="text-base shrink-0 mt-0.5" aria-hidden="true">
-                {icon}
-            </span>
-            <div className="flex flex-col gap-0.5">
-                <span className="text-sm font-medium text-primary">{label}</span>
+        <li className="rounded-sm border border-outline-variant/20 bg-surface-container-low p-3">
+            <div className="flex flex-col gap-2">
+                <Badge
+                    variant="outline"
+                    className="w-fit rounded-sm border-outline-variant/30 bg-surface-container font-mono text-[11px] text-primary"
+                >
+                    {scope}
+                </Badge>
                 <span className="text-xs text-muted-foreground">{description}</span>
             </div>
         </li>
     );
+}
+
+function getSafeHttpsUrl(url: string | undefined): string | undefined {
+    if (!url) {
+        return undefined;
+    }
+
+    try {
+        const parsedUrl = new URL(url);
+        return parsedUrl.protocol === "https:" ? url : undefined;
+    } catch {
+        return undefined;
+    }
 }

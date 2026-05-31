@@ -1583,6 +1583,10 @@
       "title": "Authorize Application",
       "description": "\"{{appName}}\" is requesting access to your Aura Historia account. Please review the requested permissions below.",
       "scopesTitle": "This application is requesting the following permissions:",
+      "logoAlt": "{{appName}} logo",
+      "clientInfoLink": "About this app",
+      "privacyLink": "Privacy",
+      "termsLink": "Terms",
       "approve": "Authorize",
       "deny": "Decline",
       "approveAriaLabel": "Authorize {{appName}} to access your account",
@@ -1596,11 +1600,11 @@
     "scopes": {
       "products_write": {
         "label": "Manage Products",
-        "description": "Create, update, and manage product listings on your behalf."
+        "description": "Create or update your product listings."
       },
       "shops_manage": {
         "label": "Manage Shops",
-        "description": "Access and manage your shop settings and configuration."
+        "description": "Manage your shop settings."
       }
     }
   }

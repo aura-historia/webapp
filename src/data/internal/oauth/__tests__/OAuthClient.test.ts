@@ -8,6 +8,10 @@ describe("mapToInternalOAuthClient", () => {
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             client_secret: "aurahistoria_oauth_client_secret_abcdefghijk_****",
             client_name: "Test OAuth App",
+            tos_uri: "https://client.example/tos",
+            policy_uri: "https://client.example/privacy",
+            client_uri: "https://client.example",
+            logo_uri: "https://client.example/logo.png",
             redirect_uris: ["https://client.example/callback"],
             scope: ["products:write"],
             client_id_issued_at: 1748539200,
@@ -17,6 +21,10 @@ describe("mapToInternalOAuthClient", () => {
 
         expect(result.clientId).toBe("01970f22-2bf0-7000-8000-000000000010");
         expect(result.clientName).toBe("Test OAuth App");
+        expect(result.tosUri).toBe("https://client.example/tos");
+        expect(result.policyUri).toBe("https://client.example/privacy");
+        expect(result.clientUri).toBe("https://client.example");
+        expect(result.logoUri).toBe("https://client.example/logo.png");
         expect(result.redirectUris).toEqual(["https://client.example/callback"]);
         expect(result.scopes).toEqual(["products:write"]);
     });
@@ -26,6 +34,10 @@ describe("mapToInternalOAuthClient", () => {
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             client_secret: "masked",
             client_name: "Multi-Scope App",
+            tos_uri: "https://client.example/tos",
+            policy_uri: "https://client.example/privacy",
+            client_uri: "https://client.example",
+            logo_uri: "https://client.example/logo.png",
             redirect_uris: ["https://client.example/callback", "https://client.example/auth"],
             scope: ["products:write", "shops:manage"],
             client_id_issued_at: 1748539200,
@@ -42,6 +54,10 @@ describe("mapToInternalOAuthClient", () => {
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             client_secret: "masked",
             client_name: "No Scope App",
+            tos_uri: "https://client.example/tos",
+            policy_uri: "https://client.example/privacy",
+            client_uri: "https://client.example",
+            logo_uri: "https://client.example/logo.png",
             redirect_uris: ["https://client.example/callback"],
             scope: [],
             client_id_issued_at: 1748539200,
@@ -57,6 +73,10 @@ describe("mapToInternalOAuthClient", () => {
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             client_secret: "secret-value",
             client_name: "App",
+            tos_uri: "https://client.example/tos",
+            policy_uri: "https://client.example/privacy",
+            client_uri: "https://client.example",
+            logo_uri: "https://client.example/logo.png",
             redirect_uris: ["https://example.com/cb"],
             scope: ["products:write"],
             client_id_issued_at: 1748539200,

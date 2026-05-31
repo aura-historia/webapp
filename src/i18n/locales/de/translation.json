@@ -1594,6 +1594,10 @@
       "title": "Anwendung autorisieren",
       "description": "\"{{appName}}\" möchte auf Ihr Aura-Historia-Konto zugreifen. Bitte überprüfen Sie die angeforderten Berechtigungen.",
       "scopesTitle": "Diese Anwendung fordert folgende Berechtigungen an:",
+      "logoAlt": "Logo von {{appName}}",
+      "clientInfoLink": "Mehr über diese App",
+      "privacyLink": "Datenschutz",
+      "termsLink": "Nutzungsbedingungen",
       "approve": "Autorisieren",
       "deny": "Ablehnen",
       "approveAriaLabel": "{{appName}} den Zugriff auf Ihr Konto erlauben",
@@ -1607,11 +1611,11 @@
     "scopes": {
       "products_write": {
         "label": "Produkte verwalten",
-        "description": "Produktangebote in Ihrem Namen erstellen, aktualisieren und verwalten."
+        "description": "Produkte in Ihrem Namen erstellen oder aktualisieren."
       },
       "shops_manage": {
         "label": "Shops verwalten",
-        "description": "Auf Ihre Shop-Einstellungen und -Konfiguration zugreifen und diese verwalten."
+        "description": "Ihre Shop-Einstellungen verwalten."
       }
     }
   }

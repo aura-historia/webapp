@@ -1583,6 +1583,10 @@
       "title": "Autorizza applicazione",
       "description": "\"{{appName}}\" richiede l'accesso al tuo account Aura Historia. Controlla le autorizzazioni richieste di seguito.",
       "scopesTitle": "Questa applicazione richiede le seguenti autorizzazioni:",
+      "logoAlt": "Logo di {{appName}}",
+      "clientInfoLink": "Maggiori informazioni",
+      "privacyLink": "Privacy",
+      "termsLink": "Termini di servizio",
       "approve": "Autorizza",
       "deny": "Rifiuta",
       "approveAriaLabel": "Autorizza {{appName}} ad accedere al tuo account",
@@ -1596,11 +1600,11 @@
     "scopes": {
       "products_write": {
         "label": "Gestisci prodotti",
-        "description": "Creare, aggiornare e gestire gli annunci di prodotti per tuo conto."
+        "description": "Creare o aggiornare i tuoi annunci di prodotto."
       },
       "shops_manage": {
         "label": "Gestisci negozi",
-        "description": "Accedere e gestire le impostazioni del tuo negozio."
+        "description": "Gestire le impostazioni del tuo negozio."
       }
     }
   }
