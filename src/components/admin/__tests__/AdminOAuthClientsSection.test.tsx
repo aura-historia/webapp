@@ -45,10 +45,26 @@ vi.mock("../AdminOAuthClientEditDialog.tsx", () => ({
     }) => (open ? <div>edit-dialog:{client?.clientId}</div> : null),
 }));
 
+vi.mock("@/components/ui/image-with-fallback.tsx", () => ({
+    ImageWithFallback: ({
+        src,
+        alt,
+        className,
+    }: {
+        src: string;
+        alt: string;
+        className?: string;
+    }) => <img src={src} alt={alt} className={className} />,
+}));
+
 const oauthClient: OAuthClient = {
     clientId: "client-123",
     clientSecret: "secret-123",
     clientName: "Beispiel Client",
+    tosUri: "https://example.com/tos",
+    policyUri: "https://example.com/privacy",
+    clientUri: "https://example.com",
+    logoUri: "https://example.com/logo.png",
     redirectUris: ["https://example.com/callback", "https://example.com/return"],
     scope: ["shops:manage", "products:write"],
     createdAt: new Date("2024-01-01T00:00:00Z"),
@@ -98,6 +114,14 @@ describe("AdminOAuthClientsSection", () => {
         expect(screen.getByText("Beispiel Client")).toBeInTheDocument();
         expect(screen.getByText("client-123")).toBeInTheDocument();
         expect(screen.getByText("https://example.com/callback")).toBeInTheDocument();
+        expect(screen.getByRole("img", { name: "Logo von Beispiel Client" })).toHaveAttribute(
+            "src",
+            "https://example.com/logo.png",
+        );
+        expect(screen.getByRole("link", { name: "https://example.com/privacy" })).toHaveAttribute(
+            "href",
+            "https://example.com/privacy",
+        );
         expect(screen.getAllByText("shops:manage")).toHaveLength(2);
     });
 
@@ -125,7 +149,7 @@ describe("AdminOAuthClientsSection", () => {
         );
     });
 
-    it("suppresses hydration warnings for localized created-at text", async () => {
+    it("avoids hydration warnings for localized created-at text", async () => {
         const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
         mockDateFormattingState.value = "1. Jan. 2024";
 

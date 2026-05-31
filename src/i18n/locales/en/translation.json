@@ -1594,6 +1594,7 @@
       "clientName": "Client Name",
       "redirectUris": "Redirect URIs",
       "scope": "Scopes",
+      "logoAlt": "{{client}} Logo",
       "createdAt": "Created {{date}}",
       "editAriaLabel": "Edit {{client}}",
       "deleteAriaLabel": "Delete {{client}}",
@@ -1612,6 +1613,7 @@
         "validation": {
           "nameRequired": "Please enter a client name.",
           "nameTooLong": "Client name must not exceed 255 characters.",
+          "uriInvalid": "Please enter a valid HTTPS URL.",
           "redirectUrisRequired": "Please enter at least one redirect URI.",
           "redirectUriInvalid": "Each redirect URI must be a valid HTTPS URL."
         }
@@ -1623,12 +1625,17 @@
         "validation": {
           "nameRequired": "Please enter a client name.",
           "nameTooLong": "Client name must not exceed 255 characters.",
+          "uriInvalid": "Please enter a valid HTTPS URL.",
           "redirectUrisRequired": "Please enter at least one redirect URI.",
           "redirectUriInvalid": "Each redirect URI must be a valid HTTPS URL."
         }
       },
       "fields": {
         "clientName": "Client name",
+        "clientUri": "Client URL",
+        "logoUri": "Logo URL",
+        "tosUri": "Terms of service URL",
+        "policyUri": "Privacy policy URL",
         "redirectUris": "Redirect URIs",
         "redirectUrisHint": "One HTTPS URI per line.",
         "scope": "Scopes",

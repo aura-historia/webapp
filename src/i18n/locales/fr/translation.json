@@ -1489,6 +1489,7 @@
       "clientName": "Nom du client",
       "redirectUris": "URI de redirection",
       "scope": "Scopes",
+      "logoAlt": "Logo de {{client}}",
       "createdAt": "Créé le {{date}}",
       "editAriaLabel": "Modifier {{client}}",
       "deleteAriaLabel": "Supprimer {{client}}",
@@ -1507,6 +1508,7 @@
         "validation": {
           "nameRequired": "Veuillez saisir un nom de client.",
           "nameTooLong": "Le nom du client ne doit pas dépasser 255 caractères.",
+          "uriInvalid": "Veuillez saisir une URL HTTPS valide.",
           "redirectUrisRequired": "Veuillez saisir au moins une URI de redirection.",
           "redirectUriInvalid": "Chaque URI de redirection doit être une URL HTTPS valide."
         }
@@ -1518,12 +1520,17 @@
         "validation": {
           "nameRequired": "Veuillez saisir un nom de client.",
           "nameTooLong": "Le nom du client ne doit pas dépasser 255 caractères.",
+          "uriInvalid": "Veuillez saisir une URL HTTPS valide.",
           "redirectUrisRequired": "Veuillez saisir au moins une URI de redirection.",
           "redirectUriInvalid": "Chaque URI de redirection doit être une URL HTTPS valide."
         }
       },
       "fields": {
         "clientName": "Nom du client",
+        "clientUri": "URL du client",
+        "logoUri": "URL du logo",
+        "tosUri": "URL des conditions d’utilisation",
+        "policyUri": "URL de la politique de confidentialité",
         "redirectUris": "URI de redirection",
         "redirectUrisHint": "Une URI HTTPS par ligne.",
         "scope": "Scopes",

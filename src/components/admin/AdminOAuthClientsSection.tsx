@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Globe, Pencil, Trash2 } from "lucide-react";
 import { H1 } from "@/components/typography/H1.tsx";
 import { AdminOAuthClientCreateDialog } from "@/components/admin/AdminOAuthClientCreateDialog.tsx";
 import { AdminOAuthClientEditDialog } from "@/components/admin/AdminOAuthClientEditDialog.tsx";
+import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
@@ -19,6 +20,11 @@ export function AdminOAuthClientsSection() {
     const deleteClient = useDeleteOAuthClient();
     const [createOpen, setCreateOpen] = useState(false);
     const [editTarget, setEditTarget] = useState<OAuthClient | null>(null);
+    const [isHydrated, setIsHydrated] = useState(false);
+
+    useEffect(() => {
+        setIsHydrated(true);
+    }, []);
 
     const handleDelete = (client: OAuthClient) => {
         const confirmed = window.confirm(
@@ -72,26 +78,43 @@ export function AdminOAuthClientsSection() {
                 {data?.map((client) => (
                     <li
                         key={client.clientId}
-                        className="flex flex-col gap-4 rounded-md border bg-surface-container-low p-4"
+                        className="rounded-md border bg-surface-container-low p-4"
                     >
                         <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
-                            <div className="flex flex-col gap-2">
-                                <div className="flex flex-wrap items-center gap-2">
-                                    <span className="text-lg font-medium">{client.clientName}</span>
-                                    {client.scope.map((scope) => (
-                                        <Badge key={scope} variant="outline">
-                                            {scope}
-                                        </Badge>
-                                    ))}
+                            <div className="flex min-w-0 flex-1 gap-4">
+                                <div className="hidden h-16 w-16 shrink-0 overflow-hidden rounded-md border bg-muted sm:block">
+                                    <ImageWithFallback
+                                        src={client.logoUri}
+                                        alt={t("adminDashboard.oauthClients.logoAlt", {
+                                            client: client.clientName,
+                                        })}
+                                        className="h-full w-full"
+                                        showErrorMessage={false}
+                                    />
                                 </div>
-                                <span
-                                    className="text-sm text-muted-foreground"
-                                    suppressHydrationWarning
-                                >
-                                    {t("adminDashboard.oauthClients.createdAt", {
-                                        date: formatShortDate(client.createdAt, i18n.language),
-                                    })}
-                                </span>
+
+                                <div className="flex min-w-0 flex-1 flex-col gap-2">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <span className="text-lg font-medium">
+                                            {client.clientName}
+                                        </span>
+                                        {client.scope.map((scope) => (
+                                            <Badge key={scope} variant="outline">
+                                                {scope}
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                    {isHydrated ? (
+                                        <span className="text-sm text-muted-foreground">
+                                            {t("adminDashboard.oauthClients.createdAt", {
+                                                date: formatShortDate(
+                                                    client.createdAt,
+                                                    i18n.language,
+                                                ),
+                                            })}
+                                        </span>
+                                    ) : null}
+                                </div>
                             </div>
 
                             <div className="flex flex-wrap items-center gap-2">
@@ -122,7 +145,7 @@ export function AdminOAuthClientsSection() {
                             </div>
                         </div>
 
-                        <div className="grid gap-4 md:grid-cols-2">
+                        <div className="mt-4 grid gap-4 md:grid-cols-2">
                             <div className="flex flex-col gap-1">
                                 <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                                     {t("adminDashboard.oauthClients.clientId")}
@@ -148,6 +171,44 @@ export function AdminOAuthClientsSection() {
                                     )}
                                 </div>
                             </div>
+
+                            {[
+                                {
+                                    key: "client-uri",
+                                    label: t("adminDashboard.oauthClients.fields.clientUri"),
+                                    value: client.clientUri,
+                                },
+                                {
+                                    key: "logo-uri",
+                                    label: t("adminDashboard.oauthClients.fields.logoUri"),
+                                    value: client.logoUri,
+                                },
+                                {
+                                    key: "tos-uri",
+                                    label: t("adminDashboard.oauthClients.fields.tosUri"),
+                                    value: client.tosUri,
+                                },
+                                {
+                                    key: "policy-uri",
+                                    label: t("adminDashboard.oauthClients.fields.policyUri"),
+                                    value: client.policyUri,
+                                },
+                            ].map((item) => (
+                                <div key={item.key} className="flex flex-col gap-1">
+                                    <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                        {item.label}
+                                    </span>
+                                    <a
+                                        href={item.value}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="break-all text-sm underline underline-offset-2"
+                                        title={item.value}
+                                    >
+                                        {item.value}
+                                    </a>
+                                </div>
+                            ))}
 
                             <div className="flex flex-col gap-2 md:col-span-2">
                                 <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">

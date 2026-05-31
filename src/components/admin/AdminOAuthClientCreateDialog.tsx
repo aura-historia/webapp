@@ -67,6 +67,22 @@ function createOAuthClientSchema(t: (key: string) => string) {
             .trim()
             .min(1, t("adminDashboard.oauthClients.create.validation.nameRequired"))
             .max(255, t("adminDashboard.oauthClients.create.validation.nameTooLong")),
+        tosUri: z
+            .string()
+            .trim()
+            .refine(isValidHttpsUrl, t("adminDashboard.oauthClients.create.validation.uriInvalid")),
+        policyUri: z
+            .string()
+            .trim()
+            .refine(isValidHttpsUrl, t("adminDashboard.oauthClients.create.validation.uriInvalid")),
+        clientUri: z
+            .string()
+            .trim()
+            .refine(isValidHttpsUrl, t("adminDashboard.oauthClients.create.validation.uriInvalid")),
+        logoUri: z
+            .string()
+            .trim()
+            .refine(isValidHttpsUrl, t("adminDashboard.oauthClients.create.validation.uriInvalid")),
         redirectUris: z
             .string()
             .trim()
@@ -86,6 +102,10 @@ type AdminOAuthClientCreateFormData = z.infer<ReturnType<typeof createOAuthClien
 
 const DEFAULT_VALUES: AdminOAuthClientCreateFormData = {
     clientName: "",
+    tosUri: "",
+    policyUri: "",
+    clientUri: "",
+    logoUri: "",
     redirectUris: "",
     scope: [],
 };
@@ -124,6 +144,10 @@ export function AdminOAuthClientCreateDialog({
         createClient.mutate(
             {
                 clientName: values.clientName.trim(),
+                tosUri: values.tosUri.trim(),
+                policyUri: values.policyUri.trim(),
+                clientUri: values.clientUri.trim(),
+                logoUri: values.logoUri.trim(),
                 redirectUris: parseRedirectUris(values.redirectUris),
                 scope: values.scope,
             },
@@ -220,6 +244,72 @@ export function AdminOAuthClientCreateDialog({
                                     </FormItem>
                                 )}
                             />
+
+                            <FormField
+                                control={form.control}
+                                name="clientUri"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            {t("adminDashboard.oauthClients.fields.clientUri")}
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input {...field} type="url" />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="logoUri"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            {t("adminDashboard.oauthClients.fields.logoUri")}
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input {...field} type="url" />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <div className="grid gap-4 md:grid-cols-2">
+                                <FormField
+                                    control={form.control}
+                                    name="tosUri"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {t("adminDashboard.oauthClients.fields.tosUri")}
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input {...field} type="url" />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="policyUri"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {t("adminDashboard.oauthClients.fields.policyUri")}
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input {...field} type="url" />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
 
                             <FormField
                                 control={form.control}
