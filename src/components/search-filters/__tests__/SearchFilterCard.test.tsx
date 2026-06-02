@@ -191,12 +191,28 @@ describe("SearchFilterCard", () => {
             expect(screen.getByText("Gesperrt")).toBeInTheDocument();
         });
 
-        it("disables state toggle when INACTIVE_BY_RESTRICTED_PLAN", async () => {
+        it("enables state toggle when INACTIVE_BY_RESTRICTED_PLAN", async () => {
             const filter = { ...mockFilter, state: "INACTIVE_BY_RESTRICTED_PLAN" as const };
             await act(() => {
                 renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
             });
-            expect(screen.getByRole("button", { name: /Aktivieren/i })).toBeDisabled();
+            expect(screen.getByRole("button", { name: /Aktivieren/i })).not.toBeDisabled();
+        });
+
+        it("calls mutate with ACTIVE when activating an INACTIVE_BY_RESTRICTED_PLAN filter", async () => {
+            const filter = { ...mockFilter, state: "INACTIVE_BY_RESTRICTED_PLAN" as const };
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
+            });
+            await act(() => {
+                fireEvent.click(screen.getByRole("button", { name: /Aktivieren/i }));
+            });
+            expect(mockUpdateMutate).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    id: "filter-1",
+                    patch: { state: "ACTIVE" },
+                }),
+            );
         });
 
         it("calls mutate with INACTIVE_BY_USER when pausing an ACTIVE filter", async () => {
