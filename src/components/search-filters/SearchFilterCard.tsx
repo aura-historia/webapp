@@ -117,7 +117,7 @@ export function SearchFilterCard({
                                 size="icon"
                                 className="size-10 text-muted-foreground"
                                 aria-label={stateToggleLabel}
-                                disabled={updateFilter.isPending || isRestrictedByPlan}
+                                disabled={updateFilter.isPending}
                                 onClick={() =>
                                     updateFilter.mutate({
                                         id: filter.id,
@@ -135,11 +135,7 @@ export function SearchFilterCard({
                                 </div>
                             </Button>
                         </TooltipTrigger>
-                        <TooltipContent>
-                            {isRestrictedByPlan
-                                ? t("searchFilters.stateInactiveByPlanTooltip")
-                                : stateToggleLabel}
-                        </TooltipContent>
+                        <TooltipContent>{stateToggleLabel}</TooltipContent>
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger asChild>
