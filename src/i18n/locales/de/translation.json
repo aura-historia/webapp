@@ -930,7 +930,7 @@
     "TEXT_QUERY_TOO_SHORT": "Die Suchanfrage muss mindestens 3 Zeichen enthalten.",
     "BAD_PATH_PARAMETER_VALUE": "Der Link ist ungültig.",
     "INVALID_UUID": "Der Link ist ungültig.",
-    "SERVICE_UNAVAILABLE": "Der Service ist momentan nicht verfügbar. Bitte versuche es später erneut.",
+    "SERVICE_UNAVAILABLE": "Der Service ist aktuell aufgrund von erhöhtem Traffic nicht erreichbar. Bitte versuchen Sie es in Kürze erneut.",
     "BAD_QUERY_PARAMETER_VALUE": "Ihre Suche enthält ungültige Einstellungen.",
     "SHOP_NOT_FOUND": "Dieser Shop ist nicht mehr verfügbar.",
     "INVALID_SHOP_IDENTIFIER": "Die Shop-Kennung ist ungültig.",
@@ -950,7 +950,17 @@
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Es wurde kein bestehendes Abonnement gefunden. Bitte starten Sie einen neuen Checkout.",
     "unknown": "Ein unerwarteter Fehler ist aufgetreten.",
     "undefined": "Ein unerwarteter Fehler ist aufgetreten.",
-    "SEARCH_FILTER_RESTRICTED_FEATURE": "Einige Ihrer aktiven Filter sind nur für Premium-Nutzer verfügbar. Bitte entfernen Sie diese Filter, um einen Suchauftrag zu speichern."
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Einige Ihrer aktiven Filter sind nur für Premium-Nutzer verfügbar. Bitte entfernen Sie diese Filter, um einen Suchauftrag zu speichern.",
+    "BAD_REQUEST": "Die Anfrage ist ungültig.",
+    "NOT_FOUND": "Die angeforderte Ressource wurde nicht gefunden.",
+    "CONFLICT": "Die Aktion konnte aufgrund eines Konflikts nicht ausgeführt werden.",
+    "UNPROCESSABLE_ENTITY": "Die Anfrage konnte nicht verarbeitet werden. Bitte überprüfen Sie Ihre Eingaben.",
+    "BAD_GATEWAY": "Es ist ein Verbindungsproblem aufgetreten. Bitte versuchen Sie es später erneut.",
+    "USER_EXISTS_ALREADY": "Ein Konto mit dieser E-Mail-Adresse existiert bereits.",
+    "NOTIFICATION_NOT_FOUND": "Diese Benachrichtigung existiert nicht mehr.",
+    "PRODUCT_ENRICHMENT_FAILED": "Die Produktinformationen konnten nicht vollständig geladen werden.",
+    "ACCESS_TOKEN_NOT_FOUND": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+    "PARTNER_SHOP_APPLICATION_NOT_FOUND": "Der Partnerantrag wurde nicht gefunden."
   },
   "watchlist": {
     "title": "Meine Merkliste",
