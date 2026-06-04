@@ -327,7 +327,7 @@
     "unseenNotification": "Updated",
     "searchFilter": {
       "matchedBadge": "Match",
-      "matchedBy": "Search Filter"
+      "matchedBy": "From your saved search"
     },
     "imageLoadError": "Image could not be loaded",
     "prohibitedImage": "Image hidden due to content restrictions",

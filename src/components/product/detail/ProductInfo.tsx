@@ -118,15 +118,15 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                     searchFilterData?.userSearchFilterId && (
                         <div className="mt-6 border-l-2 border-tertiary pl-4 flex flex-col gap-2">
                             <p className="text-xs uppercase tracking-[0.08em] text-muted-foreground">
-                                {t("product.searchFilter.matchedBy")}
+                                {t("product.searchFilter.matchedBy")}:{" "}
+                                <Link
+                                    to="/me/search-filter/$filterId"
+                                    params={{ filterId: searchFilterData.userSearchFilterId }}
+                                    className="font-semibold text-tertiary transition-colors hover:underline normal-case tracking-normal"
+                                >
+                                    {searchFilterData.userSearchFilterName}
+                                </Link>
                             </p>
-                            <Link
-                                to="/me/search-filter/$filterId"
-                                params={{ filterId: searchFilterData.userSearchFilterId }}
-                                className="text-sm font-semibold text-tertiary transition-colors hover:underline"
-                            >
-                                {searchFilterData.userSearchFilterName}
-                            </Link>
                             {searchFilterData.matchReason && (
                                 <p className="mt-1 text-sm italic text-on-surface/80">
                                     {searchFilterData.matchReason}

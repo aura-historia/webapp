@@ -325,7 +325,7 @@
     "unseenNotification": "Aktualisiert",
     "searchFilter": {
       "matchedBadge": "Treffer",
-      "matchedBy": "Suchauftrag"
+      "matchedBy": "Aus deinem Suchauftrag"
     },
     "imageLoadError": "Bild konnte nicht geladen werden",
     "prohibitedImage": "Bild aufgrund von Inhaltsbeschränkungen ausgeblendet",
