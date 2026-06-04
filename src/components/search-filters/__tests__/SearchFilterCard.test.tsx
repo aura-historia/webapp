@@ -266,14 +266,14 @@ describe("SearchFilterCard", () => {
             ).toBeInTheDocument();
         });
 
-        it("disables matching products button when filter is INACTIVE_BY_RESTRICTED_PLAN", async () => {
+        it("shows matching products link when filter is INACTIVE_BY_RESTRICTED_PLAN", async () => {
             const filter = { ...mockFilter, state: "INACTIVE_BY_RESTRICTED_PLAN" as const };
             await act(() => {
                 renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
             });
             expect(
-                screen.getByRole("button", { name: /Alle Suchtreffer anzeigen/i }),
-            ).toBeDisabled();
+                screen.getByRole("link", { name: /Alle Suchtreffer anzeigen/i }),
+            ).toBeInTheDocument();
         });
 
         it("disables bell button when filter is INACTIVE_BY_USER", async () => {

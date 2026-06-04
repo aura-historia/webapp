@@ -330,38 +330,12 @@ export function SearchFilterCard({
                         {t("searchFilters.showResults")}
                     </Link>
                 </Button>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <span className="flex-1">
-                            <Button
-                                size="sm"
-                                className="gap-2 w-full"
-                                disabled={isRestrictedByPlan}
-                                asChild={!isRestrictedByPlan}
-                            >
-                                {!isRestrictedByPlan ? (
-                                    <Link
-                                        to="/me/search-filter/$filterId"
-                                        params={{ filterId: filter.id }}
-                                    >
-                                        <ScanSearch className="size-4" />
-                                        {t("searchFilters.matchingProducts")}
-                                    </Link>
-                                ) : (
-                                    <>
-                                        <ScanSearch className="size-4" />
-                                        {t("searchFilters.matchingProducts")}
-                                    </>
-                                )}
-                            </Button>
-                        </span>
-                    </TooltipTrigger>
-                    {isRestrictedByPlan && (
-                        <TooltipContent>
-                            {t("searchFilters.matchingProductsInactive")}
-                        </TooltipContent>
-                    )}
-                </Tooltip>
+                <Button size="sm" className="gap-2 flex-1" asChild>
+                    <Link to="/me/search-filter/$filterId" params={{ filterId: filter.id }}>
+                        <ScanSearch className="size-4" />
+                        {t("searchFilters.matchingProducts")}
+                    </Link>
+                </Button>
             </div>
         </Card>
     );
