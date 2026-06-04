@@ -34,77 +34,84 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
     }, [hasUnseenNotification, originEventId, markSeen.mutate]);
 
     return (
-        <Card
-            className={cn(
-                "h-full min-w-0 overflow-hidden border-0 bg-card p-0 shadow-none",
-                hasUnseenNotification && "border-2 border-primary",
-                !hasUnseenNotification && matchedFilterId && "border-2 border-tertiary",
-            )}
-        >
-            <Link
-                to="/shops/$shopSlugId/products/$productSlugId"
-                params={{
-                    shopSlugId: product.shopSlugId,
-                    productSlugId: product.productSlugId,
-                }}
-                className="group flex h-full gap-4 bg-card p-2 transition-colors hover:bg-surface-container"
-                onClick={handleProductClick}
-            >
-                <div className="relative size-24 shrink-0 overflow-hidden bg-background">
+        <div className="relative">
+            {(hasUnseenNotification || matchedFilterId) && (
+                <div className="absolute left-8 top-0 z-10 -translate-x-1/2 -translate-y-1/2">
+                    {hasUnseenNotification && <UnseenNotificationBadge />}
                     {!hasUnseenNotification && matchedFilterId && (
-                        <div className="absolute left-1 top-1 z-10">
-                            <SearchFilterMatchBadge
-                                filterId={matchedFilterId}
-                                filterName={searchFilterData?.userSearchFilterName}
-                                matchReason={searchFilterData?.matchReason}
-                            />
-                        </div>
+                        <SearchFilterMatchBadge
+                            filterId={matchedFilterId}
+                            filterName={searchFilterData?.userSearchFilterName}
+                            matchReason={searchFilterData?.matchReason}
+                        />
                     )}
-                    {product.images.length > 0 ? (
-                        isRestrictedImage(
-                            product.images[0],
-                            product.userData?.restrictedContentData.consentGiven ?? false,
-                        ) ? (
-                            <ProhibitedImagePlaceholder className="size-full" showLabel={false} />
+                </div>
+            )}
+            <Card
+                className={cn(
+                    "h-full min-w-0 overflow-hidden border-0 bg-card p-0 shadow-none",
+                    hasUnseenNotification && "border-2 border-primary",
+                    !hasUnseenNotification && matchedFilterId && "border-2 border-tertiary",
+                )}
+            >
+                <Link
+                    to="/shops/$shopSlugId/products/$productSlugId"
+                    params={{
+                        shopSlugId: product.shopSlugId,
+                        productSlugId: product.productSlugId,
+                    }}
+                    className="group flex h-full gap-4 bg-card p-2 transition-colors hover:bg-surface-container"
+                    onClick={handleProductClick}
+                >
+                    <div className="relative size-24 shrink-0 overflow-hidden bg-background">
+                        {product.images.length > 0 ? (
+                            isRestrictedImage(
+                                product.images[0],
+                                product.userData?.restrictedContentData.consentGiven ?? false,
+                            ) ? (
+                                <ProhibitedImagePlaceholder
+                                    className="size-full"
+                                    showLabel={false}
+                                />
+                            ) : (
+                                <ImageWithFallback
+                                    className="size-full object-cover transition-transform group-hover:scale-[1.03]"
+                                    src={product.images[0].url?.href}
+                                    alt=""
+                                    fallbackClassName="size-full"
+                                />
+                            )
                         ) : (
-                            <ImageWithFallback
-                                className="size-full object-cover transition-transform group-hover:scale-[1.03]"
-                                src={product.images[0].url?.href}
-                                alt=""
-                                fallbackClassName="size-full"
-                            />
-                        )
-                    ) : (
-                        <div className="flex size-full flex-col items-center justify-center gap-1 bg-muted">
-                            <ImageOff
-                                data-testid="placeholder-image"
-                                className="h-6 w-6 text-muted-foreground"
-                            />
-                            <p className="text-[10px] text-muted-foreground">
-                                {t("product.noImage")}
+                            <div className="flex size-full flex-col items-center justify-center gap-1 bg-muted">
+                                <ImageOff
+                                    data-testid="placeholder-image"
+                                    className="h-6 w-6 text-muted-foreground"
+                                />
+                                <p className="text-[10px] text-muted-foreground">
+                                    {t("product.noImage")}
+                                </p>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="flex min-w-0 flex-1 flex-col justify-between py-1">
+                        <div>
+                            <p className="line-clamp-2 font-display text-base leading-5 text-foreground group-hover:underline">
+                                {product.title}
+                            </p>
+                            <p className="line-clamp-1 text-[10px] uppercase tracking-widest text-muted-foreground">
+                                {product.shopName}
                             </p>
                         </div>
-                    )}
-                </div>
-
-                <div className="flex min-w-0 flex-1 flex-col justify-between py-1">
-                    <div>
-                        <p className="line-clamp-2 font-display text-base leading-5 text-foreground group-hover:underline">
-                            {product.title}
-                        </p>
-                        <p className="line-clamp-1 text-[10px] uppercase tracking-widest text-muted-foreground">
-                            {product.shopName}
-                        </p>
-                    </div>
-                    <div className="flex flex-wrap justify-between items-center pt-1 gap-2">
-                        <div className="flex gap-2">
-                            <StatusBadge status={product.state} />
-                            {hasUnseenNotification && <UnseenNotificationBadge />}
+                        <div className="flex flex-wrap justify-between items-center pt-1 gap-2">
+                            <div className="flex gap-2">
+                                <StatusBadge status={product.state} />
+                            </div>
+                            <PriceText>{product.price ?? t("product.unknownPrice")}</PriceText>
                         </div>
-                        <PriceText>{product.price ?? t("product.unknownPrice")}</PriceText>
                     </div>
-                </div>
-            </Link>
-        </Card>
+                </Link>
+            </Card>
+        </div>
     );
 }
