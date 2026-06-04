@@ -26,9 +26,9 @@ export function FloatingSaveSearchFilterButton({ searchArgs, disabled, tooltip }
         <Button
             type="button"
             size="icon"
-            variant="outline"
+            variant="tertiary"
             disabled={disabled}
-            className="rounded-full w-12 h-12 shadow-lg border-outline-variant text-primary hover:bg-primary/8"
+            className="rounded-full w-12 h-12 shadow-lg"
         >
             <BookmarkPlus className="h-5 w-5" />
         </Button>

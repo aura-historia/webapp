@@ -39,6 +39,8 @@ export default function DiscoverSection({ productCount, shopCount }: DiscoverSec
         "discover.stats.items": productCount,
     };
 
+    const partnerCount = shopCount ?? DISCOVER_STATS[0].amount;
+
     return (
         <section className="bg-surface-container-low border-t border-b border-outline-variant/10 py-24 px-4">
             <div className="max-w-7xl mx-auto">
@@ -60,7 +62,7 @@ export default function DiscoverSection({ productCount, shopCount }: DiscoverSec
                                     </div>
                                     <div className="flex-1">
                                         <h3 className="font-display font-normal text-primary mb-1 text-xl">
-                                            {t(highlight.titleKey)}
+                                            {t(highlight.titleKey, { count: partnerCount })}
                                         </h3>
                                         <p className="text-sm text-secondary">
                                             {t(highlight.descKey)}

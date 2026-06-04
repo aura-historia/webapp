@@ -105,6 +105,15 @@ describe("DiscoverSection", () => {
             expect(values).toContain("15+");
         });
 
+        it("shows live shop count in highlight title", async () => {
+            await act(async () => {
+                renderWithRouter(<DiscoverSection shopCount={1234} />);
+            });
+            expect(
+                screen.getByText("Über 1234 Händler, Auktionshäuser und Marktplätze"),
+            ).toBeInTheDocument();
+        });
+
         it("uses live shop count over fallback", async () => {
             await act(async () => {
                 renderWithRouter(<DiscoverSection shopCount={1234} />);
