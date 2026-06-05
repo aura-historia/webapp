@@ -194,6 +194,43 @@ describe("OAuthAuthorizePage", () => {
         );
     });
 
+    it("redirects to redirect_uri without state when deny click has no state", async () => {
+        const user = userEvent.setup();
+        const mockLocationHref = vi.fn();
+        const locationProxy = new Proxy(
+            {},
+            {
+                set(_target, prop, value) {
+                    if (prop === "href") {
+                        mockLocationHref(value);
+                    }
+                    return true;
+                },
+            },
+        );
+        Object.defineProperty(window, "location", {
+            value: locationProxy,
+            writable: true,
+            configurable: true,
+        });
+
+        await act(async () =>
+            renderWithRouter(
+                <OAuthAuthorizePage searchParams={{ ...defaultSearchParams, state: undefined }} />,
+            ),
+        );
+
+        await user.click(
+            screen.getByRole("button", {
+                name: "Autorisierung für Test Partner App ablehnen",
+            }),
+        );
+
+        const redirectUrl = new URL(String(mockLocationHref.mock.calls[0]?.[0]));
+        expect(redirectUrl.searchParams.get("error")).toBe("access_denied");
+        expect(redirectUrl.searchParams.has("state")).toBe(false);
+    });
+
     it("shows loading spinner when client data is loading", async () => {
         mockUseOAuthClient.mockReturnValue({
             data: undefined,
@@ -263,6 +300,46 @@ describe("OAuthAuthorizePage", () => {
         );
 
         expect(mockUseOAuthClient).toHaveBeenCalledWith("01970f22-2bf0-7000-8000-000000000010");
+    });
+
+    it("omits optional approval fields and unsafe client links when values are missing", async () => {
+        mockUseOAuthClient.mockReturnValue({
+            data: {
+                ...mockClientData,
+                clientUri: "http://client.example",
+                logoUri: undefined,
+                policyUri: "not-a-url",
+                tosUri: undefined,
+            },
+            isLoading: false,
+            isError: false,
+        });
+        const searchParamsWithoutOptionals = {
+            ...defaultSearchParams,
+            scope: undefined,
+            state: undefined,
+        };
+
+        await act(async () =>
+            renderWithRouter(<OAuthAuthorizePage searchParams={searchParamsWithoutOptionals} />),
+        );
+
+        expect(screen.queryByAltText("Logo von Test Partner App")).not.toBeInTheDocument();
+        expect(screen.queryByRole("link", { name: "Mehr über diese App" })).not.toBeInTheDocument();
+        expect(screen.queryByRole("link", { name: "Datenschutz" })).not.toBeInTheDocument();
+        expect(screen.queryByRole("link", { name: "Nutzungsbedingungen" })).not.toBeInTheDocument();
+
+        const approveButton = screen.getByRole("button", {
+            name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
+        });
+        const form = approveButton.closest("form");
+        if (!form) {
+            throw new Error("Approve form not found");
+        }
+
+        const formData = new FormData(form);
+        expect(formData.has("scope")).toBe(false);
+        expect(formData.has("state")).toBe(false);
     });
 
     it("handles single scope correctly", async () => {

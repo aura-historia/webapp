@@ -1,11 +1,27 @@
-import { describe, expect, it } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { createElement } from "react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { Route } from "../../../routes/_auth.oauth.authorize.tsx";
+
+const mockOAuthAuthorizePage = vi.hoisted(() =>
+    vi.fn(({ searchParams }) =>
+        createElement("div", { "data-testid": "oauth-authorize-page" }, searchParams.client_id),
+    ),
+);
+
+vi.mock("@/components/oauth/OAuthAuthorizePage.tsx", () => ({
+    OAuthAuthorizePage: mockOAuthAuthorizePage,
+}));
 
 const validateSearch = Route.options.validateSearch as (
     search: Record<string, unknown>,
 ) => Record<string, unknown>;
 
 describe("_auth.oauth.authorize route", () => {
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
     it("adds noindex robots meta tag", () => {
         const head = Route.options.head;
         expect(head).toBeDefined();
@@ -111,5 +127,30 @@ describe("_auth.oauth.authorize route", () => {
         });
 
         expect(result).toHaveProperty("code_challenge_method", "S256");
+    });
+
+    it("renders the authorize page with route search params", () => {
+        const searchParams = {
+            response_type: "code",
+            client_id: "01970f22-2bf0-7000-8000-000000000010",
+            redirect_uri: "https://client.example/callback",
+            scope: "products:write",
+            state: "csrf-token-xyz",
+            code_challenge: "test-challenge",
+            code_challenge_method: "S256",
+        };
+        vi.spyOn(Route, "useSearch").mockReturnValue(searchParams);
+
+        const Component = Route.options.component;
+        if (!Component) {
+            throw new Error("Authorize route component not found");
+        }
+
+        render(createElement(Component));
+
+        expect(screen.getByTestId("oauth-authorize-page")).toHaveTextContent(
+            searchParams.client_id,
+        );
+        expect(mockOAuthAuthorizePage).toHaveBeenCalledWith({ searchParams }, undefined);
     });
 });
