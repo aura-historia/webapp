@@ -4,8 +4,6 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { OAuthAuthorizePage } from "../OAuthAuthorizePage.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 
-const mockMutate = vi.hoisted(() => vi.fn());
-
 const mockClientData = vi.hoisted(() => ({
     clientId: "01970f22-2bf0-7000-8000-000000000010",
     clientName: "Test Partner App",
@@ -25,21 +23,8 @@ const mockUseOAuthClient = vi.hoisted(() =>
     }),
 );
 
-const mockUseOAuthAuthorize = vi.hoisted(() =>
-    vi.fn().mockReturnValue({
-        mutate: mockMutate,
-        isPending: false,
-        isError: false,
-        error: null,
-    }),
-);
-
 vi.mock("@/hooks/oauth/useOAuthClient", () => ({
     useOAuthClient: mockUseOAuthClient,
-}));
-
-vi.mock("@/hooks/oauth/useOAuthAuthorize", () => ({
-    useOAuthAuthorize: mockUseOAuthAuthorize,
 }));
 
 const defaultSearchParams = {
@@ -59,12 +44,6 @@ describe("OAuthAuthorizePage", () => {
             data: mockClientData,
             isLoading: false,
             isError: false,
-        });
-        mockUseOAuthAuthorize.mockReturnValue({
-            mutate: mockMutate,
-            isPending: false,
-            isError: false,
-            error: null,
         });
     });
 
@@ -148,30 +127,33 @@ describe("OAuthAuthorizePage", () => {
         ).toBeInTheDocument();
     });
 
-    it("calls authorize mutation on approve click", async () => {
-        const user = userEvent.setup();
+    it("submits approval through a native form with OAuth fields", async () => {
         await act(async () =>
             renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
         );
 
-        await user.click(
-            screen.getByRole("button", {
-                name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
-            }),
-        );
+        const approveButton = screen.getByRole("button", {
+            name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
+        });
+        const form = approveButton.closest("form");
 
-        expect(mockMutate).toHaveBeenCalledWith(
-            {
-                clientId: "01970f22-2bf0-7000-8000-000000000010",
-                redirectUri: "https://client.example/callback",
-                codeChallenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
-                scope: "products:write shops:manage",
-                state: "csrf-state-123",
-            },
-            expect.objectContaining({
-                onSuccess: expect.any(Function),
-            }),
-        );
+        if (!form) {
+            throw new Error("Approve form not found");
+        }
+
+        expect(form).toHaveAttribute("action", "/api/oauth/authorize/approve");
+        expect(form).toHaveAttribute("method", "post");
+
+        const formData = new FormData(form);
+        expect(Object.fromEntries(formData)).toEqual({
+            response_type: "code",
+            client_id: "01970f22-2bf0-7000-8000-000000000010",
+            redirect_uri: "https://client.example/callback",
+            scope: "products:write shops:manage",
+            state: "csrf-state-123",
+            code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+            code_challenge_method: "S256",
+        });
     });
 
     it("redirects to redirect_uri with access_denied on deny click", async () => {
@@ -242,44 +224,6 @@ describe("OAuthAuthorizePage", () => {
         expect(
             screen.getByText(/Die Anwendung konnte nicht identifiziert werden/),
         ).toBeInTheDocument();
-    });
-
-    it("disables buttons when authorization is pending", async () => {
-        mockUseOAuthAuthorize.mockReturnValue({
-            mutate: mockMutate,
-            isPending: true,
-            isError: false,
-            error: null,
-        });
-
-        await act(async () =>
-            renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
-        );
-
-        const approveButton = screen.getByRole("button", {
-            name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
-        });
-        const denyButton = screen.getByRole("button", {
-            name: "Autorisierung für Test Partner App ablehnen",
-        });
-
-        expect(approveButton).toBeDisabled();
-        expect(denyButton).toBeDisabled();
-    });
-
-    it("displays authorization error message when mutation fails", async () => {
-        mockUseOAuthAuthorize.mockReturnValue({
-            mutate: mockMutate,
-            isPending: false,
-            isError: true,
-            error: new Error("Authorization failed: invalid scope."),
-        });
-
-        await act(async () =>
-            renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
-        );
-
-        expect(screen.getByText("Authorization failed: invalid scope.")).toBeInTheDocument();
     });
 
     it("renders without scopes when scope param is missing", async () => {

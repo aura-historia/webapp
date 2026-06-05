@@ -1,12 +1,14 @@
 import { useTranslation } from "react-i18next";
 import { useOAuthClient } from "@/hooks/oauth/useOAuthClient.ts";
-import { useOAuthAuthorize } from "@/hooks/oauth/useOAuthAuthorize.ts";
+
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { ShieldCheck, ShieldAlert, AlertTriangle, ExternalLink } from "lucide-react";
+
+const OAUTH_AUTHORIZE_APPROVE_ACTION = "/api/oauth/authorize/approve";
 
 type OAuthAuthorizeSearchParams = {
     readonly response_type: string;
@@ -25,7 +27,6 @@ interface OAuthAuthorizePageProps {
 export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
     const { t } = useTranslation();
     const { data: client, isLoading, isError } = useOAuthClient(searchParams.client_id);
-    const authorize = useOAuthAuthorize();
 
     const requestedScopes = searchParams.scope?.split(" ").filter(Boolean) ?? [];
     const clientLogoUri = getSafeHttpsUrl(client?.logoUri);
@@ -45,23 +46,6 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
               },
           ].filter((link): link is { href: string; label: string } => !!link.href)
         : [];
-
-    const handleApprove = () => {
-        authorize.mutate(
-            {
-                clientId: searchParams.client_id,
-                redirectUri: searchParams.redirect_uri,
-                codeChallenge: searchParams.code_challenge,
-                scope: searchParams.scope,
-                state: searchParams.state,
-            },
-            {
-                onSuccess: (result) => {
-                    window.location.href = result.redirectUrl;
-                },
-            },
-        );
-    };
 
     const handleDeny = () => {
         const url = new URL(searchParams.redirect_uri);
@@ -184,21 +168,52 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
                     </CardContent>
 
                     <CardFooter className="flex flex-col gap-3 pt-2 sm:flex-row-reverse">
-                        <Button
-                            onClick={handleApprove}
-                            disabled={authorize.isPending}
+                        <form
+                            action={OAUTH_AUTHORIZE_APPROVE_ACTION}
+                            method="post"
                             className="w-full sm:w-auto"
-                            aria-label={t("oauth.authorize.approveAriaLabel", {
-                                appName: client.clientName,
-                            })}
                         >
-                            {authorize.isPending && <Spinner className="size-4" />}
-                            {t("oauth.authorize.approve")}
-                        </Button>
+                            <input
+                                type="hidden"
+                                name="response_type"
+                                value={searchParams.response_type}
+                            />
+                            <input type="hidden" name="client_id" value={searchParams.client_id} />
+                            <input
+                                type="hidden"
+                                name="redirect_uri"
+                                value={searchParams.redirect_uri}
+                            />
+                            {searchParams.scope !== undefined && (
+                                <input type="hidden" name="scope" value={searchParams.scope} />
+                            )}
+                            {searchParams.state !== undefined && (
+                                <input type="hidden" name="state" value={searchParams.state} />
+                            )}
+                            <input
+                                type="hidden"
+                                name="code_challenge"
+                                value={searchParams.code_challenge}
+                            />
+                            <input
+                                type="hidden"
+                                name="code_challenge_method"
+                                value={searchParams.code_challenge_method}
+                            />
+                            <Button
+                                type="submit"
+                                className="w-full sm:w-auto"
+                                aria-label={t("oauth.authorize.approveAriaLabel", {
+                                    appName: client.clientName,
+                                })}
+                            >
+                                {t("oauth.authorize.approve")}
+                            </Button>
+                        </form>
                         <Button
+                            type="button"
                             variant="outline"
                             onClick={handleDeny}
-                            disabled={authorize.isPending}
                             className="w-full sm:w-auto"
                             aria-label={t("oauth.authorize.denyAriaLabel", {
                                 appName: client.clientName,
@@ -208,14 +223,6 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
                         </Button>
                     </CardFooter>
                 </Card>
-
-                {authorize.isError && (
-                    <Card className="border-destructive/30 gap-4">
-                        <CardContent className="pt-6">
-                            <p className="text-sm text-destructive">{authorize.error.message}</p>
-                        </CardContent>
-                    </Card>
-                )}
             </div>
         </PageContainer>
     );

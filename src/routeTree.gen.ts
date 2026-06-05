@@ -34,6 +34,7 @@ import { Route as AuthAdminUsersRouteImport } from './routes/_auth.admin.users'
 import { Route as AuthAdminShopsRouteImport } from './routes/_auth.admin.shops'
 import { Route as AuthAdminPartnerApplicationsRouteImport } from './routes/_auth.admin.partner-applications'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
+import { Route as ApiOauthAuthorizeApproveRouteImport } from './routes/api.oauth.authorize.approve'
 import { Route as AuthMeSearchFilterFilterIdRouteImport } from './routes/_auth.me.search-filter.$filterId'
 import { Route as AuthMeBillingManageRouteImport } from './routes/_auth.me.billing.manage'
 
@@ -165,6 +166,12 @@ const ShopsShopSlugIdProductsProductSlugIdRoute =
     path: '/shops/$shopSlugId/products/$productSlugId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiOauthAuthorizeApproveRoute =
+  ApiOauthAuthorizeApproveRouteImport.update({
+    id: '/api/oauth/authorize/approve',
+    path: '/api/oauth/authorize/approve',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthMeSearchFilterFilterIdRoute =
   AuthMeSearchFilterFilterIdRouteImport.update({
     id: '/me/search-filter/$filterId',
@@ -203,6 +210,7 @@ export interface FileRoutesByFullPath {
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/me/billing/manage': typeof AuthMeBillingManageRoute
   '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
+  '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRoutesByTo {
@@ -229,6 +237,7 @@ export interface FileRoutesByTo {
   '/shops/$shopSlugId': typeof ShopsShopSlugIdIndexRoute
   '/me/billing/manage': typeof AuthMeBillingManageRoute
   '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
+  '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRoutesById {
@@ -259,6 +268,7 @@ export interface FileRoutesById {
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/_auth/me/billing/manage': typeof AuthMeBillingManageRoute
   '/_auth/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
+  '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 export interface FileRouteTypes {
@@ -289,6 +299,7 @@ export interface FileRouteTypes {
     | '/shops/$shopSlugId/'
     | '/me/billing/manage'
     | '/me/search-filter/$filterId'
+    | '/api/oauth/authorize/approve'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -315,6 +326,7 @@ export interface FileRouteTypes {
     | '/shops/$shopSlugId'
     | '/me/billing/manage'
     | '/me/search-filter/$filterId'
+    | '/api/oauth/authorize/approve'
     | '/shops/$shopSlugId/products/$productSlugId'
   id:
     | '__root__'
@@ -344,6 +356,7 @@ export interface FileRouteTypes {
     | '/shops/$shopSlugId/'
     | '/_auth/me/billing/manage'
     | '/_auth/me/search-filter/$filterId'
+    | '/api/oauth/authorize/approve'
     | '/shops/$shopSlugId/products/$productSlugId'
   fileRoutesById: FileRoutesById
 }
@@ -360,6 +373,7 @@ export interface RootRouteChildren {
   SearchShopsRoute: typeof SearchShopsRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
   ShopsShopSlugIdIndexRoute: typeof ShopsShopSlugIdIndexRoute
+  ApiOauthAuthorizeApproveRoute: typeof ApiOauthAuthorizeApproveRoute
   ShopsShopSlugIdProductsProductSlugIdRoute: typeof ShopsShopSlugIdProductsProductSlugIdRoute
 }
 
@@ -540,6 +554,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopsShopSlugIdProductsProductSlugIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/oauth/authorize/approve': {
+      id: '/api/oauth/authorize/approve'
+      path: '/api/oauth/authorize/approve'
+      fullPath: '/api/oauth/authorize/approve'
+      preLoaderRoute: typeof ApiOauthAuthorizeApproveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth/me/search-filter/$filterId': {
       id: '/_auth/me/search-filter/$filterId'
       path: '/me/search-filter/$filterId'
@@ -626,6 +647,7 @@ const rootRouteChildren: RootRouteChildren = {
   SearchShopsRoute: SearchShopsRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
   ShopsShopSlugIdIndexRoute: ShopsShopSlugIdIndexRoute,
+  ApiOauthAuthorizeApproveRoute: ApiOauthAuthorizeApproveRoute,
   ShopsShopSlugIdProductsProductSlugIdRoute:
     ShopsShopSlugIdProductsProductSlugIdRoute,
 }
