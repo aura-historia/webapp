@@ -36,7 +36,7 @@ function RouteComponent() {
     const searchArgs = Route.useSearch();
     const navigate = Route.useNavigate();
     const { t } = useTranslation();
-    const [totalResults, setTotalResults] = useState<number | null>(null);
+    const [totalResults, setTotalResults] = useState<number | undefined>(undefined);
     const { isAuthenticated } = useResolvedAuth();
     const { data: account } = useUserAccount();
     const { data: savedFilters } = useUserSearchFilters(isAuthenticated);
@@ -81,10 +81,10 @@ function RouteComponent() {
                             <div className="flex flex-col gap-4 pb-4">
                                 <div className="flex flex-col gap-3">
                                     <div className="flex flex-wrap items-end gap-3">
-                                        <H1 className="break-words text-4xl sm:text-5xl">
+                                        <H1 className="wrap-break-word text-4xl sm:text-5xl">
                                             {t("search.resultsFor")} "{searchArgs.q}"
                                         </H1>
-                                        {totalResults !== null && (
+                                        {!!totalResults && (
                                             <span className="hidden pb-1 text-sm text-on-surface-variant/70 sm:inline">
                                                 ({t("search.totalResults", { count: totalResults })}
                                                 )
@@ -93,7 +93,7 @@ function RouteComponent() {
                                     </div>
                                 </div>
 
-                                {totalResults !== null && (
+                                {!!totalResults && (
                                     <span className="text-sm text-on-surface-variant/70 sm:hidden">
                                         {t("search.totalResults", { count: totalResults })}
                                     </span>

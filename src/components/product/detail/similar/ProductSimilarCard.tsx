@@ -55,6 +55,7 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
                                 src={product.images[0].url?.href}
                                 alt=""
                                 fallbackClassName="size-full"
+                                showErrorMessage={false}
                             />
                         )
                     ) : (

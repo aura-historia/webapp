@@ -295,7 +295,8 @@
       },
       "loadingMore": "Chargement des résultats...",
       "allLoaded_one": "Vous avez consulté {{count}} résultat correspondant à vos filtres.",
-      "allLoaded_other": "Vous avez consulté les {{count}} résultats correspondant à vos filtres."
+      "allLoaded_other": "Vous avez consulté les {{count}} résultats correspondant à vos filtres.",
+      "allLoadedFallback": "Tous les résultats de recherche sont chargés."
     },
     "sortMode": {
       "sortBy": "Trier par :",
