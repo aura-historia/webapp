@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useOAuthClient } from "@/hooks/oauth/useOAuthClient.ts";
+import { useOAuthClient } from "@/features/oauth/hooks/useOAuthClient.ts";
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -7,6 +7,7 @@ import { H1 } from "@/components/typography/H1.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { ShieldCheck, ShieldAlert, AlertTriangle, ExternalLink } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
 
 const OAUTH_AUTHORIZE_APPROVE_ACTION = "/api/oauth/authorize/approve";
 
@@ -26,6 +27,7 @@ interface OAuthAuthorizePageProps {
 
 export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const { data: client, isLoading, isError } = useOAuthClient(searchParams.client_id);
 
     const requestedScopes = searchParams.scope?.split(" ").filter(Boolean) ?? [];
@@ -54,7 +56,8 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
         if (searchParams.state) {
             url.searchParams.set("state", searchParams.state);
         }
-        window.location.href = url.toString();
+
+        navigate({ href: url.toString() });
     };
 
     if (isLoading) {

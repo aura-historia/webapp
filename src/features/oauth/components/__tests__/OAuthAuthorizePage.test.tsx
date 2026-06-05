@@ -23,7 +23,7 @@ const mockUseOAuthClient = vi.hoisted(() =>
     }),
 );
 
-vi.mock("@/hooks/oauth/useOAuthClient", () => ({
+vi.mock("@/features/oauth/hooks/useOAuthClient.ts", () => ({
     useOAuthClient: mockUseOAuthClient,
 }));
 

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { Route } from "../api.oauth.authorize.approve.ts";
+import { postOAuthAuthorizeApprove } from "../oauthAuthorizeApproveHandler.ts";
 
 const mockGetServerAuthToken = vi.hoisted(() => vi.fn());
 const mockFetch = vi.hoisted(() => vi.fn());
@@ -179,7 +179,9 @@ describe("/api/oauth/authorize/approve", () => {
                 VITE_API_URL: undefined,
             },
         }));
-        const { Route: routeWithDefaultApiUrl } = await import("../api.oauth.authorize.approve.ts");
+        const { postOAuthAuthorizeApprove: postWithDefaultApiUrl } = await import(
+            "../oauthAuthorizeApproveHandler.ts"
+        );
         mockFetch.mockResolvedValue(
             new Response(null, {
                 status: 302,
@@ -189,20 +191,18 @@ describe("/api/oauth/authorize/approve", () => {
             }),
         );
 
-        await post(createRequest(defaultFormFields), routeWithDefaultApiUrl);
+        await post(createRequest(defaultFormFields), postWithDefaultApiUrl);
 
         const [backendUrl] = mockFetch.mock.calls[0] as [string, RequestInit];
         expect(new URL(backendUrl).origin).toBe("https://api.dev.aura-historia.com");
     });
 });
 
-function post(request: Request, route = Route): Promise<Response> {
-    const handlers = route.options.server?.handlers;
-    if (!handlers || typeof handlers === "function" || !handlers.POST) {
-        throw new Error("POST handler not found");
-    }
-
-    return (handlers.POST as PostHandler)({ request });
+function post(
+    request: Request,
+    handler: PostHandler = postOAuthAuthorizeApprove,
+): Promise<Response> {
+    return handler({ request });
 }
 
 function createRequest(fields: Record<string, string | undefined>): Request {

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { createElement } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { Route } from "../../../routes/_auth.oauth.authorize.tsx";
+import { Route } from "../../../../routes/_auth.oauth.authorize.tsx";
 
 const mockOAuthAuthorizePage = vi.hoisted(() =>
     vi.fn(({ searchParams }) =>
@@ -9,7 +9,7 @@ const mockOAuthAuthorizePage = vi.hoisted(() =>
     ),
 );
 
-vi.mock("@/components/oauth/OAuthAuthorizePage.tsx", () => ({
+vi.mock("@/features/oauth/components/OAuthAuthorizePage.tsx", () => ({
     OAuthAuthorizePage: mockOAuthAuthorizePage,
 }));
 
