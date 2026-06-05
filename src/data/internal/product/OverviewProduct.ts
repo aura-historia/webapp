@@ -1,24 +1,25 @@
 import type {
-    PersonalizedGetProductData,
-    PersonalizedGetProductSummaryData,
     GetProductData,
     GetProductSummaryData,
+    PersonalizedGetProductData,
+    PersonalizedGetProductSummaryData,
     ProductUserStateData,
 } from "@/client";
-import { type ProductState, parseProductState } from "@/data/internal/product/ProductState.ts";
+import { parseProductState, type ProductState } from "@/data/internal/product/ProductState.ts";
 import {
     mapToInternalUserProductData,
     type UserProductData,
 } from "@/data/internal/product/UserProductData.ts";
 import {
+    filterDuplicateImages,
     mapToInternalProductImage,
-    sortImagesRestrictedLast,
     type ProductImage,
+    sortImagesRestrictedLast,
 } from "@/data/internal/product/ProductImageData.ts";
 import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import {
-    mapToInternalAuctionWindow,
     type AuctionWindow,
+    mapToInternalAuctionWindow,
 } from "@/data/internal/product/AuctionWindow.ts";
 import {
     parsePriceEstimate,
@@ -76,11 +77,13 @@ function mapProductDataToOverviewProduct(
         url: URL.parse(productData.url),
         viewUrl: URL.parse(productData.viewUrl),
         images: sortImagesRestrictedLast(
-            productData.images == null
-                ? []
-                : productData.images
-                      .map(mapToInternalProductImage)
-                      .filter((image) => image !== undefined),
+            filterDuplicateImages(
+                productData.images == null
+                    ? []
+                    : productData.images
+                          .map(mapToInternalProductImage)
+                          .filter((image) => image !== undefined),
+            ),
             userData?.prohibitedContent?.consent ?? false,
         ),
         created: new Date(productData.created),
@@ -111,11 +114,13 @@ function mapProductSummaryDataToOverviewProduct(
         url: URL.parse(productData.url),
         viewUrl: URL.parse(productData.viewUrl),
         images: sortImagesRestrictedLast(
-            productData.images == null
-                ? []
-                : productData.images
-                      .map(mapToInternalProductImage)
-                      .filter((image) => image !== undefined),
+            filterDuplicateImages(
+                productData.images == null
+                    ? []
+                    : productData.images
+                          .map(mapToInternalProductImage)
+                          .filter((image) => image !== undefined),
+            ),
             userData?.prohibitedContent.consent ?? false,
         ),
         created: new Date(productData.created),

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
     getProductBySlugOptions,
@@ -14,6 +14,7 @@ import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { generateProductHeadMeta } from "@/lib/seo/productHeadMeta.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
+import { isApiNotFoundError } from "@/lib/api/apiError.ts";
 
 export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId")({
     loader: async ({
@@ -21,28 +22,44 @@ export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId
         params: { shopSlugId, productSlugId },
     }) => {
         const currency = initialPreferences.currency;
-        const productData = await queryClient.ensureQueryData(
-            getProductBySlugOptions({
-                query: {
-                    language: parseLanguage(i18n.language),
-                    currency: currency,
-                },
-                path: { shopSlugId, productSlugId },
-            }),
-        );
+        const productData = await queryClient
+            .ensureQueryData(
+                getProductBySlugOptions({
+                    query: {
+                        language: parseLanguage(i18n.language),
+                        currency: currency,
+                    },
+                    path: { shopSlugId, productSlugId },
+                }),
+            )
+            .catch((error) => {
+                if (isApiNotFoundError(error)) {
+                    throw notFound();
+                }
 
-        await queryClient.ensureQueryData(
-            getProductHistoryOptions({
-                query: {
-                    language: parseLanguage(i18n.language),
-                    currency: currency,
-                },
-                path: {
-                    shopId: productData.item.shopId,
-                    shopsProductId: productData.item.shopsProductId,
-                },
-            }),
-        );
+                throw error;
+            });
+
+        await queryClient
+            .ensureQueryData(
+                getProductHistoryOptions({
+                    query: {
+                        language: parseLanguage(i18n.language),
+                        currency: currency,
+                    },
+                    path: {
+                        shopId: productData.item.shopId,
+                        shopsProductId: productData.item.shopsProductId,
+                    },
+                }),
+            )
+            .catch((error) => {
+                if (isApiNotFoundError(error)) {
+                    throw notFound();
+                }
+
+                throw error;
+            });
 
         return productData;
     },
