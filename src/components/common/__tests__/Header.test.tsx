@@ -25,7 +25,6 @@ const setupAuthMock = ({
 } = {}) => {
     mockUseResolvedAuth.mockReturnValue({
         user: isAuthenticated ? { userId: "test-id", username: "test" } : null,
-        serverUser: null,
         isAuthenticated,
         isLoading,
         isResolved: isAuthenticated || !isLoading,
@@ -103,6 +102,31 @@ describe("Header Component", () => {
         it("should not show auth buttons", () => {
             expect(screen.queryByText("Registrieren")).not.toBeInTheDocument();
             expect(screen.queryByText("Einloggen")).not.toBeInTheDocument();
+        });
+
+        it("should not show an admin link for non-admin users", () => {
+            expect(screen.queryByRole("link", { name: "Admin" })).not.toBeInTheDocument();
+        });
+    });
+
+    describe("Logged in admin user", () => {
+        beforeEach(async () => {
+            setupAuthMock({ isAuthenticated: true });
+            mockUseUserAccount.mockReturnValue({
+                data: {
+                    firstName: "Ada",
+                    lastName: "Admin",
+                    role: "ADMIN",
+                },
+                isLoading: false,
+            });
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+        });
+
+        it("should show an admin link to the admin dashboard", () => {
+            expect(screen.getByRole("link", { name: "Admin" })).toHaveAttribute("href", "/admin");
         });
     });
 

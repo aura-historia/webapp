@@ -1,7 +1,6 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import { createElement } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { TestRouterWrapper } from "@/test/utils.tsx";
 import { useShopProducts } from "../useShopProducts.ts";
 
 const mockSimpleSearchProducts = vi.hoisted(() => vi.fn());
@@ -36,18 +35,8 @@ vi.mock("@/data/internal/common/Language.ts", () => ({
 }));
 
 describe("useShopProducts", () => {
-    let queryClient: QueryClient;
-
-    const createWrapper =
-        () =>
-        ({ children }: { children: React.ReactNode }) =>
-            createElement(QueryClientProvider, { client: queryClient }, children);
-
     beforeEach(() => {
         vi.clearAllMocks();
-        queryClient = new QueryClient({
-            defaultOptions: { queries: { retry: false } },
-        });
         mockGetErrorMessage.mockImplementation((error: unknown) =>
             error && typeof error === "object" && "message" in error
                 ? String((error as { message?: unknown }).message)
@@ -66,7 +55,7 @@ describe("useShopProducts", () => {
         });
 
         const { result } = renderHook(() => useShopProducts("Christie's"), {
-            wrapper: createWrapper(),
+            wrapper: TestRouterWrapper,
         });
 
         await waitFor(() => expect(result.current.isSuccess).toBe(true));
@@ -84,7 +73,7 @@ describe("useShopProducts", () => {
         });
 
         renderHook(() => useShopProducts("Christie's"), {
-            wrapper: createWrapper(),
+            wrapper: TestRouterWrapper,
         });
 
         await waitFor(() => expect(mockSimpleSearchProducts).toHaveBeenCalledTimes(1));
@@ -109,7 +98,7 @@ describe("useShopProducts", () => {
         mockGetErrorMessage.mockReturnValue("Mapped Server Error");
 
         const { result } = renderHook(() => useShopProducts("Christie's"), {
-            wrapper: createWrapper(),
+            wrapper: TestRouterWrapper,
         });
 
         await waitFor(() => expect(result.current.isError).toBe(true));
@@ -124,7 +113,7 @@ describe("useShopProducts", () => {
         });
 
         const { result } = renderHook(() => useShopProducts("Empty Shop"), {
-            wrapper: createWrapper(),
+            wrapper: TestRouterWrapper,
         });
 
         await waitFor(() => expect(result.current.isSuccess).toBe(true));
@@ -143,7 +132,7 @@ describe("useShopProducts", () => {
         });
 
         const { result } = renderHook(() => useShopProducts("Christie's"), {
-            wrapper: createWrapper(),
+            wrapper: TestRouterWrapper,
         });
 
         await waitFor(() => expect(result.current.isSuccess).toBe(true));

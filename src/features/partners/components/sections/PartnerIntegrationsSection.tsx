@@ -6,7 +6,7 @@ import {
     ShopifyIcon,
     WooCommerceIcon,
     WordPressIcon,
-} from "@/components/partners/icons/BrandIcons.tsx";
+} from "@/features/partners/components/icons/BrandIcons.tsx";
 import type { ComponentType, SVGProps } from "react";
 
 type Integration = {

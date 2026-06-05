@@ -87,6 +87,7 @@ export type NotificationPartnerApplicationPayload =
 export type NotificationPartnerApplication = {
     readonly type: "PARTNER_APPLICATION";
     readonly shopName: string;
+    readonly image?: string;
     readonly partnerApplicationPayload: NotificationPartnerApplicationPayload;
 };
 
@@ -188,6 +189,7 @@ function mapToNotificationPartnerApplication(
     return {
         type: "PARTNER_APPLICATION",
         shopName: apiData.shopName,
+        image: apiData.image ?? undefined,
         partnerApplicationPayload: mapToPartnerApplicationPayload(
             apiData.partnerApplicationPayload,
         ),

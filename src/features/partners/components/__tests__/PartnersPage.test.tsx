@@ -1,4 +1,4 @@
-import PartnersPage from "@/components/partners/PartnersPage.tsx";
+import PartnersPage from "@/features/partners/components/PartnersPage.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 
@@ -40,7 +40,7 @@ describe("PartnersPage", () => {
         const shopify = screen.getByText("Shopify-App").closest("a");
         expect(shopify).toHaveAttribute("href", "/partners/shopify");
 
-        const customApi = screen.getByText("Eigene Integration · API-Key").closest("a");
+        const customApi = screen.getByText("Eigene API-Integration").closest("a");
         expect(customApi).toHaveAttribute("href", "/partners/custom-integration");
     });
 

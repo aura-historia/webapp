@@ -94,6 +94,7 @@
   "header": {
     "watchlist": "Lista de seguimiento",
     "myAccount": "Mi cuenta",
+    "admin": "Admin",
     "editAccount": "Editar cuenta",
     "logout": "Cerrar sesión",
     "hello": "Hola",
@@ -731,9 +732,9 @@
         "badge": "Popular"
       },
       "customApi": {
-        "title": "Integración propia · API key",
-        "description": "Control total sobre los endpoints REST mediante una API key con permisos limitados, ideal para sistemas a medida.",
-        "cta": "Documentación API",
+        "title": "Integración API propia",
+        "description": "Conecta un sistema de tienda propio con una API key y sincronización de productos por lotes.",
+        "cta": "Ver documentación API",
         "badge": "Para desarrolladores"
       }
     },
@@ -798,11 +799,129 @@
       "subtitle": "Solicítalo gratis en menos de dos minutos. Sin contrato, sin riesgo, con control total.",
       "primary": "Hazte partner",
       "secondary": "Escribir al equipo de Partners"
+    },
+    "customIntegrationPage": {
+      "hero": {
+        "eyebrow": "Programa de partners · Integración API propia",
+        "title": "Conecta tu tienda con nuestra API",
+        "subtitle": "Usa la API de partners si tu tienda funciona con un sistema propio o si quieres controlar por completo la sincronización. Envía lotes de productos a Aura Historia, los procesamos en segundo plano y los productos aparecen poco después en tu página de tienda.",
+        "primaryCta": "Solicitar una API key",
+        "secondaryCta": "Abrir documentación API"
+      },
+      "concept": {
+        "title": "Pensada para importaciones asíncronas de productos",
+        "description": "La API confirma que hemos recibido tu lote. La validación, el procesamiento y la publicación ocurren después en segundo plano. Una respuesta 202 significa que la importación ha empezado, no que todos los productos ya estén visibles.",
+        "flowLabel": "Flujo habitual",
+        "flow": {
+          "accepted": "202 Accepted · lote recibido",
+          "processing": "Los productos se procesan en segundo plano",
+          "visible": "Los productos aprobados aparecen unos minutos después"
+        },
+        "benefits": {
+          "async": {
+            "title": "Gestiona las importaciones de forma asíncrona",
+            "description": "Envía un lote, guarda la respuesta de aceptación y revisa el resultado en tu página de tienda de Aura Historia cuando termine el procesamiento."
+          },
+          "polling": {
+            "title": "Empieza pequeño y mantén el catálogo sincronizado",
+            "description": "Usa POST para tu primer lote de productos. Cuando la importación funcione, mantén el catálogo actualizado con cambios PATCH o upserts PUT."
+          }
+        }
+      },
+      "summary": {
+        "title": "Qué necesitas para la primera sincronización",
+        "subtitle": "Estos tres elementos bastan para enviar un primer lote de productos fácil de revisar.",
+        "items": {
+          "apiKey": {
+            "title": "Acceso partner y API key",
+            "description": "Solicita acceso a nuestro equipo de partners. Tras la aprobación, recibirás una API key limitada a tu tienda."
+          },
+          "shopId": {
+            "title": "Tu ID de tienda en Aura Historia",
+            "description": "Usa el ID de tienda recibido durante el onboarding en cada solicitud por lote para asignar los productos a la tienda correcta."
+          },
+          "productBatch": {
+            "title": "Un lote pequeño de productos",
+            "description": "Empieza con pocos productos válidos para comprobar rápido la importación, el mapeo de datos y el resultado publicado."
+          }
+        }
+      },
+      "guide": {
+        "title": "De la API key a la primera sincronización",
+        "subtitle": "Un flujo práctico para conectar un sistema de tienda propio con Aura Historia.",
+        "stepLabel": "Paso {{number}}",
+        "endpointLabel": "Endpoint relevante",
+        "focusLabel": "Qué revisar",
+        "steps": {
+          "requestKey": {
+            "title": "Solicita acceso para tu tienda partner",
+            "description": "Empieza con el onboarding de partners. Cuando tu tienda esté aprobada, recibirás la API key y el ID de tienda necesarios para las solicitudes por lote.",
+            "focus": "Guarda la API key, el ID de tienda y el contacto de onboarding en un lugar al que tu equipo de integración pueda acceder de forma segura.",
+            "visualTitle": "Activación y credenciales",
+            "visualCaption": "API key e ID de tienda"
+          },
+          "preparePayload": {
+            "title": "Prepara tu primer payload de productos",
+            "description": "Crea un lote pequeño con los campos de producto obligatorios. Revisa IDs, títulos, precios, imágenes, disponibilidad y enlaces a tus páginas de producto.",
+            "focus": "Empieza solo con unos pocos productos. La validación será más clara y la primera importación más fácil de depurar.",
+            "visualTitle": "Preparar payload JSON",
+            "visualCaption": "Estructura del lote y campos obligatorios"
+          },
+          "sendBatch": {
+            "title": "Envía el primer lote",
+            "description": "Envía el lote con POST al endpoint de partners. Cuando la solicitud se acepta, empieza el procesamiento en segundo plano.",
+            "focus": "Una respuesta de aceptación correcta no significa que los productos sean visibles de inmediato. Deja unos minutos para el procesamiento.",
+            "visualTitle": "Enviar lote de productos",
+            "visualCaption": "Solicitud y respuesta 202"
+          },
+          "keepInSync": {
+            "title": "Mantén tu catálogo actualizado",
+            "description": "Cuando la primera importación funcione, usa PATCH para cambios concretos o PUT cuando tu sincronización envíe registros completos que deban crearse o actualizarse.",
+            "focus": "Usa PATCH para cambios conocidos y PUT para upserts cuando el lote pueda contener productos nuevos y existentes.",
+            "visualTitle": "Actualizar la sincronización",
+            "visualCaption": "Acciones de update y upsert"
+          },
+          "verifyShop": {
+            "title": "Abre tu página de tienda y verifica el resultado",
+            "description": "Después del procesamiento, abre tu página de tienda en Aura Historia. Tus primeros productos sincronizados deberían aparecer allí tras una breve espera.",
+            "focus": "Usa el slug de tu tienda para ir directamente a la página pública y comprobar que los productos importados se ven correctamente.",
+            "inputLabel": "Slug de tu tienda",
+            "inputPlaceholder": "p. ej. mi-galeria-antigua",
+            "inputHint": "Introduce el slug de la URL de tu tienda en Aura Historia. El botón abre directamente la página pública de la tienda.",
+            "cta": "Abrir mi página de tienda",
+            "visualTitle": "Verificar página de tienda",
+            "visualCaption": "Grid de productos y cabecera de tienda"
+          }
+        }
+      },
+      "endpoints": {
+        "title": "Referencia de la API de productos partner",
+        "subtitle": "La referencia OpenAPI integrada se centra en los endpoints por lote que necesitas para una integración propia.",
+        "generatedReferenceTitle": "Los tres endpoints para sincronizar productos",
+        "generatedReferenceDescription": "Esta referencia interactiva se genera desde nuestra especificación OpenAPI y muestra en un solo lugar los endpoints de creación, actualización y upsert por lote.",
+        "externalDocsCta": "Abrir endpoint por separado",
+        "embedTitle": "Referencia de la API de productos partner",
+        "items": {
+          "create": {
+            "title": "Batch create products (Partner API)",
+            "description": "Crea productos para tu tienda. Ideal para la importación inicial o para lotes que solo contienen productos nuevos."
+          },
+          "update": {
+            "title": "Batch update products (Partner API)",
+            "description": "Actualiza productos existentes cuando cambien títulos, precios, imágenes, disponibilidad o enlaces."
+          },
+          "upsert": {
+            "title": "Batch upsert products (Partner API)",
+            "description": "Crea o actualiza productos en un solo lote cuando tu sincronización pueda incluir registros nuevos y existentes."
+          }
+        }
+      }
     }
   },
   "apiErrors": {
     "PRODUCT_NOT_FOUND": "Este artículo no fue encontrado.",
     "UNAUTHORIZED": "Autenticación fallida. Por favor, inicie sesión.",
+    "USER_NOT_FOUND": "Su sesión ya no es válida. Por favor, inicie sesión de nuevo.",
     "INTERNAL_SERVER_ERROR": "Se produjo un error interno del servidor. Por favor, inténtelo de nuevo más tarde.",
     "GATEWAY_TIMEOUT": "Tiempo de espera de la solicitud agotado. Por favor, inténtelo de nuevo más tarde.",
     "WATCHLIST_ENTRY_NOT_FOUND": "Este artículo no está en su lista de seguimiento.",
@@ -1390,10 +1509,13 @@
         "name": "Nombre",
         "nameDescription": "Asigne un nombre a su filtro de búsqueda",
         "priceStatus": "Precio y Estado",
+        "priceStatusDescription": "Defina su rango de precios y seleccione el estado de publicación deseado – por ejemplo, solo artículos disponibles o también piezas ya subastadas para investigación de mercado.",
         "theme": "Tema",
         "quality": "Calidad",
         "shop": "Tienda",
+        "shopDescription": "Seleccione específicamente tipos de proveedores – renombradas casas de subastas, marchantes de arte especializados o mercados – e incluya o excluya proveedores individuales.",
         "date": "Fecha",
+        "dateDescription": "Acote la búsqueda por tiempo – por fecha de subasta, fecha de primera publicación o la última actualización del anuncio.",
         "confirm": "Confirmar",
         "confirmDescription": "Revise su filtro de búsqueda antes de guardarlo"
       },
@@ -1432,7 +1554,7 @@
       "editHint": "Intente ajustar el filtro de búsqueda."
     },
     "totalElements": "{{count}} filtro(s) de búsqueda",
-    "matchingProducts": "{{count}} coincidencia(s)",
+    "matchingProducts": "Mostrar todas las coincidencias",
     "searchPlaceholder": "Buscar filtros de búsqueda...",
     "showDetails": "Mostrar detalles",
     "showResults": "Buscar ahora",
