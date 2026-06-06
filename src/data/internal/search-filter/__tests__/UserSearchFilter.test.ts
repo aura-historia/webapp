@@ -66,6 +66,27 @@ describe("mapToInternalUserSearchFilter", () => {
         const result = mapToInternalUserSearchFilter(baseFilterData);
         expect(result.enhancedSearchDescription).toBeUndefined();
     });
+
+    it("maps state ACTIVE", () => {
+        const result = mapToInternalUserSearchFilter({ ...baseFilterData, state: "ACTIVE" });
+        expect(result.state).toBe("ACTIVE");
+    });
+
+    it("maps state INACTIVE_BY_USER", () => {
+        const result = mapToInternalUserSearchFilter({
+            ...baseFilterData,
+            state: "INACTIVE_BY_USER",
+        });
+        expect(result.state).toBe("INACTIVE_BY_USER");
+    });
+
+    it("maps state INACTIVE_BY_RESTRICTED_PLAN", () => {
+        const result = mapToInternalUserSearchFilter({
+            ...baseFilterData,
+            state: "INACTIVE_BY_RESTRICTED_PLAN",
+        });
+        expect(result.state).toBe("INACTIVE_BY_RESTRICTED_PLAN");
+    });
 });
 
 describe("mapProductSearchDataToSearchFilterArguments", () => {
@@ -169,6 +190,16 @@ describe("mapToBackendPatchUserSearchFilter", () => {
     it("maps search when provided", () => {
         const result = mapToBackendPatchUserSearchFilter({ search: { q: "Lampe" } });
         expect(result.search?.productQuery).toBe("Lampe");
+    });
+
+    it("maps state when provided", () => {
+        const result = mapToBackendPatchUserSearchFilter({ state: "INACTIVE_BY_USER" });
+        expect(result.state).toBe("INACTIVE_BY_USER");
+    });
+
+    it("omits state when not provided", () => {
+        const result = mapToBackendPatchUserSearchFilter({ name: "Test" });
+        expect(result.state).toBeUndefined();
     });
 });
 

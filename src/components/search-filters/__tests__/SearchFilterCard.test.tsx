@@ -26,6 +26,7 @@ const mockFilter: UserSearchFilter = {
     id: "filter-1",
     name: "Barock Möbel",
     notifications: false,
+    state: "ACTIVE",
     search: { q: "Tisch" },
     created: new Date("2024-01-01T00:00:00Z"),
     updated: new Date("2024-03-01T00:00:00Z"),
@@ -156,5 +157,142 @@ describe("SearchFilterCard", () => {
                 patch: { notifications: true },
             }),
         );
+    });
+
+    describe("resource state", () => {
+        it("renders pause button when filter is ACTIVE", async () => {
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} />);
+            });
+            expect(screen.getByRole("button", { name: /Pausieren/i })).toBeInTheDocument();
+        });
+
+        it("renders activate button when filter is INACTIVE_BY_USER", async () => {
+            const filter = { ...mockFilter, state: "INACTIVE_BY_USER" as const };
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
+            });
+            expect(screen.getByRole("button", { name: /Aktivieren/i })).toBeInTheDocument();
+        });
+
+        it("shows Pausiert badge when filter is INACTIVE_BY_USER", async () => {
+            const filter = { ...mockFilter, state: "INACTIVE_BY_USER" as const };
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
+            });
+            expect(screen.getByText("Pausiert")).toBeInTheDocument();
+        });
+
+        it("shows Gesperrt badge when filter is INACTIVE_BY_RESTRICTED_PLAN", async () => {
+            const filter = { ...mockFilter, state: "INACTIVE_BY_RESTRICTED_PLAN" as const };
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
+            });
+            expect(screen.getByText("Gesperrt")).toBeInTheDocument();
+        });
+
+        it("enables state toggle when INACTIVE_BY_RESTRICTED_PLAN", async () => {
+            const filter = { ...mockFilter, state: "INACTIVE_BY_RESTRICTED_PLAN" as const };
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
+            });
+            expect(screen.getByRole("button", { name: /Aktivieren/i })).not.toBeDisabled();
+        });
+
+        it("calls mutate with ACTIVE when activating an INACTIVE_BY_RESTRICTED_PLAN filter", async () => {
+            const filter = { ...mockFilter, state: "INACTIVE_BY_RESTRICTED_PLAN" as const };
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
+            });
+            await act(() => {
+                fireEvent.click(screen.getByRole("button", { name: /Aktivieren/i }));
+            });
+            expect(mockUpdateMutate).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    id: "filter-1",
+                    patch: { state: "ACTIVE" },
+                }),
+            );
+        });
+
+        it("calls mutate with INACTIVE_BY_USER when pausing an ACTIVE filter", async () => {
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} />);
+            });
+            const pauseBtn = screen.getByRole("button", { name: /Pausieren/i });
+            await act(() => {
+                fireEvent.click(pauseBtn);
+            });
+            expect(mockUpdateMutate).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    id: "filter-1",
+                    patch: { state: "INACTIVE_BY_USER" },
+                }),
+            );
+        });
+
+        it("calls mutate with ACTIVE when activating an INACTIVE_BY_USER filter", async () => {
+            const filter = { ...mockFilter, state: "INACTIVE_BY_USER" as const };
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
+            });
+            const activateBtn = screen.getByRole("button", { name: /Aktivieren/i });
+            await act(() => {
+                fireEvent.click(activateBtn);
+            });
+            expect(mockUpdateMutate).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    id: "filter-1",
+                    patch: { state: "ACTIVE" },
+                }),
+            );
+        });
+
+        it("shows no state badge when filter is ACTIVE", async () => {
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} />);
+            });
+            expect(screen.queryByText("Pausiert")).not.toBeInTheDocument();
+            expect(screen.queryByText("Gesperrt")).not.toBeInTheDocument();
+        });
+
+        it("enables matching products button when filter is INACTIVE_BY_USER", async () => {
+            const filter = { ...mockFilter, state: "INACTIVE_BY_USER" as const };
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
+            });
+            expect(
+                screen.getByRole("link", { name: /Alle Suchtreffer anzeigen/i }),
+            ).toBeInTheDocument();
+        });
+
+        it("shows matching products link when filter is INACTIVE_BY_RESTRICTED_PLAN", async () => {
+            const filter = { ...mockFilter, state: "INACTIVE_BY_RESTRICTED_PLAN" as const };
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
+            });
+            expect(
+                screen.getByRole("link", { name: /Alle Suchtreffer anzeigen/i }),
+            ).toBeInTheDocument();
+        });
+
+        it("disables bell button when filter is INACTIVE_BY_USER", async () => {
+            const filter = { ...mockFilter, state: "INACTIVE_BY_USER" as const };
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
+            });
+            expect(
+                screen.getByRole("button", { name: /Keine Benachrichtigungen/i }),
+            ).toBeDisabled();
+        });
+
+        it("enables matching products button when filter is ACTIVE", async () => {
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} />);
+            });
+            expect(
+                screen.getByRole("link", { name: /Alle Suchtreffer anzeigen/i }),
+            ).toBeInTheDocument();
+        });
     });
 });

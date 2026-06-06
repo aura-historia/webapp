@@ -67,6 +67,7 @@ const mockFilter: UserSearchFilter = {
     id: "filter-1",
     name: "Barock Möbel",
     notifications: false,
+    state: "ACTIVE",
     search: { q: "Tisch" },
     created: new Date("2024-01-01"),
     updated: new Date("2024-03-01"),

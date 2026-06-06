@@ -8,6 +8,11 @@ import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterA
 import { parseProductState, mapToBackendState } from "@/data/internal/product/ProductState.ts";
 import { parseShopType, mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
 import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
+import {
+    parseResourceState,
+    type ResourceState,
+    type PatchResourceState,
+} from "@/data/internal/common/ResourceState.ts";
 
 export type UserSearchFilter = {
     readonly userId: string;
@@ -15,6 +20,7 @@ export type UserSearchFilter = {
     readonly name: string;
     readonly enhancedSearchDescription?: string;
     readonly notifications: boolean;
+    readonly state: ResourceState;
     readonly search: SearchFilterArguments;
     readonly created: Date;
     readonly updated: Date;
@@ -30,6 +36,7 @@ export type UserSearchFilterPatchData = {
     readonly name?: string;
     readonly enhancedSearchDescription?: string | null;
     readonly notifications?: boolean;
+    readonly state?: PatchResourceState;
     readonly search?: SearchFilterArguments;
 };
 
@@ -106,6 +113,7 @@ export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserS
         name: data.name,
         enhancedSearchDescription: data.enhancedSearchDescription,
         notifications: data.notifications,
+        state: parseResourceState(data.state),
         search: mapProductSearchDataToSearchFilterArguments(data.search),
         created: new Date(data.created),
         updated: new Date(data.updated),
@@ -148,6 +156,7 @@ export function mapToBackendPatchUserSearchFilter(
         name: data.name,
         enhancedSearchDescription: data.enhancedSearchDescription,
         notifications: data.notifications,
+        state: data.state,
         search: data.search ? mapSearchFilterArgumentsToProductSearchData(data.search) : undefined,
     };
 }
