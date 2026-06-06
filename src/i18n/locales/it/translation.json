@@ -1577,6 +1577,12 @@
       "notRelevantHint": "La corrispondenza non è rilevante"
     },
     "matchReason": "Motivo AI",
-    "feedbackError": "Impossibile salvare il feedback."
+    "feedbackError": "Impossibile salvare il feedback.",
+    "activate": "Attiva",
+    "deactivate": "Metti in pausa",
+    "stateInactiveByUser": "In pausa",
+    "stateInactiveByPlan": "Bloccato",
+    "stateInactiveByPlanTooltip": "Questo filtro di ricerca è inattivo a causa del tuo piano di abbonamento.",
+    "matchingProductsInactive": "Il filtro di ricerca è inattivo – nessuna corrispondenza disponibile."
   }
 }

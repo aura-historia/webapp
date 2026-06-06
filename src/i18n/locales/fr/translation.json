@@ -1577,6 +1577,12 @@
       "notRelevantHint": "La correspondance n'est pas pertinente"
     },
     "matchReason": "Raison IA",
-    "feedbackError": "Échec de l'enregistrement des commentaires."
+    "feedbackError": "Échec de l'enregistrement des commentaires.",
+    "activate": "Activer",
+    "deactivate": "Mettre en pause",
+    "stateInactiveByUser": "En pause",
+    "stateInactiveByPlan": "Verrouillé",
+    "stateInactiveByPlanTooltip": "Ce filtre de recherche est inactif en raison de votre plan d'abonnement.",
+    "matchingProductsInactive": "Le filtre de recherche est inactif – aucune correspondance disponible."
   }
 }
