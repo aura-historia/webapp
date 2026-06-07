@@ -295,7 +295,8 @@
       },
       "loadingMore": "Chargement des résultats...",
       "allLoaded_one": "Vous avez consulté {{count}} résultat correspondant à vos filtres.",
-      "allLoaded_other": "Vous avez consulté les {{count}} résultats correspondant à vos filtres."
+      "allLoaded_other": "Vous avez consulté les {{count}} résultats correspondant à vos filtres.",
+      "allLoadedFallback": "Tous les résultats de recherche sont chargés."
     },
     "sortMode": {
       "sortBy": "Trier par :",
@@ -1576,7 +1577,13 @@
       "notRelevantHint": "La correspondance n'est pas pertinente"
     },
     "matchReason": "Raison IA",
-    "feedbackError": "Échec de l'enregistrement des commentaires."
+    "feedbackError": "Échec de l'enregistrement des commentaires.",
+    "activate": "Activer",
+    "deactivate": "Mettre en pause",
+    "stateInactiveByUser": "En pause",
+    "stateInactiveByPlan": "Verrouillé",
+    "stateInactiveByPlanTooltip": "Ce filtre de recherche est inactif en raison de votre plan d'abonnement.",
+    "matchingProductsInactive": "Le filtre de recherche est inactif – aucune correspondance disponible."
   },
   "oauth": {
     "authorize": {
