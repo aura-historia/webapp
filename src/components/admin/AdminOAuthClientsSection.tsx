@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Globe, Pencil, Trash2 } from "lucide-react";
 import { H1 } from "@/components/typography/H1.tsx";
@@ -20,12 +20,6 @@ export function AdminOAuthClientsSection() {
     const deleteClient = useDeleteOAuthClient();
     const [createOpen, setCreateOpen] = useState(false);
     const [editTarget, setEditTarget] = useState<OAuthClient | null>(null);
-    const [isHydrated, setIsHydrated] = useState(false);
-
-    useEffect(() => {
-        setIsHydrated(true);
-    }, []);
-
     const handleDelete = (client: OAuthClient) => {
         const confirmed = window.confirm(
             t("adminDashboard.oauthClients.deleteConfirm", {
@@ -104,16 +98,11 @@ export function AdminOAuthClientsSection() {
                                             </Badge>
                                         ))}
                                     </div>
-                                    {isHydrated ? (
-                                        <span className="text-sm text-muted-foreground">
-                                            {t("adminDashboard.oauthClients.createdAt", {
-                                                date: formatShortDate(
-                                                    client.createdAt,
-                                                    i18n.language,
-                                                ),
-                                            })}
-                                        </span>
-                                    ) : null}
+                                    <span className="text-sm text-muted-foreground">
+                                        {t("adminDashboard.oauthClients.createdAt", {
+                                            date: formatShortDate(client.createdAt, i18n.language),
+                                        })}
+                                    </span>
                                 </div>
                             </div>
 
