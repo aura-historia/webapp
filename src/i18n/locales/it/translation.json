@@ -393,6 +393,10 @@
       "start": "da {{date}}",
       "end": "fino a {{date}}",
       "range": "{{start}} – {{end}}"
+    },
+    "searchFilter": {
+      "matchedBadge": "Corrispondenza",
+      "matchedBy": "Dalla tua ricerca salvata"
     }
   },
   "priceBadge": {
