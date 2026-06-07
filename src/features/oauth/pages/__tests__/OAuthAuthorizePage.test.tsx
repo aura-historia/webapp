@@ -1,5 +1,6 @@
-import { act, screen } from "@testing-library/react";
+import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useState } from "react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { OAuthAuthorizePage } from "@/features/oauth/pages/OAuthAuthorizePage.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
@@ -413,6 +414,53 @@ describe("OAuthAuthorizePage", () => {
         expect(formData.get("redirect_uri")).toBe(
             "https://client.example/callback?partner_shop_id=shop-2",
         );
+    });
+
+    it("clears a manual partner shop selection when the authorization request changes", async () => {
+        const user = userEvent.setup();
+        let updateSearchParams: (searchParams: typeof defaultSearchParams) => void = () => {};
+        mockUseOAuthPartnerShops.mockReturnValue({
+            data: [
+                { shopId: "shop-1", name: "First Shop" },
+                { shopId: "shop-2", name: "Second Shop" },
+            ],
+            isLoading: false,
+            isError: false,
+        });
+
+        function OAuthAuthorizePageHarness() {
+            const [searchParams, setSearchParams] = useState({
+                ...defaultSearchParams,
+                requires_partner_shop_id: true,
+            });
+            updateSearchParams = setSearchParams;
+
+            return <OAuthAuthorizePage searchParams={searchParams} />;
+        }
+
+        await act(async () => renderWithRouter(<OAuthAuthorizePageHarness />));
+
+        const approveButton = screen.getByRole("button", {
+            name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
+        });
+        await user.click(screen.getByRole("radio", { name: /Second Shop/ }));
+        expect(approveButton).toBeEnabled();
+
+        act(() =>
+            updateSearchParams({
+                ...defaultSearchParams,
+                state: "next-csrf-state",
+                requires_partner_shop_id: true,
+            }),
+        );
+
+        await waitFor(() => expect(approveButton).toBeDisabled());
+        const form = approveButton.closest("form");
+        if (!form) {
+            throw new Error("Approve form not found");
+        }
+
+        expect(new FormData(form).get("redirect_uri")).toBe("https://client.example/callback");
     });
 
     it("omits optional approval fields and unsafe client links when values are missing", async () => {
