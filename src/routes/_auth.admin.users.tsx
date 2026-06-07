@@ -6,6 +6,7 @@ type AdminUsersSearch = {
 };
 
 export const Route = createFileRoute("/_auth/admin/users")({
+    ssr: false,
     validateSearch: (search: Record<string, unknown>): AdminUsersSearch => ({
         userId: typeof search.userId === "string" ? search.userId : undefined,
     }),
