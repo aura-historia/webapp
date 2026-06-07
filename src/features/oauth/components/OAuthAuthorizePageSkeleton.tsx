@@ -12,12 +12,7 @@ export function OAuthAuthorizePageSkeleton({
     title,
 }: OAuthAuthorizePageSkeletonProps) {
     return (
-        <div
-            className="w-full max-w-lg mx-auto flex flex-col gap-4"
-            aria-busy="true"
-            aria-label="Loading"
-            role="status"
-        >
+        <div className="w-full max-w-lg mx-auto flex flex-col gap-4" aria-busy="true">
             <H1>{title}</H1>
 
             <Card className="gap-4">
