@@ -1,5 +1,6 @@
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotificationBadge.tsx";
+import { SearchFilterMatchBadge } from "@/components/product/badges/SearchFilterMatchBadge.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { ImageOff } from "lucide-react";
@@ -20,6 +21,12 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
     const originEventId = product.userData?.notificationData?.originEventId;
     const markSeen = useMarkNotificationSeen();
 
+    const searchFilterData = product.userData?.searchFilterData;
+    const matchedFilterId =
+        searchFilterData?.matched && !searchFilterData.hidden
+            ? searchFilterData.userSearchFilterId
+            : undefined;
+
     const handleProductClick = useCallback(() => {
         if (hasUnseenNotification && originEventId) {
             markSeen.mutate(originEventId);
@@ -27,68 +34,85 @@ export function ProductSimilarCard({ product }: { readonly product: OverviewProd
     }, [hasUnseenNotification, originEventId, markSeen.mutate]);
 
     return (
-        <Card
-            className={cn(
-                "h-full min-w-0 overflow-hidden border-0 bg-card p-0 shadow-none",
-                hasUnseenNotification && "border-2 border-primary",
-            )}
-        >
-            <Link
-                to="/shops/$shopSlugId/products/$productSlugId"
-                params={{
-                    shopSlugId: product.shopSlugId,
-                    productSlugId: product.productSlugId,
-                }}
-                className="group flex h-full gap-4 bg-card p-2 transition-colors hover:bg-surface-container"
-                onClick={handleProductClick}
-            >
-                <div className="size-24 shrink-0 overflow-hidden bg-background">
-                    {product.images.length > 0 ? (
-                        isRestrictedImage(
-                            product.images[0],
-                            product.userData?.restrictedContentData.consentGiven ?? false,
-                        ) ? (
-                            <ProhibitedImagePlaceholder className="size-full" showLabel={false} />
-                        ) : (
-                            <ImageWithFallback
-                                className="size-full object-cover transition-transform group-hover:scale-[1.03]"
-                                src={product.images[0].url?.href}
-                                alt=""
-                                fallbackClassName="size-full"
-                                showErrorMessage={false}
-                            />
-                        )
-                    ) : (
-                        <div className="flex size-full flex-col items-center justify-center gap-1 bg-muted">
-                            <ImageOff
-                                data-testid="placeholder-image"
-                                className="h-6 w-6 text-muted-foreground"
-                            />
-                            <p className="text-[10px] text-muted-foreground">
-                                {t("product.noImage")}
-                            </p>
-                        </div>
+        <div className="relative">
+            {(hasUnseenNotification || matchedFilterId) && (
+                <div className="absolute left-8 top-0 z-10 -translate-x-1/2 -translate-y-1/2">
+                    {hasUnseenNotification && <UnseenNotificationBadge />}
+                    {!hasUnseenNotification && matchedFilterId && (
+                        <SearchFilterMatchBadge
+                            filterId={matchedFilterId}
+                            filterName={searchFilterData?.userSearchFilterName}
+                            matchReason={searchFilterData?.matchReason}
+                        />
                     )}
                 </div>
+            )}
+            <Card
+                className={cn(
+                    "h-full min-w-0 overflow-hidden border-0 bg-card p-0 shadow-none",
+                    hasUnseenNotification && "border-2 border-primary",
+                    !hasUnseenNotification && matchedFilterId && "border-2 border-tertiary",
+                )}
+            >
+                <Link
+                    to="/shops/$shopSlugId/products/$productSlugId"
+                    params={{
+                        shopSlugId: product.shopSlugId,
+                        productSlugId: product.productSlugId,
+                    }}
+                    className="group flex h-full gap-4 bg-card p-2 transition-colors hover:bg-surface-container"
+                    onClick={handleProductClick}
+                >
+                    <div className="relative size-24 shrink-0 overflow-hidden bg-background">
+                        {product.images.length > 0 ? (
+                            isRestrictedImage(
+                                product.images[0],
+                                product.userData?.restrictedContentData.consentGiven ?? false,
+                            ) ? (
+                                <ProhibitedImagePlaceholder
+                                    className="size-full"
+                                    showLabel={false}
+                                />
+                            ) : (
+                                <ImageWithFallback
+                                    className="size-full object-cover transition-transform group-hover:scale-[1.03]"
+                                    src={product.images[0].url?.href}
+                                    alt=""
+                                    fallbackClassName="size-full"
+                                    showErrorMessage={false}
+                                />
+                            )
+                        ) : (
+                            <div className="flex size-full flex-col items-center justify-center gap-1 bg-muted">
+                                <ImageOff
+                                    data-testid="placeholder-image"
+                                    className="h-6 w-6 text-muted-foreground"
+                                />
+                                <p className="text-[10px] text-muted-foreground">
+                                    {t("product.noImage")}
+                                </p>
+                            </div>
+                        )}
+                    </div>
 
-                <div className="flex min-w-0 flex-1 flex-col justify-between py-1">
-                    <div>
-                        <p className="line-clamp-2 font-display text-base leading-5 text-foreground group-hover:underline">
-                            {product.title}
-                        </p>
-                        <p className="line-clamp-1 text-[10px] uppercase tracking-widest text-muted-foreground">
-                            {product.shopName}
-                        </p>
-                    </div>
-                    <div className="flex flex-wrap justify-between items-center pt-1 gap-2">
-                        <div className="flex gap-2">
-                            <StatusBadge status={product.state} />
-                            {hasUnseenNotification && <UnseenNotificationBadge />}
+                    <div className="flex min-w-0 flex-1 flex-col justify-between py-1">
+                        <div>
+                            <p className="line-clamp-2 font-display text-base leading-5 text-foreground group-hover:underline">
+                                {product.title}
+                            </p>
+                            <p className="line-clamp-1 text-[10px] uppercase tracking-widest text-muted-foreground">
+                                {product.shopName}
+                            </p>
                         </div>
-                        <PriceText>{product.price ?? t("product.unknownPrice")}</PriceText>
+                        <div className="flex flex-wrap justify-between items-center pt-1 gap-2">
+                            <div className="flex gap-2">
+                                <StatusBadge status={product.state} />
+                            </div>
+                            <PriceText>{product.price ?? t("product.unknownPrice")}</PriceText>
+                        </div>
                     </div>
-                </div>
-            </Link>
-        </Card>
+                </Link>
+            </Card>
+        </div>
     );
 }

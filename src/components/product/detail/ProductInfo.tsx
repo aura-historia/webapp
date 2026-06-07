@@ -22,6 +22,8 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const isRemoved = product.state === "REMOVED";
     const merchantUrl = product.viewUrl?.href ?? product.url?.href;
 
+    const searchFilterData = product.userData?.searchFilterData;
+
     return (
         <section className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 pb-8">
             <div className="shrink-0 lg:col-span-7">
@@ -110,6 +112,28 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                         />
                     )}
                 </div>
+
+                {searchFilterData?.matched &&
+                    !searchFilterData?.hidden &&
+                    searchFilterData?.userSearchFilterId && (
+                        <div className="mt-6 border-l-2 border-tertiary pl-4 flex flex-col gap-2">
+                            <p className="text-xs uppercase tracking-[0.08em] text-muted-foreground">
+                                {t("product.searchFilter.matchedBy")}:{" "}
+                                <Link
+                                    to="/me/search-filter/$filterId"
+                                    params={{ filterId: searchFilterData.userSearchFilterId }}
+                                    className="font-semibold text-tertiary transition-colors hover:underline normal-case tracking-normal"
+                                >
+                                    {searchFilterData.userSearchFilterName}
+                                </Link>
+                            </p>
+                            {searchFilterData.matchReason && (
+                                <p className="mt-1 text-sm italic text-on-surface/80">
+                                    {searchFilterData.matchReason}
+                                </p>
+                            )}
+                        </div>
+                    )}
 
                 <div className="mt-8 flex flex-col gap-3">
                     <Button

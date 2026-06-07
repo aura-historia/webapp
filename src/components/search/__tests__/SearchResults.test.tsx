@@ -132,6 +132,37 @@ describe("SearchResults", () => {
         expect(onTotalChange).toHaveBeenCalledWith(0);
     });
 
+    it("renders HiddenMatchCard instead of ProductCard when product is hidden", () => {
+        const hiddenProduct: OverviewProduct = {
+            productId: "00000000-0000-0000-0000-000000000000",
+            eventId: "e1",
+            shopId: "s1",
+            shopSlugId: "shop-1",
+            shopsProductId: "si1",
+            productSlugId: "hidden",
+            title: "Inhalt verborgen",
+            shopName: "Unbekannter Händler",
+            sellerName: "Unbekannter Händler",
+            shopType: "AUCTION_HOUSE",
+            price: undefined,
+            state: "AVAILABLE",
+            url: null,
+            images: [],
+            created: new Date(),
+            updated: new Date(),
+            userData: {
+                watchlistData: { isWatching: false, isNotificationEnabled: false },
+                notificationData: { hasUnseenNotification: false },
+                restrictedContentData: { consentGiven: false },
+                searchFilterData: { matched: true, hidden: true },
+            },
+        };
+        setSearchMock({ products: [hiddenProduct] });
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
+        expect(screen.getByText(/Verborgen/i)).toBeInTheDocument();
+        expect(screen.getByText(/Kontingent/i)).toBeInTheDocument();
+    });
+
     it("renders a list of product cards when products are found", () => {
         const base: Omit<OverviewProduct, "productId" | "title"> = {
             eventId: "e1",
