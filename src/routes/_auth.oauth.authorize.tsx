@@ -1,8 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-    OAuthAuthorizeRouteComponent,
-    oauthAuthorizeSearchSchema,
-} from "@/features/oauth/pages/OAuthAuthorizeRoute.tsx";
+import { oauthAuthorizeSearchSchema } from "@/features/oauth/lib/oauthAuthorizeSearchParams.ts";
+import { OAuthAuthorizePage } from "@/features/oauth/pages/OAuthAuthorizePage.tsx";
 
 export const Route = createFileRoute("/_auth/oauth/authorize")({
     ssr: false,
@@ -15,5 +13,5 @@ export const Route = createFileRoute("/_auth/oauth/authorize")({
 
 function RouteComponent() {
     const searchParams = Route.useSearch();
-    return <OAuthAuthorizeRouteComponent searchParams={searchParams} />;
+    return <OAuthAuthorizePage searchParams={searchParams} />;
 }

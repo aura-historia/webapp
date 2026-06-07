@@ -1,7 +1,7 @@
 import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi, beforeEach } from "vitest";
-import { OAuthAuthorizePage } from "../OAuthAuthorizePage.tsx";
+import { OAuthAuthorizePage } from "@/features/oauth/pages/OAuthAuthorizePage.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 
 const mockClientData = vi.hoisted(() => ({
