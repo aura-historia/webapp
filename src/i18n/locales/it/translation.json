@@ -1599,6 +1599,19 @@
       "approveAriaLabel": "Autorizza {{appName}} ad accedere al tuo account",
       "denyAriaLabel": "Rifiuta l'autorizzazione per {{appName}}",
       "securityNote": "Puoi revocare questo accesso in qualsiasi momento dalle impostazioni del tuo account. Autorizza solo applicazioni di cui ti fidi.",
+      "partnerShops": {
+        "title": "Scegli un negozio partner",
+        "description": "Seleziona il negozio partner per cui questa applicazione deve essere autorizzata.",
+        "selectedLabel": "Negozio partner selezionato",
+        "empty": {
+          "title": "Nessun negozio partner disponibile",
+          "description": "Questa autorizzazione richiede un negozio partner collegato, ma non ne è stato trovato alcuno per il tuo account."
+        },
+        "loadError": {
+          "title": "Impossibile caricare i negozi partner",
+          "description": "Al momento non è stato possibile caricare i negozi partner disponibili. Riprova."
+        }
+      },
       "error": {
         "title": "Richiesta di autorizzazione non valida",
         "description": "L'applicazione non è stata identificata. Il link di autorizzazione potrebbe essere non valido o scaduto. Riprova dall'applicazione."

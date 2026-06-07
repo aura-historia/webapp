@@ -1599,6 +1599,19 @@
       "approveAriaLabel": "Authorize {{appName}} to access your account",
       "denyAriaLabel": "Decline authorization for {{appName}}",
       "securityNote": "You can revoke this access at any time from your account settings. Only authorize applications you trust.",
+      "partnerShops": {
+        "title": "Choose a partner shop",
+        "description": "Select the partner shop this application should be authorized for.",
+        "selectedLabel": "Selected partner shop",
+        "empty": {
+          "title": "No Partner Shop Available",
+          "description": "This authorization requires a linked partner shop, but none were found for your account."
+        },
+        "loadError": {
+          "title": "Partner Shops Could Not Be Loaded",
+          "description": "The available partner shops could not be loaded right now. Please try again."
+        }
+      },
       "error": {
         "title": "Invalid Authorization Request",
         "description": "The application could not be identified. The authorization link may be invalid or expired. Please try again from the application."

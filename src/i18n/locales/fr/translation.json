@@ -1599,6 +1599,19 @@
       "approveAriaLabel": "Autoriser {{appName}} à accéder à votre compte",
       "denyAriaLabel": "Refuser l'autorisation pour {{appName}}",
       "securityNote": "Vous pouvez révoquer cet accès à tout moment depuis les paramètres de votre compte. N'autorisez que les applications de confiance.",
+      "partnerShops": {
+        "title": "Choisir une boutique partenaire",
+        "description": "Sélectionnez la boutique partenaire pour laquelle cette application doit être autorisée.",
+        "selectedLabel": "Boutique partenaire sélectionnée",
+        "empty": {
+          "title": "Aucune boutique partenaire disponible",
+          "description": "Cette autorisation nécessite une boutique partenaire liée, mais aucune n'a été trouvée pour votre compte."
+        },
+        "loadError": {
+          "title": "Impossible de charger les boutiques partenaires",
+          "description": "Les boutiques partenaires disponibles n'ont pas pu être chargées pour le moment. Veuillez réessayer."
+        }
+      },
       "error": {
         "title": "Demande d'autorisation invalide",
         "description": "L'application n'a pas pu être identifiée. Le lien d'autorisation est peut-être invalide ou expiré. Veuillez réessayer depuis l'application."

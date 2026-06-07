@@ -23,8 +23,20 @@ const mockUseOAuthClient = vi.hoisted(() =>
     }),
 );
 
+const mockUseOAuthPartnerShops = vi.hoisted(() =>
+    vi.fn().mockReturnValue({
+        data: [],
+        isLoading: false,
+        isError: false,
+    }),
+);
+
 vi.mock("@/features/oauth/hooks/useOAuthClient.ts", () => ({
     useOAuthClient: mockUseOAuthClient,
+}));
+
+vi.mock("@/features/oauth/hooks/useOAuthPartnerShops.ts", () => ({
+    useOAuthPartnerShops: mockUseOAuthPartnerShops,
 }));
 
 const defaultSearchParams = {
@@ -35,6 +47,7 @@ const defaultSearchParams = {
     state: "csrf-state-123",
     code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
     code_challenge_method: "S256",
+    requires_partner_shop_id: false,
 };
 
 describe("OAuthAuthorizePage", () => {
@@ -42,6 +55,11 @@ describe("OAuthAuthorizePage", () => {
         vi.clearAllMocks();
         mockUseOAuthClient.mockReturnValue({
             data: mockClientData,
+            isLoading: false,
+            isError: false,
+        });
+        mockUseOAuthPartnerShops.mockReturnValue({
+            data: [],
             isLoading: false,
             isError: false,
         });
@@ -300,6 +318,101 @@ describe("OAuthAuthorizePage", () => {
         );
 
         expect(mockUseOAuthClient).toHaveBeenCalledWith("01970f22-2bf0-7000-8000-000000000010");
+    });
+
+    it("appends the only available partner shop to the redirect URI", async () => {
+        mockUseOAuthPartnerShops.mockReturnValue({
+            data: [{ shopId: "shop-1", name: "Only Shop" }],
+            isLoading: false,
+            isError: false,
+        });
+
+        await act(async () =>
+            renderWithRouter(
+                <OAuthAuthorizePage
+                    searchParams={{ ...defaultSearchParams, requires_partner_shop_id: true }}
+                />,
+            ),
+        );
+
+        const approveButton = screen.getByRole("button", {
+            name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
+        });
+        const form = approveButton.closest("form");
+        if (!form) {
+            throw new Error("Approve form not found");
+        }
+
+        const formData = new FormData(form);
+        expect(formData.get("redirect_uri")).toBe(
+            "https://client.example/callback?partner_shop_id=shop-1",
+        );
+        expect(screen.getByText("Ausgewählter Partner-Shop")).toBeInTheDocument();
+        expect(screen.getByText("Only Shop")).toBeInTheDocument();
+    });
+
+    it("shows an error when a partner shop is required but none are available", async () => {
+        mockUseOAuthPartnerShops.mockReturnValue({
+            data: [],
+            isLoading: false,
+            isError: false,
+        });
+
+        await act(async () =>
+            renderWithRouter(
+                <OAuthAuthorizePage
+                    searchParams={{ ...defaultSearchParams, requires_partner_shop_id: true }}
+                />,
+            ),
+        );
+
+        expect(screen.getByText("Kein Partner-Shop verfügbar")).toBeInTheDocument();
+        expect(
+            screen.getByText(
+                /Für diese Autorisierung ist ein verknüpfter Partner-Shop erforderlich/,
+            ),
+        ).toBeInTheDocument();
+    });
+
+    it("lets the user choose a partner shop when multiple are available", async () => {
+        const user = userEvent.setup();
+        mockUseOAuthPartnerShops.mockReturnValue({
+            data: [
+                { shopId: "shop-1", name: "First Shop" },
+                { shopId: "shop-2", name: "Second Shop" },
+            ],
+            isLoading: false,
+            isError: false,
+        });
+
+        await act(async () =>
+            renderWithRouter(
+                <OAuthAuthorizePage
+                    searchParams={{ ...defaultSearchParams, requires_partner_shop_id: true }}
+                />,
+            ),
+        );
+
+        const approveButton = screen.getByRole("button", {
+            name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
+        });
+        expect(approveButton).toBeDisabled();
+
+        await user.click(screen.getByRole("radio", { name: /Second Shop/ }));
+
+        expect(approveButton).toBeEnabled();
+        expect(screen.queryByText("Ausgewählter Partner-Shop")).not.toBeInTheDocument();
+        expect(screen.getByText("Second Shop")).toBeInTheDocument();
+
+        const form = approveButton.closest("form");
+        if (!form) {
+            throw new Error("Approve form not found");
+        }
+
+        const formData = new FormData(form);
+        expect(formData.get("redirect_uri")).toBe(
+            "https://client.example/callback?partner_shop_id=shop-2",
+        );
     });
 
     it("omits optional approval fields and unsafe client links when values are missing", async () => {

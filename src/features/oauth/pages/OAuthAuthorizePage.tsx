@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { AlertTriangle, ExternalLink, ShieldAlert, ShieldCheck } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button.tsx";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card.tsx";
@@ -8,10 +9,16 @@ import { OAuthAuthorizePageContainer } from "@/features/oauth/components/OAuthAu
 import { OAuthAuthorizePageSkeleton } from "@/features/oauth/components/OAuthAuthorizePageSkeleton.tsx";
 import { OAuthScopeItem } from "@/features/oauth/components/OAuthScopeItem.tsx";
 import { useOAuthClient } from "@/features/oauth/hooks/useOAuthClient.ts";
+import {
+    type OAuthPartnerShop,
+    useOAuthPartnerShops,
+} from "@/features/oauth/hooks/useOAuthPartnerShops.ts";
 import type { OAuthAuthorizeSearchParams } from "@/features/oauth/lib/oauthAuthorizeSearchParams.ts";
 import {
+    getPartnerShopIdFromRedirectUri,
     getSafeHttpsUrl,
     OAUTH_AUTHORIZE_APPROVE_ACTION,
+    setPartnerShopIdOnRedirectUri,
 } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
 
 interface OAuthAuthorizePageProps {
@@ -22,9 +29,40 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { data: client, isLoading, isError } = useOAuthClient(searchParams.client_id);
+    const requiresPartnerShopId = searchParams.requires_partner_shop_id;
+    const requestKey = `${searchParams.client_id}:${searchParams.redirect_uri}:${searchParams.state ?? ""}`;
+    const redirectUriPartnerShopId = requiresPartnerShopId
+        ? getPartnerShopIdFromRedirectUri(searchParams.redirect_uri)
+        : undefined;
+    const [partnerShopSelection, setPartnerShopSelection] = useState<{
+        requestKey: string;
+        partnerShopId: string | undefined;
+    }>({
+        requestKey,
+        partnerShopId: redirectUriPartnerShopId,
+    });
+    const {
+        data: partnerShops = [],
+        isLoading: isPartnerShopsLoading,
+        isError: isPartnerShopsError,
+    } = useOAuthPartnerShops(requiresPartnerShopId);
 
     const requestedScopes = searchParams.scope?.split(" ").filter(Boolean) ?? [];
     const clientLogoUri = getSafeHttpsUrl(client?.logoUri);
+    const selectedPartnerShopId =
+        partnerShopSelection.requestKey === requestKey
+            ? partnerShopSelection.partnerShopId
+            : redirectUriPartnerShopId;
+    const selectedPartnerShop = getSelectedPartnerShop({
+        partnerShops,
+        selectedPartnerShopId,
+    });
+    const effectivePartnerShop = partnerShops.length === 1 ? partnerShops[0] : selectedPartnerShop;
+    const effectivePartnerShopId = effectivePartnerShop?.shopId;
+    const effectiveRedirectUri = requiresPartnerShopId
+        ? setPartnerShopIdOnRedirectUri(searchParams.redirect_uri, effectivePartnerShopId)
+        : searchParams.redirect_uri;
+    const requiresPartnerShopSelection = requiresPartnerShopId && partnerShops.length > 1;
     const clientLinks = client
         ? [
               {
@@ -43,7 +81,7 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
         : [];
 
     const handleDeny = () => {
-        const url = new URL(searchParams.redirect_uri);
+        const url = new URL(effectiveRedirectUri);
         url.searchParams.set("error", "access_denied");
         url.searchParams.set("error_description", "The user denied the authorization request.");
         if (searchParams.state) {
@@ -53,7 +91,7 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
         navigate({ href: url.toString() });
     };
 
-    if (isLoading) {
+    if (isLoading || (requiresPartnerShopId && isPartnerShopsLoading)) {
         return (
             <OAuthAuthorizePageContainer>
                 <OAuthAuthorizePageSkeleton
@@ -66,21 +104,28 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
 
     if (isError || !client) {
         return (
-            <OAuthAuthorizePageContainer>
-                <Card className="w-full max-w-lg mx-auto gap-4">
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <AlertTriangle className="size-5 text-destructive" aria-hidden="true" />
-                            {t("oauth.authorize.error.title")}
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-muted-foreground text-sm">
-                            {t("oauth.authorize.error.description")}
-                        </p>
-                    </CardContent>
-                </Card>
-            </OAuthAuthorizePageContainer>
+            <OAuthAuthorizeErrorCard
+                title={t("oauth.authorize.error.title")}
+                description={t("oauth.authorize.error.description")}
+            />
+        );
+    }
+
+    if (requiresPartnerShopId && isPartnerShopsError) {
+        return (
+            <OAuthAuthorizeErrorCard
+                title={t("oauth.authorize.partnerShops.loadError.title")}
+                description={t("oauth.authorize.partnerShops.loadError.description")}
+            />
+        );
+    }
+
+    if (requiresPartnerShopId && partnerShops.length === 0) {
+        return (
+            <OAuthAuthorizeErrorCard
+                title={t("oauth.authorize.partnerShops.empty.title")}
+                description={t("oauth.authorize.partnerShops.empty.description")}
+            />
         );
     }
 
@@ -151,6 +196,61 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
                             </div>
                         )}
 
+                        {requiresPartnerShopSelection && (
+                            <div className="flex flex-col gap-3">
+                                <div className="flex flex-col gap-1">
+                                    <p className="text-sm font-medium text-primary">
+                                        {t("oauth.authorize.partnerShops.title")}
+                                    </p>
+                                    <p className="text-sm text-muted-foreground">
+                                        {t("oauth.authorize.partnerShops.description")}
+                                    </p>
+                                </div>
+
+                                <fieldset className="flex flex-col gap-2">
+                                    <legend className="sr-only">
+                                        {t("oauth.authorize.partnerShops.title")}
+                                    </legend>
+                                    {partnerShops.map((shop) => (
+                                        <label key={shop.shopId} className="cursor-pointer">
+                                            <input
+                                                type="radio"
+                                                name="partner_shop_selection"
+                                                value={shop.shopId}
+                                                checked={effectivePartnerShopId === shop.shopId}
+                                                onChange={() =>
+                                                    setPartnerShopSelection({
+                                                        requestKey,
+                                                        partnerShopId: shop.shopId,
+                                                    })
+                                                }
+                                                className="peer sr-only"
+                                            />
+                                            <div className="rounded-sm border border-outline-variant/20 p-3 transition-colors peer-checked:border-primary peer-checked:bg-primary/5 peer-focus-visible:ring-2 peer-focus-visible:ring-ring">
+                                                <p className="font-medium">{shop.name}</p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    {shop.shopId}
+                                                </p>
+                                            </div>
+                                        </label>
+                                    ))}
+                                </fieldset>
+                            </div>
+                        )}
+
+                        {requiresPartnerShopId &&
+                            partnerShops.length === 1 &&
+                            effectivePartnerShop && (
+                                <div className="rounded-sm border border-outline-variant/20 bg-surface-container-low p-3">
+                                    <p className="text-xs font-medium text-muted-foreground">
+                                        {t("oauth.authorize.partnerShops.selectedLabel")}
+                                    </p>
+                                    <p className="mt-1 text-sm font-medium">
+                                        {effectivePartnerShop.name}
+                                    </p>
+                                </div>
+                            )}
+
                         <div className="flex items-start gap-2 rounded-sm bg-surface-container-highest/40 p-3">
                             <ShieldAlert
                                 className="size-4 text-muted-foreground shrink-0 mt-0.5"
@@ -174,11 +274,7 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
                                 value={searchParams.response_type}
                             />
                             <input type="hidden" name="client_id" value={searchParams.client_id} />
-                            <input
-                                type="hidden"
-                                name="redirect_uri"
-                                value={searchParams.redirect_uri}
-                            />
+                            <input type="hidden" name="redirect_uri" value={effectiveRedirectUri} />
                             {searchParams.scope !== undefined && (
                                 <input type="hidden" name="scope" value={searchParams.scope} />
                             )}
@@ -198,6 +294,7 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
                             <Button
                                 type="submit"
                                 className="w-full sm:w-auto"
+                                disabled={requiresPartnerShopSelection && !effectivePartnerShopId}
                                 aria-label={t("oauth.authorize.approveAriaLabel", {
                                     appName: client.clientName,
                                 })}
@@ -221,4 +318,41 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
             </div>
         </OAuthAuthorizePageContainer>
     );
+}
+
+interface OAuthAuthorizeErrorCardProps {
+    readonly title: string;
+    readonly description: string;
+}
+
+function OAuthAuthorizeErrorCard({ title, description }: OAuthAuthorizeErrorCardProps) {
+    return (
+        <OAuthAuthorizePageContainer>
+            <Card className="w-full max-w-lg mx-auto gap-4">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                        <AlertTriangle className="size-5 text-destructive" aria-hidden="true" />
+                        {title}
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground text-sm">{description}</p>
+                </CardContent>
+            </Card>
+        </OAuthAuthorizePageContainer>
+    );
+}
+
+function getSelectedPartnerShop({
+    partnerShops,
+    selectedPartnerShopId,
+}: {
+    readonly partnerShops: OAuthPartnerShop[];
+    readonly selectedPartnerShopId: string | undefined;
+}): OAuthPartnerShop | undefined {
+    if (!selectedPartnerShopId) {
+        return undefined;
+    }
+
+    return partnerShops.find((shop) => shop.shopId === selectedPartnerShopId);
 }

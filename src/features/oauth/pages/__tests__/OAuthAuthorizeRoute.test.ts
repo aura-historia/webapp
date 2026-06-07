@@ -54,6 +54,7 @@ describe("_auth.oauth.authorize route", () => {
                 redirect_uri: "https://client.example/callback",
                 code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
                 code_challenge_method: "S256",
+                requires_partner_shop_id: false,
             }),
         );
     });
@@ -129,6 +130,31 @@ describe("_auth.oauth.authorize route", () => {
         expect(result).toHaveProperty("code_challenge_method", "S256");
     });
 
+    it("defaults requires_partner_shop_id to false when not provided", () => {
+        const result = validateSearch({
+            response_type: "code",
+            client_id: "01970f22-2bf0-7000-8000-000000000010",
+            redirect_uri: "https://client.example/callback",
+            code_challenge: "test-challenge",
+            code_challenge_method: "S256",
+        });
+
+        expect(result).toHaveProperty("requires_partner_shop_id", false);
+    });
+
+    it("parses requires_partner_shop_id from the route search", () => {
+        const result = validateSearch({
+            response_type: "code",
+            client_id: "01970f22-2bf0-7000-8000-000000000010",
+            redirect_uri: "https://client.example/callback",
+            code_challenge: "test-challenge",
+            code_challenge_method: "S256",
+            requires_partner_shop_id: "true",
+        });
+
+        expect(result).toHaveProperty("requires_partner_shop_id", true);
+    });
+
     it("renders the authorize page with route search params", () => {
         const searchParams = {
             response_type: "code",
@@ -138,6 +164,7 @@ describe("_auth.oauth.authorize route", () => {
             state: "csrf-token-xyz",
             code_challenge: "test-challenge",
             code_challenge_method: "S256",
+            requires_partner_shop_id: false,
         };
         vi.spyOn(Route, "useSearch").mockReturnValue(searchParams);
 

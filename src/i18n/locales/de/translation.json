@@ -1610,6 +1610,19 @@
       "approveAriaLabel": "{{appName}} den Zugriff auf Ihr Konto erlauben",
       "denyAriaLabel": "Autorisierung für {{appName}} ablehnen",
       "securityNote": "Sie können diesen Zugriff jederzeit in Ihren Kontoeinstellungen widerrufen. Autorisieren Sie nur Anwendungen, denen Sie vertrauen.",
+      "partnerShops": {
+        "title": "Partner-Shop auswählen",
+        "description": "Wählen Sie den Partner-Shop aus, für den diese Anwendung autorisiert werden soll.",
+        "selectedLabel": "Ausgewählter Partner-Shop",
+        "empty": {
+          "title": "Kein Partner-Shop verfügbar",
+          "description": "Für diese Autorisierung ist ein verknüpfter Partner-Shop erforderlich, aber Ihrem Konto ist derzeit keiner zugeordnet."
+        },
+        "loadError": {
+          "title": "Partner-Shops konnten nicht geladen werden",
+          "description": "Die verfügbaren Partner-Shops konnten derzeit nicht geladen werden. Bitte versuchen Sie es erneut."
+        }
+      },
       "error": {
         "title": "Ungültige Autorisierungsanfrage",
         "description": "Die Anwendung konnte nicht identifiziert werden. Der Autorisierungslink ist möglicherweise ungültig oder abgelaufen. Bitte versuchen Sie es erneut über die Anwendung."
