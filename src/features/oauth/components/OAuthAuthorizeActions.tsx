@@ -6,18 +6,18 @@ import { useTranslation } from "react-i18next";
 interface OAuthAuthorizeActionsProps {
     readonly approveAriaLabel: string;
     readonly denyAriaLabel: string;
-    readonly effectiveRedirectUri: string;
     readonly isApproveDisabled: boolean;
     readonly onDeny: () => void;
+    readonly partnerShopId: string | undefined;
     readonly searchParams: OAuthAuthorizeSearchParams;
 }
 
 export function OAuthAuthorizeActions({
     approveAriaLabel,
     denyAriaLabel,
-    effectiveRedirectUri,
     isApproveDisabled,
     onDeny,
+    partnerShopId,
     searchParams,
 }: OAuthAuthorizeActionsProps) {
     const { t } = useTranslation();
@@ -31,12 +31,15 @@ export function OAuthAuthorizeActions({
             >
                 <input type="hidden" name="response_type" value={searchParams.response_type} />
                 <input type="hidden" name="client_id" value={searchParams.client_id} />
-                <input type="hidden" name="redirect_uri" value={effectiveRedirectUri} />
+                <input type="hidden" name="redirect_uri" value={searchParams.redirect_uri} />
                 {searchParams.scope !== undefined && (
                     <input type="hidden" name="scope" value={searchParams.scope} />
                 )}
                 {searchParams.state !== undefined && (
                     <input type="hidden" name="state" value={searchParams.state} />
+                )}
+                {partnerShopId !== undefined && (
+                    <input type="hidden" name="partner_shop_id" value={partnerShopId} />
                 )}
                 <input type="hidden" name="code_challenge" value={searchParams.code_challenge} />
                 <input

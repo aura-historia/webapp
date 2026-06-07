@@ -33,7 +33,7 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
     const {
         effectivePartnerShop,
         effectivePartnerShopId,
-        effectiveRedirectUri,
+        partnerShopId,
         requiresPartnerShopSelection,
         selectPartnerShop,
         requestedScopes,
@@ -44,9 +44,9 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
     });
 
     const handleDeny = () => {
-        const url = new URL(effectiveRedirectUri);
+        const url = new URL(searchParams.redirect_uri);
         url.searchParams.set("error", "access_denied");
-        url.searchParams.set("error_description", "The user denied the authorization request.");
+        url.searchParams.set("error_description", "The user denied the authorization request");
         if (searchParams.state) {
             url.searchParams.set("state", searchParams.state);
         }
@@ -142,11 +142,11 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
                             denyAriaLabel={t("oauth.authorize.denyAriaLabel", {
                                 appName: client.clientName,
                             })}
-                            effectiveRedirectUri={effectiveRedirectUri}
                             isApproveDisabled={
                                 requiresPartnerShopSelection && !effectivePartnerShopId
                             }
                             onDeny={handleDeny}
+                            partnerShopId={partnerShopId}
                             searchParams={searchParams}
                         />
                     </CardFooter>

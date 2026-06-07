@@ -106,6 +106,34 @@ describe("/api/oauth/authorize/approve", () => {
         });
     });
 
+    it("appends partner_shop_id to the browser redirect without sending it to the backend authorize request", async () => {
+        mockFetch.mockResolvedValue(
+            new Response(null, {
+                status: 302,
+                headers: {
+                    Location: "https://client.example/callback?code=auth-code&state=csrf-state-123",
+                },
+            }),
+        );
+
+        const response = await post(
+            createRequest({
+                ...defaultFormFields,
+                partner_shop_id: "shop-1",
+            }),
+        );
+
+        expect(response.status).toBe(302);
+        expect(response.headers.get("Location")).toBe(
+            "https://client.example/callback?code=auth-code&state=csrf-state-123&partner_shop_id=shop-1",
+        );
+
+        const [backendUrl] = mockFetch.mock.calls[0] as [string, RequestInit];
+        const url = new URL(backendUrl);
+        expect(url.searchParams.get("redirect_uri")).toBe(defaultFormFields.redirect_uri);
+        expect(url.searchParams.has("partner_shop_id")).toBe(false);
+    });
+
     it("does not add optional parameters when scope and state are omitted", async () => {
         mockFetch.mockResolvedValue(
             new Response("Redirect without location", {

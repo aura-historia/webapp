@@ -250,6 +250,54 @@ describe("OAuthAuthorizePage", () => {
         expect(redirectUrl.searchParams.has("state")).toBe(false);
     });
 
+    it("does not append partner_shop_id when denying a request after selecting a shop", async () => {
+        const user = userEvent.setup();
+        const mockLocationHref = vi.fn();
+        const locationProxy = new Proxy(
+            {},
+            {
+                set(_target, prop, value) {
+                    if (prop === "href") {
+                        mockLocationHref(value);
+                    }
+                    return true;
+                },
+            },
+        );
+        Object.defineProperty(window, "location", {
+            value: locationProxy,
+            writable: true,
+            configurable: true,
+        });
+        mockUseOAuthPartnerShops.mockReturnValue({
+            data: [
+                { shopId: "shop-1", name: "First Shop" },
+                { shopId: "shop-2", name: "Second Shop" },
+            ],
+            isLoading: false,
+            isError: false,
+        });
+
+        await act(async () =>
+            renderWithRouter(
+                <OAuthAuthorizePage
+                    searchParams={{ ...defaultSearchParams, requires_partner_shop_id: true }}
+                />,
+            ),
+        );
+
+        await user.click(screen.getByRole("radio", { name: /Second Shop/ }));
+        await user.click(
+            screen.getByRole("button", {
+                name: "Autorisierung für Test Partner App ablehnen",
+            }),
+        );
+
+        const redirectUrl = new URL(String(mockLocationHref.mock.calls[0]?.[0]));
+        expect(redirectUrl.searchParams.get("error")).toBe("access_denied");
+        expect(redirectUrl.searchParams.has("partner_shop_id")).toBe(false);
+    });
+
     it("shows skeleton when client data is loading", async () => {
         mockUseOAuthClient.mockReturnValue({
             data: undefined,
@@ -321,7 +369,7 @@ describe("OAuthAuthorizePage", () => {
         expect(mockUseOAuthClient).toHaveBeenCalledWith("01970f22-2bf0-7000-8000-000000000010");
     });
 
-    it("appends the only available partner shop to the redirect URI", async () => {
+    it("submits the only available partner shop separately from the redirect URI", async () => {
         mockUseOAuthPartnerShops.mockReturnValue({
             data: [{ shopId: "shop-1", name: "Only Shop" }],
             isLoading: false,
@@ -345,9 +393,8 @@ describe("OAuthAuthorizePage", () => {
         }
 
         const formData = new FormData(form);
-        expect(formData.get("redirect_uri")).toBe(
-            "https://client.example/callback?partner_shop_id=shop-1",
-        );
+        expect(formData.get("redirect_uri")).toBe("https://client.example/callback");
+        expect(formData.get("partner_shop_id")).toBe("shop-1");
         expect(screen.getByText("Ausgewählter Partner-Shop")).toBeInTheDocument();
         expect(screen.getByText("Only Shop")).toBeInTheDocument();
     });
@@ -411,9 +458,8 @@ describe("OAuthAuthorizePage", () => {
         }
 
         const formData = new FormData(form);
-        expect(formData.get("redirect_uri")).toBe(
-            "https://client.example/callback?partner_shop_id=shop-2",
-        );
+        expect(formData.get("redirect_uri")).toBe("https://client.example/callback");
+        expect(formData.get("partner_shop_id")).toBe("shop-2");
     });
 
     it("clears a manual partner shop selection when the authorization request changes", async () => {
@@ -461,6 +507,7 @@ describe("OAuthAuthorizePage", () => {
         }
 
         expect(new FormData(form).get("redirect_uri")).toBe("https://client.example/callback");
+        expect(new FormData(form).has("partner_shop_id")).toBe(false);
     });
 
     it("omits optional approval fields and unsafe client links when values are missing", async () => {

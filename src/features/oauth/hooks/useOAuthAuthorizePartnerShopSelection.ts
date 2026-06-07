@@ -1,10 +1,7 @@
 import { useState } from "react";
 import type { OAuthPartnerShop } from "@/features/oauth/hooks/useOAuthPartnerShops.ts";
 import type { OAuthAuthorizeSearchParams } from "@/features/oauth/lib/oauthAuthorizeSearchParams.ts";
-import {
-    getPartnerShopIdFromRedirectUri,
-    setPartnerShopIdOnRedirectUri,
-} from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
+import { getPartnerShopIdFromRedirectUri } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
 
 interface UseOAuthAuthorizePartnerShopSelectionParams {
     readonly searchParams: OAuthAuthorizeSearchParams;
@@ -40,14 +37,12 @@ export function useOAuthAuthorizePartnerShopSelection({
         ? partnerShops.find((shop) => shop.shopId === selectedPartnerShopId)
         : undefined;
     const effectivePartnerShop = partnerShops.length === 1 ? partnerShops[0] : selectedPartnerShop;
-    const effectiveRedirectUri = requiresPartnerShopId
-        ? setPartnerShopIdOnRedirectUri(searchParams.redirect_uri, effectivePartnerShop?.shopId)
-        : searchParams.redirect_uri;
+    const partnerShopId = effectivePartnerShop?.shopId;
 
     return {
         effectivePartnerShop,
-        effectivePartnerShopId: effectivePartnerShop?.shopId,
-        effectiveRedirectUri,
+        effectivePartnerShopId: partnerShopId,
+        partnerShopId,
         requestedScopes: searchParams.scope?.split(" ").filter(Boolean) ?? [],
         requiresPartnerShopSelection: requiresPartnerShopId && partnerShops.length > 1,
         shouldShowSelectedPartnerShop: requiresPartnerShopId && partnerShops.length === 1,
