@@ -55,7 +55,7 @@ export function SearchFilterMatches({ filterId }: Props) {
 
     const allProducts: OverviewProduct[] = data?.pages.flatMap((page) => [...page.items]) ?? [];
     const totalProducts = data?.pages[0]?.total ?? 0;
-    const allLoaded = allProducts.length >= totalProducts && totalProducts > 0;
+    const allLoaded = !hasNextPage && allProducts.length > 0;
     const showLoaderRow = isFetchingNextPage || allLoaded;
 
     if (allProducts.length === 0) {

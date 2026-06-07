@@ -25,6 +25,26 @@ export function sortImagesRestrictedLast(
     });
 }
 
+/**
+ * Filters out images that have a duplicate URL. Images without URLs are kept.
+ */
+export function filterDuplicateImages(images: readonly ProductImage[]): readonly ProductImage[] {
+    const seenUrls = new Set<string>();
+    return images.filter((image) => {
+        if (!image.url) {
+            return true;
+        }
+
+        const urlStr = image.url.href;
+        if (seenUrls.has(urlStr)) {
+            return false;
+        }
+
+        seenUrls.add(urlStr);
+        return true;
+    });
+}
+
 export function mapToInternalProductImage(apiData: ProductImageData): ProductImage | undefined {
     const prohibitedContentType = parseProhibitedContentType(apiData.prohibitedContent);
 

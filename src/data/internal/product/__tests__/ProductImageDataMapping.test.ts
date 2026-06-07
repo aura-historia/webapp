@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 import type { ProductImageData } from "@/client";
 import {
-    mapToInternalProductImage,
+    filterDuplicateImages,
     isRestrictedImage,
+    mapToInternalProductImage,
     sortImagesRestrictedLast,
     type ProductImage,
 } from "../ProductImageData.ts";
@@ -284,5 +285,21 @@ describe("sortImagesRestrictedLast", () => {
         expect(sorted).toHaveLength(2);
         expect(sorted[0].url).toBeUndefined();
         expect(sorted[1].url).toBeUndefined();
+    });
+});
+
+describe("filterDuplicateImages", () => {
+    it("should keep first image for a URL and remove later duplicates", () => {
+        const images: ProductImage[] = [
+            { url: new URL("https://example.com/image-a.jpg"), prohibitedContentType: "NONE" },
+            { url: undefined, prohibitedContentType: "NAZI_GERMANY" },
+            { url: new URL("https://example.com/image-b.jpg"), prohibitedContentType: "NONE" },
+            { url: new URL("https://example.com/image-a.jpg"), prohibitedContentType: "NONE" },
+            { url: undefined, prohibitedContentType: "UNKNOWN" },
+        ];
+
+        const filtered = filterDuplicateImages(images);
+
+        expect(filtered).toEqual([images[0], images[1], images[2], images[4]]);
     });
 });

@@ -293,7 +293,8 @@
       },
       "loadingMore": "Lade neue Ergebnisse...",
       "allLoaded_one": "Sie haben {{count}} Ergebnis gesehen, das Ihren Filtern entspricht.",
-      "allLoaded_other": "Sie haben alle {{count}} Ergebnisse gesehen, die Ihren Filtern entsprechen."
+      "allLoaded_other": "Sie haben alle {{count}} Ergebnisse gesehen, die Ihren Filtern entsprechen.",
+      "allLoadedFallback": "Alle Suchergebnisse geladen."
     },
     "sortMode": {
       "sortBy": "Sortieren nach:",
@@ -1314,6 +1315,11 @@
     },
     "notificationsOn": "Benachrichtigungen aktiv",
     "notificationsOff": "Keine Benachrichtigungen",
+    "activate": "Aktivieren",
+    "deactivate": "Pausieren",
+    "stateInactiveByUser": "Pausiert",
+    "stateInactiveByPlan": "Gesperrt",
+    "stateInactiveByPlanTooltip": "Dieser Suchauftrag ist aufgrund Ihres Abonnements inaktiv.",
     "loadingError": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
     "noResults": {
       "title": "Keine Suchaufträge",
@@ -1327,6 +1333,7 @@
     "totalElements_one": "{{count}} Suchauftrag",
     "totalElements_other": "{{count}} Suchaufträge",
     "matchingProducts": "Alle Suchtreffer anzeigen",
+    "matchingProductsInactive": "Suchauftrag ist inaktiv – keine Treffer verfügbar.",
     "searchPlaceholder": "Suchaufträge durchsuchen …",
     "showDetails": "Details anzeigen",
     "showResults": "Jetzt suchen",
