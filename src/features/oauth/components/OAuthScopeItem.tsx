@@ -5,7 +5,7 @@ export function OAuthScopeItem({ scope }: { readonly scope: string }) {
     const { t } = useTranslation();
 
     const scopeKey = scope.replace(":", "_");
-    const description = t(`oauth.scopes.${scopeKey}.description`);
+    const description = t(`oauth.scopes.${scopeKey}.description`, { defaultValue: "" });
 
     return (
         <li className="rounded-sm border border-outline-variant/20 bg-surface-container-low p-3">
@@ -16,7 +16,9 @@ export function OAuthScopeItem({ scope }: { readonly scope: string }) {
                 >
                     {scope}
                 </Badge>
-                <span className="text-xs text-muted-foreground">{description}</span>
+                {!!description && (
+                    <span className="text-xs text-muted-foreground">{description}</span>
+                )}
             </div>
         </li>
     );
