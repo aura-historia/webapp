@@ -1,4 +1,5 @@
 import { updateUserSearchFilter } from "@/client";
+import { toast } from "sonner";
 import {
     mapToBackendPatchUserSearchFilter,
     mapToInternalUserSearchFilter,
@@ -38,6 +39,9 @@ export function useUpdateUserSearchFilter(): UseMutationResult<
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ["userSearchFilters"] });
             queryClient.invalidateQueries({ queryKey: ["userSearchFilter", data.id] });
+        },
+        onError: (error) => {
+            toast.error(error.message);
         },
     });
 }

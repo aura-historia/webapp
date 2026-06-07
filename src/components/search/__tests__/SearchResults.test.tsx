@@ -1,5 +1,5 @@
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
 import type { SearchResultData } from "@/data/internal/search/SearchResultData.ts";
 import { useSearch } from "@/hooks/search/useSearch.ts";
@@ -30,8 +30,12 @@ vi.mock("@/components/product/buttons/NotificationButton", () => ({
     ),
 }));
 
+const intersectionState = vi.hoisted(() => ({
+    inView: false,
+}));
+
 vi.mock("react-intersection-observer", () => ({
-    useInView: () => ({ ref: vi.fn(), inView: false }),
+    useInView: () => ({ ref: vi.fn(), inView: intersectionState.inView }),
 }));
 
 vi.mock("lottie-react", () => ({
@@ -53,6 +57,8 @@ const buildQueryPayload = (
 type SearchMockOptions = {
     products?: OverviewProduct[];
     total?: number;
+    hasNextPage?: boolean;
+    fetchNextPage?: () => void;
     isPending?: boolean;
     error?: Error | null;
 };
@@ -60,6 +66,8 @@ type SearchMockOptions = {
 function setSearchMock({
     products = [],
     total,
+    hasNextPage = false,
+    fetchNextPage = vi.fn(),
     isPending = false,
     error = null,
 }: SearchMockOptions = {}) {
@@ -68,8 +76,8 @@ function setSearchMock({
         data: pages ? { pages, pageParams: [undefined] } : undefined,
         isPending,
         error,
-        fetchNextPage: vi.fn(),
-        hasNextPage: false,
+        fetchNextPage,
+        hasNextPage,
         isFetchingNextPage: false,
     } as unknown as ReturnType<typeof useSearch>);
 }
@@ -77,6 +85,7 @@ function setSearchMock({
 describe("SearchResults", () => {
     beforeEach(() => {
         mockUseSearch.mockReset();
+        intersectionState.inView = false;
         setSearchMock();
     });
 
@@ -123,6 +132,37 @@ describe("SearchResults", () => {
         expect(onTotalChange).toHaveBeenCalledWith(0);
     });
 
+    it("renders HiddenMatchCard instead of ProductCard when product is hidden", () => {
+        const hiddenProduct: OverviewProduct = {
+            productId: "00000000-0000-0000-0000-000000000000",
+            eventId: "e1",
+            shopId: "s1",
+            shopSlugId: "shop-1",
+            shopsProductId: "si1",
+            productSlugId: "hidden",
+            title: "Inhalt verborgen",
+            shopName: "Unbekannter Händler",
+            sellerName: "Unbekannter Händler",
+            shopType: "AUCTION_HOUSE",
+            price: undefined,
+            state: "AVAILABLE",
+            url: null,
+            images: [],
+            created: new Date(),
+            updated: new Date(),
+            userData: {
+                watchlistData: { isWatching: false, isNotificationEnabled: false },
+                notificationData: { hasUnseenNotification: false },
+                restrictedContentData: { consentGiven: false },
+                searchFilterData: { matched: true, hidden: true },
+            },
+        };
+        setSearchMock({ products: [hiddenProduct] });
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
+        expect(screen.getByText(/Verborgen/i)).toBeInTheDocument();
+        expect(screen.getByText(/Kontingent/i)).toBeInTheDocument();
+    });
+
     it("renders a list of product cards when products are found", () => {
         const base: Omit<OverviewProduct, "productId" | "title"> = {
             eventId: "e1",
@@ -150,5 +190,39 @@ describe("SearchResults", () => {
         renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
         expect(screen.getByText("Product 1")).toBeInTheDocument();
         expect(screen.getByText("Product 2")).toBeInTheDocument();
+    });
+
+    it("loads the next page when the cursor indicates more results even if total is reached", async () => {
+        const fetchNextPage = vi.fn();
+        const product: OverviewProduct = {
+            eventId: "e1",
+            productId: "1",
+            shopId: "s1",
+            shopSlugId: "shop-1",
+            shopsProductId: "si1",
+            productSlugId: "product-1",
+            shopName: "Shop 1",
+            sellerName: "Shop 1",
+            shopType: "AUCTION_HOUSE",
+            title: "Product 1",
+            price: "10 €",
+            state: "AVAILABLE",
+            url: null,
+            images: [],
+            created: new Date(),
+            updated: new Date(),
+        };
+
+        intersectionState.inView = true;
+        setSearchMock({
+            products: [product],
+            total: 1,
+            hasNextPage: true,
+            fetchNextPage,
+        });
+
+        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
+
+        await waitFor(() => expect(fetchNextPage).toHaveBeenCalledTimes(1));
     });
 });

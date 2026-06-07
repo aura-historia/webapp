@@ -295,7 +295,8 @@
       },
       "loadingMore": "Loading more results...",
       "allLoaded_one": "You have seen {{count}} result that matches your filters.",
-      "allLoaded_other": "You have seen all {{count}} results that match your filters."
+      "allLoaded_other": "You have seen all {{count}} results that match your filters.",
+      "allLoadedFallback": "All search results loaded."
     },
     "sortMode": {
       "sortBy": "Sort by:",
@@ -325,6 +326,10 @@
       "remove": "Remove from watchlist"
     },
     "unseenNotification": "Updated",
+    "searchFilter": {
+      "matchedBadge": "Match",
+      "matchedBy": "From your saved search"
+    },
     "imageLoadError": "Image could not be loaded",
     "prohibitedImage": "Image hidden due to content restrictions",
     "similar": {
@@ -1308,6 +1313,11 @@
     },
     "notificationsOn": "Notifications active",
     "notificationsOff": "Notifications inactive",
+    "activate": "Activate",
+    "deactivate": "Pause",
+    "stateInactiveByUser": "Paused",
+    "stateInactiveByPlan": "Locked",
+    "stateInactiveByPlanTooltip": "This search filter is inactive due to your subscription plan.",
     "loadingError": "Search filters could not be loaded. Please try again later.",
     "noResults": {
       "title": "No Search Filters",
@@ -1320,6 +1330,7 @@
     },
     "totalElements": "{{count}} search filter(s)",
     "matchingProducts": "Show all matches",
+    "matchingProductsInactive": "Search filter is inactive – no matches available.",
     "searchPlaceholder": "Search filters...",
     "showDetails": "Show details",
     "showResults": "Search now",

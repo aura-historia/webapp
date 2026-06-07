@@ -6,12 +6,14 @@ import { createElement } from "react";
 const mockUpdateUserSearchFilter = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn(() => "Fehler"));
 const mockInvalidateQueries = vi.hoisted(() => vi.fn());
+const mockToastError = vi.hoisted(() => vi.fn());
 
 vi.mock("@/client", () => ({ updateUserSearchFilter: mockUpdateUserSearchFilter }));
 vi.mock("@/hooks/common/useApiError", () => ({
     useApiError: () => ({ getErrorMessage: mockGetErrorMessage }),
 }));
 vi.mock("@/data/internal/hooks/ApiError", () => ({ mapToInternalApiError: (e: unknown) => e }));
+vi.mock("sonner", () => ({ toast: { error: mockToastError } }));
 vi.mock("@tanstack/react-query", async (importOriginal) => {
     const actual = await importOriginal<typeof import("@tanstack/react-query")>();
     return { ...actual, useQueryClient: () => ({ invalidateQueries: mockInvalidateQueries }) };
@@ -107,5 +109,19 @@ describe("useUpdateUserSearchFilter", () => {
         });
 
         await waitFor(() => expect(result.current.isError).toBe(true));
+    });
+
+    it("shows error toast when API returns error", async () => {
+        mockUpdateUserSearchFilter.mockResolvedValue({ data: null, error: { status: 409 } });
+
+        const { result } = renderHook(() => useUpdateUserSearchFilter(), {
+            wrapper: createWrapper(),
+        });
+
+        await act(async () => {
+            result.current.mutate({ id: "filter-1", patch: { state: "ACTIVE" } });
+        });
+
+        await waitFor(() => expect(mockToastError).toHaveBeenCalledWith("Fehler"));
     });
 });

@@ -6,7 +6,7 @@ from urllib.request import urlopen
 
 import yaml
 
-SOURCE_URL = "https://raw.githubusercontent.com/aura-historia/internal-api/refs/heads/master/swagger.yaml"
+SOURCE_URL = "https://raw.githubusercontent.com/aura-historia/backend/refs/heads/develop/docs/swagger.yaml"
 TARGET_PATH = "/api/v1/shops/{shopId}/products"
 TARGET_METHODS = ("put", "post", "patch")
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "public" / "partner-products.openapi.json"

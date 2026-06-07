@@ -7,9 +7,10 @@ import Lottie from "lottie-react";
 
 type ListLoaderRowProps = {
     readonly isFetchingNextPage: boolean;
-    readonly totalCount: number;
+    readonly totalCount?: number;
     readonly loadingMoreKey?: string;
     readonly allLoadedKey?: string;
+    readonly allLoadedFallbackKey?: string;
 };
 
 export function ListLoaderRow({
@@ -17,6 +18,7 @@ export function ListLoaderRow({
     totalCount,
     loadingMoreKey = "search.messages.loadingMore",
     allLoadedKey = "search.messages.allLoaded",
+    allLoadedFallbackKey = "search.messages.allLoadedFallback",
 }: ListLoaderRowProps) {
     const { t } = useTranslation();
 
@@ -24,7 +26,7 @@ export function ListLoaderRow({
         <Card className="bg-surface-container-low border-0 p-4 flex justify-center items-center shadow-none">
             <CardContent className="flex justify-center items-center w-full px-2">
                 {isFetchingNextPage ? (
-                    <div className="flex flex-row items-center gap-2">
+                    <div className="h-12 flex flex-row items-center gap-2">
                         <Spinner />
                         <SectionInfoText>{t(loadingMoreKey)}</SectionInfoText>
                     </div>
@@ -33,7 +35,11 @@ export function ListLoaderRow({
                         <div className="h-12 w-12 shrink-0">
                             <Lottie className="h-12 w-12" animationData={tick} loop={false} />
                         </div>
-                        <SectionInfoText>{t(allLoadedKey, { count: totalCount })}</SectionInfoText>
+                        <SectionInfoText>
+                            {totalCount
+                                ? t(allLoadedKey, { count: totalCount })
+                                : t(allLoadedFallbackKey)}
+                        </SectionInfoText>
                     </div>
                 )}
             </CardContent>
