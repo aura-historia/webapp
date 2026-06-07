@@ -6,6 +6,8 @@ on:
             - develop
 
 env:
+    NODE_VERSION: ${{ vars.NODE_VERSION || '24' }}
+    PNPM_VERSION: ${{ vars.PNPM_VERSION || '11' }}
     WATCH_FILE: "src/i18n/locales/en/translation.json"
     TARGET_LANGS: "es,fr,it"
 
@@ -50,6 +52,27 @@ jobs:
                   SOURCE_FILE: ${{ env.WATCH_FILE }}
                 # Simply call the script file
               run: python .github/scripts/translation-bot.py
+
+            - name: Set up pnpm
+              if: steps.check_changes.outputs.run_translation == 'true'
+              uses: pnpm/action-setup@v6
+              with:
+                  version: ${{ env.PNPM_VERSION }}
+
+            - name: Set up Node.js
+              if: steps.check_changes.outputs.run_translation == 'true'
+              uses: actions/setup-node@v6
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: 'pnpm'
+
+            - name: Install Node Dependencies
+              if: steps.check_changes.outputs.run_translation == 'true'
+              run: pnpm install --frozen-lockfile
+
+            - name: Format Translation Results
+              if: steps.check_changes.outputs.run_translation == 'true'
+              run: pnpm format:fix
 
             - name: Create Pull Request
               if: steps.check_changes.outputs.run_translation == 'true'
