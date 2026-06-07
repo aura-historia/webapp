@@ -231,18 +231,18 @@ describe("OAuthAuthorizePage", () => {
         expect(redirectUrl.searchParams.has("state")).toBe(false);
     });
 
-    it("shows loading spinner when client data is loading", async () => {
+    it("shows skeleton when client data is loading", async () => {
         mockUseOAuthClient.mockReturnValue({
             data: undefined,
             isLoading: true,
             isError: false,
         });
 
-        await act(async () =>
+        const { container } = await act(async () =>
             renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
         );
 
-        expect(screen.getByRole("status", { name: "Loading" })).toBeInTheDocument();
+        expect(container.querySelector("[data-slot='skeleton']")).toBeInTheDocument();
         expect(screen.queryByText("Test Partner App")).not.toBeInTheDocument();
     });
 
