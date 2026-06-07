@@ -23,7 +23,7 @@
     "/api/v1/shops/{shopId}/products": {
       "put": {
         "summary": "Batch upsert products (Partner API)",
-        "description": "Creates new products or updates existing ones for a shop in a single batch call,\nusing API key authentication. This endpoint is intended for partner shops \u2014 shops\nthat have been granted partner status and have an API key configured. It does **not**\nuse Cognito JWT authentication.\n\nThe request body is an array of `PutProductData` objects. Each entry is forwarded\nindividually to the asynchronous partner-product ingestion queue as an upsert command.\nWhen the queued command is later ingested:\n- **Existing product** \u2014 only `state` and `price` are updated (other fields are ignored).\n- **New product** \u2014 a full product is created using all provided fields.\n\nThe response returns HTTP 202 with an array containing only the `shopsProductId` values\nthat failed to be forwarded to the queue. An empty array indicates that all upserts were\naccepted for asynchronous processing.\n",
+        "description": "Creates new products or updates existing ones for a shop in a single batch call,\nusing bearer authentication. This endpoint is intended for partner shops and accepts:\n- a Cognito bearer token for the partner user linked to the shop, or\n- an Aura Historia access token owned by that partner user.\n\nAura Historia access tokens on this endpoint must include the `products:write` scope.\n\nThe request body is an array of `PutProductData` objects. Each entry is forwarded\nindividually to the asynchronous partner-product ingestion queue as an upsert command.\nWhen the queued command is later ingested:\n- **New product** \u2014 a full product is created using all provided fields. Omitting\n  `title`, `url`, or `state` causes the backend to fall back to an empty title,\n  a placeholder URL, and `LISTED` respectively.\n- **Existing product** \u2014 the backend applies `price`, `priceEstimateMin`,\n  `priceEstimateMax`, `state`, `url`, `images`, `auctionStart`, and `auctionEnd`.\n  `title`, `description`, `sellerName`, `structuredAddress`, and `geoAddress`\n  are ignored on the update path.\n- On the update path, omitting or sending `null` for `price`, `priceEstimateMin`,\n  `priceEstimateMax`, `url`, `auctionStart`, or `auctionEnd` leaves the stored value\n  unchanged.\n- On the update path, `images` always replaces the stored image set; omitting\n  `images` or sending `null` is treated as an empty list and therefore clears all\n  stored images.\n\nThe response returns HTTP 202 with an array containing only the `shopsProductId` values\nthat failed to be forwarded to the queue. An empty array indicates that all upserts were\naccepted for asynchronous processing.\n",
         "operationId": "putPartnerProducts",
         "tags": [
           "Products"
@@ -43,7 +43,10 @@
         ],
         "security": [
           {
-            "PartnerApiKeyAuth": []
+            "BearerAuth": []
+          },
+          {
+            "AccessTokenAuth": []
           }
         ],
         "requestBody": {
@@ -84,11 +87,34 @@
                   ]
                 },
                 "update_existing": {
-                  "summary": "Update an existing product's state",
+                  "summary": "Update an existing product while leaving the current price unchanged",
                   "value": [
                     {
                       "shopsProductId": "baroque-violin-001",
-                      "state": "SOLD"
+                      "state": "SOLD",
+                      "priceEstimateMin": {
+                        "currency": "EUR",
+                        "amount": 4200
+                      },
+                      "priceEstimateMax": {
+                        "currency": "EUR",
+                        "amount": 4800
+                      },
+                      "url": "https://my-shop.com/products/baroque-violin?status=sold",
+                      "images": [
+                        "https://my-shop.com/images/violin-1.jpg",
+                        "https://my-shop.com/images/violin-detail.jpg"
+                      ],
+                      "auctionEnd": "2025-05-10T12:30:00Z"
+                    }
+                  ]
+                },
+                "clear_images": {
+                  "summary": "Clear an existing product's images",
+                  "value": [
+                    {
+                      "shopsProductId": "baroque-violin-001",
+                      "images": null
                     }
                   ]
                 }
@@ -159,32 +185,31 @@
             }
           },
           "401": {
-            "description": "Unauthorized \u2014 the `x-api-key` header is missing, malformed, or the API key does not\nmatch the key stored for the shop.\n",
+            "description": "Unauthorized \u2014 the bearer token is missing, invalid, expired, or the referenced\nAura Historia access token no longer exists.\n",
             "content": {
               "application/problem+json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiError"
                 },
                 "examples": {
-                  "missing_header": {
-                    "summary": "x-api-key header is missing or empty",
+                  "missing_authorization": {
+                    "summary": "Authorization header is missing",
                     "value": {
                       "status": 401,
                       "title": "Unauthorized",
-                      "error": "BAD_HEADER_VALUE",
+                      "error": "UNAUTHORIZED",
                       "source": {
-                        "field": "x-api-key",
+                        "field": "Authorization",
                         "sourceType": "header"
-                      },
-                      "detail": "Missing or empty 'x-api-key' header."
+                      }
                     }
                   },
-                  "api_key_mismatch": {
-                    "summary": "API key does not match the shop's stored key",
+                  "access_token_not_found": {
+                    "summary": "Aura Historia access token is unknown or expired",
                     "value": {
                       "status": 401,
                       "title": "Unauthorized",
-                      "error": "PARTNER_SHOP_API_KEY_MISMATCH"
+                      "error": "ACCESS_TOKEN_NOT_FOUND"
                     }
                   }
                 }
@@ -192,7 +217,7 @@
             }
           },
           "403": {
-            "description": "Forbidden \u2014 the shop exists but has not been granted partner status",
+            "description": "Forbidden \u2014 the authenticated caller is not allowed to ingest products for this shop",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -255,7 +280,7 @@
       },
       "post": {
         "summary": "Batch create products (Partner API)",
-        "description": "Creates one or more products for a shop using API key authentication.\nThis endpoint is intended for partner shops \u2014 shops that have been granted partner status\nand have an API key configured. It does **not** use Cognito JWT authentication.\n\nThe request body is an array of `PostProductData` objects. Each entry is forwarded\nindividually to the asynchronous partner-product ingestion queue.\n\nThe response returns HTTP 202 with an array containing only the `shopsProductId` values\nthat failed to be forwarded to the queue. An empty array indicates that all products were\naccepted for asynchronous processing.\n",
+        "description": "Creates one or more products for a shop using bearer authentication.\nThis endpoint is intended for partner shops and accepts:\n- a Cognito bearer token for the partner user linked to the shop, or\n- an Aura Historia access token owned by that partner user.\n\nAura Historia access tokens on this endpoint must include the `products:write` scope.\n\nThe request body is an array of `PostProductData` objects. Each entry is forwarded\nindividually to the asynchronous partner-product ingestion queue.\n\nThe response returns HTTP 202 with an array containing only the `shopsProductId` values\nthat failed to be forwarded to the queue. An empty array indicates that all products were\naccepted for asynchronous processing.\n",
         "operationId": "postPartnerProducts",
         "tags": [
           "Products"
@@ -275,7 +300,10 @@
         ],
         "security": [
           {
-            "PartnerApiKeyAuth": []
+            "BearerAuth": []
+          },
+          {
+            "AccessTokenAuth": []
           }
         ],
         "requestBody": {
@@ -378,32 +406,31 @@
             }
           },
           "401": {
-            "description": "Unauthorized \u2014 the `x-api-key` header is missing, malformed, or the API key does not\nmatch the key stored for the shop.\n",
+            "description": "Unauthorized \u2014 the bearer token is missing, invalid, expired, or the referenced\nAura Historia access token no longer exists.\n",
             "content": {
               "application/problem+json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiError"
                 },
                 "examples": {
-                  "missing_header": {
-                    "summary": "x-api-key header is missing or empty",
+                  "missing_authorization": {
+                    "summary": "Authorization header is missing",
                     "value": {
                       "status": 401,
                       "title": "Unauthorized",
-                      "error": "BAD_HEADER_VALUE",
+                      "error": "UNAUTHORIZED",
                       "source": {
-                        "field": "x-api-key",
+                        "field": "Authorization",
                         "sourceType": "header"
-                      },
-                      "detail": "Missing or empty 'x-api-key' header."
+                      }
                     }
                   },
-                  "api_key_mismatch": {
-                    "summary": "API key does not match the shop's stored key",
+                  "access_token_not_found": {
+                    "summary": "Aura Historia access token is unknown or expired",
                     "value": {
                       "status": 401,
                       "title": "Unauthorized",
-                      "error": "PARTNER_SHOP_API_KEY_MISMATCH"
+                      "error": "ACCESS_TOKEN_NOT_FOUND"
                     }
                   }
                 }
@@ -411,7 +438,7 @@
             }
           },
           "403": {
-            "description": "Forbidden \u2014 the shop exists but has not been granted partner status",
+            "description": "Forbidden \u2014 the authenticated caller is not allowed to ingest products for this shop",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -474,7 +501,7 @@
       },
       "patch": {
         "summary": "Batch update products (Partner API)",
-        "description": "Updates one or more existing products for a shop using API key authentication.\nThis endpoint is intended for partner shops \u2014 shops that have been granted partner status\nand have an API key configured. It does **not** use Cognito JWT authentication.\n\nThe request body is an array of `PatchProductData` objects. Only the fields provided in\neach entry are updated; omitted optional fields are left unchanged. Each entry is forwarded\nindividually to the asynchronous partner-product ingestion queue.\n\nThe response returns HTTP 202 with an array containing only the `shopsProductId` values\nthat failed to be forwarded to the queue. An empty array indicates that all updates were\naccepted for asynchronous processing. Because persistence happens asynchronously, acceptance\ndoes not guarantee that the referenced product currently exists or that the update will\nlater succeed.\n",
+        "description": "Updates one or more existing products for a shop using bearer authentication.\nThis endpoint is intended for partner shops and accepts:\n- a Cognito bearer token for the partner user linked to the shop, or\n- an Aura Historia access token owned by that partner user.\n\nAura Historia access tokens on this endpoint must include the `products:write` scope.\n\nThe request body is an array of `PatchProductData` objects. Only the fields provided in\neach entry are updated; omitted optional fields are left unchanged. Each entry is forwarded\nindividually to the asynchronous partner-product ingestion queue.\n\nThe response returns HTTP 202 with an array containing only the `shopsProductId` values\nthat failed to be forwarded to the queue. An empty array indicates that all updates were\naccepted for asynchronous processing. Because persistence happens asynchronously, acceptance\ndoes not guarantee that the referenced product currently exists or that the update will\nlater succeed.\n",
         "operationId": "patchPartnerProducts",
         "tags": [
           "Products"
@@ -494,7 +521,10 @@
         ],
         "security": [
           {
-            "PartnerApiKeyAuth": []
+            "BearerAuth": []
+          },
+          {
+            "AccessTokenAuth": []
           }
         ],
         "requestBody": {
@@ -588,32 +618,31 @@
             }
           },
           "401": {
-            "description": "Unauthorized \u2014 the `x-api-key` header is missing, malformed, or the API key does not\nmatch the key stored for the shop.\n",
+            "description": "Unauthorized \u2014 the bearer token is missing, invalid, expired, or the referenced\nAura Historia access token no longer exists.\n",
             "content": {
               "application/problem+json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiError"
                 },
                 "examples": {
-                  "missing_header": {
-                    "summary": "x-api-key header is missing or empty",
+                  "missing_authorization": {
+                    "summary": "Authorization header is missing",
                     "value": {
                       "status": 401,
                       "title": "Unauthorized",
-                      "error": "BAD_HEADER_VALUE",
+                      "error": "UNAUTHORIZED",
                       "source": {
-                        "field": "x-api-key",
+                        "field": "Authorization",
                         "sourceType": "header"
-                      },
-                      "detail": "Missing or empty 'x-api-key' header."
+                      }
                     }
                   },
-                  "api_key_mismatch": {
-                    "summary": "API key does not match the shop's stored key",
+                  "access_token_not_found": {
+                    "summary": "Aura Historia access token is unknown or expired",
                     "value": {
                       "status": 401,
                       "title": "Unauthorized",
-                      "error": "PARTNER_SHOP_API_KEY_MISMATCH"
+                      "error": "ACCESS_TOKEN_NOT_FOUND"
                     }
                   }
                 }
@@ -621,7 +650,7 @@
             }
           },
           "403": {
-            "description": "Forbidden \u2014 the shop exists but has not been granted partner status",
+            "description": "Forbidden \u2014 the authenticated caller is not allowed to ingest products for this shop",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -690,13 +719,13 @@
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT",
-        "description": "Cognito JWT token.\nThe token is used for authenticating and authorizing users as well as personalizing responses.\n"
+        "description": "Cognito JWT bearer token.\nThis scheme is used for authenticated user routes and for partner routes that accept Cognito user tokens.\n"
       },
-      "PartnerApiKeyAuth": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "x-api-key",
-        "description": "API key for partner shops. Issued to shops that have been granted partner status.\nThe key must be provided in the `x-api-key` request header.\nThis scheme is separate from user authentication (Cognito JWT) and is used\nby partner shops for programmatic product ingestion, WooCommerce webhook delivery,\nand selected partner-authorized shop operations.\n"
+      "AccessTokenAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "opaque",
+        "description": "Aura Historia bearer access token created through `/api/v1/me/access-tokens`.\nTokens are sent as standard bearer authorization headers.\nSelected partner routes accept this scheme instead of the removed partner API-key flow.\n"
       }
     },
     "schemas": {
@@ -3311,17 +3340,381 @@
           }
         }
       },
-      "PartnerShopApiKeyResponse": {
+      "AccessTokenScopeData": {
+        "type": "string",
+        "enum": [
+          "shops:manage",
+          "products:write"
+        ],
+        "description": "Aura Historia access-token scope string.\n- `shops:manage`: reserved for shop-management flows\n- `products:write`: required for partner batch product ingestion\n",
+        "example": "products:write"
+      },
+      "AccessTokenTypeData": {
+        "type": "string",
+        "enum": [
+          "BEARER"
+        ],
+        "description": "Token type returned for Aura Historia access tokens.",
+        "example": "BEARER"
+      },
+      "GetAccessTokenData": {
         "type": "object",
-        "description": "Response body returned after creating or overwriting a partner shop API key.",
+        "description": "Access-token read model.\n`POST /api/v1/me/access-tokens` returns the plaintext bearer token once;\nlist/get/update endpoints return the masked display value instead.\n",
         "required": [
-          "apiKey"
+          "accessTokenId",
+          "name",
+          "token",
+          "tokenType",
+          "created",
+          "updated"
         ],
         "properties": {
-          "apiKey": {
+          "accessTokenId": {
             "type": "string",
-            "description": "Plaintext partner shop API key.\nReturned only when the key is created; subsequent verification uses the `x-api-key` request header.\n",
-            "example": "aurahistoria_abcdefghijk_abcdefghijklmnopqrstuvwxyz1234567"
+            "format": "uuid",
+            "description": "Unique identifier of the access token.",
+            "example": "01970f22-2bf0-7000-8000-000000000001"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "User-defined display name of the access token.",
+            "example": "Partner product sync"
+          },
+          "scope": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTokenScopeData"
+            },
+            "uniqueItems": true,
+            "description": "Granted access-token scopes. Omitted when the token has no scopes.",
+            "example": [
+              "products:write"
+            ]
+          },
+          "token": {
+            "type": "string",
+            "description": "Plaintext or masked bearer token value.\nCreate responses return the full token once; subsequent reads return a masked value such as `aurahistoria_abcdefghijk_****`.\n",
+            "example": "aurahistoria_abcdefghijk_****"
+          },
+          "tokenType": {
+            "$ref": "#/components/schemas/AccessTokenTypeData"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Optional absolute expiration timestamp in RFC 3339 format.",
+            "example": "2026-06-30T00:00:00Z"
+          },
+          "expiresIn": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true,
+            "description": "Optional non-negative number of seconds remaining until expiry.",
+            "example": 2851200
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the access token was created.",
+            "example": "2026-05-28T06:30:00Z"
+          },
+          "updated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the access token metadata was last updated.",
+            "example": "2026-05-28T07:00:00Z"
+          }
+        }
+      },
+      "PostAccessTokenData": {
+        "type": "object",
+        "description": "Request body for creating an Aura Historia access token.",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "User-defined display name of the new access token.",
+            "example": "Partner product sync"
+          },
+          "scope": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTokenScopeData"
+            },
+            "uniqueItems": true,
+            "description": "Optional scopes granted to the access token. Defaults to an empty set.",
+            "example": [
+              "products:write"
+            ]
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Optional expiration timestamp in RFC 3339 format.",
+            "example": "2026-06-30T00:00:00Z"
+          }
+        }
+      },
+      "PatchAccessTokenData": {
+        "type": "object",
+        "description": "Request body for updating access-token metadata.\nOptional fields that are omitted or set to `null` leave the stored value unchanged.\n",
+        "required": [
+          "accessTokenId"
+        ],
+        "properties": {
+          "accessTokenId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier of the access token to update.",
+            "example": "01970f22-2bf0-7000-8000-000000000001"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 128,
+            "nullable": true,
+            "description": "Optional replacement display name.",
+            "example": "Renamed partner sync token"
+          },
+          "scope": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AccessTokenScopeData"
+            },
+            "uniqueItems": true,
+            "description": "Optional replacement scope set.",
+            "example": [
+              "products:write"
+            ]
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Optional replacement expiration timestamp in RFC 3339 format.",
+            "example": "2026-07-31T00:00:00Z"
+          }
+        }
+      },
+      "OAuthClientMetadataRequestData": {
+        "type": "object",
+        "description": "Request body for creating OAuth client metadata.\n`redirect_uris` must contain at least one HTTPS redirect URI.\n",
+        "required": [
+          "client_name",
+          "redirect_uris"
+        ],
+        "properties": {
+          "client_name": {
+            "type": "string",
+            "description": "Display name of the OAuth client.",
+            "example": "Acceptance OAuth client"
+          },
+          "redirect_uris": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "description": "Registered HTTPS redirect URIs for the OAuth client.",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "example": [
+              "https://client.example/callback"
+            ]
+          },
+          "scope": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "Optional allowed scopes for tokens issued to this OAuth client.",
+            "items": {
+              "$ref": "#/components/schemas/AccessTokenScopeData"
+            },
+            "example": [
+              "products:write"
+            ]
+          }
+        }
+      },
+      "OAuthClientMetadataPatchData": {
+        "type": "object",
+        "description": "Request body for updating OAuth client metadata.\nOmitted or `null` optional properties leave the stored value unchanged.\n",
+        "properties": {
+          "client_name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional replacement display name for the OAuth client.",
+            "example": "Updated acceptance OAuth client"
+          },
+          "redirect_uris": {
+            "type": "array",
+            "nullable": true,
+            "minItems": 1,
+            "uniqueItems": true,
+            "description": "Optional replacement set of registered HTTPS redirect URIs.",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "example": [
+              "https://client.example/updated"
+            ]
+          },
+          "scope": {
+            "type": "array",
+            "nullable": true,
+            "uniqueItems": true,
+            "description": "Optional replacement set of allowed scopes for the OAuth client.",
+            "items": {
+              "$ref": "#/components/schemas/AccessTokenScopeData"
+            },
+            "example": [
+              "shops:manage"
+            ]
+          }
+        }
+      },
+      "OAuthClientMetadataResponseData": {
+        "type": "object",
+        "description": "OAuth client metadata read model.\n`client_secret` contains the plaintext secret only in the create response.\nList/get/update responses return a masked secret display value instead.\n",
+        "required": [
+          "client_id",
+          "client_secret",
+          "client_name",
+          "redirect_uris",
+          "scope",
+          "client_id_issued_at"
+        ],
+        "properties": {
+          "client_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "UUIDv7 identifier of the OAuth client.",
+            "example": "01970f22-2bf0-7000-8000-000000000010"
+          },
+          "client_secret": {
+            "type": "string",
+            "description": "OAuth client secret.\nCreate responses return the plaintext secret once; later reads return a masked value such as `aurahistoria_oauth_client_secret_abcdefghijk_****`.\n",
+            "example": "aurahistoria_oauth_client_secret_abcdefghijk_****"
+          },
+          "client_name": {
+            "type": "string",
+            "description": "Display name of the OAuth client.",
+            "example": "Acceptance OAuth client"
+          },
+          "redirect_uris": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "Registered redirect URIs for the OAuth client.",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "example": [
+              "https://client.example/callback"
+            ]
+          },
+          "scope": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "Allowed scopes for tokens issued to this OAuth client.",
+            "items": {
+              "$ref": "#/components/schemas/AccessTokenScopeData"
+            },
+            "example": [
+              "products:write"
+            ]
+          },
+          "client_id_issued_at": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unix timestamp (seconds) when the OAuth client was created and its client ID was issued.",
+            "example": 1748539200
+          }
+        }
+      },
+      "OAuthTokenResponseData": {
+        "type": "object",
+        "description": "Token response returned by `POST /api/v1/oauth/token` after a successful authorization code\nexchange (RFC 6749 \u00a75.1). The `access_token` is an Aura Historia bearer access token.\n`expires_in` is omitted (`null`) for non-expiring tokens.\n",
+        "required": [
+          "access_token",
+          "token_type",
+          "scope"
+        ],
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "description": "The issued Aura Historia access token (plaintext bearer value).",
+            "example": "aurahistoria_abcdefghijk_verylongtokenvalue"
+          },
+          "token_type": {
+            "$ref": "#/components/schemas/AccessTokenTypeData"
+          },
+          "expires_in": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "nullable": true,
+            "description": "Seconds until the access token expires. `null` when the token does not expire.",
+            "example": null
+          },
+          "scope": {
+            "type": "string",
+            "description": "Space-separated list of scopes granted to the access token.",
+            "example": "products:write"
+          }
+        }
+      },
+      "OAuthIntrospectionResponseData": {
+        "type": "object",
+        "description": "Introspection response returned by `POST /api/v1/oauth/introspect` (RFC 7662).\nWhen `active` is `false` all other fields are omitted.\nWhen `active` is `true` the available token metadata is populated.\n",
+        "required": [
+          "active"
+        ],
+        "properties": {
+          "active": {
+            "type": "boolean",
+            "description": "Whether the token is currently active (not expired, not revoked, and known to this server).",
+            "example": true
+          },
+          "scope": {
+            "type": "string",
+            "description": "Space-separated list of scopes granted to the token. Present only when `active` is `true`.",
+            "example": "products:write"
+          },
+          "client_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "UUIDv7 OAuth client identifier that issued the token. Present only when `active` is `true` and the token was issued via the OAuth flow.",
+            "example": "01970f22-2bf0-7000-8000-000000000010"
+          },
+          "sub": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Subject \u2014 the Aura Historia user ID who authorized the token. Present only when `active` is `true`.",
+            "example": "0196580c-e4ca-723f-a7e0-1a73588380f1"
+          },
+          "token_type": {
+            "type": "string",
+            "description": "Token type. Always `\"Bearer\"` when `active` is `true`.",
+            "example": "Bearer"
+          },
+          "exp": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unix timestamp (seconds) when the token expires. Present only when `active` is `true` and the token has an expiry.",
+            "example": 1780000000
+          },
+          "iat": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unix timestamp (seconds) when the token was issued. Present only when `active` is `true` and the issue time is known.",
+            "example": 1748400000
           }
         }
       },
@@ -4652,6 +5045,13 @@
             "description": "Display name of the shop referenced by the partner application.",
             "example": "Tech Store"
           },
+          "image": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "Optional shop logo URL included with partner-application notifications when the related\napplication or linked existing shop has an image configured.\nAbsent when no shop logo URL is available.\n",
+            "example": "https://tech-store.example/logo.png"
+          },
           "partnerApplicationPayload": {
             "$ref": "#/components/schemas/PartnerApplicationPayloadData"
           }
@@ -4772,7 +5172,7 @@
       },
       "PostProductData": {
         "type": "object",
-        "description": "Data for creating a single product via the partner batch-create endpoint.\nwhen omitted from the request.\n",
+        "description": "Data for creating a single product via the partner batch-create endpoint.\n",
         "required": [
           "shopsProductId",
           "title",
@@ -4977,7 +5377,7 @@
       },
       "PutProductData": {
         "type": "object",
-        "description": "Data for upserting a single product via the partner batch-upsert endpoint.\nOnly `shopsProductId` is required. All other fields are optional.\n\nDuring later asynchronous ingestion:\n- If the product **does not yet exist**, it is created using all provided fields.\n  Omitting `title`, `url`, or `state` will result in placeholder defaults being applied\n  internally (empty title, a placeholder URL, and `LISTED` state respectively).\n- If the product **already exists**, only `state` and `price` are updated; all other\n  fields are ignored for the update path.\n\nto `UNKNOWN` when omitted.\n",
+        "description": "Data for upserting a single product via the partner batch-upsert endpoint.\nOnly `shopsProductId` is required. All other fields are optional.\n\nDuring later asynchronous ingestion:\n- If the product **does not yet exist**, it is created using all provided fields.\n  Omitting `title`, `url`, or `state` will result in placeholder defaults being applied\n  internally (empty title, a placeholder URL, and `LISTED` state respectively).\n- If the product **already exists**, `price`, `priceEstimateMin`,\n  `priceEstimateMax`, `state`, `url`, `images`, `auctionStart`, and `auctionEnd`\n  participate in the update path.\n- On the update path, omitting or sending `null` for `price`, `priceEstimateMin`,\n  `priceEstimateMax`, `url`, `auctionStart`, or `auctionEnd` leaves the stored value\n  unchanged.\n- On the update path, omitting `images` or sending `null` is treated as an empty list\n  and therefore clears all stored images.\n",
         "required": [
           "shopsProductId"
         ],
@@ -5012,7 +5412,7 @@
               }
             ],
             "nullable": true,
-            "description": "Optional asking price for the product. Applied on both create and update paths."
+            "description": "Optional asking price for the product. Applied on create and on update when a non-null value is provided. Omit or send `null` to leave the current stored price unchanged."
           },
           "priceEstimateMin": {
             "allOf": [
@@ -5021,7 +5421,7 @@
               }
             ],
             "nullable": true,
-            "description": "Optional lower bound of the estimated price range. Used only when creating a new product."
+            "description": "Optional lower bound of the estimated price range. Applied on both create and update paths. Omit or send `null` to leave the current stored lower bound unchanged."
           },
           "priceEstimateMax": {
             "allOf": [
@@ -5030,7 +5430,7 @@
               }
             ],
             "nullable": true,
-            "description": "Optional upper bound of the estimated price range. Used only when creating a new product."
+            "description": "Optional upper bound of the estimated price range. Applied on both create and update paths. Omit or send `null` to leave the current stored upper bound unchanged."
           },
           "state": {
             "allOf": [
@@ -5045,7 +5445,7 @@
             "type": "string",
             "format": "uri",
             "nullable": true,
-            "description": "URL to the product on the shop's website. Used only when creating a new product.",
+            "description": "URL to the product on the shop's website. Applied on both create and update paths. Omit or send `null` to leave the current stored URL unchanged.",
             "example": "https://my-shop.com/products/baroque-violin"
           },
           "images": {
@@ -5055,7 +5455,7 @@
               "format": "uri"
             },
             "nullable": true,
-            "description": "List of image URLs for the product. Used only when creating a new product.",
+            "description": "List of image URLs for the product. Applied on both create and update paths. On update, the provided array replaces the stored image set; omitting `images` or sending `null` is treated as an empty list and therefore clears all stored images.",
             "example": [
               "https://my-shop.com/images/violin-1.jpg",
               "https://my-shop.com/images/violin-2.jpg"
@@ -5065,14 +5465,14 @@
             "type": "string",
             "format": "date-time",
             "nullable": true,
-            "description": "RFC3339 timestamp of when the auction for this product starts.\nOnly relevant for auction-house shop types. Used only when creating a new product.\n",
+            "description": "RFC3339 timestamp of when the auction for this product starts.\nOnly relevant for auction-house shop types. Applied on both create and update paths.\nOmit or send `null` to leave the current stored start timestamp unchanged.\n",
             "example": "2025-05-01T12:00:00Z"
           },
           "auctionEnd": {
             "type": "string",
             "format": "date-time",
             "nullable": true,
-            "description": "RFC3339 timestamp of when the auction for this product ends.\nOnly relevant for auction-house shop types. Used only when creating a new product.\n",
+            "description": "RFC3339 timestamp of when the auction for this product ends.\nOnly relevant for auction-house shop types. Applied on both create and update paths.\nOmit or send `null` to leave the current stored end timestamp unchanged.\n",
             "example": "2025-05-10T12:00:00Z"
           },
           "sellerName": {

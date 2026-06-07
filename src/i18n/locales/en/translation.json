@@ -1588,5 +1588,48 @@
         "deleteSuccess": "User deleted."
       }
     }
+  },
+  "oauth": {
+    "authorize": {
+      "title": "Authorize Application",
+      "description": "\"{{appName}}\" is requesting access to your Aura Historia account. Please review the requested permissions below.",
+      "scopesTitle": "This application is requesting the following permissions:",
+      "logoAlt": "{{appName}} logo",
+      "clientInfoLink": "About this app",
+      "privacyLink": "Privacy",
+      "termsLink": "Terms",
+      "approve": "Authorize",
+      "deny": "Decline",
+      "approveAriaLabel": "Authorize {{appName}} to access your account",
+      "denyAriaLabel": "Decline authorization for {{appName}}",
+      "securityNote": "You can revoke this access at any time from your account settings. Only authorize applications you trust.",
+      "partnerShops": {
+        "title": "Choose a partner shop",
+        "description": "Select the partner shop this application should be authorized for.",
+        "selectedLabel": "Selected partner shop",
+        "empty": {
+          "title": "No Partner Shop Available",
+          "description": "This authorization requires a linked partner shop, but none were found for your account."
+        },
+        "loadError": {
+          "title": "Partner Shops Could Not Be Loaded",
+          "description": "The available partner shops could not be loaded right now. Please try again."
+        }
+      },
+      "error": {
+        "title": "Invalid Authorization Request",
+        "description": "The application could not be identified. The authorization link may be invalid or expired. Please try again from the application."
+      }
+    },
+    "scopes": {
+      "products_write": {
+        "label": "Manage Products",
+        "description": "Create or update your product listings."
+      },
+      "shops_manage": {
+        "label": "Manage Shops",
+        "description": "Manage your shop settings."
+      }
+    }
   }
 }

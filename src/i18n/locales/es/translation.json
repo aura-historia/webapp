@@ -1588,5 +1588,48 @@
     "stateInactiveByPlan": "Bloqueado",
     "stateInactiveByPlanTooltip": "Este filtro de búsqueda está inactivo debido a tu plan de suscripción.",
     "matchingProductsInactive": "El filtro de búsqueda está inactivo – no hay coincidencias disponibles."
+  },
+  "oauth": {
+    "authorize": {
+      "title": "Autorizar aplicación",
+      "description": "\"{{appName}}\" solicita acceso a su cuenta de Aura Historia. Revise los permisos solicitados a continuación.",
+      "scopesTitle": "Esta aplicación solicita los siguientes permisos:",
+      "logoAlt": "Logo de {{appName}}",
+      "clientInfoLink": "Más sobre esta app",
+      "privacyLink": "Privacidad",
+      "termsLink": "Condiciones de uso",
+      "approve": "Autorizar",
+      "deny": "Rechazar",
+      "approveAriaLabel": "Autorizar a {{appName}} para acceder a su cuenta",
+      "denyAriaLabel": "Rechazar la autorización para {{appName}}",
+      "securityNote": "Puede revocar este acceso en cualquier momento desde la configuración de su cuenta. Solo autorice aplicaciones de confianza.",
+      "partnerShops": {
+        "title": "Elegir una tienda asociada",
+        "description": "Seleccione la tienda asociada para la que debe autorizarse esta aplicación.",
+        "selectedLabel": "Tienda asociada seleccionada",
+        "empty": {
+          "title": "No hay ninguna tienda asociada disponible",
+          "description": "Esta autorización requiere una tienda asociada vinculada, pero no se encontró ninguna para su cuenta."
+        },
+        "loadError": {
+          "title": "No se pudieron cargar las tiendas asociadas",
+          "description": "No se pudieron cargar las tiendas asociadas disponibles en este momento. Inténtelo de nuevo."
+        }
+      },
+      "error": {
+        "title": "Solicitud de autorización inválida",
+        "description": "No se pudo identificar la aplicación. El enlace de autorización puede ser inválido o haber expirado. Inténtelo de nuevo desde la aplicación."
+      }
+    },
+    "scopes": {
+      "products_write": {
+        "label": "Gestionar productos",
+        "description": "Crear o actualizar sus anuncios de productos."
+      },
+      "shops_manage": {
+        "label": "Gestionar tiendas",
+        "description": "Gestionar la configuración de su tienda."
+      }
+    }
   }
 }
