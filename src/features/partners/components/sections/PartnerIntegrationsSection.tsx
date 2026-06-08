@@ -8,6 +8,7 @@ import {
     WordPressIcon,
 } from "@/features/partners/components/icons/BrandIcons.tsx";
 import type { ComponentType, SVGProps } from "react";
+import { Link } from "@tanstack/react-router";
 
 type Integration = {
     readonly key: "woocommerce" | "shopify" | "customApi";
@@ -51,9 +52,9 @@ export default function PartnerIntegrationsSection() {
 
                 <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
                     {INTEGRATIONS.map((integration) => (
-                        <a
+                        <Link
                             key={integration.key}
-                            href={integration.href}
+                            to={integration.href}
                             className="group block focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary"
                         >
                             <Card className="relative flex h-full flex-col border-2 border-border/20 transition-all duration-300 hover:border-primary/50 hover:-translate-y-1 hover:shadow-lg">
@@ -92,7 +93,7 @@ export default function PartnerIntegrationsSection() {
                                     </span>
                                 </CardContent>
                             </Card>
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </div>

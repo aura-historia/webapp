@@ -131,6 +131,27 @@ describe("Footer Component", () => {
         );
     });
 
+    it("should navigate to partner program links through the router", async () => {
+        cleanup();
+        const user = userEvent.setup();
+
+        await act(async () => {
+            renderWithRouter(
+                <>
+                    <Footer />
+                    <LocationProbe />
+                </>,
+                { initialEntries: ["/test"] },
+            );
+        });
+
+        await user.click(screen.getByText("Übersicht"));
+
+        await waitFor(() => {
+            expect(screen.getByTestId("location-probe")).toHaveTextContent("/partners");
+        });
+    });
+
     it("should render landing page fragment links", () => {
         expect(screen.getByText("Neueste Zugänge").closest("a")).toHaveAttribute(
             "href",

@@ -42,7 +42,19 @@ const searchShopsRoute = createRoute({
     component: () => <>{injectedChildren}</>,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, testRoute, searchRoute, searchShopsRoute]);
+const partnersRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/partners",
+    component: () => <>{injectedChildren}</>,
+});
+
+const routeTree = rootRoute.addChildren([
+    indexRoute,
+    testRoute,
+    searchRoute,
+    searchShopsRoute,
+    partnersRoute,
+]);
 
 interface TestRouterWrapperProps {
     readonly children: ReactNode;

@@ -2,6 +2,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { ArrowRight, BadgeCheck, Heart, Sparkles } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export default function PartnerHeroSection() {
     const { t } = useTranslation();
@@ -35,10 +36,10 @@ export default function PartnerHeroSection() {
 
                 <div className="mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center">
                     <Button asChild size="lg" className="min-h-12">
-                        <a href="/partners/apply">
+                        <Link to="/partners/apply">
                             {t("partners.hero.primaryCta")}
                             <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-                        </a>
+                        </Link>
                     </Button>
                     <Button asChild size="lg" variant="outline" className="min-h-12">
                         <a href="#motivation">{t("partners.hero.secondaryCta")}</a>
