@@ -27,6 +27,7 @@ type PageMetaKey =
     | "notifications"
     | "consentSettings"
     | "partners"
+    | "partnerDashboard"
     | "admin";
 
 const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string }> = {
@@ -77,6 +78,9 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     partners: {
         title: "meta.partners.title",
         description: "meta.partners.description",
+    },
+    partnerDashboard: {
+        title: "meta.partnerDashboard.title",
     },
     admin: {
         title: "meta.admin.title",

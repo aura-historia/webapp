@@ -59,6 +59,9 @@
     "partners": {
       "title": "Partner-Programm | Aura Historia",
       "description": "Werden Sie Partner-Shop bei Aura Historia – der globalen Plattform für Antiquitäten & Kunst. Kostenlos, ohne Provision, in Minuten verbunden."
+    },
+    "partnerDashboard": {
+      "title": "Partner-Dashboard | Aura Historia"
     }
   },
   "validation": {
@@ -1364,6 +1367,34 @@
     },
     "matchReason": "KI-Begründung",
     "feedbackError": "Feedback konnte nicht gespeichert werden."
+  },
+  "partnerDashboard": {
+    "title": "Partner-Dashboard",
+    "description": "Verfolgen Sie Ihre aktuellen Partneranträge und deren Prüfstatus.",
+    "actions": {
+      "retry": "Erneut versuchen"
+    },
+    "applications": {
+      "title": "Aktuelle Partneranträge",
+      "description": "Alle Partneranträge, die Sie für Shops eingereicht haben.",
+      "loading": "Partneranträge werden geladen.",
+      "loadError": "Ihre Partneranträge konnten nicht geladen werden.",
+      "empty": "Sie haben noch keine Partneranträge eingereicht.",
+      "submittedAt": "Eingereicht {{date}}",
+      "updatedAt": "Aktualisiert {{date}}",
+      "existingShop": "Bestehender Shop",
+      "businessState": {
+        "submitted": "Eingereicht",
+        "inReview": "In Prüfung",
+        "approved": "Genehmigt",
+        "rejected": "Abgelehnt"
+      },
+      "executionState": {
+        "processing": "In Verarbeitung",
+        "waiting": "Wartet auf Entscheidung",
+        "completed": "Abgeschlossen"
+      }
+    }
   },
   "adminDashboard": {
     "loading": "Wird geladen…",

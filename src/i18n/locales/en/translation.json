@@ -59,6 +59,9 @@
     "partners": {
       "title": "Partner Program | Aura Historia",
       "description": "Become a partner shop on Aura Historia – the global platform for antiques & art. Free, commission-free, connected in minutes."
+    },
+    "partnerDashboard": {
+      "title": "Partner Dashboard | Aura Historia"
     }
   },
   "validation": {
@@ -1353,6 +1356,34 @@
     },
     "matchReason": "AI reason",
     "feedbackError": "Failed to save feedback."
+  },
+  "partnerDashboard": {
+    "title": "Partner Dashboard",
+    "description": "Track your current partner applications and their review status.",
+    "actions": {
+      "retry": "Retry"
+    },
+    "applications": {
+      "title": "Current Partner Applications",
+      "description": "All partner applications you have submitted for shops.",
+      "loading": "Loading partner applications.",
+      "loadError": "Could not load your partner applications.",
+      "empty": "You have not submitted any partner applications yet.",
+      "submittedAt": "Submitted {{date}}",
+      "updatedAt": "Updated {{date}}",
+      "existingShop": "Existing shop",
+      "businessState": {
+        "submitted": "Submitted",
+        "inReview": "In review",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "executionState": {
+        "processing": "Processing",
+        "waiting": "Awaiting decision",
+        "completed": "Completed"
+      }
+    }
   },
   "adminDashboard": {
     "loading": "Loading…",
