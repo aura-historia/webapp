@@ -1363,6 +1363,45 @@
     "actions": {
       "retry": "Retry"
     },
+    "create": {
+      "open": "New application",
+      "title": "Submit partner application",
+      "description": "Apply for an existing shop by ID or create a new shop for review.",
+      "submit": "Submit application",
+      "submitting": "Submitting…",
+      "cancel": "Cancel",
+      "success": "Partner application submitted.",
+      "type": {
+        "new": "New shop",
+        "existing": "Existing shop"
+      },
+      "fields": {
+        "type": "Application type",
+        "shopId": "Shop",
+        "shopName": "Shop name",
+        "shopType": "Shop type",
+        "shopDomains": "Domains",
+        "shopDomainsHint": "Separate domains with line breaks, commas, semicolons, or spaces. Domains are normalized before submission.",
+        "shopUrl": "Primary shop URL",
+        "shopImage": "Logo or image URL",
+        "shopPhone": "Phone",
+        "shopEmail": "Email"
+      },
+      "validation": {
+        "shopIdRequired": "Please select an existing shop.",
+        "shopNameRequired": "Please enter the shop name.",
+        "domainsRequired": "Please enter at least one domain.",
+        "urlInvalid": "Please enter a valid URL.",
+        "imageInvalid": "Please enter a valid image URL.",
+        "emailInvalid": "Please enter a valid email address."
+      },
+      "shopSearch": {
+        "placeholder": "Search shops by name…",
+        "loading": "Searching shops.",
+        "empty": "No shops found.",
+        "clear": "Clear selected shop"
+      }
+    },
     "applications": {
       "title": "Current Partner Applications",
       "description": "All partner applications you have submitted for shops.",

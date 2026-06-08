@@ -1,17 +1,49 @@
-import { useQuery } from "@tanstack/react-query";
-import { getPartnerApplications } from "@/client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { PostPartnerShopApplicationPayloadData } from "@/client";
+import { getPartnerApplications, postPartnerApplication } from "@/client";
 import {
     mapToPartnerApplication,
     type PartnerApplication,
 } from "@/data/internal/partner-application/PartnerApplication.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
+import { mapToBackendShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
+import { toast } from "sonner";
+import type { ShopPartnerStatus } from "@/data/internal/shop/ShopPartnerStatus.ts";
+
+export const PARTNER_APPLICATIONS_QUERY_KEY = [
+    "partner-dashboard",
+    "partner-applications",
+] as const;
+
+export type CreatePartnerApplicationInput =
+    | {
+          readonly type: "EXISTING";
+          readonly shopId: string;
+      }
+    | {
+          readonly type: "NEW";
+          readonly shopName: string;
+          readonly shopType: ShopType;
+          readonly shopDomains: string[];
+          readonly shopUrl?: string | null;
+          readonly shopImage?: string | null;
+          readonly shopPhone?: string | null;
+          readonly shopEmail?: string | null;
+      };
+
+export type PartnerDashboardShopSearchItem = {
+    readonly shopId: string;
+    readonly shopSlugId: string;
+    readonly name: string;
+    readonly partnerStatus: ShopPartnerStatus;
+};
 
 export function usePartnerApplications(enabled: boolean = true) {
     const { getErrorMessage } = useApiError();
 
     return useQuery<PartnerApplication[]>({
-        queryKey: ["partner-dashboard", "partner-applications"],
+        queryKey: PARTNER_APPLICATIONS_QUERY_KEY,
         queryFn: async () => {
             const response = await getPartnerApplications();
             if (response.error) {
@@ -21,5 +53,71 @@ export function usePartnerApplications(enabled: boolean = true) {
         },
         enabled,
         staleTime: 30 * 1000,
+    });
+}
+
+function mapCreateInputToPayload(
+    input: CreatePartnerApplicationInput,
+): PostPartnerShopApplicationPayloadData {
+    if (input.type === "EXISTING") {
+        return {
+            type: "EXISTING",
+            shopId: input.shopId,
+        };
+    }
+
+    const shopType = mapToBackendShopType(input.shopType);
+    if (!shopType) {
+        throw new Error("Invalid shop type");
+    }
+
+    return {
+        type: "NEW",
+        shopName: input.shopName,
+        shopType,
+        shopDomains: input.shopDomains,
+        shopUrl: input.shopUrl,
+        shopImage: input.shopImage,
+        shopPhone: input.shopPhone,
+        shopEmail: input.shopEmail,
+    };
+}
+
+export function useCreatePartnerApplication() {
+    const queryClient = useQueryClient();
+    const { getErrorMessage } = useApiError();
+
+    return useMutation<PartnerApplication, Error, CreatePartnerApplicationInput>({
+        mutationFn: async (input) => {
+            const response = await postPartnerApplication({
+                body: mapCreateInputToPayload(input),
+            });
+            if (response.error) {
+                throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
+            }
+            return mapToPartnerApplication(response.data);
+        },
+        onSuccess: (createdApplication) => {
+            queryClient.setQueryData<PartnerApplication[]>(
+                PARTNER_APPLICATIONS_QUERY_KEY,
+                (currentApplications) => {
+                    if (!currentApplications) {
+                        return [createdApplication];
+                    }
+
+                    return [
+                        createdApplication,
+                        ...currentApplications.filter(
+                            (application) => application.id !== createdApplication.id,
+                        ),
+                    ];
+                },
+            );
+            queryClient.invalidateQueries({ queryKey: PARTNER_APPLICATIONS_QUERY_KEY });
+        },
+        onError: (error) => {
+            console.error("[useCreatePartnerApplication]", error);
+            toast.error(error.message);
+        },
     });
 }

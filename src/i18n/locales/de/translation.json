@@ -1374,14 +1374,53 @@
     "actions": {
       "retry": "Erneut versuchen"
     },
+    "create": {
+      "open": "Neuer Antrag",
+      "title": "Partnerantrag einreichen",
+      "description": "Beantragen Sie eine Partnerschaft für einen bestehenden Shop per ID oder erstellen Sie einen neuen Shop zur Prüfung.",
+      "submit": "Antrag einreichen",
+      "submitting": "Wird eingereicht…",
+      "cancel": "Abbrechen",
+      "success": "Partnerantrag eingereicht.",
+      "type": {
+        "new": "Neuer Shop",
+        "existing": "Bestehender Shop"
+      },
+      "fields": {
+        "type": "Antragstyp",
+        "shopId": "Shop",
+        "shopName": "Shop-Name",
+        "shopType": "Shop-Typ",
+        "shopDomains": "Domains",
+        "shopDomainsHint": "Trennen Sie Domains mit Zeilenumbrüchen, Kommas, Semikolons oder Leerzeichen. Domains werden vor dem Senden normalisiert.",
+        "shopUrl": "Primäre Shop-URL",
+        "shopImage": "Logo- oder Bild-URL",
+        "shopPhone": "Telefon",
+        "shopEmail": "E-Mail"
+      },
+      "validation": {
+        "shopIdRequired": "Bitte wählen Sie einen bestehenden Shop aus.",
+        "shopNameRequired": "Bitte geben Sie den Shop-Namen ein.",
+        "domainsRequired": "Bitte geben Sie mindestens eine Domain ein.",
+        "urlInvalid": "Bitte geben Sie eine gültige URL ein.",
+        "imageInvalid": "Bitte geben Sie eine gültige Bild-URL ein.",
+        "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+      },
+      "shopSearch": {
+        "placeholder": "Shops nach Namen suchen …",
+        "loading": "Shops werden gesucht.",
+        "empty": "Keine Shops gefunden.",
+        "clear": "Ausgewählten Shop entfernen"
+      }
+    },
     "applications": {
       "title": "Aktuelle Partneranträge",
       "description": "Alle Partneranträge, die Sie für Shops eingereicht haben.",
       "loading": "Partneranträge werden geladen.",
       "loadError": "Ihre Partneranträge konnten nicht geladen werden.",
       "empty": "Sie haben noch keine Partneranträge eingereicht.",
-      "submittedAt": "Eingereicht {{date}}",
-      "updatedAt": "Aktualisiert {{date}}",
+      "submittedAt": "Eingereicht am {{date}}",
+      "updatedAt": "Aktualisiert am {{date}}",
       "existingShop": "Bestehender Shop",
       "businessState": {
         "submitted": "Eingereicht",
@@ -1518,8 +1557,8 @@
       "description": "Von Partnern eingereichte Anträge prüfen und genehmigen oder ablehnen.",
       "loadError": "Partner-Anträge konnten nicht geladen werden.",
       "empty": "Keine Anträge entsprechen dem aktuellen Filter.",
-      "submittedAt": "Eingereicht {{date}}",
-      "updatedAt": "Aktualisiert {{date}}",
+      "submittedAt": "Eingereicht am {{date}}",
+      "updatedAt": "Aktualisiert am {{date}}",
       "existingShop": "Bestehender Shop",
       "tabs": {
         "pending": "Offen",

@@ -1,13 +1,20 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PartnerApplicationsSection } from "@/features/partner-dashboard/components/PartnerApplicationsSection.tsx";
 import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
 
 const mockUsePartnerApplications = vi.hoisted(() => vi.fn());
+const mockCreatePartnerApplicationMutate = vi.hoisted(() => vi.fn());
+const mockUsePartnerDashboardShopSearch = vi.hoisted(() => vi.fn());
 
 vi.mock("@/features/partner-dashboard/api/usePartnerApplications.ts", () => ({
     usePartnerApplications: mockUsePartnerApplications,
+    usePartnerDashboardShopSearch: mockUsePartnerDashboardShopSearch,
+    useCreatePartnerApplication: () => ({
+        mutate: mockCreatePartnerApplicationMutate,
+        isPending: false,
+    }),
 }));
 
 const submittedApplication: PartnerApplication = {
@@ -46,6 +53,17 @@ describe("PartnerApplicationsSection", () => {
             isPending: false,
             isError: false,
             refetch: vi.fn(),
+        });
+        mockUsePartnerDashboardShopSearch.mockReturnValue({
+            data: [
+                {
+                    shopId: "550e8400-e29b-41d4-a716-446655440000",
+                    shopSlugId: "aurora-antiques",
+                    name: "Aurora Antiques",
+                    partnerStatus: "SCRAPED",
+                },
+            ],
+            isPending: false,
         });
     });
 
@@ -103,5 +121,81 @@ describe("PartnerApplicationsSection", () => {
         await user.click(screen.getByRole("button", { name: /Erneut versuchen/i }));
 
         expect(refetch).toHaveBeenCalledOnce();
+    });
+
+    it("opens the create application dialog and submits a new shop application", async () => {
+        const user = userEvent.setup();
+
+        render(<PartnerApplicationsSection />);
+
+        await user.click(screen.getByRole("button", { name: /Neuer Antrag/i }));
+        await user.type(screen.getByLabelText(/Shop-Name/), "New Partner Shop");
+        await user.type(screen.getByLabelText(/Domains/), "https://www.partner.example.com");
+        await user.click(screen.getByRole("button", { name: "Antrag einreichen" }));
+
+        await waitFor(() => expect(mockCreatePartnerApplicationMutate).toHaveBeenCalledOnce());
+        expect(mockCreatePartnerApplicationMutate).toHaveBeenCalledWith(
+            {
+                type: "NEW",
+                shopName: "New Partner Shop",
+                shopType: "MARKETPLACE",
+                shopDomains: ["partner.example.com"],
+                shopUrl: null,
+                shopImage: null,
+                shopPhone: null,
+                shopEmail: null,
+            },
+            expect.objectContaining({ onSuccess: expect.any(Function) }),
+        );
+    });
+
+    it("submits an existing shop application with the entered shop id", async () => {
+        const user = userEvent.setup();
+
+        render(<PartnerApplicationsSection />);
+
+        await user.click(screen.getByRole("button", { name: /Neuer Antrag/i }));
+        await user.click(screen.getByRole("combobox", { name: "Antragstyp" }));
+        await user.click(screen.getByRole("option", { name: "Bestehender Shop" }));
+        await user.type(screen.getByLabelText(/Shop/), "Aurora");
+        await user.click(screen.getByText("Aurora Antiques"));
+        await user.click(screen.getByRole("button", { name: "Antrag einreichen" }));
+
+        await waitFor(() => expect(mockCreatePartnerApplicationMutate).toHaveBeenCalledOnce());
+        expect(mockCreatePartnerApplicationMutate).toHaveBeenCalledWith(
+            {
+                type: "EXISTING",
+                shopId: "550e8400-e29b-41d4-a716-446655440000",
+            },
+            expect.objectContaining({ onSuccess: expect.any(Function) }),
+        );
+    });
+
+    it("keeps the submit action disabled when no existing shop is selected", async () => {
+        const user = userEvent.setup();
+
+        render(<PartnerApplicationsSection />);
+
+        await user.click(screen.getByRole("button", { name: /Neuer Antrag/i }));
+        await user.click(screen.getByRole("combobox", { name: "Antragstyp" }));
+        await user.click(screen.getByRole("option", { name: "Bestehender Shop" }));
+
+        expect(screen.getByRole("button", { name: "Antrag einreichen" })).toBeDisabled();
+        expect(mockCreatePartnerApplicationMutate).not.toHaveBeenCalled();
+    });
+
+    it("shows field-level reasons and highlights invalid fields after an invalid submit", async () => {
+        const user = userEvent.setup();
+
+        render(<PartnerApplicationsSection />);
+
+        await user.click(screen.getByRole("button", { name: /Neuer Antrag/i }));
+        await user.click(screen.getByRole("button", { name: "Antrag einreichen" }));
+
+        expect(screen.getByText("Bitte geben Sie den Shop-Namen ein.")).toBeInTheDocument();
+        expect(screen.getByText("Bitte geben Sie mindestens eine Domain ein.")).toBeInTheDocument();
+        expect(screen.getByLabelText(/Shop-Name/)).toHaveAttribute("aria-invalid", "true");
+        expect(screen.getByLabelText(/Domains/)).toHaveAttribute("aria-invalid", "true");
+        expect(mockCreatePartnerApplicationMutate).not.toHaveBeenCalled();
     });
 });

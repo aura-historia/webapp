@@ -1,4 +1,5 @@
-import { Clock3, Globe, RefreshCw, SearchX, Store } from "lucide-react";
+import { useState } from "react";
+import { Clock3, Globe, Plus, RefreshCw, SearchX, Store } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
@@ -12,6 +13,7 @@ import type {
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { formatShortDate } from "@/lib/utils.ts";
 import { usePartnerApplications } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
+import { PartnerApplicationCreateDialog } from "@/features/partner-dashboard/components/PartnerApplicationCreateDialog.tsx";
 
 const BUSINESS_STATE_TRANSLATION_KEY: Record<PartnerApplicationBusinessState, string> = {
     SUBMITTED: "partnerDashboard.applications.businessState.submitted",
@@ -53,21 +55,16 @@ function getApplicationTitle(application: PartnerApplication, existingShopLabel:
 
 export function PartnerApplicationsSection() {
     const { t, i18n } = useTranslation();
+    const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const { data: applications = [], isPending, isError, refetch } = usePartnerApplications();
 
-    if (isPending) {
-        return (
-            <section className="flex flex-col gap-4" aria-labelledby="partner-applications-title">
-                <SectionHeader />
-                <PartnerApplicationsSkeleton />
-            </section>
-        );
-    }
+    const renderContent = () => {
+        if (isPending) {
+            return <PartnerApplicationsSkeleton />;
+        }
 
-    if (isError) {
-        return (
-            <section className="flex flex-col gap-4" aria-labelledby="partner-applications-title">
-                <SectionHeader />
+        if (isError) {
+            return (
                 <div className="flex flex-col items-center gap-3 border bg-surface-container-low px-4 py-12 text-center">
                     <p className="text-sm text-muted-foreground">
                         {t("partnerDashboard.applications.loadError")}
@@ -77,27 +74,21 @@ export function PartnerApplicationsSection() {
                         {t("partnerDashboard.actions.retry")}
                     </Button>
                 </div>
-            </section>
-        );
-    }
+            );
+        }
 
-    if (applications.length === 0) {
-        return (
-            <section className="flex flex-col gap-4" aria-labelledby="partner-applications-title">
-                <SectionHeader />
+        if (applications.length === 0) {
+            return (
                 <div className="flex flex-col items-center gap-3 border bg-surface-container-low px-4 py-12 text-center">
                     <SearchX className="h-12 w-12 text-muted-foreground" aria-hidden="true" />
                     <p className="text-sm text-muted-foreground">
                         {t("partnerDashboard.applications.empty")}
                     </p>
                 </div>
-            </section>
-        );
-    }
+            );
+        }
 
-    return (
-        <section className="flex flex-col gap-4" aria-labelledby="partner-applications-title">
-            <SectionHeader />
+        return (
             <ul className="flex flex-col gap-3">
                 {applications.map((application) => {
                     const title = getApplicationTitle(
@@ -108,7 +99,7 @@ export function PartnerApplicationsSection() {
                     return (
                         <li
                             key={application.id}
-                            className="flex flex-col gap-3 border bg-surface-container-low p-4"
+                            className="flex flex-col gap-2 border bg-surface-container-low p-4"
                         >
                             <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                                 <div className="flex min-w-0 flex-col gap-2">
@@ -189,19 +180,36 @@ export function PartnerApplicationsSection() {
                     );
                 })}
             </ul>
+        );
+    };
+
+    return (
+        <section className="flex flex-col gap-4" aria-labelledby="partner-applications-title">
+            <SectionHeader onCreateClick={() => setCreateDialogOpen(true)} />
+            {renderContent()}
+            <PartnerApplicationCreateDialog
+                open={createDialogOpen}
+                onOpenChange={setCreateDialogOpen}
+            />
         </section>
     );
 }
 
-function SectionHeader() {
+function SectionHeader({ onCreateClick }: { readonly onCreateClick: () => void }) {
     const { t } = useTranslation();
 
     return (
-        <header className="flex flex-col gap-1">
-            <H2 id="partner-applications-title">{t("partnerDashboard.applications.title")}</H2>
-            <p className="text-sm text-muted-foreground md:text-base">
-                {t("partnerDashboard.applications.description")}
-            </p>
+        <header className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+            <div className="flex flex-col gap-1">
+                <H2 id="partner-applications-title">{t("partnerDashboard.applications.title")}</H2>
+                <p className="text-sm text-muted-foreground md:text-base">
+                    {t("partnerDashboard.applications.description")}
+                </p>
+            </div>
+            <Button type="button" onClick={onCreateClick}>
+                <Plus className="h-4 w-4" aria-hidden="true" />
+                {t("partnerDashboard.create.open")}
+            </Button>
         </header>
     );
 }
