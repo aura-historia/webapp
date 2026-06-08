@@ -24,6 +24,7 @@ import "@/amplify-config.ts";
 import "@/api-config.ts";
 import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
 import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
+import { getServerCurrency } from "@/lib/server/currency.ts";
 import { getServerPreferences } from "@/lib/server/preferences.ts";
 import { getServerTimezone } from "@/lib/server/timezone.ts";
 import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
@@ -148,6 +149,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         const serverPreferences = await getServerPreferences();
         const initialPreferences: Partial<UserPreferences> = {
             ...serverPreferences,
+            currency: serverPreferences.currency ?? (await getServerCurrency()),
         };
         const timeZone = await getServerTimezone();
         const auth = await getServerUser();
