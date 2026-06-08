@@ -33,6 +33,10 @@ export const PARTNER_PROGRAM_FOOTER_LINKS: PartnerProgramFooterLink[] = [
         href: "/partners",
     },
     {
+        translationKey: "footer.partnerProgramLinks.dashboard",
+        href: "/partners/dashboard",
+    },
+    {
         translationKey: "footer.partnerProgramLinks.woocommerce",
         href: "/partners/woocommerce",
     },

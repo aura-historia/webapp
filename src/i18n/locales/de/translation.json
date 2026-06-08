@@ -132,6 +132,7 @@
     },
     "partnerProgramLinks": {
       "overview": "Übersicht",
+      "dashboard": "Partner-Dashboard",
       "woocommerce": "WooCommerce",
       "shopify": "Shopify",
       "customApi": "Eigene Integration",

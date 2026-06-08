@@ -10,11 +10,14 @@ const mockUsePartnerDashboardShopSearch = vi.hoisted(() => vi.fn());
 
 vi.mock("@/features/partner-dashboard/api/usePartnerApplications.ts", () => ({
     usePartnerApplications: mockUsePartnerApplications,
-    usePartnerDashboardShopSearch: mockUsePartnerDashboardShopSearch,
     useCreatePartnerApplication: () => ({
         mutate: mockCreatePartnerApplicationMutate,
         isPending: false,
     }),
+}));
+
+vi.mock("@/features/partner-dashboard/api/usePartnerDashboardShopSearch.ts", () => ({
+    usePartnerDashboardShopSearch: mockUsePartnerDashboardShopSearch,
 }));
 
 const submittedApplication: PartnerApplication = {

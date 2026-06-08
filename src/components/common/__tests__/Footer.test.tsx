@@ -113,6 +113,10 @@ describe("Footer Component", () => {
 
     it("should render partner program links with correct href attributes", () => {
         expect(screen.getByText("Übersicht").closest("a")).toHaveAttribute("href", "/partners");
+        expect(screen.getByText("Partner-Dashboard").closest("a")).toHaveAttribute(
+            "href",
+            "/partners/dashboard",
+        );
         expect(screen.getByText("WooCommerce").closest("a")).toHaveAttribute(
             "href",
             "/partners/woocommerce",
