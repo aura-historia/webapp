@@ -9,6 +9,7 @@ const mockUsePartnerApplications = vi.hoisted(() => vi.fn());
 const mockUsePartnerApplicationDetails = vi.hoisted(() => vi.fn());
 const mockCreatePartnerApplicationMutate = vi.hoisted(() => vi.fn());
 const mockDeletePartnerApplicationMutate = vi.hoisted(() => vi.fn());
+const mockUpdatePartnerApplicationMutate = vi.hoisted(() => vi.fn());
 const mockUsePartnerDashboardShopSearch = vi.hoisted(() => vi.fn());
 
 vi.mock("@/features/partner-dashboard/api/usePartnerApplications.ts", () => ({
@@ -20,6 +21,10 @@ vi.mock("@/features/partner-dashboard/api/usePartnerApplications.ts", () => ({
     }),
     useDeletePartnerApplication: () => ({
         mutate: mockDeletePartnerApplicationMutate,
+        isPending: false,
+    }),
+    useUpdatePartnerApplication: () => ({
+        mutate: mockUpdatePartnerApplicationMutate,
         isPending: false,
     }),
 }));
@@ -79,6 +84,11 @@ describe("PartnerApplicationsSection", () => {
         });
         mockDeletePartnerApplicationMutate.mockImplementation(
             (_applicationId: string, options?: { onSuccess?: () => void }) => {
+                options?.onSuccess?.();
+            },
+        );
+        mockUpdatePartnerApplicationMutate.mockImplementation(
+            (_input: unknown, options?: { onSuccess?: () => void }) => {
                 options?.onSuccess?.();
             },
         );
@@ -184,6 +194,49 @@ describe("PartnerApplicationsSection", () => {
         await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     });
 
+    it("edits a pending new-shop application from the detail dialog", async () => {
+        const user = userEvent.setup();
+
+        render(<PartnerApplicationsSection />);
+
+        await user.click(screen.getAllByRole("button", { name: "Details ansehen" })[0]);
+        await user.click(screen.getByRole("button", { name: "Antrag bearbeiten" }));
+        await user.clear(screen.getByLabelText(/Shop-Name/));
+        await user.type(screen.getByLabelText(/Shop-Name/), "Updated Vintage Shop");
+        await user.clear(screen.getByLabelText(/Domains/));
+        await user.type(screen.getByLabelText(/Domains/), "https://www.updated.example.com");
+        await user.type(screen.getByLabelText("Telefon"), "+49 30 123456");
+        await user.type(screen.getByLabelText("E-Mail"), "shop@example.com");
+        await user.type(screen.getByLabelText("Adresszeile"), "Unter den Linden 1");
+        await user.type(screen.getByLabelText("Ort"), "Berlin");
+        await user.type(screen.getByLabelText("Ländercode"), "DE");
+        await user.click(screen.getByRole("button", { name: "Änderungen speichern" }));
+
+        await waitFor(() => expect(mockUpdatePartnerApplicationMutate).toHaveBeenCalledOnce());
+        expect(mockUpdatePartnerApplicationMutate).toHaveBeenCalledWith(
+            {
+                partnerApplicationId: "app-submitted",
+                shopName: "Updated Vintage Shop",
+                shopType: "MARKETPLACE",
+                shopDomains: ["updated.example.com"],
+                shopUrl: null,
+                shopImage: null,
+                shopStructuredAddress: {
+                    addressline: "Unter den Linden 1",
+                    addresslineExtra: undefined,
+                    locality: "Berlin",
+                    region: undefined,
+                    postalCode: undefined,
+                    country: "DE",
+                },
+                shopPhone: "+49 30 123456",
+                shopEmail: "shop@example.com",
+            },
+            expect.objectContaining({ onSuccess: expect.any(Function) }),
+        );
+        expect(toast.success).toHaveBeenCalledWith("Partnerantrag wurde aktualisiert.");
+    });
+
     it("hides the delete action for decided applications", async () => {
         const user = userEvent.setup();
         mockUsePartnerApplicationDetails.mockReturnValue({
@@ -198,6 +251,7 @@ describe("PartnerApplicationsSection", () => {
         await user.click(screen.getAllByRole("button", { name: "Details ansehen" })[1]);
 
         expect(screen.queryByRole("button", { name: "Antrag löschen" })).not.toBeInTheDocument();
+        expect(screen.queryByRole("button", { name: "Antrag bearbeiten" })).not.toBeInTheDocument();
     });
 
     it("opens the create application dialog and submits a new shop application", async () => {
@@ -208,6 +262,9 @@ describe("PartnerApplicationsSection", () => {
         await user.click(screen.getByRole("button", { name: /Neuer Antrag/i }));
         await user.type(screen.getByLabelText(/Shop-Name/), "New Partner Shop");
         await user.type(screen.getByLabelText(/Domains/), "https://www.partner.example.com");
+        await user.type(screen.getByLabelText("Adresszeile"), "Main Street 1");
+        await user.type(screen.getByLabelText("Ort"), "Berlin");
+        await user.type(screen.getByLabelText("Ländercode"), "DE");
         await user.click(screen.getByRole("button", { name: "Antrag einreichen" }));
 
         await waitFor(() => expect(mockCreatePartnerApplicationMutate).toHaveBeenCalledOnce());
@@ -219,6 +276,14 @@ describe("PartnerApplicationsSection", () => {
                 shopDomains: ["partner.example.com"],
                 shopUrl: null,
                 shopImage: null,
+                shopStructuredAddress: {
+                    addressline: "Main Street 1",
+                    addresslineExtra: undefined,
+                    locality: "Berlin",
+                    region: undefined,
+                    postalCode: undefined,
+                    country: "DE",
+                },
                 shopPhone: null,
                 shopEmail: null,
             },

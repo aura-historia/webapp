@@ -1,6 +1,8 @@
-import { Check, ExternalLink, Mail, Phone, Store, Trash2, X } from "lucide-react";
+import { Check, ExternalLink, Mail, Pencil, Phone, Store, Trash2, X } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { parseShopDomains } from "@/components/admin/adminShopFormUtils.ts";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -30,7 +32,16 @@ import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import {
     useDeletePartnerApplication,
     usePartnerApplicationDetails,
+    useUpdatePartnerApplication,
 } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
+import {
+    buildPartnerApplicationStructuredAddress,
+    optionalTrimmedValue,
+} from "@/features/partner-dashboard/components/PartnerApplicationCreateForm.ts";
+import {
+    PartnerApplicationEditForm,
+    type PartnerApplicationEditFormData,
+} from "@/features/partner-dashboard/components/PartnerApplicationEditForm.tsx";
 import { formatShortDate } from "@/lib/utils.ts";
 import {
     BUSINESS_STATE_TRANSLATION_KEY,
@@ -157,7 +168,13 @@ function DetailSkeleton() {
     );
 }
 
-function ApplicationDetails({ application }: { readonly application: PartnerApplication }) {
+function ApplicationDetails({
+    application,
+    showShopDetails = true,
+}: {
+    readonly application: PartnerApplication;
+    readonly showShopDetails?: boolean;
+}) {
     const { t, i18n } = useTranslation();
     const title = getApplicationTitle(application, t("partnerDashboard.applications.existingShop"));
 
@@ -209,88 +226,95 @@ function ApplicationDetails({ application }: { readonly application: PartnerAppl
                 </dl>
             </section>
 
-            <section className="border p-4">
-                <h3 className="font-medium">
-                    {t("partnerDashboard.applications.detail.shopSection")}
-                </h3>
-                <dl className="mt-4 grid gap-3 sm:grid-cols-2">
-                    {application.payload.type === "NEW" ? (
-                        <>
-                            <Field
-                                label={t("partnerDashboard.applications.detail.shopName")}
-                                value={application.payload.shopName}
-                            />
-                            <Field
-                                label={t("partnerDashboard.applications.detail.shopType")}
-                                value={t(
-                                    SHOP_TYPE_TRANSLATION_CONFIG[application.payload.shopType]
-                                        .translationKey,
+            {showShopDetails && (
+                <section className="border p-4">
+                    <h3 className="font-medium">
+                        {t("partnerDashboard.applications.detail.shopSection")}
+                    </h3>
+                    <dl className="mt-4 grid gap-3 sm:grid-cols-2">
+                        {application.payload.type === "NEW" ? (
+                            <>
+                                <Field
+                                    label={t("partnerDashboard.applications.detail.shopName")}
+                                    value={application.payload.shopName}
+                                />
+                                <Field
+                                    label={t("partnerDashboard.applications.detail.shopType")}
+                                    value={t(
+                                        SHOP_TYPE_TRANSLATION_CONFIG[application.payload.shopType]
+                                            .translationKey,
+                                    )}
+                                />
+                                <Field
+                                    label={t("partnerDashboard.applications.detail.domains")}
+                                    value={application.payload.shopDomains.join(", ")}
+                                />
+                                <LinkField
+                                    label={t("partnerDashboard.applications.detail.shopUrl")}
+                                    value={application.payload.shopUrl}
+                                />
+                                <LinkField
+                                    label={t("partnerDashboard.applications.detail.shopImage")}
+                                    value={application.payload.shopImage}
+                                />
+                                {application.payload.shopPhone && (
+                                    <div className="flex min-w-0 flex-col gap-1">
+                                        <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                            {t("partnerDashboard.applications.detail.shopPhone")}
+                                        </dt>
+                                        <dd className="min-w-0 text-sm">
+                                            <a
+                                                className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
+                                                href={`tel:${application.payload.shopPhone}`}
+                                            >
+                                                <Phone
+                                                    className="h-3 w-3 shrink-0"
+                                                    aria-hidden="true"
+                                                />
+                                                <span className="truncate">
+                                                    {application.payload.shopPhone}
+                                                </span>
+                                            </a>
+                                        </dd>
+                                    </div>
                                 )}
-                            />
+                                {application.payload.shopEmail && (
+                                    <div className="flex min-w-0 flex-col gap-1">
+                                        <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                            {t("partnerDashboard.applications.detail.shopEmail")}
+                                        </dt>
+                                        <dd className="min-w-0 text-sm">
+                                            <a
+                                                className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
+                                                href={`mailto:${application.payload.shopEmail}`}
+                                            >
+                                                <Mail
+                                                    className="h-3 w-3 shrink-0"
+                                                    aria-hidden="true"
+                                                />
+                                                <span className="truncate">
+                                                    {application.payload.shopEmail}
+                                                </span>
+                                            </a>
+                                        </dd>
+                                    </div>
+                                )}
+                                <Field
+                                    label={t("partnerDashboard.applications.detail.address")}
+                                    value={getAddressSummary(
+                                        application.payload.shopStructuredAddress,
+                                    )}
+                                />
+                            </>
+                        ) : (
                             <Field
-                                label={t("partnerDashboard.applications.detail.domains")}
-                                value={application.payload.shopDomains.join(", ")}
+                                label={t("partnerDashboard.applications.detail.shopId")}
+                                value={application.payload.shopId}
                             />
-                            <LinkField
-                                label={t("partnerDashboard.applications.detail.shopUrl")}
-                                value={application.payload.shopUrl}
-                            />
-                            <LinkField
-                                label={t("partnerDashboard.applications.detail.shopImage")}
-                                value={application.payload.shopImage}
-                            />
-                            {application.payload.shopPhone && (
-                                <div className="flex min-w-0 flex-col gap-1">
-                                    <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                                        {t("partnerDashboard.applications.detail.shopPhone")}
-                                    </dt>
-                                    <dd className="min-w-0 text-sm">
-                                        <a
-                                            className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
-                                            href={`tel:${application.payload.shopPhone}`}
-                                        >
-                                            <Phone
-                                                className="h-3 w-3 shrink-0"
-                                                aria-hidden="true"
-                                            />
-                                            <span className="truncate">
-                                                {application.payload.shopPhone}
-                                            </span>
-                                        </a>
-                                    </dd>
-                                </div>
-                            )}
-                            {application.payload.shopEmail && (
-                                <div className="flex min-w-0 flex-col gap-1">
-                                    <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                                        {t("partnerDashboard.applications.detail.shopEmail")}
-                                    </dt>
-                                    <dd className="min-w-0 text-sm">
-                                        <a
-                                            className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
-                                            href={`mailto:${application.payload.shopEmail}`}
-                                        >
-                                            <Mail className="h-3 w-3 shrink-0" aria-hidden="true" />
-                                            <span className="truncate">
-                                                {application.payload.shopEmail}
-                                            </span>
-                                        </a>
-                                    </dd>
-                                </div>
-                            )}
-                            <Field
-                                label={t("partnerDashboard.applications.detail.address")}
-                                value={getAddressSummary(application.payload.shopStructuredAddress)}
-                            />
-                        </>
-                    ) : (
-                        <Field
-                            label={t("partnerDashboard.applications.detail.shopId")}
-                            value={application.payload.shopId}
-                        />
-                    )}
-                </dl>
-            </section>
+                        )}
+                    </dl>
+                </section>
+            )}
         </div>
     );
 }
@@ -307,6 +331,7 @@ export function PartnerApplicationDetailDialog({
     onOpenChange,
 }: PartnerApplicationDetailDialogProps) {
     const { t } = useTranslation();
+    const [isEditing, setIsEditing] = useState(false);
     const {
         data: application,
         isPending,
@@ -314,8 +339,10 @@ export function PartnerApplicationDetailDialog({
         refetch,
     } = usePartnerApplicationDetails(applicationId, open);
     const deletePartnerApplication = useDeletePartnerApplication();
+    const updatePartnerApplication = useUpdatePartnerApplication();
     const canDeleteApplication =
         application?.businessState === "SUBMITTED" || application?.businessState === "IN_REVIEW";
+    const canEditApplication = canDeleteApplication && application?.payload.type === "NEW";
 
     const handleDelete = () => {
         if (!application) {
@@ -330,8 +357,41 @@ export function PartnerApplicationDetailDialog({
         });
     };
 
+    const handleOpenChange = (nextOpen: boolean) => {
+        if (!nextOpen) {
+            setIsEditing(false);
+        }
+        onOpenChange(nextOpen);
+    };
+
+    const handleSave = (values: PartnerApplicationEditFormData) => {
+        if (!application || application.payload.type !== "NEW") {
+            return;
+        }
+
+        updatePartnerApplication.mutate(
+            {
+                partnerApplicationId: application.id,
+                shopName: values.shopName,
+                shopType: values.shopType,
+                shopDomains: parseShopDomains(values.shopDomains),
+                shopUrl: optionalTrimmedValue(values.shopUrl),
+                shopImage: optionalTrimmedValue(values.shopImage),
+                shopStructuredAddress: buildPartnerApplicationStructuredAddress(values),
+                shopPhone: optionalTrimmedValue(values.shopPhone),
+                shopEmail: optionalTrimmedValue(values.shopEmail),
+            },
+            {
+                onSuccess: () => {
+                    setIsEditing(false);
+                    toast.success(t("partnerDashboard.applications.detail.editSuccess"));
+                },
+            },
+        );
+    };
+
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogContent
                 className="max-h-[90vh] overflow-y-auto sm:max-w-3xl"
                 showCloseButton={false}
@@ -351,10 +411,31 @@ export function PartnerApplicationDetailDialog({
                                 size="icon"
                                 className="order-2 size-10 text-muted-foreground hover:text-foreground"
                                 aria-label={t("partnerDashboard.applications.detail.close")}
+                                disabled={updatePartnerApplication.isPending}
                             >
                                 <X className="size-5" aria-hidden="true" />
                             </Button>
                         </DialogClose>
+                        {canEditApplication && !isEditing && (
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        className="size-10 text-muted-foreground hover:text-foreground"
+                                        aria-label={t("partnerDashboard.applications.detail.edit")}
+                                        disabled={updatePartnerApplication.isPending}
+                                        onClick={() => setIsEditing(true)}
+                                    >
+                                        <Pencil className="size-5" aria-hidden="true" />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    {t("partnerDashboard.applications.detail.edit")}
+                                </TooltipContent>
+                            </Tooltip>
+                        )}
                         {canDeleteApplication && (
                             <AlertDialog>
                                 <Tooltip>
@@ -368,7 +449,10 @@ export function PartnerApplicationDetailDialog({
                                                 aria-label={t(
                                                     "partnerDashboard.applications.detail.delete",
                                                 )}
-                                                disabled={deletePartnerApplication.isPending}
+                                                disabled={
+                                                    deletePartnerApplication.isPending ||
+                                                    updatePartnerApplication.isPending
+                                                }
                                             >
                                                 <Trash2 className="size-5" aria-hidden="true" />
                                             </Button>
@@ -427,7 +511,21 @@ export function PartnerApplicationDetailDialog({
                     </div>
                 )}
                 {!isPending && !isError && application && (
-                    <ApplicationDetails application={application} />
+                    <>
+                        <ApplicationDetails
+                            application={application}
+                            showShopDetails={!isEditing}
+                        />
+                        {isEditing && canEditApplication && (
+                            <PartnerApplicationEditForm
+                                key={application.id}
+                                application={application}
+                                isSaving={updatePartnerApplication.isPending}
+                                onCancel={() => setIsEditing(false)}
+                                onSave={handleSave}
+                            />
+                        )}
+                    </>
                 )}
             </DialogContent>
         </Dialog>

@@ -137,6 +137,57 @@ export function PartnerApplicationNewShopFields({ form }: PartnerApplicationNewS
                     <FieldMessage message={errors.shopEmail?.message} />
                 </div>
             </div>
+
+            <section className="grid gap-4">
+                <h3 className="font-medium">{t("partnerDashboard.create.fields.address")}</h3>
+                <div className="grid gap-4 md:grid-cols-2">
+                    <div className="grid gap-2">
+                        <Label htmlFor="partner-application-addressline">
+                            {t("partnerDashboard.create.fields.addressline")}
+                        </Label>
+                        <Input
+                            id="partner-application-addressline"
+                            {...form.register("addressline")}
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="partner-application-addressline-extra">
+                            {t("partnerDashboard.create.fields.addresslineExtra")}
+                        </Label>
+                        <Input
+                            id="partner-application-addressline-extra"
+                            {...form.register("addresslineExtra")}
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="partner-application-locality">
+                            {t("partnerDashboard.create.fields.locality")}
+                        </Label>
+                        <Input id="partner-application-locality" {...form.register("locality")} />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="partner-application-region">
+                            {t("partnerDashboard.create.fields.region")}
+                        </Label>
+                        <Input id="partner-application-region" {...form.register("region")} />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="partner-application-postal-code">
+                            {t("partnerDashboard.create.fields.postalCode")}
+                        </Label>
+                        <Input
+                            id="partner-application-postal-code"
+                            {...form.register("postalCode")}
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="partner-application-country">
+                            {t("partnerDashboard.create.fields.country")}
+                        </Label>
+                        <Input id="partner-application-country" {...form.register("country")} />
+                    </div>
+                </div>
+            </section>
         </div>
     );
 }

@@ -4,10 +4,12 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
     PARTNER_APPLICATIONS_QUERY_KEY,
+    partnerApplicationDetailQueryKey,
     useCreatePartnerApplication,
     useDeletePartnerApplication,
     usePartnerApplicationDetails,
     usePartnerApplications,
+    useUpdatePartnerApplication,
 } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
 import { usePartnerDashboardShopSearch } from "@/features/partner-dashboard/api/usePartnerDashboardShopSearch.ts";
 
@@ -15,6 +17,7 @@ const mockGetPartnerApplications = vi.hoisted(() => vi.fn());
 const mockGetPartnerApplication = vi.hoisted(() => vi.fn());
 const mockPostPartnerApplication = vi.hoisted(() => vi.fn());
 const mockDeletePartnerApplication = vi.hoisted(() => vi.fn());
+const mockPatchPartnerApplication = vi.hoisted(() => vi.fn());
 const mockSimpleSearchShops = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
 
@@ -22,6 +25,7 @@ vi.mock("@/client", () => ({
     deletePartnerApplication: mockDeletePartnerApplication,
     getPartnerApplication: mockGetPartnerApplication,
     getPartnerApplications: mockGetPartnerApplications,
+    patchPartnerApplication: mockPatchPartnerApplication,
     postPartnerApplication: mockPostPartnerApplication,
     simpleSearchShops: mockSimpleSearchShops,
 }));
@@ -186,6 +190,7 @@ describe("usePartnerApplications", () => {
             shopDomains: ["created.example.com"],
             shopUrl: null,
             shopImage: null,
+            shopStructuredAddress: null,
             shopPhone: null,
             shopEmail: null,
         });
@@ -200,6 +205,7 @@ describe("usePartnerApplications", () => {
                 shopDomains: ["created.example.com"],
                 shopUrl: null,
                 shopImage: null,
+                shopStructuredAddress: null,
                 shopPhone: null,
                 shopEmail: null,
             },
@@ -242,6 +248,76 @@ describe("usePartnerApplications", () => {
         ).toBeUndefined();
         expect(invalidateQueriesSpy).toHaveBeenCalledWith({
             queryKey: PARTNER_APPLICATIONS_QUERY_KEY,
+        });
+    });
+
+    it("updates a partner application and refreshes related queries", async () => {
+        const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+        queryClient.setQueryData(PARTNER_APPLICATIONS_QUERY_KEY, [
+            {
+                id: "app-updated",
+                updated: new Date("2024-01-01T00:00:00Z"),
+            },
+        ]);
+        mockPatchPartnerApplication.mockResolvedValue({
+            data: {
+                id: "app-updated",
+                applicantUserId: "user-1",
+                businessState: "SUBMITTED",
+                executionState: "PROCESSING",
+                payload: {
+                    type: "NEW",
+                    shopName: "Updated Shop",
+                    shopType: "MARKETPLACE",
+                    shopDomains: ["updated.example.com"],
+                    shopPhone: "+49 30 123456",
+                },
+                created: "2024-01-01T00:00:00Z",
+                updated: "2024-01-03T00:00:00Z",
+            },
+            error: null,
+        });
+
+        const { result } = renderHook(() => useUpdatePartnerApplication(), {
+            wrapper: createWrapper(),
+        });
+
+        result.current.mutate({
+            partnerApplicationId: "app-updated",
+            shopName: "Updated Shop",
+            shopType: "MARKETPLACE",
+            shopDomains: ["updated.example.com"],
+            shopPhone: "+49 30 123456",
+        });
+
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+        expect(mockPatchPartnerApplication).toHaveBeenCalledWith({
+            path: { partnerApplicationId: "app-updated" },
+            body: {
+                shopName: "Updated Shop",
+                shopType: "MARKETPLACE",
+                shopDomains: ["updated.example.com"],
+                shopPhone: "+49 30 123456",
+            },
+        });
+        expect(queryClient.getQueryData(PARTNER_APPLICATIONS_QUERY_KEY)).toEqual([
+            expect.objectContaining({
+                id: "app-updated",
+                payload: expect.objectContaining({
+                    type: "NEW",
+                    shopName: "Updated Shop",
+                }),
+            }),
+        ]);
+        expect(queryClient.getQueryData(partnerApplicationDetailQueryKey("app-updated"))).toEqual(
+            expect.objectContaining({ id: "app-updated" }),
+        );
+        expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+            queryKey: PARTNER_APPLICATIONS_QUERY_KEY,
+        });
+        expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+            queryKey: partnerApplicationDetailQueryKey("app-updated"),
         });
     });
 

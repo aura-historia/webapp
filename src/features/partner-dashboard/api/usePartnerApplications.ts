@@ -1,9 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { PostPartnerShopApplicationPayloadData } from "@/client";
+import type {
+    PatchPartnerShopApplicationData,
+    PostPartnerShopApplicationPayloadData,
+    StructuredAddressData,
+} from "@/client";
 import {
     deletePartnerApplication,
     getPartnerApplication,
     getPartnerApplications,
+    patchPartnerApplication,
     postPartnerApplication,
 } from "@/client";
 import {
@@ -36,9 +41,14 @@ export type CreatePartnerApplicationInput =
           readonly shopDomains: string[];
           readonly shopUrl?: string | null;
           readonly shopImage?: string | null;
+          readonly shopStructuredAddress?: StructuredAddressData | null;
           readonly shopPhone?: string | null;
           readonly shopEmail?: string | null;
       };
+
+export type UpdatePartnerApplicationInput = PatchPartnerShopApplicationData & {
+    readonly partnerApplicationId: string;
+};
 
 export type PartnerDashboardShopSearchItem = {
     readonly shopId: string;
@@ -114,6 +124,7 @@ function mapCreateInputToPayload(
         shopDomains: input.shopDomains,
         shopUrl: input.shopUrl,
         shopImage: input.shopImage,
+        shopStructuredAddress: input.shopStructuredAddress ?? null,
         shopPhone: input.shopPhone,
         shopEmail: input.shopEmail,
     };
@@ -190,6 +201,56 @@ export function useDeletePartnerApplication() {
         },
         onError: (error) => {
             console.error("[useDeletePartnerApplication]", error);
+            toast.error(error.message);
+        },
+    });
+}
+
+export function useUpdatePartnerApplication() {
+    const queryClient = useQueryClient();
+    const { getErrorMessage } = useApiError();
+
+    return useMutation<PartnerApplication, Error, UpdatePartnerApplicationInput>({
+        mutationFn: async ({ partnerApplicationId, ...body }) => {
+            const response = await patchPartnerApplication({
+                path: { partnerApplicationId },
+                body,
+            });
+            if (response.error) {
+                throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
+            }
+            return mapToPartnerApplication(response.data);
+        },
+        onSuccess: (updatedApplication) => {
+            queryClient.setQueryData<PartnerApplication[]>(
+                PARTNER_APPLICATIONS_QUERY_KEY,
+                (currentApplications) => {
+                    if (!currentApplications) {
+                        return [updatedApplication];
+                    }
+
+                    return currentApplications
+                        .map((application) =>
+                            application.id === updatedApplication.id
+                                ? updatedApplication
+                                : application,
+                        )
+                        .sort((a, b) => {
+                            return b.updated.getTime() - a.updated.getTime();
+                        });
+                },
+            );
+            queryClient.setQueryData(
+                partnerApplicationDetailQueryKey(updatedApplication.id),
+                updatedApplication,
+            );
+            queryClient.invalidateQueries({ queryKey: PARTNER_APPLICATIONS_QUERY_KEY });
+            queryClient.invalidateQueries({
+                queryKey: partnerApplicationDetailQueryKey(updatedApplication.id),
+            });
+        },
+        onError: (error) => {
+            console.error("[useUpdatePartnerApplication]", error);
             toast.error(error.message);
         },
     });

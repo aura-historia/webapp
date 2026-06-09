@@ -19,6 +19,7 @@ import {
 import type { PartnerDashboardShopSearchItem } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
 import { useCreatePartnerApplication } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
 import {
+    buildPartnerApplicationStructuredAddress,
     createPartnerApplicationFormSchema,
     optionalTrimmedValue,
     PARTNER_APPLICATION_CREATE_DEFAULT_VALUES,
@@ -101,6 +102,7 @@ export function PartnerApplicationCreateDialog({
                 shopDomains: parseShopDomains(values.shopDomains),
                 shopUrl: optionalTrimmedValue(values.shopUrl),
                 shopImage: optionalTrimmedValue(values.shopImage),
+                shopStructuredAddress: buildPartnerApplicationStructuredAddress(values),
                 shopPhone: optionalTrimmedValue(values.shopPhone),
                 shopEmail: optionalTrimmedValue(values.shopEmail),
             },

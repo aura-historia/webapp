@@ -1397,7 +1397,14 @@
         "shopUrl": "Primäre Shop-URL",
         "shopImage": "Logo- oder Bild-URL",
         "shopPhone": "Telefon",
-        "shopEmail": "E-Mail"
+        "shopEmail": "E-Mail",
+        "address": "Adresse",
+        "addressline": "Adresszeile",
+        "addresslineExtra": "Adresszusatz",
+        "locality": "Ort",
+        "region": "Region",
+        "postalCode": "Postleitzahl",
+        "country": "Ländercode"
       },
       "validation": {
         "shopIdRequired": "Bitte wählen Sie einen bestehenden Shop aus.",
@@ -1437,6 +1444,10 @@
         "description": "Prüfen Sie den aktuellen Status und die eingereichten Shop-Informationen.",
         "loadError": "Dieser Partnerantrag konnte nicht geladen werden.",
         "close": "Details schließen",
+        "edit": "Antrag bearbeiten",
+        "editCancel": "Abbrechen",
+        "editSave": "Änderungen speichern",
+        "editSuccess": "Partnerantrag wurde aktualisiert.",
         "delete": "Antrag löschen",
         "deleteSuccess": "Partnerantrag wurde gelöscht.",
         "deleteConfirm": {
@@ -1460,6 +1471,12 @@
         "shopPhone": "Telefon",
         "shopEmail": "E-Mail",
         "address": "Adresse",
+        "addressline": "Adresszeile",
+        "addresslineExtra": "Adresszusatz",
+        "locality": "Ort",
+        "region": "Region",
+        "postalCode": "Postleitzahl",
+        "country": "Ländercode",
         "shopId": "Shop-ID"
       },
       "businessState": {

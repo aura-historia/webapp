@@ -1386,7 +1386,14 @@
         "shopUrl": "Primary shop URL",
         "shopImage": "Logo or image URL",
         "shopPhone": "Phone",
-        "shopEmail": "Email"
+        "shopEmail": "Email",
+        "address": "Address",
+        "addressline": "Address line",
+        "addresslineExtra": "Address line 2",
+        "locality": "City",
+        "region": "Region",
+        "postalCode": "Postal code",
+        "country": "Country code"
       },
       "validation": {
         "shopIdRequired": "Please select an existing shop.",
@@ -1426,6 +1433,10 @@
         "description": "Review the current status and submitted shop information.",
         "loadError": "Could not load this partner application.",
         "close": "Close details",
+        "edit": "Edit application",
+        "editCancel": "Cancel",
+        "editSave": "Save changes",
+        "editSuccess": "Partner application updated.",
         "delete": "Delete application",
         "deleteSuccess": "Partner application deleted.",
         "deleteConfirm": {
@@ -1449,6 +1460,12 @@
         "shopPhone": "Phone",
         "shopEmail": "Email",
         "address": "Address",
+        "addressline": "Address line",
+        "addresslineExtra": "Address line 2",
+        "locality": "City",
+        "region": "Region",
+        "postalCode": "Postal code",
+        "country": "Country code",
         "shopId": "Shop ID"
       },
       "businessState": {
