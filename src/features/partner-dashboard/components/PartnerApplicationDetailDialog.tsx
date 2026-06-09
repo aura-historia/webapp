@@ -1,9 +1,22 @@
-import { Check, ExternalLink, Mail, Phone, Store } from "lucide-react";
+import { Check, ExternalLink, Mail, Phone, Store, Trash2, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogHeader,
@@ -11,9 +24,13 @@ import {
 } from "@/components/ui/dialog.tsx";
 import { Progress } from "@/components/ui/progress.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
 import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
-import { usePartnerApplicationDetails } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
+import {
+    useDeletePartnerApplication,
+    usePartnerApplicationDetails,
+} from "@/features/partner-dashboard/api/usePartnerApplications.ts";
 import { formatShortDate } from "@/lib/utils.ts";
 import {
     BUSINESS_STATE_TRANSLATION_KEY,
@@ -296,16 +313,109 @@ export function PartnerApplicationDetailDialog({
         isError,
         refetch,
     } = usePartnerApplicationDetails(applicationId, open);
+    const deletePartnerApplication = useDeletePartnerApplication();
+    const canDeleteApplication =
+        application?.businessState === "SUBMITTED" || application?.businessState === "IN_REVIEW";
+
+    const handleDelete = () => {
+        if (!application) {
+            return;
+        }
+
+        deletePartnerApplication.mutate(application.id, {
+            onSuccess: () => {
+                onOpenChange(false);
+                toast.success(t("partnerDashboard.applications.detail.deleteSuccess"));
+            },
+        });
+    };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
-                <DialogHeader>
-                    <DialogTitle>{t("partnerDashboard.applications.detail.title")}</DialogTitle>
-                    <DialogDescription>
-                        {t("partnerDashboard.applications.detail.description")}
-                    </DialogDescription>
-                </DialogHeader>
+            <DialogContent
+                className="max-h-[90vh] overflow-y-auto sm:max-w-3xl"
+                showCloseButton={false}
+            >
+                <div className="flex items-start justify-between gap-4">
+                    <DialogHeader>
+                        <DialogTitle>{t("partnerDashboard.applications.detail.title")}</DialogTitle>
+                        <DialogDescription>
+                            {t("partnerDashboard.applications.detail.description")}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex shrink-0 items-center gap-1">
+                        {canDeleteApplication && (
+                            <AlertDialog>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <AlertDialogTrigger asChild>
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="icon"
+                                                className="size-10 text-muted-foreground hover:text-destructive"
+                                                aria-label={t(
+                                                    "partnerDashboard.applications.detail.delete",
+                                                )}
+                                                disabled={deletePartnerApplication.isPending}
+                                            >
+                                                <Trash2 className="size-5" aria-hidden="true" />
+                                            </Button>
+                                        </AlertDialogTrigger>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        {t("partnerDashboard.applications.detail.delete")}
+                                    </TooltipContent>
+                                </Tooltip>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            {t(
+                                                "partnerDashboard.applications.detail.deleteConfirm.title",
+                                            )}
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            {t(
+                                                "partnerDashboard.applications.detail.deleteConfirm.description",
+                                            )}
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel
+                                            disabled={deletePartnerApplication.isPending}
+                                        >
+                                            {t(
+                                                "partnerDashboard.applications.detail.deleteConfirm.cancel",
+                                            )}
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                            variant="destructive"
+                                            disabled={deletePartnerApplication.isPending}
+                                            onClick={handleDelete}
+                                        >
+                                            {t(
+                                                "partnerDashboard.applications.detail.deleteConfirm.confirm",
+                                            )}
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        )}
+                        <Tooltip>
+                            <DialogClose asChild>
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon"
+                                    className="size-10 text-muted-foreground hover:text-foreground"
+                                    aria-label={t("partnerDashboard.applications.detail.close")}
+                                >
+                                    <X className="size-5" aria-hidden="true" />
+                                </Button>
+                            </DialogClose>
+                        </Tooltip>
+                    </div>
+                </div>
 
                 {isPending && <DetailSkeleton />}
                 {isError && (

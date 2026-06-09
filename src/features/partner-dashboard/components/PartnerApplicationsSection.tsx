@@ -199,7 +199,7 @@ function SectionHeader({ onCreateClick }: { readonly onCreateClick: () => void }
                     {t("partnerDashboard.applications.description")}
                 </p>
             </div>
-            <Button type="button" onClick={onCreateClick}>
+            <Button type="button" variant="outline" onClick={onCreateClick}>
                 <Plus className="h-4 w-4" aria-hidden="true" />
                 {t("partnerDashboard.create.open")}
             </Button>

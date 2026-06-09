@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
     PARTNER_APPLICATIONS_QUERY_KEY,
     useCreatePartnerApplication,
+    useDeletePartnerApplication,
     usePartnerApplicationDetails,
     usePartnerApplications,
 } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
@@ -13,10 +14,12 @@ import { usePartnerDashboardShopSearch } from "@/features/partner-dashboard/api/
 const mockGetPartnerApplications = vi.hoisted(() => vi.fn());
 const mockGetPartnerApplication = vi.hoisted(() => vi.fn());
 const mockPostPartnerApplication = vi.hoisted(() => vi.fn());
+const mockDeletePartnerApplication = vi.hoisted(() => vi.fn());
 const mockSimpleSearchShops = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
 
 vi.mock("@/client", () => ({
+    deletePartnerApplication: mockDeletePartnerApplication,
     getPartnerApplication: mockGetPartnerApplication,
     getPartnerApplications: mockGetPartnerApplications,
     postPartnerApplication: mockPostPartnerApplication,
@@ -204,6 +207,39 @@ describe("usePartnerApplications", () => {
         expect(queryClient.getQueryData(PARTNER_APPLICATIONS_QUERY_KEY)).toEqual([
             expect.objectContaining({ id: "app-created" }),
         ]);
+        expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+            queryKey: PARTNER_APPLICATIONS_QUERY_KEY,
+        });
+    });
+
+    it("deletes a partner application and refreshes related queries", async () => {
+        const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+        queryClient.setQueryData(PARTNER_APPLICATIONS_QUERY_KEY, [
+            { id: "app-deleted" },
+            { id: "app-kept" },
+        ]);
+        mockDeletePartnerApplication.mockResolvedValue({
+            data: undefined,
+            error: null,
+        });
+
+        const { result } = renderHook(() => useDeletePartnerApplication(), {
+            wrapper: createWrapper(),
+        });
+
+        result.current.mutate("app-deleted");
+
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+        expect(mockDeletePartnerApplication).toHaveBeenCalledWith({
+            path: { partnerApplicationId: "app-deleted" },
+        });
+        expect(queryClient.getQueryData(PARTNER_APPLICATIONS_QUERY_KEY)).toEqual([
+            { id: "app-kept" },
+        ]);
+        expect(
+            queryClient.getQueryState([...PARTNER_APPLICATIONS_QUERY_KEY, "detail", "app-deleted"]),
+        ).toBeUndefined();
         expect(invalidateQueriesSpy).toHaveBeenCalledWith({
             queryKey: PARTNER_APPLICATIONS_QUERY_KEY,
         });

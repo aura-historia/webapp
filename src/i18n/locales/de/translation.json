@@ -1436,6 +1436,15 @@
         "title": "Antragsdetails",
         "description": "Prüfen Sie den aktuellen Status und die eingereichten Shop-Informationen.",
         "loadError": "Dieser Partnerantrag konnte nicht geladen werden.",
+        "close": "Details schließen",
+        "delete": "Antrag löschen",
+        "deleteSuccess": "Partnerantrag wurde gelöscht.",
+        "deleteConfirm": {
+          "title": "Diesen Partnerantrag löschen?",
+          "description": "Dieser ausstehende Antrag wird dauerhaft gelöscht und kann nicht wiederhergestellt werden.",
+          "cancel": "Abbrechen",
+          "confirm": "Löschen"
+        },
         "progressLabel": "Antragsfortschritt",
         "applicationSection": "Antrag",
         "shopSection": "Shop-Informationen",

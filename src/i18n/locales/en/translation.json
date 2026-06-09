@@ -1425,6 +1425,15 @@
         "title": "Application details",
         "description": "Review the current status and submitted shop information.",
         "loadError": "Could not load this partner application.",
+        "close": "Close details",
+        "delete": "Delete application",
+        "deleteSuccess": "Partner application deleted.",
+        "deleteConfirm": {
+          "title": "Delete this partner application?",
+          "description": "This pending application will be permanently deleted and cannot be restored.",
+          "cancel": "Cancel",
+          "confirm": "Delete"
+        },
         "progressLabel": "Application progress",
         "applicationSection": "Application",
         "shopSection": "Shop information",

@@ -1,6 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { PostPartnerShopApplicationPayloadData } from "@/client";
-import { getPartnerApplication, getPartnerApplications, postPartnerApplication } from "@/client";
+import {
+    deletePartnerApplication,
+    getPartnerApplication,
+    getPartnerApplications,
+    postPartnerApplication,
+} from "@/client";
 import {
     mapToPartnerApplication,
     type PartnerApplication,
@@ -52,7 +57,9 @@ export function usePartnerApplications(enabled: boolean = true) {
             if (response.error) {
                 throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
             }
-            return response.data.map(mapToPartnerApplication);
+            return response.data.map(mapToPartnerApplication).sort((a, b) => {
+                return b.updated.getTime() - a.updated.getTime();
+            });
         },
         enabled,
         staleTime: 30 * 1000,
@@ -139,13 +146,50 @@ export function useCreatePartnerApplication() {
                         ...currentApplications.filter(
                             (application) => application.id !== createdApplication.id,
                         ),
-                    ];
+                    ].sort((a, b) => {
+                        return b.updated.getTime() - a.updated.getTime();
+                    });
                 },
             );
             queryClient.invalidateQueries({ queryKey: PARTNER_APPLICATIONS_QUERY_KEY });
         },
         onError: (error) => {
             console.error("[useCreatePartnerApplication]", error);
+            toast.error(error.message);
+        },
+    });
+}
+
+export function useDeletePartnerApplication() {
+    const queryClient = useQueryClient();
+    const { getErrorMessage } = useApiError();
+
+    return useMutation<void, Error, string>({
+        mutationFn: async (partnerApplicationId) => {
+            const response = await deletePartnerApplication({
+                path: { partnerApplicationId },
+            });
+            if (response.error) {
+                throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
+            }
+        },
+        onSuccess: (_data, partnerApplicationId) => {
+            queryClient.setQueryData<PartnerApplication[]>(
+                PARTNER_APPLICATIONS_QUERY_KEY,
+                (currentApplications) =>
+                    currentApplications
+                        ?.filter((application) => application.id !== partnerApplicationId)
+                        .sort((a, b) => {
+                            return b.updated.getTime() - a.updated.getTime();
+                        }),
+            );
+            queryClient.removeQueries({
+                queryKey: partnerApplicationDetailQueryKey(partnerApplicationId),
+            });
+            queryClient.invalidateQueries({ queryKey: PARTNER_APPLICATIONS_QUERY_KEY });
+        },
+        onError: (error) => {
+            console.error("[useDeletePartnerApplication]", error);
             toast.error(error.message);
         },
     });

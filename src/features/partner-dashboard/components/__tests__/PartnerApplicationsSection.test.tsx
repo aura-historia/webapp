@@ -1,25 +1,37 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { toast } from "sonner";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PartnerApplicationsSection } from "@/features/partner-dashboard/components/PartnerApplicationsSection.tsx";
 import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
 
 const mockUsePartnerApplications = vi.hoisted(() => vi.fn());
-const mockUsePartnerApplication = vi.hoisted(() => vi.fn());
+const mockUsePartnerApplicationDetails = vi.hoisted(() => vi.fn());
 const mockCreatePartnerApplicationMutate = vi.hoisted(() => vi.fn());
+const mockDeletePartnerApplicationMutate = vi.hoisted(() => vi.fn());
 const mockUsePartnerDashboardShopSearch = vi.hoisted(() => vi.fn());
 
 vi.mock("@/features/partner-dashboard/api/usePartnerApplications.ts", () => ({
     usePartnerApplications: mockUsePartnerApplications,
-    usePartnerApplication: mockUsePartnerApplication,
+    usePartnerApplicationDetails: mockUsePartnerApplicationDetails,
     useCreatePartnerApplication: () => ({
         mutate: mockCreatePartnerApplicationMutate,
+        isPending: false,
+    }),
+    useDeletePartnerApplication: () => ({
+        mutate: mockDeletePartnerApplicationMutate,
         isPending: false,
     }),
 }));
 
 vi.mock("@/features/partner-dashboard/api/usePartnerDashboardShopSearch.ts", () => ({
     usePartnerDashboardShopSearch: mockUsePartnerDashboardShopSearch,
+}));
+
+vi.mock("sonner", () => ({
+    toast: {
+        success: vi.fn(),
+    },
 }));
 
 const submittedApplication: PartnerApplication = {
@@ -59,12 +71,17 @@ describe("PartnerApplicationsSection", () => {
             isError: false,
             refetch: vi.fn(),
         });
-        mockUsePartnerApplication.mockReturnValue({
+        mockUsePartnerApplicationDetails.mockReturnValue({
             data: submittedApplication,
             isPending: false,
             isError: false,
             refetch: vi.fn(),
         });
+        mockDeletePartnerApplicationMutate.mockImplementation(
+            (_applicationId: string, options?: { onSuccess?: () => void }) => {
+                options?.onSuccess?.();
+            },
+        );
         mockUsePartnerDashboardShopSearch.mockReturnValue({
             data: [
                 {
@@ -141,10 +158,46 @@ describe("PartnerApplicationsSection", () => {
 
         await user.click(screen.getAllByRole("button", { name: "Details ansehen" })[0]);
 
-        expect(mockUsePartnerApplication).toHaveBeenLastCalledWith("app-submitted", true);
+        expect(mockUsePartnerApplicationDetails).toHaveBeenLastCalledWith("app-submitted", true);
         expect(screen.getByRole("dialog")).toHaveTextContent("Antragsdetails");
         expect(screen.getByLabelText("Antragsfortschritt")).toBeInTheDocument();
         expect(screen.queryByText("In Verarbeitung")).not.toBeInTheDocument();
+    });
+
+    it("confirms and deletes a pending application from the detail dialog", async () => {
+        const user = userEvent.setup();
+
+        render(<PartnerApplicationsSection />);
+
+        await user.click(screen.getAllByRole("button", { name: "Details ansehen" })[0]);
+        await user.click(screen.getByRole("button", { name: "Antrag löschen" }));
+
+        expect(screen.getByRole("alertdialog")).toHaveTextContent("Diesen Partnerantrag löschen?");
+
+        await user.click(screen.getByRole("button", { name: "Löschen" }));
+
+        expect(mockDeletePartnerApplicationMutate).toHaveBeenCalledWith(
+            "app-submitted",
+            expect.objectContaining({ onSuccess: expect.any(Function) }),
+        );
+        expect(toast.success).toHaveBeenCalledWith("Partnerantrag wurde gelöscht.");
+        await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+    });
+
+    it("hides the delete action for decided applications", async () => {
+        const user = userEvent.setup();
+        mockUsePartnerApplicationDetails.mockReturnValue({
+            data: approvedApplication,
+            isPending: false,
+            isError: false,
+            refetch: vi.fn(),
+        });
+
+        render(<PartnerApplicationsSection />);
+
+        await user.click(screen.getAllByRole("button", { name: "Details ansehen" })[1]);
+
+        expect(screen.queryByRole("button", { name: "Antrag löschen" })).not.toBeInTheDocument();
     });
 
     it("opens the create application dialog and submits a new shop application", async () => {
