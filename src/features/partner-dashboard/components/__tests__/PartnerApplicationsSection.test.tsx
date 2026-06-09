@@ -5,11 +5,13 @@ import { PartnerApplicationsSection } from "@/features/partner-dashboard/compone
 import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
 
 const mockUsePartnerApplications = vi.hoisted(() => vi.fn());
+const mockUsePartnerApplication = vi.hoisted(() => vi.fn());
 const mockCreatePartnerApplicationMutate = vi.hoisted(() => vi.fn());
 const mockUsePartnerDashboardShopSearch = vi.hoisted(() => vi.fn());
 
 vi.mock("@/features/partner-dashboard/api/usePartnerApplications.ts", () => ({
     usePartnerApplications: mockUsePartnerApplications,
+    usePartnerApplication: mockUsePartnerApplication,
     useCreatePartnerApplication: () => ({
         mutate: mockCreatePartnerApplicationMutate,
         isPending: false,
@@ -57,6 +59,12 @@ describe("PartnerApplicationsSection", () => {
             isError: false,
             refetch: vi.fn(),
         });
+        mockUsePartnerApplication.mockReturnValue({
+            data: submittedApplication,
+            isPending: false,
+            isError: false,
+            refetch: vi.fn(),
+        });
         mockUsePartnerDashboardShopSearch.mockReturnValue({
             data: [
                 {
@@ -70,15 +78,15 @@ describe("PartnerApplicationsSection", () => {
         });
     });
 
-    it("renders all current applications and their associated states", () => {
+    it("renders all current applications and their business states", () => {
         render(<PartnerApplicationsSection />);
 
         expect(screen.getByText("Vintage Shop")).toBeInTheDocument();
         expect(screen.getByText("Bestehender Shop: shop-1")).toBeInTheDocument();
         expect(screen.getByText("Eingereicht")).toBeInTheDocument();
-        expect(screen.getByText("In Verarbeitung")).toBeInTheDocument();
         expect(screen.getByText("Genehmigt")).toBeInTheDocument();
-        expect(screen.getByText("Abgeschlossen")).toBeInTheDocument();
+        expect(screen.queryByText("In Verarbeitung")).not.toBeInTheDocument();
+        expect(screen.queryByText("Abgeschlossen")).not.toBeInTheDocument();
     });
 
     it("shows an empty state when the user has no applications", () => {
@@ -126,6 +134,19 @@ describe("PartnerApplicationsSection", () => {
         expect(refetch).toHaveBeenCalledOnce();
     });
 
+    it("opens the application detail dialog and requests the selected application", async () => {
+        const user = userEvent.setup();
+
+        render(<PartnerApplicationsSection />);
+
+        await user.click(screen.getAllByRole("button", { name: "Details ansehen" })[0]);
+
+        expect(mockUsePartnerApplication).toHaveBeenLastCalledWith("app-submitted", true);
+        expect(screen.getByRole("dialog")).toHaveTextContent("Antragsdetails");
+        expect(screen.getByLabelText("Antragsfortschritt")).toBeInTheDocument();
+        expect(screen.queryByText("In Verarbeitung")).not.toBeInTheDocument();
+    });
+
     it("opens the create application dialog and submits a new shop application", async () => {
         const user = userEvent.setup();
 
@@ -160,7 +181,7 @@ describe("PartnerApplicationsSection", () => {
         await user.click(screen.getByRole("button", { name: /Neuer Antrag/i }));
         await user.click(screen.getByRole("combobox", { name: "Antragstyp" }));
         await user.click(screen.getByRole("option", { name: "Bestehender Shop" }));
-        await user.type(screen.getByLabelText(/Shop/), "Aurora");
+        await user.type(screen.getByPlaceholderText("Shops nach Namen suchen …"), "Aurora");
         await user.click(screen.getByText("Aurora Antiques"));
         await user.click(screen.getByRole("button", { name: "Antrag einreichen" }));
 

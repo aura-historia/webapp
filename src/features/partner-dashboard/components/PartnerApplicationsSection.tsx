@@ -1,61 +1,25 @@
 import { useState } from "react";
-import { Clock3, Globe, Plus, RefreshCw, SearchX, Store } from "lucide-react";
+import { Check, Eye, Globe, Plus, RefreshCw, SearchX, Store } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
-import type {
-    PartnerApplication,
-    PartnerApplicationBusinessState,
-    PartnerApplicationExecutionState,
-} from "@/data/internal/partner-application/PartnerApplication.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { formatShortDate } from "@/lib/utils.ts";
 import { usePartnerApplications } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
 import { PartnerApplicationCreateDialog } from "@/features/partner-dashboard/components/PartnerApplicationCreateDialog.tsx";
-
-const BUSINESS_STATE_TRANSLATION_KEY: Record<PartnerApplicationBusinessState, string> = {
-    SUBMITTED: "partnerDashboard.applications.businessState.submitted",
-    IN_REVIEW: "partnerDashboard.applications.businessState.inReview",
-    APPROVED: "partnerDashboard.applications.businessState.approved",
-    REJECTED: "partnerDashboard.applications.businessState.rejected",
-};
-
-const EXECUTION_STATE_TRANSLATION_KEY: Record<PartnerApplicationExecutionState, string> = {
-    PROCESSING: "partnerDashboard.applications.executionState.processing",
-    WAITING: "partnerDashboard.applications.executionState.waiting",
-    COMPLETED: "partnerDashboard.applications.executionState.completed",
-};
-
-function businessStateVariant(
-    state: PartnerApplicationBusinessState,
-): "default" | "secondary" | "destructive" | "outline" {
-    switch (state) {
-        case "APPROVED":
-            return "default";
-        case "REJECTED":
-            return "destructive";
-        case "IN_REVIEW":
-            return "secondary";
-        case "SUBMITTED":
-            return "outline";
-        default:
-            return "outline";
-    }
-}
-
-function getApplicationTitle(application: PartnerApplication, existingShopLabel: string): string {
-    if (application.payload.type === "NEW") {
-        return application.payload.shopName;
-    }
-
-    return `${existingShopLabel}: ${application.payload.shopId}`;
-}
+import { PartnerApplicationDetailDialog } from "@/features/partner-dashboard/components/PartnerApplicationDetailDialog.tsx";
+import {
+    BUSINESS_STATE_TRANSLATION_KEY,
+    businessStateVariant,
+    getApplicationTitle,
+} from "@/features/partner-dashboard/lib/partnerApplicationHelpers.ts";
 
 export function PartnerApplicationsSection() {
     const { t, i18n } = useTranslation();
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [selectedApplicationId, setSelectedApplicationId] = useState<string>();
     const { data: applications = [], isPending, isError, refetch } = usePartnerApplications();
 
     const renderContent = () => {
@@ -89,7 +53,7 @@ export function PartnerApplicationsSection() {
         }
 
         return (
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-4">
                 {applications.map((application) => {
                     const title = getApplicationTitle(
                         application,
@@ -99,82 +63,102 @@ export function PartnerApplicationsSection() {
                     return (
                         <li
                             key={application.id}
-                            className="flex flex-col gap-2 border bg-surface-container-low p-4"
+                            className="group relative flex flex-col gap-2 border bg-surface-container-low p-4 transition-colors hover:bg-surface-container"
                         >
-                            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                                <div className="flex min-w-0 flex-col gap-2">
-                                    <div className="flex min-w-0 items-center gap-2">
-                                        <Store
-                                            className="h-4 w-4 shrink-0 text-muted-foreground"
-                                            aria-hidden="true"
-                                        />
-                                        <span className="truncate font-medium" title={title}>
-                                            {title}
-                                        </span>
+                            <div className="relative z-10 flex flex-col gap-4">
+                                <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                                    <div className="flex min-w-0 flex-col gap-2">
+                                        <div className="flex min-w-0 items-center gap-2">
+                                            <Store
+                                                className="h-4 w-4 shrink-0 text-muted-foreground"
+                                                aria-hidden="true"
+                                            />
+                                            <span className="truncate font-medium" title={title}>
+                                                {title}
+                                            </span>
+                                        </div>
                                     </div>
-                                    {application.payload.type === "NEW" && (
+                                    <div className="flex flex-wrap gap-2">
+                                        <Badge
+                                            variant={businessStateVariant(
+                                                application.businessState,
+                                            )}
+                                        >
+                                            {application.businessState === "APPROVED" && (
+                                                <Check className="h-3 w-3" aria-hidden="true" />
+                                            )}
+                                            {t(
+                                                BUSINESS_STATE_TRANSLATION_KEY[
+                                                    application.businessState
+                                                ],
+                                            )}
+                                        </Badge>
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-between items-end">
+                                    <div className="flex flex-col gap-1">
+                                        {application.payload.type === "NEW" && (
+                                            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                                                <span>
+                                                    {t(
+                                                        SHOP_TYPE_TRANSLATION_CONFIG[
+                                                            application.payload.shopType
+                                                        ].translationKey,
+                                                    )}
+                                                </span>
+                                                {application.payload.shopDomains.length > 0 && (
+                                                    <span className="flex min-w-0 items-center gap-1">
+                                                        <Globe
+                                                            className="h-3 w-3 shrink-0"
+                                                            aria-hidden="true"
+                                                        />
+                                                        <span
+                                                            className="truncate"
+                                                            title={application.payload.shopDomains.join(
+                                                                ", ",
+                                                            )}
+                                                        >
+                                                            {application.payload.shopDomains.join(
+                                                                ", ",
+                                                            )}
+                                                        </span>
+                                                    </span>
+                                                )}
+                                            </div>
+                                        )}
                                         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                                             <span>
-                                                {t(
-                                                    SHOP_TYPE_TRANSLATION_CONFIG[
-                                                        application.payload.shopType
-                                                    ].translationKey,
-                                                )}
+                                                {t("partnerDashboard.applications.submittedAt", {
+                                                    date: formatShortDate(
+                                                        application.created,
+                                                        i18n.language,
+                                                    ),
+                                                })}
                                             </span>
-                                            {application.payload.shopDomains.length > 0 && (
-                                                <span className="flex min-w-0 items-center gap-1">
-                                                    <Globe
-                                                        className="h-3 w-3 shrink-0"
-                                                        aria-hidden="true"
-                                                    />
-                                                    <span
-                                                        className="truncate"
-                                                        title={application.payload.shopDomains.join(
-                                                            ", ",
-                                                        )}
-                                                    >
-                                                        {application.payload.shopDomains.join(", ")}
-                                                    </span>
-                                                </span>
-                                            )}
+                                            <span>
+                                                {t("partnerDashboard.applications.updatedAt", {
+                                                    date: formatShortDate(
+                                                        application.updated,
+                                                        i18n.language,
+                                                    ),
+                                                })}
+                                            </span>
+                                            <span title={application.id} className="font-mono">
+                                                #{application.id.slice(0, 8)}
+                                            </span>
                                         </div>
-                                    )}
-                                </div>
-                                <div className="flex flex-wrap gap-2">
-                                    <Badge
-                                        variant={businessStateVariant(application.businessState)}
-                                    >
-                                        {t(
-                                            BUSINESS_STATE_TRANSLATION_KEY[
-                                                application.businessState
-                                            ],
-                                        )}
-                                    </Badge>
-                                    <Badge variant="outline">
-                                        <Clock3 className="h-3 w-3" aria-hidden="true" />
-                                        {t(
-                                            EXECUTION_STATE_TRANSLATION_KEY[
-                                                application.executionState
-                                            ],
-                                        )}
-                                    </Badge>
-                                </div>
-                            </div>
+                                    </div>
 
-                            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                                <span>
-                                    {t("partnerDashboard.applications.submittedAt", {
-                                        date: formatShortDate(application.created, i18n.language),
-                                    })}
-                                </span>
-                                <span>
-                                    {t("partnerDashboard.applications.updatedAt", {
-                                        date: formatShortDate(application.updated, i18n.language),
-                                    })}
-                                </span>
-                                <span title={application.id} className="font-mono">
-                                    #{application.id.slice(0, 8)}
-                                </span>
+                                    <Button
+                                        type="button"
+                                        size="sm"
+                                        onClick={() => setSelectedApplicationId(application.id)}
+                                    >
+                                        <Eye className="h-4 w-4" aria-hidden="true" />
+                                        {t("partnerDashboard.applications.viewDetails")}
+                                    </Button>
+                                </div>
                             </div>
                         </li>
                     );
@@ -190,6 +174,15 @@ export function PartnerApplicationsSection() {
             <PartnerApplicationCreateDialog
                 open={createDialogOpen}
                 onOpenChange={setCreateDialogOpen}
+            />
+            <PartnerApplicationDetailDialog
+                applicationId={selectedApplicationId}
+                open={Boolean(selectedApplicationId)}
+                onOpenChange={(open) => {
+                    if (!open) {
+                        setSelectedApplicationId(undefined);
+                    }
+                }}
             />
         </section>
     );
@@ -240,7 +233,6 @@ function PartnerApplicationsSkeleton() {
                                 </div>
                                 <div className="flex flex-wrap gap-2">
                                     <Skeleton className="h-6 w-24 rounded-none" />
-                                    <Skeleton className="h-6 w-32 rounded-none" />
                                 </div>
                             </div>
                             <div className="flex flex-wrap items-center gap-3">

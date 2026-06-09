@@ -24,6 +24,7 @@ export type PartnerApplicationPayload =
           readonly shopName: string;
           readonly shopType: ShopType;
           readonly shopDomains: string[];
+          readonly shopUrl?: string;
           readonly shopImage?: string;
           readonly shopStructuredAddress?: StructuredAddress;
           readonly shopPhone?: string;
@@ -63,6 +64,7 @@ function mapPayload(payload: GetPartnerShopApplicationPayloadData): PartnerAppli
         shopName: payload.shopName,
         shopType: parseShopType(payload.shopType),
         shopDomains: payload.shopDomains,
+        shopUrl: payload.shopUrl ?? undefined,
         shopImage: payload.shopImage ?? undefined,
         shopStructuredAddress: payload.shopStructuredAddress
             ? {

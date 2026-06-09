@@ -5,16 +5,19 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
     PARTNER_APPLICATIONS_QUERY_KEY,
     useCreatePartnerApplication,
+    usePartnerApplicationDetails,
     usePartnerApplications,
 } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
 import { usePartnerDashboardShopSearch } from "@/features/partner-dashboard/api/usePartnerDashboardShopSearch.ts";
 
 const mockGetPartnerApplications = vi.hoisted(() => vi.fn());
+const mockGetPartnerApplication = vi.hoisted(() => vi.fn());
 const mockPostPartnerApplication = vi.hoisted(() => vi.fn());
 const mockSimpleSearchShops = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
 
 vi.mock("@/client", () => ({
+    getPartnerApplication: mockGetPartnerApplication,
     getPartnerApplications: mockGetPartnerApplications,
     postPartnerApplication: mockPostPartnerApplication,
     simpleSearchShops: mockSimpleSearchShops,
@@ -104,6 +107,48 @@ describe("usePartnerApplications", () => {
         await waitFor(() => expect(result.current.isError).toBe(true));
 
         expect(result.current.error?.message).toBe("Load failed");
+    });
+
+    it("loads a specific partner application from the detail endpoint", async () => {
+        mockGetPartnerApplication.mockResolvedValue({
+            data: {
+                id: "app-detail",
+                applicantUserId: "user-1",
+                businessState: "IN_REVIEW",
+                executionState: "WAITING",
+                payload: {
+                    type: "NEW",
+                    shopName: "Detail Shop",
+                    shopType: "COMMERCIAL_DEALER",
+                    shopDomains: ["detail.example.com"],
+                    shopUrl: "https://detail.example.com",
+                },
+                created: "2024-01-01T00:00:00Z",
+                updated: "2024-01-02T00:00:00Z",
+            },
+            error: null,
+        });
+
+        const { result } = renderHook(() => usePartnerApplicationDetails("app-detail"), {
+            wrapper: createWrapper(),
+        });
+
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+        expect(mockGetPartnerApplication).toHaveBeenCalledWith({
+            path: { partnerApplicationId: "app-detail" },
+        });
+        expect(result.current.data).toEqual(
+            expect.objectContaining({
+                id: "app-detail",
+                businessState: "IN_REVIEW",
+                payload: expect.objectContaining({
+                    type: "NEW",
+                    shopName: "Detail Shop",
+                    shopUrl: "https://detail.example.com",
+                }),
+            }),
+        );
     });
 
     it("creates a new partner application and refreshes the dashboard list query", async () => {

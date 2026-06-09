@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { PostPartnerShopApplicationPayloadData } from "@/client";
-import { getPartnerApplications, postPartnerApplication } from "@/client";
+import { getPartnerApplication, getPartnerApplications, postPartnerApplication } from "@/client";
 import {
     mapToPartnerApplication,
     type PartnerApplication,
@@ -15,6 +15,9 @@ export const PARTNER_APPLICATIONS_QUERY_KEY = [
     "partner-dashboard",
     "partner-applications",
 ] as const;
+
+export const partnerApplicationDetailQueryKey = (partnerApplicationId?: string) =>
+    [...PARTNER_APPLICATIONS_QUERY_KEY, "detail", partnerApplicationId] as const;
 
 export type CreatePartnerApplicationInput =
     | {
@@ -52,6 +55,32 @@ export function usePartnerApplications(enabled: boolean = true) {
             return response.data.map(mapToPartnerApplication);
         },
         enabled,
+        staleTime: 30 * 1000,
+    });
+}
+
+export function usePartnerApplicationDetails(
+    partnerApplicationId?: string,
+    enabled: boolean = true,
+) {
+    const { getErrorMessage } = useApiError();
+
+    return useQuery<PartnerApplication>({
+        queryKey: partnerApplicationDetailQueryKey(partnerApplicationId),
+        queryFn: async () => {
+            if (!partnerApplicationId) {
+                throw new Error("Missing partner application id");
+            }
+
+            const response = await getPartnerApplication({
+                path: { partnerApplicationId },
+            });
+            if (response.error) {
+                throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
+            }
+            return mapToPartnerApplication(response.data);
+        },
+        enabled: enabled && Boolean(partnerApplicationId),
         staleTime: 30 * 1000,
     });
 }

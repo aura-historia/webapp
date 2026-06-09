@@ -36,6 +36,7 @@ describe("mapToPartnerApplication", () => {
                 shopName: "Antiques Co.",
                 shopType: "AUCTION_HOUSE",
                 shopDomains: ["antiques.example.com"],
+                shopUrl: "https://antiques.example.com",
                 shopImage: "https://example.com/logo.png",
             },
             created: "2024-01-01T00:00:00Z",
@@ -49,6 +50,7 @@ describe("mapToPartnerApplication", () => {
             shopName: "Antiques Co.",
             shopType: "AUCTION_HOUSE",
             shopDomains: ["antiques.example.com"],
+            shopUrl: "https://antiques.example.com",
             shopImage: "https://example.com/logo.png",
         });
     });
