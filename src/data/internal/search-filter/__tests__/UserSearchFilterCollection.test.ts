@@ -9,6 +9,8 @@ const baseItem = {
     notifications: true,
     state: "ACTIVE" as const,
     search: { productQuery: "Tisch" },
+    createdBy: "SYSTEM" as const,
+    updatedBy: "SYSTEM" as const,
     created: "2024-01-01T00:00:00Z",
     updated: "2024-03-01T00:00:00Z",
 };

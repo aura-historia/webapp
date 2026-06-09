@@ -10,6 +10,8 @@ describe("mapToPartnerApplication", () => {
             businessState: "IN_REVIEW",
             executionState: "WAITING",
             payload: { type: "EXISTING", shopId: "shop-1" },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
@@ -38,6 +40,8 @@ describe("mapToPartnerApplication", () => {
                 shopDomains: ["antiques.example.com"],
                 shopImage: "https://example.com/logo.png",
             },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
@@ -66,6 +70,8 @@ describe("mapToPartnerApplication", () => {
                 shopDomains: [],
                 shopImage: null,
             },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
@@ -82,6 +88,8 @@ describe("mapToPartnerApplication", () => {
             businessState: "SUBMITTED",
             executionState: "WAITING",
             payload: { type: "EXISTING", shopId: "shop-9" },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
@@ -110,6 +118,8 @@ describe("mapToPartnerApplication", () => {
                     continent: "EUROPE",
                 },
             },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
@@ -138,6 +148,8 @@ describe("mapToPartnerApplication", () => {
                 shopType: "MARKETPLACE",
                 shopDomains: ["no-address.example.com"],
             },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
@@ -161,6 +173,8 @@ describe("mapToPartnerApplication", () => {
                 shopPhone: "+49 30 987654",
                 shopEmail: "info@contact.example.com",
             },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
