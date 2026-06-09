@@ -344,6 +344,17 @@ export function PartnerApplicationDetailDialog({
                         </DialogDescription>
                     </DialogHeader>
                     <div className="flex shrink-0 items-center gap-1">
+                        <DialogClose asChild>
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="order-2 size-10 text-muted-foreground hover:text-foreground"
+                                aria-label={t("partnerDashboard.applications.detail.close")}
+                            >
+                                <X className="size-5" aria-hidden="true" />
+                            </Button>
+                        </DialogClose>
                         {canDeleteApplication && (
                             <AlertDialog>
                                 <Tooltip>
@@ -401,19 +412,6 @@ export function PartnerApplicationDetailDialog({
                                 </AlertDialogContent>
                             </AlertDialog>
                         )}
-                        <Tooltip>
-                            <DialogClose asChild>
-                                <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="icon"
-                                    className="size-10 text-muted-foreground hover:text-foreground"
-                                    aria-label={t("partnerDashboard.applications.detail.close")}
-                                >
-                                    <X className="size-5" aria-hidden="true" />
-                                </Button>
-                            </DialogClose>
-                        </Tooltip>
                     </div>
                 </div>
 
