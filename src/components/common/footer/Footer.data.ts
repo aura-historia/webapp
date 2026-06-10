@@ -10,6 +10,10 @@ import {
 } from "./SocialIcons.tsx";
 import type { ComponentType, SVGProps } from "react";
 import { LANDING_PAGE_FRAGMENTS } from "@/components/landing-page/LandingPage.fragments.ts";
+import {
+    SHOPIFY_APP_STORE_URL,
+    WORDPRESS_PLUGIN_DIRECTORY_URL,
+} from "@/features/partners/partnerLinks.ts";
 
 export interface SocialLink {
     name: string;
@@ -25,6 +29,7 @@ export interface LandingPageFooterLink {
 export interface PartnerProgramFooterLink {
     translationKey: string;
     href: string;
+    external?: boolean;
 }
 
 export const PARTNER_PROGRAM_FOOTER_LINKS: PartnerProgramFooterLink[] = [
@@ -34,11 +39,13 @@ export const PARTNER_PROGRAM_FOOTER_LINKS: PartnerProgramFooterLink[] = [
     },
     {
         translationKey: "footer.partnerProgramLinks.woocommerce",
-        href: "/partners/woocommerce",
+        href: WORDPRESS_PLUGIN_DIRECTORY_URL,
+        external: true,
     },
     {
         translationKey: "footer.partnerProgramLinks.shopify",
-        href: "/partners/shopify",
+        href: SHOPIFY_APP_STORE_URL,
+        external: true,
     },
     {
         translationKey: "footer.partnerProgramLinks.customApi",
