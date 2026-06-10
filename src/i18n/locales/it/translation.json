@@ -129,7 +129,7 @@
     },
     "partnerProgramLinks": {
       "overview": "Panoramica",
-      "woocommerce": "Plugin WordPress",
+      "woocommerce": "Plugin di WordPress",
       "shopify": "Shopify App Store",
       "customApi": "Integrazione personalizzata",
       "apply": "Candidati"
@@ -726,13 +726,13 @@
       "subtitle": "Scegli l'integrazione adatta al tuo setup. Tutte le opzioni sincronizzano in pochi minuti, senza toccare codice.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Installa la nostra estensione direttamente dal repository plugin di WordPress.",
-        "cta": "Apri plugin WordPress",
+        "description": "Installa la nostra estensione direttamente dalla directory dei plugin di WordPress.",
+        "cta": "Apri il plugin di WordPress",
         "badge": "Consigliato"
       },
       "shopify": {
         "title": "App Shopify",
-        "description": "Apri direttamente la nostra scheda nello Shopify App Store.",
+        "description": "Apri la nostra scheda direttamente nello Shopify App Store.",
         "cta": "Apri Shopify App Store",
         "badge": "Popolare"
       },

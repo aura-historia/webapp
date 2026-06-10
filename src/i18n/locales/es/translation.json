@@ -130,7 +130,7 @@
     "partnerProgramLinks": {
       "overview": "Visión general",
       "woocommerce": "Plugin de WordPress",
-      "shopify": "Shopify App Store",
+      "shopify": "Tienda de aplicaciones de Shopify",
       "customApi": "Integración propia",
       "apply": "Solicitar acceso"
     }
@@ -732,8 +732,8 @@
       },
       "shopify": {
         "title": "App de Shopify",
-        "description": "Abre directamente nuestra ficha en la Shopify App Store.",
-        "cta": "Abrir Shopify App Store",
+        "description": "Abre nuestra ficha directamente en la Tienda de aplicaciones de Shopify.",
+        "cta": "Abrir Tienda de aplicaciones de Shopify",
         "badge": "Popular"
       },
       "customApi": {
