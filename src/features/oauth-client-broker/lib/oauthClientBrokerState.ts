@@ -27,22 +27,32 @@ export function decodeOAuthClientBrokerState(encodedState: string): OAuthClientB
     const redirectUri = decodedState.redirect_uri ?? decodedState.redirectUri;
     const codeVerifier = decodedState.code_verifier ?? decodedState.codeVerifier;
     const clientState = decodedState.client_state ?? decodedState.clientState ?? decodedState.state;
-
-    return {
+    const brokerState: OAuthClientBrokerState = {
         redirectUri: validateBrokerRedirectUri(redirectUri),
         codeVerifier: validateCodeVerifier(codeVerifier),
-        ...(clientState !== undefined ? { clientState } : {}),
+    };
+
+    if (clientState === undefined) {
+        return brokerState;
+    }
+
+    return {
+        ...brokerState,
+        clientState,
     };
 }
 
 export function encodeOAuthClientBrokerState(state: OAuthClientBrokerState): string {
-    return base64UrlEncode(
-        JSON.stringify({
-            redirect_uri: state.redirectUri,
-            code_verifier: state.codeVerifier,
-            ...(state.clientState !== undefined ? { client_state: state.clientState } : {}),
-        }),
-    );
+    const rawState: Record<string, string> = {
+        redirect_uri: state.redirectUri,
+        code_verifier: state.codeVerifier,
+    };
+
+    if (state.clientState !== undefined) {
+        rawState.client_state = state.clientState;
+    }
+
+    return base64UrlEncode(JSON.stringify(rawState));
 }
 
 export function setThirdPartyExchangeCodeOnRedirectUri(
@@ -156,7 +166,7 @@ function isLoopbackHostname(hostname: string): boolean {
 }
 
 function base64UrlDecode(encodedValue: string): string {
-    const base64 = encodedValue.replace(/-/g, "+").replace(/_/g, "/");
+    const base64 = encodedValue.replaceAll("-", "+").replaceAll("_", "/");
     const paddingLength = (4 - (base64.length % 4)) % 4;
 
     if (base64.length % 4 === 1) {
@@ -164,12 +174,12 @@ function base64UrlDecode(encodedValue: string): string {
     }
 
     const binary = globalThis.atob(`${base64}${"=".repeat(paddingLength)}`);
-    const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+    const bytes = Uint8Array.from(binary, (character) => character.codePointAt(0) ?? 0);
     return new TextDecoder().decode(bytes);
 }
 
 function base64UrlEncode(value: string): string {
     const bytes = new TextEncoder().encode(value);
-    const binary = Array.from(bytes, (byte) => String.fromCharCode(byte)).join("");
-    return globalThis.btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replaceAll("=", "");
+    const binary = Array.from(bytes, (byte) => String.fromCodePoint(byte)).join("");
+    return globalThis.btoa(binary).replaceAll("+", "-").replaceAll("/", "_").replaceAll("=", "");
 }
