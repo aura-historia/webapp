@@ -298,7 +298,8 @@
       },
       "loadingMore": "Chargement des résultats...",
       "allLoaded_one": "Vous avez consulté {{count}} résultat correspondant à vos filtres.",
-      "allLoaded_other": "Vous avez consulté les {{count}} résultats correspondant à vos filtres."
+      "allLoaded_other": "Vous avez consulté les {{count}} résultats correspondant à vos filtres.",
+      "allLoadedFallback": "Tous les résultats de recherche sont chargés."
     },
     "sortMode": {
       "sortBy": "Trier par :",
@@ -399,6 +400,10 @@
       "start": "à partir du {{date}}",
       "end": "jusqu'au {{date}}",
       "range": "{{start}} – {{end}}"
+    },
+    "searchFilter": {
+      "matchedBadge": "Correspondance",
+      "matchedBy": "Depuis votre recherche sauvegardée"
     }
   },
   "priceBadge": {
@@ -1608,6 +1613,55 @@
       "notRelevantHint": "La correspondance n'est pas pertinente"
     },
     "matchReason": "Raison IA",
-    "feedbackError": "Échec de l'enregistrement des commentaires."
+    "feedbackError": "Échec de l'enregistrement des commentaires.",
+    "activate": "Activer",
+    "deactivate": "Mettre en pause",
+    "stateInactiveByUser": "En pause",
+    "stateInactiveByPlan": "Verrouillé",
+    "stateInactiveByPlanTooltip": "Ce filtre de recherche est inactif en raison de votre plan d'abonnement.",
+    "matchingProductsInactive": "Le filtre de recherche est inactif – aucune correspondance disponible."
+  },
+  "oauth": {
+    "authorize": {
+      "title": "Autoriser l'application",
+      "description": "\"{{appName}}\" demande l'accès à votre compte Aura Historia. Veuillez vérifier les autorisations demandées ci-dessous.",
+      "scopesTitle": "Cette application demande les autorisations suivantes :",
+      "logoAlt": "Logo de {{appName}}",
+      "clientInfoLink": "À propos de cette application",
+      "privacyLink": "Confidentialité",
+      "termsLink": "Conditions d'utilisation",
+      "approve": "Autoriser",
+      "deny": "Refuser",
+      "approveAriaLabel": "Autoriser {{appName}} à accéder à votre compte",
+      "denyAriaLabel": "Refuser l'autorisation pour {{appName}}",
+      "securityNote": "Vous pouvez révoquer cet accès à tout moment depuis les paramètres de votre compte. N'autorisez que les applications de confiance.",
+      "partnerShops": {
+        "title": "Choisir une boutique partenaire",
+        "description": "Sélectionnez la boutique partenaire pour laquelle cette application doit être autorisée.",
+        "selectedLabel": "Boutique partenaire sélectionnée",
+        "empty": {
+          "title": "Aucune boutique partenaire disponible",
+          "description": "Cette autorisation nécessite une boutique partenaire liée, mais aucune n'a été trouvée pour votre compte."
+        },
+        "loadError": {
+          "title": "Impossible de charger les boutiques partenaires",
+          "description": "Les boutiques partenaires disponibles n'ont pas pu être chargées pour le moment. Veuillez réessayer."
+        }
+      },
+      "error": {
+        "title": "Demande d'autorisation invalide",
+        "description": "L'application n'a pas pu être identifiée. Le lien d'autorisation est peut-être invalide ou expiré. Veuillez réessayer depuis l'application."
+      }
+    },
+    "scopes": {
+      "products_write": {
+        "label": "Gérer les produits",
+        "description": "Créer ou mettre à jour vos annonces produits."
+      },
+      "shops_manage": {
+        "label": "Gérer les boutiques",
+        "description": "Gérer les paramètres de votre boutique."
+      }
+    }
   }
 }

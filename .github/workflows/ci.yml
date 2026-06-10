@@ -6,6 +6,10 @@ on:
     pull_request:
         branches: [ main, develop ]
 
+env:
+    NODE_VERSION: ${{ vars.NODE_VERSION || '24' }}
+    PNPM_VERSION: ${{ vars.PNPM_VERSION || '11' }}
+
 permissions:
     contents: read
     actions: read
@@ -27,12 +31,12 @@ jobs:
             -   name: Set up pnpm
                 uses: pnpm/action-setup@v6
                 with:
-                    version: 11
+                    version: ${{ env.PNPM_VERSION }}
 
             -   name: Set up Node.js
                 uses: actions/setup-node@v6
                 with:
-                    node-version: '24'
+                    node-version: ${{ env.NODE_VERSION }}
                     cache: 'pnpm'
 
             -   name: Install dependencies
@@ -52,12 +56,12 @@ jobs:
             -   name: Set up pnpm
                 uses: pnpm/action-setup@v6
                 with:
-                    version: 11
+                    version: ${{ env.PNPM_VERSION }}
 
             -   name: Set up Node.js
                 uses: actions/setup-node@v6
                 with:
-                    node-version: '24'
+                    node-version: ${{ env.NODE_VERSION }}
                     cache: 'pnpm'
 
             -   name: Install dependencies
@@ -89,13 +93,13 @@ jobs:
                     fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
             -   name: Download coverage artifact
-                uses: actions/download-artifact@v6
+                uses: actions/download-artifact@v8
                 with:
                     name: coverage-reports
                     path: coverage/
 
             -   name: SonarQube Scan
-                uses: SonarSource/sonarqube-scan-action@v6
+                uses: SonarSource/sonarqube-scan-action@v8
                 env:
                     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
@@ -118,12 +122,12 @@ jobs:
             -   name: Set up pnpm
                 uses: pnpm/action-setup@v6
                 with:
-                    version: 11
+                    version: ${{ env.PNPM_VERSION }}
 
             -   name: Set up Node.js
                 uses: actions/setup-node@v6
                 with:
-                    node-version: '24'
+                    node-version: ${{ env.NODE_VERSION }}
                     cache: 'pnpm'
 
             -   name: Install dependencies
@@ -163,12 +167,12 @@ jobs:
             -   name: Set up pnpm
                 uses: pnpm/action-setup@v6
                 with:
-                    version: 11
+                    version: ${{ env.PNPM_VERSION }}
 
             -   name: Set up Node.js
                 uses: actions/setup-node@v6
                 with:
-                    node-version: '24'
+                    node-version: ${{ env.NODE_VERSION }}
                     cache: 'pnpm'
 
             -   name: Install dependencies

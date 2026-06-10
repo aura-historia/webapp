@@ -298,7 +298,8 @@
       },
       "loadingMore": "Loading more results...",
       "allLoaded_one": "You have seen {{count}} result that matches your filters.",
-      "allLoaded_other": "You have seen all {{count}} results that match your filters."
+      "allLoaded_other": "You have seen all {{count}} results that match your filters.",
+      "allLoadedFallback": "All search results loaded."
     },
     "sortMode": {
       "sortBy": "Sort by:",
@@ -328,6 +329,10 @@
       "remove": "Remove from watchlist"
     },
     "unseenNotification": "Updated",
+    "searchFilter": {
+      "matchedBadge": "Match",
+      "matchedBy": "From your saved search"
+    },
     "imageLoadError": "Image could not be loaded",
     "prohibitedImage": "Image hidden due to content restrictions",
     "similar": {
@@ -1327,6 +1332,11 @@
     },
     "notificationsOn": "Notifications active",
     "notificationsOff": "Notifications inactive",
+    "activate": "Activate",
+    "deactivate": "Pause",
+    "stateInactiveByUser": "Paused",
+    "stateInactiveByPlan": "Locked",
+    "stateInactiveByPlanTooltip": "This search filter is inactive due to your subscription plan.",
     "loadingError": {
       "title": "Error loading filters",
       "description": "Search filters could not be loaded. Please try again later."
@@ -1342,6 +1352,7 @@
     },
     "totalElements": "{{count}} search filter(s)",
     "matchingProducts": "Show all matches",
+    "matchingProductsInactive": "Search filter is inactive – no matches available.",
     "searchPlaceholder": "Search filters...",
     "showDetails": "Show details",
     "showResults": "Search now",
@@ -1597,6 +1608,49 @@
         "delete": "Delete user",
         "deleteConfirm": "Delete user {{email}}? This cannot be undone.",
         "deleteSuccess": "User deleted."
+      }
+    }
+  },
+  "oauth": {
+    "authorize": {
+      "title": "Authorize Application",
+      "description": "\"{{appName}}\" is requesting access to your Aura Historia account. Please review the requested permissions below.",
+      "scopesTitle": "This application is requesting the following permissions:",
+      "logoAlt": "{{appName}} logo",
+      "clientInfoLink": "About this app",
+      "privacyLink": "Privacy",
+      "termsLink": "Terms",
+      "approve": "Authorize",
+      "deny": "Decline",
+      "approveAriaLabel": "Authorize {{appName}} to access your account",
+      "denyAriaLabel": "Decline authorization for {{appName}}",
+      "securityNote": "You can revoke this access at any time from your account settings. Only authorize applications you trust.",
+      "partnerShops": {
+        "title": "Choose a partner shop",
+        "description": "Select the partner shop this application should be authorized for.",
+        "selectedLabel": "Selected partner shop",
+        "empty": {
+          "title": "No Partner Shop Available",
+          "description": "This authorization requires a linked partner shop, but none were found for your account."
+        },
+        "loadError": {
+          "title": "Partner Shops Could Not Be Loaded",
+          "description": "The available partner shops could not be loaded right now. Please try again."
+        }
+      },
+      "error": {
+        "title": "Invalid Authorization Request",
+        "description": "The application could not be identified. The authorization link may be invalid or expired. Please try again from the application."
+      }
+    },
+    "scopes": {
+      "products_write": {
+        "label": "Manage Products",
+        "description": "Create or update your product listings."
+      },
+      "shops_manage": {
+        "label": "Manage Shops",
+        "description": "Manage your shop settings."
       }
     }
   }

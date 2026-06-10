@@ -20,11 +20,17 @@ vi.mock("@tanstack/react-router", async () => {
             params?: Record<string, string>;
             children: React.ReactNode;
             className?: string;
-        }) => (
-            <a href={to.replace("$shopSlugId", params?.shopSlugId ?? "")} {...props}>
-                {children}
-            </a>
-        ),
+        }) => {
+            let href = to;
+            for (const [key, value] of Object.entries(params ?? {})) {
+                href = href.replace(`$${key}`, value);
+            }
+            return (
+                <a href={href} {...props}>
+                    {children}
+                </a>
+            );
+        },
         useParams: () => ({}),
         useRouteContext: () => ({ timeZone: "UTC" }),
     };
@@ -181,5 +187,79 @@ describe("ProductInfo", () => {
         expect(document.querySelector(".fixed.top-24.right-4")).not.toBeInTheDocument();
         const shareButtons = screen.getAllByRole("button");
         expect(shareButtons.length).toBeGreaterThan(0);
+    });
+
+    describe("search filter info", () => {
+        const mockProductMatched: ProductDetail = {
+            ...mockProduct,
+            userData: {
+                watchlistData: { isWatching: false, isNotificationEnabled: false },
+                notificationData: { hasUnseenNotification: false },
+                restrictedContentData: { consentGiven: false },
+                searchFilterData: {
+                    matched: true,
+                    hidden: false,
+                    userSearchFilterId: "filter-123",
+                    userSearchFilterName: "Vintage Art Deco",
+                    matchReason: "Passt zum gesuchten Vintage Art Deco Stil.",
+                },
+            },
+        };
+
+        it("should render filter name as a link to the search filter", () => {
+            renderWithQueryClient(<ProductInfo product={mockProductMatched} />);
+            expect(screen.getByRole("link", { name: "Vintage Art Deco" })).toHaveAttribute(
+                "href",
+                "/me/search-filter/filter-123",
+            );
+        });
+
+        it("should render the match reason immediately visible", () => {
+            renderWithQueryClient(<ProductInfo product={mockProductMatched} />);
+            expect(
+                screen.getByText("Passt zum gesuchten Vintage Art Deco Stil."),
+            ).toBeInTheDocument();
+        });
+
+        it("should NOT render search filter info when not matched", () => {
+            renderWithQueryClient(<ProductInfo product={mockProduct} />);
+            expect(screen.queryByText("Suchauftrag")).not.toBeInTheDocument();
+        });
+
+        it("should NOT render search filter info when hidden", () => {
+            const hiddenProduct: ProductDetail = {
+                ...mockProduct,
+                userData: {
+                    watchlistData: { isWatching: false, isNotificationEnabled: false },
+                    notificationData: { hasUnseenNotification: false },
+                    restrictedContentData: { consentGiven: false },
+                    searchFilterData: { matched: true, hidden: true },
+                },
+            };
+            renderWithQueryClient(<ProductInfo product={hiddenProduct} />);
+            expect(screen.queryByText("Suchauftrag")).not.toBeInTheDocument();
+        });
+
+        it("should render filter name but NOT match reason when matchReason is absent", () => {
+            const productNoReason: ProductDetail = {
+                ...mockProduct,
+                userData: {
+                    watchlistData: { isWatching: false, isNotificationEnabled: false },
+                    notificationData: { hasUnseenNotification: false },
+                    restrictedContentData: { consentGiven: false },
+                    searchFilterData: {
+                        matched: true,
+                        hidden: false,
+                        userSearchFilterId: "filter-123",
+                        userSearchFilterName: "Vintage Art Deco",
+                    },
+                },
+            };
+            renderWithQueryClient(<ProductInfo product={productNoReason} />);
+            expect(screen.getByRole("link", { name: "Vintage Art Deco" })).toBeInTheDocument();
+            expect(
+                screen.queryByText("Passt zum gesuchten Vintage Art Deco Stil."),
+            ).not.toBeInTheDocument();
+        });
     });
 });

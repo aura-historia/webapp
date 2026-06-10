@@ -6,6 +6,10 @@ on:
   pull_request:
       branches: [ main ]
 
+env:
+  NODE_VERSION: ${{ vars.NODE_VERSION || '24' }}
+  PNPM_VERSION: ${{ vars.PNPM_VERSION || '11' }}
+
 permissions:
   contents: read
 
@@ -25,12 +29,12 @@ jobs:
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: ${{ env.PNPM_VERSION }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
 
       - name: Install dependencies

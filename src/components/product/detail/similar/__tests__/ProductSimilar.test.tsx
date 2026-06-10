@@ -190,6 +190,30 @@ describe("ProductSimilar", () => {
         expect(screen.getByText("Keine ähnlichen Artikel")).toBeInTheDocument();
     });
 
+    it("should render HiddenMatchCard instead of ProductSimilarCard when product is hidden", () => {
+        const hiddenProduct: OverviewProduct = {
+            ...mockProducts[0],
+            productId: "00000000-0000-0000-0000-000000000000",
+            userData: {
+                watchlistData: { isWatching: false, isNotificationEnabled: false },
+                notificationData: { hasUnseenNotification: false },
+                restrictedContentData: { consentGiven: false },
+                searchFilterData: { matched: true, hidden: true },
+            },
+        };
+        vi.mocked(useSimilarProducts).mockReturnValue({
+            data: { isEmbeddingsPending: false, products: [hiddenProduct] },
+            isLoading: false,
+            isError: false,
+            error: null,
+        } as never);
+
+        render(<ProductSimilar {...defaultProps} />);
+
+        expect(screen.getByText(/Verborgen/i)).toBeInTheDocument();
+        expect(screen.queryByText(mockProducts[0].title)).not.toBeInTheDocument();
+    });
+
     it("should render similar products correctly in grid", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
             data: { isEmbeddingsPending: false, products: mockProducts },

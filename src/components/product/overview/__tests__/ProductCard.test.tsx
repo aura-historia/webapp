@@ -145,6 +145,92 @@ describe("ProductCard", () => {
         expect(screen.getByRole("button", { name: "Zur Seite des Händlers" })).toBeDisabled();
     });
 
+    describe("search filter highlight", () => {
+        const mockProductMatched: OverviewProduct = {
+            ...mockProduct,
+            userData: {
+                watchlistData: { isWatching: false, isNotificationEnabled: false },
+                notificationData: { hasUnseenNotification: false },
+                restrictedContentData: { consentGiven: false },
+                searchFilterData: {
+                    matched: true,
+                    hidden: false,
+                    userSearchFilterId: "filter-123",
+                    userSearchFilterName: "Vintage Art Deco",
+                    matchReason: "Passt zum gesuchten Vintage Art Deco Stil.",
+                },
+            },
+        };
+
+        it("should render border-tertiary when matched and not hidden", async () => {
+            const { container } = await act(() =>
+                renderWithRouter(<ProductCard product={mockProductMatched} />),
+            );
+            expect(container.querySelector(".border-tertiary")).toBeInTheDocument();
+        });
+
+        it("should render the search filter match badge", async () => {
+            await act(() => {
+                renderWithRouter(<ProductCard product={mockProductMatched} />);
+            });
+            expect(screen.getByText("Treffer")).toBeInTheDocument();
+        });
+
+        it("should NOT render border-tertiary when not matched", async () => {
+            const { container } = await act(() =>
+                renderWithRouter(<ProductCard product={mockProduct} />),
+            );
+            expect(container.querySelector(".border-tertiary")).not.toBeInTheDocument();
+        });
+
+        it("should NOT render match badge when notification badge is shown", async () => {
+            const productWithBoth: OverviewProduct = {
+                ...mockProductMatched,
+                userData: {
+                    ...mockProductMatched.userData!,
+                    notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
+                },
+            };
+            await act(() => {
+                renderWithRouter(<ProductCard product={productWithBoth} />);
+            });
+            expect(screen.queryByText("Treffer")).not.toBeInTheDocument();
+            expect(screen.getByText("Aktualisiert")).toBeInTheDocument();
+        });
+
+        it("should prefer border-primary over border-tertiary when notification is present", async () => {
+            const productWithBoth: OverviewProduct = {
+                ...mockProductMatched,
+                userData: {
+                    ...mockProductMatched.userData!,
+                    notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
+                },
+            };
+            const { container } = await act(() =>
+                renderWithRouter(<ProductCard product={productWithBoth} />),
+            );
+            expect(container.querySelector(".border-primary")).toBeInTheDocument();
+            expect(container.querySelector(".border-tertiary")).not.toBeInTheDocument();
+        });
+
+        it("should NOT render match badge or border-tertiary when hidden=true", async () => {
+            const hiddenProduct: OverviewProduct = {
+                ...mockProduct,
+                userData: {
+                    watchlistData: { isWatching: false, isNotificationEnabled: false },
+                    notificationData: { hasUnseenNotification: false },
+                    restrictedContentData: { consentGiven: false },
+                    searchFilterData: { matched: true, hidden: true },
+                },
+            };
+            const { container } = await act(() =>
+                renderWithRouter(<ProductCard product={hiddenProduct} />),
+            );
+            expect(screen.queryByText("Treffer")).not.toBeInTheDocument();
+            expect(container.querySelector(".border-tertiary")).not.toBeInTheDocument();
+        });
+    });
+
     describe("unseen notification highlight", () => {
         const mockProductWithUnseenNotification: OverviewProduct = {
             ...mockProduct,

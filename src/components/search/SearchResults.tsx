@@ -1,4 +1,5 @@
 import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
+import { HiddenMatchCard } from "@/components/product/overview/HiddenMatchCard.tsx";
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
 import { useEffect } from "react";
 import { SearchX, ServerCrash } from "lucide-react";
@@ -13,7 +14,7 @@ import { useInView } from "react-intersection-observer";
 
 type SearchResultsProps = {
     readonly searchFilters: SearchFilterArguments;
-    readonly onTotalChange?: (total: number) => void;
+    readonly onTotalChange?: (total?: number) => void;
 };
 
 const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as const;
@@ -21,12 +22,13 @@ const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as
 export function SearchResults({ searchFilters, onTotalChange }: SearchResultsProps) {
     const { ref: sentinelRef, inView } = useInView();
     const { t } = useTranslation();
-    const { data, isPending, error, fetchNextPage, isFetchingNextPage } = useSearch(searchFilters);
+    const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+        useSearch(searchFilters);
 
     const allProducts = data?.pages.flatMap((page: SearchResultData) => page.products) ?? [];
 
-    const totalProducts = data?.pages[0]?.total ?? 0;
-    const allLoaded = allProducts.length >= totalProducts && totalProducts > 0;
+    const totalProducts = data?.pages[0]?.total;
+    const allLoaded = allProducts.length > 0 && !hasNextPage;
 
     useEffect(() => {
         if (onTotalChange) {
@@ -35,10 +37,10 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
     }, [totalProducts, onTotalChange]);
 
     useEffect(() => {
-        if (inView && !allLoaded && !isFetchingNextPage && searchFilters.q.length >= 3) {
+        if (inView && hasNextPage && !isFetchingNextPage && searchFilters.q.length >= 3) {
             fetchNextPage();
         }
-    }, [inView, allLoaded, isFetchingNextPage, fetchNextPage, searchFilters.q.length]);
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, searchFilters.q.length]);
 
     if (searchFilters.q.length < 3) {
         return <SectionInfoText>{t("search.messages.minQueryLength")}</SectionInfoText>;
@@ -80,9 +82,14 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
     return (
         <div className="space-y-8">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                {allProducts.map((product) => (
-                    <ProductCard key={product.productId} product={product} />
-                ))}
+                {allProducts.map((product) => {
+                    const isHidden = product.userData?.searchFilterData?.hidden === true;
+                    return isHidden ? (
+                        <HiddenMatchCard key={product.productId} />
+                    ) : (
+                        <ProductCard key={product.productId} product={product} />
+                    );
+                })}
             </div>
 
             {showLoaderRow && (
@@ -94,7 +101,7 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
                 </div>
             )}
 
-            {!allLoaded && <div ref={sentinelRef} aria-hidden className="h-px w-full" />}
+            {hasNextPage && <div ref={sentinelRef} aria-hidden className="h-px w-full" />}
         </div>
     );
 }

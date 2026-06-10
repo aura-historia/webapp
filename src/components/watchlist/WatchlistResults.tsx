@@ -71,7 +71,7 @@ export function WatchlistResults() {
         ) ?? [];
 
     const totalProducts = data?.pages[0]?.total ?? 0;
-    const allLoaded = allProducts.length >= totalProducts && totalProducts > 0;
+    const allLoaded = allProducts.length > 0 && !hasNextPage;
     const showLoaderRow = isFetchingNextPage || allLoaded;
 
     if (allProducts.length === 0) {

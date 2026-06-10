@@ -296,7 +296,8 @@
       },
       "loadingMore": "Lade neue Ergebnisse...",
       "allLoaded_one": "Sie haben {{count}} Ergebnis gesehen, das Ihren Filtern entspricht.",
-      "allLoaded_other": "Sie haben alle {{count}} Ergebnisse gesehen, die Ihren Filtern entsprechen."
+      "allLoaded_other": "Sie haben alle {{count}} Ergebnisse gesehen, die Ihren Filtern entsprechen.",
+      "allLoadedFallback": "Alle Suchergebnisse geladen."
     },
     "sortMode": {
       "sortBy": "Sortieren nach:",
@@ -326,6 +327,10 @@
       "remove": "Von der Merkliste entfernen"
     },
     "unseenNotification": "Aktualisiert",
+    "searchFilter": {
+      "matchedBadge": "Treffer",
+      "matchedBy": "Aus deinem Suchauftrag"
+    },
     "imageLoadError": "Bild konnte nicht geladen werden",
     "prohibitedImage": "Bild aufgrund von Inhaltsbeschränkungen ausgeblendet",
     "similar": {
@@ -1329,6 +1334,11 @@
     },
     "notificationsOn": "Benachrichtigungen aktiv",
     "notificationsOff": "Keine Benachrichtigungen",
+    "activate": "Aktivieren",
+    "deactivate": "Pausieren",
+    "stateInactiveByUser": "Pausiert",
+    "stateInactiveByPlan": "Gesperrt",
+    "stateInactiveByPlanTooltip": "Dieser Suchauftrag ist aufgrund Ihres Abonnements inaktiv.",
     "loadingError": {
       "title": "Fehler beim Laden",
       "description": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
@@ -1345,6 +1355,7 @@
     "totalElements_one": "{{count}} Suchauftrag",
     "totalElements_other": "{{count}} Suchaufträge",
     "matchingProducts": "Alle Suchtreffer anzeigen",
+    "matchingProductsInactive": "Suchauftrag ist inaktiv – keine Treffer verfügbar.",
     "searchPlaceholder": "Suchaufträge durchsuchen …",
     "showDetails": "Details anzeigen",
     "showResults": "Jetzt suchen",
@@ -1608,6 +1619,49 @@
         "delete": "Benutzer löschen",
         "deleteConfirm": "Benutzer {{email}} löschen? Dies kann nicht rückgängig gemacht werden.",
         "deleteSuccess": "Benutzer gelöscht."
+      }
+    }
+  },
+  "oauth": {
+    "authorize": {
+      "title": "Anwendung autorisieren",
+      "description": "\"{{appName}}\" möchte auf Ihr Aura-Historia-Konto zugreifen. Bitte überprüfen Sie die angeforderten Berechtigungen.",
+      "scopesTitle": "Diese Anwendung fordert folgende Berechtigungen an:",
+      "logoAlt": "Logo von {{appName}}",
+      "clientInfoLink": "Mehr über diese App",
+      "privacyLink": "Datenschutz",
+      "termsLink": "Nutzungsbedingungen",
+      "approve": "Autorisieren",
+      "deny": "Ablehnen",
+      "approveAriaLabel": "{{appName}} den Zugriff auf Ihr Konto erlauben",
+      "denyAriaLabel": "Autorisierung für {{appName}} ablehnen",
+      "securityNote": "Sie können diesen Zugriff jederzeit in Ihren Kontoeinstellungen widerrufen. Autorisieren Sie nur Anwendungen, denen Sie vertrauen.",
+      "partnerShops": {
+        "title": "Partner-Shop auswählen",
+        "description": "Wählen Sie den Partner-Shop aus, für den diese Anwendung autorisiert werden soll.",
+        "selectedLabel": "Ausgewählter Partner-Shop",
+        "empty": {
+          "title": "Kein Partner-Shop verfügbar",
+          "description": "Für diese Autorisierung ist ein verknüpfter Partner-Shop erforderlich, aber Ihrem Konto ist derzeit keiner zugeordnet."
+        },
+        "loadError": {
+          "title": "Partner-Shops konnten nicht geladen werden",
+          "description": "Die verfügbaren Partner-Shops konnten derzeit nicht geladen werden. Bitte versuchen Sie es erneut."
+        }
+      },
+      "error": {
+        "title": "Ungültige Autorisierungsanfrage",
+        "description": "Die Anwendung konnte nicht identifiziert werden. Der Autorisierungslink ist möglicherweise ungültig oder abgelaufen. Bitte versuchen Sie es erneut über die Anwendung."
+      }
+    },
+    "scopes": {
+      "products_write": {
+        "label": "Produkte verwalten",
+        "description": "Produkte in Ihrem Namen erstellen oder aktualisieren."
+      },
+      "shops_manage": {
+        "label": "Shops verwalten",
+        "description": "Ihre Shop-Einstellungen verwalten."
       }
     }
   }
