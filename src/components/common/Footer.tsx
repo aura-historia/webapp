@@ -123,6 +123,10 @@ export function Footer() {
                                 <li key={partnerLink.href}>
                                     <a
                                         href={partnerLink.href}
+                                        target={partnerLink.external ? "_blank" : undefined}
+                                        rel={
+                                            partnerLink.external ? "noopener noreferrer" : undefined
+                                        }
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
                                     >
                                         {t(partnerLink.translationKey)}
