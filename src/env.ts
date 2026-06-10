@@ -4,8 +4,8 @@ import { z } from "zod";
 export const env = createEnv({
     server: {
         SERVER_URL: z.string().url().optional(),
-        OAUTH_CLIENT_BROKER_CLIENT_ID: z.string().min(1).optional(),
-        OAUTH_CLIENT_BROKER_CLIENT_SECRET: z.string().min(1).optional(),
+        OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID: z.string().min(1).optional(),
+        OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET: z.string().min(1).optional(),
     },
 
     /**

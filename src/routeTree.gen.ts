@@ -34,10 +34,10 @@ import { Route as AuthAdminUsersRouteImport } from './routes/_auth.admin.users'
 import { Route as AuthAdminShopsRouteImport } from './routes/_auth.admin.shops'
 import { Route as AuthAdminPartnerApplicationsRouteImport } from './routes/_auth.admin.partner-applications'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
-import { Route as ApiOauthClientRedirectBrokerRouteImport } from './routes/api.oauth.client_.redirect-broker'
 import { Route as ApiOauthAuthorizeApproveRouteImport } from './routes/api.oauth.authorize.approve'
 import { Route as AuthMeSearchFilterFilterIdRouteImport } from './routes/_auth.me.search-filter.$filterId'
 import { Route as AuthMeBillingManageRouteImport } from './routes/_auth.me.billing.manage'
+import { Route as ApiOauthClientRedirectBrokerWoocommerceRouteImport } from './routes/api.oauth.client_.redirect-broker.woocommerce'
 
 const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
   id: '/terms-and-conditions',
@@ -167,12 +167,6 @@ const ShopsShopSlugIdProductsProductSlugIdRoute =
     path: '/shops/$shopSlugId/products/$productSlugId',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ApiOauthClientRedirectBrokerRoute =
-  ApiOauthClientRedirectBrokerRouteImport.update({
-    id: '/api/oauth/client_/redirect-broker',
-    path: '/api/oauth/client/redirect-broker',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ApiOauthAuthorizeApproveRoute =
   ApiOauthAuthorizeApproveRouteImport.update({
     id: '/api/oauth/authorize/approve',
@@ -190,6 +184,12 @@ const AuthMeBillingManageRoute = AuthMeBillingManageRouteImport.update({
   path: '/me/billing/manage',
   getParentRoute: () => AuthRoute,
 } as any)
+const ApiOauthClientRedirectBrokerWoocommerceRoute =
+  ApiOauthClientRedirectBrokerWoocommerceRouteImport.update({
+    id: '/api/oauth/client_/redirect-broker/woocommerce',
+    path: '/api/oauth/client/redirect-broker/woocommerce',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -218,8 +218,8 @@ export interface FileRoutesByFullPath {
   '/me/billing/manage': typeof AuthMeBillingManageRoute
   '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
   '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
-  '/api/oauth/client/redirect-broker': typeof ApiOauthClientRedirectBrokerRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
+  '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -246,8 +246,8 @@ export interface FileRoutesByTo {
   '/me/billing/manage': typeof AuthMeBillingManageRoute
   '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
   '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
-  '/api/oauth/client/redirect-broker': typeof ApiOauthClientRedirectBrokerRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
+  '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -278,8 +278,8 @@ export interface FileRoutesById {
   '/_auth/me/billing/manage': typeof AuthMeBillingManageRoute
   '/_auth/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
   '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
-  '/api/oauth/client_/redirect-broker': typeof ApiOauthClientRedirectBrokerRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
+  '/api/oauth/client_/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -310,8 +310,8 @@ export interface FileRouteTypes {
     | '/me/billing/manage'
     | '/me/search-filter/$filterId'
     | '/api/oauth/authorize/approve'
-    | '/api/oauth/client/redirect-broker'
     | '/shops/$shopSlugId/products/$productSlugId'
+    | '/api/oauth/client/redirect-broker/woocommerce'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -338,8 +338,8 @@ export interface FileRouteTypes {
     | '/me/billing/manage'
     | '/me/search-filter/$filterId'
     | '/api/oauth/authorize/approve'
-    | '/api/oauth/client/redirect-broker'
     | '/shops/$shopSlugId/products/$productSlugId'
+    | '/api/oauth/client/redirect-broker/woocommerce'
   id:
     | '__root__'
     | '/'
@@ -369,8 +369,8 @@ export interface FileRouteTypes {
     | '/_auth/me/billing/manage'
     | '/_auth/me/search-filter/$filterId'
     | '/api/oauth/authorize/approve'
-    | '/api/oauth/client_/redirect-broker'
     | '/shops/$shopSlugId/products/$productSlugId'
+    | '/api/oauth/client_/redirect-broker/woocommerce'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -387,8 +387,8 @@ export interface RootRouteChildren {
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
   ShopsShopSlugIdIndexRoute: typeof ShopsShopSlugIdIndexRoute
   ApiOauthAuthorizeApproveRoute: typeof ApiOauthAuthorizeApproveRoute
-  ApiOauthClientRedirectBrokerRoute: typeof ApiOauthClientRedirectBrokerRoute
   ShopsShopSlugIdProductsProductSlugIdRoute: typeof ShopsShopSlugIdProductsProductSlugIdRoute
+  ApiOauthClientRedirectBrokerWoocommerceRoute: typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -568,13 +568,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopsShopSlugIdProductsProductSlugIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/oauth/client_/redirect-broker': {
-      id: '/api/oauth/client_/redirect-broker'
-      path: '/api/oauth/client/redirect-broker'
-      fullPath: '/api/oauth/client/redirect-broker'
-      preLoaderRoute: typeof ApiOauthClientRedirectBrokerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/oauth/authorize/approve': {
       id: '/api/oauth/authorize/approve'
       path: '/api/oauth/authorize/approve'
@@ -595,6 +588,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/me/billing/manage'
       preLoaderRoute: typeof AuthMeBillingManageRouteImport
       parentRoute: typeof AuthRoute
+    }
+    '/api/oauth/client_/redirect-broker/woocommerce': {
+      id: '/api/oauth/client_/redirect-broker/woocommerce'
+      path: '/api/oauth/client/redirect-broker/woocommerce'
+      fullPath: '/api/oauth/client/redirect-broker/woocommerce'
+      preLoaderRoute: typeof ApiOauthClientRedirectBrokerWoocommerceRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -669,9 +669,10 @@ const rootRouteChildren: RootRouteChildren = {
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
   ShopsShopSlugIdIndexRoute: ShopsShopSlugIdIndexRoute,
   ApiOauthAuthorizeApproveRoute: ApiOauthAuthorizeApproveRoute,
-  ApiOauthClientRedirectBrokerRoute: ApiOauthClientRedirectBrokerRoute,
   ShopsShopSlugIdProductsProductSlugIdRoute:
     ShopsShopSlugIdProductsProductSlugIdRoute,
+  ApiOauthClientRedirectBrokerWoocommerceRoute:
+    ApiOauthClientRedirectBrokerWoocommerceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

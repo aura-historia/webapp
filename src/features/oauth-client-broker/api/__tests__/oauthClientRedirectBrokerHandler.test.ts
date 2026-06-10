@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { encodeOAuthClientBrokerState } from "@/features/oauth-client-broker/lib/oauthClientBrokerState.ts";
-import { getOAuthClientRedirectBroker } from "../oauthClientRedirectBrokerHandler.ts";
+import { getWooCommerceOAuthClientRedirectBroker } from "../oauthClientRedirectBrokerHandler.ts";
 
 const mockFetch = vi.hoisted(() => vi.fn());
 const mockEnv = vi.hoisted<{
     VITE_API_URL: string | undefined;
-    OAUTH_CLIENT_BROKER_CLIENT_ID: string | undefined;
-    OAUTH_CLIENT_BROKER_CLIENT_SECRET: string | undefined;
+    OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID: string | undefined;
+    OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET: string | undefined;
 }>(() => ({
     VITE_API_URL: "https://api.test.example",
-    OAUTH_CLIENT_BROKER_CLIENT_ID: "01970f22-2bf0-7000-8000-000000000010",
-    OAUTH_CLIENT_BROKER_CLIENT_SECRET: "broker-client-secret",
+    OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID: "01970f22-2bf0-7000-8000-000000000010",
+    OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET: "broker-client-secret",
 }));
 
 vi.mock("@/env.ts", () => ({
@@ -22,13 +22,14 @@ const thirdPartyExchangeCode = "01970f22-2bf0-7000-8000-000000000099";
 
 type GetHandler = (ctx: { request: Request }) => Promise<Response>;
 
-describe("/api/oauth/client/redirect-broker", () => {
+describe("/api/oauth/client/redirect-broker/woocommerce", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         vi.stubGlobal("fetch", mockFetch);
         mockEnv.VITE_API_URL = "https://api.test.example";
-        mockEnv.OAUTH_CLIENT_BROKER_CLIENT_ID = "01970f22-2bf0-7000-8000-000000000010";
-        mockEnv.OAUTH_CLIENT_BROKER_CLIENT_SECRET = "broker-client-secret";
+        mockEnv.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID =
+            "01970f22-2bf0-7000-8000-000000000010";
+        mockEnv.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET = "broker-client-secret";
     });
 
     it("exchanges the authorization code and redirects with only the third-party exchange code", async () => {
@@ -76,7 +77,7 @@ describe("/api/oauth/client/redirect-broker", () => {
         expect(body.get("grant_type")).toBe("authorization_code");
         expect(body.get("code")).toBe("authorization-code");
         expect(body.get("redirect_uri")).toBe(
-            "https://auth.example/api/oauth/client/redirect-broker",
+            "https://auth.example/api/oauth/client/redirect-broker/woocommerce",
         );
         expect(body.get("client_id")).toBe("01970f22-2bf0-7000-8000-000000000010");
         expect(body.get("client_secret")).toBe("broker-client-secret");
@@ -126,7 +127,7 @@ describe("/api/oauth/client/redirect-broker", () => {
     it("rejects callbacks without state before exchanging a code", async () => {
         const response = await get(
             new Request(
-                "https://auth.example/api/oauth/client/redirect-broker?code=authorization-code",
+                "https://auth.example/api/oauth/client/redirect-broker/woocommerce?code=authorization-code",
             ),
         );
 
@@ -138,7 +139,7 @@ describe("/api/oauth/client/redirect-broker", () => {
     it("rejects invalid broker state before exchanging a code", async () => {
         const response = await get(
             new Request(
-                "https://auth.example/api/oauth/client/redirect-broker?code=authorization-code&state=not-valid-state",
+                "https://auth.example/api/oauth/client/redirect-broker/woocommerce?code=authorization-code&state=not-valid-state",
             ),
         );
 
@@ -203,7 +204,7 @@ describe("/api/oauth/client/redirect-broker", () => {
     });
 
     it("returns a server error when broker credentials are not configured", async () => {
-        mockEnv.OAUTH_CLIENT_BROKER_CLIENT_SECRET = undefined;
+        mockEnv.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET = undefined;
 
         const response = await get(createBrokerRequest());
 
@@ -327,7 +328,7 @@ describe("/api/oauth/client/redirect-broker", () => {
 
 function get(
     request: Request,
-    handler: GetHandler = getOAuthClientRedirectBroker,
+    handler: GetHandler = getWooCommerceOAuthClientRedirectBroker,
 ): Promise<Response> {
     return handler({ request });
 }
@@ -342,7 +343,7 @@ function createBrokerRequest(
         readonly extraParams?: ReadonlyArray<readonly [string, string]>;
     } = {},
 ): Request {
-    const url = new URL("https://auth.example/api/oauth/client/redirect-broker");
+    const url = new URL("https://auth.example/api/oauth/client/redirect-broker/woocommerce");
     const code =
         params.code === undefined && !("code" in params) ? "authorization-code" : params.code;
     const state =

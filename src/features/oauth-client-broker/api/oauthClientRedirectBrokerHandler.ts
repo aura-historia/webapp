@@ -25,7 +25,33 @@ interface OAuthBrokerConfig {
     readonly clientSecret: string;
 }
 
-export async function getOAuthClientRedirectBroker({ request }: { request: Request }) {
+const OAUTH_CLIENT_REDIRECT_BROKER_APPS = {
+    woocommerce: {
+        getClientId: () => env.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID,
+        getClientSecret: () => env.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET,
+    },
+} as const;
+
+type OAuthClientRedirectBrokerApp = keyof typeof OAUTH_CLIENT_REDIRECT_BROKER_APPS;
+
+type OAuthClientRedirectBrokerHandler = (ctx: { request: Request }) => Promise<Response>;
+
+export const getWooCommerceOAuthClientRedirectBroker =
+    createOAuthClientRedirectBrokerHandler("woocommerce");
+
+export function createOAuthClientRedirectBrokerHandler(
+    app: OAuthClientRedirectBrokerApp,
+): OAuthClientRedirectBrokerHandler {
+    return ({ request }) => getOAuthClientRedirectBroker({ request, app });
+}
+
+async function getOAuthClientRedirectBroker({
+    request,
+    app,
+}: {
+    request: Request;
+    app: OAuthClientRedirectBrokerApp;
+}) {
     const requestUrl = new URL(request.url);
     const encodedState = requestUrl.searchParams.get("state");
 
@@ -64,7 +90,7 @@ export async function getOAuthClientRedirectBroker({ request }: { request: Reque
         );
     }
 
-    const brokerConfig = getOAuthBrokerConfig();
+    const brokerConfig = getOAuthBrokerConfig(app);
     if (!brokerConfig) {
         return textResponse("OAuth broker is not configured.", 500);
     }
@@ -187,14 +213,18 @@ function getForwardedOAuthRedirectParams(
     );
 }
 
-function getOAuthBrokerConfig(): OAuthBrokerConfig | undefined {
-    if (!env.OAUTH_CLIENT_BROKER_CLIENT_ID || !env.OAUTH_CLIENT_BROKER_CLIENT_SECRET) {
+function getOAuthBrokerConfig(app: OAuthClientRedirectBrokerApp): OAuthBrokerConfig | undefined {
+    const appConfig = OAUTH_CLIENT_REDIRECT_BROKER_APPS[app];
+    const clientId = appConfig.getClientId();
+    const clientSecret = appConfig.getClientSecret();
+
+    if (!clientId || !clientSecret) {
         return undefined;
     }
 
     return {
-        clientId: env.OAUTH_CLIENT_BROKER_CLIENT_ID,
-        clientSecret: env.OAUTH_CLIENT_BROKER_CLIENT_SECRET,
+        clientId,
+        clientSecret,
     };
 }
 
