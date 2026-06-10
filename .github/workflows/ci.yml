@@ -188,7 +188,7 @@ jobs:
                     sed -i 's/"name": "aura-historia-staging"/"name": "aura-historia"/' wrangler.jsonc
 
             -   name: Deploy to Cloudflare Workers
-                uses: cloudflare/wrangler-action@v3
+                uses: cloudflare/wrangler-action@v4
                 with:
                     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
