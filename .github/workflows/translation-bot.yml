@@ -36,7 +36,7 @@ jobs:
 
             - name: Setup Python
               if: steps.check_changes.outputs.run_translation == 'true'
-              uses: actions/setup-python@v6.1.0
+              uses: actions/setup-python@v6.2.0
               with:
                   python-version: '3.14'
 
