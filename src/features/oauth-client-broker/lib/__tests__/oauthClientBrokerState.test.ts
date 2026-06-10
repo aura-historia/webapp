@@ -213,5 +213,5 @@ function encodeRawState(state: Record<string, unknown>): string {
 function base64UrlEncode(value: string): string {
     const bytes = new TextEncoder().encode(value);
     const binary = Array.from(bytes, (byte) => String.fromCharCode(byte)).join("");
-    return globalThis.btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+    return globalThis.btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replaceAll("=", "");
 }
