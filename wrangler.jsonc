@@ -3,5 +3,8 @@
   "name": "aura-historia-staging",
   "compatibility_date": "2025-09-02",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry"
+  "main": "@tanstack/react-start/server-entry",
+  "vars": {
+    "OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID": "019eb0ab-c08d-7212-8169-312d465e4210"
+  }
 }
