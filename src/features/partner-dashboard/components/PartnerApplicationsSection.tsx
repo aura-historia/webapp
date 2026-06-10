@@ -13,7 +13,6 @@ import { PartnerApplicationDetailDialog } from "@/features/partner-dashboard/com
 import {
     BUSINESS_STATE_TRANSLATION_KEY,
     businessStateVariant,
-    getApplicationTitle,
 } from "@/features/partner-dashboard/lib/partnerApplicationHelpers.ts";
 
 export function PartnerApplicationsSection() {
@@ -55,10 +54,7 @@ export function PartnerApplicationsSection() {
         return (
             <ul className="flex flex-col gap-4">
                 {applications.map((application) => {
-                    const title = getApplicationTitle(
-                        application,
-                        t("partnerDashboard.applications.existingShop"),
-                    );
+                    const domains = application.payload.shopDomains.join(", ");
 
                     return (
                         <li
@@ -73,8 +69,11 @@ export function PartnerApplicationsSection() {
                                                 className="h-4 w-4 shrink-0 text-muted-foreground"
                                                 aria-hidden="true"
                                             />
-                                            <span className="truncate font-medium" title={title}>
-                                                {title}
+                                            <span
+                                                className="truncate font-medium"
+                                                title={application.payload.shopName}
+                                            >
+                                                {application.payload.shopName}
                                             </span>
                                         </div>
                                     </div>
@@ -98,35 +97,26 @@ export function PartnerApplicationsSection() {
 
                                 <div className="flex justify-between items-end">
                                     <div className="flex flex-col gap-1">
-                                        {application.payload.type === "NEW" && (
-                                            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                                                <span>
-                                                    {t(
-                                                        SHOP_TYPE_TRANSLATION_CONFIG[
-                                                            application.payload.shopType
-                                                        ].translationKey,
-                                                    )}
-                                                </span>
-                                                {application.payload.shopDomains.length > 0 && (
-                                                    <span className="flex min-w-0 items-center gap-1">
-                                                        <Globe
-                                                            className="h-3 w-3 shrink-0"
-                                                            aria-hidden="true"
-                                                        />
-                                                        <span
-                                                            className="truncate"
-                                                            title={application.payload.shopDomains.join(
-                                                                ", ",
-                                                            )}
-                                                        >
-                                                            {application.payload.shopDomains.join(
-                                                                ", ",
-                                                            )}
-                                                        </span>
-                                                    </span>
+                                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                                            <span>
+                                                {t(
+                                                    SHOP_TYPE_TRANSLATION_CONFIG[
+                                                        application.payload.shopType
+                                                    ].translationKey,
                                                 )}
-                                            </div>
-                                        )}
+                                            </span>
+                                            {domains && (
+                                                <span className="flex min-w-0 items-center gap-1">
+                                                    <Globe
+                                                        className="h-3 w-3 shrink-0"
+                                                        aria-hidden="true"
+                                                    />
+                                                    <span className="truncate" title={domains}>
+                                                        {domains}
+                                                    </span>
+                                                </span>
+                                            )}
+                                        </div>
                                         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                                             <span>
                                                 {t("partnerDashboard.applications.submittedAt", {

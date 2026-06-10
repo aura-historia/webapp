@@ -1,7 +1,4 @@
-import type {
-    PartnerApplication,
-    PartnerApplicationBusinessState,
-} from "@/data/internal/partner-application/PartnerApplication.ts";
+import type { PartnerApplicationBusinessState } from "@/data/internal/partner-application/PartnerApplication.ts";
 import type { StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
 
 export const BUSINESS_STATE_TRANSLATION_KEY: Record<PartnerApplicationBusinessState, string> = {
@@ -26,18 +23,6 @@ export function businessStateVariant(
         default:
             return "outline";
     }
-}
-
-// TODO: Once API is updated, display shop title for both
-export function getApplicationTitle(
-    application: PartnerApplication,
-    existingShopLabel: string,
-): string {
-    if (application.payload.type === "NEW") {
-        return application.payload.shopName;
-    }
-
-    return `${existingShopLabel}: ${application.payload.shopId}`;
 }
 
 export function getProgressValue(state: PartnerApplicationBusinessState): number {

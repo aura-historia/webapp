@@ -66,6 +66,9 @@ const approvedApplication: PartnerApplication = {
     payload: {
         type: "EXISTING",
         shopId: "shop-approved",
+        shopName: "Approved Shop",
+        shopType: "MARKETPLACE",
+        shopDomains: ["approved.example.com"],
     },
     created: new Date("2024-01-03T00:00:00Z"),
     updated: new Date("2024-01-04T00:00:00Z"),

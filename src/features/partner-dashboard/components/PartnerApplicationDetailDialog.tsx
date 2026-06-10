@@ -47,7 +47,6 @@ import {
     BUSINESS_STATE_TRANSLATION_KEY,
     businessStateVariant,
     getAddressSummary,
-    getApplicationTitle,
     getProgressValue,
 } from "@/features/partner-dashboard/lib/partnerApplicationHelpers.ts";
 
@@ -57,7 +56,7 @@ function Field({ label, value }: { readonly label: string; readonly value?: stri
             <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                 {label}
             </dt>
-            <dd className="break-words text-sm">{value || "—"}</dd>
+            <dd className="wrap-break-word text-sm">{value || "—"}</dd>
         </div>
     );
 }
@@ -176,7 +175,6 @@ function ApplicationDetails({
     readonly showShopDetails?: boolean;
 }) {
     const { t, i18n } = useTranslation();
-    const title = getApplicationTitle(application, t("partnerDashboard.applications.existingShop"));
 
     return (
         <div className="grid gap-4">
@@ -185,8 +183,11 @@ function ApplicationDetails({
                     <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                         <div className="flex min-w-0 items-center gap-2">
                             <Store className="h-4 w-4 shrink-0 text-muted-foreground" />
-                            <h3 className="truncate font-medium" title={title}>
-                                {title}
+                            <h3
+                                className="truncate font-medium"
+                                title={application.payload.shopName}
+                            >
+                                {application.payload.shopName}
                             </h3>
                         </div>
                         <div className="flex flex-wrap gap-2 justify-end">

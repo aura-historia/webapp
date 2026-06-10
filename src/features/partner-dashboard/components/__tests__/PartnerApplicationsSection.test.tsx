@@ -62,6 +62,9 @@ const approvedApplication: PartnerApplication = {
     payload: {
         type: "EXISTING",
         shopId: "shop-1",
+        shopName: "Approved Antiques",
+        shopType: "AUCTION_HOUSE",
+        shopDomains: ["approved.example.com"],
     },
     created: new Date("2024-01-03T00:00:00Z"),
     updated: new Date("2024-01-04T00:00:00Z"),
@@ -109,7 +112,8 @@ describe("PartnerApplicationsSection", () => {
         render(<PartnerApplicationsSection />);
 
         expect(screen.getByText("Vintage Shop")).toBeInTheDocument();
-        expect(screen.getByText("Bestehender Shop: shop-1")).toBeInTheDocument();
+        expect(screen.getByText("Approved Antiques")).toBeInTheDocument();
+        expect(screen.getByText("approved.example.com")).toBeInTheDocument();
         expect(screen.getByText("Eingereicht")).toBeInTheDocument();
         expect(screen.getByText("Genehmigt")).toBeInTheDocument();
         expect(screen.queryByText("In Verarbeitung")).not.toBeInTheDocument();

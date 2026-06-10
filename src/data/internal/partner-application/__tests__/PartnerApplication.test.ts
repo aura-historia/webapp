@@ -1,6 +1,21 @@
 import { describe, expect, it } from "vitest";
 import { mapToPartnerApplication } from "../PartnerApplication.ts";
-import type { GetPartnerShopApplicationData } from "@/client";
+import type { GetPartnerShopApplicationData, GetShopData } from "@/client";
+
+const hydratedShop: GetShopData = {
+    shopId: "shop-1",
+    shopSlugId: "hydrated-shop",
+    name: "Hydrated Shop",
+    shopType: "AUCTION_HOUSE",
+    domains: ["hydrated.example.com"],
+    url: "https://hydrated.example.com",
+    image: "https://hydrated.example.com/logo.png",
+    partnerStatus: "PARTNERED",
+    createdBy: "SYSTEM",
+    updatedBy: "SYSTEM",
+    created: "2023-12-01T00:00:00Z",
+    updated: "2023-12-02T00:00:00Z",
+};
 
 describe("mapToPartnerApplication", () => {
     it("maps an EXISTING payload application", () => {
@@ -9,7 +24,9 @@ describe("mapToPartnerApplication", () => {
             applicantUserId: "user-1",
             businessState: "IN_REVIEW",
             executionState: "WAITING",
-            payload: { type: "EXISTING", shopId: "shop-1" },
+            payload: { type: "EXISTING", shop: hydratedShop },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
@@ -20,7 +37,15 @@ describe("mapToPartnerApplication", () => {
         expect(result.applicantUserId).toBe("user-1");
         expect(result.businessState).toBe("IN_REVIEW");
         expect(result.executionState).toBe("WAITING");
-        expect(result.payload).toEqual({ type: "EXISTING", shopId: "shop-1" });
+        expect(result.payload).toEqual({
+            type: "EXISTING",
+            shopId: "shop-1",
+            shopName: "Hydrated Shop",
+            shopType: "AUCTION_HOUSE",
+            shopDomains: ["hydrated.example.com"],
+            shopUrl: "https://hydrated.example.com",
+            shopImage: "https://hydrated.example.com/logo.png",
+        });
         expect(result.created).toBeInstanceOf(Date);
         expect(result.updated).toBeInstanceOf(Date);
     });
@@ -39,6 +64,8 @@ describe("mapToPartnerApplication", () => {
                 shopUrl: "https://antiques.example.com",
                 shopImage: "https://example.com/logo.png",
             },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
@@ -68,6 +95,8 @@ describe("mapToPartnerApplication", () => {
                 shopDomains: [],
                 shopImage: null,
             },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
@@ -83,7 +112,15 @@ describe("mapToPartnerApplication", () => {
             applicantUserId: "08ad1750-f5de-44ff-913f-43f6f8980fb9",
             businessState: "SUBMITTED",
             executionState: "WAITING",
-            payload: { type: "EXISTING", shopId: "shop-9" },
+            payload: {
+                type: "EXISTING",
+                shop: {
+                    ...hydratedShop,
+                    shopId: "shop-9",
+                },
+            },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
@@ -112,6 +149,8 @@ describe("mapToPartnerApplication", () => {
                     continent: "EUROPE",
                 },
             },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
@@ -140,6 +179,8 @@ describe("mapToPartnerApplication", () => {
                 shopType: "MARKETPLACE",
                 shopDomains: ["no-address.example.com"],
             },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
@@ -163,6 +204,8 @@ describe("mapToPartnerApplication", () => {
                 shopPhone: "+49 30 987654",
                 shopEmail: "info@contact.example.com",
             },
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };
