@@ -85,6 +85,7 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 10
         needs: [ test ]
+        if: github.actor != 'dependabot[bot]'
         steps:
             -   name: Checkout code
                 id: checkout
