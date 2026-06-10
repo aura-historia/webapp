@@ -27,7 +27,7 @@
     "/api/v1/shops/{shopId}/products": {
       "put": {
         "summary": "Batch upsert products (Partner API)",
-        "description": "Creates new products or updates existing ones for a shop in a single batch call,\nusing bearer authentication. This endpoint is intended for partner shops and accepts:\n- a Cognito bearer token for the partner user linked to the shop, or\n- an Aura Historia access token owned by that partner user.\n\nAura Historia access tokens on this endpoint must include the `products:write` scope.\n\nThe request body is an array of `PutProductData` objects. Each entry is forwarded\nindividually to the asynchronous partner-product ingestion queue as an upsert command.\nWhen the queued command is later ingested:\n- **New product** — a full product is created using all provided fields. Omitting\n  `title`, `url`, or `state` causes the backend to fall back to an empty title,\n  a placeholder URL, and `LISTED` respectively.\n- **Existing product** — the backend applies `price`, `priceEstimateMin`,\n  `priceEstimateMax`, `state`, `url`, `images`, `auctionStart`, and `auctionEnd`.\n  `title`, `description`, `sellerName`, `structuredAddress`, and `geoAddress`\n  are ignored on the update path.\n- On the update path, omitting or sending `null` for `price`, `priceEstimateMin`,\n  `priceEstimateMax`, `url`, `auctionStart`, or `auctionEnd` leaves the stored value\n  unchanged.\n- On the update path, `images` always replaces the stored image set; omitting\n  `images` or sending `null` is treated as an empty list and therefore clears all\n  stored images.\n\nThe response returns HTTP 202 with an array containing only the `shopsProductId` values\nthat failed to be forwarded to the queue. An empty array indicates that all upserts were\naccepted for asynchronous processing.\n",
+        "description": "Creates new products or updates existing ones for a shop in a single batch call,\nusing bearer authentication. This endpoint is intended for partner shops and accepts:\n- a Cognito bearer token for the partner user linked to the shop, or\n- an Aura Historia access token owned by that partner user.\n\nAura Historia access tokens on this endpoint must include the `products:write` scope.\n\nThe request body is an array of `PutProductData` objects. Each entry is forwarded\nindividually to the asynchronous partner-product ingestion queue as an upsert command.\nWhen the queued command is later ingested:\n- **New product** \u2014 a full product is created using all provided fields. Omitting\n  `title`, `url`, or `state` causes the backend to fall back to an empty title,\n  a placeholder URL, and `LISTED` respectively.\n- **Existing product** \u2014 the backend applies `price`, `priceEstimateMin`,\n  `priceEstimateMax`, `state`, `url`, `images`, `auctionStart`, and `auctionEnd`.\n  `title`, `description`, `sellerName`, `structuredAddress`, and `geoAddress`\n  are ignored on the update path.\n- On the update path, omitting or sending `null` for `price`, `priceEstimateMin`,\n  `priceEstimateMax`, `url`, `auctionStart`, or `auctionEnd` leaves the stored value\n  unchanged.\n- On the update path, `images` always replaces the stored image set; omitting\n  `images` or sending `null` is treated as an empty list and therefore clears all\n  stored images.\n\nThe response returns HTTP 202 with an array containing only the `shopsProductId` values\nthat failed to be forwarded to the queue. An empty array indicates that all upserts were\naccepted for asynchronous processing.\n",
         "operationId": "putPartnerProducts",
         "tags": [
           "Products"
@@ -159,7 +159,7 @@
             }
           },
           "400": {
-            "description": "Bad request — request body is missing, empty, or contains invalid JSON",
+            "description": "Bad request \u2014 request body is missing, empty, or contains invalid JSON",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -189,7 +189,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized — the bearer token is missing, invalid, expired, or the referenced\nAura Historia access token no longer exists.\n",
+            "description": "Unauthorized \u2014 the bearer token is missing, invalid, expired, or the referenced\nAura Historia access token no longer exists.\n",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -221,7 +221,7 @@
             }
           },
           "403": {
-            "description": "Forbidden — the authenticated caller is not allowed to ingest products for this shop",
+            "description": "Forbidden \u2014 the authenticated caller is not allowed to ingest products for this shop",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -236,7 +236,7 @@
             }
           },
           "404": {
-            "description": "Not found — the specified shop does not exist",
+            "description": "Not found \u2014 the specified shop does not exist",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -246,6 +246,21 @@
                   "status": 404,
                   "title": "Not Found",
                   "error": "SHOP_NOT_FOUND"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable \u2014 all product commands failed to be forwarded to the asynchronous ingestion queue",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 503,
+                  "title": "Service Unavailable",
+                  "error": "SERVICE_UNAVAILABLE"
                 }
               }
             }
@@ -261,21 +276,6 @@
                   "status": 500,
                   "title": "Internal Server Error",
                   "error": "INTERNAL_SERVER_ERROR"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Service unavailable — all product commands failed to be forwarded to the asynchronous ingestion queue",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "example": {
-                  "status": 503,
-                  "title": "Service Unavailable",
-                  "error": "SERVICE_UNAVAILABLE"
                 }
               }
             }
@@ -380,7 +380,7 @@
             }
           },
           "400": {
-            "description": "Bad request — request body is missing, empty, or contains invalid JSON",
+            "description": "Bad request \u2014 request body is missing, empty, or contains invalid JSON",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -410,7 +410,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized — the bearer token is missing, invalid, expired, or the referenced\nAura Historia access token no longer exists.\n",
+            "description": "Unauthorized \u2014 the bearer token is missing, invalid, expired, or the referenced\nAura Historia access token no longer exists.\n",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -442,7 +442,7 @@
             }
           },
           "403": {
-            "description": "Forbidden — the authenticated caller is not allowed to ingest products for this shop",
+            "description": "Forbidden \u2014 the authenticated caller is not allowed to ingest products for this shop",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -457,7 +457,7 @@
             }
           },
           "404": {
-            "description": "Not found — the specified shop does not exist",
+            "description": "Not found \u2014 the specified shop does not exist",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -467,6 +467,21 @@
                   "status": 404,
                   "title": "Not Found",
                   "error": "SHOP_NOT_FOUND"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable \u2014 all product commands failed to be forwarded to the asynchronous ingestion queue",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 503,
+                  "title": "Service Unavailable",
+                  "error": "SERVICE_UNAVAILABLE"
                 }
               }
             }
@@ -482,21 +497,6 @@
                   "status": 500,
                   "title": "Internal Server Error",
                   "error": "INTERNAL_SERVER_ERROR"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Service unavailable — all product commands failed to be forwarded to the asynchronous ingestion queue",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "example": {
-                  "status": 503,
-                  "title": "Service Unavailable",
-                  "error": "SERVICE_UNAVAILABLE"
                 }
               }
             }
@@ -592,7 +592,7 @@
             }
           },
           "400": {
-            "description": "Bad request — request body is missing, empty, or contains invalid JSON",
+            "description": "Bad request \u2014 request body is missing, empty, or contains invalid JSON",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -622,7 +622,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized — the bearer token is missing, invalid, expired, or the referenced\nAura Historia access token no longer exists.\n",
+            "description": "Unauthorized \u2014 the bearer token is missing, invalid, expired, or the referenced\nAura Historia access token no longer exists.\n",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -654,7 +654,7 @@
             }
           },
           "403": {
-            "description": "Forbidden — the authenticated caller is not allowed to ingest products for this shop",
+            "description": "Forbidden \u2014 the authenticated caller is not allowed to ingest products for this shop",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -669,7 +669,7 @@
             }
           },
           "404": {
-            "description": "Not found — the specified shop does not exist",
+            "description": "Not found \u2014 the specified shop does not exist",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -679,6 +679,21 @@
                   "status": 404,
                   "title": "Not Found",
                   "error": "SHOP_NOT_FOUND"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable \u2014 all product commands failed to be forwarded to the asynchronous ingestion queue",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 503,
+                  "title": "Service Unavailable",
+                  "error": "SERVICE_UNAVAILABLE"
                 }
               }
             }
@@ -694,21 +709,6 @@
                   "status": 500,
                   "title": "Internal Server Error",
                   "error": "INTERNAL_SERVER_ERROR"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Service unavailable — all product commands failed to be forwarded to the asynchronous ingestion queue",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "example": {
-                  "status": 503,
-                  "title": "Service Unavailable",
-                  "error": "SERVICE_UNAVAILABLE"
                 }
               }
             }
@@ -1488,7 +1488,7 @@
           "SGD",
           "CHF"
         ],
-        "description": "Supported currencies (ISO 4217 codes):\n- EUR: Euro\n- GBP: British Pound\n- USD: US Dollar\n- AUD: Australian Dollar\n- CAD: Canadian Dollar\n- NZD: New Zealand Dollar\n- CNY: Chinese Yuan\n- BRL: Brazilian Real\n- PLN: Polish Złoty\n- TRY: Turkish Lira\n- JPY: Japanese Yen\n- CZK: Czech Koruna\n- RUB: Russian Ruble\n- AED: UAE Dirham\n- SAR: Saudi Riyal\n- HKD: Hong Kong Dollar\n- SGD: Singapore Dollar\n- CHF: Swiss Franc\n",
+        "description": "Supported currencies (ISO 4217 codes):\n- EUR: Euro\n- GBP: British Pound\n- USD: US Dollar\n- AUD: Australian Dollar\n- CAD: Canadian Dollar\n- NZD: New Zealand Dollar\n- CNY: Chinese Yuan\n- BRL: Brazilian Real\n- PLN: Polish Z\u0142oty\n- TRY: Turkish Lira\n- JPY: Japanese Yen\n- CZK: Czech Koruna\n- RUB: Russian Ruble\n- AED: UAE Dirham\n- SAR: Saudi Riyal\n- HKD: Hong Kong Dollar\n- SGD: Singapore Dollar\n- CHF: Swiss Franc\n",
         "default": "EUR",
         "example": "EUR"
       },
@@ -1645,7 +1645,7 @@
           "IMAGES_CHANGED",
           "AUCTION_TIME_CHANGED"
         ],
-        "description": "Types of events that can occur for a product:\n- CREATED: Product was created\n- STATE_CHANGED: Product state transitioned (e.g. listed → available, available → sold)\n- PRICE_CHANGED: Product price was discovered, updated, or removed\n- ESTIMATE_PRICE_CHANGED: Product estimated price range was updated\n- URL_CHANGED: Product URL was updated\n- IMAGES_CHANGED: Product image list was updated\n- AUCTION_TIME_CHANGED: Product auction start or end time was updated\n",
+        "description": "Types of events that can occur for a product:\n- CREATED: Product was created\n- STATE_CHANGED: Product state transitioned (e.g. listed \u2192 available, available \u2192 sold)\n- PRICE_CHANGED: Product price was discovered, updated, or removed\n- ESTIMATE_PRICE_CHANGED: Product estimated price range was updated\n- URL_CHANGED: Product URL was updated\n- IMAGES_CHANGED: Product image list was updated\n- AUCTION_TIME_CHANGED: Product auction start or end time was updated\n",
         "example": "STATE_CHANGED"
       },
       "ProductEventPayloadData": {
@@ -2773,7 +2773,7 @@
           "NG",
           "NI",
           "NL",
-          "NO",
+          false,
           "NP",
           "NR",
           "NU",
@@ -3862,7 +3862,7 @@
           "sub": {
             "type": "string",
             "format": "uuid",
-            "description": "Subject — the Aura Historia user ID who authorized the token. Present only when `active` is `true`.",
+            "description": "Subject \u2014 the Aura Historia user ID who authorized the token. Present only when `active` is `true`.",
             "example": "0196580c-e4ca-723f-a7e0-1a73588380f1"
           },
           "token_type": {
