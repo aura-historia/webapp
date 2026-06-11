@@ -5805,14 +5805,14 @@
         "example": "WAITING"
       },
       "GetPartnerShopApplicationPayloadData": {
-        "description": "The payload of a partner shop application. Discriminated by the `type` field.\n- `EXISTING`: The application targets an existing shop identified by `shopId`.\n- `NEW`: The application targets a new shop described by name, type, domains, and optional metadata such as a primary URL, image, address, and contact details.\n",
+        "description": "The payload of a partner shop application. Discriminated by the `type` field.\n- `EXISTING`: The application targets an existing shop and includes the hydrated shop data.\n- `NEW`: The application targets a new shop described by name, type, domains, and optional metadata such as a primary URL, image, address, and contact details.\n",
         "oneOf": [
           {
             "title": "Existing shop payload",
             "type": "object",
             "required": [
               "type",
-              "shopId"
+              "shop"
             ],
             "properties": {
               "type": {
@@ -5822,11 +5822,13 @@
                 ],
                 "description": "Discriminator value indicating this payload targets an existing shop."
               },
-              "shopId": {
-                "type": "string",
-                "format": "uuid",
-                "description": "Unique identifier of the existing shop.",
-                "example": "550e8400-e29b-41d4-a716-446655440000"
+              "shop": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetShopData"
+                  }
+                ],
+                "description": "Hydrated data for the existing shop."
               }
             }
           },

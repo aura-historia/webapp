@@ -59,6 +59,9 @@
     "partners": {
       "title": "Partner Program | Aura Historia",
       "description": "Become a partner shop on Aura Historia – the global platform for antiques & art. Free, commission-free, connected in minutes."
+    },
+    "partnerDashboard": {
+      "title": "Partner Dashboard | Aura Historia"
     }
   },
   "validation": {
@@ -129,8 +132,9 @@
     },
     "partnerProgramLinks": {
       "overview": "Overview",
-      "woocommerce": "WooCommerce",
-      "shopify": "Shopify",
+      "dashboard": "Partner dashboard",
+      "woocommerce": "WordPress plugin",
+      "shopify": "Shopify App Store",
       "customApi": "Custom integration",
       "apply": "Apply now"
     }
@@ -288,7 +292,10 @@
     },
     "messages": {
       "minQueryLength": "Please enter at least 3 characters to start the search.",
-      "error": "Error loading search results. Please try again later!",
+      "error": {
+        "title": "Error loading results",
+        "description": "The search results could not be loaded. Please try again later."
+      },
       "noResults": {
         "title": "No results found",
         "description": "Try adjusting your search term or filters."
@@ -435,7 +442,8 @@
     "p1": "We search through the vast offerings of thousands of scattered antique dealers, auction houses and marketplaces worldwide every day and bundle their items in one central place.",
     "p2": "We not only capture current and upcoming items but also track price changes and availability. This way, you never miss a bargain and always keep an eye on the market.",
     "highlight1": {
-      "title": "Over 500 Dealers, Auction Houses & Marketplaces",
+      "title": "Over {{count}} Dealers, Auction Houses & Marketplaces",
+      "titleFallback": "Hundreds of Dealers, Auction Houses & Marketplaces",
       "description": "We continuously search renowned antique dealers, auction houses and marketplaces from all over Europe and beyond."
     },
     "highlight2": {
@@ -726,14 +734,14 @@
       "subtitle": "Pick the integration that fits your setup. Every option syncs in minutes – no code required.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Install our extension from the WordPress plugin directory.",
-        "cta": "View integration",
+        "description": "Install our extension directly from the WordPress plugin directory.",
+        "cta": "Open WordPress plugin",
         "badge": "Recommended"
       },
       "shopify": {
         "title": "Shopify app",
-        "description": "Connect your Shopify store with one click from the Shopify App Store.",
-        "cta": "View integration",
+        "description": "Open our listing directly in the Shopify App Store.",
+        "cta": "Open Shopify App Store",
         "badge": "Popular"
       },
       "customApi": {
@@ -934,8 +942,8 @@
     "TEXT_QUERY_TOO_SHORT": "The search query must contain at least 3 characters.",
     "BAD_PATH_PARAMETER_VALUE": "The link is invalid.",
     "INVALID_UUID": "The link is invalid.",
-    "SERVICE_UNAVAILABLE": "The service is currently unavailable. Please try again later.",
-    "BAD_QUERY_PARAMETER_VALUE": "Your search contains invalid settings.",
+    "SERVICE_UNAVAILABLE": "The service is currently unavailable due to high traffic. Please try again shortly.",
+    "BAD_QUERY_PARAMETER_VALUE": "The request contains invalid parameters.",
     "SHOP_NOT_FOUND": "This shop is no longer available.",
     "INVALID_SHOP_IDENTIFIER": "The shop identifier is invalid.",
     "INVALID_DOMAIN": "The shop domain is invalid.",
@@ -952,7 +960,17 @@
     "INVALID_EMAIL": "The email address is invalid or not accepted by our newsletter provider.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "You already have an active subscription. Please use the customer portal to manage it.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No existing subscription was found. Please start a new checkout.",
-    "SEARCH_FILTER_RESTRICTED_FEATURE": "This feature is only available for certain subscriptions. Please upgrade your account.",
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Some of your active filters are only available for premium users. Please remove these filters or upgrade your account to save a search filter.",
+    "BAD_REQUEST": "The request is invalid.",
+    "NOT_FOUND": "The requested resource was not found.",
+    "CONFLICT": "The action could not be completed due to a conflict.",
+    "UNPROCESSABLE_ENTITY": "The request could not be processed. Please check your input.",
+    "BAD_GATEWAY": "A connection problem occurred. Please try again later.",
+    "USER_EXISTS_ALREADY": "An account with this email address already exists.",
+    "NOTIFICATION_NOT_FOUND": "This notification no longer exists.",
+    "PRODUCT_ENRICHMENT_FAILED": "The product information could not be fully loaded.",
+    "ACCESS_TOKEN_NOT_FOUND": "Your session has expired. Please log in again.",
+    "PARTNER_SHOP_APPLICATION_NOT_FOUND": "The partner application was not found.",
     "unknown": "An unexpected error occurred.",
     "undefined": "An unexpected error occurred."
   },
@@ -960,7 +978,10 @@
     "title": "My Watchlist",
     "loginRequired": "Please log in to use the watchlist.",
     "totalElements": "{{count}} items",
-    "loadingError": "The watchlist cannot be reached at this time. Please try again later.",
+    "loadingError": {
+      "title": "Watchlist unavailable",
+      "description": "The watchlist cannot be reached at this time. Please try again later."
+    },
     "loadingMore": "Loading more results...",
     "allLoaded_one": "You have seen {{count}} item from your watchlist.",
     "allLoaded_other": "You have seen all {{count}} items from your watchlist.",
@@ -1204,7 +1225,10 @@
     "delete": "Delete",
     "deleteAll": "Delete all",
     "markRead": "Mark as read",
-    "loadingError": "Notifications could not be loaded. Please try again later.",
+    "loadingError": {
+      "title": "Error loading notifications",
+      "description": "Notifications could not be loaded. Please try again later."
+    },
     "loadingMore": "Loading more notifications...",
     "allLoaded_one": "{{count}} notification loaded",
     "allLoaded_other": "All {{count}} notifications loaded",
@@ -1318,7 +1342,10 @@
     "stateInactiveByUser": "Paused",
     "stateInactiveByPlan": "Locked",
     "stateInactiveByPlanTooltip": "This search filter is inactive due to your subscription plan.",
-    "loadingError": "Search filters could not be loaded. Please try again later.",
+    "loadingError": {
+      "title": "Error loading filters",
+      "description": "Search filters could not be loaded. Please try again later."
+    },
     "noResults": {
       "title": "No Search Filters",
       "description": "You have not saved any search filters yet."
@@ -1353,6 +1380,129 @@
     },
     "matchReason": "AI reason",
     "feedbackError": "Failed to save feedback."
+  },
+  "partnerDashboard": {
+    "title": "Partner Dashboard",
+    "description": "Track your current partner applications and their review status.",
+    "actions": {
+      "retry": "Retry"
+    },
+    "create": {
+      "open": "New application",
+      "title": "Submit partner application",
+      "description": "Apply for an existing shop by ID or create a new shop for review.",
+      "submit": "Submit application",
+      "submitting": "Submitting…",
+      "cancel": "Cancel",
+      "success": "Partner application submitted.",
+      "type": {
+        "new": "New shop",
+        "existing": "Existing shop"
+      },
+      "fields": {
+        "type": "Application type",
+        "shopId": "Shop",
+        "shopName": "Shop name",
+        "shopType": "Shop type",
+        "shopDomains": "Domains",
+        "shopDomainsHint": "Separate domains with line breaks, commas, semicolons, or spaces. Domains are normalized before submission.",
+        "shopUrl": "Primary shop URL",
+        "shopImage": "Logo or image URL",
+        "shopPhone": "Phone",
+        "shopEmail": "Email",
+        "address": "Address",
+        "addressline": "Address line",
+        "addresslineExtra": "Address line 2",
+        "locality": "City",
+        "region": "Region",
+        "postalCode": "Postal code",
+        "country": "Country code"
+      },
+      "validation": {
+        "shopIdRequired": "Please select an existing shop.",
+        "shopNameRequired": "Please enter the shop name.",
+        "domainsRequired": "Please enter at least one domain.",
+        "urlInvalid": "Please enter a valid URL.",
+        "imageInvalid": "Please enter a valid image URL.",
+        "emailInvalid": "Please enter a valid email address."
+      },
+      "shopSearch": {
+        "placeholder": "Search shops by name…",
+        "loading": "Searching shops.",
+        "empty": "No shops found.",
+        "clear": "Clear selected shop"
+      }
+    },
+    "applications": {
+      "title": "Current Partner Applications",
+      "description": "All partner applications you have submitted for shops.",
+      "loading": "Loading partner applications.",
+      "loadError": "Could not load your partner applications.",
+      "empty": "You have not submitted any partner applications yet.",
+      "submittedAt": "Submitted {{date}}",
+      "updatedAt": "Updated {{date}}",
+      "existingShop": "Existing shop",
+      "openDetails": "Open details for {{title}}",
+      "viewDetails": "View details",
+      "progress": {
+        "handedIn": "Handed in",
+        "checking": "Checking",
+        "completed": "Completed",
+        "approved": "Approved",
+        "denied": "Denied"
+      },
+      "detail": {
+        "title": "Application details",
+        "description": "Review the current status and submitted shop information.",
+        "loadError": "Could not load this partner application.",
+        "close": "Close details",
+        "edit": "Edit application",
+        "editCancel": "Cancel",
+        "editSave": "Save changes",
+        "editSuccess": "Partner application updated.",
+        "delete": "Delete application",
+        "deleteSuccess": "Partner application deleted.",
+        "deleteConfirm": {
+          "title": "Delete this partner application?",
+          "description": "This pending application will be permanently deleted and cannot be restored.",
+          "cancel": "Cancel",
+          "confirm": "Delete"
+        },
+        "progressLabel": "Application progress",
+        "applicationSection": "Application",
+        "shopSection": "Shop information",
+        "applicationId": "Application ID",
+        "applicantUserId": "Applicant user ID",
+        "createdAt": "Submitted",
+        "updatedAt": "Updated",
+        "shopName": "Shop name",
+        "shopType": "Shop type",
+        "domains": "Domains",
+        "shopUrl": "Primary URL",
+        "shopImage": "Image URL",
+        "shopPhone": "Phone",
+        "shopEmail": "Email",
+        "address": "Address",
+        "addressline": "Address line",
+        "addresslineExtra": "Address line 2",
+        "locality": "City",
+        "region": "Region",
+        "postalCode": "Postal code",
+        "country": "Country code",
+        "shopId": "Shop ID"
+      },
+      "businessState": {
+        "submitted": "Submitted",
+        "inReview": "In review",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "executionState": {
+        "processing": "Processing",
+        "waiting": "Awaiting decision",
+        "completed": "Completed"
+      }
+    }
   },
   "adminDashboard": {
     "loading": "Loading…",

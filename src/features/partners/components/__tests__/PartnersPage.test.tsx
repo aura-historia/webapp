@@ -1,4 +1,8 @@
 import PartnersPage from "@/features/partners/components/PartnersPage.tsx";
+import {
+    SHOPIFY_APP_STORE_URL,
+    WORDPRESS_PLUGIN_DIRECTORY_URL,
+} from "@/features/partners/partnerLinks.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 
@@ -18,7 +22,9 @@ describe("PartnersPage", () => {
     });
 
     it("renders the primary apply CTA pointing to /partners/apply", () => {
-        const ctas = screen.getAllByRole("link", { name: /Partner werden|Jetzt Partner werden/ });
+        const ctas = screen.getAllByRole("link", {
+            name: /Partner werden|Jetzt Partner werden/,
+        });
         // Hero + final CTA both link to /partners/apply.
         expect(ctas.length).toBeGreaterThanOrEqual(2);
         for (const cta of ctas) {
@@ -33,15 +39,18 @@ describe("PartnersPage", () => {
         );
     });
 
-    it("renders integration cards linking to dummy integration paths", () => {
+    it("renders integration cards linking to the external plugin listings and custom API page", () => {
         const woocommerce = screen.getByText("WordPress · WooCommerce").closest("a");
-        expect(woocommerce).toHaveAttribute("href", "/partners/woocommerce");
+        expect(woocommerce).toHaveAttribute("href", WORDPRESS_PLUGIN_DIRECTORY_URL);
+        expect(woocommerce).toHaveAttribute("target", "_blank");
 
         const shopify = screen.getByText("Shopify-App").closest("a");
-        expect(shopify).toHaveAttribute("href", "/partners/shopify");
+        expect(shopify).toHaveAttribute("href", SHOPIFY_APP_STORE_URL);
+        expect(shopify).toHaveAttribute("target", "_blank");
 
         const customApi = screen.getByText("Eigene API-Integration").closest("a");
         expect(customApi).toHaveAttribute("href", "/partners/custom-integration");
+        expect(customApi).not.toHaveAttribute("target");
     });
 
     it("highlights that the program is free and cancellable in trust badges", () => {

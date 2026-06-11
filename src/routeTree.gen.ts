@@ -21,10 +21,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PartnersIndexRouteImport } from './routes/partners.index'
 import { Route as SearchShopsRouteImport } from './routes/search_.shops'
 import { Route as PartnersCustomIntegrationRouteImport } from './routes/partners.custom-integration'
+import { Route as PartnersApplyRouteImport } from './routes/partners.apply'
 import { Route as AuthAdminRouteImport } from './routes/_auth.admin'
 import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
 import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
+import { Route as AuthPartnersDashboardRouteImport } from './routes/_auth.partners.dashboard'
 import { Route as AuthOauthAuthorizeRouteImport } from './routes/_auth.oauth.authorize'
 import { Route as AuthMeWatchlistRouteImport } from './routes/_auth.me.watchlist'
 import { Route as AuthMeSearchFiltersRouteImport } from './routes/_auth.me.search-filters'
@@ -99,6 +101,11 @@ const PartnersCustomIntegrationRoute =
     path: '/custom-integration',
     getParentRoute: () => PartnersRoute,
   } as any)
+const PartnersApplyRoute = PartnersApplyRouteImport.update({
+  id: '/apply',
+  path: '/apply',
+  getParentRoute: () => PartnersRoute,
+} as any)
 const AuthAdminRoute = AuthAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -120,6 +127,11 @@ const ProductShopIdShopsProductIdRoute =
     path: '/product/$shopId/$shopsProductId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthPartnersDashboardRoute = AuthPartnersDashboardRouteImport.update({
+  id: '/partners/dashboard',
+  path: '/partners/dashboard',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthOauthAuthorizeRoute = AuthOauthAuthorizeRouteImport.update({
   id: '/oauth/authorize',
   path: '/oauth/authorize',
@@ -201,6 +213,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/admin': typeof AuthAdminRouteWithChildren
+  '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
   '/partners/': typeof PartnersIndexRoute
@@ -212,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
   '/oauth/authorize': typeof AuthOauthAuthorizeRoute
+  '/partners/dashboard': typeof AuthPartnersDashboardRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin/': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
@@ -229,6 +243,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
   '/partners': typeof PartnersIndexRoute
@@ -240,6 +255,7 @@ export interface FileRoutesByTo {
   '/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
   '/oauth/authorize': typeof AuthOauthAuthorizeRoute
+  '/partners/dashboard': typeof AuthPartnersDashboardRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId': typeof ShopsShopSlugIdIndexRoute
@@ -261,6 +277,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/_auth/admin': typeof AuthAdminRouteWithChildren
+  '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search_/shops': typeof SearchShopsRoute
   '/partners/': typeof PartnersIndexRoute
@@ -272,6 +289,7 @@ export interface FileRoutesById {
   '/_auth/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/_auth/me/watchlist': typeof AuthMeWatchlistRoute
   '/_auth/oauth/authorize': typeof AuthOauthAuthorizeRoute
+  '/_auth/partners/dashboard': typeof AuthPartnersDashboardRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/_auth/admin/': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
@@ -293,6 +311,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/terms-and-conditions'
     | '/admin'
+    | '/partners/apply'
     | '/partners/custom-integration'
     | '/search/shops'
     | '/partners/'
@@ -304,6 +323,7 @@ export interface FileRouteTypes {
     | '/me/search-filters'
     | '/me/watchlist'
     | '/oauth/authorize'
+    | '/partners/dashboard'
     | '/product/$shopId/$shopsProductId'
     | '/admin/'
     | '/shops/$shopSlugId/'
@@ -321,6 +341,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
+    | '/partners/apply'
     | '/partners/custom-integration'
     | '/search/shops'
     | '/partners'
@@ -332,6 +353,7 @@ export interface FileRouteTypes {
     | '/me/search-filters'
     | '/me/watchlist'
     | '/oauth/authorize'
+    | '/partners/dashboard'
     | '/product/$shopId/$shopsProductId'
     | '/admin'
     | '/shops/$shopSlugId'
@@ -352,6 +374,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/terms-and-conditions'
     | '/_auth/admin'
+    | '/partners/apply'
     | '/partners/custom-integration'
     | '/search_/shops'
     | '/partners/'
@@ -363,6 +386,7 @@ export interface FileRouteTypes {
     | '/_auth/me/search-filters'
     | '/_auth/me/watchlist'
     | '/_auth/oauth/authorize'
+    | '/_auth/partners/dashboard'
     | '/product/$shopId/$shopsProductId'
     | '/_auth/admin/'
     | '/shops/$shopSlugId/'
@@ -477,6 +501,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnersCustomIntegrationRouteImport
       parentRoute: typeof PartnersRoute
     }
+    '/partners/apply': {
+      id: '/partners/apply'
+      path: '/apply'
+      fullPath: '/partners/apply'
+      preLoaderRoute: typeof PartnersApplyRouteImport
+      parentRoute: typeof PartnersRoute
+    }
     '/_auth/admin': {
       id: '/_auth/admin'
       path: '/admin'
@@ -504,6 +535,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/product/$shopId/$shopsProductId'
       preLoaderRoute: typeof ProductShopIdShopsProductIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_auth/partners/dashboard': {
+      id: '/_auth/partners/dashboard'
+      path: '/partners/dashboard'
+      fullPath: '/partners/dashboard'
+      preLoaderRoute: typeof AuthPartnersDashboardRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/_auth/oauth/authorize': {
       id: '/_auth/oauth/authorize'
@@ -624,6 +662,7 @@ interface AuthRouteChildren {
   AuthMeSearchFiltersRoute: typeof AuthMeSearchFiltersRoute
   AuthMeWatchlistRoute: typeof AuthMeWatchlistRoute
   AuthOauthAuthorizeRoute: typeof AuthOauthAuthorizeRoute
+  AuthPartnersDashboardRoute: typeof AuthPartnersDashboardRoute
   AuthMeBillingManageRoute: typeof AuthMeBillingManageRoute
   AuthMeSearchFilterFilterIdRoute: typeof AuthMeSearchFilterFilterIdRoute
 }
@@ -635,6 +674,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthMeSearchFiltersRoute: AuthMeSearchFiltersRoute,
   AuthMeWatchlistRoute: AuthMeWatchlistRoute,
   AuthOauthAuthorizeRoute: AuthOauthAuthorizeRoute,
+  AuthPartnersDashboardRoute: AuthPartnersDashboardRoute,
   AuthMeBillingManageRoute: AuthMeBillingManageRoute,
   AuthMeSearchFilterFilterIdRoute: AuthMeSearchFilterFilterIdRoute,
 }
@@ -642,11 +682,13 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface PartnersRouteChildren {
+  PartnersApplyRoute: typeof PartnersApplyRoute
   PartnersCustomIntegrationRoute: typeof PartnersCustomIntegrationRoute
   PartnersIndexRoute: typeof PartnersIndexRoute
 }
 
 const PartnersRouteChildren: PartnersRouteChildren = {
+  PartnersApplyRoute: PartnersApplyRoute,
   PartnersCustomIntegrationRoute: PartnersCustomIntegrationRoute,
   PartnersIndexRoute: PartnersIndexRoute,
 }

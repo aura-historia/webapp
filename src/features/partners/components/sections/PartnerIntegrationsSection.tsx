@@ -7,24 +7,32 @@ import {
     WooCommerceIcon,
     WordPressIcon,
 } from "@/features/partners/components/icons/BrandIcons.tsx";
+import {
+    SHOPIFY_APP_STORE_URL,
+    WORDPRESS_PLUGIN_DIRECTORY_URL,
+} from "@/features/partners/partnerLinks.ts";
 import type { ComponentType, SVGProps } from "react";
+import { Link } from "@tanstack/react-router";
 
 type Integration = {
     readonly key: "woocommerce" | "shopify" | "customApi";
     readonly href: string;
+    readonly external?: boolean;
     readonly logos: readonly ComponentType<SVGProps<SVGSVGElement>>[];
 };
 
 const INTEGRATIONS: readonly Integration[] = [
     {
         key: "woocommerce",
-        href: "/partners/woocommerce",
+        href: WORDPRESS_PLUGIN_DIRECTORY_URL,
+        external: true,
         // WordPress + WooCommerce – many merchants only recognize the WordPress mark.
         logos: [WordPressIcon, WooCommerceIcon],
     },
     {
         key: "shopify",
-        href: "/partners/shopify",
+        href: SHOPIFY_APP_STORE_URL,
+        external: true,
         logos: [ShopifyIcon],
     },
     {
@@ -51,9 +59,11 @@ export default function PartnerIntegrationsSection() {
 
                 <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
                     {INTEGRATIONS.map((integration) => (
-                        <a
+                        <Link
                             key={integration.key}
-                            href={integration.href}
+                            to={integration.href}
+                            target={integration.external ? "_blank" : undefined}
+                            rel={integration.external ? "noopener noreferrer" : undefined}
                             className="group block focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary"
                         >
                             <Card className="relative flex h-full flex-col border-2 border-border/20 transition-all duration-300 hover:border-primary/50 hover:-translate-y-1 hover:shadow-lg">
@@ -92,7 +102,7 @@ export default function PartnerIntegrationsSection() {
                                     </span>
                                 </CardContent>
                             </Card>
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </div>

@@ -24,7 +24,6 @@ describe("OverviewProduct mappers", () => {
                     images: [{ url: "https://example.com/image1.jpg", prohibitedContent: "NONE" }],
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
-
                     created: "2023-01-01T00:00:00Z",
                     updated: "2023-01-02T00:00:00Z",
                 },
@@ -67,7 +66,6 @@ describe("OverviewProduct mappers", () => {
                     images: [],
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
-
                     created: "2023-01-01T00:00:00Z",
                     updated: "2023-01-02T00:00:00Z",
                 },
@@ -100,7 +98,6 @@ describe("OverviewProduct mappers", () => {
                     images: [{ url: "invalid-url", prohibitedContent: "NONE" }],
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
-
                     created: "2023-01-01T00:00:00Z",
                     updated: "2023-01-02T00:00:00Z",
                 },
@@ -131,7 +128,6 @@ describe("OverviewProduct mappers", () => {
                     images: [],
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
-
                     created: "2023-01-01T00:00:00Z",
                     updated: "2023-01-02T00:00:00Z",
                 },

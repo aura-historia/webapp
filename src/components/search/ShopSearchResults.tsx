@@ -2,11 +2,11 @@ import { ShopCard } from "@/components/shop/ShopCard.tsx";
 import { ShopCardSkeleton } from "@/components/shop/ShopCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { useEffect } from "react";
-import { SearchX } from "lucide-react";
+import { SearchX, ServerCrash } from "lucide-react";
+import { EmptyState } from "@/components/common/EmptyState.tsx";
 import type { ShopSearchFilterArguments } from "@/data/internal/search/ShopSearchFilterArguments.ts";
 import { useShopSearch } from "@/hooks/search/useShopSearch.ts";
 import { useTranslation } from "react-i18next";
-import { H3 } from "@/components/typography/H3.tsx";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
 import { useInView } from "react-intersection-observer";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
@@ -67,20 +67,22 @@ export function ShopSearchResults({ searchFilters, onTotalChange }: ShopSearchRe
 
     if (error) {
         console.error(error);
-        return <SectionInfoText>{t("search.messages.error")}</SectionInfoText>;
+        return (
+            <EmptyState
+                icon={ServerCrash}
+                title={t("search.messages.error.title")}
+                description={t("search.messages.error.description")}
+            />
+        );
     }
 
     if (allShops.length === 0) {
         return (
-            <div className="flex flex-col items-center gap-4 py-16">
-                <SearchX className="h-16 w-16 text-muted-foreground" />
-                <div className="text-center space-y-2">
-                    <H3>{t("search.messages.noResults.title")}</H3>
-                    <p className="text-base text-muted-foreground">
-                        {t("search.messages.noResults.description")}
-                    </p>
-                </div>
-            </div>
+            <EmptyState
+                icon={SearchX}
+                title={t("search.messages.noResults.title")}
+                description={t("search.messages.noResults.description")}
+            />
         );
     }
 

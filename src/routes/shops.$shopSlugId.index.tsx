@@ -1,9 +1,8 @@
-import { createFileRoute, ErrorComponent, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getShopBySlugOptions } from "@/client/@tanstack/react-query.gen";
 import { mapToShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { generateShopHeadMeta } from "@/lib/seo/shop/shopHeadMeta.ts";
-import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 import { ShopPageSkeleton } from "@/components/shop/ShopPageSkeleton.tsx";
 import { ShopHeader } from "@/components/shop/ShopHeader.tsx";
 import { ShopProductGrid } from "@/components/shop/ShopProductGrid.tsx";
@@ -28,8 +27,6 @@ export const Route = createFileRoute("/shops/$shopSlugId/")({
     },
     head: ({ loaderData, params }) => generateShopHeadMeta(loaderData, params),
     pendingComponent: ShopPageSkeleton,
-    notFoundComponent: NotFoundComponent,
-    errorComponent: ErrorComponent,
     component: ShopDetailComponent,
 });
 

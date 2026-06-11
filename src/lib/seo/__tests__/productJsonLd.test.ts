@@ -35,6 +35,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-15T10:00:00Z",
                     updated: "2024-01-20T15:30:00Z",
                 },
@@ -74,6 +76,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -112,6 +116,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -143,6 +149,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -174,6 +182,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -205,6 +215,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -236,6 +248,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -267,6 +281,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -311,6 +327,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -345,6 +363,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -377,6 +397,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -408,6 +430,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -439,6 +463,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -477,6 +503,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -520,6 +548,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -552,6 +582,8 @@ describe("productJsonLd", () => {
                     createdBy: "SYSTEM",
                     updatedBy: "SYSTEM",
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },

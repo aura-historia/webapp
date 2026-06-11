@@ -12,8 +12,6 @@ import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { generateProductHeadMeta } from "@/lib/seo/productHeadMeta.ts";
-import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
-import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
 import { isApiNotFoundError } from "@/lib/api/apiError.ts";
 
 export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId")({
@@ -65,8 +63,6 @@ export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId
     },
     head: ({ loaderData, params }) => generateProductHeadMeta(loaderData, params),
     pendingComponent: ProductDetailPageSkeleton,
-    errorComponent: ErrorComponent,
-    notFoundComponent: NotFoundComponent,
     component: ProductDetailComponent,
 });
 

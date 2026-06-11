@@ -3137,7 +3137,7 @@ export type ExecutionStateData = 'PROCESSING' | 'WAITING' | 'COMPLETED';
 
 /**
  * The payload of a partner shop application. Discriminated by the `type` field.
- * - `EXISTING`: The application targets an existing shop identified by `shopId`.
+ * - `EXISTING`: The application targets an existing shop and includes the hydrated shop data.
  * - `NEW`: The application targets a new shop described by name, type, domains, and optional metadata such as a primary URL, image, address, and contact details.
  *
  */
@@ -3147,9 +3147,9 @@ export type GetPartnerShopApplicationPayloadData = {
      */
     type: 'EXISTING';
     /**
-     * Unique identifier of the existing shop.
+     * Hydrated data for the existing shop.
      */
-    shopId: string;
+    shop: GetShopData;
 } | {
     /**
      * Discriminator value indicating this payload describes a new shop.
