@@ -66,6 +66,7 @@ const approvedApplication: PartnerApplication = {
     payload: {
         type: "EXISTING",
         shopId: "shop-approved",
+        shopSlugId: "shop-approved",
         shopName: "Approved Shop",
         shopType: "MARKETPLACE",
         shopDomains: ["approved.example.com"],

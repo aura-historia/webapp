@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import type { ReactNode } from "react";
 import { toast } from "sonner";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PartnerApplicationsSection } from "@/features/partner-dashboard/components/PartnerApplicationsSection.tsx";
@@ -39,6 +40,26 @@ vi.mock("sonner", () => ({
     },
 }));
 
+vi.mock("@tanstack/react-router", () => ({
+    Link: ({
+        children,
+        params,
+        to,
+        ...props
+    }: {
+        readonly children: ReactNode;
+        readonly params?: Record<string, string>;
+        readonly to: string;
+    }) => {
+        const href = params?.shopSlugId ? to.replace("$shopSlugId", params.shopSlugId) : to;
+        return (
+            <a href={href} {...props}>
+                {children}
+            </a>
+        );
+    },
+}));
+
 const submittedApplication: PartnerApplication = {
     id: "app-submitted",
     applicantUserId: "user-1",
@@ -62,6 +83,7 @@ const approvedApplication: PartnerApplication = {
     payload: {
         type: "EXISTING",
         shopId: "shop-1",
+        shopSlugId: "vintage-shop",
         shopName: "Approved Antiques",
         shopType: "AUCTION_HOUSE",
         shopDomains: ["approved.example.com"],
