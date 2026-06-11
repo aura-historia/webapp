@@ -222,12 +222,10 @@ describe("Header Component", () => {
             });
             const header = screen.getByRole("banner");
 
-            // Verify header has responsive grid layout
-            expect(header).toHaveClass("lg:grid", "lg:grid-cols-3");
+            expect(header).toHaveClass("grid", "lg:grid-cols-3");
 
-            // Verify search input is in a centered div (desktop version)
-            const centerDiv = header.querySelector("div.hidden.justify-center.lg\\:flex");
-            expect(centerDiv).toBeInTheDocument();
+            const desktopSearchDiv = header.querySelector("div.hidden.lg\\:block");
+            expect(desktopSearchDiv).toBeInTheDocument();
         });
 
         it("should allow searching from the header search bar", async () => {
@@ -280,7 +278,7 @@ describe("Header Component", () => {
                 renderWithRouter(<Header />);
             });
             const header = screen.getByRole("banner");
-            expect(header).toHaveClass("lg:grid", "lg:grid-cols-3");
+            expect(header).toHaveClass("grid", "lg:grid-cols-3");
         });
 
         it("should be sticky at the top", async () => {

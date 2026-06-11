@@ -15,8 +15,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
 import { SearchBar } from "@/components/search/SearchBar.tsx";
-import { Menu } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Menu, Search, ArrowLeft } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import {
     NavigationMenu,
     NavigationMenuItem,
@@ -39,10 +39,18 @@ export function Header() {
     const navigate = useNavigate();
 
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
     const pathname = useLocation({
         select: (location) => location.pathname,
     });
+
+    const prevPathnameRef = useRef(pathname);
+    if (prevPathnameRef.current !== pathname) {
+        prevPathnameRef.current = pathname;
+        setIsMobileSearchOpen(false);
+    }
+
     const searchString = useLocation({
         select: (location) => location.searchStr,
     });
@@ -215,12 +223,24 @@ export function Header() {
     return (
         <header
             className={cn(
-                "grid grid-cols-[auto_1fr_auto] lg:grid-cols-3 items-center h-20 z-50 sticky top-0 xl:px-8 px-4 w-full transition-all duration-300",
+                "relative grid grid-cols-[auto_1fr_auto] lg:grid-cols-3 items-center h-20 z-50 sticky top-0 xl:px-8 px-4 w-full transition-all duration-300",
                 isFloating
                     ? "bg-transparent border-transparent"
                     : "bg-background border-b border-border",
             )}
         >
+            <div
+                className={cn(
+                    "absolute inset-0 flex lg:hidden items-center gap-2 px-4 bg-background z-10 transition-all duration-200",
+                    isMobileSearchOpen ? "opacity-100" : "opacity-0 pointer-events-none",
+                )}
+            >
+                <Button variant="ghost" size="icon" onClick={() => setIsMobileSearchOpen(false)}>
+                    <ArrowLeft />
+                </Button>
+                <div className="flex-1">{isMobileSearchOpen && <SearchBar type="small" />}</div>
+            </div>
+
             <div className="flex items-center justify-start gap-4">
                 <Link to="/">
                     <div
@@ -243,10 +263,9 @@ export function Header() {
                 </Link>
             </div>
 
-            {/* Search bar */}
             <div
                 className={cn(
-                    "mx-2 lg:mx-0 transition-all duration-500",
+                    "hidden lg:block transition-all duration-500",
                     shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none",
                     isFloating && shouldShowSearchBar
                         ? "bg-background backdrop-blur-sm rounded-xs px-3 py-1.5 shadow-sm"
@@ -256,9 +275,23 @@ export function Header() {
                 <SearchBar type="small" />
             </div>
 
-            {/* Right: Mobile buttons or Desktop menu */}
             <div className="flex items-center justify-end">
                 <div className="flex lg:hidden items-center gap-2">
+                    {shouldShowSearchBar && (
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className={cn(
+                                isFloating
+                                    ? "bg-background backdrop-blur-sm rounded-xs shadow-sm"
+                                    : "",
+                            )}
+                            onClick={() => setIsMobileSearchOpen(true)}
+                            aria-label={t("search.bar.label")}
+                        >
+                            <Search />
+                        </Button>
+                    )}
                     {isLoginEnabled && isAuthenticated && (
                         <div
                             className={cn(
