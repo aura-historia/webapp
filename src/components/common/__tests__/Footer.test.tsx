@@ -6,6 +6,10 @@ import { t } from "i18next";
 import userEvent from "@testing-library/user-event";
 import { act } from "react";
 import { useLocation } from "@tanstack/react-router";
+import {
+    SHOPIFY_APP_STORE_URL,
+    WORDPRESS_PLUGIN_DIRECTORY_URL,
+} from "@/features/partners/partnerLinks.ts";
 
 const { changeLanguageMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
@@ -117,13 +121,21 @@ describe("Footer Component", () => {
             "href",
             "/partners/dashboard",
         );
-        expect(screen.getByText("WooCommerce").closest("a")).toHaveAttribute(
+        expect(screen.getByText("WordPress-Plugin").closest("a")).toHaveAttribute(
             "href",
-            "/partners/woocommerce",
+            WORDPRESS_PLUGIN_DIRECTORY_URL,
         );
-        expect(screen.getByText("Shopify").closest("a")).toHaveAttribute(
+        expect(screen.getByText("WordPress-Plugin").closest("a")).toHaveAttribute(
+            "target",
+            "_blank",
+        );
+        expect(screen.getByText("Shopify App Store").closest("a")).toHaveAttribute(
             "href",
-            "/partners/shopify",
+            SHOPIFY_APP_STORE_URL,
+        );
+        expect(screen.getByText("Shopify App Store").closest("a")).toHaveAttribute(
+            "target",
+            "_blank",
         );
         expect(screen.getByText("Eigene Integration").closest("a")).toHaveAttribute(
             "href",

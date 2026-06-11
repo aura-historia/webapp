@@ -74,7 +74,7 @@ jobs:
                 run: pnpm run test --coverage
 
             -   name: Upload coverage reports
-                uses: actions/upload-artifact@v6
+                uses: actions/upload-artifact@v7
                 with:
                     name: coverage-reports
                     path: coverage/
@@ -85,6 +85,7 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 10
         needs: [ test ]
+        if: github.actor != 'dependabot[bot]'
         steps:
             -   name: Checkout code
                 id: checkout
@@ -93,13 +94,13 @@ jobs:
                     fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
             -   name: Download coverage artifact
-                uses: actions/download-artifact@v6
+                uses: actions/download-artifact@v8
                 with:
                     name: coverage-reports
                     path: coverage/
 
             -   name: SonarQube Scan
-                uses: SonarSource/sonarqube-scan-action@v6
+                uses: SonarSource/sonarqube-scan-action@v8
                 env:
                     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
@@ -137,7 +138,7 @@ jobs:
                 run: pnpm run build
 
             -   name: Upload build artifacts
-                uses: actions/upload-artifact@v6
+                uses: actions/upload-artifact@v7
                 with:
                     name: build-artifacts
                     path: |
@@ -187,7 +188,7 @@ jobs:
                     sed -i 's/"name": "aura-historia-staging"/"name": "aura-historia"/' wrangler.jsonc
 
             -   name: Deploy to Cloudflare Workers
-                uses: cloudflare/wrangler-action@v3
+                uses: cloudflare/wrangler-action@v4
                 with:
                     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
