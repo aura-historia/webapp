@@ -215,7 +215,7 @@ export function Header() {
     return (
         <header
             className={cn(
-                "flex justify-between gap-2 lg:justify-normal lg:grid lg:grid-cols-3 items-center z-50 sticky top-0 xl:px-8 px-4 py-4 h-20 w-full transition-all duration-300",
+                "grid grid-cols-[auto_1fr_auto] lg:grid-cols-3 items-center h-20 z-50 sticky top-0 xl:px-8 px-4 w-full transition-all duration-300",
                 isFloating
                     ? "bg-transparent border-transparent"
                     : "bg-background border-b border-border",
@@ -241,131 +241,118 @@ export function Header() {
                         </div>
                     </div>
                 </Link>
-                {/* Additional Navigation Items can be placed here */}
             </div>
 
-            {/* Desktop Search bar */}
-            <div className="hidden justify-center lg:flex">
-                <div
-                    className={cn(
-                        "w-full transition-all duration-500",
-                        shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none",
-                        isFloating && shouldShowSearchBar
-                            ? "bg-background backdrop-blur-sm rounded-xs px-3 py-1.5 shadow-sm"
-                            : "",
-                    )}
-                >
-                    <SearchBar type="small" />
-                </div>
-            </div>
-
-            <div className="flex lg:hidden items-center justify-end gap-2">
-                {/* Mobile Search bar */}
-                <div
-                    className={cn(
-                        "transition-all duration-500",
-                        shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none",
-                        isFloating && shouldShowSearchBar
-                            ? "bg-background backdrop-blur-sm rounded-xs px-3 py-1.5 shadow-sm"
-                            : "",
-                    )}
-                >
-                    <SearchBar type="small" />
-                </div>
-
-                {/* Mobile Notification Bell */}
-                {isLoginEnabled && isAuthenticated && (
-                    <div
-                        className={cn(
-                            isFloating
-                                ? "bg-background backdrop-blur-sm rounded-xs p-1 shadow-sm"
-                                : "",
-                        )}
-                    >
-                        <NotificationBell />
-                    </div>
+            {/* Search bar */}
+            <div
+                className={cn(
+                    "mx-2 lg:mx-0 transition-all duration-500",
+                    shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none",
+                    isFloating && shouldShowSearchBar
+                        ? "bg-background backdrop-blur-sm rounded-xs px-3 py-1.5 shadow-sm"
+                        : "",
                 )}
+            >
+                <SearchBar type="small" />
+            </div>
 
-                {/* Mobile Menu */}
-                {isLoginEnabled && isAuthResolved && (
-                    <div
-                        className={cn(
-                            isFloating
-                                ? "bg-background backdrop-blur-sm rounded-xs p-2 shadow-sm"
-                                : "",
-                        )}
-                    >
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button>
-                                    <Menu />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                {isAuthenticated ? (
-                                    <>
-                                        <DropdownMenuLabel>
-                                            {t("header.myAccount")}
-                                        </DropdownMenuLabel>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem asChild>
-                                            <Link to="/me/watchlist">{t("header.watchlist")}</Link>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem asChild>
-                                            <Link to="/me/search-filters">
-                                                {t("header.searchFilters")}
-                                            </Link>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem asChild>
-                                            <Link to="/me/account">{t("header.editAccount")}</Link>
-                                        </DropdownMenuItem>
-                                        {isAdmin && (
+            {/* Right: Mobile buttons or Desktop menu */}
+            <div className="flex items-center justify-end">
+                <div className="flex lg:hidden items-center gap-2">
+                    {isLoginEnabled && isAuthenticated && (
+                        <div
+                            className={cn(
+                                isFloating
+                                    ? "bg-background backdrop-blur-sm rounded-xs p-1 shadow-sm"
+                                    : "",
+                            )}
+                        >
+                            <NotificationBell />
+                        </div>
+                    )}
+                    {isLoginEnabled && isAuthResolved && (
+                        <div
+                            className={cn(
+                                isFloating
+                                    ? "bg-background backdrop-blur-sm rounded-xs p-2 shadow-sm"
+                                    : "",
+                            )}
+                        >
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button>
+                                        <Menu />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    {isAuthenticated ? (
+                                        <>
+                                            <DropdownMenuLabel>
+                                                {t("header.myAccount")}
+                                            </DropdownMenuLabel>
+                                            <DropdownMenuSeparator />
                                             <DropdownMenuItem asChild>
-                                                <Link to="/admin">{t("header.admin")}</Link>
+                                                <Link to="/me/watchlist">
+                                                    {t("header.watchlist")}
+                                                </Link>
                                             </DropdownMenuItem>
-                                        )}
-                                        <DropdownMenuItem onSelect={() => signOut()}>
-                                            {t("header.logout")}
-                                        </DropdownMenuItem>
-                                    </>
-                                ) : (
-                                    <>
-                                        <DropdownMenuItem asChild>
-                                            <Link
-                                                to="/login"
-                                                search={{
-                                                    redirect: pathname + searchString,
-                                                    mode: "sign-up",
-                                                }}
-                                            >
-                                                {t("header.register")}
-                                            </Link>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem asChild>
-                                            <Link
-                                                to="/login"
-                                                search={{
-                                                    redirect: pathname + searchString,
-                                                    mode: "sign-in",
-                                                }}
-                                            >
-                                                {t("header.login")}
-                                            </Link>
-                                        </DropdownMenuItem>
-                                    </>
-                                )}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                                            <DropdownMenuItem asChild>
+                                                <Link to="/me/search-filters">
+                                                    {t("header.searchFilters")}
+                                                </Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem asChild>
+                                                <Link to="/me/account">
+                                                    {t("header.editAccount")}
+                                                </Link>
+                                            </DropdownMenuItem>
+                                            {isAdmin && (
+                                                <DropdownMenuItem asChild>
+                                                    <Link to="/admin">{t("header.admin")}</Link>
+                                                </DropdownMenuItem>
+                                            )}
+                                            <DropdownMenuItem onSelect={() => signOut()}>
+                                                {t("header.logout")}
+                                            </DropdownMenuItem>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <DropdownMenuItem asChild>
+                                                <Link
+                                                    to="/login"
+                                                    search={{
+                                                        redirect: pathname + searchString,
+                                                        mode: "sign-up",
+                                                    }}
+                                                >
+                                                    {t("header.register")}
+                                                </Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem asChild>
+                                                <Link
+                                                    to="/login"
+                                                    search={{
+                                                        redirect: pathname + searchString,
+                                                        mode: "sign-in",
+                                                    }}
+                                                >
+                                                    {t("header.login")}
+                                                </Link>
+                                            </DropdownMenuItem>
+                                        </>
+                                    )}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                    )}
+                </div>
+
+                {isLoginEnabled && (
+                    <div className="hidden lg:flex items-center justify-end w-full">
+                        {desktopMenuContent}
                     </div>
                 )}
             </div>
-
-            {/* Desktop Menu */}
-            {isLoginEnabled && (
-                <div className="hidden lg:flex items-center justify-end w-full">
-                    {desktopMenuContent}
-                </div>
-            )}
         </header>
     );
 }
