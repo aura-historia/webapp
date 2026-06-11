@@ -292,7 +292,10 @@
     },
     "messages": {
       "minQueryLength": "Please enter at least 3 characters to start the search.",
-      "error": "Error loading search results. Please try again later!",
+      "error": {
+        "title": "Error loading results",
+        "description": "The search results could not be loaded. Please try again later."
+      },
       "noResults": {
         "title": "No results found",
         "description": "Try adjusting your search term or filters."
@@ -939,8 +942,8 @@
     "TEXT_QUERY_TOO_SHORT": "The search query must contain at least 3 characters.",
     "BAD_PATH_PARAMETER_VALUE": "The link is invalid.",
     "INVALID_UUID": "The link is invalid.",
-    "SERVICE_UNAVAILABLE": "The service is currently unavailable. Please try again later.",
-    "BAD_QUERY_PARAMETER_VALUE": "Your search contains invalid settings.",
+    "SERVICE_UNAVAILABLE": "The service is currently unavailable due to high traffic. Please try again shortly.",
+    "BAD_QUERY_PARAMETER_VALUE": "The request contains invalid parameters.",
     "SHOP_NOT_FOUND": "This shop is no longer available.",
     "INVALID_SHOP_IDENTIFIER": "The shop identifier is invalid.",
     "INVALID_DOMAIN": "The shop domain is invalid.",
@@ -957,7 +960,17 @@
     "INVALID_EMAIL": "The email address is invalid or not accepted by our newsletter provider.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "You already have an active subscription. Please use the customer portal to manage it.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No existing subscription was found. Please start a new checkout.",
-    "SEARCH_FILTER_RESTRICTED_FEATURE": "This feature is only available for certain subscriptions. Please upgrade your account.",
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Some of your active filters are only available for premium users. Please remove these filters or upgrade your account to save a search filter.",
+    "BAD_REQUEST": "The request is invalid.",
+    "NOT_FOUND": "The requested resource was not found.",
+    "CONFLICT": "The action could not be completed due to a conflict.",
+    "UNPROCESSABLE_ENTITY": "The request could not be processed. Please check your input.",
+    "BAD_GATEWAY": "A connection problem occurred. Please try again later.",
+    "USER_EXISTS_ALREADY": "An account with this email address already exists.",
+    "NOTIFICATION_NOT_FOUND": "This notification no longer exists.",
+    "PRODUCT_ENRICHMENT_FAILED": "The product information could not be fully loaded.",
+    "ACCESS_TOKEN_NOT_FOUND": "Your session has expired. Please log in again.",
+    "PARTNER_SHOP_APPLICATION_NOT_FOUND": "The partner application was not found.",
     "unknown": "An unexpected error occurred.",
     "undefined": "An unexpected error occurred."
   },
@@ -965,7 +978,10 @@
     "title": "My Watchlist",
     "loginRequired": "Please log in to use the watchlist.",
     "totalElements": "{{count}} items",
-    "loadingError": "The watchlist cannot be reached at this time. Please try again later.",
+    "loadingError": {
+      "title": "Watchlist unavailable",
+      "description": "The watchlist cannot be reached at this time. Please try again later."
+    },
     "loadingMore": "Loading more results...",
     "allLoaded_one": "You have seen {{count}} item from your watchlist.",
     "allLoaded_other": "You have seen all {{count}} items from your watchlist.",
@@ -1209,7 +1225,10 @@
     "delete": "Delete",
     "deleteAll": "Delete all",
     "markRead": "Mark as read",
-    "loadingError": "Notifications could not be loaded. Please try again later.",
+    "loadingError": {
+      "title": "Error loading notifications",
+      "description": "Notifications could not be loaded. Please try again later."
+    },
     "loadingMore": "Loading more notifications...",
     "allLoaded_one": "{{count}} notification loaded",
     "allLoaded_other": "All {{count}} notifications loaded",
@@ -1323,7 +1342,10 @@
     "stateInactiveByUser": "Paused",
     "stateInactiveByPlan": "Locked",
     "stateInactiveByPlanTooltip": "This search filter is inactive due to your subscription plan.",
-    "loadingError": "Search filters could not be loaded. Please try again later.",
+    "loadingError": {
+      "title": "Error loading filters",
+      "description": "Search filters could not be loaded. Please try again later."
+    },
     "noResults": {
       "title": "No Search Filters",
       "description": "You have not saved any search filters yet."

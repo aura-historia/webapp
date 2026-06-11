@@ -5,10 +5,18 @@ import { createElement } from "react";
 import type { ReactNode } from "react";
 
 const mockPatchNotification = vi.fn();
+const mockToastError = vi.hoisted(() => vi.fn());
 
 vi.mock("@/client", () => ({
     patchNotification: (...args: unknown[]) => mockPatchNotification(...args),
 }));
+vi.mock("sonner", () => ({ toast: { error: mockToastError } }));
+vi.mock("@/hooks/common/useApiError", () => ({
+    useApiError: () => ({
+        getErrorMessage: vi.fn(() => "Ein unerwarteter Fehler ist aufgetreten."),
+    }),
+}));
+vi.mock("@/data/internal/hooks/ApiError", () => ({ mapToInternalApiError: (e: unknown) => e }));
 
 import { useMarkNotificationSeen } from "../useMarkNotificationSeen.ts";
 
@@ -54,8 +62,21 @@ describe("useMarkNotificationSeen", () => {
 
         await waitFor(() => {
             expect(result.current.isError).toBe(true);
-            expect(result.current.error?.message).toBe("Failed to mark notification as seen");
+            expect(result.current.error?.message).toBe("Ein unerwarteter Fehler ist aufgetreten.");
         });
+    });
+
+    it("shows error toast when API returns error", async () => {
+        mockPatchNotification.mockResolvedValue({ error: { status: 500 } });
+
+        const wrapper = createWrapper();
+        const { result } = renderHook(() => useMarkNotificationSeen(), { wrapper });
+
+        result.current.mutate("event-456");
+
+        await waitFor(() =>
+            expect(mockToastError).toHaveBeenCalledWith("Ein unerwarteter Fehler ist aufgetreten."),
+        );
     });
 
     it("should invalidate correct query keys on success", async () => {

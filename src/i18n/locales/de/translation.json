@@ -290,7 +290,10 @@
     },
     "messages": {
       "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",
-      "error": "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
+      "error": {
+        "title": "Fehler beim Laden",
+        "description": "Die Suchergebnisse konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+      },
       "noResults": {
         "title": "Keine Ergebnisse gefunden",
         "description": "Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen."
@@ -937,7 +940,7 @@
     "TEXT_QUERY_TOO_SHORT": "Die Suchanfrage muss mindestens 3 Zeichen enthalten.",
     "BAD_PATH_PARAMETER_VALUE": "Der Link ist ungültig.",
     "INVALID_UUID": "Der Link ist ungültig.",
-    "SERVICE_UNAVAILABLE": "Der Service ist momentan nicht verfügbar. Bitte versuche es später erneut.",
+    "SERVICE_UNAVAILABLE": "Der Service ist aktuell aufgrund von erhöhtem Traffic nicht erreichbar. Bitte versuchen Sie es in Kürze erneut.",
     "BAD_QUERY_PARAMETER_VALUE": "Ihre Suche enthält ungültige Einstellungen.",
     "SHOP_NOT_FOUND": "Dieser Shop ist nicht mehr verfügbar.",
     "INVALID_SHOP_IDENTIFIER": "Die Shop-Kennung ist ungültig.",
@@ -957,13 +960,26 @@
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Es wurde kein bestehendes Abonnement gefunden. Bitte starten Sie einen neuen Checkout.",
     "unknown": "Ein unerwarteter Fehler ist aufgetreten.",
     "undefined": "Ein unerwarteter Fehler ist aufgetreten.",
-    "SEARCH_FILTER_RESTRICTED_FEATURE": "Einige Ihrer aktiven Filter sind nur für Premium-Nutzer verfügbar. Bitte entfernen Sie diese Filter, um einen Suchauftrag zu speichern."
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Einige Ihrer aktiven Filter sind nur für Premium-Nutzer verfügbar. Bitte entfernen Sie diese Filter, um einen Suchauftrag zu speichern.",
+    "BAD_REQUEST": "Die Anfrage ist ungültig.",
+    "NOT_FOUND": "Die angeforderte Ressource wurde nicht gefunden.",
+    "CONFLICT": "Die Aktion konnte aufgrund eines Konflikts nicht ausgeführt werden.",
+    "UNPROCESSABLE_ENTITY": "Die Anfrage konnte nicht verarbeitet werden. Bitte überprüfen Sie Ihre Eingaben.",
+    "BAD_GATEWAY": "Es ist ein Verbindungsproblem aufgetreten. Bitte versuchen Sie es später erneut.",
+    "USER_EXISTS_ALREADY": "Ein Konto mit dieser E-Mail-Adresse existiert bereits.",
+    "NOTIFICATION_NOT_FOUND": "Diese Benachrichtigung existiert nicht mehr.",
+    "PRODUCT_ENRICHMENT_FAILED": "Die Produktinformationen konnten nicht vollständig geladen werden.",
+    "ACCESS_TOKEN_NOT_FOUND": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+    "PARTNER_SHOP_APPLICATION_NOT_FOUND": "Der Partnerantrag wurde nicht gefunden."
   },
   "watchlist": {
     "title": "Meine Merkliste",
     "loginRequired": "Bitte melden Sie sich an, um die Merkliste nutzen zu können.",
     "totalElements": "{{count}} Artikel",
-    "loadingError": "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
+    "loadingError": {
+      "title": "Merkliste nicht erreichbar",
+      "description": "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut."
+    },
     "loadingMore": "Lade neue Ergebnisse...",
     "allLoaded_one": "Sie haben {{count}} Artikel Ihrer Merkliste gesehen.",
     "allLoaded_other": "Sie haben alle {{count}} Artikel Ihrer Merkliste gesehen.",
@@ -1207,7 +1223,10 @@
     "delete": "Löschen",
     "deleteAll": "Alle löschen",
     "markRead": "Als gelesen markieren",
-    "loadingError": "Benachrichtigungen konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+    "loadingError": {
+      "title": "Fehler beim Laden",
+      "description": "Benachrichtigungen konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+    },
     "loadingMore": "Lade weitere Benachrichtigungen...",
     "allLoaded_one": "{{count}} Benachrichtigung geladen",
     "allLoaded_other": "Alle {{count}} Benachrichtigungen geladen",
@@ -1325,7 +1344,10 @@
     "stateInactiveByUser": "Pausiert",
     "stateInactiveByPlan": "Gesperrt",
     "stateInactiveByPlanTooltip": "Dieser Suchauftrag ist aufgrund Ihres Abonnements inaktiv.",
-    "loadingError": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+    "loadingError": {
+      "title": "Fehler beim Laden",
+      "description": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+    },
     "noResults": {
       "title": "Keine Suchaufträge",
       "description": "Speichern Sie eine Suche, um sie hier zu finden."

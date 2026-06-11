@@ -292,7 +292,10 @@
     },
     "messages": {
       "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
-      "error": "Error al cargar los resultados de búsqueda. ¡Por favor, inténtelo de nuevo más tarde!",
+      "error": {
+        "title": "Error de carga",
+        "description": "Los resultados de búsqueda no se pudieron cargar. Por favor, inténtelo de nuevo más tarde."
+      },
       "noResults": {
         "title": "No se encontraron resultados",
         "description": "Intente ajustar su término de búsqueda o filtros."
@@ -939,8 +942,8 @@
     "TEXT_QUERY_TOO_SHORT": "La consulta de búsqueda debe contener al menos 3 caracteres.",
     "BAD_PATH_PARAMETER_VALUE": "El enlace no es válido.",
     "INVALID_UUID": "El enlace no es válido.",
-    "SERVICE_UNAVAILABLE": "El servicio no está disponible actualmente. Por favor, inténtelo de nuevo más tarde.",
-    "BAD_QUERY_PARAMETER_VALUE": "Su búsqueda contiene configuraciones no válidas.",
+    "SERVICE_UNAVAILABLE": "El servicio no está disponible actualmente debido al alto tráfico. Por favor, inténtelo de nuevo en breve.",
+    "BAD_QUERY_PARAMETER_VALUE": "La solicitud contiene parámetros no válidos.",
     "SHOP_NOT_FOUND": "Esta tienda ya no está disponible.",
     "INVALID_SHOP_IDENTIFIER": "El identificador de la tienda no es válido.",
     "INVALID_DOMAIN": "El dominio de la tienda no es válido.",
@@ -959,13 +962,26 @@
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Ya tiene una suscripción activa. Por favor, utilice el portal de cliente para gestionarla.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No se encontró ninguna suscripción existente. Por favor, inicie un nuevo proceso de pago.",
     "undefined": "Ocurrió un error inesperado.",
-    "SEARCH_FILTER_RESTRICTED_FEATURE": "Esta función solo está disponible para ciertas suscripciones. Por favor, actualice su cuenta."
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Algunos de sus filtros activos solo están disponibles para usuarios premium. Elimine estos filtros o actualice su cuenta para guardar un filtro de búsqueda.",
+    "BAD_REQUEST": "La solicitud no es válida.",
+    "NOT_FOUND": "El recurso solicitado no fue encontrado.",
+    "CONFLICT": "La acción no pudo completarse debido a un conflicto.",
+    "UNPROCESSABLE_ENTITY": "La solicitud no pudo procesarse. Por favor, verifique sus datos.",
+    "BAD_GATEWAY": "Se produjo un problema de conexión. Por favor, inténtelo de nuevo más tarde.",
+    "USER_EXISTS_ALREADY": "Ya existe una cuenta con esta dirección de correo electrónico.",
+    "NOTIFICATION_NOT_FOUND": "Esta notificación ya no existe.",
+    "PRODUCT_ENRICHMENT_FAILED": "La información del producto no pudo cargarse completamente.",
+    "ACCESS_TOKEN_NOT_FOUND": "Su sesión ha expirado. Por favor, inicie sesión de nuevo.",
+    "PARTNER_SHOP_APPLICATION_NOT_FOUND": "La solicitud de socio no fue encontrada."
   },
   "watchlist": {
     "title": "Mi lista de seguimiento",
     "loginRequired": "Por favor, inicie sesión para usar la lista de seguimiento.",
     "totalElements": "{{count}} artículos",
-    "loadingError": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde.",
+    "loadingError": {
+      "title": "Lista no disponible",
+      "description": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde."
+    },
     "loadingMore": "Cargando más resultados...",
     "allLoaded_one": "Ha visto {{count}} artículo de su lista de seguimiento.",
     "allLoaded_other": "Ha visto los {{count}} artículos de su lista de seguimiento.",
@@ -1236,7 +1252,10 @@
     "delete": "Eliminar",
     "deleteAll": "Eliminar todo",
     "markRead": "Marcar como leído",
-    "loadingError": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde.",
+    "loadingError": {
+      "title": "Error de carga",
+      "description": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde."
+    },
     "loadingMore": "Cargando más notificaciones...",
     "allLoaded_one": "{{count}} notificación cargada",
     "allLoaded_other": "Todas las {{count}} notificaciones cargadas",
@@ -1553,7 +1572,15 @@
     },
     "notificationsOn": "Notificaciones activas",
     "notificationsOff": "Notificaciones inactivas",
-    "loadingError": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtelo de nuevo más tarde.",
+    "activate": "Activar",
+    "deactivate": "Pausar",
+    "stateInactiveByUser": "En pausa",
+    "stateInactiveByPlan": "Bloqueado",
+    "stateInactiveByPlanTooltip": "Este filtro de búsqueda está inactivo debido a tu plan de suscripción.",
+    "loadingError": {
+      "title": "Error de carga",
+      "description": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtelo de nuevo más tarde."
+    },
     "noResults": {
       "title": "Sin Filtros de Búsqueda",
       "description": "Aún no ha guardado ningún filtro de búsqueda."
@@ -1565,6 +1592,7 @@
     },
     "totalElements": "{{count}} filtro(s) de búsqueda",
     "matchingProducts": "Mostrar todas las coincidencias",
+    "matchingProductsInactive": "El filtro de búsqueda está inactivo – no hay coincidencias disponibles.",
     "searchPlaceholder": "Buscar filtros de búsqueda...",
     "showDetails": "Mostrar detalles",
     "showResults": "Buscar ahora",
@@ -1586,13 +1614,7 @@
       "notRelevantHint": "La coincidencia no es relevante"
     },
     "matchReason": "Razón AI",
-    "feedbackError": "No se pudo guardar el comentario.",
-    "activate": "Activar",
-    "deactivate": "Pausar",
-    "stateInactiveByUser": "Pausado",
-    "stateInactiveByPlan": "Bloqueado",
-    "stateInactiveByPlanTooltip": "Este filtro de búsqueda está inactivo debido a tu plan de suscripción.",
-    "matchingProductsInactive": "El filtro de búsqueda está inactivo – no hay coincidencias disponibles."
+    "feedbackError": "No se pudo guardar el comentario."
   },
   "oauth": {
     "authorize": {

@@ -91,9 +91,10 @@ describe("ShopSearchResults", () => {
     it("renders an error message when the search fails", () => {
         setShopSearchMock({ error: new Error("boom") });
         renderWithQueryClient(<ShopSearchResults searchFilters={{ q: "test" }} />);
+        expect(screen.getByText("Fehler beim Laden")).toBeInTheDocument();
         expect(
             screen.getByText(
-                "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
+                "Die Suchergebnisse konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
             ),
         ).toBeInTheDocument();
     });
