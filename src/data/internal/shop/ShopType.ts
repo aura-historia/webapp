@@ -5,19 +5,9 @@ export const SHOP_TYPES = [
     "AUCTION_PLATFORM",
     "COMMERCIAL_DEALER",
     "MARKETPLACE",
-    "UNKNOWN",
 ] as const;
 
 export type ShopType = (typeof SHOP_TYPES)[number];
-
-export const FILTERABLE_SHOP_TYPES = [
-    "AUCTION_HOUSE",
-    "AUCTION_PLATFORM",
-    "COMMERCIAL_DEALER",
-    "MARKETPLACE",
-] as const;
-
-export type FilterableShopType = (typeof FILTERABLE_SHOP_TYPES)[number];
 
 export const SHOP_TYPE_TRANSLATION_CONFIG = {
     AUCTION_HOUSE: {
@@ -32,13 +22,10 @@ export const SHOP_TYPE_TRANSLATION_CONFIG = {
     MARKETPLACE: {
         translationKey: "shopType.marketplace",
     },
-    UNKNOWN: {
-        translationKey: "shopType.unknown",
-    },
 } as const;
 
-export function parseShopType(shopType?: string): ShopType {
-    const uppercasedShopType = shopType?.toUpperCase() ?? "UNKNOWN";
+export function parseShopType(shopType?: string): ShopType | undefined {
+    const uppercasedShopType = shopType?.toUpperCase();
 
     switch (uppercasedShopType) {
         case "AUCTION_HOUSE":
@@ -47,20 +34,10 @@ export function parseShopType(shopType?: string): ShopType {
         case "MARKETPLACE":
             return uppercasedShopType;
         default:
-            return "UNKNOWN";
+            return undefined;
     }
 }
 
 export function mapToBackendShopType(shopType?: ShopType): ShopTypeData | undefined {
-    if (!shopType) return undefined;
-
-    switch (shopType) {
-        case "AUCTION_HOUSE":
-        case "AUCTION_PLATFORM":
-        case "COMMERCIAL_DEALER":
-        case "MARKETPLACE":
-            return shopType;
-        case "UNKNOWN":
-            return undefined;
-    }
+    return shopType;
 }

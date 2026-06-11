@@ -19,11 +19,7 @@ import {
     SelectValue,
 } from "@/components/ui/select.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
-import {
-    SHOP_TYPES,
-    SHOP_TYPE_TRANSLATION_CONFIG,
-    type ShopType,
-} from "@/data/internal/shop/ShopType.ts";
+import { SHOP_TYPE_TRANSLATION_CONFIG, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
 import { usePatchAdminPartnerApplication } from "@/hooks/admin/useAdminPartnerApplicationActions.ts";
 import { toast } from "sonner";
@@ -34,7 +30,12 @@ interface AdminApplicationEditDialogProps {
     readonly onOpenChange: (open: boolean) => void;
 }
 
-const EDITABLE_SHOP_TYPES = SHOP_TYPES.filter((t) => t !== "UNKNOWN");
+const EDITABLE_SHOP_TYPES = [
+    "AUCTION_HOUSE",
+    "AUCTION_PLATFORM",
+    "COMMERCIAL_DEALER",
+    "MARKETPLACE",
+] as const;
 
 function parseDomains(input: string): string[] {
     return input
@@ -51,7 +52,7 @@ export function AdminApplicationEditDialog({
     const { t } = useTranslation();
     const patch = usePatchAdminPartnerApplication();
     const [shopName, setShopName] = useState("");
-    const [shopType, setShopType] = useState<ShopType>("UNKNOWN");
+    const [shopType, setShopType] = useState<ShopType | undefined>();
     const [shopImage, setShopImage] = useState("");
     const [domainsRaw, setDomainsRaw] = useState("");
 
@@ -74,7 +75,7 @@ export function AdminApplicationEditDialog({
             {
                 partnerApplicationId: application.id,
                 shopName: shopName.trim() || undefined,
-                shopType: shopType === "UNKNOWN" ? undefined : shopType,
+                shopType,
                 shopDomains: parseDomains(domainsRaw),
                 shopImage: trimmedImage === "" ? null : trimmedImage,
             },
@@ -115,7 +116,7 @@ export function AdminApplicationEditDialog({
                         </Label>
                         <Select value={shopType} onValueChange={(v) => setShopType(v as ShopType)}>
                             <SelectTrigger id="admin-app-type">
-                                <SelectValue />
+                                <SelectValue placeholder="—" />
                             </SelectTrigger>
                             <SelectContent>
                                 {EDITABLE_SHOP_TYPES.map((type) => (

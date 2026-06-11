@@ -47,7 +47,6 @@ import { toast } from "sonner";
 const NO_COUNTRY_VALUE = "__none__";
 const NO_CURRENCY_VALUE = "__none__";
 const NO_LANGUAGE_VALUE = "__none__";
-const EDITABLE_OR_UNKNOWN_SHOP_TYPES = ["UNKNOWN", ...EDITABLE_SHOP_TYPES] as const;
 const SHOP_LANGUAGES = [
     "de",
     "en",
@@ -73,7 +72,7 @@ interface AdminShopEditDialogProps {
 
 function createAdminShopEditSchema(t: (key: string) => string) {
     return z.object({
-        shopType: z.enum(EDITABLE_OR_UNKNOWN_SHOP_TYPES),
+        shopType: z.union([z.literal(""), z.enum(EDITABLE_SHOP_TYPES)]),
         domains: z
             .string()
             .trim()
@@ -120,7 +119,7 @@ function createAdminShopEditSchema(t: (key: string) => string) {
 type AdminShopEditFormData = z.infer<ReturnType<typeof createAdminShopEditSchema>>;
 
 const DEFAULT_VALUES: AdminShopEditFormData = {
-    shopType: "UNKNOWN",
+    shopType: "",
     domains: "",
     shopifyDomain: "",
     shopifyCurrency: "",
@@ -141,7 +140,7 @@ const DEFAULT_VALUES: AdminShopEditFormData = {
 
 function mapShopToFormValues(shop: ShopDetail): AdminShopEditFormData {
     return {
-        shopType: shop.shopType,
+        shopType: shop.shopType ?? "",
         domains: shop.domains.join("\n"),
         shopifyDomain: shop.shopifyDomain ?? "",
         shopifyCurrency: shop.shopifyCurrency ?? "",
@@ -215,7 +214,7 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
         patchShop.mutate(
             {
                 shopId: shop.shopId,
-                shopType: values.shopType === "UNKNOWN" ? undefined : values.shopType,
+                shopType: values.shopType || undefined,
                 domains: parseShopDomains(values.domains),
                 shopifyDomain:
                     normalizeShopDomain(values.shopifyDomain) === ""
@@ -292,7 +291,7 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                                                 >
                                                     <FormControl>
                                                         <SelectTrigger>
-                                                            <SelectValue />
+                                                            <SelectValue placeholder="—" />
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent>

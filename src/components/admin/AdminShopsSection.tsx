@@ -20,8 +20,8 @@ import { AdminShopEditDialog } from "@/components/admin/AdminShopEditDialog.tsx"
 import { AdminShopCreateDialog } from "@/components/admin/AdminShopCreateDialog.tsx";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 
-function shopTypeLabel(t: (k: string) => string, shopType: ShopType): string {
-    return t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].translationKey);
+function shopTypeLabel(t: (k: string) => string, shopType?: ShopType): string {
+    return shopType ? t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].translationKey) : "—";
 }
 
 function partnerStatusLabel(t: (k: string) => string, status: ShopPartnerStatus): string {

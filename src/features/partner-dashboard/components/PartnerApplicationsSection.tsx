@@ -98,13 +98,15 @@ export function PartnerApplicationsSection() {
                                 <div className="flex justify-between items-end">
                                     <div className="flex flex-col gap-1">
                                         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                                            <span>
-                                                {t(
-                                                    SHOP_TYPE_TRANSLATION_CONFIG[
-                                                        application.payload.shopType
-                                                    ].translationKey,
-                                                )}
-                                            </span>
+                                            {application.payload.shopType && (
+                                                <span>
+                                                    {t(
+                                                        SHOP_TYPE_TRANSLATION_CONFIG[
+                                                            application.payload.shopType
+                                                        ].translationKey,
+                                                    )}
+                                                </span>
+                                            )}
                                             {domains && (
                                                 <span className="flex min-w-0 items-center gap-1">
                                                     <Globe

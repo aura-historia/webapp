@@ -81,9 +81,17 @@ function parseSortOrder(order: string | undefined): SortMode["order"] {
 
 function parseShopTypes(values: unknown): ShopType[] | undefined {
     if (!Array.isArray(values)) return undefined;
-    return values
-        .map((shopType) => parseShopType(shopType))
-        .filter((elem, index, self) => index === self.indexOf(elem));
+
+    const seen = new Set<ShopType>();
+    for (const value of values) {
+        if (typeof value !== "string") continue;
+        const parsed = parseShopType(value);
+        if (parsed) {
+            seen.add(parsed);
+        }
+    }
+
+    return seen.size === 0 ? [] : Array.from(seen);
 }
 
 export function validateSearchParams(search: RawSearchParams): SearchFilterArguments {

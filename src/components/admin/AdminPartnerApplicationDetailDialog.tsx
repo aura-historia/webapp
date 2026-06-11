@@ -152,11 +152,15 @@ export function AdminPartnerApplicationDetailDialog({
                                     />
                                     <Field
                                         label={t("adminDashboard.applications.fields.shopType")}
-                                        value={t(
-                                            SHOP_TYPE_TRANSLATION_CONFIG[
-                                                application.payload.shopType
-                                            ].translationKey,
-                                        )}
+                                        value={
+                                            application.payload.shopType
+                                                ? t(
+                                                      SHOP_TYPE_TRANSLATION_CONFIG[
+                                                          application.payload.shopType
+                                                      ].translationKey,
+                                                  )
+                                                : undefined
+                                        }
                                     />
                                     <Field
                                         label={t("adminDashboard.applications.fields.domains")}

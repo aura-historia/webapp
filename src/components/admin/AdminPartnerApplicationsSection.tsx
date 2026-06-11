@@ -51,8 +51,8 @@ function businessStateVariant(
     }
 }
 
-function shopTypeLabel(t: (k: string) => string, shopType: ShopType): string {
-    return t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].translationKey);
+function shopTypeLabel(t: (k: string) => string, shopType?: ShopType): string {
+    return shopType ? t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].translationKey) : "—";
 }
 
 const TAB_FILTERS: Record<"PENDING" | "DECIDED" | "ALL", PartnerApplicationBusinessState[] | null> =

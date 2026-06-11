@@ -24,7 +24,9 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
 
     const formattedProductCount = new Intl.NumberFormat(i18n.language).format(productCount ?? 0);
 
-    const shopTypeName = t(SHOP_TYPE_TRANSLATION_CONFIG[shop.shopType].translationKey);
+    const shopTypeName = shop.shopType
+        ? t(SHOP_TYPE_TRANSLATION_CONFIG[shop.shopType].translationKey)
+        : undefined;
     const merchantUrl = shop.viewUrl ?? shop.url;
 
     return (
@@ -33,9 +35,11 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
                 <div className="absolute inset-0 bg-linear-to-t from-primary/85 via-primary/45 to-primary/15" />
                 <div className="relative mx-auto flex min-h-85 max-w-7xl items-end px-4 pb-10 pt-24 md:min-h-130 md:px-10 md:pb-16">
                     <div className="max-w-3xl space-y-3">
-                        <p className="text-xs uppercase tracking-[0.2em] text-tertiary-fixed">
-                            {shopTypeName}
-                        </p>
+                        {shopTypeName && (
+                            <p className="text-xs uppercase tracking-[0.2em] text-tertiary-fixed">
+                                {shopTypeName}
+                            </p>
+                        )}
                         <H1 className="text-5xl font-normal italic leading-tight text-primary-foreground md:text-7xl">
                             {shop.name}
                         </H1>

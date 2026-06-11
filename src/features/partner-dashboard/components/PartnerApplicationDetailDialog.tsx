@@ -269,10 +269,14 @@ function ApplicationDetails({
                         )}
                         <Field
                             label={t("partnerDashboard.applications.detail.shopType")}
-                            value={t(
-                                SHOP_TYPE_TRANSLATION_CONFIG[application.payload.shopType]
-                                    .translationKey,
-                            )}
+                            value={
+                                application.payload.shopType
+                                    ? t(
+                                          SHOP_TYPE_TRANSLATION_CONFIG[application.payload.shopType]
+                                              .translationKey,
+                                      )
+                                    : undefined
+                            }
                         />
                         <Field
                             label={t("partnerDashboard.applications.detail.domains")}
@@ -387,7 +391,7 @@ export function PartnerApplicationDetailDialog({
             {
                 partnerApplicationId: application.id,
                 shopName: values.shopName,
-                shopType: values.shopType,
+                shopType: values.shopType || undefined,
                 shopDomains: parseShopDomains(values.shopDomains),
                 shopUrl: optionalTrimmedValue(values.shopUrl),
                 shopImage: optionalTrimmedValue(values.shopImage),

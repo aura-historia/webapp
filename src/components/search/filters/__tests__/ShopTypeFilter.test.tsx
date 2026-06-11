@@ -56,7 +56,6 @@ describe("ShopTypeFilter", () => {
                         "AUCTION_PLATFORM",
                         "COMMERCIAL_DEALER",
                         "MARKETPLACE",
-                        "UNKNOWN",
                     ],
                 }}
             >
@@ -93,7 +92,7 @@ describe("ShopTypeFilter", () => {
         expect(screen.getByText("Auktionsplattform")).toBeInTheDocument();
         expect(screen.getByText("Händler")).toBeInTheDocument();
         expect(screen.getByText("Marktplatz")).toBeInTheDocument();
-        expect(screen.getByText("Unbekannt")).toBeInTheDocument();
+        expect(screen.queryByText("Unbekannt")).not.toBeInTheDocument();
     });
 
     it("selects an option when clicked in dropdown", async () => {

@@ -6,19 +6,20 @@ import { SHOP_TYPE_TRANSLATION_CONFIG, type ShopType } from "@/data/internal/sho
 
 interface ProductPriceEstimateProps {
     readonly priceEstimate: PriceEstimate;
-    readonly shopType: ShopType;
+    readonly shopType?: ShopType;
 }
 
 export function ProductPriceEstimate({ priceEstimate, shopType }: ProductPriceEstimateProps) {
     const { t } = useTranslation();
     const min = priceEstimate.min;
     const max = priceEstimate.max;
-    const shopTypeName = t(SHOP_TYPE_TRANSLATION_CONFIG[shopType]?.translationKey);
+    const shopTypeName = shopType
+        ? t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].translationKey)
+        : undefined;
 
-    const tooltipText =
-        shopType === "UNKNOWN"
-            ? t("product.priceEstimate.tooltipUnknown")
-            : t("product.priceEstimate.tooltip", { shopType: shopTypeName });
+    const tooltipText = shopTypeName
+        ? t("product.priceEstimate.tooltip", { shopType: shopTypeName })
+        : t("product.priceEstimate.tooltipUnknown");
 
     if (!min && !max) return;
 

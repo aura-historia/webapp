@@ -45,7 +45,7 @@ function createPartnerApplicationEditFormSchema(t: TFunction) {
             .string()
             .trim()
             .min(1, t("partnerDashboard.create.validation.shopNameRequired")),
-        shopType: z.enum(EDITABLE_SHOP_TYPES),
+        shopType: z.union([z.literal(""), z.enum(EDITABLE_SHOP_TYPES)]),
         shopDomains: z
             .string()
             .trim()
@@ -76,7 +76,7 @@ function getEditFormDefaultValues(application: PartnerApplication): PartnerAppli
     if (payload.type !== "NEW") {
         return {
             shopName: "",
-            shopType: "MARKETPLACE",
+            shopType: "",
             shopDomains: "",
             shopUrl: "",
             shopImage: "",
@@ -93,7 +93,7 @@ function getEditFormDefaultValues(application: PartnerApplication): PartnerAppli
 
     return {
         shopName: payload.shopName,
-        shopType: payload.shopType === "UNKNOWN" ? "MARKETPLACE" : payload.shopType,
+        shopType: payload.shopType ?? "",
         shopDomains: payload.shopDomains.join("\n"),
         shopUrl: payload.shopUrl ?? "",
         shopImage: payload.shopImage ?? "",
@@ -126,7 +126,10 @@ export function PartnerApplicationEditForm({
         resolver: zodResolver(createPartnerApplicationEditFormSchema(t)),
         defaultValues: getEditFormDefaultValues(application),
     });
-    const shopTypeField = useController({ control: form.control, name: "shopType" }).field;
+    const shopTypeField = useController({
+        control: form.control,
+        name: "shopType",
+    }).field;
     const errors = form.formState.errors;
 
     return (
@@ -166,7 +169,7 @@ export function PartnerApplicationEditForm({
                                     className="w-full"
                                     aria-invalid={!!errors.shopType}
                                 >
-                                    <SelectValue />
+                                    <SelectValue placeholder="—" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {EDITABLE_SHOP_TYPES.map((shopType) => (

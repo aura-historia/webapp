@@ -221,7 +221,9 @@ export function SearchFilterCard({
                         <AlertDialogContent>
                             <AlertDialogHeader>
                                 <AlertDialogTitle>
-                                    {t("searchFilters.deleteConfirm.title", { name: filter.name })}
+                                    {t("searchFilters.deleteConfirm.title", {
+                                        name: filter.name,
+                                    })}
                                 </AlertDialogTitle>
                                 <AlertDialogDescription>
                                     {t("searchFilters.deleteConfirm.description")}

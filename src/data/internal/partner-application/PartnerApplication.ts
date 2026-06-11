@@ -20,7 +20,7 @@ export type PartnerApplicationPayload =
           readonly shopId: string;
           readonly shopSlugId: string;
           readonly shopName: string;
-          readonly shopType: ShopType;
+          readonly shopType?: ShopType;
           readonly shopDomains: string[];
           readonly shopUrl?: string;
           readonly shopImage?: string;
@@ -31,7 +31,7 @@ export type PartnerApplicationPayload =
     | {
           readonly type: "NEW";
           readonly shopName: string;
-          readonly shopType: ShopType;
+          readonly shopType?: ShopType;
           readonly shopDomains: string[];
           readonly shopUrl?: string;
           readonly shopImage?: string;

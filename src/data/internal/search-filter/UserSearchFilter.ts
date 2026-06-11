@@ -58,7 +58,9 @@ export function mapProductSearchDataToSearchFilterArguments(
         excludeMerchant: data.excludeShopName,
         seller: data.sellerName,
         excludeSeller: data.excludeSellerName,
-        shopType: data.shopType?.map((t) => parseShopType(t)),
+        shopType: data.shopType
+            ?.map((t) => parseShopType(t))
+            .filter((shopType): shopType is NonNullable<typeof shopType> => shopType != null),
     };
 }
 
