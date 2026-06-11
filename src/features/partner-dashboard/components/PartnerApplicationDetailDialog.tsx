@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Check, ExternalLink, Mail, Pencil, Phone, Store, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -42,7 +43,7 @@ import {
     PartnerApplicationEditForm,
     type PartnerApplicationEditFormData,
 } from "@/features/partner-dashboard/components/PartnerApplicationEditForm.tsx";
-import { formatShortDate } from "@/lib/utils.ts";
+import { formatDateTime } from "@/lib/utils.ts";
 import {
     BUSINESS_STATE_TRANSLATION_KEY,
     businessStateVariant,
@@ -81,6 +82,34 @@ function LinkField({ label, value }: { readonly label: string; readonly value?: 
                     <span className="truncate">{value}</span>
                     <ExternalLink className="h-3 w-3 shrink-0" aria-hidden="true" />
                 </a>
+            </dd>
+        </div>
+    );
+}
+
+function ShopPageField({
+    label,
+    shopName,
+    shopSlugId,
+}: {
+    readonly label: string;
+    readonly shopName: string;
+    readonly shopSlugId: string;
+}) {
+    return (
+        <div className="flex min-w-0 flex-col gap-1">
+            <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                {label}
+            </dt>
+            <dd className="min-w-0 text-sm">
+                <Link
+                    to="/shops/$shopSlugId"
+                    params={{ shopSlugId }}
+                    className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
+                >
+                    <span className="truncate">{shopName}</span>
+                    <ExternalLink className="h-3 w-3 shrink-0" aria-hidden="true" />
+                </Link>
             </dd>
         </div>
     );
@@ -209,20 +238,12 @@ function ApplicationDetails({
                 </h3>
                 <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                     <Field
-                        label={t("partnerDashboard.applications.detail.applicationId")}
-                        value={application.id}
-                    />
-                    <Field
-                        label={t("partnerDashboard.applications.detail.applicantUserId")}
-                        value={application.applicantUserId}
-                    />
-                    <Field
                         label={t("partnerDashboard.applications.detail.createdAt")}
-                        value={formatShortDate(application.created, i18n.language)}
+                        value={formatDateTime(application.created, i18n.language)}
                     />
                     <Field
                         label={t("partnerDashboard.applications.detail.updatedAt")}
-                        value={formatShortDate(application.updated, i18n.language)}
+                        value={formatDateTime(application.updated, i18n.language)}
                     />
                 </dl>
             </section>
@@ -233,86 +254,78 @@ function ApplicationDetails({
                         {t("partnerDashboard.applications.detail.shopSection")}
                     </h3>
                     <dl className="mt-4 grid gap-3 sm:grid-cols-2">
-                        {application.payload.type === "NEW" ? (
-                            <>
-                                <Field
-                                    label={t("partnerDashboard.applications.detail.shopName")}
-                                    value={application.payload.shopName}
-                                />
-                                <Field
-                                    label={t("partnerDashboard.applications.detail.shopType")}
-                                    value={t(
-                                        SHOP_TYPE_TRANSLATION_CONFIG[application.payload.shopType]
-                                            .translationKey,
-                                    )}
-                                />
-                                <Field
-                                    label={t("partnerDashboard.applications.detail.domains")}
-                                    value={application.payload.shopDomains.join(", ")}
-                                />
-                                <LinkField
-                                    label={t("partnerDashboard.applications.detail.shopUrl")}
-                                    value={application.payload.shopUrl}
-                                />
-                                <LinkField
-                                    label={t("partnerDashboard.applications.detail.shopImage")}
-                                    value={application.payload.shopImage}
-                                />
-                                {application.payload.shopPhone && (
-                                    <div className="flex min-w-0 flex-col gap-1">
-                                        <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                                            {t("partnerDashboard.applications.detail.shopPhone")}
-                                        </dt>
-                                        <dd className="min-w-0 text-sm">
-                                            <a
-                                                className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
-                                                href={`tel:${application.payload.shopPhone}`}
-                                            >
-                                                <Phone
-                                                    className="h-3 w-3 shrink-0"
-                                                    aria-hidden="true"
-                                                />
-                                                <span className="truncate">
-                                                    {application.payload.shopPhone}
-                                                </span>
-                                            </a>
-                                        </dd>
-                                    </div>
-                                )}
-                                {application.payload.shopEmail && (
-                                    <div className="flex min-w-0 flex-col gap-1">
-                                        <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                                            {t("partnerDashboard.applications.detail.shopEmail")}
-                                        </dt>
-                                        <dd className="min-w-0 text-sm">
-                                            <a
-                                                className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
-                                                href={`mailto:${application.payload.shopEmail}`}
-                                            >
-                                                <Mail
-                                                    className="h-3 w-3 shrink-0"
-                                                    aria-hidden="true"
-                                                />
-                                                <span className="truncate">
-                                                    {application.payload.shopEmail}
-                                                </span>
-                                            </a>
-                                        </dd>
-                                    </div>
-                                )}
-                                <Field
-                                    label={t("partnerDashboard.applications.detail.address")}
-                                    value={getAddressSummary(
-                                        application.payload.shopStructuredAddress,
-                                    )}
-                                />
-                            </>
+                        {application.payload.type === "EXISTING" &&
+                        application.payload.shopSlugId ? (
+                            <ShopPageField
+                                label={t("partnerDashboard.applications.detail.shopName")}
+                                shopName={application.payload.shopName}
+                                shopSlugId={application.payload.shopSlugId}
+                            />
                         ) : (
                             <Field
-                                label={t("partnerDashboard.applications.detail.shopId")}
-                                value={application.payload.shopId}
+                                label={t("partnerDashboard.applications.detail.shopName")}
+                                value={application.payload.shopName}
                             />
                         )}
+                        <Field
+                            label={t("partnerDashboard.applications.detail.shopType")}
+                            value={t(
+                                SHOP_TYPE_TRANSLATION_CONFIG[application.payload.shopType]
+                                    .translationKey,
+                            )}
+                        />
+                        <Field
+                            label={t("partnerDashboard.applications.detail.domains")}
+                            value={application.payload.shopDomains.join(", ")}
+                        />
+                        <LinkField
+                            label={t("partnerDashboard.applications.detail.shopUrl")}
+                            value={application.payload.shopUrl}
+                        />
+                        <LinkField
+                            label={t("partnerDashboard.applications.detail.shopImage")}
+                            value={application.payload.shopImage}
+                        />
+                        {application.payload.shopPhone && (
+                            <div className="flex min-w-0 flex-col gap-1">
+                                <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                    {t("partnerDashboard.applications.detail.shopPhone")}
+                                </dt>
+                                <dd className="min-w-0 text-sm">
+                                    <a
+                                        className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
+                                        href={`tel:${application.payload.shopPhone}`}
+                                    >
+                                        <Phone className="h-3 w-3 shrink-0" aria-hidden="true" />
+                                        <span className="truncate">
+                                            {application.payload.shopPhone}
+                                        </span>
+                                    </a>
+                                </dd>
+                            </div>
+                        )}
+                        {application.payload.shopEmail && (
+                            <div className="flex min-w-0 flex-col gap-1">
+                                <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                    {t("partnerDashboard.applications.detail.shopEmail")}
+                                </dt>
+                                <dd className="min-w-0 text-sm">
+                                    <a
+                                        className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
+                                        href={`mailto:${application.payload.shopEmail}`}
+                                    >
+                                        <Mail className="h-3 w-3 shrink-0" aria-hidden="true" />
+                                        <span className="truncate">
+                                            {application.payload.shopEmail}
+                                        </span>
+                                    </a>
+                                </dd>
+                            </div>
+                        )}
+                        <Field
+                            label={t("partnerDashboard.applications.detail.address")}
+                            value={getAddressSummary(application.payload.shopStructuredAddress)}
+                        />
                     </dl>
                 </section>
             )}

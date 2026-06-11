@@ -40,6 +40,7 @@ describe("mapToPartnerApplication", () => {
         expect(result.payload).toEqual({
             type: "EXISTING",
             shopId: "shop-1",
+            shopSlugId: "hydrated-shop",
             shopName: "Hydrated Shop",
             shopType: "AUCTION_HOUSE",
             shopDomains: ["hydrated.example.com"],

@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
-import { formatShortDate } from "@/lib/utils.ts";
+import { formatDateTime } from "@/lib/utils.ts";
 import { usePartnerApplications } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
 import { PartnerApplicationCreateDialog } from "@/features/partner-dashboard/components/PartnerApplicationCreateDialog.tsx";
 import { PartnerApplicationDetailDialog } from "@/features/partner-dashboard/components/PartnerApplicationDetailDialog.tsx";
@@ -120,7 +120,7 @@ export function PartnerApplicationsSection() {
                                         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                                             <span>
                                                 {t("partnerDashboard.applications.submittedAt", {
-                                                    date: formatShortDate(
+                                                    date: formatDateTime(
                                                         application.created,
                                                         i18n.language,
                                                     ),
@@ -128,7 +128,7 @@ export function PartnerApplicationsSection() {
                                             </span>
                                             <span>
                                                 {t("partnerDashboard.applications.updatedAt", {
-                                                    date: formatShortDate(
+                                                    date: formatDateTime(
                                                         application.updated,
                                                         i18n.language,
                                                     ),

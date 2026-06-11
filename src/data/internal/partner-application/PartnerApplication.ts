@@ -18,6 +18,7 @@ export type PartnerApplicationPayload =
     | {
           readonly type: "EXISTING";
           readonly shopId: string;
+          readonly shopSlugId: string;
           readonly shopName: string;
           readonly shopType: ShopType;
           readonly shopDomains: string[];
@@ -69,6 +70,7 @@ function mapPayload(payload: GetPartnerShopApplicationPayloadData): PartnerAppli
         return {
             type: "EXISTING",
             shopId: shop.shopId,
+            shopSlugId: shop.shopSlugId,
             shopName: shop.name,
             shopType: shop.shopType,
             shopDomains: shop.domains,
