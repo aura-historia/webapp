@@ -129,8 +129,8 @@
     },
     "partnerProgramLinks": {
       "overview": "Vue d'ensemble",
-      "woocommerce": "WooCommerce",
-      "shopify": "Shopify",
+      "woocommerce": "Plugin WordPress",
+      "shopify": "Shopify App Store",
       "customApi": "Intégration personnalisée",
       "apply": "Postuler"
     }
@@ -733,14 +733,14 @@
       "subtitle": "Choisissez l'intégration qui convient à votre installation. Toutes synchronisent en quelques minutes – sans toucher au code.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Installez notre extension depuis le répertoire des extensions WordPress.",
-        "cta": "Voir l'intégration",
+        "description": "Installez notre extension directement depuis le répertoire des extensions WordPress.",
+        "cta": "Ouvrir le plugin WordPress",
         "badge": "Recommandé"
       },
       "shopify": {
         "title": "Application Shopify",
-        "description": "Connectez votre boutique Shopify en un clic depuis le Shopify App Store.",
-        "cta": "Voir l'intégration",
+        "description": "Ouvrez directement notre fiche dans le Shopify App Store.",
+        "cta": "Ouvrir Shopify App Store",
         "badge": "Populaire"
       },
       "customApi": {

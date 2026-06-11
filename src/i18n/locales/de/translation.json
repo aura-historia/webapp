@@ -129,8 +129,8 @@
     },
     "partnerProgramLinks": {
       "overview": "Übersicht",
-      "woocommerce": "WooCommerce",
-      "shopify": "Shopify",
+      "woocommerce": "WordPress-Plugin",
+      "shopify": "Shopify App Store",
       "customApi": "Eigene Integration",
       "apply": "Jetzt bewerben"
     }
@@ -727,14 +727,14 @@
       "subtitle": "Wählen Sie die Integration, die zu Ihrem Setup passt. Alle Wege führen in wenigen Minuten zur Live-Synchronisation – ohne dass Sie Code anfassen müssen.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Installieren Sie unsere Erweiterung über das WordPress-Plugin-Verzeichnis.",
-        "cta": "Integration ansehen",
+        "description": "Installieren Sie unsere Erweiterung direkt über das WordPress-Plugin-Verzeichnis.",
+        "cta": "Zum WordPress-Plugin",
         "badge": "Empfohlen"
       },
       "shopify": {
         "title": "Shopify-App",
-        "description": "Verbinden Sie Ihren Shopify-Store mit einem Klick aus dem Shopify App Store.",
-        "cta": "Integration ansehen",
+        "description": "Öffnen Sie unseren Eintrag direkt im Shopify App Store.",
+        "cta": "Zum Shopify App Store",
         "badge": "Beliebt"
       },
       "customApi": {
