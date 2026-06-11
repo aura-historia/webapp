@@ -50,7 +50,7 @@ describe("DiscoverSection", () => {
 
         it("renders all highlights", () => {
             expect(
-                screen.getByText("Über 500 Händler, Auktionshäuser und Marktplätze"),
+                screen.getByText("Hunderte Händler, Auktionshäuser und Marktplätze"),
             ).toBeInTheDocument();
             expect(screen.getByText("Echtzeit-Überwachung")).toBeInTheDocument();
             expect(screen.getByText("Vollständig Sprach-unabhängig")).toBeInTheDocument();
@@ -70,14 +70,27 @@ describe("DiscoverSection", () => {
             ).toBeInTheDocument();
         });
 
-        it("renders all stat labels", () => {
+        it("does not render the stats grid when no live data is provided", () => {
+            expect(screen.queryByText("Vernetzte Shops")).not.toBeInTheDocument();
+            expect(screen.queryByText("Einzigartige Artikel")).not.toBeInTheDocument();
+            expect(screen.queryByText("Nahezu Echtzeit-Updates")).not.toBeInTheDocument();
+            expect(screen.queryByText("Länder abgedeckt")).not.toBeInTheDocument();
+        });
+
+        it("renders all stat labels when live data is provided", async () => {
+            await act(async () => {
+                renderWithRouter(<DiscoverSection shopCount={500} productCount={120000} />);
+            });
             expect(screen.getByText("Vernetzte Shops")).toBeInTheDocument();
             expect(screen.getByText("Einzigartige Artikel")).toBeInTheDocument();
             expect(screen.getByText("Nahezu Echtzeit-Updates")).toBeInTheDocument();
             expect(screen.getByText("Länder abgedeckt")).toBeInTheDocument();
         });
 
-        it("renders text-only stat as translation string", () => {
+        it("renders text-only stat when live data is provided", async () => {
+            await act(async () => {
+                renderWithRouter(<DiscoverSection shopCount={500} productCount={120000} />);
+            });
             expect(screen.getByText("24/7")).toBeInTheDocument();
         });
     });
@@ -95,14 +108,11 @@ describe("DiscoverSection", () => {
             return screen.getAllByTestId("number-flow").map((el) => el.textContent);
         }
 
-        it("uses fallback amounts when no props are provided", async () => {
+        it("does not render the stats grid when no props are provided", async () => {
             await act(async () => {
                 renderWithRouter(<DiscoverSection />);
             });
-            const values = getCountValues();
-            expect(values).toContain("500+");
-            expect(values).toContain("120000+");
-            expect(values).toContain("15+");
+            expect(screen.queryAllByTestId("number-flow")).toHaveLength(0);
         });
 
         it("shows live shop count in highlight title", async () => {
@@ -141,13 +151,13 @@ describe("DiscoverSection", () => {
             expect(values).toContain("88888+");
         });
 
-        it("falls back to static amount when one prop is missing", async () => {
+        it("hides individual live stat when its value is missing", async () => {
             await act(async () => {
                 renderWithRouter(<DiscoverSection shopCount={999} />);
             });
             const values = getCountValues();
             expect(values).toContain("999+");
-            expect(values).toContain("120000+");
+            expect(values).not.toContain("120000+");
         });
     });
 });

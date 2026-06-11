@@ -431,6 +431,7 @@
     "p2": "Non solo registriamo gli articoli attuali e futuri, ma monitoriamo anche le variazioni di prezzo e disponibilità. In questo modo non perderai mai un affare e avrai sempre sotto controllo il mercato.",
     "highlight1": {
       "title": "Oltre {{count}} commercianti, case d'aste e marketplace",
+      "titleFallback": "Centinaia di commercianti, case d'aste e marketplace",
       "description": "Cerchiamo continuamente tra rinomati antiquari, case d'aste e marketplace da tutta Europa e oltre."
     },
     "highlight2": {

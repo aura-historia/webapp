@@ -431,6 +431,7 @@
     "p2": "We not only capture current and upcoming items but also track price changes and availability. This way, you never miss a bargain and always keep an eye on the market.",
     "highlight1": {
       "title": "Over {{count}} Dealers, Auction Houses & Marketplaces",
+      "titleFallback": "Hundreds of Dealers, Auction Houses & Marketplaces",
       "description": "We continuously search renowned antique dealers, auction houses and marketplaces from all over Europe and beyond."
     },
     "highlight2": {
