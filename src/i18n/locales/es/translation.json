@@ -59,6 +59,9 @@
     "partners": {
       "title": "Programa de Partners | Aura Historia",
       "description": "Conviértete en tienda partner de Aura Historia, la plataforma global de antigüedades y arte. Gratis, sin comisiones y conectada en minutos."
+    },
+    "partnerDashboard": {
+      "title": "Panel de Socios | Aura Historia"
     }
   },
   "validation": {
@@ -436,7 +439,7 @@
     "p1": "Buscamos entre las vastas ofertas de miles de anticuarios, casas de subastas y mercados dispersos en todo el mundo todos los días y agrupamos sus artículos en un solo lugar central.",
     "p2": "No solo capturamos artículos actuales y próximos, sino que también rastreamos cambios de precio y disponibilidad. De esta manera, nunca te perderás una ganga y siempre estarás al tanto del mercado.",
     "highlight1": {
-      "title": "Más de {{count}} anticuarios, casas de subastas y mercados",
+      "title": "Más de {{count}} Comerciantes, Casas de Subastas y Mercados",
       "titleFallback": "Cientos de anticuarios, casas de subastas y mercados",
       "description": "Buscamos continuamente anticuarios, casas de subastas y mercados renombrados de toda Europa y más allá."
     },
@@ -1631,6 +1634,129 @@
       "shops_manage": {
         "label": "Gestionar tiendas",
         "description": "Gestionar la configuración de su tienda."
+      }
+    }
+  },
+  "partnerDashboard": {
+    "title": "Panel de Socios",
+    "description": "Supervisa tus solicitudes de socio actuales y su estado de revisión.",
+    "actions": {
+      "retry": "Reintentar"
+    },
+    "create": {
+      "open": "Nueva solicitud",
+      "title": "Enviar solicitud de socio",
+      "description": "Solicita una tienda existente por ID o crea una nueva tienda para revisión.",
+      "submit": "Enviar solicitud",
+      "submitting": "Enviando…",
+      "cancel": "Cancelar",
+      "success": "Solicitud de socio enviada.",
+      "type": {
+        "new": "Nueva tienda",
+        "existing": "Tienda existente"
+      },
+      "fields": {
+        "type": "Tipo de solicitud",
+        "shopId": "Tienda",
+        "shopName": "Nombre de la tienda",
+        "shopType": "Tipo de tienda",
+        "shopDomains": "Dominios",
+        "shopDomainsHint": "Separa los dominios con saltos de línea, comas, puntos y comas o espacios. Los dominios se normalizan antes del envío.",
+        "shopUrl": "URL principal de la tienda",
+        "shopImage": "URL del logo o imagen",
+        "shopPhone": "Teléfono",
+        "shopEmail": "Correo electrónico",
+        "address": "Dirección",
+        "addressline": "Línea de dirección",
+        "addresslineExtra": "Línea de dirección 2",
+        "locality": "Ciudad",
+        "region": "Región",
+        "postalCode": "Código postal",
+        "country": "Código del país"
+      },
+      "validation": {
+        "shopIdRequired": "Por favor, selecciona una tienda existente.",
+        "shopNameRequired": "Por favor, ingresa el nombre de la tienda.",
+        "domainsRequired": "Por favor, ingresa al menos un dominio.",
+        "urlInvalid": "Por favor, ingresa una URL válida.",
+        "imageInvalid": "Por favor, ingresa una URL de imagen válida.",
+        "emailInvalid": "Por favor, ingresa una dirección de correo electrónico válida."
+      },
+      "shopSearch": {
+        "placeholder": "Buscar tiendas por nombre…",
+        "loading": "Buscando tiendas.",
+        "empty": "No se encontraron tiendas.",
+        "clear": "Borrar tienda seleccionada"
+      }
+    },
+    "applications": {
+      "title": "Solicitudes de Socios Actuales",
+      "description": "Todas las solicitudes de socio que has enviado para tiendas.",
+      "loading": "Cargando solicitudes de socios.",
+      "loadError": "No se pudieron cargar tus solicitudes de socios.",
+      "empty": "Aún no has enviado ninguna solicitud de socio.",
+      "submittedAt": "Enviado el {{date}}",
+      "updatedAt": "Actualizado el {{date}}",
+      "existingShop": "Tienda existente",
+      "openDetails": "Abrir detalles para {{title}}",
+      "viewDetails": "Ver detalles",
+      "progress": {
+        "handedIn": "Entregado",
+        "checking": "Revisando",
+        "completed": "Completado",
+        "approved": "Aprobado",
+        "denied": "Denegado"
+      },
+      "detail": {
+        "title": "Detalles de la solicitud",
+        "description": "Revisa el estado actual y la información de la tienda enviada.",
+        "loadError": "No se pudo cargar esta solicitud de socio.",
+        "close": "Cerrar detalles",
+        "edit": "Editar solicitud",
+        "editCancel": "Cancelar",
+        "editSave": "Guardar cambios",
+        "editSuccess": "Solicitud de socio actualizada.",
+        "delete": "Eliminar solicitud",
+        "deleteSuccess": "Solicitud de socio eliminada.",
+        "deleteConfirm": {
+          "title": "¿Eliminar esta solicitud de socio?",
+          "description": "Esta solicitud pendiente será eliminada permanentemente y no se podrá recuperar.",
+          "cancel": "Cancelar",
+          "confirm": "Eliminar"
+        },
+        "progressLabel": "Progreso de la solicitud",
+        "applicationSection": "Solicitud",
+        "shopSection": "Información de la tienda",
+        "applicationId": "ID de la solicitud",
+        "applicantUserId": "ID del usuario solicitante",
+        "createdAt": "Enviado",
+        "updatedAt": "Actualizado",
+        "shopName": "Nombre de la tienda",
+        "shopType": "Tipo de tienda",
+        "domains": "Dominios",
+        "shopUrl": "URL principal",
+        "shopImage": "URL de la imagen",
+        "shopPhone": "Teléfono",
+        "shopEmail": "Correo electrónico",
+        "address": "Dirección",
+        "addressline": "Línea de dirección",
+        "addresslineExtra": "Línea de dirección 2",
+        "locality": "Ciudad",
+        "region": "Región",
+        "postalCode": "Código postal",
+        "country": "Código del país",
+        "shopId": "ID de la tienda"
+      },
+      "businessState": {
+        "submitted": "Enviado",
+        "inReview": "En revisión",
+        "approved": "Aprobado",
+        "rejected": "Rechazado"
+      },
+      "executionState": {
+        "processing": "Procesando",
+        "waiting": "En espera de decisión",
+        "completed": "Completado"
       }
     }
   }
