@@ -379,7 +379,7 @@ export function PartnerApplicationDetailDialog({
     };
 
     const handleSave = (values: PartnerApplicationEditFormData) => {
-        if (!application || application.payload.type !== "NEW") {
+        if (application?.payload.type !== "NEW") {
             return;
         }
 
