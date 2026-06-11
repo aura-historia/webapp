@@ -66,9 +66,9 @@ export default function DiscoverSection({ productCount, shopCount }: DiscoverSec
                                                 highlight.titleFallbackKey && shopCount == null
                                                     ? highlight.titleFallbackKey
                                                     : highlight.titleKey,
-                                                shopCount != null
-                                                    ? { count: shopCount }
-                                                    : undefined,
+                                                shopCount == null
+                                                    ? undefined
+                                                    : { count: shopCount },
                                             )}
                                         </h3>
                                         <p className="text-sm text-secondary">
