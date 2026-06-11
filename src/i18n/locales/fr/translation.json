@@ -391,10 +391,6 @@
       }
     },
     "unseenNotification": "Mis à jour",
-    "searchFilter": {
-      "matchedBadge": "Correspondance",
-      "matchedBy": "Filtre de recherche"
-    },
     "auction": {
       "title": "Période de vente aux enchères",
       "start": "à partir du {{date}}",
@@ -1575,7 +1571,7 @@
     "deactivate": "Mettre en pause",
     "stateInactiveByUser": "En pause",
     "stateInactiveByPlan": "Verrouillé",
-    "stateInactiveByPlanTooltip": "Ce filtre de recherche est inactif en raison de votre abonnement.",
+    "stateInactiveByPlanTooltip": "Ce filtre de recherche est inactif en raison de votre plan d'abonnement.",
     "loadingError": {
       "title": "Erreur de chargement",
       "description": "Les filtres de recherche n'ont pas pu être chargés. Veuillez réessayer plus tard."
@@ -1613,13 +1609,7 @@
       "notRelevantHint": "La correspondance n'est pas pertinente"
     },
     "matchReason": "Raison IA",
-    "feedbackError": "Échec de l'enregistrement des commentaires.",
-    "activate": "Activer",
-    "deactivate": "Mettre en pause",
-    "stateInactiveByUser": "En pause",
-    "stateInactiveByPlan": "Verrouillé",
-    "stateInactiveByPlanTooltip": "Ce filtre de recherche est inactif en raison de votre plan d'abonnement.",
-    "matchingProductsInactive": "Le filtre de recherche est inactif – aucune correspondance disponible."
+    "feedbackError": "Échec de l'enregistrement des commentaires."
   },
   "oauth": {
     "authorize": {

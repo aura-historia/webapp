@@ -391,10 +391,6 @@
       }
     },
     "unseenNotification": "Actualizado",
-    "searchFilter": {
-      "matchedBadge": "Coincidencia",
-      "matchedBy": "Filtro de búsqueda"
-    },
     "auction": {
       "title": "Período de subasta",
       "start": "desde {{date}}",
@@ -1575,7 +1571,7 @@
     "deactivate": "Pausar",
     "stateInactiveByUser": "En pausa",
     "stateInactiveByPlan": "Bloqueado",
-    "stateInactiveByPlanTooltip": "Este filtro de búsqueda está inactivo debido a su suscripción.",
+    "stateInactiveByPlanTooltip": "Este filtro de búsqueda está inactivo debido a tu plan de suscripción.",
     "loadingError": {
       "title": "Error de carga",
       "description": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtelo de nuevo más tarde."
@@ -1613,13 +1609,7 @@
       "notRelevantHint": "La coincidencia no es relevante"
     },
     "matchReason": "Razón AI",
-    "feedbackError": "No se pudo guardar el comentario.",
-    "activate": "Activar",
-    "deactivate": "Pausar",
-    "stateInactiveByUser": "Pausado",
-    "stateInactiveByPlan": "Bloqueado",
-    "stateInactiveByPlanTooltip": "Este filtro de búsqueda está inactivo debido a tu plan de suscripción.",
-    "matchingProductsInactive": "El filtro de búsqueda está inactivo – no hay coincidencias disponibles."
+    "feedbackError": "No se pudo guardar el comentario."
   },
   "oauth": {
     "authorize": {

@@ -391,10 +391,6 @@
       }
     },
     "unseenNotification": "Aggiornato",
-    "searchFilter": {
-      "matchedBadge": "Corrispondenza",
-      "matchedBy": "Filtro di ricerca"
-    },
     "auction": {
       "title": "Periodo d'asta",
       "start": "da {{date}}",
@@ -1575,7 +1571,7 @@
     "deactivate": "Metti in pausa",
     "stateInactiveByUser": "In pausa",
     "stateInactiveByPlan": "Bloccato",
-    "stateInactiveByPlanTooltip": "Questo filtro di ricerca è inattivo a causa del tuo abbonamento.",
+    "stateInactiveByPlanTooltip": "Questo filtro di ricerca è inattivo a causa del tuo piano di abbonamento.",
     "loadingError": {
       "title": "Errore di caricamento",
       "description": "I filtri di ricerca non possono essere caricati. Riprova più tardi."
@@ -1613,13 +1609,7 @@
       "notRelevantHint": "La corrispondenza non è rilevante"
     },
     "matchReason": "Motivo AI",
-    "feedbackError": "Impossibile salvare il feedback.",
-    "activate": "Attiva",
-    "deactivate": "Metti in pausa",
-    "stateInactiveByUser": "In pausa",
-    "stateInactiveByPlan": "Bloccato",
-    "stateInactiveByPlanTooltip": "Questo filtro di ricerca è inattivo a causa del tuo piano di abbonamento.",
-    "matchingProductsInactive": "Il filtro di ricerca è inattivo – nessuna corrispondenza disponibile."
+    "feedbackError": "Impossibile salvare il feedback."
   },
   "oauth": {
     "authorize": {
