@@ -129,8 +129,9 @@
     },
     "partnerProgramLinks": {
       "overview": "Vue d'ensemble",
+      "dashboard": "Tableau de bord partenaire",
       "woocommerce": "Plugin WordPress",
-      "shopify": "Shopify App Store",
+      "shopify": "Shopify",
       "customApi": "Intégration personnalisée",
       "apply": "Postuler"
     }

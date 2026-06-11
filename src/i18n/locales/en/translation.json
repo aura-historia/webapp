@@ -59,6 +59,9 @@
     "partners": {
       "title": "Partner Program | Aura Historia",
       "description": "Become a partner shop on Aura Historia – the global platform for antiques & art. Free, commission-free, connected in minutes."
+    },
+    "partnerDashboard": {
+      "title": "Partner Dashboard | Aura Historia"
     }
   },
   "validation": {
@@ -129,6 +132,7 @@
     },
     "partnerProgramLinks": {
       "overview": "Overview",
+      "dashboard": "Partner dashboard",
       "woocommerce": "WordPress plugin",
       "shopify": "Shopify App Store",
       "customApi": "Custom integration",
@@ -1353,6 +1357,129 @@
     },
     "matchReason": "AI reason",
     "feedbackError": "Failed to save feedback."
+  },
+  "partnerDashboard": {
+    "title": "Partner Dashboard",
+    "description": "Track your current partner applications and their review status.",
+    "actions": {
+      "retry": "Retry"
+    },
+    "create": {
+      "open": "New application",
+      "title": "Submit partner application",
+      "description": "Apply for an existing shop by ID or create a new shop for review.",
+      "submit": "Submit application",
+      "submitting": "Submitting…",
+      "cancel": "Cancel",
+      "success": "Partner application submitted.",
+      "type": {
+        "new": "New shop",
+        "existing": "Existing shop"
+      },
+      "fields": {
+        "type": "Application type",
+        "shopId": "Shop",
+        "shopName": "Shop name",
+        "shopType": "Shop type",
+        "shopDomains": "Domains",
+        "shopDomainsHint": "Separate domains with line breaks, commas, semicolons, or spaces. Domains are normalized before submission.",
+        "shopUrl": "Primary shop URL",
+        "shopImage": "Logo or image URL",
+        "shopPhone": "Phone",
+        "shopEmail": "Email",
+        "address": "Address",
+        "addressline": "Address line",
+        "addresslineExtra": "Address line 2",
+        "locality": "City",
+        "region": "Region",
+        "postalCode": "Postal code",
+        "country": "Country code"
+      },
+      "validation": {
+        "shopIdRequired": "Please select an existing shop.",
+        "shopNameRequired": "Please enter the shop name.",
+        "domainsRequired": "Please enter at least one domain.",
+        "urlInvalid": "Please enter a valid URL.",
+        "imageInvalid": "Please enter a valid image URL.",
+        "emailInvalid": "Please enter a valid email address."
+      },
+      "shopSearch": {
+        "placeholder": "Search shops by name…",
+        "loading": "Searching shops.",
+        "empty": "No shops found.",
+        "clear": "Clear selected shop"
+      }
+    },
+    "applications": {
+      "title": "Current Partner Applications",
+      "description": "All partner applications you have submitted for shops.",
+      "loading": "Loading partner applications.",
+      "loadError": "Could not load your partner applications.",
+      "empty": "You have not submitted any partner applications yet.",
+      "submittedAt": "Submitted {{date}}",
+      "updatedAt": "Updated {{date}}",
+      "existingShop": "Existing shop",
+      "openDetails": "Open details for {{title}}",
+      "viewDetails": "View details",
+      "progress": {
+        "handedIn": "Handed in",
+        "checking": "Checking",
+        "completed": "Completed",
+        "approved": "Approved",
+        "denied": "Denied"
+      },
+      "detail": {
+        "title": "Application details",
+        "description": "Review the current status and submitted shop information.",
+        "loadError": "Could not load this partner application.",
+        "close": "Close details",
+        "edit": "Edit application",
+        "editCancel": "Cancel",
+        "editSave": "Save changes",
+        "editSuccess": "Partner application updated.",
+        "delete": "Delete application",
+        "deleteSuccess": "Partner application deleted.",
+        "deleteConfirm": {
+          "title": "Delete this partner application?",
+          "description": "This pending application will be permanently deleted and cannot be restored.",
+          "cancel": "Cancel",
+          "confirm": "Delete"
+        },
+        "progressLabel": "Application progress",
+        "applicationSection": "Application",
+        "shopSection": "Shop information",
+        "applicationId": "Application ID",
+        "applicantUserId": "Applicant user ID",
+        "createdAt": "Submitted",
+        "updatedAt": "Updated",
+        "shopName": "Shop name",
+        "shopType": "Shop type",
+        "domains": "Domains",
+        "shopUrl": "Primary URL",
+        "shopImage": "Image URL",
+        "shopPhone": "Phone",
+        "shopEmail": "Email",
+        "address": "Address",
+        "addressline": "Address line",
+        "addresslineExtra": "Address line 2",
+        "locality": "City",
+        "region": "Region",
+        "postalCode": "Postal code",
+        "country": "Country code",
+        "shopId": "Shop ID"
+      },
+      "businessState": {
+        "submitted": "Submitted",
+        "inReview": "In review",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "executionState": {
+        "processing": "Processing",
+        "waiting": "Awaiting decision",
+        "completed": "Completed"
+      }
+    }
   },
   "adminDashboard": {
     "loading": "Loading…",

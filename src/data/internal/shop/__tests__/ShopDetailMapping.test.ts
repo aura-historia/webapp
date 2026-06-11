@@ -12,6 +12,8 @@ const mockShopData: GetShopData = {
     viewUrl: "https://affiliate.example.com/christies",
     image: "https://example.com/logo.png",
     partnerStatus: "PARTNERED",
+    createdBy: "SYSTEM",
+    updatedBy: "SYSTEM",
     created: "2024-01-15T08:00:00Z",
     updated: "2024-06-20T12:30:00Z",
 };

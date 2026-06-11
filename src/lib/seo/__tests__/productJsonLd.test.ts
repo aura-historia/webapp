@@ -33,6 +33,8 @@ describe("productJsonLd", () => {
                         },
                     ],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-15T10:00:00Z",
                     updated: "2024-01-20T15:30:00Z",
                 },
@@ -70,6 +72,8 @@ describe("productJsonLd", () => {
                     viewUrl: "https://affiliate.example.com/chair",
                     images: [],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -106,6 +110,8 @@ describe("productJsonLd", () => {
                     viewUrl: "https://example.com/painting",
                     images: [],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -135,6 +141,8 @@ describe("productJsonLd", () => {
                     viewUrl: "https://example.com/reserved",
                     images: [],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -164,6 +172,8 @@ describe("productJsonLd", () => {
                     viewUrl: "https://example.com/sold",
                     images: [],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -193,6 +203,8 @@ describe("productJsonLd", () => {
                     viewUrl: "https://example.com/item",
                     images: [],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -222,6 +234,8 @@ describe("productJsonLd", () => {
                     viewUrl: "https://example.com/item",
                     images: [],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -251,6 +265,8 @@ describe("productJsonLd", () => {
                     viewUrl: "https://example.com/item",
                     images: [],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -293,6 +309,8 @@ describe("productJsonLd", () => {
                         },
                     ],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -325,6 +343,8 @@ describe("productJsonLd", () => {
                     viewUrl: "",
                     images: [],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -355,6 +375,8 @@ describe("productJsonLd", () => {
                     viewUrl: "https://example.com/item",
                     images: [],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -384,6 +406,8 @@ describe("productJsonLd", () => {
                     viewUrl: "https://example.com/item",
                     images: [],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -413,6 +437,8 @@ describe("productJsonLd", () => {
                     viewUrl: "https://example.com/item",
                     images: [],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -449,6 +475,8 @@ describe("productJsonLd", () => {
                         },
                     ],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -490,6 +518,8 @@ describe("productJsonLd", () => {
                         },
                     ],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -520,6 +550,8 @@ describe("productJsonLd", () => {
                     viewUrl: "https://example.com/item",
                     images: [],
 
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },

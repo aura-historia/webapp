@@ -59,6 +59,9 @@
     "partners": {
       "title": "Partner-Programm | Aura Historia",
       "description": "Werden Sie Partner-Shop bei Aura Historia – der globalen Plattform für Antiquitäten & Kunst. Kostenlos, ohne Provision, in Minuten verbunden."
+    },
+    "partnerDashboard": {
+      "title": "Partner-Dashboard | Aura Historia"
     }
   },
   "validation": {
@@ -129,6 +132,7 @@
     },
     "partnerProgramLinks": {
       "overview": "Übersicht",
+      "dashboard": "Partner-Dashboard",
       "woocommerce": "WordPress-Plugin",
       "shopify": "Shopify App Store",
       "customApi": "Eigene Integration",
@@ -1365,6 +1369,129 @@
     "matchReason": "KI-Begründung",
     "feedbackError": "Feedback konnte nicht gespeichert werden."
   },
+  "partnerDashboard": {
+    "title": "Partner-Dashboard",
+    "description": "Verfolgen Sie Ihre aktuellen Partneranträge und deren Prüfstatus.",
+    "actions": {
+      "retry": "Erneut versuchen"
+    },
+    "create": {
+      "open": "Neuer Antrag",
+      "title": "Partnerantrag einreichen",
+      "description": "Beantragen Sie eine Partnerschaft für einen bestehenden Shop per ID oder erstellen Sie einen neuen Shop zur Prüfung.",
+      "submit": "Antrag einreichen",
+      "submitting": "Wird eingereicht…",
+      "cancel": "Abbrechen",
+      "success": "Partnerantrag eingereicht.",
+      "type": {
+        "new": "Neuer Shop",
+        "existing": "Bestehender Shop"
+      },
+      "fields": {
+        "type": "Antragstyp",
+        "shopId": "Shop",
+        "shopName": "Shop-Name",
+        "shopType": "Shop-Typ",
+        "shopDomains": "Domains",
+        "shopDomainsHint": "Trennen Sie Domains mit Zeilenumbrüchen, Kommas, Semikolons oder Leerzeichen. Domains werden vor dem Senden normalisiert.",
+        "shopUrl": "Primäre Shop-URL",
+        "shopImage": "Logo- oder Bild-URL",
+        "shopPhone": "Telefon",
+        "shopEmail": "E-Mail",
+        "address": "Adresse",
+        "addressline": "Adresszeile",
+        "addresslineExtra": "Adresszusatz",
+        "locality": "Ort",
+        "region": "Region",
+        "postalCode": "Postleitzahl",
+        "country": "Ländercode"
+      },
+      "validation": {
+        "shopIdRequired": "Bitte wählen Sie einen bestehenden Shop aus.",
+        "shopNameRequired": "Bitte geben Sie den Shop-Namen ein.",
+        "domainsRequired": "Bitte geben Sie mindestens eine Domain ein.",
+        "urlInvalid": "Bitte geben Sie eine gültige URL ein.",
+        "imageInvalid": "Bitte geben Sie eine gültige Bild-URL ein.",
+        "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+      },
+      "shopSearch": {
+        "placeholder": "Shops nach Namen suchen …",
+        "loading": "Shops werden gesucht.",
+        "empty": "Keine Shops gefunden.",
+        "clear": "Ausgewählten Shop entfernen"
+      }
+    },
+    "applications": {
+      "title": "Aktuelle Partneranträge",
+      "description": "Alle Partneranträge, die Sie für Shops eingereicht haben.",
+      "loading": "Partneranträge werden geladen.",
+      "loadError": "Ihre Partneranträge konnten nicht geladen werden.",
+      "empty": "Sie haben noch keine Partneranträge eingereicht.",
+      "submittedAt": "Eingereicht am {{date}}",
+      "updatedAt": "Aktualisiert am {{date}}",
+      "existingShop": "Bestehender Shop",
+      "openDetails": "Details für {{title}} öffnen",
+      "viewDetails": "Details ansehen",
+      "progress": {
+        "handedIn": "Eingereicht",
+        "checking": "In Prüfung",
+        "completed": "Abgeschlossen",
+        "approved": "Genehmigt",
+        "denied": "Abgelehnt"
+      },
+      "detail": {
+        "title": "Antragsdetails",
+        "description": "Prüfen Sie den aktuellen Status und die eingereichten Shop-Informationen.",
+        "loadError": "Dieser Partnerantrag konnte nicht geladen werden.",
+        "close": "Details schließen",
+        "edit": "Antrag bearbeiten",
+        "editCancel": "Abbrechen",
+        "editSave": "Änderungen speichern",
+        "editSuccess": "Partnerantrag wurde aktualisiert.",
+        "delete": "Antrag löschen",
+        "deleteSuccess": "Partnerantrag wurde gelöscht.",
+        "deleteConfirm": {
+          "title": "Diesen Partnerantrag löschen?",
+          "description": "Dieser ausstehende Antrag wird dauerhaft gelöscht und kann nicht wiederhergestellt werden.",
+          "cancel": "Abbrechen",
+          "confirm": "Löschen"
+        },
+        "progressLabel": "Antragsfortschritt",
+        "applicationSection": "Antrag",
+        "shopSection": "Shop-Informationen",
+        "applicationId": "Antrags-ID",
+        "applicantUserId": "Antragsteller-ID",
+        "createdAt": "Eingereicht",
+        "updatedAt": "Aktualisiert",
+        "shopName": "Shop-Name",
+        "shopType": "Shop-Typ",
+        "domains": "Domains",
+        "shopUrl": "Primäre URL",
+        "shopImage": "Bild-URL",
+        "shopPhone": "Telefon",
+        "shopEmail": "E-Mail",
+        "address": "Adresse",
+        "addressline": "Adresszeile",
+        "addresslineExtra": "Adresszusatz",
+        "locality": "Ort",
+        "region": "Region",
+        "postalCode": "Postleitzahl",
+        "country": "Ländercode",
+        "shopId": "Shop-ID"
+      },
+      "businessState": {
+        "submitted": "Eingereicht",
+        "inReview": "In Prüfung",
+        "approved": "Genehmigt",
+        "rejected": "Abgelehnt"
+      },
+      "executionState": {
+        "processing": "In Verarbeitung",
+        "waiting": "Wartet auf Entscheidung",
+        "completed": "Abgeschlossen"
+      }
+    }
+  },
   "adminDashboard": {
     "loading": "Wird geladen…",
     "sidebarLabel": "Admin-Bereiche",
@@ -1487,8 +1614,8 @@
       "description": "Von Partnern eingereichte Anträge prüfen und genehmigen oder ablehnen.",
       "loadError": "Partner-Anträge konnten nicht geladen werden.",
       "empty": "Keine Anträge entsprechen dem aktuellen Filter.",
-      "submittedAt": "Eingereicht {{date}}",
-      "updatedAt": "Aktualisiert {{date}}",
+      "submittedAt": "Eingereicht am {{date}}",
+      "updatedAt": "Aktualisiert am {{date}}",
       "existingShop": "Bestehender Shop",
       "tabs": {
         "pending": "Offen",

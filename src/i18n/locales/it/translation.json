@@ -129,8 +129,9 @@
     },
     "partnerProgramLinks": {
       "overview": "Panoramica",
+      "dashboard": "Dashboard partner",
       "woocommerce": "Plugin WordPress",
-      "shopify": "Shopify App Store",
+      "shopify": "Shopify",
       "customApi": "Integrazione personalizzata",
       "apply": "Candidati"
     }

@@ -121,8 +121,8 @@ export function Footer() {
                         <ul className="mt-4 space-y-2">
                             {PARTNER_PROGRAM_FOOTER_LINKS.map((partnerLink) => (
                                 <li key={partnerLink.href}>
-                                    <a
-                                        href={partnerLink.href}
+                                    <Link
+                                        to={partnerLink.href}
                                         target={partnerLink.external ? "_blank" : undefined}
                                         rel={
                                             partnerLink.external ? "noopener noreferrer" : undefined
@@ -130,7 +130,7 @@ export function Footer() {
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
                                     >
                                         {t(partnerLink.translationKey)}
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>

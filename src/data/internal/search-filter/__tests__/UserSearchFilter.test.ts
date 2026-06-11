@@ -21,6 +21,8 @@ const baseFilterData: UserSearchFilterData = {
         state: ["AVAILABLE"],
         shopType: ["AUCTION_HOUSE"],
     },
+    createdBy: "SYSTEM",
+    updatedBy: "SYSTEM",
     created: "2024-01-15T10:00:00Z",
     updated: "2024-03-20T12:00:00Z",
 };

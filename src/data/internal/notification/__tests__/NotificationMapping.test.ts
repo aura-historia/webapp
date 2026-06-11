@@ -7,6 +7,8 @@ const mockWatchlistPriceChangeNotification: GetNotificationData = {
     notificationId: "notif-1",
     seen: false,
     external: false,
+    createdBy: "SYSTEM",
+    updatedBy: "SYSTEM",
     created: "2024-01-15T08:00:00Z",
     updated: "2024-06-20T12:30:00Z",
     payload: {
@@ -34,6 +36,8 @@ const mockWatchlistStateChangeNotification: GetNotificationData = {
     notificationId: "notif-2",
     seen: true,
     external: true,
+    createdBy: "SYSTEM",
+    updatedBy: "SYSTEM",
     created: "2024-02-10T09:00:00Z",
     updated: "2024-07-01T10:00:00Z",
     payload: {
@@ -61,6 +65,8 @@ const mockSearchFilterNotification: GetNotificationData = {
     notificationId: "notif-3",
     seen: false,
     external: false,
+    createdBy: "SYSTEM",
+    updatedBy: "SYSTEM",
     created: "2024-03-05T07:00:00Z",
     updated: "2024-08-15T11:00:00Z",
     payload: {
@@ -87,6 +93,8 @@ const mockPartnerApplicationApprovedNotification: GetNotificationData = {
     notificationId: "notif-4",
     seen: false,
     external: false,
+    createdBy: "SYSTEM",
+    updatedBy: "SYSTEM",
     created: "2024-04-01T10:00:00Z",
     updated: "2024-04-01T10:00:00Z",
     payload: {
@@ -105,6 +113,8 @@ const mockPartnerApplicationRejectedNotification: GetNotificationData = {
     notificationId: "notif-5",
     seen: true,
     external: false,
+    createdBy: "SYSTEM",
+    updatedBy: "SYSTEM",
     created: "2024-05-01T10:00:00Z",
     updated: "2024-05-01T10:00:00Z",
     payload: {

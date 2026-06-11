@@ -12,6 +12,7 @@ import {
     WORDPRESS_PLUGIN_DIRECTORY_URL,
 } from "@/features/partners/partnerLinks.ts";
 import type { ComponentType, SVGProps } from "react";
+import { Link } from "@tanstack/react-router";
 
 type Integration = {
     readonly key: "woocommerce" | "shopify" | "customApi";
@@ -58,9 +59,9 @@ export default function PartnerIntegrationsSection() {
 
                 <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
                     {INTEGRATIONS.map((integration) => (
-                        <a
+                        <Link
                             key={integration.key}
-                            href={integration.href}
+                            to={integration.href}
                             target={integration.external ? "_blank" : undefined}
                             rel={integration.external ? "noopener noreferrer" : undefined}
                             className="group block focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary"
@@ -101,7 +102,7 @@ export default function PartnerIntegrationsSection() {
                                     </span>
                                 </CardContent>
                             </Card>
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </div>

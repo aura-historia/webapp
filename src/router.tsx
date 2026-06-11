@@ -2,9 +2,11 @@ import { createRouter as createTanstackRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 import * as TanstackQuery from "./integrations/tanstack-query/root-provider";
 import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
+import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
+import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
 
 // Create a new router instance
 export const getRouter = () => {
@@ -20,6 +22,8 @@ export const getRouter = () => {
         Wrap: (props: { children: React.ReactNode }) => {
             return <TanstackQuery.Provider {...rqContext}>{props.children}</TanstackQuery.Provider>;
         },
+        defaultNotFoundComponent: NotFoundComponent,
+        defaultErrorComponent: ErrorComponent,
     });
 
     setupRouterSsrQueryIntegration({

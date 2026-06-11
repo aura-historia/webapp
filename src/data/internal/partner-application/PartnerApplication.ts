@@ -1,6 +1,6 @@
 import type { GetPartnerShopApplicationData, GetPartnerShopApplicationPayloadData } from "@/client";
 import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
-import type { StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
+import { mapToShopDetail, type StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
 
 export const PARTNER_APPLICATION_BUSINESS_STATES = [
     "SUBMITTED",
@@ -18,12 +18,22 @@ export type PartnerApplicationPayload =
     | {
           readonly type: "EXISTING";
           readonly shopId: string;
+          readonly shopSlugId: string;
+          readonly shopName: string;
+          readonly shopType: ShopType;
+          readonly shopDomains: string[];
+          readonly shopUrl?: string;
+          readonly shopImage?: string;
+          readonly shopStructuredAddress?: StructuredAddress;
+          readonly shopPhone?: string;
+          readonly shopEmail?: string;
       }
     | {
           readonly type: "NEW";
           readonly shopName: string;
           readonly shopType: ShopType;
           readonly shopDomains: string[];
+          readonly shopUrl?: string;
           readonly shopImage?: string;
           readonly shopStructuredAddress?: StructuredAddress;
           readonly shopPhone?: string;
@@ -56,13 +66,27 @@ function parseExecutionState(state: string): PartnerApplicationExecutionState {
 
 function mapPayload(payload: GetPartnerShopApplicationPayloadData): PartnerApplicationPayload {
     if (payload.type === "EXISTING") {
-        return { type: "EXISTING", shopId: payload.shopId };
+        const shop = mapToShopDetail(payload.shop);
+        return {
+            type: "EXISTING",
+            shopId: shop.shopId,
+            shopSlugId: shop.shopSlugId,
+            shopName: shop.name,
+            shopType: shop.shopType,
+            shopDomains: shop.domains,
+            shopUrl: shop.url,
+            shopImage: shop.image,
+            shopStructuredAddress: shop.structuredAddress,
+            shopPhone: shop.phone,
+            shopEmail: shop.email,
+        };
     }
     return {
         type: "NEW",
         shopName: payload.shopName,
         shopType: parseShopType(payload.shopType),
         shopDomains: payload.shopDomains,
+        shopUrl: payload.shopUrl ?? undefined,
         shopImage: payload.shopImage ?? undefined,
         shopStructuredAddress: payload.shopStructuredAddress
             ? {
