@@ -436,7 +436,8 @@
     "p1": "Buscamos entre las vastas ofertas de miles de anticuarios, casas de subastas y mercados dispersos en todo el mundo todos los días y agrupamos sus artículos en un solo lugar central.",
     "p2": "No solo capturamos artículos actuales y próximos, sino que también rastreamos cambios de precio y disponibilidad. De esta manera, nunca te perderás una ganga y siempre estarás al tanto del mercado.",
     "highlight1": {
-      "title": "Más de 500 anticuarios, casas de subastas y mercados",
+      "title": "Más de {{count}} anticuarios, casas de subastas y mercados",
+      "titleFallback": "Cientos de anticuarios, casas de subastas y mercados",
       "description": "Buscamos continuamente anticuarios, casas de subastas y mercados renombrados de toda Europa y más allá."
     },
     "highlight2": {
