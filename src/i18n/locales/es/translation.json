@@ -1562,7 +1562,9 @@
     "matchingProducts": "Mostrar todas las coincidencias",
     "searchPlaceholder": "Buscar filtros de búsqueda...",
     "showDetails": "Mostrar detalles",
-    "showResults": "Buscar ahora",
+    "showResults": "Vista previa en vivo",
+    "previewError": "No se pudo cargar la vista previa.",
+    "previewEmpty": "No se encontraron resultados para este filtro de búsqueda.",
     "info": {
       "creationDate": "Creado: {{date}}",
       "updateDate": "Actualizado: {{date}}",

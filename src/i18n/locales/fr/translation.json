@@ -1562,7 +1562,9 @@
     "matchingProducts": "Afficher toutes les correspondances",
     "searchPlaceholder": "Rechercher des filtres...",
     "showDetails": "Afficher les détails",
-    "showResults": "Rechercher maintenant",
+    "showResults": "Aperçu en direct",
+    "previewError": "Impossible de charger l'aperçu.",
+    "previewEmpty": "Aucun résultat trouvé pour ce filtre de recherche.",
     "info": {
       "creationDate": "Créé : {{date}}",
       "updateDate": "Mis à jour : {{date}}",

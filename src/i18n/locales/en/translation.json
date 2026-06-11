@@ -1333,7 +1333,9 @@
     "matchingProductsInactive": "Search filter is inactive – no matches available.",
     "searchPlaceholder": "Search filters...",
     "showDetails": "Show details",
-    "showResults": "Search now",
+    "showResults": "Live Preview",
+    "previewError": "Could not load preview.",
+    "previewEmpty": "No results found for this search filter.",
     "info": {
       "creationDate": "Created: {{date}}",
       "updateDate": "Updated: {{date}}",
