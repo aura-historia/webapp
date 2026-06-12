@@ -346,7 +346,8 @@ describe("CreateSearchFilterWizard", () => {
                 ),
             );
             await navigateToConfirmStep(user);
-            expect(screen.queryByRole("button", { name: /Speichern/i })).not.toBeInTheDocument();
+            expect(screen.queryByRole("button", { name: /^Weiter$/i })).not.toBeInTheDocument();
+            expect(screen.getByRole("button", { name: /^Speichern$/i })).toBeInTheDocument();
         });
 
         it("does not save when form is invalid on step 1", async () => {
