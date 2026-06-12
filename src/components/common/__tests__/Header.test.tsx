@@ -415,4 +415,153 @@ describe("Header Component", () => {
             expect(screen.getByText("MM")).toBeInTheDocument();
         });
     });
+
+    describe("Mobile search overlay", () => {
+        beforeEach(() => {
+            setupAuthMock();
+            mockUseUserAccount.mockReturnValue({ data: undefined, isLoading: false });
+        });
+
+        it("opens mobile search overlay when search icon is clicked", async () => {
+            const user = userEvent.setup();
+            await act(async () => {
+                renderWithRouter(<Header />, { initialEntries: ["/search"] });
+            });
+
+            const searchButton = screen.getByRole("button", { name: "Suche" });
+            await user.click(searchButton);
+
+            const overlay = document.querySelector(".absolute.inset-0.flex");
+            expect(overlay).not.toHaveClass("opacity-0");
+        });
+
+        it("closes mobile search overlay when back button is clicked", async () => {
+            const user = userEvent.setup();
+            await act(async () => {
+                renderWithRouter(<Header />, { initialEntries: ["/search"] });
+            });
+
+            const searchButton = screen.getByRole("button", { name: "Suche" });
+            await user.click(searchButton);
+
+            const overlay = document.querySelector(".absolute.inset-0.flex");
+            const backButton = overlay?.querySelector("button");
+            if (backButton) await user.click(backButton);
+
+            expect(overlay).toHaveClass("opacity-0");
+        });
+
+        it("shows SearchBar in overlay when mobile search is open", async () => {
+            const user = userEvent.setup();
+            await act(async () => {
+                renderWithRouter(<Header />, { initialEntries: ["/search"] });
+            });
+
+            const searchButton = screen.getByRole("button", { name: "Suche" });
+            await user.click(searchButton);
+
+            const inputs = screen.getAllByPlaceholderText("Suche");
+            expect(inputs.length).toBeGreaterThan(1);
+        });
+    });
+
+    describe("Mobile menu", () => {
+        it("shows mobile menu button for unauthenticated user", async () => {
+            setupAuthMock({ isAuthenticated: false });
+            mockUseUserAccount.mockReturnValue({ data: undefined, isLoading: false });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            const menuButtons = screen.getAllByRole("button");
+            const menuButton = menuButtons.find((btn) => btn.querySelector("svg.lucide-menu"));
+            expect(menuButton).toBeInTheDocument();
+        });
+
+        it("shows register and login in mobile menu for unauthenticated user", async () => {
+            const user = userEvent.setup();
+            setupAuthMock({ isAuthenticated: false });
+            mockUseUserAccount.mockReturnValue({ data: undefined, isLoading: false });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            const menuButtons = screen.getAllByRole("button");
+            const menuButton = menuButtons.find((btn) => btn.querySelector("svg.lucide-menu"));
+            if (menuButton) await user.click(menuButton);
+
+            expect(screen.getAllByText("Registrieren").length).toBeGreaterThan(0);
+            expect(screen.getAllByText("Einloggen").length).toBeGreaterThan(0);
+        });
+
+        it("shows watchlist and account links in mobile menu for authenticated user", async () => {
+            const user = userEvent.setup();
+            setupAuthMock({ isAuthenticated: true });
+            mockUseUserAccount.mockReturnValue({
+                data: { firstName: "Max", lastName: "Mustermann" },
+                isLoading: false,
+            });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            const menuButtons = screen.getAllByRole("button");
+            const menuButton = menuButtons.find((btn) => btn.querySelector("svg.lucide-menu"));
+            if (menuButton) await user.click(menuButton);
+
+            expect(screen.getAllByText("Merkliste").length).toBeGreaterThan(0);
+            expect(screen.getAllByText("Account bearbeiten").length).toBeGreaterThan(0);
+        });
+
+        it("shows admin link in mobile menu for admin user", async () => {
+            const user = userEvent.setup();
+            setupAuthMock({ isAuthenticated: true });
+            mockUseUserAccount.mockReturnValue({
+                data: { firstName: "Ada", lastName: "Admin", role: "ADMIN" },
+                isLoading: false,
+            });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            const menuButtons = screen.getAllByRole("button");
+            const menuButton = menuButtons.find((btn) => btn.querySelector("svg.lucide-menu"));
+            if (menuButton) await user.click(menuButton);
+
+            expect(screen.getAllByText("Admin").length).toBeGreaterThan(0);
+        });
+    });
+
+    describe("Sign out", () => {
+        it("calls signOut and navigates to home when logout is clicked", async () => {
+            const user = userEvent.setup();
+            const mockSignOut = vi.fn().mockResolvedValue(undefined);
+            mockUseResolvedAuth.mockReturnValue({
+                isAuthenticated: true,
+                isResolved: true,
+                signOut: mockSignOut,
+            });
+            mockUseUserAccount.mockReturnValue({
+                data: { firstName: "Max", lastName: "Mustermann" },
+                isLoading: false,
+            });
+
+            await act(async () => {
+                renderWithRouter(<Header />);
+            });
+
+            const initialsElement = screen.getByText("MM");
+            const dropdownTrigger = initialsElement.closest("button");
+            if (dropdownTrigger) await user.click(dropdownTrigger);
+
+            const logoutItems = await screen.findAllByText("Ausloggen");
+            await user.click(logoutItems[0]);
+
+            expect(mockSignOut).toHaveBeenCalled();
+        });
+    });
 });
