@@ -1363,7 +1363,9 @@
     "matchingProductsInactive": "Suchauftrag ist inaktiv – keine Treffer verfügbar.",
     "searchPlaceholder": "Suchaufträge durchsuchen …",
     "showDetails": "Details anzeigen",
-    "showResults": "Jetzt suchen",
+    "showResults": "Live-Vorschau",
+    "previewError": "Vorschau konnte nicht geladen werden.",
+    "previewEmpty": "Keine Treffer für diesen Suchauftrag gefunden.",
     "info": {
       "merchant": "Händler",
       "excludeMerchant": "Ausgeschl.",

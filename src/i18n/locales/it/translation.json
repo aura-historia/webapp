@@ -1595,7 +1595,9 @@
     "matchingProductsInactive": "Il filtro di ricerca è inattivo – nessuna corrispondenza disponibile.",
     "searchPlaceholder": "Cerca filtri di ricerca...",
     "showDetails": "Mostra dettagli",
-    "showResults": "Cerca ora",
+    "showResults": "Anteprima live",
+    "previewError": "Impossibile caricare l'anteprima.",
+    "previewEmpty": "Nessun risultato trovato per questo filtro di ricerca.",
     "info": {
       "creationDate": "Creato: {{date}}",
       "updateDate": "Aggiornato: {{date}}",

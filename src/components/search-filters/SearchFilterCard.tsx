@@ -1,15 +1,5 @@
 import { useTranslation } from "react-i18next";
-import {
-    Bell,
-    BellRing,
-    Copy,
-    Pause,
-    Play,
-    ScanSearch,
-    Search,
-    Settings2,
-    Trash2,
-} from "lucide-react";
+import { Bell, BellRing, Copy, Pause, Play, ScanSearch, Settings2, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card } from "@/components/ui/card.tsx";
@@ -40,7 +30,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog.tsx";
-import { serializeSearchParams } from "@/lib/searchValidation.ts";
+import { SearchFilterPreviewDialog } from "@/components/search-filters/SearchFilterPreviewDialog.tsx";
 import { FilterDetailRow } from "@/components/search-filters/FilterDetailRow.tsx";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
@@ -324,12 +314,7 @@ export function SearchFilterCard({
             )}
 
             <div className="flex gap-2 mt-auto">
-                <Button variant="outline" size="sm" className="gap-2 flex-1" asChild>
-                    <Link to="/search" search={serializeSearchParams(search)}>
-                        <Search className="size-4" />
-                        {t("searchFilters.showResults")}
-                    </Link>
-                </Button>
+                <SearchFilterPreviewDialog filter={filter} />
                 <Button size="sm" className="gap-2 flex-1" asChild>
                     <Link to="/me/search-filter/$filterId" params={{ filterId: filter.id }}>
                         <ScanSearch className="size-4" />
