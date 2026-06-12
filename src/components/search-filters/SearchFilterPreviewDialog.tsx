@@ -49,12 +49,12 @@ export function SearchFilterPreviewDialog({ filter }: Props) {
                             {t("searchFilters.previewError")}
                         </p>
                     )}
-                    {data && data.length === 0 && (
+                    {data?.length === 0 && (
                         <p className="text-sm text-muted-foreground text-center py-12">
                             {t("searchFilters.previewEmpty")}
                         </p>
                     )}
-                    {data && data.length > 0 && (
+                    {data?.length > 0 && (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-1">
                             {data.map((product) => (
                                 <div key={product.productId}>
