@@ -314,7 +314,7 @@ describe("CreateSearchFilterWizard", () => {
                     <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
                 ),
             );
-            expect(screen.getByRole("button", { name: /Direkt speichern/i })).toBeInTheDocument();
+            expect(screen.getByRole("button", { name: /Speichern/i })).toBeInTheDocument();
         });
 
         it("renders the save-directly button on a filter step", async () => {
@@ -330,7 +330,7 @@ describe("CreateSearchFilterWizard", () => {
                 ),
             );
             await user.click(screen.getByRole("button", { name: /^Weiter$/i }));
-            expect(screen.getByRole("button", { name: /Direkt speichern/i })).toBeInTheDocument();
+            expect(screen.getByRole("button", { name: /Speichern/i })).toBeInTheDocument();
         });
 
         it("does not render the save-directly button on the confirm step", async () => {
@@ -346,9 +346,7 @@ describe("CreateSearchFilterWizard", () => {
                 ),
             );
             await navigateToConfirmStep(user);
-            expect(
-                screen.queryByRole("button", { name: /Direkt speichern/i }),
-            ).not.toBeInTheDocument();
+            expect(screen.queryByRole("button", { name: /Speichern/i })).not.toBeInTheDocument();
         });
 
         it("does not save when form is invalid on step 1", async () => {
@@ -358,7 +356,7 @@ describe("CreateSearchFilterWizard", () => {
                     <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
                 ),
             );
-            await user.click(screen.getByRole("button", { name: /Direkt speichern/i }));
+            await user.click(screen.getByRole("button", { name: /Speichern/i }));
             expect(mockCreateMutate).not.toHaveBeenCalled();
         });
 
@@ -374,7 +372,7 @@ describe("CreateSearchFilterWizard", () => {
                 "Schnellfilter",
             );
             await user.type(screen.getByRole("textbox", { name: /Suchbegriff/i }), "Stuhl");
-            await user.click(screen.getByRole("button", { name: /Direkt speichern/i }));
+            await user.click(screen.getByRole("button", { name: /Speichern/i }));
             expect(mockCreateMutate).toHaveBeenCalledWith(
                 expect.objectContaining({ name: "Schnellfilter" }),
                 expect.objectContaining({ onSuccess: expect.any(Function) }),
@@ -394,7 +392,7 @@ describe("CreateSearchFilterWizard", () => {
                 ),
             );
             await user.click(screen.getByRole("button", { name: /^Weiter$/i }));
-            await user.click(screen.getByRole("button", { name: /Direkt speichern/i }));
+            await user.click(screen.getByRole("button", { name: /Speichern/i }));
             expect(mockUpdateMutate).toHaveBeenCalledWith(
                 expect.objectContaining({ id: "filter-1" }),
                 expect.objectContaining({ onSuccess: expect.any(Function) }),
@@ -413,7 +411,7 @@ describe("CreateSearchFilterWizard", () => {
                     />,
                 ),
             );
-            await user.click(screen.getByRole("button", { name: /Direkt speichern/i }));
+            await user.click(screen.getByRole("button", { name: /Speichern/i }));
             expect(mockUpdateMutate).toHaveBeenCalledWith(
                 expect.objectContaining({ id: "filter-1" }),
                 expect.objectContaining({ onSuccess: expect.any(Function) }),
