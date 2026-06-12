@@ -168,10 +168,16 @@ describe("PricingSection", () => {
         }).format(34.9);
 
         expect(
-            screen.getByText((_, element) => element?.textContent === germanProPrice),
+            screen.getByText(
+                (_, element) =>
+                    element?.textContent === germanProPrice && element?.tagName === "SPAN",
+            ),
         ).toBeInTheDocument();
         expect(
-            screen.getByText((_, element) => element?.textContent === germanUltimatePrice),
+            screen.getByText(
+                (_, element) =>
+                    element?.textContent === germanUltimatePrice && element?.tagName === "SPAN",
+            ),
         ).toBeInTheDocument();
 
         expect(screen.getAllByText("pro Monat inkl. MwSt.").length).toBeGreaterThanOrEqual(2);
