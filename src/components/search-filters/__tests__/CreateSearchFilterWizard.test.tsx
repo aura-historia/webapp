@@ -307,6 +307,119 @@ describe("CreateSearchFilterWizard", () => {
         });
     });
 
+    describe("save directly", () => {
+        it("renders the save-directly button on step 1", async () => {
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
+                ),
+            );
+            expect(screen.getByRole("button", { name: /Speichern/i })).toBeInTheDocument();
+        });
+
+        it("renders the save-directly button on a filter step", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard
+                        open
+                        onOpenChange={vi.fn()}
+                        mode="edit"
+                        filter={mockFilter}
+                    />,
+                ),
+            );
+            await user.click(screen.getByRole("button", { name: /^Weiter$/i }));
+            expect(screen.getByRole("button", { name: /Speichern/i })).toBeInTheDocument();
+        });
+
+        it("does not render the save-directly button on the confirm step", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard
+                        open
+                        onOpenChange={vi.fn()}
+                        mode="edit"
+                        filter={mockFilter}
+                    />,
+                ),
+            );
+            await navigateToConfirmStep(user);
+            expect(screen.queryByRole("button", { name: /^Weiter$/i })).not.toBeInTheDocument();
+            expect(screen.getByRole("button", { name: /^Speichern$/i })).toBeInTheDocument();
+        });
+
+        it("does not save when form is invalid on step 1", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
+                ),
+            );
+            await user.click(screen.getByRole("button", { name: /Speichern/i }));
+            expect(mockCreateMutate).not.toHaveBeenCalled();
+        });
+
+        it("calls createFilter directly from step 1 with valid form data", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
+                ),
+            );
+            await user.type(
+                screen.getByRole("textbox", { name: /Name des Suchauftrags/i }),
+                "Schnellfilter",
+            );
+            await user.type(screen.getByRole("textbox", { name: /Suchbegriff/i }), "Stuhl");
+            await user.click(screen.getByRole("button", { name: /Speichern/i }));
+            expect(mockCreateMutate).toHaveBeenCalledWith(
+                expect.objectContaining({ name: "Schnellfilter" }),
+                expect.objectContaining({ onSuccess: expect.any(Function) }),
+            );
+        });
+
+        it("calls createFilter directly from a filter step", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard
+                        open
+                        onOpenChange={vi.fn()}
+                        mode="edit"
+                        filter={mockFilter}
+                    />,
+                ),
+            );
+            await user.click(screen.getByRole("button", { name: /^Weiter$/i }));
+            await user.click(screen.getByRole("button", { name: /Speichern/i }));
+            expect(mockUpdateMutate).toHaveBeenCalledWith(
+                expect.objectContaining({ id: "filter-1" }),
+                expect.objectContaining({ onSuccess: expect.any(Function) }),
+            );
+        });
+
+        it("calls updateFilter directly in edit mode from step 1", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard
+                        open
+                        onOpenChange={vi.fn()}
+                        mode="edit"
+                        filter={mockFilter}
+                    />,
+                ),
+            );
+            await user.click(screen.getByRole("button", { name: /Speichern/i }));
+            expect(mockUpdateMutate).toHaveBeenCalledWith(
+                expect.objectContaining({ id: "filter-1" }),
+                expect.objectContaining({ onSuccess: expect.any(Function) }),
+            );
+        });
+    });
+
     describe("navigation", () => {
         it("renders the cancel button on step 1", async () => {
             await act(() =>
