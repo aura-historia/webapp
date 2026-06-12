@@ -1,6 +1,5 @@
 import { NotificationCard } from "@/components/notification/NotificationCard.tsx";
 import { NotificationCardSkeleton } from "@/components/notification/NotificationCardSkeleton.tsx";
-import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
@@ -10,8 +9,8 @@ import { useMarkAllNotificationsSeen } from "@/hooks/notification/useMarkAllNoti
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { BellOff } from "lucide-react";
-import { H3 } from "@/components/typography/H3.tsx";
+import { BellOff, ServerCrash } from "lucide-react";
+import { EmptyState } from "@/components/common/EmptyState.tsx";
 
 const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as const;
 
@@ -40,8 +39,13 @@ export function NotificationResults() {
     }
 
     if (error) {
-        console.error(error);
-        return <SectionInfoText>{t("notifications.loadingError")}</SectionInfoText>;
+        return (
+            <EmptyState
+                icon={ServerCrash}
+                title={t("notifications.loadingError.title")}
+                description={t("notifications.loadingError.description")}
+            />
+        );
     }
 
     const allNotifications = data?.pages.flatMap((p) => p.items) ?? [];
@@ -52,15 +56,11 @@ export function NotificationResults() {
 
     if (allNotifications.length === 0) {
         return (
-            <div className="flex flex-col items-center gap-4 py-16">
-                <BellOff className="h-16 w-16 text-muted-foreground" />
-                <div className="text-center space-y-2">
-                    <H3>{t("notifications.noResults.title")}</H3>
-                    <p className="text-base text-muted-foreground">
-                        {t("notifications.noResults.description")}
-                    </p>
-                </div>
-            </div>
+            <EmptyState
+                icon={BellOff}
+                title={t("notifications.noResults.title")}
+                description={t("notifications.noResults.description")}
+            />
         );
     }
 

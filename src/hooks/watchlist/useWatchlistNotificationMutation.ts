@@ -37,7 +37,7 @@ export function useWatchlistNotificationMutation(shopId: string, shopsProductId:
         },
         onError: (e) => {
             console.error("Error mutating watchlist:", e);
-            toast.error(e.message || t("watchlist.loadingError"));
+            toast.error(e.message || t("watchlist.loadingError.description"));
         },
         onSuccess: async (data) => {
             if (!data) return;

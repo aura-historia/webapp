@@ -3,6 +3,7 @@ import { Eye, Languages, Store } from "lucide-react";
 export const DISCOVER_HIGHLIGHTS = [
     {
         titleKey: "discover.highlight1.title",
+        titleFallbackKey: "discover.highlight1.titleFallback",
         descKey: "discover.highlight1.description",
         icon: Store,
     },

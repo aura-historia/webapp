@@ -52,7 +52,7 @@ export function useWatchlistMutation(shopId: string, shopsProductId: string) {
         },
         onError: (e) => {
             console.error("Error mutating watchlist:", e);
-            toast.error(e.message || t("watchlist.loadingError"));
+            toast.error(e.message || t("watchlist.loadingError.description"));
         },
         onSuccess: async () => {
             await Promise.all([

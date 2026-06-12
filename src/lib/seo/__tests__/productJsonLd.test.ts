@@ -32,7 +32,8 @@ describe("productJsonLd", () => {
                             prohibitedContent: "NONE",
                         },
                     ],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-15T10:00:00Z",
                     updated: "2024-01-20T15:30:00Z",
                 },
@@ -69,7 +70,8 @@ describe("productJsonLd", () => {
                     url: "https://example.com/chair",
                     viewUrl: "https://affiliate.example.com/chair",
                     images: [],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -105,7 +107,8 @@ describe("productJsonLd", () => {
                     url: "https://example.com/painting",
                     viewUrl: "https://example.com/painting",
                     images: [],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -134,7 +137,8 @@ describe("productJsonLd", () => {
                     url: "https://example.com/reserved",
                     viewUrl: "https://example.com/reserved",
                     images: [],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -163,7 +167,8 @@ describe("productJsonLd", () => {
                     url: "https://example.com/sold",
                     viewUrl: "https://example.com/sold",
                     images: [],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -192,7 +197,8 @@ describe("productJsonLd", () => {
                     url: "https://example.com/item",
                     viewUrl: "https://example.com/item",
                     images: [],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -221,7 +227,8 @@ describe("productJsonLd", () => {
                     url: "https://example.com/item",
                     viewUrl: "https://example.com/item",
                     images: [],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -250,7 +257,8 @@ describe("productJsonLd", () => {
                     url: "https://example.com/item",
                     viewUrl: "https://example.com/item",
                     images: [],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -292,7 +300,8 @@ describe("productJsonLd", () => {
                             prohibitedContent: "NONE",
                         },
                     ],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -324,7 +333,8 @@ describe("productJsonLd", () => {
                     url: "",
                     viewUrl: "",
                     images: [],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -354,7 +364,8 @@ describe("productJsonLd", () => {
                     url: "https://example.com/item",
                     viewUrl: "https://example.com/item",
                     images: [],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -383,7 +394,8 @@ describe("productJsonLd", () => {
                     url: "https://example.com/item",
                     viewUrl: "https://example.com/item",
                     images: [],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -412,7 +424,8 @@ describe("productJsonLd", () => {
                     url: "https://example.com/item",
                     viewUrl: "https://example.com/item",
                     images: [],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -448,7 +461,8 @@ describe("productJsonLd", () => {
                             prohibitedContent: "NONE",
                         },
                     ],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -489,7 +503,8 @@ describe("productJsonLd", () => {
                             prohibitedContent: "NONE",
                         },
                     ],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },
@@ -519,7 +534,8 @@ describe("productJsonLd", () => {
                     url: "https://example.com/item",
                     viewUrl: "https://example.com/item",
                     images: [],
-
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-01T00:00:00Z",
                 },

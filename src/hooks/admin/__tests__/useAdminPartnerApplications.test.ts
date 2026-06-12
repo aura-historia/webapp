@@ -49,7 +49,21 @@ describe("useAdminPartnerApplications", () => {
                     applicantUserId: "user-1",
                     businessState: "IN_REVIEW",
                     executionState: "WAITING",
-                    payload: { type: "EXISTING", shopId: "shop-1" },
+                    payload: {
+                        type: "EXISTING",
+                        shop: {
+                            shopId: "shop-1",
+                            shopSlugId: "shop-one",
+                            name: "Shop One",
+                            shopType: "AUCTION_HOUSE",
+                            domains: ["shop-one.example.com"],
+                            partnerStatus: "PARTNERED",
+                            createdBy: "SYSTEM",
+                            updatedBy: "SYSTEM",
+                            created: "2024-01-01T00:00:00Z",
+                            updated: "2024-01-02T00:00:00Z",
+                        },
+                    },
                     created: "2024-01-01T00:00:00Z",
                     updated: "2024-01-02T00:00:00Z",
                 },
@@ -67,7 +81,7 @@ describe("useAdminPartnerApplications", () => {
             expect.objectContaining({
                 id: "app-1",
                 applicantUserId: "user-1",
-                payload: { type: "EXISTING", shopId: "shop-1" },
+                payload: expect.objectContaining({ type: "EXISTING", shopId: "shop-1" }),
             }),
         ]);
     });

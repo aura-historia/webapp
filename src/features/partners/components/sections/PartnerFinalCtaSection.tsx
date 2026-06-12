@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button.tsx";
 import { ArrowRight, Mail } from "lucide-react";
 import { H2 } from "@/components/typography/H2.tsx";
+import { Link } from "@tanstack/react-router";
 
 export default function PartnerFinalCtaSection() {
     const { t } = useTranslation();
@@ -28,10 +29,10 @@ export default function PartnerFinalCtaSection() {
                         variant="secondary"
                         className="min-h-12 bg-tertiary text-on-tertiary hover:bg-tertiary/90"
                     >
-                        <a href="/partners/apply">
+                        <Link to="/partners/apply">
                             {t("partners.finalCta.primary")}
                             <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-                        </a>
+                        </Link>
                     </Button>
                     <Button
                         asChild

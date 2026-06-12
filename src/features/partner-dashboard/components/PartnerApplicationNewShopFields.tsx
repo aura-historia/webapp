@@ -1,0 +1,193 @@
+import { EDITABLE_SHOP_TYPES } from "@/components/admin/adminShopFormUtils.ts";
+import { Input } from "@/components/ui/input.tsx";
+import { Label } from "@/components/ui/label.tsx";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select.tsx";
+import { Textarea } from "@/components/ui/textarea.tsx";
+import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
+import type { PartnerApplicationCreateFormData } from "@/features/partner-dashboard/components/PartnerApplicationCreateForm.ts";
+import {
+    FieldMessage,
+    RequiredFieldMarker,
+} from "@/features/partner-dashboard/components/PartnerApplicationCreateFieldHelpers.tsx";
+import type { UseFormReturn } from "react-hook-form";
+import { useController } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+
+interface PartnerApplicationNewShopFieldsProps {
+    readonly form: UseFormReturn<PartnerApplicationCreateFormData>;
+}
+
+export function PartnerApplicationNewShopFields({ form }: PartnerApplicationNewShopFieldsProps) {
+    const { t } = useTranslation();
+    const shopTypeField = useController({ control: form.control, name: "shopType" }).field;
+    const errors = form.formState.errors;
+
+    return (
+        <div className="grid gap-4">
+            <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-2">
+                    <Label htmlFor="partner-application-shop-name" className="gap-0">
+                        {t("partnerDashboard.create.fields.shopName")}
+                        <RequiredFieldMarker />
+                    </Label>
+                    <Input
+                        id="partner-application-shop-name"
+                        {...form.register("shopName")}
+                        aria-invalid={!!errors.shopName}
+                    />
+                    <FieldMessage message={errors.shopName?.message} />
+                </div>
+
+                <div className="grid gap-2">
+                    <Label htmlFor="partner-application-shop-type" className="gap-0">
+                        {t("partnerDashboard.create.fields.shopType")}
+                        <RequiredFieldMarker />
+                    </Label>
+                    <Select value={shopTypeField.value} onValueChange={shopTypeField.onChange}>
+                        <SelectTrigger
+                            id="partner-application-shop-type"
+                            className="w-full"
+                            aria-invalid={!!errors.shopType}
+                        >
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {EDITABLE_SHOP_TYPES.map((shopType) => (
+                                <SelectItem key={shopType} value={shopType}>
+                                    {t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].translationKey)}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <FieldMessage message={errors.shopType?.message} />
+                </div>
+            </div>
+
+            <div className="grid gap-2">
+                <Label htmlFor="partner-application-shop-domains" className="gap-0">
+                    {t("partnerDashboard.create.fields.shopDomains")}
+                    <RequiredFieldMarker />
+                </Label>
+                <Textarea
+                    id="partner-application-shop-domains"
+                    className="min-h-24"
+                    {...form.register("shopDomains")}
+                    aria-invalid={!!errors.shopDomains}
+                />
+                <p className="text-sm text-muted-foreground">
+                    {t("partnerDashboard.create.fields.shopDomainsHint")}
+                </p>
+                <FieldMessage message={errors.shopDomains?.message} />
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-2">
+                    <Label htmlFor="partner-application-shop-url">
+                        {t("partnerDashboard.create.fields.shopUrl")}
+                    </Label>
+                    <Input
+                        id="partner-application-shop-url"
+                        type="url"
+                        placeholder="https://shop.example.com"
+                        {...form.register("shopUrl")}
+                        aria-invalid={!!errors.shopUrl}
+                    />
+                    <FieldMessage message={errors.shopUrl?.message} />
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="partner-application-shop-image">
+                        {t("partnerDashboard.create.fields.shopImage")}
+                    </Label>
+                    <Input
+                        id="partner-application-shop-image"
+                        type="url"
+                        placeholder="https://..."
+                        {...form.register("shopImage")}
+                        aria-invalid={!!errors.shopImage}
+                    />
+                    <FieldMessage message={errors.shopImage?.message} />
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="partner-application-shop-phone">
+                        {t("partnerDashboard.create.fields.shopPhone")}
+                    </Label>
+                    <Input
+                        id="partner-application-shop-phone"
+                        type="tel"
+                        {...form.register("shopPhone")}
+                    />
+                    <FieldMessage />
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="partner-application-shop-email">
+                        {t("partnerDashboard.create.fields.shopEmail")}
+                    </Label>
+                    <Input
+                        id="partner-application-shop-email"
+                        type="email"
+                        {...form.register("shopEmail")}
+                        aria-invalid={!!errors.shopEmail}
+                    />
+                    <FieldMessage message={errors.shopEmail?.message} />
+                </div>
+            </div>
+
+            <section className="grid gap-4">
+                <h3 className="font-medium">{t("partnerDashboard.create.fields.address")}</h3>
+                <div className="grid gap-4 md:grid-cols-2">
+                    <div className="grid gap-2">
+                        <Label htmlFor="partner-application-addressline">
+                            {t("partnerDashboard.create.fields.addressline")}
+                        </Label>
+                        <Input
+                            id="partner-application-addressline"
+                            {...form.register("addressline")}
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="partner-application-addressline-extra">
+                            {t("partnerDashboard.create.fields.addresslineExtra")}
+                        </Label>
+                        <Input
+                            id="partner-application-addressline-extra"
+                            {...form.register("addresslineExtra")}
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="partner-application-locality">
+                            {t("partnerDashboard.create.fields.locality")}
+                        </Label>
+                        <Input id="partner-application-locality" {...form.register("locality")} />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="partner-application-region">
+                            {t("partnerDashboard.create.fields.region")}
+                        </Label>
+                        <Input id="partner-application-region" {...form.register("region")} />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="partner-application-postal-code">
+                            {t("partnerDashboard.create.fields.postalCode")}
+                        </Label>
+                        <Input
+                            id="partner-application-postal-code"
+                            {...form.register("postalCode")}
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="partner-application-country">
+                            {t("partnerDashboard.create.fields.country")}
+                        </Label>
+                        <Input id="partner-application-country" {...form.register("country")} />
+                    </div>
+                </div>
+            </section>
+        </div>
+    );
+}

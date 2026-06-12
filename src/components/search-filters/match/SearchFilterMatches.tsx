@@ -3,10 +3,9 @@ import { useSearchFilterMatchedProducts } from "@/hooks/search-filters/useSearch
 import { SearchFilterMatchCard } from "@/components/search-filters/match/SearchFilterMatchCard.tsx";
 import { HiddenMatchCard } from "@/components/product/overview/HiddenMatchCard.tsx";
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
-import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
-import { H3 } from "@/components/typography/H3.tsx";
-import { SearchX } from "lucide-react";
+import { SearchX, ServerCrash } from "lucide-react";
+import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { useTranslation } from "react-i18next";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
@@ -50,7 +49,13 @@ export function SearchFilterMatches({ filterId }: Props) {
 
     if (error || filterError) {
         console.error(error ?? filterError);
-        return <SectionInfoText>{t("searchFilters.loadingError")}</SectionInfoText>;
+        return (
+            <EmptyState
+                icon={ServerCrash}
+                title={t("searchFilters.loadingError.title")}
+                description={t("searchFilters.loadingError.description")}
+            />
+        );
     }
 
     const allProducts: OverviewProduct[] = data?.pages.flatMap((page) => [...page.items]) ?? [];
@@ -60,18 +65,15 @@ export function SearchFilterMatches({ filterId }: Props) {
 
     if (allProducts.length === 0) {
         return (
-            <div className="flex flex-col items-center gap-4 py-16">
-                <SearchX className="h-16 w-16 text-muted-foreground" />
-                <div className="text-center space-y-2">
-                    <H3>{t("searchFilters.noMatches.title")}</H3>
-                    <p className="text-base text-muted-foreground">
-                        {t("searchFilters.noMatches.description")}
-                    </p>
-                </div>
+            <EmptyState
+                icon={SearchX}
+                title={t("searchFilters.noMatches.title")}
+                description={t("searchFilters.noMatches.description")}
+            >
                 <Button variant="outline" asChild>
                     <Link to="/me/search-filters">{t("searchFilters.noMatches.editHint")}</Link>
                 </Button>
-            </div>
+            </EmptyState>
         );
     }
 

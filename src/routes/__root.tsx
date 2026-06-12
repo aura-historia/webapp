@@ -16,8 +16,8 @@ import { Header } from "@/components/common/Header.tsx";
 import { NavigationProgress } from "@/components/common/NavigationProgress.tsx";
 import { type QueryClient, useQueryClient } from "@tanstack/react-query";
 import type React from "react";
-import { Hub } from "aws-amplify/utils";
 import { useEffect, useRef } from "react";
+import { Hub } from "aws-amplify/utils";
 import { Toaster } from "sonner";
 import "@/lib/polyfills/url";
 import "@/amplify-config.ts";
@@ -31,8 +31,6 @@ import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/server/i18n.ts";
 import i18n from "@/i18n/i18n.ts";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
-import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
-import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
 import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { ConsentBanner } from "@/components/common/ConsentBanner.tsx";
 import { SONNER_TOASTER_PROPS } from "@/lib/ui/sonnerToasterConfig";
@@ -154,8 +152,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         return { initialPreferences, timeZone, serverAuth: auth };
     },
     shellComponent: RootDocument,
-    notFoundComponent: NotFoundComponent,
-    errorComponent: ErrorComponent,
 });
 
 function RootDocument({ children }: { readonly children: React.ReactNode }) {

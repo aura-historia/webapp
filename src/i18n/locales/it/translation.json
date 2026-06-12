@@ -59,6 +59,9 @@
     "partners": {
       "title": "Programma Partner | Aura Historia",
       "description": "Diventa partner di Aura Historia, la piattaforma globale per antiquariato e arte. Gratis, senza commissioni e connessa in pochi minuti."
+    },
+    "partnerDashboard": {
+      "title": "Dashboard Partner | Aura Historia"
     }
   },
   "validation": {
@@ -129,8 +132,9 @@
     },
     "partnerProgramLinks": {
       "overview": "Panoramica",
+      "dashboard": "Dashboard partner",
       "woocommerce": "Plugin WordPress",
-      "shopify": "Shopify App Store",
+      "shopify": "Shopify",
       "customApi": "Integrazione personalizzata",
       "apply": "Candidati"
     }
@@ -288,7 +292,10 @@
     },
     "messages": {
       "minQueryLength": "Inserisci almeno 3 caratteri per avviare la ricerca.",
-      "error": "Errore nel caricamento dei risultati. Riprova più tardi!",
+      "error": {
+        "title": "Errore di caricamento",
+        "description": "I risultati di ricerca non hanno potuto essere caricati. Riprova più tardi."
+      },
       "noResults": {
         "title": "Nessun risultato trovato",
         "description": "Prova a modificare il termine di ricerca o i filtri."
@@ -435,7 +442,8 @@
     "p1": "Ogni giorno esaminiamo la vasta offerta di migliaia di antiquari, case d'aste e marketplace sparsi in tutto il mondo e raccogliamo i loro articoli in un unico posto.",
     "p2": "Non solo registriamo gli articoli attuali e futuri, ma monitoriamo anche le variazioni di prezzo e disponibilità. In questo modo non perderai mai un affare e avrai sempre sotto controllo il mercato.",
     "highlight1": {
-      "title": "Oltre 500 commercianti, case d'aste e marketplace",
+      "title": "Oltre {{count}} Rivenditori, Case d'Asta e Marketplace",
+      "titleFallback": "Centinaia di commercianti, case d'aste e marketplace",
       "description": "Cerchiamo continuamente tra rinomati antiquari, case d'aste e marketplace da tutta Europa e oltre."
     },
     "highlight2": {
@@ -934,8 +942,8 @@
     "TEXT_QUERY_TOO_SHORT": "La query di ricerca deve contenere almeno 3 caratteri.",
     "BAD_PATH_PARAMETER_VALUE": "Il link non è valido.",
     "INVALID_UUID": "Il link non è valido.",
-    "SERVICE_UNAVAILABLE": "Il servizio non è attualmente disponibile. Riprova più tardi.",
-    "BAD_QUERY_PARAMETER_VALUE": "La tua ricerca contiene impostazioni non valide.",
+    "SERVICE_UNAVAILABLE": "Il servizio non è al momento disponibile a causa dell'elevato traffico. Riprova tra poco.",
+    "BAD_QUERY_PARAMETER_VALUE": "La richiesta contiene parametri non validi.",
     "SHOP_NOT_FOUND": "Questo negozio non è più disponibile.",
     "INVALID_SHOP_IDENTIFIER": "L'identificativo del negozio non è valido.",
     "INVALID_DOMAIN": "Il dominio del negozio non è valido.",
@@ -954,13 +962,26 @@
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Non è stato trovato alcun abbonamento esistente. Avvia un nuovo processo di pagamento.",
     "unknown": "Si è verificato un errore imprevisto.",
     "undefined": "Si è verificato un errore imprevisto.",
-    "SEARCH_FILTER_RESTRICTED_FEATURE": "Questa funzione è disponibile solo per determinati abbonamenti. Effettua l'upgrade del tuo account."
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Alcuni dei filtri attivi sono disponibili solo per utenti premium. Rimuovi questi filtri o aggiorna il tuo account per salvare un filtro di ricerca.",
+    "BAD_REQUEST": "La richiesta non è valida.",
+    "NOT_FOUND": "La risorsa richiesta non è stata trovata.",
+    "CONFLICT": "L'azione non ha potuto essere completata a causa di un conflitto.",
+    "UNPROCESSABLE_ENTITY": "La richiesta non ha potuto essere elaborata. Controlla i tuoi dati.",
+    "BAD_GATEWAY": "Si è verificato un problema di connessione. Riprova più tardi.",
+    "USER_EXISTS_ALREADY": "Esiste già un account con questo indirizzo email.",
+    "NOTIFICATION_NOT_FOUND": "Questa notifica non esiste più.",
+    "PRODUCT_ENRICHMENT_FAILED": "Le informazioni sul prodotto non hanno potuto essere caricate completamente.",
+    "ACCESS_TOKEN_NOT_FOUND": "La tua sessione è scaduta. Effettua di nuovo l'accesso.",
+    "PARTNER_SHOP_APPLICATION_NOT_FOUND": "La richiesta di partnership non è stata trovata."
   },
   "watchlist": {
     "title": "La mia lista dei preferiti",
     "loginRequired": "Effettua l'accesso per utilizzare la lista dei preferiti.",
     "totalElements": "{{count}} articoli",
-    "loadingError": "La lista dei preferiti non è raggiungibile al momento. Riprova più tardi.",
+    "loadingError": {
+      "title": "Lista non raggiungibile",
+      "description": "La lista dei preferiti non è raggiungibile al momento. Riprova più tardi."
+    },
     "loadingMore": "Caricamento di altri risultati...",
     "allLoaded_one": "Hai visualizzato {{count}} articolo dalla tua lista dei preferiti.",
     "allLoaded_other": "Hai visualizzato tutti i {{count}} articoli dalla tua lista dei preferiti.",
@@ -1231,7 +1252,10 @@
     "delete": "Elimina",
     "deleteAll": "Elimina tutto",
     "markRead": "Segna come letto",
-    "loadingError": "Le notifiche non possono essere caricate. Riprova più tardi.",
+    "loadingError": {
+      "title": "Errore di caricamento",
+      "description": "Le notifiche non possono essere caricate. Riprova più tardi."
+    },
     "loadingMore": "Caricamento di altre notifiche...",
     "allLoaded_one": "{{count}} notifica caricata",
     "allLoaded_other": "Tutte le {{count}} notifiche caricate",
@@ -1548,7 +1572,15 @@
     },
     "notificationsOn": "Notifiche attive",
     "notificationsOff": "Notifiche inattive",
-    "loadingError": "I filtri di ricerca non possono essere caricati. Riprova più tardi.",
+    "activate": "Attiva",
+    "deactivate": "Metti in pausa",
+    "stateInactiveByUser": "In pausa",
+    "stateInactiveByPlan": "Bloccato",
+    "stateInactiveByPlanTooltip": "Questo filtro di ricerca è inattivo a causa del tuo piano di abbonamento.",
+    "loadingError": {
+      "title": "Errore di caricamento",
+      "description": "I filtri di ricerca non possono essere caricati. Riprova più tardi."
+    },
     "noResults": {
       "title": "Nessun filtro di ricerca",
       "description": "Non hai ancora salvato alcun filtro di ricerca."
@@ -1560,9 +1592,12 @@
     },
     "totalElements": "{{count}} filtro/i di ricerca",
     "matchingProducts": "Mostra tutte le corrispondenze",
+    "matchingProductsInactive": "Il filtro di ricerca è inattivo – nessuna corrispondenza disponibile.",
     "searchPlaceholder": "Cerca filtri di ricerca...",
     "showDetails": "Mostra dettagli",
-    "showResults": "Cerca ora",
+    "showResults": "Anteprima dal vivo",
+    "previewError": "Impossibile caricare l'anteprima.",
+    "previewEmpty": "Nessun risultato trovato per questo filtro di ricerca.",
     "info": {
       "creationDate": "Creato: {{date}}",
       "updateDate": "Aggiornato: {{date}}",
@@ -1581,13 +1616,7 @@
       "notRelevantHint": "La corrispondenza non è rilevante"
     },
     "matchReason": "Motivo AI",
-    "feedbackError": "Impossibile salvare il feedback.",
-    "activate": "Attiva",
-    "deactivate": "Metti in pausa",
-    "stateInactiveByUser": "In pausa",
-    "stateInactiveByPlan": "Bloccato",
-    "stateInactiveByPlanTooltip": "Questo filtro di ricerca è inattivo a causa del tuo piano di abbonamento.",
-    "matchingProductsInactive": "Il filtro di ricerca è inattivo – nessuna corrispondenza disponibile."
+    "feedbackError": "Impossibile salvare il feedback."
   },
   "oauth": {
     "authorize": {
@@ -1629,6 +1658,129 @@
       "shops_manage": {
         "label": "Gestisci negozi",
         "description": "Gestire le impostazioni del tuo negozio."
+      }
+    }
+  },
+  "partnerDashboard": {
+    "title": "Dashboard Partner",
+    "description": "Monitora le tue attuali richieste di partnership e il loro stato di revisione.",
+    "actions": {
+      "retry": "Riprova"
+    },
+    "create": {
+      "open": "Nuova richiesta",
+      "title": "Invia richiesta di partnership",
+      "description": "Richiedi una partnership per un negozio esistente tramite ID o crea un nuovo negozio per la revisione.",
+      "submit": "Invia richiesta",
+      "submitting": "Invio in corso…",
+      "cancel": "Annulla",
+      "success": "Richiesta di partnership inviata.",
+      "type": {
+        "new": "Nuovo negozio",
+        "existing": "Negozio esistente"
+      },
+      "fields": {
+        "type": "Tipo di richiesta",
+        "shopId": "Negozio",
+        "shopName": "Nome del negozio",
+        "shopType": "Tipo di negozio",
+        "shopDomains": "Domini",
+        "shopDomainsHint": "Separa i domini con interruzioni di riga, virgole, punti e virgola o spazi. I domini vengono normalizzati prima dell'invio.",
+        "shopUrl": "URL principale del negozio",
+        "shopImage": "Logo o URL immagine",
+        "shopPhone": "Telefono",
+        "shopEmail": "Email",
+        "address": "Indirizzo",
+        "addressline": "Linea indirizzo",
+        "addresslineExtra": "Linea indirizzo 2",
+        "locality": "Città",
+        "region": "Regione",
+        "postalCode": "CAP",
+        "country": "Codice paese"
+      },
+      "validation": {
+        "shopIdRequired": "Seleziona un negozio esistente.",
+        "shopNameRequired": "Inserisci il nome del negozio.",
+        "domainsRequired": "Inserisci almeno un dominio.",
+        "urlInvalid": "Inserisci un URL valido.",
+        "imageInvalid": "Inserisci un URL immagine valido.",
+        "emailInvalid": "Inserisci un indirizzo email valido."
+      },
+      "shopSearch": {
+        "placeholder": "Cerca negozi per nome…",
+        "loading": "Ricerca negozi in corso.",
+        "empty": "Nessun negozio trovato.",
+        "clear": "Cancella negozio selezionato"
+      }
+    },
+    "applications": {
+      "title": "Richieste di Partnership Correnti",
+      "description": "Tutte le richieste di partnership che hai inviato per i negozi.",
+      "loading": "Caricamento delle richieste di partnership in corso.",
+      "loadError": "Impossibile caricare le tue richieste di partnership.",
+      "empty": "Non hai ancora inviato alcuna richiesta di partnership.",
+      "submittedAt": "Inviata il {{date}}",
+      "updatedAt": "Aggiornata il {{date}}",
+      "existingShop": "Negozio esistente",
+      "openDetails": "Apri dettagli per {{title}}",
+      "viewDetails": "Visualizza dettagli",
+      "progress": {
+        "handedIn": "Consegnata",
+        "checking": "In verifica",
+        "completed": "Completata",
+        "approved": "Approvata",
+        "denied": "Rifiutata"
+      },
+      "detail": {
+        "title": "Dettagli della richiesta",
+        "description": "Esamina lo stato attuale e le informazioni sul negozio inviato.",
+        "loadError": "Impossibile caricare questa richiesta di partnership.",
+        "close": "Chiudi dettagli",
+        "edit": "Modifica richiesta",
+        "editCancel": "Annulla",
+        "editSave": "Salva modifiche",
+        "editSuccess": "Richiesta di partnership aggiornata.",
+        "delete": "Elimina richiesta",
+        "deleteSuccess": "Richiesta di partnership eliminata.",
+        "deleteConfirm": {
+          "title": "Eliminare questa richiesta di partnership?",
+          "description": "Questa richiesta in sospeso sarà eliminata definitivamente e non potrà essere recuperata.",
+          "cancel": "Annulla",
+          "confirm": "Elimina"
+        },
+        "progressLabel": "Progresso della richiesta",
+        "applicationSection": "Richiesta",
+        "shopSection": "Informazioni sul negozio",
+        "applicationId": "ID Richiesta",
+        "applicantUserId": "ID Utente Richiedente",
+        "createdAt": "Inviata",
+        "updatedAt": "Aggiornata",
+        "shopName": "Nome del negozio",
+        "shopType": "Tipo di negozio",
+        "domains": "Domini",
+        "shopUrl": "URL principale",
+        "shopImage": "URL immagine",
+        "shopPhone": "Telefono",
+        "shopEmail": "Email",
+        "address": "Indirizzo",
+        "addressline": "Linea indirizzo",
+        "addresslineExtra": "Linea indirizzo 2",
+        "locality": "Città",
+        "region": "Regione",
+        "postalCode": "CAP",
+        "country": "Codice paese",
+        "shopId": "ID Negozio"
+      },
+      "businessState": {
+        "submitted": "Inviata",
+        "inReview": "In revisione",
+        "approved": "Approvata",
+        "rejected": "Rifiutata"
+      },
+      "executionState": {
+        "processing": "In elaborazione",
+        "waiting": "In attesa di decisione",
+        "completed": "Completata"
       }
     }
   }

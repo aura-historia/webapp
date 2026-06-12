@@ -59,6 +59,9 @@
     "partners": {
       "title": "Partner-Programm | Aura Historia",
       "description": "Werden Sie Partner-Shop bei Aura Historia – der globalen Plattform für Antiquitäten & Kunst. Kostenlos, ohne Provision, in Minuten verbunden."
+    },
+    "partnerDashboard": {
+      "title": "Partner-Dashboard | Aura Historia"
     }
   },
   "validation": {
@@ -129,6 +132,7 @@
     },
     "partnerProgramLinks": {
       "overview": "Übersicht",
+      "dashboard": "Partner-Dashboard",
       "woocommerce": "WordPress-Plugin",
       "shopify": "Shopify App Store",
       "customApi": "Eigene Integration",
@@ -286,7 +290,10 @@
     },
     "messages": {
       "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",
-      "error": "Fehler beim Laden der Suchergebnisse. Bitte versuchen Sie es später erneut!",
+      "error": {
+        "title": "Fehler beim Laden",
+        "description": "Die Suchergebnisse konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+      },
       "noResults": {
         "title": "Keine Ergebnisse gefunden",
         "description": "Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen."
@@ -433,7 +440,8 @@
     "p1": "Wir durchsuchen täglich das unübersichtliche Angebot tausender verstreuter Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit und bündeln deren Artikel zentral an einem Ort.",
     "p2": "Wir erfassen nicht nur aktuelle und neu aufgetauchte Antiquitäten, sondern verfolgen auch Preisänderungen und Verfügbarkeiten. So verpassen Sie nie wieder ein Schnäppchen und behalten den Markt stets im Blick.",
     "highlight1": {
-      "title": "Über 500 Händler, Auktionshäuser und Marktplätze",
+      "title": "Über {{count}} Händler, Auktionshäuser und Marktplätze",
+      "titleFallback": "Hunderte Händler, Auktionshäuser und Marktplätze",
       "description": "Wir durchsuchen kontinuierlich renommierte Antiquitätenhändler, Auktionshäuser und Marktplätze aus ganz Europa und darüber hinaus."
     },
     "highlight2": {
@@ -932,7 +940,7 @@
     "TEXT_QUERY_TOO_SHORT": "Die Suchanfrage muss mindestens 3 Zeichen enthalten.",
     "BAD_PATH_PARAMETER_VALUE": "Der Link ist ungültig.",
     "INVALID_UUID": "Der Link ist ungültig.",
-    "SERVICE_UNAVAILABLE": "Der Service ist momentan nicht verfügbar. Bitte versuche es später erneut.",
+    "SERVICE_UNAVAILABLE": "Der Service ist aktuell aufgrund von erhöhtem Traffic nicht erreichbar. Bitte versuchen Sie es in Kürze erneut.",
     "BAD_QUERY_PARAMETER_VALUE": "Ihre Suche enthält ungültige Einstellungen.",
     "SHOP_NOT_FOUND": "Dieser Shop ist nicht mehr verfügbar.",
     "INVALID_SHOP_IDENTIFIER": "Die Shop-Kennung ist ungültig.",
@@ -952,13 +960,26 @@
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Es wurde kein bestehendes Abonnement gefunden. Bitte starten Sie einen neuen Checkout.",
     "unknown": "Ein unerwarteter Fehler ist aufgetreten.",
     "undefined": "Ein unerwarteter Fehler ist aufgetreten.",
-    "SEARCH_FILTER_RESTRICTED_FEATURE": "Einige Ihrer aktiven Filter sind nur für Premium-Nutzer verfügbar. Bitte entfernen Sie diese Filter, um einen Suchauftrag zu speichern."
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Einige Ihrer aktiven Filter sind nur für Premium-Nutzer verfügbar. Bitte entfernen Sie diese Filter, um einen Suchauftrag zu speichern.",
+    "BAD_REQUEST": "Die Anfrage ist ungültig.",
+    "NOT_FOUND": "Die angeforderte Ressource wurde nicht gefunden.",
+    "CONFLICT": "Die Aktion konnte aufgrund eines Konflikts nicht ausgeführt werden.",
+    "UNPROCESSABLE_ENTITY": "Die Anfrage konnte nicht verarbeitet werden. Bitte überprüfen Sie Ihre Eingaben.",
+    "BAD_GATEWAY": "Es ist ein Verbindungsproblem aufgetreten. Bitte versuchen Sie es später erneut.",
+    "USER_EXISTS_ALREADY": "Ein Konto mit dieser E-Mail-Adresse existiert bereits.",
+    "NOTIFICATION_NOT_FOUND": "Diese Benachrichtigung existiert nicht mehr.",
+    "PRODUCT_ENRICHMENT_FAILED": "Die Produktinformationen konnten nicht vollständig geladen werden.",
+    "ACCESS_TOKEN_NOT_FOUND": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+    "PARTNER_SHOP_APPLICATION_NOT_FOUND": "Der Partnerantrag wurde nicht gefunden."
   },
   "watchlist": {
     "title": "Meine Merkliste",
     "loginRequired": "Bitte melden Sie sich an, um die Merkliste nutzen zu können.",
     "totalElements": "{{count}} Artikel",
-    "loadingError": "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
+    "loadingError": {
+      "title": "Merkliste nicht erreichbar",
+      "description": "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut."
+    },
     "loadingMore": "Lade neue Ergebnisse...",
     "allLoaded_one": "Sie haben {{count}} Artikel Ihrer Merkliste gesehen.",
     "allLoaded_other": "Sie haben alle {{count}} Artikel Ihrer Merkliste gesehen.",
@@ -1202,7 +1223,10 @@
     "delete": "Löschen",
     "deleteAll": "Alle löschen",
     "markRead": "Als gelesen markieren",
-    "loadingError": "Benachrichtigungen konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+    "loadingError": {
+      "title": "Fehler beim Laden",
+      "description": "Benachrichtigungen konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+    },
     "loadingMore": "Lade weitere Benachrichtigungen...",
     "allLoaded_one": "{{count}} Benachrichtigung geladen",
     "allLoaded_other": "Alle {{count}} Benachrichtigungen geladen",
@@ -1320,7 +1344,10 @@
     "stateInactiveByUser": "Pausiert",
     "stateInactiveByPlan": "Gesperrt",
     "stateInactiveByPlanTooltip": "Dieser Suchauftrag ist aufgrund Ihres Abonnements inaktiv.",
-    "loadingError": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+    "loadingError": {
+      "title": "Fehler beim Laden",
+      "description": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+    },
     "noResults": {
       "title": "Keine Suchaufträge",
       "description": "Speichern Sie eine Suche, um sie hier zu finden."
@@ -1336,7 +1363,9 @@
     "matchingProductsInactive": "Suchauftrag ist inaktiv – keine Treffer verfügbar.",
     "searchPlaceholder": "Suchaufträge durchsuchen …",
     "showDetails": "Details anzeigen",
-    "showResults": "Jetzt suchen",
+    "showResults": "Live-Vorschau",
+    "previewError": "Vorschau konnte nicht geladen werden.",
+    "previewEmpty": "Keine Treffer für diesen Suchauftrag gefunden.",
     "info": {
       "merchant": "Händler",
       "excludeMerchant": "Ausgeschl.",
@@ -1364,6 +1393,129 @@
     },
     "matchReason": "KI-Begründung",
     "feedbackError": "Feedback konnte nicht gespeichert werden."
+  },
+  "partnerDashboard": {
+    "title": "Partner-Dashboard",
+    "description": "Verfolgen Sie Ihre aktuellen Partneranträge und deren Prüfstatus.",
+    "actions": {
+      "retry": "Erneut versuchen"
+    },
+    "create": {
+      "open": "Neuer Antrag",
+      "title": "Partnerantrag einreichen",
+      "description": "Beantragen Sie eine Partnerschaft für einen bestehenden Shop per ID oder erstellen Sie einen neuen Shop zur Prüfung.",
+      "submit": "Antrag einreichen",
+      "submitting": "Wird eingereicht…",
+      "cancel": "Abbrechen",
+      "success": "Partnerantrag eingereicht.",
+      "type": {
+        "new": "Neuer Shop",
+        "existing": "Bestehender Shop"
+      },
+      "fields": {
+        "type": "Antragstyp",
+        "shopId": "Shop",
+        "shopName": "Shop-Name",
+        "shopType": "Shop-Typ",
+        "shopDomains": "Domains",
+        "shopDomainsHint": "Trennen Sie Domains mit Zeilenumbrüchen, Kommas, Semikolons oder Leerzeichen. Domains werden vor dem Senden normalisiert.",
+        "shopUrl": "Primäre Shop-URL",
+        "shopImage": "Logo- oder Bild-URL",
+        "shopPhone": "Telefon",
+        "shopEmail": "E-Mail",
+        "address": "Adresse",
+        "addressline": "Adresszeile",
+        "addresslineExtra": "Adresszusatz",
+        "locality": "Ort",
+        "region": "Region",
+        "postalCode": "Postleitzahl",
+        "country": "Ländercode"
+      },
+      "validation": {
+        "shopIdRequired": "Bitte wählen Sie einen bestehenden Shop aus.",
+        "shopNameRequired": "Bitte geben Sie den Shop-Namen ein.",
+        "domainsRequired": "Bitte geben Sie mindestens eine Domain ein.",
+        "urlInvalid": "Bitte geben Sie eine gültige URL ein.",
+        "imageInvalid": "Bitte geben Sie eine gültige Bild-URL ein.",
+        "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+      },
+      "shopSearch": {
+        "placeholder": "Shops nach Namen suchen …",
+        "loading": "Shops werden gesucht.",
+        "empty": "Keine Shops gefunden.",
+        "clear": "Ausgewählten Shop entfernen"
+      }
+    },
+    "applications": {
+      "title": "Aktuelle Partneranträge",
+      "description": "Alle Partneranträge, die Sie für Shops eingereicht haben.",
+      "loading": "Partneranträge werden geladen.",
+      "loadError": "Ihre Partneranträge konnten nicht geladen werden.",
+      "empty": "Sie haben noch keine Partneranträge eingereicht.",
+      "submittedAt": "Eingereicht am {{date}}",
+      "updatedAt": "Aktualisiert am {{date}}",
+      "existingShop": "Bestehender Shop",
+      "openDetails": "Details für {{title}} öffnen",
+      "viewDetails": "Details ansehen",
+      "progress": {
+        "handedIn": "Eingereicht",
+        "checking": "In Prüfung",
+        "completed": "Abgeschlossen",
+        "approved": "Genehmigt",
+        "denied": "Abgelehnt"
+      },
+      "detail": {
+        "title": "Antragsdetails",
+        "description": "Prüfen Sie den aktuellen Status und die eingereichten Shop-Informationen.",
+        "loadError": "Dieser Partnerantrag konnte nicht geladen werden.",
+        "close": "Details schließen",
+        "edit": "Antrag bearbeiten",
+        "editCancel": "Abbrechen",
+        "editSave": "Änderungen speichern",
+        "editSuccess": "Partnerantrag wurde aktualisiert.",
+        "delete": "Antrag löschen",
+        "deleteSuccess": "Partnerantrag wurde gelöscht.",
+        "deleteConfirm": {
+          "title": "Diesen Partnerantrag löschen?",
+          "description": "Dieser ausstehende Antrag wird dauerhaft gelöscht und kann nicht wiederhergestellt werden.",
+          "cancel": "Abbrechen",
+          "confirm": "Löschen"
+        },
+        "progressLabel": "Antragsfortschritt",
+        "applicationSection": "Antrag",
+        "shopSection": "Shop-Informationen",
+        "applicationId": "Antrags-ID",
+        "applicantUserId": "Antragsteller-ID",
+        "createdAt": "Eingereicht",
+        "updatedAt": "Aktualisiert",
+        "shopName": "Shop-Name",
+        "shopType": "Shop-Typ",
+        "domains": "Domains",
+        "shopUrl": "Primäre URL",
+        "shopImage": "Bild-URL",
+        "shopPhone": "Telefon",
+        "shopEmail": "E-Mail",
+        "address": "Adresse",
+        "addressline": "Adresszeile",
+        "addresslineExtra": "Adresszusatz",
+        "locality": "Ort",
+        "region": "Region",
+        "postalCode": "Postleitzahl",
+        "country": "Ländercode",
+        "shopId": "Shop-ID"
+      },
+      "businessState": {
+        "submitted": "Eingereicht",
+        "inReview": "In Prüfung",
+        "approved": "Genehmigt",
+        "rejected": "Abgelehnt"
+      },
+      "executionState": {
+        "processing": "In Verarbeitung",
+        "waiting": "Wartet auf Entscheidung",
+        "completed": "Abgeschlossen"
+      }
+    }
   },
   "adminDashboard": {
     "loading": "Wird geladen…",
@@ -1487,8 +1639,8 @@
       "description": "Von Partnern eingereichte Anträge prüfen und genehmigen oder ablehnen.",
       "loadError": "Partner-Anträge konnten nicht geladen werden.",
       "empty": "Keine Anträge entsprechen dem aktuellen Filter.",
-      "submittedAt": "Eingereicht {{date}}",
-      "updatedAt": "Aktualisiert {{date}}",
+      "submittedAt": "Eingereicht am {{date}}",
+      "updatedAt": "Aktualisiert am {{date}}",
       "existingShop": "Bestehender Shop",
       "tabs": {
         "pending": "Offen",

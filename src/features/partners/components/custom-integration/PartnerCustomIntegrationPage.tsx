@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { cn } from "@/lib/utils.ts";
-import { ClientOnly } from "@tanstack/react-router";
+import { ClientOnly, Link } from "@tanstack/react-router";
 import { ArrowRight, Code2, ExternalLink, KeyRound, RefreshCw, Send, Store } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -61,9 +61,7 @@ export default function PartnerCustomIntegrationPage() {
     const [shopSlugId, setShopSlugId] = useState("");
 
     const normalizedShopSlugId = shopSlugId.trim();
-    const shopHref = normalizedShopSlugId
-        ? `/shops/${encodeURIComponent(normalizedShopSlugId)}`
-        : undefined;
+    const hasShopSlug = normalizedShopSlugId.length > 0;
 
     return (
         <div className="bg-background">
@@ -85,10 +83,10 @@ export default function PartnerCustomIntegrationPage() {
 
                     <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
                         <Button asChild size="lg" className="min-w-56">
-                            <a href="/partners/apply">
+                            <Link to="/partners/apply">
                                 {t("partners.customIntegrationPage.hero.primaryCta")}
                                 <ArrowRight aria-hidden="true" />
-                            </a>
+                            </Link>
                         </Button>
                         <Button asChild size="lg" variant="outline" className="min-w-56">
                             <a
@@ -294,16 +292,22 @@ export default function PartnerCustomIntegrationPage() {
                                                     <p className="text-sm text-muted-foreground">
                                                         {t(`${translationBase}.inputHint`)}
                                                     </p>
-                                                    {shopHref ? (
+                                                    {hasShopSlug ? (
                                                         <Button
                                                             asChild
                                                             size="lg"
                                                             className="w-full sm:w-auto"
                                                         >
-                                                            <a href={shopHref}>
+                                                            <Link
+                                                                to="/shops/$shopSlugId"
+                                                                params={{
+                                                                    shopSlugId:
+                                                                        normalizedShopSlugId,
+                                                                }}
+                                                            >
                                                                 {t(`${translationBase}.cta`)}
                                                                 <ArrowRight aria-hidden="true" />
-                                                            </a>
+                                                            </Link>
                                                         </Button>
                                                     ) : (
                                                         <Button

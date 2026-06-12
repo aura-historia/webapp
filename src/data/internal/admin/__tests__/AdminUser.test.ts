@@ -15,6 +15,8 @@ describe("AdminUser", () => {
             tier: "PRO",
             role: "ADMIN",
             stripeCustomerId: "cus_123",
+            createdBy: "SYSTEM",
+            updatedBy: "SYSTEM",
             created: "2024-01-01T00:00:00Z",
             updated: "2024-01-02T00:00:00Z",
         };

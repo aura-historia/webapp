@@ -117,6 +117,10 @@ describe("Footer Component", () => {
 
     it("should render partner program links with correct href attributes", () => {
         expect(screen.getByText("Übersicht").closest("a")).toHaveAttribute("href", "/partners");
+        expect(screen.getByText("Partner-Dashboard").closest("a")).toHaveAttribute(
+            "href",
+            "/partners/dashboard",
+        );
         expect(screen.getByText("WordPress-Plugin").closest("a")).toHaveAttribute(
             "href",
             WORDPRESS_PLUGIN_DIRECTORY_URL,
@@ -141,6 +145,27 @@ describe("Footer Component", () => {
             "href",
             "/partners/apply",
         );
+    });
+
+    it("should navigate to partner program links through the router", async () => {
+        cleanup();
+        const user = userEvent.setup();
+
+        await act(async () => {
+            renderWithRouter(
+                <>
+                    <Footer />
+                    <LocationProbe />
+                </>,
+                { initialEntries: ["/test"] },
+            );
+        });
+
+        await user.click(screen.getByText("Übersicht"));
+
+        await waitFor(() => {
+            expect(screen.getByTestId("location-probe")).toHaveTextContent("/partners");
+        });
     });
 
     it("should render landing page fragment links", () => {
