@@ -1529,6 +1529,7 @@
       "title": "Créer un filtre de recherche",
       "back": "Retour",
       "next": "Suivant",
+      "saveDirectly": "Enregistrer directement",
       "nameRequired": "Veuillez entrer un nom",
       "nameTooLong": "Le nom ne doit pas dépasser 255 caractères",
       "queryTooShort": "La requête de recherche doit contenir au moins 3 caractères",

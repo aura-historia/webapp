@@ -1294,6 +1294,7 @@
       "title": "Create Search Filter",
       "back": "Back",
       "next": "Next",
+      "saveDirectly": "Save directly",
       "nameRequired": "Please enter a name",
       "nameTooLong": "Name must not exceed 255 characters",
       "queryTooShort": "The search query must contain at least 3 characters",

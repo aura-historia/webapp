@@ -1292,6 +1292,7 @@
       "title": "Neuen Suchauftrag anlegen",
       "back": "Zurück",
       "next": "Weiter",
+      "saveDirectly": "Direkt speichern",
       "nameRequired": "Bitte geben Sie einen Namen ein.",
       "nameTooLong": "Der Name darf maximal 255 Zeichen lang sein.",
       "queryTooShort": "Der Suchbegriff muss mindestens 3 Zeichen lang sein.",

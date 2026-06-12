@@ -1529,6 +1529,7 @@
       "title": "Crear Filtro de Búsqueda",
       "back": "Atrás",
       "next": "Siguiente",
+      "saveDirectly": "Guardar directamente",
       "nameRequired": "Por favor, ingrese un nombre",
       "nameTooLong": "El nombre no debe exceder los 255 caracteres",
       "queryTooShort": "La consulta de búsqueda debe contener al menos 3 caracteres",
