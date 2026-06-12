@@ -74,7 +74,7 @@ export function SearchFilterResults() {
 
     return (
         <div className="flex flex-col w-full gap-8">
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                 <div className="flex flex-col gap-1">
                     <H1>{t("searchFilters.title")}</H1>
                     <span className="text-base text-muted-foreground">
@@ -86,7 +86,7 @@ export function SearchFilterResults() {
                         placeholder={t("searchFilters.searchPlaceholder")}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        className="w-full sm:w-80"
+                        className="w-full md:w-80 text-xs sm:text-sm"
                     />
                     <TooltipProvider>
                         <Tooltip>
@@ -94,7 +94,7 @@ export function SearchFilterResults() {
                                 <span>
                                     <Button
                                         size="sm"
-                                        className="gap-2 shrink-0"
+                                        className="gap-2 shrink-0 text-xs sm:text-sm"
                                         disabled={!canCreate}
                                         onClick={() => {
                                             setWizardMode("create");
