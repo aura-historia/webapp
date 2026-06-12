@@ -131,7 +131,7 @@ export default function PricingSection() {
                     </div>
                 </div>
 
-                <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
+                <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-3">
                     {PRICING_TIERS.map((tier) => (
                         <Card
                             key={tier.nameKey}
@@ -155,11 +155,13 @@ export default function PricingSection() {
                                 <p className="mt-2 text-sm text-muted-foreground">
                                     {t(tier.descKey)}
                                 </p>
-                                <div className="mt-6">
-                                    {renderStrikethroughPrice(tier)}
-                                    <span className="ps-2 font-display text-4xl font-normal text-foreground">
-                                        {formatPrice(tier)}
-                                    </span>
+                                <div className="mt-6 flex flex-col items-center">
+                                    <div className="flex flex-wrap items-baseline justify-center gap-x-2">
+                                        {renderStrikethroughPrice(tier)}
+                                        <span className="font-display text-4xl font-normal text-foreground">
+                                            {formatPrice(tier)}
+                                        </span>
+                                    </div>
                                     <p className="mt-2 text-xs uppercase tracking-wide text-muted-foreground">
                                         {tier.priceLabelKey
                                             ? t("landingPage.pricing.billingNote")
