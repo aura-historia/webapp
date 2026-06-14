@@ -10,7 +10,7 @@ export function ProductDetailPage({ product }: { readonly product: ProductDetail
             <ProductInfo product={product} />
 
             <div className="mt-16">
-                <ProductPriceChart history={product.history} />
+                <ProductPriceChart key={product.shopsProductId} history={product.history} />
             </div>
 
             <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
