@@ -27,7 +27,6 @@ export function useSearchFilterLiveProducts(
                 query: {
                     language: parseLanguage(i18n.language),
                     currency: preferences.currency,
-                    size: 10,
                 },
             });
 
