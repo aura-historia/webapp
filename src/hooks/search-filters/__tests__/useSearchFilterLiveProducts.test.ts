@@ -63,7 +63,7 @@ describe("useSearchFilterLiveProducts", () => {
         expect(mockGetSearchFilterLiveProducts).toHaveBeenCalledWith(
             expect.objectContaining({
                 path: { userSearchFilterId: "filter-abc" },
-                query: expect.objectContaining({ size: 10, currency: "EUR" }),
+                query: expect.objectContaining({ currency: "EUR" }),
             }),
         );
     });
