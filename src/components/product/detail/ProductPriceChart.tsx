@@ -41,6 +41,13 @@ type ZoomableChartHandle = {
     zoomX: (start: number, end: number) => void;
 };
 
+type ZoomRange = {
+    xaxis: {
+        min: number;
+        max: number;
+    };
+};
+
 const isZoomableChart = (chart: unknown): chart is ZoomableChartHandle => {
     return (
         typeof chart === "object" &&
@@ -168,6 +175,28 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
      */
     const series = [{ name: t("product.priceChart.seriesName"), data: priceData }];
 
+    const handleBeforeZoom: (chart: ApexCharts, options?: ZoomRange) => void = (
+        _chartContext,
+        options,
+    ) => {
+        const xaxis = options?.xaxis;
+
+        if (!xaxis || !Number.isFinite(xaxis.min) || !Number.isFinite(xaxis.max)) {
+            return;
+        }
+
+        const isCompletelyOutside = xaxis.max < minTimestamp || xaxis.min > maxTimestamp;
+
+        if (isCompletelyOutside) {
+            return {
+                xaxis: {
+                    min: minTimestamp,
+                    max: maxTimestamp,
+                },
+            };
+        }
+    };
+
     /**
      * Defines the visual appearance and behavior of the chart.
      *
@@ -192,29 +221,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                  * This function intercepts such an attempt and resets the zoom to the
                  * entire available data range instead, ensuring the chart display remains stable.
                  */
-                beforeZoom: (_chartContext, options) => {
-                    const xaxis = options?.xaxis;
-
-                    if (!xaxis || !Number.isFinite(xaxis.min) || !Number.isFinite(xaxis.max)) {
-                        return;
-                    }
-
-                    const isCompletelyOutside =
-                        xaxis.max < minTimestamp || xaxis.min > maxTimestamp;
-
-                    if (isCompletelyOutside) {
-                        const resetZoomRange = {
-                            xaxis: {
-                                min: minTimestamp,
-                                max: maxTimestamp,
-                            },
-                        };
-
-                        // ApexCharts supports returning an x-axis range here, but the bundled
-                        // type definition still narrows `beforeZoom` to `boolean | void`.
-                        return resetZoomRange as never;
-                    }
-                },
+                beforeZoom: handleBeforeZoom,
             },
         },
         dataLabels: {
