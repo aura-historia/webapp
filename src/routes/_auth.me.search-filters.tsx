@@ -13,7 +13,7 @@ export const Route = createFileRoute("/_auth/me/search-filters")({
 
 function RouteComponent() {
     return (
-        <div className="max-w-6xl mx-auto flex flex-col gap-8 py-8 px-8">
+        <div className="max-w-6xl mx-auto flex flex-col gap-8 py-8 px-4 sm:px-8">
             <SearchFilterResults />
         </div>
     );
