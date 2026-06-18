@@ -223,7 +223,7 @@ export function Header() {
     return (
         <header
             className={cn(
-                "relative grid grid-cols-[auto_1fr_auto] lg:grid-cols-3 items-center h-20 z-50 sticky top-0 xl:px-8 px-4 w-full transition-all duration-300",
+                "grid grid-cols-[auto_1fr_auto] lg:grid-cols-3 items-center h-20 z-50 sticky top-0 xl:px-8 px-4 w-full transition-all duration-300",
                 isFloating
                     ? "bg-transparent border-transparent"
                     : "bg-background border-b border-border",
@@ -236,7 +236,7 @@ export function Header() {
                 )}
             >
                 <Button variant="ghost" size="icon" onClick={() => setIsMobileSearchOpen(false)}>
-                    <ArrowLeft />
+                    <ArrowLeft className="size-5" />
                 </Button>
                 <div className="flex-1">{isMobileSearchOpen && <SearchBar type="small" />}</div>
             </div>
@@ -283,13 +283,13 @@ export function Header() {
                             size="icon"
                             className={cn(
                                 isFloating
-                                    ? "bg-background backdrop-blur-sm rounded-xs shadow-sm"
+                                    ? "bg-background backdrop-blur-sm rounded-xs p-1 shadow-sm"
                                     : "",
                             )}
                             onClick={() => setIsMobileSearchOpen(true)}
                             aria-label={t("search.bar.label")}
                         >
-                            <Search />
+                            <Search className="size-5" />
                         </Button>
                     )}
                     {isLoginEnabled && isAuthenticated && (
