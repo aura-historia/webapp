@@ -1,21 +1,28 @@
+import type { ApexOptions } from "apexcharts";
 import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
 import { render, screen } from "@testing-library/react";
 import { ProductPriceChart } from "../ProductPriceChart.tsx";
 import { vi } from "vitest";
 
 vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
-    useUserPreferences: () => ({ preferences: { currency: "EUR" }, updatePreferences: vi.fn() }),
+    useUserPreferences: () => ({
+        preferences: { currency: "EUR" },
+        updatePreferences: vi.fn(),
+    }),
 }));
 import userEvent from "@testing-library/user-event";
 
 const mockZoomX = vi.fn();
+let lastOptions: ApexOptions | undefined;
 
 type MockApexChartsProps = {
     series?: unknown[];
     chartRef?: { current: unknown };
+    options?: ApexOptions;
 };
 vi.mock("react-apexcharts", () => ({
-    default: ({ series, chartRef }: MockApexChartsProps) => {
+    default: ({ series, chartRef, options }: MockApexChartsProps) => {
+        lastOptions = options;
         if (chartRef) {
             chartRef.current = { zoomX: mockZoomX };
         }
@@ -30,6 +37,7 @@ vi.mock("react-apexcharts", () => ({
 describe("ProductPriceChart", () => {
     beforeEach(() => {
         mockZoomX.mockClear();
+        lastOptions = undefined;
     });
 
     const mockPriceEvent: ProductEvent = {
@@ -149,6 +157,30 @@ describe("ProductPriceChart", () => {
         await user.click(screen.getByText("1T"));
 
         expect(mockZoomX).toHaveBeenCalled();
+    });
+
+    it("should reset zoom requests that are fully outside the available data range", () => {
+        render(<ProductPriceChart history={[mockPriceEvent]} />);
+
+        const beforeZoom = lastOptions?.chart?.events?.beforeZoom;
+        const chartSeries = screen.getByTestId("chart-series");
+        const seriesData = JSON.parse(chartSeries.textContent || "[]");
+        const [firstPoint, lastPoint] = seriesData[0].data;
+
+        expect(beforeZoom).toBeTypeOf("function");
+        expect(
+            beforeZoom?.({} as never, {
+                xaxis: {
+                    min: firstPoint.x - 10_000,
+                    max: firstPoint.x - 1_000,
+                },
+            }),
+        ).toEqual({
+            xaxis: {
+                min: firstPoint.x,
+                max: lastPoint.x,
+            },
+        });
     });
 
     it("should zoom to full range when Alle is clicked", async () => {
