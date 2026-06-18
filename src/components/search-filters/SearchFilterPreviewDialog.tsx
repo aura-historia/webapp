@@ -26,7 +26,7 @@ export function SearchFilterPreviewDialog({ filter }: Props) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2 flex-1">
+                <Button variant="outline" size="sm" className="gap-2 flex-1 text-xs sm:text-sm">
                     <Zap className="size-4" />
                     {t("searchFilters.showResults")}
                 </Button>
