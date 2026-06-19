@@ -26,7 +26,7 @@ jobs:
         timeout-minutes: 5
         steps:
             -   name: Checkout code
-                uses: actions/checkout@v6
+                uses: actions/checkout@v7
 
             -   name: Set up pnpm
                 uses: pnpm/action-setup@v6
@@ -51,7 +51,7 @@ jobs:
         timeout-minutes: 10
         steps:
             -   name: Checkout code
-                uses: actions/checkout@v6
+                uses: actions/checkout@v7
 
             -   name: Set up pnpm
                 uses: pnpm/action-setup@v6
@@ -89,7 +89,7 @@ jobs:
         steps:
             -   name: Checkout code
                 id: checkout
-                uses: actions/checkout@v6
+                uses: actions/checkout@v7
                 with:
                     fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
@@ -118,7 +118,7 @@ jobs:
             VITE_FEATURE_SEARCH_ENABLED: 'true'
         steps:
             -   name: Checkout code
-                uses: actions/checkout@v6
+                uses: actions/checkout@v7
 
             -   name: Set up pnpm
                 uses: pnpm/action-setup@v6
@@ -163,7 +163,7 @@ jobs:
             VITE_FEATURE_SEARCH_ENABLED: ${{ vars.VITE_FEATURE_SEARCH_ENABLED }}
         steps:
             -   name: Checkout code
-                uses: actions/checkout@v6
+                uses: actions/checkout@v7
 
             -   name: Set up pnpm
                 uses: pnpm/action-setup@v6
