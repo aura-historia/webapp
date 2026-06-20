@@ -182,6 +182,20 @@ Si ponemos a disposición una API, una interfaz para desarrolladores, una funci�
 
 Cuando para funciones de socios o API se apliquen condiciones de uso adicionales, directrices técnicas o requisitos de seguridad, estos deberán observarse igualmente.
 
+Cuando socios, comerciantes, proveedores de integración u otros clientes empresariales estén técnicamente habilitados para generar tokens de acceso, claves API, enlaces de invitación o credenciales comparables («Tokens de acceso»), se aplicará además lo siguiente, salvo acuerdo expreso por escrito en contrario:
+
+- Los Tokens de acceso solo podrán generarse, emitirse, compartirse y utilizarse para la integración, relación con el cliente, proyecto, alcance y finalidad autorizados.
+- El socio será responsable de toda actividad realizada mediante Tokens de acceso generados desde su cuenta o entorno, incluida la actividad de empleados, contratistas, clientes, usuarios finales, sistemas u otros terceros a los que el socio los ponga a disposición.
+- Los Tokens de acceso deberán mantenerse confidenciales y protegerse frente al acceso no autorizado, la divulgación, la publicación, la extracción y el uso indebido. No deberán incorporarse en código cliente público, repositorios públicos, capturas de pantalla, tickets de soporte, registros u otros lugares accesibles para personas no autorizadas.
+- Los Tokens de acceso no podrán venderse, sublicenciarse, transferirse, agruparse ni utilizarse para crear servicios competidores, ilícitos, perjudiciales o relevantes para la seguridad sin nuestro consentimiento previo por escrito.
+- El socio deberá asegurarse de que las personas y sistemas que utilicen Tokens de acceso cumplan estos Términos, la legislación aplicable, los requisitos de protección de datos y cualquier documentación adicional de socios, API o seguridad.
+- El socio deberá notificarnos sin demora indebida cualquier sospecha de pérdida, divulgación, compromiso o uso indebido y cooperar en la investigación, mitigación, rotación y revocación.
+- Podremos supervisar el uso de los tokens con fines de seguridad, cumplimiento, facturación, prevención de abusos y estabilidad del servicio, y podremos hacer expirar, rotar, restringir, suspender o revocar Tokens de acceso cuando esté objetivamente justificado, incluido cuando sea necesario para proteger a Aura Historia, usuarios, socios, interesados, sistemas de terceros o la plataforma.
+
+La posibilidad técnica de generar o utilizar Tokens de acceso no concede derechos de uso más amplios, no garantiza ninguna disponibilidad concreta ni crea una relación de agencia, reventa, sociedad u otra relación similar, salvo que lo confirmemos expresamente por escrito.
+
+En la medida legalmente permitida, los clientes empresariales y socios nos mantendrán indemnes frente a reclamaciones de terceros, daños, medidas regulatorias y costes razonables de defensa jurídica derivados de un incumplimiento culpable de estas obligaciones sobre tokens o del uso ilícito de Tokens de acceso por personas o sistemas a los que hayan puesto dichos Tokens de acceso a disposición.
+
 Podremos limitar, suspender o revocar el acceso a la API o a funciones comparables por motivos de seguridad, estabilidad, cumplimiento legal o prevención de abusos.
 
 ---
@@ -275,4 +289,4 @@ Si usted es comerciante, una persona jurídica de derecho público, un patrimoni
 
 ---
 
-*Estado: 17.05.2026*
+*Estado: 20.06.2026*
