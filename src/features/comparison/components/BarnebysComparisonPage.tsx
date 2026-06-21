@@ -123,7 +123,7 @@ function HeroSection() {
                             size="lg"
                             className="min-h-11 bg-[linear-gradient(180deg,var(--primary)_0%,var(--primary-container)_100%)] px-6 text-primary-foreground shadow-none hover:opacity-95"
                         >
-                            <Link to="/search">
+                            <Link to="/">
                                 {t(getBarnebysComparisonTranslationKey("hero.primaryCta"))}
                             </Link>
                         </Button>
@@ -512,9 +512,7 @@ function FinalCtaSection() {
                     size="lg"
                     className="mt-8 min-h-11 bg-[linear-gradient(180deg,var(--primary)_0%,var(--primary-container)_100%)] px-6 text-primary-foreground shadow-none hover:opacity-95 lg:mt-0"
                 >
-                    <Link to="/search">
-                        {t(getBarnebysComparisonTranslationKey("finalCta.button"))}
-                    </Link>
+                    <Link to="/">{t(getBarnebysComparisonTranslationKey("finalCta.button"))}</Link>
                 </Button>
             </div>
         </section>
