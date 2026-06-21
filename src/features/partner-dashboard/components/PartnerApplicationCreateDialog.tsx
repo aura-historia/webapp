@@ -1,4 +1,4 @@
-import { parseShopDomains } from "@/features/partner-dashboard/components/partnerApplicationShopFormUtils.ts";
+import { parseShopDomains } from "@/components/admin/adminShopFormUtils.ts";
 import { Button } from "@/components/ui/button.tsx";
 import {
     Dialog,
@@ -50,14 +50,8 @@ export function PartnerApplicationCreateDialog({
     });
     const [selectedExistingShop, setSelectedExistingShop] =
         useState<PartnerDashboardShopSearchItem | null>(null);
-    const typeField = useController({
-        control: form.control,
-        name: "type",
-    }).field;
-    const shopIdField = useController({
-        control: form.control,
-        name: "shopId",
-    }).field;
+    const typeField = useController({ control: form.control, name: "type" }).field;
+    const shopIdField = useController({ control: form.control, name: "shopId" }).field;
     const selectedType = form.watch("type");
     const errors = form.formState.errors;
     const existingShopSelected = shopIdField.value.trim() !== "";

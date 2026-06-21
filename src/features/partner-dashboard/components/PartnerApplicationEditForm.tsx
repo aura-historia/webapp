@@ -3,10 +3,7 @@ import type { TFunction } from "i18next";
 import { useController, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
-import {
-    EDITABLE_SHOP_TYPES,
-    parseShopDomains,
-} from "@/features/partner-dashboard/components/partnerApplicationShopFormUtils.ts";
+import { EDITABLE_SHOP_TYPES, parseShopDomains } from "@/components/admin/adminShopFormUtils.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { DialogFooter } from "@/components/ui/dialog.tsx";
 import { Input } from "@/components/ui/input.tsx";
@@ -129,10 +126,7 @@ export function PartnerApplicationEditForm({
         resolver: zodResolver(createPartnerApplicationEditFormSchema(t)),
         defaultValues: getEditFormDefaultValues(application),
     });
-    const shopTypeField = useController({
-        control: form.control,
-        name: "shopType",
-    }).field;
+    const shopTypeField = useController({ control: form.control, name: "shopType" }).field;
     const errors = form.formState.errors;
 
     return (

@@ -1,4 +1,4 @@
-import { EDITABLE_SHOP_TYPES } from "@/features/partner-dashboard/components/partnerApplicationShopFormUtils.ts";
+import { EDITABLE_SHOP_TYPES } from "@/components/admin/adminShopFormUtils.ts";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import {
@@ -25,10 +25,7 @@ interface PartnerApplicationNewShopFieldsProps {
 
 export function PartnerApplicationNewShopFields({ form }: PartnerApplicationNewShopFieldsProps) {
     const { t } = useTranslation();
-    const shopTypeField = useController({
-        control: form.control,
-        name: "shopType",
-    }).field;
+    const shopTypeField = useController({ control: form.control, name: "shopType" }).field;
     const errors = form.formState.errors;
 
     return (
