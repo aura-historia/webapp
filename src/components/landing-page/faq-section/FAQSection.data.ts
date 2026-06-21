@@ -12,6 +12,10 @@ export const FAQ_DATA = [
         answerKey: "landingPage.faq.items.priceAlerts.answer",
     },
     {
+        questionKey: "landingPage.faq.items.language.question",
+        answerKey: "landingPage.faq.items.language.answer",
+    },
+    {
         questionKey: "landingPage.faq.items.updateFrequency.question",
         answerKey: "landingPage.faq.items.updateFrequency.answer",
     },

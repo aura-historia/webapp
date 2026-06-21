@@ -563,23 +563,23 @@
       }
     },
     "howItWorks": {
-      "title": "Come funziona",
-      "subtitle": "Solo pochi passaggi per i tuoi pezzi da sogno.",
+      "title": "Dalla curiosità all’acquisizione consapevole",
+      "subtitle": "Aura Historia riunisce inventari dispersi di commercianti, aste e fonti specializzate in una vista ordinata, così i pezzi promettenti restano visibili.",
       "step1": {
-        "title": "Cerca",
-        "description": "Inserisci ciò che stai cercando – che siano mobili, gioielli, arte o oggetti da collezione."
+        "title": "Descrivi l’oggetto",
+        "description": "Cerca per epoca, stile, categoria, artista, regione o semplicemente per idea, nella lingua che ti è più naturale."
       },
       "step2": {
-        "title": "Scopri",
-        "description": "Sfoglia i risultati di migliaia di commercianti con un solo colpo d'occhio."
+        "title": "Leggi il mercato",
+        "description": "Confronta offerte attuali di commercianti, case d’asta e marketplace in una vista calma e curata."
       },
       "step3": {
-        "title": "Salva",
-        "description": "Salva gli oggetti interessanti nella tua lista di osservazione o salva i criteri di ricerca come un avviso."
+        "title": "Tieni sotto osservazione",
+        "description": "Aggiungi gli oggetti promettenti alla tua lista privata e crea avvisi di ricerca per futuri riscontri."
       },
       "step4": {
-        "title": "Ricevi notifiche",
-        "description": "Ricevi notifiche via email non appena un oggetto nella tua lista di osservazione cambia o ne arriva uno nuovo che corrisponde ai tuoi criteri."
+        "title": "Agisci al momento giusto",
+        "description": "Mettiamo in evidenza cambi di prezzo e stato, oltre a nuovi oggetti pertinenti; apri la fonte originale e decidi lì se acquistare, fare un’offerta o chiedere informazioni."
       }
     },
     "testimonials": {
@@ -624,82 +624,86 @@
     },
     "faq": {
       "title": "Domande frequenti",
-      "subtitle": "Qui trovi le risposte alle domande più importanti su Aura Historia.",
+      "subtitle": "Una panoramica precisa di come Aura Historia rende più leggibile il mercato globale dell’antiquariato.",
       "items": {
         "howItWorks": {
-          "question": "Come funziona Aura Historia?",
-          "answer": "Aura Historia cerca continuamente i siti web di oltre 500 antiquari, case d'aste e marketplace in tutto il mondo e raccoglie tutte le offerte in un unico posto. La nostra ricerca intelligente ti permette di trovare esattamente ciò che cerchi."
+          "question": "Che cos’è Aura Historia?",
+          "answer": "Aura Historia è una piattaforma globale per antiquariato, arte e oggetti distintivi. Riuniamo inventari attuali da commercianti, case d’asta, marketplace e fonti specializzate, così collezionisti e professionisti possono seguire il mercato con chiarezza."
         },
         "directPurchase": {
-          "question": "Posso acquistare articoli direttamente tramite Aura Historia?",
-          "answer": "No, Aura Historia è una piattaforma di ricerca pura. Se desideri acquistare un articolo, verrai reindirizzato direttamente al sito web del rispettivo commerciante dove potrai completare l'acquisto."
+          "question": "Posso acquistare direttamente su Aura Historia?",
+          "answer": "L’acquisto avviene presso il venditore originale. Aura Historia ti porta all’annuncio di origine, dove puoi verificare direttamente prezzo, disponibilità, spedizione, stato e condizioni di pagamento prima di acquistare o fare un’offerta."
         },
         "priceAlerts": {
-          "question": "Come funzionano le notifiche su prezzi e disponibilità?",
-          "answer": "Una volta aggiunto un articolo alla tua lista dei preferiti, monitoriamo automaticamente l'andamento del prezzo e della disponibilità per te. Non appena qualcosa cambia nel tuo articolo, ricevi una notifica via email."
+          "question": "Cosa posso monitorare?",
+          "answer": "La tua lista privata mantiene visibili gli oggetti trovati e può avvisarti di cambiamenti rilevanti, come movimenti di prezzo o aggiornamenti di stato. Gli avvisi di ricerca monitorano il mercato per nuovi risultati compatibili con i tuoi criteri."
+        },
+        "language": {
+          "question": "Aura Historia funziona tra lingue diverse?",
+          "answer": "Sì. Aura Historia è pensata per la scoperta internazionale: gli annunci possono apparire in lingue, categorie e vocaboli dei commercianti differenti. La piattaforma aiuta a superare questa frammentazione senza richiedere di conoscere ogni termine locale."
         },
         "updateFrequency": {
-          "question": "Con quale frequenza vengono aggiornati i dati?",
-          "answer": "I nostri dati vengono aggiornati continuamente. Operiamo quasi in tempo reale."
+          "question": "Quanto sono aggiornati gli annunci?",
+          "answer": "Aggiorniamo le fonti continuamente. La disponibilità finale, però, resta sempre presso il commerciante, la casa d’asta o il marketplace; i dettagli critici vanno quindi verificati nell’annuncio originale prima dell’acquisto o dell’offerta."
         },
         "dealers": {
-          "question": "Quali negozi di antiquariato online sono presenti su Aura Historia?",
-          "answer": "Includiamo dati da oltre 500 rinomati antiquari da più di 15 paesi. Tra questi troverai sia grandi case d'aste che commercianti specializzati per tutte le aree dell'antiquariato."
+          "question": "Quali fonti sono incluse?",
+          "answer": "Includiamo commercianti affidabili, negozi specializzati, case d’asta e marketplace, comprese fonti più piccole spesso meno visibili sulle piattaforme orientate alle aste. La copertura viene ampliata continuamente."
         },
         "dealerRequest": {
-          "question": "Conosco un commerciante/casa d'aste/marketplace online che non è ancora su Aura Historia. Possiamo aggiungerlo?",
-          "answer": "Sì! Inviaci un'email a contact@aura-historia.com includendo l'URL/link del negozio e qualsiasi informazione aggiuntiva tu voglia fornire. Verificheremo il negozio e lo includeremo entro poche ore."
+          "question": "Posso suggerire un commerciante o una fonte?",
+          "answer": "Sì. Invia l’URL e una breve nota a contact@aura-historia.com. Valutiamo se la fonte è rilevante, affidabile e tecnicamente adatta all’inclusione."
         },
         "comparisonBarnebys": {
-          "question": "Come si confronta Aura Historia con Barnebys?",
-          "answer": "Barnebys è particolarmente forte su aste consolidate e grandi operatori. Aura Historia costruisce una piattaforma globale per antiquariato più ampia: commercianti, negozi, marketplace, liste private, traduzioni e segnali di mercato in uno spazio raffinato — incluse le fonti più piccole dove spesso appaiono i ritrovamenti seri."
+          "question": "In cosa Aura Historia è diversa dagli aggregatori d’asta?",
+          "answer": "Gli aggregatori d’asta sono particolarmente forti sui lotti futuri o passati. Aura Historia osserva il mercato in modo più ampio: inventari di commercianti, negozi specializzati, marketplace e aste in un’unica piattaforma, con liste private, avvisi di ricerca e monitoraggio del mercato."
         },
         "comparisonPriceDatabase": {
-          "question": "Come si confronta Aura Historia con i database dei prezzi come WorthPoint e the salesroom?",
-          "answer": "I database dei prezzi sfruttano l'enorme quantità di dati storici con risultati d'asta risalenti agli anni '90. Sebbene questo aiuti a trovare confronti per pezzi estremamente rari, spesso devia dal valore di mercato attuale e dalla disponibilità degli oggetti d'antiquariato. Se il tuo obiettivo è trovare antiquariato o ricercare il suo valore attuale, Aura Historia è il posto giusto. Vogliamo anche prendere una posizione forte contro la monetizzazione dei dati storici sui prezzi dell'antiquariato. Non dovresti dover pagare per scoprire cosa è stato venduto e a quale prezzo."
+          "question": "Aura Historia è un database dei prezzi?",
+          "answer": "No. I prezzi storici d’asta possono essere utili, ma non mostrano automaticamente cosa è disponibile oggi. Aura Historia si concentra sulla scoperta attuale, sul monitoraggio e su segnali di mercato tempestivi."
         }
       }
     },
     "pricing": {
-      "title": "Scegli il tuo piano",
-      "subtitle": "Dai collezionisti occasionali ai professionisti — abbiamo il piano giusto per te.",
+      "title": "Scegli il tuo accesso",
+      "subtitle": "Inizia liberamente. Passa a un livello superiore quando liste private, avvisi e flussi di scoperta diventano il tuo modo di seguire il mercato.",
       "comingSoon": "In arrivo",
       "mostPopular": "Più popolare",
       "free": {
         "name": "Gratuito",
-        "description": "Perfetto per iniziare nel mondo delle antichità.",
+        "description": "Per prime ricerche, ritrovamenti spontanei e una piccola selezione privata.",
         "features": {
-          "watchlistItems": "20 articoli nella lista di osservazione",
+          "unlimitedSearches": "Ricerche illimitate",
+          "watchlistItems": "20 oggetti nella lista privata",
           "searchAlerts": "1 avviso di ricerca",
-          "alertMatches": "10 corrispondenze di avvisi al mese",
-          "alertType": "Avvisi di ricerca semplici",
-          "notificationSpeed": "Notifica entro poche ore",
-          "searchType": "Ricerca testuale classica"
+          "alertMatches": "10 nuovi risultati da avviso al mese",
+          "alertType": "Monitoraggio base del mercato",
+          "notificationSpeed": "Notifiche entro poche ore"
         }
       },
       "pro": {
         "name": "Pro",
-        "description": "Per collezionisti appassionati che vogliono scoprire di più.",
+        "description": "Per collezionisti che seguono pezzi importanti attraverso fonti e tempo.",
         "features": {
-          "watchlistItems": "100 articoli nella lista di osservazione",
+          "unlimitedSearches": "Ricerche illimitate",
+          "watchlistItems": "100 oggetti nella lista privata",
           "searchAlerts": "5 avvisi di ricerca",
-          "alertMatches": "Corrispondenze di avvisi illimitate al mese",
-          "alertType": "Avvisi di ricerca completi",
-          "notificationSpeed": "Notifiche in tempo reale",
-          "searchType": "Ricerca ibrida — trova per parola chiave e significato"
+          "alertMatches": "Risultati da avviso illimitati",
+          "alertType": "Monitoraggio avanzato del mercato",
+          "notificationSpeed": "Notifiche in tempo reale"
         }
       },
       "ultimate": {
         "name": "Ultimate",
-        "description": "Per professionisti che vogliono sfruttare tutto il potenziale.",
+        "description": "Per collezionisti esigenti, interior designer e professionisti con un brief di mercato continuativo.",
         "features": {
-          "watchlistItems": "Lista di osservazione illimitata",
+          "unlimitedSearches": "Ricerche illimitate",
+          "watchlistItems": "Lista privata illimitata",
           "searchAlerts": "Avvisi di ricerca illimitati",
-          "alertMatches": "Corrispondenze di avvisi illimitate al mese",
-          "alertType": "Avvisi di ricerca completi",
-          "notificationSpeed": "Notifiche in tempo reale con priorità",
-          "searchType": "Ricerca ibrida (Testo + Semantica)",
-          "aiAgent": "Agente di ricerca IA"
+          "alertMatches": "Risultati da avviso illimitati",
+          "alertType": "Monitoraggio avanzato del mercato",
+          "notificationSpeed": "Notifiche prioritarie in tempo reale",
+          "aiAgent": "Agente IA di scoperta"
         }
       },
       "billingNote": "mensile, IVA inclusa",

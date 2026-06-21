@@ -563,23 +563,23 @@
       }
     },
     "howItWorks": {
-      "title": "How it works",
-      "subtitle": "Just a few steps to your dream pieces.",
+      "title": "From curiosity to considered acquisition",
+      "subtitle": "Aura Historia brings scattered dealer, auction, and specialist inventory into one disciplined view — so promising pieces stay visible.",
       "step1": {
-        "title": "Search",
-        "description": "Enter what you're looking for – whether furniture, jewelry, art, or collectibles."
+        "title": "Describe the object",
+        "description": "Search by era, style, category, artist, region, or simply by an idea — in the language that feels natural to you."
       },
       "step2": {
-        "title": "Discover",
-        "description": "Browse results from thousands of dealers at a glance."
+        "title": "Read the market",
+        "description": "Compare current offers from dealers, auction houses, and marketplaces in one calm, curated view."
       },
       "step3": {
-        "title": "Save",
-        "description": "Save interesting items to your watchlist or save your search criteria as an alert."
+        "title": "Keep watch",
+        "description": "Add promising objects to your private watchlist and create search alerts for future matches."
       },
       "step4": {
-        "title": "Get notified",
-        "description": "Get notified by email as soon as an item on your watchlist changes or a new one matches your criteria."
+        "title": "Act in time",
+        "description": "We surface price and status changes plus new matching objects — you open the source directly and decide there whether to buy, bid, or enquire."
       }
     },
     "testimonials": {
@@ -623,83 +623,87 @@
       "successTiming": "It may take a few minutes for the email to arrive."
     },
     "faq": {
-      "title": "Frequently Asked Questions",
-      "subtitle": "Here you'll find answers to the most important questions about Aura Historia.",
+      "title": "Frequently asked questions",
+      "subtitle": "A precise overview of how Aura Historia makes the global antiques market easier to follow.",
       "items": {
         "howItWorks": {
-          "question": "How does Aura Historia work?",
-          "answer": "Aura Historia continuously searches the websites of over 500 antique dealers, auction houses and marketplaces worldwide and collects all offers in one central place. Our intelligent search allows you to find exactly what you're looking for."
+          "question": "What is Aura Historia?",
+          "answer": "Aura Historia is a global platform for antiques, art, and distinctive objects. We bring current inventory from dealer sites, auction houses, marketplaces, and specialist sources into one place so collectors and professionals can follow the market with clarity."
         },
         "directPurchase": {
-          "question": "Can I buy items directly through Aura Historia?",
-          "answer": "No, Aura Historia is a pure search platform. If you want to buy an item, you will be redirected directly to the respective dealer's website where you can complete the purchase."
+          "question": "Can I buy directly through Aura Historia?",
+          "answer": "Purchases take place with the original seller. Aura Historia takes you to the source listing so you can verify price, availability, shipping, condition, and payment terms directly before you buy or bid."
         },
         "priceAlerts": {
-          "question": "How do price and availability notifications work?",
-          "answer": "Once you add an item to your watchlist, we automatically track its price- and availability development for you. As soon as something changes with your item, you receive a notification via E-Mail."
+          "question": "What can I monitor?",
+          "answer": "Your private watchlist keeps found objects in view and can notify you about relevant changes such as price movements or status updates. Search alerts monitor the market for new matches that fit your criteria."
+        },
+        "language": {
+          "question": "Does Aura Historia work across languages?",
+          "answer": "Yes. Aura Historia is built for international discovery: listings may appear in different languages, categories, and dealer vocabularies. The platform helps bridge that fragmentation without requiring you to know every local term."
         },
         "updateFrequency": {
-          "question": "How often is the data updated?",
-          "answer": "Our data is continuously updated. We operate in near real-time."
+          "question": "How current are the listings?",
+          "answer": "We refresh sources continuously. Final availability, however, always belongs to the dealer, auction house, or marketplace, so critical details should be checked on the original listing before purchase or bid."
         },
         "dealers": {
-          "question": "Which Antique Online-Shops are on Aura Historia?",
-          "answer": "We include data from over 500 renowned antique dealers from more than 15 countries. Among them you'll find both, large auction houses and specialized dealers for all antique areas."
+          "question": "Which sources are included?",
+          "answer": "We include trusted dealers, specialist shops, auction houses, and marketplaces — including smaller sources that are often less visible on auction-focused platforms. Coverage is expanded continuously."
         },
         "dealerRequest": {
-          "question": "I know an online dealer/auction house/marketplace that's not yet on Aura Historia. Can we add it?",
-          "answer": "Yes! Send us an email to contact@aura-historia.com and include the URL/Link of the shop along any additional information you might want to provide. We will verify the shop and include it within hours."
+          "question": "Can I suggest a dealer or source?",
+          "answer": "Yes. Send the URL and a short note to contact@aura-historia.com. We review whether the source is relevant, reputable, and technically suitable for inclusion."
         },
         "comparisonBarnebys": {
-          "question": "How does Aura Historia compare to Barnebys?",
-          "answer": "Barnebys is strongest around established auctions and major players. Aura Historia is building a broader global antiques platform: dealers, shops, marketplaces, watchlists, translations, and market signals in one refined place — including the smaller sources where serious finds often appear."
+          "question": "How is Aura Historia different from auction aggregators?",
+          "answer": "Auction aggregators are strongest around upcoming or past auction lots. Aura Historia looks at the market more broadly: dealer inventory, specialist shops, marketplaces, and auctions in one platform — with watchlists, search alerts, and market monitoring."
         },
         "comparisonPriceDatabase": {
-          "question": "How does Aura Historia compare to price databases like WorthPoint and the salesroom?",
-          "answer": "Price databases leverage the sheer amount of historical data with auction results dating back to the 90s. While this helps finding comparisons for astronomically rare pieces, it often deflects the current market-value and availability of antiques. If your goal is to find antiques or research their current value, Aura Historia is the right place. We also want to take a heavy standpoint against the monetization of historical antique pricing data. You should not need to pay to find out what sold at which price."
+          "question": "Is Aura Historia a price database?",
+          "answer": "No. Historical auction prices can be useful, but they do not automatically show what is available now. Aura Historia focuses on current discovery, monitoring, and timely market signals."
         }
       }
     },
     "pricing": {
-      "title": "Choose Your Plan",
-      "subtitle": "From casual collectors to professional dealers — we have the right plan for you.",
+      "title": "Choose your access",
+      "subtitle": "Start freely. Upgrade when watchlists, alerts, and discovery workflows become part of how you follow the market.",
       "comingSoon": "Coming Soon",
       "mostPopular": "Most Popular",
       "free": {
         "name": "Free",
-        "description": "Perfect for getting started in the world of antiques.",
+        "description": "For first research sessions, spontaneous finds, and a small private shortlist.",
         "features": {
-          "watchlistItems": "20 items on the watchlist",
-          "searchAlerts": "1 Search Alert",
-          "alertMatches": "10 Search Alert matches per month",
-          "alertType": "Simple search alerts only",
-          "notificationSpeed": "Get notified within a few hours",
-          "searchType": "Classical text search"
+          "unlimitedSearches": "Unlimited searches",
+          "watchlistItems": "20 objects on the private watchlist",
+          "searchAlerts": "1 search alert",
+          "alertMatches": "10 new search-alert matches per month",
+          "alertType": "Basic market monitoring",
+          "notificationSpeed": "Notifications within a few hours"
         }
       },
       "pro": {
         "name": "Pro",
-        "description": "For dedicated collectors who want to discover more.",
+        "description": "For collectors who follow serious candidates across sources and time.",
         "features": {
-          "watchlistItems": "100 items on the watchlist",
-          "searchAlerts": "5 Search Alerts",
-          "alertMatches": "Unlimited Search Alert matches per month",
-          "alertType": "Full search alerts",
-          "notificationSpeed": "Real-time notifications",
-          "searchType": "Hybrid search — finds matches by keyword and meaning"
+          "unlimitedSearches": "Unlimited searches",
+          "watchlistItems": "100 objects on the private watchlist",
+          "searchAlerts": "5 search alerts",
+          "alertMatches": "Unlimited search-alert matches",
+          "alertType": "Advanced market monitoring",
+          "notificationSpeed": "Real-time notifications"
         }
       },
       "ultimate": {
         "name": "Ultimate",
-        "description": "For professionals who want the full experience.",
+        "description": "For demanding collectors, decorators, and professionals with a standing market brief.",
         "features": {
-          "watchlistItems": "Unlimited watchlist",
-          "searchAlerts": "Unlimited Search Alerts",
-          "alertMatches": "Unlimited Search Alert matches per month",
-          "alertType": "Full search alerts",
+          "unlimitedSearches": "Unlimited searches",
+          "watchlistItems": "Unlimited private watchlist",
+          "searchAlerts": "Unlimited search alerts",
+          "alertMatches": "Unlimited search-alert matches",
+          "alertType": "Advanced market monitoring",
           "notificationSpeed": "Priority real-time notifications",
-          "searchType": "Hybrid search (Text + Semantic)",
-          "aiAgent": "AI Search Agent"
+          "aiAgent": "AI Discovery Agent"
         }
       },
       "billingNote": "monthly incl. VAT",

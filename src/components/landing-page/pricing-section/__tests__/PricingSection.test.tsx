@@ -59,13 +59,13 @@ describe("PricingSection", () => {
     });
 
     it("renders the section heading", () => {
-        expect(screen.getByText("Wählen Sie Ihren Plan")).toBeInTheDocument();
+        expect(screen.getByText("Wählen Sie Ihren Zugang")).toBeInTheDocument();
     });
 
     it("renders the section subtitle", () => {
         expect(
             screen.getByText(
-                "Von Gelegenheitssammlern bis zu professionellen Händlern – wir haben den richtigen Plan für Sie.",
+                "Starten Sie frei. Wechseln Sie, wenn Merkliste, Suchalarme und Discovery-Workflows zu Ihrem festen Marktinstrument werden.",
             ),
         ).toBeInTheDocument();
     });
@@ -78,13 +78,19 @@ describe("PricingSection", () => {
 
     it("renders all tier descriptions", () => {
         expect(
-            screen.getByText("Perfekt für den Einstieg in die Welt der Antiquitäten."),
+            screen.getByText(
+                "Für erste Recherchen, spontane Funde und eine kleine private Merkliste.",
+            ),
         ).toBeInTheDocument();
         expect(
-            screen.getByText("Für engagierte Sammler, die mehr entdecken möchten."),
+            screen.getByText(
+                "Für Sammler, die relevante Objekte konsequent über Quellen hinweg verfolgen.",
+            ),
         ).toBeInTheDocument();
         expect(
-            screen.getByText("Für Profis, die das volle Potenzial nutzen wollen."),
+            screen.getByText(
+                "Für anspruchsvolle Sammler, Einrichter und Profis mit dauerhaftem Marktauftrag.",
+            ),
         ).toBeInTheDocument();
     });
 
@@ -188,36 +194,42 @@ describe("PricingSection", () => {
     });
 
     it("renders free tier features", () => {
-        expect(screen.getByText("20 Artikel auf der Merkliste")).toBeInTheDocument();
-        expect(screen.getByText("1 Suchauftrag")).toBeInTheDocument();
-        expect(screen.getByText("10 Suchauftrag-Treffer pro Monat")).toBeInTheDocument();
-        expect(screen.getByText("Einfache Suchaufträge")).toBeInTheDocument();
+        expect(screen.getByText("20 Objekte auf der privaten Merkliste")).toBeInTheDocument();
+        expect(screen.getByText("1 Suchalarm")).toBeInTheDocument();
+        expect(screen.getByText("10 neue Suchalarm-Treffer pro Monat")).toBeInTheDocument();
+        expect(screen.getByText("Basis-Marktbeobachtung")).toBeInTheDocument();
         expect(screen.getByText("Benachrichtigung innerhalb weniger Stunden")).toBeInTheDocument();
-        expect(screen.getByText("Klassische Textsuche")).toBeInTheDocument();
     });
 
     it("renders pro tier features", () => {
-        expect(screen.getByText("100 Artikel auf der Merkliste")).toBeInTheDocument();
-        expect(screen.getByText("5 Suchaufträge")).toBeInTheDocument();
+        expect(screen.getByText("100 Objekte auf der privaten Merkliste")).toBeInTheDocument();
+        expect(screen.getByText("5 Suchalarme")).toBeInTheDocument();
     });
 
     it("renders ultimate tier features", () => {
-        expect(screen.getByText("Unbegrenzte Merkliste")).toBeInTheDocument();
-        expect(screen.getByText("Unbegrenzte Suchaufträge")).toBeInTheDocument();
-        expect(screen.getByText("KI-Suchagent")).toBeInTheDocument();
-        expect(screen.getByText("Echtzeit-Benachrichtigungen mit Priorität")).toBeInTheDocument();
+        expect(screen.getByText("Unbegrenzte private Merkliste")).toBeInTheDocument();
+        expect(screen.getByText("Unbegrenzte Suchalarme")).toBeInTheDocument();
+        expect(screen.getByText("KI-Discovery-Agent")).toBeInTheDocument();
+        expect(screen.getByText("Priorisierte Echtzeit-Benachrichtigungen")).toBeInTheDocument();
     });
 
-    it("renders full search alerts for both pro and ultimate tiers", () => {
-        const fullAlerts = screen.getAllByText("Erweiterte Suchaufträge");
+    it("renders unlimited searches for every tier", () => {
+        expect(screen.getAllByText("Unbegrenzte Suchen")).toHaveLength(3);
+    });
+
+    it("renders advanced market monitoring for both pro and ultimate tiers", () => {
+        const fullAlerts = screen.getAllByText("Erweiterte Marktbeobachtung");
         expect(fullAlerts).toHaveLength(2);
     });
 
-    it("renders hybrid search descriptions", () => {
+    it("does not render text or hybrid search plan wording", () => {
+        expect(screen.queryByText("Klassische Textsuche")).not.toBeInTheDocument();
         expect(
-            screen.getByText("Hybridsuche – findet Treffer nach Stichwort und Bedeutung"),
-        ).toBeInTheDocument();
-        expect(screen.getByText("Hybridsuche (Textbasiert + Semantisch)")).toBeInTheDocument();
+            screen.queryByText("Hybridsuche – findet Treffer nach Stichwort und Bedeutung"),
+        ).not.toBeInTheDocument();
+        expect(
+            screen.queryByText("Hybridsuche (Textbasiert + Semantisch)"),
+        ).not.toBeInTheDocument();
     });
 
     it("renders check icons for all features", () => {
@@ -226,8 +238,8 @@ describe("PricingSection", () => {
         expect(checkIcons.length).toBe(19);
     });
 
-    it("highlights the AI Search Agent feature", () => {
-        const aiAgentText = screen.getByText("KI-Suchagent");
+    it("highlights the AI Discovery Agent feature", () => {
+        const aiAgentText = screen.getByText("KI-Discovery-Agent");
         const listItem = aiAgentText.closest("li");
         expect(listItem?.className).toContain("font-semibold");
         expect(listItem?.className).toContain("text-primary");
