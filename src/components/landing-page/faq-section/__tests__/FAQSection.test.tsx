@@ -17,7 +17,7 @@ describe("FAQSection", () => {
     it("renders the section subtitle", () => {
         expect(
             screen.getByText(
-                "Kurz und präzise: wie Aura Historia den globalen Antiquitätenmarkt zugänglicher macht.",
+                "Das Wichtigste darüber, wie Aura Historia den globalen Antiquitätenmarkt übersichtlicher macht.",
             ),
         ).toBeInTheDocument();
     });
@@ -25,17 +25,17 @@ describe("FAQSection", () => {
     it("renders all FAQ questions", () => {
         expect(screen.getByText("Was ist Aura Historia?")).toBeInTheDocument();
         expect(screen.getByText("Kann ich direkt über Aura Historia kaufen?")).toBeInTheDocument();
-        expect(screen.getByText("Was kann ich beobachten lassen?")).toBeInTheDocument();
+        expect(screen.getByText("Was kann Aura Historia für mich beobachten?")).toBeInTheDocument();
         expect(
-            screen.getByText("Funktioniert die Plattform auch über Sprachgrenzen hinweg?"),
+            screen.getByText("Hilft Aura Historia bei fremdsprachigen Angeboten?"),
         ).toBeInTheDocument();
         expect(screen.getByText("Wie aktuell sind die Angebote?")).toBeInTheDocument();
-        expect(screen.getByText("Welche Quellen werden berücksichtigt?")).toBeInTheDocument();
+        expect(screen.getByText("Welche Quellen fließen ein?")).toBeInTheDocument();
         expect(
             screen.getByText("Kann ich einen Händler oder eine Quelle vorschlagen?"),
         ).toBeInTheDocument();
         expect(
-            screen.getByText("Wie unterscheidet sich Aura Historia von Auktionsaggregatoren?"),
+            screen.getByText("Worin unterscheidet sich Aura Historia von Auktionsaggregatoren?"),
         ).toBeInTheDocument();
         expect(screen.getByText("Ist Aura Historia eine Preisdatenbank?")).toBeInTheDocument();
     });

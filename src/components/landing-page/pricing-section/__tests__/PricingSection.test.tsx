@@ -59,13 +59,13 @@ describe("PricingSection", () => {
     });
 
     it("renders the section heading", () => {
-        expect(screen.getByText("Wählen Sie Ihren Zugang")).toBeInTheDocument();
+        expect(screen.getByText("Den passenden Zugang wählen")).toBeInTheDocument();
     });
 
     it("renders the section subtitle", () => {
         expect(
             screen.getByText(
-                "Starten Sie frei. Wechseln Sie, wenn Merkliste, Suchalarme und Discovery-Workflows zu Ihrem festen Marktinstrument werden.",
+                "Starten Sie kostenlos. Wechseln Sie, sobald Merklisten, Suchalarme und Marktbeobachtung zu Ihrer regelmäßigen Recherche gehören.",
             ),
         ).toBeInTheDocument();
     });
@@ -79,17 +79,17 @@ describe("PricingSection", () => {
     it("renders all tier descriptions", () => {
         expect(
             screen.getByText(
-                "Für erste Recherchen, spontane Funde und eine kleine private Merkliste.",
+                "Für erste Recherchen, spontane Funde und eine kleine private Auswahl.",
             ),
         ).toBeInTheDocument();
         expect(
             screen.getByText(
-                "Für Sammler, die relevante Objekte konsequent über Quellen hinweg verfolgen.",
+                "Für Sammler, die ernsthafte Kandidaten über Quellen und Zeit hinweg verfolgen.",
             ),
         ).toBeInTheDocument();
         expect(
             screen.getByText(
-                "Für anspruchsvolle Sammler, Einrichter und Profis mit dauerhaftem Marktauftrag.",
+                "Für anspruchsvolle Sammler, Interior-Profis und professionelle Marktbeobachtung.",
             ),
         ).toBeInTheDocument();
     });
@@ -194,31 +194,33 @@ describe("PricingSection", () => {
     });
 
     it("renders free tier features", () => {
-        expect(screen.getByText("20 Objekte auf der privaten Merkliste")).toBeInTheDocument();
+        expect(screen.getByText("20 Objekte in der privaten Merkliste")).toBeInTheDocument();
         expect(screen.getByText("1 Suchalarm")).toBeInTheDocument();
-        expect(screen.getByText("10 neue Suchalarm-Treffer pro Monat")).toBeInTheDocument();
-        expect(screen.getByText("Basis-Marktbeobachtung")).toBeInTheDocument();
-        expect(screen.getByText("Benachrichtigung innerhalb weniger Stunden")).toBeInTheDocument();
+        expect(screen.getByText("10 neue Treffer aus Suchalarmen pro Monat")).toBeInTheDocument();
+        expect(screen.getByText("Einfache Marktbeobachtung")).toBeInTheDocument();
+        expect(
+            screen.getByText("Benachrichtigungen innerhalb weniger Stunden"),
+        ).toBeInTheDocument();
     });
 
     it("renders pro tier features", () => {
-        expect(screen.getByText("100 Objekte auf der privaten Merkliste")).toBeInTheDocument();
+        expect(screen.getByText("100 Objekte in der privaten Merkliste")).toBeInTheDocument();
         expect(screen.getByText("5 Suchalarme")).toBeInTheDocument();
     });
 
     it("renders ultimate tier features", () => {
-        expect(screen.getByText("Unbegrenzte private Merkliste")).toBeInTheDocument();
+        expect(screen.getByText("Unbegrenzte Merkliste")).toBeInTheDocument();
         expect(screen.getByText("Unbegrenzte Suchalarme")).toBeInTheDocument();
-        expect(screen.getByText("KI-Discovery-Agent")).toBeInTheDocument();
+        expect(screen.getByText("KI-Suchagent")).toBeInTheDocument();
         expect(screen.getByText("Priorisierte Echtzeit-Benachrichtigungen")).toBeInTheDocument();
     });
 
     it("renders unlimited searches for every tier", () => {
-        expect(screen.getAllByText("Unbegrenzte Suchen")).toHaveLength(3);
+        expect(screen.getAllByText("Unbegrenzt suchen")).toHaveLength(3);
     });
 
     it("renders advanced market monitoring for both pro and ultimate tiers", () => {
-        const fullAlerts = screen.getAllByText("Erweiterte Marktbeobachtung");
+        const fullAlerts = screen.getAllByText("Vertiefte Marktbeobachtung");
         expect(fullAlerts).toHaveLength(2);
     });
 
@@ -238,8 +240,8 @@ describe("PricingSection", () => {
         expect(checkIcons.length).toBe(19);
     });
 
-    it("highlights the AI Discovery Agent feature", () => {
-        const aiAgentText = screen.getByText("KI-Discovery-Agent");
+    it("highlights the AI search agent feature", () => {
+        const aiAgentText = screen.getByText("KI-Suchagent");
         const listItem = aiAgentText.closest("li");
         expect(listItem?.className).toContain("font-semibold");
         expect(listItem?.className).toContain("text-primary");

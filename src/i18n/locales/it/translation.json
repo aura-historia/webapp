@@ -439,21 +439,21 @@
   },
   "discover": {
     "eyebrow": "Il mercato",
-    "title": "Il mercato antiquario è globale. La scoperta è ancora frammentata.",
-    "p1": "L’antiquariato è online, ma l’inventario resta diviso tra siti di commercianti, calendari d’asta, marketplace e negozi locali. Aura Historia riunisce questa offerta dispersa in una vista di piattaforma chiara e curata.",
-    "p2": "Per collezionisti, arredatori e professionisti significa meno punti ciechi: più fonti, più contesto e maggiori possibilità di vedere l’oggetto prima degli altri.",
+    "title": "Il mercato dell’antiquariato è globale. Una visione d’insieme, molto meno.",
+    "p1": "L’antiquariato è ormai online, ma i pezzi rilevanti restano dispersi tra siti di commercianti, calendari d’asta, marketplace e specialisti locali. Aura Historia riunisce queste fonti in una piattaforma calma e curata.",
+    "p2": "Per collezionisti, interior designer e professionisti significa meno punti ciechi: più contesto e migliori possibilità di vedere un pezzo speciale prima che scompaia di nuovo.",
     "highlight1": {
       "title": "Oltre {{count}} fonti indicizzate",
       "titleFallback": "Centinaia di fonti indicizzate",
-      "description": "Commercianti specializzati, case d’asta, marketplace e negozi sono riuniti in una vista ricercabile."
+      "description": "Commercianti specializzati, case d’asta, marketplace e negozi sono riuniti in un’unica vista."
     },
     "highlight2": {
-      "title": "Osservazione del mercato oltre l’ovvio",
-      "description": "Nuovi oggetti, movimenti di prezzo e cambi di disponibilità sono monitorati perché le opportunità importanti siano più visibili."
+      "title": "Osservare il mercato oltre i nomi più noti",
+      "description": "Nuovi pezzi, movimenti di prezzo e cambi di disponibilità sono seguiti perché le opportunità importanti emergano prima."
     },
     "highlight3": {
-      "title": "Ricerca tra le lingue",
-      "description": "Cerca nella tua lingua preferita mentre Aura Historia interpreta il vocabolario dei venditori internazionali."
+      "title": "Ricerca oltre le barriere linguistiche",
+      "description": "Cerca nella tua lingua; Aura Historia aiuta a interpretare il lessico dei venditori internazionali."
     },
     "artworks": {
       "watteau": {
@@ -463,9 +463,9 @@
     }
   },
   "landingPage": {
-    "badge": "Per collezionisti, arredatori e professionisti",
-    "titleFirstLine": "Gli oggetti rari non dovrebbero dipendere<1/>dal caso",
-    "subtitle": "Aura Historia riunisce commercianti, case d’asta e inventari specializzati in una piattaforma globale per antiquariato, così trovi il pezzo giusto prima che sparisca in un altro silo.",
+    "badge": "Per collezionisti, interior designer e professionisti",
+    "titleFirstLine": "I pezzi rari non dovrebbero dipendere<1/>solo dal caso",
+    "subtitle": "Aura Historia riunisce commercianti, case d’asta, marketplace e inventari specializzati in una piattaforma globale per l’antiquariato, così i pezzi speciali restano visibili prima di scomparire di nuovo.",
     "recentlyAdded": {
       "eyebrow": "Aggiunti di recente",
       "title": "Le ultime acquisizioni",
@@ -474,21 +474,21 @@
     "artworkStories": {
       "ariaLabel": "Tesi di piattaforma di Aura Historia",
       "eyebrow": "Perché Aura Historia",
-      "title": "Un mercato globale dell’antiquariato, finalmente in vista",
-      "description": "I pezzi giusti raramente si trovano in un unico feed d’asta. Emergono presso piccoli antiquari, negozi specializzati, marketplace e aste, spesso con termini locali e per poco tempo. Aura Historia trasforma questo mercato disperso in qualcosa che puoi vedere, leggere e seguire con intenzione.",
+      "title": "Il mercato dell’antiquariato com’è oggi",
+      "description": "I pezzi speciali raramente compaiono in un solo luogo. Emergono presso piccoli antiquari, negozi specializzati, marketplace e calendari d’asta, spesso con termini locali e per poco tempo. Aura Historia rende questo mercato disperso visibile, comprensibile e osservabile.",
       "connoisseurship": {
         "eyebrow": "Sguardo da conoscitore, ampliato",
-        "title": "Vedere oltre il titolo dell’inserzione",
-        "description": "The Ambassadors di Holbein è un dipinto sul sapere, sugli strumenti e sulla prospettiva nascosta. Anche nell’antiquariato, l’indizio decisivo spesso non è nel titolo, ma nella fonte, nel linguaggio della categoria, nei movimenti di prezzo, nello stato o nel tempismo.",
-        "supporting": "Aura Historia riunisce questi segnali in una vista di lavoro calma: cercare, confrontare, salvare e agire in tempo, senza perdere il piacere della scoperta.",
+        "title": "Vedere gli indizi che il titolo non dice",
+        "description": "The Ambassadors di Holbein parla di sapere, strumenti e prospettiva nascosta. Anche nell’antiquariato, l’indizio decisivo spesso è nella fonte, nella categoria, nell’andamento del prezzo, nello stato o nel momento in cui il pezzo appare, non solo nel titolo dell’inserzione.",
+        "supporting": "Aura Historia riunisce questi segnali in uno spazio di lavoro tranquillo: trovare, confrontare, salvare e aprire la fonte originale al momento giusto, senza perdere il piacere della scoperta.",
         "imageAlt": "Il dipinto The Ambassadors di Hans Holbein come simbolo di erudizione, strumenti e sguardo esperto.",
         "caption": "Hans Holbein il Giovane, The Ambassadors, 1533"
       },
       "globalCollecting": {
         "eyebrow": "Inventario globale",
-        "title": "La wunderkammer oggi è distribuita",
-        "description": "The Paston Treasure mostra oggetti di lusso, naturalia e rarità provenienti da una rete commerciale mondiale. La wunderkammer di oggi non è più in una sola stanza: è distribuita tra siti di antiquari, marketplace, calendari d’asta e specialisti locali.",
-        "supporting": "Aura Historia non sostituisce queste fonti. La piattaforma ti conduce a esse, dopo aver indicizzato continuamente l’offerta dispersa, averla resa leggibile e averla monitorata rispetto a ciò che cerchi.",
+        "title": "La wunderkammer oggi è dispersa",
+        "description": "The Paston Treasure riunisce oggetti di lusso, naturalia e rarità provenienti da una rete commerciale mondiale. Oggi una wunderkammer così non sta più in una sola stanza: è distribuita tra siti di antiquari, marketplace, calendari d’asta e specialisti locali.",
+        "supporting": "Aura Historia non sostituisce queste fonti. Ti porta da loro dopo aver indicizzato con continuità l’offerta dispersa, averla ordinata e resa osservabile secondo i tuoi interessi.",
         "imageAlt": "The Paston Treasure, una natura morta ricca di oggetti di lusso e rarità commerciati a livello globale.",
         "caption": "The Paston Treasure, ca. 1663"
       }
@@ -496,27 +496,27 @@
     "features": {
       "eyebrow": "Funzioni della piattaforma",
       "title": "Una piattaforma per chi guarda più da vicino",
-      "subtitle": "Pensata per collezionisti, arredatori e professionisti: uno spazio ordinato per un mercato globale troppo vasto, locale e frammentato per essere seguito per abitudine.",
-      "note": "Aura Historia non è un’altra superficie solo per aste. Riunisce commercianti, negozi specializzati, marketplace e inventario d’asta nello stesso campo di scoperta.",
+      "subtitle": "Pensata per collezionisti, interior designer e professionisti: uno spazio ordinato per un mercato globale troppo vasto, locale e frammentato per essere seguito per abitudine.",
+      "note": "Aura Historia non è un’altra pagina centrata sulle aste. Riunisce commercianti, negozi specializzati, marketplace e inventario d’asta nello stesso campo di scoperta.",
       "marketScale": {
-        "title": "Un mercato più grande di qualsiasi marketplace",
-        "description": "Aura Historia è pensata per un mercato globale di arte e antiquariato misurato in decine di miliardi di dollari e decine di milioni di transazioni annuali.",
+        "title": "Un mercato più ampio di qualsiasi marketplace",
+        "description": "Aura Historia è pensata per un mercato globale di arte e antiquariato misurato in decine di miliardi di dollari e decine di milioni di transazioni ogni anno.",
         "visual": {
           "value": "$59,6 mld",
           "label": "Vendite globali di arte e antiquariato nel 2025, su 41,5 mln di transazioni."
         }
       },
       "beyondAuction": {
-        "title": "Oltre le case d’asta",
-        "description": "I feed d’asta sono solo una parte del mercato. Aura Historia rende visibili anche commercianti affidabili e piccoli specialisti accanto alle aste.",
+        "title": "Oltre le aste",
+        "description": "Le aste sono solo una parte del mercato. Aura Historia rende visibili anche commercianti affidabili e piccoli specialisti accanto all’inventario d’asta, dove molti pezzi rilevanti non arrivano mai sulle piattaforme solo per aste.",
         "visual": {
           "value": "$34,8 / $20,7 mld",
           "label": "Vendite dei dealer rispetto alle aste pubbliche nel 2025; le aste private hanno aggiunto poco meno di $4,2 mld."
         }
       },
       "translations": {
-        "title": "Scoperta indipendente dalla lingua",
-        "description": "Cerca nella tua lingua mentre Aura Historia aiuta a leggere titoli internazionali, formulazioni dei venditori e vocabolario locale del mercato.",
+        "title": "Trovare senza parlare la lingua del venditore",
+        "description": "Cerca nella tua lingua. Aura Historia aiuta a interpretare titoli internazionali, formulazioni dei venditori e lessico locale del mercato.",
         "visual": {
           "value": "13.362 + 81.256",
           "label": "Negozi di antiquariato negli USA più rivenditori europei di seconda mano e vicini all’antiquariato, frammentati tra mercati e lingue locali."
@@ -524,7 +524,7 @@
       },
       "watchlist": {
         "title": "Watchlist privata",
-        "description": "Non perdere di vista ciò che hai già trovato. Salva gli oggetti con discrezione e torna quando prezzo, stato o disponibilità cambiano.",
+        "description": "Tieni a vista ciò che hai già trovato. Salva i pezzi con discrezione e torna quando prezzo, stato o disponibilità meritano un secondo sguardo.",
         "visual": {
           "eyebrow": "Placeholder GIF funzione",
           "title": "Watchlist con notifiche di modifica",
@@ -533,7 +533,7 @@
       },
       "personalFilter": {
         "title": "Avvisi di ricerca",
-        "description": "Descrivi una volta ciò che cerchi. Aura Historia monitora inventario nuovo e aggiornato, riportando in vista gli oggetti giusti.",
+        "description": "Descrivi una volta ciò che cerchi. Aura Historia monitora inventario nuovo e aggiornato, riportando in vista i pezzi giusti.",
         "visual": {
           "eyebrow": "Placeholder GIF funzione",
           "title": "Flusso di avvisi per nuovi risultati",
@@ -551,7 +551,7 @@
       },
       "aiSearchAgent": {
         "title": "Agente IA di scoperta",
-        "description": "Usa il linguaggio naturale per brief specifici — epoca, forma, categoria, scala, atmosfera, budget e uso — e lascia che l’agente monitori il mercato.",
+        "description": "Formula un brief in linguaggio naturale — epoca, forma, categoria, scala, atmosfera, budget e uso previsto — e lascia che l’agente osservi il mercato con pazienza.",
         "visual": {
           "eyebrow": "Placeholder GIF funzione",
           "title": "Brief collezionistico in linguaggio naturale",
@@ -561,7 +561,7 @@
     },
     "howItWorks": {
       "title": "Dalla curiosità all’acquisizione consapevole",
-      "subtitle": "Aura Historia riunisce inventari dispersi di commercianti, aste e fonti specializzate in una vista ordinata, così i pezzi promettenti restano visibili.",
+      "subtitle": "Aura Historia riunisce offerte disperse di commercianti, aste e fonti specializzate perché i pezzi promettenti restino visibili.",
       "step1": {
         "title": "Descrivi l’oggetto",
         "description": "Cerca per epoca, stile, categoria, artista, regione o semplicemente per idea, nella lingua che ti è più naturale."
@@ -571,12 +571,12 @@
         "description": "Confronta offerte attuali di commercianti, case d’asta e marketplace in una vista calma e curata."
       },
       "step3": {
-        "title": "Tieni sotto osservazione",
-        "description": "Aggiungi gli oggetti promettenti alla tua lista privata e crea avvisi di ricerca per futuri riscontri."
+        "title": "Tieni i pezzi in vista",
+        "description": "Aggiungi i pezzi promettenti alla tua lista privata e crea avvisi di ricerca per futuri riscontri."
       },
       "step4": {
         "title": "Agisci al momento giusto",
-        "description": "Mettiamo in evidenza cambi di prezzo e stato, oltre a nuovi oggetti pertinenti; apri la fonte originale e decidi lì se acquistare, fare un’offerta o chiedere informazioni."
+        "description": "Mettiamo in evidenza cambi di prezzo e stato, oltre a nuovi pezzi pertinenti; apri la fonte originale e decidi lì se acquistare, fare un’offerta o chiedere informazioni."
       }
     },
     "testimonials": {
@@ -621,23 +621,23 @@
     },
     "faq": {
       "title": "Domande frequenti",
-      "subtitle": "Una panoramica precisa di come Aura Historia rende più leggibile il mercato globale dell’antiquariato.",
+      "subtitle": "L’essenziale su come Aura Historia rende più leggibile il mercato globale dell’antiquariato.",
       "items": {
         "howItWorks": {
           "question": "Che cos’è Aura Historia?",
-          "answer": "Aura Historia è una piattaforma globale per antiquariato, arte e oggetti distintivi. Riuniamo inventari attuali da commercianti, case d’asta, marketplace e fonti specializzate, così collezionisti e professionisti possono seguire il mercato con chiarezza."
+          "answer": "Aura Historia è una piattaforma globale per antiquariato, arte e oggetti distintivi. Riuniamo offerte attuali da commercianti, case d’asta, marketplace e fonti specializzate, così collezionisti e professionisti possono leggere il mercato con più chiarezza."
         },
         "directPurchase": {
           "question": "Posso acquistare direttamente su Aura Historia?",
           "answer": "L’acquisto avviene presso il venditore originale. Aura Historia ti porta all’annuncio di origine, dove puoi verificare direttamente prezzo, disponibilità, spedizione, stato e condizioni di pagamento prima di acquistare o fare un’offerta."
         },
         "priceAlerts": {
-          "question": "Cosa posso monitorare?",
-          "answer": "La tua lista privata mantiene visibili gli oggetti trovati e può avvisarti di cambiamenti rilevanti, come movimenti di prezzo o aggiornamenti di stato. Gli avvisi di ricerca monitorano il mercato per nuovi risultati compatibili con i tuoi criteri."
+          "question": "Cosa può monitorare Aura Historia per me?",
+          "answer": "La tua lista privata mantiene visibili i pezzi trovati e può avvisarti di cambiamenti rilevanti, come movimenti di prezzo o aggiornamenti di stato. Gli avvisi di ricerca monitorano nuove offerte compatibili con i tuoi criteri."
         },
         "language": {
-          "question": "Aura Historia funziona tra lingue diverse?",
-          "answer": "Sì. Aura Historia è pensata per la scoperta internazionale: gli annunci possono apparire in lingue, categorie e vocaboli dei commercianti differenti. La piattaforma aiuta a superare questa frammentazione senza richiedere di conoscere ogni termine locale."
+          "question": "Aura Historia aiuta con annunci in altre lingue?",
+          "answer": "Sì. Le offerte internazionali possono apparire in lingue, categorie e lessici dei commercianti diversi. Aura Historia aiuta a ordinare queste differenze senza richiedere di conoscere ogni termine locale."
         },
         "updateFrequency": {
           "question": "Quanto sono aggiornati gli annunci?",
@@ -653,17 +653,17 @@
         },
         "comparisonBarnebys": {
           "question": "In cosa Aura Historia è diversa dagli aggregatori d’asta?",
-          "answer": "Gli aggregatori d’asta sono particolarmente forti sui lotti futuri o passati. Aura Historia osserva il mercato in modo più ampio: inventari di commercianti, negozi specializzati, marketplace e aste in un’unica piattaforma, con liste private, avvisi di ricerca e monitoraggio del mercato."
+          "answer": "Gli aggregatori d’asta sono particolarmente forti sui lotti futuri o passati. Aura Historia osserva il mercato in modo più ampio: inventari di commercianti, negozi specializzati, marketplace e aste in un’unica piattaforma, con liste private, avvisi di ricerca e osservazione del mercato."
         },
         "comparisonPriceDatabase": {
           "question": "Aura Historia è un database dei prezzi?",
-          "answer": "No. I prezzi storici d’asta possono essere utili, ma non mostrano automaticamente cosa è disponibile oggi. Aura Historia si concentra sulla scoperta attuale, sul monitoraggio e su segnali di mercato tempestivi."
+          "answer": "No. I prezzi storici d’asta possono essere utili, ma non mostrano automaticamente cosa è disponibile oggi. Aura Historia si concentra sulla disponibilità attuale, sull’osservazione e su segnali di mercato tempestivi."
         }
       }
     },
     "pricing": {
       "title": "Scegli il tuo accesso",
-      "subtitle": "Inizia liberamente. Passa a un livello superiore quando liste private, avvisi e flussi di scoperta diventano il tuo modo di seguire il mercato.",
+      "subtitle": "Inizia gratis. Passa a un piano superiore quando liste private, avvisi e osservazione del mercato diventano parte della tua ricerca abituale.",
       "comingSoon": "In arrivo",
       "mostPopular": "Più popolare",
       "free": {

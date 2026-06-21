@@ -12,25 +12,23 @@ describe("ArtworkStorySection", () => {
     it("renders the platform thesis intro", () => {
         expect(screen.getByText("Warum Aura Historia")).toBeInTheDocument();
         expect(
-            screen.getByText("Ein globaler Antiquitätenmarkt, endlich in Sicht"),
+            screen.getByText("Der Antiquitätenmarkt, wie er heute wirklich ist"),
         ).toBeInTheDocument();
         expect(
-            screen.getByText(/Gute Objekte liegen selten in einem einzigen Auktionsfeed/),
+            screen.getByText(/Besondere Stücke liegen selten an einer einzigen Stelle/),
         ).toBeInTheDocument();
     });
 
     it("renders the connoisseurship story", () => {
-        expect(screen.getByText("Kennerblick, erweitert")).toBeInTheDocument();
-        expect(screen.getByText("Mehr sehen als den Angebotstitel")).toBeInTheDocument();
-        expect(
-            screen.getByText(/Holbeins Ambassadors ist ein Bild über Wissen/),
-        ).toBeInTheDocument();
+        expect(screen.getByText("Kennerblick, digital erweitert")).toBeInTheDocument();
+        expect(screen.getByText("Hinweise erkennen, die im Titel fehlen")).toBeInTheDocument();
+        expect(screen.getByText(/Holbeins Ambassadors erzählt von Wissen/)).toBeInTheDocument();
     });
 
     it("renders the global inventory story", () => {
-        expect(screen.getByText("Globales Inventar")).toBeInTheDocument();
-        expect(screen.getByText("Die Wunderkammer ist heute verteilt")).toBeInTheDocument();
-        expect(screen.getByText(/The Paston Treasure zeigt Luxusobjekte/)).toBeInTheDocument();
+        expect(screen.getByText("Weltweites Inventar")).toBeInTheDocument();
+        expect(screen.getByText("Die Wunderkammer ist heute verstreut")).toBeInTheDocument();
+        expect(screen.getByText(/The Paston Treasure versammelt Luxusobjekte/)).toBeInTheDocument();
     });
 
     it("renders artwork images with descriptive text", () => {

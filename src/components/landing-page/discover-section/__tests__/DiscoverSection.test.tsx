@@ -12,34 +12,28 @@ describe("DiscoverSection", () => {
 
         it("renders the section title", () => {
             expect(
-                screen.getByText(
-                    "Der Antiquitätenmarkt ist global. Die Entdeckung bleibt fragmentiert.",
-                ),
+                screen.getByText("Der Antiquitätenmarkt ist global. Der Überblick ist es selten."),
             ).toBeInTheDocument();
         });
 
         it("renders the description paragraphs", () => {
-            expect(screen.getByText(/Antiquitäten sind online angekommen/)).toBeInTheDocument();
+            expect(screen.getByText(/Antiquitäten sind längst online/)).toBeInTheDocument();
             expect(
-                screen.getByText(
-                    /Für Sammler, Einrichter und den Handel bedeutet das weniger blinde Flecken/,
-                ),
+                screen.getByText(/Für Sammler, Interior-Profis und den Handel heißt das/),
             ).toBeInTheDocument();
         });
 
         it("renders all highlights with fallback source count", () => {
             expect(screen.getByText("Hunderte indexierte Quellen")).toBeInTheDocument();
-            expect(
-                screen.getByText("Marktbeobachtung jenseits der großen Namen"),
-            ).toBeInTheDocument();
+            expect(screen.getByText("Marktüberblick abseits der großen Namen")).toBeInTheDocument();
             expect(screen.getByText("Recherche über Sprachgrenzen hinweg")).toBeInTheDocument();
         });
 
         it("renders highlight descriptions", () => {
             expect(screen.getByText(/Spezialisierte Händler, Auktionshäuser/)).toBeInTheDocument();
-            expect(screen.getByText(/Neue Objekte, Preisbewegungen/)).toBeInTheDocument();
+            expect(screen.getByText(/Neue Stücke, Preisbewegungen/)).toBeInTheDocument();
             expect(
-                screen.getByText(/das Vokabular internationaler Anbieter einordnet/),
+                screen.getByText(/die Begriffe internationaler Anbieter für Sie ein/),
             ).toBeInTheDocument();
         });
 

@@ -10,16 +10,16 @@ describe("HeroSection", () => {
     });
 
     it("renders the badge", () => {
-        expect(screen.getByText("Für Sammler, Einrichter und den Handel")).toBeInTheDocument();
+        expect(screen.getByText("Für Sammler, Interior-Profis und den Handel")).toBeInTheDocument();
     });
 
     it("renders the main heading", () => {
-        expect(screen.getByText(/Seltene Objekte sollten nicht/)).toBeInTheDocument();
-        expect(screen.getByText(/vom Zufall abhängen/)).toBeInTheDocument();
+        expect(screen.getByText(/Seltene Stücke findet man nicht/)).toBeInTheDocument();
+        expect(screen.getByText(/durch Zufall allein/)).toBeInTheDocument();
     });
 
     it("renders the subtitle", () => {
-        expect(screen.getByText(/globalen Antiquitäten-Plattform/)).toBeInTheDocument();
+        expect(screen.getByText(/globalen Antiquitätenplattform/)).toBeInTheDocument();
     });
 
     it("renders the search bar", () => {

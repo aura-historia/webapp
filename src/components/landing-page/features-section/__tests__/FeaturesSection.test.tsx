@@ -17,21 +17,21 @@ describe("FeaturesSection", () => {
 
     it("renders the section subtitle and note", () => {
         expect(
-            screen.getByText(/Gebaut für Sammler, Einrichter und den Handel/),
+            screen.getByText(/Entwickelt für Sammler, Interior-Profis und den Handel/),
         ).toBeInTheDocument();
-        expect(screen.getByText(/keine weitere reine Auktionsoberfläche/)).toBeInTheDocument();
+        expect(screen.getByText(/keine reine Auktionsseite/)).toBeInTheDocument();
     });
 
     it("renders the revised feature rows", () => {
+        expect(screen.getByText("Ein Markt jenseits einzelner Marktplätze")).toBeInTheDocument();
+        expect(screen.getByText("Mehr als Auktionen")).toBeInTheDocument();
         expect(
-            screen.getByText("Ein Markt größer als jeder einzelne Marktplatz"),
+            screen.getByText("Finden, ohne die Sprache des Anbieters zu sprechen"),
         ).toBeInTheDocument();
-        expect(screen.getByText("Mehr als Auktionshäuser")).toBeInTheDocument();
-        expect(screen.getByText("Sprachunabhängige Entdeckung")).toBeInTheDocument();
         expect(screen.getByText("Private Merkliste")).toBeInTheDocument();
         expect(screen.getByText("Suchalarme")).toBeInTheDocument();
-        expect(screen.getByText("Objekt-Timeline")).toBeInTheDocument();
-        expect(screen.getByText("KI-Discovery-Agent")).toBeInTheDocument();
+        expect(screen.getByText("Objektverlauf")).toBeInTheDocument();
+        expect(screen.getByText("KI-Suchagent")).toBeInTheDocument();
     });
 
     it("removes the collector/dealer roadmap row and old price-history framing", () => {
@@ -45,9 +45,7 @@ describe("FeaturesSection", () => {
         expect(screen.getByText("$34,8 / $20,7 Mrd.")).toBeInTheDocument();
         expect(screen.getByText(/öffentlichen Auktionsumsätzen 2025/)).toBeInTheDocument();
         expect(screen.getByText("13.362 + 81.256")).toBeInTheDocument();
-        expect(
-            screen.getByText(/fragmentiert über lokale Märkte und Sprachen/),
-        ).toBeInTheDocument();
+        expect(screen.getByText(/verteilt über lokale Märkte und Sprachen/)).toBeInTheDocument();
     });
 
     it("renders linked source citations", () => {
@@ -73,7 +71,7 @@ describe("FeaturesSection", () => {
 
     it("renders feature GIF placeholders", () => {
         expect(screen.getByText("Merkliste mit Änderungsbenachrichtigungen")).toBeInTheDocument();
-        expect(screen.getByText("Alert-Flow für neue Treffer")).toBeInTheDocument();
+        expect(screen.getByText("Ablauf für neue Suchtreffer")).toBeInTheDocument();
         expect(screen.getByText("Ereignisverlauf eines Angebots")).toBeInTheDocument();
         expect(screen.getByText("Sammlerbriefing in natürlicher Sprache")).toBeInTheDocument();
     });

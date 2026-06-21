@@ -10,13 +10,13 @@ describe("HowItWorksSection", () => {
     });
 
     it("renders the section heading", () => {
-        expect(screen.getByText("Vom ersten Gedanken zum gefundenen Objekt")).toBeInTheDocument();
+        expect(screen.getByText("Von der Idee zum besonderen Stück")).toBeInTheDocument();
     });
 
     it("renders the section subtitle", () => {
         expect(
             screen.getByText(
-                "Aura Historia bündelt verstreute Angebote aus Handel, Auktionen und spezialisierten Quellen – damit gute Funde nicht in einzelnen Silos verschwinden.",
+                "Aura Historia führt verstreute Angebote aus Handel, Auktionen und spezialisierten Quellen zusammen – damit vielversprechende Stücke sichtbar bleiben.",
             ),
         ).toBeInTheDocument();
     });
@@ -29,10 +29,10 @@ describe("HowItWorksSection", () => {
     });
 
     it("renders all step titles", () => {
-        expect(screen.getByText("Objekt beschreiben")).toBeInTheDocument();
-        expect(screen.getByText("Marktbild prüfen")).toBeInTheDocument();
-        expect(screen.getByText("Im Blick behalten")).toBeInTheDocument();
-        expect(screen.getByText("Rechtzeitig handeln")).toBeInTheDocument();
+        expect(screen.getByText("Wunsch beschreiben")).toBeInTheDocument();
+        expect(screen.getByText("Markt sichten")).toBeInTheDocument();
+        expect(screen.getByText("Stücke merken")).toBeInTheDocument();
+        expect(screen.getByText("Im richtigen Moment handeln")).toBeInTheDocument();
     });
 
     it("renders all step descriptions", () => {
@@ -42,7 +42,7 @@ describe("HowItWorksSection", () => {
             screen.getByText(/Legen Sie relevante Objekte auf Ihre private Merkliste/),
         ).toBeInTheDocument();
         expect(
-            screen.getByText(/Wir melden Preis- und Statusänderungen sowie neue passende Objekte/),
+            screen.getByText(/Wir zeigen Preis- und Statusänderungen sowie neue passende Objekte/),
         ).toBeInTheDocument();
     });
 });
