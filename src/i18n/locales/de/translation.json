@@ -4,11 +4,11 @@
     "infoButton": "Weitere Informationen"
   },
   "meta": {
-    "siteName": "Aura Historia | Führende Suchmaschine für Antiquitäten",
-    "defaultDescription": "Finden Sie Antiquitäten mit Aura Historia. Echtzeit-Daten von über 1000 Auktionshäusern, Händlern und Marktplätzen. Ihre Suche beginnt hier.",
+    "siteName": "Aura Historia | Globale Antiquitäten-Plattform",
+    "defaultDescription": "Entdecken Sie seltene Antiquitäten, Kunst und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
     "home": {
-      "title": "Aura Historia | Führende Suchmaschine für Antiquitäten",
-      "description": "Finden Sie Antiquitäten mit Aura Historia. Echtzeit-Daten von über 1000 Auktionshäusern, Händlern und Marktplätzen. Ihre Suche beginnt hier."
+      "title": "Aura Historia | Globale Antiquitäten-Plattform",
+      "description": "Entdecken Sie seltene Antiquitäten, Kunst und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis."
     },
     "search": {
       "title": "Antiquitäten suchen | Aura Historia",
@@ -122,7 +122,7 @@
     },
     "landingPageLinks": {
       "recentlyAdded": "Neueste Zugänge",
-      "discover": "Transparenz",
+      "discover": "Plattform",
       "features": "Funktionen",
       "howItWorks": "So funktioniert's",
       "testimonials": "Nutzerstimmen",
@@ -436,80 +436,128 @@
     "scraped": "Öffentlich indexiert"
   },
   "discover": {
-    "title": "Wir bringen Transparenz in die undurchsichtige Welt der Online-Antiquitäten",
-    "p1": "Wir durchsuchen täglich das unübersichtliche Angebot tausender verstreuter Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit und bündeln deren Artikel zentral an einem Ort.",
-    "p2": "Wir erfassen nicht nur aktuelle und neu aufgetauchte Antiquitäten, sondern verfolgen auch Preisänderungen und Verfügbarkeiten. So verpassen Sie nie wieder ein Schnäppchen und behalten den Markt stets im Blick.",
+    "eyebrow": "Der Markt",
+    "title": "Der Antiquitätenmarkt ist global. Die Entdeckung bleibt fragmentiert.",
+    "p1": "Antiquitäten sind online angekommen, doch Inventar liegt weiter verstreut: auf Händlerseiten, in Auktionskalendern, auf Marktplätzen und bei lokalen Spezialisten. Aura Historia bringt diese Quellen in eine ruhige, kuratierte Plattformansicht.",
+    "p2": "Für Sammler, Einrichter und den Handel bedeutet das weniger blinde Flecken: mehr Quellen, mehr Kontext und bessere Chancen, ein Objekt zu sehen, bevor andere es bemerken.",
     "highlight1": {
-      "title": "Über {{count}} Händler, Auktionshäuser und Marktplätze",
-      "titleFallback": "Hunderte Händler, Auktionshäuser und Marktplätze",
-      "description": "Wir durchsuchen kontinuierlich renommierte Antiquitätenhändler, Auktionshäuser und Marktplätze aus ganz Europa und darüber hinaus."
+      "title": "Über {{count}} indexierte Quellen",
+      "titleFallback": "Hunderte indexierte Quellen",
+      "description": "Spezialisierte Händler, Auktionshäuser, Marktplätze und Shops werden in einer durchsuchbaren Ansicht zusammengeführt."
     },
     "highlight2": {
-      "title": "Echtzeit-Überwachung",
-      "description": "Sowohl neu aufgetauchte Antiquitäten, als auch Preis- und Verfügbarkeits-Updates werden nahezu in Echtzeit erfasst."
+      "title": "Marktbeobachtung jenseits der großen Namen",
+      "description": "Neue Objekte, Preisbewegungen und Verfügbarkeiten werden beobachtet, damit relevante Gelegenheiten leichter sichtbar werden."
     },
     "highlight3": {
-      "title": "Vollständig Sprach-unabhängig",
-      "description": "Wir übersetzen jeden Artikel in verschiedene Sprachen. Damit ist es egal, in welcher Sprache Sie suchen. Derzeit unterstützen wir Deutsch, Englisch, Französisch, Spanisch und Italienisch."
+      "title": "Recherche über Sprachgrenzen hinweg",
+      "description": "Suchen Sie in Ihrer bevorzugten Sprache, während Aura Historia das Vokabular internationaler Anbieter einordnet."
     },
-    "stats": {
-      "shops": "500",
-      "shopsLabel": "Vernetzte Shops",
-      "items": "120.000",
-      "itemsLabel": "Einzigartige Artikel",
-      "updates": "24/7",
-      "updatesLabel": "Nahezu Echtzeit-Updates",
-      "countries": "15",
-      "countriesLabel": "Länder abgedeckt"
+    "artworks": {
+      "watteau": {
+        "alt": "Antoine Watteaus The Shop Sign of the Art Dealer Gersaint, eine elegante Szene in den Räumen eines Kunsthändlers.",
+        "caption": "Antoine Watteau, The Shop Sign of the Art Dealer Gersaint, 1720–1721"
+      }
     }
   },
   "landingPage": {
-    "badge": "Suche jenseits der üblichen Marktplätze",
-    "titleFirstLine": "Seltene Antiquitäten<1/>weltweit entdecken",
-    "subtitle": "Aura Historia durchsucht Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit – und hilft Ihnen, Stücke zu entdecken, die andere nie sehen.",
-    "trustBadge1": "Von Antiquitätensammlern",
-    "trustBadge2": "Für ernsthafte Sammler und Händler",
-    "trustBadge3": "Nahezu Echtzeit",
+    "badge": "Für Sammler, Einrichter und den Handel",
+    "titleFirstLine": "Seltene Objekte sollten nicht<1/>vom Zufall abhängen",
+    "subtitle": "Aura Historia bündelt Händler, Auktionshäuser und spezialisiertes Inventar in einer globalen Antiquitäten-Plattform – damit Sie das richtige Stück finden, bevor es im nächsten Silo verschwindet.",
+    "trustBadge1": "Händler, Auktionen und Marktplätze",
+    "trustBadge2": "Private Merklisten und Marktalarme",
+    "trustBadge3": "Gebaut für globale Entdeckung",
     "recentlyAdded": {
       "eyebrow": "Kürzlich hinzugefügt",
       "title": "Neueste Zugänge",
       "foundAt": "Gefunden bei {{shopName}}."
     },
+    "artworkStories": {
+      "ariaLabel": "Redaktionelle Kunstwerk-Geschichten",
+      "eyebrow": "Kuratierte Perspektiven",
+      "title": "Objekte mit Geschichte verdienen mehr als eine Trefferliste",
+      "description": "Seltenheit ist selten schon am Titel erkennbar. Händlerkontext, Kategoriesprache, Verfügbarkeit und Timing entscheiden, ob ein Objekt einen zweiten Blick verdient.",
+      "connoisseurship": {
+        "eyebrow": "Kennerblick & Kontext",
+        "title": "Jedes Objekt braucht Kontext",
+        "description": "Aura Historia ist für Käufer gebaut, die mehr lesen möchten als den Angebotstitel: Händlerkontext, Kategoriesprache, vergleichbare Angebote, Preisbewegungen und Verfügbarkeit im Markt.",
+        "supporting": "Es geht nicht darum, Sammeln unnötig kompliziert zu machen. Es geht darum, ernsthafter Neugier die Struktur zu geben, die sie verdient.",
+        "imageAlt": "Hans Holbeins Gemälde The Ambassadors als Sinnbild für Gelehrsamkeit und Kennerblick.",
+        "caption": "Hans Holbein der Jüngere, The Ambassadors, 1533"
+      },
+      "globalCollecting": {
+        "eyebrow": "Globales Sammeln",
+        "title": "Ein Kuriositätenkabinett, laufend neu sortiert",
+        "description": "Von Silber und Keramik bis zu wissenschaftlichen Instrumenten, Textilien, Möbeln und Arbeiten auf Papier: Die Online-Antiquitätenwelt belohnt jene, die jenseits der offensichtlichen Kanäle suchen.",
+        "supporting": "Aura Historia führt diesen Long Tail in ein Feld, in dem ungewöhnliche Kategorien und spezialisierte Händler mit weniger Reibung sichtbar werden.",
+        "imageAlt": "The Paston Treasure, ein Stillleben voller global gehandelter Luxusobjekte und Raritäten.",
+        "caption": "The Paston Treasure, um 1663"
+      }
+    },
     "features": {
-      "title": "Antiquitäten sind überall im Internet verstreut - Ihre Suche sollte es nicht sein",
-      "subtitle": "Wir sind die fortgeschrittenste Suchmaschine für Antiquitäten und bieten Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen.",
-      "previewBadge": "Bald verfügbar",
-      "search": {
-        "title": "Intelligente Suche",
-        "description": "Durchsuchen Sie hunderttausende Artikel mit unserer leistungsstarken Suchmaschine. Entfernen Sie alle für Sie irrelevanten Antiquitäten, indem Sie nach Zustand, Preis, Händler und vielem mehr filtern."
+      "eyebrow": "Plattform-Funktionen",
+      "title": "Eine Plattform für Menschen, die genauer hinsehen",
+      "subtitle": "Gebaut für Sammler, Einrichter und den Handel: ein ruhiger Arbeitsraum für einen globalen Markt, der zu groß, zu lokal und zu fragmentiert ist, um ihn aus Gewohnheit zu verfolgen.",
+      "note": "Aura Historia ist keine weitere reine Auktionsoberfläche. Die Plattform bringt Händler, Spezialshops, Marktplätze und Auktionsinventar in dasselbe Entdeckungsfeld.",
+      "marketScale": {
+        "title": "Ein Markt größer als jeder einzelne Marktplatz",
+        "description": "Aura Historia ist für einen globalen Kunst- und Antiquitätenmarkt gebaut, der in zweistelligen Milliardenbeträgen und zig Millionen jährlichen Transaktionen gemessen wird.",
+        "visual": {
+          "value": "USD 59,6 Mrd.",
+          "label": "Globaler Kunst- und Antiquitätenumsatz 2025 – über 41,5 Mio. Transaktionen hinweg."
+        }
       },
-      "global": {
-        "title": "Weltweite Abdeckung",
-        "description": "Wir verbinden Sie mit renommierten Antiquitätenhändlern aus über 15 Ländern – von Deutschland bis in die USA. Egal wie klein ein Händler ist, wenn er einen Onlineshop hat, fügen wir ihn hinzu."
-      },
-      "history": {
-        "title": "Änderungshistorie",
-        "description": "Verfolgen Sie alle Änderungen eines Artikels – von Preisanpassungen bis hin zu Verfügbarkeits-Änderungen. Wir setzen auf maximale Transparenz."
-      },
-      "watchlist": {
-        "title": "Persönliche Merkliste",
-        "description": "Speichern Sie interessante Artikel und behalten Sie deren Entwicklung im Blick. Wie benachrichtigen Sie, wenn sich Preis oder Verfügbarkeit ändern."
+      "beyondAuction": {
+        "title": "Mehr als Auktionshäuser",
+        "description": "Auktionsfeeds sind nur ein Teil des Marktes. Aura Historia ist darauf ausgelegt, vertrauenswürdige Händler und kleinere Spezialanbieter neben Auktionen sichtbar zu machen – dort, wo viele relevante Objekte nie auf reinen Auktionsplattformen erscheinen.",
+        "visual": {
+          "value": "34,8 / 20,7 Mrd.",
+          "label": "USD Händlerumsatz gegenüber öffentlichen Auktionsumsätzen 2025; private Auktionen kamen auf knapp USD 4,2 Mrd."
+        }
       },
       "translations": {
-        "title": "Automatische Übersetzungen",
-        "description": "Suchen und entdecken Sie alle Artikel in Ihrer bevorzugten Sprache, ohne Barrieren. Wir unterstützen derzeit Deutsch, Englisch, Französisch, Spanisch und Italienisch."
+        "title": "Sprachunabhängige Entdeckung",
+        "description": "Suchen Sie in Ihrer Sprache, während Aura Historia internationale Titel, Anbieterformulierungen und lokale Marktvokabeln lesbar macht, ohne Sie in jede Landessprache zu zwingen.",
+        "visual": {
+          "value": "13.362 + 81.256",
+          "label": "US-Antiquitätengeschäfte plus europäische Second-Hand- und antiquitätennahe Händler – fragmentiert über lokale Märkte und Sprachen."
+        }
+      },
+      "watchlist": {
+        "title": "Private Merkliste",
+        "description": "Verlieren Sie nicht aus dem Blick, was Sie bereits gefunden haben. Speichern Sie Objekte diskret und kehren Sie zurück, wenn Preis, Status oder Verfügbarkeit einen zweiten Blick lohnen.",
+        "visual": {
+          "eyebrow": "Feature-GIF-Platzhalter",
+          "title": "Merkliste mit Änderungsbenachrichtigungen",
+          "description": "Vorgesehen für eine UI-Aufnahme mit gespeicherten Objekten, Preisbewegungen, Statusänderungen und Wiedervorlage-Momenten."
+        }
       },
       "personalFilter": {
-        "title": "Suchaufträge",
-        "description": "Speichern Sie Ihren Suchauftrag und werden Sie über neue oder aktualisierte Antiquitäten benachrichtigt. Die Antiquitäten, nach denen Sie früher gesucht haben, kommen jetzt zu Ihnen."
+        "title": "Suchalarme",
+        "description": "Beschreiben Sie einmal, wonach Sie suchen. Aura Historia beobachtet neu indexierte und aktualisierte Angebote und bringt passende Objekte wieder in Ihren Blick.",
+        "visual": {
+          "eyebrow": "Feature-GIF-Platzhalter",
+          "title": "Alert-Flow für neue Treffer",
+          "description": "Vorgesehen für eine UI-Aufnahme mit gespeicherten Suchkriterien, Alert-Treffern und Benachrichtigungsprüfung."
+        }
+      },
+      "history": {
+        "title": "Objekt-Timeline",
+        "description": "Verfolgen Sie den kommerziellen Verlauf eines Angebots: neu indexiert, auktioniert, verkauft, entfernt, wieder gelistet oder im Preis verändert – damit Marktereignisse nach dem ersten Fund sichtbar bleiben.",
+        "visual": {
+          "eyebrow": "Feature-GIF-Platzhalter",
+          "title": "Ereignisverlauf eines Angebots",
+          "description": "Vorgesehen für eine UI-Aufnahme mit Listing-Ereignissen, Statuswechseln, Verkaufsmomenten und Preisbewegungen."
+        }
       },
       "aiSearchAgent": {
-        "title": "Persönlicher KI-Suchagent",
-        "description": "Ihr persönlicher KI-Agent hilft Ihnen, die spezifischsten Antiquitäten zu finden. In Kombination mit Suchaufträgen beschreiben Sie in natürlicher Sprache, wonach Sie suchen – so detailliert, wie Sie es möchten. Wir benachrichtigen Sie, sobald Treffer mit Ihrer Beschreibung übereinstimmen."
-      },
-      "communityWishes": {
-        "title": "Ihre Wünsche",
-        "description": "Sie haben Kritik, vermissen etwas oder haben eine Idee, was wir verbessern oder ergänzen können? Wir hören sehr genau zu. Kontaktieren Sie uns gern über contact@aura-historia.com und wir machen es möglich."
+        "title": "KI-Discovery-Agent",
+        "description": "Nutzen Sie natürliche Sprache für konkrete Briefings – Epoche, Form, Kategorie, Größe, Stimmung, Budget und Einsatzzweck – und lassen Sie den Agenten den Markt geduldig beobachten.",
+        "visual": {
+          "eyebrow": "Feature-GIF-Platzhalter",
+          "title": "Sammlerbriefing in natürlicher Sprache",
+          "description": "Vorgesehen für eine UI-Aufnahme, in der aus einem sammlerischen Briefing ein beobachteter Discovery-Workflow wird."
+        }
       }
     },
     "howItWorks": {
@@ -602,7 +650,7 @@
         },
         "comparisonBarnebys": {
           "question": "Wie unterscheidet sich Aura Historia von Barnebys?",
-          "answer": "Während Barnebys ebenfalls eine Suchmaschine für Antiquitäten ist, konzentrieren sie sich nur auf die größten Spieler - die großen Auktionshäuser und Händler. Das führt dazu, dass Sie mit einer sehr hohen Wahrscheinlichkeit das verpassen, wonach Sie eigentlich suchen. Fragen Sie sich selbst, wo haben Sie Ihre größten Schätze gefunden? Wahrscheinlich war es ein kleiner lokaler Händler oder sogar ein Secondhand-Laden."
+          "answer": "Barnebys ist besonders stark bei etablierten Auktionen und großen Anbietern. Aura Historia baut eine breitere globale Antiquitäten-Plattform: Händler, Shops, Marktplätze, Merklisten, Übersetzungen und Marktsignale an einem kultivierten Ort – inklusive der kleineren Quellen, in denen ernsthafte Funde oft zuerst auftauchen."
         },
         "comparisonPriceDatabase": {
           "question": "Wie unterscheidet sich Aura Historia von Preisdatenbanken wie WorthPoint und The Salesroom?",

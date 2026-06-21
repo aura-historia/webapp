@@ -10,21 +10,16 @@ describe("HeroSection", () => {
     });
 
     it("renders the badge", () => {
-        expect(screen.getByText("Suche jenseits der üblichen Marktplätze")).toBeInTheDocument();
+        expect(screen.getByText("Für Sammler, Einrichter und den Handel")).toBeInTheDocument();
     });
 
     it("renders the main heading", () => {
-        expect(
-            screen.getByText(
-                "Aura Historia durchsucht Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit – und hilft Ihnen, Stücke zu entdecken, die andere nie sehen.",
-            ),
-        ).toBeInTheDocument();
+        expect(screen.getByText(/Seltene Objekte sollten nicht/)).toBeInTheDocument();
+        expect(screen.getByText(/vom Zufall abhängen/)).toBeInTheDocument();
     });
 
     it("renders the subtitle", () => {
-        expect(
-            screen.getByText(/Aura Historia durchsucht Antiquitätenhändler/),
-        ).toBeInTheDocument();
+        expect(screen.getByText(/globalen Antiquitäten-Plattform/)).toBeInTheDocument();
     });
 
     it("renders the search bar", () => {
@@ -32,8 +27,8 @@ describe("HeroSection", () => {
     });
 
     it("renders all trust badges", () => {
-        expect(screen.getByText("Für ernsthafte Sammler und Händler")).toBeInTheDocument();
-        expect(screen.getByText("Von Antiquitätensammlern")).toBeInTheDocument();
-        expect(screen.getByText("Nahezu Echtzeit")).toBeInTheDocument();
+        expect(screen.getByText("Händler, Auktionen und Marktplätze")).toBeInTheDocument();
+        expect(screen.getByText("Private Merklisten und Marktalarme")).toBeInTheDocument();
+        expect(screen.getByText("Gebaut für globale Entdeckung")).toBeInTheDocument();
     });
 });

@@ -1,3 +1,4 @@
+import watteauGersaintImage from "@/assets/landing-page/watteau-gersaint.webp";
 import { Eye, Languages, Store } from "lucide-react";
 
 export const DISCOVER_HIGHLIGHTS = [
@@ -9,34 +10,22 @@ export const DISCOVER_HIGHLIGHTS = [
     },
     {
         titleKey: "discover.highlight2.title",
+        titleFallbackKey: undefined,
         descKey: "discover.highlight2.description",
         icon: Eye,
     },
     {
         titleKey: "discover.highlight3.title",
+        titleFallbackKey: undefined,
         descKey: "discover.highlight3.description",
         icon: Languages,
     },
-];
+] as const;
 
-export const DISCOVER_STATS = [
-    {
-        valueKey: "discover.stats.shops",
-        labelKey: "discover.stats.shopsLabel",
-        amount: 500,
+export const DISCOVER_ARTWORKS = {
+    watteau: {
+        image: watteauGersaintImage,
+        altKey: "discover.artworks.watteau.alt",
+        captionKey: "discover.artworks.watteau.caption",
     },
-    {
-        valueKey: "discover.stats.items",
-        labelKey: "discover.stats.itemsLabel",
-        amount: 120000,
-    },
-    {
-        valueKey: "discover.stats.updates",
-        labelKey: "discover.stats.updatesLabel",
-    },
-    {
-        valueKey: "discover.stats.countries",
-        labelKey: "discover.stats.countriesLabel",
-        amount: 15,
-    },
-];
+} as const;

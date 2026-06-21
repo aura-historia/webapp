@@ -173,7 +173,7 @@ describe("Footer Component", () => {
             "href",
             "/#recently-added",
         );
-        expect(screen.getByText("Transparenz").closest("a")).toHaveAttribute("href", "/#discover");
+        expect(screen.getByText("Plattform").closest("a")).toHaveAttribute("href", "/#discover");
         expect(screen.getByText("Funktionen").closest("a")).toHaveAttribute("href", "/#features");
         expect(screen.getByText("So funktioniert's").closest("a")).toHaveAttribute(
             "href",

@@ -4,11 +4,11 @@
     "infoButton": "More information"
   },
   "meta": {
-    "siteName": "Aura Historia | Leading Antiques Search Engine",
-    "defaultDescription": "Find antiques easily with Aura Historia. Real-time data from 1000+ auction houses, dealers & marketplaces. Your search for unique antiques starts here.",
+    "siteName": "Aura Historia | Global Antiques Platform",
+    "defaultDescription": "Discover rare antiques, art, and design objects from dealers, auction houses, and marketplaces worldwide — in one refined platform for collectors and professionals.",
     "home": {
-      "title": "Aura Historia | Leading Antiques Search Engine",
-      "description": "Find antiques easily with Aura Historia. Real-time data from 1000+ auction houses, dealers & marketplaces. Your search for unique antiques starts here."
+      "title": "Aura Historia | Global Antiques Platform",
+      "description": "Discover rare antiques, art, and design objects from dealers, auction houses, and marketplaces worldwide — in one refined platform for collectors and professionals."
     },
     "search": {
       "title": "Search Antiques | Aura Historia",
@@ -122,7 +122,7 @@
     },
     "landingPageLinks": {
       "recentlyAdded": "Recently Added",
-      "discover": "Transparency",
+      "discover": "Platform",
       "features": "Features",
       "howItWorks": "How It Works",
       "testimonials": "Testimonials",
@@ -438,80 +438,128 @@
     "scraped": "Publicly Indexed"
   },
   "discover": {
-    "title": "We bring transparency into the opaque landscape of online antiques",
-    "p1": "We search through the vast offerings of thousands of scattered antique dealers, auction houses and marketplaces worldwide every day and bundle their items in one central place.",
-    "p2": "We not only capture current and upcoming items but also track price changes and availability. This way, you never miss a bargain and always keep an eye on the market.",
+    "eyebrow": "The market",
+    "title": "The antiques market is global. Discovery is still fragmented.",
+    "p1": "Antiques have moved online, but inventory remains split across dealer websites, auction calendars, marketplaces, and local shops. Aura Historia brings that scattered supply into one calm, curated platform view.",
+    "p2": "For collectors, decorators, and the trade, that means fewer blind spots: more sources, more context, and a better chance of finding the object others have not noticed yet.",
     "highlight1": {
-      "title": "Over {{count}} Dealers, Auction Houses & Marketplaces",
-      "titleFallback": "Hundreds of Dealers, Auction Houses & Marketplaces",
-      "description": "We continuously search renowned antique dealers, auction houses and marketplaces from all over Europe and beyond."
+      "title": "{{count}}+ Indexed Sources",
+      "titleFallback": "Hundreds of Indexed Sources",
+      "description": "Specialist dealers, auction houses, marketplaces, and shops are brought into one searchable view."
     },
     "highlight2": {
-      "title": "Near Real-Time Monitoring",
-      "description": "Newly offered antiques as well as price- or availability-changes are automatically captured in near real-time."
+      "title": "Market Watch Beyond the Obvious",
+      "description": "New objects, price movements, and availability changes are tracked so meaningful opportunities are easier to see."
     },
     "highlight3": {
-      "title": "Fully Language-agnostic",
-      "description": "We translate every antique into multiple languages. The language in which you search does not matter. We currently support English, German, French, Spanish and Italian."
+      "title": "Research Across Languages",
+      "description": "Search in your preferred language while Aura Historia interprets the vocabulary of international sellers."
     },
-    "stats": {
-      "shops": "500",
-      "shopsLabel": "Connected Shops",
-      "items": "120,000",
-      "itemsLabel": "Unique Items",
-      "updates": "24/7",
-      "updatesLabel": "Near Real-Time Updates",
-      "countries": "15",
-      "countriesLabel": "Countries Covered"
+    "artworks": {
+      "watteau": {
+        "alt": "Antoine Watteau's The Shop Sign of the Art Dealer Gersaint, showing a refined art dealer's interior.",
+        "caption": "Antoine Watteau, The Shop Sign of the Art Dealer Gersaint, 1720–1721"
+      }
     }
   },
   "landingPage": {
-    "badge": "Search beyond the usual marketplaces",
-    "titleFirstLine": "Discover rare antiques<1/>across the global market",
-    "subtitle": "Aura Historia searches antique dealers, auction houses, and marketplaces worldwide — helping you uncover pieces others never see.",
-    "trustBadge1": "Dealers and auction houses worldwide",
-    "trustBadge2": "Continuously updated listings",
-    "trustBadge3": "Built for serious collectors",
+    "badge": "For collectors, decorators, and the trade",
+    "titleFirstLine": "Rare objects should not depend<1/>on lucky discovery",
+    "subtitle": "Aura Historia brings dealers, auction houses, and specialist inventory into one global antiques platform — so collectors and professionals can find the right piece before it disappears into another silo.",
+    "trustBadge1": "Dealers, auctions, and marketplaces",
+    "trustBadge2": "Private watchlists and market alerts",
+    "trustBadge3": "Built for global discovery",
     "recentlyAdded": {
       "eyebrow": "Recently Added",
       "title": "The Latest Acquisitions",
       "foundAt": "Found at {{shopName}}."
     },
+    "artworkStories": {
+      "ariaLabel": "Editorial artwork stories",
+      "eyebrow": "Curated perspectives",
+      "title": "Objects with a past deserve more than a results page",
+      "description": "Rarity is rarely obvious from a title alone. Seller context, category language, availability, and timing all shape whether an object deserves a closer look.",
+      "connoisseurship": {
+        "eyebrow": "Connoisseurship & context",
+        "title": "Every object needs context",
+        "description": "Aura Historia is built for buyers who want to read beyond the listing title: seller context, category language, comparable listings, price movement, and availability across the market.",
+        "supporting": "The goal is not to make collecting obscure. It is to give serious curiosity the structure it deserves.",
+        "imageAlt": "Hans Holbein the Younger's painting The Ambassadors, shown as a study in scholarship and connoisseurship.",
+        "caption": "Hans Holbein the Younger, The Ambassadors, 1533"
+      },
+      "globalCollecting": {
+        "eyebrow": "Global collecting",
+        "title": "A cabinet of rare finds, continuously re-ordered",
+        "description": "From silver and ceramics to scientific instruments, textiles, furniture, and works on paper, the online antiques world rewards those who look beyond the obvious channels.",
+        "supporting": "Aura Historia gathers that long tail into a field where unusual categories and specialist dealers can be discovered with less friction.",
+        "imageAlt": "The Paston Treasure, a still life crowded with globally traded luxury objects and rarities.",
+        "caption": "The Paston Treasure, c. 1663"
+      }
+    },
     "features": {
-      "title": "Antiques are scattered everywhere online - your search shouldn't be",
-      "subtitle": "We are the most sophisticated search engine for antiques and provide you with all the tools to efficiently search the antiques market.",
-      "previewBadge": "Coming soon",
-      "search": {
-        "title": "Intelligent Search",
-        "description": "Search hundreds of thousands of items with our powerful search engine. Cut out all the noise by filtering for condition, price, dealer, and much more."
+      "eyebrow": "Platform features",
+      "title": "A platform for people who look closer",
+      "subtitle": "Built for collectors, decorators, and the trade: one disciplined workspace for a global market that is too large, too local, and too fragmented to follow by habit alone.",
+      "note": "Aura Historia is not another auction-only surface. It is built to bring dealers, specialist shops, marketplaces, and auction inventory into the same field of discovery.",
+      "marketScale": {
+        "title": "A market larger than any single marketplace",
+        "description": "Aura Historia is built for a global art-and-antiques market measured in tens of billions of dollars and tens of millions of yearly transactions.",
+        "visual": {
+          "value": "USD 59.6B",
+          "label": "Global art-and-antiques sales in 2025, across 41.5M transactions."
+        }
       },
-      "global": {
-        "title": "Worldwide Coverage",
-        "description": "We connect you with renowned antique dealers from over 15 countries – from Germany to the USA. No matter how small the dealer, if he has an online-shop, we are adding it."
-      },
-      "history": {
-        "title": "Change History",
-        "description": "Track all changes to an item – from price adjustments to status changes. We opt for the maximum amount of transparency."
-      },
-      "watchlist": {
-        "title": "Personal Watchlist",
-        "description": "Save interesting items and keep track of their development. Get notified when price or availability changes."
+      "beyondAuction": {
+        "title": "Beyond auction houses",
+        "description": "Auction feeds are only part of the market. Aura Historia is designed to surface trusted dealers and smaller specialist sellers alongside auctions, where many relevant objects never reach auction-only platforms.",
+        "visual": {
+          "value": "34.8B / 20.7B",
+          "label": "USD dealer sales versus public auction sales in 2025; private auction sales added just under USD 4.2B."
+        }
       },
       "translations": {
-        "title": "Automatic Translations",
-        "description": "Search and discover all items in your preferred language, without any barriers. We currently support English, German, French, Spanish and Italian."
+        "title": "Language-independent discovery",
+        "description": "Search in your language while Aura Historia helps read international titles, seller wording, and local market vocabulary without forcing you into every country’s terminology.",
+        "visual": {
+          "value": "13,362 + 81,256",
+          "label": "US antique-store businesses plus European second-hand and antique-adjacent retailers — fragmented across local markets and languages."
+        }
+      },
+      "watchlist": {
+        "title": "Private Watchlist",
+        "description": "Do not lose sight of what you have already found. Save objects discreetly and return when price, status, or availability changes make a second look worthwhile.",
+        "visual": {
+          "eyebrow": "Feature GIF placeholder",
+          "title": "Watchlist with change notifications",
+          "description": "Reserved for a UI recording of saved objects, price movement, status changes, and return-to-review moments."
+        }
       },
       "personalFilter": {
-        "title": "Search Requests",
-        "description": "Save your search request and get notified about new offers or updated items. The antiques you used to search for, now come to you."
+        "title": "Search Alerts",
+        "description": "Describe what you are looking for once. Aura Historia watches newly indexed and updated inventory, then brings the right objects back into view.",
+        "visual": {
+          "eyebrow": "Feature GIF placeholder",
+          "title": "Alert flow for new matches",
+          "description": "Reserved for a UI recording of saved search criteria, alert matches, and notification review."
+        }
+      },
+      "history": {
+        "title": "Item Timeline",
+        "description": "Follow the commercial life of a listing: newly indexed, auctioned, sold, removed, relisted, or changed in price — so market events remain visible after the first discovery.",
+        "visual": {
+          "eyebrow": "Feature GIF placeholder",
+          "title": "Event history for a listing",
+          "description": "Reserved for a UI recording of listing events, status changes, sale moments, and price movements."
+        }
       },
       "aiSearchAgent": {
-        "title": "Personal AI Search Agent",
-        "description": "Your personal AI agent helps you find the most specific antiques. In combination with search requests, describe what you're looking for in plain language - as detailed as you wish. We will notify you as soon as hits match what you described."
-      },
-      "communityWishes": {
-        "title": "Your wishes",
-        "description": "You have critique, are missing something or have an idea what we should improve or add? We'll listen very closely. Contact us at contact@aura-historia.com and we will make it happen."
+        "title": "AI Discovery Agent",
+        "description": "Use natural language for specific briefs — era, form, category, scale, mood, budget, and intended use — and let the agent watch the market with patience.",
+        "visual": {
+          "eyebrow": "Feature GIF placeholder",
+          "title": "Natural-language collecting brief",
+          "description": "Reserved for a UI recording of a collector-style brief becoming a monitored discovery workflow."
+        }
       }
     },
     "howItWorks": {
@@ -604,7 +652,7 @@
         },
         "comparisonBarnebys": {
           "question": "How does Aura Historia compare to Barnebys?",
-          "answer": "While Barnebys is also an antiques search engine, they only focus on the largest players - the big auction houses and dealers. This makes up for a very high chance for you to miss out on what you're actually searching for. Ask yourself, where did I find my biggest treasures? It probably was a small local dealer or even thrift store."
+          "answer": "Barnebys is strongest around established auctions and major players. Aura Historia is building a broader global antiques platform: dealers, shops, marketplaces, watchlists, translations, and market signals in one refined place — including the smaller sources where serious finds often appear."
         },
         "comparisonPriceDatabase": {
           "question": "How does Aura Historia compare to price databases like WorthPoint and the salesroom?",

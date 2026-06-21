@@ -18,20 +18,9 @@ export default function HeroSection() {
     }, []);
 
     return (
-        <section className="hero-section-safari-offset min-h-screen flex items-center justify-center relative overflow-hidden">
-            {/* Background image */}
-            <img
-                src="https://assets.aura-historia.com/webapp/landing-page/lorrain.webp"
-                alt=""
-                aria-hidden="true"
-                className="absolute inset-0 w-full h-full object-cover object-center opacity-40"
-            />
-
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-linear-to-b from-background/00 via-background/50 to-background" />
-
-            <div className="w-full max-w-4xl px-4 pt-8 relative z-10">
-                <div className="text-center">
+        <section className="landing-hero hero-section-safari-offset flex items-center justify-center relative overflow-visible">
+            <div className="landing-hero-content w-full px-4 pt-8 relative z-10">
+                <div>
                     <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-card text-foreground text-xs sm:text-sm font-medium mt-0 mb-6">
                         <Shield className="w-4 h-4 hidden sm:inline" aria-hidden="true" />{" "}
                         {t("landingPage.badge")}
@@ -44,7 +33,7 @@ export default function HeroSection() {
                     {t("landingPage.subtitle")}
                 </p>
                 <Card
-                    className={`p-2 sm:mt-8 mt-6 bg-surface-container hero-search-shadow transition-all duration-500 ease-in-out ${
+                    className={`landing-hero-search-box p-2! sm:mt-8 mt-6 border-outline-variant/10 transition-all duration-500 ease-in-out ${
                         isScrolled ? "opacity-0 pointer-events-none" : "opacity-100"
                     }`}
                 >
