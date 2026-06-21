@@ -1,10 +1,10 @@
 import {
-    BARNEBYS_COMPARISON_DESCRIPTION,
-    BARNEBYS_COMPARISON_FAQS,
-    BARNEBYS_COMPARISON_TITLE,
+    BARNEBYS_COMPARISON_FAQ_KEYS,
     BarnebysComparisonPage,
+    getBarnebysComparisonTranslationKey,
 } from "@/features/comparison/components/BarnebysComparisonPage.tsx";
 import { env } from "@/env";
+import i18n from "@/i18n/i18n.ts";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -16,6 +16,8 @@ export const Route = createFileRoute("/compare/barnebys")({
             pageKey: "compareBarnebys",
             url: CANONICAL_URL,
         });
+        const title = i18n.t("meta.compareBarnebys.title");
+        const description = i18n.t("meta.compareBarnebys.description");
 
         return {
             ...head,
@@ -25,15 +27,35 @@ export const Route = createFileRoute("/compare/barnebys")({
                     children: JSON.stringify({
                         "@context": "https://schema.org",
                         "@type": "WebPage",
-                        name: BARNEBYS_COMPARISON_TITLE,
-                        description: BARNEBYS_COMPARISON_DESCRIPTION,
+                        name: title,
+                        description,
                         url: CANONICAL_URL,
                         about: [
-                            "antiques search engine",
-                            "auction aggregation",
-                            "multilingual antiques search",
-                            "near real-time antiques alerts",
-                            "AI-assisted antiques discovery",
+                            i18n.t(
+                                getBarnebysComparisonTranslationKey(
+                                    "structuredData.about.searchEngine",
+                                ),
+                            ),
+                            i18n.t(
+                                getBarnebysComparisonTranslationKey(
+                                    "structuredData.about.auctionAggregation",
+                                ),
+                            ),
+                            i18n.t(
+                                getBarnebysComparisonTranslationKey(
+                                    "structuredData.about.multilingualSearch",
+                                ),
+                            ),
+                            i18n.t(
+                                getBarnebysComparisonTranslationKey(
+                                    "structuredData.about.realTimeAlerts",
+                                ),
+                            ),
+                            i18n.t(
+                                getBarnebysComparisonTranslationKey(
+                                    "structuredData.about.aiDiscovery",
+                                ),
+                            ),
                         ],
                     }),
                 },
@@ -42,12 +64,18 @@ export const Route = createFileRoute("/compare/barnebys")({
                     children: JSON.stringify({
                         "@context": "https://schema.org",
                         "@type": "FAQPage",
-                        mainEntity: BARNEBYS_COMPARISON_FAQS.map((faq) => ({
+                        mainEntity: BARNEBYS_COMPARISON_FAQ_KEYS.map((faqKey) => ({
                             "@type": "Question",
-                            name: faq.question,
+                            name: i18n.t(
+                                getBarnebysComparisonTranslationKey(`faq.items.${faqKey}.question`),
+                            ),
                             acceptedAnswer: {
                                 "@type": "Answer",
-                                text: faq.answer,
+                                text: i18n.t(
+                                    getBarnebysComparisonTranslationKey(
+                                        `faq.items.${faqKey}.answer`,
+                                    ),
+                                ),
                             },
                         })),
                     }),

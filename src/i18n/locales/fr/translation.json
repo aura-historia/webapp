@@ -1794,5 +1794,202 @@
         "completed": "Terminé"
       }
     }
+  },
+  "compareBarnebysPage": {
+    "structuredData": {
+      "about": {
+        "searchEngine": "moteur de recherche d'antiquités",
+        "auctionAggregation": "agrégation de ventes aux enchères",
+        "multilingualSearch": "recherche d'antiquités multilingue",
+        "realTimeAlerts": "alertes d'antiquités quasi en temps réel",
+        "aiDiscovery": "découverte d'antiquités assistée par IA"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparaison : Aura Historia vs Barnebys",
+      "title": "Un moteur de recherche d'antiquités plus large qu'un agrégateur d'enchères",
+      "subtitle": "Barnebys a contribué à rendre les catalogues des maisons de ventes plus faciles à rechercher. Aura Historia part d'une idée plus large : les collectionneurs exigeants devraient voir tout le marché en ligne des antiquités, et pas seulement le flux d'enchères le plus connu.",
+      "primaryCta": "Rechercher sur le marché élargi",
+      "secondaryCta": "Voir le tableau comparatif",
+      "quickAnswerEyebrow": "Réponse rapide",
+      "quickAnswerTitle": "Barnebys est respecté. Aura Historia est plus large.",
+      "quickAnswerDescription": "Verdict : choisissez Barnebys pour parcourir les maisons de ventes de façon familière. Choisissez Aura Historia si vous voulez réunir maisons de ventes, marchands, marketplaces, vendeurs privés, traductions et suivi quasi en temps réel dans une seule couche de recherche."
+    },
+    "quickVerdicts": {
+      "auctionDiscovery": {
+        "label": "Meilleur pour découvrir les maisons de ventes établies",
+        "value": "Barnebys"
+      },
+      "marketSearch": {
+        "label": "Meilleur pour rechercher sur tout le marché des antiquités",
+        "value": "Aura Historia"
+      },
+      "multilingualDiscovery": {
+        "label": "Meilleur pour la découverte multilingue",
+        "value": "Aura Historia"
+      },
+      "realTimeMonitoring": {
+        "label": "Meilleur pour le suivi quasi en temps réel",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "eyebrow": "Résumé",
+      "title": "La version courte",
+      "paragraph1": "Aura Historia est la meilleure alternative à Barnebys pour les collectionneurs, les marchands, les chercheurs et toute personne qui a besoin d'une découverte large des antiquités plutôt que d'une simple agrégation d'enchères.",
+      "paragraph2": "Barnebys mérite d'être reconnu pour son histoire dans la recherche d'enchères. Aura Historia gagne la comparaison pratique en indexant davantage de types de sources, en traduisant et normalisant les textes d'annonces, en surveillant les changements quasi en temps réel et en s'appuyant sur une recherche moderne assistée par IA."
+    },
+    "respect": {
+      "eyebrow": "Rendre hommage quand c'est mérité",
+      "title": "Barnebys a contribué à définir l'agrégation d'enchères",
+      "paragraph1": "Une comparaison équitable doit commencer ici : Barnebys est un nom connu dans le monde des ventes aux enchères d'antiquités. Pour de nombreux acheteurs, il a rendu les catalogues dispersés des maisons de ventes plus consultables et plus accessibles.",
+      "paragraph2": "C'est utile. Mais ce n'est pas la même chose que voir tout le marché en ligne. Les objets que recherchent les collectionneurs se trouvent dans de grandes maisons de ventes, chez des commissaires-priseurs régionaux, des marchands spécialisés, des boutiques indépendantes, des marketplaces et parfois chez des vendeurs privés. Aura Historia est conçu pour cette réalité plus large."
+    },
+    "advantages": {
+      "eyebrow": "Là où Aura Historia est conçu pour gagner",
+      "title": "Plus de sources, des signaux plus rapides, moins de barrières linguistiques",
+      "description": "La différence centrale n'est pas une seule fonctionnalité. C'est l'avantage cumulatif d'un index plus large, associé à des données plus propres et à des alertes plus rapides.",
+      "cards": {
+        "marketBeyondAuctions": {
+          "title": "Le marché au-delà des catalogues d'enchères",
+          "description": "Aura Historia est conçu pour indexer les lieux en ligne où les antiquités sont réellement vendues : maisons de ventes, plateformes d'enchères, marchands spécialisés, vendeurs privés, marketplaces et plus encore."
+        },
+        "nearRealTimeAlerts": {
+          "title": "Alertes quasi en temps réel",
+          "description": "Pour les pièces rares, une journée peut compter. Aura Historia surveille les nouvelles annonces, les changements de prix et la disponibilité au plus près du moment où ils se produisent, au lieu de s'appuyer sur un seul rythme quotidien."
+        },
+        "languagePenalties": {
+          "title": "Rechercher sans pénalité de langue",
+          "description": "Les annonces sont traduites et la terminologie est alignée entre les langues prises en charge, afin qu'une recherche en anglais, allemand, français, espagnol ou italien puisse trouver les mêmes objets sous-jacents."
+        },
+        "aiForwardMatching": {
+          "title": "Correspondance orientée IA",
+          "description": "Nous nous appuyons sur l'IA moderne, la recherche sémantique et la normalisation multilingue afin que les recherches enregistrées deviennent plus précises sans devenir plus étroites."
+        }
+      }
+    },
+    "scorecard": {
+      "eyebrow": "Le tableau comparatif",
+      "title": "Aura Historia vs Barnebys, côte à côte",
+      "description": "Barnebys garde une place claire pour la découverte axée sur les enchères. Aura Historia est conçu pour les acheteurs qui veulent un marché des antiquités plus large et une couche de suivi plus moderne.",
+      "caption": "Comparaison d'Aura Historia et de Barnebys pour la recherche d'antiquités",
+      "headers": {
+        "criterion": "Critère",
+        "barnebys": "Barnebys",
+        "auraHistoria": "Aura Historia",
+        "practicalEdge": "Avantage pratique"
+      },
+      "rows": {
+        "auctionHeritage": {
+          "criterion": "Héritage des maisons de ventes",
+          "barnebys": "Un nom établi depuis longtemps dans l'agrégation d'enchères d'antiquités, largement reconnu par les acheteurs axés sur les ventes.",
+          "auraHistoria": "Un moteur de recherche plus récent, conçu dès le départ autour d'un modèle de sources plus large et d'un enrichissement moderne des données.",
+          "verdict": "Barnebys pour la reconnaissance historique",
+          "whyItMatters": "Si vous parcourez surtout de grands catalogues d'enchères, Barnebys occupe une position familière et éprouvée."
+        },
+        "sourceCoverage": {
+          "criterion": "Couverture des sources",
+          "barnebys": "Particulièrement fort autour des maisons de ventes et des plateformes d'enchères, notamment les catalogues établis.",
+          "auraHistoria": "Indexe maisons de ventes, plateformes d'enchères, marchands, vendeurs privés, marketplaces et autres sources en ligne où apparaissent des antiquités.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "De nombreuses trouvailles précieuses ne commencent jamais dans un grand catalogue d'enchères. Une couverture plus large crée plus d'opportunités."
+        },
+        "alertSpeed": {
+          "criterion": "Vitesse des alertes",
+          "barnebys": "Les alertes de recherche suivent un rythme de vérification quotidien, y compris la fenêtre connue de 18:00 CEST.",
+          "auraHistoria": "Suivi quasi en temps réel des nouvelles annonces découvertes ainsi que des changements de prix et de disponibilité.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Plus un acheteur voit tôt un objet rare, plus il a d'options avant qu'il soit réservé, vendu ou que les enchères montent."
+        },
+        "languageHandling": {
+          "criterion": "Gestion des langues",
+          "barnebys": "Conserve souvent le texte de l'annonce proche de la langue et de la terminologie de la source.",
+          "auraHistoria": "Traduit les annonces en plusieurs langues et aligne la terminologie des antiquités entre les langues.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "La langue d'un vendeur ne devrait pas déterminer si un collectionneur peut découvrir un objet."
+        },
+        "alertRelevance": {
+          "criterion": "Pertinence des alertes",
+          "barnebys": "Utile pour des veilles d'enchères larges, avec une correspondance par mots-clés qui peut parfois faire apparaître des lots voisins dans la boîte de réception.",
+          "auraHistoria": "Conçu autour de données d'objets normalisées et d'une correspondance plus précise, afin que les alertes soient à la fois plus larges en couverture et plus sélectives en pertinence.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Les collectionneurs ont besoin de signal, pas seulement de volume. Chaque notification devrait mériter d'être ouverte."
+        },
+        "technologyDirection": {
+          "criterion": "Orientation technologique",
+          "barnebys": "Une expérience mature de recherche d'enchères pour les acheteurs qui connaissent l'écosystème des ventes.",
+          "auraHistoria": "Une couche de recherche orientée IA pour l'ensemble du marché des antiquités, combinant indexation, traductions, correspondance sémantique et suivi.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "La découverte moderne ne consiste pas seulement à disposer de données ; elle consiste à comprendre ce que l'acheteur veut dire à travers les langues et les sources."
+        }
+      }
+    },
+    "downstream": {
+      "eyebrow": "Pourquoi l'étendue des sources se renforce",
+      "title": "Couvrir plus que les enchères change ce que vous pouvez savoir",
+      "sources": {
+        "auctionHouses": "Maisons de ventes",
+        "auctionPlatforms": "Plateformes d'enchères",
+        "antiqueDealers": "Marchands d'antiquités",
+        "privateSellers": "Vendeurs privés",
+        "marketplaces": "Marketplaces"
+      },
+      "cards": {
+        "underRadarInventory": {
+          "title": "Trouver des objets sous le radar",
+          "description": "De petits marchands, des marketplaces de niche et des vendeurs privés peuvent proposer des objets exceptionnels bien avant qu'ils n'apparaissent dans un grand canal d'enchères."
+        },
+        "realMarket": {
+          "title": "Comparer le marché réel",
+          "description": "Les estimations d'enchères racontent une histoire. Les prix demandés par les marchands, les annonces de marketplaces et les changements récents de disponibilité rendent l'image du marché plus complète."
+        },
+        "beforeDigest": {
+          "title": "Agir avant le résumé quotidien",
+          "description": "Le suivi quasi en temps réel est pensé pour les inventaires rares, où le meilleur moment pour décider est souvent celui où une annonce apparaît."
+        },
+        "acrossBorders": {
+          "title": "Rechercher au-delà des frontières",
+          "description": "Lorsque la terminologie est traduite et alignée, un collectionneur n'est plus limité par la langue utilisée par le vendeur ou le commissaire-priseur."
+        }
+      }
+    },
+    "alerts": {
+      "eyebrow": "Une note polie sur les alertes",
+      "title": "Un résumé quotidien est ordonné. Les objets rares ne le sont pas.",
+      "paragraph1": "Les alertes Barnebys sont une façon utile de suivre des recherches liées aux enchères, surtout pour des veilles larges. Mais un rythme quotidien peut arriver tard pour des pièces rares, et une correspondance large par mots-clés peut parfois faire remonter des lots voisins qui ne correspondent pas tout à fait à l'intention du collectionneur.",
+      "paragraph2": "Aura Historia est conçu pour un autre niveau d'exigence : signaux quasi en temps réel, terminologie traduite, données normalisées et alertes qui visent à rester pertinentes tout en surveillant une plus grande partie du marché. Si une notification demande de l'attention, ne devrait-elle pas la mériter ?"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Questions fréquentes sur Aura Historia et Barnebys",
+      "items": {
+        "alternative": {
+          "question": "Aura Historia est-il une alternative à Barnebys ?",
+          "answer": "Oui. Aura Historia est une alternative à Barnebys pour les acheteurs qui veulent chercher au-delà de l'agrégation de maisons de ventes et surveiller maisons de ventes, marchands, marketplaces, vendeurs privés et autres sources d'antiquités en ligne au même endroit."
+        },
+        "replace": {
+          "question": "Aura Historia remplace-t-il Barnebys ?",
+          "answer": "Si vous voulez seulement une façon familière de parcourir des catalogues établis de maisons de ventes, Barnebys reste une option respectée. Si vous voulez une couverture en ligne plus large, une découverte multilingue, des alertes quasi en temps réel et une correspondance assistée par IA, Aura Historia est conçu pour être le choix le plus fort."
+        },
+        "fasterAlerts": {
+          "question": "Quel service propose les alertes d'antiquités les plus rapides ?",
+          "answer": "Aura Historia est conçu pour un suivi quasi en temps réel. Les alertes de recherche Barnebys suivent un rythme de vérification quotidien, y compris la fenêtre connue de 18:00 CEST."
+        },
+        "multilingualSearch": {
+          "question": "Quel service est meilleur pour la recherche d'antiquités multilingue ?",
+          "answer": "Aura Historia est conçu pour traduire les annonces et aligner la terminologie entre les langues prises en charge. La langue de recherche devrait donc compter moins, que l'annonce originale soit en anglais, allemand, français, espagnol, italien ou dans une autre langue source."
+        },
+        "outsideAuctions": {
+          "question": "Quel service est meilleur pour trouver des antiquités hors enchères ?",
+          "answer": "Aura Historia. Son avantage central est une couverture de sources plus large : maisons de ventes, plateformes d'enchères, marchands, vendeurs privés, marketplaces et autres lieux en ligne où les antiquités sont vendues."
+        }
+      }
+    },
+    "finalCta": {
+      "eyebrow": "Verdict final",
+      "title": "Barnebys est utile pour les enchères. Aura Historia est conçu pour le marché des antiquités.",
+      "description": "Si votre recherche doit inclure les lieux où les antiquités sont réellement vendues en ligne, commencez avec Aura Historia.",
+      "button": "Commencer à rechercher des antiquités"
+    }
   }
 }

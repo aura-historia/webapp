@@ -1794,5 +1794,202 @@
         "completed": "Completado"
       }
     }
+  },
+  "compareBarnebysPage": {
+    "structuredData": {
+      "about": {
+        "searchEngine": "motor de búsqueda de antigüedades",
+        "auctionAggregation": "agregación de subastas",
+        "multilingualSearch": "búsqueda multilingüe de antigüedades",
+        "realTimeAlerts": "alertas de antigüedades casi en tiempo real",
+        "aiDiscovery": "descubrimiento de antigüedades asistido por IA"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparación: Aura Historia vs Barnebys",
+      "title": "Un motor de búsqueda de antigüedades más amplio que un agregador de subastas",
+      "subtitle": "Barnebys ayudó a que los catálogos de casas de subastas fueran más fáciles de buscar. Aura Historia parte de una premisa más amplia: los coleccionistas exigentes deberían ver todo el mercado online de antigüedades, no solo el flujo de subastas más conocido.",
+      "primaryCta": "Buscar en el mercado más amplio",
+      "secondaryCta": "Ver la tabla comparativa",
+      "quickAnswerEyebrow": "Respuesta rápida",
+      "quickAnswerTitle": "Barnebys es respetado. Aura Historia es más amplio.",
+      "quickAnswerDescription": "Veredicto: elige Barnebys para navegar de forma familiar por casas de subastas. Elige Aura Historia si quieres casas de subastas, comerciantes, marketplaces, vendedores privados, traducciones y monitorización casi en tiempo real en una sola capa de búsqueda."
+    },
+    "quickVerdicts": {
+      "auctionDiscovery": {
+        "label": "Mejor para descubrir casas de subastas establecidas",
+        "value": "Barnebys"
+      },
+      "marketSearch": {
+        "label": "Mejor para buscar en todo el mercado de antigüedades",
+        "value": "Aura Historia"
+      },
+      "multilingualDiscovery": {
+        "label": "Mejor para descubrimiento multilingüe",
+        "value": "Aura Historia"
+      },
+      "realTimeMonitoring": {
+        "label": "Mejor para monitorización casi en tiempo real",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "eyebrow": "Resumen",
+      "title": "La versión corta",
+      "paragraph1": "Aura Historia es la mejor alternativa a Barnebys para coleccionistas, comerciantes, investigadores y cualquiera que necesite descubrir antigüedades de forma amplia, no solo agregar subastas.",
+      "paragraph2": "Barnebys merece reconocimiento por su historia en la búsqueda de subastas. Aura Historia gana la comparación práctica al indexar más tipos de fuentes, traducir y normalizar textos de anuncios, monitorizar cambios casi en tiempo real y apoyarse en una búsqueda moderna asistida por IA."
+    },
+    "respect": {
+      "eyebrow": "Reconocimiento cuando corresponde",
+      "title": "Barnebys ayudó a definir la agregación de subastas",
+      "paragraph1": "Una comparación justa debe empezar aquí: Barnebys es un nombre conocido en el mundo de las subastas de antigüedades. Para muchos compradores, hizo que los catálogos dispersos de casas de subastas fueran más buscables y accesibles.",
+      "paragraph2": "Eso es útil. Pero no es lo mismo que ver todo el mercado online. Los objetos que buscan los coleccionistas están repartidos entre grandes casas de subastas, subastadores regionales, comerciantes especializados, tiendas independientes, marketplaces y a veces vendedores privados. Aura Historia está diseñado para esa realidad más amplia."
+    },
+    "advantages": {
+      "eyebrow": "Dónde Aura Historia está diseñado para ganar",
+      "title": "Más fuentes, señales más rápidas, menos barreras lingüísticas",
+      "description": "La diferencia central no es una sola función. Es la ventaja acumulada de un índice más amplio combinado con datos más limpios y alertas más rápidas.",
+      "cards": {
+        "marketBeyondAuctions": {
+          "title": "El mercado más allá de los catálogos de subastas",
+          "description": "Aura Historia está creado para indexar los lugares online donde realmente se venden antigüedades: casas de subastas, plataformas de subastas, comerciantes especializados, vendedores privados, marketplaces y más."
+        },
+        "nearRealTimeAlerts": {
+          "title": "Alertas casi en tiempo real",
+          "description": "Para piezas raras, un día puede importar. Aura Historia monitoriza nuevos anuncios, cambios de precio y disponibilidad cerca del momento en que ocurren, en lugar de depender de un único ritmo diario."
+        },
+        "languagePenalties": {
+          "title": "Busca sin penalización por idioma",
+          "description": "Los anuncios se traducen y la terminología se alinea entre los idiomas admitidos, de modo que una búsqueda en inglés, alemán, francés, español o italiano pueda encontrar los mismos objetos subyacentes."
+        },
+        "aiForwardMatching": {
+          "title": "Matching orientado a IA",
+          "description": "Construimos sobre IA moderna, búsqueda semántica y normalización multilingüe para que las búsquedas guardadas sean más precisas sin volverse más estrechas."
+        }
+      }
+    },
+    "scorecard": {
+      "eyebrow": "La tabla comparativa",
+      "title": "Aura Historia vs Barnebys, lado a lado",
+      "description": "Barnebys mantiene un lugar claro para el descubrimiento centrado en subastas. Aura Historia está diseñado para compradores que quieren el mercado de antigüedades más amplio y una capa de monitorización más moderna.",
+      "caption": "Comparación de Aura Historia y Barnebys para la búsqueda de antigüedades",
+      "headers": {
+        "criterion": "Criterio",
+        "barnebys": "Barnebys",
+        "auraHistoria": "Aura Historia",
+        "practicalEdge": "Ventaja práctica"
+      },
+      "rows": {
+        "auctionHeritage": {
+          "criterion": "Trayectoria en casas de subastas",
+          "barnebys": "Un nombre establecido desde hace tiempo en la agregación de subastas de antigüedades, con amplio reconocimiento entre compradores orientados a subastas.",
+          "auraHistoria": "Un motor de búsqueda más nuevo, creado desde el primer día alrededor de un modelo de fuentes más amplio y enriquecimiento moderno de datos.",
+          "verdict": "Barnebys por reconocimiento histórico",
+          "whyItMatters": "Si principalmente exploras grandes catálogos de subastas, Barnebys tiene una posición familiar y probada."
+        },
+        "sourceCoverage": {
+          "criterion": "Cobertura de fuentes",
+          "barnebys": "Más fuerte alrededor de casas de subastas y plataformas de subastas, especialmente catálogos establecidos.",
+          "auraHistoria": "Indexa casas de subastas, plataformas de subastas, comerciantes, vendedores privados, marketplaces y otras fuentes online donde aparecen antigüedades.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Muchos hallazgos valiosos nunca empiezan en un gran catálogo de subastas. Una cobertura más amplia crea oportunidades más amplias."
+        },
+        "alertSpeed": {
+          "criterion": "Velocidad de las alertas",
+          "barnebys": "Las alertas de búsqueda siguen un patrón de revisión diario, incluida la ventana conocida de las 18:00 CEST.",
+          "auraHistoria": "Monitorización casi en tiempo real de nuevos anuncios descubiertos, además de cambios de precio y disponibilidad.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Cuanto antes vea un comprador una pieza rara, más opciones tendrá antes de que se reserve, se venda o suba en pujas."
+        },
+        "languageHandling": {
+          "criterion": "Gestión del idioma",
+          "barnebys": "A menudo mantiene el texto del anuncio cerca del idioma nativo de la fuente y de su terminología original.",
+          "auraHistoria": "Traduce anuncios a varios idiomas y alinea la terminología de antigüedades entre idiomas.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "El idioma de un vendedor no debería decidir si un coleccionista puede descubrir un objeto."
+        },
+        "alertRelevance": {
+          "criterion": "Relevancia de las alertas",
+          "barnebys": "Útil para seguimientos amplios de subastas, aunque el matching amplio por palabras clave puede llevar ocasionalmente lotes relacionados al buzón.",
+          "auraHistoria": "Diseñado alrededor de datos de objetos normalizados y matching más preciso, para que las alertas puedan ser más amplias en cobertura y más selectivas en relevancia.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Los coleccionistas necesitan señal, no solo volumen. Cada notificación debería merecer ser abierta."
+        },
+        "technologyDirection": {
+          "criterion": "Dirección tecnológica",
+          "barnebys": "Una experiencia madura de búsqueda de subastas para compradores que conocen el ecosistema de subastas.",
+          "auraHistoria": "Una capa de búsqueda orientada a IA para todo el mercado de antigüedades, que combina indexación, traducciones, matching semántico y monitorización.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "El descubrimiento moderno no consiste solo en tener datos; consiste en entender lo que quiere decir un comprador entre idiomas y fuentes."
+        }
+      }
+    },
+    "downstream": {
+      "eyebrow": "Por qué la amplitud de fuentes se multiplica",
+      "title": "Cubrir más que subastas cambia lo que puedes saber",
+      "sources": {
+        "auctionHouses": "Casas de subastas",
+        "auctionPlatforms": "Plataformas de subastas",
+        "antiqueDealers": "Comerciantes de antigüedades",
+        "privateSellers": "Vendedores privados",
+        "marketplaces": "Marketplaces"
+      },
+      "cards": {
+        "underRadarInventory": {
+          "title": "Encuentra inventario bajo el radar",
+          "description": "Pequeños comerciantes, marketplaces de nicho y vendedores privados pueden publicar objetos excepcionales mucho antes de que aparezcan en un gran canal de subastas."
+        },
+        "realMarket": {
+          "title": "Compara el mercado real",
+          "description": "Las estimaciones de subasta cuentan una historia. Los precios pedidos por comerciantes, los anuncios en marketplaces y los cambios recientes de disponibilidad hacen que la imagen del mercado sea más completa."
+        },
+        "beforeDigest": {
+          "title": "Actúa antes del resumen diario",
+          "description": "La monitorización casi en tiempo real está pensada para inventario escaso, donde el mejor momento para decidir suele ser el momento en que aparece un anuncio."
+        },
+        "acrossBorders": {
+          "title": "Busca a través de fronteras",
+          "description": "Cuando la terminología se traduce y se alinea, el coleccionista deja de estar limitado por el idioma utilizado por el vendedor o subastador."
+        }
+      }
+    },
+    "alerts": {
+      "eyebrow": "Una nota amable sobre las alertas",
+      "title": "Un resumen diario es ordenado. El inventario raro no lo es.",
+      "paragraph1": "Las alertas de Barnebys son una forma útil de seguir búsquedas relacionadas con subastas, especialmente para búsquedas amplias. Pero un ritmo diario puede llegar tarde para piezas raras, y el matching amplio por palabras clave puede mostrar lotes cercanos que no son exactamente lo que el coleccionista quería.",
+      "paragraph2": "Aura Historia está construido para otro estándar: señales casi en tiempo real, terminología traducida, datos normalizados y alertas que buscan seguir siendo relevantes mientras observan más mercado. Si una notificación pide atención, ¿no debería merecerla?"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Preguntas frecuentes sobre Aura Historia y Barnebys",
+      "items": {
+        "alternative": {
+          "question": "¿Aura Historia es una alternativa a Barnebys?",
+          "answer": "Sí. Aura Historia es una alternativa a Barnebys para compradores que quieren buscar más allá de la agregación de casas de subastas y monitorizar casas de subastas, comerciantes, marketplaces, vendedores privados y otras fuentes online de antigüedades en un solo lugar."
+        },
+        "replace": {
+          "question": "¿Aura Historia reemplaza a Barnebys?",
+          "answer": "Si solo quieres una forma familiar de explorar catálogos establecidos de casas de subastas, Barnebys sigue siendo una opción respetada. Si quieres una cobertura online más amplia, descubrimiento multilingüe, alertas casi en tiempo real y matching asistido por IA, Aura Historia está diseñado para ser la opción más fuerte."
+        },
+        "fasterAlerts": {
+          "question": "¿Qué servicio tiene alertas de antigüedades más rápidas?",
+          "answer": "Aura Historia está diseñado para monitorización casi en tiempo real. Las alertas de búsqueda de Barnebys siguen un patrón de revisión diario, incluida la ventana conocida de las 18:00 CEST."
+        },
+        "multilingualSearch": {
+          "question": "¿Qué servicio es mejor para búsqueda multilingüe de antigüedades?",
+          "answer": "Aura Historia está creado para traducir anuncios y alinear terminología entre idiomas admitidos. Eso significa que el idioma de búsqueda debería importar menos, tanto si el anuncio original está en inglés, alemán, francés, español, italiano u otro idioma."
+        },
+        "outsideAuctions": {
+          "question": "¿Qué servicio es mejor para encontrar antigüedades fuera de subastas?",
+          "answer": "Aura Historia. Su ventaja principal es una cobertura de fuentes más amplia: casas de subastas, plataformas de subastas, comerciantes, vendedores privados, marketplaces y otros lugares online donde se venden antigüedades."
+        }
+      }
+    },
+    "finalCta": {
+      "eyebrow": "Veredicto final",
+      "title": "Barnebys es bueno para subastas. Aura Historia está construido para el mercado de antigüedades.",
+      "description": "Si tu búsqueda debe incluir los lugares donde realmente se venden antigüedades online, empieza con Aura Historia.",
+      "button": "Empezar a buscar antigüedades"
+    }
   }
 }
