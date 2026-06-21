@@ -473,23 +473,23 @@
       "foundAt": "Gefunden bei {{shopName}}."
     },
     "artworkStories": {
-      "ariaLabel": "Redaktionelle Kunstwerk-Geschichten",
-      "eyebrow": "Kuratierte Perspektiven",
-      "title": "Objekte mit Geschichte verdienen mehr als eine Trefferliste",
-      "description": "Seltenheit ist selten schon am Titel erkennbar. Händlerkontext, Kategoriesprache, Verfügbarkeit und Timing entscheiden, ob ein Objekt einen zweiten Blick verdient.",
+      "ariaLabel": "Aura Historia Plattform-These",
+      "eyebrow": "Warum Aura Historia",
+      "title": "Ein globaler Antiquitätenmarkt, endlich in Sicht",
+      "description": "Gute Objekte liegen selten in einem einzigen Auktionsfeed. Sie tauchen bei kleinen Händlern, spezialisierten Shops, Marktplätzen und Auktionen auf – oft unter lokalen Begriffen und nur für kurze Zeit. Aura Historia macht diesen verstreuten Markt sichtbar, lesbar und für Ihre Suche beobachtbar.",
       "connoisseurship": {
-        "eyebrow": "Kennerblick & Kontext",
-        "title": "Jedes Objekt braucht Kontext",
-        "description": "Aura Historia ist für Käufer gebaut, die mehr lesen möchten als den Angebotstitel: Händlerkontext, Kategoriesprache, vergleichbare Angebote, Preisbewegungen und Verfügbarkeit im Markt.",
-        "supporting": "Es geht nicht darum, Sammeln unnötig kompliziert zu machen. Es geht darum, ernsthafter Neugier die Struktur zu geben, die sie verdient.",
-        "imageAlt": "Hans Holbeins Gemälde The Ambassadors als Sinnbild für Gelehrsamkeit und Kennerblick.",
+        "eyebrow": "Kennerblick, erweitert",
+        "title": "Mehr sehen als den Angebotstitel",
+        "description": "Holbeins Ambassadors ist ein Bild über Wissen, Instrumente und versteckte Perspektive. Auch bei Antiquitäten liegt der entscheidende Hinweis oft nicht im Titel, sondern in Quelle, Kategoriesprache, Preisbewegung, Status oder Timing.",
+        "supporting": "Aura Historia bündelt diese Signale in einer ruhigen Arbeitsansicht: suchen, vergleichen, merken und rechtzeitig handeln – ohne die Freude am Entdecken zu verlieren.",
+        "imageAlt": "Hans Holbeins Gemälde The Ambassadors als Sinnbild für Gelehrsamkeit, Instrumente und Kennerblick.",
         "caption": "Hans Holbein der Jüngere, The Ambassadors, 1533"
       },
       "globalCollecting": {
-        "eyebrow": "Globales Sammeln",
-        "title": "Ein Kuriositätenkabinett, laufend neu sortiert",
-        "description": "Von Silber und Keramik bis zu wissenschaftlichen Instrumenten, Textilien, Möbeln und Arbeiten auf Papier: Die Online-Antiquitätenwelt belohnt jene, die jenseits der offensichtlichen Kanäle suchen.",
-        "supporting": "Aura Historia führt diesen Long Tail in ein Feld, in dem ungewöhnliche Kategorien und spezialisierte Händler mit weniger Reibung sichtbar werden.",
+        "eyebrow": "Globales Inventar",
+        "title": "Die Wunderkammer ist heute verteilt",
+        "description": "The Paston Treasure zeigt Luxusobjekte, Naturalia und Raritäten aus einem weltweiten Handelsnetz. Das heutige Sammelkabinett liegt nicht in einem Raum, sondern verteilt über Händlerseiten, Marktplätze, Auktionskalender und lokale Spezialisten.",
+        "supporting": "Aura Historia ersetzt diese Quellen nicht. Die Plattform führt Sie zu ihnen – nachdem sie das verstreute Angebot laufend indexiert, lesbar gemacht und für Ihre Suche beobachtet hat.",
         "imageAlt": "The Paston Treasure, ein Stillleben voller global gehandelter Luxusobjekte und Raritäten.",
         "caption": "The Paston Treasure, um 1663"
       }

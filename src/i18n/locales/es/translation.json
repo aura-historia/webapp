@@ -475,23 +475,23 @@
       "foundAt": "Encontrado en {{shopName}}."
     },
     "artworkStories": {
-      "ariaLabel": "Historias editoriales de obras de arte",
-      "eyebrow": "Perspectivas curadas",
-      "title": "Los objetos con pasado merecen más que una página de resultados",
-      "description": "La rareza casi nunca se entiende solo por el título. El contexto del vendedor, el lenguaje de la categoría, la disponibilidad y el momento determinan si un objeto merece una mirada más atenta.",
+      "ariaLabel": "Tesis de plataforma de Aura Historia",
+      "eyebrow": "Por qué Aura Historia",
+      "title": "Un mercado global de antigüedades, por fin a la vista",
+      "description": "Las piezas adecuadas rara vez están en un único feed de subastas. Aparecen en pequeños anticuarios, tiendas especializadas, marketplaces y subastas, a menudo bajo términos locales y durante poco tiempo. Aura Historia convierte este mercado disperso en algo que puedes ver, interpretar y aprovechar a tiempo.",
       "connoisseurship": {
-        "eyebrow": "Conocimiento y contexto",
-        "title": "Cada objeto necesita contexto",
-        "description": "Aura Historia está pensada para compradores que quieren leer más allá del título: contexto del vendedor, lenguaje de categoría, anuncios comparables, movimientos de precio y disponibilidad en el mercado.",
-        "supporting": "No se trata de volver oscuro el coleccionismo, sino de dar estructura a una curiosidad seria.",
-        "imageAlt": "La pintura The Ambassadors de Hans Holbein, presentada como estudio de erudición y conocimiento experto.",
+        "eyebrow": "Mirada experta, ampliada",
+        "title": "Ver más allá del título del anuncio",
+        "description": "The Ambassadors de Holbein es una pintura sobre conocimiento, instrumentos y perspectiva oculta. También en las antigüedades, la pista decisiva a menudo no está en el título, sino en la fuente, el lenguaje de categoría, los movimientos de precio, el estado o el momento.",
+        "supporting": "Aura Historia reúne esas señales en una vista de trabajo serena: buscar, comparar, guardar y actuar a tiempo, sin perder el placer del descubrimiento.",
+        "imageAlt": "La pintura The Ambassadors de Hans Holbein como símbolo de erudición, instrumentos y mirada experta.",
         "caption": "Hans Holbein el Joven, The Ambassadors, 1533"
       },
       "globalCollecting": {
-        "eyebrow": "Coleccionismo global",
-        "title": "Un gabinete de rarezas, reordenado continuamente",
-        "description": "De plata y cerámica a instrumentos científicos, textiles, mobiliario y obra sobre papel, el mundo online de las antigüedades recompensa a quien mira más allá de los canales evidentes.",
-        "supporting": "Aura Historia reúne esa larga cola para que categorías inusuales y vendedores especialistas se descubran con menos fricción.",
+        "eyebrow": "Inventario global",
+        "title": "El gabinete de maravillas hoy está distribuido",
+        "description": "The Paston Treasure muestra objetos de lujo, naturalia y rarezas procedentes de una red comercial mundial. El gabinete de coleccionismo actual ya no está en una sola sala: está repartido entre webs de anticuarios, marketplaces, calendarios de subastas y especialistas locales.",
+        "supporting": "Aura Historia no sustituye esas fuentes. La plataforma te conduce a ellas, después de indexar continuamente la oferta dispersa, hacerla legible y observarla según lo que buscas.",
         "imageAlt": "The Paston Treasure, un bodegón repleto de objetos de lujo y rarezas comerciados globalmente.",
         "caption": "The Paston Treasure, c. 1663"
       }

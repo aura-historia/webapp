@@ -9,32 +9,28 @@ describe("ArtworkStorySection", () => {
         });
     });
 
-    it("renders the editorial section intro", () => {
-        expect(screen.getByText("Kuratierte Perspektiven")).toBeInTheDocument();
+    it("renders the platform thesis intro", () => {
+        expect(screen.getByText("Warum Aura Historia")).toBeInTheDocument();
         expect(
-            screen.getByText("Objekte mit Geschichte verdienen mehr als eine Trefferliste"),
+            screen.getByText("Ein globaler Antiquitätenmarkt, endlich in Sicht"),
         ).toBeInTheDocument();
         expect(
-            screen.getByText(/Händlerkontext, Kategoriesprache, Verfügbarkeit und Timing/),
+            screen.getByText(/Gute Objekte liegen selten in einem einzigen Auktionsfeed/),
         ).toBeInTheDocument();
     });
 
     it("renders the connoisseurship story", () => {
-        expect(screen.getByText("Kennerblick & Kontext")).toBeInTheDocument();
-        expect(screen.getByText("Jedes Objekt braucht Kontext")).toBeInTheDocument();
+        expect(screen.getByText("Kennerblick, erweitert")).toBeInTheDocument();
+        expect(screen.getByText("Mehr sehen als den Angebotstitel")).toBeInTheDocument();
         expect(
-            screen.getByText(/Händlerkontext, Kategoriesprache, vergleichbare Angebote/),
+            screen.getByText(/Holbeins Ambassadors ist ein Bild über Wissen/),
         ).toBeInTheDocument();
     });
 
-    it("renders the global collecting story", () => {
-        expect(screen.getByText("Globales Sammeln")).toBeInTheDocument();
-        expect(
-            screen.getByText("Ein Kuriositätenkabinett, laufend neu sortiert"),
-        ).toBeInTheDocument();
-        expect(
-            screen.getByText(/Von Silber und Keramik bis zu wissenschaftlichen Instrumenten/),
-        ).toBeInTheDocument();
+    it("renders the global inventory story", () => {
+        expect(screen.getByText("Globales Inventar")).toBeInTheDocument();
+        expect(screen.getByText("Die Wunderkammer ist heute verteilt")).toBeInTheDocument();
+        expect(screen.getByText(/The Paston Treasure zeigt Luxusobjekte/)).toBeInTheDocument();
     });
 
     it("renders artwork images with descriptive text", () => {
