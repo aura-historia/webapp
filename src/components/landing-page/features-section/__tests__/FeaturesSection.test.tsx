@@ -40,9 +40,9 @@ describe("FeaturesSection", () => {
     });
 
     it("renders inline market proof points", () => {
-        expect(screen.getByText("USD 59,6 Mrd.")).toBeInTheDocument();
+        expect(screen.getByText("$59,6 Mrd.")).toBeInTheDocument();
         expect(screen.getByText(/über 41,5 Mio. Transaktionen/)).toBeInTheDocument();
-        expect(screen.getByText("34,8 / 20,7 Mrd.")).toBeInTheDocument();
+        expect(screen.getByText("$34,8 / $20,7 Mrd.")).toBeInTheDocument();
         expect(screen.getByText(/öffentlichen Auktionsumsätzen 2025/)).toBeInTheDocument();
         expect(screen.getByText("13.362 + 81.256")).toBeInTheDocument();
         expect(

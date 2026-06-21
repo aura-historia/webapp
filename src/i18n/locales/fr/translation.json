@@ -505,7 +505,7 @@
         "title": "Un marché plus vaste que n’importe quelle place de marché",
         "description": "Aura Historia est conçue pour un marché mondial de l’art et des antiquités mesuré en dizaines de milliards de dollars et en dizaines de millions de transactions annuelles.",
         "visual": {
-          "value": "59,6 Md USD",
+          "value": "$59,6 Md",
           "label": "Ventes mondiales d’art et d’antiquités en 2025, sur 41,5 M de transactions."
         }
       },
@@ -513,8 +513,8 @@
         "title": "Au-delà des maisons de vente",
         "description": "Les flux d’enchères ne sont qu’une partie du marché. Aura Historia fait aussi apparaître marchands de confiance et petits spécialistes aux côtés des enchères.",
         "visual": {
-          "value": "34,8 / 20,7 Md",
-          "label": "USD de ventes de marchands contre ventes aux enchères publiques en 2025 ; les enchères privées ont ajouté un peu moins de 4,2 Md USD."
+          "value": "$34,8 / $20,7 Md",
+          "label": "Ventes de marchands contre ventes aux enchères publiques en 2025 ; les enchères privées ont ajouté un peu moins de $4,2 Md."
         }
       },
       "translations": {

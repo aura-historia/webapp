@@ -505,7 +505,7 @@
         "title": "Un mercato più grande di qualsiasi marketplace",
         "description": "Aura Historia è pensata per un mercato globale di arte e antiquariato misurato in decine di miliardi di dollari e decine di milioni di transazioni annuali.",
         "visual": {
-          "value": "USD 59,6 mld",
+          "value": "$59,6 mld",
           "label": "Vendite globali di arte e antiquariato nel 2025, su 41,5 mln di transazioni."
         }
       },
@@ -513,8 +513,8 @@
         "title": "Oltre le case d’asta",
         "description": "I feed d’asta sono solo una parte del mercato. Aura Historia rende visibili anche commercianti affidabili e piccoli specialisti accanto alle aste.",
         "visual": {
-          "value": "34,8 / 20,7 mld",
-          "label": "USD di vendite dei dealer rispetto alle aste pubbliche nel 2025; le aste private hanno aggiunto poco meno di USD 4,2 mld."
+          "value": "$34,8 / $20,7 mld",
+          "label": "Vendite dei dealer rispetto alle aste pubbliche nel 2025; le aste private hanno aggiunto poco meno di $4,2 mld."
         }
       },
       "translations": {

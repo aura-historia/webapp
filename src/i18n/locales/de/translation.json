@@ -503,7 +503,7 @@
         "title": "Ein Markt größer als jeder einzelne Marktplatz",
         "description": "Aura Historia ist für einen globalen Kunst- und Antiquitätenmarkt gebaut, der in zweistelligen Milliardenbeträgen und zig Millionen jährlichen Transaktionen gemessen wird.",
         "visual": {
-          "value": "USD 59,6 Mrd.",
+          "value": "$59,6 Mrd.",
           "label": "Globaler Kunst- und Antiquitätenumsatz 2025 – über 41,5 Mio. Transaktionen hinweg."
         }
       },
@@ -511,8 +511,8 @@
         "title": "Mehr als Auktionshäuser",
         "description": "Auktionsfeeds sind nur ein Teil des Marktes. Aura Historia ist darauf ausgelegt, vertrauenswürdige Händler und kleinere Spezialanbieter neben Auktionen sichtbar zu machen – dort, wo viele relevante Objekte nie auf reinen Auktionsplattformen erscheinen.",
         "visual": {
-          "value": "34,8 / 20,7 Mrd.",
-          "label": "USD Händlerumsatz gegenüber öffentlichen Auktionsumsätzen 2025; private Auktionen kamen auf knapp USD 4,2 Mrd."
+          "value": "$34,8 / $20,7 Mrd.",
+          "label": "Händlerumsatz gegenüber öffentlichen Auktionsumsätzen 2025; private Auktionen kamen auf knapp $4,2 Mrd."
         }
       },
       "translations": {

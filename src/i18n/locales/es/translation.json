@@ -505,7 +505,7 @@
         "title": "Un mercado mayor que cualquier marketplace",
         "description": "Aura Historia está pensada para un mercado global de arte y antigüedades medido en decenas de miles de millones de dólares y decenas de millones de transacciones anuales.",
         "visual": {
-          "value": "USD 59,6 mil M",
+          "value": "$59,6 mil M",
           "label": "Ventas globales de arte y antigüedades en 2025, en 41,5 M de transacciones."
         }
       },
@@ -513,8 +513,8 @@
         "title": "Más allá de las casas de subastas",
         "description": "Los feeds de subastas son solo una parte del mercado. Aura Historia también hace visibles comerciantes de confianza y pequeños especialistas junto a las subastas.",
         "visual": {
-          "value": "34,8 / 20,7 mil M",
-          "label": "USD en ventas de comerciantes frente a ventas de subastas públicas en 2025; las subastas privadas añadieron algo menos de USD 4,2 mil M."
+          "value": "$34,8 / $20,7 mil M",
+          "label": "Ventas de comerciantes frente a ventas de subastas públicas en 2025; las subastas privadas añadieron algo menos de $4,2 mil M."
         }
       },
       "translations": {

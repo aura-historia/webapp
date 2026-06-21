@@ -505,7 +505,7 @@
         "title": "A market larger than any single marketplace",
         "description": "Aura Historia is built for a global art-and-antiques market measured in tens of billions of dollars and tens of millions of yearly transactions.",
         "visual": {
-          "value": "USD 59.6B",
+          "value": "$59.6B",
           "label": "Global art-and-antiques sales in 2025, across 41.5M transactions."
         }
       },
@@ -513,8 +513,8 @@
         "title": "Beyond auction houses",
         "description": "Auction feeds are only part of the market. Aura Historia is designed to surface trusted dealers and smaller specialist sellers alongside auctions, where many relevant objects never reach auction-only platforms.",
         "visual": {
-          "value": "34.8B / 20.7B",
-          "label": "USD dealer sales versus public auction sales in 2025; private auction sales added just under USD 4.2B."
+          "value": "$34.8B / $20.7B",
+          "label": "Dealer sales versus public auction sales in 2025; private auction sales added just under $4.2B."
         }
       },
       "translations": {
