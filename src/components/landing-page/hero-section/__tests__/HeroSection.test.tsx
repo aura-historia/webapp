@@ -25,10 +25,4 @@ describe("HeroSection", () => {
     it("renders the search bar", () => {
         expect(screen.getByLabelText("Suche")).toBeInTheDocument();
     });
-
-    it("renders all trust badges", () => {
-        expect(screen.getByText("Händler, Auktionen und Marktplätze")).toBeInTheDocument();
-        expect(screen.getByText("Private Merklisten und Marktalarme")).toBeInTheDocument();
-        expect(screen.getByText("Gebaut für globale Entdeckung")).toBeInTheDocument();
-    });
 });

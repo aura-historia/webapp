@@ -3,7 +3,7 @@ import { Check, ExternalLink, Mail, Pencil, Phone, Store, Trash2, X } from "luci
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { parseShopDomains } from "@/components/admin/adminShopFormUtils.ts";
+import { parseShopDomains } from "@/features/partner-dashboard/components/partnerApplicationShopFormUtils.ts";
 import {
     AlertDialog,
     AlertDialogAction,

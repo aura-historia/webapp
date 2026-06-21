@@ -5,7 +5,6 @@ import { Trans, useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { Shield } from "lucide-react";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
-import { TRUST_BADGE_KEYS } from "@/components/landing-page/hero-section/HeroSection.data.ts";
 
 export default function HeroSection() {
     const { t } = useTranslation();
@@ -39,16 +38,6 @@ export default function HeroSection() {
                 >
                     <SearchBar type={"big"} />
                 </Card>
-                <div className="w-full px-4 sm:px-0">
-                    <div className="flex flex-wrap justify-center gap-4 sm:gap-6 my-4 sm:mt-8 text-sm text-muted-foreground">
-                        {TRUST_BADGE_KEYS.map((badgeKey) => (
-                            <div key={badgeKey} className={"flex gap-2 sm:gap-6"}>
-                                <span key={badgeKey}>{t(badgeKey)}</span>
-                                {badgeKey !== TRUST_BADGE_KEYS.at(-1) && <span>•</span>}
-                            </div>
-                        ))}
-                    </div>
-                </div>
             </div>
         </section>
     );

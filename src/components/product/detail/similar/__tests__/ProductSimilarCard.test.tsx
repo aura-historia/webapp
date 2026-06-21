@@ -185,7 +185,10 @@ describe("ProductSimilarCard", () => {
         const mockProductMatched: OverviewProduct = {
             ...mockProduct,
             userData: {
-                watchlistData: { isWatching: false, isNotificationEnabled: false },
+                watchlistData: {
+                    isWatching: false,
+                    isNotificationEnabled: false,
+                },
                 notificationData: { hasUnseenNotification: false },
                 restrictedContentData: { consentGiven: false },
                 searchFilterData: {
@@ -217,7 +220,10 @@ describe("ProductSimilarCard", () => {
             const hiddenProduct: OverviewProduct = {
                 ...mockProduct,
                 userData: {
-                    watchlistData: { isWatching: false, isNotificationEnabled: false },
+                    watchlistData: {
+                        isWatching: false,
+                        isNotificationEnabled: false,
+                    },
                     notificationData: { hasUnseenNotification: false },
                     restrictedContentData: { consentGiven: false },
                     searchFilterData: { matched: true, hidden: true },
@@ -233,7 +239,10 @@ describe("ProductSimilarCard", () => {
                 ...mockProductMatched,
                 userData: {
                     ...mockProductMatched.userData!,
-                    notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
+                    notificationData: {
+                        hasUnseenNotification: true,
+                        originEventId: "event-123",
+                    },
                 },
             };
             const { container } = render(<ProductSimilarCard product={productWithBoth} />);
@@ -246,8 +255,14 @@ describe("ProductSimilarCard", () => {
         const mockProductWithUnseenNotification: OverviewProduct = {
             ...mockProduct,
             userData: {
-                watchlistData: { isWatching: true, isNotificationEnabled: true },
-                notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
+                watchlistData: {
+                    isWatching: true,
+                    isNotificationEnabled: true,
+                },
+                notificationData: {
+                    hasUnseenNotification: true,
+                    originEventId: "event-123",
+                },
                 restrictedContentData: { consentGiven: false },
             },
         };

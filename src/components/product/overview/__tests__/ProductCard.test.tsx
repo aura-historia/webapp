@@ -28,7 +28,12 @@ describe("ProductCard", () => {
         shopType: "AUCTION_HOUSE",
         state: "AVAILABLE",
         price: "100€",
-        images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
+        images: [
+            {
+                url: new URL("https://example.com/image.jpg"),
+                prohibitedContentType: "NONE",
+            },
+        ],
     };
 
     it("should render the product title, shop name, and price correctly", async () => {
@@ -149,7 +154,10 @@ describe("ProductCard", () => {
         const mockProductMatched: OverviewProduct = {
             ...mockProduct,
             userData: {
-                watchlistData: { isWatching: false, isNotificationEnabled: false },
+                watchlistData: {
+                    isWatching: false,
+                    isNotificationEnabled: false,
+                },
                 notificationData: { hasUnseenNotification: false },
                 restrictedContentData: { consentGiven: false },
                 searchFilterData: {
@@ -188,7 +196,10 @@ describe("ProductCard", () => {
                 ...mockProductMatched,
                 userData: {
                     ...mockProductMatched.userData!,
-                    notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
+                    notificationData: {
+                        hasUnseenNotification: true,
+                        originEventId: "event-123",
+                    },
                 },
             };
             await act(() => {
@@ -203,7 +214,10 @@ describe("ProductCard", () => {
                 ...mockProductMatched,
                 userData: {
                     ...mockProductMatched.userData!,
-                    notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
+                    notificationData: {
+                        hasUnseenNotification: true,
+                        originEventId: "event-123",
+                    },
                 },
             };
             const { container } = await act(() =>
@@ -217,7 +231,10 @@ describe("ProductCard", () => {
             const hiddenProduct: OverviewProduct = {
                 ...mockProduct,
                 userData: {
-                    watchlistData: { isWatching: false, isNotificationEnabled: false },
+                    watchlistData: {
+                        isWatching: false,
+                        isNotificationEnabled: false,
+                    },
                     notificationData: { hasUnseenNotification: false },
                     restrictedContentData: { consentGiven: false },
                     searchFilterData: { matched: true, hidden: true },
@@ -235,8 +252,14 @@ describe("ProductCard", () => {
         const mockProductWithUnseenNotification: OverviewProduct = {
             ...mockProduct,
             userData: {
-                watchlistData: { isWatching: true, isNotificationEnabled: true },
-                notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
+                watchlistData: {
+                    isWatching: true,
+                    isNotificationEnabled: true,
+                },
+                notificationData: {
+                    hasUnseenNotification: true,
+                    originEventId: "event-123",
+                },
                 restrictedContentData: { consentGiven: false },
             },
         };

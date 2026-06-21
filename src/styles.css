@@ -15,8 +15,7 @@ body {
 }
 
 code {
-    font-family:
-        source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 :root {
@@ -266,7 +265,6 @@ code {
         isolation: isolate;
         z-index: 1;
         min-height: 100vh;
-        min-height: 100dvh;
         background-image:
             radial-gradient(
                 ellipse at center,
@@ -278,6 +276,12 @@ code {
             url("/webapp/landing-page/lorrain.webp");
         background-size: cover;
         background-position: center bottom;
+    }
+
+    @supports (height: 100dvh) {
+        .landing-hero {
+            min-height: 100dvh;
+        }
     }
 
     .landing-hero::after {
