@@ -32,6 +32,18 @@ export interface PartnerProgramFooterLink {
     external?: boolean;
 }
 
+export interface CompareFooterLink {
+    translationKey: string;
+    href: string;
+}
+
+export const COMPARE_FOOTER_LINKS: CompareFooterLink[] = [
+    {
+        translationKey: "footer.compareLinks.barnebys",
+        href: "/compare/barnebys",
+    },
+];
+
 export const PARTNER_PROGRAM_FOOTER_LINKS: PartnerProgramFooterLink[] = [
     {
         translationKey: "footer.partnerProgramLinks.overview",

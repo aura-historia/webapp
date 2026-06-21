@@ -62,6 +62,10 @@
     },
     "partnerDashboard": {
       "title": "Partner-Dashboard | Aura Historia"
+    },
+    "compareBarnebys": {
+      "title": "Aura Historia vs Barnebys | Vergleich der Antiquitäten-Suchmaschinen",
+      "description": "Vergleichen Sie Aura Historia mit Barnebys bei Antiquitätensuche, Quellenabdeckung, mehrsprachiger Suche, nahezu Echtzeit-Benachrichtigungen und KI-gestützter Marktbeobachtung."
     }
   },
   "validation": {
@@ -118,7 +122,8 @@
       "followUs": "Folge uns",
       "contact": "Kontakt",
       "discoverMore": "Mehr entdecken",
-      "partnerProgram": "Partner-Programm"
+      "partnerProgram": "Partner-Programm",
+      "compare": "Vergleichen"
     },
     "landingPageLinks": {
       "recentlyAdded": "Neueste Zugänge",
@@ -137,6 +142,9 @@
       "shopify": "Shopify App Store",
       "customApi": "Eigene Integration",
       "apply": "Jetzt bewerben"
+    },
+    "compareLinks": {
+      "barnebys": "Barnebys"
     }
   },
   "account": {

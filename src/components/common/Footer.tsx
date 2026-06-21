@@ -10,6 +10,7 @@ import {
 } from "../ui/select";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import {
+    COMPARE_FOOTER_LINKS,
     LANDING_PAGE_FOOTER_LINKS,
     PARTNER_PROGRAM_FOOTER_LINKS,
     SOCIAL_LINKS,
@@ -136,7 +137,26 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    {/* Spalte 4: Follow Us */}
+                    {/* Spalte 4: Compare */}
+                    <div>
+                        <h3 className="font-display text-lg leading-7 text-primary-container">
+                            {t("footer.sections.compare")}
+                        </h3>
+                        <ul className="mt-4 space-y-2">
+                            {COMPARE_FOOTER_LINKS.map((compareLink) => (
+                                <li key={compareLink.href}>
+                                    <Link
+                                        to={compareLink.href}
+                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                    >
+                                        {t(compareLink.translationKey)}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Spalte 5: Follow Us */}
                     <div>
                         <h3 className="font-display text-lg leading-7 text-primary-container">
                             {t("footer.sections.followUs")}
