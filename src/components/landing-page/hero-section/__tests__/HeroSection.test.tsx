@@ -10,7 +10,9 @@ describe("HeroSection", () => {
     });
 
     it("renders the badge", () => {
-        expect(screen.getByText("Für Sammler, Interior-Profis und den Handel")).toBeInTheDocument();
+        expect(
+            screen.getByText("Jenseits der bekannten Auktionshäuser suchen"),
+        ).toBeInTheDocument();
     });
 
     it("renders the main heading", () => {
