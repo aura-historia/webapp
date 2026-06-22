@@ -65,7 +65,7 @@ describe("PricingSection", () => {
     it("renders the section subtitle", () => {
         expect(
             screen.getByText(
-                "Starten Sie kostenlos. Wechseln Sie, sobald Merklisten, Suchalarme und Marktbeobachtung zu Ihrer regelmäßigen Recherche gehören.",
+                "Starten Sie kostenlos. Wechseln Sie, sobald Merklisten, Suchaufträge und Marktbeobachtung zu Ihrer regelmäßigen Recherche gehören.",
             ),
         ).toBeInTheDocument();
     });
@@ -195,8 +195,8 @@ describe("PricingSection", () => {
 
     it("renders free tier features", () => {
         expect(screen.getByText("20 Objekte in der privaten Merkliste")).toBeInTheDocument();
-        expect(screen.getByText("1 Suchalarm")).toBeInTheDocument();
-        expect(screen.getByText("10 neue Treffer aus Suchalarmen pro Monat")).toBeInTheDocument();
+        expect(screen.getByText("1 Suchauftrag")).toBeInTheDocument();
+        expect(screen.getByText("10 neue Treffer aus Suchaufträgen pro Monat")).toBeInTheDocument();
         expect(screen.getByText("Einfache Marktbeobachtung")).toBeInTheDocument();
         expect(
             screen.getByText("Benachrichtigungen innerhalb weniger Stunden"),
@@ -205,12 +205,12 @@ describe("PricingSection", () => {
 
     it("renders pro tier features", () => {
         expect(screen.getByText("100 Objekte in der privaten Merkliste")).toBeInTheDocument();
-        expect(screen.getByText("5 Suchalarme")).toBeInTheDocument();
+        expect(screen.getByText("5 Suchaufträge")).toBeInTheDocument();
     });
 
     it("renders ultimate tier features", () => {
         expect(screen.getByText("Unbegrenzte Merkliste")).toBeInTheDocument();
-        expect(screen.getByText("Unbegrenzte Suchalarme")).toBeInTheDocument();
+        expect(screen.getByText("Unbegrenzte Suchaufträge")).toBeInTheDocument();
         expect(screen.getByText("KI-Suchagent")).toBeInTheDocument();
         expect(screen.getByText("Priorisierte Echtzeit-Benachrichtigungen")).toBeInTheDocument();
     });

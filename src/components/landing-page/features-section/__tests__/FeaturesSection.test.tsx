@@ -29,7 +29,7 @@ describe("FeaturesSection", () => {
             screen.getByText("Finden, ohne die Sprache des Anbieters zu sprechen"),
         ).toBeInTheDocument();
         expect(screen.getByText("Private Merkliste")).toBeInTheDocument();
-        expect(screen.getByText("Suchalarme")).toBeInTheDocument();
+        expect(screen.getByText("Suchaufträge")).toBeInTheDocument();
         expect(screen.getByText("Objektverlauf")).toBeInTheDocument();
         expect(screen.getByText("KI-Suchagent")).toBeInTheDocument();
     });
