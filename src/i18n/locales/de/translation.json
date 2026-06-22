@@ -530,7 +530,7 @@
         }
       },
       "personalFilter": {
-        "title": "Suchalarme",
+        "title": "Suchaufträge",
         "description": "Beschreiben Sie einmal, wonach Sie suchen. Aura Historia beobachtet neu indexierte und aktualisierte Angebote und bringt passende Stücke wieder in Ihren Blick.",
         "visual": {
           "eyebrow": "Feature-GIF-Platzhalter",
@@ -570,7 +570,7 @@
       },
       "step3": {
         "title": "Stücke merken",
-        "description": "Legen Sie relevante Objekte auf Ihre private Merkliste und richten Sie Suchalarme für künftige Treffer ein."
+        "description": "Legen Sie relevante Objekte auf Ihre private Merkliste und richten Sie Suchaufträge für künftige Treffer ein."
       },
       "step4": {
         "title": "Im richtigen Moment handeln",
@@ -631,7 +631,7 @@
         },
         "priceAlerts": {
           "question": "Was kann Aura Historia für mich beobachten?",
-          "answer": "Ihre private Merkliste hält gefundene Objekte im Blick und informiert über relevante Änderungen wie Preisbewegungen oder Statuswechsel. Suchalarme beobachten neu auftauchende Angebote, die zu Ihren Kriterien passen."
+          "answer": "Ihre private Merkliste hält gefundene Objekte im Blick und informiert über relevante Änderungen wie Preisbewegungen oder Statuswechsel. Suchaufträge beobachten neu auftauchende Angebote, die zu Ihren Kriterien passen."
         },
         "language": {
           "question": "Hilft Aura Historia bei fremdsprachigen Angeboten?",
@@ -651,7 +651,7 @@
         },
         "comparisonBarnebys": {
           "question": "Worin unterscheidet sich Aura Historia von Auktionsaggregatoren?",
-          "answer": "Auktionsaggregatoren sind besonders stark bei kommenden oder vergangenen Auktionslosen. Aura Historia betrachtet den Markt breiter: Händlerbestände, spezialisierte Shops, Marktplätze und Auktionen in einer Plattform – mit Merkliste, Suchalarmen und Marktbeobachtung."
+          "answer": "Auktionsaggregatoren sind besonders stark bei kommenden oder vergangenen Auktionslosen. Aura Historia betrachtet den Markt breiter: Händlerbestände, spezialisierte Shops, Marktplätze und Auktionen in einer Plattform – mit Merkliste, Suchaufträgen und Marktbeobachtung."
         },
         "comparisonPriceDatabase": {
           "question": "Ist Aura Historia eine Preisdatenbank?",
@@ -661,7 +661,7 @@
     },
     "pricing": {
       "title": "Den passenden Zugang wählen",
-      "subtitle": "Starten Sie kostenlos. Wechseln Sie, sobald Merklisten, Suchalarme und Marktbeobachtung zu Ihrer regelmäßigen Recherche gehören.",
+      "subtitle": "Starten Sie kostenlos. Wechseln Sie, sobald Merklisten, Suchaufträge und Marktbeobachtung zu Ihrer regelmäßigen Recherche gehören.",
       "comingSoon": "In Kürze",
       "mostPopular": "Am beliebtesten",
       "free": {
@@ -670,8 +670,8 @@
         "features": {
           "unlimitedSearches": "Unbegrenzt suchen",
           "watchlistItems": "20 Objekte in der privaten Merkliste",
-          "searchAlerts": "1 Suchalarm",
-          "alertMatches": "10 neue Treffer aus Suchalarmen pro Monat",
+          "searchAlerts": "1 Suchauftrag",
+          "alertMatches": "10 neue Treffer aus Suchaufträgen pro Monat",
           "alertType": "Einfache Marktbeobachtung",
           "notificationSpeed": "Benachrichtigungen innerhalb weniger Stunden"
         }
@@ -682,8 +682,8 @@
         "features": {
           "unlimitedSearches": "Unbegrenzt suchen",
           "watchlistItems": "100 Objekte in der privaten Merkliste",
-          "searchAlerts": "5 Suchalarme",
-          "alertMatches": "Unbegrenzte Treffer aus Suchalarmen",
+          "searchAlerts": "5 Suchaufträge",
+          "alertMatches": "Unbegrenzte Treffer aus Suchaufträgen",
           "alertType": "Vertiefte Marktbeobachtung",
           "notificationSpeed": "Echtzeit-Benachrichtigungen"
         }
@@ -694,8 +694,8 @@
         "features": {
           "unlimitedSearches": "Unbegrenzt suchen",
           "watchlistItems": "Unbegrenzte Merkliste",
-          "searchAlerts": "Unbegrenzte Suchalarme",
-          "alertMatches": "Unbegrenzte Treffer aus Suchalarmen",
+          "searchAlerts": "Unbegrenzte Suchaufträge",
+          "alertMatches": "Unbegrenzte Treffer aus Suchaufträgen",
           "alertType": "Vertiefte Marktbeobachtung",
           "notificationSpeed": "Priorisierte Echtzeit-Benachrichtigungen",
           "aiAgent": "KI-Suchagent"
