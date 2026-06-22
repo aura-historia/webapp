@@ -62,6 +62,10 @@
     },
     "partnerDashboard": {
       "title": "Dashboard Partner | Aura Historia"
+    },
+    "compareBarnebys": {
+      "title": "Aura Historia vs Barnebys | Confronto sulla ricerca di antiquariato",
+      "description": "Confronta Aura Historia e Barnebys per ricerca di antiquariato, copertura delle fonti, ricerca multilingue, avvisi rapidi e monitoraggio del mercato con IA."
     }
   },
   "validation": {
@@ -118,7 +122,8 @@
       "followUs": "Seguici",
       "contact": "Contatto",
       "discoverMore": "Scopri di più",
-      "partnerProgram": "Programma Partner"
+      "partnerProgram": "Programma Partner",
+      "compare": "Confronta"
     },
     "landingPageLinks": {
       "recentlyAdded": "Ultimi arrivi",
@@ -137,6 +142,9 @@
       "shopify": "Shopify",
       "customApi": "Integrazione personalizzata",
       "apply": "Candidati"
+    },
+    "compareLinks": {
+      "barnebys": "Barnebys"
     }
   },
   "account": {
@@ -1785,6 +1793,203 @@
         "waiting": "In attesa di decisione",
         "completed": "Completata"
       }
+    }
+  },
+  "compareBarnebysPage": {
+    "structuredData": {
+      "about": {
+        "searchEngine": "motore di ricerca per antiquariato",
+        "auctionAggregation": "aggregazione di aste",
+        "multilingualSearch": "ricerca multilingue di antiquariato",
+        "realTimeAlerts": "avvisi per antiquariato quasi in tempo reale",
+        "aiDiscovery": "ricerca di antiquariato assistita dall’IA"
+      }
+    },
+    "hero": {
+      "eyebrow": "Confronto: Aura Historia vs Barnebys",
+      "title": "Vedere più mercato, non solo cataloghi d’asta",
+      "subtitle": "Barnebys ha contribuito a rendere i cataloghi delle case d’asta più facili da consultare. Aura Historia parte da un’idea più ampia: chi colleziona con attenzione dovrebbe poter seguire l’intero mercato online dell’antiquariato, non solo le fonti d’asta più note.",
+      "primaryCta": "Cerca in tutto il mercato",
+      "secondaryCta": "Vedi il confronto",
+      "quickAnswerEyebrow": "In breve",
+      "quickAnswerTitle": "Barnebys è affermato. Aura Historia guarda più lontano.",
+      "quickAnswerDescription": "La nostra lettura: Barnebys va bene se vuoi soprattutto consultare cataloghi d’asta noti. Aura Historia è più adatto se vuoi riunire case d’asta, commercianti, marketplace, venditori privati, traduzioni e monitoraggio quasi in tempo reale in un’unica ricerca."
+    },
+    "quickVerdicts": {
+      "auctionDiscovery": {
+        "label": "Solido per cataloghi d’asta affermati",
+        "value": "Barnebys"
+      },
+      "marketSearch": {
+        "label": "Più forte per cercare nell’intero mercato dell’antiquariato",
+        "value": "Aura Historia"
+      },
+      "multilingualDiscovery": {
+        "label": "Più forte per la ricerca multilingue",
+        "value": "Aura Historia"
+      },
+      "realTimeMonitoring": {
+        "label": "Più forte per il monitoraggio quasi in tempo reale",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "eyebrow": "Riepilogo",
+      "title": "La versione breve",
+      "paragraph1": "Aura Historia è l’alternativa più completa a Barnebys per collezionisti, commercianti, ricercatori e per chi vuole trovare antiquariato oltre i soli cataloghi d’asta.",
+      "paragraph2": "Barnebys merita riconoscimento per il suo ruolo nella ricerca di aste. Nell’uso pratico, Aura Historia guadagna vantaggio grazie a più tipi di fonti, annunci tradotti e armonizzati, monitoraggio quasi in tempo reale e ricerca moderna assistita dall’IA."
+    },
+    "respect": {
+      "eyebrow": "Riconoscere ciò che va riconosciuto",
+      "title": "Barnebys ha segnato la ricerca nelle aste",
+      "paragraph1": "Un confronto equilibrato parte da qui: Barnebys è un nome noto nel mondo delle aste di antiquariato. Per molti acquirenti ha reso cataloghi sparsi più accessibili e più semplici da consultare.",
+      "paragraph2": "È utile. Ma non equivale a vedere l’intero mercato online. Gli oggetti ricercati compaiono presso grandi case d’asta, banditori regionali, commercianti specializzati, negozi indipendenti, marketplace e talvolta venditori privati. Aura Historia è progettato per questa realtà più ampia."
+    },
+    "advantages": {
+      "eyebrow": "Dove Aura Historia fa la differenza",
+      "title": "Più fonti. Segnali più rapidi. Meno barriere linguistiche.",
+      "description": "La differenza non sta in una singola funzione. Nasce dall’unione di un indice più ampio, dati preparati meglio e avvisi più rapidi.",
+      "cards": {
+        "marketBeyondAuctions": {
+          "title": "Il mercato oltre i cataloghi d’asta",
+          "description": "Aura Historia indicizza i luoghi online in cui l’antiquariato viene realmente proposto: case d’asta, piattaforme d’asta, commercianti specializzati, venditori privati, marketplace e altre fonti."
+        },
+        "nearRealTimeAlerts": {
+          "title": "Avvisi quasi in tempo reale",
+          "description": "Per un pezzo raro, un giorno può contare. Aura Historia segue nuovi annunci, variazioni di prezzo e disponibilità il più vicino possibile al momento in cui cambiano, senza limitarsi a un ritmo quotidiano."
+        },
+        "languagePenalties": {
+          "title": "Cercare senza barriera linguistica",
+          "description": "Gli annunci vengono tradotti e i termini specialistici armonizzati tra le lingue supportate. Una ricerca in inglese, tedesco, francese, spagnolo o italiano può così raggiungere gli stessi oggetti."
+        },
+        "aiForwardMatching": {
+          "title": "Corrispondenze assistite dall’IA",
+          "description": "Usiamo IA moderna, ricerca semantica e normalizzazione multilingue per rendere le ricerche salvate più precise senza restringerle inutilmente."
+        }
+      }
+    },
+    "scorecard": {
+      "eyebrow": "Il confronto",
+      "title": "Aura Historia e Barnebys, punto per punto",
+      "description": "Barnebys mantiene un ruolo chiaro per la ricerca orientata alle aste. Aura Historia è pensato per acquirenti che vogliono vedere il mercato dell’antiquariato con maggiore ampiezza e contare su un monitoraggio più moderno.",
+      "caption": "Confronto tra Aura Historia e Barnebys per la ricerca di antiquariato",
+      "headers": {
+        "criterion": "Criterio",
+        "barnebys": "Barnebys",
+        "auraHistoria": "Aura Historia",
+        "practicalEdge": "Vantaggio pratico"
+      },
+      "rows": {
+        "auctionHeritage": {
+          "criterion": "Esperienza nella ricerca d’aste",
+          "barnebys": "Un nome conosciuto da anni nell’aggregazione di aste di antiquariato, soprattutto tra chi consulta cataloghi d’asta.",
+          "auraHistoria": "Un motore più recente, progettato fin dall’inizio per coprire più fonti e arricchire i dati in modo moderno.",
+          "verdict": "Barnebys per notorietà nel mondo delle aste",
+          "whyItMatters": "Se consulti soprattutto grandi cataloghi d’asta, Barnebys offre un’esperienza familiare."
+        },
+        "sourceCoverage": {
+          "criterion": "Ampiezza delle fonti",
+          "barnebys": "Particolarmente forte su case d’asta e piattaforme d’asta, soprattutto nei cataloghi affermati.",
+          "auraHistoria": "Indicizza case d’asta, piattaforme d’asta, commercianti, venditori privati, marketplace e altre fonti online dove vengono proposti oggetti d’antiquariato.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Molti pezzi interessanti non compaiono prima in un grande catalogo d’asta. Più fonti significano più opportunità."
+        },
+        "alertSpeed": {
+          "criterion": "Rapidità degli avvisi",
+          "barnebys": "Gli avvisi di ricerca seguono un ritmo di controllo quotidiano, inclusa la finestra nota delle 18:00 CEST.",
+          "auraHistoria": "Monitoraggio quasi in tempo reale di nuovi annunci individuati, oltre a variazioni di prezzo e disponibilità.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Prima vedi un oggetto raro, più margine hai prima che venga riservato, venduto o rilanciato."
+        },
+        "languageHandling": {
+          "criterion": "Lingue e terminologia",
+          "barnebys": "I testi restano spesso vicini alla lingua e alla terminologia originali della fonte.",
+          "auraHistoria": "Traduce gli annunci in più lingue e armonizza la terminologia dell’antiquariato tra le lingue.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "La lingua del venditore non dovrebbe decidere se un collezionista può trovare un oggetto."
+        },
+        "alertRelevance": {
+          "criterion": "Pertinenza degli avvisi",
+          "barnebys": "Utile per ricerche d’asta ampie; il matching per parole chiave può talvolta mostrare lotti vicini al tema.",
+          "auraHistoria": "Pensato con dati oggetto normalizzati e corrispondenze più precise, per osservare più mercato senza perdere pertinenza.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "I collezionisti hanno bisogno di segnale, non solo di volume. Ogni notifica dovrebbe meritare di essere aperta."
+        },
+        "technologyDirection": {
+          "criterion": "Orientamento tecnologico",
+          "barnebys": "Un’esperienza matura di ricerca d’aste per acquirenti che conoscono già quell’ecosistema.",
+          "auraHistoria": "Uno strato di ricerca assistito dall’IA per tutto il mercato dell’antiquariato, con indicizzazione, traduzioni, matching semantico e monitoraggio.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "La ricerca moderna non consiste solo nell’accumulare dati. Deve capire l’intenzione dell’acquirente tra lingue e fonti."
+        }
+      }
+    },
+    "downstream": {
+      "eyebrow": "Perché l’ampiezza delle fonti conta",
+      "title": "Coprire più delle aste cambia la visione del mercato",
+      "sources": {
+        "auctionHouses": "Case d’asta",
+        "auctionPlatforms": "Piattaforme d’asta",
+        "antiqueDealers": "Commercianti di antiquariato",
+        "privateSellers": "Venditori privati",
+        "marketplaces": "Marketplace"
+      },
+      "cards": {
+        "underRadarInventory": {
+          "title": "Individuare pezzi sotto traccia",
+          "description": "Piccoli commercianti, marketplace di nicchia e venditori privati possono proporre pezzi eccezionali molto prima che arrivino in un grande canale d’asta."
+        },
+        "realMarket": {
+          "title": "Confrontare il mercato reale",
+          "description": "Le stime d’asta raccontano solo una parte della storia. Prezzi dei commercianti, annunci sui marketplace e cambiamenti recenti di disponibilità completano il quadro."
+        },
+        "beforeDigest": {
+          "title": "Agire prima del riepilogo quotidiano",
+          "description": "Il monitoraggio quasi in tempo reale è pensato per pezzi scarsi, quando il momento migliore per decidere è spesso quello in cui compare l’annuncio."
+        },
+        "acrossBorders": {
+          "title": "Cercare oltre la lingua",
+          "description": "Quando i termini vengono tradotti e armonizzati, i collezionisti non sono più limitati dalla lingua del venditore o del banditore."
+        }
+      }
+    },
+    "alerts": {
+      "eyebrow": "Una nota misurata sugli avvisi",
+      "title": "Un riepilogo quotidiano è ordinato. I pezzi rari spesso no.",
+      "paragraph1": "Gli avvisi di Barnebys sono utili per seguire ricerche legate alle aste, soprattutto se ampie. Ma per un pezzo raro, un ritmo quotidiano può arrivare tardi, e un matching ampio per parole chiave può talvolta mostrare lotti solo vicini al tema.",
+      "paragraph2": "Aura Historia punta a un altro standard: segnali quasi in tempo reale, terminologia tradotta, dati normalizzati e avvisi che restano pertinenti mentre osservano più mercato. Se una notifica chiede attenzione, non dovrebbe meritarla?"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Domande frequenti su Aura Historia e Barnebys",
+      "items": {
+        "alternative": {
+          "question": "Aura Historia è un’alternativa a Barnebys?",
+          "answer": "Sì. Aura Historia è un’alternativa a Barnebys per chi vuole cercare oltre l’aggregazione delle case d’asta e seguire in un unico posto case d’asta, commercianti, marketplace, venditori privati e altre fonti online di antiquariato."
+        },
+        "replace": {
+          "question": "Aura Historia sostituisce Barnebys?",
+          "answer": "Se vuoi soprattutto consultare cataloghi d’asta affermati in un ambiente familiare, Barnebys resta un’opzione rispettata. Se cerchi copertura online più ampia, ricerca multilingue, avvisi rapidi e corrispondenze assistite dall’IA, Aura Historia è progettato per questo."
+        },
+        "fasterAlerts": {
+          "question": "Quale servizio offre avvisi di antiquariato più rapidi?",
+          "answer": "Aura Historia è progettato per il monitoraggio quasi in tempo reale. Gli avvisi di ricerca di Barnebys seguono un ritmo di controllo quotidiano, inclusa la finestra nota delle 18:00 CEST."
+        },
+        "multilingualSearch": {
+          "question": "Quale servizio è più adatto alla ricerca multilingue di antiquariato?",
+          "answer": "Aura Historia traduce gli annunci e armonizza la terminologia tra le lingue supportate. La lingua di ricerca dovrebbe quindi contare meno, che l’annuncio originale sia in inglese, tedesco, francese, spagnolo, italiano o in un’altra lingua."
+        },
+        "outsideAuctions": {
+          "question": "Quale servizio aiuta meglio a trovare antiquariato fuori dalle aste?",
+          "answer": "Aura Historia. Il vantaggio centrale è una copertura più ampia delle fonti: case d’asta, piattaforme d’asta, commercianti, venditori privati, marketplace e altri luoghi online dove viene proposto antiquariato."
+        }
+      }
+    },
+    "finalCta": {
+      "eyebrow": "Verdetto",
+      "title": "Barnebys è solido per le aste. Aura Historia è pensato per il mercato dell’antiquariato.",
+      "description": "Se la tua ricerca deve includere i luoghi in cui l’antiquariato viene davvero proposto online, inizia da Aura Historia.",
+      "button": "Cerca antiquariato"
     }
   }
 }

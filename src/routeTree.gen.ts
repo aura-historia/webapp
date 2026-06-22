@@ -22,6 +22,7 @@ import { Route as PartnersIndexRouteImport } from './routes/partners.index'
 import { Route as SearchShopsRouteImport } from './routes/search_.shops'
 import { Route as PartnersCustomIntegrationRouteImport } from './routes/partners.custom-integration'
 import { Route as PartnersApplyRouteImport } from './routes/partners.apply'
+import { Route as CompareBarnebysRouteImport } from './routes/compare.barnebys'
 import { Route as AuthAdminRouteImport } from './routes/_auth.admin'
 import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
@@ -105,6 +106,11 @@ const PartnersApplyRoute = PartnersApplyRouteImport.update({
   id: '/apply',
   path: '/apply',
   getParentRoute: () => PartnersRoute,
+} as any)
+const CompareBarnebysRoute = CompareBarnebysRouteImport.update({
+  id: '/compare/barnebys',
+  path: '/compare/barnebys',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthAdminRoute = AuthAdminRouteImport.update({
   id: '/admin',
@@ -213,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/admin': typeof AuthAdminRouteWithChildren
+  '/compare/barnebys': typeof CompareBarnebysRoute
   '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
@@ -243,6 +250,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/compare/barnebys': typeof CompareBarnebysRoute
   '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
@@ -277,6 +285,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/_auth/admin': typeof AuthAdminRouteWithChildren
+  '/compare/barnebys': typeof CompareBarnebysRoute
   '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search_/shops': typeof SearchShopsRoute
@@ -311,6 +320,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/terms-and-conditions'
     | '/admin'
+    | '/compare/barnebys'
     | '/partners/apply'
     | '/partners/custom-integration'
     | '/search/shops'
@@ -341,6 +351,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
+    | '/compare/barnebys'
     | '/partners/apply'
     | '/partners/custom-integration'
     | '/search/shops'
@@ -374,6 +385,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/terms-and-conditions'
     | '/_auth/admin'
+    | '/compare/barnebys'
     | '/partners/apply'
     | '/partners/custom-integration'
     | '/search_/shops'
@@ -407,6 +419,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
+  CompareBarnebysRoute: typeof CompareBarnebysRoute
   SearchShopsRoute: typeof SearchShopsRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
   ShopsShopSlugIdIndexRoute: typeof ShopsShopSlugIdIndexRoute
@@ -507,6 +520,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/partners/apply'
       preLoaderRoute: typeof PartnersApplyRouteImport
       parentRoute: typeof PartnersRoute
+    }
+    '/compare/barnebys': {
+      id: '/compare/barnebys'
+      path: '/compare/barnebys'
+      fullPath: '/compare/barnebys'
+      preLoaderRoute: typeof CompareBarnebysRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_auth/admin': {
       id: '/_auth/admin'
@@ -707,6 +727,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   TermsAndConditionsRoute: TermsAndConditionsRoute,
+  CompareBarnebysRoute: CompareBarnebysRoute,
   SearchShopsRoute: SearchShopsRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
   ShopsShopSlugIdIndexRoute: ShopsShopSlugIdIndexRoute,
