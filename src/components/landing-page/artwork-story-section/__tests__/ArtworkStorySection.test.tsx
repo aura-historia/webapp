@@ -10,9 +10,8 @@ describe("ArtworkStorySection", () => {
     });
 
     it("renders the platform thesis intro", () => {
-        expect(screen.getByText("Warum Aura Historia")).toBeInTheDocument();
         expect(
-            screen.getByText("Der Antiquitätenmarkt, wie er heute wirklich ist"),
+            screen.getByText("Der globale Antiquitätenmarkt auf einen Blick"),
         ).toBeInTheDocument();
         expect(
             screen.getByText(/Besondere Stücke liegen selten an einer einzigen Stelle/),

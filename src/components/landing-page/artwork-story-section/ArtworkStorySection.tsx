@@ -8,21 +8,25 @@ export default function ArtworkStorySection() {
 
     return (
         <section
-            className="relative overflow-hidden bg-surface-container-low px-4 pt-28 pb-24 sm:px-8 lg:pt-36 lg:pb-28"
+            className="relative z-10 overflow-hidden bg-surface-container-low px-4 pt-16 pb-24 sm:px-8 lg:pt-24 lg:pb-28"
             aria-label={t("landingPage.artworkStories.ariaLabel")}
         >
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-linear-to-b from-surface-bright/95 to-surface-container-low/0" />
-            <div className="pointer-events-none absolute top-40 left-1/2 hidden h-[68%] w-120 -translate-x-1/2 bg-surface-container-high/45 lg:block" />
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-surface-bright/95 to-surface-container-low/0" />
+            <div className="pointer-events-none absolute top-96 left-1/2 hidden h-[58%] w-120 -translate-x-1/2 bg-surface-container-high/45 lg:block" />
 
             <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-16 lg:gap-20">
-                <div className="max-w-3xl">
-                    <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.24em] text-tertiary">
-                        {t("landingPage.artworkStories.eyebrow")}
-                    </span>
-                    <H2 className="text-3xl leading-tight sm:text-5xl lg:text-6xl">
+                <div className="max-w-5xl">
+                    <h2
+                        className="max-w-5xl font-display text-3xl font-normal leading-tight text-primary sm:text-5xl lg:text-5xl xl:text-6xl"
+                        style={{
+                            hyphens: "none",
+                            overflowWrap: "normal",
+                            wordBreak: "normal",
+                        }}
+                    >
                         {t("landingPage.artworkStories.title")}
-                    </H2>
-                    <p className="mt-6 max-w-2xl text-base leading-7 text-secondary sm:text-lg">
+                    </h2>
+                    <p className="mt-6 max-w-3xl text-base leading-7 text-secondary sm:text-lg">
                         {t("landingPage.artworkStories.description")}
                     </p>
                 </div>
