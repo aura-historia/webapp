@@ -5,7 +5,7 @@ import { type ShopType, SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/sho
 import { useTranslation } from "react-i18next";
 
 interface ShopTypeBadgeProps {
-    readonly shopType: ShopType;
+    readonly shopType?: ShopType;
     readonly className?: string;
 }
 
@@ -19,7 +19,7 @@ const SHOP_TYPE_ICONS = {
 export function ShopTypeBadge({ shopType, className }: ShopTypeBadgeProps) {
     const { t } = useTranslation();
 
-    if (shopType === "UNKNOWN") return null;
+    if (!shopType) return null;
 
     const Icon = SHOP_TYPE_ICONS[shopType];
 

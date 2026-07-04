@@ -19,7 +19,7 @@ export type ShopDetail = {
     readonly shopId: string;
     readonly shopSlugId: string;
     readonly name: string;
-    readonly shopType: ShopType;
+    readonly shopType?: ShopType;
     readonly partnerStatus: ShopPartnerStatus;
     readonly image?: string;
     readonly url?: string;

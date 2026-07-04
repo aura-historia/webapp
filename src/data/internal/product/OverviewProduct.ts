@@ -46,7 +46,7 @@ export type OverviewProduct = {
     readonly created: Date;
     readonly updated: Date;
     readonly userData?: UserProductData;
-    readonly shopType: ShopType;
+    readonly shopType?: ShopType;
     readonly auction?: AuctionWindow;
 };
 

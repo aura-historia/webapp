@@ -14,11 +14,11 @@ import { SHOP_PARTNER_STATUSES } from "@/data/internal/shop/ShopPartnerStatus.ts
 import { SHOP_FILTER_DEFAULTS } from "@/lib/shopFilterDefaults.ts";
 import { ShopPartnerStatusFilter } from "@/components/search/filters/ShopPartnerStatusFilter.tsx";
 import { serializeShopSearchParams } from "@/lib/shopSearchValidation.ts";
-import { FILTERABLE_SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
+import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter.tsx";
 
 const shopFilterSchema = z.object({
-    shopType: z.array(z.enum(FILTERABLE_SHOP_TYPES)),
+    shopType: z.array(z.enum(SHOP_TYPES)),
     partnerStatus: z.array(z.enum(SHOP_PARTNER_STATUSES)),
 });
 
@@ -112,7 +112,7 @@ export function ShopSearchFilters({ searchFilters }: ShopSearchFiltersProps) {
                 <div className="flex min-w-0 w-full flex-col gap-4 overflow-visible">
                     <ShopTypeFilter
                         onReset={() => form.setValue("shopType", SHOP_FILTER_DEFAULTS.shopType)}
-                        shopTypes={FILTERABLE_SHOP_TYPES}
+                        shopTypes={SHOP_TYPES}
                     />
                     <ShopPartnerStatusFilter />
                 </div>

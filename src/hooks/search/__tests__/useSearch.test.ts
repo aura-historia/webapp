@@ -110,7 +110,7 @@ describe("useSearch", () => {
             auctionDateTo: auctionTo,
             merchant: ["Aurora Gallery"],
             excludeMerchant: ["Other Shop"],
-            shopType: ["UNKNOWN", "AUCTION_HOUSE"],
+            shopType: ["AUCTION_HOUSE"],
             sortField: "PRICE",
             sortOrder: "ASC",
         };

@@ -45,7 +45,9 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
     }, [hasUnseenNotification, originEventId, markSeen.mutate]);
 
     const isRestrictedConsentGiven = product.userData?.restrictedContentData.consentGiven ?? false;
-    const shopTypeLabel = t(SHOP_TYPE_TRANSLATION_CONFIG[product.shopType].translationKey);
+    const shopTypeLabel = product.shopType
+        ? t(SHOP_TYPE_TRANSLATION_CONFIG[product.shopType].translationKey)
+        : undefined;
     const productLinkParams = {
         shopSlugId: product.shopSlugId,
         productSlugId: product.productSlugId,
@@ -104,9 +106,11 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                     </Link>
 
                     <div className="flex flex-1 flex-col gap-3 px-1 pt-4">
-                        <span className="w-fit bg-accent px-2 py-0.5 text-[10px] font-medium uppercase tracking-[1.2px] text-accent-foreground">
-                            {shopTypeLabel}
-                        </span>
+                        {shopTypeLabel && (
+                            <span className="w-fit bg-accent px-2 py-0.5 text-[10px] font-medium uppercase tracking-[1.2px] text-accent-foreground">
+                                {shopTypeLabel}
+                            </span>
+                        )}
 
                         <Link
                             to="/shops/$shopSlugId/products/$productSlugId"

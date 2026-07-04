@@ -30,20 +30,20 @@ describe("parseShopType", () => {
         expect(parseShopType("Auction_House")).toBe("AUCTION_HOUSE");
     });
 
-    it("should return UNKNOWN for an invalid shop type", () => {
-        expect(parseShopType("INVALID")).toBe("UNKNOWN");
+    it("should return undefined for an invalid shop type", () => {
+        expect(parseShopType("INVALID")).toBeUndefined();
     });
 
-    it("should return UNKNOWN for an empty string", () => {
-        expect(parseShopType("")).toBe("UNKNOWN");
+    it("should return undefined for an empty string", () => {
+        expect(parseShopType("")).toBeUndefined();
     });
 
-    it("should return UNKNOWN for undefined", () => {
-        expect(parseShopType(undefined)).toBe("UNKNOWN");
+    it("should return undefined for undefined", () => {
+        expect(parseShopType(undefined)).toBeUndefined();
     });
 
-    it("should return UNKNOWN for null", () => {
-        expect(parseShopType(null as unknown as string)).toBe("UNKNOWN");
+    it("should return undefined for null", () => {
+        expect(parseShopType(null as unknown as string)).toBeUndefined();
     });
 });
 
@@ -58,10 +58,6 @@ describe("mapToBackendShopType", () => {
 
     it("should return MARKETPLACE for MARKETPLACE", () => {
         expect(mapToBackendShopType("MARKETPLACE")).toBe("MARKETPLACE");
-    });
-
-    it("should return undefined for UNKNOWN", () => {
-        expect(mapToBackendShopType("UNKNOWN")).toBeUndefined();
     });
 
     it("should return undefined for undefined input", () => {

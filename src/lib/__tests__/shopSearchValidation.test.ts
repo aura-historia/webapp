@@ -24,7 +24,7 @@ describe("shopSearchValidation", () => {
         it("filters out unsupported shop types", () => {
             const result = validateShopSearchParams({
                 q: "x",
-                shopType: ["UNKNOWN", "MARKETPLACE", "bogus"],
+                shopType: ["unsupported-shop-type", "MARKETPLACE", "bogus"],
             } as never);
             expect(result.shopType).toEqual(["MARKETPLACE"]);
         });

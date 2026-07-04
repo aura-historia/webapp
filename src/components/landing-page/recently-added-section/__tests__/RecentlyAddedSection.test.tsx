@@ -2,7 +2,6 @@ import { screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import RecentlyAddedSection from "../RecentlyAddedSection.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import { parseShopType } from "@/data/internal/shop/ShopType.ts";
 import { parseProductState } from "@/data/internal/product/ProductState.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act } from "react";
@@ -47,7 +46,7 @@ const createMockProduct = (id: string, title: string): OverviewProduct => ({
     shopsProductId: `shops-product-${id}`,
     shopName: `Shop Name ${id}`,
     sellerName: `Shop Name ${id}`,
-    shopType: parseShopType("UNKNOWN"),
+    shopType: undefined,
     title,
     state: parseProductState("AVAILABLE"),
     url: new URL("https://example.com"),

@@ -6,17 +6,13 @@ import {
     SHOP_PARTNER_STATUSES,
 } from "@/data/internal/shop/ShopPartnerStatus.ts";
 import { SHOP_SEARCH_SORT_FIELDS, type ShopSortMode } from "@/data/internal/search/ShopSortMode.ts";
-import {
-    FILTERABLE_SHOP_TYPES,
-    type FilterableShopType,
-    parseShopType,
-} from "@/data/internal/shop/ShopType.ts";
+import { SHOP_TYPES, type ShopType, parseShopType } from "@/data/internal/shop/ShopType.ts";
 
-const FILTERABLE_SHOP_TYPE_SET = new Set<string>(FILTERABLE_SHOP_TYPES);
+const SHOP_TYPE_SET = new Set<string>(SHOP_TYPES);
 
 export type RawShopSearchParams = {
     q: string;
-    shopType?: FilterableShopType[];
+    shopType?: ShopType[];
     partnerStatus?: ShopPartnerStatus[];
     sortField?: string;
     sortOrder?: string;
@@ -35,17 +31,17 @@ function parsePartnerStatuses(values: unknown): ShopPartnerStatus[] | undefined 
     return seen.size === 0 ? [] : Array.from(seen);
 }
 
-function isFilterableShopType(value: string): value is FilterableShopType {
-    return FILTERABLE_SHOP_TYPE_SET.has(value);
+function isShopType(value: string): value is ShopType {
+    return SHOP_TYPE_SET.has(value);
 }
 
-function parseShopTypes(values: unknown): FilterableShopType[] | undefined {
+function parseShopTypes(values: unknown): ShopType[] | undefined {
     if (!Array.isArray(values)) return undefined;
-    const seen = new Set<FilterableShopType>();
+    const seen = new Set<ShopType>();
     for (const v of values) {
         if (typeof v !== "string") continue;
         const parsed = parseShopType(v);
-        if (isFilterableShopType(parsed)) {
+        if (parsed && isShopType(parsed)) {
             seen.add(parsed);
         }
     }

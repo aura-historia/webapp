@@ -119,11 +119,15 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                     <span className="max-w-full truncate rounded-none bg-secondary-container px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-on-secondary-container">
                         {product.shopName}
                     </span>
-                    <span className="text-xs text-on-surface/60">-</span>
-                    <ShopTypeBadge
-                        shopType={product.shopType}
-                        className="text-[10px] rounded-none border-none px-2 py-1 bg-secondary-container text-on-secondary-container"
-                    />
+                    {product.shopType && (
+                        <>
+                            <span className="text-xs text-on-surface/60">-</span>
+                            <ShopTypeBadge
+                                shopType={product.shopType}
+                                className="text-[10px] rounded-none border-none px-2 py-1 bg-secondary-container text-on-secondary-container"
+                            />
+                        </>
+                    )}
                 </div>
 
                 <div className="flex flex-wrap gap-2 pb-3">

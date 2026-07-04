@@ -43,18 +43,20 @@ export function ShopTypeFilter({
             <Controller
                 name="shopType"
                 control={control}
-                render={({ field }) => (
-                    <CheckboxMultiSelect
-                        options={options}
-                        value={field.value ?? []}
-                        onChange={field.onChange}
-                        allSelectedLabel={t("search.filter.all")}
-                        placeholder={t("search.filter.select")}
-                        infoButtonLabel={t("common.infoButton")}
-                        requireSelection
-                        requireSelectionLabel={t("search.filter.requireSelection")}
-                    />
-                )}
+                render={({ field }) => {
+                    return (
+                        <CheckboxMultiSelect
+                            options={options}
+                            value={field.value ?? []}
+                            onChange={field.onChange}
+                            allSelectedLabel={t("search.filter.all")}
+                            placeholder={t("search.filter.select")}
+                            infoButtonLabel={t("common.infoButton")}
+                            requireSelection
+                            requireSelectionLabel={t("search.filter.requireSelection")}
+                        />
+                    );
+                }}
             />
         </FilterCard>
     );
