@@ -36,6 +36,8 @@ import { Route as AuthMeAccountRouteImport } from './routes/_auth.me.account'
 import { Route as AuthAdminUsersRouteImport } from './routes/_auth.admin.users'
 import { Route as AuthAdminShopsRouteImport } from './routes/_auth.admin.shops'
 import { Route as AuthAdminPartnerApplicationsRouteImport } from './routes/_auth.admin.partner-applications'
+import { Route as AuthAdminOverviewRouteImport } from './routes/_auth.admin.overview'
+import { Route as AuthAdminOauthClientsRouteImport } from './routes/_auth.admin.oauth-clients'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
 import { Route as ApiOauthAuthorizeApproveRouteImport } from './routes/api.oauth.authorize.approve'
 import { Route as AuthMeSearchFilterFilterIdRouteImport } from './routes/_auth.me.search-filter.$filterId'
@@ -179,6 +181,16 @@ const AuthAdminPartnerApplicationsRoute =
     path: '/partner-applications',
     getParentRoute: () => AuthAdminRoute,
   } as any)
+const AuthAdminOverviewRoute = AuthAdminOverviewRouteImport.update({
+  id: '/overview',
+  path: '/overview',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
+const AuthAdminOauthClientsRoute = AuthAdminOauthClientsRouteImport.update({
+  id: '/oauth-clients',
+  path: '/oauth-clients',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
 const ShopsShopSlugIdProductsProductSlugIdRoute =
   ShopsShopSlugIdProductsProductSlugIdRouteImport.update({
     id: '/shops/$shopSlugId/products/$productSlugId',
@@ -224,6 +236,8 @@ export interface FileRoutesByFullPath {
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
   '/partners/': typeof PartnersIndexRoute
+  '/admin/oauth-clients': typeof AuthAdminOauthClientsRoute
+  '/admin/overview': typeof AuthAdminOverviewRoute
   '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/admin/shops': typeof AuthAdminShopsRoute
   '/admin/users': typeof AuthAdminUsersRoute
@@ -255,6 +269,8 @@ export interface FileRoutesByTo {
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
   '/partners': typeof PartnersIndexRoute
+  '/admin/oauth-clients': typeof AuthAdminOauthClientsRoute
+  '/admin/overview': typeof AuthAdminOverviewRoute
   '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/admin/shops': typeof AuthAdminShopsRoute
   '/admin/users': typeof AuthAdminUsersRoute
@@ -290,6 +306,8 @@ export interface FileRoutesById {
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search_/shops': typeof SearchShopsRoute
   '/partners/': typeof PartnersIndexRoute
+  '/_auth/admin/oauth-clients': typeof AuthAdminOauthClientsRoute
+  '/_auth/admin/overview': typeof AuthAdminOverviewRoute
   '/_auth/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/_auth/admin/shops': typeof AuthAdminShopsRoute
   '/_auth/admin/users': typeof AuthAdminUsersRoute
@@ -325,6 +343,8 @@ export interface FileRouteTypes {
     | '/partners/custom-integration'
     | '/search/shops'
     | '/partners/'
+    | '/admin/oauth-clients'
+    | '/admin/overview'
     | '/admin/partner-applications'
     | '/admin/shops'
     | '/admin/users'
@@ -356,6 +376,8 @@ export interface FileRouteTypes {
     | '/partners/custom-integration'
     | '/search/shops'
     | '/partners'
+    | '/admin/oauth-clients'
+    | '/admin/overview'
     | '/admin/partner-applications'
     | '/admin/shops'
     | '/admin/users'
@@ -390,6 +412,8 @@ export interface FileRouteTypes {
     | '/partners/custom-integration'
     | '/search_/shops'
     | '/partners/'
+    | '/_auth/admin/oauth-clients'
+    | '/_auth/admin/overview'
     | '/_auth/admin/partner-applications'
     | '/_auth/admin/shops'
     | '/_auth/admin/users'
@@ -619,6 +643,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminPartnerApplicationsRouteImport
       parentRoute: typeof AuthAdminRoute
     }
+    '/_auth/admin/overview': {
+      id: '/_auth/admin/overview'
+      path: '/overview'
+      fullPath: '/admin/overview'
+      preLoaderRoute: typeof AuthAdminOverviewRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/oauth-clients': {
+      id: '/_auth/admin/oauth-clients'
+      path: '/oauth-clients'
+      fullPath: '/admin/oauth-clients'
+      preLoaderRoute: typeof AuthAdminOauthClientsRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
     '/shops/$shopSlugId/products/$productSlugId': {
       id: '/shops/$shopSlugId/products/$productSlugId'
       path: '/shops/$shopSlugId/products/$productSlugId'
@@ -658,6 +696,8 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthAdminRouteChildren {
+  AuthAdminOauthClientsRoute: typeof AuthAdminOauthClientsRoute
+  AuthAdminOverviewRoute: typeof AuthAdminOverviewRoute
   AuthAdminPartnerApplicationsRoute: typeof AuthAdminPartnerApplicationsRoute
   AuthAdminShopsRoute: typeof AuthAdminShopsRoute
   AuthAdminUsersRoute: typeof AuthAdminUsersRoute
@@ -665,6 +705,8 @@ interface AuthAdminRouteChildren {
 }
 
 const AuthAdminRouteChildren: AuthAdminRouteChildren = {
+  AuthAdminOauthClientsRoute: AuthAdminOauthClientsRoute,
+  AuthAdminOverviewRoute: AuthAdminOverviewRoute,
   AuthAdminPartnerApplicationsRoute: AuthAdminPartnerApplicationsRoute,
   AuthAdminShopsRoute: AuthAdminShopsRoute,
   AuthAdminUsersRoute: AuthAdminUsersRoute,

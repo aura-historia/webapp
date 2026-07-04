@@ -207,7 +207,11 @@ export function SearchBar({ type }: SearchBarProps) {
                                                 : "h-9 rounded-sm text-sm",
                                         )}
                                     >
-                                        <SelectValue />
+                                        <SelectValue>
+                                            {searchType === "shops"
+                                                ? t("search.bar.searchType.shops")
+                                                : t("search.bar.searchType.products")}
+                                        </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>

@@ -1286,7 +1286,8 @@
       "overview": "Resumen",
       "shops": "Tiendas",
       "partnerApplications": "Solicitudes de socios",
-      "users": "Usuarios"
+      "users": "Usuarios",
+      "oauthClients": "Clientes OAuth"
     },
     "overview": {
       "title": "Panel de administración",
@@ -1306,12 +1307,19 @@
         "description": "Busca cuentas, revisa detalles de usuario y gestiona roles, planes, preferencias y asignaciones de Stripe.",
         "totalCount_one": "{{count}} cuenta de usuario",
         "totalCount_other": "{{count}} cuentas de usuario"
+      },
+      "oauthClients": {
+        "title": "Clientes OAuth",
+        "description": "Gestiona las aplicaciones cliente OAuth registradas.",
+        "totalCount_one": "{{count}} cliente OAuth",
+        "totalCount_other": "{{count}} clientes OAuth"
       }
     },
     "actions": {
       "edit": "Editar",
       "save": "Guardar",
       "cancel": "Cancelar",
+      "close": "Cerrar",
       "retry": "Reintentar"
     },
     "shops": {
@@ -1507,6 +1515,65 @@
         "delete": "Eliminar usuario",
         "deleteConfirm": "¿Eliminar el usuario {{email}}? Esta acción no se puede deshacer.",
         "deleteSuccess": "Usuario eliminado."
+      }
+    },
+    "oauthClients": {
+      "title": "Clientes OAuth",
+      "description": "Gestiona las aplicaciones cliente OAuth registradas y sus metadatos.",
+      "loadError": "No se pudieron cargar los clientes OAuth.",
+      "empty": "Todavía no hay clientes OAuth registrados.",
+      "clientId": "ID del cliente",
+      "clientSecret": "Secreto del cliente",
+      "clientName": "Nombre del cliente",
+      "redirectUris": "URI de redirección",
+      "scope": "Ámbitos",
+      "logoAlt": "Logotipo de {{client}}",
+      "createdAt": "Creado {{date}}",
+      "editAriaLabel": "Editar {{client}}",
+      "deleteAriaLabel": "Eliminar {{client}}",
+      "actions": {
+        "create": "Crear cliente",
+        "delete": "Eliminar"
+      },
+      "deleteConfirm": "¿Seguro que quieres eliminar el cliente \"{{client}}\"? Esta acción no se puede deshacer.",
+      "deleteSuccess": "Cliente OAuth eliminado.",
+      "create": {
+        "title": "Crear cliente OAuth",
+        "description": "Registra un nuevo cliente OAuth. El secreto del cliente solo se mostrará una vez.",
+        "submit": "Crear cliente",
+        "success": "Cliente OAuth creado.",
+        "confirmationTitle": "Cliente OAuth creado",
+        "confirmationDescription": "Copia el ID y el secreto del cliente y guárdalos en un lugar seguro. El secreto del cliente solo se muestra una vez.",
+        "validation": {
+          "nameRequired": "Introduce un nombre para el cliente.",
+          "nameTooLong": "El nombre del cliente no debe superar los 255 caracteres.",
+          "uriInvalid": "Introduce una URL HTTPS válida.",
+          "redirectUrisRequired": "Introduce al menos una URI de redirección.",
+          "redirectUriInvalid": "Cada URI de redirección debe ser una URL HTTPS válida."
+        }
+      },
+      "edit": {
+        "title": "Editar cliente OAuth",
+        "description": "Editando {{client}}",
+        "success": "Cliente OAuth actualizado.",
+        "validation": {
+          "nameRequired": "Introduce un nombre para el cliente.",
+          "nameTooLong": "El nombre del cliente no debe superar los 255 caracteres.",
+          "uriInvalid": "Introduce una URL HTTPS válida.",
+          "redirectUrisRequired": "Introduce al menos una URI de redirección.",
+          "redirectUriInvalid": "Cada URI de redirección debe ser una URL HTTPS válida."
+        }
+      },
+      "fields": {
+        "clientName": "Nombre del cliente",
+        "clientUri": "URL del cliente",
+        "logoUri": "URL del logotipo",
+        "tosUri": "URL de los términos del servicio",
+        "policyUri": "URL de la política de privacidad",
+        "redirectUris": "URI de redirección",
+        "redirectUrisHint": "Una URI HTTPS por línea.",
+        "scope": "Ámbitos",
+        "scopeHint": "Selecciona los ámbitos que este cliente puede solicitar."
       }
     }
   },

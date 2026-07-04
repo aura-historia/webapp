@@ -1,19 +1,22 @@
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { FileText, Store, Users } from "lucide-react";
+import { FileText, KeyRound, Store, Users } from "lucide-react";
 import { H1 } from "@/components/typography/H1.tsx";
+import { useAdminOAuthClients } from "@/features/admin/oauth-client-management/hooks/useAdminOAuthClients.ts";
 import { useAdminPartnerApplications } from "@/hooks/admin/useAdminPartnerApplications.ts";
 import { useAdminUsers } from "@/hooks/admin/useAdminUsers.ts";
 
 export function AdminOverviewPage() {
     const { t } = useTranslation();
     const { data: applications } = useAdminPartnerApplications();
+    const { data: oauthClients } = useAdminOAuthClients();
     const { data: users } = useAdminUsers({ sort: "updated", order: "desc" });
 
     const pendingApplications =
         applications?.filter(
             (a) => a.businessState === "SUBMITTED" || a.businessState === "IN_REVIEW",
         ).length ?? 0;
+    const totalOAuthClients = oauthClients?.length;
     const totalUsers = users?.pages[0]?.total;
 
     return (
@@ -25,7 +28,7 @@ export function AdminOverviewPage() {
                 </p>
             </header>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
                 <Link
                     to="/admin/shops"
                     className="group flex flex-col gap-2 rounded-md border bg-surface-container-low p-5 transition-colors hover:border-primary"
@@ -58,6 +61,28 @@ export function AdminOverviewPage() {
                         <p className="text-sm font-medium text-primary">
                             {t("adminDashboard.overview.applications.pendingCount", {
                                 count: pendingApplications,
+                            })}
+                        </p>
+                    )}
+                </Link>
+
+                <Link
+                    to="/admin/oauth-clients"
+                    className="group flex flex-col gap-2 rounded-md border bg-surface-container-low p-5 transition-colors hover:border-primary"
+                >
+                    <div className="flex items-center gap-3">
+                        <KeyRound className="h-5 w-5 text-primary" aria-hidden="true" />
+                        <h2 className="text-lg font-medium">
+                            {t("adminDashboard.overview.oauthClients.title")}
+                        </h2>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                        {t("adminDashboard.overview.oauthClients.description")}
+                    </p>
+                    {totalOAuthClients !== undefined && (
+                        <p className="text-sm font-medium text-primary">
+                            {t("adminDashboard.overview.oauthClients.totalCount", {
+                                count: totalOAuthClients,
                             })}
                         </p>
                     )}

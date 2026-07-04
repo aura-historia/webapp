@@ -133,10 +133,10 @@ export function Header() {
                             {isAdmin && (
                                 <NavigationMenuItem>
                                     <NavigationMenuLink asChild>
-                                        <Link to="/admin">
+                                        <Link to="/admin/overview">
                                             <span
                                                 className={cn(
-                                                    pathname === "/admin" ||
+                                                    pathname === "/admin/overview" ||
                                                         pathname.startsWith("/admin/")
                                                         ? "underline"
                                                         : "",
@@ -177,7 +177,7 @@ export function Header() {
                             </DropdownMenuItem>
                             {isAdmin && (
                                 <DropdownMenuItem asChild className="xl:hidden">
-                                    <Link to="/admin">{t("header.admin")}</Link>
+                                    <Link to="/admin/overview">{t("header.admin")}</Link>
                                 </DropdownMenuItem>
                             )}
                             <DropdownMenuSeparator className="xl:hidden" />
@@ -341,7 +341,9 @@ export function Header() {
                                             </DropdownMenuItem>
                                             {isAdmin && (
                                                 <DropdownMenuItem asChild>
-                                                    <Link to="/admin">{t("header.admin")}</Link>
+                                                    <Link to="/admin/overview">
+                                                        {t("header.admin")}
+                                                    </Link>
                                                 </DropdownMenuItem>
                                             )}
                                             <DropdownMenuItem onSelect={() => signOut()}>
