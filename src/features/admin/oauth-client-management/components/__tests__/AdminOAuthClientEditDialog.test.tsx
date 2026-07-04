@@ -5,7 +5,7 @@ import { AdminOAuthClientEditDialog } from "../AdminOAuthClientEditDialog.tsx";
 
 const mockMutate = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/admin/useAdminOAuthClientActions.ts", () => ({
+vi.mock("@/features/admin/oauth-client-management/hooks/useAdminOAuthClientActions.ts", () => ({
     usePatchOAuthClient: () => ({
         mutate: mockMutate,
         isPending: false,

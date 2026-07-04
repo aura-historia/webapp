@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getOAuthClients } from "@/client";
-import { mapToOAuthClient, type OAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
+import {
+    mapToOAuthClient,
+    type OAuthClient,
+} from "@/features/admin/oauth-client-management/types/OAuthClient.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 

@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { FileText, KeyRound, Store, Users } from "lucide-react";
 import { H1 } from "@/components/typography/H1.tsx";
-import { useAdminOAuthClients } from "@/hooks/admin/useAdminOAuthClients.ts";
+import { useAdminOAuthClients } from "@/features/admin/oauth-client-management/hooks/useAdminOAuthClients.ts";
 import { useAdminPartnerApplications } from "@/hooks/admin/useAdminPartnerApplications.ts";
 import { useAdminUsers } from "@/hooks/admin/useAdminUsers.ts";
 

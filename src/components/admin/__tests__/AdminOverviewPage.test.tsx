@@ -10,7 +10,7 @@ vi.mock("@/hooks/admin/useAdminPartnerApplications.ts", () => ({
     useAdminPartnerApplications: mockUseAdminPartnerApplications,
 }));
 
-vi.mock("@/hooks/admin/useAdminOAuthClients.ts", () => ({
+vi.mock("@/features/admin/oauth-client-management/hooks/useAdminOAuthClients.ts", () => ({
     useAdminOAuthClients: mockUseAdminOAuthClients,
 }));
 

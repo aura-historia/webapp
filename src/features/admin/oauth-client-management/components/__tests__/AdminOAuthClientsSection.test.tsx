@@ -2,16 +2,16 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AdminOAuthClientsSection } from "../AdminOAuthClientsSection.tsx";
-import type { OAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
+import type { OAuthClient } from "@/features/admin/oauth-client-management/types/OAuthClient.ts";
 
 const mockUseAdminOAuthClients = vi.hoisted(() => vi.fn());
 const mockDeleteMutate = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/admin/useAdminOAuthClients.ts", () => ({
+vi.mock("@/features/admin/oauth-client-management/hooks/useAdminOAuthClients.ts", () => ({
     useAdminOAuthClients: mockUseAdminOAuthClients,
 }));
 
-vi.mock("@/hooks/admin/useAdminOAuthClientActions.ts", () => ({
+vi.mock("@/features/admin/oauth-client-management/hooks/useAdminOAuthClientActions.ts", () => ({
     useDeleteOAuthClient: () => ({
         mutate: mockDeleteMutate,
         isPending: false,
