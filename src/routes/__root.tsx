@@ -36,17 +36,11 @@ import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { ConsentBanner } from "@/components/common/ConsentBanner.tsx";
 import { SONNER_TOASTER_PROPS } from "@/lib/ui/sonnerToasterConfig";
 import { getServerUser } from "@/lib/server/amplify.ts";
-import type { AuthUser } from "aws-amplify/auth";
-
-export type ServerAuth =
-    | { user: AuthUser; authenticated: true }
-    | { user: null; authenticated: false };
 
 interface MyRouterContext {
     queryClient: QueryClient;
     initialPreferences: Partial<UserPreferences>;
     timeZone: string;
-    serverAuth: ServerAuth;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
