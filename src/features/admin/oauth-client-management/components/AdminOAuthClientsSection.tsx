@@ -21,7 +21,7 @@ export function AdminOAuthClientsSection() {
     const [createOpen, setCreateOpen] = useState(false);
     const [editTarget, setEditTarget] = useState<OAuthClient | null>(null);
     const handleDelete = (client: OAuthClient) => {
-        const confirmed = window.confirm(
+        const confirmed = globalThis.confirm(
             t("adminDashboard.oauthClients.deleteConfirm", {
                 client: client.clientName,
             }),
