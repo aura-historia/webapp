@@ -3,7 +3,6 @@ import { PartnerDashboardPage } from "@/features/partner-dashboard/pages/Partner
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 
 export const Route = createFileRoute("/_auth/partners/dashboard")({
-    ssr: false,
     head: () =>
         generatePageHeadMeta({
             pageKey: "partnerDashboard",

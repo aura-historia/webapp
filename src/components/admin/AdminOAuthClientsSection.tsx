@@ -98,10 +98,7 @@ export function AdminOAuthClientsSection() {
                                             </Badge>
                                         ))}
                                     </div>
-                                    <span
-                                        className="text-sm text-muted-foreground"
-                                        suppressHydrationWarning
-                                    >
+                                    <span className="text-sm text-muted-foreground">
                                         {t("adminDashboard.oauthClients.createdAt", {
                                             date: formatShortDate(client.createdAt, i18n.language),
                                         })}

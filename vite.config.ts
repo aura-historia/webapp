@@ -10,12 +10,12 @@ const EXCLUDED_ROUTES = new Set([
     "/search",
     "/api/",
     "/login",
+    "/admin/",
     // Partner program sub-routes are placeholders linked to from /partners
     // until their landing pages exist. Skip prerendering to avoid 404 crawls.
     "/partners/apply",
-    "/partners/woocommerce",
-    "/partners/shopify",
     "/partners/custom-integration",
+    "/partners/dashboard",
 ]);
 
 export default defineConfig({

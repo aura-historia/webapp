@@ -3,7 +3,7 @@ import { AdminLayout } from "@/components/admin/AdminLayout.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 
 export const Route = createFileRoute("/_auth/admin")({
-    ssr: false,
+    ssr: "data-only",
     head: () =>
         generatePageHeadMeta({
             pageKey: "admin",
