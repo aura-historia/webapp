@@ -263,6 +263,11 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
         else goTo(step + 1);
     }, [step, nameForm, goTo]);
 
+    const handleSaveDirect = useCallback(() => {
+        if (step === 1) nameForm.handleSubmit(handleSave)();
+        else handleSave();
+    }, [step, nameForm, handleSave]);
+
     const handleContentKeyDown = useCallback(
         (e: React.KeyboardEvent) => {
             if (
@@ -534,11 +539,23 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                     ? t("searchFilter.saveDialog.cancelButton")
                                     : t("searchFilter.wizard.back")}
                             </Button>
-                            <div className="flex flex-col items-end gap-1.5">
+                            <div className="flex items-center gap-2">
                                 {step < TOTAL_STEPS ? (
-                                    <Button type="button" size="lg" onClick={handleNext}>
-                                        {t("searchFilter.wizard.next")}
-                                    </Button>
+                                    <>
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="lg"
+                                            onClick={handleSaveDirect}
+                                            disabled={isPending}
+                                            className="text-muted-foreground"
+                                        >
+                                            {t("searchFilter.wizard.saveDirectly")}
+                                        </Button>
+                                        <Button type="button" size="lg" onClick={handleNext}>
+                                            {t("searchFilter.wizard.next")}
+                                        </Button>
+                                    </>
                                 ) : (
                                     <Button
                                         type="button"

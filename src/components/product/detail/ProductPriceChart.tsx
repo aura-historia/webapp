@@ -37,6 +37,26 @@ const createTimeRanges = (t: TFunction) => {
     ] as const;
 };
 
+type ZoomableChartHandle = {
+    zoomX: (start: number, end: number) => void;
+};
+
+type ZoomRange = {
+    xaxis: {
+        min: number;
+        max: number;
+    };
+};
+
+const isZoomableChart = (chart: unknown): chart is ZoomableChartHandle => {
+    return (
+        typeof chart === "object" &&
+        chart !== null &&
+        "zoomX" in chart &&
+        typeof chart.zoomX === "function"
+    );
+};
+
 export function ProductPriceChart({ history }: { readonly history?: readonly ProductEvent[] }) {
     const { t, i18n } = useTranslation();
     const { preferences } = useUserPreferences();
@@ -115,19 +135,23 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
     };
 
     useEffect(() => {
-        if (!chartRef.current) return;
+        if (!Number.isFinite(minTimestamp) || !Number.isFinite(maxTimestamp)) return;
+
+        const chart = chartRef.current as unknown;
+        if (!isZoomableChart(chart)) return;
 
         if (selectedTimeRange === null) {
-            return chartRef.current?.zoomX(minTimestamp, maxTimestamp);
+            chart.zoomX(minTimestamp, maxTimestamp);
+            return;
         }
 
         const totalDays = (maxTimestamp - minTimestamp) / (24 * 60 * 60 * 1000);
 
         if (selectedTimeRange >= totalDays) {
-            chartRef.current.zoomX(minTimestamp, maxTimestamp);
+            chart.zoomX(minTimestamp, maxTimestamp);
         } else {
             const startDate = maxTimestamp - selectedTimeRange * 24 * 60 * 60 * 1000;
-            chartRef.current.zoomX(startDate, maxTimestamp);
+            chart.zoomX(startDate, maxTimestamp);
         }
     }, [selectedTimeRange, maxTimestamp, minTimestamp]);
 
@@ -150,6 +174,28 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
      * - `name`: The label used for the series in legends and tooltips.
      */
     const series = [{ name: t("product.priceChart.seriesName"), data: priceData }];
+
+    const handleBeforeZoom: (chart: ApexCharts, options?: ZoomRange) => void = (
+        _chartContext,
+        options,
+    ) => {
+        const xaxis = options?.xaxis;
+
+        if (!xaxis || !Number.isFinite(xaxis.min) || !Number.isFinite(xaxis.max)) {
+            return;
+        }
+
+        const isCompletelyOutside = xaxis.max < minTimestamp || xaxis.min > maxTimestamp;
+
+        if (isCompletelyOutside) {
+            return {
+                xaxis: {
+                    min: minTimestamp,
+                    max: maxTimestamp,
+                },
+            };
+        }
+    };
 
     /**
      * Defines the visual appearance and behavior of the chart.
@@ -175,18 +221,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                  * This function intercepts such an attempt and resets the zoom to the
                  * entire available data range instead, ensuring the chart display remains stable.
                  */
-                beforeZoom: (chartContext, options) => {
-                    const xaxis = options?.xaxis;
-                    if (!xaxis) return;
-
-                    const isCompletelyOutside =
-                        xaxis.max < minTimestamp || xaxis.min > maxTimestamp;
-
-                    if (isCompletelyOutside) {
-                        chartContext.zoomX(minTimestamp, maxTimestamp);
-                        return false;
-                    }
-                },
+                beforeZoom: handleBeforeZoom,
             },
         },
         dataLabels: {
@@ -346,7 +381,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                             type="button"
                             key={timeRange.label}
                             onClick={() => handleZoom(timeRange.days)}
-                            className={`border-b pb-1 text-xs tracking-[0.1em] uppercase transition-colors duration-300 ease-out ${
+                            className={`border-b pb-1 text-xs tracking-widest uppercase transition-colors duration-300 ease-out ${
                                 timeRange.days === selectedTimeRange
                                     ? "border-primary text-primary"
                                     : "border-transparent text-muted-foreground hover:text-primary"

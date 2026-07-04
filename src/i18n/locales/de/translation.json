@@ -62,6 +62,10 @@
     },
     "partnerDashboard": {
       "title": "Partner-Dashboard | Aura Historia"
+    },
+    "compareBarnebys": {
+      "title": "Aura Historia vs. Barnebys | Antiquitätensuche im Vergleich",
+      "description": "Aura Historia und Barnebys im Vergleich: Quellenabdeckung, mehrsprachige Suche, schnelle Benachrichtigungen und KI-gestützte Marktbeobachtung für Antiquitäten."
     }
   },
   "validation": {
@@ -118,7 +122,8 @@
       "followUs": "Folge uns",
       "contact": "Kontakt",
       "discoverMore": "Mehr entdecken",
-      "partnerProgram": "Partner-Programm"
+      "partnerProgram": "Partner-Programm",
+      "compare": "Vergleichen"
     },
     "landingPageLinks": {
       "recentlyAdded": "Neueste Zugänge",
@@ -137,6 +142,9 @@
       "shopify": "Shopify App Store",
       "customApi": "Eigene Integration",
       "apply": "Jetzt bewerben"
+    },
+    "compareLinks": {
+      "barnebys": "Barnebys"
     }
   },
   "account": {
@@ -1292,6 +1300,7 @@
       "title": "Neuen Suchauftrag anlegen",
       "back": "Zurück",
       "next": "Weiter",
+      "saveDirectly": "Speichern",
       "nameRequired": "Bitte geben Sie einen Namen ein.",
       "nameTooLong": "Der Name darf maximal 255 Zeichen lang sein.",
       "queryTooShort": "Der Suchbegriff muss mindestens 3 Zeichen lang sein.",
@@ -1341,6 +1350,7 @@
     "notificationsOff": "Keine Benachrichtigungen",
     "activate": "Aktivieren",
     "deactivate": "Pausieren",
+    "moreActions": "Weitere Aktionen",
     "stateInactiveByUser": "Pausiert",
     "stateInactiveByPlan": "Gesperrt",
     "stateInactiveByPlanTooltip": "Dieser Suchauftrag ist aufgrund Ihres Abonnements inaktiv.",
@@ -1360,10 +1370,13 @@
     "totalElements_one": "{{count}} Suchauftrag",
     "totalElements_other": "{{count}} Suchaufträge",
     "matchingProducts": "Alle Suchtreffer anzeigen",
+    "matchingProductsShort": "Alle Suchtreffer",
     "matchingProductsInactive": "Suchauftrag ist inaktiv – keine Treffer verfügbar.",
     "searchPlaceholder": "Suchaufträge durchsuchen …",
     "showDetails": "Details anzeigen",
-    "showResults": "Jetzt suchen",
+    "showResults": "Live-Vorschau",
+    "previewError": "Vorschau konnte nicht geladen werden.",
+    "previewEmpty": "Keine Treffer für diesen Suchauftrag gefunden.",
     "info": {
       "merchant": "Händler",
       "excludeMerchant": "Ausgeschl.",
@@ -1526,7 +1539,8 @@
       "overview": "Übersicht",
       "shops": "Shops",
       "partnerApplications": "Partner-Anträge",
-      "users": "Benutzer"
+      "users": "Benutzer",
+      "oauthClients": "OAuth-Clients"
     },
     "overview": {
       "title": "Admin-Dashboard",
@@ -1546,12 +1560,19 @@
         "description": "Konten suchen, Benutzerdetails prüfen und Rolle, Tarif, Einstellungen sowie Stripe-Zuordnungen verwalten.",
         "totalCount_one": "{{count}} Benutzerkonto",
         "totalCount_other": "{{count}} Benutzerkonten"
+      },
+      "oauthClients": {
+        "title": "OAuth-Clients",
+        "description": "Registrierte OAuth-Client-Anwendungen verwalten.",
+        "totalCount_one": "{{count}} OAuth-Client",
+        "totalCount_other": "{{count}} OAuth-Clients"
       }
     },
     "actions": {
       "edit": "Bearbeiten",
       "save": "Speichern",
       "cancel": "Abbrechen",
+      "close": "Schließen",
       "retry": "Erneut versuchen"
     },
     "shops": {
@@ -1748,6 +1769,65 @@
         "deleteConfirm": "Benutzer {{email}} löschen? Dies kann nicht rückgängig gemacht werden.",
         "deleteSuccess": "Benutzer gelöscht."
       }
+    },
+    "oauthClients": {
+      "title": "OAuth-Clients",
+      "description": "Registrierte OAuth-Client-Anwendungen und ihre Metadaten verwalten.",
+      "loadError": "OAuth-Clients konnten nicht geladen werden.",
+      "empty": "Noch keine OAuth-Clients registriert.",
+      "clientId": "Client-ID",
+      "clientSecret": "Client-Secret",
+      "clientName": "Client-Name",
+      "redirectUris": "Redirect-URIs",
+      "scope": "Scopes",
+      "logoAlt": "Logo von {{client}}",
+      "createdAt": "Erstellt {{date}}",
+      "editAriaLabel": "{{client}} bearbeiten",
+      "deleteAriaLabel": "{{client}} löschen",
+      "actions": {
+        "create": "Client anlegen",
+        "delete": "Löschen"
+      },
+      "deleteConfirm": "Möchten Sie den Client \"{{client}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "deleteSuccess": "OAuth-Client gelöscht.",
+      "create": {
+        "title": "OAuth-Client anlegen",
+        "description": "Einen neuen OAuth-Client registrieren. Das Client-Secret wird nur einmal angezeigt.",
+        "submit": "Client anlegen",
+        "success": "OAuth-Client wurde erfolgreich angelegt.",
+        "confirmationTitle": "OAuth-Client erfolgreich angelegt",
+        "confirmationDescription": "Kopieren Sie die Client-ID und das Client-Secret und bewahren Sie beide sicher auf. Das Client-Secret wird nur einmal angezeigt.",
+        "validation": {
+          "nameRequired": "Bitte geben Sie einen Client-Namen ein.",
+          "nameTooLong": "Der Client-Name darf nicht länger als 255 Zeichen sein.",
+          "uriInvalid": "Bitte geben Sie eine gültige HTTPS-URL ein.",
+          "redirectUrisRequired": "Bitte geben Sie mindestens eine Redirect-URI ein.",
+          "redirectUriInvalid": "Jede Redirect-URI muss eine gültige HTTPS-URL sein."
+        }
+      },
+      "edit": {
+        "title": "OAuth-Client bearbeiten",
+        "description": "\"{{client}}\" wird bearbeitet",
+        "success": "OAuth-Client aktualisiert.",
+        "validation": {
+          "nameRequired": "Bitte geben Sie einen Client-Namen ein.",
+          "nameTooLong": "Der Client-Name darf nicht länger als 255 Zeichen sein.",
+          "uriInvalid": "Bitte geben Sie eine gültige HTTPS-URL ein.",
+          "redirectUrisRequired": "Bitte geben Sie mindestens eine Redirect-URI ein.",
+          "redirectUriInvalid": "Jede Redirect-URI muss eine gültige HTTPS-URL sein."
+        }
+      },
+      "fields": {
+        "clientName": "Client-Name",
+        "clientUri": "Client-URL",
+        "logoUri": "Logo-URL",
+        "tosUri": "AGB-URL",
+        "policyUri": "Datenschutzerklärungs-URL",
+        "redirectUris": "Redirect-URIs",
+        "redirectUrisHint": "Eine HTTPS-URI pro Zeile.",
+        "scope": "Scopes",
+        "scopeHint": "Wählen Sie die Scopes aus, die dieser Client anfordern darf."
+      }
     }
   },
   "oauth": {
@@ -1791,6 +1871,203 @@
         "label": "Shops verwalten",
         "description": "Ihre Shop-Einstellungen verwalten."
       }
+    }
+  },
+  "compareBarnebysPage": {
+    "structuredData": {
+      "about": {
+        "searchEngine": "Suchmaschine für Antiquitäten",
+        "auctionAggregation": "Auktionssuche und Auktionsaggregation",
+        "multilingualSearch": "mehrsprachige Suche nach Antiquitäten",
+        "realTimeAlerts": "Benachrichtigungen für Antiquitäten nahezu in Echtzeit",
+        "aiDiscovery": "KI-gestützte Antiquitätensuche"
+      }
+    },
+    "hero": {
+      "eyebrow": "Vergleich: Aura Historia vs. Barnebys",
+      "title": "Mehr vom Antiquitätenmarkt sehen als nur Auktionskataloge",
+      "subtitle": "Barnebys hat viel dazu beigetragen, Auktionskataloge leichter durchsuchbar zu machen. Aura Historia setzt früher und breiter an: Wer ernsthaft sammelt, sollte den Online-Markt als Ganzes im Blick haben – nicht nur die bekanntesten Auktionsquellen.",
+      "primaryCta": "Den gesamten Markt durchsuchen",
+      "secondaryCta": "Vergleich ansehen",
+      "quickAnswerEyebrow": "Kurz gesagt",
+      "quickAnswerTitle": "Barnebys ist etabliert. Aura Historia blickt weiter.",
+      "quickAnswerDescription": "Unsere Empfehlung: Barnebys eignet sich gut, wenn Sie vor allem in bekannten Auktionskatalogen stöbern möchten. Aura Historia ist die bessere Wahl, wenn Sie Auktionshäuser, Händler, Marktplätze, private Verkäufer, Übersetzungen und nahezu Echtzeit-Monitoring in einer Suche verbinden wollen."
+    },
+    "quickVerdicts": {
+      "auctionDiscovery": {
+        "label": "Stark bei etablierten Auktionskatalogen",
+        "value": "Barnebys"
+      },
+      "marketSearch": {
+        "label": "Stärker für die Suche im gesamten Antiquitätenmarkt",
+        "value": "Aura Historia"
+      },
+      "multilingualDiscovery": {
+        "label": "Stärker bei mehrsprachiger Recherche",
+        "value": "Aura Historia"
+      },
+      "realTimeMonitoring": {
+        "label": "Stärker bei nahezu Echtzeit-Monitoring",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "eyebrow": "Zusammenfassung",
+      "title": "Die Kurzfassung",
+      "paragraph1": "Aura Historia ist die stärkere Barnebys-Alternative für Sammler, Händler und alle, die Antiquitäten nicht nur in Auktionskatalogen finden möchten.",
+      "paragraph2": "Barnebys verdient Anerkennung für seine Rolle in der Auktionssuche. Im praktischen Vergleich punktet Aura Historia jedoch mit mehr Quellentypen, übersetzten und vereinheitlichten Angebotstexten, nahezu Echtzeit-Monitoring und moderner KI-gestützter Suche."
+    },
+    "respect": {
+      "eyebrow": "Anerkennung, wo sie angebracht ist",
+      "title": "Barnebys hat die Auktionssuche mitgeprägt",
+      "paragraph1": "Ein fairer Vergleich beginnt damit: Barnebys ist in der Welt der Antiquitätenauktionen ein bekannter Name. Für viele Käufer hat der Dienst verstreute Auktionskataloge zugänglicher und besser durchsuchbar gemacht.",
+      "paragraph2": "Das ist wertvoll. Es ist aber nicht dasselbe wie ein Blick auf den gesamten Online-Markt. Gesuchte Objekte tauchen bei großen Auktionshäusern, regionalen Auktionatoren, spezialisierten Händlern, unabhängigen Shops, Marktplätzen und gelegentlich bei privaten Verkäufern auf. Aura Historia ist genau für diese breitere Realität gebaut."
+    },
+    "advantages": {
+      "eyebrow": "Wo Aura Historia den Unterschied macht",
+      "title": "Mehr Quellen. Schnellere Hinweise. Weniger Sprachgrenzen.",
+      "description": "Der Unterschied liegt nicht in einem einzelnen Feature. Er entsteht aus der Kombination eines breiteren Index, sauberer aufbereiteter Daten und schnellerer Benachrichtigungen.",
+      "cards": {
+        "marketBeyondAuctions": {
+          "title": "Der Markt jenseits der Auktionskataloge",
+          "description": "Aura Historia indexiert die Online-Orte, an denen Antiquitäten tatsächlich angeboten werden: Auktionshäuser, Auktionsplattformen, spezialisierte Händler, private Verkäufer, Marktplätze und weitere Quellen."
+        },
+        "nearRealTimeAlerts": {
+          "title": "Benachrichtigungen nahezu in Echtzeit",
+          "description": "Bei seltenen Stücken kann ein Tag entscheidend sein. Aura Historia beobachtet neue Angebote, Preisänderungen und Verfügbarkeit möglichst nah am Zeitpunkt der Änderung – statt nur einem täglichen Rhythmus zu folgen."
+        },
+        "languagePenalties": {
+          "title": "Suchen ohne Sprachbarriere",
+          "description": "Angebote werden übersetzt und Fachbegriffe über die unterstützten Sprachen hinweg vereinheitlicht. Eine Suche auf Englisch, Deutsch, Französisch, Spanisch oder Italienisch kann dadurch dieselben Objekte erreichen."
+        },
+        "aiForwardMatching": {
+          "title": "KI-gestütztes Matching",
+          "description": "Wir setzen auf moderne KI, semantische Suche und mehrsprachige Normalisierung, damit gespeicherte Suchen präziser werden können, ohne den Blick unnötig zu verengen."
+        }
+      }
+    },
+    "scorecard": {
+      "eyebrow": "Der Vergleich",
+      "title": "Aura Historia und Barnebys im direkten Vergleich",
+      "description": "Barnebys hat weiterhin einen klaren Platz für auktionsorientierte Recherche. Aura Historia richtet sich an Käufer, die den breiteren Antiquitätenmarkt und ein zeitgemäßeres Monitoring suchen.",
+      "caption": "Vergleich von Aura Historia und Barnebys für die Antiquitätensuche",
+      "headers": {
+        "criterion": "Kriterium",
+        "barnebys": "Barnebys",
+        "auraHistoria": "Aura Historia",
+        "practicalEdge": "Praxisvorteil"
+      },
+      "rows": {
+        "auctionHeritage": {
+          "criterion": "Erfahrung in der Auktionssuche",
+          "barnebys": "Seit Jahren ein bekannter Name in der Aggregation von Antiquitätenauktionen, besonders bei Käufern mit Fokus auf Auktionskataloge.",
+          "auraHistoria": "Eine neuere Suchmaschine, die von Anfang an auf breitere Quellenabdeckung und moderne Datenanreicherung ausgelegt ist.",
+          "verdict": "Barnebys bei etablierter Auktionssuche",
+          "whyItMatters": "Wenn Sie vor allem große Auktionskataloge durchsuchen, wirkt Barnebys vertraut und bewährt."
+        },
+        "sourceCoverage": {
+          "criterion": "Quellenbreite",
+          "barnebys": "Besonders stark bei Auktionshäusern und Auktionsplattformen, vor allem bei etablierten Katalogen.",
+          "auraHistoria": "Indexiert Auktionshäuser, Auktionsplattformen, Händler, private Verkäufer, Marktplätze und weitere Online-Quellen, auf denen Antiquitäten angeboten werden.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Viele wertvolle Funde starten nicht in einem großen Auktionskatalog. Mehr Quellen bedeuten mehr Chancen."
+        },
+        "alertSpeed": {
+          "criterion": "Benachrichtigungstempo",
+          "barnebys": "Suchbenachrichtigungen folgen einem täglichen Prüfrhythmus, einschließlich des bekannten Zeitfensters um 18:00 Uhr CEST.",
+          "auraHistoria": "Nahezu Echtzeit-Monitoring für neu entdeckte Angebote sowie Preis- und Verfügbarkeitsänderungen.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Je früher Sie ein seltenes Objekt sehen, desto mehr Handlungsspielraum bleibt, bevor es reserviert, verkauft oder hochgeboten wird."
+        },
+        "languageHandling": {
+          "criterion": "Sprach- und Begriffsarbeit",
+          "barnebys": "Angebotstexte bleiben häufig nah an der ursprünglichen Sprache und Terminologie der Quelle.",
+          "auraHistoria": "Übersetzt Angebote in mehrere Sprachen und vereinheitlicht Antiquitätenbegriffe sprachübergreifend.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Die Sprache eines Verkäufers sollte nicht darüber entscheiden, ob ein Sammler ein Objekt findet."
+        },
+        "alertRelevance": {
+          "criterion": "Relevanz der Benachrichtigungen",
+          "barnebys": "Nützlich für breite Auktionsbeobachtungen; breites Keyword-Matching kann dabei gelegentlich auch thematisch benachbarte Lose ins Postfach bringen.",
+          "auraHistoria": "Auf normalisierte Objektdaten und präziseres Matching ausgelegt, damit Benachrichtigungen mehr Markt abdecken und zugleich relevanter bleiben.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Sammler brauchen Signal statt bloß Volumen. Jede Benachrichtigung sollte es wert sein, geöffnet zu werden."
+        },
+        "technologyDirection": {
+          "criterion": "Technologische Ausrichtung",
+          "barnebys": "Eine reife Auktionssuche für Käufer, die sich im Auktionsökosystem zu Hause fühlen.",
+          "auraHistoria": "Eine KI-gestützte Suchschicht für den gesamten Antiquitätenmarkt – mit Indexierung, Übersetzungen, semantischem Matching und Monitoring.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Moderne Suche bedeutet nicht nur, Daten zu sammeln. Sie muss verstehen, was Käufer über Sprachen und Quellen hinweg meinen."
+        }
+      }
+    },
+    "downstream": {
+      "eyebrow": "Warum Quellenbreite so stark wirkt",
+      "title": "Wer mehr als Auktionen abdeckt, sieht mehr vom Markt",
+      "sources": {
+        "auctionHouses": "Auktionshäuser",
+        "auctionPlatforms": "Auktionsplattformen",
+        "antiqueDealers": "Antiquitätenhändler",
+        "privateSellers": "Private Verkäufer",
+        "marketplaces": "Marktplätze"
+      },
+      "cards": {
+        "underRadarInventory": {
+          "title": "Angebote unter dem Radar finden",
+          "description": "Kleine Händler, Nischenmarktplätze und private Verkäufer bieten außergewöhnliche Stücke oft lange an, bevor sie in einem großen Auktionskanal sichtbar werden."
+        },
+        "realMarket": {
+          "title": "Den tatsächlichen Markt vergleichen",
+          "description": "Auktionsschätzungen erzählen nur einen Teil der Geschichte. Händlerpreise, Marktplatzangebote und aktuelle Verfügbarkeitsänderungen machen das Bild vollständiger."
+        },
+        "beforeDigest": {
+          "title": "Vor dem Tagesüberblick reagieren",
+          "description": "Nahezu Echtzeit-Monitoring ist für knappe Angebote gedacht, bei denen der beste Entscheidungszeitpunkt oft genau der Moment ist, in dem ein Angebot erscheint."
+        },
+        "acrossBorders": {
+          "title": "Über Sprachgrenzen hinweg suchen",
+          "description": "Wenn Begriffe übersetzt und vereinheitlicht werden, sind Sammler nicht mehr auf die Sprache des Verkäufers oder Auktionators beschränkt."
+        }
+      }
+    },
+    "alerts": {
+      "eyebrow": "Ein höflicher Hinweis zu Benachrichtigungen",
+      "title": "Ein Tagesüberblick ist ordentlich. Seltene Stücke sind es nicht.",
+      "paragraph1": "Barnebys-Benachrichtigungen sind hilfreich, um auktionsbezogene Suchen im Blick zu behalten – besonders bei breiteren Beobachtungen. Bei seltenen Stücken kann ein täglicher Rhythmus jedoch spät sein, und breites Keyword-Matching kann gelegentlich Lose zeigen, die nur am Rand passen.",
+      "paragraph2": "Aura Historia setzt einen anderen Maßstab: Hinweise nahezu in Echtzeit, übersetzte Terminologie, normalisierte Daten und Benachrichtigungen, die relevant bleiben sollen, während sie mehr vom Markt beobachten. Wenn eine Benachrichtigung Aufmerksamkeit verlangt, sollte sie sie dann nicht auch verdienen?"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Häufige Fragen zu Aura Historia und Barnebys",
+      "items": {
+        "alternative": {
+          "question": "Ist Aura Historia eine Alternative zu Barnebys?",
+          "answer": "Ja. Aura Historia ist eine Alternative zu Barnebys für Käufer, die über Auktionshaus-Aggregation hinaus suchen und Auktionshäuser, Händler, Marktplätze, private Verkäufer sowie weitere Online-Quellen für Antiquitäten an einem Ort beobachten möchten."
+        },
+        "replace": {
+          "question": "Ersetzt Aura Historia Barnebys?",
+          "answer": "Wenn Sie vor allem etablierte Auktionskataloge auf vertraute Weise durchsuchen möchten, bleibt Barnebys eine respektierte Option. Wenn Sie breitere Online-Abdeckung, mehrsprachige Suche, schnelle Benachrichtigungen und KI-gestütztes Matching möchten, ist Aura Historia auf diese Anforderungen ausgelegt."
+        },
+        "fasterAlerts": {
+          "question": "Welcher Dienst bietet schnellere Benachrichtigungen für Antiquitäten?",
+          "answer": "Aura Historia ist auf nahezu Echtzeit-Monitoring ausgelegt. Barnebys-Suchbenachrichtigungen folgen einem täglichen Prüfrhythmus, einschließlich des bekannten Zeitfensters um 18:00 Uhr CEST."
+        },
+        "multilingualSearch": {
+          "question": "Welcher Dienst eignet sich besser für mehrsprachige Antiquitätensuche?",
+          "answer": "Aura Historia übersetzt Angebote und vereinheitlicht Terminologie über die unterstützten Sprachen hinweg. Die Suchsprache sollte dadurch weniger entscheidend sein – egal ob das ursprüngliche Angebot auf Englisch, Deutsch, Französisch, Spanisch, Italienisch oder in einer anderen Sprache verfasst ist."
+        },
+        "outsideAuctions": {
+          "question": "Welcher Dienst ist besser, um Antiquitäten außerhalb von Auktionen zu finden?",
+          "answer": "Aura Historia. Der zentrale Vorteil ist die breitere Quellenabdeckung: Auktionshäuser, Auktionsplattformen, Händler, private Verkäufer, Marktplätze und weitere Online-Orte, an denen Antiquitäten angeboten werden."
+        }
+      }
+    },
+    "finalCta": {
+      "eyebrow": "Fazit",
+      "title": "Barnebys ist stark bei Auktionen. Aura Historia ist für den Antiquitätenmarkt gebaut.",
+      "description": "Wenn Ihre Suche die Orte einschließen soll, an denen Antiquitäten online tatsächlich angeboten werden, beginnen Sie mit Aura Historia.",
+      "button": "Antiquitäten suchen"
     }
   }
 }

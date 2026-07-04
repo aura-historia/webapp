@@ -182,6 +182,20 @@ Sofern wir eine API, Entwickler-Schnittstelle, Export-Funktion, Webhooks oder ei
 
 Soweit für Partner- oder API-Funktionen ergänzende Nutzungsbedingungen, technische Richtlinien oder Sicherheitsvorgaben gelten, sind diese zusätzlich einzuhalten.
 
+Wenn Partner, Händler, Integrationsanbieter oder sonstige Geschäftskunden technisch in der Lage sind, Access Tokens, API-Keys, Einladungslinks oder vergleichbare Zugangsdaten („Access Tokens“) zu erzeugen, gilt – soweit nicht ausdrücklich schriftlich abweichend vereinbart – zusätzlich:
+
+- Access Tokens dürfen nur für die autorisierte Integration, Kundenbeziehung, das Projekt, den Umfang und den Zweck erzeugt, ausgegeben, weitergegeben und genutzt werden.
+- Der jeweilige Partner ist für sämtliche Aktivitäten verantwortlich, die über aus seinem Account oder seiner Umgebung erzeugte Access Tokens erfolgen; dies umfasst Aktivitäten von Mitarbeitenden, Auftragnehmern, Kunden, Endnutzern, Systemen oder sonstigen Dritten, denen der Partner Access Tokens bereitstellt.
+- Access Tokens sind vertraulich zu behandeln und vor unbefugtem Zugriff, Offenlegung, Veröffentlichung, Auslesen und Missbrauch zu schützen. Sie dürfen insbesondere nicht in öffentlich zugänglichem Client-Code, öffentlichen Repositories, Screenshots, Support-Tickets, Logs oder an sonstigen für unbefugte Personen zugänglichen Stellen hinterlegt werden.
+- Access Tokens dürfen ohne unsere vorherige schriftliche Zustimmung nicht verkauft, unterlizenziert, übertragen, gebündelt oder zur Erstellung konkurrierender, rechtswidriger, schädlicher oder sicherheitsrelevanter Dienste genutzt werden.
+- Der Partner muss sicherstellen, dass Personen und Systeme, die Access Tokens nutzen, diese AGB, geltendes Recht, datenschutzrechtliche Anforderungen sowie ergänzende Partner-, API- oder Sicherheitsdokumentation einhalten.
+- Der Partner muss uns jeden vermuteten Verlust, jede Offenlegung, Kompromittierung oder missbräuchliche Nutzung unverzüglich mitteilen und bei Untersuchung, Schadensbegrenzung, Rotation und Widerruf angemessen mitwirken.
+- Wir dürfen die Nutzung von Access Tokens zu Zwecken der Sicherheit, Rechtskonformität, Abrechnung, Missbrauchsprävention und Dienststabilität überwachen und Access Tokens bei objektivem Grund ablaufen lassen, rotieren, beschränken, sperren oder widerrufen, insbesondere wenn dies zum Schutz von Aura Historia, Nutzern, Partnern, betroffenen Personen, Drittsystemen oder der Plattform erforderlich ist.
+
+Die technische Möglichkeit, Access Tokens zu erzeugen oder zu verwenden, begründet keine weitergehenden Nutzungsrechte, keine Zusage bestimmter Verfügbarkeit und kein Vertretungs-, Wiederverkäufer-, Gesellschafts- oder ähnliches Verhältnis, soweit wir dies nicht ausdrücklich schriftlich bestätigen.
+
+Soweit gesetzlich zulässig, stellen Geschäftskunden und Partner uns von Ansprüchen Dritter, Schäden, behördlichen Maßnahmen und angemessenen Rechtsverteidigungskosten frei, die aus einer schuldhaften Verletzung dieser Token-Pflichten oder einer rechtswidrigen Nutzung von Access Tokens durch Personen oder Systeme entstehen, denen sie Access Tokens bereitgestellt haben.
+
 Wir dürfen API-Zugänge oder vergleichbare Funktionen aus Gründen der Sicherheit, Stabilität, Rechtskonformität oder Missbrauchsprävention drosseln, sperren oder widerrufen.
 
 ---
@@ -275,4 +289,4 @@ Sind Sie Kaufmann, juristische Person des öffentlichen Rechts oder öffentlich-
 
 ---
 
-*Stand: 17.05.2026*
+*Stand: 20.06.2026*

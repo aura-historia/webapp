@@ -22,6 +22,7 @@ import { Route as PartnersIndexRouteImport } from './routes/partners.index'
 import { Route as SearchShopsRouteImport } from './routes/search_.shops'
 import { Route as PartnersCustomIntegrationRouteImport } from './routes/partners.custom-integration'
 import { Route as PartnersApplyRouteImport } from './routes/partners.apply'
+import { Route as CompareBarnebysRouteImport } from './routes/compare.barnebys'
 import { Route as AuthAdminRouteImport } from './routes/_auth.admin'
 import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
@@ -35,6 +36,8 @@ import { Route as AuthMeAccountRouteImport } from './routes/_auth.me.account'
 import { Route as AuthAdminUsersRouteImport } from './routes/_auth.admin.users'
 import { Route as AuthAdminShopsRouteImport } from './routes/_auth.admin.shops'
 import { Route as AuthAdminPartnerApplicationsRouteImport } from './routes/_auth.admin.partner-applications'
+import { Route as AuthAdminOverviewRouteImport } from './routes/_auth.admin.overview'
+import { Route as AuthAdminOauthClientsRouteImport } from './routes/_auth.admin.oauth-clients'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
 import { Route as ApiOauthAuthorizeApproveRouteImport } from './routes/api.oauth.authorize.approve'
 import { Route as AuthMeSearchFilterFilterIdRouteImport } from './routes/_auth.me.search-filter.$filterId'
@@ -106,6 +109,11 @@ const PartnersApplyRoute = PartnersApplyRouteImport.update({
   path: '/apply',
   getParentRoute: () => PartnersRoute,
 } as any)
+const CompareBarnebysRoute = CompareBarnebysRouteImport.update({
+  id: '/compare/barnebys',
+  path: '/compare/barnebys',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthAdminRoute = AuthAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -173,6 +181,16 @@ const AuthAdminPartnerApplicationsRoute =
     path: '/partner-applications',
     getParentRoute: () => AuthAdminRoute,
   } as any)
+const AuthAdminOverviewRoute = AuthAdminOverviewRouteImport.update({
+  id: '/overview',
+  path: '/overview',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
+const AuthAdminOauthClientsRoute = AuthAdminOauthClientsRouteImport.update({
+  id: '/oauth-clients',
+  path: '/oauth-clients',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
 const ShopsShopSlugIdProductsProductSlugIdRoute =
   ShopsShopSlugIdProductsProductSlugIdRouteImport.update({
     id: '/shops/$shopSlugId/products/$productSlugId',
@@ -213,10 +231,13 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/admin': typeof AuthAdminRouteWithChildren
+  '/compare/barnebys': typeof CompareBarnebysRoute
   '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
   '/partners/': typeof PartnersIndexRoute
+  '/admin/oauth-clients': typeof AuthAdminOauthClientsRoute
+  '/admin/overview': typeof AuthAdminOverviewRoute
   '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/admin/shops': typeof AuthAdminShopsRoute
   '/admin/users': typeof AuthAdminUsersRoute
@@ -243,10 +264,13 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/compare/barnebys': typeof CompareBarnebysRoute
   '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
   '/partners': typeof PartnersIndexRoute
+  '/admin/oauth-clients': typeof AuthAdminOauthClientsRoute
+  '/admin/overview': typeof AuthAdminOverviewRoute
   '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/admin/shops': typeof AuthAdminShopsRoute
   '/admin/users': typeof AuthAdminUsersRoute
@@ -277,10 +301,13 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/_auth/admin': typeof AuthAdminRouteWithChildren
+  '/compare/barnebys': typeof CompareBarnebysRoute
   '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search_/shops': typeof SearchShopsRoute
   '/partners/': typeof PartnersIndexRoute
+  '/_auth/admin/oauth-clients': typeof AuthAdminOauthClientsRoute
+  '/_auth/admin/overview': typeof AuthAdminOverviewRoute
   '/_auth/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
   '/_auth/admin/shops': typeof AuthAdminShopsRoute
   '/_auth/admin/users': typeof AuthAdminUsersRoute
@@ -311,10 +338,13 @@ export interface FileRouteTypes {
     | '/search'
     | '/terms-and-conditions'
     | '/admin'
+    | '/compare/barnebys'
     | '/partners/apply'
     | '/partners/custom-integration'
     | '/search/shops'
     | '/partners/'
+    | '/admin/oauth-clients'
+    | '/admin/overview'
     | '/admin/partner-applications'
     | '/admin/shops'
     | '/admin/users'
@@ -341,10 +371,13 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
+    | '/compare/barnebys'
     | '/partners/apply'
     | '/partners/custom-integration'
     | '/search/shops'
     | '/partners'
+    | '/admin/oauth-clients'
+    | '/admin/overview'
     | '/admin/partner-applications'
     | '/admin/shops'
     | '/admin/users'
@@ -374,10 +407,13 @@ export interface FileRouteTypes {
     | '/search'
     | '/terms-and-conditions'
     | '/_auth/admin'
+    | '/compare/barnebys'
     | '/partners/apply'
     | '/partners/custom-integration'
     | '/search_/shops'
     | '/partners/'
+    | '/_auth/admin/oauth-clients'
+    | '/_auth/admin/overview'
     | '/_auth/admin/partner-applications'
     | '/_auth/admin/shops'
     | '/_auth/admin/users'
@@ -407,6 +443,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
+  CompareBarnebysRoute: typeof CompareBarnebysRoute
   SearchShopsRoute: typeof SearchShopsRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
   ShopsShopSlugIdIndexRoute: typeof ShopsShopSlugIdIndexRoute
@@ -508,6 +545,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnersApplyRouteImport
       parentRoute: typeof PartnersRoute
     }
+    '/compare/barnebys': {
+      id: '/compare/barnebys'
+      path: '/compare/barnebys'
+      fullPath: '/compare/barnebys'
+      preLoaderRoute: typeof CompareBarnebysRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth/admin': {
       id: '/_auth/admin'
       path: '/admin'
@@ -599,6 +643,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminPartnerApplicationsRouteImport
       parentRoute: typeof AuthAdminRoute
     }
+    '/_auth/admin/overview': {
+      id: '/_auth/admin/overview'
+      path: '/overview'
+      fullPath: '/admin/overview'
+      preLoaderRoute: typeof AuthAdminOverviewRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/oauth-clients': {
+      id: '/_auth/admin/oauth-clients'
+      path: '/oauth-clients'
+      fullPath: '/admin/oauth-clients'
+      preLoaderRoute: typeof AuthAdminOauthClientsRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
     '/shops/$shopSlugId/products/$productSlugId': {
       id: '/shops/$shopSlugId/products/$productSlugId'
       path: '/shops/$shopSlugId/products/$productSlugId'
@@ -638,6 +696,8 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthAdminRouteChildren {
+  AuthAdminOauthClientsRoute: typeof AuthAdminOauthClientsRoute
+  AuthAdminOverviewRoute: typeof AuthAdminOverviewRoute
   AuthAdminPartnerApplicationsRoute: typeof AuthAdminPartnerApplicationsRoute
   AuthAdminShopsRoute: typeof AuthAdminShopsRoute
   AuthAdminUsersRoute: typeof AuthAdminUsersRoute
@@ -645,6 +705,8 @@ interface AuthAdminRouteChildren {
 }
 
 const AuthAdminRouteChildren: AuthAdminRouteChildren = {
+  AuthAdminOauthClientsRoute: AuthAdminOauthClientsRoute,
+  AuthAdminOverviewRoute: AuthAdminOverviewRoute,
   AuthAdminPartnerApplicationsRoute: AuthAdminPartnerApplicationsRoute,
   AuthAdminShopsRoute: AuthAdminShopsRoute,
   AuthAdminUsersRoute: AuthAdminUsersRoute,
@@ -707,6 +769,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   TermsAndConditionsRoute: TermsAndConditionsRoute,
+  CompareBarnebysRoute: CompareBarnebysRoute,
   SearchShopsRoute: SearchShopsRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
   ShopsShopSlugIdIndexRoute: ShopsShopSlugIdIndexRoute,

@@ -6,7 +6,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel.tsx";
-import { ReverseAutoplay } from "@/lib/carousel/reverseAutoplay.ts";
+import Autoplay from "embla-carousel-autoplay";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { ProductGridItem } from "@/components/product/grid/ProductGridItem.tsx";
 import { CAROUSEL_AUTOPLAY_DELAY_MS } from "@/components/landing-page/common/landingPageConstants.ts";
@@ -29,7 +29,7 @@ export default function RecentlyAddedSection({ products }: RecentlyAddedSectionP
                         dragFree: true,
                     }}
                     plugins={[
-                        ReverseAutoplay({
+                        Autoplay({
                             delay: CAROUSEL_AUTOPLAY_DELAY_MS,
                             stopOnInteraction: false,
                             stopOnMouseEnter: true,

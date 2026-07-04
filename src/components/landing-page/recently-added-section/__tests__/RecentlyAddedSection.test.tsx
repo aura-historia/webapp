@@ -5,6 +5,8 @@ import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts
 import { parseProductState } from "@/data/internal/product/ProductState.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act } from "react";
+import Autoplay from "embla-carousel-autoplay";
+import { CAROUSEL_AUTOPLAY_DELAY_MS } from "@/components/landing-page/common/landingPageConstants.ts";
 
 // Mock the entire embla carousel to avoid plugin comparison errors in jsdom
 vi.mock("embla-carousel-react", () => ({
@@ -22,9 +24,9 @@ vi.mock("embla-carousel-react", () => ({
     ],
 }));
 
-vi.mock("@/lib/carousel/reverseAutoplay.ts", () => ({
-    ReverseAutoplay: vi.fn(() => ({
-        name: "reverseAutoplay",
+vi.mock("embla-carousel-autoplay", () => ({
+    default: vi.fn(() => ({
+        name: "autoplay",
         options: {},
         init: vi.fn(),
         destroy: vi.fn(),
@@ -68,6 +70,16 @@ describe("RecentlyAddedSection", () => {
         await act(async () => renderWithRouter(<RecentlyAddedSection products={mockProducts} />));
         expect(screen.getByText("Product A")).toBeInTheDocument();
         expect(screen.getByText("Product B")).toBeInTheDocument();
+    });
+
+    it("configures normal autoplay for right-to-left scrolling", async () => {
+        await act(async () => renderWithRouter(<RecentlyAddedSection products={mockProducts} />));
+
+        expect(Autoplay).toHaveBeenCalledWith({
+            delay: CAROUSEL_AUTOPLAY_DELAY_MS,
+            stopOnInteraction: false,
+            stopOnMouseEnter: true,
+        });
     });
 
     it("renders the section element with the correct aria-label", async () => {

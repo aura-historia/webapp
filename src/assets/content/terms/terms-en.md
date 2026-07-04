@@ -182,6 +182,20 @@ If we make an API, developer interface, export function, webhooks, or a comparab
 
 Where supplementary terms of use, technical guidelines, or security requirements apply to partner or API features, these must also be observed.
 
+Where partners, merchants, integration providers, or other business customers are technically able to generate access tokens, API keys, invitation links, or comparable credentials ("Access Tokens"), the following applies unless expressly agreed otherwise in writing:
+
+- Access Tokens may be generated, issued, shared, and used only for the authorized integration, customer relationship, project, scope, and purpose.
+- The partner is responsible for all activity under Access Tokens generated from its account or environment, including activity by employees, contractors, customers, end users, systems, or other third parties to whom the partner makes them available.
+- Access Tokens must be kept confidential and protected against unauthorized access, disclosure, publication, extraction, and misuse. They must not be embedded in public client-side code, public repositories, screenshots, support tickets, logs, or other places accessible to unauthorized persons.
+- Access Tokens may not be sold, sublicensed, transferred, pooled, or used to create competing, unlawful, harmful, or security-relevant services without our prior written consent.
+- The partner must ensure that persons and systems using Access Tokens comply with these Terms, applicable law, data-protection requirements, and any additional partner, API, or security documentation.
+- The partner must notify us without undue delay of any suspected loss, disclosure, compromise, or misuse and must cooperate in investigation, mitigation, rotation, and revocation.
+- We may monitor token usage for security, compliance, billing, abuse prevention, and service stability, and may expire, rotate, restrict, suspend, or revoke Access Tokens where objectively justified, including where required to protect Aura Historia, users, partners, data subjects, third-party systems, or the platform.
+
+The technical ability to generate or use Access Tokens does not grant broader usage rights, guarantee any particular availability, or create an agency, reseller, partnership, or similar relationship unless we expressly confirm this in writing.
+
+To the extent legally permissible, business customers and partners shall indemnify us against third-party claims, damages, regulatory measures, and reasonable legal defense costs arising from their culpable breach of these token obligations or from unlawful use of Access Tokens by persons or systems to whom they made Access Tokens available.
+
 We may throttle, suspend, or revoke API access or comparable features for reasons of security, stability, legal compliance, or abuse prevention.
 
 ---
@@ -275,4 +289,4 @@ If you are a merchant, a legal entity under public law, a special fund under pub
 
 ---
 
-*Status: 17 May 2026*
+*Status: 20 June 2026*

@@ -21,7 +21,7 @@ jobs:
 
         steps:
             - name: Checkout Code
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   fetch-depth: 2
 
@@ -36,7 +36,7 @@ jobs:
 
             - name: Setup Python
               if: steps.check_changes.outputs.run_translation == 'true'
-              uses: actions/setup-python@v6.2.0
+              uses: actions/setup-python@v6.3.0
               with:
                   python-version: '3.14'
 

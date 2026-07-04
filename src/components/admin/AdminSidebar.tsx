@@ -1,11 +1,16 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { FileText, LayoutDashboard, Store, Users } from "lucide-react";
+import { FileText, KeyRound, LayoutDashboard, Store, Users } from "lucide-react";
 import { cn } from "@/lib/utils.ts";
 import type { ReactNode } from "react";
 
 type AdminSidebarItem = {
-    readonly to: "/admin" | "/admin/shops" | "/admin/partner-applications" | "/admin/users";
+    readonly to:
+        | "/admin/overview"
+        | "/admin/shops"
+        | "/admin/partner-applications"
+        | "/admin/oauth-clients"
+        | "/admin/users";
     readonly labelKey: string;
     readonly icon: ReactNode;
     readonly exact?: boolean;
@@ -13,7 +18,7 @@ type AdminSidebarItem = {
 
 const SIDEBAR_ITEMS: readonly AdminSidebarItem[] = [
     {
-        to: "/admin",
+        to: "/admin/overview",
         labelKey: "adminDashboard.nav.overview",
         icon: <LayoutDashboard className="h-4 w-4" aria-hidden="true" />,
         exact: true,
@@ -27,6 +32,11 @@ const SIDEBAR_ITEMS: readonly AdminSidebarItem[] = [
         to: "/admin/partner-applications",
         labelKey: "adminDashboard.nav.partnerApplications",
         icon: <FileText className="h-4 w-4" aria-hidden="true" />,
+    },
+    {
+        to: "/admin/oauth-clients",
+        labelKey: "adminDashboard.nav.oauthClients",
+        icon: <KeyRound className="h-4 w-4" aria-hidden="true" />,
     },
     {
         to: "/admin/users",
