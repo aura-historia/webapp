@@ -1319,6 +1319,7 @@
       "edit": "Modifica",
       "save": "Salva",
       "cancel": "Annulla",
+      "close": "Chiudi",
       "retry": "Riprova"
     },
     "shops": {
@@ -1541,7 +1542,8 @@
         "description": "Registra un nuovo client OAuth. Il segreto client verrà mostrato una sola volta.",
         "submit": "Crea client",
         "success": "Client OAuth creato.",
-        "secretNotice": "Copia subito il segreto client: non verrà più mostrato.",
+        "confirmationTitle": "Client OAuth creato",
+        "confirmationDescription": "Copia l'ID e il segreto del client e conservali in un luogo sicuro. Il segreto del client viene mostrato una sola volta.",
         "validation": {
           "nameRequired": "Inserisci un nome client.",
           "nameTooLong": "Il nome client non deve superare i 255 caratteri.",

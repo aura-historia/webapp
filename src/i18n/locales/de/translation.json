@@ -1572,6 +1572,7 @@
       "edit": "Bearbeiten",
       "save": "Speichern",
       "cancel": "Abbrechen",
+      "close": "Schließen",
       "retry": "Erneut versuchen"
     },
     "shops": {
@@ -1793,8 +1794,9 @@
         "title": "OAuth-Client anlegen",
         "description": "Einen neuen OAuth-Client registrieren. Das Client-Secret wird nur einmal angezeigt.",
         "submit": "Client anlegen",
-        "success": "OAuth-Client angelegt.",
-        "secretNotice": "Kopieren Sie das Client-Secret jetzt – es wird nicht erneut angezeigt.",
+        "success": "OAuth-Client wurde erfolgreich angelegt.",
+        "confirmationTitle": "OAuth-Client erfolgreich angelegt",
+        "confirmationDescription": "Kopieren Sie die Client-ID und das Client-Secret und bewahren Sie beide sicher auf. Das Client-Secret wird nur einmal angezeigt.",
         "validation": {
           "nameRequired": "Bitte geben Sie einen Client-Namen ein.",
           "nameTooLong": "Der Client-Name darf nicht länger als 255 Zeichen sein.",

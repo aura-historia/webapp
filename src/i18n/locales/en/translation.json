@@ -1561,6 +1561,7 @@
       "edit": "Edit",
       "save": "Save",
       "cancel": "Cancel",
+      "close": "Close",
       "retry": "Retry"
     },
     "shops": {
@@ -1783,7 +1784,8 @@
         "description": "Register a new OAuth client. The client secret will only be shown once.",
         "submit": "Create client",
         "success": "OAuth client created.",
-        "secretNotice": "Copy the client secret now — it will not be shown again.",
+        "confirmationTitle": "OAuth client created",
+        "confirmationDescription": "Copy the client ID and client secret and store them securely. The client secret is shown only once.",
         "validation": {
           "nameRequired": "Please enter a client name.",
           "nameTooLong": "Client name must not exceed 255 characters.",

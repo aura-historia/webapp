@@ -13,8 +13,9 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog.tsx";
-import { Form, FormLabel } from "@/components/ui/form.tsx";
+import { Form } from "@/components/ui/form.tsx";
 import { Input } from "@/components/ui/input.tsx";
+import { Label } from "@/components/ui/label.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { useCreateOAuthClient } from "@/features/admin/oauth-client-management/hooks/useAdminOAuthClientActions.ts";
 import {
@@ -114,9 +115,19 @@ function AdminOAuthClientCreateDialogContent({
     return (
         <DialogContent className="max-w-2xl">
             <DialogHeader>
-                <DialogTitle>{t("adminDashboard.oauthClients.create.title")}</DialogTitle>
+                <DialogTitle>
+                    {t(
+                        createdClient
+                            ? "adminDashboard.oauthClients.create.confirmationTitle"
+                            : "adminDashboard.oauthClients.create.title",
+                    )}
+                </DialogTitle>
                 <DialogDescription>
-                    {t("adminDashboard.oauthClients.create.description")}
+                    {t(
+                        createdClient
+                            ? "adminDashboard.oauthClients.create.confirmationDescription"
+                            : "adminDashboard.oauthClients.create.description",
+                    )}
                 </DialogDescription>
             </DialogHeader>
 
@@ -150,9 +161,6 @@ function CreatedOAuthClientCredentials({ client, onClose }: CreatedOAuthClientCr
 
     return (
         <div className="flex flex-col gap-4">
-            <p className="text-sm text-muted-foreground">
-                {t("adminDashboard.oauthClients.create.secretNotice")}
-            </p>
             <CopyableCredential
                 label={t("adminDashboard.oauthClients.clientId")}
                 value={client.clientId}
@@ -163,7 +171,7 @@ function CreatedOAuthClientCredentials({ client, onClose }: CreatedOAuthClientCr
             />
             <DialogFooter>
                 <Button type="button" onClick={onClose}>
-                    {t("adminDashboard.actions.cancel")}
+                    {t("adminDashboard.actions.close")}
                 </Button>
             </DialogFooter>
         </div>
@@ -186,7 +194,7 @@ function CopyableCredential({ label, value }: CopyableCredentialProps) {
 
     return (
         <div className="flex flex-col gap-1.5">
-            <FormLabel>{label}</FormLabel>
+            <Label>{label}</Label>
             <div className="flex gap-2">
                 <Input value={value} readOnly className="font-mono" />
                 <Button

@@ -1319,6 +1319,7 @@
       "edit": "Modifier",
       "save": "Enregistrer",
       "cancel": "Annuler",
+      "close": "Fermer",
       "retry": "Réessayer"
     },
     "shops": {
@@ -1538,10 +1539,11 @@
       "deleteSuccess": "Client OAuth supprimé.",
       "create": {
         "title": "Créer un client OAuth",
-        "description": "Enregistrez un nouveau client OAuth. Le secret client ne sera affiché qu’une seule fois.",
+        "description": "Enregistrez un nouveau client OAuth. Le secret client ne sera affiché qu'une seule fois.",
         "submit": "Créer le client",
         "success": "Client OAuth créé.",
-        "secretNotice": "Copiez le secret client maintenant — il ne sera plus affiché.",
+        "confirmationTitle": "Client OAuth créé",
+        "confirmationDescription": "Copiez l'identifiant et le secret client, puis conservez-les en lieu sûr. Le secret client n'est affiché qu'une seule fois.",
         "validation": {
           "nameRequired": "Veuillez saisir un nom de client.",
           "nameTooLong": "Le nom du client ne doit pas dépasser 255 caractères.",
