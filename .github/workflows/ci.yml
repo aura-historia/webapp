@@ -6,6 +6,10 @@ on:
     pull_request:
         branches: [ main, develop ]
 
+env:
+    NODE_VERSION: ${{ vars.NODE_VERSION || '24' }}
+    PNPM_VERSION: ${{ vars.PNPM_VERSION || '11' }}
+
 permissions:
     contents: read
     actions: read
@@ -22,17 +26,17 @@ jobs:
         timeout-minutes: 5
         steps:
             -   name: Checkout code
-                uses: actions/checkout@v6
+                uses: actions/checkout@v7
 
             -   name: Set up pnpm
                 uses: pnpm/action-setup@v6
                 with:
-                    version: 11
+                    version: ${{ env.PNPM_VERSION }}
 
             -   name: Set up Node.js
                 uses: actions/setup-node@v6
                 with:
-                    node-version: '24'
+                    node-version: ${{ env.NODE_VERSION }}
                     cache: 'pnpm'
 
             -   name: Install dependencies
@@ -47,17 +51,17 @@ jobs:
         timeout-minutes: 10
         steps:
             -   name: Checkout code
-                uses: actions/checkout@v6
+                uses: actions/checkout@v7
 
             -   name: Set up pnpm
                 uses: pnpm/action-setup@v6
                 with:
-                    version: 11
+                    version: ${{ env.PNPM_VERSION }}
 
             -   name: Set up Node.js
                 uses: actions/setup-node@v6
                 with:
-                    node-version: '24'
+                    node-version: ${{ env.NODE_VERSION }}
                     cache: 'pnpm'
 
             -   name: Install dependencies
@@ -70,7 +74,7 @@ jobs:
                 run: pnpm run test --coverage
 
             -   name: Upload coverage reports
-                uses: actions/upload-artifact@v6
+                uses: actions/upload-artifact@v7
                 with:
                     name: coverage-reports
                     path: coverage/
@@ -81,21 +85,22 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 10
         needs: [ test ]
+        if: github.actor != 'dependabot[bot]'
         steps:
             -   name: Checkout code
                 id: checkout
-                uses: actions/checkout@v6
+                uses: actions/checkout@v7
                 with:
                     fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
             -   name: Download coverage artifact
-                uses: actions/download-artifact@v6
+                uses: actions/download-artifact@v8
                 with:
                     name: coverage-reports
                     path: coverage/
 
             -   name: SonarQube Scan
-                uses: SonarSource/sonarqube-scan-action@v6
+                uses: SonarSource/sonarqube-scan-action@v8
                 env:
                     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
@@ -113,17 +118,17 @@ jobs:
             VITE_FEATURE_SEARCH_ENABLED: 'true'
         steps:
             -   name: Checkout code
-                uses: actions/checkout@v6
+                uses: actions/checkout@v7
 
             -   name: Set up pnpm
                 uses: pnpm/action-setup@v6
                 with:
-                    version: 11
+                    version: ${{ env.PNPM_VERSION }}
 
             -   name: Set up Node.js
                 uses: actions/setup-node@v6
                 with:
-                    node-version: '24'
+                    node-version: ${{ env.NODE_VERSION }}
                     cache: 'pnpm'
 
             -   name: Install dependencies
@@ -133,7 +138,7 @@ jobs:
                 run: pnpm run build
 
             -   name: Upload build artifacts
-                uses: actions/upload-artifact@v6
+                uses: actions/upload-artifact@v7
                 with:
                     name: build-artifacts
                     path: |
@@ -158,17 +163,17 @@ jobs:
             VITE_FEATURE_SEARCH_ENABLED: ${{ vars.VITE_FEATURE_SEARCH_ENABLED }}
         steps:
             -   name: Checkout code
-                uses: actions/checkout@v6
+                uses: actions/checkout@v7
 
             -   name: Set up pnpm
                 uses: pnpm/action-setup@v6
                 with:
-                    version: 11
+                    version: ${{ env.PNPM_VERSION }}
 
             -   name: Set up Node.js
                 uses: actions/setup-node@v6
                 with:
-                    node-version: '24'
+                    node-version: ${{ env.NODE_VERSION }}
                     cache: 'pnpm'
 
             -   name: Install dependencies
@@ -183,7 +188,7 @@ jobs:
                     sed -i 's/"name": "aura-historia-staging"/"name": "aura-historia"/' wrangler.jsonc
 
             -   name: Deploy to Cloudflare Workers
-                uses: cloudflare/wrangler-action@v3
+                uses: cloudflare/wrangler-action@v4
                 with:
                     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

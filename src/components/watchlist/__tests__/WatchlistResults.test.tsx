@@ -133,6 +133,7 @@ describe("WatchlistResults", () => {
             setInfiniteQueryMock({ error: new Error("API Error") });
             renderWithQueryClient(<WatchlistResults />);
 
+            expect(screen.getByText("Merkliste nicht erreichbar")).toBeInTheDocument();
             expect(
                 screen.getByText(
                     "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",

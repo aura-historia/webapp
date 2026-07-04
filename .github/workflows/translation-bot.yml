@@ -6,6 +6,8 @@ on:
             - develop
 
 env:
+    NODE_VERSION: ${{ vars.NODE_VERSION || '24' }}
+    PNPM_VERSION: ${{ vars.PNPM_VERSION || '11' }}
     WATCH_FILE: "src/i18n/locales/en/translation.json"
     TARGET_LANGS: "es,fr,it"
 
@@ -19,7 +21,7 @@ jobs:
 
         steps:
             - name: Checkout Code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
               with:
                   fetch-depth: 2
 
@@ -34,7 +36,7 @@ jobs:
 
             - name: Setup Python
               if: steps.check_changes.outputs.run_translation == 'true'
-              uses: actions/setup-python@v6.1.0
+              uses: actions/setup-python@v6.3.0
               with:
                   python-version: '3.14'
 
@@ -51,9 +53,30 @@ jobs:
                 # Simply call the script file
               run: python .github/scripts/translation-bot.py
 
+            - name: Set up pnpm
+              if: steps.check_changes.outputs.run_translation == 'true'
+              uses: pnpm/action-setup@v6
+              with:
+                  version: ${{ env.PNPM_VERSION }}
+
+            - name: Set up Node.js
+              if: steps.check_changes.outputs.run_translation == 'true'
+              uses: actions/setup-node@v6
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: 'pnpm'
+
+            - name: Install Node Dependencies
+              if: steps.check_changes.outputs.run_translation == 'true'
+              run: pnpm install --frozen-lockfile
+
+            - name: Format Translation Results
+              if: steps.check_changes.outputs.run_translation == 'true'
+              run: pnpm format:fix
+
             - name: Create Pull Request
               if: steps.check_changes.outputs.run_translation == 'true'
-              uses: peter-evans/create-pull-request@v6
+              uses: peter-evans/create-pull-request@v8
               with:
                   token: ${{ secrets.GITHUB_TOKEN }}
                   commit-message: "chore: AI auto-translation update"

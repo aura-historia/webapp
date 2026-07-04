@@ -6,6 +6,10 @@ import { t } from "i18next";
 import userEvent from "@testing-library/user-event";
 import { act } from "react";
 import { useLocation } from "@tanstack/react-router";
+import {
+    SHOPIFY_APP_STORE_URL,
+    WORDPRESS_PLUGIN_DIRECTORY_URL,
+} from "@/features/partners/partnerLinks.ts";
 
 const { changeLanguageMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
@@ -113,13 +117,25 @@ describe("Footer Component", () => {
 
     it("should render partner program links with correct href attributes", () => {
         expect(screen.getByText("Übersicht").closest("a")).toHaveAttribute("href", "/partners");
-        expect(screen.getByText("WooCommerce").closest("a")).toHaveAttribute(
+        expect(screen.getByText("Partner-Dashboard").closest("a")).toHaveAttribute(
             "href",
-            "/partners/woocommerce",
+            "/partners/dashboard",
         );
-        expect(screen.getByText("Shopify").closest("a")).toHaveAttribute(
+        expect(screen.getByText("WordPress-Plugin").closest("a")).toHaveAttribute(
             "href",
-            "/partners/shopify",
+            WORDPRESS_PLUGIN_DIRECTORY_URL,
+        );
+        expect(screen.getByText("WordPress-Plugin").closest("a")).toHaveAttribute(
+            "target",
+            "_blank",
+        );
+        expect(screen.getByText("Shopify App Store").closest("a")).toHaveAttribute(
+            "href",
+            SHOPIFY_APP_STORE_URL,
+        );
+        expect(screen.getByText("Shopify App Store").closest("a")).toHaveAttribute(
+            "target",
+            "_blank",
         );
         expect(screen.getByText("Eigene Integration").closest("a")).toHaveAttribute(
             "href",
@@ -129,6 +145,27 @@ describe("Footer Component", () => {
             "href",
             "/partners/apply",
         );
+    });
+
+    it("should navigate to partner program links through the router", async () => {
+        cleanup();
+        const user = userEvent.setup();
+
+        await act(async () => {
+            renderWithRouter(
+                <>
+                    <Footer />
+                    <LocationProbe />
+                </>,
+                { initialEntries: ["/test"] },
+            );
+        });
+
+        await user.click(screen.getByText("Übersicht"));
+
+        await waitFor(() => {
+            expect(screen.getByTestId("location-probe")).toHaveTextContent("/partners");
+        });
     });
 
     it("should render landing page fragment links", () => {

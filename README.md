@@ -145,7 +145,6 @@ console.log(env.VITE_APP_TITLE);
 ```
 
 
-
 ## Routing
 This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
 

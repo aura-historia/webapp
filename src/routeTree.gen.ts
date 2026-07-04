@@ -21,10 +21,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PartnersIndexRouteImport } from './routes/partners.index'
 import { Route as SearchShopsRouteImport } from './routes/search_.shops'
 import { Route as PartnersCustomIntegrationRouteImport } from './routes/partners.custom-integration'
+import { Route as PartnersApplyRouteImport } from './routes/partners.apply'
+import { Route as CompareBarnebysRouteImport } from './routes/compare.barnebys'
 import { Route as AuthAdminRouteImport } from './routes/_auth.admin'
 import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
 import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
+import { Route as AuthPartnersDashboardRouteImport } from './routes/_auth.partners.dashboard'
+import { Route as AuthOauthAuthorizeRouteImport } from './routes/_auth.oauth.authorize'
 import { Route as AuthMeWatchlistRouteImport } from './routes/_auth.me.watchlist'
 import { Route as AuthMeSearchFiltersRouteImport } from './routes/_auth.me.search-filters'
 import { Route as AuthMeNotificationsRouteImport } from './routes/_auth.me.notifications'
@@ -34,8 +38,10 @@ import { Route as AuthAdminShopsRouteImport } from './routes/_auth.admin.shops'
 import { Route as AuthAdminPartnerApplicationsRouteImport } from './routes/_auth.admin.partner-applications'
 import { Route as AuthAdminOauthClientsRouteImport } from './routes/_auth.admin.oauth-clients'
 import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
+import { Route as ApiOauthAuthorizeApproveRouteImport } from './routes/api.oauth.authorize.approve'
 import { Route as AuthMeSearchFilterFilterIdRouteImport } from './routes/_auth.me.search-filter.$filterId'
 import { Route as AuthMeBillingManageRouteImport } from './routes/_auth.me.billing.manage'
+import { Route as ApiOauthClientRedirectBrokerWoocommerceRouteImport } from './routes/api.oauth.client_.redirect-broker.woocommerce'
 
 const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
   id: '/terms-and-conditions',
@@ -97,6 +103,16 @@ const PartnersCustomIntegrationRoute =
     path: '/custom-integration',
     getParentRoute: () => PartnersRoute,
   } as any)
+const PartnersApplyRoute = PartnersApplyRouteImport.update({
+  id: '/apply',
+  path: '/apply',
+  getParentRoute: () => PartnersRoute,
+} as any)
+const CompareBarnebysRoute = CompareBarnebysRouteImport.update({
+  id: '/compare/barnebys',
+  path: '/compare/barnebys',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthAdminRoute = AuthAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -118,6 +134,16 @@ const ProductShopIdShopsProductIdRoute =
     path: '/product/$shopId/$shopsProductId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthPartnersDashboardRoute = AuthPartnersDashboardRouteImport.update({
+  id: '/partners/dashboard',
+  path: '/partners/dashboard',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthOauthAuthorizeRoute = AuthOauthAuthorizeRouteImport.update({
+  id: '/oauth/authorize',
+  path: '/oauth/authorize',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthMeWatchlistRoute = AuthMeWatchlistRouteImport.update({
   id: '/me/watchlist',
   path: '/me/watchlist',
@@ -165,6 +191,12 @@ const ShopsShopSlugIdProductsProductSlugIdRoute =
     path: '/shops/$shopSlugId/products/$productSlugId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiOauthAuthorizeApproveRoute =
+  ApiOauthAuthorizeApproveRouteImport.update({
+    id: '/api/oauth/authorize/approve',
+    path: '/api/oauth/authorize/approve',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthMeSearchFilterFilterIdRoute =
   AuthMeSearchFilterFilterIdRouteImport.update({
     id: '/me/search-filter/$filterId',
@@ -176,6 +208,12 @@ const AuthMeBillingManageRoute = AuthMeBillingManageRouteImport.update({
   path: '/me/billing/manage',
   getParentRoute: () => AuthRoute,
 } as any)
+const ApiOauthClientRedirectBrokerWoocommerceRoute =
+  ApiOauthClientRedirectBrokerWoocommerceRouteImport.update({
+    id: '/api/oauth/client_/redirect-broker/woocommerce',
+    path: '/api/oauth/client/redirect-broker/woocommerce',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -187,6 +225,8 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/admin': typeof AuthAdminRouteWithChildren
+  '/compare/barnebys': typeof CompareBarnebysRoute
+  '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
   '/partners/': typeof PartnersIndexRoute
@@ -198,12 +238,16 @@ export interface FileRoutesByFullPath {
   '/me/notifications': typeof AuthMeNotificationsRoute
   '/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
+  '/oauth/authorize': typeof AuthOauthAuthorizeRoute
+  '/partners/dashboard': typeof AuthPartnersDashboardRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin/': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/me/billing/manage': typeof AuthMeBillingManageRoute
   '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
+  '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
+  '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -213,6 +257,8 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/compare/barnebys': typeof CompareBarnebysRoute
+  '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
   '/partners': typeof PartnersIndexRoute
@@ -224,12 +270,16 @@ export interface FileRoutesByTo {
   '/me/notifications': typeof AuthMeNotificationsRoute
   '/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
+  '/oauth/authorize': typeof AuthOauthAuthorizeRoute
+  '/partners/dashboard': typeof AuthPartnersDashboardRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId': typeof ShopsShopSlugIdIndexRoute
   '/me/billing/manage': typeof AuthMeBillingManageRoute
   '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
+  '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
+  '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -243,6 +293,8 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/_auth/admin': typeof AuthAdminRouteWithChildren
+  '/compare/barnebys': typeof CompareBarnebysRoute
+  '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search_/shops': typeof SearchShopsRoute
   '/partners/': typeof PartnersIndexRoute
@@ -254,12 +306,16 @@ export interface FileRoutesById {
   '/_auth/me/notifications': typeof AuthMeNotificationsRoute
   '/_auth/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/_auth/me/watchlist': typeof AuthMeWatchlistRoute
+  '/_auth/oauth/authorize': typeof AuthOauthAuthorizeRoute
+  '/_auth/partners/dashboard': typeof AuthPartnersDashboardRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/_auth/admin/': typeof AuthAdminIndexRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/_auth/me/billing/manage': typeof AuthMeBillingManageRoute
   '/_auth/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
+  '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
   '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
+  '/api/oauth/client_/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -273,6 +329,8 @@ export interface FileRouteTypes {
     | '/search'
     | '/terms-and-conditions'
     | '/admin'
+    | '/compare/barnebys'
+    | '/partners/apply'
     | '/partners/custom-integration'
     | '/search/shops'
     | '/partners/'
@@ -284,12 +342,16 @@ export interface FileRouteTypes {
     | '/me/notifications'
     | '/me/search-filters'
     | '/me/watchlist'
+    | '/oauth/authorize'
+    | '/partners/dashboard'
     | '/product/$shopId/$shopsProductId'
     | '/admin/'
     | '/shops/$shopSlugId/'
     | '/me/billing/manage'
     | '/me/search-filter/$filterId'
+    | '/api/oauth/authorize/approve'
     | '/shops/$shopSlugId/products/$productSlugId'
+    | '/api/oauth/client/redirect-broker/woocommerce'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -299,6 +361,8 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
+    | '/compare/barnebys'
+    | '/partners/apply'
     | '/partners/custom-integration'
     | '/search/shops'
     | '/partners'
@@ -310,12 +374,16 @@ export interface FileRouteTypes {
     | '/me/notifications'
     | '/me/search-filters'
     | '/me/watchlist'
+    | '/oauth/authorize'
+    | '/partners/dashboard'
     | '/product/$shopId/$shopsProductId'
     | '/admin'
     | '/shops/$shopSlugId'
     | '/me/billing/manage'
     | '/me/search-filter/$filterId'
+    | '/api/oauth/authorize/approve'
     | '/shops/$shopSlugId/products/$productSlugId'
+    | '/api/oauth/client/redirect-broker/woocommerce'
   id:
     | '__root__'
     | '/'
@@ -328,6 +396,8 @@ export interface FileRouteTypes {
     | '/search'
     | '/terms-and-conditions'
     | '/_auth/admin'
+    | '/compare/barnebys'
+    | '/partners/apply'
     | '/partners/custom-integration'
     | '/search_/shops'
     | '/partners/'
@@ -339,12 +409,16 @@ export interface FileRouteTypes {
     | '/_auth/me/notifications'
     | '/_auth/me/search-filters'
     | '/_auth/me/watchlist'
+    | '/_auth/oauth/authorize'
+    | '/_auth/partners/dashboard'
     | '/product/$shopId/$shopsProductId'
     | '/_auth/admin/'
     | '/shops/$shopSlugId/'
     | '/_auth/me/billing/manage'
     | '/_auth/me/search-filter/$filterId'
+    | '/api/oauth/authorize/approve'
     | '/shops/$shopSlugId/products/$productSlugId'
+    | '/api/oauth/client_/redirect-broker/woocommerce'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -357,10 +431,13 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
+  CompareBarnebysRoute: typeof CompareBarnebysRoute
   SearchShopsRoute: typeof SearchShopsRoute
   ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
   ShopsShopSlugIdIndexRoute: typeof ShopsShopSlugIdIndexRoute
+  ApiOauthAuthorizeApproveRoute: typeof ApiOauthAuthorizeApproveRoute
   ShopsShopSlugIdProductsProductSlugIdRoute: typeof ShopsShopSlugIdProductsProductSlugIdRoute
+  ApiOauthClientRedirectBrokerWoocommerceRoute: typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -449,6 +526,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnersCustomIntegrationRouteImport
       parentRoute: typeof PartnersRoute
     }
+    '/partners/apply': {
+      id: '/partners/apply'
+      path: '/apply'
+      fullPath: '/partners/apply'
+      preLoaderRoute: typeof PartnersApplyRouteImport
+      parentRoute: typeof PartnersRoute
+    }
+    '/compare/barnebys': {
+      id: '/compare/barnebys'
+      path: '/compare/barnebys'
+      fullPath: '/compare/barnebys'
+      preLoaderRoute: typeof CompareBarnebysRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth/admin': {
       id: '/_auth/admin'
       path: '/admin'
@@ -476,6 +567,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/product/$shopId/$shopsProductId'
       preLoaderRoute: typeof ProductShopIdShopsProductIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_auth/partners/dashboard': {
+      id: '/_auth/partners/dashboard'
+      path: '/partners/dashboard'
+      fullPath: '/partners/dashboard'
+      preLoaderRoute: typeof AuthPartnersDashboardRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/oauth/authorize': {
+      id: '/_auth/oauth/authorize'
+      path: '/oauth/authorize'
+      fullPath: '/oauth/authorize'
+      preLoaderRoute: typeof AuthOauthAuthorizeRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/_auth/me/watchlist': {
       id: '/_auth/me/watchlist'
@@ -540,6 +645,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopsShopSlugIdProductsProductSlugIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/oauth/authorize/approve': {
+      id: '/api/oauth/authorize/approve'
+      path: '/api/oauth/authorize/approve'
+      fullPath: '/api/oauth/authorize/approve'
+      preLoaderRoute: typeof ApiOauthAuthorizeApproveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth/me/search-filter/$filterId': {
       id: '/_auth/me/search-filter/$filterId'
       path: '/me/search-filter/$filterId'
@@ -553,6 +665,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/me/billing/manage'
       preLoaderRoute: typeof AuthMeBillingManageRouteImport
       parentRoute: typeof AuthRoute
+    }
+    '/api/oauth/client_/redirect-broker/woocommerce': {
+      id: '/api/oauth/client_/redirect-broker/woocommerce'
+      path: '/api/oauth/client/redirect-broker/woocommerce'
+      fullPath: '/api/oauth/client/redirect-broker/woocommerce'
+      preLoaderRoute: typeof ApiOauthClientRedirectBrokerWoocommerceRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -583,6 +702,8 @@ interface AuthRouteChildren {
   AuthMeNotificationsRoute: typeof AuthMeNotificationsRoute
   AuthMeSearchFiltersRoute: typeof AuthMeSearchFiltersRoute
   AuthMeWatchlistRoute: typeof AuthMeWatchlistRoute
+  AuthOauthAuthorizeRoute: typeof AuthOauthAuthorizeRoute
+  AuthPartnersDashboardRoute: typeof AuthPartnersDashboardRoute
   AuthMeBillingManageRoute: typeof AuthMeBillingManageRoute
   AuthMeSearchFilterFilterIdRoute: typeof AuthMeSearchFilterFilterIdRoute
 }
@@ -593,6 +714,8 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthMeNotificationsRoute: AuthMeNotificationsRoute,
   AuthMeSearchFiltersRoute: AuthMeSearchFiltersRoute,
   AuthMeWatchlistRoute: AuthMeWatchlistRoute,
+  AuthOauthAuthorizeRoute: AuthOauthAuthorizeRoute,
+  AuthPartnersDashboardRoute: AuthPartnersDashboardRoute,
   AuthMeBillingManageRoute: AuthMeBillingManageRoute,
   AuthMeSearchFilterFilterIdRoute: AuthMeSearchFilterFilterIdRoute,
 }
@@ -600,11 +723,13 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface PartnersRouteChildren {
+  PartnersApplyRoute: typeof PartnersApplyRoute
   PartnersCustomIntegrationRoute: typeof PartnersCustomIntegrationRoute
   PartnersIndexRoute: typeof PartnersIndexRoute
 }
 
 const PartnersRouteChildren: PartnersRouteChildren = {
+  PartnersApplyRoute: PartnersApplyRoute,
   PartnersCustomIntegrationRoute: PartnersCustomIntegrationRoute,
   PartnersIndexRoute: PartnersIndexRoute,
 }
@@ -623,11 +748,15 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   TermsAndConditionsRoute: TermsAndConditionsRoute,
+  CompareBarnebysRoute: CompareBarnebysRoute,
   SearchShopsRoute: SearchShopsRoute,
   ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
   ShopsShopSlugIdIndexRoute: ShopsShopSlugIdIndexRoute,
+  ApiOauthAuthorizeApproveRoute: ApiOauthAuthorizeApproveRoute,
   ShopsShopSlugIdProductsProductSlugIdRoute:
     ShopsShopSlugIdProductsProductSlugIdRoute,
+  ApiOauthClientRedirectBrokerWoocommerceRoute:
+    ApiOauthClientRedirectBrokerWoocommerceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -182,6 +182,20 @@ Si nous mettons à disposition une API, une interface développeur, une fonction
 
 Lorsque des conditions d’utilisation complémentaires, des directives techniques ou des exigences de sécurité s’appliquent aux fonctionnalités partenaires ou API, elles doivent également être respectées.
 
+Lorsque des partenaires, commerçants, fournisseurs d’intégration ou autres clients professionnels sont techniquement en mesure de générer des jetons d’accès, clés API, liens d’invitation ou identifiants comparables (« Jetons d’accès »), les règles suivantes s’appliquent en outre, sauf accord écrit exprès contraire :
+
+- Les Jetons d’accès ne peuvent être générés, émis, partagés et utilisés que pour l’intégration, la relation client, le projet, le périmètre et la finalité autorisés.
+- Le partenaire est responsable de toute activité effectuée au moyen de Jetons d’accès générés depuis son compte ou son environnement, y compris l’activité de ses employés, prestataires, clients, utilisateurs finaux, systèmes ou autres tiers auxquels le partenaire les met à disposition.
+- Les Jetons d’accès doivent rester confidentiels et être protégés contre l’accès non autorisé, la divulgation, la publication, l’extraction et l’utilisation abusive. Ils ne doivent pas être intégrés dans du code client public, des dépôts publics, des captures d’écran, des tickets de support, des journaux ou d’autres emplacements accessibles à des personnes non autorisées.
+- Les Jetons d’accès ne peuvent être vendus, sous-licenciés, transférés, mutualisés ni utilisés pour créer des services concurrents, illicites, préjudiciables ou sensibles pour la sécurité sans notre consentement écrit préalable.
+- Le partenaire doit veiller à ce que les personnes et systèmes utilisant les Jetons d’accès respectent les présentes Conditions, le droit applicable, les exigences en matière de protection des données ainsi que toute documentation partenaire, API ou sécurité supplémentaire.
+- Le partenaire doit nous informer sans retard injustifié de toute suspicion de perte, divulgation, compromission ou utilisation abusive et coopérer à l’enquête, à l’atténuation, à la rotation et à la révocation.
+- Nous pouvons surveiller l’utilisation des jetons à des fins de sécurité, de conformité, de facturation, de prévention des abus et de stabilité du service, et pouvons faire expirer, faire tourner, restreindre, suspendre ou révoquer des Jetons d’accès lorsque cela est objectivement justifié, notamment lorsque cela est nécessaire pour protéger Aura Historia, les utilisateurs, les partenaires, les personnes concernées, les systèmes tiers ou la plateforme.
+
+La possibilité technique de générer ou d’utiliser des Jetons d’accès ne confère pas de droits d’utilisation plus étendus, ne garantit aucune disponibilité particulière et ne crée aucune relation de mandat, de revente, de société ou relation similaire, sauf confirmation écrite expresse de notre part.
+
+Dans la mesure permise par la loi, les clients professionnels et partenaires nous indemnisent contre les réclamations de tiers, dommages, mesures réglementaires et frais raisonnables de défense juridique résultant d’un manquement fautif à ces obligations relatives aux jetons ou d’une utilisation illicite de Jetons d’accès par des personnes ou systèmes auxquels ils ont mis ces Jetons d’accès à disposition.
+
 Nous pouvons limiter, suspendre ou révoquer l’accès à l’API ou à des fonctionnalités comparables pour des raisons de sécurité, de stabilité, de conformité juridique ou de prévention des abus.
 
 ---
@@ -275,4 +289,4 @@ Si vous êtes commerçant, personne morale de droit public, patrimoine spécial 
 
 ---
 
-*Version du 17.05.2026*
+*Version du 20.06.2026*

@@ -1,15 +1,15 @@
 import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
 import { HiddenMatchCard } from "@/components/product/overview/HiddenMatchCard.tsx";
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
-import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { useEffect } from "react";
-import { SearchX } from "lucide-react";
+import { SearchX, ServerCrash } from "lucide-react";
+import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import type { SearchResultData } from "@/data/internal/search/SearchResultData.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useSearch } from "@/hooks/search/useSearch.ts";
 import { useTranslation } from "react-i18next";
-import { H3 } from "@/components/typography/H3.tsx";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
+import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { useInView } from "react-intersection-observer";
 
 type SearchResultsProps = {
@@ -58,20 +58,22 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
 
     if (error) {
         console.error(error);
-        return <SectionInfoText>{t("search.messages.error")}</SectionInfoText>;
+        return (
+            <EmptyState
+                icon={ServerCrash}
+                title={t("search.messages.error.title")}
+                description={t("search.messages.error.description")}
+            />
+        );
     }
 
     if (allProducts.length === 0) {
         return (
-            <div className="flex flex-col items-center gap-4 py-16">
-                <SearchX className="h-16 w-16 text-muted-foreground" />
-                <div className="text-center space-y-2">
-                    <H3>{t("search.messages.noResults.title")}</H3>
-                    <p className="text-base text-muted-foreground">
-                        {t("search.messages.noResults.description")}
-                    </p>
-                </div>
-            </div>
+            <EmptyState
+                icon={SearchX}
+                title={t("search.messages.noResults.title")}
+                description={t("search.messages.noResults.description")}
+            />
         );
     }
 

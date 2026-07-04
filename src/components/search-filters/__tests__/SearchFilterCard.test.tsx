@@ -159,6 +159,41 @@ describe("SearchFilterCard", () => {
         );
     });
 
+    describe("mobile dropdown", () => {
+        it("renders the more actions button", async () => {
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} />);
+            });
+            expect(screen.getByRole("button", { name: /Weitere Aktionen/i })).toBeInTheDocument();
+        });
+    });
+
+    describe("delete confirmation", () => {
+        it("opens the confirmation dialog when delete button is clicked", async () => {
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} />);
+            });
+            await act(() => {
+                fireEvent.click(screen.getByRole("button", { name: /Suchauftrag löschen/i }));
+            });
+            expect(screen.getByRole("alertdialog")).toBeInTheDocument();
+        });
+
+        it("calls onDelete with filter id when confirmed", async () => {
+            const onDelete = vi.fn();
+            await act(() => {
+                renderWithRouter(<SearchFilterCard {...defaultProps} onDelete={onDelete} />);
+            });
+            await act(() => {
+                fireEvent.click(screen.getByRole("button", { name: /Suchauftrag löschen/i }));
+            });
+            await act(() => {
+                fireEvent.click(screen.getByRole("button", { name: /Endgültig löschen/i }));
+            });
+            expect(onDelete).toHaveBeenCalledWith("filter-1");
+        });
+    });
+
     describe("resource state", () => {
         it("renders pause button when filter is ACTIVE", async () => {
             await act(() => {

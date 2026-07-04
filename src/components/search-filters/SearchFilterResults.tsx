@@ -4,10 +4,9 @@ import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import { SEARCH_FILTER_QUOTA } from "@/data/internal/account/SubscriptionType.ts";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Plus, SearchX } from "lucide-react";
-import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
+import { Plus, SearchX, ServerCrash } from "lucide-react";
+import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
-import { H3 } from "@/components/typography/H3.tsx";
 import { SearchFilterCard } from "@/components/search-filters/SearchFilterCard.tsx";
 import { SearchFilterCardSkeleton } from "@/components/search-filters/SearchFilterCardSkeleton.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -62,12 +61,20 @@ export function SearchFilterResults() {
         );
     }
 
-    if (error) return <SectionInfoText>{t("searchFilters.loadingError")}</SectionInfoText>;
+    if (error) {
+        return (
+            <EmptyState
+                icon={ServerCrash}
+                title={t("searchFilters.loadingError.title")}
+                description={t("searchFilters.loadingError.description")}
+            />
+        );
+    }
     if (!data) return null;
 
     return (
         <div className="flex flex-col w-full gap-8">
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                 <div className="flex flex-col gap-1">
                     <H1>{t("searchFilters.title")}</H1>
                     <span className="text-base text-muted-foreground">
@@ -79,7 +86,7 @@ export function SearchFilterResults() {
                         placeholder={t("searchFilters.searchPlaceholder")}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        className="w-full sm:w-80"
+                        className="w-full md:w-80 text-xs sm:text-sm"
                     />
                     <TooltipProvider>
                         <Tooltip>
@@ -87,7 +94,7 @@ export function SearchFilterResults() {
                                 <span>
                                     <Button
                                         size="sm"
-                                        className="gap-2 shrink-0"
+                                        className="gap-2 shrink-0 text-xs sm:text-sm"
                                         disabled={!canCreate}
                                         onClick={() => {
                                             setWizardMode("create");
@@ -118,15 +125,11 @@ export function SearchFilterResults() {
             />
 
             {filtered.length === 0 ? (
-                <div className="flex flex-col items-center gap-4 py-16">
-                    <SearchX className="size-16 text-muted-foreground" />
-                    <div className="text-center space-y-2">
-                        <H3>{t("searchFilters.noResults.title")}</H3>
-                        <p className="text-base text-muted-foreground">
-                            {t("searchFilters.noResults.description")}
-                        </p>
-                    </div>
-                </div>
+                <EmptyState
+                    icon={SearchX}
+                    title={t("searchFilters.noResults.title")}
+                    description={t("searchFilters.noResults.description")}
+                />
             ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     {filtered.map((filter) => (

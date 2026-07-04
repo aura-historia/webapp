@@ -182,6 +182,20 @@ Se mettiamo a disposizione un’API, un’interfaccia per sviluppatori, una funz
 
 Quando per funzionalità partner o API si applichino condizioni d’uso supplementari, linee guida tecniche o requisiti di sicurezza, esse dovranno essere osservate anch’esse.
 
+Quando partner, commercianti, fornitori di integrazioni o altri clienti business sono tecnicamente in grado di generare token di accesso, chiavi API, link di invito o credenziali comparabili («Token di accesso»), si applica inoltre quanto segue, salvo diverso accordo espresso per iscritto:
+
+- I Token di accesso possono essere generati, emessi, condivisi e utilizzati solo per l’integrazione, il rapporto con il cliente, il progetto, l’ambito e la finalità autorizzati.
+- Il partner è responsabile di tutte le attività svolte tramite Token di accesso generati dal proprio account o ambiente, incluse le attività di dipendenti, collaboratori, clienti, utenti finali, sistemi o altri terzi ai quali il partner li mette a disposizione.
+- I Token di accesso devono essere mantenuti riservati e protetti da accesso non autorizzato, divulgazione, pubblicazione, estrazione e uso improprio. Non devono essere incorporati in codice client pubblico, repository pubblici, screenshot, ticket di supporto, log o altri luoghi accessibili a persone non autorizzate.
+- I Token di accesso non possono essere venduti, concessi in sublicenza, trasferiti, condivisi in pool o utilizzati per creare servizi concorrenti, illeciti, dannosi o rilevanti per la sicurezza senza il nostro previo consenso scritto.
+- Il partner deve garantire che le persone e i sistemi che utilizzano i Token di accesso rispettino i presenti Termini, la legge applicabile, i requisiti in materia di protezione dei dati e qualsiasi documentazione supplementare relativa a partner, API o sicurezza.
+- Il partner deve informarci senza indebito ritardo di qualsiasi sospetta perdita, divulgazione, compromissione o uso improprio e cooperare nelle attività di indagine, mitigazione, rotazione e revoca.
+- Possiamo monitorare l’uso dei token per finalità di sicurezza, conformità, fatturazione, prevenzione degli abusi e stabilità del servizio, e possiamo far scadere, ruotare, limitare, sospendere o revocare i Token di accesso quando ciò sia oggettivamente giustificato, anche quando necessario per proteggere Aura Historia, utenti, partner, interessati, sistemi di terzi o la piattaforma.
+
+La possibilità tecnica di generare o utilizzare Token di accesso non conferisce diritti d’uso più ampi, non garantisce alcuna disponibilità specifica e non crea un rapporto di agenzia, rivendita, società o rapporto analogo, salvo nostra espressa conferma scritta.
+
+Nella misura consentita dalla legge, i clienti business e i partner ci terranno indenni da pretese di terzi, danni, provvedimenti regolatori e costi ragionevoli di difesa legale derivanti da una violazione colposa di questi obblighi relativi ai token o dall’uso illecito di Token di accesso da parte di persone o sistemi ai quali abbiano messo a disposizione tali Token di accesso.
+
 Possiamo limitare, sospendere o revocare l’accesso all’API o a funzionalità comparabili per ragioni di sicurezza, stabilità, conformità legale o prevenzione degli abusi.
 
 ---
@@ -275,4 +289,4 @@ Se siete commercianti, persone giuridiche di diritto pubblico, patrimoni separat
 
 ---
 
-*Stato: 17.05.2026*
+*Stato: 20.06.2026*

@@ -16,7 +16,11 @@
   "servers": [
     {
       "url": "https://api.dev.aura-historia.com",
-      "description": "Full Development-Server"
+      "description": "Development environment"
+    },
+    {
+      "url": "https://api.aura-historia.com",
+      "description": "Production environment"
     }
   ],
   "paths": {
@@ -729,6 +733,24 @@
       }
     },
     "schemas": {
+      "ActorData": {
+        "oneOf": [
+          {
+            "type": "string",
+            "enum": [
+              "SYSTEM"
+            ],
+            "description": "Backend-initiated actor marker."
+          },
+          {
+            "type": "string",
+            "format": "uuid",
+            "description": "UUID of the user who performed the change."
+          }
+        ],
+        "description": "Audit actor encoded as a plain string.\nValues are either the literal `SYSTEM` or the UUID of the acting user.\n",
+        "example": "SYSTEM"
+      },
       "GetProductData": {
         "type": "object",
         "description": "Complete product information including metadata and localized content",
@@ -747,6 +769,8 @@
           "url",
           "viewUrl",
           "images",
+          "createdBy",
+          "updatedBy",
           "created",
           "updated"
         ],
@@ -860,6 +884,12 @@
             "nullable": true,
             "description": "Optional auction time window information.\nOnly present for products from auction houses with scheduled auction times.\nContains start and/or end timestamps for the auction.\n"
           },
+          "createdBy": {
+            "$ref": "#/components/schemas/ActorData"
+          },
+          "updatedBy": {
+            "$ref": "#/components/schemas/ActorData"
+          },
           "created": {
             "type": "string",
             "format": "date-time",
@@ -890,6 +920,8 @@
           "url",
           "viewUrl",
           "images",
+          "createdBy",
+          "updatedBy",
           "created",
           "updated"
         ],
@@ -975,6 +1007,12 @@
             ],
             "nullable": true,
             "description": "Optional auction time window information.\nOnly present for products from auction houses with scheduled auction times.\nContains start and/or end timestamps for the auction.\n"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/ActorData"
+          },
+          "updatedBy": {
+            "$ref": "#/components/schemas/ActorData"
           },
           "created": {
             "type": "string",
@@ -1941,6 +1979,7 @@
           },
           "enhancedSearchDescription": {
             "type": "string",
+            "nullable": true,
             "description": "Optional natural-language description used by the AI-enhanced search filter matching service.\nWhen provided, a language model evaluates each matched product against this description and only\nkeeps products that are a true match, attaching a user-facing reason to every confirmed hit.\nWhitespace is trimmed and the value is silently truncated to 1000 characters if longer.\n",
             "maxLength": 1000,
             "example": "Golden cufflinks from the Art Deco period, preferably from French workshops"
@@ -2000,6 +2039,7 @@
         "properties": {
           "feedback": {
             "type": "boolean",
+            "nullable": true,
             "description": "Optional relevance feedback for the matched product.\n`true` marks the product as relevant to the saved search filter, `false` marks it as not relevant.\n",
             "example": true
           }
@@ -2255,6 +2295,8 @@
           "notifications",
           "state",
           "search",
+          "createdBy",
+          "updatedBy",
           "created",
           "updated"
         ],
@@ -2292,6 +2334,12 @@
           },
           "search": {
             "$ref": "#/components/schemas/ProductSearchData"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/ActorData"
+          },
+          "updatedBy": {
+            "$ref": "#/components/schemas/ActorData"
           },
           "created": {
             "type": "string",
@@ -2335,6 +2383,8 @@
           "shopId",
           "shopsProductId",
           "productId",
+          "createdBy",
+          "updatedBy",
           "created",
           "updated"
         ],
@@ -2372,6 +2422,12 @@
             "type": "boolean",
             "description": "Optional feedback recorded by the user for this saved-search match.\nPresent only after the user has explicitly marked the match as relevant or not relevant.\n",
             "example": true
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/ActorData"
+          },
+          "updatedBy": {
+            "$ref": "#/components/schemas/ActorData"
           },
           "created": {
             "type": "string",
@@ -2896,6 +2952,8 @@
           "shopType",
           "domains",
           "partnerStatus",
+          "createdBy",
+          "updatedBy",
           "created",
           "updated"
         ],
@@ -3017,6 +3075,14 @@
           },
           "partnerStatus": {
             "$ref": "#/components/schemas/ShopPartnerStatusData"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/ActorData",
+            "description": "Actor who created this shop record"
+          },
+          "updatedBy": {
+            "$ref": "#/components/schemas/ActorData",
+            "description": "Actor who last updated this shop record"
           },
           "created": {
             "type": "string",
@@ -3365,6 +3431,8 @@
           "name",
           "token",
           "tokenType",
+          "createdBy",
+          "updatedBy",
           "created",
           "updated"
         ],
@@ -3413,6 +3481,14 @@
             "nullable": true,
             "description": "Optional non-negative number of seconds remaining until expiry.",
             "example": 2851200
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/ActorData",
+            "description": "Actor who created this access token"
+          },
+          "updatedBy": {
+            "$ref": "#/components/schemas/ActorData",
+            "description": "Actor who last updated this access token"
           },
           "created": {
             "type": "string",
@@ -3507,6 +3583,10 @@
         "description": "Request body for creating OAuth client metadata.\n`redirect_uris` must contain at least one HTTPS redirect URI.\n",
         "required": [
           "client_name",
+          "tos_uri",
+          "policy_uri",
+          "client_uri",
+          "logo_uri",
           "redirect_uris"
         ],
         "properties": {
@@ -3514,6 +3594,30 @@
             "type": "string",
             "description": "Display name of the OAuth client.",
             "example": "Acceptance OAuth client"
+          },
+          "tos_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "HTTPS URL of the OAuth client's terms-of-service document.",
+            "example": "https://client.example/tos"
+          },
+          "policy_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "HTTPS URL of the OAuth client's privacy policy document.",
+            "example": "https://client.example/policy"
+          },
+          "client_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "HTTPS URL of the OAuth client's homepage or product site.",
+            "example": "https://client.example"
+          },
+          "logo_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "HTTPS URL of the OAuth client's logo image.",
+            "example": "https://client.example/logo.png"
           },
           "redirect_uris": {
             "type": "array",
@@ -3551,6 +3655,34 @@
             "description": "Optional replacement display name for the OAuth client.",
             "example": "Updated acceptance OAuth client"
           },
+          "tos_uri": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "Optional replacement terms-of-service document URL for the OAuth client.",
+            "example": "https://client.example/updated-tos"
+          },
+          "policy_uri": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "Optional replacement privacy-policy document URL for the OAuth client.",
+            "example": "https://client.example/updated-policy"
+          },
+          "client_uri": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "Optional replacement homepage or product-site URL for the OAuth client.",
+            "example": "https://updated-client.example"
+          },
+          "logo_uri": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "Optional replacement logo image URL for the OAuth client.",
+            "example": "https://updated-client.example/logo.png"
+          },
           "redirect_uris": {
             "type": "array",
             "nullable": true,
@@ -3586,6 +3718,10 @@
           "client_id",
           "client_secret",
           "client_name",
+          "tos_uri",
+          "policy_uri",
+          "client_uri",
+          "logo_uri",
           "redirect_uris",
           "scope",
           "client_id_issued_at"
@@ -3606,6 +3742,30 @@
             "type": "string",
             "description": "Display name of the OAuth client.",
             "example": "Acceptance OAuth client"
+          },
+          "tos_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Terms-of-service document URL registered for the OAuth client.",
+            "example": "https://client.example/tos"
+          },
+          "policy_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Privacy-policy document URL registered for the OAuth client.",
+            "example": "https://client.example/policy"
+          },
+          "client_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Homepage or product-site URL registered for the OAuth client.",
+            "example": "https://client.example"
+          },
+          "logo_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Logo image URL registered for the OAuth client.",
+            "example": "https://client.example/logo.png"
           },
           "redirect_uris": {
             "type": "array",
@@ -3640,7 +3800,7 @@
       },
       "OAuthTokenResponseData": {
         "type": "object",
-        "description": "Token response returned by `POST /api/v1/oauth/token` after a successful authorization code\nexchange (RFC 6749 \u00a75.1). The `access_token` is an Aura Historia bearer access token.\n`expires_in` is omitted (`null`) for non-expiring tokens.\n",
+        "description": "Token response returned by `POST /api/v1/oauth/token` and\n`GET /api/v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`.\nThe `access_token` is an Aura Historia bearer access token. `expires_in` is omitted\n(`null`) for non-expiring tokens. `third_party_exchange_code` is only present on the\ndirect token exchange response.\n",
         "required": [
           "access_token",
           "token_type",
@@ -3667,6 +3827,12 @@
             "type": "string",
             "description": "Space-separated list of scopes granted to the access token.",
             "example": "products:write"
+          },
+          "third_party_exchange_code": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Optional one-time exchange code returned by `POST /api/v1/oauth/token`.\nIt can be redeemed once via `GET /api/v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`\nwithin 60 seconds to obtain the same access token.\n",
+            "example": "01970f22-2bf0-7000-8000-000000000099"
           }
         }
       },
@@ -4346,6 +4512,8 @@
           "prohibitedContentConsent",
           "tier",
           "role",
+          "createdBy",
+          "updatedBy",
           "created",
           "updated"
         ],
@@ -4427,6 +4595,14 @@
             ],
             "nullable": true,
             "description": "Optional latitude/longitude coordinates derived by the backend from `structuredAddress`."
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/ActorData",
+            "description": "Actor who created this user account"
+          },
+          "updatedBy": {
+            "$ref": "#/components/schemas/ActorData",
+            "description": "Actor who last updated this user account"
           },
           "created": {
             "type": "string",
@@ -4696,6 +4872,8 @@
           "payload",
           "seen",
           "external",
+          "createdBy",
+          "updatedBy",
           "created",
           "updated"
         ],
@@ -4724,6 +4902,12 @@
             "type": "boolean",
             "description": "Whether the notification has been sent externally to the user via a third-party medium (e.g. mail, SMS). `true` means it was sent externally; `false` means it was not.",
             "example": false
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/ActorData"
+          },
+          "updatedBy": {
+            "$ref": "#/components/schemas/ActorData"
           },
           "created": {
             "type": "string",
@@ -5151,7 +5335,7 @@
           "size": {
             "type": "integer",
             "minimum": 0,
-            "description": "Number of notifications in the current page.",
+            "description": "Requested page size echoed back from the cursor payload; this does not necessarily equal `items.length`.",
             "example": 21
           },
           "searchAfter": {
@@ -5621,14 +5805,14 @@
         "example": "WAITING"
       },
       "GetPartnerShopApplicationPayloadData": {
-        "description": "The payload of a partner shop application. Discriminated by the `type` field.\n- `EXISTING`: The application targets an existing shop identified by `shopId`.\n- `NEW`: The application targets a new shop described by name, type, domains, and optional metadata such as a primary URL, image, address, and contact details.\n",
+        "description": "The payload of a partner shop application. Discriminated by the `type` field.\n- `EXISTING`: The application targets an existing shop and includes the hydrated shop data.\n- `NEW`: The application targets a new shop described by name, type, domains, and optional metadata such as a primary URL, image, address, and contact details.\n",
         "oneOf": [
           {
             "title": "Existing shop payload",
             "type": "object",
             "required": [
               "type",
-              "shopId"
+              "shop"
             ],
             "properties": {
               "type": {
@@ -5638,11 +5822,13 @@
                 ],
                 "description": "Discriminator value indicating this payload targets an existing shop."
               },
-              "shopId": {
-                "type": "string",
-                "format": "uuid",
-                "description": "Unique identifier of the existing shop.",
-                "example": "550e8400-e29b-41d4-a716-446655440000"
+              "shop": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetShopData"
+                  }
+                ],
+                "description": "Hydrated data for the existing shop."
               }
             }
           },
@@ -5732,6 +5918,8 @@
           "businessState",
           "executionState",
           "payload",
+          "createdBy",
+          "updatedBy",
           "created",
           "updated"
         ],
@@ -5766,6 +5954,12 @@
           },
           "payload": {
             "$ref": "#/components/schemas/GetPartnerShopApplicationPayloadData"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/ActorData"
+          },
+          "updatedBy": {
+            "$ref": "#/components/schemas/ActorData"
           },
           "created": {
             "type": "string",
@@ -6056,7 +6250,7 @@
   "tags": [
     {
       "name": "Products",
-      "description": "Operations related to product retrieval and search"
+      "description": "Product retrieval, product history, similar-product discovery, product search, and partner catalog ingestion workflows."
     }
   ]
 }

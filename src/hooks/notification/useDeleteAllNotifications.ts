@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteAllNotifications } from "@/client";
+import { toast } from "sonner";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 
@@ -16,5 +17,8 @@ export function useDeleteAllNotifications() {
             }
         },
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["getNotifications"] }),
+        onError: (error) => {
+            toast.error(error.message);
+        },
     });
 }

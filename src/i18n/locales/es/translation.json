@@ -59,6 +59,13 @@
     "partners": {
       "title": "Programa de Partners | Aura Historia",
       "description": "Conviértete en tienda partner de Aura Historia, la plataforma global de antigüedades y arte. Gratis, sin comisiones y conectada en minutos."
+    },
+    "partnerDashboard": {
+      "title": "Panel de Socios | Aura Historia"
+    },
+    "compareBarnebys": {
+      "title": "Aura Historia vs Barnebys | Comparativa de búsqueda de antigüedades",
+      "description": "Compara Aura Historia y Barnebys en búsqueda de antigüedades, cobertura de fuentes, búsqueda multilingüe, alertas rápidas y seguimiento del mercado con IA."
     }
   },
   "validation": {
@@ -115,7 +122,8 @@
       "followUs": "Síguenos",
       "contact": "Contacto",
       "discoverMore": "Descubrir más",
-      "partnerProgram": "Programa de Partners"
+      "partnerProgram": "Programa de Partners",
+      "compare": "Comparar"
     },
     "landingPageLinks": {
       "recentlyAdded": "Últimas incorporaciones",
@@ -129,10 +137,14 @@
     },
     "partnerProgramLinks": {
       "overview": "Visión general",
-      "woocommerce": "WooCommerce",
+      "dashboard": "Panel de partners",
+      "woocommerce": "Plugin de WordPress",
       "shopify": "Shopify",
       "customApi": "Integración propia",
       "apply": "Solicitar acceso"
+    },
+    "compareLinks": {
+      "barnebys": "Barnebys"
     }
   },
   "account": {
@@ -288,7 +300,10 @@
     },
     "messages": {
       "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
-      "error": "Error al cargar los resultados de búsqueda. ¡Por favor, inténtelo de nuevo más tarde!",
+      "error": {
+        "title": "Error de carga",
+        "description": "Los resultados de búsqueda no se pudieron cargar. Por favor, inténtelo de nuevo más tarde."
+      },
       "noResults": {
         "title": "No se encontraron resultados",
         "description": "Intente ajustar su término de búsqueda o filtros."
@@ -435,7 +450,8 @@
     "p1": "Buscamos entre las vastas ofertas de miles de anticuarios, casas de subastas y mercados dispersos en todo el mundo todos los días y agrupamos sus artículos en un solo lugar central.",
     "p2": "No solo capturamos artículos actuales y próximos, sino que también rastreamos cambios de precio y disponibilidad. De esta manera, nunca te perderás una ganga y siempre estarás al tanto del mercado.",
     "highlight1": {
-      "title": "Más de 500 anticuarios, casas de subastas y mercados",
+      "title": "Más de {{count}} Comerciantes, Casas de Subastas y Mercados",
+      "titleFallback": "Cientos de anticuarios, casas de subastas y mercados",
       "description": "Buscamos continuamente anticuarios, casas de subastas y mercados renombrados de toda Europa y más allá."
     },
     "highlight2": {
@@ -726,14 +742,14 @@
       "subtitle": "Elige la integración que mejor encaja. Todas se sincronizan en minutos, sin tocar código.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Instala nuestra extensión desde el directorio de plugins de WordPress.",
-        "cta": "Ver integración",
+        "description": "Instala nuestra extensión directamente desde el directorio de plugins de WordPress.",
+        "cta": "Abrir plugin de WordPress",
         "badge": "Recomendado"
       },
       "shopify": {
         "title": "App de Shopify",
-        "description": "Conecta tu tienda Shopify con un clic desde la Shopify App Store.",
-        "cta": "Ver integración",
+        "description": "Abre directamente nuestra ficha en la Shopify App Store.",
+        "cta": "Abrir Shopify App Store",
         "badge": "Popular"
       },
       "customApi": {
@@ -934,8 +950,8 @@
     "TEXT_QUERY_TOO_SHORT": "La consulta de búsqueda debe contener al menos 3 caracteres.",
     "BAD_PATH_PARAMETER_VALUE": "El enlace no es válido.",
     "INVALID_UUID": "El enlace no es válido.",
-    "SERVICE_UNAVAILABLE": "El servicio no está disponible actualmente. Por favor, inténtelo de nuevo más tarde.",
-    "BAD_QUERY_PARAMETER_VALUE": "Su búsqueda contiene configuraciones no válidas.",
+    "SERVICE_UNAVAILABLE": "El servicio no está disponible actualmente debido a un alto volumen de tráfico. Por favor, inténtelo de nuevo en breve.",
+    "BAD_QUERY_PARAMETER_VALUE": "La solicitud contiene parámetros no válidos.",
     "SHOP_NOT_FOUND": "Esta tienda ya no está disponible.",
     "INVALID_SHOP_IDENTIFIER": "El identificador de la tienda no es válido.",
     "INVALID_DOMAIN": "El dominio de la tienda no es válido.",
@@ -954,13 +970,26 @@
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Ya tiene una suscripción activa. Por favor, utilice el portal de cliente para gestionarla.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No se encontró ninguna suscripción existente. Por favor, inicie un nuevo proceso de pago.",
     "undefined": "Ocurrió un error inesperado.",
-    "SEARCH_FILTER_RESTRICTED_FEATURE": "Esta función solo está disponible para ciertas suscripciones. Por favor, actualice su cuenta."
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Algunos de los filtros activos solo están disponibles para usuarios premium. Por favor, elimine estos filtros o actualice su cuenta para guardar un filtro de búsqueda.",
+    "BAD_REQUEST": "La solicitud no es válida.",
+    "NOT_FOUND": "El recurso solicitado no fue encontrado.",
+    "CONFLICT": "La acción no pudo completarse debido a un conflicto.",
+    "UNPROCESSABLE_ENTITY": "La solicitud no pudo procesarse. Por favor, verifique sus datos.",
+    "BAD_GATEWAY": "Se produjo un problema de conexión. Por favor, inténtelo de nuevo más tarde.",
+    "USER_EXISTS_ALREADY": "Ya existe una cuenta con esta dirección de correo electrónico.",
+    "NOTIFICATION_NOT_FOUND": "Esta notificación ya no existe.",
+    "PRODUCT_ENRICHMENT_FAILED": "La información del producto no pudo cargarse completamente.",
+    "ACCESS_TOKEN_NOT_FOUND": "Su sesión ha expirado. Por favor, inicie sesión de nuevo.",
+    "PARTNER_SHOP_APPLICATION_NOT_FOUND": "La solicitud de socio no fue encontrada."
   },
   "watchlist": {
     "title": "Mi lista de seguimiento",
     "loginRequired": "Por favor, inicie sesión para usar la lista de seguimiento.",
     "totalElements": "{{count}} artículos",
-    "loadingError": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde.",
+    "loadingError": {
+      "title": "Lista no disponible",
+      "description": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde."
+    },
     "loadingMore": "Cargando más resultados...",
     "allLoaded_one": "Ha visto {{count}} artículo de su lista de seguimiento.",
     "allLoaded_other": "Ha visto los {{count}} artículos de su lista de seguimiento.",
@@ -1231,7 +1260,10 @@
     "delete": "Eliminar",
     "deleteAll": "Eliminar todo",
     "markRead": "Marcar como leído",
-    "loadingError": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde.",
+    "loadingError": {
+      "title": "Error de carga",
+      "description": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde."
+    },
     "loadingMore": "Cargando más notificaciones...",
     "allLoaded_one": "{{count}} notificación cargada",
     "allLoaded_other": "Todas las {{count}} notificaciones cargadas",
@@ -1570,6 +1602,7 @@
       "title": "Crear Filtro de Búsqueda",
       "back": "Atrás",
       "next": "Siguiente",
+      "saveDirectly": "Guardar",
       "nameRequired": "Por favor, ingrese un nombre",
       "nameTooLong": "El nombre no debe exceder los 255 caracteres",
       "queryTooShort": "La consulta de búsqueda debe contener al menos 3 caracteres",
@@ -1613,7 +1646,16 @@
     },
     "notificationsOn": "Notificaciones activas",
     "notificationsOff": "Notificaciones inactivas",
-    "loadingError": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtelo de nuevo más tarde.",
+    "activate": "Activar",
+    "deactivate": "Pausar",
+    "moreActions": "Más acciones",
+    "stateInactiveByUser": "En pausa",
+    "stateInactiveByPlan": "Bloqueado",
+    "stateInactiveByPlanTooltip": "Este filtro de búsqueda está inactivo debido a tu plan de suscripción.",
+    "loadingError": {
+      "title": "Error de carga",
+      "description": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtelo de nuevo más tarde."
+    },
     "noResults": {
       "title": "Sin Filtros de Búsqueda",
       "description": "Aún no ha guardado ningún filtro de búsqueda."
@@ -1625,9 +1667,13 @@
     },
     "totalElements": "{{count}} filtro(s) de búsqueda",
     "matchingProducts": "Mostrar todas las coincidencias",
+    "matchingProductsShort": "Todas las coincidencias",
+    "matchingProductsInactive": "El filtro de búsqueda está inactivo – no hay coincidencias disponibles.",
     "searchPlaceholder": "Buscar filtros de búsqueda...",
     "showDetails": "Mostrar detalles",
-    "showResults": "Buscar ahora",
+    "showResults": "Vista previa en vivo",
+    "previewError": "No se pudo cargar la vista previa.",
+    "previewEmpty": "No se encontraron resultados para este filtro de búsqueda.",
     "info": {
       "creationDate": "Creado: {{date}}",
       "updateDate": "Actualizado: {{date}}",
@@ -1646,12 +1692,369 @@
       "notRelevantHint": "La coincidencia no es relevante"
     },
     "matchReason": "Razón AI",
-    "feedbackError": "No se pudo guardar el comentario.",
-    "activate": "Activar",
-    "deactivate": "Pausar",
-    "stateInactiveByUser": "Pausado",
-    "stateInactiveByPlan": "Bloqueado",
-    "stateInactiveByPlanTooltip": "Este filtro de búsqueda está inactivo debido a tu plan de suscripción.",
-    "matchingProductsInactive": "El filtro de búsqueda está inactivo – no hay coincidencias disponibles."
+    "feedbackError": "No se pudo guardar el comentario."
+  },
+  "oauth": {
+    "authorize": {
+      "title": "Autorizar aplicación",
+      "description": "\"{{appName}}\" solicita acceso a su cuenta de Aura Historia. Revise los permisos solicitados a continuación.",
+      "scopesTitle": "Esta aplicación solicita los siguientes permisos:",
+      "logoAlt": "Logo de {{appName}}",
+      "clientInfoLink": "Más sobre esta app",
+      "privacyLink": "Privacidad",
+      "termsLink": "Condiciones de uso",
+      "approve": "Autorizar",
+      "deny": "Rechazar",
+      "approveAriaLabel": "Autorizar a {{appName}} para acceder a su cuenta",
+      "denyAriaLabel": "Rechazar la autorización para {{appName}}",
+      "securityNote": "Puede revocar este acceso en cualquier momento desde la configuración de su cuenta. Solo autorice aplicaciones de confianza.",
+      "partnerShops": {
+        "title": "Elegir una tienda asociada",
+        "description": "Seleccione la tienda asociada para la que debe autorizarse esta aplicación.",
+        "selectedLabel": "Tienda asociada seleccionada",
+        "empty": {
+          "title": "No hay ninguna tienda asociada disponible",
+          "description": "Esta autorización requiere una tienda asociada vinculada, pero no se encontró ninguna para su cuenta."
+        },
+        "loadError": {
+          "title": "No se pudieron cargar las tiendas asociadas",
+          "description": "No se pudieron cargar las tiendas asociadas disponibles en este momento. Inténtelo de nuevo."
+        }
+      },
+      "error": {
+        "title": "Solicitud de autorización inválida",
+        "description": "No se pudo identificar la aplicación. El enlace de autorización puede ser inválido o haber expirado. Inténtelo de nuevo desde la aplicación."
+      }
+    },
+    "scopes": {
+      "products_write": {
+        "label": "Gestionar productos",
+        "description": "Crear o actualizar sus anuncios de productos."
+      },
+      "shops_manage": {
+        "label": "Gestionar tiendas",
+        "description": "Gestionar la configuración de su tienda."
+      }
+    }
+  },
+  "partnerDashboard": {
+    "title": "Panel de Socios",
+    "description": "Supervisa tus solicitudes de socio actuales y su estado de revisión.",
+    "actions": {
+      "retry": "Reintentar"
+    },
+    "create": {
+      "open": "Nueva solicitud",
+      "title": "Enviar solicitud de socio",
+      "description": "Solicita una tienda existente por ID o crea una nueva tienda para revisión.",
+      "submit": "Enviar solicitud",
+      "submitting": "Enviando…",
+      "cancel": "Cancelar",
+      "success": "Solicitud de socio enviada.",
+      "type": {
+        "new": "Nueva tienda",
+        "existing": "Tienda existente"
+      },
+      "fields": {
+        "type": "Tipo de solicitud",
+        "shopId": "Tienda",
+        "shopName": "Nombre de la tienda",
+        "shopType": "Tipo de tienda",
+        "shopDomains": "Dominios",
+        "shopDomainsHint": "Separa los dominios con saltos de línea, comas, puntos y comas o espacios. Los dominios se normalizan antes del envío.",
+        "shopUrl": "URL principal de la tienda",
+        "shopImage": "URL del logo o imagen",
+        "shopPhone": "Teléfono",
+        "shopEmail": "Correo electrónico",
+        "address": "Dirección",
+        "addressline": "Línea de dirección",
+        "addresslineExtra": "Línea de dirección 2",
+        "locality": "Ciudad",
+        "region": "Región",
+        "postalCode": "Código postal",
+        "country": "Código del país"
+      },
+      "validation": {
+        "shopIdRequired": "Por favor, selecciona una tienda existente.",
+        "shopNameRequired": "Por favor, ingresa el nombre de la tienda.",
+        "domainsRequired": "Por favor, ingresa al menos un dominio.",
+        "urlInvalid": "Por favor, ingresa una URL válida.",
+        "imageInvalid": "Por favor, ingresa una URL de imagen válida.",
+        "emailInvalid": "Por favor, ingresa una dirección de correo electrónico válida."
+      },
+      "shopSearch": {
+        "placeholder": "Buscar tiendas por nombre…",
+        "loading": "Buscando tiendas.",
+        "empty": "No se encontraron tiendas.",
+        "clear": "Borrar tienda seleccionada"
+      }
+    },
+    "applications": {
+      "title": "Solicitudes de Socios Actuales",
+      "description": "Todas las solicitudes de socio que has enviado para tiendas.",
+      "loading": "Cargando solicitudes de socios.",
+      "loadError": "No se pudieron cargar tus solicitudes de socios.",
+      "empty": "Aún no has enviado ninguna solicitud de socio.",
+      "submittedAt": "Enviado el {{date}}",
+      "updatedAt": "Actualizado el {{date}}",
+      "existingShop": "Tienda existente",
+      "openDetails": "Abrir detalles para {{title}}",
+      "viewDetails": "Ver detalles",
+      "progress": {
+        "handedIn": "Entregado",
+        "checking": "Revisando",
+        "completed": "Completado",
+        "approved": "Aprobado",
+        "denied": "Denegado"
+      },
+      "detail": {
+        "title": "Detalles de la solicitud",
+        "description": "Revisa el estado actual y la información de la tienda enviada.",
+        "loadError": "No se pudo cargar esta solicitud de socio.",
+        "close": "Cerrar detalles",
+        "edit": "Editar solicitud",
+        "editCancel": "Cancelar",
+        "editSave": "Guardar cambios",
+        "editSuccess": "Solicitud de socio actualizada.",
+        "delete": "Eliminar solicitud",
+        "deleteSuccess": "Solicitud de socio eliminada.",
+        "deleteConfirm": {
+          "title": "¿Eliminar esta solicitud de socio?",
+          "description": "Esta solicitud pendiente será eliminada permanentemente y no se podrá recuperar.",
+          "cancel": "Cancelar",
+          "confirm": "Eliminar"
+        },
+        "progressLabel": "Progreso de la solicitud",
+        "applicationSection": "Solicitud",
+        "shopSection": "Información de la tienda",
+        "applicationId": "ID de la solicitud",
+        "applicantUserId": "ID del usuario solicitante",
+        "createdAt": "Enviado",
+        "updatedAt": "Actualizado",
+        "shopName": "Nombre de la tienda",
+        "shopType": "Tipo de tienda",
+        "domains": "Dominios",
+        "shopUrl": "URL principal",
+        "shopImage": "URL de la imagen",
+        "shopPhone": "Teléfono",
+        "shopEmail": "Correo electrónico",
+        "address": "Dirección",
+        "addressline": "Línea de dirección",
+        "addresslineExtra": "Línea de dirección 2",
+        "locality": "Ciudad",
+        "region": "Región",
+        "postalCode": "Código postal",
+        "country": "Código del país",
+        "shopId": "ID de la tienda"
+      },
+      "businessState": {
+        "submitted": "Enviado",
+        "inReview": "En revisión",
+        "approved": "Aprobado",
+        "rejected": "Rechazado"
+      },
+      "executionState": {
+        "processing": "Procesando",
+        "waiting": "En espera de decisión",
+        "completed": "Completado"
+      }
+    }
+  },
+  "compareBarnebysPage": {
+    "structuredData": {
+      "about": {
+        "searchEngine": "buscador de antigüedades",
+        "auctionAggregation": "agregación de subastas",
+        "multilingualSearch": "búsqueda multilingüe de antigüedades",
+        "realTimeAlerts": "alertas de antigüedades casi en tiempo real",
+        "aiDiscovery": "búsqueda de antigüedades asistida por IA"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparativa: Aura Historia vs Barnebys",
+      "title": "Ver más mercado que solo catálogos de subastas",
+      "subtitle": "Barnebys ha ayudado a que los catálogos de casas de subastas sean más fáciles de buscar. Aura Historia parte de una idea más amplia: quien colecciona en serio debería poder seguir todo el mercado online de antigüedades, no solo las fuentes de subastas más conocidas.",
+      "primaryCta": "Buscar en todo el mercado",
+      "secondaryCta": "Ver la comparativa",
+      "quickAnswerEyebrow": "En pocas palabras",
+      "quickAnswerTitle": "Barnebys está consolidado. Aura Historia mira más lejos.",
+      "quickAnswerDescription": "Nuestra lectura: Barnebys encaja si quieres navegar sobre todo por catálogos de subastas conocidos. Aura Historia es más adecuado si quieres reunir casas de subastas, comerciantes, marketplaces, vendedores privados, traducciones y seguimiento casi en tiempo real en una sola búsqueda."
+    },
+    "quickVerdicts": {
+      "auctionDiscovery": {
+        "label": "Sólido para catálogos de subastas establecidos",
+        "value": "Barnebys"
+      },
+      "marketSearch": {
+        "label": "Más fuerte para buscar en todo el mercado de antigüedades",
+        "value": "Aura Historia"
+      },
+      "multilingualDiscovery": {
+        "label": "Más fuerte para búsqueda multilingüe",
+        "value": "Aura Historia"
+      },
+      "realTimeMonitoring": {
+        "label": "Más fuerte para seguimiento casi en tiempo real",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "eyebrow": "Resumen",
+      "title": "La versión corta",
+      "paragraph1": "Aura Historia es la alternativa más completa a Barnebys para coleccionistas, comerciantes, investigadores y cualquiera que quiera encontrar antigüedades más allá de los catálogos de subastas.",
+      "paragraph2": "Barnebys merece reconocimiento por su trayectoria en la búsqueda de subastas. En la práctica, Aura Historia gana terreno al cubrir más tipos de fuentes, traducir y armonizar anuncios, seguir cambios casi en tiempo real y apoyarse en búsqueda moderna con IA."
+    },
+    "respect": {
+      "eyebrow": "Reconocimiento donde corresponde",
+      "title": "Barnebys ayudó a dar forma a la búsqueda de subastas",
+      "paragraph1": "Una comparación justa empieza aquí: Barnebys es un nombre reconocido en el mundo de las subastas de antigüedades. Para muchos compradores, hizo que catálogos dispersos fueran más accesibles y fáciles de consultar.",
+      "paragraph2": "Eso tiene valor. Pero no es lo mismo que ver el mercado online completo. Las piezas buscadas aparecen en grandes casas de subastas, subastadores regionales, comerciantes especializados, tiendas independientes, marketplaces y a veces vendedores privados. Aura Historia está pensado para esa realidad más amplia."
+    },
+    "advantages": {
+      "eyebrow": "Donde Aura Historia marca la diferencia",
+      "title": "Más fuentes. Señales más rápidas. Menos barreras de idioma.",
+      "description": "La diferencia no está en una única función. Nace de combinar un índice más amplio, datos mejor preparados y alertas más rápidas.",
+      "cards": {
+        "marketBeyondAuctions": {
+          "title": "El mercado más allá de los catálogos de subastas",
+          "description": "Aura Historia indexa los lugares online donde realmente se ofrecen antigüedades: casas de subastas, plataformas de subastas, comerciantes especializados, vendedores privados, marketplaces y otras fuentes."
+        },
+        "nearRealTimeAlerts": {
+          "title": "Alertas casi en tiempo real",
+          "description": "En piezas raras, un día puede importar. Aura Historia sigue nuevos anuncios, cambios de precio y disponibilidad lo más cerca posible del momento en que cambian, en lugar de limitarse a un ritmo diario."
+        },
+        "languagePenalties": {
+          "title": "Buscar sin barrera lingüística",
+          "description": "Los anuncios se traducen y la terminología especializada se armoniza entre los idiomas admitidos. Una búsqueda en inglés, alemán, francés, español o italiano puede llegar así a los mismos objetos."
+        },
+        "aiForwardMatching": {
+          "title": "Coincidencias asistidas por IA",
+          "description": "Nos apoyamos en IA moderna, búsqueda semántica y normalización multilingüe para que las búsquedas guardadas sean más precisas sin volverse innecesariamente estrechas."
+        }
+      }
+    },
+    "scorecard": {
+      "eyebrow": "La comparativa",
+      "title": "Aura Historia y Barnebys, punto por punto",
+      "description": "Barnebys mantiene un papel claro para la búsqueda centrada en subastas. Aura Historia está pensado para compradores que quieren ver el mercado de antigüedades con más amplitud y contar con una capa de seguimiento más moderna.",
+      "caption": "Comparativa de Aura Historia y Barnebys para búsqueda de antigüedades",
+      "headers": {
+        "criterion": "Criterio",
+        "barnebys": "Barnebys",
+        "auraHistoria": "Aura Historia",
+        "practicalEdge": "Ventaja práctica"
+      },
+      "rows": {
+        "auctionHeritage": {
+          "criterion": "Experiencia en búsqueda de subastas",
+          "barnebys": "Un nombre conocido desde hace años en la agregación de subastas de antigüedades, especialmente entre compradores centrados en catálogos.",
+          "auraHistoria": "Un buscador más nuevo, diseñado desde el inicio para cubrir más fuentes y enriquecer los datos de forma moderna.",
+          "verdict": "Barnebys por notoriedad en subastas",
+          "whyItMatters": "Si consultas sobre todo grandes catálogos de subastas, Barnebys ofrece una experiencia familiar."
+        },
+        "sourceCoverage": {
+          "criterion": "Amplitud de fuentes",
+          "barnebys": "Especialmente fuerte en casas de subastas y plataformas de subastas, sobre todo en catálogos consolidados.",
+          "auraHistoria": "Indexa casas de subastas, plataformas de subastas, comerciantes, vendedores privados, marketplaces y otras fuentes online donde se ofrecen antigüedades.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Muchas buenas piezas no aparecen primero en un gran catálogo de subastas. Más fuentes significan más oportunidades."
+        },
+        "alertSpeed": {
+          "criterion": "Rapidez de las alertas",
+          "barnebys": "Las alertas de búsqueda siguen un ritmo de revisión diario, incluida la ventana conocida de las 18:00 CEST.",
+          "auraHistoria": "Seguimiento casi en tiempo real de nuevos anuncios detectados, además de cambios de precio y disponibilidad.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Cuanto antes veas una pieza rara, más margen tendrás antes de que se reserve, se venda o suba la puja."
+        },
+        "languageHandling": {
+          "criterion": "Idiomas y terminología",
+          "barnebys": "Los textos suelen mantenerse cerca del idioma y la terminología originales de la fuente.",
+          "auraHistoria": "Traduce anuncios a varios idiomas y armoniza la terminología de antigüedades entre lenguas.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "El idioma del vendedor no debería decidir si un coleccionista puede encontrar una pieza."
+        },
+        "alertRelevance": {
+          "criterion": "Relevancia de las alertas",
+          "barnebys": "Útil para seguimientos amplios de subastas; la coincidencia por palabras clave puede mostrar a veces lotes cercanos al tema.",
+          "auraHistoria": "Pensado con datos de objeto normalizados y coincidencias más finas, para vigilar más mercado sin perder relevancia.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Los coleccionistas necesitan señal, no solo volumen. Cada notificación debería merecer ser abierta."
+        },
+        "technologyDirection": {
+          "criterion": "Orientación tecnológica",
+          "barnebys": "Una experiencia madura de búsqueda de subastas para compradores que conocen ese ecosistema.",
+          "auraHistoria": "Una capa de búsqueda asistida por IA para todo el mercado de antigüedades, con indexación, traducciones, coincidencia semántica y seguimiento.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "La búsqueda moderna no consiste solo en acumular datos. Debe entender la intención del comprador entre idiomas y fuentes."
+        }
+      }
+    },
+    "downstream": {
+      "eyebrow": "Por qué importa tanto la amplitud de fuentes",
+      "title": "Cubrir más que subastas cambia la visión del mercado",
+      "sources": {
+        "auctionHouses": "Casas de subastas",
+        "auctionPlatforms": "Plataformas de subastas",
+        "antiqueDealers": "Comerciantes de antigüedades",
+        "privateSellers": "Vendedores privados",
+        "marketplaces": "Marketplaces"
+      },
+      "cards": {
+        "underRadarInventory": {
+          "title": "Detectar piezas bajo el radar",
+          "description": "Pequeños comerciantes, marketplaces de nicho y vendedores privados pueden ofrecer piezas excepcionales mucho antes de que aparezcan en un gran canal de subastas."
+        },
+        "realMarket": {
+          "title": "Comparar el mercado real",
+          "description": "Las estimaciones de subasta cuentan solo una parte de la historia. Los precios de comerciantes, los anuncios en marketplaces y los cambios recientes de disponibilidad completan la imagen."
+        },
+        "beforeDigest": {
+          "title": "Actuar antes del resumen diario",
+          "description": "El seguimiento casi en tiempo real está pensado para piezas escasas, cuando el mejor momento para decidir suele ser justo cuando aparece el anuncio."
+        },
+        "acrossBorders": {
+          "title": "Buscar más allá del idioma",
+          "description": "Cuando los términos se traducen y se armonizan, los coleccionistas dejan de estar limitados por el idioma del vendedor o del subastador."
+        }
+      }
+    },
+    "alerts": {
+      "eyebrow": "Una nota prudente sobre las alertas",
+      "title": "Un resumen diario es ordenado. Las piezas raras no siempre lo son.",
+      "paragraph1": "Las alertas de Barnebys son útiles para seguir búsquedas relacionadas con subastas, sobre todo si son amplias. Pero en piezas raras, un ritmo diario puede llegar tarde, y una coincidencia amplia por palabras clave puede mostrar a veces lotes solo tangencialmente relacionados.",
+      "paragraph2": "Aura Historia apunta a otro estándar: señales casi en tiempo real, terminología traducida, datos normalizados y alertas que buscan seguir siendo relevantes mientras vigilan más mercado. Si una notificación pide tu atención, ¿no debería merecerla?"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Preguntas frecuentes sobre Aura Historia y Barnebys",
+      "items": {
+        "alternative": {
+          "question": "¿Aura Historia es una alternativa a Barnebys?",
+          "answer": "Sí. Aura Historia es una alternativa a Barnebys para compradores que quieren buscar más allá de la agregación de casas de subastas y seguir en un mismo lugar casas de subastas, comerciantes, marketplaces, vendedores privados y otras fuentes online de antigüedades."
+        },
+        "replace": {
+          "question": "¿Aura Historia sustituye a Barnebys?",
+          "answer": "Si quieres sobre todo explorar catálogos de subastas consolidados en un entorno familiar, Barnebys sigue siendo una opción respetada. Si buscas más cobertura online, búsqueda multilingüe, alertas rápidas y coincidencias asistidas por IA, Aura Historia está diseñado para eso."
+        },
+        "fasterAlerts": {
+          "question": "¿Qué servicio ofrece alertas de antigüedades más rápidas?",
+          "answer": "Aura Historia está diseñado para seguimiento casi en tiempo real. Las alertas de búsqueda de Barnebys siguen un ritmo de revisión diario, incluida la ventana conocida de las 18:00 CEST."
+        },
+        "multilingualSearch": {
+          "question": "¿Qué servicio es mejor para búsqueda multilingüe de antigüedades?",
+          "answer": "Aura Historia traduce anuncios y armoniza la terminología entre los idiomas admitidos. Así, el idioma de búsqueda debería importar menos, tanto si el anuncio original está en inglés, alemán, francés, español, italiano u otro idioma."
+        },
+        "outsideAuctions": {
+          "question": "¿Qué servicio ayuda mejor a encontrar antigüedades fuera de subastas?",
+          "answer": "Aura Historia. Su ventaja central es una cobertura de fuentes más amplia: casas de subastas, plataformas de subastas, comerciantes, vendedores privados, marketplaces y otros lugares online donde se ofrecen antigüedades."
+        }
+      }
+    },
+    "finalCta": {
+      "eyebrow": "Veredicto",
+      "title": "Barnebys es sólido para subastas. Aura Historia está pensado para el mercado de antigüedades.",
+      "description": "Si tu búsqueda debe incluir los lugares donde realmente se ofrecen antigüedades online, empieza con Aura Historia.",
+      "button": "Buscar antigüedades"
+    }
   }
 }

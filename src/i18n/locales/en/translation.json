@@ -59,6 +59,13 @@
     "partners": {
       "title": "Partner Program | Aura Historia",
       "description": "Become a partner shop on Aura Historia – the global platform for antiques & art. Free, commission-free, connected in minutes."
+    },
+    "partnerDashboard": {
+      "title": "Partner Dashboard | Aura Historia"
+    },
+    "compareBarnebys": {
+      "title": "Aura Historia vs Barnebys | Antiques Search Engine Comparison",
+      "description": "Compare Aura Historia with Barnebys for antiques search, source coverage, multilingual discovery, near real-time alerts, and AI-assisted market monitoring."
     }
   },
   "validation": {
@@ -115,7 +122,8 @@
       "followUs": "Follow Us",
       "contact": "Contact",
       "discoverMore": "Discover More",
-      "partnerProgram": "Partner Program"
+      "partnerProgram": "Partner Program",
+      "compare": "Compare"
     },
     "landingPageLinks": {
       "recentlyAdded": "Recently Added",
@@ -129,10 +137,14 @@
     },
     "partnerProgramLinks": {
       "overview": "Overview",
-      "woocommerce": "WooCommerce",
-      "shopify": "Shopify",
+      "dashboard": "Partner dashboard",
+      "woocommerce": "WordPress plugin",
+      "shopify": "Shopify App Store",
       "customApi": "Custom integration",
       "apply": "Apply now"
+    },
+    "compareLinks": {
+      "barnebys": "Barnebys"
     }
   },
   "account": {
@@ -288,7 +300,10 @@
     },
     "messages": {
       "minQueryLength": "Please enter at least 3 characters to start the search.",
-      "error": "Error loading search results. Please try again later!",
+      "error": {
+        "title": "Error loading results",
+        "description": "The search results could not be loaded. Please try again later."
+      },
       "noResults": {
         "title": "No results found",
         "description": "Try adjusting your search term or filters."
@@ -435,7 +450,8 @@
     "p1": "We search through the vast offerings of thousands of scattered antique dealers, auction houses and marketplaces worldwide every day and bundle their items in one central place.",
     "p2": "We not only capture current and upcoming items but also track price changes and availability. This way, you never miss a bargain and always keep an eye on the market.",
     "highlight1": {
-      "title": "Over 500 Dealers, Auction Houses & Marketplaces",
+      "title": "Over {{count}} Dealers, Auction Houses & Marketplaces",
+      "titleFallback": "Hundreds of Dealers, Auction Houses & Marketplaces",
       "description": "We continuously search renowned antique dealers, auction houses and marketplaces from all over Europe and beyond."
     },
     "highlight2": {
@@ -726,14 +742,14 @@
       "subtitle": "Pick the integration that fits your setup. Every option syncs in minutes – no code required.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Install our extension from the WordPress plugin directory.",
-        "cta": "View integration",
+        "description": "Install our extension directly from the WordPress plugin directory.",
+        "cta": "Open WordPress plugin",
         "badge": "Recommended"
       },
       "shopify": {
         "title": "Shopify app",
-        "description": "Connect your Shopify store with one click from the Shopify App Store.",
-        "cta": "View integration",
+        "description": "Open our listing directly in the Shopify App Store.",
+        "cta": "Open Shopify App Store",
         "badge": "Popular"
       },
       "customApi": {
@@ -934,8 +950,8 @@
     "TEXT_QUERY_TOO_SHORT": "The search query must contain at least 3 characters.",
     "BAD_PATH_PARAMETER_VALUE": "The link is invalid.",
     "INVALID_UUID": "The link is invalid.",
-    "SERVICE_UNAVAILABLE": "The service is currently unavailable. Please try again later.",
-    "BAD_QUERY_PARAMETER_VALUE": "Your search contains invalid settings.",
+    "SERVICE_UNAVAILABLE": "The service is currently unavailable due to high traffic. Please try again shortly.",
+    "BAD_QUERY_PARAMETER_VALUE": "The request contains invalid parameters.",
     "SHOP_NOT_FOUND": "This shop is no longer available.",
     "INVALID_SHOP_IDENTIFIER": "The shop identifier is invalid.",
     "INVALID_DOMAIN": "The shop domain is invalid.",
@@ -952,7 +968,17 @@
     "INVALID_EMAIL": "The email address is invalid or not accepted by our newsletter provider.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "You already have an active subscription. Please use the customer portal to manage it.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No existing subscription was found. Please start a new checkout.",
-    "SEARCH_FILTER_RESTRICTED_FEATURE": "This feature is only available for certain subscriptions. Please upgrade your account.",
+    "SEARCH_FILTER_RESTRICTED_FEATURE": "Some of your active filters are only available for premium users. Please remove these filters or upgrade your account to save a search filter.",
+    "BAD_REQUEST": "The request is invalid.",
+    "NOT_FOUND": "The requested resource was not found.",
+    "CONFLICT": "The action could not be completed due to a conflict.",
+    "UNPROCESSABLE_ENTITY": "The request could not be processed. Please check your input.",
+    "BAD_GATEWAY": "A connection problem occurred. Please try again later.",
+    "USER_EXISTS_ALREADY": "An account with this email address already exists.",
+    "NOTIFICATION_NOT_FOUND": "This notification no longer exists.",
+    "PRODUCT_ENRICHMENT_FAILED": "The product information could not be fully loaded.",
+    "ACCESS_TOKEN_NOT_FOUND": "Your session has expired. Please log in again.",
+    "PARTNER_SHOP_APPLICATION_NOT_FOUND": "The partner application was not found.",
     "unknown": "An unexpected error occurred.",
     "undefined": "An unexpected error occurred."
   },
@@ -960,7 +986,10 @@
     "title": "My Watchlist",
     "loginRequired": "Please log in to use the watchlist.",
     "totalElements": "{{count}} items",
-    "loadingError": "The watchlist cannot be reached at this time. Please try again later.",
+    "loadingError": {
+      "title": "Watchlist unavailable",
+      "description": "The watchlist cannot be reached at this time. Please try again later."
+    },
     "loadingMore": "Loading more results...",
     "allLoaded_one": "You have seen {{count}} item from your watchlist.",
     "allLoaded_other": "You have seen all {{count}} items from your watchlist.",
@@ -1204,7 +1233,10 @@
     "delete": "Delete",
     "deleteAll": "Delete all",
     "markRead": "Mark as read",
-    "loadingError": "Notifications could not be loaded. Please try again later.",
+    "loadingError": {
+      "title": "Error loading notifications",
+      "description": "Notifications could not be loaded. Please try again later."
+    },
     "loadingMore": "Loading more notifications...",
     "allLoaded_one": "{{count}} notification loaded",
     "allLoaded_other": "All {{count}} notifications loaded",
@@ -1270,6 +1302,7 @@
       "title": "Create Search Filter",
       "back": "Back",
       "next": "Next",
+      "saveDirectly": "Save",
       "nameRequired": "Please enter a name",
       "nameTooLong": "Name must not exceed 255 characters",
       "queryTooShort": "The search query must contain at least 3 characters",
@@ -1315,10 +1348,14 @@
     "notificationsOff": "Notifications inactive",
     "activate": "Activate",
     "deactivate": "Pause",
+    "moreActions": "More actions",
     "stateInactiveByUser": "Paused",
     "stateInactiveByPlan": "Locked",
     "stateInactiveByPlanTooltip": "This search filter is inactive due to your subscription plan.",
-    "loadingError": "Search filters could not be loaded. Please try again later.",
+    "loadingError": {
+      "title": "Error loading filters",
+      "description": "Search filters could not be loaded. Please try again later."
+    },
     "noResults": {
       "title": "No Search Filters",
       "description": "You have not saved any search filters yet."
@@ -1330,10 +1367,13 @@
     },
     "totalElements": "{{count}} search filter(s)",
     "matchingProducts": "Show all matches",
+    "matchingProductsShort": "All matches",
     "matchingProductsInactive": "Search filter is inactive – no matches available.",
     "searchPlaceholder": "Search filters...",
     "showDetails": "Show details",
-    "showResults": "Search now",
+    "showResults": "Live Preview",
+    "previewError": "Could not load preview.",
+    "previewEmpty": "No results found for this search filter.",
     "info": {
       "creationDate": "Created: {{date}}",
       "updateDate": "Updated: {{date}}",
@@ -1353,6 +1393,129 @@
     },
     "matchReason": "AI reason",
     "feedbackError": "Failed to save feedback."
+  },
+  "partnerDashboard": {
+    "title": "Partner Dashboard",
+    "description": "Track your current partner applications and their review status.",
+    "actions": {
+      "retry": "Retry"
+    },
+    "create": {
+      "open": "New application",
+      "title": "Submit partner application",
+      "description": "Apply for an existing shop by ID or create a new shop for review.",
+      "submit": "Submit application",
+      "submitting": "Submitting…",
+      "cancel": "Cancel",
+      "success": "Partner application submitted.",
+      "type": {
+        "new": "New shop",
+        "existing": "Existing shop"
+      },
+      "fields": {
+        "type": "Application type",
+        "shopId": "Shop",
+        "shopName": "Shop name",
+        "shopType": "Shop type",
+        "shopDomains": "Domains",
+        "shopDomainsHint": "Separate domains with line breaks, commas, semicolons, or spaces. Domains are normalized before submission.",
+        "shopUrl": "Primary shop URL",
+        "shopImage": "Logo or image URL",
+        "shopPhone": "Phone",
+        "shopEmail": "Email",
+        "address": "Address",
+        "addressline": "Address line",
+        "addresslineExtra": "Address line 2",
+        "locality": "City",
+        "region": "Region",
+        "postalCode": "Postal code",
+        "country": "Country code"
+      },
+      "validation": {
+        "shopIdRequired": "Please select an existing shop.",
+        "shopNameRequired": "Please enter the shop name.",
+        "domainsRequired": "Please enter at least one domain.",
+        "urlInvalid": "Please enter a valid URL.",
+        "imageInvalid": "Please enter a valid image URL.",
+        "emailInvalid": "Please enter a valid email address."
+      },
+      "shopSearch": {
+        "placeholder": "Search shops by name…",
+        "loading": "Searching shops.",
+        "empty": "No shops found.",
+        "clear": "Clear selected shop"
+      }
+    },
+    "applications": {
+      "title": "Current Partner Applications",
+      "description": "All partner applications you have submitted for shops.",
+      "loading": "Loading partner applications.",
+      "loadError": "Could not load your partner applications.",
+      "empty": "You have not submitted any partner applications yet.",
+      "submittedAt": "Submitted {{date}}",
+      "updatedAt": "Updated {{date}}",
+      "existingShop": "Existing shop",
+      "openDetails": "Open details for {{title}}",
+      "viewDetails": "View details",
+      "progress": {
+        "handedIn": "Handed in",
+        "checking": "Checking",
+        "completed": "Completed",
+        "approved": "Approved",
+        "denied": "Denied"
+      },
+      "detail": {
+        "title": "Application details",
+        "description": "Review the current status and submitted shop information.",
+        "loadError": "Could not load this partner application.",
+        "close": "Close details",
+        "edit": "Edit application",
+        "editCancel": "Cancel",
+        "editSave": "Save changes",
+        "editSuccess": "Partner application updated.",
+        "delete": "Delete application",
+        "deleteSuccess": "Partner application deleted.",
+        "deleteConfirm": {
+          "title": "Delete this partner application?",
+          "description": "This pending application will be permanently deleted and cannot be restored.",
+          "cancel": "Cancel",
+          "confirm": "Delete"
+        },
+        "progressLabel": "Application progress",
+        "applicationSection": "Application",
+        "shopSection": "Shop information",
+        "applicationId": "Application ID",
+        "applicantUserId": "Applicant user ID",
+        "createdAt": "Submitted",
+        "updatedAt": "Updated",
+        "shopName": "Shop name",
+        "shopType": "Shop type",
+        "domains": "Domains",
+        "shopUrl": "Primary URL",
+        "shopImage": "Image URL",
+        "shopPhone": "Phone",
+        "shopEmail": "Email",
+        "address": "Address",
+        "addressline": "Address line",
+        "addresslineExtra": "Address line 2",
+        "locality": "City",
+        "region": "Region",
+        "postalCode": "Postal code",
+        "country": "Country code",
+        "shopId": "Shop ID"
+      },
+      "businessState": {
+        "submitted": "Submitted",
+        "inReview": "In review",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "executionState": {
+        "processing": "Processing",
+        "waiting": "Awaiting decision",
+        "completed": "Completed"
+      }
+    }
   },
   "adminDashboard": {
     "loading": "Loading…",
@@ -1652,6 +1815,246 @@
         "scope": "Scopes",
         "scopeHint": "Select the scopes this client may request."
       }
+    }
+  },
+  "oauth": {
+    "authorize": {
+      "title": "Authorize Application",
+      "description": "\"{{appName}}\" is requesting access to your Aura Historia account. Please review the requested permissions below.",
+      "scopesTitle": "This application is requesting the following permissions:",
+      "logoAlt": "{{appName}} logo",
+      "clientInfoLink": "About this app",
+      "privacyLink": "Privacy",
+      "termsLink": "Terms",
+      "approve": "Authorize",
+      "deny": "Decline",
+      "approveAriaLabel": "Authorize {{appName}} to access your account",
+      "denyAriaLabel": "Decline authorization for {{appName}}",
+      "securityNote": "You can revoke this access at any time from your account settings. Only authorize applications you trust.",
+      "partnerShops": {
+        "title": "Choose a partner shop",
+        "description": "Select the partner shop this application should be authorized for.",
+        "selectedLabel": "Selected partner shop",
+        "empty": {
+          "title": "No Partner Shop Available",
+          "description": "This authorization requires a linked partner shop, but none were found for your account."
+        },
+        "loadError": {
+          "title": "Partner Shops Could Not Be Loaded",
+          "description": "The available partner shops could not be loaded right now. Please try again."
+        }
+      },
+      "error": {
+        "title": "Invalid Authorization Request",
+        "description": "The application could not be identified. The authorization link may be invalid or expired. Please try again from the application."
+      }
+    },
+    "scopes": {
+      "products_write": {
+        "label": "Manage Products",
+        "description": "Create or update your product listings."
+      },
+      "shops_manage": {
+        "label": "Manage Shops",
+        "description": "Manage your shop settings."
+      }
+    }
+  },
+  "compareBarnebysPage": {
+    "structuredData": {
+      "about": {
+        "searchEngine": "antiques search engine",
+        "auctionAggregation": "auction aggregation",
+        "multilingualSearch": "multilingual antiques search",
+        "realTimeAlerts": "near real-time antiques alerts",
+        "aiDiscovery": "AI-assisted antiques discovery"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparison: Aura Historia vs Barnebys",
+      "title": "A broader antiques search engine than an auction aggregator",
+      "subtitle": "Barnebys helped make auction-house catalogues easier to search. Aura Historia starts from a wider premise: serious collectors should see the whole online antiques market, not only the best-known auction stream.",
+      "primaryCta": "Search the wider market",
+      "secondaryCta": "See the scorecard",
+      "quickAnswerEyebrow": "Quick answer",
+      "quickAnswerTitle": "Barnebys is respected. Aura Historia is broader.",
+      "quickAnswerDescription": "Verdict: choose Barnebys for familiar auction-house browsing. Choose Aura Historia when you want auction houses, dealers, marketplaces, private sellers, translations, and near real-time monitoring in one search layer."
+    },
+    "quickVerdicts": {
+      "auctionDiscovery": {
+        "label": "Best for established auction-house discovery",
+        "value": "Barnebys"
+      },
+      "marketSearch": {
+        "label": "Best for market-wide antiques search",
+        "value": "Aura Historia"
+      },
+      "multilingualDiscovery": {
+        "label": "Best for multilingual discovery",
+        "value": "Aura Historia"
+      },
+      "realTimeMonitoring": {
+        "label": "Best for near real-time monitoring",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "eyebrow": "Summary",
+      "title": "The short version",
+      "paragraph1": "Aura Historia is the better Barnebys alternative for collectors, dealers, researchers, and anyone who needs broad antiques discovery rather than auction aggregation alone.",
+      "paragraph2": "Barnebys deserves credit for its history in auction search. Aura Historia wins the practical comparison by indexing more source types, translating and normalizing listing text, monitoring changes near real-time, and building on modern AI-assisted search."
+    },
+    "respect": {
+      "eyebrow": "Respect where it is due",
+      "title": "Barnebys helped define auction aggregation",
+      "paragraph1": "A fair comparison should start here: Barnebys is a known name in the antiques auction world. For many buyers, it made scattered auction-house catalogues feel more searchable and approachable.",
+      "paragraph2": "That is useful. It is also not the same as seeing the whole online market. The objects collectors want are spread across major auction houses, regional auctioneers, specialist dealers, independent shops, marketplaces, and sometimes private sellers. Aura Historia is designed for that wider reality."
+    },
+    "advantages": {
+      "eyebrow": "Where Aura Historia is designed to win",
+      "title": "More sources, faster signals, fewer language barriers",
+      "description": "The core difference is not a single feature. It is the compounding advantage of a broader index paired with cleaner data and faster alerts.",
+      "cards": {
+        "marketBeyondAuctions": {
+          "title": "The market beyond auction catalogues",
+          "description": "Aura Historia is built to index the online places antiques are actually sold: auction houses, auction platforms, specialist dealers, private sellers, marketplaces, and more."
+        },
+        "nearRealTimeAlerts": {
+          "title": "Near real-time alerts",
+          "description": "For rare pieces, a day can matter. Aura Historia monitors new listings, price changes, and availability close to when they happen instead of relying on a single daily alert rhythm."
+        },
+        "languagePenalties": {
+          "title": "Search without language penalties",
+          "description": "Listings are translated and terminology is aligned across supported languages, so an English, German, French, Spanish, or Italian search can find the same underlying objects."
+        },
+        "aiForwardMatching": {
+          "title": "AI-forward matching",
+          "description": "We are building on modern AI, semantic search, and multilingual normalization so saved searches can become more precise without becoming narrower."
+        }
+      }
+    },
+    "scorecard": {
+      "eyebrow": "The comparison table",
+      "title": "Aura Historia vs Barnebys, side by side",
+      "description": "Barnebys keeps a clear place for auction-focused discovery. Aura Historia is built for buyers who want the wider antiques market and a more modern monitoring layer.",
+      "caption": "Comparison of Aura Historia and Barnebys for antiques search",
+      "headers": {
+        "criterion": "Criterion",
+        "barnebys": "Barnebys",
+        "auraHistoria": "Aura Historia",
+        "practicalEdge": "Practical edge"
+      },
+      "rows": {
+        "auctionHeritage": {
+          "criterion": "Auction-house heritage",
+          "barnebys": "A long-established name in antiques auction aggregation with broad recognition among auction-focused buyers.",
+          "auraHistoria": "A newer search engine built from day one around a wider source model and modern data enrichment.",
+          "verdict": "Barnebys for legacy recognition",
+          "whyItMatters": "If you mainly browse major auction catalogues, Barnebys has a familiar, proven position."
+        },
+        "sourceCoverage": {
+          "criterion": "Source coverage",
+          "barnebys": "Strongest around auction houses and auction platforms, particularly established catalogues.",
+          "auraHistoria": "Indexes auction houses, auction platforms, dealers, private sellers, marketplaces, and other online sources where antiques appear.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Many valuable finds never start in a major auction catalogue. Broader coverage creates broader opportunity."
+        },
+        "alertSpeed": {
+          "criterion": "Alert speed",
+          "barnebys": "Search alerts follow a daily check pattern, including the known 18:00 CEST alert window.",
+          "auraHistoria": "Near real-time monitoring for newly discovered listings plus price and availability changes.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "The earlier a buyer sees a rare item, the more options they have before it is reserved, sold, or bid up."
+        },
+        "languageHandling": {
+          "criterion": "Language handling",
+          "barnebys": "Often keeps listing text close to the native source language and source terminology.",
+          "auraHistoria": "Translates listings into multiple languages and aligns antique terminology across languages.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "The language of a seller should not decide whether a collector can discover the object."
+        },
+        "alertRelevance": {
+          "criterion": "Alert relevance",
+          "barnebys": "Useful for broad auction watches, while broader keyword matching can occasionally bring adjacent lots into the inbox.",
+          "auraHistoria": "Designed around normalized item data and tighter matching so alerts can be both broader in coverage and more selective in relevance.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Collectors need signal, not just volume. Every notification should be worth opening."
+        },
+        "technologyDirection": {
+          "criterion": "Technology direction",
+          "barnebys": "A mature auction-search experience for buyers who know the auction ecosystem.",
+          "auraHistoria": "An AI-forward search layer for the whole antiques market, combining indexing, translations, semantic matching, and monitoring.",
+          "verdict": "Aura Historia",
+          "whyItMatters": "Modern discovery is not only about having data; it is about understanding what a buyer means across languages and sources."
+        }
+      }
+    },
+    "downstream": {
+      "eyebrow": "Why source breadth compounds",
+      "title": "Covering more than auctions changes what you can know",
+      "sources": {
+        "auctionHouses": "Auction houses",
+        "auctionPlatforms": "Auction platforms",
+        "antiqueDealers": "Antique dealers",
+        "privateSellers": "Private sellers",
+        "marketplaces": "Marketplaces"
+      },
+      "cards": {
+        "underRadarInventory": {
+          "title": "Find under-the-radar inventory",
+          "description": "Small dealers, niche marketplaces, and private sellers can list exceptional objects long before they surface in a major auction channel."
+        },
+        "realMarket": {
+          "title": "Compare the real market",
+          "description": "Auction estimates tell one story. Dealer asking prices, marketplace listings, and recent availability changes make the market picture more complete."
+        },
+        "beforeDigest": {
+          "title": "Act before the daily digest",
+          "description": "Near real-time monitoring is built for scarce inventory where the best moment to decide is often the moment a listing appears."
+        },
+        "acrossBorders": {
+          "title": "Search across borders",
+          "description": "When terminology is translated and aligned, a collector is no longer limited by the language used by the seller or auctioneer."
+        }
+      }
+    },
+    "alerts": {
+      "eyebrow": "A polite note on alerts",
+      "title": "A daily digest is tidy. Rare inventory is not tidy.",
+      "paragraph1": "Barnebys alerts are a useful way to keep an eye on auction-related searches, especially for broad watches. But a daily alert rhythm can be late for rare pieces, and broad keyword matching can sometimes surface adjacent lots that are not quite what the collector meant.",
+      "paragraph2": "Aura Historia is built for a different standard: near real-time signals, translated terminology, normalized data, and alerts that aim to stay relevant while watching more of the market. If a notification asks for attention, should it not earn it?"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Common questions about Aura Historia and Barnebys",
+      "items": {
+        "alternative": {
+          "question": "Is Aura Historia a Barnebys alternative?",
+          "answer": "Yes. Aura Historia is a Barnebys alternative for buyers who want to search beyond auction-house aggregation and monitor auction houses, dealers, marketplaces, private sellers, and other online antiques sources in one place."
+        },
+        "replace": {
+          "question": "Does Aura Historia replace Barnebys?",
+          "answer": "If you only want a familiar way to browse established auction-house catalogues, Barnebys remains a respected option. If you want broader online antiques coverage, multilingual discovery, near real-time alerts, and AI-assisted matching, Aura Historia is designed to be the stronger choice."
+        },
+        "fasterAlerts": {
+          "question": "Which service has faster antiques alerts?",
+          "answer": "Aura Historia is designed for near real-time monitoring. Barnebys search alerts follow a daily check pattern, including the known 18:00 CEST alert window."
+        },
+        "multilingualSearch": {
+          "question": "Which service is better for multilingual antiques search?",
+          "answer": "Aura Historia is built to translate listings and align terminology across supported languages. That means the search language should matter less, whether the original listing is in English, German, French, Spanish, Italian, or another source language."
+        },
+        "outsideAuctions": {
+          "question": "Which service is better for finding antiques outside auctions?",
+          "answer": "Aura Historia. Its core advantage is broader source coverage: auction houses, auction platforms, dealers, private sellers, marketplaces, and other online places where antiques are sold."
+        }
+      }
+    },
+    "finalCta": {
+      "eyebrow": "Final verdict",
+      "title": "Barnebys is good for auctions. Aura Historia is built for the antiques market.",
+      "description": "If your search should include the places where antiques are actually sold online, start with Aura Historia.",
+      "button": "Start searching antiques"
     }
   }
 }

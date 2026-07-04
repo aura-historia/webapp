@@ -27,6 +27,8 @@ const baseApiItem: PersonalizedGetProductData["item"] = {
     url: "https://example.com/item",
     viewUrl: "https://example.com/item",
     images: [],
+    createdBy: "SYSTEM",
+    updatedBy: "SYSTEM",
     created: "2023-01-01T00:00:00Z",
     updated: "2023-01-02T00:00:00Z",
 };

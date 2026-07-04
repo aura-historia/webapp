@@ -34,14 +34,21 @@ export function ProductCardImageCarousel({
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [canScrollPrev, setCanScrollPrev] = useState(false);
     const [canScrollNext, setCanScrollNext] = useState(false);
+    const [dotStart, setDotStart] = useState(0);
 
     const isRestrictedConsentGiven = userData?.restrictedContentData.consentGiven ?? false;
 
     const onSelect = useCallback(() => {
         if (!carouselApi) return;
-        setSelectedIndex(carouselApi.selectedScrollSnap());
+        const index = carouselApi.selectedScrollSnap();
+        setSelectedIndex(index);
         setCanScrollPrev(carouselApi.canScrollPrev());
         setCanScrollNext(carouselApi.canScrollNext());
+        setDotStart((prev) => {
+            if (index < prev) return index;
+            if (index >= prev + 10) return index - 9;
+            return prev;
+        });
     }, [carouselApi]);
 
     useEffect(() => {
@@ -191,22 +198,22 @@ export function ProductCardImageCarousel({
 
             {/* Dot indicators */}
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/40 backdrop-blur-sm px-2 py-1 rounded-full">
-                {images.map((image, index) => (
+                {images.slice(dotStart, dotStart + 10).map((image, i) => (
                     <button
-                        key={image.url?.href ?? `restricted-${index}`}
+                        key={image.url?.href ?? `restricted-${dotStart + i}`}
                         type="button"
                         onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            scrollTo(index);
+                            scrollTo(dotStart + i);
                         }}
                         className={cn(
-                            "w-1.5 h-1.5 rounded-full transition-all",
-                            index === selectedIndex
+                            "w-1.5 h-1.5 rounded-full transition-[width,background-color] duration-200",
+                            dotStart + i === selectedIndex
                                 ? "bg-white w-4"
                                 : "bg-white/60 hover:bg-white/80",
                         )}
-                        aria-label={`Go to image ${index + 1}`}
+                        aria-label={`Go to image ${dotStart + i + 1}`}
                     />
                 ))}
             </div>
