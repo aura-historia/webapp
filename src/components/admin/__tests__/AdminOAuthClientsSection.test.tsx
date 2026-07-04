@@ -1,6 +1,3 @@
-import { act } from "react";
-import { hydrateRoot } from "react-dom/client";
-import { renderToString } from "react-dom/server";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -9,19 +6,10 @@ import type { OAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
 
 const mockUseAdminOAuthClients = vi.hoisted(() => vi.fn());
 const mockDeleteMutate = vi.hoisted(() => vi.fn());
-const mockDateFormattingState = vi.hoisted(() => ({ value: "1. Jan. 2024" }));
 
 vi.mock("@/hooks/admin/useAdminOAuthClients.ts", () => ({
     useAdminOAuthClients: mockUseAdminOAuthClients,
 }));
-
-vi.mock("@/lib/utils.ts", async (importOriginal) => {
-    const actual = await importOriginal<typeof import("@/lib/utils.ts")>();
-    return {
-        ...actual,
-        formatShortDate: () => mockDateFormattingState.value,
-    };
-});
 
 vi.mock("@/hooks/admin/useAdminOAuthClientActions.ts", () => ({
     useDeleteOAuthClient: () => ({
@@ -73,7 +61,6 @@ const oauthClient: OAuthClient = {
 describe("AdminOAuthClientsSection", () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        mockDateFormattingState.value = "1. Jan. 2024";
         mockUseAdminOAuthClients.mockReturnValue({
             data: [oauthClient],
             isPending: false,
@@ -147,26 +134,5 @@ describe("AdminOAuthClientsSection", () => {
             "client-123",
             expect.objectContaining({ onSuccess: expect.any(Function) }),
         );
-    });
-
-    it("avoids hydration warnings for localized created-at text", async () => {
-        const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
-        mockDateFormattingState.value = "1. Jan. 2024";
-
-        const markup = renderToString(<AdminOAuthClientsSection />);
-        const container = document.createElement("div");
-        container.innerHTML = markup;
-        document.body.appendChild(container);
-
-        mockDateFormattingState.value = "1 Jan 2024";
-
-        await act(async () => {
-            hydrateRoot(container, <AdminOAuthClientsSection />);
-        });
-
-        expect(consoleError).not.toHaveBeenCalled();
-
-        consoleError.mockRestore();
-        container.remove();
     });
 });

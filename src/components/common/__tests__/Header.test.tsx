@@ -126,7 +126,10 @@ describe("Header Component", () => {
         });
 
         it("should show an admin link to the admin dashboard", () => {
-            expect(screen.getByRole("link", { name: "Admin" })).toHaveAttribute("href", "/admin");
+            expect(screen.getByRole("link", { name: "Admin" })).toHaveAttribute(
+                "href",
+                "/admin/overview",
+            );
         });
     });
 

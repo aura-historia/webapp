@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 
 type AdminSidebarItem = {
     readonly to:
-        | "/admin"
+        | "/admin/overview"
         | "/admin/shops"
         | "/admin/partner-applications"
         | "/admin/oauth-clients"
@@ -18,7 +18,7 @@ type AdminSidebarItem = {
 
 const SIDEBAR_ITEMS: readonly AdminSidebarItem[] = [
     {
-        to: "/admin",
+        to: "/admin/overview",
         labelKey: "adminDashboard.nav.overview",
         icon: <LayoutDashboard className="h-4 w-4" aria-hidden="true" />,
         exact: true,
