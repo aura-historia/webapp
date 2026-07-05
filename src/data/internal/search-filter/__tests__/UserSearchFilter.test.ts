@@ -16,7 +16,7 @@ const baseFilterData: UserSearchFilterData = {
     notifications: true,
     state: "ACTIVE",
     search: {
-        productQuery: "Tisch",
+        productQuery: ["Tisch"],
         price: { min: 1000, max: 5000 },
         state: ["AVAILABLE"],
         shopType: ["AUCTION_HOUSE"],
@@ -59,7 +59,10 @@ describe("mapToInternalUserSearchFilter", () => {
     });
 
     it("maps optional enhancedSearchDescription", () => {
-        const data = { ...baseFilterData, enhancedSearchDescription: "Barocke Möbel" };
+        const data = {
+            ...baseFilterData,
+            search: { ...baseFilterData.search, enhancedSearchDescription: "Barocke Möbel" },
+        };
         const result = mapToInternalUserSearchFilter(data);
         expect(result.enhancedSearchDescription).toBe("Barocke Möbel");
     });
@@ -114,21 +117,21 @@ describe("mapProductSearchDataToSearchFilterArguments", () => {
     });
 
     it("leaves price undefined when not provided", () => {
-        const result = mapProductSearchDataToSearchFilterArguments({ productQuery: "Tisch" });
+        const result = mapProductSearchDataToSearchFilterArguments({ productQuery: ["Tisch"] });
         expect(result.priceFrom).toBeUndefined();
         expect(result.priceTo).toBeUndefined();
     });
 });
 
 describe("mapSearchFilterArgumentsToProductSearchData", () => {
-    it("converts empty q to undefined productQuery", () => {
+    it("converts empty q to empty productQuery array", () => {
         const result = mapSearchFilterArgumentsToProductSearchData({ q: "" });
-        expect(result.productQuery).toBeUndefined();
+        expect(result.productQuery).toEqual([]);
     });
 
     it("converts non-empty q to productQuery", () => {
         const result = mapSearchFilterArgumentsToProductSearchData({ q: "Tisch" });
-        expect(result.productQuery).toBe("Tisch");
+        expect(result.productQuery).toEqual(["Tisch"]);
     });
 
     it("converts price from euros to cents", () => {
@@ -160,7 +163,7 @@ describe("mapToBackendCreateUserSearchFilter", () => {
             search: { q: "Sofa" },
         });
         expect(result.name).toBe("Test");
-        expect(result.search.productQuery).toBe("Sofa");
+        expect(result.search.productQuery).toEqual(["Sofa"]);
     });
 
     it("maps optional enhancedSearchDescription", () => {
@@ -169,7 +172,7 @@ describe("mapToBackendCreateUserSearchFilter", () => {
             enhancedSearchDescription: "KI-Beschreibung",
             search: { q: "" },
         });
-        expect(result.enhancedSearchDescription).toBe("KI-Beschreibung");
+        expect(result.search.enhancedSearchDescription).toBe("KI-Beschreibung");
     });
 });
 
@@ -191,7 +194,14 @@ describe("mapToBackendPatchUserSearchFilter", () => {
 
     it("maps search when provided", () => {
         const result = mapToBackendPatchUserSearchFilter({ search: { q: "Lampe" } });
-        expect(result.search?.productQuery).toBe("Lampe");
+        expect(result.search?.productQuery).toEqual(["Lampe"]);
+    });
+
+    it("creates a search object for enhancedSearchDescription alone when no other search criteria change", () => {
+        const result = mapToBackendPatchUserSearchFilter({
+            enhancedSearchDescription: "Neue Beschreibung",
+        });
+        expect(result.search?.enhancedSearchDescription).toBe("Neue Beschreibung");
     });
 
     it("maps state when provided", () => {
