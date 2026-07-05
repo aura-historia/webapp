@@ -3,6 +3,7 @@ import type {
     ProductSearchData,
     PostUserSearchFilterData,
     PatchUserSearchFilterData,
+    PatchProductSearchData,
 } from "@/client";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { parseProductState, mapToBackendState } from "@/data/internal/product/ProductState.ts";
@@ -44,7 +45,7 @@ export function mapProductSearchDataToSearchFilterArguments(
     data: ProductSearchData,
 ): SearchFilterArguments {
     return {
-        q: data.productQuery ?? "",
+        q: data.productQuery?.[0] ?? "",
         priceFrom: data.price?.min == null ? undefined : data.price.min / 100,
         priceTo: data.price?.max == null ? undefined : data.price.max / 100,
         allowedStates: data.state?.map((s) => parseProductState(s)),
@@ -68,7 +69,7 @@ export function mapSearchFilterArgumentsToProductSearchData(
     args: SearchFilterArguments,
 ): ProductSearchData {
     return {
-        productQuery: args.q || undefined,
+        productQuery: args.q ? [args.q] : [],
         price:
             args.priceFrom != null || args.priceTo != null
                 ? {
@@ -113,7 +114,7 @@ export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserS
         userId: data.userId,
         id: data.userSearchFilterId,
         name: data.name,
-        enhancedSearchDescription: data.enhancedSearchDescription,
+        enhancedSearchDescription: data.search.enhancedSearchDescription ?? undefined,
         notifications: data.notifications,
         state: parseResourceState(data.state),
         search: mapProductSearchDataToSearchFilterArguments(data.search),
@@ -141,9 +142,9 @@ export function mapToBackendCreateUserSearchFilter(
         !value?.length || arraysEqual(value, defaults);
     return {
         name: data.name,
-        enhancedSearchDescription: data.enhancedSearchDescription,
         search: {
             ...search,
+            enhancedSearchDescription: data.enhancedSearchDescription,
             shopType: isDefaultOrEmpty(data.search.shopType, FILTER_DEFAULTS.shopType)
                 ? undefined
                 : search.shopType,
@@ -154,11 +155,23 @@ export function mapToBackendCreateUserSearchFilter(
 export function mapToBackendPatchUserSearchFilter(
     data: UserSearchFilterPatchData,
 ): PatchUserSearchFilterData {
+    let search: PatchProductSearchData | undefined;
+
+    if (data.search) {
+        search = mapSearchFilterArgumentsToProductSearchData(data.search);
+    }
+
+    if (data.enhancedSearchDescription !== undefined) {
+        if (search === undefined) {
+            search = {};
+        }
+        search.enhancedSearchDescription = data.enhancedSearchDescription;
+    }
+
     return {
         name: data.name,
-        enhancedSearchDescription: data.enhancedSearchDescription,
         notifications: data.notifications,
         state: data.state,
-        search: data.search ? mapSearchFilterArgumentsToProductSearchData(data.search) : undefined,
+        search: search,
     };
 }
