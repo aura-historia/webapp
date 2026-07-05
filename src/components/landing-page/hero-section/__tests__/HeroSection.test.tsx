@@ -24,19 +24,6 @@ describe("HeroSection", () => {
         expect(screen.getByText(/globalen Antiquitätenplattform/)).toBeInTheDocument();
     });
 
-    it("renders the hero video in a muted loop", () => {
-        const video = document.querySelector("video");
-
-        expect(video).toBeInTheDocument();
-        expect(video).toHaveAttribute("autoplay");
-        expect(video).toHaveAttribute("loop");
-        expect(video).toHaveAttribute("playsinline");
-        expect(video).toHaveAttribute("preload", "metadata");
-        expect(video).toHaveAttribute("aria-hidden", "true");
-        expect(video).toHaveAttribute("tabindex", "-1");
-        expect(video?.muted).toBe(true);
-    });
-
     it("renders the search bar", () => {
         expect(screen.getByLabelText("Suche")).toBeInTheDocument();
     });

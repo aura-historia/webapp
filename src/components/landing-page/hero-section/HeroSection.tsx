@@ -5,7 +5,6 @@ import { Trans, useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { Shield } from "lucide-react";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
-import heroVideo from "@/assets/landing-page/Claude_Lorrain_Sheba.mp4";
 
 export default function HeroSection() {
     const { t } = useTranslation();
@@ -19,20 +18,6 @@ export default function HeroSection() {
 
     return (
         <section className="landing-hero hero-section-safari-offset flex items-center justify-center relative overflow-visible">
-            <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-                <video
-                    className="landing-hero-video pointer-events-none absolute inset-0 h-full w-full object-cover"
-                    src={heroVideo}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    aria-hidden="true"
-                    tabIndex={-1}
-                />
-            </div>
-            <div className="landing-hero-video-overlay absolute inset-0 z-[1]" aria-hidden="true" />
             <div className="landing-hero-content w-full px-4 pt-8 relative z-10">
                 <div>
                     <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-card text-foreground text-xs sm:text-sm font-medium mt-0 mb-6">
