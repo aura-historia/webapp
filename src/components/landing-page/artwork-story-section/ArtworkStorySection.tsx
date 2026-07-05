@@ -60,7 +60,7 @@ export default function ArtworkStorySection() {
                                 />
                                 <figcaption
                                     className={cn(
-                                        "mt-3 px-1 text-xs leading-5 text-secondary",
+                                        "mt-2 px-1 text-xs leading-5 text-secondary",
                                         imageOnRight && "text-right",
                                     )}
                                 >

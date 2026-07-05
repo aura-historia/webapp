@@ -237,7 +237,7 @@ describe("PricingSection", () => {
     it("renders check icons for all features", () => {
         // Free: 6, Pro: 6, Ultimate: 7 = 19 total features
         const checkIcons = document.querySelectorAll("li");
-        expect(checkIcons.length).toBe(19);
+        expect(checkIcons).toHaveLength(19);
     });
 
     it("highlights the AI search agent feature", () => {
