@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { FileText } from "lucide-react";
+import { FileText, KeyRound } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils.ts";
 
@@ -8,6 +8,11 @@ const SIDEBAR_ITEMS = [
         to: "/partners/applications",
         labelKey: "partnerDashboard.nav.applications",
         icon: <FileText className="h-4 w-4" aria-hidden="true" />,
+    },
+    {
+        to: "/partners/access-tokens",
+        labelKey: "partnerDashboard.nav.accessTokens",
+        icon: <KeyRound className="h-4 w-4" aria-hidden="true" />,
     },
 ] as const;
 

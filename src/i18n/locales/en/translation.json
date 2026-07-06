@@ -63,6 +63,9 @@
     "partnerApplications": {
       "title": "Current Partner Applications | Aura Historia"
     },
+    "partnerAccessTokens": {
+      "title": "Access Tokens | Aura Historia"
+    },
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Antiques Search Engine Comparison",
       "description": "Compare Aura Historia with Barnebys for antiques search, source coverage, multilingual discovery, near real-time alerts, and AI-assisted market monitoring."
@@ -1398,7 +1401,27 @@
     "title": "Partner Dashboard",
     "sidebarLabel": "Partner Sections",
     "nav": {
-      "applications": "Applications"
+      "applications": "Applications",
+      "accessTokens": "Access tokens"
+    }
+  },
+  "partnerAccessTokens": {
+    "title": "Access Tokens",
+    "description": "All access tokens saved for your partner account.",
+    "actions": {
+      "retry": "Retry"
+    },
+    "loading": "Loading access tokens.",
+    "loadError": "Could not load your access tokens.",
+    "empty": "You have not saved any access tokens yet.",
+    "createdAt": "Created {{date}}",
+    "updatedAt": "Updated {{date}}",
+    "expiresAt": "Expires {{date}}",
+    "noExpiration": "Does not expire",
+    "noScopes": "No scopes",
+    "scopes": {
+      "shopsManage": "Manage shops",
+      "productsWrite": "Write products"
     }
   },
   "partnerApplications": {

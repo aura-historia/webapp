@@ -30,6 +30,7 @@ import { Route as AuthPartnersIndexRouteImport } from './routes/_auth.partners.i
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
 import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
 import { Route as AuthPartnersApplicationsRouteImport } from './routes/_auth.partners.applications'
+import { Route as AuthPartnersAccessTokensRouteImport } from './routes/_auth.partners.access-tokens'
 import { Route as AuthOauthAuthorizeRouteImport } from './routes/_auth.oauth.authorize'
 import { Route as AuthMeWatchlistRouteImport } from './routes/_auth.me.watchlist'
 import { Route as AuthMeSearchFiltersRouteImport } from './routes/_auth.me.search-filters'
@@ -153,6 +154,12 @@ const AuthPartnersApplicationsRoute =
     path: '/applications',
     getParentRoute: () => AuthPartnersRoute,
   } as any)
+const AuthPartnersAccessTokensRoute =
+  AuthPartnersAccessTokensRouteImport.update({
+    id: '/access-tokens',
+    path: '/access-tokens',
+    getParentRoute: () => AuthPartnersRoute,
+  } as any)
 const AuthOauthAuthorizeRoute = AuthOauthAuthorizeRouteImport.update({
   id: '/oauth/authorize',
   path: '/oauth/authorize',
@@ -260,6 +267,7 @@ export interface FileRoutesByFullPath {
   '/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
   '/oauth/authorize': typeof AuthOauthAuthorizeRoute
+  '/partners/access-tokens': typeof AuthPartnersAccessTokensRoute
   '/partners/applications': typeof AuthPartnersApplicationsRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin/': typeof AuthAdminIndexRoute
@@ -294,6 +302,7 @@ export interface FileRoutesByTo {
   '/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/me/watchlist': typeof AuthMeWatchlistRoute
   '/oauth/authorize': typeof AuthOauthAuthorizeRoute
+  '/partners/access-tokens': typeof AuthPartnersAccessTokensRoute
   '/partners/applications': typeof AuthPartnersApplicationsRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin': typeof AuthAdminIndexRoute
@@ -333,6 +342,7 @@ export interface FileRoutesById {
   '/_auth/me/search-filters': typeof AuthMeSearchFiltersRoute
   '/_auth/me/watchlist': typeof AuthMeWatchlistRoute
   '/_auth/oauth/authorize': typeof AuthOauthAuthorizeRoute
+  '/_auth/partners/access-tokens': typeof AuthPartnersAccessTokensRoute
   '/_auth/partners/applications': typeof AuthPartnersApplicationsRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/_auth/admin/': typeof AuthAdminIndexRoute
@@ -372,6 +382,7 @@ export interface FileRouteTypes {
     | '/me/search-filters'
     | '/me/watchlist'
     | '/oauth/authorize'
+    | '/partners/access-tokens'
     | '/partners/applications'
     | '/product/$shopId/$shopsProductId'
     | '/admin/'
@@ -406,6 +417,7 @@ export interface FileRouteTypes {
     | '/me/search-filters'
     | '/me/watchlist'
     | '/oauth/authorize'
+    | '/partners/access-tokens'
     | '/partners/applications'
     | '/product/$shopId/$shopsProductId'
     | '/admin'
@@ -444,6 +456,7 @@ export interface FileRouteTypes {
     | '/_auth/me/search-filters'
     | '/_auth/me/watchlist'
     | '/_auth/oauth/authorize'
+    | '/_auth/partners/access-tokens'
     | '/_auth/partners/applications'
     | '/product/$shopId/$shopsProductId'
     | '/_auth/admin/'
@@ -624,6 +637,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthPartnersApplicationsRouteImport
       parentRoute: typeof AuthPartnersRoute
     }
+    '/_auth/partners/access-tokens': {
+      id: '/_auth/partners/access-tokens'
+      path: '/access-tokens'
+      fullPath: '/partners/access-tokens'
+      preLoaderRoute: typeof AuthPartnersAccessTokensRouteImport
+      parentRoute: typeof AuthPartnersRoute
+    }
     '/_auth/oauth/authorize': {
       id: '/_auth/oauth/authorize'
       path: '/oauth/authorize'
@@ -755,11 +775,13 @@ const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
 )
 
 interface AuthPartnersRouteChildren {
+  AuthPartnersAccessTokensRoute: typeof AuthPartnersAccessTokensRoute
   AuthPartnersApplicationsRoute: typeof AuthPartnersApplicationsRoute
   AuthPartnersIndexRoute: typeof AuthPartnersIndexRoute
 }
 
 const AuthPartnersRouteChildren: AuthPartnersRouteChildren = {
+  AuthPartnersAccessTokensRoute: AuthPartnersAccessTokensRoute,
   AuthPartnersApplicationsRoute: AuthPartnersApplicationsRoute,
   AuthPartnersIndexRoute: AuthPartnersIndexRoute,
 }

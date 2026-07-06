@@ -37,5 +37,20 @@ describe("PartnerSidebar", () => {
             "aria-current",
             "page",
         );
+        expect(screen.getByRole("link", { name: "Zugriffstoken" })).toHaveAttribute(
+            "href",
+            "/partners/access-tokens",
+        );
+    });
+
+    it("marks access token management as active", () => {
+        mockPathname.mockReturnValue("/partners/access-tokens");
+
+        render(<PartnerSidebar />);
+
+        expect(screen.getByRole("link", { name: "Zugriffstoken" })).toHaveAttribute(
+            "aria-current",
+            "page",
+        );
     });
 });

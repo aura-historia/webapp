@@ -28,6 +28,7 @@ type PageMetaKey =
     | "consentSettings"
     | "partnerProgram"
     | "partnerApplications"
+    | "partnerAccessTokens"
     | "compareBarnebys"
     | "admin";
 
@@ -82,6 +83,9 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     },
     partnerApplications: {
         title: "meta.partnerApplications.title",
+    },
+    partnerAccessTokens: {
+        title: "meta.partnerAccessTokens.title",
     },
     compareBarnebys: {
         title: "meta.compareBarnebys.title",
