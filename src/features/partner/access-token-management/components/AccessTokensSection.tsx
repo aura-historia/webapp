@@ -1,4 +1,4 @@
-import { Clock3, KeyRound, Plus, RefreshCw, SearchX } from "lucide-react";
+import { Clock3, KeyRound, Pencil, Plus, RefreshCw, SearchX } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge.tsx";
@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { useAccessTokens } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
 import { AccessTokenCreateDialog } from "@/features/partner/access-token-management/components/AccessTokenCreateDialog.tsx";
+import { AccessTokenEditDialog } from "@/features/partner/access-token-management/components/AccessTokenEditDialog.tsx";
 import type { AccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
 import { formatDateTime } from "@/lib/utils.ts";
 
@@ -18,6 +19,7 @@ const SCOPE_TRANSLATION_KEYS = {
 export function AccessTokensSection() {
     const { t, i18n } = useTranslation();
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [editTarget, setEditTarget] = useState<AccessToken | null>(null);
     const { data: accessTokens = [], isPending, isError, refetch } = useAccessTokens();
 
     const renderContent = () => {
@@ -57,6 +59,7 @@ export function AccessTokensSection() {
                         key={accessToken.id}
                         accessToken={accessToken}
                         locale={i18n.language}
+                        onEdit={() => setEditTarget(accessToken)}
                     />
                 ))}
             </ul>
@@ -72,6 +75,15 @@ export function AccessTokensSection() {
                     onOpenChange={setCreateDialogOpen}
                 />
             )}
+            <AccessTokenEditDialog
+                accessToken={editTarget}
+                open={editTarget !== null}
+                onOpenChange={(open) => {
+                    if (!open) {
+                        setEditTarget(null);
+                    }
+                }}
+            />
         </AccessTokensLayout>
     );
 }
@@ -107,15 +119,17 @@ function AccessTokensLayout({
 function AccessTokenListItem({
     accessToken,
     locale,
+    onEdit,
 }: {
     readonly accessToken: AccessToken;
     readonly locale: string;
+    readonly onEdit: () => void;
 }) {
     const { t } = useTranslation();
 
     return (
-        <li className="flex flex-col gap-4 border bg-surface-container-low p-4 transition-colors hover:bg-surface-container">
-            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+        <li className="relative flex flex-col gap-2 border bg-surface-container-low p-4 transition-colors hover:bg-surface-container">
+            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between md:pr-32">
                 <div className="flex min-w-0 flex-wrap items-center gap-2">
                     <KeyRound
                         className="h-4 w-4 shrink-0 text-muted-foreground"
@@ -136,6 +150,26 @@ function AccessTokenListItem({
                             : t("partnerAccessTokens.noExpiration")}
                     </Badge>
                 </div>
+            </div>
+
+            <code className="w-fit max-w-full overflow-hidden text-ellipsis whitespace-nowrap bg-muted px-2 py-1 text-xs">
+                {accessToken.maskedToken}
+            </code>
+
+            <div className="flex justify-between items-end">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+                    <span>
+                        {t("partnerAccessTokens.createdAt", {
+                            date: formatDateTime(accessToken.created, locale),
+                        })}
+                    </span>
+                    <span>
+                        {t("partnerAccessTokens.updatedAt", {
+                            date: formatDateTime(accessToken.updated, locale),
+                        })}
+                    </span>
+                </div>
+
                 <div className="flex flex-wrap gap-2">
                     {accessToken.scopes.length > 0 ? (
                         accessToken.scopes.map((scope) => (
@@ -149,22 +183,19 @@ function AccessTokenListItem({
                 </div>
             </div>
 
-            <code className="w-fit max-w-full overflow-hidden text-ellipsis whitespace-nowrap bg-muted px-2 py-1 text-xs">
-                {accessToken.maskedToken}
-            </code>
-
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                <span>
-                    {t("partnerAccessTokens.createdAt", {
-                        date: formatDateTime(accessToken.created, locale),
-                    })}
-                </span>
-                <span>
-                    {t("partnerAccessTokens.updatedAt", {
-                        date: formatDateTime(accessToken.updated, locale),
-                    })}
-                </span>
-            </div>
+            <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                className="mt-2 self-end w-full md:w-auto md:absolute md:top-4 md:right-4 md:mt-0"
+                onClick={onEdit}
+                aria-label={t("partnerAccessTokens.edit.openAriaLabel", {
+                    name: accessToken.name,
+                })}
+            >
+                <Pencil aria-hidden="true" />
+                {t("partnerAccessTokens.edit.open")}
+            </Button>
         </li>
     );
 }

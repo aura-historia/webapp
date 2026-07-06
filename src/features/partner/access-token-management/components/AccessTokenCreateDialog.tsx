@@ -183,7 +183,7 @@ export function AccessTokenCreateDialog({ open, onOpenChange }: AccessTokenCreat
     );
 }
 
-function AccessTokenScopesField({
+export function AccessTokenScopesField({
     value,
     onChange,
 }: {

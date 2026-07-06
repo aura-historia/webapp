@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { AccessTokenScopeData } from "@/client";
-import { getMyAccessTokens, postMyAccessToken } from "@/client";
+import { getMyAccessTokens, patchMyAccessToken, postMyAccessToken } from "@/client";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import {
     mapToAccessToken,
@@ -62,6 +62,47 @@ export function useCreateAccessToken() {
         },
         onError: (error) => {
             console.error("[useCreateAccessToken]", error);
+            toast.error(error.message);
+        },
+    });
+}
+
+export type UpdateAccessTokenInput = {
+    readonly id: string;
+    readonly name: string;
+    readonly scopes: AccessTokenScopeData[];
+    readonly expiresAt?: Date;
+};
+
+export function useUpdateAccessToken() {
+    const queryClient = useQueryClient();
+    const { getErrorMessage } = useApiError();
+
+    return useMutation<AccessToken, Error, UpdateAccessTokenInput>({
+        mutationFn: async ({ id, name, scopes, expiresAt }) => {
+            const response = await patchMyAccessToken({
+                body: {
+                    accessTokenId: id,
+                    name,
+                    scope: scopes,
+                    expiresAt: expiresAt?.toISOString(),
+                },
+            });
+            if (response.error) {
+                throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
+            }
+
+            return mapToAccessToken(response.data);
+        },
+        onSuccess: (updatedAccessToken) => {
+            queryClient.setQueryData<AccessToken[]>(ACCESS_TOKENS_QUERY_KEY, (accessTokens) =>
+                accessTokens?.map((accessToken) =>
+                    accessToken.id === updatedAccessToken.id ? updatedAccessToken : accessToken,
+                ),
+            );
+        },
+        onError: (error) => {
+            console.error("[useUpdateAccessToken]", error);
             toast.error(error.message);
         },
     });

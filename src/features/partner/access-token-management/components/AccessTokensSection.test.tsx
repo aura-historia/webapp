@@ -1,15 +1,20 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AccessTokensSection } from "@/features/partner/access-token-management/components/AccessTokensSection.tsx";
 
 const mockUseAccessTokens = vi.hoisted(() => vi.fn());
 const mockCreateAccessTokenMutate = vi.hoisted(() => vi.fn());
+const mockUpdateAccessTokenMutate = vi.hoisted(() => vi.fn());
 
 vi.mock("@/features/partner/access-token-management/api/useAccessTokens.ts", () => ({
     useAccessTokens: mockUseAccessTokens,
     useCreateAccessToken: () => ({
         mutate: mockCreateAccessTokenMutate,
+        isPending: false,
+    }),
+    useUpdateAccessToken: () => ({
+        mutate: mockUpdateAccessTokenMutate,
         isPending: false,
     }),
 }));
@@ -70,6 +75,25 @@ describe("AccessTokensSection", () => {
         expect(
             screen.getByRole("heading", { name: "Zugriffstoken erstellen" }),
         ).toBeInTheDocument();
+    });
+
+    it("opens the edit dialog without displaying the token value", async () => {
+        const user = userEvent.setup();
+        render(<AccessTokensSection />);
+
+        await user.click(
+            screen.getByRole("button", {
+                name: "Zugriffstoken Product sync bearbeiten",
+            }),
+        );
+
+        expect(
+            screen.getByRole("heading", { name: "Zugriffstoken bearbeiten" }),
+        ).toBeInTheDocument();
+        expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue("Product sync");
+        expect(
+            within(screen.getByRole("dialog")).queryByText("aurahistoria_abcdefghijk_****"),
+        ).not.toBeInTheDocument();
     });
 
     it("renders the empty state", () => {

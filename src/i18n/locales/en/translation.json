@@ -1443,6 +1443,16 @@
         "expirationInvalid": "Please enter a valid expiration date and time."
       }
     },
+    "edit": {
+      "open": "Edit",
+      "openAriaLabel": "Edit access token {{name}}",
+      "title": "Edit access token",
+      "description": "Edit the name, permissions, and expiration of {{name}}.",
+      "submit": "Save changes",
+      "submitting": "Saving…",
+      "cancel": "Cancel",
+      "success": "Access token updated."
+    },
     "loading": "Loading access tokens.",
     "loadError": "Could not load your access tokens.",
     "empty": "You have not saved any access tokens yet.",

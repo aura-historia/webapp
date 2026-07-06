@@ -1454,6 +1454,16 @@
         "expirationInvalid": "Bitte geben Sie ein gültiges Ablaufdatum mit Uhrzeit ein."
       }
     },
+    "edit": {
+      "open": "Bearbeiten",
+      "openAriaLabel": "Zugriffstoken {{name}} bearbeiten",
+      "title": "Zugriffstoken bearbeiten",
+      "description": "Bearbeiten Sie Name, Berechtigungen und Ablaufzeitpunkt von {{name}}.",
+      "submit": "Änderungen speichern",
+      "submitting": "Wird gespeichert…",
+      "cancel": "Abbrechen",
+      "success": "Zugriffstoken wurde aktualisiert."
+    },
     "loading": "Zugriffstoken werden geladen.",
     "loadError": "Ihre Zugriffstoken konnten nicht geladen werden.",
     "empty": "Sie haben noch keine Zugriffstoken gespeichert.",
