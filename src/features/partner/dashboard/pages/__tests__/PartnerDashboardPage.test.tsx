@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { PartnerDashboardPage } from "@/features/partner-dashboard/pages/PartnerDashboardPage.tsx";
+import { PartnerDashboardPage } from "@/features/partner/dashboard/pages/PartnerDashboardPage.tsx";
 
-vi.mock("@/features/partner-dashboard/components/PartnerApplicationsSection.tsx", () => ({
+vi.mock("@/features/partner/dashboard/components/PartnerApplicationsSection.tsx", () => ({
     PartnerApplicationsSection: () => <section>applications-section</section>,
 }));
 

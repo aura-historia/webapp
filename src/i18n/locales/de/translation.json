@@ -1408,6 +1408,10 @@
   "partnerDashboard": {
     "title": "Partner-Dashboard",
     "description": "Verfolgen Sie Ihre aktuellen Partneranträge und deren Prüfstatus.",
+    "sidebarLabel": "Partner-Bereiche",
+    "nav": {
+      "dashboard": "Dashboard"
+    },
     "actions": {
       "retry": "Erneut versuchen"
     },

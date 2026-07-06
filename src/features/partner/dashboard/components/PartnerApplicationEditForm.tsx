@@ -22,7 +22,7 @@ import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import {
     FieldMessage,
     RequiredFieldMarker,
-} from "@/features/partner-dashboard/components/PartnerApplicationCreateFieldHelpers.tsx";
+} from "@/features/partner/dashboard/components/PartnerApplicationCreateFieldHelpers.tsx";
 
 function optionalUrlSchema(message: string) {
     return z

@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
-import type { PartnerDashboardShopSearchItem } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
+import type { PartnerDashboardShopSearchItem } from "@/features/partner/dashboard/api/usePartnerApplications.ts";
 import {
     FieldMessage,
     RequiredFieldMarker,
-} from "@/features/partner-dashboard/components/PartnerApplicationCreateFieldHelpers.tsx";
+} from "@/features/partner/dashboard/components/PartnerApplicationCreateFieldHelpers.tsx";
 import { Check, Loader2, Search, X } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDebouncedCallback } from "use-debounce";
-import { usePartnerDashboardShopSearch } from "@/features/partner-dashboard/api/usePartnerDashboardShopSearch.ts";
+import { usePartnerDashboardShopSearch } from "@/features/partner/dashboard/api/usePartnerDashboardShopSearch.ts";
 
 const SHOP_SEARCH_DEBOUNCE_MS = 350;
 

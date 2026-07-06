@@ -1742,6 +1742,10 @@
   "partnerDashboard": {
     "title": "Dashboard Partner",
     "description": "Monitora le tue attuali richieste di partnership e il loro stato di revisione.",
+    "sidebarLabel": "Sezioni partner",
+    "nav": {
+      "dashboard": "Dashboard"
+    },
     "actions": {
       "retry": "Riprova"
     },

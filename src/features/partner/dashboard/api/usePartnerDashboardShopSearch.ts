@@ -1,4 +1,4 @@
-import type { PartnerDashboardShopSearchItem } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
+import type { PartnerDashboardShopSearchItem } from "@/features/partner/dashboard/api/usePartnerApplications.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { useQuery } from "@tanstack/react-query";
 import { simpleSearchShops } from "@/client";

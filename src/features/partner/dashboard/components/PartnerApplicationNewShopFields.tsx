@@ -10,11 +10,11 @@ import {
 } from "@/components/ui/select.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
-import type { PartnerApplicationCreateFormData } from "@/features/partner-dashboard/components/PartnerApplicationCreateForm.ts";
+import type { PartnerApplicationCreateFormData } from "@/features/partner/dashboard/components/PartnerApplicationCreateForm.ts";
 import {
     FieldMessage,
     RequiredFieldMarker,
-} from "@/features/partner-dashboard/components/PartnerApplicationCreateFieldHelpers.tsx";
+} from "@/features/partner/dashboard/components/PartnerApplicationCreateFieldHelpers.tsx";
 import type { UseFormReturn } from "react-hook-form";
 import { useController } from "react-hook-form";
 import { useTranslation } from "react-i18next";

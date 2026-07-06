@@ -16,17 +16,17 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select.tsx";
-import type { PartnerDashboardShopSearchItem } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
-import { useCreatePartnerApplication } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
+import type { PartnerDashboardShopSearchItem } from "@/features/partner/dashboard/api/usePartnerApplications.ts";
+import { useCreatePartnerApplication } from "@/features/partner/dashboard/api/usePartnerApplications.ts";
 import {
     buildPartnerApplicationStructuredAddress,
     createPartnerApplicationFormSchema,
     optionalTrimmedValue,
     PARTNER_APPLICATION_CREATE_DEFAULT_VALUES,
     type PartnerApplicationCreateFormData,
-} from "@/features/partner-dashboard/components/PartnerApplicationCreateForm.ts";
-import { PartnerApplicationExistingShopField } from "@/features/partner-dashboard/components/PartnerApplicationExistingShopField.tsx";
-import { PartnerApplicationNewShopFields } from "@/features/partner-dashboard/components/PartnerApplicationNewShopFields.tsx";
+} from "@/features/partner/dashboard/components/PartnerApplicationCreateForm.ts";
+import { PartnerApplicationExistingShopField } from "@/features/partner/dashboard/components/PartnerApplicationExistingShopField.tsx";
+import { PartnerApplicationNewShopFields } from "@/features/partner/dashboard/components/PartnerApplicationNewShopFields.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useController, useForm } from "react-hook-form";

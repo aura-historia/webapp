@@ -1742,6 +1742,10 @@
   "partnerDashboard": {
     "title": "Tableau de bord partenaire",
     "description": "Suivez vos candidatures partenaires en cours et leur statut de révision.",
+    "sidebarLabel": "Sections partenaires",
+    "nav": {
+      "dashboard": "Tableau de bord"
+    },
     "actions": {
       "retry": "Réessayer"
     },

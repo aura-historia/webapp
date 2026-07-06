@@ -7,13 +7,13 @@ import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { formatDateTime } from "@/lib/utils.ts";
-import { usePartnerApplications } from "@/features/partner-dashboard/api/usePartnerApplications.ts";
-import { PartnerApplicationCreateDialog } from "@/features/partner-dashboard/components/PartnerApplicationCreateDialog.tsx";
-import { PartnerApplicationDetailDialog } from "@/features/partner-dashboard/components/PartnerApplicationDetailDialog.tsx";
+import { usePartnerApplications } from "@/features/partner/dashboard/api/usePartnerApplications.ts";
+import { PartnerApplicationCreateDialog } from "@/features/partner/dashboard/components/PartnerApplicationCreateDialog.tsx";
+import { PartnerApplicationDetailDialog } from "@/features/partner/dashboard/components/PartnerApplicationDetailDialog.tsx";
 import {
     BUSINESS_STATE_TRANSLATION_KEY,
     businessStateVariant,
-} from "@/features/partner-dashboard/lib/partnerApplicationHelpers.ts";
+} from "@/features/partner/dashboard/lib/partnerApplicationHelpers.ts";
 
 export function PartnerApplicationsSection() {
     const { t, i18n } = useTranslation();

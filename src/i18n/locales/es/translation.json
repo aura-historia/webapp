@@ -1742,6 +1742,10 @@
   "partnerDashboard": {
     "title": "Panel de Socios",
     "description": "Supervisa tus solicitudes de socio actuales y su estado de revisión.",
+    "sidebarLabel": "Secciones de socios",
+    "nav": {
+      "dashboard": "Panel"
+    },
     "actions": {
       "retry": "Reintentar"
     },

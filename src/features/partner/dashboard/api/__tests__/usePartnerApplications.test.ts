@@ -10,8 +10,8 @@ import {
     usePartnerApplicationDetails,
     usePartnerApplications,
     useUpdatePartnerApplication,
-} from "@/features/partner-dashboard/api/usePartnerApplications.ts";
-import { usePartnerDashboardShopSearch } from "@/features/partner-dashboard/api/usePartnerDashboardShopSearch.ts";
+} from "@/features/partner/dashboard/api/usePartnerApplications.ts";
+import { usePartnerDashboardShopSearch } from "@/features/partner/dashboard/api/usePartnerDashboardShopSearch.ts";
 
 const mockGetPartnerApplications = vi.hoisted(() => vi.fn());
 const mockGetPartnerApplication = vi.hoisted(() => vi.fn());

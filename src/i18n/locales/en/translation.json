@@ -1397,6 +1397,10 @@
   "partnerDashboard": {
     "title": "Partner Dashboard",
     "description": "Track your current partner applications and their review status.",
+    "sidebarLabel": "Partner Sections",
+    "nav": {
+      "dashboard": "Dashboard"
+    },
     "actions": {
       "retry": "Retry"
     },

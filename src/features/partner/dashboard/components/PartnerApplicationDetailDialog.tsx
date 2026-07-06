@@ -34,22 +34,22 @@ import {
     useDeletePartnerApplication,
     usePartnerApplicationDetails,
     useUpdatePartnerApplication,
-} from "@/features/partner-dashboard/api/usePartnerApplications.ts";
+} from "@/features/partner/dashboard/api/usePartnerApplications.ts";
 import {
     buildPartnerApplicationStructuredAddress,
     optionalTrimmedValue,
-} from "@/features/partner-dashboard/components/PartnerApplicationCreateForm.ts";
+} from "@/features/partner/dashboard/components/PartnerApplicationCreateForm.ts";
 import {
     PartnerApplicationEditForm,
     type PartnerApplicationEditFormData,
-} from "@/features/partner-dashboard/components/PartnerApplicationEditForm.tsx";
+} from "@/features/partner/dashboard/components/PartnerApplicationEditForm.tsx";
 import { formatDateTime } from "@/lib/utils.ts";
 import {
     BUSINESS_STATE_TRANSLATION_KEY,
     businessStateVariant,
     getAddressSummary,
     getProgressValue,
-} from "@/features/partner-dashboard/lib/partnerApplicationHelpers.ts";
+} from "@/features/partner/dashboard/lib/partnerApplicationHelpers.ts";
 
 function Field({ label, value }: { readonly label: string; readonly value?: string }) {
     return (

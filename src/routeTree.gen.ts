@@ -23,6 +23,7 @@ import { Route as SearchShopsRouteImport } from './routes/search_.shops'
 import { Route as PartnersCustomIntegrationRouteImport } from './routes/partners.custom-integration'
 import { Route as PartnersApplyRouteImport } from './routes/partners.apply'
 import { Route as CompareBarnebysRouteImport } from './routes/compare.barnebys'
+import { Route as AuthPartnersRouteImport } from './routes/_auth.partners'
 import { Route as AuthAdminRouteImport } from './routes/_auth.admin'
 import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
@@ -114,6 +115,11 @@ const CompareBarnebysRoute = CompareBarnebysRouteImport.update({
   path: '/compare/barnebys',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthPartnersRoute = AuthPartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthAdminRoute = AuthAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -136,9 +142,9 @@ const ProductShopIdShopsProductIdRoute =
     getParentRoute: () => rootRouteImport,
   } as any)
 const AuthPartnersDashboardRoute = AuthPartnersDashboardRouteImport.update({
-  id: '/partners/dashboard',
-  path: '/partners/dashboard',
-  getParentRoute: () => AuthRoute,
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthPartnersRoute,
 } as any)
 const AuthOauthAuthorizeRoute = AuthOauthAuthorizeRouteImport.update({
   id: '/oauth/authorize',
@@ -226,7 +232,7 @@ export interface FileRoutesByFullPath {
   '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
-  '/partners': typeof PartnersRouteWithChildren
+  '/partners': typeof AuthPartnersRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
@@ -264,11 +270,11 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/partners': typeof PartnersIndexRoute
   '/compare/barnebys': typeof CompareBarnebysRoute
   '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
   '/search/shops': typeof SearchShopsRoute
-  '/partners': typeof PartnersIndexRoute
   '/admin/oauth-clients': typeof AuthAdminOauthClientsRoute
   '/admin/overview': typeof AuthAdminOverviewRoute
   '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
@@ -301,6 +307,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/_auth/admin': typeof AuthAdminRouteWithChildren
+  '/_auth/partners': typeof AuthPartnersRouteWithChildren
   '/compare/barnebys': typeof CompareBarnebysRoute
   '/partners/apply': typeof PartnersApplyRoute
   '/partners/custom-integration': typeof PartnersCustomIntegrationRoute
@@ -371,11 +378,11 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
+    | '/partners'
     | '/compare/barnebys'
     | '/partners/apply'
     | '/partners/custom-integration'
     | '/search/shops'
-    | '/partners'
     | '/admin/oauth-clients'
     | '/admin/overview'
     | '/admin/partner-applications'
@@ -407,6 +414,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/terms-and-conditions'
     | '/_auth/admin'
+    | '/_auth/partners'
     | '/compare/barnebys'
     | '/partners/apply'
     | '/partners/custom-integration'
@@ -552,6 +560,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompareBarnebysRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/partners': {
+      id: '/_auth/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof AuthPartnersRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/admin': {
       id: '/_auth/admin'
       path: '/admin'
@@ -582,10 +597,10 @@ declare module '@tanstack/react-router' {
     }
     '/_auth/partners/dashboard': {
       id: '/_auth/partners/dashboard'
-      path: '/partners/dashboard'
+      path: '/dashboard'
       fullPath: '/partners/dashboard'
       preLoaderRoute: typeof AuthPartnersDashboardRouteImport
-      parentRoute: typeof AuthRoute
+      parentRoute: typeof AuthPartnersRoute
     }
     '/_auth/oauth/authorize': {
       id: '/_auth/oauth/authorize'
@@ -717,26 +732,38 @@ const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
   AuthAdminRouteChildren,
 )
 
+interface AuthPartnersRouteChildren {
+  AuthPartnersDashboardRoute: typeof AuthPartnersDashboardRoute
+}
+
+const AuthPartnersRouteChildren: AuthPartnersRouteChildren = {
+  AuthPartnersDashboardRoute: AuthPartnersDashboardRoute,
+}
+
+const AuthPartnersRouteWithChildren = AuthPartnersRoute._addFileChildren(
+  AuthPartnersRouteChildren,
+)
+
 interface AuthRouteChildren {
   AuthAdminRoute: typeof AuthAdminRouteWithChildren
+  AuthPartnersRoute: typeof AuthPartnersRouteWithChildren
   AuthMeAccountRoute: typeof AuthMeAccountRoute
   AuthMeNotificationsRoute: typeof AuthMeNotificationsRoute
   AuthMeSearchFiltersRoute: typeof AuthMeSearchFiltersRoute
   AuthMeWatchlistRoute: typeof AuthMeWatchlistRoute
   AuthOauthAuthorizeRoute: typeof AuthOauthAuthorizeRoute
-  AuthPartnersDashboardRoute: typeof AuthPartnersDashboardRoute
   AuthMeBillingManageRoute: typeof AuthMeBillingManageRoute
   AuthMeSearchFilterFilterIdRoute: typeof AuthMeSearchFilterFilterIdRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthAdminRoute: AuthAdminRouteWithChildren,
+  AuthPartnersRoute: AuthPartnersRouteWithChildren,
   AuthMeAccountRoute: AuthMeAccountRoute,
   AuthMeNotificationsRoute: AuthMeNotificationsRoute,
   AuthMeSearchFiltersRoute: AuthMeSearchFiltersRoute,
   AuthMeWatchlistRoute: AuthMeWatchlistRoute,
   AuthOauthAuthorizeRoute: AuthOauthAuthorizeRoute,
-  AuthPartnersDashboardRoute: AuthPartnersDashboardRoute,
   AuthMeBillingManageRoute: AuthMeBillingManageRoute,
   AuthMeSearchFilterFilterIdRoute: AuthMeSearchFilterFilterIdRoute,
 }

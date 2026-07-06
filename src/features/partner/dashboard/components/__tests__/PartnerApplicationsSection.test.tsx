@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { PartnerApplicationsSection } from "@/features/partner-dashboard/components/PartnerApplicationsSection.tsx";
+import { PartnerApplicationsSection } from "@/features/partner/dashboard/components/PartnerApplicationsSection.tsx";
 import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
 
 const mockUsePartnerApplications = vi.hoisted(() => vi.fn());
@@ -13,7 +13,7 @@ const mockDeletePartnerApplicationMutate = vi.hoisted(() => vi.fn());
 const mockUpdatePartnerApplicationMutate = vi.hoisted(() => vi.fn());
 const mockUsePartnerDashboardShopSearch = vi.hoisted(() => vi.fn());
 
-vi.mock("@/features/partner-dashboard/api/usePartnerApplications.ts", () => ({
+vi.mock("@/features/partner/dashboard/api/usePartnerApplications.ts", () => ({
     usePartnerApplications: mockUsePartnerApplications,
     usePartnerApplicationDetails: mockUsePartnerApplicationDetails,
     useCreatePartnerApplication: () => ({
@@ -30,7 +30,7 @@ vi.mock("@/features/partner-dashboard/api/usePartnerApplications.ts", () => ({
     }),
 }));
 
-vi.mock("@/features/partner-dashboard/api/usePartnerDashboardShopSearch.ts", () => ({
+vi.mock("@/features/partner/dashboard/api/usePartnerDashboardShopSearch.ts", () => ({
     usePartnerDashboardShopSearch: mockUsePartnerDashboardShopSearch,
 }));
 
