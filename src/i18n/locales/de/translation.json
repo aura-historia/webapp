@@ -56,12 +56,12 @@
     "searchFilters": {
       "title": "Meine Suchaufträge | Aura Historia"
     },
-    "partners": {
+    "partnerProgram": {
       "title": "Partner-Programm | Aura Historia",
       "description": "Werden Sie Partner-Shop bei Aura Historia – der globalen Plattform für Antiquitäten & Kunst. Kostenlos, ohne Provision, in Minuten verbunden."
     },
-    "partnerDashboard": {
-      "title": "Partner-Dashboard | Aura Historia"
+    "partnerApplications": {
+      "title": "Aktuelle Partneranträge | Aura Historia"
     },
     "compareBarnebys": {
       "title": "Aura Historia vs. Barnebys | Antiquitätensuche im Vergleich",
@@ -671,7 +671,7 @@
       "perMonth": "/Monat"
     }
   },
-  "partners": {
+  "partnerProgram": {
     "hero": {
       "badge": "Partner-Programm",
       "title": "Verkaufen Sie Antiquitäten oder Kunst online?<br/>Erreichen Sie Sammler weltweit.",
@@ -1407,11 +1407,14 @@
   },
   "partnerDashboard": {
     "title": "Partner-Dashboard",
-    "description": "Verfolgen Sie Ihre aktuellen Partneranträge und deren Prüfstatus.",
     "sidebarLabel": "Partner-Bereiche",
     "nav": {
-      "dashboard": "Dashboard"
-    },
+      "applications": "Partner-Anträge"
+    }
+  },
+  "partnerApplications": {
+    "title": "Aktuelle Partneranträge",
+    "description": "Alle Partneranträge, die Sie für Shops eingereicht haben.",
     "actions": {
       "retry": "Erneut versuchen"
     },
@@ -1461,75 +1464,71 @@
         "clear": "Ausgewählten Shop entfernen"
       }
     },
-    "applications": {
-      "title": "Aktuelle Partneranträge",
-      "description": "Alle Partneranträge, die Sie für Shops eingereicht haben.",
-      "loading": "Partneranträge werden geladen.",
-      "loadError": "Ihre Partneranträge konnten nicht geladen werden.",
-      "empty": "Sie haben noch keine Partneranträge eingereicht.",
-      "submittedAt": "Eingereicht am {{date}}",
-      "updatedAt": "Aktualisiert am {{date}}",
-      "existingShop": "Bestehender Shop",
-      "openDetails": "Details für {{title}} öffnen",
-      "viewDetails": "Details ansehen",
-      "progress": {
-        "handedIn": "Eingereicht",
-        "checking": "In Prüfung",
-        "completed": "Abgeschlossen",
-        "approved": "Genehmigt",
-        "denied": "Abgelehnt"
+    "loading": "Partneranträge werden geladen.",
+    "loadError": "Ihre Partneranträge konnten nicht geladen werden.",
+    "empty": "Sie haben noch keine Partneranträge eingereicht.",
+    "submittedAt": "Eingereicht am {{date}}",
+    "updatedAt": "Aktualisiert am {{date}}",
+    "existingShop": "Bestehender Shop",
+    "openDetails": "Details für {{title}} öffnen",
+    "viewDetails": "Details ansehen",
+    "progress": {
+      "handedIn": "Eingereicht",
+      "checking": "In Prüfung",
+      "completed": "Abgeschlossen",
+      "approved": "Genehmigt",
+      "denied": "Abgelehnt"
+    },
+    "detail": {
+      "title": "Antragsdetails",
+      "description": "Prüfen Sie den aktuellen Status und die eingereichten Shop-Informationen.",
+      "loadError": "Dieser Partnerantrag konnte nicht geladen werden.",
+      "close": "Details schließen",
+      "edit": "Antrag bearbeiten",
+      "editCancel": "Abbrechen",
+      "editSave": "Änderungen speichern",
+      "editSuccess": "Partnerantrag wurde aktualisiert.",
+      "delete": "Antrag löschen",
+      "deleteSuccess": "Partnerantrag wurde gelöscht.",
+      "deleteConfirm": {
+        "title": "Diesen Partnerantrag löschen?",
+        "description": "Dieser ausstehende Antrag wird dauerhaft gelöscht und kann nicht wiederhergestellt werden.",
+        "cancel": "Abbrechen",
+        "confirm": "Löschen"
       },
-      "detail": {
-        "title": "Antragsdetails",
-        "description": "Prüfen Sie den aktuellen Status und die eingereichten Shop-Informationen.",
-        "loadError": "Dieser Partnerantrag konnte nicht geladen werden.",
-        "close": "Details schließen",
-        "edit": "Antrag bearbeiten",
-        "editCancel": "Abbrechen",
-        "editSave": "Änderungen speichern",
-        "editSuccess": "Partnerantrag wurde aktualisiert.",
-        "delete": "Antrag löschen",
-        "deleteSuccess": "Partnerantrag wurde gelöscht.",
-        "deleteConfirm": {
-          "title": "Diesen Partnerantrag löschen?",
-          "description": "Dieser ausstehende Antrag wird dauerhaft gelöscht und kann nicht wiederhergestellt werden.",
-          "cancel": "Abbrechen",
-          "confirm": "Löschen"
-        },
-        "progressLabel": "Antragsfortschritt",
-        "applicationSection": "Antrag",
-        "shopSection": "Shop-Informationen",
-        "applicationId": "Antrags-ID",
-        "applicantUserId": "Antragsteller-ID",
-        "createdAt": "Eingereicht",
-        "updatedAt": "Aktualisiert",
-        "shopName": "Shop-Name",
-        "shopType": "Shop-Typ",
-        "domains": "Domains",
-        "shopUrl": "Primäre URL",
-        "shopImage": "Bild-URL",
-        "shopPhone": "Telefon",
-        "shopEmail": "E-Mail",
-        "address": "Adresse",
-        "addressline": "Adresszeile",
-        "addresslineExtra": "Adresszusatz",
-        "locality": "Ort",
-        "region": "Region",
-        "postalCode": "Postleitzahl",
-        "country": "Ländercode",
-        "shopId": "Shop-ID"
-      },
-      "businessState": {
-        "submitted": "Eingereicht",
-        "inReview": "In Prüfung",
-        "approved": "Genehmigt",
-        "rejected": "Abgelehnt"
-      },
-      "executionState": {
-        "processing": "In Verarbeitung",
-        "waiting": "Wartet auf Entscheidung",
-        "completed": "Abgeschlossen"
-      }
+      "progressLabel": "Antragsfortschritt",
+      "applicationSection": "Antrag",
+      "shopSection": "Shop-Informationen",
+      "applicationId": "Antrags-ID",
+      "applicantUserId": "Antragsteller-ID",
+      "createdAt": "Eingereicht",
+      "updatedAt": "Aktualisiert",
+      "shopName": "Shop-Name",
+      "shopType": "Shop-Typ",
+      "domains": "Domains",
+      "shopUrl": "Primäre URL",
+      "shopImage": "Bild-URL",
+      "shopPhone": "Telefon",
+      "shopEmail": "E-Mail",
+      "address": "Adresse",
+      "addressline": "Adresszeile",
+      "addresslineExtra": "Adresszusatz",
+      "locality": "Ort",
+      "region": "Region",
+      "postalCode": "Postleitzahl",
+      "country": "Ländercode",
+      "shopId": "Shop-ID"
+    },
+    "businessState": {
+      "submitted": "Eingereicht",
+      "inReview": "In Prüfung",
+      "approved": "Genehmigt",
+      "rejected": "Abgelehnt"
+    },
+    "executionState": {
+      "processing": "In Verarbeitung",
+      "waiting": "Wartet auf Entscheidung",
+      "completed": "Abgeschlossen"
     }
   },
   "adminDashboard": {

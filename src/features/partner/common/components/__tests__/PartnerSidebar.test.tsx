@@ -23,17 +23,17 @@ vi.mock("@tanstack/react-router", () => ({
 }));
 
 describe("PartnerSidebar", () => {
-    it("links to the partner dashboard and marks it as active", () => {
-        mockPathname.mockReturnValue("/partners/dashboard");
+    it("links to partner applications and marks the route as active", () => {
+        mockPathname.mockReturnValue("/partners/applications");
 
         render(<PartnerSidebar />);
 
         expect(screen.getByRole("navigation", { name: "Partner-Bereiche" })).toBeInTheDocument();
-        expect(screen.getByRole("link", { name: "Dashboard" })).toHaveAttribute(
+        expect(screen.getByRole("link", { name: "Partner-Anträge" })).toHaveAttribute(
             "href",
-            "/partners/dashboard",
+            "/partners/applications",
         );
-        expect(screen.getByRole("link", { name: "Dashboard" })).toHaveAttribute(
+        expect(screen.getByRole("link", { name: "Partner-Anträge" })).toHaveAttribute(
             "aria-current",
             "page",
         );

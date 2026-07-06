@@ -56,12 +56,12 @@
     "searchFilters": {
       "title": "I miei filtri di ricerca | Aura Historia"
     },
-    "partners": {
+    "partnerProgram": {
       "title": "Programma Partner | Aura Historia",
       "description": "Diventa partner di Aura Historia, la piattaforma globale per antiquariato e arte. Gratis, senza commissioni e connessa in pochi minuti."
     },
-    "partnerDashboard": {
-      "title": "Dashboard Partner | Aura Historia"
+    "partnerApplications": {
+      "title": "Richieste di Partnership Correnti | Aura Historia"
     },
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Confronto sulla ricerca di antiquariato",
@@ -673,7 +673,7 @@
       "perMonth": "/mese"
     }
   },
-  "partners": {
+  "partnerProgram": {
     "hero": {
       "badge": "Programma Partner",
       "title": "Vendi antiquariato o arte online?<br/>Raggiungi collezionisti in tutto il mondo.",
@@ -1741,11 +1741,14 @@
   },
   "partnerDashboard": {
     "title": "Dashboard Partner",
-    "description": "Monitora le tue attuali richieste di partnership e il loro stato di revisione.",
     "sidebarLabel": "Sezioni partner",
     "nav": {
-      "dashboard": "Dashboard"
-    },
+      "applications": "Richieste"
+    }
+  },
+  "partnerApplications": {
+    "title": "Richieste di Partnership Correnti",
+    "description": "Tutte le richieste di partnership che hai inviato per i negozi.",
     "actions": {
       "retry": "Riprova"
     },
@@ -1795,75 +1798,71 @@
         "clear": "Cancella negozio selezionato"
       }
     },
-    "applications": {
-      "title": "Richieste di Partnership Correnti",
-      "description": "Tutte le richieste di partnership che hai inviato per i negozi.",
-      "loading": "Caricamento delle richieste di partnership in corso.",
-      "loadError": "Impossibile caricare le tue richieste di partnership.",
-      "empty": "Non hai ancora inviato alcuna richiesta di partnership.",
-      "submittedAt": "Inviata il {{date}}",
-      "updatedAt": "Aggiornata il {{date}}",
-      "existingShop": "Negozio esistente",
-      "openDetails": "Apri dettagli per {{title}}",
-      "viewDetails": "Visualizza dettagli",
-      "progress": {
-        "handedIn": "Consegnata",
-        "checking": "In verifica",
-        "completed": "Completata",
-        "approved": "Approvata",
-        "denied": "Rifiutata"
+    "loading": "Caricamento delle richieste di partnership in corso.",
+    "loadError": "Impossibile caricare le tue richieste di partnership.",
+    "empty": "Non hai ancora inviato alcuna richiesta di partnership.",
+    "submittedAt": "Inviata il {{date}}",
+    "updatedAt": "Aggiornata il {{date}}",
+    "existingShop": "Negozio esistente",
+    "openDetails": "Apri dettagli per {{title}}",
+    "viewDetails": "Visualizza dettagli",
+    "progress": {
+      "handedIn": "Consegnata",
+      "checking": "In verifica",
+      "completed": "Completata",
+      "approved": "Approvata",
+      "denied": "Rifiutata"
+    },
+    "detail": {
+      "title": "Dettagli della richiesta",
+      "description": "Esamina lo stato attuale e le informazioni sul negozio inviato.",
+      "loadError": "Impossibile caricare questa richiesta di partnership.",
+      "close": "Chiudi dettagli",
+      "edit": "Modifica richiesta",
+      "editCancel": "Annulla",
+      "editSave": "Salva modifiche",
+      "editSuccess": "Richiesta di partnership aggiornata.",
+      "delete": "Elimina richiesta",
+      "deleteSuccess": "Richiesta di partnership eliminata.",
+      "deleteConfirm": {
+        "title": "Eliminare questa richiesta di partnership?",
+        "description": "Questa richiesta in sospeso sarà eliminata definitivamente e non potrà essere recuperata.",
+        "cancel": "Annulla",
+        "confirm": "Elimina"
       },
-      "detail": {
-        "title": "Dettagli della richiesta",
-        "description": "Esamina lo stato attuale e le informazioni sul negozio inviato.",
-        "loadError": "Impossibile caricare questa richiesta di partnership.",
-        "close": "Chiudi dettagli",
-        "edit": "Modifica richiesta",
-        "editCancel": "Annulla",
-        "editSave": "Salva modifiche",
-        "editSuccess": "Richiesta di partnership aggiornata.",
-        "delete": "Elimina richiesta",
-        "deleteSuccess": "Richiesta di partnership eliminata.",
-        "deleteConfirm": {
-          "title": "Eliminare questa richiesta di partnership?",
-          "description": "Questa richiesta in sospeso sarà eliminata definitivamente e non potrà essere recuperata.",
-          "cancel": "Annulla",
-          "confirm": "Elimina"
-        },
-        "progressLabel": "Progresso della richiesta",
-        "applicationSection": "Richiesta",
-        "shopSection": "Informazioni sul negozio",
-        "applicationId": "ID Richiesta",
-        "applicantUserId": "ID Utente Richiedente",
-        "createdAt": "Inviata",
-        "updatedAt": "Aggiornata",
-        "shopName": "Nome del negozio",
-        "shopType": "Tipo di negozio",
-        "domains": "Domini",
-        "shopUrl": "URL principale",
-        "shopImage": "URL immagine",
-        "shopPhone": "Telefono",
-        "shopEmail": "Email",
-        "address": "Indirizzo",
-        "addressline": "Linea indirizzo",
-        "addresslineExtra": "Linea indirizzo 2",
-        "locality": "Città",
-        "region": "Regione",
-        "postalCode": "CAP",
-        "country": "Codice paese",
-        "shopId": "ID Negozio"
-      },
-      "businessState": {
-        "submitted": "Inviata",
-        "inReview": "In revisione",
-        "approved": "Approvata",
-        "rejected": "Rifiutata"
-      },
-      "executionState": {
-        "processing": "In elaborazione",
-        "waiting": "In attesa di decisione",
-        "completed": "Completata"
-      }
+      "progressLabel": "Progresso della richiesta",
+      "applicationSection": "Richiesta",
+      "shopSection": "Informazioni sul negozio",
+      "applicationId": "ID Richiesta",
+      "applicantUserId": "ID Utente Richiedente",
+      "createdAt": "Inviata",
+      "updatedAt": "Aggiornata",
+      "shopName": "Nome del negozio",
+      "shopType": "Tipo di negozio",
+      "domains": "Domini",
+      "shopUrl": "URL principale",
+      "shopImage": "URL immagine",
+      "shopPhone": "Telefono",
+      "shopEmail": "Email",
+      "address": "Indirizzo",
+      "addressline": "Linea indirizzo",
+      "addresslineExtra": "Linea indirizzo 2",
+      "locality": "Città",
+      "region": "Regione",
+      "postalCode": "CAP",
+      "country": "Codice paese",
+      "shopId": "ID Negozio"
+    },
+    "businessState": {
+      "submitted": "Inviata",
+      "inReview": "In revisione",
+      "approved": "Approvata",
+      "rejected": "Rifiutata"
+    },
+    "executionState": {
+      "processing": "In elaborazione",
+      "waiting": "In attesa di decisione",
+      "completed": "Completata"
     }
   },
   "compareBarnebysPage": {

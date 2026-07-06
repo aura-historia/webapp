@@ -1,13 +1,13 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard } from "lucide-react";
+import { FileText } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils.ts";
 
 const SIDEBAR_ITEMS = [
     {
-        to: "/partners/dashboard",
-        labelKey: "partnerDashboard.nav.dashboard",
-        icon: <LayoutDashboard className="h-4 w-4" aria-hidden="true" />,
+        to: "/partners/applications",
+        labelKey: "partnerDashboard.nav.applications",
+        icon: <FileText className="h-4 w-4" aria-hidden="true" />,
     },
 ] as const;
 

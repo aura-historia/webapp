@@ -56,12 +56,12 @@
     "searchFilters": {
       "title": "Mes filtres de recherche | Aura Historia"
     },
-    "partners": {
+    "partnerProgram": {
       "title": "Programme partenaires | Aura Historia",
       "description": "Devenez boutique partenaire d'Aura Historia, la plateforme mondiale pour les antiquités et l'art. Gratuit, sans commission, connectée en quelques minutes."
     },
-    "partnerDashboard": {
-      "title": "Tableau de bord partenaire | Aura Historia"
+    "partnerApplications": {
+      "title": "Candidatures partenaires en cours | Aura Historia"
     },
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Comparatif de recherche d’antiquités",
@@ -673,7 +673,7 @@
       "perMonth": "/mois"
     }
   },
-  "partners": {
+  "partnerProgram": {
     "hero": {
       "badge": "Programme partenaires",
       "title": "Vous vendez des antiquités ou de l'art en ligne ?<br/>Atteignez des collectionneurs dans le monde entier.",
@@ -1741,11 +1741,14 @@
   },
   "partnerDashboard": {
     "title": "Tableau de bord partenaire",
-    "description": "Suivez vos candidatures partenaires en cours et leur statut de révision.",
     "sidebarLabel": "Sections partenaires",
     "nav": {
-      "dashboard": "Tableau de bord"
-    },
+      "applications": "Candidatures"
+    }
+  },
+  "partnerApplications": {
+    "title": "Candidatures partenaires en cours",
+    "description": "Toutes les candidatures partenaires que vous avez soumises pour des boutiques.",
     "actions": {
       "retry": "Réessayer"
     },
@@ -1795,75 +1798,71 @@
         "clear": "Effacer la boutique sélectionnée"
       }
     },
-    "applications": {
-      "title": "Candidatures partenaires en cours",
-      "description": "Toutes les candidatures partenaires que vous avez soumises pour des boutiques.",
-      "loading": "Chargement des candidatures partenaires.",
-      "loadError": "Impossible de charger vos candidatures partenaires.",
-      "empty": "Vous n'avez encore soumis aucune candidature partenaire.",
-      "submittedAt": "Soumis le {{date}}",
-      "updatedAt": "Mis à jour le {{date}}",
-      "existingShop": "Boutique existante",
-      "openDetails": "Ouvrir les détails pour {{title}}",
-      "viewDetails": "Voir les détails",
-      "progress": {
-        "handedIn": "Soumis",
-        "checking": "En cours de vérification",
-        "completed": "Terminé",
-        "approved": "Approuvé",
-        "denied": "Refusé"
+    "loading": "Chargement des candidatures partenaires.",
+    "loadError": "Impossible de charger vos candidatures partenaires.",
+    "empty": "Vous n'avez encore soumis aucune candidature partenaire.",
+    "submittedAt": "Soumis le {{date}}",
+    "updatedAt": "Mis à jour le {{date}}",
+    "existingShop": "Boutique existante",
+    "openDetails": "Ouvrir les détails pour {{title}}",
+    "viewDetails": "Voir les détails",
+    "progress": {
+      "handedIn": "Soumis",
+      "checking": "En cours de vérification",
+      "completed": "Terminé",
+      "approved": "Approuvé",
+      "denied": "Refusé"
+    },
+    "detail": {
+      "title": "Détails de la candidature",
+      "description": "Examinez le statut actuel et les informations soumises sur la boutique.",
+      "loadError": "Impossible de charger cette candidature partenaire.",
+      "close": "Fermer les détails",
+      "edit": "Modifier la candidature",
+      "editCancel": "Annuler",
+      "editSave": "Enregistrer les modifications",
+      "editSuccess": "Candidature partenaire mise à jour.",
+      "delete": "Supprimer la candidature",
+      "deleteSuccess": "Candidature partenaire supprimée.",
+      "deleteConfirm": {
+        "title": "Supprimer cette candidature partenaire ?",
+        "description": "Cette candidature en attente sera définitivement supprimée et ne pourra pas être restaurée.",
+        "cancel": "Annuler",
+        "confirm": "Supprimer"
       },
-      "detail": {
-        "title": "Détails de la candidature",
-        "description": "Examinez le statut actuel et les informations soumises sur la boutique.",
-        "loadError": "Impossible de charger cette candidature partenaire.",
-        "close": "Fermer les détails",
-        "edit": "Modifier la candidature",
-        "editCancel": "Annuler",
-        "editSave": "Enregistrer les modifications",
-        "editSuccess": "Candidature partenaire mise à jour.",
-        "delete": "Supprimer la candidature",
-        "deleteSuccess": "Candidature partenaire supprimée.",
-        "deleteConfirm": {
-          "title": "Supprimer cette candidature partenaire ?",
-          "description": "Cette candidature en attente sera définitivement supprimée et ne pourra pas être restaurée.",
-          "cancel": "Annuler",
-          "confirm": "Supprimer"
-        },
-        "progressLabel": "Progression de la candidature",
-        "applicationSection": "Candidature",
-        "shopSection": "Informations sur la boutique",
-        "applicationId": "ID de la candidature",
-        "applicantUserId": "ID de l'utilisateur demandeur",
-        "createdAt": "Soumis le",
-        "updatedAt": "Mis à jour le",
-        "shopName": "Nom de la boutique",
-        "shopType": "Type de boutique",
-        "domains": "Domaines",
-        "shopUrl": "URL principale",
-        "shopImage": "URL de l'image",
-        "shopPhone": "Téléphone",
-        "shopEmail": "E-mail",
-        "address": "Adresse",
-        "addressline": "Ligne d'adresse",
-        "addresslineExtra": "Ligne d'adresse 2",
-        "locality": "Ville",
-        "region": "Région",
-        "postalCode": "Code postal",
-        "country": "Code pays",
-        "shopId": "ID de la boutique"
-      },
-      "businessState": {
-        "submitted": "Soumis",
-        "inReview": "En cours de révision",
-        "approved": "Approuvé",
-        "rejected": "Rejeté"
-      },
-      "executionState": {
-        "processing": "Traitement en cours",
-        "waiting": "En attente de décision",
-        "completed": "Terminé"
-      }
+      "progressLabel": "Progression de la candidature",
+      "applicationSection": "Candidature",
+      "shopSection": "Informations sur la boutique",
+      "applicationId": "ID de la candidature",
+      "applicantUserId": "ID de l'utilisateur demandeur",
+      "createdAt": "Soumis le",
+      "updatedAt": "Mis à jour le",
+      "shopName": "Nom de la boutique",
+      "shopType": "Type de boutique",
+      "domains": "Domaines",
+      "shopUrl": "URL principale",
+      "shopImage": "URL de l'image",
+      "shopPhone": "Téléphone",
+      "shopEmail": "E-mail",
+      "address": "Adresse",
+      "addressline": "Ligne d'adresse",
+      "addresslineExtra": "Ligne d'adresse 2",
+      "locality": "Ville",
+      "region": "Région",
+      "postalCode": "Code postal",
+      "country": "Code pays",
+      "shopId": "ID de la boutique"
+    },
+    "businessState": {
+      "submitted": "Soumis",
+      "inReview": "En cours de révision",
+      "approved": "Approuvé",
+      "rejected": "Rejeté"
+    },
+    "executionState": {
+      "processing": "Traitement en cours",
+      "waiting": "En attente de décision",
+      "completed": "Terminé"
     }
   },
   "compareBarnebysPage": {
