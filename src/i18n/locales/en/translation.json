@@ -1453,6 +1453,23 @@
       "cancel": "Cancel",
       "success": "Access token updated."
     },
+    "delete": {
+      "open": "Delete",
+      "openAriaLabel": "Delete access token {{name}}",
+      "title": "Delete access token “{{name}}”?",
+      "description": "This access token will be permanently deleted and can no longer be used.",
+      "confirm": "Permanently delete token",
+      "cancel": "Cancel",
+      "success": "Access token deleted."
+    },
+    "deleteAll": {
+      "open": "Delete all",
+      "title": "Delete all access tokens?",
+      "description": "All {{count}} access tokens will be permanently deleted and can no longer be used.",
+      "confirm": "Permanently delete all tokens",
+      "cancel": "Cancel",
+      "success": "All access tokens deleted."
+    },
     "loading": "Loading access tokens.",
     "loadError": "Could not load your access tokens.",
     "empty": "You have not saved any access tokens yet.",

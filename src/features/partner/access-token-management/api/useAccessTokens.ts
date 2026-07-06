@@ -1,6 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { AccessTokenScopeData } from "@/client";
-import { getMyAccessTokens, patchMyAccessToken, postMyAccessToken } from "@/client";
+import {
+    deleteMyAccessToken,
+    getMyAccessTokens,
+    patchMyAccessToken,
+    postMyAccessToken,
+} from "@/client";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import {
     mapToAccessToken,
@@ -103,6 +108,55 @@ export function useUpdateAccessToken() {
         },
         onError: (error) => {
             console.error("[useUpdateAccessToken]", error);
+            toast.error(error.message);
+        },
+    });
+}
+
+async function deleteAccessToken(
+    id: string,
+    getErrorMessage: ReturnType<typeof useApiError>["getErrorMessage"],
+) {
+    const response = await deleteMyAccessToken({
+        path: { accessTokenId: id },
+    });
+    if (response.error) {
+        throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
+    }
+}
+
+export function useDeleteAccessToken() {
+    const queryClient = useQueryClient();
+    const { getErrorMessage } = useApiError();
+
+    return useMutation<void, Error, string>({
+        mutationFn: (id) => deleteAccessToken(id, getErrorMessage),
+        onSuccess: (_, deletedId) => {
+            queryClient.setQueryData<AccessToken[]>(ACCESS_TOKENS_QUERY_KEY, (accessTokens) =>
+                accessTokens?.filter((accessToken) => accessToken.id !== deletedId),
+            );
+        },
+        onError: (error) => {
+            console.error("[useDeleteAccessToken]", error);
+            toast.error(error.message);
+        },
+    });
+}
+
+export function useDeleteAllAccessTokens() {
+    const queryClient = useQueryClient();
+    const { getErrorMessage } = useApiError();
+
+    return useMutation<void, Error, readonly string[]>({
+        mutationFn: async (ids) => {
+            await Promise.all(ids.map((id) => deleteAccessToken(id, getErrorMessage)));
+        },
+        onSuccess: () => {
+            queryClient.setQueryData<AccessToken[]>(ACCESS_TOKENS_QUERY_KEY, []);
+        },
+        onError: (error) => {
+            void queryClient.invalidateQueries({ queryKey: ACCESS_TOKENS_QUERY_KEY });
+            console.error("[useDeleteAllAccessTokens]", error);
             toast.error(error.message);
         },
     });

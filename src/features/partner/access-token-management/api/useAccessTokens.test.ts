@@ -6,6 +6,8 @@ import {
     ACCESS_TOKENS_QUERY_KEY,
     useAccessTokens,
     useCreateAccessToken,
+    useDeleteAccessToken,
+    useDeleteAllAccessTokens,
     useUpdateAccessToken,
 } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
 import type { AccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
@@ -13,12 +15,14 @@ import type { AccessToken } from "@/features/partner/access-token-management/typ
 const mockGetMyAccessTokens = vi.hoisted(() => vi.fn());
 const mockPostMyAccessToken = vi.hoisted(() => vi.fn());
 const mockPatchMyAccessToken = vi.hoisted(() => vi.fn());
+const mockDeleteMyAccessToken = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
 
 vi.mock("@/client", () => ({
     getMyAccessTokens: mockGetMyAccessTokens,
     postMyAccessToken: mockPostMyAccessToken,
     patchMyAccessToken: mockPatchMyAccessToken,
+    deleteMyAccessToken: mockDeleteMyAccessToken,
 }));
 
 vi.mock("@/hooks/common/useApiError.ts", () => ({
@@ -253,5 +257,45 @@ describe("useAccessTokens", () => {
                 maskedToken: "aurahistoria_obfuscated_****",
             },
         );
+    });
+
+    it("deletes one access token and removes it from the cache", async () => {
+        queryClient.setQueryData(ACCESS_TOKENS_QUERY_KEY, [{ id: "token-1" }, { id: "token-2" }]);
+        mockDeleteMyAccessToken.mockResolvedValue({ data: undefined, error: null });
+
+        const { result } = renderHook(() => useDeleteAccessToken(), {
+            wrapper: createWrapper(),
+        });
+        result.current.mutate("token-1");
+
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+        expect(mockDeleteMyAccessToken).toHaveBeenCalledWith({
+            path: { accessTokenId: "token-1" },
+        });
+        expect(queryClient.getQueryData<Array<{ id: string }>>(ACCESS_TOKENS_QUERY_KEY)).toEqual([
+            { id: "token-2" },
+        ]);
+    });
+
+    it("deletes every supplied access token and clears the cache", async () => {
+        queryClient.setQueryData(ACCESS_TOKENS_QUERY_KEY, [{ id: "token-1" }, { id: "token-2" }]);
+        mockDeleteMyAccessToken.mockResolvedValue({ data: undefined, error: null });
+
+        const { result } = renderHook(() => useDeleteAllAccessTokens(), {
+            wrapper: createWrapper(),
+        });
+        result.current.mutate(["token-1", "token-2"]);
+
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+        expect(mockDeleteMyAccessToken).toHaveBeenCalledTimes(2);
+        expect(mockDeleteMyAccessToken).toHaveBeenCalledWith({
+            path: { accessTokenId: "token-1" },
+        });
+        expect(mockDeleteMyAccessToken).toHaveBeenCalledWith({
+            path: { accessTokenId: "token-2" },
+        });
+        expect(queryClient.getQueryData(ACCESS_TOKENS_QUERY_KEY)).toEqual([]);
     });
 });

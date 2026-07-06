@@ -6,6 +6,8 @@ import { AccessTokensSection } from "@/features/partner/access-token-management/
 const mockUseAccessTokens = vi.hoisted(() => vi.fn());
 const mockCreateAccessTokenMutate = vi.hoisted(() => vi.fn());
 const mockUpdateAccessTokenMutate = vi.hoisted(() => vi.fn());
+const mockDeleteAccessTokenMutate = vi.hoisted(() => vi.fn());
+const mockDeleteAllAccessTokensMutate = vi.hoisted(() => vi.fn());
 
 vi.mock("@/features/partner/access-token-management/api/useAccessTokens.ts", () => ({
     useAccessTokens: mockUseAccessTokens,
@@ -15,6 +17,14 @@ vi.mock("@/features/partner/access-token-management/api/useAccessTokens.ts", () 
     }),
     useUpdateAccessToken: () => ({
         mutate: mockUpdateAccessTokenMutate,
+        isPending: false,
+    }),
+    useDeleteAccessToken: () => ({
+        mutate: mockDeleteAccessTokenMutate,
+        isPending: false,
+    }),
+    useDeleteAllAccessTokens: () => ({
+        mutate: mockDeleteAllAccessTokensMutate,
         isPending: false,
     }),
 }));
@@ -94,6 +104,50 @@ describe("AccessTokensSection", () => {
         expect(
             within(screen.getByRole("dialog")).queryByText("aurahistoria_abcdefghijk_****"),
         ).not.toBeInTheDocument();
+    });
+
+    it("requires confirmation before deleting one access token", async () => {
+        const user = userEvent.setup();
+        render(<AccessTokensSection />);
+
+        await user.click(
+            screen.getByRole("button", {
+                name: "Zugriffstoken Product sync löschen",
+            }),
+        );
+
+        expect(
+            screen.getByRole("alertdialog", {
+                name: "Zugriffstoken „Product sync“ löschen?",
+            }),
+        ).toBeInTheDocument();
+        expect(mockDeleteAccessTokenMutate).not.toHaveBeenCalled();
+
+        await user.click(screen.getByRole("button", { name: "Token endgültig löschen" }));
+
+        expect(mockDeleteAccessTokenMutate).toHaveBeenCalledWith(
+            "token-12345678",
+            expect.objectContaining({ onSuccess: expect.any(Function) }),
+        );
+    });
+
+    it("requires confirmation before deleting all access tokens", async () => {
+        const user = userEvent.setup();
+        render(<AccessTokensSection />);
+
+        await user.click(screen.getByRole("button", { name: "Alle löschen" }));
+
+        expect(
+            screen.getByRole("alertdialog", { name: "Alle Zugriffstoken löschen?" }),
+        ).toHaveTextContent("Alle 2 Zugriffstoken");
+        expect(mockDeleteAllAccessTokensMutate).not.toHaveBeenCalled();
+
+        await user.click(screen.getByRole("button", { name: "Alle Token endgültig löschen" }));
+
+        expect(mockDeleteAllAccessTokensMutate).toHaveBeenCalledWith(
+            ["token-12345678", "token-87654321"],
+            expect.objectContaining({ onSuccess: expect.any(Function) }),
+        );
     });
 
     it("renders the empty state", () => {

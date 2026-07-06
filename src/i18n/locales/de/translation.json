@@ -1464,6 +1464,23 @@
       "cancel": "Abbrechen",
       "success": "Zugriffstoken wurde aktualisiert."
     },
+    "delete": {
+      "open": "Löschen",
+      "openAriaLabel": "Zugriffstoken {{name}} löschen",
+      "title": "Zugriffstoken „{{name}}“ löschen?",
+      "description": "Das Zugriffstoken wird dauerhaft gelöscht und kann danach nicht mehr verwendet werden.",
+      "confirm": "Token endgültig löschen",
+      "cancel": "Abbrechen",
+      "success": "Zugriffstoken wurde gelöscht."
+    },
+    "deleteAll": {
+      "open": "Alle löschen",
+      "title": "Alle Zugriffstoken löschen?",
+      "description": "Alle {{count}} Zugriffstoken werden dauerhaft gelöscht und können danach nicht mehr verwendet werden.",
+      "confirm": "Alle Token endgültig löschen",
+      "cancel": "Abbrechen",
+      "success": "Alle Zugriffstoken wurden gelöscht."
+    },
     "loading": "Zugriffstoken werden geladen.",
     "loadError": "Ihre Zugriffstoken konnten nicht geladen werden.",
     "empty": "Sie haben noch keine Zugriffstoken gespeichert.",
