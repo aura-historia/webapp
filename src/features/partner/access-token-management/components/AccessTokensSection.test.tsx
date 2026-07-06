@@ -55,7 +55,9 @@ describe("AccessTokensSection", () => {
         expect(screen.getByText("Keine Berechtigungen")).toBeInTheDocument();
         expect(screen.getByText("aurahistoria_abcdefghijk_****")).toBeInTheDocument();
         expect(screen.getByText("Läuft nicht ab")).toBeInTheDocument();
-        expect(screen.getByText("#token-12")).toBeInTheDocument();
+        const expirationBadge = screen.getByText(/Läuft ab am/).closest('[data-slot="badge"]');
+        expect(expirationBadge).toHaveClass("bg-primary/10", "text-primary");
+        expect(expirationBadge?.querySelector("svg")).toBeInTheDocument();
         expect(screen.getByRole("button", { name: "Neues Zugriffstoken" })).toBeInTheDocument();
     });
 

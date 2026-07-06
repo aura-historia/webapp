@@ -1,4 +1,4 @@
-import { KeyRound, Plus, RefreshCw, SearchX } from "lucide-react";
+import { Clock3, KeyRound, Plus, RefreshCw, SearchX } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge.tsx";
@@ -116,7 +116,7 @@ function AccessTokenListItem({
     return (
         <li className="flex flex-col gap-4 border bg-surface-container-low p-4 transition-colors hover:bg-surface-container">
             <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                <div className="flex min-w-0 items-center gap-2">
+                <div className="flex min-w-0 flex-wrap items-center gap-2">
                     <KeyRound
                         className="h-4 w-4 shrink-0 text-muted-foreground"
                         aria-hidden="true"
@@ -124,6 +124,17 @@ function AccessTokenListItem({
                     <span className="truncate font-medium" title={accessToken.name}>
                         {accessToken.name}
                     </span>
+                    <Badge
+                        variant="outline"
+                        className="border-primary/30 bg-primary/10 text-primary"
+                    >
+                        <Clock3 className="h-3 w-3" aria-hidden="true" />
+                        {accessToken.expiresAt
+                            ? t("partnerAccessTokens.expiresAt", {
+                                  date: formatDateTime(accessToken.expiresAt, locale),
+                              })
+                            : t("partnerAccessTokens.noExpiration")}
+                    </Badge>
                 </div>
                 <div className="flex flex-wrap gap-2">
                     {accessToken.scopes.length > 0 ? (
@@ -144,13 +155,6 @@ function AccessTokenListItem({
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                 <span>
-                    {accessToken.expiresAt
-                        ? t("partnerAccessTokens.expiresAt", {
-                              date: formatDateTime(accessToken.expiresAt, locale),
-                          })
-                        : t("partnerAccessTokens.noExpiration")}
-                </span>
-                <span>
                     {t("partnerAccessTokens.createdAt", {
                         date: formatDateTime(accessToken.created, locale),
                     })}
@@ -159,9 +163,6 @@ function AccessTokenListItem({
                     {t("partnerAccessTokens.updatedAt", {
                         date: formatDateTime(accessToken.updated, locale),
                     })}
-                </span>
-                <span title={accessToken.id} className="font-mono">
-                    #{accessToken.id.slice(0, 8)}
                 </span>
             </div>
         </li>
