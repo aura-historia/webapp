@@ -5,18 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { devtools } from "@tanstack/devtools-vite";
 
-const EXCLUDED_ROUTES = new Set([
-    "/me/",
-    "/search",
-    "/api/",
-    "/login",
-    "/admin/",
-    // Partner program sub-routes are placeholders linked to from /partners
-    // until their landing pages exist. Skip prerendering to avoid 404 crawls.
-    "/partners/apply",
-    "/partners/custom-integration",
-    "/partners/dashboard",
-]);
+const EXCLUDED_ROUTES = new Set(["/me/", "/search", "/api/", "/login", "/admin/", "/partners/"]);
 
 export default defineConfig({
     plugins: [
