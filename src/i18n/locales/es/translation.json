@@ -66,6 +66,9 @@
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Comparativa de búsqueda de antigüedades",
       "description": "Compara Aura Historia y Barnebys en búsqueda de antigüedades, cobertura de fuentes, búsqueda multilingüe, alertas rápidas y seguimiento del mercado con IA."
+    },
+    "partnerAccessTokens": {
+      "title": "Tokens de acceso | Aura Historia"
     }
   },
   "validation": {
@@ -1743,7 +1746,8 @@
     "title": "Panel de Socios",
     "sidebarLabel": "Secciones de socios",
     "nav": {
-      "applications": "Solicitudes"
+      "applications": "Solicitudes",
+      "accessTokens": "Tokens de acceso"
     }
   },
   "partnerApplications": {
@@ -2060,6 +2064,84 @@
       "title": "Barnebys es sólido para subastas. Aura Historia está pensado para el mercado de antigüedades.",
       "description": "Si tu búsqueda debe incluir los lugares donde realmente se ofrecen antigüedades online, empieza con Aura Historia.",
       "button": "Buscar antigüedades"
+    }
+  },
+  "partnerAccessTokens": {
+    "title": "Tokens de acceso",
+    "description": "Todos los tokens de acceso guardados para tu cuenta de socio.",
+    "actions": {
+      "retry": "Reintentar"
+    },
+    "create": {
+      "open": "Nuevo token de acceso",
+      "title": "Crear token de acceso",
+      "description": "Crea un token para integraciones de socios y elige solo los permisos que necesita.",
+      "submit": "Crear token",
+      "submitting": "Creando…",
+      "cancel": "Cancelar",
+      "close": "He guardado el token",
+      "success": "Token de acceso creado.",
+      "confirmationTitle": "Token de acceso creado",
+      "confirmationDescription": "Copia y guarda el token de forma segura antes de cerrar este diálogo.",
+      "copyWarning": "Este token en texto plano se muestra solo una vez. No podrás recuperarlo después de cerrar este diálogo.",
+      "copy": "Copiar token de acceso",
+      "copySuccess": "Token de acceso copiado.",
+      "fields": {
+        "name": "Nombre",
+        "scopes": "Permisos",
+        "scopesHint": "Los permisos son opcionales. Concede solo los necesarios para la integración.",
+        "expiration": "Expiración",
+        "expirationHint": "Opcional. Los horarios se interpretan en tu zona horaria local.",
+        "token": "Token de acceso"
+      },
+      "scopeDescriptions": {
+        "shopsManage": "Gestionar configuraciones de la tienda y flujos de trabajo relacionados con la tienda.",
+        "productsWrite": "Crear y actualizar listados de productos."
+      },
+      "validation": {
+        "nameRequired": "Por favor, introduce un nombre para el token.",
+        "nameTooLong": "El nombre del token no debe exceder los 128 caracteres.",
+        "expirationInvalid": "Por favor, introduce una fecha y hora de expiración válida."
+      }
+    },
+    "edit": {
+      "open": "Editar",
+      "openAriaLabel": "Editar token de acceso {{name}}",
+      "title": "Editar token de acceso",
+      "description": "Edita el nombre, permisos y expiración de {{name}}.",
+      "submit": "Guardar cambios",
+      "submitting": "Guardando…",
+      "cancel": "Cancelar",
+      "success": "Token de acceso actualizado."
+    },
+    "delete": {
+      "open": "Eliminar",
+      "openAriaLabel": "Eliminar token de acceso {{name}}",
+      "title": "¿Eliminar token de acceso “{{name}}”?",
+      "description": "Este token de acceso será eliminado permanentemente y ya no podrá ser utilizado.",
+      "confirm": "Eliminar token permanentemente",
+      "cancel": "Cancelar",
+      "success": "Token de acceso eliminado."
+    },
+    "deleteAll": {
+      "open": "Eliminar todos",
+      "title": "¿Eliminar todos los tokens de acceso?",
+      "description": "Todos los {{count}} tokens de acceso serán eliminados permanentemente y ya no podrán ser utilizados.",
+      "confirm": "Eliminar todos los tokens permanentemente",
+      "cancel": "Cancelar",
+      "success": "Todos los tokens de acceso eliminados."
+    },
+    "loading": "Cargando tokens de acceso.",
+    "loadError": "No se pudieron cargar tus tokens de acceso.",
+    "empty": "Aún no has guardado ningún token de acceso.",
+    "createdAt": "Creado {{date}}",
+    "updatedAt": "Actualizado {{date}}",
+    "expiresAt": "Expira {{date}}",
+    "noExpiration": "No expira",
+    "noScopes": "Sin permisos",
+    "scopes": {
+      "shopsManage": "Gestionar tiendas",
+      "productsWrite": "Escribir productos"
     }
   }
 }
