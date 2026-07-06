@@ -26,6 +26,7 @@ import { Route as CompareBarnebysRouteImport } from './routes/compare.barnebys'
 import { Route as AuthPartnersRouteImport } from './routes/_auth.partners'
 import { Route as AuthAdminRouteImport } from './routes/_auth.admin'
 import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
+import { Route as AuthPartnersIndexRouteImport } from './routes/_auth.partners.index'
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
 import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
 import { Route as AuthPartnersApplicationsRouteImport } from './routes/_auth.partners.applications'
@@ -129,6 +130,11 @@ const ShopsShopSlugIdIndexRoute = ShopsShopSlugIdIndexRouteImport.update({
   id: '/shops/$shopSlugId/',
   path: '/shops/$shopSlugId/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthPartnersIndexRoute = AuthPartnersIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthPartnersRoute,
 } as any)
 const AuthAdminIndexRoute = AuthAdminIndexRouteImport.update({
   id: '/',
@@ -257,6 +263,7 @@ export interface FileRoutesByFullPath {
   '/partners/applications': typeof AuthPartnersApplicationsRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin/': typeof AuthAdminIndexRoute
+  '/partners/': typeof AuthPartnersIndexRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/me/billing/manage': typeof AuthMeBillingManageRoute
   '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
@@ -272,7 +279,6 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
-  '/partners': typeof AuthPartnersRouteWithChildren
   '/compare/barnebys': typeof CompareBarnebysRoute
   '/partner-program/apply': typeof PartnerProgramApplyRoute
   '/partner-program/custom-integration': typeof PartnerProgramCustomIntegrationRoute
@@ -291,6 +297,7 @@ export interface FileRoutesByTo {
   '/partners/applications': typeof AuthPartnersApplicationsRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin': typeof AuthAdminIndexRoute
+  '/partners': typeof AuthPartnersIndexRoute
   '/shops/$shopSlugId': typeof ShopsShopSlugIdIndexRoute
   '/me/billing/manage': typeof AuthMeBillingManageRoute
   '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
@@ -329,6 +336,7 @@ export interface FileRoutesById {
   '/_auth/partners/applications': typeof AuthPartnersApplicationsRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/_auth/admin/': typeof AuthAdminIndexRoute
+  '/_auth/partners/': typeof AuthPartnersIndexRoute
   '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
   '/_auth/me/billing/manage': typeof AuthMeBillingManageRoute
   '/_auth/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
@@ -367,6 +375,7 @@ export interface FileRouteTypes {
     | '/partners/applications'
     | '/product/$shopId/$shopsProductId'
     | '/admin/'
+    | '/partners/'
     | '/shops/$shopSlugId/'
     | '/me/billing/manage'
     | '/me/search-filter/$filterId'
@@ -382,7 +391,6 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/search'
     | '/terms-and-conditions'
-    | '/partners'
     | '/compare/barnebys'
     | '/partner-program/apply'
     | '/partner-program/custom-integration'
@@ -401,6 +409,7 @@ export interface FileRouteTypes {
     | '/partners/applications'
     | '/product/$shopId/$shopsProductId'
     | '/admin'
+    | '/partners'
     | '/shops/$shopSlugId'
     | '/me/billing/manage'
     | '/me/search-filter/$filterId'
@@ -438,6 +447,7 @@ export interface FileRouteTypes {
     | '/_auth/partners/applications'
     | '/product/$shopId/$shopsProductId'
     | '/_auth/admin/'
+    | '/_auth/partners/'
     | '/shops/$shopSlugId/'
     | '/_auth/me/billing/manage'
     | '/_auth/me/search-filter/$filterId'
@@ -585,6 +595,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/shops/$shopSlugId/'
       preLoaderRoute: typeof ShopsShopSlugIdIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_auth/partners/': {
+      id: '/_auth/partners/'
+      path: '/'
+      fullPath: '/partners/'
+      preLoaderRoute: typeof AuthPartnersIndexRouteImport
+      parentRoute: typeof AuthPartnersRoute
     }
     '/_auth/admin/': {
       id: '/_auth/admin/'
@@ -739,10 +756,12 @@ const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
 
 interface AuthPartnersRouteChildren {
   AuthPartnersApplicationsRoute: typeof AuthPartnersApplicationsRoute
+  AuthPartnersIndexRoute: typeof AuthPartnersIndexRoute
 }
 
 const AuthPartnersRouteChildren: AuthPartnersRouteChildren = {
   AuthPartnersApplicationsRoute: AuthPartnersApplicationsRoute,
+  AuthPartnersIndexRoute: AuthPartnersIndexRoute,
 }
 
 const AuthPartnersRouteWithChildren = AuthPartnersRoute._addFileChildren(
