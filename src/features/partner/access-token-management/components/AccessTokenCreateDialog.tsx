@@ -88,7 +88,15 @@ export function AccessTokenCreateDialog({ open, onOpenChange }: AccessTokenCreat
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
-            <DialogContent className="sm:max-w-xl" showCloseButton={!createAccessToken.isPending}>
+            <DialogContent
+                className="sm:max-w-xl"
+                showCloseButton={!createAccessToken.isPending}
+                onInteractOutside={(e) => {
+                    if (createdAccessToken) {
+                        e.preventDefault();
+                    }
+                }}
+            >
                 <DialogHeader>
                     <DialogTitle>
                         {t(
