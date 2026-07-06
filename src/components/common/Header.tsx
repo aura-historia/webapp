@@ -149,46 +149,56 @@ export function Header() {
                                     </NavigationMenuLink>
                                 </NavigationMenuItem>
                             )}
+
+                            <NavigationMenuItem>
+                                <NotificationBell />
+                            </NavigationMenuItem>
+
+                            <NavigationMenuItem>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger className="flex hover:bg-accent items-center gap-4 transition-all px-4">
+                                        {userAccount?.firstName && (
+                                            <div className="hidden 2xl:block">
+                                                {t("header.hello")}, {userAccount.firstName}
+                                            </div>
+                                        )}
+                                        <AccountImage
+                                            firstName={userAccount?.firstName || ""}
+                                            lastName={userAccount?.lastName || ""}
+                                        />
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                        <DropdownMenuLabel>
+                                            {t("header.myAccount")}
+                                        </DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem asChild className="xl:hidden">
+                                            <Link to="/me/watchlist">{t("header.watchlist")}</Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem asChild className="xl:hidden">
+                                            <Link to="/me/search-filters">
+                                                {t("header.searchFilters")}
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        {isAdmin && (
+                                            <DropdownMenuItem asChild className="xl:hidden">
+                                                <Link to="/admin/overview">
+                                                    {t("header.admin")}
+                                                </Link>
+                                            </DropdownMenuItem>
+                                        )}
+                                        <DropdownMenuSeparator className="xl:hidden" />
+                                        <DropdownMenuItem asChild>
+                                            <Link to="/me/account">{t("header.editAccount")}</Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onSelect={() => signOut()}>
+                                            {t("header.logout")}
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </NavigationMenuItem>
                         </NavigationMenuList>
                     </NavigationMenu>
-
-                    <NotificationBell />
-
-                    <DropdownMenu>
-                        <DropdownMenuTrigger className="flex items-center gap-4 hover:bg-accent transition-all px-4">
-                            {userAccount?.firstName && (
-                                <span className="hidden 2xl:block">
-                                    {t("header.hello")}, {userAccount.firstName}
-                                </span>
-                            )}
-                            <AccountImage
-                                firstName={userAccount?.firstName || ""}
-                                lastName={userAccount?.lastName || ""}
-                            />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild className="xl:hidden">
-                                <Link to="/me/watchlist">{t("header.watchlist")}</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild className="xl:hidden">
-                                <Link to="/me/search-filters">{t("header.searchFilters")}</Link>
-                            </DropdownMenuItem>
-                            {isAdmin && (
-                                <DropdownMenuItem asChild className="xl:hidden">
-                                    <Link to="/admin/overview">{t("header.admin")}</Link>
-                                </DropdownMenuItem>
-                            )}
-                            <DropdownMenuSeparator className="xl:hidden" />
-                            <DropdownMenuItem asChild>
-                                <Link to="/me/account">{t("header.editAccount")}</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => signOut()}>
-                                {t("header.logout")}
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
                 </div>
             );
         }
