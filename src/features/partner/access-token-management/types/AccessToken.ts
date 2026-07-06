@@ -11,6 +11,11 @@ export type AccessToken = {
     readonly updated: Date;
 };
 
+export type CreatedAccessToken = {
+    readonly accessToken: Omit<AccessToken, "maskedToken">;
+    readonly plaintextToken: string;
+};
+
 export function mapToAccessToken(data: GetAccessTokenData): AccessToken {
     return {
         id: data.accessTokenId,
@@ -21,5 +26,14 @@ export function mapToAccessToken(data: GetAccessTokenData): AccessToken {
         expiresAt: data.expiresAt ? new Date(data.expiresAt) : null,
         created: new Date(data.created),
         updated: new Date(data.updated),
+    };
+}
+
+export function mapToCreatedAccessToken(data: GetAccessTokenData): CreatedAccessToken {
+    const { maskedToken: plaintextToken, ...accessToken } = mapToAccessToken(data);
+
+    return {
+        accessToken,
+        plaintextToken,
     };
 }

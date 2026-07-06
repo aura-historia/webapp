@@ -1,10 +1,12 @@
-import { KeyRound, RefreshCw, SearchX } from "lucide-react";
+import { KeyRound, Plus, RefreshCw, SearchX } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { useAccessTokens } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
+import { AccessTokenCreateDialog } from "@/features/partner/access-token-management/components/AccessTokenCreateDialog.tsx";
 import type { AccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
 import { formatDateTime } from "@/lib/utils.ts";
 
@@ -15,19 +17,16 @@ const SCOPE_TRANSLATION_KEYS = {
 
 export function AccessTokensSection() {
     const { t, i18n } = useTranslation();
+    const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const { data: accessTokens = [], isPending, isError, refetch } = useAccessTokens();
 
-    if (isPending) {
-        return (
-            <AccessTokensLayout>
-                <AccessTokensSkeleton />
-            </AccessTokensLayout>
-        );
-    }
+    const renderContent = () => {
+        if (isPending) {
+            return <AccessTokensSkeleton />;
+        }
 
-    if (isError) {
-        return (
-            <AccessTokensLayout>
+        if (isError) {
+            return (
                 <div className="flex flex-col items-center gap-3 border bg-surface-container-low px-4 py-12 text-center">
                     <p className="text-sm text-muted-foreground">
                         {t("partnerAccessTokens.loadError")}
@@ -37,25 +36,21 @@ export function AccessTokensSection() {
                         {t("partnerAccessTokens.actions.retry")}
                     </Button>
                 </div>
-            </AccessTokensLayout>
-        );
-    }
+            );
+        }
 
-    if (accessTokens.length === 0) {
-        return (
-            <AccessTokensLayout>
+        if (accessTokens.length === 0) {
+            return (
                 <div className="flex flex-col items-center gap-3 border bg-surface-container-low px-4 py-12 text-center">
                     <SearchX className="h-12 w-12 text-muted-foreground" aria-hidden="true" />
                     <p className="text-sm text-muted-foreground">
                         {t("partnerAccessTokens.empty")}
                     </p>
                 </div>
-            </AccessTokensLayout>
-        );
-    }
+            );
+        }
 
-    return (
-        <AccessTokensLayout>
+        return (
             <ul className="flex flex-col gap-4">
                 {accessTokens.map((accessToken) => (
                     <AccessTokenListItem
@@ -65,20 +60,44 @@ export function AccessTokensSection() {
                     />
                 ))}
             </ul>
+        );
+    };
+
+    return (
+        <AccessTokensLayout onCreateClick={() => setCreateDialogOpen(true)}>
+            {renderContent()}
+            {createDialogOpen && (
+                <AccessTokenCreateDialog
+                    open={createDialogOpen}
+                    onOpenChange={setCreateDialogOpen}
+                />
+            )}
         </AccessTokensLayout>
     );
 }
 
-function AccessTokensLayout({ children }: { readonly children: React.ReactNode }) {
+function AccessTokensLayout({
+    children,
+    onCreateClick,
+}: {
+    readonly children: React.ReactNode;
+    readonly onCreateClick: () => void;
+}) {
     const { t } = useTranslation();
 
     return (
         <section className="flex flex-col gap-4" aria-labelledby="partner-access-tokens-title">
-            <header className="flex flex-col gap-1">
-                <H2 id="partner-access-tokens-title">{t("partnerAccessTokens.title")}</H2>
-                <p className="text-sm text-muted-foreground md:text-base">
-                    {t("partnerAccessTokens.description")}
-                </p>
+            <header className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                <div className="flex flex-col gap-1">
+                    <H2 id="partner-access-tokens-title">{t("partnerAccessTokens.title")}</H2>
+                    <p className="text-sm text-muted-foreground md:text-base">
+                        {t("partnerAccessTokens.description")}
+                    </p>
+                </div>
+                <Button type="button" variant="outline" onClick={onCreateClick}>
+                    <Plus className="h-4 w-4" aria-hidden="true" />
+                    {t("partnerAccessTokens.create.open")}
+                </Button>
             </header>
             {children}
         </section>

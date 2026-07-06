@@ -1411,6 +1411,38 @@
     "actions": {
       "retry": "Retry"
     },
+    "create": {
+      "open": "New access token",
+      "title": "Create access token",
+      "description": "Create a token for partner integrations and choose only the permissions it needs.",
+      "submit": "Create token",
+      "submitting": "Creating…",
+      "cancel": "Cancel",
+      "close": "I have saved the token",
+      "success": "Access token created.",
+      "confirmationTitle": "Access token created",
+      "confirmationDescription": "Copy and securely store the token before closing this dialog.",
+      "copyWarning": "This plaintext token is shown only once. You cannot retrieve it again after closing this dialog.",
+      "copy": "Copy access token",
+      "copySuccess": "Access token copied.",
+      "fields": {
+        "name": "Name",
+        "scopes": "Permissions",
+        "scopesHint": "Permissions are optional. Grant only those required by the integration.",
+        "expiration": "Expiration",
+        "expirationHint": "Optional. Times are interpreted in your local time zone.",
+        "token": "Access token"
+      },
+      "scopeDescriptions": {
+        "shopsManage": "Manage shop settings and shop-related workflows.",
+        "productsWrite": "Create and update product listings."
+      },
+      "validation": {
+        "nameRequired": "Please enter a token name.",
+        "nameTooLong": "The token name must not exceed 128 characters.",
+        "expirationInvalid": "Please enter a valid expiration date and time."
+      }
+    },
     "loading": "Loading access tokens.",
     "loadError": "Could not load your access tokens.",
     "empty": "You have not saved any access tokens yet.",

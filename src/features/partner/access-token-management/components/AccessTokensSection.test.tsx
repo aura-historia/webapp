@@ -4,9 +4,14 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AccessTokensSection } from "@/features/partner/access-token-management/components/AccessTokensSection.tsx";
 
 const mockUseAccessTokens = vi.hoisted(() => vi.fn());
+const mockCreateAccessTokenMutate = vi.hoisted(() => vi.fn());
 
 vi.mock("@/features/partner/access-token-management/api/useAccessTokens.ts", () => ({
     useAccessTokens: mockUseAccessTokens,
+    useCreateAccessToken: () => ({
+        mutate: mockCreateAccessTokenMutate,
+        isPending: false,
+    }),
 }));
 
 describe("AccessTokensSection", () => {
@@ -51,6 +56,18 @@ describe("AccessTokensSection", () => {
         expect(screen.getByText("aurahistoria_abcdefghijk_****")).toBeInTheDocument();
         expect(screen.getByText("Läuft nicht ab")).toBeInTheDocument();
         expect(screen.getByText("#token-12")).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Neues Zugriffstoken" })).toBeInTheDocument();
+    });
+
+    it("opens the access token creation dialog", async () => {
+        const user = userEvent.setup();
+        render(<AccessTokensSection />);
+
+        await user.click(screen.getByRole("button", { name: "Neues Zugriffstoken" }));
+
+        expect(
+            screen.getByRole("heading", { name: "Zugriffstoken erstellen" }),
+        ).toBeInTheDocument();
     });
 
     it("renders the empty state", () => {

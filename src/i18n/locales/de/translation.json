@@ -1422,6 +1422,38 @@
     "actions": {
       "retry": "Erneut versuchen"
     },
+    "create": {
+      "open": "Neues Zugriffstoken",
+      "title": "Zugriffstoken erstellen",
+      "description": "Erstellen Sie ein Token für Partnerintegrationen und wählen Sie nur die benötigten Berechtigungen.",
+      "submit": "Token erstellen",
+      "submitting": "Wird erstellt…",
+      "cancel": "Abbrechen",
+      "close": "Ich habe das Token gespeichert",
+      "success": "Zugriffstoken wurde erstellt.",
+      "confirmationTitle": "Zugriffstoken erstellt",
+      "confirmationDescription": "Kopieren und speichern Sie das Token sicher, bevor Sie diesen Dialog schließen.",
+      "copyWarning": "Dieses Token wird nur einmal im Klartext angezeigt. Nach dem Schließen des Dialogs kann es nicht erneut abgerufen werden.",
+      "copy": "Zugriffstoken kopieren",
+      "copySuccess": "Zugriffstoken wurde kopiert.",
+      "fields": {
+        "name": "Name",
+        "scopes": "Berechtigungen",
+        "scopesHint": "Berechtigungen sind optional. Vergeben Sie nur die für die Integration erforderlichen Rechte.",
+        "expiration": "Ablaufzeitpunkt",
+        "expirationHint": "Optional. Zeitangaben werden in Ihrer lokalen Zeitzone interpretiert.",
+        "token": "Zugriffstoken"
+      },
+      "scopeDescriptions": {
+        "shopsManage": "Shop-Einstellungen und shopbezogene Abläufe verwalten.",
+        "productsWrite": "Produktangebote erstellen und aktualisieren."
+      },
+      "validation": {
+        "nameRequired": "Bitte geben Sie einen Token-Namen ein.",
+        "nameTooLong": "Der Token-Name darf höchstens 128 Zeichen enthalten.",
+        "expirationInvalid": "Bitte geben Sie ein gültiges Ablaufdatum mit Uhrzeit ein."
+      }
+    },
     "loading": "Zugriffstoken werden geladen.",
     "loadError": "Ihre Zugriffstoken konnten nicht geladen werden.",
     "empty": "Sie haben noch keine Zugriffstoken gespeichert.",

@@ -2,13 +2,19 @@ import { createElement } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { useAccessTokens } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
+import {
+    ACCESS_TOKENS_QUERY_KEY,
+    useAccessTokens,
+    useCreateAccessToken,
+} from "@/features/partner/access-token-management/api/useAccessTokens.ts";
 
 const mockGetMyAccessTokens = vi.hoisted(() => vi.fn());
+const mockPostMyAccessToken = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
 
 vi.mock("@/client", () => ({
     getMyAccessTokens: mockGetMyAccessTokens,
+    postMyAccessToken: mockPostMyAccessToken,
 }));
 
 vi.mock("@/hooks/common/useApiError.ts", () => ({
@@ -19,6 +25,12 @@ vi.mock("@/hooks/common/useApiError.ts", () => ({
 
 vi.mock("@/data/internal/hooks/ApiError.ts", () => ({
     mapToInternalApiError: (error: unknown) => error,
+}));
+
+vi.mock("sonner", () => ({
+    toast: {
+        error: vi.fn(),
+    },
 }));
 
 describe("useAccessTokens", () => {
@@ -96,5 +108,88 @@ describe("useAccessTokens", () => {
         await waitFor(() => expect(result.current.isError).toBe(true));
 
         expect(result.current.error?.message).toBe("Load failed");
+    });
+
+    it("creates an access token and invalidates the list", async () => {
+        const invalidateQueries = vi.spyOn(queryClient, "invalidateQueries");
+        mockPostMyAccessToken.mockResolvedValue({
+            data: {
+                accessTokenId: "created-token",
+                name: "Product sync",
+                scope: ["products:write"],
+                token: "aurahistoria_plaintext_token",
+                tokenType: "BEARER",
+                expiresAt: "2026-08-01T10:00:00.000Z",
+                createdBy: "user-1",
+                updatedBy: "user-1",
+                created: "2026-07-06T10:00:00Z",
+                updated: "2026-07-06T10:00:00Z",
+            },
+            error: null,
+        });
+        const expiresAt = new Date("2026-08-01T10:00:00.000Z");
+
+        const { result } = renderHook(() => useCreateAccessToken(), {
+            wrapper: createWrapper(),
+        });
+        result.current.mutate({
+            name: "Product sync",
+            scopes: ["products:write"],
+            expiresAt,
+        });
+
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+        expect(mockPostMyAccessToken).toHaveBeenCalledWith({
+            body: {
+                name: "Product sync",
+                scope: ["products:write"],
+                expiresAt: "2026-08-01T10:00:00.000Z",
+            },
+        });
+        expect(result.current.data).toMatchObject({
+            plaintextToken: "aurahistoria_plaintext_token",
+            accessToken: {
+                id: "created-token",
+                name: "Product sync",
+            },
+        });
+        expect(invalidateQueries).toHaveBeenCalledWith({
+            queryKey: ACCESS_TOKENS_QUERY_KEY,
+        });
+    });
+
+    it("omits optional create fields when they are empty", async () => {
+        mockPostMyAccessToken.mockResolvedValue({
+            data: {
+                accessTokenId: "created-token",
+                name: "Unscoped token",
+                token: "aurahistoria_plaintext_token",
+                tokenType: "BEARER",
+                createdBy: "user-1",
+                updatedBy: "user-1",
+                created: "2026-07-06T10:00:00Z",
+                updated: "2026-07-06T10:00:00Z",
+            },
+            error: null,
+        });
+
+        const { result } = renderHook(() => useCreateAccessToken(), {
+            wrapper: createWrapper(),
+        });
+        result.current.mutate({
+            name: "Unscoped token",
+            scopes: [],
+        });
+
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+        expect(mockPostMyAccessToken).toHaveBeenCalledWith({
+            body: {
+                name: "Unscoped token",
+                scope: undefined,
+                expiresAt: undefined,
+            },
+        });
     });
 });
