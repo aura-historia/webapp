@@ -13,7 +13,7 @@ import { LANDING_PAGE_FRAGMENTS } from "@/components/landing-page/LandingPage.fr
 import {
     SHOPIFY_APP_STORE_URL,
     WORDPRESS_PLUGIN_DIRECTORY_URL,
-} from "@/features/partners/partnerLinks.ts";
+} from "@/features/partner/partner-program/config/partnerProgramLinks.ts";
 
 export interface SocialLink {
     name: string;
@@ -47,11 +47,11 @@ export const COMPARE_FOOTER_LINKS: CompareFooterLink[] = [
 export const PARTNER_PROGRAM_FOOTER_LINKS: PartnerProgramFooterLink[] = [
     {
         translationKey: "footer.partnerProgramLinks.overview",
-        href: "/partners",
+        href: "/partner-program",
     },
     {
         translationKey: "footer.partnerProgramLinks.dashboard",
-        href: "/partners/dashboard",
+        href: "/partners/applications",
     },
     {
         translationKey: "footer.partnerProgramLinks.woocommerce",
@@ -65,11 +65,11 @@ export const PARTNER_PROGRAM_FOOTER_LINKS: PartnerProgramFooterLink[] = [
     },
     {
         translationKey: "footer.partnerProgramLinks.customApi",
-        href: "/partners/custom-integration",
+        href: "/partner-program/custom-integration",
     },
     {
         translationKey: "footer.partnerProgramLinks.apply",
-        href: "/partners/apply",
+        href: "/partner-program/apply",
     },
 ];
 

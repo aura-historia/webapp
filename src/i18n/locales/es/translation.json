@@ -56,12 +56,12 @@
     "searchFilters": {
       "title": "Mis Filtros de Búsqueda | Aura Historia"
     },
-    "partners": {
+    "partnerProgram": {
       "title": "Programa de Partners | Aura Historia",
       "description": "Conviértete en tienda partner de Aura Historia, la plataforma global de antigüedades y arte. Gratis, sin comisiones y conectada en minutos."
     },
-    "partnerDashboard": {
-      "title": "Panel de Socios | Aura Historia"
+    "partnerApplications": {
+      "title": "Solicitudes de Socios Actuales | Aura Historia"
     },
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Comparativa de búsqueda de antigüedades",
@@ -673,7 +673,7 @@
       "perMonth": "/mes"
     }
   },
-  "partners": {
+  "partnerProgram": {
     "hero": {
       "badge": "Programa de Partners",
       "title": "¿Vendes antigüedades o arte online?<br/>Llega a coleccionistas en todo el mundo.",
@@ -1741,7 +1741,14 @@
   },
   "partnerDashboard": {
     "title": "Panel de Socios",
-    "description": "Supervisa tus solicitudes de socio actuales y su estado de revisión.",
+    "sidebarLabel": "Secciones de socios",
+    "nav": {
+      "applications": "Solicitudes"
+    }
+  },
+  "partnerApplications": {
+    "title": "Solicitudes de Socios Actuales",
+    "description": "Todas las solicitudes de socio que has enviado para tiendas.",
     "actions": {
       "retry": "Reintentar"
     },
@@ -1791,75 +1798,71 @@
         "clear": "Borrar tienda seleccionada"
       }
     },
-    "applications": {
-      "title": "Solicitudes de Socios Actuales",
-      "description": "Todas las solicitudes de socio que has enviado para tiendas.",
-      "loading": "Cargando solicitudes de socios.",
-      "loadError": "No se pudieron cargar tus solicitudes de socios.",
-      "empty": "Aún no has enviado ninguna solicitud de socio.",
-      "submittedAt": "Enviado el {{date}}",
-      "updatedAt": "Actualizado el {{date}}",
-      "existingShop": "Tienda existente",
-      "openDetails": "Abrir detalles para {{title}}",
-      "viewDetails": "Ver detalles",
-      "progress": {
-        "handedIn": "Entregado",
-        "checking": "Revisando",
-        "completed": "Completado",
-        "approved": "Aprobado",
-        "denied": "Denegado"
+    "loading": "Cargando solicitudes de socios.",
+    "loadError": "No se pudieron cargar tus solicitudes de socios.",
+    "empty": "Aún no has enviado ninguna solicitud de socio.",
+    "submittedAt": "Enviado el {{date}}",
+    "updatedAt": "Actualizado el {{date}}",
+    "existingShop": "Tienda existente",
+    "openDetails": "Abrir detalles para {{title}}",
+    "viewDetails": "Ver detalles",
+    "progress": {
+      "handedIn": "Entregado",
+      "checking": "Revisando",
+      "completed": "Completado",
+      "approved": "Aprobado",
+      "denied": "Denegado"
+    },
+    "detail": {
+      "title": "Detalles de la solicitud",
+      "description": "Revisa el estado actual y la información de la tienda enviada.",
+      "loadError": "No se pudo cargar esta solicitud de socio.",
+      "close": "Cerrar detalles",
+      "edit": "Editar solicitud",
+      "editCancel": "Cancelar",
+      "editSave": "Guardar cambios",
+      "editSuccess": "Solicitud de socio actualizada.",
+      "delete": "Eliminar solicitud",
+      "deleteSuccess": "Solicitud de socio eliminada.",
+      "deleteConfirm": {
+        "title": "¿Eliminar esta solicitud de socio?",
+        "description": "Esta solicitud pendiente será eliminada permanentemente y no se podrá recuperar.",
+        "cancel": "Cancelar",
+        "confirm": "Eliminar"
       },
-      "detail": {
-        "title": "Detalles de la solicitud",
-        "description": "Revisa el estado actual y la información de la tienda enviada.",
-        "loadError": "No se pudo cargar esta solicitud de socio.",
-        "close": "Cerrar detalles",
-        "edit": "Editar solicitud",
-        "editCancel": "Cancelar",
-        "editSave": "Guardar cambios",
-        "editSuccess": "Solicitud de socio actualizada.",
-        "delete": "Eliminar solicitud",
-        "deleteSuccess": "Solicitud de socio eliminada.",
-        "deleteConfirm": {
-          "title": "¿Eliminar esta solicitud de socio?",
-          "description": "Esta solicitud pendiente será eliminada permanentemente y no se podrá recuperar.",
-          "cancel": "Cancelar",
-          "confirm": "Eliminar"
-        },
-        "progressLabel": "Progreso de la solicitud",
-        "applicationSection": "Solicitud",
-        "shopSection": "Información de la tienda",
-        "applicationId": "ID de la solicitud",
-        "applicantUserId": "ID del usuario solicitante",
-        "createdAt": "Enviado",
-        "updatedAt": "Actualizado",
-        "shopName": "Nombre de la tienda",
-        "shopType": "Tipo de tienda",
-        "domains": "Dominios",
-        "shopUrl": "URL principal",
-        "shopImage": "URL de la imagen",
-        "shopPhone": "Teléfono",
-        "shopEmail": "Correo electrónico",
-        "address": "Dirección",
-        "addressline": "Línea de dirección",
-        "addresslineExtra": "Línea de dirección 2",
-        "locality": "Ciudad",
-        "region": "Región",
-        "postalCode": "Código postal",
-        "country": "Código del país",
-        "shopId": "ID de la tienda"
-      },
-      "businessState": {
-        "submitted": "Enviado",
-        "inReview": "En revisión",
-        "approved": "Aprobado",
-        "rejected": "Rechazado"
-      },
-      "executionState": {
-        "processing": "Procesando",
-        "waiting": "En espera de decisión",
-        "completed": "Completado"
-      }
+      "progressLabel": "Progreso de la solicitud",
+      "applicationSection": "Solicitud",
+      "shopSection": "Información de la tienda",
+      "applicationId": "ID de la solicitud",
+      "applicantUserId": "ID del usuario solicitante",
+      "createdAt": "Enviado",
+      "updatedAt": "Actualizado",
+      "shopName": "Nombre de la tienda",
+      "shopType": "Tipo de tienda",
+      "domains": "Dominios",
+      "shopUrl": "URL principal",
+      "shopImage": "URL de la imagen",
+      "shopPhone": "Teléfono",
+      "shopEmail": "Correo electrónico",
+      "address": "Dirección",
+      "addressline": "Línea de dirección",
+      "addresslineExtra": "Línea de dirección 2",
+      "locality": "Ciudad",
+      "region": "Región",
+      "postalCode": "Código postal",
+      "country": "Código del país",
+      "shopId": "ID de la tienda"
+    },
+    "businessState": {
+      "submitted": "Enviado",
+      "inReview": "En revisión",
+      "approved": "Aprobado",
+      "rejected": "Rechazado"
+    },
+    "executionState": {
+      "processing": "Procesando",
+      "waiting": "En espera de decisión",
+      "completed": "Completado"
     }
   },
   "compareBarnebysPage": {

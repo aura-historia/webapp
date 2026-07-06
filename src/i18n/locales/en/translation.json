@@ -56,12 +56,15 @@
     "searchFilters": {
       "title": "My Search Filters | Aura Historia"
     },
-    "partners": {
+    "partnerProgram": {
       "title": "Partner Program | Aura Historia",
       "description": "Become a partner shop on Aura Historia – the global platform for antiques & art. Free, commission-free, connected in minutes."
     },
-    "partnerDashboard": {
-      "title": "Partner Dashboard | Aura Historia"
+    "partnerApplications": {
+      "title": "Current Partner Applications | Aura Historia"
+    },
+    "partnerAccessTokens": {
+      "title": "Access Tokens | Aura Historia"
     },
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Antiques Search Engine Comparison",
@@ -673,7 +676,7 @@
       "perMonth": "/mo"
     }
   },
-  "partners": {
+  "partnerProgram": {
     "hero": {
       "badge": "Partner Program",
       "title": "Sell antiques or art online?<br/>Reach collectors worldwide.",
@@ -1396,7 +1399,93 @@
   },
   "partnerDashboard": {
     "title": "Partner Dashboard",
-    "description": "Track your current partner applications and their review status.",
+    "sidebarLabel": "Partner Sections",
+    "nav": {
+      "applications": "Applications",
+      "accessTokens": "Access tokens"
+    }
+  },
+  "partnerAccessTokens": {
+    "title": "Access Tokens",
+    "description": "All access tokens saved for your partner account.",
+    "actions": {
+      "retry": "Retry"
+    },
+    "create": {
+      "open": "New access token",
+      "title": "Create access token",
+      "description": "Create a token for partner integrations and choose only the permissions it needs.",
+      "submit": "Create token",
+      "submitting": "Creating…",
+      "cancel": "Cancel",
+      "close": "I have saved the token",
+      "success": "Access token created.",
+      "confirmationTitle": "Access token created",
+      "confirmationDescription": "Copy and securely store the token before closing this dialog.",
+      "copyWarning": "This plaintext token is shown only once. You cannot retrieve it again after closing this dialog.",
+      "copy": "Copy access token",
+      "copySuccess": "Access token copied.",
+      "fields": {
+        "name": "Name",
+        "scopes": "Permissions",
+        "scopesHint": "Permissions are optional. Grant only those required by the integration.",
+        "expiration": "Expiration",
+        "expirationHint": "Optional. Times are interpreted in your local time zone.",
+        "token": "Access token"
+      },
+      "scopeDescriptions": {
+        "shopsManage": "Manage shop settings and shop-related workflows.",
+        "productsWrite": "Create and update product listings."
+      },
+      "validation": {
+        "nameRequired": "Please enter a token name.",
+        "nameTooLong": "The token name must not exceed 128 characters.",
+        "expirationInvalid": "Please enter a valid expiration date and time."
+      }
+    },
+    "edit": {
+      "open": "Edit",
+      "openAriaLabel": "Edit access token {{name}}",
+      "title": "Edit access token",
+      "description": "Edit the name, permissions, and expiration of {{name}}.",
+      "submit": "Save changes",
+      "submitting": "Saving…",
+      "cancel": "Cancel",
+      "success": "Access token updated."
+    },
+    "delete": {
+      "open": "Delete",
+      "openAriaLabel": "Delete access token {{name}}",
+      "title": "Delete access token “{{name}}”?",
+      "description": "This access token will be permanently deleted and can no longer be used.",
+      "confirm": "Permanently delete token",
+      "cancel": "Cancel",
+      "success": "Access token deleted."
+    },
+    "deleteAll": {
+      "open": "Delete all",
+      "title": "Delete all access tokens?",
+      "description": "All {{count}} access tokens will be permanently deleted and can no longer be used.",
+      "confirm": "Permanently delete all tokens",
+      "cancel": "Cancel",
+      "success": "All access tokens deleted."
+    },
+    "loading": "Loading access tokens.",
+    "loadError": "Could not load your access tokens.",
+    "empty": "You have not saved any access tokens yet.",
+    "createdAt": "Created {{date}}",
+    "updatedAt": "Updated {{date}}",
+    "expiresAt": "Expires {{date}}",
+    "noExpiration": "Does not expire",
+    "noScopes": "No scopes",
+    "scopes": {
+      "shopsManage": "Manage shops",
+      "productsWrite": "Write products"
+    }
+  },
+  "partnerApplications": {
+    "title": "Current Partner Applications",
+    "description": "All partner applications you have submitted for shops.",
     "actions": {
       "retry": "Retry"
     },
@@ -1446,75 +1535,71 @@
         "clear": "Clear selected shop"
       }
     },
-    "applications": {
-      "title": "Current Partner Applications",
-      "description": "All partner applications you have submitted for shops.",
-      "loading": "Loading partner applications.",
-      "loadError": "Could not load your partner applications.",
-      "empty": "You have not submitted any partner applications yet.",
-      "submittedAt": "Submitted {{date}}",
-      "updatedAt": "Updated {{date}}",
-      "existingShop": "Existing shop",
-      "openDetails": "Open details for {{title}}",
-      "viewDetails": "View details",
-      "progress": {
-        "handedIn": "Handed in",
-        "checking": "Checking",
-        "completed": "Completed",
-        "approved": "Approved",
-        "denied": "Denied"
+    "loading": "Loading partner applications.",
+    "loadError": "Could not load your partner applications.",
+    "empty": "You have not submitted any partner applications yet.",
+    "submittedAt": "Submitted {{date}}",
+    "updatedAt": "Updated {{date}}",
+    "existingShop": "Existing shop",
+    "openDetails": "Open details for {{title}}",
+    "viewDetails": "View details",
+    "progress": {
+      "handedIn": "Handed in",
+      "checking": "Checking",
+      "completed": "Completed",
+      "approved": "Approved",
+      "denied": "Denied"
+    },
+    "detail": {
+      "title": "Application details",
+      "description": "Review the current status and submitted shop information.",
+      "loadError": "Could not load this partner application.",
+      "close": "Close details",
+      "edit": "Edit application",
+      "editCancel": "Cancel",
+      "editSave": "Save changes",
+      "editSuccess": "Partner application updated.",
+      "delete": "Delete application",
+      "deleteSuccess": "Partner application deleted.",
+      "deleteConfirm": {
+        "title": "Delete this partner application?",
+        "description": "This pending application will be permanently deleted and cannot be restored.",
+        "cancel": "Cancel",
+        "confirm": "Delete"
       },
-      "detail": {
-        "title": "Application details",
-        "description": "Review the current status and submitted shop information.",
-        "loadError": "Could not load this partner application.",
-        "close": "Close details",
-        "edit": "Edit application",
-        "editCancel": "Cancel",
-        "editSave": "Save changes",
-        "editSuccess": "Partner application updated.",
-        "delete": "Delete application",
-        "deleteSuccess": "Partner application deleted.",
-        "deleteConfirm": {
-          "title": "Delete this partner application?",
-          "description": "This pending application will be permanently deleted and cannot be restored.",
-          "cancel": "Cancel",
-          "confirm": "Delete"
-        },
-        "progressLabel": "Application progress",
-        "applicationSection": "Application",
-        "shopSection": "Shop information",
-        "applicationId": "Application ID",
-        "applicantUserId": "Applicant user ID",
-        "createdAt": "Submitted",
-        "updatedAt": "Updated",
-        "shopName": "Shop name",
-        "shopType": "Shop type",
-        "domains": "Domains",
-        "shopUrl": "Primary URL",
-        "shopImage": "Image URL",
-        "shopPhone": "Phone",
-        "shopEmail": "Email",
-        "address": "Address",
-        "addressline": "Address line",
-        "addresslineExtra": "Address line 2",
-        "locality": "City",
-        "region": "Region",
-        "postalCode": "Postal code",
-        "country": "Country code",
-        "shopId": "Shop ID"
-      },
-      "businessState": {
-        "submitted": "Submitted",
-        "inReview": "In review",
-        "approved": "Approved",
-        "rejected": "Rejected"
-      },
-      "executionState": {
-        "processing": "Processing",
-        "waiting": "Awaiting decision",
-        "completed": "Completed"
-      }
+      "progressLabel": "Application progress",
+      "applicationSection": "Application",
+      "shopSection": "Shop information",
+      "applicationId": "Application ID",
+      "applicantUserId": "Applicant user ID",
+      "createdAt": "Submitted",
+      "updatedAt": "Updated",
+      "shopName": "Shop name",
+      "shopType": "Shop type",
+      "domains": "Domains",
+      "shopUrl": "Primary URL",
+      "shopImage": "Image URL",
+      "shopPhone": "Phone",
+      "shopEmail": "Email",
+      "address": "Address",
+      "addressline": "Address line",
+      "addresslineExtra": "Address line 2",
+      "locality": "City",
+      "region": "Region",
+      "postalCode": "Postal code",
+      "country": "Country code",
+      "shopId": "Shop ID"
+    },
+    "businessState": {
+      "submitted": "Submitted",
+      "inReview": "In review",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "executionState": {
+      "processing": "Processing",
+      "waiting": "Awaiting decision",
+      "completed": "Completed"
     }
   },
   "adminDashboard": {
