@@ -829,7 +829,7 @@
         "eyebrow": "Programma partner · Integrazione API personalizzata",
         "title": "Collega il tuo shop con la nostra API",
         "subtitle": "Usa l’API partner se il tuo shop gira su un sistema personalizzato o se vuoi controllare completamente la sincronizzazione. Invia batch di prodotti ad Aura Historia, noi li elaboriamo in background e i prodotti compaiono poco dopo sulla pagina del tuo shop.",
-        "primaryCta": "Richiedi una chiave API",
+        "primaryCta": "Gestisci i token di accesso",
         "secondaryCta": "Apri la documentazione API"
       },
       "concept": {
@@ -857,12 +857,12 @@
         "subtitle": "Questi tre elementi bastano per inviare un primo batch di prodotti facile da controllare.",
         "items": {
           "apiKey": {
-            "title": "Accesso partner e chiave API",
-            "description": "Richiedi l’accesso al nostro team partner. Dopo l’approvazione riceverai una chiave API limitata al tuo shop."
+            "title": "Un token di accesso utente",
+            "description": "Dopo l’approvazione dello shop partner, crea il token nel dashboard partner. Assegna l’autorizzazione «Scrivi prodotti» per la sincronizzazione."
           },
           "shopId": {
             "title": "Il tuo ID shop su Aura Historia",
-            "description": "Usa l’ID shop ricevuto durante l’onboarding in ogni richiesta batch, così i prodotti vengono associati allo shop corretto."
+            "description": "Usa l’ID del tuo shop approvato in ogni richiesta batch, così i prodotti vengono associati allo shop corretto."
           },
           "productBatch": {
             "title": "Un piccolo batch di prodotti",
@@ -871,23 +871,25 @@
         }
       },
       "guide": {
-        "title": "Dalla chiave API alla prima sincronizzazione",
+        "title": "Dal token di accesso alla prima sincronizzazione",
         "subtitle": "Un flusso pratico per collegare un sistema shop personalizzato ad Aura Historia.",
         "stepLabel": "Passo {{number}}",
         "endpointLabel": "Endpoint rilevante",
         "focusLabel": "Cosa controllare",
         "steps": {
           "requestKey": {
-            "title": "Richiedi l’accesso per il tuo shop partner",
-            "description": "Inizia con l’onboarding partner. Quando lo shop viene approvato, ricevi la chiave API e l’ID shop necessari per le richieste batch.",
-            "focus": "Conserva chiave API, ID shop e contatto di onboarding in un punto accessibile in modo sicuro al team che gestisce l’integrazione.",
-            "visualTitle": "Attivazione e credenziali",
-            "visualCaption": "Chiave API e ID shop"
+            "title": "Crea un token di accesso utente",
+            "description": "Accedi con l’account associato al tuo shop partner approvato e crea un token di accesso utente. Nel modulo è già selezionata l’autorizzazione necessaria per sincronizzare i prodotti.",
+            "focus": "Copia subito il token: viene mostrato una sola volta. Conservalo in modo sicuro e invialo come token Bearer con ogni richiesta API.",
+            "cta": "Crea token di accesso utente",
+            "defaultTokenName": "Sincronizzazione prodotti tramite API personalizzata",
+            "visualTitle": "Crea e salva le credenziali",
+            "visualCaption": "Token di accesso e ID shop"
           },
           "preparePayload": {
             "title": "Prepara il primo payload prodotti",
-            "description": "Crea un piccolo batch con i campi prodotto obbligatori. Controlla ID, titoli, prezzi, immagini, disponibilità e link alle pagine prodotto.",
-            "focus": "All’inizio usa solo pochi prodotti. La validazione sarà più chiara e il primo import più semplice da debuggare.",
+            "description": "Sostituisci YOUR_USER_ACCESS_TOKEN nell’header Authorization con il token di accesso creato nel passaggio 1. Sostituisci YOUR_SHOP_ID nell’URL della richiesta con l’ID del tuo shop approvato.",
+            "focus": "Entrambi i valori sono obbligatori: il token di accesso autorizza la richiesta e l’ID shop assegna i prodotti allo shop corretto. Quindi sostituisci i dati dimostrativi con un piccolo batch del tuo catalogo.",
             "visualTitle": "Preparare il payload JSON",
             "visualCaption": "Struttura del batch e campi obbligatori"
           },

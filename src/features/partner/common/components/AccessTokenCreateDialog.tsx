@@ -24,7 +24,7 @@ import {
     ACCESS_TOKEN_SCOPES,
     type AccessTokenCreateFormData,
     createAccessTokenFormSchema,
-} from "@/features/partner/access-token-management/components/AccessTokenCreateForm.ts";
+} from "@/features/partner/common/components/AccessTokenCreateForm.ts";
 import type { CreatedAccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
 
 const SCOPE_TRANSLATION_KEYS = {
@@ -41,20 +41,25 @@ const SCOPE_TRANSLATION_KEYS = {
 interface AccessTokenCreateDialogProps {
     readonly open: boolean;
     readonly onOpenChange: (open: boolean) => void;
+    readonly defaultValues?: AccessTokenCreateFormData;
 }
 
-export function AccessTokenCreateDialog({ open, onOpenChange }: AccessTokenCreateDialogProps) {
+export function AccessTokenCreateDialog({
+    open,
+    onOpenChange,
+    defaultValues = ACCESS_TOKEN_CREATE_DEFAULT_VALUES,
+}: AccessTokenCreateDialogProps) {
     const { t } = useTranslation();
     const createAccessToken = useCreateAccessToken();
     const [createdAccessToken, setCreatedAccessToken] = useState<CreatedAccessToken | null>(null);
     const form = useForm<AccessTokenCreateFormData>({
         resolver: zodResolver(createAccessTokenFormSchema(t)),
-        defaultValues: ACCESS_TOKEN_CREATE_DEFAULT_VALUES,
+        defaultValues,
     });
     const scopesField = useController({ control: form.control, name: "scopes" }).field;
 
     const resetDialog = () => {
-        form.reset(ACCESS_TOKEN_CREATE_DEFAULT_VALUES);
+        form.reset(defaultValues);
         setCreatedAccessToken(null);
     };
 
@@ -80,7 +85,7 @@ export function AccessTokenCreateDialog({ open, onOpenChange }: AccessTokenCreat
                 onSuccess: (createdToken) => {
                     toast.success(t("partnerAccessTokens.create.success"));
                     setCreatedAccessToken(createdToken);
-                    form.reset(ACCESS_TOKEN_CREATE_DEFAULT_VALUES);
+                    form.reset(defaultValues);
                 },
             },
         );

@@ -829,7 +829,7 @@
         "eyebrow": "Programme partenaire · Intégration API personnalisée",
         "title": "Connectez votre boutique avec notre API",
         "subtitle": "Utilisez l’API partenaire si votre boutique repose sur un système sur mesure ou si vous voulez garder le contrôle complet de la synchronisation. Envoyez vos lots de produits à Aura Historia, nous les traitons en arrière-plan, puis les produits apparaissent sur votre page boutique.",
-        "primaryCta": "Demander une clé API",
+        "primaryCta": "Gérer les jetons d’accès",
         "secondaryCta": "Ouvrir la documentation API"
       },
       "concept": {
@@ -857,12 +857,12 @@
         "subtitle": "Ces trois éléments suffisent pour envoyer un premier lot de produits facile à vérifier.",
         "items": {
           "apiKey": {
-            "title": "Accès partenaire et clé API",
-            "description": "Demandez l’accès à notre équipe partenaire. Après validation, vous recevez une clé API limitée à votre boutique."
+            "title": "Un jeton d’accès utilisateur",
+            "description": "Une fois votre boutique partenaire approuvée, créez vous-même le jeton dans le tableau de bord partenaire. Accordez l’autorisation « Écrire des produits » pour la synchronisation."
           },
           "shopId": {
             "title": "Votre ID de boutique Aura Historia",
-            "description": "Utilisez l’ID de boutique reçu lors de l’onboarding dans chaque requête par lot afin d’associer les produits à la bonne boutique."
+            "description": "Utilisez l’ID de votre boutique approuvée dans chaque requête par lot afin d’associer les produits à la bonne boutique."
           },
           "productBatch": {
             "title": "Un petit lot de produits",
@@ -871,23 +871,25 @@
         }
       },
       "guide": {
-        "title": "De la clé API à la première synchronisation",
+        "title": "Du jeton d’accès à la première synchronisation",
         "subtitle": "Un parcours pratique pour connecter un système de boutique sur mesure à Aura Historia.",
         "stepLabel": "Étape {{number}}",
         "endpointLabel": "Endpoint concerné",
         "focusLabel": "À vérifier",
         "steps": {
           "requestKey": {
-            "title": "Demander l’accès pour votre boutique partenaire",
-            "description": "Commencez par l’onboarding partenaire. Une fois votre boutique validée, vous recevez la clé API et l’ID de boutique nécessaires aux requêtes par lot.",
-            "focus": "Conservez la clé API, l’ID de boutique et le contact d’onboarding dans un endroit accessible de façon sécurisée à votre équipe d’intégration.",
-            "visualTitle": "Activation et identifiants",
-            "visualCaption": "Clé API et ID de boutique"
+            "title": "Créer un jeton d’accès utilisateur",
+            "description": "Connectez-vous avec le compte associé à votre boutique partenaire approuvée et créez un jeton d’accès utilisateur. Le formulaire ci-dessous présélectionne l’autorisation nécessaire à la synchronisation des produits.",
+            "focus": "Copiez immédiatement le jeton : il n’est affiché qu’une seule fois. Conservez-le en lieu sûr et envoyez-le comme jeton Bearer avec chaque requête API.",
+            "cta": "Créer un jeton d’accès utilisateur",
+            "defaultTokenName": "Synchronisation produits par API personnalisée",
+            "visualTitle": "Créer et conserver les identifiants",
+            "visualCaption": "Jeton d’accès et ID de boutique"
           },
           "preparePayload": {
             "title": "Préparer votre premier payload produit",
-            "description": "Créez un petit lot avec les champs produit requis. Vérifiez les IDs, titres, prix, images, disponibilités et liens vers vos pages produit.",
-            "focus": "Limitez-vous à quelques produits au départ. La validation sera plus lisible et le premier import plus simple à déboguer.",
+            "description": "Remplacez YOUR_USER_ACCESS_TOKEN dans l’en-tête Authorization par le jeton d’accès créé à l’étape 1. Remplacez YOUR_SHOP_ID dans l’URL de la requête par l’ID de votre boutique approuvée.",
+            "focus": "Les deux valeurs sont requises : le jeton d’accès autorise la requête et l’ID de boutique associe les produits à la bonne boutique. Remplacez ensuite les données de démonstration par un petit lot de votre catalogue.",
             "visualTitle": "Préparer le payload JSON",
             "visualCaption": "Structure du lot et champs requis"
           },

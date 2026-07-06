@@ -823,7 +823,7 @@
         "eyebrow": "Partner program · Custom API integration",
         "title": "Connect your shop with our API",
         "subtitle": "Use the Partner API when your shop runs on a custom system or you want full control over the sync. Send product batches to Aura Historia, we process them in the background, and your products appear on your shop page shortly afterwards.",
-        "primaryCta": "Request an API key",
+        "primaryCta": "Manage access tokens",
         "secondaryCta": "Open API documentation"
       },
       "concept": {
@@ -851,12 +851,12 @@
         "subtitle": "These three pieces are enough to send a first, easy-to-check product batch.",
         "items": {
           "apiKey": {
-            "title": "Partner access and API key",
-            "description": "Request access through our partner team. After approval, you receive a scoped API key for your shop."
+            "title": "A user access token",
+            "description": "After your partner shop is approved, create the token yourself in the partner dashboard. Grant the “Write products” permission for product synchronization."
           },
           "shopId": {
             "title": "Your Aura Historia shop ID",
-            "description": "Use the shop ID from onboarding in every batch request so products are assigned to the correct shop."
+            "description": "Use the shop ID from your approved shop in every batch request so products are assigned to the correct shop."
           },
           "productBatch": {
             "title": "A small product batch",
@@ -865,23 +865,25 @@
         }
       },
       "guide": {
-        "title": "From API key to first product sync",
+        "title": "From access token to first product sync",
         "subtitle": "A practical setup flow for connecting a custom shop system to Aura Historia.",
         "stepLabel": "Step {{number}}",
         "endpointLabel": "Relevant endpoint",
         "focusLabel": "What to check",
         "steps": {
           "requestKey": {
-            "title": "Request access for your partner shop",
-            "description": "Start with partner onboarding. Once your shop is approved, you receive the API key and shop ID required for batch requests.",
-            "focus": "Keep the API key, shop ID, and onboarding contact details somewhere your integration team can access securely.",
-            "visualTitle": "Activation and credentials",
-            "visualCaption": "API key and shop ID"
+            "title": "Create a user access token",
+            "description": "Sign in with the account associated with your approved partner shop and create a user access token. The form below already selects the permission required to synchronize products.",
+            "focus": "Copy the token immediately: it is shown only once. Store it securely and send it as a Bearer token with every API request.",
+            "cta": "Create user access token",
+            "defaultTokenName": "Custom API product sync",
+            "visualTitle": "Create and save credentials",
+            "visualCaption": "Access token and shop ID"
           },
           "preparePayload": {
             "title": "Prepare your first product payload",
-            "description": "Build a small batch with the required product fields. Check IDs, titles, prices, images, availability, and links to your product pages.",
-            "focus": "Use only a few products at first. It makes validation clearer and keeps the first import easy to debug.",
+            "description": "Replace YOUR_USER_ACCESS_TOKEN in the Authorization header with the access token created in Step 1. Replace YOUR_SHOP_ID in the request URL with the ID of your approved shop.",
+            "focus": "Both values are required: the access token authorizes the request, and the shop ID assigns the products to the correct shop. Then replace the demo product data with a small batch from your catalog.",
             "visualTitle": "Prepare JSON payload",
             "visualCaption": "Batch structure and required fields"
           },

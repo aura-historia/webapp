@@ -29,7 +29,7 @@ export default function PartnerFinalCtaSection() {
                         variant="secondary"
                         className="min-h-12 bg-tertiary text-on-tertiary hover:bg-tertiary/90"
                     >
-                        <Link to="/partner-program/apply">
+                        <Link to="/partners/applications">
                             {t("partnerProgram.finalCta.primary")}
                             <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                         </Link>

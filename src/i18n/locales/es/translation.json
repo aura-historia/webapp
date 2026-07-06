@@ -829,7 +829,7 @@
         "eyebrow": "Programa de partners · Integración API propia",
         "title": "Conecta tu tienda con nuestra API",
         "subtitle": "Usa la API de partners si tu tienda funciona con un sistema propio o si quieres controlar por completo la sincronización. Envía lotes de productos a Aura Historia, los procesamos en segundo plano y los productos aparecen poco después en tu página de tienda.",
-        "primaryCta": "Solicitar una API key",
+        "primaryCta": "Gestionar tokens de acceso",
         "secondaryCta": "Abrir documentación API"
       },
       "concept": {
@@ -857,12 +857,12 @@
         "subtitle": "Estos tres elementos bastan para enviar un primer lote de productos fácil de revisar.",
         "items": {
           "apiKey": {
-            "title": "Acceso partner y API key",
-            "description": "Solicita acceso a nuestro equipo de partners. Tras la aprobación, recibirás una API key limitada a tu tienda."
+            "title": "Un token de acceso de usuario",
+            "description": "Cuando se apruebe tu tienda partner, crea el token en el panel de partners. Concede el permiso «Escribir productos» para la sincronización."
           },
           "shopId": {
             "title": "Tu ID de tienda en Aura Historia",
-            "description": "Usa el ID de tienda recibido durante el onboarding en cada solicitud por lote para asignar los productos a la tienda correcta."
+            "description": "Usa el ID de tu tienda aprobada en cada solicitud por lote para asignar los productos a la tienda correcta."
           },
           "productBatch": {
             "title": "Un lote pequeño de productos",
@@ -871,23 +871,25 @@
         }
       },
       "guide": {
-        "title": "De la API key a la primera sincronización",
+        "title": "Del token de acceso a la primera sincronización",
         "subtitle": "Un flujo práctico para conectar un sistema de tienda propio con Aura Historia.",
         "stepLabel": "Paso {{number}}",
         "endpointLabel": "Endpoint relevante",
         "focusLabel": "Qué revisar",
         "steps": {
           "requestKey": {
-            "title": "Solicita acceso para tu tienda partner",
-            "description": "Empieza con el onboarding de partners. Cuando tu tienda esté aprobada, recibirás la API key y el ID de tienda necesarios para las solicitudes por lote.",
-            "focus": "Guarda la API key, el ID de tienda y el contacto de onboarding en un lugar al que tu equipo de integración pueda acceder de forma segura.",
-            "visualTitle": "Activación y credenciales",
-            "visualCaption": "API key e ID de tienda"
+            "title": "Crea un token de acceso de usuario",
+            "description": "Inicia sesión con la cuenta asociada a tu tienda partner aprobada y crea un token de acceso de usuario. El formulario ya selecciona el permiso necesario para sincronizar productos.",
+            "focus": "Copia el token inmediatamente: solo se muestra una vez. Guárdalo de forma segura y envíalo como token Bearer en cada solicitud a la API.",
+            "cta": "Crear token de acceso de usuario",
+            "defaultTokenName": "Sincronización de productos por API propia",
+            "visualTitle": "Crear y guardar credenciales",
+            "visualCaption": "Token de acceso e ID de tienda"
           },
           "preparePayload": {
             "title": "Prepara tu primer payload de productos",
-            "description": "Crea un lote pequeño con los campos de producto obligatorios. Revisa IDs, títulos, precios, imágenes, disponibilidad y enlaces a tus páginas de producto.",
-            "focus": "Empieza solo con unos pocos productos. La validación será más clara y la primera importación más fácil de depurar.",
+            "description": "Sustituye YOUR_USER_ACCESS_TOKEN en la cabecera Authorization por el token de acceso creado en el paso 1. Sustituye YOUR_SHOP_ID en la URL de la solicitud por el ID de tu tienda aprobada.",
+            "focus": "Ambos valores son obligatorios: el token de acceso autoriza la solicitud y el ID de tienda asigna los productos a la tienda correcta. Después, sustituye los datos de demostración por un lote pequeño de tu catálogo.",
             "visualTitle": "Preparar payload JSON",
             "visualCaption": "Estructura del lote y campos obligatorios"
           },

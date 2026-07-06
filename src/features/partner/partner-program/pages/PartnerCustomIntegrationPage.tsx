@@ -3,6 +3,8 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { Input } from "@/components/ui/input.tsx";
+import { AccessTokenCreateDialog } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
+import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
 import { cn } from "@/lib/utils.ts";
 import { ClientOnly, Link } from "@tanstack/react-router";
 import { ArrowRight, Code2, ExternalLink, KeyRound, RefreshCw, Send, Store } from "lucide-react";
@@ -11,12 +13,9 @@ import { useTranslation } from "react-i18next";
 
 type GuideStepKey = "requestKey" | "preparePayload" | "sendBatch" | "keepInSync" | "verifyShop";
 
-type VisualVariant = "key" | "payload" | "send" | "sync" | "shop";
-
 type GuideStep = {
     readonly key: GuideStepKey;
     readonly icon: typeof KeyRound;
-    readonly variant: VisualVariant;
     readonly endpoint?: string;
 };
 
@@ -24,29 +23,24 @@ const GUIDE_STEPS: readonly GuideStep[] = [
     {
         key: "requestKey",
         icon: KeyRound,
-        variant: "key",
     },
     {
         key: "preparePayload",
         icon: Code2,
-        variant: "payload",
     },
     {
         key: "sendBatch",
         icon: Send,
-        variant: "send",
         endpoint: "POST /api/v1/shops/{shopId}/products",
     },
     {
         key: "keepInSync",
         icon: RefreshCw,
-        variant: "sync",
         endpoint: "PATCH /api/v1/shops/{shopId}/products · PUT /api/v1/shops/{shopId}/products",
     },
     {
         key: "verifyShop",
         icon: Store,
-        variant: "shop",
         endpoint: "/shops/{shopSlugId}",
     },
 ];
@@ -61,6 +55,8 @@ const LazyPartnerProductsApiReference = lazy(
 export default function PartnerCustomIntegrationPage() {
     const { t } = useTranslation();
     const [shopSlugId, setShopSlugId] = useState("");
+    const [createTokenDialogOpen, setCreateTokenDialogOpen] = useState(false);
+    const { isAuthenticated, isResolved } = useResolvedAuth();
 
     const normalizedShopSlugId = shopSlugId.trim();
     const hasShopSlug = normalizedShopSlugId.length > 0;
@@ -85,7 +81,7 @@ export default function PartnerCustomIntegrationPage() {
 
                     <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
                         <Button asChild size="lg" className="min-w-56">
-                            <Link to="/partner-program/apply">
+                            <Link to="/partners/access-tokens">
                                 {t("partnerProgram.customIntegrationPage.hero.primaryCta")}
                                 <ArrowRight aria-hidden="true" />
                             </Link>
@@ -269,6 +265,42 @@ export default function PartnerCustomIntegrationPage() {
                                                 </p>
                                             </div>
 
+                                            {step.key === "requestKey" &&
+                                                (isAuthenticated ? (
+                                                    <Button
+                                                        type="button"
+                                                        size="lg"
+                                                        className="w-full sm:w-auto"
+                                                        onClick={() =>
+                                                            setCreateTokenDialogOpen(true)
+                                                        }
+                                                    >
+                                                        <KeyRound aria-hidden="true" />
+                                                        {t(`${translationBase}.cta`)}
+                                                    </Button>
+                                                ) : isResolved ? (
+                                                    <Button
+                                                        asChild
+                                                        size="lg"
+                                                        className="w-full sm:w-auto"
+                                                    >
+                                                        <Link to="/partners/access-tokens">
+                                                            <KeyRound aria-hidden="true" />
+                                                            {t(`${translationBase}.cta`)}
+                                                        </Link>
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        type="button"
+                                                        size="lg"
+                                                        className="w-full sm:w-auto"
+                                                        disabled
+                                                    >
+                                                        <KeyRound aria-hidden="true" />
+                                                        {t(`${translationBase}.cta`)}
+                                                    </Button>
+                                                ))}
+
                                             {step.key === "verifyShop" && (
                                                 <div className="space-y-3  border border-border/70 bg-background px-4 py-4">
                                                     <label
@@ -325,14 +357,11 @@ export default function PartnerCustomIntegrationPage() {
                                             )}
                                         </div>
 
-                                        <div className="flex-1">
-                                            <StepVisual
-                                                stepNumber={index + 1}
-                                                variant={step.variant}
-                                                title={t(`${translationBase}.visualTitle`)}
-                                                caption={t(`${translationBase}.visualCaption`)}
-                                            />
-                                        </div>
+                                        {step.key === "preparePayload" && (
+                                            <div className="flex-1">
+                                                <ProductRequestExample />
+                                            </div>
+                                        )}
                                     </div>
                                 </Card>
                             );
@@ -357,12 +386,12 @@ export default function PartnerCustomIntegrationPage() {
                                 </p>
                                 <ClientOnly
                                     fallback={
-                                        <div className="h-[960px] w-full animate-pulse bg-white" />
+                                        <div className="h-240 w-full animate-pulse bg-white" />
                                     }
                                 >
                                     <Suspense
                                         fallback={
-                                            <div className="h-[960px] w-full animate-pulse bg-white" />
+                                            <div className="h-240 w-full animate-pulse bg-white" />
                                         }
                                     >
                                         <LazyPartnerProductsApiReference />
@@ -373,82 +402,60 @@ export default function PartnerCustomIntegrationPage() {
                     </Card>
                 </div>
             </section>
+
+            {createTokenDialogOpen && (
+                <AccessTokenCreateDialog
+                    open={createTokenDialogOpen}
+                    onOpenChange={setCreateTokenDialogOpen}
+                    defaultValues={{
+                        name: t(
+                            "partnerProgram.customIntegrationPage.guide.steps.requestKey.defaultTokenName",
+                        ),
+                        scopes: ["products:write"],
+                        expiresAt: "",
+                    }}
+                />
+            )}
         </div>
     );
 }
 
-function StepVisual({
-    stepNumber,
-    variant,
-    title,
-    caption,
-}: {
-    readonly stepNumber: number;
-    readonly variant: VisualVariant;
-    readonly title: string;
-    readonly caption: string;
-}) {
+function ProductRequestExample() {
     return (
-        <div className="rounded-[28px] border border-border/70 bg-linear-to-br from-white to-muted/60 p-5 shadow-xs">
-            <div className="flex items-center justify-between">
-                <p className="text-sm font-medium text-primary">{title}</p>
-                <span className="rounded-full bg-destructive/10 px-3 py-1 text-xs font-medium text-destructive">
-                    {caption}
-                </span>
-            </div>
-
-            <div className="mt-4 rounded-[24px] border border-border/70 bg-background p-4">
-                <div className="flex items-center justify-between">
-                    <div className="flex gap-2">
-                        <span className="size-2.5 shrink-0 aspect-square rounded-full bg-destructive/60" />
-                        <span className="size-2.5 shrink-0 aspect-square rounded-full bg-primary/30" />
-                        <span className="size-2.5 shrink-0 aspect-square rounded-full bg-tertiary/40" />
-                    </div>
-                    <span className="text-xs text-muted-foreground">Step {stepNumber}</span>
-                </div>
-
-                <div className="mt-5 space-y-3">
-                    <div className="h-4 w-2/3 rounded-full bg-muted" />
-                    <div className="grid gap-3 sm:grid-cols-2">
-                        <div className="space-y-3">
-                            <div className="h-10  bg-muted" />
-                            <div className="h-10  bg-muted" />
-                            <div
-                                className={cn(
-                                    " border-2 border-destructive/80 bg-destructive/10",
-                                    variant === "key" ? "h-11" : "h-8",
-                                )}
-                            />
-                        </div>
-                        <div className="space-y-3">
-                            <div className="h-20  bg-muted/80" />
-                            <div
-                                className={cn(
-                                    " bg-muted/80",
-                                    variant === "send" &&
-                                        "border-2 border-destructive/80 bg-destructive/10",
-                                    variant === "sync" &&
-                                        "border-2 border-destructive/80 bg-destructive/10",
-                                    variant === "shop" &&
-                                        "border-2 border-destructive/80 bg-destructive/10",
-                                    variant === "payload" ? "h-24" : "h-16",
-                                )}
-                            />
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-3 gap-3">
-                        <div className="h-9  bg-muted" />
-                        <div
-                            className={cn(
-                                "h-9  bg-muted",
-                                (variant === "send" || variant === "shop") &&
-                                    "border-2 border-destructive/80 bg-destructive/10",
-                            )}
-                        />
-                        <div className="h-9  bg-muted" />
-                    </div>
-                </div>
-            </div>
-        </div>
+        <pre
+            data-testid="partner-product-code-example"
+            className="max-w-full overflow-x-auto rounded-lg border border-border bg-muted/50 p-5 font-mono text-xs leading-6 text-foreground sm:text-sm"
+        >
+            <code>
+                curl --request POST \<br />
+                {"  "}--url &apos;https://api.aura-historia.com/api/v1/shops/
+                <mark className="rounded bg-amber-200 px-1 py-0.5 font-semibold text-amber-950">
+                    YOUR_SHOP_ID
+                </mark>
+                /products&apos; \<br />
+                {"  "}--header &apos;Authorization: Bearer{" "}
+                <mark className="rounded bg-amber-200 px-1 py-0.5 font-semibold text-amber-950">
+                    YOUR_USER_ACCESS_TOKEN
+                </mark>
+                &apos; \<br />
+                {"  "}--header &apos;Content-Type: application/json&apos; \<br />
+                {"  "}--data &apos;[&#123;
+                <br />
+                {"    "}&quot;shopsProductId&quot;: &quot;demo-violin-001&quot;,
+                <br />
+                {"    "}&quot;title&quot;: &#123;&quot;text&quot;: &quot;Baroque Violin&quot;,
+                &quot;language&quot;: &quot;en&quot;&#125;,
+                <br />
+                {"    "}&quot;state&quot;: &quot;AVAILABLE&quot;,
+                <br />
+                {"    "}&quot;url&quot;:
+                &quot;https://example-shop.com/products/demo-violin-001&quot;,
+                <br />
+                {"    "}&quot;images&quot;:
+                [&quot;https://example-shop.com/images/demo-violin.jpg&quot;]
+                <br />
+                {"  "}&#125;]&apos;
+            </code>
+        </pre>
     );
 }

@@ -21,15 +21,11 @@ describe("PartnerProgramPage", () => {
         expect(screen.getByText("Häufige Fragen zum Partner-Programm")).toBeInTheDocument();
     });
 
-    it("renders the primary apply CTA pointing to /partner-program/apply", () => {
-        const ctas = screen.getAllByRole("link", {
-            name: /Partner werden|Jetzt Partner werden/,
-        });
-        // Hero + final CTA both link to /partner-program/apply.
-        expect(ctas.length).toBeGreaterThanOrEqual(2);
-        for (const cta of ctas) {
-            expect(cta).toHaveAttribute("href", "/partner-program/apply");
-        }
+    it("links the final application CTA to the partner dashboard", () => {
+        expect(screen.getByRole("link", { name: "Jetzt Partner werden" })).toHaveAttribute(
+            "href",
+            "/partners/applications",
+        );
     });
 
     it("uses the shared contact email in the final CTA", () => {

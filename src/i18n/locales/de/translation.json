@@ -821,7 +821,7 @@
         "eyebrow": "Partnerprogramm · Eigene API-Integration",
         "title": "Shop per API anbinden",
         "subtitle": "Nutzen Sie die Partner-API, wenn Ihr Shop auf einem eigenen System läuft oder Sie die Synchronisation vollständig steuern möchten. Sie senden Produkt-Batches an Aura Historia, wir verarbeiten sie im Hintergrund, und die Produkte erscheinen kurz darauf auf Ihrer Shop-Seite.",
-        "primaryCta": "API-Key anfragen",
+        "primaryCta": "Zugriffstoken verwalten",
         "secondaryCta": "API-Dokumentation öffnen"
       },
       "concept": {
@@ -849,12 +849,12 @@
         "subtitle": "Diese drei Angaben reichen aus, um ein erstes, gut prüfbares Produkt-Batch zu senden.",
         "items": {
           "apiKey": {
-            "title": "Partnerzugang und API-Key",
-            "description": "Beantragen Sie den Zugang über unser Partner-Team. Nach der Freigabe erhalten Sie einen auf Ihren Shop begrenzten API-Key."
+            "title": "Ein Benutzer-Zugriffstoken",
+            "description": "Nach der Freigabe Ihres Partner-Shops erstellen Sie das Token selbst im Partner-Dashboard. Vergeben Sie für die Produktsynchronisation die Berechtigung „Produkte schreiben“."
           },
           "shopId": {
             "title": "Ihre Aura-Historia-Shop-ID",
-            "description": "Verwenden Sie die Shop-ID aus dem Onboarding in jedem Batch-Request, damit Produkte dem richtigen Shop zugeordnet werden."
+            "description": "Verwenden Sie die Shop-ID Ihres freigegebenen Shops in jedem Batch-Request, damit Produkte dem richtigen Shop zugeordnet werden."
           },
           "productBatch": {
             "title": "Ein kleines Produkt-Batch",
@@ -863,23 +863,25 @@
         }
       },
       "guide": {
-        "title": "Vom API-Key zum ersten Produkt-Sync",
+        "title": "Vom Zugriffstoken zum ersten Produkt-Sync",
         "subtitle": "Ein praktischer Ablauf, um ein eigenes Shopsystem mit Aura Historia zu verbinden.",
         "stepLabel": "Schritt {{number}}",
         "endpointLabel": "Relevanter Endpunkt",
         "focusLabel": "Worauf Sie achten sollten",
         "steps": {
           "requestKey": {
-            "title": "Zugang für Ihren Partner-Shop anfragen",
-            "description": "Starten Sie mit dem Partner-Onboarding. Nach der Freigabe Ihres Shops erhalten Sie den API-Key und die Shop-ID für Batch-Requests.",
-            "focus": "Halten Sie API-Key, Shop-ID und Onboarding-Kontakt so bereit, dass Ihr Integrationsteam sicher darauf zugreifen kann.",
-            "visualTitle": "Freischaltung und Zugangsdaten",
-            "visualCaption": "API-Key und Shop-ID"
+            "title": "Benutzer-Zugriffstoken erstellen",
+            "description": "Melden Sie sich mit dem Konto an, das Ihrem freigegebenen Partner-Shop zugeordnet ist, und erstellen Sie ein Benutzer-Zugriffstoken. Im Formular unten ist die für die Produktsynchronisation benötigte Berechtigung bereits ausgewählt.",
+            "focus": "Kopieren Sie das Token sofort, da es nur einmal angezeigt wird. Speichern Sie es sicher und senden Sie es bei jedem API-Request als Bearer-Token.",
+            "cta": "Benutzer-Zugriffstoken erstellen",
+            "defaultTokenName": "Produktsynchronisation per eigener API",
+            "visualTitle": "Zugangsdaten erstellen und sichern",
+            "visualCaption": "Zugriffstoken und Shop-ID"
           },
           "preparePayload": {
             "title": "Ersten Produkt-Payload vorbereiten",
-            "description": "Erstellen Sie ein kleines Batch mit den erforderlichen Produktfeldern. Prüfen Sie IDs, Titel, Preise, Bilder, Verfügbarkeit und Links zu Ihren Produktseiten.",
-            "focus": "Beginnen Sie mit wenigen Produkten. Das macht die Validierung übersichtlicher und den ersten Import leichter zu debuggen.",
+            "description": "Ersetzen Sie YOUR_USER_ACCESS_TOKEN im Authorization-Header durch das in Schritt 1 erstellte Zugriffstoken. Ersetzen Sie YOUR_SHOP_ID in der Request-URL durch die ID Ihres freigegebenen Shops.",
+            "focus": "Beide Werte sind erforderlich: Das Zugriffstoken autorisiert den Request, die Shop-ID ordnet die Produkte dem richtigen Shop zu. Ersetzen Sie anschließend die Demo-Produktdaten durch ein kleines Batch aus Ihrem Katalog.",
             "visualTitle": "JSON-Payload vorbereiten",
             "visualCaption": "Batch-Struktur und Pflichtfelder"
           },
