@@ -66,6 +66,9 @@
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Comparatif de recherche d’antiquités",
       "description": "Comparez Aura Historia et Barnebys sur la recherche d’antiquités, la couverture des sources, le multilingue, les alertes rapides et la veille de marché assistée par IA."
+    },
+    "partnerAccessTokens": {
+      "title": "Jetons d'accès | Aura Historia"
     }
   },
   "validation": {
@@ -1743,7 +1746,8 @@
     "title": "Tableau de bord partenaire",
     "sidebarLabel": "Sections partenaires",
     "nav": {
-      "applications": "Candidatures"
+      "applications": "Candidatures",
+      "accessTokens": "Jetons d'accès"
     }
   },
   "partnerApplications": {
@@ -2060,6 +2064,84 @@
       "title": "Barnebys est solide pour les enchères. Aura Historia est conçu pour le marché des antiquités.",
       "description": "Si votre recherche doit inclure les lieux où les antiquités sont réellement proposées en ligne, commencez avec Aura Historia.",
       "button": "Rechercher des antiquités"
+    }
+  },
+  "partnerAccessTokens": {
+    "title": "Jetons d'accès",
+    "description": "Tous les jetons d'accès enregistrés pour votre compte partenaire.",
+    "actions": {
+      "retry": "Réessayer"
+    },
+    "create": {
+      "open": "Nouveau jeton d'accès",
+      "title": "Créer un jeton d'accès",
+      "description": "Créez un jeton pour les intégrations partenaires et choisissez uniquement les autorisations nécessaires.",
+      "submit": "Créer un jeton",
+      "submitting": "Création en cours…",
+      "cancel": "Annuler",
+      "close": "J'ai enregistré le jeton",
+      "success": "Jeton d'accès créé.",
+      "confirmationTitle": "Jeton d'accès créé",
+      "confirmationDescription": "Copiez et stockez le jeton en toute sécurité avant de fermer cette fenêtre.",
+      "copyWarning": "Ce jeton en clair est affiché une seule fois. Vous ne pourrez plus le récupérer après avoir fermé cette fenêtre.",
+      "copy": "Copier le jeton d'accès",
+      "copySuccess": "Jeton d'accès copié.",
+      "fields": {
+        "name": "Nom",
+        "scopes": "Autorisations",
+        "scopesHint": "Les autorisations sont facultatives. Accordez uniquement celles nécessaires à l'intégration.",
+        "expiration": "Expiration",
+        "expirationHint": "Facultatif. Les heures sont interprétées dans votre fuseau horaire local.",
+        "token": "Jeton d'accès"
+      },
+      "scopeDescriptions": {
+        "shopsManage": "Gérer les paramètres des boutiques et les flux de travail liés aux boutiques.",
+        "productsWrite": "Créer et mettre à jour les fiches produits."
+      },
+      "validation": {
+        "nameRequired": "Veuillez entrer un nom de jeton.",
+        "nameTooLong": "Le nom du jeton ne doit pas dépasser 128 caractères.",
+        "expirationInvalid": "Veuillez entrer une date et une heure d'expiration valides."
+      }
+    },
+    "edit": {
+      "open": "Modifier",
+      "openAriaLabel": "Modifier le jeton d'accès {{name}}",
+      "title": "Modifier le jeton d'accès",
+      "description": "Modifiez le nom, les autorisations et la date d'expiration de {{name}}.",
+      "submit": "Enregistrer les modifications",
+      "submitting": "Enregistrement en cours…",
+      "cancel": "Annuler",
+      "success": "Jeton d'accès mis à jour."
+    },
+    "delete": {
+      "open": "Supprimer",
+      "openAriaLabel": "Supprimer le jeton d'accès {{name}}",
+      "title": "Supprimer le jeton d'accès “{{name}}” ?",
+      "description": "Ce jeton d'accès sera définitivement supprimé et ne pourra plus être utilisé.",
+      "confirm": "Supprimer définitivement le jeton",
+      "cancel": "Annuler",
+      "success": "Jeton d'accès supprimé."
+    },
+    "deleteAll": {
+      "open": "Tout supprimer",
+      "title": "Supprimer tous les jetons d'accès ?",
+      "description": "Tous les {{count}} jetons d'accès seront définitivement supprimés et ne pourront plus être utilisés.",
+      "confirm": "Supprimer définitivement tous les jetons",
+      "cancel": "Annuler",
+      "success": "Tous les jetons d'accès ont été supprimés."
+    },
+    "loading": "Chargement des jetons d'accès.",
+    "loadError": "Impossible de charger vos jetons d'accès.",
+    "empty": "Vous n'avez encore enregistré aucun jeton d'accès.",
+    "createdAt": "Créé le {{date}}",
+    "updatedAt": "Mis à jour le {{date}}",
+    "expiresAt": "Expire le {{date}}",
+    "noExpiration": "N'expire pas",
+    "noScopes": "Aucune autorisation",
+    "scopes": {
+      "shopsManage": "Gérer les boutiques",
+      "productsWrite": "Écrire des produits"
     }
   }
 }
