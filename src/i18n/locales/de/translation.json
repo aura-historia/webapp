@@ -437,8 +437,8 @@
   },
   "discover": {
     "eyebrow": "Der Markt",
-    "title": "Der Antiquitätenmarkt ist global. Der Überblick ist es selten.",
-    "p1": "Antiquitäten sind längst online. Doch relevante Stücke liegen verstreut: auf Händlerseiten, in Auktionskalendern, auf Marktplätzen und bei lokalen Spezialisten. Aura Historia führt diese Quellen in einer ruhigen, kuratierten Plattform zusammen.",
+    "title": "Der Antiquitätenmarkt ist global. Ihr Überblick ist es selten.",
+    "p1": "Antiquitäten findet man heutzutage zunehmend online. Doch relevante Stücke liegen verstreut: auf Händlerseiten, in Auktionskatalogen, auf Marktplätzen und bei lokalen Spezialisten. Aura Historia führt diese Quellen in einer ruhigen, kuratierten Plattform zusammen.",
     "p2": "Für Sammler, Interior-Profis und den Handel heißt das: weniger blinde Flecken, mehr Kontext und bessere Chancen, ein besonderes Objekt zu sehen, bevor es anderswo verschwindet.",
     "highlight1": {
       "title": "Über {{count}} indexierte Quellen",
@@ -471,20 +471,20 @@
     },
     "artworkStories": {
       "ariaLabel": "Aura Historia Plattformthese",
-      "title": "Der globale Antiquitätenmarkt auf einen Blick",
-      "description": "Besondere Stücke liegen selten an einer einzigen Stelle. Sie erscheinen bei kleinen Händlern, in spezialisierten Shops, auf Marktplätzen und in Auktionskalendern – oft mit lokalen Begriffen und nur für kurze Zeit. Aura Historia macht diesen verstreuten Markt sichtbar, verständlich und beobachtbar.",
+      "title": "Der weltweite Antiquitätenmarkt auf einen Blick",
+      "description": "Besondere Stücke liegen selten an einer einzigen Stelle. Sie erscheinen bei kleinen Händlern, in spezialisierten Shops, auf Marktplätzen und in Auktionskatalogen – oft mit lokalen Begriffen und nur für kurze Zeit. Aura Historia macht diesen verstreuten Markt sichtbar, verständlich und beobachtbar.",
       "connoisseurship": {
         "eyebrow": "Kennerblick, digital erweitert",
-        "title": "Hinweise erkennen, die im Titel fehlen",
-        "description": "Holbeins Ambassadors erzählt von Wissen, Instrumenten und verborgener Perspektive. Auch bei Antiquitäten steckt der entscheidende Hinweis oft in der Quelle, in der Rubrik, im Preisverlauf, im Status oder im Moment des Erscheinens – nicht allein im Angebotstitel.",
-        "supporting": "Aura Historia bringt diese Signale in eine ruhige Arbeitsfläche: finden, vergleichen, merken und im richtigen Moment zur Originalquelle wechseln – ohne die Freude am Entdecken zu verlieren.",
+        "title": "Hinweise erkennen, die anderen fehlen",
+        "description": "Holbeins Ambassadors erzählt von Wissen, Instrumenten und verborgener Perspektive. Auch bei Antiquitäten steckt der entscheidende Hinweis oft nicht nur in der Artikelbeschreibung, sondern in den Bildern, der Quelle, der Herkunft, dem Preisverlauf oder dem Moment des Erscheinens.",
+        "supporting": "Aura Historia bringt diese Signale an einen ruhigen Platz: finden, vergleichen, merken und im richtigen Moment zur Originalquelle wechseln – ohne die Freude am Entdecken zu verlieren.",
         "imageAlt": "Hans Holbeins Gemälde The Ambassadors als Sinnbild für Gelehrsamkeit, Instrumente und Kennerblick.",
         "caption": "Hans Holbein der Jüngere, The Ambassadors, 1533"
       },
       "globalCollecting": {
         "eyebrow": "Weltweites Inventar",
         "title": "Die Wunderkammer ist heute verstreut",
-        "description": "The Paston Treasure versammelt Luxusobjekte, Naturalia und Raritäten aus einem weltweiten Handelsnetz. Heute liegt eine solche Wunderkammer nicht mehr in einem Raum, sondern verteilt über Händlerseiten, Marktplätze, Auktionskalender und lokale Spezialisten.",
+        "description": "The Paston Treasure versammelt Luxusobjekte, Naturalia und Raritäten aus einem weltweiten Handelsnetz. Heute liegt eine solche Wunderkammer nicht mehr in einem Raum, sondern verteilt über Händlerseiten, Marktplätze, Auktionskataloge und lokale Spezialisten.",
         "supporting": "Aura Historia ersetzt diese Quellen nicht. Die Plattform führt Sie gezielt zu ihnen – nachdem sie das verstreute Angebot laufend indexiert, geordnet und für Ihre Interessen beobachtbar gemacht hat.",
         "imageAlt": "The Paston Treasure, ein Stillleben voller global gehandelter Luxusobjekte und Raritäten.",
         "caption": "The Paston Treasure, um 1663"
@@ -492,8 +492,8 @@
     },
     "features": {
       "eyebrow": "Plattform-Funktionen",
-      "title": "Eine Plattform für Menschen, die genauer hinsehen",
-      "subtitle": "Entwickelt für Sammler, Interior-Profis und den Handel: ein ruhiger Arbeitsraum für einen globalen Markt, der zu groß, zu lokal und zu fragmentiert ist, um ihn aus Gewohnheit zu verfolgen.",
+      "title": "Eine Plattform für all jene, die genauer hinsehen",
+      "subtitle": "Entwickelt für Sammler, Interior-Profis und den Handel: ein ruhiger Platz für einen weltweiten Markt, der zu groß, zu lokal und zu fragmentiert ist, um ihn ohne Hilfe zu verfolgen.",
       "note": "Aura Historia ist keine reine Auktionsseite. Die Plattform bringt Händler, Spezialshops, Marktplätze und Auktionsinventar in dasselbe Entdeckungsfeld.",
       "marketScale": {
         "title": "Ein Markt jenseits einzelner Marktplätze",
@@ -548,7 +548,7 @@
       },
       "aiSearchAgent": {
         "title": "KI-Suchagent",
-        "description": "Formulieren Sie ein Briefing in natürlicher Sprache – Epoche, Form, Kategorie, Größe, Stimmung, Budget und Einsatzzweck – und lassen Sie den Agenten den Markt geduldig beobachten.",
+        "description": "Formulieren Sie ein Suche in natürlicher Sprache – Epoche, Form, Kategorie, Größe, Stimmung, Budget und Einsatzzweck – und lassen Sie den Agenten den Markt geduldig beobachten.",
         "visual": {
           "eyebrow": "Feature-GIF-Platzhalter",
           "title": "Sammlerbriefing in natürlicher Sprache",
