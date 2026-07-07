@@ -11,7 +11,7 @@ describe("FeaturesSection", () => {
 
     it("renders the section heading", () => {
         expect(
-            screen.getByText("Eine Plattform für Menschen, die genauer hinsehen"),
+            screen.getByText("Eine Plattform für all jene, die genauer hinsehen"),
         ).toBeInTheDocument();
     });
 

@@ -11,7 +11,7 @@ describe("ArtworkStorySection", () => {
 
     it("renders the platform thesis intro", () => {
         expect(
-            screen.getByText("Der globale Antiquitätenmarkt auf einen Blick"),
+            screen.getByText("Der weltweite Antiquitätenmarkt auf einen Blick"),
         ).toBeInTheDocument();
         expect(
             screen.getByText(/Besondere Stücke liegen selten an einer einzigen Stelle/),
@@ -20,7 +20,7 @@ describe("ArtworkStorySection", () => {
 
     it("renders the connoisseurship story", () => {
         expect(screen.getByText("Kennerblick, digital erweitert")).toBeInTheDocument();
-        expect(screen.getByText("Hinweise erkennen, die im Titel fehlen")).toBeInTheDocument();
+        expect(screen.getByText("Hinweise erkennen, die anderen fehlen")).toBeInTheDocument();
         expect(screen.getByText(/Holbeins Ambassadors erzählt von Wissen/)).toBeInTheDocument();
     });
 

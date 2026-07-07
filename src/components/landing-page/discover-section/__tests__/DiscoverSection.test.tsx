@@ -12,12 +12,14 @@ describe("DiscoverSection", () => {
 
         it("renders the section title", () => {
             expect(
-                screen.getByText("Der Antiquitätenmarkt ist global. Der Überblick ist es selten."),
+                screen.getByText("Der Antiquitätenmarkt ist global. Ihr Überblick ist es selten."),
             ).toBeInTheDocument();
         });
 
         it("renders the description paragraphs", () => {
-            expect(screen.getByText(/Antiquitäten sind längst online/)).toBeInTheDocument();
+            expect(
+                screen.getByText(/Antiquitäten findet man heutzutage zunehmend online/),
+            ).toBeInTheDocument();
             expect(
                 screen.getByText(/Für Sammler, Interior-Profis und den Handel heißt das/),
             ).toBeInTheDocument();
