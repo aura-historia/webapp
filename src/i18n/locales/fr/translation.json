@@ -1347,6 +1347,7 @@
       },
       "fields": {
         "name": "Nom de la boutique",
+        "shopId": "ID de la boutique",
         "shopType": "Type de boutique",
         "url": "URL principale de la boutique",
         "shopifyDomain": "Domaine Shopify",

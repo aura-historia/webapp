@@ -1691,6 +1691,7 @@
       },
       "fields": {
         "name": "Shop name",
+        "shopId": "Shop ID",
         "shopType": "Shop type",
         "url": "Primary shop URL",
         "shopifyDomain": "Shopify domain",
