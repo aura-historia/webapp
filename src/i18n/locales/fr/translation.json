@@ -69,6 +69,9 @@
     },
     "partnerAccessTokens": {
       "title": "Jetons d'accès | Aura Historia"
+    },
+    "partnerShops": {
+      "title": "Mes boutiques | Aura Historia"
     }
   },
   "validation": {
@@ -1747,6 +1750,7 @@
     "sidebarLabel": "Sections partenaires",
     "nav": {
       "applications": "Candidatures",
+      "shops": "Mes boutiques",
       "accessTokens": "Jetons d'accès"
     }
   },
@@ -2142,6 +2146,25 @@
     "scopes": {
       "shopsManage": "Gérer les boutiques",
       "productsWrite": "Écrire des produits"
+    }
+  },
+  "partnerShops": {
+    "title": "Mes boutiques",
+    "description": "Toutes les boutiques liées à votre compte partenaire.",
+    "actions": {
+      "retry": "Réessayer",
+      "edit": "Modifier"
+    },
+    "loading": "Chargement de vos boutiques.",
+    "loadError": "Vos boutiques n'ont pas pu être chargées.",
+    "empty": "Aucune boutique n'est encore liée à votre compte partenaire.",
+    "updatedAt": "Mis à jour le {{date}}",
+    "shopImageAlt": "Logo de {{shop}}",
+    "editAriaLabel": "Modifier {{shop}}",
+    "edit": {
+      "title": "Modifier la boutique",
+      "description": "Modifiez les informations de {{shop}}.",
+      "success": "La boutique a été mise à jour."
     }
   }
 }

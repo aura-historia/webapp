@@ -69,6 +69,9 @@
     },
     "partnerAccessTokens": {
       "title": "Tokens de acceso | Aura Historia"
+    },
+    "partnerShops": {
+      "title": "Mis tiendas | Aura Historia"
     }
   },
   "validation": {
@@ -1747,6 +1750,7 @@
     "sidebarLabel": "Secciones de socios",
     "nav": {
       "applications": "Solicitudes",
+      "shops": "Mis tiendas",
       "accessTokens": "Tokens de acceso"
     }
   },
@@ -2142,6 +2146,25 @@
     "scopes": {
       "shopsManage": "Gestionar tiendas",
       "productsWrite": "Escribir productos"
+    }
+  },
+  "partnerShops": {
+    "title": "Mis tiendas",
+    "description": "Todas las tiendas vinculadas a tu cuenta de socio.",
+    "actions": {
+      "retry": "Reintentar",
+      "edit": "Editar"
+    },
+    "loading": "Cargando tus tiendas.",
+    "loadError": "No se pudieron cargar tus tiendas.",
+    "empty": "Aún no hay tiendas vinculadas a tu cuenta de socio.",
+    "updatedAt": "Actualizado el {{date}}",
+    "shopImageAlt": "Logo de {{shop}}",
+    "editAriaLabel": "Editar {{shop}}",
+    "edit": {
+      "title": "Editar tienda",
+      "description": "Edita los datos de {{shop}}.",
+      "success": "La tienda se ha actualizado."
     }
   }
 }
