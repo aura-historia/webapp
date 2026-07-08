@@ -29,6 +29,7 @@ type PageMetaKey =
     | "partnerProgram"
     | "partnerApplications"
     | "partnerAccessTokens"
+    | "partnerShops"
     | "compareBarnebys"
     | "admin";
 
@@ -86,6 +87,9 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     },
     partnerAccessTokens: {
         title: "meta.partnerAccessTokens.title",
+    },
+    partnerShops: {
+        title: "meta.partnerShops.title",
     },
     compareBarnebys: {
         title: "meta.compareBarnebys.title",
