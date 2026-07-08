@@ -16,8 +16,8 @@ describe("HeroSection", () => {
     });
 
     it("renders the main heading", () => {
-        expect(screen.getByText(/Seltene Stücke findet man nicht/)).toBeInTheDocument();
-        expect(screen.getByText(/durch Zufall allein/)).toBeInTheDocument();
+        expect(screen.getByText(/Seltene Antiquitäten/)).toBeInTheDocument();
+        expect(screen.getByText(/weltweit entdecken/)).toBeInTheDocument();
     });
 
     it("renders the subtitle", () => {
