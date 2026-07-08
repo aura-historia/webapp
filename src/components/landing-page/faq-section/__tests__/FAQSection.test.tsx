@@ -11,54 +11,47 @@ describe("FAQSection", () => {
     });
 
     it("renders the section heading", () => {
-        expect(screen.getByText("Häufig gestellte Fragen")).toBeInTheDocument();
+        expect(screen.getByText("Häufige Fragen")).toBeInTheDocument();
     });
 
     it("renders the section subtitle", () => {
         expect(
-            screen.getByText("Hier finden Sie Antworten auf die wichtigsten Fragen."),
+            screen.getByText(
+                "Das Wichtigste darüber, wie Aura Historia den globalen Antiquitätenmarkt übersichtlicher macht.",
+            ),
         ).toBeInTheDocument();
     });
 
     it("renders all FAQ questions", () => {
-        expect(screen.getByText("Wie funktioniert Aura Historia?")).toBeInTheDocument();
+        expect(screen.getByText("Was ist Aura Historia?")).toBeInTheDocument();
+        expect(screen.getByText("Kann ich direkt über Aura Historia kaufen?")).toBeInTheDocument();
+        expect(screen.getByText("Was kann Aura Historia für mich beobachten?")).toBeInTheDocument();
         expect(
-            screen.getByText("Kann ich direkt über Aura Historia Antiquitäten kaufen?"),
+            screen.getByText("Hilft Aura Historia bei fremdsprachigen Angeboten?"),
+        ).toBeInTheDocument();
+        expect(screen.getByText("Wie aktuell sind die Angebote?")).toBeInTheDocument();
+        expect(screen.getByText("Welche Quellen fließen ein?")).toBeInTheDocument();
+        expect(
+            screen.getByText("Kann ich einen Händler oder eine Quelle vorschlagen?"),
         ).toBeInTheDocument();
         expect(
-            screen.getByText("Wie funktionieren die Preis- und Verfügbarkeits-Benachrichtigungen?"),
+            screen.getByText("Worin unterscheidet sich Aura Historia von Auktionsaggregatoren?"),
         ).toBeInTheDocument();
-        expect(screen.getByText("Wie oft werden die Daten aktualisiert?")).toBeInTheDocument();
-        expect(
-            screen.getByText("Welche Antiquitäten-Onlineshops sind auf Aura Historia vertreten?"),
-        ).toBeInTheDocument();
-        expect(
-            screen.getByText(
-                /Ich kenne einen Onlinehändler, ein Auktionshaus oder einen Marktplatz, der noch nicht auf Aura Historia vertreten ist. Können wir ihn hinzufügen?/,
-            ),
-        ).toBeInTheDocument();
-        expect(
-            screen.getByText("Wie unterscheidet sich Aura Historia von Barnebys?"),
-        ).toBeInTheDocument();
-        expect(
-            screen.getByText(/Wie unterscheidet sich Aura Historia von Preisdatenbanken/),
-        ).toBeInTheDocument();
+        expect(screen.getByText("Ist Aura Historia eine Preisdatenbank?")).toBeInTheDocument();
     });
 
     it("expands accordion item when clicked", async () => {
         const user = userEvent.setup();
-        const firstQuestion = screen.getByText("Wie funktioniert Aura Historia?");
+        const firstQuestion = screen.getByText("Was ist Aura Historia?");
 
         await user.click(firstQuestion);
 
-        expect(
-            screen.getByText(/Wir durchsuchen kontinuierlich die Webseiten/),
-        ).toBeInTheDocument();
+        expect(screen.getByText(/Aura Historia ist eine globale Plattform/)).toBeInTheDocument();
     });
 
     it("collapses accordion item when clicked again", async () => {
         const user = userEvent.setup();
-        const firstQuestion = screen.getByText("Wie funktioniert Aura Historia?");
+        const firstQuestion = screen.getByText("Was ist Aura Historia?");
 
         // Open
         await user.click(firstQuestion);

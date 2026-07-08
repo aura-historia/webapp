@@ -4,11 +4,11 @@
     "infoButton": "Plus d'informations"
   },
   "meta": {
-    "siteName": "Aura Historia | Moteur de recherche d'antiquités leader",
-    "defaultDescription": "Trouvez des antiquités avec Aura Historia. Données en temps réel de plus de 1000 maisons de ventes, marchands et places de marché.",
+    "siteName": "Aura Historia | Plateforme mondiale d’antiquités",
+    "defaultDescription": "Découvrez antiquités rares, art et objets de design auprès de marchands, maisons de vente et places de marché du monde entier, dans une plateforme raffinée pour collectionneurs et professionnels.",
     "home": {
-      "title": "Aura Historia | Moteur de recherche d'antiquités leader",
-      "description": "Trouvez des antiquités avec Aura Historia. Données en temps réel de plus de 1000 maisons de ventes, marchands et places de marché."
+      "title": "Aura Historia | Plateforme mondiale d’antiquités",
+      "description": "Découvrez antiquités rares, art et objets de design auprès de marchands, maisons de vente et places de marché du monde entier, dans une plateforme raffinée pour collectionneurs et professionnels."
     },
     "search": {
       "title": "Rechercher des antiquités | Aura Historia",
@@ -130,7 +130,7 @@
     },
     "landingPageLinks": {
       "recentlyAdded": "Derniers ajouts",
-      "discover": "Transparence",
+      "discover": "Plateforme",
       "features": "Fonctionnalités",
       "howItWorks": "Comment ça marche",
       "testimonials": "Témoignages",
@@ -449,100 +449,144 @@
     "scraped": "Indexé publiquement"
   },
   "discover": {
-    "title": "Nous apportons de la transparence dans le paysage opaque des antiquités en ligne",
-    "p1": "Nous recherchons chaque jour parmi les vastes offres de milliers de marchands d'antiquités, maisons de vente aux enchères et places de marché dispersés à travers le monde, et regroupons leurs articles en un seul endroit central.",
-    "p2": "Nous ne capturons pas seulement les articles actuels et à venir, mais nous suivons également les changements de prix et de disponibilité. Ainsi, vous ne manquez jamais une bonne affaire et gardez toujours un œil sur le marché.",
+    "eyebrow": "Le marché",
+    "title": "Le marché des antiquités est mondial. La vision d’ensemble l’est rarement.",
+    "p1": "Les antiquités sont bien en ligne, mais les pièces pertinentes restent dispersées entre sites de marchands, calendriers de ventes, places de marché et spécialistes locaux. Aura Historia réunit ces sources dans une plateforme calme et soignée.",
+    "p2": "Pour les collectionneurs, décorateurs et professionnels, cela veut dire moins d’angles morts : plus de contexte et de meilleures chances de voir une pièce remarquable avant qu’elle ne disparaisse à nouveau.",
     "highlight1": {
-      "title": "Plus de {{count}} marchands, maisons de vente aux enchères et places de marché",
-      "titleFallback": "Des centaines de marchands, maisons de vente aux enchères et places de marché",
-      "description": "Nous recherchons en continu des marchands d'antiquités renommés, des maisons de vente aux enchères et des places de marché dans toute l'Europe et au-delà."
+      "title": "Plus de {{count}} sources indexées",
+      "titleFallback": "Des centaines de sources indexées",
+      "description": "Marchands spécialisés, maisons de vente, places de marché et boutiques sont réunis dans une même vue."
     },
     "highlight2": {
-      "title": "Surveillance quasi en temps réel",
-      "description": "Les nouvelles antiquités proposées ainsi que les changements de prix ou de disponibilité sont automatiquement capturés en quasi temps réel."
+      "title": "Veille du marché au-delà des grands noms",
+      "description": "Nouvelles pièces, mouvements de prix et changements de disponibilité sont suivis afin que les occasions importantes apparaissent plus tôt."
     },
     "highlight3": {
-      "title": "Entièrement indépendant de la langue",
-      "description": "Nous traduisons chaque antiquité en plusieurs langues. La langue dans laquelle vous effectuez votre recherche n'a pas d'importance. Nous prenons actuellement en charge l'anglais, l'allemand, le français, l'espagnol et l'italien."
+      "title": "Recherche par-delà les langues",
+      "description": "Cherchez dans votre langue ; Aura Historia aide à interpréter le vocabulaire des vendeurs internationaux."
     },
-    "stats": {
-      "shops": "500",
-      "shopsLabel": "Boutiques connectées",
-      "items": "120 000",
-      "itemsLabel": "Articles uniques",
-      "updates": "24/7",
-      "updatesLabel": "Mises à jour quasi en temps réel",
-      "countries": "15",
-      "countriesLabel": "Pays couverts"
+    "artworks": {
+      "watteau": {
+        "alt": "The Shop Sign of the Art Dealer Gersaint d’Antoine Watteau, scène raffinée dans l’intérieur d’un marchand d’art.",
+        "caption": "Antoine Watteau, The Shop Sign of the Art Dealer Gersaint, 1720–1721"
+      }
     }
   },
   "landingPage": {
-    "badge": "Recherchez au-delà des marchés habituels",
-    "titleFirstLine": "Découvrez des antiquités rares<1/>sur le marché mondial",
-    "subtitle": "Aura Historia explore les antiquaires, les maisons de vente aux enchères et les marketplaces du monde entier — vous aidant à dénicher des pièces que les autres ne voient jamais.",
-    "trustBadge1": "Antiquaires et maisons de vente aux enchères dans le monde entier",
-    "trustBadge2": "Annonces mises à jour en continu",
-    "trustBadge3": "Conçu pour les collectionneurs sérieux",
+    "badge": "Explorez au-delà des maisons de vente habituelles",
+    "titleFirstLine": "Les pièces rares ne devraient pas dépendre<1/>du seul hasard",
+    "subtitle": "Aura Historia réunit marchands, maisons de vente, places de marché et inventaires spécialisés dans une plateforme mondiale d’antiquités, afin que les pièces remarquables restent visibles avant de disparaître à nouveau.",
     "recentlyAdded": {
       "eyebrow": "Ajoutés récemment",
       "title": "Les dernières acquisitions",
       "foundAt": "Trouvé chez {{shopName}}."
     },
+    "artworkStories": {
+      "ariaLabel": "Thèse de plateforme d’Aura Historia",
+      "title": "Le marché mondial des antiquités en un coup d’œil",
+      "description": "Les pièces remarquables se trouvent rarement au même endroit. Elles apparaissent chez de petits marchands, dans des boutiques spécialisées, sur des places de marché et dans des calendriers de ventes — souvent avec des termes locaux et pour peu de temps. Aura Historia rend ce marché dispersé visible, compréhensible et observable.",
+      "connoisseurship": {
+        "eyebrow": "Regard du connaisseur, prolongé",
+        "title": "Voir les indices absents du titre",
+        "description": "Les Ambassadeurs de Holbein parlent de savoir, d’instruments et de perspective cachée. Dans les antiquités aussi, l’indice décisif se trouve souvent dans la source, la rubrique, l’évolution du prix, le statut ou le moment d’apparition — pas seulement dans le titre de l’annonce.",
+        "supporting": "Aura Historia rassemble ces signaux dans un espace de travail calme : trouver, comparer, enregistrer et ouvrir la source d’origine au bon moment, sans perdre le plaisir de la découverte.",
+        "imageAlt": "Le tableau The Ambassadors de Hans Holbein comme symbole d’érudition, d’instruments et de regard expert.",
+        "caption": "Hans Holbein le Jeune, The Ambassadors, 1533"
+      },
+      "globalCollecting": {
+        "eyebrow": "Inventaire mondial",
+        "title": "Le cabinet de curiosités est aujourd’hui dispersé",
+        "description": "The Paston Treasure rassemble objets de luxe, naturalia et raretés issus d’un réseau commercial mondial. Aujourd’hui, un tel cabinet n’occupe plus une seule pièce : il se répartit entre sites de marchands, places de marché, calendriers de ventes et spécialistes locaux.",
+        "supporting": "Aura Historia ne remplace pas ces sources. La plateforme vous y conduit après avoir indexé l’offre dispersée en continu, l’avoir ordonnée et l’avoir rendue observable selon vos intérêts.",
+        "imageAlt": "The Paston Treasure, une nature morte foisonnante d’objets de luxe et de raretés issus du commerce mondial.",
+        "caption": "The Paston Treasure, v. 1663"
+      }
+    },
     "features": {
-      "title": "Les antiquités sont dispersées partout en ligne - votre recherche ne devrait pas l'être",
-      "subtitle": "Nous sommes le moteur de recherche le plus sophistiqué pour les antiquités et vous fournissons tous les outils nécessaires pour explorer efficacement le marché des antiquités.",
-      "previewBadge": "Bientôt disponible",
-      "search": {
-        "title": "Recherche intelligente",
-        "description": "Recherchez des centaines de milliers d'articles avec notre moteur de recherche puissant. Éliminez tout le bruit en filtrant par état, prix, marchand, et bien plus encore."
+      "eyebrow": "Fonctions de la plateforme",
+      "title": "Une plateforme pour celles et ceux qui regardent de plus près",
+      "subtitle": "Pensée pour collectionneurs, décorateurs et professionnels : un espace calme pour un marché mondial trop vaste, trop local et trop fragmenté pour être suivi par habitude.",
+      "note": "Aura Historia n’est pas une autre page centrée sur les enchères. Elle réunit marchands, boutiques spécialisées, places de marché et inventaire d’enchères dans un même champ de découverte.",
+      "marketScale": {
+        "title": "Un marché qui dépasse toute place de marché",
+        "description": "Aura Historia est conçue pour un marché mondial de l’art et des antiquités mesuré en dizaines de milliards de dollars et en dizaines de millions de transactions annuelles.",
+        "visual": {
+          "value": "$59,6 Md",
+          "label": "Ventes mondiales d’art et d’antiquités en 2025, sur 41,5 M de transactions."
+        }
       },
-      "global": {
-        "title": "Couverture mondiale",
-        "description": "Nous vous connectons avec des marchands d'antiquités renommés de plus de 15 pays - de l'Allemagne aux États-Unis. Peu importe la taille du marchand, s'il a une boutique en ligne, nous l'ajoutons."
-      },
-      "history": {
-        "title": "Historique des modifications",
-        "description": "Suivez tous les changements d'un article - des ajustements de prix aux changements de statut. Nous optons pour un maximum de transparence."
-      },
-      "watchlist": {
-        "title": "Liste de favoris personnelle",
-        "description": "Enregistrez des articles intéressants et suivez leur évolution. Recevez des notifications lorsque le prix ou la disponibilité change."
+      "beyondAuction": {
+        "title": "Plus que des enchères",
+        "description": "Les enchères ne sont qu’une partie du marché. Aura Historia fait aussi apparaître marchands de confiance et petits spécialistes aux côtés des lots de vente, là où beaucoup de pièces pertinentes n’atteignent jamais les plateformes centrées sur les enchères.",
+        "visual": {
+          "value": "$34,8 / $20,7 Md",
+          "label": "Ventes de marchands contre ventes aux enchères publiques en 2025 ; les enchères privées ont ajouté un peu moins de $4,2 Md."
+        }
       },
       "translations": {
-        "title": "Traductions automatiques",
-        "description": "Recherchez et découvrez tous les articles dans votre langue préférée, sans aucun obstacle. Nous prenons actuellement en charge l'anglais, l'allemand, le français, l'espagnol et l'italien."
+        "title": "Trouver sans parler la langue du vendeur",
+        "description": "Cherchez dans votre langue. Aura Historia aide à interpréter titres internationaux, formulations de vendeurs et vocabulaire local du marché.",
+        "visual": {
+          "value": "13 362 + 81 256",
+          "label": "Boutiques d’antiquités aux États-Unis plus détaillants européens de seconde main et proches des antiquités — fragmentés par marchés et langues locales."
+        }
+      },
+      "watchlist": {
+        "title": "Liste de suivi privée",
+        "description": "Gardez en vue ce que vous avez déjà trouvé. Enregistrez des pièces discrètement et revenez lorsque prix, statut ou disponibilité méritent un second regard.",
+        "visual": {
+          "eyebrow": "Emplacement GIF de fonction",
+          "title": "Liste de suivi avec alertes de changement",
+          "description": "Réservé à une capture d’interface montrant objets enregistrés, mouvements de prix, changements de statut et moments de réexamen."
+        }
       },
       "personalFilter": {
-        "title": "Requêtes de recherche",
-        "description": "Enregistrez votre requête de recherche et recevez des notifications sur les nouvelles offres ou les articles mis à jour. Les antiquités que vous recherchiez viennent désormais à vous."
+        "title": "Alertes de recherche",
+        "description": "Décrivez une fois ce que vous cherchez. Aura Historia surveille les inventaires nouveaux et mis à jour, puis remet les bonnes pièces sous vos yeux.",
+        "visual": {
+          "eyebrow": "Emplacement GIF de fonction",
+          "title": "Flux d’alerte pour nouvelles correspondances",
+          "description": "Réservé à une capture d’interface montrant critères sauvegardés, résultats d’alerte et consultation des notifications."
+        }
+      },
+      "history": {
+        "title": "Chronologie de l’objet",
+        "description": "Suivez la vie commerciale d’une annonce : indexée, mise aux enchères, vendue, retirée, republiée ou modifiée en prix — afin que les événements du marché restent visibles après la première découverte.",
+        "visual": {
+          "eyebrow": "Emplacement GIF de fonction",
+          "title": "Historique des événements d’une annonce",
+          "description": "Réservé à une capture d’interface montrant événements, changements de statut, ventes et mouvements de prix."
+        }
       },
       "aiSearchAgent": {
-        "title": "Agent de recherche IA personnel",
-        "description": "Votre agent IA personnel vous aide à trouver les antiquités les plus spécifiques. En combinaison avec les requêtes de recherche, décrivez ce que vous recherchez en langage simple - aussi détaillé que vous le souhaitez. Nous vous informerons dès que des résultats correspondent à votre description."
-      },
-      "communityWishes": {
-        "title": "Vos souhaits",
-        "description": "Vous avez une critique, quelque chose vous manque ou vous avez une idée de ce que nous devrions améliorer ou ajouter ? Nous vous écoutons attentivement. Contactez-nous à contact@aura-historia.com et nous le réaliserons."
+        "title": "Agent de recherche IA",
+        "description": "Formulez un brief en langage naturel — époque, forme, catégorie, échelle, atmosphère, budget et usage prévu — et laissez l’agent surveiller patiemment le marché.",
+        "visual": {
+          "eyebrow": "Emplacement GIF de fonction",
+          "title": "Brief de collection en langage naturel",
+          "description": "Réservé à une capture où un brief de collectionneur devient un flux de découverte suivi."
+        }
       }
     },
     "howItWorks": {
-      "title": "Comment ça marche",
-      "subtitle": "Quelques étapes seulement pour vos pièces de rêve.",
+      "title": "De la curiosité à l’acquisition réfléchie",
+      "subtitle": "Aura Historia réunit les offres dispersées de marchands, ventes et sources spécialisées afin que les pièces prometteuses restent visibles.",
       "step1": {
-        "title": "Rechercher",
-        "description": "Saisissez ce que vous cherchez – meubles, bijoux, art ou objets de collection."
+        "title": "Décrire l’objet",
+        "description": "Recherchez par époque, style, catégorie, artiste, région ou simplement par idée, dans la langue qui vous vient naturellement."
       },
       "step2": {
-        "title": "Découvrir",
-        "description": "Parcourez les résultats de milliers de marchands en un coup d'œil."
+        "title": "Lire le marché",
+        "description": "Comparez les offres actuelles de marchands, maisons de vente et places de marché dans une vue calme et sélectionnée."
       },
       "step3": {
-        "title": "Sauvegarder",
-        "description": "Enregistrez des objets intéressants dans votre liste de suivi ou sauvegardez vos critères de recherche comme une alerte."
+        "title": "Garder sous observation",
+        "description": "Ajoutez les objets prometteurs à votre liste privée et créez des alertes de recherche pour les prochaines correspondances."
       },
       "step4": {
-        "title": "Recevez des notifications",
-        "description": "Recevez une notification par email dès qu'un objet de votre liste de suivi change ou qu'un nouvel objet correspond à vos critères."
+        "title": "Agir au bon moment",
+        "description": "Nous mettons en avant les changements de prix et de statut ainsi que les nouveaux objets pertinents ; vous ouvrez la source d’origine et décidez d’acheter, d’enchérir ou de demander plus d’informations."
       }
     },
     "testimonials": {
@@ -587,82 +631,86 @@
     },
     "faq": {
       "title": "Questions fréquentes",
-      "subtitle": "Retrouvez ici les réponses aux questions les plus importantes sur Aura Historia.",
+      "subtitle": "L’essentiel sur la manière dont Aura Historia rend le marché mondial des antiquités plus lisible.",
       "items": {
         "howItWorks": {
-          "question": "Comment fonctionne Aura Historia ?",
-          "answer": "Aura Historia recherche en continu les sites web de plus de 500 marchands d'antiquités, maisons de vente aux enchères et places de marché dans le monde entier et regroupe toutes les offres en un seul endroit central. Notre recherche intelligente vous permet de trouver exactement ce que vous cherchez."
+          "question": "Qu’est-ce qu’Aura Historia ?",
+          "answer": "Aura Historia est une plateforme mondiale pour les antiquités, l’art et les objets singuliers. Nous réunissons les offres actuelles de marchands, maisons de vente, places de marché et sources spécialisées afin que collectionneurs et professionnels voient le marché plus clairement."
         },
         "directPurchase": {
-          "question": "Puis-je acheter des articles directement via Aura Historia ?",
-          "answer": "Non, Aura Historia est uniquement une plateforme de recherche. Si vous souhaitez acheter un article, vous serez redirigé directement vers le site du marchand concerné où vous pourrez finaliser l'achat."
+          "question": "Puis-je acheter directement sur Aura Historia ?",
+          "answer": "L’achat se fait auprès du vendeur d’origine. Aura Historia vous mène vers l’annonce source afin que vous puissiez vérifier directement le prix, la disponibilité, l’expédition, l’état et les conditions de paiement avant d’acheter ou d’enchérir."
         },
         "priceAlerts": {
-          "question": "Comment fonctionnent les notifications de prix et de disponibilité ?",
-          "answer": "Une fois que vous ajoutez un article à votre liste de suivi, nous suivons automatiquement son évolution de prix et de disponibilité pour vous. Dès qu'un changement survient sur votre article, vous recevez une notification par e-mail."
+          "question": "Que peut surveiller Aura Historia pour moi ?",
+          "answer": "Votre liste privée garde les pièces repérées sous observation et peut vous prévenir des changements pertinents, comme les mouvements de prix ou les mises à jour de statut. Les alertes de recherche surveillent les nouvelles offres correspondant à vos critères."
+        },
+        "language": {
+          "question": "Aura Historia aide-t-elle avec les annonces en langue étrangère ?",
+          "answer": "Oui. Les offres internationales peuvent apparaître dans différentes langues, catégories et terminologies de marchands. Aura Historia aide à ordonner ces différences sans vous demander de connaître chaque terme local."
         },
         "updateFrequency": {
-          "question": "À quelle fréquence les données sont-elles mises à jour ?",
-          "answer": "Nos données sont continuellement mises à jour. Nous opérons en quasi temps réel."
+          "question": "Les annonces sont-elles à jour ?",
+          "answer": "Nous rafraîchissons les sources en continu. La disponibilité finale dépend toutefois toujours du marchand, de la maison de vente ou de la place de marché ; les détails essentiels doivent donc être vérifiés dans l’annonce d’origine avant achat ou enchère."
         },
         "dealers": {
-          "question": "Quels magasins d'antiquités en ligne sont sur Aura Historia ?",
-          "answer": "Nous incluons des données de plus de 500 marchands d'antiquités renommés de plus de 15 pays. Parmi eux, vous trouverez à la fois de grandes maisons de vente aux enchères et des marchands spécialisés dans tous les domaines des antiquités."
+          "question": "Quelles sources sont incluses ?",
+          "answer": "Nous incluons des marchands fiables, boutiques spécialisées, maisons de vente et places de marché, y compris des sources plus petites souvent moins visibles sur les plateformes centrées sur les enchères. La couverture s’étend en continu."
         },
         "dealerRequest": {
-          "question": "Je connais un marchand/une maison de vente aux enchères/une place de marché en ligne qui n'est pas encore sur Aura Historia. Peut-on l'ajouter ?",
-          "answer": "Oui ! Envoyez-nous un e-mail à contact@aura-historia.com et incluez l'URL/lien de la boutique ainsi que toute information supplémentaire que vous souhaitez fournir. Nous vérifierons la boutique et l'ajouterons dans les heures qui suivent."
+          "question": "Puis-je suggérer un marchand ou une source ?",
+          "answer": "Oui. Envoyez l’URL et une courte note à contact@aura-historia.com. Nous vérifions si la source est pertinente, sérieuse et techniquement adaptée à une intégration."
         },
         "comparisonBarnebys": {
-          "question": "Comment Aura Historia se compare-t-elle à Barnebys ?",
-          "answer": "Bien que Barnebys soit également un moteur de recherche pour les antiquités, il se concentre uniquement sur les plus grands acteurs - les grandes maisons de vente aux enchères et les grands marchands. Cela augmente considérablement le risque de passer à côté de ce que vous recherchez réellement. Demandez-vous, où avez-vous trouvé vos plus grands trésors ? C'était probablement chez un petit marchand local ou même dans une brocante."
+          "question": "En quoi Aura Historia diffère-t-elle des agrégateurs d’enchères ?",
+          "answer": "Les agrégateurs d’enchères sont particulièrement forts sur les lots à venir ou passés. Aura Historia observe le marché plus largement : inventaires de marchands, boutiques spécialisées, places de marché et enchères dans une seule plateforme, avec listes privées, alertes de recherche et suivi du marché."
         },
         "comparisonPriceDatabase": {
-          "question": "Comment Aura Historia se compare-t-elle aux bases de données de prix comme WorthPoint et the salesroom ?",
-          "answer": "Les bases de données de prix exploitent la quantité massive de données historiques avec des résultats d'enchères datant des années 90. Bien que cela aide à trouver des comparaisons pour des pièces astronomiquement rares, cela reflète souvent mal la valeur marchande actuelle et la disponibilité des antiquités. Si votre objectif est de trouver des antiquités ou de rechercher leur valeur actuelle, Aura Historia est l'endroit idéal. Nous souhaitons également prendre une position ferme contre la monétisation des données historiques sur les prix des antiquités. Vous ne devriez pas avoir à payer pour savoir ce qui a été vendu à quel prix."
+          "question": "Aura Historia est-elle une base de données de prix ?",
+          "answer": "Non. Les prix d’adjudication historiques peuvent être utiles, mais ils ne montrent pas automatiquement ce qui est disponible aujourd’hui. Aura Historia se concentre sur la disponibilité actuelle, le suivi et les signaux de marché au bon moment."
         }
       }
     },
     "pricing": {
-      "title": "Choisissez votre plan",
-      "subtitle": "Des collectionneurs occasionnels aux professionnels — nous avons le plan qui vous convient.",
+      "title": "Choisissez votre accès",
+      "subtitle": "Commencez gratuitement. Changez de formule lorsque listes privées, alertes et veille du marché deviennent une part régulière de votre recherche.",
       "comingSoon": "Bientôt disponible",
       "mostPopular": "Le plus populaire",
       "free": {
         "name": "Gratuit",
-        "description": "Parfait pour débuter dans le monde des antiquités.",
+        "description": "Pour les premières recherches, les trouvailles spontanées et une petite sélection privée.",
         "features": {
-          "watchlistItems": "20 articles sur la liste de suivi",
+          "unlimitedSearches": "Recherches illimitées",
+          "watchlistItems": "20 objets dans la liste privée",
           "searchAlerts": "1 alerte de recherche",
-          "alertMatches": "10 résultats d'alertes par mois",
-          "alertType": "Alertes de recherche simples uniquement",
-          "notificationSpeed": "Notification sous quelques heures",
-          "searchType": "Recherche textuelle classique"
+          "alertMatches": "10 nouvelles correspondances d’alerte par mois",
+          "alertType": "Veille de marché essentielle",
+          "notificationSpeed": "Notifications sous quelques heures"
         }
       },
       "pro": {
         "name": "Pro",
-        "description": "Pour les collectionneurs passionnés qui veulent en découvrir plus.",
+        "description": "Pour les collectionneurs qui suivent des pièces sérieuses à travers les sources et le temps.",
         "features": {
-          "watchlistItems": "100 articles sur la liste de suivi",
+          "unlimitedSearches": "Recherches illimitées",
+          "watchlistItems": "100 objets dans la liste privée",
           "searchAlerts": "5 alertes de recherche",
-          "alertMatches": "Résultats d'alertes illimités par mois",
-          "alertType": "Alertes de recherche complètes",
-          "notificationSpeed": "Notifications en temps réel",
-          "searchType": "Recherche hybride — trouve par mot-clé et par sens"
+          "alertMatches": "Correspondances d’alertes illimitées",
+          "alertType": "Surveillance avancée du marché",
+          "notificationSpeed": "Notifications en temps réel"
         }
       },
       "ultimate": {
         "name": "Ultimate",
-        "description": "Pour les professionnels qui veulent exploiter tout le potentiel.",
+        "description": "Pour collectionneurs exigeants, décorateurs et professionnels avec un brief de marché permanent.",
         "features": {
-          "watchlistItems": "Liste de suivi illimitée",
+          "unlimitedSearches": "Recherches illimitées",
+          "watchlistItems": "Liste privée illimitée",
           "searchAlerts": "Alertes de recherche illimitées",
-          "alertMatches": "Résultats d'alertes illimités par mois",
-          "alertType": "Alertes de recherche complètes",
-          "notificationSpeed": "Notifications en temps réel prioritaires",
-          "searchType": "Recherche hybride (Texte + Sémantique)",
-          "aiAgent": "Agent de recherche IA"
+          "alertMatches": "Correspondances d’alertes illimitées",
+          "alertType": "Surveillance avancée du marché",
+          "notificationSpeed": "Notifications prioritaires en temps réel",
+          "aiAgent": "Agent de découverte IA"
         }
       },
       "billingNote": "mensuel, TVA incluse",

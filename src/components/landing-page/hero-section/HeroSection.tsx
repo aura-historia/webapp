@@ -5,7 +5,6 @@ import { Trans, useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { Shield } from "lucide-react";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
-import { TRUST_BADGE_KEYS } from "@/components/landing-page/hero-section/HeroSection.data.ts";
 
 export default function HeroSection() {
     const { t } = useTranslation();
@@ -24,11 +23,11 @@ export default function HeroSection() {
                 src="https://assets.aura-historia.com/webapp/landing-page/lorrain.webp"
                 alt=""
                 aria-hidden="true"
-                className="absolute inset-0 w-full h-full object-cover object-center opacity-40"
+                className="absolute inset-0 w-full h-full object-cover object-center opacity-50"
             />
 
             {/* Overlay */}
-            <div className="absolute inset-0 bg-linear-to-b from-background/00 via-background/50 to-background" />
+            <div className="absolute inset-0 bg-linear-to-b from-background/00 via-background/20 to-background" />
 
             <div className="w-full max-w-4xl px-4 pt-8 relative z-10">
                 <div className="text-center">
@@ -50,16 +49,6 @@ export default function HeroSection() {
                 >
                     <SearchBar type={"big"} />
                 </Card>
-                <div className="w-full px-4 sm:px-0">
-                    <div className="flex flex-wrap justify-center gap-4 sm:gap-6 my-4 sm:mt-8 text-sm text-muted-foreground">
-                        {TRUST_BADGE_KEYS.map((badgeKey) => (
-                            <div key={badgeKey} className={"flex gap-2 sm:gap-6"}>
-                                <span key={badgeKey}>{t(badgeKey)}</span>
-                                {badgeKey !== TRUST_BADGE_KEYS.at(-1) && <span>•</span>}
-                            </div>
-                        ))}
-                    </div>
-                </div>
             </div>
         </section>
     );
