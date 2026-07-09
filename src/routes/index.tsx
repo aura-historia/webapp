@@ -93,7 +93,7 @@ function LandingPage() {
             <div id={LANDING_PAGE_FRAGMENTS.testimonials} className="scroll-mt-24">
                 <TestimonialsSection />
             </div>
-            <div id={LANDING_PAGE_FRAGMENTS.pricing} className="scroll-mt-24">
+            <div id={LANDING_PAGE_FRAGMENTS.pricing} className="scroll-mt-24" hidden>
                 <PricingSection />
             </div>
             <div id={LANDING_PAGE_FRAGMENTS.newsletter} className="scroll-mt-24">
