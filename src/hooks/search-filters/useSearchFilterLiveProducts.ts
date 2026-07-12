@@ -1,4 +1,4 @@
-import { getSearchFilterLiveProducts } from "@/client";
+import { getSearchFilterPreviewProducts } from "@/client";
 import {
     mapPersonalizedGetProductSummaryDataToOverviewProduct,
     type OverviewProduct,
@@ -22,7 +22,7 @@ export function useSearchFilterLiveProducts(
         queryKey: ["searchFilterLiveProducts", id, i18n.language, preferences.currency],
         enabled: !!id && enabled,
         queryFn: async () => {
-            const result = await getSearchFilterLiveProducts({
+            const result = await getSearchFilterPreviewProducts({
                 path: { userSearchFilterId: id },
                 query: {
                     language: parseLanguage(i18n.language),

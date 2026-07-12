@@ -1309,6 +1309,18 @@
       "addedOn": "Added on {{date}}",
       "metaDescription": "Explore antiques and collectibles from {{shop}} on Aura Historia."
     },
+    "location": {
+      "eyebrow": "Location dossier",
+      "title": "Where to find this shop",
+      "description": "Structured location intelligence for {{shop}}, shown when the public merchant record includes reliable address data.",
+      "shopFallbackType": "shop",
+      "noAddress": "We have coordinates for this shop type ({{shopType}}), but no public postal address yet.",
+      "noLocation": "We do not yet have location information for this shop type: {{shopType}}.",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "mapTitle": "Map showing the location of {{shop}}",
+      "openMap": "Open map"
+    },
     "products": {
       "loadingMore": "Loading more items...",
       "allLoaded_one": "You have seen {{count}} item from this shop.",

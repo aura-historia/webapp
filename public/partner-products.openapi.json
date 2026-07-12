@@ -766,6 +766,7 @@
           "shopType",
           "title",
           "state",
+          "lifecycle",
           "url",
           "viewUrl",
           "images",
@@ -857,6 +858,9 @@
           "state": {
             "$ref": "#/components/schemas/ProductStateData"
           },
+          "lifecycle": {
+            "$ref": "#/components/schemas/ProductLifecycleData"
+          },
           "url": {
             "type": "string",
             "format": "uri",
@@ -917,6 +921,7 @@
           "shopType",
           "title",
           "state",
+          "lifecycle",
           "url",
           "viewUrl",
           "images",
@@ -980,6 +985,9 @@
           },
           "state": {
             "$ref": "#/components/schemas/ProductStateData"
+          },
+          "lifecycle": {
+            "$ref": "#/components/schemas/ProductLifecycleData"
           },
           "url": {
             "type": "string",
@@ -1217,7 +1225,7 @@
           },
           "matchReason": {
             "type": "string",
-            "description": "A human-readable explanation of why the saved search filter matched this product.\nOnly set for AI-enhanced filters (i.e. those with an `enhancedSearchDescription`).\nPresent only when `matched` is `true` and an enhanced match reason exists; omitted otherwise.\n",
+            "description": "A human-readable explanation of why the saved search filter matched this product.\nOnly set for AI-enhanced filters (i.e. those with `search.enhancedSearchDescription`).\nPresent only when `matched` is `true` and an enhanced match reason exists; omitted otherwise.\n",
             "example": "Product matches the vintage Art Deco style described in your search filter."
           },
           "matchFeedback": {
@@ -1505,6 +1513,15 @@
         "description": "Current state of the product:\n- LISTED: Product has been listed\n- AVAILABLE: Product is available for purchase\n- RESERVED: Product is reserved by a buyer\n- SOLD: Product has been sold\n- REMOVED: Product has been removed and can no longer be tracked\n- UNKNOWN: Product has an unknown state\n",
         "example": "AVAILABLE"
       },
+      "ProductLifecycleData": {
+        "type": "string",
+        "enum": [
+          "ACTIVE",
+          "DELETED"
+        ],
+        "description": "Lifecycle state of the product:\n- ACTIVE: Product is visible in normal discovery flows\n- DELETED: Product has been soft-deleted\n",
+        "example": "ACTIVE"
+      },
       "AuctionData": {
         "type": "object",
         "description": "Auction time window information for products from auction houses.\nContains optional start and end timestamps for scheduled auctions.\nAt least one of the fields (start or end) must be present when this object is included.\n",
@@ -1745,11 +1762,36 @@
             "$ref": "#/components/schemas/CurrencyData"
           },
           "productQuery": {
+            "type": "array",
+            "description": "Optional text queries for searching products. Multiple entries are ORed together. Empty list means no text query.",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "example": [
+              "smartphone case",
+              "mobile phone case"
+            ]
+          },
+          "enhancedSearchDescription": {
             "type": "string",
-            "description": "Optional text query for searching products (minimum 1 character when provided)",
-            "minLength": 1,
             "nullable": true,
-            "example": "smartphone case"
+            "description": "Optional natural-language description used by the AI-enhanced search filter matching service.\nWhen provided on a saved search filter, a language model evaluates each matched product against\nthis description and only keeps products that are a true match, attaching a user-facing reason\nto every confirmed hit.\nWhitespace is trimmed and the value is silently truncated to 1000 characters if longer.\n",
+            "maxLength": 1000,
+            "example": "Golden cufflinks from the Art Deco period, preferably from French workshops"
+          },
+          "excludeProductId": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Optional product IDs to exclude from search results.",
+            "uniqueItems": true,
+            "default": [],
+            "example": [
+              "550e8400-e29b-41d4-a716-446655440000"
+            ]
           },
           "shopName": {
             "type": "array",
@@ -1977,13 +2019,6 @@
             "maxLength": 255,
             "example": "My Tech Store Search"
           },
-          "enhancedSearchDescription": {
-            "type": "string",
-            "nullable": true,
-            "description": "Optional natural-language description used by the AI-enhanced search filter matching service.\nWhen provided, a language model evaluates each matched product against this description and only\nkeeps products that are a true match, attaching a user-facing reason to every confirmed hit.\nWhitespace is trimmed and the value is silently truncated to 1000 characters if longer.\n",
-            "maxLength": 1000,
-            "example": "Golden cufflinks from the Art Deco period, preferably from French workshops"
-          },
           "search": {
             "$ref": "#/components/schemas/ProductSearchData"
           }
@@ -1991,7 +2026,7 @@
       },
       "PatchUserSearchFilterData": {
         "type": "object",
-        "description": "Partial search filter update data.\nAll fields are optional and only provided fields will be updated.\nCan update the search filter name, enhanced search description, notifications preference, activation state, and/or the search filter criteria.\n",
+        "description": "Partial search filter update data.\nAll fields are optional and only provided fields will be updated.\nCan update the search filter name, notifications preference, activation state, and/or the search filter criteria.\n",
         "properties": {
           "name": {
             "type": "string",
@@ -1999,13 +2034,6 @@
             "maxLength": 255,
             "nullable": true,
             "example": "Updated Filter Name"
-          },
-          "enhancedSearchDescription": {
-            "type": "string",
-            "description": "Optional natural-language description used by the AI-enhanced search filter matching service.\nWhen provided, a language model evaluates each matched product against this description and only\nkeeps products that are a true match, attaching a user-facing reason to every confirmed hit.\nWhitespace is trimmed and the value is silently truncated to 1000 characters if longer.\nOmit to leave unchanged.\n",
-            "maxLength": 1000,
-            "nullable": true,
-            "example": "Golden cufflinks from the Art Deco period, preferably from French workshops"
           },
           "notifications": {
             "type": "boolean",
@@ -2068,11 +2096,24 @@
             "description": "Currency for price display"
           },
           "productQuery": {
-            "type": "string",
-            "description": "Text query for searching products (minimum 1 character when provided)",
-            "minLength": 1,
+            "type": "array",
+            "description": "Text queries for searching products. Multiple entries are ORed together. Empty list clears the text query when patching.",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
             "nullable": true,
-            "example": "laptop bag"
+            "example": [
+              "laptop bag",
+              "notebook bag"
+            ]
+          },
+          "enhancedSearchDescription": {
+            "type": "string",
+            "description": "Optional natural-language description used by the AI-enhanced search filter matching service.\nWhen provided on a saved search filter, a language model evaluates each matched product against\nthis description and only keeps products that are a true match, attaching a user-facing reason\nto every confirmed hit.\nWhitespace is trimmed and the value is silently truncated to 1000 characters if longer.\nOmit to leave unchanged.\n",
+            "maxLength": 1000,
+            "nullable": true,
+            "example": "Golden cufflinks from the Art Deco period, preferably from French workshops"
           },
           "shopName": {
             "type": "array",
@@ -2317,12 +2358,6 @@
             "type": "string",
             "description": "User-defined name for the search filter",
             "example": "My Tech Store Search"
-          },
-          "enhancedSearchDescription": {
-            "type": "string",
-            "description": "Optional natural-language description used by the AI-enhanced search filter matching service.\nPresent only when an enhanced search description was set on this filter.\n",
-            "maxLength": 1000,
-            "example": "Golden cufflinks from the Art Deco period, preferably from French workshops"
           },
           "notifications": {
             "type": "boolean",

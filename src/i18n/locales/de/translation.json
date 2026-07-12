@@ -1307,6 +1307,18 @@
       "addedOn": "Hinzugefügt am {{date}}",
       "metaDescription": "Entdecken Sie Antiquitäten und Sammlerstücke von {{shop}} auf Aura Historia."
     },
+    "location": {
+      "eyebrow": "Standort-Dossier",
+      "title": "Wo Sie diesen Shop finden",
+      "description": "Strukturierte Standortinformationen zu {{shop}}, sofern der öffentliche Händlerdatensatz verlässliche Adressdaten enthält.",
+      "shopFallbackType": "Shop",
+      "noAddress": "Wir haben Koordinaten für diesen Shop-Typ ({{shopType}}), aber noch keine öffentliche Postanschrift.",
+      "noLocation": "Wir haben noch keine Standortinformationen für diesen Shop-Typ: {{shopType}}.",
+      "latitude": "Breitengrad",
+      "longitude": "Längengrad",
+      "mapTitle": "Karte mit dem Standort von {{shop}}",
+      "openMap": "Karte öffnen"
+    },
     "products": {
       "loadingMore": "Weitere Artikel werden geladen...",
       "allLoaded_one": "Sie haben {{count}} Artikel aus diesem Shop gesehen.",

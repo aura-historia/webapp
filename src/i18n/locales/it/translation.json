@@ -1275,6 +1275,18 @@
       "addedOn": "Aggiunto il {{date}}",
       "metaDescription": "Esplora antiquariato e oggetti da collezione di {{shop}} su Aura Historia."
     },
+    "location": {
+      "eyebrow": "Dossier posizione",
+      "title": "Dove trovare questo negozio",
+      "description": "Informazioni strutturate sulla posizione di {{shop}}, mostrate quando il profilo pubblico del commerciante include dati di indirizzo affidabili.",
+      "shopFallbackType": "negozio",
+      "noAddress": "Abbiamo coordinate per questo tipo di negozio ({{shopType}}), ma non ancora un indirizzo postale pubblico.",
+      "noLocation": "Non abbiamo ancora informazioni sulla posizione per questo tipo di negozio: {{shopType}}.",
+      "latitude": "Latitudine",
+      "longitude": "Longitudine",
+      "mapTitle": "Mappa che mostra la posizione di {{shop}}",
+      "openMap": "Apri mappa"
+    },
     "products": {
       "loadingMore": "Caricamento di altri articoli...",
       "allLoaded_one": "Hai visualizzato {{count}} articolo di questo negozio.",

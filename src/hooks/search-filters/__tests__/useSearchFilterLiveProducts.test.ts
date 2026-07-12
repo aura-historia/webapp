@@ -6,7 +6,7 @@ import { createElement } from "react";
 const mockGetSearchFilterLiveProducts = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn(() => "Fehler"));
 
-vi.mock("@/client", () => ({ getSearchFilterLiveProducts: mockGetSearchFilterLiveProducts }));
+vi.mock("@/client", () => ({ getSearchFilterPreviewProducts: mockGetSearchFilterLiveProducts }));
 vi.mock("@/hooks/common/useApiError", () => ({
     useApiError: () => ({ getErrorMessage: mockGetErrorMessage }),
 }));
@@ -48,7 +48,7 @@ describe("useSearchFilterLiveProducts", () => {
         await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
         expect(result.current.data).toHaveLength(1);
-        expect(result.current.data![0].shopId).toBe("shop-1");
+        expect(result.current.data?.[0].shopId).toBe("shop-1");
     });
 
     it("calls API with correct path and query params", async () => {

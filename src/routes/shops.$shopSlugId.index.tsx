@@ -6,6 +6,7 @@ import { generateShopHeadMeta } from "@/lib/seo/shop/shopHeadMeta.ts";
 import { ShopPageSkeleton } from "@/components/shop/ShopPageSkeleton.tsx";
 import { ShopHeader } from "@/components/shop/ShopHeader.tsx";
 import { ShopProductGrid } from "@/components/shop/ShopProductGrid.tsx";
+import { ShopLocationSection } from "@/components/shop/ShopLocationSection.tsx";
 import { useCallback, useMemo, useState } from "react";
 import { isApiNotFoundError } from "@/lib/api/apiError.ts";
 
@@ -49,11 +50,9 @@ function ShopDetailComponent() {
     return (
         <div className="bg-background">
             <ShopHeader shop={shop} productCount={productCount} />
+            <ShopLocationSection shop={shop} />
             <div className="mx-auto w-full max-w-7xl px-4 pb-16 md:px-10">
-                <div aria-hidden="true" className="border-t border-border/30 hidden md:block" />
-                <div className="pt-8">
-                    <ShopProductGrid shopName={shop.name} onTotalChange={handleTotalChange} />
-                </div>
+                <ShopProductGrid shopName={shop.name} onTotalChange={handleTotalChange} />
             </div>
         </div>
     );
