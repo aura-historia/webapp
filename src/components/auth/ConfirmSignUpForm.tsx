@@ -107,7 +107,7 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
                                         disabled={form.formState.isSubmitting}
                                         containerClassName="justify-center"
                                         onComplete={() => {
-                                            void form.handleSubmit(onSubmit)();
+                                            form.handleSubmit(onSubmit)();
                                         }}
                                     >
                                         <InputOTPGroup>
