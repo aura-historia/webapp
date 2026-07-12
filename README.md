@@ -64,7 +64,7 @@ Required secrets in GitHub Actions:
 - `CLOUDFLARE_API_TOKEN` - Cloudflare API token with Workers deployment permissions
 - `CLOUDFLARE_ACCOUNT_ID` - Your Cloudflare account ID
 - `VITE_USER_POOL_ID` - AWS Cognito User Pool ID
-- `VITE_CLIENT_ID` - AWS Cognito Client ID
+- `VITE_USER_POOL_CLIENT_ID` - AWS Cognito User Pool Client ID
 
 ## Testing
 
