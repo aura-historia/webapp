@@ -15,7 +15,7 @@ vi.mock("@/i18n/i18n.ts", () => ({
 vi.mock("@/env", () => ({
     env: {
         VITE_USER_POOL_ID: "test-pool-id",
-        VITE_CLIENT_ID: "test-client-id",
+        VITE_USER_POOL_CLIENT_ID: "test-client-id",
         VITE_FEATURE_LOGIN_ENABLED: true,
         VITE_FEATURE_SEARCH_ENABLED: true,
     },
