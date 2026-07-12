@@ -1277,23 +1277,20 @@
     },
     "location": {
       "eyebrow": "Dossier posizione",
-      "title": "Dove trovare questo negozio",
-      "description": "Informazioni strutturate sulla posizione di {{shop}}, mostrate quando il profilo pubblico del commerciante include dati di indirizzo affidabili.",
-      "shopFallbackType": "negozio",
-      "noAddress": "Abbiamo coordinate per questo tipo di negozio ({{shopType}}), ma non ancora un indirizzo postale pubblico.",
-      "noLocation": "Non abbiamo ancora informazioni sulla posizione per questo tipo di negozio: {{shopType}}.",
-      "latitude": "Latitudine",
-      "longitude": "Longitudine",
+      "title": "Dove trovare {{shopTypeArticle}}",
+      "description": "Indirizzo e mappa di {{shop}}, quando queste informazioni sono disponibili pubblicamente.",
+      "noAddress": "Sappiamo dove si trova {{shopTypeArticle}}, ma non è ancora disponibile un indirizzo pubblico.",
+      "noLocation": "Non abbiamo ancora informazioni sulla posizione per {{shopTypeArticle}}.",
       "mapTitle": "Mappa che mostra la posizione di {{shop}}",
       "openMap": "Apri mappa"
     },
     "products": {
       "loadingMore": "Caricamento di altri articoli...",
-      "allLoaded_one": "Hai visualizzato {{count}} articolo di questo negozio.",
-      "allLoaded_other": "Hai visualizzato tutti i {{count}} articoli di questo negozio.",
+      "allLoaded_one": "Hai visto {{count}} articolo {{shopTypePossessive}}.",
+      "allLoaded_other": "Hai visto tutti i {{count}} articoli {{shopTypePossessive}}.",
       "noResults": {
         "title": "Nessun articolo trovato",
-        "description": "Al momento non ci sono articoli di questo negozio."
+        "description": "Al momento non ci sono articoli {{shopTypePossessive}}."
       },
       "error": {
         "title": "Impossibile caricare gli articoli",
@@ -1302,7 +1299,10 @@
     },
     "card": {
       "viewShop": "Vedi negozio"
-    }
+    },
+    "typeFallback": "venditore",
+    "typePossessiveFallback": "di questo venditore",
+    "typeArticleFallback": "questo venditore"
   },
   "notifications": {
     "title": "Notifiche",
@@ -2203,5 +2203,17 @@
       "shopsManage": "Gestisci negozi",
       "productsWrite": "Scrivi prodotti"
     }
+  },
+  "shopTypePossessive": {
+    "auctionHouse": "di questa casa d’aste",
+    "auctionPlatform": "di questa piattaforma d’aste",
+    "commercialDealer": "di questo venditore",
+    "marketplace": "di questo marketplace"
+  },
+  "shopTypeArticle": {
+    "auctionHouse": "questa casa d’aste",
+    "auctionPlatform": "questa piattaforma d’aste",
+    "commercialDealer": "questo venditore",
+    "marketplace": "questo marketplace"
   }
 }

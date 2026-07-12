@@ -1311,23 +1311,20 @@
     },
     "location": {
       "eyebrow": "Location dossier",
-      "title": "Where to find this shop",
-      "description": "Structured location intelligence for {{shop}}, shown when the public merchant record includes reliable address data.",
-      "shopFallbackType": "shop",
-      "noAddress": "We have coordinates for this shop type ({{shopType}}), but no public postal address yet.",
-      "noLocation": "We do not yet have location information for this shop type: {{shopType}}.",
-      "latitude": "Latitude",
-      "longitude": "Longitude",
+      "title": "Where to find {{shopTypeArticle}}",
+      "description": "Address and map for {{shop}}, where this information is publicly available.",
+      "noAddress": "We know where {{shopTypeArticle}} is located, but no public street address is available yet.",
+      "noLocation": "We do not yet have location information for {{shopTypeArticle}}.",
       "mapTitle": "Map showing the location of {{shop}}",
       "openMap": "Open map"
     },
     "products": {
       "loadingMore": "Loading more items...",
-      "allLoaded_one": "You have seen {{count}} item from this shop.",
-      "allLoaded_other": "You have seen all {{count}} items from this shop.",
+      "allLoaded_one": "You have seen {{count}} item {{shopTypePossessive}}.",
+      "allLoaded_other": "You have seen all {{count}} items {{shopTypePossessive}}.",
       "noResults": {
         "title": "No items found",
-        "description": "There are currently no items from this shop."
+        "description": "There are currently no items from this {{shopType}}."
       },
       "error": {
         "title": "Could not load items",
@@ -1336,7 +1333,10 @@
     },
     "card": {
       "viewShop": "View shop"
-    }
+    },
+    "typeFallback": "dealer",
+    "typePossessiveFallback": "from this dealer",
+    "typeArticleFallback": "this dealer"
   },
   "searchFilter": {
     "saveButton": "Save Search Filter",
@@ -2203,5 +2203,17 @@
       "description": "If your search should include the places where antiques are actually sold online, start with Aura Historia.",
       "button": "Start searching antiques"
     }
+  },
+  "shopTypePossessive": {
+    "auctionHouse": "from this auction house",
+    "auctionPlatform": "from this auction platform",
+    "commercialDealer": "from this dealer",
+    "marketplace": "from this marketplace"
+  },
+  "shopTypeArticle": {
+    "auctionHouse": "this auction house",
+    "auctionPlatform": "this auction platform",
+    "commercialDealer": "this dealer",
+    "marketplace": "this marketplace"
   }
 }

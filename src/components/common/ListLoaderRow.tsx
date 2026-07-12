@@ -11,6 +11,7 @@ type ListLoaderRowProps = {
     readonly loadingMoreKey?: string;
     readonly allLoadedKey?: string;
     readonly allLoadedFallbackKey?: string;
+    readonly allLoadedValues?: Record<string, string>;
 };
 
 export function ListLoaderRow({
@@ -19,6 +20,7 @@ export function ListLoaderRow({
     loadingMoreKey = "search.messages.loadingMore",
     allLoadedKey = "search.messages.allLoaded",
     allLoadedFallbackKey = "search.messages.allLoadedFallback",
+    allLoadedValues,
 }: ListLoaderRowProps) {
     const { t } = useTranslation();
 
@@ -37,8 +39,8 @@ export function ListLoaderRow({
                         </div>
                         <SectionInfoText>
                             {totalCount
-                                ? t(allLoadedKey, { count: totalCount })
-                                : t(allLoadedFallbackKey)}
+                                ? t(allLoadedKey, { count: totalCount, ...allLoadedValues })
+                                : t(allLoadedFallbackKey, allLoadedValues)}
                         </SectionInfoText>
                     </div>
                 )}

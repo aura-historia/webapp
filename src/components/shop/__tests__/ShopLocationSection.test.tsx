@@ -35,7 +35,7 @@ describe("ShopLocationSection", () => {
         );
 
         expect(
-            screen.getByRole("heading", { name: "Wo Sie diesen Shop finden" }),
+            screen.getByRole("heading", { name: "Wo Sie dieses Auktionshaus finden" }),
         ).toBeInTheDocument();
         expect(screen.getByText("8 King St")).toBeInTheDocument();
         expect(screen.getByText("St. James's")).toBeInTheDocument();
@@ -60,8 +60,8 @@ describe("ShopLocationSection", () => {
             "src",
             expect.stringContaining("openstreetmap.org/export/embed.html"),
         );
-        expect(screen.getByText("51.50740")).toBeInTheDocument();
-        expect(screen.getByText("-0.12780")).toBeInTheDocument();
+        expect(screen.queryByText("51.50740")).not.toBeInTheDocument();
+        expect(screen.queryByText("-0.12780")).not.toBeInTheDocument();
         expect(screen.getByRole("link", { name: "Karte öffnen" })).toHaveAttribute(
             "href",
             expect.stringContaining("openstreetmap.org"),
@@ -92,9 +92,7 @@ describe("ShopLocationSection", () => {
         render(<ShopLocationSection shop={mockShop} />);
 
         expect(
-            screen.getByText(
-                "Wir haben noch keine Standortinformationen für diesen Shop-Typ: Auktionshaus.",
-            ),
+            screen.getByText("Wir haben noch keine Standortinformationen für dieses Auktionshaus."),
         ).toBeInTheDocument();
         expect(
             screen.queryByTitle("Karte mit dem Standort von Christie's"),

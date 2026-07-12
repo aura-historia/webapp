@@ -1277,23 +1277,20 @@
     },
     "location": {
       "eyebrow": "Dossier de localisation",
-      "title": "Où trouver cette boutique",
-      "description": "Informations de localisation structurées pour {{shop}}, affichées lorsque la fiche publique du marchand contient des données d’adresse fiables.",
-      "shopFallbackType": "boutique",
-      "noAddress": "Nous avons des coordonnées pour ce type de boutique ({{shopType}}), mais pas encore d’adresse postale publique.",
-      "noLocation": "Nous ne disposons pas encore d’informations de localisation pour ce type de boutique : {{shopType}}.",
-      "latitude": "Latitude",
-      "longitude": "Longitude",
+      "title": "Où trouver {{shopTypeArticle}}",
+      "description": "Adresse et carte de {{shop}}, lorsque ces informations sont disponibles publiquement.",
+      "noAddress": "Nous savons où se trouve {{shopTypeArticle}}, mais aucune adresse publique n’est encore disponible.",
+      "noLocation": "Nous ne disposons pas encore d’informations de localisation pour {{shopTypeArticle}}.",
       "mapTitle": "Carte indiquant l’emplacement de {{shop}}",
       "openMap": "Ouvrir la carte"
     },
     "products": {
       "loadingMore": "Chargement d'autres articles...",
-      "allLoaded_one": "Vous avez consulté {{count}} article de cette boutique.",
-      "allLoaded_other": "Vous avez consulté les {{count}} articles de cette boutique.",
+      "allLoaded_one": "Vous avez vu {{count}} article {{shopTypePossessive}}.",
+      "allLoaded_other": "Vous avez vu les {{count}} articles {{shopTypePossessive}}.",
       "noResults": {
         "title": "Aucun article trouvé",
-        "description": "Il n'y a actuellement aucun article de cette boutique."
+        "description": "Aucun article {{shopTypePossessive}} n’est disponible pour le moment."
       },
       "error": {
         "title": "Impossible de charger les articles",
@@ -1302,7 +1299,10 @@
     },
     "card": {
       "viewShop": "Voir la boutique"
-    }
+    },
+    "typeFallback": "marchand",
+    "typePossessiveFallback": "de ce marchand",
+    "typeArticleFallback": "ce marchand"
   },
   "notifications": {
     "title": "Notifications",
@@ -2203,5 +2203,17 @@
       "shopsManage": "Gérer les boutiques",
       "productsWrite": "Écrire des produits"
     }
+  },
+  "shopTypePossessive": {
+    "auctionHouse": "de cette maison de ventes",
+    "auctionPlatform": "de cette plateforme d’enchères",
+    "commercialDealer": "de ce marchand",
+    "marketplace": "de cette place de marché"
+  },
+  "shopTypeArticle": {
+    "auctionHouse": "cette maison de ventes",
+    "auctionPlatform": "cette plateforme d’enchères",
+    "commercialDealer": "ce marchand",
+    "marketplace": "cette place de marché"
   }
 }

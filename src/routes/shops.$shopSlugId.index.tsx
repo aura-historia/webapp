@@ -52,7 +52,11 @@ function ShopDetailComponent() {
             <ShopHeader shop={shop} productCount={productCount} />
             <ShopLocationSection shop={shop} />
             <div className="mx-auto w-full max-w-7xl px-4 pb-16 md:px-10">
-                <ShopProductGrid shopName={shop.name} onTotalChange={handleTotalChange} />
+                <ShopProductGrid
+                    shopName={shop.name}
+                    shopType={shop.shopType}
+                    onTotalChange={handleTotalChange}
+                />
             </div>
         </div>
     );

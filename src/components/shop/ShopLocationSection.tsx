@@ -121,7 +121,10 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
     const mapExternalUrl = buildMapExternalUrl(shop.geoAddress, textualAddress);
     const shopTypeName = shop.shopType
         ? t(SHOP_TYPE_TRANSLATION_CONFIG[shop.shopType].translationKey)
-        : t("shop.location.shopFallbackType");
+        : t("shop.typeFallback");
+    const shopTypeArticle = shop.shopType
+        ? t(SHOP_TYPE_TRANSLATION_CONFIG[shop.shopType].articleTranslationKey)
+        : t("shop.typeArticleFallback");
 
     return (
         <section className="mx-auto w-full max-w-7xl px-4 pb-14 md:px-10 md:pb-18">
@@ -132,42 +135,35 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
                             {t("shop.location.eyebrow")}
                         </p>
                         <H2 className="text-3xl font-normal italic leading-tight md:text-4xl">
-                            {t("shop.location.title")}
+                            {t("shop.location.title", { shopTypeArticle })}
                         </H2>
                         <p className="max-w-xl text-sm leading-6 text-muted-foreground">
-                            {t("shop.location.description", { shop: shop.name })}
+                            {t("shop.location.description", {
+                                shop: shop.name,
+                                shopType: shopTypeName,
+                            })}
                         </p>
                     </div>
 
                     {addressLines.length > 0 ? (
                         <address className="space-y-1 font-sans text-base not-italic leading-7 text-on-surface">
                             {addressLines.map((line) => (
-                                <span key={line.id} className="block">
+                                <span
+                                    key={line.id}
+                                    className={
+                                        line.id === "country"
+                                            ? "mt-4 inline-flex bg-tertiary-fixed px-3 py-1 font-sans text-xs font-semibold uppercase tracking-[0.16em] text-primary"
+                                            : "block"
+                                    }
+                                >
                                     {line.value}
                                 </span>
                             ))}
                         </address>
                     ) : (
                         <div className="bg-surface-container-high p-5 text-sm leading-6 text-muted-foreground">
-                            {t("shop.location.noAddress", { shopType: shopTypeName })}
+                            {t("shop.location.noAddress", { shopTypeArticle })}
                         </div>
-                    )}
-
-                    {shop.geoAddress && (
-                        <dl className="grid grid-cols-2 gap-3 text-xs uppercase tracking-[0.16em] text-muted-foreground">
-                            <div className="bg-surface-container-low p-3">
-                                <dt>{t("shop.location.latitude")}</dt>
-                                <dd className="mt-1 font-sans text-sm tracking-normal text-on-surface">
-                                    {shop.geoAddress.lat.toFixed(5)}
-                                </dd>
-                            </div>
-                            <div className="bg-surface-container-low p-3">
-                                <dt>{t("shop.location.longitude")}</dt>
-                                <dd className="mt-1 font-sans text-sm tracking-normal text-on-surface">
-                                    {shop.geoAddress.lon.toFixed(5)}
-                                </dd>
-                            </div>
-                        </dl>
                     )}
                 </div>
 
@@ -203,7 +199,7 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
                         <div className="flex h-full min-h-76 flex-col items-center justify-center gap-4 bg-surface-container-lowest p-8 text-center md:min-h-106">
                             <MapPin className="size-10 text-tertiary" aria-hidden="true" />
                             <p className="max-w-md font-display text-2xl italic text-primary">
-                                {t("shop.location.noLocation", { shopType: shopTypeName })}
+                                {t("shop.location.noLocation", { shopTypeArticle })}
                             </p>
                         </div>
                     )}
