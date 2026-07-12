@@ -1302,7 +1302,12 @@
     },
     "typeFallback": "vendedor",
     "typePossessiveFallback": "de este vendedor",
-    "typeArticleFallback": "este vendedor"
+    "typeArticleFallback": "este vendedor",
+    "contact": {
+      "eyebrow": "Contacto",
+      "email": "Correo electrónico",
+      "phone": "Teléfono"
+    }
   },
   "notifications": {
     "title": "Notificaciones",

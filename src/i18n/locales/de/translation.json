@@ -1334,7 +1334,12 @@
     },
     "typeFallback": "Händler",
     "typePossessiveFallback": "dieses Händlers",
-    "typeArticleFallback": "diesen Händler"
+    "typeArticleFallback": "diesen Händler",
+    "contact": {
+      "eyebrow": "Kontakt",
+      "email": "E-Mail",
+      "phone": "Telefon"
+    }
   },
   "searchFilter": {
     "saveButton": "Suchauftrag speichern",

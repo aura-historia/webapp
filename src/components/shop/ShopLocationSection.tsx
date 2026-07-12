@@ -2,7 +2,7 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import type { GeoAddress, ShopDetail, StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
-import { ArrowUpRight, MapPin } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const MAP_DELTA = 0.01;
@@ -94,6 +94,10 @@ function buildMapEmbedUrl(geoAddress: GeoAddress | undefined, textualAddress: st
     return undefined;
 }
 
+function buildPhoneHref(phone: string) {
+    return `tel:${phone.replace(/(?!^)\+|[^\d+]/g, "")}`;
+}
+
 function buildMapExternalUrl(geoAddress: GeoAddress | undefined, textualAddress: string) {
     if (geoAddress) {
         const params = new URLSearchParams({
@@ -125,6 +129,7 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
     const shopTypeArticle = shop.shopType
         ? t(SHOP_TYPE_TRANSLATION_CONFIG[shop.shopType].articleTranslationKey)
         : t("shop.typeArticleFallback");
+    const hasContactInformation = Boolean(shop.email || shop.phone);
 
     return (
         <section className="mx-auto w-full max-w-7xl px-4 pb-14 md:px-10 md:pb-18">
@@ -145,26 +150,62 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
                         </p>
                     </div>
 
-                    {addressLines.length > 0 ? (
-                        <address className="space-y-1 font-sans text-base not-italic leading-7 text-on-surface">
-                            {addressLines.map((line) => (
-                                <span
-                                    key={line.id}
-                                    className={
-                                        line.id === "country"
-                                            ? "mt-4 inline-flex bg-tertiary-fixed px-3 py-1 font-sans text-xs font-semibold uppercase tracking-[0.16em] text-primary"
-                                            : "block"
-                                    }
-                                >
-                                    {line.value}
-                                </span>
-                            ))}
-                        </address>
-                    ) : (
-                        <div className="bg-surface-container-high p-5 text-sm leading-6 text-muted-foreground">
-                            {t("shop.location.noAddress", { shopTypeArticle })}
-                        </div>
-                    )}
+                    <div className="space-y-5">
+                        {addressLines.length > 0 ? (
+                            <address className="space-y-1 font-sans text-base not-italic leading-7 text-on-surface">
+                                {addressLines.map((line) => (
+                                    <span
+                                        key={line.id}
+                                        className={
+                                            line.id === "country"
+                                                ? "mt-4 inline-flex bg-tertiary-fixed px-3 py-1 font-sans text-xs font-semibold uppercase tracking-[0.16em] text-primary"
+                                                : "block"
+                                        }
+                                    >
+                                        {line.value}
+                                    </span>
+                                ))}
+                            </address>
+                        ) : (
+                            <div className="bg-surface-container-high p-5 text-sm leading-6 text-muted-foreground">
+                                {t("shop.location.noAddress", { shopTypeArticle })}
+                            </div>
+                        )}
+
+                        {hasContactInformation && (
+                            <div className="bg-surface-container-low p-5">
+                                <p className="text-xs uppercase tracking-[0.18em] text-tertiary">
+                                    {t("shop.contact.eyebrow")}
+                                </p>
+                                <div className="mt-4 space-y-3">
+                                    {shop.email && (
+                                        <a
+                                            href={`mailto:${shop.email}`}
+                                            className="flex min-h-11 items-center gap-3 font-sans text-sm text-primary transition-colors duration-300 ease-out hover:underline"
+                                        >
+                                            <Mail className="size-4 shrink-0" aria-hidden="true" />
+                                            <span className="sr-only">
+                                                {t("shop.contact.email")}:{" "}
+                                            </span>
+                                            <span>{shop.email}</span>
+                                        </a>
+                                    )}
+                                    {shop.phone && (
+                                        <a
+                                            href={buildPhoneHref(shop.phone)}
+                                            className="flex min-h-11 items-center gap-3 font-sans text-sm text-primary transition-colors duration-300 ease-out hover:underline"
+                                        >
+                                            <Phone className="size-4 shrink-0" aria-hidden="true" />
+                                            <span className="sr-only">
+                                                {t("shop.contact.phone")}:{" "}
+                                            </span>
+                                            <span>{shop.phone}</span>
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 <div className="min-h-80 bg-surface-container-high p-2 md:min-h-110">

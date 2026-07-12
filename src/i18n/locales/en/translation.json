@@ -1336,7 +1336,12 @@
     },
     "typeFallback": "dealer",
     "typePossessiveFallback": "from this dealer",
-    "typeArticleFallback": "this dealer"
+    "typeArticleFallback": "this dealer",
+    "contact": {
+      "eyebrow": "Contact",
+      "email": "Email",
+      "phone": "Phone"
+    }
   },
   "searchFilter": {
     "saveButton": "Save Search Filter",

@@ -44,6 +44,28 @@ describe("ShopLocationSection", () => {
         expect(screen.getByText("Vereinigtes Königreich")).toBeInTheDocument();
     });
 
+    it("renders clickable contact links when email and phone exist", () => {
+        render(
+            <ShopLocationSection
+                shop={{
+                    ...mockShop,
+                    email: "contact@christies.example",
+                    phone: "+44 20 7839 9060",
+                    structuredAddress: { locality: "London", country: "GB" },
+                }}
+            />,
+        );
+
+        expect(screen.getByRole("link", { name: /contact@christies\.example/i })).toHaveAttribute(
+            "href",
+            "mailto:contact@christies.example",
+        );
+        expect(screen.getByRole("link", { name: /\+44 20 7839 9060/i })).toHaveAttribute(
+            "href",
+            "tel:+442078399060",
+        );
+    });
+
     it("uses an OpenStreetMap embed when coordinates exist", () => {
         render(
             <ShopLocationSection

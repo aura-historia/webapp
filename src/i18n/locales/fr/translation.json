@@ -1302,7 +1302,12 @@
     },
     "typeFallback": "marchand",
     "typePossessiveFallback": "de ce marchand",
-    "typeArticleFallback": "ce marchand"
+    "typeArticleFallback": "ce marchand",
+    "contact": {
+      "eyebrow": "Contact",
+      "email": "E-mail",
+      "phone": "Téléphone"
+    }
   },
   "notifications": {
     "title": "Notifications",
