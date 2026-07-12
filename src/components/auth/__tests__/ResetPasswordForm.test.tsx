@@ -4,10 +4,15 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mockResetPassword = vi.hoisted(() => vi.fn());
 const mockConfirmResetPassword = vi.hoisted(() => vi.fn());
+const mockConfirmSignUp = vi.hoisted(() => vi.fn());
+const mockSignIn = vi.hoisted(() => vi.fn());
 
 vi.mock("aws-amplify/auth", () => ({
     resetPassword: mockResetPassword,
     confirmResetPassword: mockConfirmResetPassword,
+    confirmSignUp: mockConfirmSignUp,
+    resendSignUpCode: vi.fn(),
+    signIn: mockSignIn,
 }));
 
 import { ResetPasswordForm } from "../ResetPasswordForm";
@@ -19,6 +24,8 @@ describe("ResetPasswordForm", () => {
         vi.clearAllMocks();
         mockResetPassword.mockResolvedValue(undefined);
         mockConfirmResetPassword.mockResolvedValue(undefined);
+        mockConfirmSignUp.mockResolvedValue(undefined);
+        mockSignIn.mockResolvedValue(undefined);
     });
 
     it("allows typing into the request email field", async () => {
@@ -52,14 +59,16 @@ describe("ResetPasswordForm", () => {
         expect(codeInput).toHaveValue("123456");
     });
 
-    it("still allows typing into the confirm sign up code field", async () => {
+    it("automatically confirms sign up after six digits are entered", async () => {
         const user = userEvent.setup();
+        const onSuccess = vi.fn();
+
         await act(async () =>
             renderWithRouter(
                 <ConfirmSignUpForm
                     email="user@example.com"
                     password="Password1!"
-                    onSuccess={vi.fn()}
+                    onSuccess={onSuccess}
                 />,
             ),
         );
@@ -68,5 +77,16 @@ describe("ResetPasswordForm", () => {
         await user.type(codeInput, "123456");
 
         expect(codeInput).toHaveValue("123456");
+        await waitFor(() => {
+            expect(mockConfirmSignUp).toHaveBeenCalledWith({
+                username: "user@example.com",
+                confirmationCode: "123456",
+            });
+        });
+        expect(mockSignIn).toHaveBeenCalledWith({
+            username: "user@example.com",
+            password: "Password1!",
+        });
+        expect(onSuccess).toHaveBeenCalledOnce();
     });
 });

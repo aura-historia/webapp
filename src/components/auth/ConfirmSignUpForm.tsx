@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { confirmSignUp, resendSignUpCode, signIn } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
     Form,
     FormControl,
@@ -37,6 +37,7 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
     const { t } = useTranslation();
     const schema = confirmSchema(t);
     const [resendStatus, setResendStatus] = useState<"idle" | "sending" | "sent">("idle");
+    const lastAutoSubmittedCodeRef = useRef<string | null>(null);
 
     const form = useForm<ConfirmValues>({
         resolver: zodResolver(schema),
@@ -44,11 +45,16 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
     });
 
     const onSubmit = async (data: ConfirmValues) => {
+        const confirmationCode = data.code.trim();
+
         try {
-            await confirmSignUp({ username: email, confirmationCode: data.code.trim() });
+            await confirmSignUp({ username: email, confirmationCode });
             await signIn({ username: email, password });
             onSuccess();
         } catch (err) {
+            if (lastAutoSubmittedCodeRef.current === confirmationCode) {
+                lastAutoSubmittedCodeRef.current = null;
+            }
             const message = getAuthErrorMessage(err, t);
             form.setError("root", { message });
         }
@@ -103,6 +109,19 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
                                         maxLength={6}
                                         placeholder={t("auth.confirm.codePlaceholder")}
                                         className="h-11 bg-transparent text-center tracking-[0.5em] text-lg"
+                                        onChange={(event) => {
+                                            const nextCode = event.target.value;
+                                            field.onChange(event);
+
+                                            if (
+                                                /^\d{6}$/.test(nextCode) &&
+                                                !form.formState.isSubmitting &&
+                                                lastAutoSubmittedCodeRef.current !== nextCode
+                                            ) {
+                                                lastAutoSubmittedCodeRef.current = nextCode;
+                                                void form.handleSubmit(onSubmit)();
+                                            }
+                                        }}
                                     />
                                 </FormControl>
                                 <FormMessage />
