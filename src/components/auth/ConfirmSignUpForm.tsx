@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { confirmSignUp, resendSignUpCode, signIn } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
     Form,
     FormControl,
@@ -12,7 +12,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 import { getAuthErrorMessage } from "@/lib/auth/getAuthErrorMessage";
 import { Spinner } from "@/components/ui/spinner";
@@ -27,6 +27,9 @@ const confirmSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
 
 type ConfirmValues = z.infer<ReturnType<typeof confirmSchema>>;
 
+const CONFIRM_CODE_LENGTH = 6;
+const CONFIRM_CODE_SLOT_INDICES = Array.from({ length: CONFIRM_CODE_LENGTH }, (_, index) => index);
+
 type ConfirmSignUpFormProps = {
     readonly email: string;
     readonly password: string;
@@ -37,7 +40,6 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
     const { t } = useTranslation();
     const schema = confirmSchema(t);
     const [resendStatus, setResendStatus] = useState<"idle" | "sending" | "sent">("idle");
-    const lastAutoSubmittedCodeRef = useRef<string | null>(null);
 
     const form = useForm<ConfirmValues>({
         resolver: zodResolver(schema),
@@ -52,16 +54,12 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
             await signIn({ username: email, password });
             onSuccess();
         } catch (err) {
-            if (lastAutoSubmittedCodeRef.current === confirmationCode) {
-                lastAutoSubmittedCodeRef.current = null;
-            }
             const message = getAuthErrorMessage(err, t);
             form.setError("root", { message });
         }
     };
 
     const handleResend = async () => {
-        if (resendStatus === "sending") return;
         setResendStatus("sending");
         try {
             await resendSignUpCode({ username: email });
@@ -101,28 +99,27 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
                             <FormItem>
                                 <FormLabel>{t("auth.confirm.codeLabel")}</FormLabel>
                                 <FormControl>
-                                    <Input
+                                    <InputOTP
                                         {...field}
-                                        type="text"
-                                        inputMode="numeric"
+                                        maxLength={CONFIRM_CODE_LENGTH}
+                                        pattern="^\d+$"
                                         autoComplete="one-time-code"
-                                        maxLength={6}
-                                        placeholder={t("auth.confirm.codePlaceholder")}
-                                        className="h-11 bg-transparent text-center tracking-[0.5em] text-lg"
-                                        onChange={(event) => {
-                                            const nextCode = event.target.value;
-                                            field.onChange(event);
-
-                                            if (
-                                                /^\d{6}$/.test(nextCode) &&
-                                                !form.formState.isSubmitting &&
-                                                lastAutoSubmittedCodeRef.current !== nextCode
-                                            ) {
-                                                lastAutoSubmittedCodeRef.current = nextCode;
-                                                void form.handleSubmit(onSubmit)();
-                                            }
+                                        disabled={form.formState.isSubmitting}
+                                        containerClassName="justify-center"
+                                        onComplete={() => {
+                                            void form.handleSubmit(onSubmit)();
                                         }}
-                                    />
+                                    >
+                                        <InputOTPGroup>
+                                            {CONFIRM_CODE_SLOT_INDICES.map((slotIndex) => (
+                                                <InputOTPSlot
+                                                    key={`confirm-code-slot-${slotIndex}`}
+                                                    index={slotIndex}
+                                                    className="h-11 w-11 bg-transparent text-lg"
+                                                />
+                                            ))}
+                                        </InputOTPGroup>
+                                    </InputOTP>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
