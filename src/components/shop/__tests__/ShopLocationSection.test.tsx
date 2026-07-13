@@ -66,7 +66,7 @@ describe("ShopLocationSection", () => {
         );
     });
 
-    it("uses an OpenStreetMap embed when coordinates exist", () => {
+    it("uses a localized Google Maps embed when coordinates exist", () => {
         render(
             <ShopLocationSection
                 shop={{
@@ -78,15 +78,14 @@ describe("ShopLocationSection", () => {
         );
 
         const iframe = screen.getByTitle("Karte mit dem Standort von Christie's");
-        expect(iframe).toHaveAttribute(
-            "src",
-            expect.stringContaining("openstreetmap.org/export/embed.html"),
-        );
+        expect(iframe).toHaveAttribute("src", expect.stringContaining("google.com/maps"));
+        expect(iframe).toHaveAttribute("src", expect.stringContaining("hl=de"));
+        expect(iframe).toHaveAttribute("src", expect.stringContaining("q=51.5074%2C-0.1278"));
         expect(screen.queryByText("51.50740")).not.toBeInTheDocument();
         expect(screen.queryByText("-0.12780")).not.toBeInTheDocument();
         expect(screen.getByRole("link", { name: "Karte öffnen" })).toHaveAttribute(
             "href",
-            expect.stringContaining("openstreetmap.org"),
+            expect.stringContaining("google.com/maps/search"),
         );
     });
 
@@ -107,6 +106,7 @@ describe("ShopLocationSection", () => {
 
         const iframe = screen.getByTitle("Karte mit dem Standort von Christie's");
         expect(iframe).toHaveAttribute("src", expect.stringContaining("google.com/maps"));
+        expect(iframe).toHaveAttribute("src", expect.stringContaining("hl=de"));
         expect(iframe).toHaveAttribute("src", expect.stringContaining("output=embed"));
     });
 

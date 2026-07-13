@@ -5,8 +5,6 @@ import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const MAP_DELTA = 0.01;
-
 type ShopLocationSectionProps = {
     readonly shop: ShopDetail;
 };
@@ -69,23 +67,33 @@ function buildTextualAddress(address: StructuredAddress | undefined, language: s
         .join(", ");
 }
 
-function buildMapEmbedUrl(geoAddress: GeoAddress | undefined, textualAddress: string) {
+function getMapLocale(language: string) {
+    return language.split("-")[0] || "en";
+}
+
+function buildMapEmbedUrl(
+    geoAddress: GeoAddress | undefined,
+    textualAddress: string,
+    language: string,
+) {
+    const locale = getMapLocale(language);
+
     if (geoAddress) {
-        const { lat, lon } = geoAddress;
-        const bbox = [lon - MAP_DELTA, lat - MAP_DELTA, lon + MAP_DELTA, lat + MAP_DELTA].join(",");
         const params = new URLSearchParams({
-            bbox,
-            layer: "mapnik",
-            marker: `${lat},${lon}`,
+            hl: locale,
+            output: "embed",
+            q: `${geoAddress.lat},${geoAddress.lon}`,
+            z: "16",
         });
 
-        return `https://www.openstreetmap.org/export/embed.html?${params.toString()}`;
+        return `https://www.google.com/maps?${params.toString()}`;
     }
 
     if (textualAddress) {
         const params = new URLSearchParams({
-            q: textualAddress,
+            hl: locale,
             output: "embed",
+            q: textualAddress,
         });
 
         return `https://www.google.com/maps?${params.toString()}`;
@@ -98,20 +106,27 @@ function buildPhoneHref(phone: string) {
     return `tel:${phone.replace(/(?!^)\+|[^\d+]/g, "")}`;
 }
 
-function buildMapExternalUrl(geoAddress: GeoAddress | undefined, textualAddress: string) {
+function buildMapExternalUrl(
+    geoAddress: GeoAddress | undefined,
+    textualAddress: string,
+    language: string,
+) {
+    const locale = getMapLocale(language);
+
     if (geoAddress) {
         const params = new URLSearchParams({
-            mlat: String(geoAddress.lat),
-            mlon: String(geoAddress.lon),
+            api: "1",
+            hl: locale,
+            query: `${geoAddress.lat},${geoAddress.lon}`,
         });
 
-        return `https://www.openstreetmap.org/?${params.toString()}#map=16/${geoAddress.lat}/${geoAddress.lon}`;
+        return `https://www.google.com/maps/search/?${params.toString()}`;
     }
 
     if (textualAddress) {
-        const params = new URLSearchParams({ q: textualAddress });
+        const params = new URLSearchParams({ api: "1", hl: locale, query: textualAddress });
 
-        return `https://www.google.com/maps/search/?api=1&${params.toString()}`;
+        return `https://www.google.com/maps/search/?${params.toString()}`;
     }
 
     return undefined;
@@ -121,8 +136,8 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
     const { t, i18n } = useTranslation();
     const addressLines = buildAddressLines(shop.structuredAddress, i18n.language);
     const textualAddress = buildTextualAddress(shop.structuredAddress, i18n.language);
-    const mapEmbedUrl = buildMapEmbedUrl(shop.geoAddress, textualAddress);
-    const mapExternalUrl = buildMapExternalUrl(shop.geoAddress, textualAddress);
+    const mapEmbedUrl = buildMapEmbedUrl(shop.geoAddress, textualAddress, i18n.language);
+    const mapExternalUrl = buildMapExternalUrl(shop.geoAddress, textualAddress, i18n.language);
     const shopTypeName = shop.shopType
         ? t(SHOP_TYPE_TRANSLATION_CONFIG[shop.shopType].translationKey)
         : t("shop.typeFallback");
