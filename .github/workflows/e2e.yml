@@ -8,7 +8,7 @@ on:
 
 env:
   NODE_VERSION: ${{ vars.NODE_VERSION || '24' }}
-  PNPM_VERSION: ${{ vars.PNPM_VERSION || '11' }}
+  PNPM_VERSION: '11.12.0'
 
 permissions:
   contents: read
@@ -30,6 +30,7 @@ jobs:
         uses: pnpm/action-setup@v6
         with:
           version: ${{ env.PNPM_VERSION }}
+          standalone: true
 
       - name: Set up Node.js
         uses: actions/setup-node@v6
