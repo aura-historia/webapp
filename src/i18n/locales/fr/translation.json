@@ -1281,8 +1281,7 @@
       "description": "Adresse et carte de {{shop}}, lorsque ces informations sont disponibles publiquement.",
       "noAddress": "Nous savons où se trouve {{shopTypeArticle}}, mais aucune adresse publique n’est encore disponible.",
       "noLocation": "Nous ne disposons pas encore d’informations de localisation pour {{shopTypeArticle}}.",
-      "mapTitle": "Carte indiquant l’emplacement de {{shop}}",
-      "openMap": "Ouvrir la carte"
+      "mapTitle": "Carte indiquant l’emplacement de {{shop}}"
     },
     "products": {
       "loadingMore": "Chargement d'autres articles...",

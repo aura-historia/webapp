@@ -1313,8 +1313,7 @@
       "description": "Adresse und Karte von {{shop}}, soweit diese Informationen öffentlich verfügbar sind.",
       "noAddress": "Wir kennen den Standort für {{shopTypeArticle}}, aber noch keine öffentliche Adresse.",
       "noLocation": "Wir haben noch keine Standortinformationen für {{shopTypeArticle}}.",
-      "mapTitle": "Karte mit dem Standort von {{shop}}",
-      "openMap": "Karte öffnen"
+      "mapTitle": "Karte mit dem Standort von {{shop}}"
     },
     "products": {
       "loadingMore": "Weitere Artikel werden geladen...",

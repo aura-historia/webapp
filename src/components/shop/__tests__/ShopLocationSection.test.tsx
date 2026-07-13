@@ -83,10 +83,7 @@ describe("ShopLocationSection", () => {
         expect(iframe).toHaveAttribute("src", expect.stringContaining("q=51.5074%2C-0.1278"));
         expect(screen.queryByText("51.50740")).not.toBeInTheDocument();
         expect(screen.queryByText("-0.12780")).not.toBeInTheDocument();
-        expect(screen.getByRole("link", { name: "Karte öffnen" })).toHaveAttribute(
-            "href",
-            expect.stringContaining("google.com/maps/search"),
-        );
+        expect(screen.queryByRole("link", { name: "Karte öffnen" })).not.toBeInTheDocument();
     });
 
     it("falls back to a textual Google Maps embed when only the address exists", () => {

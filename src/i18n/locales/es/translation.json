@@ -1281,8 +1281,7 @@
       "description": "Dirección y mapa de {{shop}}, cuando esta información está disponible públicamente.",
       "noAddress": "Sabemos dónde se encuentra {{shopTypeArticle}}, pero aún no hay una dirección pública disponible.",
       "noLocation": "Aún no tenemos información de ubicación para {{shopTypeArticle}}.",
-      "mapTitle": "Mapa que muestra la ubicación de {{shop}}",
-      "openMap": "Abrir mapa"
+      "mapTitle": "Mapa que muestra la ubicación de {{shop}}"
     },
     "products": {
       "loadingMore": "Cargando más artículos...",

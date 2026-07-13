@@ -1,8 +1,8 @@
 import { H2 } from "@/components/typography/H2.tsx";
-import { Button } from "@/components/ui/button.tsx";
+
 import type { GeoAddress, ShopDetail, StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
-import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 type ShopLocationSectionProps = {
@@ -106,38 +106,12 @@ function buildPhoneHref(phone: string) {
     return `tel:${phone.replace(/(?!^)\+|[^\d+]/g, "")}`;
 }
 
-function buildMapExternalUrl(
-    geoAddress: GeoAddress | undefined,
-    textualAddress: string,
-    language: string,
-) {
-    const locale = getMapLocale(language);
-
-    if (geoAddress) {
-        const params = new URLSearchParams({
-            api: "1",
-            hl: locale,
-            query: `${geoAddress.lat},${geoAddress.lon}`,
-        });
-
-        return `https://www.google.com/maps/search/?${params.toString()}`;
-    }
-
-    if (textualAddress) {
-        const params = new URLSearchParams({ api: "1", hl: locale, query: textualAddress });
-
-        return `https://www.google.com/maps/search/?${params.toString()}`;
-    }
-
-    return undefined;
-}
-
 export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
     const { t, i18n } = useTranslation();
     const addressLines = buildAddressLines(shop.structuredAddress, i18n.language);
     const textualAddress = buildTextualAddress(shop.structuredAddress, i18n.language);
     const mapEmbedUrl = buildMapEmbedUrl(shop.geoAddress, textualAddress, i18n.language);
-    const mapExternalUrl = buildMapExternalUrl(shop.geoAddress, textualAddress, i18n.language);
+
     const shopTypeName = shop.shopType
         ? t(SHOP_TYPE_TRANSLATION_CONFIG[shop.shopType].translationKey)
         : t("shop.typeFallback");
@@ -234,22 +208,6 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
                                 referrerPolicy="no-referrer-when-downgrade"
                                 allowFullScreen
                             />
-                            {mapExternalUrl && (
-                                <Button
-                                    asChild
-                                    variant="secondary"
-                                    className="absolute bottom-4 left-4 h-11 rounded-none bg-surface/80 px-4 text-xs uppercase tracking-[0.12em] text-primary backdrop-blur-xl hover:bg-surface"
-                                >
-                                    <a
-                                        href={mapExternalUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <ArrowUpRight className="size-4" />
-                                        <span>{t("shop.location.openMap")}</span>
-                                    </a>
-                                </Button>
-                            )}
                         </div>
                     ) : (
                         <div className="flex h-full min-h-76 flex-col items-center justify-center gap-4 bg-surface-container-lowest p-8 text-center md:min-h-106">

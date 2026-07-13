@@ -1315,8 +1315,7 @@
       "description": "Address and map for {{shop}}, where this information is publicly available.",
       "noAddress": "We know where {{shopTypeArticle}} is located, but no public street address is available yet.",
       "noLocation": "We do not yet have location information for {{shopTypeArticle}}.",
-      "mapTitle": "Map showing the location of {{shop}}",
-      "openMap": "Open map"
+      "mapTitle": "Map showing the location of {{shop}}"
     },
     "products": {
       "loadingMore": "Loading more items...",
