@@ -1276,10 +1276,10 @@
       "metaDescription": "Explore antigüedades y objetos de colección de {{shop}} en Aura Historia."
     },
     "location": {
-      "eyebrow": "Dossier de ubicación",
+      "eyebrow": "Ubicación",
       "title": "Dónde encontrar {{shopTypeArticle}}",
-      "description": "Dirección y mapa de {{shop}}, cuando esta información está disponible públicamente.",
-      "noAddress": "Sabemos dónde se encuentra {{shopTypeArticle}}, pero aún no hay una dirección pública disponible.",
+      "description": "Dirección e información de contacto de {{shop}}, cuando estén disponibles públicamente.",
+      "noAddress": "Aún no tenemos una dirección para {{shopTypeArticle}}.",
       "noLocation": "Aún no tenemos información de ubicación para {{shopTypeArticle}}.",
       "mapTitle": "Mapa que muestra la ubicación de {{shop}}"
     },

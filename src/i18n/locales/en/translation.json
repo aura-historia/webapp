@@ -1310,10 +1310,10 @@
       "metaDescription": "Explore antiques and collectibles from {{shop}} on Aura Historia."
     },
     "location": {
-      "eyebrow": "Location dossier",
+      "eyebrow": "Location",
       "title": "Where to find {{shopTypeArticle}}",
-      "description": "Address and map for {{shop}}, where this information is publicly available.",
-      "noAddress": "We know where {{shopTypeArticle}} is located, but no public street address is available yet.",
+      "description": "Address and contact information for {{shop}}, where publicly available.",
+      "noAddress": "We do not yet have an address for {{shopTypeArticle}}.",
       "noLocation": "We do not yet have location information for {{shopTypeArticle}}.",
       "mapTitle": "Map showing the location of {{shop}}"
     },

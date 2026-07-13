@@ -1308,10 +1308,10 @@
       "metaDescription": "Entdecken Sie Antiquitäten und Sammlerstücke von {{shop}} auf Aura Historia."
     },
     "location": {
-      "eyebrow": "Standort-Dossier",
+      "eyebrow": "Standort",
       "title": "Wo Sie {{shopTypeArticle}} finden",
-      "description": "Adresse und Karte von {{shop}}, soweit diese Informationen öffentlich verfügbar sind.",
-      "noAddress": "Wir kennen den Standort für {{shopTypeArticle}}, aber noch keine öffentliche Adresse.",
+      "description": "Adresse und Kontaktinformationen von {{shop}}, soweit diese öffentlich verfügbar sind.",
+      "noAddress": "Wir haben noch keine Adresse für {{shopTypeArticle}}.",
       "noLocation": "Wir haben noch keine Standortinformationen für {{shopTypeArticle}}.",
       "mapTitle": "Karte mit dem Standort von {{shop}}"
     },
