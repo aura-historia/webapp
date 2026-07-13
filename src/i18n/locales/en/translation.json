@@ -1254,9 +1254,14 @@
   },
   "consent": {
     "title": "We value your privacy",
-    "description": "We use cookies to analyze web traffic and improve your user experience. By clicking 'Accept', you consent to our use of cookies for these purposes. You can find more information in our <1>privacy policy</1>.",
-    "accept": "Accept",
-    "reject": "Reject"
+    "description": "We only use optional services with your consent: analytics to improve Aura Historia and external maps from Google Maps. You can choose each purpose separately. Learn more in our <1>privacy policy</1>.",
+    "analyticsLabel": "Analytics & tracking",
+    "analyticsDescription": "Helps us understand how Aura Historia is used so we can improve the platform.",
+    "externalMapsLabel": "External maps",
+    "externalMapsDescription": "Loads embedded maps from Google Maps. Data such as your IP address may be transferred to Google.",
+    "acceptAll": "Accept all",
+    "saveSelection": "Save selection",
+    "rejectAll": "Reject all"
   },
   "consentSettings": {
     "title": "Cookie Settings",

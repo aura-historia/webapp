@@ -20,42 +20,80 @@ describe("ConsentBanner", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: undefined, currency: "EUR" },
+            preferences: {
+                trackingConsent: undefined,
+                externalMapConsent: undefined,
+                currency: "EUR",
+            },
             updatePreferences: mockUpdatePreferences,
         });
     });
 
-    it("renders when trackingConsent is undefined", () => {
+    it("renders when optional consent decisions are missing", () => {
         render(<ConsentBanner />);
         expect(screen.getByText("consent.title")).toBeDefined();
         expect(screen.getByText("consent.description")).toBeDefined();
+        expect(screen.getByText("consent.analyticsLabel")).toBeDefined();
+        expect(screen.getByText("consent.externalMapsLabel")).toBeDefined();
     });
 
-    it("does not render when trackingConsent is a boolean (true or false)", () => {
+    it("does not render when both optional consent decisions exist", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: true, currency: "EUR" },
+            preferences: { trackingConsent: true, externalMapConsent: false, currency: "EUR" },
             updatePreferences: mockUpdatePreferences,
         });
         const { container } = render(<ConsentBanner />);
         expect(container.firstChild).toBeNull();
+    });
 
+    it("still renders when only analytics consent has been decided", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: false, currency: "EUR" },
+            preferences: { trackingConsent: false, externalMapConsent: undefined, currency: "EUR" },
             updatePreferences: mockUpdatePreferences,
         });
-        const { container: container2 } = render(<ConsentBanner />);
-        expect(container2.firstChild).toBeNull();
+        render(<ConsentBanner />);
+        expect(screen.getByText("consent.title")).toBeDefined();
     });
 
-    it("calls updatePreferences with true when Accept is clicked", () => {
+    it("starts optional toggles unchecked", () => {
         render(<ConsentBanner />);
-        fireEvent.click(screen.getByText("consent.accept"));
-        expect(mockUpdatePreferences).toHaveBeenCalledWith({ trackingConsent: true });
+        expect(
+            screen
+                .getByRole("switch", { name: "consent.analyticsLabel" })
+                .getAttribute("aria-checked"),
+        ).toBe("false");
+        expect(
+            screen
+                .getByRole("switch", { name: "consent.externalMapsLabel" })
+                .getAttribute("aria-checked"),
+        ).toBe("false");
     });
 
-    it("calls updatePreferences with false when Reject is clicked", () => {
+    it("saves the selected consent purposes", () => {
         render(<ConsentBanner />);
-        fireEvent.click(screen.getByText("consent.reject"));
-        expect(mockUpdatePreferences).toHaveBeenCalledWith({ trackingConsent: false });
+        fireEvent.click(screen.getByRole("switch", { name: "consent.externalMapsLabel" }));
+        fireEvent.click(screen.getByText("consent.saveSelection"));
+        expect(mockUpdatePreferences).toHaveBeenCalledWith({
+            trackingConsent: false,
+            externalMapConsent: true,
+        });
+    });
+
+    it("accepts all optional consent purposes", () => {
+        render(<ConsentBanner />);
+        fireEvent.click(screen.getByText("consent.acceptAll"));
+        expect(mockUpdatePreferences).toHaveBeenCalledWith({
+            trackingConsent: true,
+            externalMapConsent: true,
+        });
+    });
+
+    it("rejects all optional consent purposes", () => {
+        render(<ConsentBanner />);
+        fireEvent.click(screen.getByText("consent.rejectAll"));
+        expect(mockUpdatePreferences).toHaveBeenCalledWith({
+            trackingConsent: false,
+            externalMapConsent: false,
+        });
     });
 });

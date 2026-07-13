@@ -1254,9 +1254,14 @@
   },
   "consent": {
     "title": "Nous respectons votre vie privée",
-    "description": "Nous utilisons des cookies pour analyser le trafic web et améliorer votre expérience utilisateur. En cliquant sur 'Accepter', vous consentez à notre utilisation de cookies à ces fins. Vous trouverez plus d'informations dans notre <1>politique de confidentialité</1>.",
-    "accept": "Accepter",
-    "reject": "Refuser"
+    "description": "Nous utilisons les services optionnels uniquement avec votre consentement : analyse pour améliorer Aura Historia et cartes externes de Google Maps. Vous pouvez choisir chaque finalité séparément. En savoir plus dans notre <1>politique de confidentialité</1>.",
+    "analyticsLabel": "Analyse et suivi",
+    "analyticsDescription": "Nous aide à comprendre l’utilisation d’Aura Historia afin d’améliorer la plateforme.",
+    "externalMapsLabel": "Cartes externes",
+    "externalMapsDescription": "Charge des cartes intégrées Google Maps. Des données telles que votre adresse IP peuvent être transmises à Google.",
+    "acceptAll": "Tout accepter",
+    "saveSelection": "Enregistrer la sélection",
+    "rejectAll": "Tout refuser"
   },
   "consentSettings": {
     "title": "Paramètres des cookies",
