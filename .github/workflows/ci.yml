@@ -6,10 +6,6 @@ on:
     pull_request:
         branches: [main, develop]
 
-env:
-    NODE_VERSION: ${{ vars.NODE_VERSION || '24' }}
-    PNPM_VERSION: "11.12.0"
-
 permissions:
     contents: read
     actions: read
@@ -31,11 +27,11 @@ jobs:
             - name: Set up Node.js
               uses: actions/setup-node@v6
               with:
-                  node-version: ${{ env.NODE_VERSION }}
+                  node-version: 24
 
             - name: Set up pnpm
               run: |
-                npm install --global pnpm@${PNPM_VERSION}
+                npm install --global pnpm@11.12.0
                 pnpm --version
 
             - name: Install dependencies
@@ -55,11 +51,11 @@ jobs:
             - name: Set up Node.js
               uses: actions/setup-node@v6
               with:
-                  node-version: ${{ env.NODE_VERSION }}
+                  node-version: 24
 
             - name: Set up pnpm
               run: |
-                npm install --global pnpm@${PNPM_VERSION}
+                npm install --global pnpm@11.12.0
                 pnpm --version
 
             - name: Install dependencies
@@ -121,11 +117,11 @@ jobs:
             - name: Set up Node.js
               uses: actions/setup-node@v6
               with:
-                  node-version: ${{ env.NODE_VERSION }}
+                  node-version: 24
 
             - name: Set up pnpm
               run: |
-                npm install --global pnpm@${PNPM_VERSION}
+                npm install --global pnpm@11.12.0
                 pnpm --version
 
             - name: Install dependencies
@@ -165,11 +161,11 @@ jobs:
             - name: Set up Node.js
               uses: actions/setup-node@v6
               with:
-                  node-version: ${{ env.NODE_VERSION }}
+                  node-version: 24
 
             - name: Set up pnpm
               run: |
-                npm install --global pnpm@${PNPM_VERSION}
+                npm install --global pnpm@11.12.0
                 pnpm --version
 
             - name: Install dependencies
