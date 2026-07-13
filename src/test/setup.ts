@@ -91,3 +91,9 @@ if (!Element.prototype.releasePointerCapture) {
 if (!Element.prototype.scrollIntoView) {
     Element.prototype.scrollIntoView = () => {};
 }
+
+window.scrollTo = () => {};
+
+if (!document.elementFromPoint) {
+    document.elementFromPoint = () => null;
+}

@@ -12,7 +12,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 import { getAuthErrorMessage } from "@/lib/auth/getAuthErrorMessage";
 import { Spinner } from "@/components/ui/spinner";
@@ -26,6 +26,9 @@ const confirmSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
     });
 
 type ConfirmValues = z.infer<ReturnType<typeof confirmSchema>>;
+
+const CONFIRM_CODE_LENGTH = 6;
+const CONFIRM_CODE_SLOT_INDICES = Array.from({ length: CONFIRM_CODE_LENGTH }, (_, index) => index);
 
 type ConfirmSignUpFormProps = {
     readonly email: string;
@@ -44,8 +47,10 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
     });
 
     const onSubmit = async (data: ConfirmValues) => {
+        const confirmationCode = data.code.trim();
+
         try {
-            await confirmSignUp({ username: email, confirmationCode: data.code.trim() });
+            await confirmSignUp({ username: email, confirmationCode });
             await signIn({ username: email, password });
             onSuccess();
         } catch (err) {
@@ -55,7 +60,6 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
     };
 
     const handleResend = async () => {
-        if (resendStatus === "sending") return;
         setResendStatus("sending");
         try {
             await resendSignUpCode({ username: email });
@@ -95,15 +99,27 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
                             <FormItem>
                                 <FormLabel>{t("auth.confirm.codeLabel")}</FormLabel>
                                 <FormControl>
-                                    <Input
+                                    <InputOTP
                                         {...field}
-                                        type="text"
-                                        inputMode="numeric"
+                                        maxLength={CONFIRM_CODE_LENGTH}
+                                        pattern="^\d+$"
                                         autoComplete="one-time-code"
-                                        maxLength={6}
-                                        placeholder={t("auth.confirm.codePlaceholder")}
-                                        className="h-11 bg-transparent text-center tracking-[0.5em] text-lg"
-                                    />
+                                        disabled={form.formState.isSubmitting}
+                                        containerClassName="justify-center"
+                                        onComplete={() => {
+                                            form.handleSubmit(onSubmit)();
+                                        }}
+                                    >
+                                        <InputOTPGroup>
+                                            {CONFIRM_CODE_SLOT_INDICES.map((slotIndex) => (
+                                                <InputOTPSlot
+                                                    key={`confirm-code-slot-${slotIndex}`}
+                                                    index={slotIndex}
+                                                    className="h-11 w-11 bg-transparent text-lg"
+                                                />
+                                            ))}
+                                        </InputOTPGroup>
+                                    </InputOTP>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
