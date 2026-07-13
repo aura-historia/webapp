@@ -1,5 +1,6 @@
 import { H2 } from "@/components/typography/H2.tsx";
-
+import { Button } from "@/components/ui/button.tsx";
+import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import type { GeoAddress, ShopDetail, StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { Mail, MapPin, Phone } from "lucide-react";
@@ -108,6 +109,7 @@ function buildPhoneHref(phone: string) {
 
 export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
     const { t, i18n } = useTranslation();
+    const { preferences, updatePreferences } = useUserPreferences();
     const addressLines = buildAddressLines(shop.structuredAddress, i18n.language);
     const textualAddress = buildTextualAddress(shop.structuredAddress, i18n.language);
     const mapEmbedUrl = buildMapEmbedUrl(shop.geoAddress, textualAddress, i18n.language);
@@ -119,6 +121,11 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
         ? t(SHOP_TYPE_TRANSLATION_CONFIG[shop.shopType].articleTranslationKey)
         : t("shop.typeArticleFallback");
     const hasContactInformation = Boolean(shop.email || shop.phone);
+    const canLoadMap = preferences.externalMapConsent === true;
+
+    const handleAllowMap = () => {
+        updatePreferences({ externalMapConsent: true });
+    };
 
     return (
         <section className="mx-auto w-full max-w-7xl px-4 pb-14 md:px-10 md:pb-18">
@@ -198,7 +205,7 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
                 </div>
 
                 <div className="min-h-80 bg-surface-container-high p-2 md:min-h-110">
-                    {mapEmbedUrl ? (
+                    {mapEmbedUrl && canLoadMap ? (
                         <div className="relative h-full min-h-76 overflow-hidden bg-surface-container-highest">
                             <iframe
                                 title={t("shop.location.mapTitle", { shop: shop.name })}
@@ -208,6 +215,33 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
                                 referrerPolicy="no-referrer-when-downgrade"
                                 allowFullScreen
                             />
+                        </div>
+                    ) : mapEmbedUrl ? (
+                        <div className="flex h-full min-h-76 flex-col items-center justify-center gap-5 bg-surface-container-lowest p-8 text-center md:min-h-106">
+                            <MapPin className="size-10 text-tertiary" aria-hidden="true" />
+                            <div className="max-w-lg space-y-3">
+                                <p className="font-display text-2xl italic text-primary">
+                                    {t("shop.location.mapConsentTitle")}
+                                </p>
+                                <p className="text-sm leading-6 text-muted-foreground">
+                                    {t("shop.location.mapConsentDescription")}
+                                </p>
+                            </div>
+                            <div className="flex flex-col items-center gap-3 sm:flex-row">
+                                <Button
+                                    type="button"
+                                    onClick={handleAllowMap}
+                                    className="h-11 rounded-none text-xs uppercase tracking-[0.12em]"
+                                >
+                                    {t("shop.location.mapConsentButton")}
+                                </Button>
+                                <a
+                                    href="/consent-settings"
+                                    className="min-h-11 px-2 pt-3 text-xs uppercase tracking-[0.12em] text-primary underline-offset-4 hover:underline"
+                                >
+                                    {t("shop.location.mapConsentSettings")}
+                                </a>
+                            </div>
                         </div>
                     ) : (
                         <div className="flex h-full min-h-76 flex-col items-center justify-center gap-4 bg-surface-container-lowest p-8 text-center md:min-h-106">

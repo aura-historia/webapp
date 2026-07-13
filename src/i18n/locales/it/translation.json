@@ -1263,7 +1263,9 @@
     "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Puoi trovare maggiori informazioni nella nostra <1>informativa sulla privacy</1>.",
     "analyticsLabel": "Analisi & Tracciamento",
     "analyticsDescription": "Ci permette di analizzare l'utilizzo e migliorare la tua esperienza tramite Google Analytics. Include archiviazione annunci, archiviazione analytics, dati utente annunci e personalizzazione annunci.",
-    "saved": "Le tue preferenze sui cookie sono state salvate."
+    "saved": "Le tue preferenze sui cookie sono state salvate.",
+    "externalMapsLabel": "Mappe esterne",
+    "externalMapsDescription": "Consente il caricamento di mappe incorporate di Google Maps. Dati personali come indirizzo IP e informazioni del browser possono essere trasmessi a Google."
   },
   "shop": {
     "header": {
@@ -1281,7 +1283,11 @@
       "description": "Indirizzo e informazioni di contatto di {{shop}}, quando disponibili pubblicamente.",
       "noAddress": "Non abbiamo ancora un indirizzo per {{shopTypeArticle}}.",
       "noLocation": "Non abbiamo ancora informazioni sulla posizione per {{shopTypeArticle}}.",
-      "mapTitle": "Mappa che mostra la posizione di {{shop}}"
+      "mapTitle": "Mappa che mostra la posizione di {{shop}}",
+      "mapConsentTitle": "Carica la mappa dopo il consenso",
+      "mapConsentDescription": "Questa mappa è fornita da Google Maps. Caricandola, dati come il tuo indirizzo IP possono essere trasmessi a Google.",
+      "mapConsentButton": "Mostra mappa",
+      "mapConsentSettings": "Impostazioni cookie"
     },
     "products": {
       "loadingMore": "Caricamento di altri articoli...",

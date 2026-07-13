@@ -1,7 +1,10 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { ShopLocationSection } from "../ShopLocationSection.tsx";
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
+import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
+import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
 
 const mockShop: ShopDetail = {
     shopId: "shop-uuid-123",
@@ -16,23 +19,30 @@ const mockShop: ShopDetail = {
     updated: new Date("2024-06-20T12:30:00Z"),
 };
 
+function renderShopLocation(
+    shop: ShopDetail,
+    initialPreferences: Partial<UserPreferences> = { externalMapConsent: false },
+) {
+    return render(
+        <UserPreferencesProvider initialPreferences={initialPreferences} locale="de-DE">
+            <ShopLocationSection shop={shop} />
+        </UserPreferencesProvider>,
+    );
+}
+
 describe("ShopLocationSection", () => {
     it("renders a structured postal address", () => {
-        render(
-            <ShopLocationSection
-                shop={{
-                    ...mockShop,
-                    structuredAddress: {
-                        addressline: "8 King St",
-                        addresslineExtra: "St. James's",
-                        locality: "London",
-                        region: "England",
-                        postalCode: "SW1Y 6QT",
-                        country: "GB",
-                    },
-                }}
-            />,
-        );
+        renderShopLocation({
+            ...mockShop,
+            structuredAddress: {
+                addressline: "8 King St",
+                addresslineExtra: "St. James's",
+                locality: "London",
+                region: "England",
+                postalCode: "SW1Y 6QT",
+                country: "GB",
+            },
+        });
 
         expect(
             screen.getByRole("heading", { name: "Wo Sie dieses Auktionshaus finden" }),
@@ -45,16 +55,12 @@ describe("ShopLocationSection", () => {
     });
 
     it("renders clickable contact links when email and phone exist", () => {
-        render(
-            <ShopLocationSection
-                shop={{
-                    ...mockShop,
-                    email: "contact@christies.example",
-                    phone: "+44 20 7839 9060",
-                    structuredAddress: { locality: "London", country: "GB" },
-                }}
-            />,
-        );
+        renderShopLocation({
+            ...mockShop,
+            email: "contact@christies.example",
+            phone: "+44 20 7839 9060",
+            structuredAddress: { locality: "London", country: "GB" },
+        });
 
         expect(screen.getByRole("link", { name: /contact@christies\.example/i })).toHaveAttribute(
             "href",
@@ -66,15 +72,39 @@ describe("ShopLocationSection", () => {
         );
     });
 
+    it("does not load Google Maps before map consent", async () => {
+        const user = userEvent.setup();
+        renderShopLocation({
+            ...mockShop,
+            structuredAddress: { locality: "London", country: "GB" },
+            geoAddress: { lat: 51.5074, lon: -0.1278 },
+        });
+
+        expect(
+            screen.queryByTitle("Karte mit dem Standort von Christie's"),
+        ).not.toBeInTheDocument();
+        expect(screen.getByText("Karte erst nach Zustimmung laden")).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "Cookie-Einstellungen" })).toHaveAttribute(
+            "href",
+            "/consent-settings",
+        );
+
+        await user.click(screen.getByRole("button", { name: "Karte anzeigen" }));
+
+        expect(screen.getByTitle("Karte mit dem Standort von Christie's")).toHaveAttribute(
+            "src",
+            expect.stringContaining("google.com/maps"),
+        );
+    });
+
     it("uses a localized Google Maps embed when coordinates exist", () => {
-        render(
-            <ShopLocationSection
-                shop={{
-                    ...mockShop,
-                    structuredAddress: { locality: "London", country: "GB" },
-                    geoAddress: { lat: 51.5074, lon: -0.1278 },
-                }}
-            />,
+        renderShopLocation(
+            {
+                ...mockShop,
+                structuredAddress: { locality: "London", country: "GB" },
+                geoAddress: { lat: 51.5074, lon: -0.1278 },
+            },
+            { externalMapConsent: true },
         );
 
         const iframe = screen.getByTitle("Karte mit dem Standort von Christie's");
@@ -88,18 +118,17 @@ describe("ShopLocationSection", () => {
     });
 
     it("falls back to a textual Google Maps embed when only the address exists", () => {
-        render(
-            <ShopLocationSection
-                shop={{
-                    ...mockShop,
-                    structuredAddress: {
-                        addressline: "8 King St",
-                        locality: "London",
-                        postalCode: "SW1Y 6QT",
-                        country: "GB",
-                    },
-                }}
-            />,
+        renderShopLocation(
+            {
+                ...mockShop,
+                structuredAddress: {
+                    addressline: "8 King St",
+                    locality: "London",
+                    postalCode: "SW1Y 6QT",
+                    country: "GB",
+                },
+            },
+            { externalMapConsent: true },
         );
 
         const iframe = screen.getByTitle("Karte mit dem Standort von Christie's");
@@ -109,7 +138,7 @@ describe("ShopLocationSection", () => {
     });
 
     it("shows an empty state when neither address nor coordinates exist", () => {
-        render(<ShopLocationSection shop={mockShop} />);
+        renderShopLocation(mockShop);
 
         expect(
             screen.getByText("Wir haben noch keine Standortinformationen für dieses Auktionshaus."),

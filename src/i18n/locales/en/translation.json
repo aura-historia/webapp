@@ -1263,7 +1263,9 @@
     "description": "We use cookies to analyze web traffic and improve your user experience. You can find more information in our <1>privacy policy</1>.",
     "analyticsLabel": "Analytics & Tracking",
     "analyticsDescription": "Allows us to analyze usage and improve your experience via Google Analytics. Includes ad storage, analytics storage, ad user data, and ad personalization.",
-    "saved": "Your cookie preferences have been saved."
+    "saved": "Your cookie preferences have been saved.",
+    "externalMapsLabel": "External maps",
+    "externalMapsDescription": "Allows embedded Google Maps to load. Personal data such as your IP address and browser information may be transferred to Google."
   },
   "notifications": {
     "title": "Notifications",
@@ -1315,7 +1317,11 @@
       "description": "Address and contact information for {{shop}}, where publicly available.",
       "noAddress": "We do not yet have an address for {{shopTypeArticle}}.",
       "noLocation": "We do not yet have location information for {{shopTypeArticle}}.",
-      "mapTitle": "Map showing the location of {{shop}}"
+      "mapTitle": "Map showing the location of {{shop}}",
+      "mapConsentTitle": "Load map after consent",
+      "mapConsentDescription": "This map is provided by Google Maps. Loading it may transfer data such as your IP address to Google.",
+      "mapConsentButton": "Show map",
+      "mapConsentSettings": "Cookie settings"
     },
     "products": {
       "loadingMore": "Loading more items...",
