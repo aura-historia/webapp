@@ -26,16 +26,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v6
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+
+      - name: Set up pnpm
+        run: |
+          npm install --global pnpm@${PNPM_VERSION}
+          pnpm --version
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

@@ -7,7 +7,7 @@ on:
 
 env:
     NODE_VERSION: ${{ vars.NODE_VERSION || '24' }}
-    PNPM_VERSION: ${{ vars.PNPM_VERSION || '11' }}
+    PNPM_VERSION: '11.12.0'
     WATCH_FILE: "src/i18n/locales/en/translation.json"
     TARGET_LANGS: "es,fr,it"
 
@@ -53,18 +53,17 @@ jobs:
                 # Simply call the script file
               run: python .github/scripts/translation-bot.py
 
-            - name: Set up pnpm
-              if: steps.check_changes.outputs.run_translation == 'true'
-              uses: pnpm/action-setup@v6
-              with:
-                  version: ${{ env.PNPM_VERSION }}
-
             - name: Set up Node.js
               if: steps.check_changes.outputs.run_translation == 'true'
               uses: actions/setup-node@v6
               with:
                   node-version: ${{ env.NODE_VERSION }}
-                  cache: 'pnpm'
+
+            - name: Set up pnpm
+              if: steps.check_changes.outputs.run_translation == 'true'
+              run: |
+                npm install --global pnpm@${PNPM_VERSION}
+                pnpm --version
 
             - name: Install Node Dependencies
               if: steps.check_changes.outputs.run_translation == 'true'
