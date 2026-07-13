@@ -81,6 +81,7 @@ describe("ShopLocationSection", () => {
         expect(iframe).toHaveAttribute("src", expect.stringContaining("google.com/maps"));
         expect(iframe).toHaveAttribute("src", expect.stringContaining("hl=de"));
         expect(iframe).toHaveAttribute("src", expect.stringContaining("q=51.5074%2C-0.1278"));
+        expect(iframe).toHaveAttribute("src", expect.stringContaining("z=14"));
         expect(screen.queryByText("51.50740")).not.toBeInTheDocument();
         expect(screen.queryByText("-0.12780")).not.toBeInTheDocument();
         expect(screen.queryByRole("link", { name: "Karte öffnen" })).not.toBeInTheDocument();

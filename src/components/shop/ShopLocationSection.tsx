@@ -83,7 +83,7 @@ function buildMapEmbedUrl(
             hl: locale,
             output: "embed",
             q: `${geoAddress.lat},${geoAddress.lon}`,
-            z: "16",
+            z: "14",
         });
 
         return `https://www.google.com/maps?${params.toString()}`;
