@@ -27,6 +27,7 @@ describe("UserDetailsForm", () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
+        localStorage.clear();
         mockUpdateAccount.mockResolvedValue(undefined);
         mockSubscribe.mockResolvedValue(undefined);
     });
@@ -47,6 +48,15 @@ describe("UserDetailsForm", () => {
         );
     });
 
+    it("preselects the inferred language and preferred currency", async () => {
+        await act(async () => {
+            renderWithRouter(<UserDetailsForm email="user@example.com" onSuccess={vi.fn()} />);
+        });
+
+        expect(screen.getByRole("combobox", { name: "Sprache" })).toHaveTextContent("Deutsch");
+        expect(screen.getByRole("combobox", { name: "Währung" })).toHaveTextContent("EUR - Euro");
+    });
+
     it("subscribes to the newsletter with the default consent when the form is submitted", async () => {
         const user = userEvent.setup();
         const onSuccess = vi.fn();
@@ -63,8 +73,8 @@ describe("UserDetailsForm", () => {
             expect(mockUpdateAccount).toHaveBeenCalledWith({
                 firstName: "Max",
                 lastName: "Mustermann",
-                language: undefined,
-                currency: undefined,
+                language: "de",
+                currency: "EUR",
                 prohibitedContentConsent: false,
             });
         });
@@ -74,6 +84,8 @@ describe("UserDetailsForm", () => {
                 email: "user@example.com",
                 firstName: "Max",
                 lastName: "Mustermann",
+                language: "de",
+                currency: "EUR",
             }),
         );
         expect(onSuccess).toHaveBeenCalled();

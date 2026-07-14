@@ -48,14 +48,15 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
     const { t, i18n } = useTranslation();
     const schema = getUserDetailsSchema(t);
     const { preferences } = useUserPreferences();
+    const inferredLanguage = parseLanguage(i18n.resolvedLanguage ?? i18n.language);
 
     const form = useForm<UserDetailsFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
             firstName: "",
             lastName: "",
-            language: undefined,
-            currency: undefined,
+            language: inferredLanguage,
+            currency: preferences.currency,
             newsletterConsent: true,
             prohibitedContentConsent: false,
         },
