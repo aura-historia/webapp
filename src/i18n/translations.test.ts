@@ -18,7 +18,7 @@ type TranslationFile = {
 const projectRoot = process.cwd();
 const sourceRoot = join(projectRoot, "src");
 const localesRoot = join(projectRoot, "src/i18n/locales");
-const baseRef = "origin/develop";
+const defaultBaseRef = "origin/develop";
 const sourceFilePattern = /\.[cm]?[jt]sx?$/;
 const pluralSuffixPattern = /_(zero|one|two|few|many|other)$/;
 const translationKeyCandidatePattern = /\b[a-z][a-zA-Z0-9]*(?:\.[a-zA-Z0-9_]+)+\b/g;
@@ -56,20 +56,58 @@ function readTranslationJson(path: string): unknown {
     return JSON.parse(readFileSync(path, "utf8"));
 }
 
-function readBaseTranslationJson(relativePath: string): unknown {
+function canResolveGitRef(ref: string): boolean {
     try {
-        return JSON.parse(
-            execFileSync("git", ["show", `${baseRef}:${relativePath}`], {
-                cwd: projectRoot,
-                encoding: "utf8",
-            }),
-        );
-    } catch (error) {
-        throw new Error(
-            `Could not read ${relativePath} from ${baseRef}. Ensure ${baseRef} is fetched before running translation tests.`,
-            { cause: error },
-        );
+        execFileSync("git", ["rev-parse", "--verify", `${ref}^{commit}`], {
+            cwd: projectRoot,
+            stdio: "ignore",
+        });
+        return true;
+    } catch {
+        return false;
     }
+}
+
+function tryFetchDefaultBaseRef(): void {
+    try {
+        execFileSync(
+            "git",
+            ["fetch", "--depth=1", "origin", "develop:refs/remotes/origin/develop"],
+            {
+                cwd: projectRoot,
+                stdio: "ignore",
+            },
+        );
+    } catch {
+        // Some CI checkouts intentionally do not expose or allow fetching the base branch.
+    }
+}
+
+function resolveBaseRef(): string | null {
+    const configuredBaseRef = process.env.TRANSLATION_BASE_REF ?? defaultBaseRef;
+
+    if (canResolveGitRef(configuredBaseRef)) {
+        return configuredBaseRef;
+    }
+
+    if (configuredBaseRef === defaultBaseRef) {
+        tryFetchDefaultBaseRef();
+
+        if (canResolveGitRef(configuredBaseRef)) {
+            return configuredBaseRef;
+        }
+    }
+
+    return null;
+}
+
+function readBaseTranslationJson(baseRef: string, relativePath: string): unknown {
+    return JSON.parse(
+        execFileSync("git", ["show", `${baseRef}:${relativePath}`], {
+            cwd: projectRoot,
+            encoding: "utf8",
+        }),
+    );
 }
 
 function loadCurrentTranslationFiles(): TranslationFile[] {
@@ -208,6 +246,7 @@ function formatLocaleList(locales: string[]): string {
 }
 
 const translationFiles = loadCurrentTranslationFiles();
+const baseRef = resolveBaseRef();
 const translationRootKeys = new Set(
     translationFiles[0]?.leaves.map((leaf) => leaf.key.split(".")[0]),
 );
@@ -268,7 +307,14 @@ describe("translations", () => {
         expect(orphanKeys).toEqual([]);
     });
 
-    it(`changes every locale when a translation field changes compared to ${baseRef}`, () => {
+    it(`changes every locale when a translation field changes compared to ${defaultBaseRef}`, () => {
+        if (!baseRef) {
+            console.warn(
+                `Skipping translation change comparison because ${defaultBaseRef} is not available. Fetch ${defaultBaseRef} or set TRANSLATION_BASE_REF to enable this assertion.`,
+            );
+            return;
+        }
+
         const currentTranslationsByLocale = new Map(
             translationFiles.map((translationFile) => [
                 translationFile.locale,
@@ -279,7 +325,9 @@ describe("translations", () => {
             translationFiles.map((translationFile) => [
                 translationFile.locale,
                 toTranslationMap(
-                    flattenTranslationLeaves(readBaseTranslationJson(translationFile.relativePath)),
+                    flattenTranslationLeaves(
+                        readBaseTranslationJson(baseRef, translationFile.relativePath),
+                    ),
                 ),
             ]),
         );

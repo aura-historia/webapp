@@ -48,6 +48,9 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v7
 
+            - name: Fetch translation comparison base
+              run: git fetch --depth=1 origin develop:refs/remotes/origin/develop
+
             - name: Set up Node.js
               uses: actions/setup-node@v7
               with:
