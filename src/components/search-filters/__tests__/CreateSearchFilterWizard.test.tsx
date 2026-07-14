@@ -170,6 +170,62 @@ describe("CreateSearchFilterWizard", () => {
             ).toBeInTheDocument();
         });
 
+        it("pressing Enter in the query field adds a tag instead of advancing the step", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
+                ),
+            );
+
+            await user.type(screen.getByRole("textbox", { name: /Suchbegriff/i }), "Tisch{Enter}");
+
+            expect(screen.getByText("Tisch")).toBeInTheDocument();
+            expect(
+                screen.getByRole("textbox", { name: /Name des Suchauftrags/i }),
+            ).toBeInTheDocument();
+        });
+
+        it("does not add a query term shorter than 3 characters as a tag", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
+                ),
+            );
+
+            const queryInput = screen.getByRole("textbox", { name: /Suchbegriff/i });
+            await user.type(queryInput, "ab{Enter}");
+
+            expect(screen.queryByText("ab")).not.toBeInTheDocument();
+            expect(queryInput).toHaveValue("ab");
+            expect(
+                screen.getByText("Jeder Suchbegriff muss mindestens 3 Zeichen lang sein."),
+            ).toBeInTheDocument();
+        });
+
+        it("shows a validation error and does not advance when no query term was added", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
+                ),
+            );
+
+            await user.type(
+                screen.getByRole("textbox", { name: /Name des Suchauftrags/i }),
+                "Kurzer Filter",
+            );
+            await user.click(screen.getByRole("button", { name: /^Weiter$/i }));
+
+            expect(
+                screen.getByText("Bitte geben Sie mindestens einen Suchbegriff ein."),
+            ).toBeInTheDocument();
+            expect(
+                screen.getByRole("textbox", { name: /Name des Suchauftrags/i }),
+            ).toBeInTheDocument();
+        });
+
         it("calls createFilter on save", async () => {
             const user = userEvent.setup();
             mockCreateMutate.mockImplementation((_data: unknown, opts: { onSuccess: () => void }) =>
@@ -215,7 +271,7 @@ describe("CreateSearchFilterWizard", () => {
             expect(screen.getByRole("textbox", { name: /Name des Suchauftrags/i })).toHaveValue(
                 "Barock Möbel",
             );
-            expect(screen.getByRole("textbox", { name: /Suchbegriff/i })).toHaveValue("Tisch");
+            expect(screen.getByText("Tisch")).toBeInTheDocument();
         });
 
         it("calls updateFilter (not createFilter) on save", async () => {
@@ -275,7 +331,7 @@ describe("CreateSearchFilterWizard", () => {
                     />,
                 ),
             );
-            expect(screen.getByRole("textbox", { name: /Suchbegriff/i })).toHaveValue("Tisch");
+            expect(screen.getByText("Tisch")).toBeInTheDocument();
         });
 
         it("calls createFilter (not updateFilter) on save", async () => {
@@ -479,6 +535,32 @@ describe("CreateSearchFilterWizard", () => {
             await navigateToConfirmStep(user);
 
             expect(screen.getByTestId("confirm-step")).toBeInTheDocument();
+        });
+
+        it("saves when Enter is pressed on the confirm step", async () => {
+            const user = userEvent.setup();
+            mockUpdateMutate.mockImplementation((_data: unknown, opts: { onSuccess: () => void }) =>
+                opts?.onSuccess?.(),
+            );
+
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard
+                        open
+                        onOpenChange={vi.fn()}
+                        mode="edit"
+                        filter={mockFilter}
+                    />,
+                ),
+            );
+
+            await navigateToConfirmStep(user);
+            await user.keyboard("{Enter}");
+
+            expect(mockUpdateMutate).toHaveBeenCalledWith(
+                expect.objectContaining({ id: "filter-1" }),
+                expect.objectContaining({ onSuccess: expect.any(Function) }),
+            );
         });
     });
 });
