@@ -1670,7 +1670,9 @@
         "priceStatus": "Precio y Estado",
         "priceStatusDescription": "Defina su rango de precios y seleccione el estado de publicación deseado – por ejemplo, solo artículos disponibles o también piezas ya subastadas para investigación de mercado.",
         "theme": "Tema",
+        "themeDescription": "Precise la búsqueda por área de colección (por ejemplo maestros antiguos, muebles, plata) y época histórico-artística (por ejemplo Renacimiento, Rococó, Biedermeier).",
         "quality": "Calidad",
+        "qualityDescription": "Filtre por estado de conservación, autenticidad, procedencia, alcance de la restauración y periodo de creación del objeto.",
         "shop": "Tienda",
         "shopDescription": "Seleccione específicamente tipos de proveedores – renombradas casas de subastas, marchantes de arte especializados o mercados – e incluya o excluya proveedores individuales.",
         "date": "Fecha",
@@ -1678,6 +1680,8 @@
         "confirm": "Confirmar",
         "confirmDescription": "Revise su filtro de búsqueda antes de guardarlo"
       },
+      "subtitle": "Configure su filtro de búsqueda personal paso a paso.",
+      "configuredFilters": "Filtros configurados",
       "titleEdit": "Editar filtro de búsqueda",
       "titleDuplicate": "Duplicar filtro de búsqueda"
     },
@@ -1722,6 +1726,8 @@
       "editHint": "Intente ajustar el filtro de búsqueda."
     },
     "totalElements": "{{count}} filtro(s) de búsqueda",
+    "totalElements_one": "{{count}} filtro de búsqueda",
+    "totalElements_other": "{{count}} filtros de búsqueda",
     "matchingProducts": "Mostrar todas las coincidencias",
     "matchingProductsShort": "Todas las coincidencias",
     "matchingProductsInactive": "El filtro de búsqueda está inactivo – no hay coincidencias disponibles.",
@@ -1731,10 +1737,18 @@
     "previewError": "No se pudo cargar la vista previa.",
     "previewEmpty": "No se encontraron resultados para este filtro de búsqueda.",
     "info": {
+      "merchant": "Comerciante",
+      "excludeMerchant": "Excl.",
+      "period": "Época",
       "creationDate": "Creado: {{date}}",
       "updateDate": "Actualizado: {{date}}",
-      "auctionDate": "Fecha de subasta: {{date}}"
+      "auctionDate": "Fecha de subasta: {{date}}",
+      "created": "Creado el",
+      "updated": "Modificado el"
     },
+    "query": "Búsqueda",
+    "moreFilters": "más filtros",
+    "cardLabel": "Filtro de búsqueda",
     "hiddenMatch": {
       "title": "Oculto",
       "description": "Esta coincidencia excede su cuota mensual y está oculta. Actualice su cuenta para ver todos los resultados.",

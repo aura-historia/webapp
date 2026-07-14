@@ -1670,7 +1670,9 @@
         "priceStatus": "Prix & Statut",
         "priceStatusDescription": "Définissez votre fourchette de prix et sélectionnez le statut d'annonce souhaité – par exemple, uniquement les articles disponibles ou aussi les pièces déjà vendues aux enchères pour la recherche de marché.",
         "theme": "Thème",
+        "themeDescription": "Affinez votre recherche par domaine de collection (par exemple maîtres anciens, mobilier, argent) et période d'histoire de l'art (par exemple Renaissance, Rococo, Biedermeier).",
         "quality": "Qualité",
+        "qualityDescription": "Filtrez par état de conservation, authenticité, provenance, ampleur de la restauration et période de création de l'objet.",
         "shop": "Boutique",
         "shopDescription": "Sélectionnez précisément les types de fournisseurs – maisons de ventes aux enchères renommées, marchands d'art spécialisés ou marchés – et incluez ou excluez des fournisseurs individuels.",
         "date": "Date",
@@ -1678,6 +1680,8 @@
         "confirm": "Confirmer",
         "confirmDescription": "Vérifiez votre filtre de recherche avant de l'enregistrer"
       },
+      "subtitle": "Configurez votre filtre de recherche personnel étape par étape.",
+      "configuredFilters": "Filtres configurés",
       "titleEdit": "Modifier le filtre de recherche",
       "titleDuplicate": "Dupliquer le filtre de recherche"
     },
@@ -1722,6 +1726,8 @@
       "editHint": "Essayez d'ajuster le filtre de recherche."
     },
     "totalElements": "{{count}} filtre(s) de recherche",
+    "totalElements_one": "{{count}} filtre de recherche",
+    "totalElements_other": "{{count}} filtres de recherche",
     "matchingProducts": "Afficher toutes les correspondances",
     "matchingProductsShort": "Toutes les correspondances",
     "matchingProductsInactive": "Le filtre de recherche est inactif – aucune correspondance disponible.",
@@ -1731,10 +1737,18 @@
     "previewError": "Impossible de charger l'aperçu.",
     "previewEmpty": "Aucun résultat trouvé pour ce filtre de recherche.",
     "info": {
+      "merchant": "Marchand",
+      "excludeMerchant": "Excl.",
+      "period": "Période",
       "creationDate": "Créé : {{date}}",
       "updateDate": "Mis à jour : {{date}}",
-      "auctionDate": "Date de la vente : {{date}}"
+      "auctionDate": "Date de la vente : {{date}}",
+      "created": "Créé le",
+      "updated": "Modifié le"
     },
+    "query": "Recherche",
+    "moreFilters": "filtres supplémentaires",
+    "cardLabel": "Filtre de recherche",
     "hiddenMatch": {
       "title": "Caché",
       "description": "Cette correspondance dépasse votre quota mensuel et est masquée. Mettez à niveau votre compte pour voir tous les résultats.",

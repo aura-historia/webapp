@@ -1670,7 +1670,9 @@
         "priceStatus": "Prezzo e stato",
         "priceStatusDescription": "Definisci il tuo intervallo di prezzi e seleziona lo stato dell'annuncio desiderato – ad esempio solo articoli disponibili o anche pezzi già venduti all'asta per la ricerca di mercato.",
         "theme": "Tema",
+        "themeDescription": "Affina la ricerca per ambito di collezione (ad esempio antichi maestri, mobili, argento) e periodo storico-artistico (ad esempio Rinascimento, Rococò, Biedermeier).",
         "quality": "Qualità",
+        "qualityDescription": "Filtra per stato di conservazione, autenticità, provenienza, ambito del restauro e periodo di creazione dell'oggetto.",
         "shop": "Negozio",
         "shopDescription": "Seleziona specificamente i tipi di fornitori – rinominate case d'aste, commercianti d'arte specializzati o mercati – e includi o escludi fornitori individuali.",
         "date": "Data",
@@ -1678,6 +1680,8 @@
         "confirm": "Conferma",
         "confirmDescription": "Rivedi il tuo filtro di ricerca prima di salvarlo"
       },
+      "subtitle": "Configura passo dopo passo il tuo filtro di ricerca personale.",
+      "configuredFilters": "Filtri configurati",
       "titleEdit": "Modifica filtro di ricerca",
       "titleDuplicate": "Duplica filtro di ricerca"
     },
@@ -1722,6 +1726,8 @@
       "editHint": "Prova a modificare il filtro di ricerca."
     },
     "totalElements": "{{count}} filtro/i di ricerca",
+    "totalElements_one": "{{count}} filtro di ricerca",
+    "totalElements_other": "{{count}} filtri di ricerca",
     "matchingProducts": "Mostra tutte le corrispondenze",
     "matchingProductsShort": "Tutte le corrispondenze",
     "matchingProductsInactive": "Il filtro di ricerca è inattivo – nessuna corrispondenza disponibile.",
@@ -1731,10 +1737,18 @@
     "previewError": "Impossibile caricare l'anteprima.",
     "previewEmpty": "Nessun risultato trovato per questo filtro di ricerca.",
     "info": {
+      "merchant": "Commerciante",
+      "excludeMerchant": "Escl.",
+      "period": "Periodo",
       "creationDate": "Creato: {{date}}",
       "updateDate": "Aggiornato: {{date}}",
-      "auctionDate": "Data asta: {{date}}"
+      "auctionDate": "Data asta: {{date}}",
+      "created": "Creato il",
+      "updated": "Modificato il"
     },
+    "query": "Ricerca",
+    "moreFilters": "altri filtri",
+    "cardLabel": "Filtro di ricerca",
     "hiddenMatch": {
       "title": "Nascosto",
       "description": "Questa corrispondenza supera la tua quota mensile ed è nascosta. Effettua l'upgrade del tuo account per vedere tutti i risultati.",

@@ -283,6 +283,8 @@
       "all": "Alle",
       "select": "Auswählen",
       "resetTooltip": {
+        "global": "Alle Filter zurücksetzen",
+        "category": "Kategorie-Filter zurücksetzen",
         "priceSpan": "Filter für die Preisspanne zurücksetzen",
         "productState": "Filter für den Status zurücksetzen",
         "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
@@ -1421,6 +1423,7 @@
       "description": "Für diesen Suchauftrag gibt es momentan keine passenden Produkte.",
       "editHint": "Zurück zu den Suchaufträgen"
     },
+    "totalElements": "{{count}} Suchauftrag/-träge",
     "totalElements_one": "{{count}} Suchauftrag",
     "totalElements_other": "{{count}} Suchaufträge",
     "matchingProducts": "Alle Suchtreffer anzeigen",

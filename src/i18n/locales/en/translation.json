@@ -1368,7 +1368,9 @@
         "priceStatus": "Price & Status",
         "priceStatusDescription": "Define your price range and select the desired listing status – such as only available items, or also already auctioned pieces for market research.",
         "theme": "Theme",
+        "themeDescription": "Refine your search by collecting field (for example Old Masters, furniture, silver) and art-historical period (for example Renaissance, Rococo, Biedermeier).",
         "quality": "Quality",
+        "qualityDescription": "Filter by condition, authenticity status, provenance, restoration scope, and the object's period of creation.",
         "shop": "Shop",
         "shopDescription": "Specifically select provider types – renowned auction houses, specialized art dealers or marketplaces – and include or exclude individual providers.",
         "date": "Date",
@@ -1376,6 +1378,8 @@
         "confirm": "Confirm",
         "confirmDescription": "Review your search filter before saving"
       },
+      "subtitle": "Configure your personal search filter step by step.",
+      "configuredFilters": "Configured filters",
       "titleEdit": "Edit search filter",
       "titleDuplicate": "Duplicate search filter"
     },
@@ -1420,6 +1424,8 @@
       "editHint": "Try adjusting the search filter."
     },
     "totalElements": "{{count}} search filter(s)",
+    "totalElements_one": "{{count}} search filter",
+    "totalElements_other": "{{count}} search filters",
     "matchingProducts": "Show all matches",
     "matchingProductsShort": "All matches",
     "matchingProductsInactive": "Search filter is inactive – no matches available.",
@@ -1429,10 +1435,18 @@
     "previewError": "Could not load preview.",
     "previewEmpty": "No results found for this search filter.",
     "info": {
+      "merchant": "Merchant",
+      "excludeMerchant": "Excl.",
+      "period": "Period",
       "creationDate": "Created: {{date}}",
       "updateDate": "Updated: {{date}}",
-      "auctionDate": "Auction date: {{date}}"
+      "auctionDate": "Auction date: {{date}}",
+      "created": "Created on",
+      "updated": "Changed on"
     },
+    "query": "Search",
+    "moreFilters": "more filters",
+    "cardLabel": "Search filter",
     "hiddenMatch": {
       "title": "Hidden",
       "description": "This match exceeds your monthly quota and is hidden. Upgrade your account to see all results.",
