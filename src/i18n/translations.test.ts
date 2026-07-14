@@ -16,8 +16,12 @@ type TranslationFile = {
 };
 
 const projectRoot = process.cwd();
+const sourceRoot = join(projectRoot, "src");
 const localesRoot = join(projectRoot, "src/i18n/locales");
 const baseRef = "origin/develop";
+const sourceFilePattern = /\.[cm]?[jt]sx?$/;
+const pluralSuffixPattern = /_(zero|one|two|few|many|other)$/;
+const translationKeyCandidatePattern = /\b[a-z][a-zA-Z0-9]*(?:\.[a-zA-Z0-9_]+)+\b/g;
 
 function flattenTranslationLeaves(value: unknown, keyPrefix = ""): TranslationLeaf[] {
     if (Array.isArray(value)) {
@@ -89,11 +93,130 @@ function toTranslationMap(leaves: TranslationLeaf[]): Map<string, unknown> {
     return new Map(leaves.map((leaf) => [leaf.key, leaf.value]));
 }
 
+function listRuntimeSourceFiles(directory: string): string[] {
+    return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+        const path = join(directory, entry.name);
+
+        if (entry.isDirectory()) {
+            return listRuntimeSourceFiles(path);
+        }
+
+        if (!sourceFilePattern.test(path)) {
+            return [];
+        }
+
+        if (
+            path.includes("/src/i18n/locales/") ||
+            path.includes("/src/client/") ||
+            path.includes("/__tests__/") ||
+            path.endsWith(".test.ts") ||
+            path.endsWith(".test.tsx") ||
+            path.endsWith(".spec.ts") ||
+            path.endsWith(".spec.tsx") ||
+            path.endsWith("/src/i18n/translations.test.ts") ||
+            path.endsWith("/src/routeTree.gen.ts")
+        ) {
+            return [];
+        }
+
+        return [path];
+    });
+}
+
+function readRuntimeSourceContents(): string {
+    return listRuntimeSourceFiles(sourceRoot)
+        .map((path) => readFileSync(path, "utf8"))
+        .join("\n");
+}
+
+function extractRuntimeKeyCandidates(sourceContents: string): Set<string> {
+    return new Set(
+        [...sourceContents.matchAll(translationKeyCandidatePattern)].map((match) => match[0]),
+    );
+}
+
+function escapeRegExp(value: string): string {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function templateToRegExp(template: string, prefix = ""): RegExp {
+    const pattern = escapeRegExp(`${prefix}${template}`).replace(/\\\$\\\{[^}]+\\\}/g, "[^.]+");
+    return new RegExp(`^${pattern}$`);
+}
+
+function extractDynamicTranslationPatterns(
+    sourceContents: string,
+    rootKeys: Set<string>,
+): RegExp[] {
+    const directTemplatePatterns = [...sourceContents.matchAll(/`([^`]*\$\{[^`]*\}[^`]*)`/g)]
+        .map((match) => match[1])
+        .filter((template) => {
+            const rootKey = template.split(/[.${]/)[0];
+            return rootKeys.has(rootKey);
+        })
+        .map((template) => templateToRegExp(template));
+    const comparisonHelperPatterns = [
+        ...sourceContents.matchAll(/getBarnebysComparisonTranslationKey\(\s*`([^`]+)`\s*\)/g),
+    ].map((match) => templateToRegExp(match[1], "compareBarnebysPage."));
+
+    return [
+        ...directTemplatePatterns,
+        ...comparisonHelperPatterns,
+        /^apiErrors\.[^.]+$/,
+        /^compareBarnebysPage\.quickVerdicts\.[^.]+\.(label|value)$/,
+        /^compareBarnebysPage\.scorecard\.rows\.[^.]+\.(criterion|barnebys|auraHistoria|verdict|whyItMatters)$/,
+        /^compareBarnebysPage\.downstream\.sources\.[^.]+$/,
+        /^compareBarnebysPage\.faq\.items\.[^.]+\.(question|answer)$/,
+        /^compareBarnebysPage\.(advantages|downstream)\.cards\.[^.]+\.(title|description)$/,
+        /^partnerProgram\.customIntegrationPage\.guide\.steps\.[^.]+\.(title|description|focus|inputLabel|inputPlaceholder|inputHint|cta|visualTitle|visualCaption)$/,
+    ];
+}
+
+function getLookupKeys(translationKey: string): string[] {
+    const candidates = new Set([translationKey]);
+    const pluralBaseKey = translationKey.replace(pluralSuffixPattern, "");
+
+    candidates.add(pluralBaseKey);
+
+    const keyParts = translationKey.split(".");
+    const firstArrayIndex = keyParts.findIndex((part) => /^\d+$/.test(part));
+
+    if (firstArrayIndex >= 0) {
+        candidates.add(keyParts.slice(0, firstArrayIndex).join("."));
+    }
+
+    return [...candidates].filter((key) => key.length > 0);
+}
+
+function isTranslationKeyUsed(
+    translationKey: string,
+    runtimeKeyCandidates: Set<string>,
+    dynamicTranslationPatterns: RegExp[],
+): boolean {
+    const comparisonKeyPrefix = "compareBarnebysPage.";
+
+    return (
+        getLookupKeys(translationKey).some((key) => runtimeKeyCandidates.has(key)) ||
+        dynamicTranslationPatterns.some((pattern) => pattern.test(translationKey)) ||
+        (translationKey.startsWith(comparisonKeyPrefix) &&
+            runtimeKeyCandidates.has(translationKey.slice(comparisonKeyPrefix.length)))
+    );
+}
+
 function formatLocaleList(locales: string[]): string {
     return locales.length > 0 ? locales.join(", ") : "none";
 }
 
 const translationFiles = loadCurrentTranslationFiles();
+const translationRootKeys = new Set(
+    translationFiles[0]?.leaves.map((leaf) => leaf.key.split(".")[0]),
+);
+const runtimeSourceContents = readRuntimeSourceContents();
+const runtimeKeyCandidates = extractRuntimeKeyCandidates(runtimeSourceContents);
+const dynamicTranslationPatterns = extractDynamicTranslationPatterns(
+    runtimeSourceContents,
+    translationRootKeys,
+);
 
 describe("translations", () => {
     it("has only non-empty string values", () => {
@@ -132,6 +255,17 @@ describe("translations", () => {
             .sort();
 
         expect(missingKeys).toEqual([]);
+    });
+
+    it("does not contain orphan translation keys", () => {
+        const orphanKeys = [...new Set(translationFiles[0]?.leaves.map((leaf) => leaf.key))]
+            .filter(
+                (key) =>
+                    !isTranslationKeyUsed(key, runtimeKeyCandidates, dynamicTranslationPatterns),
+            )
+            .sort();
+
+        expect(orphanKeys).toEqual([]);
     });
 
     it(`changes every locale when a translation field changes compared to ${baseRef}`, () => {
