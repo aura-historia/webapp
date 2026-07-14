@@ -1,0 +1,541 @@
+import { Link } from "@tanstack/react-router";
+import { Check, ExternalLink, Mail, Pencil, Phone, Store, Trash2, X } from "lucide-react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { parseShopDomains } from "@/components/admin/adminShopFormUtils.ts";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog.tsx";
+import { Badge } from "@/components/ui/badge.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog.tsx";
+import { Progress } from "@/components/ui/progress.tsx";
+import { Skeleton } from "@/components/ui/skeleton.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
+import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
+import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
+import {
+    useDeletePartnerApplication,
+    usePartnerApplicationDetails,
+    useUpdatePartnerApplication,
+} from "@/features/partner/application-management/api/usePartnerApplications.ts";
+import {
+    buildPartnerApplicationStructuredAddress,
+    optionalTrimmedValue,
+} from "@/features/partner/application-management/components/PartnerApplicationCreateForm.ts";
+import {
+    PartnerApplicationEditForm,
+    type PartnerApplicationEditFormData,
+} from "@/features/partner/application-management/components/PartnerApplicationEditForm.tsx";
+import { formatDateTime } from "@/lib/utils.ts";
+import {
+    BUSINESS_STATE_TRANSLATION_KEY,
+    businessStateVariant,
+    getAddressSummary,
+    getProgressValue,
+} from "@/features/partner/application-management/lib/partnerApplicationHelpers.ts";
+
+function Field({ label, value }: { readonly label: string; readonly value?: string }) {
+    return (
+        <div className="flex min-w-0 flex-col gap-1">
+            <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                {label}
+            </dt>
+            <dd className="wrap-break-word text-sm">{value || "—"}</dd>
+        </div>
+    );
+}
+
+function LinkField({ label, value }: { readonly label: string; readonly value?: string }) {
+    if (!value) {
+        return <Field label={label} />;
+    }
+
+    return (
+        <div className="flex min-w-0 flex-col gap-1">
+            <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                {label}
+            </dt>
+            <dd className="min-w-0 text-sm">
+                <a
+                    className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
+                    href={value}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    <span className="truncate">{value}</span>
+                    <ExternalLink className="h-3 w-3 shrink-0" aria-hidden="true" />
+                </a>
+            </dd>
+        </div>
+    );
+}
+
+function ShopPageField({
+    label,
+    shopName,
+    shopSlugId,
+}: {
+    readonly label: string;
+    readonly shopName: string;
+    readonly shopSlugId: string;
+}) {
+    return (
+        <div className="flex min-w-0 flex-col gap-1">
+            <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                {label}
+            </dt>
+            <dd className="min-w-0 text-sm">
+                <Link
+                    to="/shops/$shopSlugId"
+                    params={{ shopSlugId }}
+                    className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
+                >
+                    <span className="truncate">{shopName}</span>
+                    <ExternalLink className="h-3 w-3 shrink-0" aria-hidden="true" />
+                </Link>
+            </dd>
+        </div>
+    );
+}
+
+function ApplicationProgress({ application }: { readonly application: PartnerApplication }) {
+    const { t } = useTranslation();
+
+    const getFinalLabel = () => {
+        if (application.businessState === "APPROVED") {
+            return t("partnerApplications.progress.approved");
+        }
+        if (application.businessState === "REJECTED") {
+            return t("partnerApplications.progress.denied");
+        }
+        return t("partnerApplications.progress.completed");
+    };
+
+    const getCurrentStep = () => {
+        if (application.businessState === "SUBMITTED") {
+            return 0;
+        }
+        if (application.businessState === "IN_REVIEW") {
+            return 1;
+        }
+        return 2;
+    };
+    const stops = [
+        t("partnerApplications.progress.handedIn"),
+        t("partnerApplications.progress.checking"),
+        getFinalLabel(),
+    ];
+
+    return (
+        <div className="grid gap-3">
+            <div className="relative h-4">
+                <Progress
+                    value={getProgressValue(application.businessState)}
+                    aria-label={t("partnerApplications.detail.progressLabel")}
+                    aria-valuetext={t(BUSINESS_STATE_TRANSLATION_KEY[application.businessState])}
+                    className={`absolute top-1/2 h-2 -translate-y-1/2 ${
+                        application.businessState === "REJECTED" ? "[&>div]:bg-destructive" : ""
+                    }`}
+                />
+                <div className="absolute inset-x-0 top-1/2 grid -translate-y-1/2 grid-cols-3">
+                    {stops.map((label, index) => (
+                        <span
+                            key={label}
+                            className={`h-3 w-3 rounded-full border-2 ${
+                                index <= getCurrentStep()
+                                    ? application.businessState === "REJECTED" && index === 2
+                                        ? "border-destructive bg-destructive"
+                                        : "border-primary bg-primary"
+                                    : "border-primary/30 bg-background"
+                            } ${index === 0 ? "justify-self-start" : index === 1 ? "justify-self-center" : "justify-self-end"}`}
+                            aria-hidden="true"
+                        />
+                    ))}
+                </div>
+            </div>
+            <ol className="grid grid-cols-3 text-xs text-muted-foreground">
+                {stops.map((label, index) => (
+                    <li
+                        key={label}
+                        className={`${
+                            index <= getCurrentStep() ? "font-medium text-foreground" : ""
+                        } ${index === 0 ? "text-left" : index === 1 ? "text-center" : "text-right"}`}
+                    >
+                        {label}
+                    </li>
+                ))}
+            </ol>
+        </div>
+    );
+}
+
+function DetailSkeleton() {
+    return (
+        <div role="status" aria-live="polite" className="grid gap-4">
+            <Skeleton className="h-24 w-full rounded-none" />
+            <Skeleton className="h-36 w-full rounded-none" />
+            <Skeleton className="h-28 w-full rounded-none" />
+        </div>
+    );
+}
+
+function ApplicationDetails({
+    application,
+    showShopDetails = true,
+}: {
+    readonly application: PartnerApplication;
+    readonly showShopDetails?: boolean;
+}) {
+    const { t, i18n } = useTranslation();
+
+    return (
+        <div className="grid gap-4">
+            <section className="border bg-surface-container-low p-4">
+                <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                        <div className="flex min-w-0 items-center gap-2">
+                            <Store className="h-4 w-4 shrink-0 text-muted-foreground" />
+                            <h3
+                                className="truncate font-medium"
+                                title={application.payload.shopName}
+                            >
+                                {application.payload.shopName}
+                            </h3>
+                        </div>
+                        <div className="flex flex-wrap gap-2 justify-end">
+                            <Badge variant={businessStateVariant(application.businessState)}>
+                                {application.businessState === "APPROVED" && (
+                                    <Check className="h-3 w-3" aria-hidden="true" />
+                                )}
+                                {t(BUSINESS_STATE_TRANSLATION_KEY[application.businessState])}
+                            </Badge>
+                        </div>
+                    </div>
+                    <ApplicationProgress application={application} />
+                </div>
+            </section>
+
+            <section className="border p-4">
+                <h3 className="font-medium">
+                    {t("partnerApplications.detail.applicationSection")}
+                </h3>
+                <dl className="mt-4 grid gap-3 sm:grid-cols-2">
+                    <Field
+                        label={t("partnerApplications.detail.createdAt")}
+                        value={formatDateTime(application.created, i18n.language)}
+                    />
+                    <Field
+                        label={t("partnerApplications.detail.updatedAt")}
+                        value={formatDateTime(application.updated, i18n.language)}
+                    />
+                </dl>
+            </section>
+
+            {showShopDetails && (
+                <section className="border p-4">
+                    <h3 className="font-medium">{t("partnerApplications.detail.shopSection")}</h3>
+                    <dl className="mt-4 grid gap-3 sm:grid-cols-2">
+                        {application.payload.type === "EXISTING" &&
+                        application.payload.shopSlugId ? (
+                            <ShopPageField
+                                label={t("partnerApplications.detail.shopName")}
+                                shopName={application.payload.shopName}
+                                shopSlugId={application.payload.shopSlugId}
+                            />
+                        ) : (
+                            <Field
+                                label={t("partnerApplications.detail.shopName")}
+                                value={application.payload.shopName}
+                            />
+                        )}
+                        <Field
+                            label={t("partnerApplications.detail.shopType")}
+                            value={
+                                application.payload.shopType
+                                    ? t(
+                                          SHOP_TYPE_TRANSLATION_CONFIG[application.payload.shopType]
+                                              .translationKey,
+                                      )
+                                    : undefined
+                            }
+                        />
+                        <Field
+                            label={t("partnerApplications.detail.domains")}
+                            value={application.payload.shopDomains.join(", ")}
+                        />
+                        <LinkField
+                            label={t("partnerApplications.detail.shopUrl")}
+                            value={application.payload.shopUrl}
+                        />
+                        <LinkField
+                            label={t("partnerApplications.detail.shopImage")}
+                            value={application.payload.shopImage}
+                        />
+                        {application.payload.shopPhone && (
+                            <div className="flex min-w-0 flex-col gap-1">
+                                <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                    {t("partnerApplications.detail.shopPhone")}
+                                </dt>
+                                <dd className="min-w-0 text-sm">
+                                    <a
+                                        className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
+                                        href={`tel:${application.payload.shopPhone}`}
+                                    >
+                                        <Phone className="h-3 w-3 shrink-0" aria-hidden="true" />
+                                        <span className="truncate">
+                                            {application.payload.shopPhone}
+                                        </span>
+                                    </a>
+                                </dd>
+                            </div>
+                        )}
+                        {application.payload.shopEmail && (
+                            <div className="flex min-w-0 flex-col gap-1">
+                                <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                    {t("partnerApplications.detail.shopEmail")}
+                                </dt>
+                                <dd className="min-w-0 text-sm">
+                                    <a
+                                        className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
+                                        href={`mailto:${application.payload.shopEmail}`}
+                                    >
+                                        <Mail className="h-3 w-3 shrink-0" aria-hidden="true" />
+                                        <span className="truncate">
+                                            {application.payload.shopEmail}
+                                        </span>
+                                    </a>
+                                </dd>
+                            </div>
+                        )}
+                        <Field
+                            label={t("partnerApplications.detail.address")}
+                            value={getAddressSummary(application.payload.shopStructuredAddress)}
+                        />
+                    </dl>
+                </section>
+            )}
+        </div>
+    );
+}
+
+interface PartnerApplicationDetailDialogProps {
+    readonly applicationId?: string;
+    readonly open: boolean;
+    readonly onOpenChange: (open: boolean) => void;
+}
+
+export function PartnerApplicationDetailDialog({
+    applicationId,
+    open,
+    onOpenChange,
+}: PartnerApplicationDetailDialogProps) {
+    const { t } = useTranslation();
+    const [isEditing, setIsEditing] = useState(false);
+    const {
+        data: application,
+        isPending,
+        isError,
+        refetch,
+    } = usePartnerApplicationDetails(applicationId, open);
+    const deletePartnerApplication = useDeletePartnerApplication();
+    const updatePartnerApplication = useUpdatePartnerApplication();
+    const canDeleteApplication =
+        application?.businessState === "SUBMITTED" || application?.businessState === "IN_REVIEW";
+    const canEditApplication = canDeleteApplication && application?.payload.type === "NEW";
+
+    const handleDelete = () => {
+        if (!application) {
+            return;
+        }
+
+        deletePartnerApplication.mutate(application.id, {
+            onSuccess: () => {
+                onOpenChange(false);
+                toast.success(t("partnerApplications.detail.deleteSuccess"));
+            },
+        });
+    };
+
+    const handleOpenChange = (nextOpen: boolean) => {
+        if (!nextOpen) {
+            setIsEditing(false);
+        }
+        onOpenChange(nextOpen);
+    };
+
+    const handleSave = (values: PartnerApplicationEditFormData) => {
+        if (application?.payload.type !== "NEW") {
+            return;
+        }
+
+        updatePartnerApplication.mutate(
+            {
+                partnerApplicationId: application.id,
+                shopName: values.shopName,
+                shopType: values.shopType || undefined,
+                shopDomains: parseShopDomains(values.shopDomains),
+                shopUrl: optionalTrimmedValue(values.shopUrl),
+                shopImage: optionalTrimmedValue(values.shopImage),
+                shopStructuredAddress: buildPartnerApplicationStructuredAddress(values),
+                shopPhone: optionalTrimmedValue(values.shopPhone),
+                shopEmail: optionalTrimmedValue(values.shopEmail),
+            },
+            {
+                onSuccess: () => {
+                    setIsEditing(false);
+                    toast.success(t("partnerApplications.detail.editSuccess"));
+                },
+            },
+        );
+    };
+
+    return (
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogContent
+                className="max-h-[90vh] overflow-y-auto sm:max-w-3xl"
+                showCloseButton={false}
+            >
+                <div className="flex items-start justify-between gap-4">
+                    <DialogHeader>
+                        <DialogTitle>{t("partnerApplications.detail.title")}</DialogTitle>
+                        <DialogDescription>
+                            {t("partnerApplications.detail.description")}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex shrink-0 items-center gap-1">
+                        <DialogClose asChild>
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="order-2 size-10 text-muted-foreground hover:text-foreground"
+                                aria-label={t("partnerApplications.detail.close")}
+                                disabled={updatePartnerApplication.isPending}
+                            >
+                                <X className="size-5" aria-hidden="true" />
+                            </Button>
+                        </DialogClose>
+                        {canEditApplication && !isEditing && (
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        className="size-10 text-muted-foreground hover:text-foreground"
+                                        aria-label={t("partnerApplications.detail.edit")}
+                                        disabled={updatePartnerApplication.isPending}
+                                        onClick={() => setIsEditing(true)}
+                                    >
+                                        <Pencil className="size-5" aria-hidden="true" />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    {t("partnerApplications.detail.edit")}
+                                </TooltipContent>
+                            </Tooltip>
+                        )}
+                        {canDeleteApplication && (
+                            <AlertDialog>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <AlertDialogTrigger asChild>
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="icon"
+                                                className="size-10 text-muted-foreground hover:text-destructive"
+                                                aria-label={t("partnerApplications.detail.delete")}
+                                                disabled={
+                                                    deletePartnerApplication.isPending ||
+                                                    updatePartnerApplication.isPending
+                                                }
+                                            >
+                                                <Trash2 className="size-5" aria-hidden="true" />
+                                            </Button>
+                                        </AlertDialogTrigger>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        {t("partnerApplications.detail.delete")}
+                                    </TooltipContent>
+                                </Tooltip>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            {t("partnerApplications.detail.deleteConfirm.title")}
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            {t(
+                                                "partnerApplications.detail.deleteConfirm.description",
+                                            )}
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel
+                                            disabled={deletePartnerApplication.isPending}
+                                        >
+                                            {t("partnerApplications.detail.deleteConfirm.cancel")}
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                            variant="destructive"
+                                            disabled={deletePartnerApplication.isPending}
+                                            onClick={handleDelete}
+                                        >
+                                            {t("partnerApplications.detail.deleteConfirm.confirm")}
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        )}
+                    </div>
+                </div>
+
+                {isPending && <DetailSkeleton />}
+                {isError && (
+                    <div className="flex flex-col items-start gap-3 border bg-surface-container-low p-4">
+                        <p className="text-sm text-muted-foreground">
+                            {t("partnerApplications.detail.loadError")}
+                        </p>
+                        <Button size="sm" variant="outline" onClick={() => refetch()}>
+                            {t("partnerApplications.actions.retry")}
+                        </Button>
+                    </div>
+                )}
+                {!isPending && !isError && application && (
+                    <>
+                        <ApplicationDetails
+                            application={application}
+                            showShopDetails={!isEditing}
+                        />
+                        {isEditing && canEditApplication && (
+                            <PartnerApplicationEditForm
+                                key={application.id}
+                                application={application}
+                                isSaving={updatePartnerApplication.isPending}
+                                onCancel={() => setIsEditing(false)}
+                                onSave={handleSave}
+                            />
+                        )}
+                    </>
+                )}
+            </DialogContent>
+        </Dialog>
+    );
+}

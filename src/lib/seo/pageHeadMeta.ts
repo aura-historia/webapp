@@ -26,8 +26,9 @@ type PageMetaKey =
     | "searchFilters"
     | "notifications"
     | "consentSettings"
-    | "partners"
-    | "partnerDashboard"
+    | "partnerProgram"
+    | "partnerApplications"
+    | "partnerAccessTokens"
     | "compareBarnebys"
     | "admin";
 
@@ -76,12 +77,15 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
         title: "meta.consentSettings.title",
         description: "meta.consentSettings.description",
     },
-    partners: {
-        title: "meta.partners.title",
-        description: "meta.partners.description",
+    partnerProgram: {
+        title: "meta.partnerProgram.title",
+        description: "meta.partnerProgram.description",
     },
-    partnerDashboard: {
-        title: "meta.partnerDashboard.title",
+    partnerApplications: {
+        title: "meta.partnerApplications.title",
+    },
+    partnerAccessTokens: {
+        title: "meta.partnerAccessTokens.title",
     },
     compareBarnebys: {
         title: "meta.compareBarnebys.title",

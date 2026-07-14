@@ -9,7 +9,7 @@ import { useLocation } from "@tanstack/react-router";
 import {
     SHOPIFY_APP_STORE_URL,
     WORDPRESS_PLUGIN_DIRECTORY_URL,
-} from "@/features/partners/partnerLinks.ts";
+} from "@/features/partner/partner-program/config/partnerProgramLinks.ts";
 
 const { changeLanguageMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
@@ -116,10 +116,13 @@ describe("Footer Component", () => {
     });
 
     it("should render partner program links with correct href attributes", () => {
-        expect(screen.getByText("Übersicht").closest("a")).toHaveAttribute("href", "/partners");
+        expect(screen.getByText("Übersicht").closest("a")).toHaveAttribute(
+            "href",
+            "/partner-program",
+        );
         expect(screen.getByText("Partner-Dashboard").closest("a")).toHaveAttribute(
             "href",
-            "/partners/dashboard",
+            "/partners/applications",
         );
         expect(screen.getByText("WordPress-Plugin").closest("a")).toHaveAttribute(
             "href",
@@ -139,11 +142,11 @@ describe("Footer Component", () => {
         );
         expect(screen.getByText("Eigene Integration").closest("a")).toHaveAttribute(
             "href",
-            "/partners/custom-integration",
+            "/partner-program/custom-integration",
         );
         expect(screen.getByText("Jetzt bewerben").closest("a")).toHaveAttribute(
             "href",
-            "/partners/apply",
+            "/partner-program/apply",
         );
     });
 
@@ -164,7 +167,7 @@ describe("Footer Component", () => {
         await user.click(screen.getByText("Übersicht"));
 
         await waitFor(() => {
-            expect(screen.getByTestId("location-probe")).toHaveTextContent("/partners");
+            expect(screen.getByTestId("location-probe")).toHaveTextContent("/partner-program");
         });
     });
 
@@ -173,7 +176,7 @@ describe("Footer Component", () => {
             "href",
             "/#recently-added",
         );
-        expect(screen.getByText("Transparenz").closest("a")).toHaveAttribute("href", "/#discover");
+        expect(screen.getByText("Plattform").closest("a")).toHaveAttribute("href", "/#discover");
         expect(screen.getByText("Funktionen").closest("a")).toHaveAttribute("href", "/#features");
         expect(screen.getByText("So funktioniert's").closest("a")).toHaveAttribute(
             "href",

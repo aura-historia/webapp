@@ -1,40 +1,123 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+import { H2 } from "@/components/typography/H2.tsx";
+import { cn } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 import { FEATURES_CARD_DATA } from "@/components/landing-page/features-section/FeaturesSection.data.ts";
-import { SectionHeading } from "@/components/landing-page/common/SectionHeading.tsx";
 
 export default function FeaturesSection() {
     const { t } = useTranslation();
 
     return (
-        <section className="py-20 px-4 bg-surface-bright">
-            <div className="max-w-7xl mx-auto">
-                <SectionHeading
-                    headline={t("landingPage.features.title")}
-                    description={t("landingPage.features.subtitle")}
-                    showDivider={false}
-                />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
-                    {FEATURES_CARD_DATA.map((feature) => (
-                        <Card
-                            key={feature.titleKey}
-                            className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-primary/10 hover:border-primary/30"
-                        >
-                            <CardHeader>
-                                <div className="flex items-center justify-between flex-row gap-4 mb-4">
-                                    <div className="w-12 h-12 bg-surface-container-high flex items-center justify-center transition-colors">
-                                        <feature.icon className="w-6 h-6 text-primary" />
+        <section className="overflow-hidden bg-surface-bright px-4 py-24 sm:px-8 lg:py-28">
+            <div className="mx-auto max-w-7xl">
+                <div className="max-w-3xl">
+                    <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.24em] text-tertiary">
+                        {t("landingPage.features.eyebrow")}
+                    </span>
+                    <H2 className="text-3xl leading-tight sm:text-5xl lg:text-6xl">
+                        {t("landingPage.features.title")}
+                    </H2>
+                    <p className="mt-6 max-w-2xl text-base leading-7 text-secondary sm:text-lg">
+                        {t("landingPage.features.subtitle")}
+                    </p>
+                    <p className="mt-8 max-w-xl bg-surface-container-low p-5 text-sm leading-6 text-on-surface-variant">
+                        {t("landingPage.features.note")}
+                    </p>
+                </div>
+
+                <div className="mt-16 space-y-10 lg:mt-20 lg:space-y-14">
+                    {FEATURES_CARD_DATA.map((feature, index) => {
+                        const visualOnLeft = index % 2 === 1;
+
+                        return (
+                            <article
+                                key={feature.titleKey}
+                                className="relative grid grid-cols-1 items-stretch lg:grid-cols-2 lg:px-8"
+                            >
+                                <div
+                                    className={cn(
+                                        "pointer-events-none absolute top-8 bottom-8 hidden bg-surface-container-low lg:block",
+                                        visualOnLeft ? "right-0 left-24" : "right-24 left-0",
+                                    )}
+                                />
+                                <div
+                                    className={cn(
+                                        "relative z-20 bg-surface-container-lowest p-7 shadow-[0_18px_60px_rgba(36,24,10,0.06)] sm:p-10 lg:my-8",
+                                        visualOnLeft ? "lg:order-2 lg:-ml-10" : "lg:-mr-10",
+                                    )}
+                                >
+                                    <div className="mb-8 flex items-center justify-between gap-4">
+                                        <div className="flex h-12 w-12 items-center justify-center bg-surface-container-high">
+                                            <feature.icon className="h-6 w-6 text-primary" />
+                                        </div>
+                                        <span className="font-display text-5xl italic leading-none text-primary/15">
+                                            {String(index + 1).padStart(2, "0")}
+                                        </span>
                                     </div>
+                                    <h3 className="font-display text-3xl font-normal leading-tight text-primary sm:text-4xl">
+                                        {t(feature.titleKey)}
+                                    </h3>
+                                    <p className="mt-5 text-base leading-7 text-secondary">
+                                        {t(feature.descKey)}
+                                    </p>
                                 </div>
-                                <CardTitle className="text-2xl font-display text-primary font-normal">
-                                    {t(feature.titleKey)}
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-muted-foreground">{t(feature.descKey)}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
+
+                                <div
+                                    className={cn(
+                                        "relative z-10 -mt-4 bg-surface-container-low p-4 sm:p-6 lg:mt-0",
+                                        visualOnLeft && "lg:order-1",
+                                    )}
+                                >
+                                    {feature.visual.kind === "metric" ? (
+                                        <div className="flex h-full min-h-72 flex-col justify-between bg-primary p-8 text-primary-foreground sm:p-10">
+                                            <div>
+                                                <span className="block font-display text-5xl font-normal leading-none sm:text-6xl">
+                                                    {t(feature.visual.valueKey)}
+                                                </span>
+                                                <p className="mt-6 max-w-sm text-lg leading-7 text-primary-foreground/90">
+                                                    {t(feature.visual.labelKey)}
+                                                </p>
+                                            </div>
+                                            <div className="mt-10 flex flex-wrap gap-x-3 gap-y-2 text-xs font-medium uppercase tracking-[0.2em] text-primary-foreground/60">
+                                                {feature.visual.sources.map((source) => (
+                                                    <a
+                                                        key={source.href}
+                                                        href={source.href}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        className="transition-colors duration-300 hover:text-primary-foreground"
+                                                    >
+                                                        {source.label}
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="flex h-full min-h-72 flex-col bg-surface-container-lowest p-5 shadow-[0_12px_40px_rgba(28,28,22,0.05)] sm:p-6">
+                                            <div className="mb-4 flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-tertiary">
+                                                <span className="h-2 w-2 bg-tertiary-fixed" />
+                                                {t(feature.visual.eyebrowKey)}
+                                            </div>
+                                            <div className="flex flex-1 flex-col justify-between bg-surface-container-high p-6">
+                                                <div className="space-y-3">
+                                                    <div className="h-3 w-28 bg-surface-container-lowest/80" />
+                                                    <div className="h-3 w-44 bg-surface-container-lowest/70" />
+                                                    <div className="h-3 w-36 bg-surface-container-lowest/60" />
+                                                </div>
+                                                <div>
+                                                    <p className="font-display text-2xl leading-8 text-primary">
+                                                        {t(feature.visual.titleKey)}
+                                                    </p>
+                                                    <p className="mt-3 text-sm leading-6 text-on-surface-variant">
+                                                        {t(feature.visual.descriptionKey)}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </article>
+                        );
+                    })}
                 </div>
             </div>
         </section>

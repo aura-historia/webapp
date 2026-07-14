@@ -14,12 +14,12 @@ describe("pageHeadMeta", () => {
                 const result = generatePageHeadMeta({ pageKey: "home" });
 
                 expect(result.meta).toContainEqual({
-                    title: "Aura Historia | Führende Suchmaschine für Antiquitäten",
+                    title: "Aura Historia | Globale Antiquitäten-Plattform",
                 });
                 expect(result.meta).toContainEqual({
                     name: "description",
                     content:
-                        "Finden Sie Antiquitäten mit Aura Historia. Echtzeit-Daten von über 1000 Auktionshäusern, Händlern und Marktplätzen. Ihre Suche beginnt hier.",
+                        "Entdecken Sie seltene Antiquitäten, Kunst und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
                 });
             });
 
@@ -118,7 +118,7 @@ describe("pageHeadMeta", () => {
 
                 expect(result.meta).toContainEqual({
                     property: "og:title",
-                    content: "Aura Historia | Führende Suchmaschine für Antiquitäten",
+                    content: "Aura Historia | Globale Antiquitäten-Plattform",
                 });
             });
 
@@ -128,7 +128,7 @@ describe("pageHeadMeta", () => {
                 expect(result.meta).toContainEqual({
                     property: "og:description",
                     content:
-                        "Finden Sie Antiquitäten mit Aura Historia. Echtzeit-Daten von über 1000 Auktionshäusern, Händlern und Marktplätzen. Ihre Suche beginnt hier.",
+                        "Entdecken Sie seltene Antiquitäten, Kunst und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
                 });
             });
 
@@ -232,7 +232,7 @@ describe("pageHeadMeta", () => {
 
                 expect(result.meta).toContainEqual({
                     name: "twitter:title",
-                    content: "Aura Historia | Führende Suchmaschine für Antiquitäten",
+                    content: "Aura Historia | Globale Antiquitäten-Plattform",
                 });
             });
 
@@ -242,7 +242,7 @@ describe("pageHeadMeta", () => {
                 expect(result.meta).toContainEqual({
                     name: "twitter:description",
                     content:
-                        "Finden Sie Antiquitäten mit Aura Historia. Echtzeit-Daten von über 1000 Auktionshäusern, Händlern und Marktplätzen. Ihre Suche beginnt hier.",
+                        "Entdecken Sie seltene Antiquitäten, Kunst und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
                 });
             });
 

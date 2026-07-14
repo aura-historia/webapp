@@ -42,9 +42,9 @@ const searchShopsRoute = createRoute({
     component: () => <>{injectedChildren}</>,
 });
 
-const partnersRoute = createRoute({
+const partnerProgramRoute = createRoute({
     getParentRoute: () => rootRoute,
-    path: "/partners",
+    path: "/partner-program",
     component: () => <>{injectedChildren}</>,
 });
 
@@ -53,7 +53,7 @@ const routeTree = rootRoute.addChildren([
     testRoute,
     searchRoute,
     searchShopsRoute,
-    partnersRoute,
+    partnerProgramRoute,
 ]);
 
 interface TestRouterWrapperProps {

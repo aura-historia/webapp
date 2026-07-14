@@ -1,44 +1,107 @@
-import { Bot, UserStar, Funnel, Globe, Heart, History, Languages, Search } from "lucide-react";
+import { Bot, Funnel, Globe, Heart, History, Languages, Search } from "lucide-react";
+
+const ART_BASEL_UBS_REPORT_URL =
+    "https://www.ubs.com/global/en/our-firm/art/art-market-research.html";
+const IBISWORLD_US_ANTIQUE_STORES_URL =
+    "https://www.ibisworld.com/united-states/industry/antique-stores/6467/";
+const IBISWORLD_EU_SECOND_HAND_URL =
+    "https://www.ibisworld.com/europe/industry/second-hand-goods-retailing/200596/";
 
 export const FEATURES_CARD_DATA = [
     {
-        icon: Search,
-        titleKey: "landingPage.features.search.title",
-        descKey: "landingPage.features.search.description",
+        icon: Globe,
+        titleKey: "landingPage.features.marketScale.title",
+        descKey: "landingPage.features.marketScale.description",
+        visual: {
+            kind: "metric",
+            valueKey: "landingPage.features.marketScale.visual.value",
+            labelKey: "landingPage.features.marketScale.visual.label",
+            sources: [
+                {
+                    label: "Art Basel / UBS",
+                    href: ART_BASEL_UBS_REPORT_URL,
+                },
+            ],
+        },
     },
     {
-        icon: Globe,
-        titleKey: "landingPage.features.global.title",
-        descKey: "landingPage.features.global.description",
+        icon: Search,
+        titleKey: "landingPage.features.beyondAuction.title",
+        descKey: "landingPage.features.beyondAuction.description",
+        visual: {
+            kind: "metric",
+            valueKey: "landingPage.features.beyondAuction.visual.value",
+            labelKey: "landingPage.features.beyondAuction.visual.label",
+            sources: [
+                {
+                    label: "Art Basel / UBS",
+                    href: ART_BASEL_UBS_REPORT_URL,
+                },
+            ],
+        },
     },
     {
         icon: Languages,
         titleKey: "landingPage.features.translations.title",
         descKey: "landingPage.features.translations.description",
-    },
-    {
-        icon: History,
-        titleKey: "landingPage.features.history.title",
-        descKey: "landingPage.features.history.description",
+        visual: {
+            kind: "metric",
+            valueKey: "landingPage.features.translations.visual.value",
+            labelKey: "landingPage.features.translations.visual.label",
+            sources: [
+                {
+                    label: "IBISWorld US",
+                    href: IBISWORLD_US_ANTIQUE_STORES_URL,
+                },
+                {
+                    label: "IBISWorld Europe",
+                    href: IBISWORLD_EU_SECOND_HAND_URL,
+                },
+            ],
+        },
     },
     {
         icon: Heart,
         titleKey: "landingPage.features.watchlist.title",
         descKey: "landingPage.features.watchlist.description",
+        visual: {
+            kind: "placeholder",
+            eyebrowKey: "landingPage.features.watchlist.visual.eyebrow",
+            titleKey: "landingPage.features.watchlist.visual.title",
+            descriptionKey: "landingPage.features.watchlist.visual.description",
+        },
     },
     {
         icon: Funnel,
         titleKey: "landingPage.features.personalFilter.title",
         descKey: "landingPage.features.personalFilter.description",
+        visual: {
+            kind: "placeholder",
+            eyebrowKey: "landingPage.features.personalFilter.visual.eyebrow",
+            titleKey: "landingPage.features.personalFilter.visual.title",
+            descriptionKey: "landingPage.features.personalFilter.visual.description",
+        },
+    },
+    {
+        icon: History,
+        titleKey: "landingPage.features.history.title",
+        descKey: "landingPage.features.history.description",
+        visual: {
+            kind: "placeholder",
+            eyebrowKey: "landingPage.features.history.visual.eyebrow",
+            titleKey: "landingPage.features.history.visual.title",
+            descriptionKey: "landingPage.features.history.visual.description",
+        },
     },
     {
         icon: Bot,
         titleKey: "landingPage.features.aiSearchAgent.title",
         descKey: "landingPage.features.aiSearchAgent.description",
+        visual: {
+            kind: "placeholder",
+            eyebrowKey: "landingPage.features.aiSearchAgent.visual.eyebrow",
+            titleKey: "landingPage.features.aiSearchAgent.visual.title",
+            descriptionKey: "landingPage.features.aiSearchAgent.visual.description",
+        },
     },
-    {
-        icon: UserStar,
-        titleKey: "landingPage.features.communityWishes.title",
-        descKey: "landingPage.features.communityWishes.description",
-    },
-];
+] as const;
