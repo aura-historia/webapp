@@ -346,7 +346,7 @@ export type SearchFilterUserStateData = {
     userSearchFilterName?: string;
     /**
      * A human-readable explanation of why the saved search filter matched this product.
-     * Only set for AI-enhanced filters (i.e. those with an `enhancedSearchDescription`).
+     * Only set for AI-enhanced filters (i.e. those with `search.enhancedSearchDescription`).
      * Present only when `matched` is `true` and an enhanced match reason exists; omitted otherwise.
      *
      */
@@ -743,9 +743,22 @@ export type ProductSearchData = {
     language?: LanguageData;
     currency?: CurrencyData;
     /**
-     * Optional text query for searching products (minimum 1 character when provided)
+     * Optional text queries for searching products. Multiple entries are ORed together. Empty list means no text query.
      */
-    productQuery?: string | null;
+    productQuery?: Array<string>;
+    /**
+     * Optional natural-language description used by the AI-enhanced search filter matching service.
+     * When provided on a saved search filter, a language model evaluates each matched product against
+     * this description and only keeps products that are a true match, attaching a user-facing reason
+     * to every confirmed hit.
+     * Whitespace is trimmed and the value is silently truncated to 1000 characters if longer.
+     *
+     */
+    enhancedSearchDescription?: string | null;
+    /**
+     * Optional product IDs to exclude from search results.
+     */
+    excludeProductId?: Array<string>;
     /**
      * Optional filter by exact shop names (keyword matching).
      * Filters products to only those from shops with names exactly matching one of the provided values.
@@ -862,21 +875,13 @@ export type PostUserSearchFilterData = {
      * User-defined name for the search filter (max 255 characters, will be truncated if longer)
      */
     name: string;
-    /**
-     * Optional natural-language description used by the AI-enhanced search filter matching service.
-     * When provided, a language model evaluates each matched product against this description and only
-     * keeps products that are a true match, attaching a user-facing reason to every confirmed hit.
-     * Whitespace is trimmed and the value is silently truncated to 1000 characters if longer.
-     *
-     */
-    enhancedSearchDescription?: string | null;
     search: ProductSearchData;
 };
 
 /**
  * Partial search filter update data.
  * All fields are optional and only provided fields will be updated.
- * Can update the search filter name, enhanced search description, notifications preference, activation state, and/or the search filter criteria.
+ * Can update the search filter name, notifications preference, activation state, and/or the search filter criteria.
  *
  */
 export type PatchUserSearchFilterData = {
@@ -884,15 +889,6 @@ export type PatchUserSearchFilterData = {
      * User-defined name for the search filter (max 255 characters, will be truncated if longer)
      */
     name?: string | null;
-    /**
-     * Optional natural-language description used by the AI-enhanced search filter matching service.
-     * When provided, a language model evaluates each matched product against this description and only
-     * keeps products that are a true match, attaching a user-facing reason to every confirmed hit.
-     * Whitespace is trimmed and the value is silently truncated to 1000 characters if longer.
-     * Omit to leave unchanged.
-     *
-     */
-    enhancedSearchDescription?: string | null;
     /**
      * Whether to enable or disable email/push notifications for new products matching this search filter.
      * When `true`, the user will be notified when a new product matches this filter.
@@ -945,9 +941,19 @@ export type PatchProductSearchData = {
      */
     currency?: CurrencyData | null;
     /**
-     * Text query for searching products (minimum 1 character when provided)
+     * Text queries for searching products. Multiple entries are ORed together. Empty list clears the text query when patching.
      */
-    productQuery?: string | null;
+    productQuery?: Array<string> | null;
+    /**
+     * Optional natural-language description used by the AI-enhanced search filter matching service.
+     * When provided on a saved search filter, a language model evaluates each matched product against
+     * this description and only keeps products that are a true match, attaching a user-facing reason
+     * to every confirmed hit.
+     * Whitespace is trimmed and the value is silently truncated to 1000 characters if longer.
+     * Omit to leave unchanged.
+     *
+     */
+    enhancedSearchDescription?: string | null;
     /**
      * Optional filter by exact shop names (keyword matching).
      * Filters products to only those from shops with names exactly matching one of the provided values.
@@ -1066,12 +1072,6 @@ export type UserSearchFilterData = {
      * User-defined name for the search filter
      */
     name: string;
-    /**
-     * Optional natural-language description used by the AI-enhanced search filter matching service.
-     * Present only when an enhanced search description was set on this filter.
-     *
-     */
-    enhancedSearchDescription?: string;
     /**
      * Whether notifications are enabled for this search filter.
      * When `true`, the user will be notified when a new product matches this filter.
@@ -4039,9 +4039,13 @@ export type SimpleSearchProductsData = {
          */
         currency: CurrencyData;
         /**
-         * Optional text query for products (minimum 1 character when provided)
+         * Optional text queries for products. Multiple entries are ORed together.
          */
-        productQuery?: string;
+        productQuery?: Array<string>;
+        /**
+         * Optional product IDs to exclude from results.
+         */
+        excludeProductId?: Array<string>;
         /**
          * Optional filter by exact shop names (keyword matching).
          * Products are filtered to those from shops whose names exactly match one of the provided values.
@@ -4515,7 +4519,7 @@ export type UpdateUserSearchFilterResponses = {
 
 export type UpdateUserSearchFilterResponse = UpdateUserSearchFilterResponses[keyof UpdateUserSearchFilterResponses];
 
-export type GetSearchFilterLiveProductsData = {
+export type GetSearchFilterPreviewProductsData = {
     body?: never;
     path: {
         /**
@@ -4529,19 +4533,6 @@ export type GetSearchFilterLiveProductsData = {
          */
         currency?: CurrencyData;
         /**
-         * Maximum number of products to return.
-         * Values above `10` are accepted but capped to `10` by the backend.
-         *
-         */
-        size?: number;
-        /**
-         * Must not be provided for this endpoint.
-         * Any non-null cursor value is rejected with `BAD_QUERY_PARAMETER_VALUE` because client-driven pagination
-         * is not supported for live search-filter product previews.
-         *
-         */
-        searchAfter?: Array<unknown> | null;
-        /**
          * Preferred language for localized content.
          * Defaults to `en` when omitted.
          *
@@ -4551,7 +4542,7 @@ export type GetSearchFilterLiveProductsData = {
     url: '/api/v1/me/search-filters/{userSearchFilterId}/products';
 };
 
-export type GetSearchFilterLiveProductsErrors = {
+export type GetSearchFilterPreviewProductsErrors = {
     /**
      * Bad request - invalid parameters
      */
@@ -4570,16 +4561,16 @@ export type GetSearchFilterLiveProductsErrors = {
     500: ApiError;
 };
 
-export type GetSearchFilterLiveProductsError = GetSearchFilterLiveProductsErrors[keyof GetSearchFilterLiveProductsErrors];
+export type GetSearchFilterPreviewProductsError = GetSearchFilterPreviewProductsErrors[keyof GetSearchFilterPreviewProductsErrors];
 
-export type GetSearchFilterLiveProductsResponses = {
+export type GetSearchFilterPreviewProductsResponses = {
     /**
-     * Live search results retrieved successfully
+     * Product match preview retrieved successfully
      */
     200: PersonalizedProductSearchResultData;
 };
 
-export type GetSearchFilterLiveProductsResponse = GetSearchFilterLiveProductsResponses[keyof GetSearchFilterLiveProductsResponses];
+export type GetSearchFilterPreviewProductsResponse = GetSearchFilterPreviewProductsResponses[keyof GetSearchFilterPreviewProductsResponses];
 
 export type GetSearchFilterMatchesData = {
     body?: never;
