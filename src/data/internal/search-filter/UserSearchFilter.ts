@@ -46,6 +46,7 @@ export function mapProductSearchDataToSearchFilterArguments(
 ): SearchFilterArguments {
     return {
         q: data.productQuery?.[0] ?? "",
+        queryTerms: data.productQuery,
         priceFrom: data.price?.min == null ? undefined : data.price.min / 100,
         priceTo: data.price?.max == null ? undefined : data.price.max / 100,
         allowedStates: data.state?.map((s) => parseProductState(s)),
@@ -69,7 +70,7 @@ export function mapSearchFilterArgumentsToProductSearchData(
     args: SearchFilterArguments,
 ): ProductSearchData {
     return {
-        productQuery: args.q ? [args.q] : [],
+        productQuery: args.queryTerms?.length ? args.queryTerms : args.q ? [args.q] : [],
         price:
             args.priceFrom != null || args.priceTo != null
                 ? {
