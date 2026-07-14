@@ -121,12 +121,25 @@ describe("mapProductSearchDataToSearchFilterArguments", () => {
         expect(result.priceFrom).toBeUndefined();
         expect(result.priceTo).toBeUndefined();
     });
+
+    it("maps productQuery to queryTerms and uses the first term as q", () => {
+        const result = mapProductSearchDataToSearchFilterArguments({
+            productQuery: ["Tisch", "Stuhl"],
+        });
+        expect(result.queryTerms).toEqual(["Tisch", "Stuhl"]);
+        expect(result.q).toBe("Tisch");
+    });
+
+    it("leaves queryTerms undefined when productQuery is not provided", () => {
+        const result = mapProductSearchDataToSearchFilterArguments({});
+        expect(result.queryTerms).toBeUndefined();
+    });
 });
 
 describe("mapSearchFilterArgumentsToProductSearchData", () => {
-    it("converts empty q to undefined productQuery", () => {
+    it("converts empty q to empty productQuery array", () => {
         const result = mapSearchFilterArgumentsToProductSearchData({ q: "" });
-        expect(result.productQuery).toBeUndefined();
+        expect(result.productQuery).toEqual([]);
     });
 
     it("converts non-empty q to productQuery", () => {
@@ -153,6 +166,27 @@ describe("mapSearchFilterArgumentsToProductSearchData", () => {
         const result = mapSearchFilterArgumentsToProductSearchData({ q: "", priceFrom: 50 });
         expect(result.price?.min).toBe(5000);
         expect(result.price?.max).toBeUndefined();
+    });
+
+    it("prefers queryTerms over q when both are set", () => {
+        const result = mapSearchFilterArgumentsToProductSearchData({
+            q: "Tisch",
+            queryTerms: ["Tisch", "Stuhl"],
+        });
+        expect(result.productQuery).toEqual(["Tisch", "Stuhl"]);
+    });
+
+    it("falls back to q when queryTerms is empty", () => {
+        const result = mapSearchFilterArgumentsToProductSearchData({
+            q: "Tisch",
+            queryTerms: [],
+        });
+        expect(result.productQuery).toEqual(["Tisch"]);
+    });
+
+    it("falls back to q when queryTerms is undefined", () => {
+        const result = mapSearchFilterArgumentsToProductSearchData({ q: "Sofa" });
+        expect(result.productQuery).toEqual(["Sofa"]);
     });
 });
 
@@ -195,6 +229,13 @@ describe("mapToBackendPatchUserSearchFilter", () => {
     it("maps search when provided", () => {
         const result = mapToBackendPatchUserSearchFilter({ search: { q: "Lampe" } });
         expect(result.search?.productQuery).toEqual(["Lampe"]);
+    });
+
+    it("creates a search object for enhancedSearchDescription alone when no other search criteria change", () => {
+        const result = mapToBackendPatchUserSearchFilter({
+            enhancedSearchDescription: "Neue Beschreibung",
+        });
+        expect(result.search?.enhancedSearchDescription).toBe("Neue Beschreibung");
     });
 
     it("maps state when provided", () => {

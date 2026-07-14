@@ -1664,7 +1664,8 @@
       "title": "Salva filtro di ricerca",
       "nameLabel": "Nome",
       "namePlaceholder": "es. Mater Dolorosa dipinto barocco",
-      "queryLabel": "Query di ricerca",
+      "queryLabel_one": "Query di ricerca",
+      "queryLabel_other": "Query di ricerca",
       "aiDescriptionLabel": "Descrizione AI (opzionale)",
       "aiDescriptionPlaceholder": "Dipinto a olio della Vergine Maria su tela, non su legno, cornice barocca con foglia d'oro su base di gesso. Il motivo dovrebbe essere Mater Dolorosa. Deve essere inclusa la firma dell'artista. Il dipinto non deve presentare danni visibili e la cornice deve essere completamente integra. Se il dipinto è del barocco spagnolo, deve avere dimensioni di almeno 40x60 cm. Questo non si applica al barocco italiano.",
       "aiDescriptionUltimateOnly": "Disponibile solo per abbonati Ultimate",
@@ -1673,9 +1674,10 @@
       "saveButton": "Salva",
       "restrictedFiltersHint": "Questi filtri non sono disponibili nel tuo attuale abbonamento e non possono essere salvati. Effettua l'upgrade del tuo abbonamento per utilizzarli – oppure salva il filtro di ricerca senza questi filtri.",
       "resetAndSaveButton": "Salva senza questi filtri",
-      "queryPlaceholder": "es. Mater Dolorosa dipinto olio tela barocco",
+      "queryPlaceholder": "Digita un termine e premi Invio",
       "nameHint": "Dai un nome unico al tuo filtro di ricerca.",
-      "queryHint": "Parola chiave che verrà confrontata con i titoli dei prodotti.",
+      "queryHint": "Una o più parole chiave confrontate con i titoli dei prodotti. Basta una corrispondenza se sono presenti più termini.",
+      "removeQueryTerm": "Rimuovi \"{{term}}\"",
       "aiDescriptionHint": "Descrivi in dettaglio ciò che stai cercando – l'AI troverà corrispondenze migliori."
     },
     "wizard": {
@@ -1685,7 +1687,8 @@
       "saveDirectly": "Salva",
       "nameRequired": "Inserisci un nome",
       "nameTooLong": "Il nome non deve superare i 255 caratteri",
-      "queryTooShort": "La query di ricerca deve contenere almeno 3 caratteri",
+      "queryRequired": "Inserisci almeno un termine di ricerca.",
+      "queryTermTooShort": "Ogni termine di ricerca deve contenere almeno 3 caratteri.",
       "noFiltersConfigured": "Nessun filtro configurato",
       "upgradeBanner": "Questi filtri non sono disponibili nel tuo piano attuale. Effettua l'upgrade del tuo account per sbloccarli.",
       "step": {

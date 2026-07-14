@@ -46,6 +46,7 @@ export function mapProductSearchDataToSearchFilterArguments(
 ): SearchFilterArguments {
     return {
         q: data.productQuery?.[0] ?? "",
+        queryTerms: data.productQuery,
         priceFrom: data.price?.min == null ? undefined : data.price.min / 100,
         priceTo: data.price?.max == null ? undefined : data.price.max / 100,
         allowedStates: data.state?.map((s) => parseProductState(s)),
@@ -69,7 +70,7 @@ export function mapSearchFilterArgumentsToProductSearchData(
     args: SearchFilterArguments,
 ): ProductSearchData {
     return {
-        productQuery: args.q ? [args.q] : undefined,
+        productQuery: args.queryTerms?.length ? args.queryTerms : args.q ? [args.q] : [],
         price:
             args.priceFrom != null || args.priceTo != null
                 ? {
@@ -155,19 +156,23 @@ export function mapToBackendCreateUserSearchFilter(
 export function mapToBackendPatchUserSearchFilter(
     data: UserSearchFilterPatchData,
 ): PatchUserSearchFilterData {
-    const search: PatchProductSearchData | undefined = data.search
-        ? mapSearchFilterArgumentsToProductSearchData(data.search)
-        : data.enhancedSearchDescription === undefined
-          ? undefined
-          : { enhancedSearchDescription: data.enhancedSearchDescription };
+    let search: PatchProductSearchData | undefined;
+
+    if (data.search) {
+        search = mapSearchFilterArgumentsToProductSearchData(data.search);
+    }
+
+    if (data.enhancedSearchDescription !== undefined) {
+        if (search === undefined) {
+            search = {};
+        }
+        search.enhancedSearchDescription = data.enhancedSearchDescription;
+    }
 
     return {
         name: data.name,
         notifications: data.notifications,
         state: data.state,
-        search:
-            search && data.search && data.enhancedSearchDescription !== undefined
-                ? { ...search, enhancedSearchDescription: data.enhancedSearchDescription }
-                : search,
+        search: search,
     };
 }

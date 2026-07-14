@@ -3,10 +3,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
 
-const mockGetSearchFilterLiveProducts = vi.hoisted(() => vi.fn());
+const mockGetSearchFilterPreviewProducts = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn(() => "Fehler"));
 
-vi.mock("@/client", () => ({ getSearchFilterPreviewProducts: mockGetSearchFilterLiveProducts }));
+vi.mock("@/client", () => ({ getSearchFilterPreviewProducts: mockGetSearchFilterPreviewProducts }));
 vi.mock("@/hooks/common/useApiError", () => ({
     useApiError: () => ({ getErrorMessage: mockGetErrorMessage }),
 }));
@@ -19,14 +19,14 @@ vi.mock("@/data/internal/product/OverviewProduct.ts", () => ({
     mapPersonalizedGetProductSummaryDataToOverviewProduct: vi.fn(() => ({ shopId: "shop-1" })),
 }));
 
-import { useSearchFilterLiveProducts } from "../useSearchFilterLiveProducts.ts";
+import { useSearchFilterPreviewProducts } from "../useSearchFilterPreviewProducts.ts";
 
 const mockData = {
     items: [{ shopId: "shop-1" }],
     size: 1,
 };
 
-describe("useSearchFilterLiveProducts", () => {
+describe("useSearchFilterPreviewProducts", () => {
     let queryClient: QueryClient;
     const createWrapper =
         () =>
@@ -39,9 +39,9 @@ describe("useSearchFilterLiveProducts", () => {
     });
 
     it("fetches live products and returns mapped data", async () => {
-        mockGetSearchFilterLiveProducts.mockResolvedValue({ data: mockData, error: null });
+        mockGetSearchFilterPreviewProducts.mockResolvedValue({ data: mockData, error: null });
 
-        const { result } = renderHook(() => useSearchFilterLiveProducts("filter-1", true), {
+        const { result } = renderHook(() => useSearchFilterPreviewProducts("filter-1", true), {
             wrapper: createWrapper(),
         });
 
@@ -52,15 +52,15 @@ describe("useSearchFilterLiveProducts", () => {
     });
 
     it("calls API with correct path and query params", async () => {
-        mockGetSearchFilterLiveProducts.mockResolvedValue({ data: mockData, error: null });
+        mockGetSearchFilterPreviewProducts.mockResolvedValue({ data: mockData, error: null });
 
-        renderHook(() => useSearchFilterLiveProducts("filter-abc", true), {
+        renderHook(() => useSearchFilterPreviewProducts("filter-abc", true), {
             wrapper: createWrapper(),
         });
 
-        await waitFor(() => expect(mockGetSearchFilterLiveProducts).toHaveBeenCalled());
+        await waitFor(() => expect(mockGetSearchFilterPreviewProducts).toHaveBeenCalled());
 
-        expect(mockGetSearchFilterLiveProducts).toHaveBeenCalledWith(
+        expect(mockGetSearchFilterPreviewProducts).toHaveBeenCalledWith(
             expect.objectContaining({
                 path: { userSearchFilterId: "filter-abc" },
                 query: expect.objectContaining({ currency: "EUR" }),
@@ -69,30 +69,30 @@ describe("useSearchFilterLiveProducts", () => {
     });
 
     it("does not fetch when id is empty", () => {
-        const { result } = renderHook(() => useSearchFilterLiveProducts("", true), {
+        const { result } = renderHook(() => useSearchFilterPreviewProducts("", true), {
             wrapper: createWrapper(),
         });
 
         expect(result.current.fetchStatus).toBe("idle");
-        expect(mockGetSearchFilterLiveProducts).not.toHaveBeenCalled();
+        expect(mockGetSearchFilterPreviewProducts).not.toHaveBeenCalled();
     });
 
     it("does not fetch when enabled is false", () => {
-        const { result } = renderHook(() => useSearchFilterLiveProducts("filter-1", false), {
+        const { result } = renderHook(() => useSearchFilterPreviewProducts("filter-1", false), {
             wrapper: createWrapper(),
         });
 
         expect(result.current.fetchStatus).toBe("idle");
-        expect(mockGetSearchFilterLiveProducts).not.toHaveBeenCalled();
+        expect(mockGetSearchFilterPreviewProducts).not.toHaveBeenCalled();
     });
 
     it("sets isError when API returns error", async () => {
-        mockGetSearchFilterLiveProducts.mockResolvedValue({
+        mockGetSearchFilterPreviewProducts.mockResolvedValue({
             data: null,
             error: { status: 403 },
         });
 
-        const { result } = renderHook(() => useSearchFilterLiveProducts("filter-1", true), {
+        const { result } = renderHook(() => useSearchFilterPreviewProducts("filter-1", true), {
             wrapper: createWrapper(),
         });
 

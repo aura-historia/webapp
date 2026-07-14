@@ -1362,7 +1362,8 @@
       "title": "Save Search Filter",
       "nameLabel": "Name",
       "namePlaceholder": "e.g. Mater Dolorosa Baroque Painting",
-      "queryLabel": "Search Query",
+      "queryLabel_one": "Search Query",
+      "queryLabel_other": "Search Queries",
       "aiDescriptionLabel": "AI Description (optional)",
       "aiDescriptionPlaceholder": "Virgin Mary oil painting on canvas, not wood, Baroque frame with gold leaf on chalk ground (gesso). The motif should be Mater Dolorosa. The artist's signature must be included. The painting must not contain any visible damage and the frame must be completely intact. If the painting is from the Spanish Baroque, it must be at least 40x60 cm in size. This does not apply to the Italian Baroque.",
       "aiDescriptionUltimateOnly": "Available for Ultimate subscribers only",
@@ -1371,9 +1372,10 @@
       "saveButton": "Save",
       "restrictedFiltersHint": "These filters are unfortunately not available in your current subscription and cannot be saved. Upgrade your subscription to use them – or save the search filter without these filters.",
       "resetAndSaveButton": "Save without these filters",
-      "queryPlaceholder": "e.g. Mater Dolorosa oil painting canvas Baroque",
+      "queryPlaceholder": "Type a search term and press Enter",
       "nameHint": "Give your search filter a unique name.",
-      "queryHint": "Keyword that will be matched against product titles.",
+      "queryHint": "One or more keywords matched against product titles. A single match is enough when several terms are given.",
+      "removeQueryTerm": "Remove \"{{term}}\"",
       "aiDescriptionHint": "Describe in detail what you are looking for – the AI will find better matches."
     },
     "wizard": {
@@ -1383,7 +1385,8 @@
       "saveDirectly": "Save",
       "nameRequired": "Please enter a name",
       "nameTooLong": "Name must not exceed 255 characters",
-      "queryTooShort": "The search query must contain at least 3 characters",
+      "queryRequired": "Please enter at least one search term.",
+      "queryTermTooShort": "Each search term must contain at least 3 characters.",
       "noFiltersConfigured": "No filters configured",
       "upgradeBanner": "These filters are not available in your current plan. Upgrade your account to unlock them.",
       "step": {

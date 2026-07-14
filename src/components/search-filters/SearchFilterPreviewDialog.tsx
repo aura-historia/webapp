@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
-import { useSearchFilterLiveProducts } from "@/hooks/search-filters/useSearchFilterLiveProducts.ts";
+import { useSearchFilterPreviewProducts } from "@/hooks/search-filters/useSearchFilterPreviewProducts.ts";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
 export function SearchFilterPreviewDialog({ filter }: Props) {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
-    const { data, isLoading, isError } = useSearchFilterLiveProducts(filter.id, open);
+    const { data, isLoading, isError } = useSearchFilterPreviewProducts(filter.id, open);
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>

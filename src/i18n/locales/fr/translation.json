@@ -1664,7 +1664,8 @@
       "title": "Enregistrer le filtre de recherche",
       "nameLabel": "Nom",
       "namePlaceholder": "ex. Peinture baroque Mater Dolorosa",
-      "queryLabel": "Requête de recherche",
+      "queryLabel_one": "Requête de recherche",
+      "queryLabel_other": "Requêtes de recherche",
       "aiDescriptionLabel": "Description IA (facultatif)",
       "aiDescriptionPlaceholder": "Peinture à l'huile de la Vierge Marie sur toile, pas sur bois, cadre baroque avec feuille d'or sur fond de craie (gesso). Le motif doit être Mater Dolorosa. La signature de l'artiste doit être incluse. La peinture ne doit pas présenter de dommages visibles et le cadre doit être entièrement intact. Si la peinture est du baroque espagnol, elle doit mesurer au moins 40x60 cm. Cela ne s'applique pas au baroque italien.",
       "aiDescriptionUltimateOnly": "Disponible uniquement pour les abonnés Ultimate",
@@ -1673,9 +1674,10 @@
       "saveButton": "Enregistrer",
       "restrictedFiltersHint": "Ces filtres ne sont malheureusement pas disponibles dans votre abonnement actuel et ne peuvent pas être enregistrés. Mettez à niveau votre abonnement pour les utiliser – ou enregistrez le filtre de recherche sans ces filtres.",
       "resetAndSaveButton": "Enregistrer sans ces filtres",
-      "queryPlaceholder": "ex. Peinture à l'huile Mater Dolorosa toile baroque",
+      "queryPlaceholder": "Saisissez un terme et appuyez sur Entrée",
       "nameHint": "Donnez un nom unique à votre filtre de recherche.",
-      "queryHint": "Mot-clé qui sera comparé aux titres des produits.",
+      "queryHint": "Un ou plusieurs mots-clés comparés aux titres des produits. Une seule correspondance suffit si plusieurs termes sont saisis.",
+      "removeQueryTerm": "Supprimer « {{term}} »",
       "aiDescriptionHint": "Décrivez en détail ce que vous recherchez – l'IA trouvera de meilleures correspondances."
     },
     "wizard": {
@@ -1685,7 +1687,8 @@
       "saveDirectly": "Enregistrer",
       "nameRequired": "Veuillez entrer un nom",
       "nameTooLong": "Le nom ne doit pas dépasser 255 caractères",
-      "queryTooShort": "La requête de recherche doit contenir au moins 3 caractères",
+      "queryRequired": "Veuillez saisir au moins un terme de recherche.",
+      "queryTermTooShort": "Chaque terme de recherche doit contenir au moins 3 caractères.",
       "noFiltersConfigured": "Aucun filtre configuré",
       "upgradeBanner": "Ces filtres ne sont pas disponibles dans votre plan actuel. Mettez à niveau votre compte pour les débloquer.",
       "step": {

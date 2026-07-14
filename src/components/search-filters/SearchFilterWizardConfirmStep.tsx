@@ -81,12 +81,20 @@ export function SearchFilterWizardConfirmStep({ name, filters }: Props) {
                 </div>
 
                 {/* Search query */}
-                {filters.q && (
-                    <div className="px-5 py-4 flex flex-col gap-0.5">
+                {filters.queryTerms && filters.queryTerms.length > 0 && (
+                    <div className="px-5 py-4 flex flex-col gap-1.5">
                         <span className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.08em]">
-                            {t("searchFilter.saveDialog.queryLabel")}
+                            {t("searchFilter.saveDialog.queryLabel", {
+                                count: filters.queryTerms.length,
+                            })}
                         </span>
-                        <span className="font-semibold text-base">{filters.q}</span>
+                        <div className="flex flex-wrap gap-1.5">
+                            {filters.queryTerms.map((term) => (
+                                <Badge key={term} variant="outline">
+                                    {term}
+                                </Badge>
+                            ))}
+                        </div>
                     </div>
                 )}
 

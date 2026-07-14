@@ -1664,7 +1664,8 @@
       "title": "Guardar Filtro de Búsqueda",
       "nameLabel": "Nombre",
       "namePlaceholder": "Ej.: Pintura Barroca Mater Dolorosa",
-      "queryLabel": "Consulta de Búsqueda",
+      "queryLabel_one": "Consulta de Búsqueda",
+      "queryLabel_other": "Consultas de Búsqueda",
       "aiDescriptionLabel": "Descripción AI (opcional)",
       "aiDescriptionPlaceholder": "Pintura al óleo de la Virgen María sobre lienzo, no madera, marco barroco con pan de oro sobre base de yeso. El motivo debe ser Mater Dolorosa. La firma del artista debe estar incluida. La pintura no debe tener daños visibles y el marco debe estar completamente intacto. Si la pintura es del Barroco español, debe tener al menos 40x60 cm de tamaño. Esto no aplica al Barroco italiano.",
       "aiDescriptionUltimateOnly": "Disponible solo para suscriptores Ultimate",
@@ -1673,9 +1674,10 @@
       "saveButton": "Guardar",
       "restrictedFiltersHint": "Estos filtros no están disponibles en su suscripción actual y no pueden ser guardados. Actualice su suscripción para utilizarlos – o guarde el filtro de búsqueda sin estos filtros.",
       "resetAndSaveButton": "Guardar sin estos filtros",
-      "queryPlaceholder": "Ej.: Pintura al óleo Mater Dolorosa lienzo Barroco",
+      "queryPlaceholder": "Escriba un término y pulse Intro",
       "nameHint": "Asigne un nombre único a su filtro de búsqueda.",
-      "queryHint": "Palabra clave que se comparará con los títulos de los productos.",
+      "queryHint": "Una o más palabras clave que se compararán con los títulos de los productos. Basta con una coincidencia si hay varios términos.",
+      "removeQueryTerm": "Eliminar «{{term}}»",
       "aiDescriptionHint": "Describa en detalle lo que está buscando – la IA encontrará mejores coincidencias."
     },
     "wizard": {
@@ -1685,7 +1687,8 @@
       "saveDirectly": "Guardar",
       "nameRequired": "Por favor, ingrese un nombre",
       "nameTooLong": "El nombre no debe exceder los 255 caracteres",
-      "queryTooShort": "La consulta de búsqueda debe contener al menos 3 caracteres",
+      "queryRequired": "Introduzca al menos un término de búsqueda.",
+      "queryTermTooShort": "Cada término de búsqueda debe tener al menos 3 caracteres.",
       "noFiltersConfigured": "No se han configurado filtros",
       "upgradeBanner": "Estos filtros no están disponibles en su plan actual. Actualice su cuenta para desbloquearlos.",
       "step": {
