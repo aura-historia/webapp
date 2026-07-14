@@ -1647,9 +1647,9 @@
       "saveButton": "Guardar",
       "restrictedFiltersHint": "Estos filtros no están disponibles en su suscripción actual y no pueden ser guardados. Actualice su suscripción para utilizarlos – o guarde el filtro de búsqueda sin estos filtros.",
       "resetAndSaveButton": "Guardar sin estos filtros",
-      "queryPlaceholder": "Escriba un término y pulse Intro",
+      "queryPlaceholder": "Escribe un término de búsqueda y presiona Enter",
       "nameHint": "Asigne un nombre único a su filtro de búsqueda.",
-      "queryHint": "Una o más palabras clave que se compararán con los títulos de los productos. Basta con una coincidencia si hay varios términos.",
+      "queryHint": "Una o más palabras clave coinciden con los títulos de los productos. Una sola coincidencia es suficiente cuando se proporcionan varios términos.",
       "removeQueryTerm": "Eliminar «{{term}}»",
       "aiDescriptionHint": "Describa en detalle lo que está buscando – la IA encontrará mejores coincidencias."
     },

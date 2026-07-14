@@ -1647,9 +1647,9 @@
       "saveButton": "Enregistrer",
       "restrictedFiltersHint": "Ces filtres ne sont malheureusement pas disponibles dans votre abonnement actuel et ne peuvent pas être enregistrés. Mettez à niveau votre abonnement pour les utiliser – ou enregistrez le filtre de recherche sans ces filtres.",
       "resetAndSaveButton": "Enregistrer sans ces filtres",
-      "queryPlaceholder": "Saisissez un terme et appuyez sur Entrée",
+      "queryPlaceholder": "Tapez un terme de recherche et appuyez sur Entrée",
       "nameHint": "Donnez un nom unique à votre filtre de recherche.",
-      "queryHint": "Un ou plusieurs mots-clés comparés aux titres des produits. Une seule correspondance suffit si plusieurs termes sont saisis.",
+      "queryHint": "Un ou plusieurs mots-clés correspondant aux titres des produits. Une seule correspondance suffit lorsque plusieurs termes sont donnés.",
       "removeQueryTerm": "Supprimer « {{term}} »",
       "aiDescriptionHint": "Décrivez en détail ce que vous recherchez – l'IA trouvera de meilleures correspondances."
     },

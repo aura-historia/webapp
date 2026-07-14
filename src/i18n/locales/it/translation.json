@@ -1647,9 +1647,9 @@
       "saveButton": "Salva",
       "restrictedFiltersHint": "Questi filtri non sono disponibili nel tuo attuale abbonamento e non possono essere salvati. Effettua l'upgrade del tuo abbonamento per utilizzarli – oppure salva il filtro di ricerca senza questi filtri.",
       "resetAndSaveButton": "Salva senza questi filtri",
-      "queryPlaceholder": "Digita un termine e premi Invio",
+      "queryPlaceholder": "Digita un termine di ricerca e premi Invio",
       "nameHint": "Dai un nome unico al tuo filtro di ricerca.",
-      "queryHint": "Una o più parole chiave confrontate con i titoli dei prodotti. Basta una corrispondenza se sono presenti più termini.",
+      "queryHint": "Una o più parole chiave confrontate con i titoli dei prodotti. È sufficiente una corrispondenza quando vengono forniti più termini.",
       "removeQueryTerm": "Rimuovi \"{{term}}\"",
       "aiDescriptionHint": "Descrivi in dettaglio ciò che stai cercando – l'AI troverà corrispondenze migliori."
     },
