@@ -1333,7 +1333,8 @@
       "title": "Suchauftrag speichern",
       "nameLabel": "Name des Suchauftrags",
       "namePlaceholder": "z. B. Mater Dolorosa Barockgemälde",
-      "queryLabel": "Suchbegriff",
+      "queryLabel_one": "Suchbegriff",
+      "queryLabel_other": "Suchbegriffe",
       "aiDescriptionLabel": "KI-gestützte Beschreibung (optional)",
       "aiDescriptionPlaceholder": "Jungfrau Maria Ölgemälde auf Leinwand, nicht Holz, Barockrahmen mit Blattgold auf Kreidegrund (Gesso). Das Motiv soll Mater Dolorosa sein. Signatur des Künstlers muss enthalten sein. Das Gemälde darf keine sichtbaren Beschädigungen enthalten und der Rahmen muss vollständig intakt sein. Falls das Gemälde aus dem spanischen Barock stammt, dann muss es mindestens 40x60 cm groß sein. Für den italienischen Barock muss das nicht gelten.",
       "aiDescriptionUltimateOnly": "Nur für Ultimate-Abonnenten verfügbar",
@@ -1342,9 +1343,10 @@
       "saveButton": "Speichern",
       "restrictedFiltersHint": "Diese Filter sind in Ihrem aktuellen Abonnement leider nicht verfügbar und können nicht gespeichert werden. Upgraden Sie Ihr Abonnement, um sie zu nutzen – oder speichern Sie den Suchauftrag ohne diese Filter.",
       "resetAndSaveButton": "Ohne diese Filter speichern",
-      "queryPlaceholder": "z. B. Mater Dolorosa Ölgemälde Leinwand Barock",
+      "queryPlaceholder": "Suchbegriff eingeben und Enter drücken",
       "nameHint": "Geben Sie Ihrem Suchauftrag einen eindeutigen Namen.",
-      "queryHint": "Schlüsselwort das in Produkttiteln gesucht wird.",
+      "queryHint": "Ein oder mehrere Schlüsselwörter, die in Produkttiteln gesucht werden. Ein Treffer genügt bei mehreren Begriffen.",
+      "removeQueryTerm": "„{{term}}\" entfernen",
       "aiDescriptionHint": "Beschreiben Sie detailliert, was Sie suchen – die KI findet so passendere Treffer."
     },
     "wizard": {
@@ -1354,7 +1356,8 @@
       "saveDirectly": "Speichern",
       "nameRequired": "Bitte geben Sie einen Namen ein.",
       "nameTooLong": "Der Name darf maximal 255 Zeichen lang sein.",
-      "queryTooShort": "Der Suchbegriff muss mindestens 3 Zeichen lang sein.",
+      "queryRequired": "Bitte geben Sie mindestens einen Suchbegriff ein.",
+      "queryTermTooShort": "Jeder Suchbegriff muss mindestens 3 Zeichen lang sein.",
       "noFiltersConfigured": "Keine zusätzlichen Filter konfiguriert.",
       "upgradeBanner": "Diese Filter sind in Ihrem aktuellen Tarif nicht verfügbar. Upgraden Sie Ihr Konto, um sie zu nutzen.",
       "step": {
