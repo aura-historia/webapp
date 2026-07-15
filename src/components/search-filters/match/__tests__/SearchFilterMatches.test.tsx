@@ -3,15 +3,9 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { SearchFilterMatches } from "../SearchFilterMatches.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 import type React from "react";
 
-const mockUseUserSearchFilter = vi.hoisted(() => vi.fn());
 const mockUseSearchFilterMatchedProducts = vi.hoisted(() => vi.fn());
-
-vi.mock("@/hooks/search-filters/useUserSearchFilter.ts", () => ({
-    useUserSearchFilter: mockUseUserSearchFilter,
-}));
 
 vi.mock("@/hooks/search-filters/useSearchFilterMatchedProducts.ts", () => ({
     useSearchFilterMatchedProducts: mockUseSearchFilterMatchedProducts,
@@ -51,18 +45,6 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     };
 });
 
-const buildFilter = (overrides: Partial<UserSearchFilter> = {}): UserSearchFilter => ({
-    id: "filter-1",
-    userId: "user-1",
-    name: "Antike Vasen",
-    notifications: true,
-    state: "ACTIVE",
-    search: { q: "vase" },
-    created: new Date("2024-01-01"),
-    updated: new Date("2024-01-01"),
-    ...overrides,
-});
-
 const buildProduct = (overrides: Partial<OverviewProduct> = {}): OverviewProduct => ({
     productId: "p1",
     productSlugId: "product-1",
@@ -92,20 +74,6 @@ type MatchesMockOptions = {
     isFetchingNextPage?: boolean;
 };
 
-type FilterMockOptions = {
-    filter?: UserSearchFilter | null;
-    isPending?: boolean;
-    error?: Error | null;
-};
-
-function setFilterMock({
-    filter = buildFilter(),
-    isPending = false,
-    error = null,
-}: FilterMockOptions = {}) {
-    mockUseUserSearchFilter.mockReturnValue({ data: filter ?? undefined, isPending, error });
-}
-
 function setMatchesMock({
     products = [],
     total,
@@ -133,19 +101,12 @@ function setMatchesMock({
 describe("SearchFilterMatches", () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        setFilterMock();
         setMatchesMock();
     });
 
     describe("Loading state", () => {
         it("renders skeleton cards while matches are loading", () => {
             setMatchesMock({ isPending: true });
-            renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getAllByTestId("product-card-skeleton")).toHaveLength(4);
-        });
-
-        it("renders skeleton cards while filter details are loading", () => {
-            setFilterMock({ isPending: true });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
             expect(screen.getAllByTestId("product-card-skeleton")).toHaveLength(4);
         });
@@ -161,12 +122,6 @@ describe("SearchFilterMatches", () => {
                     "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
                 ),
             ).toBeInTheDocument();
-        });
-
-        it("renders error EmptyState when filter details fail to load", () => {
-            setFilterMock({ error: new Error("not found") });
-            renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getByText("Fehler beim Laden")).toBeInTheDocument();
         });
     });
 
@@ -228,20 +183,10 @@ describe("SearchFilterMatches", () => {
             expect(screen.getByTestId("hidden-match-card")).toBeInTheDocument();
         });
 
-        it("shows the filter name as heading", () => {
-            setFilterMock({ filter: buildFilter({ name: "Antike Vasen" }) });
+        it("renders the section heading", () => {
             setMatchesMock({ products: [buildProduct()], total: 1 });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getByText("Antike Vasen")).toBeInTheDocument();
-        });
-
-        it("shows enhancedSearchDescription when present", () => {
-            setFilterMock({
-                filter: buildFilter({ enhancedSearchDescription: "KI-generierte Beschreibung" }),
-            });
-            setMatchesMock({ products: [buildProduct()], total: 1 });
-            renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getByText("KI-generierte Beschreibung")).toBeInTheDocument();
+            expect(screen.getByText("Treffer")).toBeInTheDocument();
         });
 
         it("renders the total product count", () => {
