@@ -5,7 +5,7 @@ export const amplifyConfig = {
     Auth: {
         Cognito: {
             userPoolId: env.VITE_USER_POOL_ID,
-            userPoolClientId: env.VITE_CLIENT_ID,
+            userPoolClientId: env.VITE_USER_POOL_CLIENT_ID,
             loginWith: {
                 email: true,
             },

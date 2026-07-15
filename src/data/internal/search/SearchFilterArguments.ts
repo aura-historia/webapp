@@ -4,6 +4,7 @@ import type { ShopType } from "@/data/internal/shop/ShopType.ts";
 
 export type SearchFilterArguments = {
     q: string;
+    queryTerms?: string[];
     priceFrom?: number;
     priceTo?: number;
     allowedStates?: ProductState[];

@@ -111,7 +111,7 @@ export function useSearch(
                 query: {
                     language: parseLanguage(i18n.language),
                     currency: preferences.currency,
-                    productQuery: searchArgs.q,
+                    productQuery: searchArgs.q ? [searchArgs.q] : [],
                     searchAfter: pageParam,
                     size: PAGE_SIZE,
                     ...mapToBackendSortModeArguments({

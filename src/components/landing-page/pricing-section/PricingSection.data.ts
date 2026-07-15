@@ -25,12 +25,12 @@ export const PRICING_TIERS: readonly PricingTier[] = [
         descKey: "landingPage.pricing.free.description",
         priceLabelKey: "landingPage.pricing.free.name",
         features: [
+            { key: "landingPage.pricing.free.features.unlimitedSearches" },
             { key: "landingPage.pricing.free.features.watchlistItems" },
             { key: "landingPage.pricing.free.features.searchAlerts" },
             { key: "landingPage.pricing.free.features.alertMatches" },
             { key: "landingPage.pricing.free.features.alertType" },
             { key: "landingPage.pricing.free.features.notificationSpeed" },
-            { key: "landingPage.pricing.free.features.searchType" },
         ],
     },
     {
@@ -78,12 +78,12 @@ export const PRICING_TIERS: readonly PricingTier[] = [
             CHF: 159,
         },
         features: [
+            { key: "landingPage.pricing.pro.features.unlimitedSearches" },
             { key: "landingPage.pricing.pro.features.watchlistItems" },
             { key: "landingPage.pricing.pro.features.searchAlerts" },
             { key: "landingPage.pricing.pro.features.alertMatches" },
             { key: "landingPage.pricing.pro.features.alertType" },
             { key: "landingPage.pricing.pro.features.notificationSpeed" },
-            { key: "landingPage.pricing.pro.features.searchType" },
         ],
         isHighlighted: true,
     },
@@ -132,12 +132,12 @@ export const PRICING_TIERS: readonly PricingTier[] = [
             CHF: 399,
         },
         features: [
+            { key: "landingPage.pricing.ultimate.features.unlimitedSearches" },
             { key: "landingPage.pricing.ultimate.features.watchlistItems" },
             { key: "landingPage.pricing.ultimate.features.searchAlerts" },
             { key: "landingPage.pricing.ultimate.features.alertMatches" },
             { key: "landingPage.pricing.ultimate.features.alertType" },
             { key: "landingPage.pricing.ultimate.features.notificationSpeed" },
-            { key: "landingPage.pricing.ultimate.features.searchType" },
             {
                 key: "landingPage.pricing.ultimate.features.aiAgent",
                 isAccent: true,

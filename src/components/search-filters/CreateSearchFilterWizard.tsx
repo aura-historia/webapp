@@ -22,6 +22,7 @@ import {
     FormMessage,
 } from "@/components/ui/form.tsx";
 import { Input } from "@/components/ui/input.tsx";
+import { TagInput } from "@/components/ui/tag-input.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
@@ -58,11 +59,16 @@ const createNameSchema = (t: (key: string) => string) =>
             .string()
             .min(1, t("searchFilter.wizard.nameRequired"))
             .max(255, t("searchFilter.wizard.nameTooLong")),
-        q: z.string().min(3, t("searchFilter.wizard.queryTooShort")),
+        queryTerms: z
+            .array(z.string())
+            .min(1, t("searchFilter.wizard.queryRequired"))
+            .refine((terms) => terms.every((term) => term.length >= 3), {
+                message: t("searchFilter.wizard.queryTermTooShort"),
+            }),
         enhancedSearchDescription: z.string().max(1000).optional(),
     });
 
-type NameFormData = { name: string; q: string; enhancedSearchDescription?: string };
+type NameFormData = { name: string; queryTerms: string[]; enhancedSearchDescription?: string };
 
 const EMPTY_FILTERS: SearchFilterArguments = { q: "" };
 
@@ -172,7 +178,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
 
     const nameForm = useForm<NameFormData>({
         resolver: zodResolver(nameSchema),
-        defaultValues: { name: "", q: "", enhancedSearchDescription: "" },
+        defaultValues: { name: "", queryTerms: [], enhancedSearchDescription: "" },
     });
 
     useEffect(() => {
@@ -182,7 +188,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                 mode === "duplicate"
                     ? t("searchFilters.duplicateNamePrefix", { name: filter?.name })
                     : (filter?.name ?? ""),
-            q: filter?.search.q ?? "",
+            queryTerms: filter?.search.queryTerms ?? (filter?.search.q ? [filter.search.q] : []),
             enhancedSearchDescription: filter?.enhancedSearchDescription ?? "",
         });
         setFilters(filter?.search ?? EMPTY_FILTERS);
@@ -211,8 +217,13 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
     }, [step]);
 
     const handleSave = useCallback(() => {
-        const { name: filterName, q, enhancedSearchDescription } = nameForm.getValues();
+        const { name: filterName, queryTerms, enhancedSearchDescription } = nameForm.getValues();
         const description = enhancedSearchDescription || undefined;
+        const search: SearchFilterArguments = {
+            ...filters,
+            q: queryTerms[0] ?? "",
+            queryTerms,
+        };
         const callbacks = {
             onSuccess: () => {
                 toast.success(t("searchFilter.saveSuccess"));
@@ -227,7 +238,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                     patch: {
                         name: filterName,
                         enhancedSearchDescription: description ?? null,
-                        search: { ...filters, q },
+                        search,
                     },
                 },
                 callbacks,
@@ -237,7 +248,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                 {
                     name: filterName,
                     enhancedSearchDescription: description,
-                    search: { ...filters, q },
+                    search,
                 },
                 callbacks,
             );
@@ -270,16 +281,15 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
 
     const handleContentKeyDown = useCallback(
         (e: React.KeyboardEvent) => {
-            if (
-                e.key === "Enter" &&
-                step < TOTAL_STEPS &&
-                (e.target as HTMLElement).tagName !== "TEXTAREA"
-            ) {
-                e.preventDefault();
+            if (e.key !== "Enter" || (e.target as HTMLElement).tagName === "TEXTAREA") return;
+            e.preventDefault();
+            if (step < TOTAL_STEPS) {
                 handleNext();
+            } else {
+                handleSave();
             }
         },
-        [step, handleNext],
+        [step, handleNext, handleSave],
     );
 
     /**
@@ -325,22 +335,33 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                             />
                             <FormField
                                 control={nameForm.control}
-                                name="q"
+                                name="queryTerms"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>
-                                            {t("searchFilter.saveDialog.queryLabel")}
+                                            {t("searchFilter.saveDialog.queryLabel", {
+                                                count: field.value.length,
+                                            })}
                                         </FormLabel>
                                         <FormDescription className="text-xs -mt-1">
                                             {t("searchFilter.saveDialog.queryHint")}
                                         </FormDescription>
                                         <FormControl>
-                                            <Input
-                                                {...field}
+                                            <TagInput
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                minLength={3}
+                                                minLengthMessage={t(
+                                                    "searchFilter.wizard.queryTermTooShort",
+                                                )}
                                                 placeholder={t(
                                                     "searchFilter.saveDialog.queryPlaceholder",
                                                 )}
-                                                className="h-11"
+                                                removeTagLabel={(tag) =>
+                                                    t("searchFilter.saveDialog.removeQueryTerm", {
+                                                        term: tag,
+                                                    })
+                                                }
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -409,7 +430,11 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
             return (
                 <SearchFilterWizardConfirmStep
                     name={nameForm.watch("name")}
-                    filters={{ ...filters, q: nameForm.watch("q") }}
+                    filters={{
+                        ...filters,
+                        q: nameForm.watch("queryTerms")[0] ?? "",
+                        queryTerms: nameForm.watch("queryTerms"),
+                    }}
                 />
             );
         const fs = FILTER_STEPS[step - 2];

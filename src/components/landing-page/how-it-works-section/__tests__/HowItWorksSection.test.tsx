@@ -10,12 +10,14 @@ describe("HowItWorksSection", () => {
     });
 
     it("renders the section heading", () => {
-        expect(screen.getByText("So einfach funktioniert's")).toBeInTheDocument();
+        expect(screen.getByText("Von der Idee zum besonderen Stück")).toBeInTheDocument();
     });
 
     it("renders the section subtitle", () => {
         expect(
-            screen.getByText("In nur wenigen Schritten zu Ihren Traumstücken."),
+            screen.getByText(
+                "Aura Historia führt verstreute Angebote aus Handel, Auktionen und spezialisierten Quellen zusammen – damit vielversprechende Stücke sichtbar bleiben.",
+            ),
         ).toBeInTheDocument();
     });
 
@@ -27,26 +29,20 @@ describe("HowItWorksSection", () => {
     });
 
     it("renders all step titles", () => {
-        expect(screen.getByText("Suchen")).toBeInTheDocument();
-        expect(screen.getByText("Entdecken")).toBeInTheDocument();
-        expect(screen.getByText("Speichern")).toBeInTheDocument();
-        expect(screen.getByText("Benachrichtigt werden")).toBeInTheDocument();
+        expect(screen.getByText("Wunsch beschreiben")).toBeInTheDocument();
+        expect(screen.getByText("Markt sichten")).toBeInTheDocument();
+        expect(screen.getByText("Stücke merken")).toBeInTheDocument();
+        expect(screen.getByText("Im richtigen Moment handeln")).toBeInTheDocument();
     });
 
     it("renders all step descriptions", () => {
-        expect(screen.getByText(/Geben Sie ein, wonach Sie suchen/)).toBeInTheDocument();
+        expect(screen.getByText(/Suchen Sie nach Epoche, Stil, Kategorie/)).toBeInTheDocument();
+        expect(screen.getByText(/Vergleichen Sie aktuelle Angebote/)).toBeInTheDocument();
         expect(
-            screen.getByText(/Durchstöbern Sie Ergebnisse von tausenden Händlern/),
+            screen.getByText(/Legen Sie relevante Objekte auf Ihre private Merkliste/),
         ).toBeInTheDocument();
         expect(
-            screen.getByText(
-                /Speichern Sie interessante Artikel auf Ihrer Merkliste oder legen Sie Ihre Suchkriterien als Alert an/,
-            ),
-        ).toBeInTheDocument();
-        expect(
-            screen.getByText(
-                /Erhalten Sie eine E-Mail, sobald sich ein Artikel auf Ihrer Merkliste ändert oder ein neuer Treffer zu Ihren Kriterien passt/,
-            ),
+            screen.getByText(/Wir zeigen Preis- und Statusänderungen sowie neue passende Objekte/),
         ).toBeInTheDocument();
     });
 });
