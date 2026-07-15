@@ -1722,9 +1722,11 @@
       "editHint": "Intente ajustar el filtro de búsqueda."
     },
     "totalElements": "{{count}} filtro(s) de búsqueda",
-    "matchingProducts": "Mostrar todas las coincidencias",
-    "matchingProductsShort": "Todas las coincidencias",
+    "matches": "Coincidencias",
+    "matchesAndDetails": "Coincidencias y Detalles",
+    "matchesAndDetailsShort": "Detalles",
     "matchingProductsInactive": "El filtro de búsqueda está inactivo – no hay coincidencias disponibles.",
+    "searchNow": "Buscar ahora",
     "searchPlaceholder": "Buscar filtros de búsqueda...",
     "showDetails": "Mostrar detalles",
     "showResults": "Vista previa en vivo",

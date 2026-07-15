@@ -1420,9 +1420,11 @@
       "editHint": "Try adjusting the search filter."
     },
     "totalElements": "{{count}} search filter(s)",
-    "matchingProducts": "Show all matches",
-    "matchingProductsShort": "All matches",
+    "matches": "Matches",
+    "matchesAndDetails": "Matches & Details",
+    "matchesAndDetailsShort": "Details",
     "matchingProductsInactive": "Search filter is inactive – no matches available.",
+    "searchNow": "Search now",
     "searchPlaceholder": "Search filters...",
     "showDetails": "Show details",
     "showResults": "Live Preview",

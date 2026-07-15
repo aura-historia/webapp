@@ -1722,9 +1722,11 @@
       "editHint": "Prova a modificare il filtro di ricerca."
     },
     "totalElements": "{{count}} filtro/i di ricerca",
-    "matchingProducts": "Mostra tutte le corrispondenze",
-    "matchingProductsShort": "Tutte le corrispondenze",
+    "matches": "Corrispondenze",
+    "matchesAndDetails": "Corrispondenze e dettagli",
+    "matchesAndDetailsShort": "Dettagli",
     "matchingProductsInactive": "Il filtro di ricerca è inattivo – nessuna corrispondenza disponibile.",
+    "searchNow": "Cerca ora",
     "searchPlaceholder": "Cerca filtri di ricerca...",
     "showDetails": "Mostra dettagli",
     "showResults": "Anteprima dal vivo",
