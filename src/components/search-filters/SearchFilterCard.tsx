@@ -382,10 +382,10 @@ export function SearchFilterCard({
                     <Link to="/me/search-filter/$filterId" params={{ filterId: filter.id }}>
                         <ScanSearch className="size-4 shrink-0" />
                         <span className="sm:hidden">
-                            {t("searchFilters.matchingProductsShort")}
+                            {t("searchFilters.matchesAndDetailsShort")}
                         </span>
                         <span className="hidden sm:inline">
-                            {t("searchFilters.matchingProducts")}
+                            {t("searchFilters.matchesAndDetails")}
                         </span>
                     </Link>
                 </Button>
