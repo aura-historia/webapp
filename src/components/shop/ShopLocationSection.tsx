@@ -189,7 +189,7 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
             <div className="grid gap-6 bg-surface-container-low p-4 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:gap-8 md:p-8">
                 <div className="flex flex-col justify-between gap-8 bg-surface-container-lowest p-6 md:p-8">
                     <div className="space-y-4">
-                        <p className="text-xs uppercase tracking-[0.2em] text-tertiary">
+                        <p className="text-xs uppercase tracking-[0.2em] text-primary">
                             {t("shop.location.eyebrow")}
                         </p>
                         <H2 className="text-3xl font-normal italic leading-tight md:text-4xl">
@@ -227,7 +227,7 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
 
                         {hasContactInformation && (
                             <div className="bg-surface-container-low p-5">
-                                <p className="text-xs uppercase tracking-[0.18em] text-tertiary">
+                                <p className="text-xs uppercase tracking-[0.18em] text-primary">
                                     {t("shop.contact.eyebrow")}
                                 </p>
                                 <div className="mt-4 space-y-3">
