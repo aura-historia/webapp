@@ -127,6 +127,63 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
         updatePreferences({ externalMapConsent: true });
     };
 
+    const mapContent = (() => {
+        if (mapEmbedUrl && canLoadMap) {
+            return (
+                <div className="relative h-full min-h-76 overflow-hidden bg-surface-container-highest">
+                    <iframe
+                        title={t("shop.location.mapTitle", { shop: shop.name })}
+                        src={mapEmbedUrl}
+                        className="h-full min-h-76 w-full md:min-h-106"
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        allowFullScreen
+                    />
+                </div>
+            );
+        }
+
+        if (mapEmbedUrl) {
+            return (
+                <div className="flex h-full min-h-76 flex-col items-center justify-center gap-5 bg-surface-container-lowest p-8 text-center md:min-h-106">
+                    <MapPin className="size-10 text-tertiary" aria-hidden="true" />
+                    <div className="max-w-lg space-y-3">
+                        <p className="font-display text-2xl italic text-primary">
+                            {t("shop.location.mapConsentTitle")}
+                        </p>
+                        <p className="text-sm leading-6 text-muted-foreground">
+                            {t("shop.location.mapConsentDescription")}
+                        </p>
+                    </div>
+                    <div className="flex flex-col items-center gap-3 sm:flex-row">
+                        <Button
+                            type="button"
+                            onClick={handleAllowMap}
+                            className="h-11 rounded-none text-xs uppercase tracking-[0.12em]"
+                        >
+                            {t("shop.location.mapConsentButton")}
+                        </Button>
+                        <a
+                            href="/consent-settings"
+                            className="min-h-11 px-2 pt-3 text-xs uppercase tracking-[0.12em] text-primary underline-offset-4 hover:underline"
+                        >
+                            {t("shop.location.mapConsentSettings")}
+                        </a>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div className="flex h-full min-h-76 flex-col items-center justify-center gap-4 bg-surface-container-lowest p-8 text-center md:min-h-106">
+                <MapPin className="size-10 text-tertiary" aria-hidden="true" />
+                <p className="max-w-md font-display text-2xl italic text-primary">
+                    {t("shop.location.noLocation", { shopTypeArticle })}
+                </p>
+            </div>
+        );
+    })();
+
     return (
         <section className="mx-auto w-full max-w-7xl px-4 pb-14 md:px-10 md:pb-18">
             <div className="grid gap-6 bg-surface-container-low p-4 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:gap-8 md:p-8">
@@ -205,52 +262,7 @@ export function ShopLocationSection({ shop }: ShopLocationSectionProps) {
                 </div>
 
                 <div className="min-h-80 bg-surface-container-high p-2 md:min-h-110">
-                    {mapEmbedUrl && canLoadMap ? (
-                        <div className="relative h-full min-h-76 overflow-hidden bg-surface-container-highest">
-                            <iframe
-                                title={t("shop.location.mapTitle", { shop: shop.name })}
-                                src={mapEmbedUrl}
-                                className="h-full min-h-76 w-full md:min-h-106"
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                                allowFullScreen
-                            />
-                        </div>
-                    ) : mapEmbedUrl ? (
-                        <div className="flex h-full min-h-76 flex-col items-center justify-center gap-5 bg-surface-container-lowest p-8 text-center md:min-h-106">
-                            <MapPin className="size-10 text-tertiary" aria-hidden="true" />
-                            <div className="max-w-lg space-y-3">
-                                <p className="font-display text-2xl italic text-primary">
-                                    {t("shop.location.mapConsentTitle")}
-                                </p>
-                                <p className="text-sm leading-6 text-muted-foreground">
-                                    {t("shop.location.mapConsentDescription")}
-                                </p>
-                            </div>
-                            <div className="flex flex-col items-center gap-3 sm:flex-row">
-                                <Button
-                                    type="button"
-                                    onClick={handleAllowMap}
-                                    className="h-11 rounded-none text-xs uppercase tracking-[0.12em]"
-                                >
-                                    {t("shop.location.mapConsentButton")}
-                                </Button>
-                                <a
-                                    href="/consent-settings"
-                                    className="min-h-11 px-2 pt-3 text-xs uppercase tracking-[0.12em] text-primary underline-offset-4 hover:underline"
-                                >
-                                    {t("shop.location.mapConsentSettings")}
-                                </a>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="flex h-full min-h-76 flex-col items-center justify-center gap-4 bg-surface-container-lowest p-8 text-center md:min-h-106">
-                            <MapPin className="size-10 text-tertiary" aria-hidden="true" />
-                            <p className="max-w-md font-display text-2xl italic text-primary">
-                                {t("shop.location.noLocation", { shopTypeArticle })}
-                            </p>
-                        </div>
-                    )}
+                    {mapContent}
                 </div>
             </div>
         </section>
