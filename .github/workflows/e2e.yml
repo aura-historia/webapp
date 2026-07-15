@@ -6,10 +6,6 @@ on:
   pull_request:
       branches: [ main ]
 
-env:
-  NODE_VERSION: ${{ vars.NODE_VERSION || '24' }}
-  PNPM_VERSION: ${{ vars.PNPM_VERSION || '11' }}
-
 permissions:
   contents: read
 
@@ -26,16 +22,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v6
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          node-version: 24
+
+      - name: Set up pnpm
+        run: |
+          npm install --global pnpm@11.12.0
+          pnpm --version
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

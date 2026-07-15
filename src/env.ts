@@ -20,7 +20,7 @@ export const env = createEnv({
         VITE_APP_URL: z.url().optional().default("https://stage.aura-historia.com"),
 
         VITE_USER_POOL_ID: z.string().min(1).optional().default(""),
-        VITE_CLIENT_ID: z.string().min(1).optional().default(""),
+        VITE_USER_POOL_CLIENT_ID: z.string().min(1).optional().default(""),
 
         // Feature flags - default to enabled if not set
         VITE_FEATURE_LOGIN_ENABLED: z

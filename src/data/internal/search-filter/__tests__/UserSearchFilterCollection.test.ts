@@ -8,7 +8,7 @@ const baseItem = {
     name: "Test Filter",
     notifications: true,
     state: "ACTIVE" as const,
-    search: { productQuery: "Tisch" },
+    search: { productQuery: ["Tisch"] },
     createdBy: "SYSTEM" as const,
     updatedBy: "SYSTEM" as const,
     created: "2024-01-01T00:00:00Z",

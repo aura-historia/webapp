@@ -74,6 +74,7 @@ export function SearchFilterCard({
     const updateFilter = useUpdateUserSearchFilter();
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
+    const queryTerms = search.queryTerms?.length ? search.queryTerms : search.q ? [search.q] : [];
     const hasAdvancedFilters = hasAdvancedFilterDetails(search);
     const notificationsLabel = filter.notifications
         ? t("searchFilters.notificationsOn")
@@ -117,9 +118,9 @@ export function SearchFilterCard({
                             </Badge>
                         )}
                     </div>
-                    {search.q && (
+                    {queryTerms.length > 0 && (
                         <H3 variant="muted" className="line-clamp-1 text-ellipsis">
-                            „{search.q}"
+                            {queryTerms.map((term) => `„${term}"`).join(", ")}
                         </H3>
                     )}
                     {filter.enhancedSearchDescription && (

@@ -10,30 +10,21 @@ describe("HeroSection", () => {
     });
 
     it("renders the badge", () => {
-        expect(screen.getByText("Suche jenseits der üblichen Marktplätze")).toBeInTheDocument();
+        expect(
+            screen.getByText("Jenseits der bekannten Auktionshäuser suchen"),
+        ).toBeInTheDocument();
     });
 
     it("renders the main heading", () => {
-        expect(
-            screen.getByText(
-                "Aura Historia durchsucht Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit – und hilft Ihnen, Stücke zu entdecken, die andere nie sehen.",
-            ),
-        ).toBeInTheDocument();
+        expect(screen.getByText(/Seltene Antiquitäten/)).toBeInTheDocument();
+        expect(screen.getByText(/weltweit entdecken/)).toBeInTheDocument();
     });
 
     it("renders the subtitle", () => {
-        expect(
-            screen.getByText(/Aura Historia durchsucht Antiquitätenhändler/),
-        ).toBeInTheDocument();
+        expect(screen.getByText(/globalen Antiquitätenplattform/)).toBeInTheDocument();
     });
 
     it("renders the search bar", () => {
         expect(screen.getByLabelText("Suche")).toBeInTheDocument();
-    });
-
-    it("renders all trust badges", () => {
-        expect(screen.getByText("Für ernsthafte Sammler und Händler")).toBeInTheDocument();
-        expect(screen.getByText("Von Antiquitätensammlern")).toBeInTheDocument();
-        expect(screen.getByText("Nahezu Echtzeit")).toBeInTheDocument();
     });
 });
