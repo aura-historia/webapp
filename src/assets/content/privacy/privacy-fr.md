@@ -173,11 +173,11 @@ Le retrait de votre consentement n’affecte pas la licéité du traitement effe
 
 ## 8. Cookies, stockage local et stockage de session
 
-Nous utilisons des mécanismes de stockage du navigateur techniquement nécessaires et, uniquement lorsque cela est légalement autorisé, des mécanismes de stockage optionnels pour des fonctions d’analyse et de confort.
+Nous utilisons des mécanismes de stockage du navigateur techniquement nécessaires et, uniquement lorsque cela est légalement autorisé et après votre consentement, des services optionnels pour les fonctions d’analyse et les cartes externes intégrées.
 
 À ce jour, les mécanismes de stockage suivants sont notamment utilisés :
 
-- **`user-preferences` (cookie, jusqu’à 1 an) :** stocke des préférences fonctionnelles telles que la devise et le statut de votre choix en matière d’analytics / suivi ; il sert à appliquer vos paramètres de manière cohérente côté serveur et côté client
+- **`user-preferences` (cookie, jusqu’à 1 an) :** stocke des préférences fonctionnelles telles que la devise ainsi que le statut de vos choix concernant l’analytics / le suivi et les cartes externes ; il sert à appliquer vos paramètres de manière cohérente côté serveur et côté client
 - **`user-preferences` (local storage) :** stocke localement dans votre navigateur les mêmes préférences fonctionnelles jusqu’à leur suppression par vos soins
 - **`i18nextLng` (local storage) :** stocke la langue sélectionnée jusqu’à sa suppression ou son remplacement
 - **`auth.signUp.pendingEmail` (session storage) :** stocke temporairement votre adresse e-mail pendant un processus d’inscription en plusieurs étapes et est généralement supprimé à la fin de la session du navigateur
@@ -187,13 +187,13 @@ Des stockages techniquement nécessaires supplémentaires peuvent être utilisé
 **Bases juridiques :**
 
 - **§ 25, al. 2 TDDDG** et **Art. 6, par. 1, point f RGPD** – pour les stockages techniquement nécessaires
-- **§ 25, al. 1 TDDDG** et **Art. 6, par. 1, point a RGPD** – pour les stockages optionnels d’analyse ou de marketing lorsque le consentement est requis
+- **§ 25, al. 1 TDDDG** et **Art. 6, par. 1, point a RGPD** – pour les stockages optionnels d’analyse/marketing ou le chargement de contenus externes lorsque le consentement est requis
 
 ---
 
-## 9. Gestion du consentement et Google Analytics
+## 9. Gestion du consentement, Google Analytics et cartes externes
 
-Notre site web utilise une bannière de consentement et des paramètres de consentement distincts. Les stockages optionnels à des fins d’analyse ou de marketing ne sont activés que dans la mesure légalement autorisée.
+Notre site web utilise une bannière de consentement et des paramètres de consentement distincts. Les fonctions optionnelles d’analyse et les contenus externes ne sont activés que dans la mesure légalement autorisée et après votre consentement. Vous pouvez choisir séparément l’analytics / le suivi et les cartes externes.
 
 Nous utilisons **Google Analytics 4** fourni par **Google Ireland Limited**, Gordon House, Barrow Street, Dublin 4, Irlande.
 
@@ -208,9 +208,11 @@ Si vous accordez votre consentement, les données suivantes peuvent notamment ê
 
 Vous pouvez retirer votre consentement à tout moment avec effet pour l’avenir via les paramètres de consentement.
 
+Sur les pages de boutiques, nous pouvons intégrer des cartes de **Google Maps**, également fourni par Google Ireland Limited. Google Maps n’est chargé qu’après votre consentement à l’utilisation de cartes externes. Avant votre consentement, aucune connexion iframe Google Maps n’est établie. Lorsque vous chargez la carte, des données telles que votre adresse IP, des informations relatives à l’appareil et au navigateur, des informations de référent ainsi que l’adresse ou les coordonnées demandées peuvent être transmises à Google. Google peut également traiter des données dans des pays tiers, notamment aux États-Unis. Vous pouvez retirer ce consentement à tout moment via les paramètres de consentement.
+
 **Bases juridiques :**
 
-- **Art. 6, par. 1, point a RGPD** et **§ 25, al. 1 TDDDG** – pour le traitement via Google Analytics et le stockage optionnel d’analyse après votre consentement
+- **Art. 6, par. 1, point a RGPD** et **§ 25, al. 1 TDDDG** – pour le traitement via Google Analytics, le stockage optionnel d’analyse et le chargement de Google Maps après votre consentement
 - **Art. 6, par. 1, point f RGPD** – uniquement dans la mesure où, avant le consentement, des signaux purement techniques sont traités afin d’appliquer et de documenter votre choix de consentement
 
 Pour plus d’informations, veuillez consulter la [Politique de confidentialité de Google](https://policies.google.com/privacy).
@@ -278,7 +280,7 @@ Nous faisons appel à des prestataires de services et d’infrastructure externe
 - **Hetzner Online GmbH** – lorsque certains composants backend, d’hébergement ou de stockage y sont exploités
 - **Stripe** – pour le traitement des paiements, la gestion des abonnements, le checkout et le portail client
 - **Zoho Campaigns** – lorsque la newsletter et les communications marketing sont activées
-- **Google** – lorsque Google Analytics ou des fonctions de consent mode sont utilisés
+- **Google** – lorsque Google Analytics, des fonctions Consent Mode ou Google Maps sont utilisés
 - **d’autres prestataires techniques, juridiques, fiscaux ou organisationnels** – lorsque cela est nécessaire pour l’exploitation, l’assistance, la sécurité, la conformité ou la défense de droits
 - **autorités, juridictions et tiers** – lorsque nous y sommes légalement tenus ou lorsque cela est nécessaire à la défense de droits en justice
 

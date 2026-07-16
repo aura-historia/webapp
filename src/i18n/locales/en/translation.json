@@ -66,6 +66,9 @@
     "partnerAccessTokens": {
       "title": "Access Tokens | Aura Historia"
     },
+    "partnerShops": {
+      "title": "My Shops | Aura Historia"
+    },
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Antiques Search Engine Comparison",
       "description": "Compare Aura Historia with Barnebys for antiques search, source coverage, multilingual discovery, near real-time alerts, and AI-assisted market monitoring."
@@ -1206,16 +1209,23 @@
   },
   "consent": {
     "title": "We value your privacy",
-    "description": "We use cookies to analyze web traffic and improve your user experience. By clicking 'Accept', you consent to our use of cookies for these purposes. You can find more information in our <1>privacy policy</1>.",
-    "accept": "Accept",
-    "reject": "Reject"
+    "description": "We only use optional services with your consent: analytics to improve Aura Historia and external maps from Google Maps. You can choose each purpose separately. Learn more in our <1>privacy policy</1>.",
+    "analyticsLabel": "Analytics & tracking",
+    "analyticsDescription": "Helps us understand how Aura Historia is used so we can improve the platform.",
+    "externalMapsLabel": "External maps",
+    "externalMapsDescription": "Loads embedded maps from Google Maps. Data such as your IP address may be transferred to Google.",
+    "acceptAll": "Accept all",
+    "saveSelection": "Save selection",
+    "rejectAll": "Reject all"
   },
   "consentSettings": {
     "title": "Cookie Settings",
     "description": "We use cookies to analyze web traffic and improve your user experience. You can find more information in our <1>privacy policy</1>.",
     "analyticsLabel": "Analytics & Tracking",
     "analyticsDescription": "Allows us to analyze usage and improve your experience via Google Analytics. Includes ad storage, analytics storage, ad user data, and ad personalization.",
-    "saved": "Your cookie preferences have been saved."
+    "saved": "Your cookie preferences have been saved.",
+    "externalMapsLabel": "External maps",
+    "externalMapsDescription": "Allows embedded Google Maps to load. Personal data such as your IP address and browser information may be transferred to Google."
   },
   "notifications": {
     "title": "Notifications",
@@ -1258,13 +1268,25 @@
       "addedOn": "Added on {{date}}",
       "metaDescription": "Explore antiques and collectibles from {{shop}} on Aura Historia."
     },
+    "location": {
+      "eyebrow": "Location",
+      "title": "Where to find {{shopTypeArticle}}",
+      "description": "Address and contact information for {{shop}}, where publicly available.",
+      "noAddress": "We do not yet have an address for {{shopTypeArticle}}.",
+      "noLocation": "We do not yet have location information for {{shopTypeArticle}}.",
+      "mapTitle": "Map showing the location of {{shop}}",
+      "mapConsentTitle": "Load map after consent",
+      "mapConsentDescription": "This map is provided by Google Maps. Loading it may transfer data such as your IP address to Google.",
+      "mapConsentButton": "Show map",
+      "mapConsentSettings": "Cookie settings"
+    },
     "products": {
       "loadingMore": "Loading more items...",
-      "allLoaded_one": "You have seen {{count}} item from this shop.",
-      "allLoaded_other": "You have seen all {{count}} items from this shop.",
+      "allLoaded_one": "You have seen {{count}} item {{shopTypePossessive}}.",
+      "allLoaded_other": "You have seen all {{count}} items {{shopTypePossessive}}.",
       "noResults": {
         "title": "No items found",
-        "description": "There are currently no items from this shop."
+        "description": "There are currently no items from this {{shopType}}."
       },
       "error": {
         "title": "Could not load items",
@@ -1273,6 +1295,14 @@
     },
     "card": {
       "viewShop": "View shop"
+    },
+    "typeFallback": "dealer",
+    "typePossessiveFallback": "from this dealer",
+    "typeArticleFallback": "this dealer",
+    "contact": {
+      "eyebrow": "Contact",
+      "email": "Email",
+      "phone": "Phone"
     }
   },
   "searchFilter": {
@@ -1394,7 +1424,27 @@
     "sidebarLabel": "Partner Sections",
     "nav": {
       "applications": "Applications",
+      "shops": "My Shops",
       "accessTokens": "Access tokens"
+    }
+  },
+  "partnerShops": {
+    "title": "My Shops",
+    "description": "All shops linked to your partner account.",
+    "actions": {
+      "retry": "Retry",
+      "edit": "Edit"
+    },
+    "loading": "Loading your shops.",
+    "loadError": "Your shops could not be loaded.",
+    "empty": "No shops are linked to your partner account yet.",
+    "updatedAt": "Updated on {{date}}",
+    "shopImageAlt": "Logo of {{shop}}",
+    "editAriaLabel": "Edit {{shop}}",
+    "edit": {
+      "title": "Edit shop",
+      "description": "Edit the details for {{shop}}.",
+      "success": "Shop was updated."
     }
   },
   "partnerAccessTokens": {
@@ -1650,6 +1700,7 @@
       },
       "fields": {
         "name": "Shop name",
+        "shopId": "Shop ID",
         "shopType": "Shop type",
         "url": "Primary shop URL",
         "shopifyDomain": "Shopify domain",
@@ -2114,5 +2165,17 @@
       "description": "If your search should include the places where antiques are actually sold online, start with Aura Historia.",
       "button": "Start searching antiques"
     }
+  },
+  "shopTypePossessive": {
+    "auctionHouse": "from this auction house",
+    "auctionPlatform": "from this auction platform",
+    "commercialDealer": "from this dealer",
+    "marketplace": "from this marketplace"
+  },
+  "shopTypeArticle": {
+    "auctionHouse": "this auction house",
+    "auctionPlatform": "this auction platform",
+    "commercialDealer": "this dealer",
+    "marketplace": "this marketplace"
   }
 }

@@ -173,11 +173,11 @@ Der Widerruf Ihrer Einwilligung berührt die Rechtmäßigkeit der bis zum Widerr
 
 ## 8. Cookies, Local Storage und Session Storage
 
-Wir verwenden technisch erforderliche Browser-Speicherungen sowie – nur im zulässigen Umfang – optionale Speicherungen für Analyse- und Komfortfunktionen.
+Wir verwenden technisch erforderliche Browser-Speicherungen sowie – nur im zulässigen Umfang und nach Ihrer Einwilligung – optionale Dienste für Analysefunktionen und eingebettete externe Karten.
 
 Derzeit werden insbesondere folgende Speichermechanismen verwendet:
 
-- **`user-preferences` (Cookie, bis zu 1 Jahr):** speichert funktionale Präferenzen wie Währung und den Status Ihrer Analytics-/Tracking-Entscheidung; dient dazu, Ihre Einstellungen server- und clientseitig konsistent anzuwenden
+- **`user-preferences` (Cookie, bis zu 1 Jahr):** speichert funktionale Präferenzen wie Währung sowie den Status Ihrer Entscheidungen zu Analytics/Tracking und externen Karten; dient dazu, Ihre Einstellungen server- und clientseitig konsistent anzuwenden
 - **`user-preferences` (Local Storage):** speichert dieselben funktionalen Präferenzen lokal im Browser, bis Sie diese löschen
 - **`i18nextLng` (Local Storage):** speichert Ihre gewählte Sprache, bis Sie diese löschen oder überschreiben
 - **`auth.signUp.pendingEmail` (Session Storage):** speichert Ihre E-Mail-Adresse vorübergehend während eines mehrstufigen Registrierungsprozesses und wird typischerweise mit Ende der Browser-Sitzung gelöscht
@@ -187,13 +187,13 @@ Zusätzlich können technisch erforderliche Speicherungen durch Authentifizierun
 **Rechtsgrundlagen:**
 
 - **§ 25 Abs. 2 TDDDG** und **Art. 6 Abs. 1 lit. f DSGVO** – für technisch notwendige Speicherungen
-- **§ 25 Abs. 1 TDDDG** und **Art. 6 Abs. 1 lit. a DSGVO** – für optionale Analyse- oder Marketing-Speicherungen, soweit einwilligungsbedürftig
+- **§ 25 Abs. 1 TDDDG** und **Art. 6 Abs. 1 lit. a DSGVO** – für optionale Analyse-/Marketing-Speicherungen oder das Laden externer Inhalte, soweit einwilligungsbedürftig
 
 ---
 
-## 9. Einwilligungsmanagement und Google Analytics
+## 9. Einwilligungsmanagement, Google Analytics und externe Karten
 
-Unsere Website verwendet ein Consent-Banner und gesonderte Consent-Einstellungen. Optionale Analyse- oder Marketing-Speicherungen werden nur im rechtlich zulässigen Umfang aktiviert.
+Unsere Website verwendet ein Consent-Banner und gesonderte Consent-Einstellungen. Optionale Analysefunktionen und externe Inhalte werden nur im rechtlich zulässigen Umfang und nach Ihrer Einwilligung aktiviert. Sie können für Analyse/Tracking und externe Karten getrennte Entscheidungen treffen.
 
 Wir verwenden **Google Analytics 4** der **Google Ireland Limited**, Gordon House, Barrow Street, Dublin 4, Irland.
 
@@ -208,9 +208,11 @@ Erteilen Sie Ihre Einwilligung, können insbesondere folgende Daten für statist
 
 Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft über die Consent-Einstellungen widerrufen.
 
+Auf Shop-Seiten können wir Karten von **Google Maps** einbetten. Anbieter ist ebenfalls Google Ireland Limited. Google Maps wird erst geladen, wenn Sie der Nutzung externer Karten zugestimmt haben. Vor Ihrer Einwilligung wird keine Google-Maps-iframe-Verbindung hergestellt. Wenn Sie die Karte laden, können insbesondere Ihre IP-Adresse, Geräte- und Browserinformationen, Referrer-Informationen sowie die angefragte Adresse bzw. Koordinaten an Google übermittelt werden. Google kann Daten auch in Drittländern, insbesondere den USA, verarbeiten. Sie können diese Einwilligung jederzeit über die Consent-Einstellungen widerrufen.
+
 **Rechtsgrundlagen:**
 
-- **Art. 6 Abs. 1 lit. a DSGVO** und **§ 25 Abs. 1 TDDDG** – für Google-Analytics-Verarbeitung und optionale Analytics-Speicherungen nach Ihrer Einwilligung
+- **Art. 6 Abs. 1 lit. a DSGVO** und **§ 25 Abs. 1 TDDDG** – für Google-Analytics-Verarbeitung, optionale Analytics-Speicherungen und das Laden von Google Maps nach Ihrer Einwilligung
 - **Art. 6 Abs. 1 lit. f DSGVO** – nur soweit vor Ihrer Einwilligung rein technische Signale zur Durchsetzung und Dokumentation Ihrer Consent-Entscheidung verarbeitet werden
 
 Weitere Informationen finden Sie in der [Datenschutzerklärung von Google](https://policies.google.com/privacy).
@@ -278,7 +280,7 @@ Wir setzen externe Dienstleister und Infrastrukturanbieter ein. Personenbezogene
 - **Hetzner Online GmbH** – soweit bestimmte Backend-, Hosting- oder Speicherkomponenten dort betrieben werden
 - **Stripe** – für Zahlungsabwicklung, Abonnementverwaltung, Checkout- und Kundenportal
 - **Zoho Campaigns** – soweit Newsletter- und Marketingkommunikation aktiviert sind
-- **Google** – soweit Google Analytics bzw. Consent-Mode-Funktionen eingesetzt werden
+- **Google** – soweit Google Analytics, Consent-Mode-Funktionen oder Google Maps eingesetzt werden
 - **weitere technische, rechtliche, steuerliche oder organisatorische Dienstleister** – soweit dies für Betrieb, Support, Sicherheit, Compliance oder Durchsetzung von Ansprüchen erforderlich ist
 - **Behörden, Gerichte und Dritte** – soweit wir hierzu gesetzlich verpflichtet sind oder dies zur Rechtsdurchsetzung erforderlich ist
 

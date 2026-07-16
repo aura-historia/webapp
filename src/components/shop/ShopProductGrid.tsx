@@ -7,18 +7,26 @@ import { useTranslation } from "react-i18next";
 import { SearchX, ServerCrash } from "lucide-react";
 import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
+import { SHOP_TYPE_TRANSLATION_CONFIG, type ShopType } from "@/data/internal/shop/ShopType.ts";
 
 const SKELETON_COUNT = 8;
 const SKELETON_IDS = Array.from({ length: SKELETON_COUNT }, (_, i) => `skeleton-${i}`);
 
 type ShopProductGridProps = {
     readonly shopName: string;
+    readonly shopType?: ShopType;
     readonly onTotalChange?: (total: number | undefined) => void;
 };
 
-export function ShopProductGrid({ shopName, onTotalChange }: ShopProductGridProps) {
+export function ShopProductGrid({ shopName, shopType, onTotalChange }: ShopProductGridProps) {
     const { ref, inView } = useInView();
     const { t } = useTranslation();
+    const shopTypeName = shopType
+        ? t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].translationKey)
+        : t("shop.typeFallback");
+    const shopTypePossessive = shopType
+        ? t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].possessiveTranslationKey)
+        : t("shop.typePossessiveFallback");
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useShopProducts(shopName);
 
@@ -61,7 +69,7 @@ export function ShopProductGrid({ shopName, onTotalChange }: ShopProductGridProp
             <EmptyState
                 icon={SearchX}
                 title={t("shop.products.noResults.title")}
-                description={t("shop.products.noResults.description")}
+                description={t("shop.products.noResults.description", { shopType: shopTypeName })}
             />
         );
     }
@@ -79,6 +87,7 @@ export function ShopProductGrid({ shopName, onTotalChange }: ShopProductGridProp
                     totalCount={totalProducts}
                     loadingMoreKey="shop.products.loadingMore"
                     allLoadedKey="shop.products.allLoaded"
+                    allLoadedValues={{ shopTypePossessive }}
                 />
             )}
             {hasNextPage && !isFetchingNextPage && <div ref={ref} className="h-1" />}

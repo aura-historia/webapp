@@ -123,7 +123,7 @@ describe("ShopProductGrid", () => {
         renderWithQueryClient(<ShopProductGrid shopName="Test Shop" />);
         expect(screen.getByText("Keine Artikel gefunden")).toBeInTheDocument();
         expect(
-            screen.getByText("Von diesem Shop sind derzeit keine Artikel vorhanden."),
+            screen.getByText("Von diesem Händler sind derzeit keine Artikel vorhanden."),
         ).toBeInTheDocument();
     });
 
@@ -152,7 +152,7 @@ describe("ShopProductGrid", () => {
         });
         renderWithQueryClient(<ShopProductGrid shopName="Test Shop" />);
         expect(
-            screen.getByText("Sie haben alle 2 Artikel aus diesem Shop gesehen."),
+            screen.getByText("Sie haben alle 2 Artikel dieses Händlers gesehen."),
         ).toBeInTheDocument();
     });
 

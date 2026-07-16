@@ -47,7 +47,7 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
                 </div>
             </div>
             <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 md:grid-cols-[minmax(220px,320px)_1fr] md:items-stretch md:gap-12 md:px-10 md:py-14">
-                <div className="overflow-hidden border border-border/20 bg-card p-2 shadow-[0_24px_48px_-24px_rgba(28,28,22,0.22)]">
+                <div className="overflow-hidden bg-surface-container-lowest p-2 shadow-[0_12px_40px_rgba(28,28,22,0.06)]">
                     {shop.image ? (
                         <img
                             src={shop.image}
@@ -78,7 +78,7 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
                             {t("shop.header.addedOn", { date: formattedDate })}
                         </p>
                     </div>
-                    <div className="border-t border-border/30 pt-4">
+                    <div className="bg-surface-container-low p-5">
                         <p className="font-display text-3xl italic text-primary md:text-4xl">
                             {formattedProductCount}
                         </p>
