@@ -39,4 +39,8 @@ This doc owns all feature-sliced work under `src/features/**`. Add child docs on
 
 ## Child DOX Index
 
-No child DOX files yet. If a feature gains special contracts, add a single `AGENTS.md` at that feature root, not in every subfolder.
+- `src/features/admin/AGENTS.md` — admin feature and admin-sensitive data contracts.
+- `src/features/oauth/AGENTS.md` — OAuth authorization, scopes, redirect, and token-safety contracts.
+- `src/features/partner/AGENTS.md` — partner program, applications, access-token, and shop-data contracts.
+
+Add child docs only at feature roots when special contracts are durable. Do not add one per subfolder.

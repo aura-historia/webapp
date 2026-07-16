@@ -33,4 +33,7 @@ This doc owns component work under `src/components/**`, including `ui`, `typogra
 
 ## Child DOX Index
 
-No child DOX files yet. Add one for a component domain only when it develops durable local contracts beyond this doc.
+- `src/components/ui/AGENTS.md` — generic UI primitive contracts.
+- `src/components/landing-page/AGENTS.md` — landing-page section, copy, and storytelling contracts.
+
+Add more child docs only when a component domain has durable local rules beyond this doc.
