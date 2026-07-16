@@ -173,11 +173,11 @@ Withdrawal of your consent does not affect the lawfulness of processing carried 
 
 ## 8. Cookies, Local Storage, and Session Storage
 
-We use technically necessary browser storage and, only where legally permissible, optional storage for analytics and convenience features.
+We use technically necessary browser storage and, only where legally permissible and after your consent, optional services for analytics features and embedded external maps.
 
 At present, the following storage mechanisms are used in particular:
 
-- **`user-preferences` (cookie, up to 1 year):** stores functional preferences such as currency and the status of your analytics/tracking choice; this is used to apply your settings consistently on the server and client side
+- **`user-preferences` (cookie, up to 1 year):** stores functional preferences such as currency and the status of your choices for analytics/tracking and external maps; this is used to apply your settings consistently on the server and client side
 - **`user-preferences` (local storage):** stores the same functional preferences locally in your browser until you delete them
 - **`i18nextLng` (local storage):** stores your selected language until you delete or overwrite it
 - **`auth.signUp.pendingEmail` (session storage):** temporarily stores your email address during a multi-step sign-up process and is typically deleted at the end of the browser session
@@ -187,13 +187,13 @@ Additional technically necessary storage may be used by authentication, security
 **Legal bases:**
 
 - **Section 25 para. 2 TDDDG** and **Art. 6 para. 1 lit. f GDPR** – for technically necessary storage
-- **Section 25 para. 1 TDDDG** and **Art. 6 para. 1 lit. a GDPR** – for optional analytics or marketing storage where consent is required
+- **Section 25 para. 1 TDDDG** and **Art. 6 para. 1 lit. a GDPR** – for optional analytics/marketing storage or loading external content where consent is required
 
 ---
 
-## 9. Consent Management and Google Analytics
+## 9. Consent Management, Google Analytics, and External Maps
 
-Our website uses a consent banner and separate consent settings. Optional analytics or marketing storage is activated only to the extent legally permissible.
+Our website uses a consent banner and separate consent settings. Optional analytics features and external content are activated only to the extent legally permissible and after your consent. You can make separate choices for analytics/tracking and external maps.
 
 We use **Google Analytics 4** provided by **Google Ireland Limited**, Gordon House, Barrow Street, Dublin 4, Ireland.
 
@@ -208,9 +208,11 @@ If you grant consent, the following data may in particular be processed for stat
 
 You may withdraw your consent at any time with effect for the future via the consent settings.
 
+On shop pages, we may embed maps from **Google Maps**, also provided by Google Ireland Limited. Google Maps is loaded only after you have consented to the use of external maps. Before your consent, no Google Maps iframe connection is established. When you load the map, data such as your IP address, device and browser information, referrer information, and the requested address or coordinates may be transmitted to Google. Google may also process data in third countries, in particular the United States. You may withdraw this consent at any time via the consent settings.
+
 **Legal bases:**
 
-- **Art. 6 para. 1 lit. a GDPR** and **Section 25 para. 1 TDDDG** – for Google Analytics processing and optional analytics storage after your consent
+- **Art. 6 para. 1 lit. a GDPR** and **Section 25 para. 1 TDDDG** – for Google Analytics processing, optional analytics storage, and loading Google Maps after your consent
 - **Art. 6 para. 1 lit. f GDPR** – only insofar as purely technical signals are processed before consent in order to enforce and document your consent choice
 
 For further information, please refer to [Google's Privacy Policy](https://policies.google.com/privacy).
@@ -278,7 +280,7 @@ We use external service providers and infrastructure providers. Personal data ma
 - **Hetzner Online GmbH** – where certain backend, hosting, or storage components are operated there
 - **Stripe** – for payment processing, subscription management, checkout, and customer portal functions
 - **Zoho Campaigns** – where newsletter and marketing communication are enabled
-- **Google** – where Google Analytics or consent-mode functions are used
+- **Google** – where Google Analytics, Consent Mode functions, or Google Maps are used
 - **additional technical, legal, tax, or organizational service providers** – where required for operations, support, security, compliance, or the enforcement of claims
 - **authorities, courts, and third parties** – where we are legally obliged to do so or where this is necessary to enforce legal claims
 

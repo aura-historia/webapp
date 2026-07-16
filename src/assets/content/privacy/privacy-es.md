@@ -173,11 +173,11 @@ La retirada de su consentimiento no afecta a la licitud del tratamiento efectuad
 
 ## 8. Cookies, almacenamiento local y almacenamiento de sesión
 
-Utilizamos almacenamiento del navegador técnicamente necesario y, solo cuando sea legalmente admisible, almacenamiento opcional para funciones de analítica y comodidad.
+Utilizamos almacenamiento del navegador técnicamente necesario y, solo cuando sea legalmente admisible y tras su consentimiento, servicios opcionales para funciones de analítica y mapas externos integrados.
 
 Actualmente se utilizan en particular los siguientes mecanismos de almacenamiento:
 
-- **`user-preferences` (cookie, hasta 1 año):** almacena preferencias funcionales como la moneda y el estado de su elección sobre analítica/seguimiento; se utiliza para aplicar sus ajustes de forma coherente del lado del servidor y del cliente
+- **`user-preferences` (cookie, hasta 1 año):** almacena preferencias funcionales como la moneda y el estado de sus elecciones sobre analítica/seguimiento y mapas externos; se utiliza para aplicar sus ajustes de forma coherente del lado del servidor y del cliente
 - **`user-preferences` (local storage):** almacena las mismas preferencias funcionales localmente en su navegador hasta que usted las elimine
 - **`i18nextLng` (local storage):** almacena el idioma seleccionado hasta que usted lo elimine o lo sobrescriba
 - **`auth.signUp.pendingEmail` (session storage):** almacena temporalmente su dirección de correo electrónico durante un proceso de registro en varios pasos y normalmente se elimina al finalizar la sesión del navegador
@@ -187,13 +187,13 @@ Pueden utilizarse almacenamientos técnicamente necesarios adicionales mediante 
 **Bases jurídicas:**
 
 - **§ 25 apdo. 2 TDDDG** y **Art. 6 apdo. 1 letra f RGPD** – para almacenamiento técnicamente necesario
-- **§ 25 apdo. 1 TDDDG** y **Art. 6 apdo. 1 letra a RGPD** – para almacenamiento opcional de analítica o marketing cuando se requiera consentimiento
+- **§ 25 apdo. 1 TDDDG** y **Art. 6 apdo. 1 letra a RGPD** – para almacenamiento opcional de analítica/marketing o la carga de contenidos externos cuando se requiera consentimiento
 
 ---
 
-## 9. Gestión del consentimiento y Google Analytics
+## 9. Gestión del consentimiento, Google Analytics y mapas externos
 
-Nuestro sitio web utiliza un banner de consentimiento y ajustes específicos de consentimiento. El almacenamiento opcional de analítica o marketing solo se activa en la medida legalmente permitida.
+Nuestro sitio web utiliza un banner de consentimiento y ajustes específicos de consentimiento. Las funciones opcionales de analítica y los contenidos externos solo se activan en la medida legalmente permitida y tras su consentimiento. Puede decidir por separado sobre analítica/seguimiento y mapas externos.
 
 Utilizamos **Google Analytics 4** de **Google Ireland Limited**, Gordon House, Barrow Street, Dublin 4, Irlanda.
 
@@ -208,9 +208,11 @@ Si usted otorga su consentimiento, pueden tratarse en particular los siguientes 
 
 Puede retirar su consentimiento en cualquier momento con efecto para el futuro a través de los ajustes de consentimiento.
 
+En las páginas de tiendas podemos integrar mapas de **Google Maps**, proporcionado también por Google Ireland Limited. Google Maps solo se carga después de que usted haya consentido el uso de mapas externos. Antes de su consentimiento no se establece ninguna conexión iframe con Google Maps. Al cargar el mapa, datos como su dirección IP, información del dispositivo y del navegador, información de referencia y la dirección o coordenadas solicitadas pueden transmitirse a Google. Google también puede tratar datos en terceros países, en particular en Estados Unidos. Puede retirar este consentimiento en cualquier momento a través de los ajustes de consentimiento.
+
 **Bases jurídicas:**
 
-- **Art. 6 apdo. 1 letra a RGPD** y **§ 25 apdo. 1 TDDDG** – para el tratamiento con Google Analytics y el almacenamiento opcional de analítica tras su consentimiento
+- **Art. 6 apdo. 1 letra a RGPD** y **§ 25 apdo. 1 TDDDG** – para el tratamiento con Google Analytics, el almacenamiento opcional de analítica y la carga de Google Maps tras su consentimiento
 - **Art. 6 apdo. 1 letra f RGPD** – solo en la medida en que, antes del consentimiento, se traten señales puramente técnicas para aplicar y documentar su elección de consentimiento
 
 Para más información, consulte la [Política de Privacidad de Google](https://policies.google.com/privacy).
@@ -278,7 +280,7 @@ Utilizamos proveedores de servicios e infraestructura externos. Los datos person
 - **Hetzner Online GmbH** – cuando determinados componentes de backend, hosting o almacenamiento se operen allí
 - **Stripe** – para procesamiento de pagos, gestión de suscripciones, checkout y portal del cliente
 - **Zoho Campaigns** – cuando estén habilitados el boletín y las comunicaciones de marketing
-- **Google** – cuando se utilicen Google Analytics o funciones de consent mode
+- **Google** – cuando se utilicen Google Analytics, funciones de Consent Mode o Google Maps
 - **otros proveedores técnicos, jurídicos, fiscales u organizativos** – cuando sea necesario para operaciones, soporte, seguridad, cumplimiento o ejecución de reclamaciones
 - **autoridades, tribunales y terceros** – cuando estemos legalmente obligados a ello o sea necesario para hacer valer derechos legales
 

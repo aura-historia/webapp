@@ -1205,16 +1205,23 @@
   },
   "consent": {
     "title": "Nous respectons votre vie privée",
-    "description": "Nous utilisons des cookies pour analyser le trafic web et améliorer votre expérience utilisateur. En cliquant sur 'Accepter', vous consentez à notre utilisation de cookies à ces fins. Vous trouverez plus d'informations dans notre <1>politique de confidentialité</1>.",
-    "accept": "Accepter",
-    "reject": "Refuser"
+    "description": "Nous utilisons les services optionnels uniquement avec votre consentement : analyse pour améliorer Aura Historia et cartes externes de Google Maps. Vous pouvez choisir chaque finalité séparément. En savoir plus dans notre <1>politique de confidentialité</1>.",
+    "analyticsLabel": "Analyse et suivi",
+    "analyticsDescription": "Nous aide à comprendre l’utilisation d’Aura Historia afin d’améliorer la plateforme.",
+    "externalMapsLabel": "Cartes externes",
+    "externalMapsDescription": "Charge des cartes intégrées Google Maps. Des données telles que votre adresse IP peuvent être transmises à Google.",
+    "acceptAll": "Tout accepter",
+    "saveSelection": "Enregistrer la sélection",
+    "rejectAll": "Tout refuser"
   },
   "consentSettings": {
     "title": "Paramètres des cookies",
     "description": "Nous utilisons des cookies pour analyser le trafic web et améliorer votre expérience utilisateur. Vous trouverez plus d'informations dans notre <1>politique de confidentialité</1>.",
     "analyticsLabel": "Analyse & Suivi",
     "analyticsDescription": "Nous permet d'analyser l'utilisation et d'améliorer votre expérience via Google Analytics. Comprend le stockage des annonces, le stockage analytique, les données utilisateur publicitaires et la personnalisation des annonces.",
-    "saved": "Vos préférences en matière de cookies ont été enregistrées."
+    "saved": "Vos préférences en matière de cookies ont été enregistrées.",
+    "externalMapsLabel": "Cartes externes",
+    "externalMapsDescription": "Autorise le chargement de cartes intégrées Google Maps. Des données personnelles telles que votre adresse IP et les informations de votre navigateur peuvent être transmises à Google."
   },
   "shop": {
     "header": {
@@ -1225,13 +1232,25 @@
       "addedOn": "Ajouté le {{date}}",
       "metaDescription": "Explorez les antiquités et objets de collection de {{shop}} sur Aura Historia."
     },
+    "location": {
+      "eyebrow": "Localisation",
+      "title": "Où trouver {{shopTypeArticle}}",
+      "description": "Adresse et coordonnées de {{shop}}, lorsqu’elles sont disponibles publiquement.",
+      "noAddress": "Nous n’avons pas encore d’adresse pour {{shopTypeArticle}}.",
+      "noLocation": "Nous ne disposons pas encore d’informations de localisation pour {{shopTypeArticle}}.",
+      "mapTitle": "Carte indiquant l’emplacement de {{shop}}",
+      "mapConsentTitle": "Charger la carte après consentement",
+      "mapConsentDescription": "Cette carte est fournie par Google Maps. Son chargement peut transmettre des données telles que votre adresse IP à Google.",
+      "mapConsentButton": "Afficher la carte",
+      "mapConsentSettings": "Paramètres des cookies"
+    },
     "products": {
       "loadingMore": "Chargement d'autres articles...",
-      "allLoaded_one": "Vous avez consulté {{count}} article de cette boutique.",
-      "allLoaded_other": "Vous avez consulté les {{count}} articles de cette boutique.",
+      "allLoaded_one": "Vous avez vu {{count}} article {{shopTypePossessive}}.",
+      "allLoaded_other": "Vous avez vu les {{count}} articles {{shopTypePossessive}}.",
       "noResults": {
         "title": "Aucun article trouvé",
-        "description": "Il n'y a actuellement aucun article de cette boutique."
+        "description": "Aucun article {{shopTypePossessive}} n’est disponible pour le moment."
       },
       "error": {
         "title": "Impossible de charger les articles",
@@ -1240,6 +1259,14 @@
     },
     "card": {
       "viewShop": "Voir la boutique"
+    },
+    "typeFallback": "marchand",
+    "typePossessiveFallback": "de ce marchand",
+    "typeArticleFallback": "ce marchand",
+    "contact": {
+      "eyebrow": "Contact",
+      "email": "E-mail",
+      "phone": "Téléphone"
     }
   },
   "notifications": {
@@ -2113,5 +2140,17 @@
       "shopsManage": "Gérer les boutiques",
       "productsWrite": "Écrire des produits"
     }
+  },
+  "shopTypePossessive": {
+    "auctionHouse": "de cette maison de ventes",
+    "auctionPlatform": "de cette plateforme d’enchères",
+    "commercialDealer": "de ce marchand",
+    "marketplace": "de cette place de marché"
+  },
+  "shopTypeArticle": {
+    "auctionHouse": "cette maison de ventes",
+    "auctionPlatform": "cette plateforme d’enchères",
+    "commercialDealer": "ce marchand",
+    "marketplace": "cette place de marché"
   }
 }

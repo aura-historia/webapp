@@ -18,6 +18,69 @@ vi.mock("react-i18next", () => ({
     }),
 }));
 
+const EXTERNAL_MAP_PRIVACY_EXPECTATIONS: Record<string, string[]> = {
+    de: [
+        "externen Karten",
+        "Google Maps",
+        "Google Maps wird erst geladen",
+        "keine Google-Maps-iframe-Verbindung",
+        "IP-Adresse",
+        "Koordinaten",
+        "Drittländern",
+        "Consent-Einstellungen",
+        "Art. 6 Abs. 1 lit. a DSGVO",
+        "§ 25 Abs. 1 TDDDG",
+    ],
+    en: [
+        "external maps",
+        "Google Maps",
+        "Google Maps is loaded only after",
+        "no Google Maps iframe connection",
+        "IP address",
+        "coordinates",
+        "third countries",
+        "consent settings",
+        "Art. 6 para. 1 lit. a GDPR",
+        "Section 25 para. 1 TDDDG",
+    ],
+    es: [
+        "mapas externos",
+        "Google Maps",
+        "Google Maps solo se carga",
+        "ninguna conexión iframe con Google Maps",
+        "dirección IP",
+        "coordenadas",
+        "terceros países",
+        "ajustes de consentimiento",
+        "Art. 6 apdo. 1 letra a RGPD",
+        "§ 25 apdo. 1 TDDDG",
+    ],
+    fr: [
+        "cartes externes",
+        "Google Maps",
+        "Google Maps n’est chargé",
+        "aucune connexion iframe Google Maps",
+        "adresse IP",
+        "coordonnées",
+        "pays tiers",
+        "paramètres de consentement",
+        "Art. 6, par. 1, point a RGPD",
+        "§ 25, al. 1 TDDDG",
+    ],
+    it: [
+        "mappe esterne",
+        "Google Maps",
+        "Google Maps viene caricato",
+        "alcuna connessione iframe con Google Maps",
+        "indirizzo IP",
+        "coordinate",
+        "paesi terzi",
+        "impostazioni di consenso",
+        "Art. 6 par. 1 lett. a GDPR",
+        "§ 25 par. 1 TDDDG",
+    ],
+};
+
 describe("Privacy Component", () => {
     beforeEach(async () => {
         await act(async () => {
@@ -120,6 +183,30 @@ describe("Privacy Page Logic", () => {
             for (const key of localeKeys) {
                 expect(PRIVACY_LOCALE_MAP[key]).toContain("Zoho Campaigns");
                 expect(PRIVACY_LOCALE_MAP[key]).toContain("Stripe");
+            }
+        });
+
+        it("should document external map consent in every locale", () => {
+            for (const [locale, expectedPhrases] of Object.entries(
+                EXTERNAL_MAP_PRIVACY_EXPECTATIONS,
+            )) {
+                const content = PRIVACY_LOCALE_MAP[locale];
+
+                expect(content).toBeDefined();
+                for (const expectedPhrase of expectedPhrases) {
+                    expect(content).toContain(expectedPhrase);
+                }
+            }
+        });
+
+        it("should document Google Maps as a recipient in every locale", () => {
+            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
+
+            for (const key of localeKeys) {
+                const content = PRIVACY_LOCALE_MAP[key];
+
+                expect(content).toContain("Google Maps");
+                expect(content).toContain("Google Ireland Limited");
             }
         });
 

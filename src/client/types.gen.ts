@@ -77,6 +77,7 @@ export type GetProductData = {
      */
     price?: PricingData | null;
     state: ProductStateData;
+    lifecycle: ProductLifecycleData;
     /**
      * Raw URL to the product on the shop's website.
      */
@@ -159,6 +160,7 @@ export type GetProductSummaryData = {
      */
     price?: PriceData | null;
     state: ProductStateData;
+    lifecycle: ProductLifecycleData;
     /**
      * Raw URL to the product on the shop's website.
      */
@@ -560,6 +562,14 @@ export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD' | 'CNY'
  *
  */
 export type ProductStateData = 'LISTED' | 'AVAILABLE' | 'RESERVED' | 'SOLD' | 'REMOVED' | 'UNKNOWN';
+
+/**
+ * Lifecycle state of the product:
+ * - ACTIVE: Product is visible in normal discovery flows
+ * - DELETED: Product has been soft-deleted
+ *
+ */
+export type ProductLifecycleData = 'ACTIVE' | 'DELETED';
 
 /**
  * Auction time window information for products from auction houses.
@@ -3803,6 +3813,52 @@ export type PostWoocommerceWebhookResponses = {
      */
     202: unknown;
 };
+
+export type DeletePartnerProductData = {
+    body?: never;
+    path: {
+        /**
+         * Unique identifier of the partner shop
+         */
+        shopId: string;
+        /**
+         * Shop's unique identifier for the product
+         */
+        shopsProductId: string;
+    };
+    query?: never;
+    url: '/api/v1/shops/{shopId}/products/{shopsProductId}';
+};
+
+export type DeletePartnerProductErrors = {
+    /**
+     * Unauthorized — the bearer token is missing, invalid, expired, or unknown.
+     */
+    401: ApiError;
+    /**
+     * Forbidden — caller is neither admin nor partnered with this shop.
+     */
+    403: ApiError;
+    /**
+     * Not found — the specified shop or product does not exist.
+     */
+    404: ApiError;
+    /**
+     * Internal server error
+     */
+    500: ApiError;
+};
+
+export type DeletePartnerProductError = DeletePartnerProductErrors[keyof DeletePartnerProductErrors];
+
+export type DeletePartnerProductResponses = {
+    /**
+     * Product delete accepted and materialized as a soft delete.
+     */
+    204: void;
+};
+
+export type DeletePartnerProductResponse = DeletePartnerProductResponses[keyof DeletePartnerProductResponses];
 
 export type GetProductData2 = {
     body?: never;

@@ -1205,16 +1205,23 @@
   },
   "consent": {
     "title": "Wir schätzen Ihre Privatsphäre",
-    "description": "Wir verwenden Cookies, um den Webverkehr zu analysieren und Ihr Benutzererlebnis zu verbessern. Mit Klick auf 'Zustimmen' willigen Sie in die Verwendung von Cookies für diese Zwecke ein. Weitere Informationen finden Sie in unserer <1>Datenschutzerklärung</1>.",
-    "accept": "Zustimmen",
-    "reject": "Ablehnen"
+    "description": "Wir nutzen optionale Dienste nur mit Ihrer Einwilligung: Analyse zur Verbesserung von Aura Historia und externe Karten von Google Maps. Sie können beide Zwecke getrennt auswählen. Weitere Informationen finden Sie in unserer <1>Datenschutzerklärung</1>.",
+    "analyticsLabel": "Analyse & Tracking",
+    "analyticsDescription": "Hilft uns zu verstehen, wie Aura Historia genutzt wird, damit wir die Plattform verbessern können.",
+    "externalMapsLabel": "Externe Karten",
+    "externalMapsDescription": "Lädt eingebettete Karten von Google Maps. Dabei können Daten wie Ihre IP-Adresse an Google übermittelt werden.",
+    "acceptAll": "Alle akzeptieren",
+    "saveSelection": "Auswahl speichern",
+    "rejectAll": "Alle ablehnen"
   },
   "consentSettings": {
     "title": "Cookie-Einstellungen",
     "description": "Wir verwenden Cookies, um den Webverkehr zu analysieren und Ihr Benutzererlebnis zu verbessern. Weitere Informationen finden Sie in unserer <1>Datenschutzerklärung</1>.",
     "analyticsLabel": "Analyse & Tracking",
     "analyticsDescription": "Ermöglicht uns die Analyse der Nutzung und die Verbesserung Ihres Erlebnisses über Google Analytics. Beinhaltet Anzeigenspeicher, Analysespeicher, Anzeigenbenutzerdaten und Anzeigenpersonalisierung.",
-    "saved": "Ihre Cookie-Einstellungen wurden gespeichert."
+    "saved": "Ihre Cookie-Einstellungen wurden gespeichert.",
+    "externalMapsLabel": "Externe Karten",
+    "externalMapsDescription": "Erlaubt das Laden eingebetteter Karten von Google Maps. Dabei können personenbezogene Daten wie IP-Adresse und Browserinformationen an Google übermittelt werden."
   },
   "notifications": {
     "title": "Benachrichtigungen",
@@ -1257,13 +1264,25 @@
       "addedOn": "Hinzugefügt am {{date}}",
       "metaDescription": "Entdecken Sie Antiquitäten und Sammlerstücke von {{shop}} auf Aura Historia."
     },
+    "location": {
+      "eyebrow": "Standort",
+      "title": "Wo Sie {{shopTypeArticle}} finden",
+      "description": "Adresse und Kontaktinformationen von {{shop}}, soweit diese öffentlich verfügbar sind.",
+      "noAddress": "Wir haben noch keine Adresse für {{shopTypeArticle}}.",
+      "noLocation": "Wir haben noch keine Standortinformationen für {{shopTypeArticle}}.",
+      "mapTitle": "Karte mit dem Standort von {{shop}}",
+      "mapConsentTitle": "Karte erst nach Zustimmung laden",
+      "mapConsentDescription": "Die Karte wird von Google Maps bereitgestellt. Beim Laden können Daten wie Ihre IP-Adresse an Google übermittelt werden.",
+      "mapConsentButton": "Karte anzeigen",
+      "mapConsentSettings": "Cookie-Einstellungen"
+    },
     "products": {
       "loadingMore": "Weitere Artikel werden geladen...",
-      "allLoaded_one": "Sie haben {{count}} Artikel aus diesem Shop gesehen.",
-      "allLoaded_other": "Sie haben alle {{count}} Artikel aus diesem Shop gesehen.",
+      "allLoaded_one": "Sie haben {{count}} Artikel {{shopTypePossessive}} gesehen.",
+      "allLoaded_other": "Sie haben alle {{count}} Artikel {{shopTypePossessive}} gesehen.",
       "noResults": {
         "title": "Keine Artikel gefunden",
-        "description": "Von diesem Shop sind derzeit keine Artikel vorhanden."
+        "description": "Von diesem {{shopType}} sind derzeit keine Artikel vorhanden."
       },
       "error": {
         "title": "Artikel konnten nicht geladen werden",
@@ -1272,6 +1291,14 @@
     },
     "card": {
       "viewShop": "Shop ansehen"
+    },
+    "typeFallback": "Händler",
+    "typePossessiveFallback": "dieses Händlers",
+    "typeArticleFallback": "diesen Händler",
+    "contact": {
+      "eyebrow": "Kontakt",
+      "email": "E-Mail",
+      "phone": "Telefon"
     }
   },
   "searchFilter": {
@@ -2113,5 +2140,17 @@
       "description": "Wenn Ihre Suche die Orte einschließen soll, an denen Antiquitäten online tatsächlich angeboten werden, beginnen Sie mit Aura Historia.",
       "button": "Antiquitäten suchen"
     }
+  },
+  "shopTypePossessive": {
+    "auctionHouse": "dieses Auktionshauses",
+    "auctionPlatform": "dieser Auktionsplattform",
+    "commercialDealer": "dieses Händlers",
+    "marketplace": "dieses Marktplatzes"
+  },
+  "shopTypeArticle": {
+    "auctionHouse": "dieses Auktionshaus",
+    "auctionPlatform": "diese Auktionsplattform",
+    "commercialDealer": "diesen Händler",
+    "marketplace": "diesen Marktplatz"
   }
 }

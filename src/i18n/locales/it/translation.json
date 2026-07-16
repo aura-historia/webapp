@@ -1205,16 +1205,23 @@
   },
   "consent": {
     "title": "Rispettiamo la tua privacy",
-    "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Cliccando su 'Accetta', acconsenti all'uso dei cookie per questi scopi. Puoi trovare maggiori informazioni nella nostra <1>informativa sulla privacy</1>.",
-    "accept": "Accetta",
-    "reject": "Rifiuta"
+    "description": "Utilizziamo servizi opzionali solo con il tuo consenso: analisi per migliorare Aura Historia e mappe esterne di Google Maps. Puoi scegliere ogni finalità separatamente. Scopri di più nella nostra <1>informativa sulla privacy</1>.",
+    "analyticsLabel": "Analisi e tracciamento",
+    "analyticsDescription": "Ci aiuta a capire come viene usata Aura Historia per migliorare la piattaforma.",
+    "externalMapsLabel": "Mappe esterne",
+    "externalMapsDescription": "Carica mappe incorporate da Google Maps. Dati come il tuo indirizzo IP possono essere trasmessi a Google.",
+    "acceptAll": "Accetta tutto",
+    "saveSelection": "Salva selezione",
+    "rejectAll": "Rifiuta tutto"
   },
   "consentSettings": {
     "title": "Impostazioni cookie",
     "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Puoi trovare maggiori informazioni nella nostra <1>informativa sulla privacy</1>.",
     "analyticsLabel": "Analisi & Tracciamento",
     "analyticsDescription": "Ci permette di analizzare l'utilizzo e migliorare la tua esperienza tramite Google Analytics. Include archiviazione annunci, archiviazione analytics, dati utente annunci e personalizzazione annunci.",
-    "saved": "Le tue preferenze sui cookie sono state salvate."
+    "saved": "Le tue preferenze sui cookie sono state salvate.",
+    "externalMapsLabel": "Mappe esterne",
+    "externalMapsDescription": "Consente il caricamento di mappe incorporate di Google Maps. Dati personali come indirizzo IP e informazioni del browser possono essere trasmessi a Google."
   },
   "shop": {
     "header": {
@@ -1225,13 +1232,25 @@
       "addedOn": "Aggiunto il {{date}}",
       "metaDescription": "Esplora antiquariato e oggetti da collezione di {{shop}} su Aura Historia."
     },
+    "location": {
+      "eyebrow": "Posizione",
+      "title": "Dove trovare {{shopTypeArticle}}",
+      "description": "Indirizzo e informazioni di contatto di {{shop}}, quando disponibili pubblicamente.",
+      "noAddress": "Non abbiamo ancora un indirizzo per {{shopTypeArticle}}.",
+      "noLocation": "Non abbiamo ancora informazioni sulla posizione per {{shopTypeArticle}}.",
+      "mapTitle": "Mappa che mostra la posizione di {{shop}}",
+      "mapConsentTitle": "Carica la mappa dopo il consenso",
+      "mapConsentDescription": "Questa mappa è fornita da Google Maps. Caricandola, dati come il tuo indirizzo IP possono essere trasmessi a Google.",
+      "mapConsentButton": "Mostra mappa",
+      "mapConsentSettings": "Impostazioni cookie"
+    },
     "products": {
       "loadingMore": "Caricamento di altri articoli...",
-      "allLoaded_one": "Hai visualizzato {{count}} articolo di questo negozio.",
-      "allLoaded_other": "Hai visualizzato tutti i {{count}} articoli di questo negozio.",
+      "allLoaded_one": "Hai visto {{count}} articolo {{shopTypePossessive}}.",
+      "allLoaded_other": "Hai visto tutti i {{count}} articoli {{shopTypePossessive}}.",
       "noResults": {
         "title": "Nessun articolo trovato",
-        "description": "Al momento non ci sono articoli di questo negozio."
+        "description": "Al momento non ci sono articoli {{shopTypePossessive}}."
       },
       "error": {
         "title": "Impossibile caricare gli articoli",
@@ -1240,6 +1259,14 @@
     },
     "card": {
       "viewShop": "Vedi negozio"
+    },
+    "typeFallback": "venditore",
+    "typePossessiveFallback": "di questo venditore",
+    "typeArticleFallback": "questo venditore",
+    "contact": {
+      "eyebrow": "Contatto",
+      "email": "Email",
+      "phone": "Telefono"
     }
   },
   "notifications": {
@@ -2113,5 +2140,17 @@
       "shopsManage": "Gestisci negozi",
       "productsWrite": "Scrivi prodotti"
     }
+  },
+  "shopTypePossessive": {
+    "auctionHouse": "di questa casa d’aste",
+    "auctionPlatform": "di questa piattaforma d’aste",
+    "commercialDealer": "di questo venditore",
+    "marketplace": "di questo marketplace"
+  },
+  "shopTypeArticle": {
+    "auctionHouse": "questa casa d’aste",
+    "auctionPlatform": "questa piattaforma d’aste",
+    "commercialDealer": "questo venditore",
+    "marketplace": "questo marketplace"
   }
 }

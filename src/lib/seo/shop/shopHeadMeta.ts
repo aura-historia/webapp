@@ -18,6 +18,32 @@ type ShopHeadParams = {
     shopSlugId: string;
 };
 
+type PostalAddressJsonLd = {
+    "@type": "PostalAddress";
+    streetAddress?: string;
+    addressLocality?: string;
+    addressRegion?: string;
+    postalCode?: string;
+    addressCountry?: string;
+};
+
+type GeoCoordinatesJsonLd = {
+    "@type": "GeoCoordinates";
+    latitude: number;
+    longitude: number;
+};
+
+type ShopLocalBusinessJsonLd = {
+    "@type": "LocalBusiness";
+    name: string;
+    url?: string;
+    image: string;
+    address?: PostalAddressJsonLd;
+    geo?: GeoCoordinatesJsonLd;
+    telephone?: string;
+    email?: string;
+};
+
 type ShopCollectionPageJsonLd = {
     "@context": "https://schema.org/";
     "@type": "CollectionPage";
@@ -26,9 +52,54 @@ type ShopCollectionPageJsonLd = {
     image: string;
     dateCreated: string;
     dateModified: string;
+    about?: ShopLocalBusinessJsonLd;
 };
 
+function buildStreetAddress(data: GetShopData) {
+    return [data.structuredAddress?.addressline, data.structuredAddress?.addresslineExtra]
+        .filter(Boolean)
+        .join(", ");
+}
+
+function generatePostalAddressJsonLd(data: GetShopData): PostalAddressJsonLd | undefined {
+    const streetAddress = buildStreetAddress(data);
+    const address = {
+        "@type": "PostalAddress" as const,
+        streetAddress: streetAddress || undefined,
+        addressLocality: data.structuredAddress?.locality,
+        addressRegion: data.structuredAddress?.region,
+        postalCode: data.structuredAddress?.postalCode,
+        addressCountry: data.structuredAddress?.country,
+    };
+
+    return Object.values(address).some((value) => value && value !== "PostalAddress")
+        ? address
+        : undefined;
+}
+
 function generateShopJsonLd(data: GetShopData, shopUrl: string): ShopCollectionPageJsonLd {
+    const address = generatePostalAddressJsonLd(data);
+    const geo = data.geoAddress
+        ? {
+              "@type": "GeoCoordinates" as const,
+              latitude: data.geoAddress.lat,
+              longitude: data.geoAddress.lon,
+          }
+        : undefined;
+    const about =
+        address || geo || data.phone || data.email
+            ? {
+                  "@type": "LocalBusiness" as const,
+                  name: data.name,
+                  url: data.url ?? data.viewUrl ?? shopUrl,
+                  image: data.image ?? BANNER_IMAGE_URL,
+                  address,
+                  geo,
+                  telephone: data.phone,
+                  email: data.email,
+              }
+            : undefined;
+
     return {
         "@context": "https://schema.org/",
         "@type": "CollectionPage",
@@ -37,7 +108,27 @@ function generateShopJsonLd(data: GetShopData, shopUrl: string): ShopCollectionP
         image: data.image ?? BANNER_IMAGE_URL,
         dateCreated: data.created,
         dateModified: data.updated,
+        about,
     };
+}
+
+function generateLocationMeta(loaderData: GetShopData | undefined) {
+    if (!loaderData?.geoAddress) {
+        return [];
+    }
+
+    const { lat, lon } = loaderData.geoAddress;
+    const placeName = loaderData.structuredAddress?.locality ?? loaderData.name;
+    const region = [loaderData.structuredAddress?.country, loaderData.structuredAddress?.region]
+        .filter(Boolean)
+        .join("-");
+
+    return [
+        { name: "geo.position", content: `${lat};${lon}` },
+        { name: "ICBM", content: `${lat}, ${lon}` },
+        { name: "geo.placename", content: placeName },
+        ...(region ? [{ name: "geo.region", content: region }] : []),
+    ];
 }
 
 /**
@@ -76,6 +167,7 @@ export function generateShopHeadMeta(
             { name: "twitter:url", content: shopUrl },
             { name: "twitter:image", content: loaderData?.image ?? BANNER_IMAGE_URL },
             { name: "twitter:image:alt", content: name },
+            ...generateLocationMeta(loaderData),
         ],
         links: [{ rel: "canonical", href: shopUrl }, ...generateHreflangLinks(shopPath)],
         scripts: loaderData
