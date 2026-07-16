@@ -17,12 +17,6 @@ import { Button } from "../ui/button.tsx";
 import { SearchBar } from "@/components/search/SearchBar.tsx";
 import { Menu, Search, ArrowLeft } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import {
-    NavigationMenu,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-} from "@/components/ui/navigation-menu.tsx";
 import { cn } from "@/lib/utils.ts";
 import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
 import { env } from "@/env.ts";
@@ -33,6 +27,8 @@ const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
 const isLoginEnabled = env.VITE_FEATURE_LOGIN_ENABLED;
 const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
+const desktopNavItemClass = "rounded-none focus-visible:ring-0";
+const activeNavTextClass = "underline decoration-1 underline-offset-4";
 
 export function Header() {
     const { t } = useTranslation();
@@ -94,111 +90,157 @@ export function Header() {
             return (
                 <div
                     className={cn(
-                        "flex items-center transition-all duration-300",
+                        "flex min-w-0 items-center transition-all duration-300",
                         isFloating ? "bg-background rounded-xs px-4 py-2 hero-search-shadow" : "",
                     )}
                 >
-                    <NavigationMenu className={"hidden lg:inline flex-none gap-2"}>
-                        <NavigationMenuList>
-                            <NavigationMenuItem>
-                                <NavigationMenuLink asChild>
-                                    <Link to="/me/watchlist">
-                                        <span
-                                            className={cn(
-                                                pathname === "/me/watchlist" ? "underline" : "",
-                                                "text-base",
-                                            )}
-                                        >
-                                            {t("header.watchlist")}
-                                        </span>
-                                    </Link>
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
-                            <NavigationMenuItem>
-                                <NavigationMenuLink asChild>
-                                    <Link to="/me/search-filters">
-                                        <span
-                                            className={cn(
-                                                pathname === "/me/search-filters"
-                                                    ? "underline"
-                                                    : "",
-                                                "text-base",
-                                            )}
-                                        >
-                                            {t("header.searchFilters")}
-                                        </span>
-                                    </Link>
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
-                            {isAdmin && (
-                                <NavigationMenuItem>
-                                    <NavigationMenuLink asChild>
-                                        <Link to="/admin/overview">
-                                            <span
-                                                className={cn(
-                                                    pathname === "/admin/overview" ||
-                                                        pathname.startsWith("/admin/")
-                                                        ? "underline"
-                                                        : "",
-                                                    "text-base",
-                                                )}
-                                            >
-                                                {t("header.admin")}
-                                            </span>
-                                        </Link>
-                                    </NavigationMenuLink>
-                                </NavigationMenuItem>
+                    <nav
+                        className="hidden items-center gap-0.5 min-[1800px]:flex"
+                        aria-label={t("header.accountNavigation")}
+                    >
+                        <Button
+                            asChild
+                            variant="ghost"
+                            size="sm"
+                            className={cn(
+                                desktopNavItemClass,
+                                pathname === "/me/watchlist" && activeNavTextClass,
                             )}
+                        >
+                            <Link
+                                to="/me/watchlist"
+                                aria-current={pathname === "/me/watchlist" ? "page" : undefined}
+                            >
+                                {t("header.watchlist")}
+                            </Link>
+                        </Button>
+                        <Button
+                            asChild
+                            variant="ghost"
+                            size="sm"
+                            className={cn(
+                                desktopNavItemClass,
+                                pathname === "/me/search-filters" && activeNavTextClass,
+                            )}
+                        >
+                            <Link
+                                to="/me/search-filters"
+                                aria-current={
+                                    pathname === "/me/search-filters" ? "page" : undefined
+                                }
+                            >
+                                {t("header.searchFilters")}
+                            </Link>
+                        </Button>
+                        <Button
+                            asChild
+                            variant="ghost"
+                            size="sm"
+                            className={cn(
+                                desktopNavItemClass,
+                                pathname.startsWith("/partners/") && activeNavTextClass,
+                            )}
+                        >
+                            <Link
+                                to="/partners/applications"
+                                aria-current={
+                                    pathname.startsWith("/partners/") ? "page" : undefined
+                                }
+                            >
+                                {t("header.partnerDashboard")}
+                            </Link>
+                        </Button>
+                        {isAdmin && (
+                            <Button
+                                asChild
+                                variant="ghost"
+                                size="sm"
+                                className={cn(
+                                    desktopNavItemClass,
+                                    pathname.startsWith("/admin/") && activeNavTextClass,
+                                )}
+                            >
+                                <Link
+                                    to="/admin/overview"
+                                    aria-current={
+                                        pathname.startsWith("/admin/") ? "page" : undefined
+                                    }
+                                >
+                                    {t("header.admin")}
+                                </Link>
+                            </Button>
+                        )}
+                    </nav>
 
-                            <NavigationMenuItem>
-                                <NotificationBell />
-                            </NavigationMenuItem>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="hidden min-[1024px]:max-[1799px]:inline-flex"
+                                aria-label={t("header.accountNavigation")}
+                            >
+                                <Menu />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>{t("header.accountNavigation")}</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem asChild>
+                                <Link to="/me/watchlist">{t("header.watchlist")}</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link to="/me/search-filters">{t("header.searchFilters")}</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link to="/partners/applications">
+                                    {t("header.partnerDashboard")}
+                                </Link>
+                            </DropdownMenuItem>
+                            {isAdmin && (
+                                <DropdownMenuItem asChild>
+                                    <Link to="/admin/overview">{t("header.admin")}</Link>
+                                </DropdownMenuItem>
+                            )}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
 
-                            <NavigationMenuItem>
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger className="flex hover:bg-accent items-center gap-4 transition-all px-4">
-                                        {userAccount?.firstName && (
-                                            <div className="hidden 2xl:block">
-                                                {t("header.hello")}, {userAccount.firstName}
-                                            </div>
+                    <NotificationBell />
+
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className={cn(desktopNavItemClass, "h-10 gap-2 px-2")}
+                            >
+                                {userAccount?.firstName && (
+                                    <span
+                                        className={cn(
+                                            "hidden min-[1920px]:inline",
+                                            pathname === "/me/account" && activeNavTextClass,
                                         )}
-                                        <AccountImage
-                                            firstName={userAccount?.firstName || ""}
-                                            lastName={userAccount?.lastName || ""}
-                                        />
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                        <DropdownMenuLabel>
-                                            {t("header.myAccount")}
-                                        </DropdownMenuLabel>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem asChild className="xl:hidden">
-                                            <Link to="/me/watchlist">{t("header.watchlist")}</Link>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem asChild className="xl:hidden">
-                                            <Link to="/me/search-filters">
-                                                {t("header.searchFilters")}
-                                            </Link>
-                                        </DropdownMenuItem>
-                                        {isAdmin && (
-                                            <DropdownMenuItem asChild className="xl:hidden">
-                                                <Link to="/admin/overview">
-                                                    {t("header.admin")}
-                                                </Link>
-                                            </DropdownMenuItem>
-                                        )}
-                                        <DropdownMenuSeparator className="xl:hidden" />
-                                        <DropdownMenuItem asChild>
-                                            <Link to="/me/account">{t("header.editAccount")}</Link>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onSelect={() => signOut()}>
-                                            {t("header.logout")}
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            </NavigationMenuItem>
-                        </NavigationMenuList>
-                    </NavigationMenu>
+                                    >
+                                        {t("header.hello")}, {userAccount.firstName}
+                                    </span>
+                                )}
+                                <AccountImage
+                                    firstName={userAccount?.firstName || ""}
+                                    lastName={userAccount?.lastName || ""}
+                                />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem asChild>
+                                <Link to="/me/account">{t("header.editAccount")}</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => signOut()}>
+                                {t("header.logout")}
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
             );
         }
@@ -233,7 +275,7 @@ export function Header() {
     return (
         <header
             className={cn(
-                "grid grid-cols-[auto_1fr_auto] lg:grid-cols-3 items-center h-20 z-50 sticky top-0 xl:px-8 px-4 w-full transition-all duration-300",
+                "sticky top-0 z-50 grid h-20 w-full grid-cols-[auto_1fr_auto] items-center gap-3 px-4 transition-all duration-300 lg:grid-cols-[minmax(0,1fr)_minmax(12rem,36rem)_minmax(0,1fr)] xl:gap-5 xl:px-8 2xl:grid-cols-[minmax(0,1fr)_minmax(12rem,42rem)_minmax(0,1fr)]",
                 isFloating
                     ? "bg-transparent border-transparent"
                     : "bg-background border-b border-border",
@@ -264,7 +306,7 @@ export function Header() {
                         <img
                             src={logo}
                             alt=""
-                            className={"w-48 lg:w-64 lg:inline hidden translate-y-1"}
+                            className="hidden w-48 translate-y-1 lg:inline xl:w-56"
                         />
                         <div className="h-10 overflow-hidden lg:hidden">
                             <img src={logoCompact} alt="" className="h-30 -translate-y-10" />
@@ -275,7 +317,7 @@ export function Header() {
 
             <div
                 className={cn(
-                    "hidden lg:block transition-all duration-500",
+                    "hidden min-w-0 w-full justify-self-center transition-all duration-500 lg:block",
                     shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none",
                     isFloating && shouldShowSearchBar
                         ? "bg-background backdrop-blur-sm rounded-xs px-3 py-1.5 shadow-sm"
@@ -323,7 +365,7 @@ export function Header() {
                         >
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button>
+                                    <Button variant="ghost" size="icon">
                                         <Menu />
                                     </Button>
                                 </DropdownMenuTrigger>
@@ -342,6 +384,11 @@ export function Header() {
                                             <DropdownMenuItem asChild>
                                                 <Link to="/me/search-filters">
                                                     {t("header.searchFilters")}
+                                                </Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem asChild>
+                                                <Link to="/partners/applications">
+                                                    {t("header.partnerDashboard")}
                                                 </Link>
                                             </DropdownMenuItem>
                                             <DropdownMenuItem asChild>

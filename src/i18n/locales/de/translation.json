@@ -107,7 +107,9 @@
     "hello": "Hallo",
     "register": "Registrieren",
     "login": "Einloggen",
-    "searchFilters": "Suchaufträge"
+    "searchFilters": "Suchaufträge",
+    "partnerDashboard": "Partner-Dashboard",
+    "accountNavigation": "Kontonavigation"
   },
   "footer": {
     "brandName": "Aura Historia",

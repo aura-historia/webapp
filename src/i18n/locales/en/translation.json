@@ -107,7 +107,9 @@
     "logout": "Logout",
     "hello": "Hello",
     "register": "Register",
-    "login": "Login"
+    "login": "Login",
+    "partnerDashboard": "Partner dashboard",
+    "accountNavigation": "Account navigation"
   },
   "footer": {
     "brandName": "Aura Historia",
