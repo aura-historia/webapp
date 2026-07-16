@@ -309,47 +309,19 @@ export default function PartnerCustomIntegrationPage() {
                                                         setPartnerApplicationDialogOpen(true)
                                                     }
                                                     onRetry={() => {
-                                                        void refetchPartnerShops();
-                                                        void refetchPartnerApplications();
+                                                        refetchPartnerShops();
+                                                        refetchPartnerApplications();
                                                     }}
                                                 />
                                             )}
 
-                                            {step.key === "requestKey" &&
-                                                (isAuthenticated ? (
-                                                    <Button
-                                                        type="button"
-                                                        size="lg"
-                                                        className="w-full sm:w-auto"
-                                                        onClick={() =>
-                                                            setCreateTokenDialogOpen(true)
-                                                        }
-                                                    >
-                                                        <KeyRound aria-hidden="true" />
-                                                        {t(`${translationBase}.cta`)}
-                                                    </Button>
-                                                ) : isResolved ? (
-                                                    <Button
-                                                        asChild
-                                                        size="lg"
-                                                        className="w-full sm:w-auto"
-                                                    >
-                                                        <Link to="/partners/access-tokens">
-                                                            <KeyRound aria-hidden="true" />
-                                                            {t(`${translationBase}.cta`)}
-                                                        </Link>
-                                                    </Button>
-                                                ) : (
-                                                    <Button
-                                                        type="button"
-                                                        size="lg"
-                                                        className="w-full sm:w-auto"
-                                                        disabled
-                                                    >
-                                                        <KeyRound aria-hidden="true" />
-                                                        {t(`${translationBase}.cta`)}
-                                                    </Button>
-                                                ))}
+                                            {step.key === "requestKey" && (
+                                                <RequestAccessTokenAction
+                                                    isAuthenticated={isAuthenticated}
+                                                    isResolved={isResolved}
+                                                    onCreate={() => setCreateTokenDialogOpen(true)}
+                                                />
+                                            )}
 
                                             {step.key === "verifyShop" && (
                                                 <div className="space-y-3  border border-border/70 bg-background px-4 py-4">
@@ -453,6 +425,49 @@ export default function PartnerCustomIntegrationPage() {
                 onOpenChange={setPartnerApplicationDialogOpen}
             />
         </div>
+    );
+}
+
+interface RequestAccessTokenActionProps {
+    readonly isAuthenticated: boolean;
+    readonly isResolved: boolean;
+    readonly onCreate: () => void;
+}
+
+function RequestAccessTokenAction({
+    isAuthenticated,
+    isResolved,
+    onCreate,
+}: RequestAccessTokenActionProps) {
+    const { t } = useTranslation();
+    const translationKey = "partnerProgram.customIntegrationPage.guide.steps.requestKey.cta";
+    const buttonContent = (
+        <>
+            <KeyRound aria-hidden="true" />
+            {t(translationKey)}
+        </>
+    );
+
+    if (isAuthenticated) {
+        return (
+            <Button type="button" size="lg" className="w-full sm:w-auto" onClick={onCreate}>
+                {buttonContent}
+            </Button>
+        );
+    }
+
+    if (!isResolved) {
+        return (
+            <Button type="button" size="lg" className="w-full sm:w-auto" disabled>
+                {buttonContent}
+            </Button>
+        );
+    }
+
+    return (
+        <Button asChild size="lg" className="w-full sm:w-auto">
+            <Link to="/partners/access-tokens">{buttonContent}</Link>
+        </Button>
     );
 }
 
