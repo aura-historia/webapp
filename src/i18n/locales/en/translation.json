@@ -66,6 +66,9 @@
     "partnerAccessTokens": {
       "title": "Access Tokens | Aura Historia"
     },
+    "partnerShops": {
+      "title": "My Shops | Aura Historia"
+    },
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Antiques Search Engine Comparison",
       "description": "Compare Aura Historia with Barnebys for antiques search, source coverage, multilingual discovery, near real-time alerts, and AI-assisted market monitoring."
@@ -1420,7 +1423,27 @@
     "sidebarLabel": "Partner Sections",
     "nav": {
       "applications": "Applications",
+      "shops": "My Shops",
       "accessTokens": "Access tokens"
+    }
+  },
+  "partnerShops": {
+    "title": "My Shops",
+    "description": "All shops linked to your partner account.",
+    "actions": {
+      "retry": "Retry",
+      "edit": "Edit"
+    },
+    "loading": "Loading your shops.",
+    "loadError": "Your shops could not be loaded.",
+    "empty": "No shops are linked to your partner account yet.",
+    "updatedAt": "Updated on {{date}}",
+    "shopImageAlt": "Logo of {{shop}}",
+    "editAriaLabel": "Edit {{shop}}",
+    "edit": {
+      "title": "Edit shop",
+      "description": "Edit the details for {{shop}}.",
+      "success": "Shop was updated."
     }
   },
   "partnerAccessTokens": {
@@ -1676,6 +1699,7 @@
       },
       "fields": {
         "name": "Shop name",
+        "shopId": "Shop ID",
         "shopType": "Shop type",
         "url": "Primary shop URL",
         "shopifyDomain": "Shopify domain",

@@ -29,6 +29,7 @@ import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSl
 import { Route as AuthPartnersIndexRouteImport } from './routes/_auth.partners.index'
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
 import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
+import { Route as AuthPartnersShopsRouteImport } from './routes/_auth.partners.shops'
 import { Route as AuthPartnersApplicationsRouteImport } from './routes/_auth.partners.applications'
 import { Route as AuthPartnersAccessTokensRouteImport } from './routes/_auth.partners.access-tokens'
 import { Route as AuthOauthAuthorizeRouteImport } from './routes/_auth.oauth.authorize'
@@ -148,6 +149,11 @@ const ProductShopIdShopsProductIdRoute =
     path: '/product/$shopId/$shopsProductId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthPartnersShopsRoute = AuthPartnersShopsRouteImport.update({
+  id: '/shops',
+  path: '/shops',
+  getParentRoute: () => AuthPartnersRoute,
+} as any)
 const AuthPartnersApplicationsRoute =
   AuthPartnersApplicationsRouteImport.update({
     id: '/applications',
@@ -269,6 +275,7 @@ export interface FileRoutesByFullPath {
   '/oauth/authorize': typeof AuthOauthAuthorizeRoute
   '/partners/access-tokens': typeof AuthPartnersAccessTokensRoute
   '/partners/applications': typeof AuthPartnersApplicationsRoute
+  '/partners/shops': typeof AuthPartnersShopsRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin/': typeof AuthAdminIndexRoute
   '/partners/': typeof AuthPartnersIndexRoute
@@ -304,6 +311,7 @@ export interface FileRoutesByTo {
   '/oauth/authorize': typeof AuthOauthAuthorizeRoute
   '/partners/access-tokens': typeof AuthPartnersAccessTokensRoute
   '/partners/applications': typeof AuthPartnersApplicationsRoute
+  '/partners/shops': typeof AuthPartnersShopsRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/admin': typeof AuthAdminIndexRoute
   '/partners': typeof AuthPartnersIndexRoute
@@ -344,6 +352,7 @@ export interface FileRoutesById {
   '/_auth/oauth/authorize': typeof AuthOauthAuthorizeRoute
   '/_auth/partners/access-tokens': typeof AuthPartnersAccessTokensRoute
   '/_auth/partners/applications': typeof AuthPartnersApplicationsRoute
+  '/_auth/partners/shops': typeof AuthPartnersShopsRoute
   '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
   '/_auth/admin/': typeof AuthAdminIndexRoute
   '/_auth/partners/': typeof AuthPartnersIndexRoute
@@ -384,6 +393,7 @@ export interface FileRouteTypes {
     | '/oauth/authorize'
     | '/partners/access-tokens'
     | '/partners/applications'
+    | '/partners/shops'
     | '/product/$shopId/$shopsProductId'
     | '/admin/'
     | '/partners/'
@@ -419,6 +429,7 @@ export interface FileRouteTypes {
     | '/oauth/authorize'
     | '/partners/access-tokens'
     | '/partners/applications'
+    | '/partners/shops'
     | '/product/$shopId/$shopsProductId'
     | '/admin'
     | '/partners'
@@ -458,6 +469,7 @@ export interface FileRouteTypes {
     | '/_auth/oauth/authorize'
     | '/_auth/partners/access-tokens'
     | '/_auth/partners/applications'
+    | '/_auth/partners/shops'
     | '/product/$shopId/$shopsProductId'
     | '/_auth/admin/'
     | '/_auth/partners/'
@@ -630,6 +642,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductShopIdShopsProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/partners/shops': {
+      id: '/_auth/partners/shops'
+      path: '/shops'
+      fullPath: '/partners/shops'
+      preLoaderRoute: typeof AuthPartnersShopsRouteImport
+      parentRoute: typeof AuthPartnersRoute
+    }
     '/_auth/partners/applications': {
       id: '/_auth/partners/applications'
       path: '/applications'
@@ -777,12 +796,14 @@ const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
 interface AuthPartnersRouteChildren {
   AuthPartnersAccessTokensRoute: typeof AuthPartnersAccessTokensRoute
   AuthPartnersApplicationsRoute: typeof AuthPartnersApplicationsRoute
+  AuthPartnersShopsRoute: typeof AuthPartnersShopsRoute
   AuthPartnersIndexRoute: typeof AuthPartnersIndexRoute
 }
 
 const AuthPartnersRouteChildren: AuthPartnersRouteChildren = {
   AuthPartnersAccessTokensRoute: AuthPartnersAccessTokensRoute,
   AuthPartnersApplicationsRoute: AuthPartnersApplicationsRoute,
+  AuthPartnersShopsRoute: AuthPartnersShopsRoute,
   AuthPartnersIndexRoute: AuthPartnersIndexRoute,
 }
 

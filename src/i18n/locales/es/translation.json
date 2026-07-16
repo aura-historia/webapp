@@ -69,6 +69,9 @@
     },
     "partnerAccessTokens": {
       "title": "Tokens de acceso | Aura Historia"
+    },
+    "partnerShops": {
+      "title": "Mis tiendas | Aura Historia"
     }
   },
   "validation": {
@@ -1367,6 +1370,7 @@
       },
       "fields": {
         "name": "Nombre de la tienda",
+        "shopId": "ID de la tienda",
         "shopType": "Tipo de tienda",
         "url": "URL principal de la tienda",
         "shopifyDomain": "Dominio de Shopify",
@@ -1754,6 +1758,7 @@
     "sidebarLabel": "Secciones de socios",
     "nav": {
       "applications": "Solicitudes",
+      "shops": "Mis tiendas",
       "accessTokens": "Tokens de acceso"
     }
   },
@@ -2152,5 +2157,24 @@
     "auctionPlatform": "esta plataforma de subastas",
     "commercialDealer": "este vendedor",
     "marketplace": "este mercado"
+  },
+  "partnerShops": {
+    "title": "Mis tiendas",
+    "description": "Todas las tiendas vinculadas a tu cuenta de socio.",
+    "actions": {
+      "retry": "Reintentar",
+      "edit": "Editar"
+    },
+    "loading": "Cargando tus tiendas.",
+    "loadError": "No se pudieron cargar tus tiendas.",
+    "empty": "Aún no hay tiendas vinculadas a tu cuenta de socio.",
+    "updatedAt": "Actualizado el {{date}}",
+    "shopImageAlt": "Logo de {{shop}}",
+    "editAriaLabel": "Editar {{shop}}",
+    "edit": {
+      "title": "Editar tienda",
+      "description": "Edita los datos de {{shop}}.",
+      "success": "La tienda se ha actualizado."
+    }
   }
 }

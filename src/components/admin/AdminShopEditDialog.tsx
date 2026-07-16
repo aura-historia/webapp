@@ -277,6 +277,15 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                                     {t("adminDashboard.shops.sections.core")}
                                 </h3>
                                 <div className="grid gap-4 lg:grid-cols-2">
+                                    <FormItem>
+                                        <FormLabel>
+                                            {t("adminDashboard.shops.fields.shopId")}
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input value={shop.shopId} readOnly disabled />
+                                        </FormControl>
+                                    </FormItem>
+
                                     <FormField
                                         control={form.control}
                                         name="shopType"
