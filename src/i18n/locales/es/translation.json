@@ -1205,7 +1205,7 @@
   },
   "consent": {
     "title": "Valoramos tu privacidad",
-    "description": "Solo usamos servicios opcionales con su consentimiento: análisis para mejorar Aura Historia y mapas externos de Google Maps. Puede elegir cada finalidad por separado. Más información en nuestra <1>política de privacidad</1>.",
+    "description": "Solo utilizamos servicios opcionales con tu consentimiento: análisis para mejorar Aura Historia y mapas externos de Google Maps. Puedes elegir cada propósito por separado. Obtén más información en nuestra <1>política de privacidad</1>.",
     "analyticsLabel": "Análisis y seguimiento",
     "analyticsDescription": "Nos ayuda a entender cómo se utiliza Aura Historia para mejorar la plataforma.",
     "externalMapsLabel": "Mapas externos",
@@ -1246,11 +1246,11 @@
     },
     "products": {
       "loadingMore": "Cargando más artículos...",
-      "allLoaded_one": "Ha visto {{count}} artículo {{shopTypePossessive}}.",
-      "allLoaded_other": "Ha visto todos los {{count}} artículos {{shopTypePossessive}}.",
+      "allLoaded_one": "Has visto {{count}} artículo {{shopTypePossessive}}.",
+      "allLoaded_other": "Has visto todos los {{count}} artículos {{shopTypePossessive}}.",
       "noResults": {
         "title": "No se encontraron artículos",
-        "description": "Actualmente no hay artículos {{shopTypePossessive}}."
+        "description": "Actualmente no hay artículos de este {{shopType}}."
       },
       "error": {
         "title": "No se pudieron cargar los artículos",

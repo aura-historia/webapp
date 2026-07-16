@@ -1205,7 +1205,7 @@
   },
   "consent": {
     "title": "Rispettiamo la tua privacy",
-    "description": "Utilizziamo servizi opzionali solo con il tuo consenso: analisi per migliorare Aura Historia e mappe esterne di Google Maps. Puoi scegliere ogni finalità separatamente. Scopri di più nella nostra <1>informativa sulla privacy</1>.",
+    "description": "Utilizziamo servizi opzionali solo con il tuo consenso: analisi per migliorare Aura Historia e mappe esterne di Google Maps. Puoi scegliere ogni scopo separatamente. Scopri di più nella nostra <1>informativa sulla privacy</1>.",
     "analyticsLabel": "Analisi e tracciamento",
     "analyticsDescription": "Ci aiuta a capire come viene usata Aura Historia per migliorare la piattaforma.",
     "externalMapsLabel": "Mappe esterne",
@@ -1250,7 +1250,7 @@
       "allLoaded_other": "Hai visto tutti i {{count}} articoli {{shopTypePossessive}}.",
       "noResults": {
         "title": "Nessun articolo trovato",
-        "description": "Al momento non ci sono articoli {{shopTypePossessive}}."
+        "description": "Attualmente non ci sono articoli da questo {{shopType}}."
       },
       "error": {
         "title": "Impossibile caricare gli articoli",
