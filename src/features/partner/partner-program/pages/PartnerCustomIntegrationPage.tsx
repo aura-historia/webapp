@@ -2,16 +2,24 @@ import { SectionHeading } from "@/components/landing-page/common/SectionHeading.
 import { H2 } from "@/components/typography/H2.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
-import { Input } from "@/components/ui/input.tsx";
+import { Skeleton } from "@/components/ui/skeleton.tsx";
+import { usePartnerApplications } from "@/features/partner/application-management/api/usePartnerApplications.ts";
+import { PartnerApplicationCreateDialog } from "@/features/partner/application-management/components/PartnerApplicationCreateDialog.tsx";
+import { BUSINESS_STATE_TRANSLATION_KEY } from "@/features/partner/application-management/lib/partnerApplicationHelpers.ts";
+import {
+    type PartnerShop,
+    usePartnerShops,
+} from "@/features/partner/common/api/usePartnerShops.ts";
+import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
 import { AccessTokenCreateDialog } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
 import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
 import { cn } from "@/lib/utils.ts";
 import { ClientOnly, Link } from "@tanstack/react-router";
-import { ArrowRight, Code2, ExternalLink, KeyRound, RefreshCw, Send, Store } from "lucide-react";
+import { ArrowRight, Clock3, Code2, ExternalLink, KeyRound, RefreshCw, Store } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-type GuideStepKey = "requestKey" | "preparePayload" | "sendBatch" | "keepInSync" | "verifyShop";
+type GuideStepKey = "selectShop" | "requestKey" | "preparePayload" | "verifyShop";
 
 type GuideStep = {
     readonly key: GuideStepKey;
@@ -21,22 +29,16 @@ type GuideStep = {
 
 const GUIDE_STEPS: readonly GuideStep[] = [
     {
+        key: "selectShop",
+        icon: Store,
+    },
+    {
         key: "requestKey",
         icon: KeyRound,
     },
     {
         key: "preparePayload",
         icon: Code2,
-    },
-    {
-        key: "sendBatch",
-        icon: Send,
-        endpoint: "POST /api/v1/shops/{shopId}/products",
-    },
-    {
-        key: "keepInSync",
-        icon: RefreshCw,
-        endpoint: "PATCH /api/v1/shops/{shopId}/products · PUT /api/v1/shops/{shopId}/products",
     },
     {
         key: "verifyShop",
@@ -54,12 +56,32 @@ const LazyPartnerProductsApiReference = lazy(
 
 export default function PartnerCustomIntegrationPage() {
     const { t } = useTranslation();
-    const [shopSlugId, setShopSlugId] = useState("");
+    const [selectedPartnerShopId, setSelectedPartnerShopId] = useState<string>();
+    const [partnerApplicationDialogOpen, setPartnerApplicationDialogOpen] = useState(false);
     const [createTokenDialogOpen, setCreateTokenDialogOpen] = useState(false);
     const { isAuthenticated, isResolved } = useResolvedAuth();
+    const {
+        data: partnerShops = [],
+        isPending: arePartnerShopsPending,
+        isError: arePartnerShopsError,
+        refetch: refetchPartnerShops,
+    } = usePartnerShops(isAuthenticated);
+    const {
+        data: partnerApplications = [],
+        isPending: arePartnerApplicationsPending,
+        isError: arePartnerApplicationsError,
+        refetch: refetchPartnerApplications,
+    } = usePartnerApplications(isAuthenticated);
+    const pendingPartnerApplications = partnerApplications.filter(
+        (application) =>
+            application.businessState === "SUBMITTED" || application.businessState === "IN_REVIEW",
+    );
 
-    const normalizedShopSlugId = shopSlugId.trim();
-    const hasShopSlug = normalizedShopSlugId.length > 0;
+    const effectiveSelectedPartnerShopId =
+        selectedPartnerShopId ?? (partnerShops.length === 1 ? partnerShops[0]?.shopId : undefined);
+    const selectedPartnerShop = effectiveSelectedPartnerShopId
+        ? partnerShops.find((shop) => shop.shopId === effectiveSelectedPartnerShopId)
+        : undefined;
 
     return (
         <div className="bg-background">
@@ -265,6 +287,34 @@ export default function PartnerCustomIntegrationPage() {
                                                 </p>
                                             </div>
 
+                                            {step.key === "selectShop" && (
+                                                <PartnerShopRequirement
+                                                    isAuthenticated={isAuthenticated}
+                                                    isResolved={isResolved}
+                                                    isPending={arePartnerShopsPending}
+                                                    areApplicationsPending={
+                                                        arePartnerApplicationsPending
+                                                    }
+                                                    isError={
+                                                        arePartnerShopsError ||
+                                                        arePartnerApplicationsError
+                                                    }
+                                                    partnerShops={partnerShops}
+                                                    pendingApplications={pendingPartnerApplications}
+                                                    selectedPartnerShopId={
+                                                        effectiveSelectedPartnerShopId
+                                                    }
+                                                    onSelectPartnerShop={setSelectedPartnerShopId}
+                                                    onApply={() =>
+                                                        setPartnerApplicationDialogOpen(true)
+                                                    }
+                                                    onRetry={() => {
+                                                        void refetchPartnerShops();
+                                                        void refetchPartnerApplications();
+                                                    }}
+                                                />
+                                            )}
+
                                             {step.key === "requestKey" &&
                                                 (isAuthenticated ? (
                                                     <Button
@@ -303,30 +353,7 @@ export default function PartnerCustomIntegrationPage() {
 
                                             {step.key === "verifyShop" && (
                                                 <div className="space-y-3  border border-border/70 bg-background px-4 py-4">
-                                                    <label
-                                                        htmlFor="custom-integration-shop-slug"
-                                                        className="block text-sm font-medium text-primary"
-                                                    >
-                                                        {t(`${translationBase}.inputLabel`)}
-                                                    </label>
-                                                    <Input
-                                                        id="custom-integration-shop-slug"
-                                                        aria-label={t(
-                                                            `${translationBase}.inputLabel`,
-                                                        )}
-                                                        value={shopSlugId}
-                                                        onChange={(event) =>
-                                                            setShopSlugId(event.currentTarget.value)
-                                                        }
-                                                        placeholder={t(
-                                                            `${translationBase}.inputPlaceholder`,
-                                                        )}
-                                                        className="h-11"
-                                                    />
-                                                    <p className="text-sm text-muted-foreground">
-                                                        {t(`${translationBase}.inputHint`)}
-                                                    </p>
-                                                    {hasShopSlug ? (
+                                                    {selectedPartnerShop ? (
                                                         <Button
                                                             asChild
                                                             size="lg"
@@ -336,7 +363,7 @@ export default function PartnerCustomIntegrationPage() {
                                                                 to="/shops/$shopSlugId"
                                                                 params={{
                                                                     shopSlugId:
-                                                                        normalizedShopSlugId,
+                                                                        selectedPartnerShop.shopSlugId,
                                                                 }}
                                                             >
                                                                 {t(`${translationBase}.cta`)}
@@ -345,11 +372,14 @@ export default function PartnerCustomIntegrationPage() {
                                                         </Button>
                                                     ) : (
                                                         <Button
+                                                            type="button"
                                                             size="lg"
                                                             className="w-full sm:w-auto"
                                                             disabled
                                                         >
-                                                            {t(`${translationBase}.cta`)}
+                                                            {t(
+                                                                `${translationBase}.selectionRequired`,
+                                                            )}
                                                             <ArrowRight aria-hidden="true" />
                                                         </Button>
                                                     )}
@@ -359,7 +389,9 @@ export default function PartnerCustomIntegrationPage() {
 
                                         {step.key === "preparePayload" && (
                                             <div className="flex-1">
-                                                <ProductRequestExample />
+                                                <ProductRequestExample
+                                                    shopId={selectedPartnerShop?.shopId}
+                                                />
                                             </div>
                                         )}
                                     </div>
@@ -416,11 +448,172 @@ export default function PartnerCustomIntegrationPage() {
                     }}
                 />
             )}
+            <PartnerApplicationCreateDialog
+                open={partnerApplicationDialogOpen}
+                onOpenChange={setPartnerApplicationDialogOpen}
+            />
         </div>
     );
 }
 
-function ProductRequestExample() {
+interface PartnerShopRequirementProps {
+    readonly isAuthenticated: boolean;
+    readonly isResolved: boolean;
+    readonly isPending: boolean;
+    readonly areApplicationsPending: boolean;
+    readonly isError: boolean;
+    readonly partnerShops: readonly PartnerShop[];
+    readonly pendingApplications: readonly PartnerApplication[];
+    readonly selectedPartnerShopId: string | undefined;
+    readonly onSelectPartnerShop: (partnerShopId: string) => void;
+    readonly onApply: () => void;
+    readonly onRetry: () => void;
+}
+
+function PartnerShopRequirement({
+    isAuthenticated,
+    isResolved,
+    isPending,
+    areApplicationsPending,
+    isError,
+    partnerShops,
+    pendingApplications,
+    selectedPartnerShopId,
+    onSelectPartnerShop,
+    onApply,
+    onRetry,
+}: PartnerShopRequirementProps) {
+    const { t } = useTranslation();
+    const translationBase = "partnerProgram.customIntegrationPage.guide.steps.selectShop";
+
+    if (!isResolved || (isAuthenticated && (isPending || areApplicationsPending))) {
+        return (
+            <div className="space-y-3 border border-border/70 bg-background px-4 py-4">
+                <Skeleton className="h-5 w-48" />
+                <Skeleton className="h-16 w-full" />
+            </div>
+        );
+    }
+
+    if (!isAuthenticated) {
+        return (
+            <Button asChild size="lg" className="w-full sm:w-auto">
+                <Link to="/partners/applications">
+                    <Store aria-hidden="true" />
+                    {t(`${translationBase}.signInCta`)}
+                </Link>
+            </Button>
+        );
+    }
+
+    if (isError) {
+        return (
+            <div className="space-y-3 border border-destructive/30 bg-destructive/5 px-4 py-4">
+                <p className="text-sm text-muted-foreground">{t(`${translationBase}.loadError`)}</p>
+                <Button type="button" variant="outline" onClick={onRetry}>
+                    <RefreshCw aria-hidden="true" />
+                    {t(`${translationBase}.retryCta`)}
+                </Button>
+            </div>
+        );
+    }
+
+    if (partnerShops.length === 0 && pendingApplications.length === 0) {
+        return (
+            <div className="space-y-3 border border-primary/15 bg-primary/5 px-4 py-4">
+                <p className="text-sm leading-6 text-muted-foreground">
+                    {t(`${translationBase}.empty`)}
+                </p>
+                <Button type="button" size="lg" onClick={onApply}>
+                    <Store aria-hidden="true" />
+                    {t(`${translationBase}.applyCta`)}
+                </Button>
+            </div>
+        );
+    }
+
+    return (
+        <div className="flex flex-col gap-3 border border-border/70 bg-background px-4 py-4">
+            {partnerShops.length > 0 && (
+                <>
+                    <p className="text-sm font-medium text-primary">
+                        {t(`${translationBase}.selectionLabel`)}
+                    </p>
+                    <fieldset className="flex flex-col gap-2">
+                        <legend className="sr-only">
+                            {t(`${translationBase}.selectionLabel`)}
+                        </legend>
+                        {partnerShops.map((shop) => {
+                            const labelId = `custom-integration-partner-shop-${shop.shopId}`;
+                            const isSelected = selectedPartnerShopId === shop.shopId;
+
+                            return (
+                                <label key={shop.shopId} className="cursor-pointer">
+                                    <div
+                                        className={cn(
+                                            "flex items-center gap-3 rounded-sm border border-outline-variant/20 p-3 transition-colors",
+                                            isSelected && "border-primary bg-primary/5",
+                                        )}
+                                    >
+                                        <input
+                                            type="radio"
+                                            name="custom_integration_partner_shop"
+                                            value={shop.shopId}
+                                            checked={selectedPartnerShopId === shop.shopId}
+                                            onChange={() => onSelectPartnerShop(shop.shopId)}
+                                            aria-labelledby={labelId}
+                                            className="size-4 shrink-0 accent-primary"
+                                        />
+                                        <div>
+                                            <p id={labelId} className="font-medium">
+                                                {shop.name}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {shop.shopId}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </label>
+                            );
+                        })}
+                    </fieldset>
+                </>
+            )}
+
+            {pendingApplications.length > 0 && (
+                <div className="flex flex-col gap-2">
+                    <p className="text-sm font-medium text-primary">
+                        {t(`${translationBase}.pendingLabel`)}
+                    </p>
+                    <ul className="flex flex-col gap-2">
+                        {pendingApplications.map((application) => (
+                            <li
+                                key={application.id}
+                                className="flex items-center justify-between gap-3 rounded-sm border border-dashed border-outline-variant/30 bg-muted/30 p-3"
+                            >
+                                <p className="font-medium">{application.payload.shopName}</p>
+                                <span className="flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
+                                    <Clock3 className="size-3.5" aria-hidden="true" />
+                                    {t(BUSINESS_STATE_TRANSLATION_KEY[application.businessState])}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
+            {partnerShops.length === 0 && (
+                <p className="text-sm leading-6 text-muted-foreground">
+                    {t(`${translationBase}.pendingHint`)}
+                </p>
+            )}
+        </div>
+    );
+}
+
+function ProductRequestExample({ shopId }: { readonly shopId: string | undefined }) {
+    const displayedShopId = shopId ?? "YOUR_SHOP_ID";
+
     return (
         <pre
             data-testid="partner-product-code-example"
@@ -430,7 +623,7 @@ function ProductRequestExample() {
                 curl --request POST \<br />
                 {"  "}--url &apos;https://api.aura-historia.com/api/v1/shops/
                 <mark className="rounded bg-amber-200 px-1 py-0.5 font-semibold text-amber-950">
-                    YOUR_SHOP_ID
+                    {displayedShopId}
                 </mark>
                 /products&apos; \<br />
                 {"  "}--header &apos;Authorization: Bearer{" "}

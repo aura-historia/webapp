@@ -206,7 +206,7 @@ function extractDynamicTranslationPatterns(
         /^compareBarnebysPage\.downstream\.sources\.[^.]+$/,
         /^compareBarnebysPage\.faq\.items\.[^.]+\.(question|answer)$/,
         /^compareBarnebysPage\.(advantages|downstream)\.cards\.[^.]+\.(title|description)$/,
-        /^partnerProgram\.customIntegrationPage\.guide\.steps\.[^.]+\.(title|description|focus|inputLabel|inputPlaceholder|inputHint|cta|visualTitle|visualCaption)$/,
+        /^partnerProgram\.customIntegrationPage\.guide\.steps\.[^.]+\.(title|description|focus|cta|visualTitle|visualCaption|signInCta|loadError|retryCta|empty|applyCta|selectionLabel|selectionRequired|pendingLabel|pendingHint)$/,
     ];
 }
 

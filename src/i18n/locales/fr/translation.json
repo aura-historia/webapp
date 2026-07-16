@@ -910,6 +910,19 @@
         "endpointLabel": "Endpoint concerné",
         "focusLabel": "À vérifier",
         "steps": {
+          "selectShop": {
+            "title": "Sélectionner une boutique partenaire approuvée",
+            "description": "Votre compte doit disposer d’au moins une boutique partenaire approuvée pour utiliser l’intégration API. Sélectionnez la boutique dont vous souhaitez synchroniser les produits.",
+            "focus": "Vous aurez besoin de l’identifiant de la boutique sélectionnée pour les requêtes de produits des étapes suivantes.",
+            "signInCta": "Se connecter et vérifier les boutiques",
+            "loadError": "Impossible de charger vos boutiques partenaires approuvées.",
+            "retryCta": "Réessayer",
+            "empty": "Ce compte ne dispose pas encore de boutique partenaire approuvée. Envoyez d’abord une candidature partenaire ; vous pourrez poursuivre l’intégration après son approbation.",
+            "applyCta": "Demander une boutique partenaire",
+            "selectionLabel": "Boutique partenaire pour cette intégration",
+            "pendingLabel": "Candidatures partenaires en attente",
+            "pendingHint": "Vous pourrez poursuivre l’intégration dès que l’une de ces candidatures partenaires aura été approuvée."
+          },
           "requestKey": {
             "title": "Créer un jeton d’accès utilisateur",
             "description": "Connectez-vous avec le compte associé à votre boutique partenaire approuvée et créez un jeton d’accès utilisateur. Le formulaire ci-dessous présélectionne l’autorisation nécessaire à la synchronisation des produits.",
@@ -920,34 +933,18 @@
             "visualCaption": "Jeton d’accès et ID de boutique"
           },
           "preparePayload": {
-            "title": "Préparer votre premier payload produit",
-            "description": "Remplacez YOUR_USER_ACCESS_TOKEN dans l’en-tête Authorization par le jeton d’accès créé à l’étape 1. Remplacez YOUR_SHOP_ID dans l’URL de la requête par l’ID de votre boutique approuvée.",
-            "focus": "Les deux valeurs sont requises : le jeton d’accès autorise la requête et l’ID de boutique associe les produits à la bonne boutique. Remplacez ensuite les données de démonstration par un petit lot de votre catalogue.",
+            "title": "Préparer et envoyer votre première requête produit",
+            "description": "L’URL de la requête contient déjà l’ID de la boutique sélectionnée à l’étape 1. Remplacez YOUR_USER_ACCESS_TOKEN par le jeton créé à l’étape 2 et envoyez un petit lot de produits avec POST.",
+            "focus": "Le jeton autorise la requête et l’ID de boutique prérempli associe les produits à la bonne boutique. Une réponse 202 signifie que le traitement en arrière-plan a commencé.",
             "visualTitle": "Préparer le payload JSON",
             "visualCaption": "Structure du lot et champs requis"
-          },
-          "sendBatch": {
-            "title": "Envoyer le premier lot",
-            "description": "Envoyez le lot avec POST vers l’endpoint partenaire. Dès que la requête est acceptée, le traitement démarre en arrière-plan.",
-            "focus": "Une réponse d’acceptation ne rend pas les produits visibles immédiatement. Prévoyez quelques minutes de traitement.",
-            "visualTitle": "Envoyer le lot de produits",
-            "visualCaption": "Requête et réponse 202"
-          },
-          "keepInSync": {
-            "title": "Maintenir votre catalogue à jour",
-            "description": "Après le premier import réussi, utilisez PATCH pour des changements ciblés ou PUT lorsque votre synchronisation envoie des enregistrements complets à créer ou mettre à jour.",
-            "focus": "Utilisez PATCH pour les changements connus et PUT pour les upserts lorsque le lot peut contenir des produits nouveaux et existants.",
-            "visualTitle": "Mettre à jour la synchronisation",
-            "visualCaption": "Actions update et upsert"
           },
           "verifyShop": {
             "title": "Ouvrir votre page boutique et vérifier le résultat",
             "description": "Après le traitement, ouvrez votre page boutique Aura Historia. Vos premiers produits synchronisés devraient y apparaître après un court délai.",
-            "focus": "Utilisez le slug de votre boutique pour accéder directement à la page publique et vérifier que les produits importés s’affichent correctement.",
-            "inputLabel": "Slug de votre boutique",
-            "inputPlaceholder": "ex. ma-galerie-antiquites",
-            "inputHint": "Saisissez le slug de l’URL de votre boutique Aura Historia. Le bouton ouvre directement la page publique de la boutique.",
+            "focus": "Le lien ouvre directement la boutique sélectionnée à l’étape 1 afin de vérifier les produits importés.",
             "cta": "Ouvrir ma page boutique",
+            "selectionRequired": "Sélectionnez d’abord une boutique partenaire",
             "visualTitle": "Vérifier la page boutique",
             "visualCaption": "Grille de produits et en-tête boutique"
           }

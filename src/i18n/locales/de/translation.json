@@ -904,6 +904,19 @@
         "endpointLabel": "Relevanter Endpunkt",
         "focusLabel": "Worauf Sie achten sollten",
         "steps": {
+          "selectShop": {
+            "title": "Freigegebenen Partner-Shop auswählen",
+            "description": "Für die API-Integration benötigt Ihr Konto mindestens einen freigegebenen Partner-Shop. Wählen Sie den Shop aus, dessen Produkte Sie synchronisieren möchten.",
+            "focus": "Die Shop-ID des ausgewählten Shops wird in den späteren Schritten für Ihre Produkt-Requests benötigt.",
+            "signInCta": "Anmelden und Partner-Shops prüfen",
+            "loadError": "Ihre freigegebenen Partner-Shops konnten nicht geladen werden.",
+            "retryCta": "Erneut versuchen",
+            "empty": "Für dieses Konto ist noch kein Partner-Shop freigegeben. Stellen Sie zuerst einen Partner-Antrag; nach der Freigabe können Sie mit der Integration fortfahren.",
+            "applyCta": "Partner-Shop beantragen",
+            "selectionLabel": "Partner-Shop für diese Integration",
+            "pendingLabel": "Offene Partner-Anträge",
+            "pendingHint": "Die Integration kann fortgesetzt werden, sobald einer dieser Partner-Anträge freigegeben wurde."
+          },
           "requestKey": {
             "title": "Benutzer-Zugriffstoken erstellen",
             "description": "Melden Sie sich mit dem Konto an, das Ihrem freigegebenen Partner-Shop zugeordnet ist, und erstellen Sie ein Benutzer-Zugriffstoken. Im Formular unten ist die für die Produktsynchronisation benötigte Berechtigung bereits ausgewählt.",
@@ -914,34 +927,18 @@
             "visualCaption": "Zugriffstoken und Shop-ID"
           },
           "preparePayload": {
-            "title": "Ersten Produkt-Payload vorbereiten",
-            "description": "Ersetzen Sie YOUR_USER_ACCESS_TOKEN im Authorization-Header durch das in Schritt 1 erstellte Zugriffstoken. Ersetzen Sie YOUR_SHOP_ID in der Request-URL durch die ID Ihres freigegebenen Shops.",
-            "focus": "Beide Werte sind erforderlich: Das Zugriffstoken autorisiert den Request, die Shop-ID ordnet die Produkte dem richtigen Shop zu. Ersetzen Sie anschließend die Demo-Produktdaten durch ein kleines Batch aus Ihrem Katalog.",
+            "title": "Ersten Produkt-Request vorbereiten und senden",
+            "description": "Die Request-URL enthält bereits die ID des in Schritt 1 ausgewählten Shops. Ersetzen Sie YOUR_USER_ACCESS_TOKEN durch das in Schritt 2 erstellte Zugriffstoken und senden Sie ein kleines Produkt-Batch per POST.",
+            "focus": "Das Zugriffstoken autorisiert den Request, die vorausgefüllte Shop-ID ordnet die Produkte dem richtigen Shop zu. Eine 202-Antwort bedeutet, dass die Verarbeitung im Hintergrund gestartet wurde.",
             "visualTitle": "JSON-Payload vorbereiten",
             "visualCaption": "Batch-Struktur und Pflichtfelder"
-          },
-          "sendBatch": {
-            "title": "Erstes Batch senden",
-            "description": "Senden Sie das Batch per POST an den Partner-Endpunkt. Sobald der Request angenommen wird, startet die Verarbeitung im Hintergrund.",
-            "focus": "Eine erfolgreiche Annahmeantwort bedeutet nicht, dass die Produkte sofort sichtbar sind. Planen Sie einige Minuten Verarbeitungszeit ein.",
-            "visualTitle": "Produkt-Batch senden",
-            "visualCaption": "Request und 202-Antwort"
-          },
-          "keepInSync": {
-            "title": "Katalog aktuell halten",
-            "description": "Nach dem ersten erfolgreichen Import nutzen Sie PATCH für gezielte Änderungen oder PUT, wenn Ihre Synchronisation vollständige Datensätze anlegt oder aktualisiert.",
-            "focus": "Nutzen Sie PATCH für bekannte Änderungen und PUT für Upserts, wenn ein Batch neue und bestehende Produkte enthalten kann.",
-            "visualTitle": "Sync aktualisieren",
-            "visualCaption": "Update- und Upsert-Aktionen"
           },
           "verifyShop": {
             "title": "Shop-Seite öffnen und Ergebnis prüfen",
             "description": "Öffnen Sie nach der Verarbeitung Ihre Aura-Historia-Shop-Seite. Die ersten synchronisierten Produkte sollten dort nach kurzer Verzögerung erscheinen.",
-            "focus": "Nutzen Sie Ihren Shop-Slug, um direkt zur öffentlichen Shop-Seite zu springen und die importierten Produkte zu prüfen.",
-            "inputLabel": "Ihr Shop-Slug",
-            "inputPlaceholder": "z. B. mein-antiquitaetenhaus",
-            "inputHint": "Tragen Sie den Shop-Slug aus Ihrer Aura-Historia-Shop-URL ein. Der Button öffnet direkt die öffentliche Shop-Seite.",
+            "focus": "Der Link führt direkt zu dem in Schritt 1 ausgewählten Shop, damit Sie die importierten Produkte prüfen können.",
             "cta": "Meine Shop-Seite öffnen",
+            "selectionRequired": "Zuerst Partner-Shop auswählen",
             "visualTitle": "Shop-Seite prüfen",
             "visualCaption": "Produktgrid und Shop-Header"
           }

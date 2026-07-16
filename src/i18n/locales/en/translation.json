@@ -904,6 +904,19 @@
         "endpointLabel": "Relevant endpoint",
         "focusLabel": "What to check",
         "steps": {
+          "selectShop": {
+            "title": "Select an approved partner shop",
+            "description": "Your account needs at least one approved partner shop for the API integration. Select the shop whose products you want to synchronize.",
+            "focus": "You will need the selected shop's ID for product requests in the later steps.",
+            "signInCta": "Sign in and check partner shops",
+            "loadError": "Your approved partner shops could not be loaded.",
+            "retryCta": "Try again",
+            "empty": "This account does not have an approved partner shop yet. Submit a partner application first; you can continue with the integration after approval.",
+            "applyCta": "Apply for a partner shop",
+            "selectionLabel": "Partner shop for this integration",
+            "pendingLabel": "Pending partner applications",
+            "pendingHint": "You can continue with the integration once one of these partner applications has been approved."
+          },
           "requestKey": {
             "title": "Create a user access token",
             "description": "Sign in with the account associated with your approved partner shop and create a user access token. The form below already selects the permission required to synchronize products.",
@@ -914,34 +927,18 @@
             "visualCaption": "Access token and shop ID"
           },
           "preparePayload": {
-            "title": "Prepare your first product payload",
-            "description": "Replace YOUR_USER_ACCESS_TOKEN in the Authorization header with the access token created in Step 1. Replace YOUR_SHOP_ID in the request URL with the ID of your approved shop.",
-            "focus": "Both values are required: the access token authorizes the request, and the shop ID assigns the products to the correct shop. Then replace the demo product data with a small batch from your catalog.",
+            "title": "Prepare and send your first product request",
+            "description": "The request URL already contains the ID of the shop selected in Step 1. Replace YOUR_USER_ACCESS_TOKEN with the access token created in Step 2 and send a small product batch with POST.",
+            "focus": "The access token authorizes the request, and the prefilled shop ID assigns the products to the correct shop. A 202 response means background processing has started.",
             "visualTitle": "Prepare JSON payload",
             "visualCaption": "Batch structure and required fields"
-          },
-          "sendBatch": {
-            "title": "Send the first batch",
-            "description": "Submit the batch with POST to the partner endpoint. When the request is accepted, background processing starts.",
-            "focus": "A successful acceptance response does not mean the products are visible immediately. Allow a few minutes for processing.",
-            "visualTitle": "Send product batch",
-            "visualCaption": "Request and 202 response"
-          },
-          "keepInSync": {
-            "title": "Keep your catalog up to date",
-            "description": "After the first import works, use PATCH for targeted updates or PUT when your sync sends complete records that should be created or updated.",
-            "focus": "Use PATCH for known changes and PUT for upserts where the batch may contain new and existing products.",
-            "visualTitle": "Update the sync",
-            "visualCaption": "Update and upsert actions"
           },
           "verifyShop": {
             "title": "Open your shop page and verify the result",
             "description": "After processing, open your Aura Historia shop page. Your first synced products should appear there after a short delay.",
-            "focus": "Use your shop slug to jump directly to the public shop page and confirm that the imported products look right.",
-            "inputLabel": "Your shop slug",
-            "inputPlaceholder": "e.g. my-antique-gallery",
-            "inputHint": "Enter the shop slug from your Aura Historia shop URL. The button opens the public shop page directly.",
+            "focus": "The link opens the shop selected in Step 1 directly so you can verify the imported products.",
             "cta": "Open my shop page",
+            "selectionRequired": "Select a partner shop first",
             "visualTitle": "Verify shop page",
             "visualCaption": "Product grid and shop header"
           }

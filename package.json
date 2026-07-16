@@ -27,7 +27,7 @@
         ]
     },
     "dependencies": {
-        "@cloudflare/vite-plugin": "^1.43.0",
+        "@cloudflare/vite-plugin": "^1.45.0",
         "@faker-js/faker": "^10.5.0",
         "@fontsource-variable/manrope": "^5.2.8",
         "@fontsource-variable/newsreader": "^5.2.10",
@@ -123,6 +123,6 @@
         "vite": "^8.1.4",
         "vitest": "^4.1.10",
         "web-vitals": "^5.2.0",
-        "wrangler": "^4.110.0"
+        "wrangler": "^4.111.0"
     }
 }
