@@ -1,3 +1,112 @@
+**Think caveman. Talk caveman. Few word.**
+
+---
+
+# DOX framework
+
+- DOX is highly performant AGENTS.md hierarchy installed here
+- Agent must follow DOX instructions across any edits
+
+## Core Contract
+
+- AGENTS.md files are binding work contracts for their subtrees
+- Work products, source materials, instructions, records, assets, and durable docs must stay understandable from the nearest applicable AGENTS.md plus every parent AGENTS.md above it
+
+## Read Before Editing
+
+1. Read the root AGENTS.md
+2. Identify every file or folder you expect to touch
+3. Walk from the repository root to each target path
+4. Read every AGENTS.md found along each route
+5. If a parent AGENTS.md lists a child AGENTS.md whose scope contains the path, read that child and continue from there
+6. Use the nearest AGENTS.md as the local contract and parent docs for repo-wide rules
+7. If docs conflict, the closer doc controls local work details, but no child doc may weaken DOX
+
+Do not rely on memory. Re-read the applicable DOX chain in the current session before editing.
+
+## Update After Editing
+
+Every meaningful change requires a DOX pass before the task is done.
+
+Update the closest owning AGENTS.md when a change affects:
+
+- purpose, scope, ownership, or responsibilities
+- durable structure, contracts, workflows, or operating rules
+- required inputs, outputs, permissions, constraints, side effects, or artifacts
+- user preferences about behavior, communication, process, organization, or quality
+- AGENTS.md creation, deletion, move, rename, or index contents
+
+Update parent docs when parent-level structure, ownership, workflow, or child index changes. Update child docs when parent changes alter local rules. Remove stale or contradictory text immediately. Small edits that do not change behavior or contracts may leave docs unchanged, but the DOX pass still must happen.
+
+## Hierarchy
+
+- Root AGENTS.md is the DOX rail: project-wide instructions, global preferences, durable workflow rules, and the top-level Child DOX Index
+- Child AGENTS.md files own domain-specific instructions and their own Child DOX Index
+- Each parent explains what its direct children cover and what stays owned by the parent
+- The closer a doc is to the work, the more specific and practical it must be
+
+## Child Doc Shape
+
+- Create a child AGENTS.md when a folder becomes a durable boundary with its own purpose, rules, responsibilities, workflow, materials, or quality standards
+- Work Guidance must reflect the current standards of the project or user instructions; if there are no specific standards or instructions yet, leave it empty
+- Verification must reflect an existing check; if no verification framework exists yet, leave it empty and update it when one exists
+
+Default section order:
+- Purpose
+- Ownership
+- Local Contracts
+- Work Guidance
+- Verification
+- Child DOX Index
+
+## Style
+
+- Keep docs concise, current, and operational
+- Document stable contracts, not diary entries
+- Put broad rules in parent docs and concrete details in child docs
+- Prefer direct bullets with explicit names
+- Do not duplicate rules across many files unless each scope needs a local version
+- Delete stale notes instead of explaining history
+- Trim obvious statements, repeated rules, misplaced detail, and warnings for risks that no longer exist
+
+## Closeout
+
+1. Re-check changed paths against the DOX chain
+2. Update nearest owning docs and any affected parents or children
+3. Refresh every affected Child DOX Index
+4. Remove stale or contradictory text
+5. Run existing verification when relevant
+6. Report any docs intentionally left unchanged and why
+
+## User Preferences
+
+- Keep the DOX tree compact: add child `AGENTS.md` files only for durable boundaries with distinct rules, not every directory.
+- For code changes affecting user data, privacy-policy alignment must be checked and kept intact.
+- Privacy policy and related behavior must align with European and German law expectations, especially GDPR/DSGVO and TDDDG/ePrivacy.
+- Always adhere to the design guidance for UI work.
+- Always keep architecture aligned with the repository's feature-sliced React/TanStack patterns.
+- Always translate user-facing strings into every supported language via locale dictionaries.
+- Pay special attention to SSR/hydration risks; double-check browser-only values, locale/currency/timezone/auth/consent initialization, dates, and random IDs.
+- Ignore E2E tests for now unless explicitly requested.
+
+## Project Operating References
+
+- Product goal, audience, and copy voice: `docs/product-context.md`.
+- Design system and UI checklist: `docs/design-guidelines.md`.
+- Privacy-policy alignment checklist: `docs/privacy-policy-alignment.md`.
+- Architecture and feature-slicing guidance: `docs/architecture-guidelines.md`.
+- SSR/hydration guidance: `docs/hydration-guidelines.md`.
+- Reusable project-local skills: `.agents/skills/`.
+
+## Child DOX Index
+
+- `docs/AGENTS.md` — durable product, design, privacy, architecture, and hydration reference docs.
+- `.agents/skills/AGENTS.md` — project-local agent skill definitions.
+- `src/AGENTS.md` — application source code contracts and source-level child DOX index.
+
+---
+Old onboarding instructions below are retained as project history and still contain useful operational details. When they conflict with the DOX framework or newer project references above, the newer DOX rules control.
+
 # Onboarding Instructions
 
 These instructions help an automated coding agent work efficiently in this repository. Trust these steps first; only
@@ -41,8 +150,8 @@ search the codebase when something here is missing or proves inaccurate.
 | Build                 | `pnpm build`       | Produces production output (`.output/` via react-start). Also (re)generates route tree. |
 | Preview               | `pnpm serve`       | Serves built app. Requires prior `pnpm build`.                                          |
 | Unit tests            | `pnpm test`        | Non-watch run (CI friendly).                                                            |
-| E2E tests             | `pnpm test:e2e`    | Auto-starts dev server via Playwright config. Browsers must be installed.               |
-| E2E UI mode           | `pnpm test:e2e:ui` | Local debugging.                                                                        |
+| E2E tests             | `pnpm test:e2e`    | Present but ignored for now unless explicitly requested.                                |
+| E2E UI mode           | `pnpm test:e2e:ui` | Present but ignored for now unless explicitly requested.                                |
 | Lint                  | `pnpm lint`        | Biome lint only.                                                                        |
 | Format check          | `pnpm format`      | Non-writing format (use `format:fix` to write).                                         |
 | Full check (lint+fmt) | `pnpm check`       | Biome aggregated check.                                                                 |
@@ -95,7 +204,7 @@ Recommended job ordering for PRs to `main` or `develop` (parallel where safe):
   `pnpm dev -- --clearScreen false` headless or share build's artifact). Alternative: add a tiny pre-step:
   `node -e "require('fs').existsSync('src/routeTree.gen.ts')||process.exit(1)"` and if missing run
   `pnpm dev & sleep 5 && pkill -f vite`.
-- E2E tests can be separate / optional (slower) executed after successful build.
+- E2E tests are intentionally ignored for now unless explicitly requested.
 - SonarCloud scan: after unit tests & coverage (`pnpm test` must produce `coverage/lcov.info`). Allow failure without
   failing pipeline if desired (wrap sonar in `|| true`).
 
@@ -119,8 +228,7 @@ variables/token are set.
 - Avoid manually mocking Providers, instead use the `renderWithRouter` helper from `src/test/utils.tsx` which wraps components with necessary context providers (e.g., React Query, Router).
 - Avoid implementation-detail assertions; prefer DOM queries via Testing Library.
 - For React Query tests, wrap components with a QueryClientProvider (you can define a helper in `src/test/utils.tsx`).
-- E2E tests located in `e2e/` use Playwright; they start dev server automatically (command `pnpm dev`). Ensure port 3000
-  free.
+- E2E tests live in `e2e/` but are intentionally ignored for now unless explicitly requested.
 
 ---
 
@@ -282,7 +390,7 @@ NOTE: You don't need all of these folders for every feature. Only include the on
 3. `pnpm lint`
 4. `pnpm test` (ensure all pass; update snapshots if you add them—none by default)
 5. `pnpm build` (succeeds without errors)
-6. (Optional) `pnpm test:e2e` if relevant UX changes
+6. Ignore E2E tests for now unless explicitly requested
 7. (CI) Sonar scan (non-blocking) after coverage produced
 
 ---
@@ -297,4 +405,3 @@ NOTE: You don't need all of these folders for every feature. Only include the on
 
 ---
 (End of instructions)
-
