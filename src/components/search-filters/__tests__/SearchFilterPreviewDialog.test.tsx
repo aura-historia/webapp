@@ -6,10 +6,11 @@ import { renderWithRouter } from "@/test/utils.tsx";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 
-const mockUseSearchFilterLiveProducts = vi.fn();
+const mockUseSearchFilterPreviewProducts = vi.fn();
 
-vi.mock("@/hooks/search-filters/useSearchFilterLiveProducts.ts", () => ({
-    useSearchFilterLiveProducts: (...args: unknown[]) => mockUseSearchFilterLiveProducts(...args),
+vi.mock("@/hooks/search-filters/useSearchFilterPreviewProducts.ts", () => ({
+    useSearchFilterPreviewProducts: (...args: unknown[]) =>
+        mockUseSearchFilterPreviewProducts(...args),
 }));
 
 vi.mock("@/components/product/overview/ProductCard.tsx", () => ({
@@ -50,7 +51,7 @@ const baseProduct: OverviewProduct = {
 describe("SearchFilterPreviewDialog", () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        mockUseSearchFilterLiveProducts.mockReturnValue({
+        mockUseSearchFilterPreviewProducts.mockReturnValue({
             data: undefined,
             isLoading: false,
             isError: false,
@@ -76,7 +77,7 @@ describe("SearchFilterPreviewDialog", () => {
 
     it("shows loading spinner when isLoading is true and dialog is open", async () => {
         const user = userEvent.setup();
-        mockUseSearchFilterLiveProducts.mockReturnValue({
+        mockUseSearchFilterPreviewProducts.mockReturnValue({
             data: undefined,
             isLoading: true,
             isError: false,
@@ -88,7 +89,7 @@ describe("SearchFilterPreviewDialog", () => {
 
     it("shows error message when isError is true", async () => {
         const user = userEvent.setup();
-        mockUseSearchFilterLiveProducts.mockReturnValue({
+        mockUseSearchFilterPreviewProducts.mockReturnValue({
             data: undefined,
             isLoading: false,
             isError: true,
@@ -100,7 +101,7 @@ describe("SearchFilterPreviewDialog", () => {
 
     it("shows empty message when data is an empty array", async () => {
         const user = userEvent.setup();
-        mockUseSearchFilterLiveProducts.mockReturnValue({
+        mockUseSearchFilterPreviewProducts.mockReturnValue({
             data: [],
             isLoading: false,
             isError: false,
@@ -112,7 +113,7 @@ describe("SearchFilterPreviewDialog", () => {
 
     it("shows product cards when data has products", async () => {
         const user = userEvent.setup();
-        mockUseSearchFilterLiveProducts.mockReturnValue({
+        mockUseSearchFilterPreviewProducts.mockReturnValue({
             data: [baseProduct],
             isLoading: false,
             isError: false,
@@ -138,7 +139,7 @@ describe("SearchFilterPreviewDialog", () => {
                 },
             },
         };
-        mockUseSearchFilterLiveProducts.mockReturnValue({
+        mockUseSearchFilterPreviewProducts.mockReturnValue({
             data: [productWithReason],
             isLoading: false,
             isError: false,
@@ -150,7 +151,7 @@ describe("SearchFilterPreviewDialog", () => {
 
     it("does not show matchReason paragraph when matchReason is absent", async () => {
         const user = userEvent.setup();
-        mockUseSearchFilterLiveProducts.mockReturnValue({
+        mockUseSearchFilterPreviewProducts.mockReturnValue({
             data: [baseProduct],
             isLoading: false,
             isError: false,
@@ -167,7 +168,7 @@ describe("SearchFilterPreviewDialog", () => {
             productId: "product-id-2",
             title: "Barockstuhl",
         };
-        mockUseSearchFilterLiveProducts.mockReturnValue({
+        mockUseSearchFilterPreviewProducts.mockReturnValue({
             data: [baseProduct, secondProduct],
             isLoading: false,
             isError: false,
@@ -190,10 +191,10 @@ describe("SearchFilterPreviewDialog", () => {
         const user = userEvent.setup();
         await act(() => renderWithRouter(<SearchFilterPreviewDialog filter={mockFilter} />));
 
-        expect(mockUseSearchFilterLiveProducts).toHaveBeenCalledWith("filter-1", false);
+        expect(mockUseSearchFilterPreviewProducts).toHaveBeenCalledWith("filter-1", false);
 
         await user.click(screen.getByRole("button", { name: /Live-Vorschau/i }));
 
-        expect(mockUseSearchFilterLiveProducts).toHaveBeenCalledWith("filter-1", true);
+        expect(mockUseSearchFilterPreviewProducts).toHaveBeenCalledWith("filter-1", true);
     });
 });

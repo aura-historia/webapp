@@ -29,7 +29,7 @@ export function Footer() {
     return (
         <footer className="w-full border-t border-outline-variant/20 bg-surface-container-low">
             <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-2 lg:grid-cols-6">
+                <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-2 lg:grid-cols-4">
                     {/* Spalte 1: Brand + Company + Contact */}
                     <div className="flex flex-col gap-8">
                         <p className="font-display text-3xl leading-8 text-primary-container">

@@ -173,11 +173,11 @@ La revoca del consenso non pregiudica la liceità del trattamento effettuato pri
 
 ## 8. Cookie, archiviazione locale e archiviazione di sessione
 
-Utilizziamo meccanismi di memorizzazione del browser tecnicamente necessari e, solo ove legalmente consentito, memorizzazioni opzionali per funzionalità di analisi e comodità.
+Utilizziamo meccanismi di memorizzazione del browser tecnicamente necessari e, solo ove legalmente consentito e dopo il vostro consenso, servizi opzionali per funzionalità di analisi e mappe esterne incorporate.
 
 Attualmente vengono utilizzati in particolare i seguenti meccanismi di memorizzazione:
 
-- **`user-preferences` (cookie, fino a 1 anno):** memorizza preferenze funzionali come la valuta e lo stato della vostra scelta in materia di analytics / tracking; serve ad applicare le vostre impostazioni in modo coerente lato server e lato client
+- **`user-preferences` (cookie, fino a 1 anno):** memorizza preferenze funzionali come la valuta e lo stato delle vostre scelte in materia di analytics / tracking e mappe esterne; serve ad applicare le vostre impostazioni in modo coerente lato server e lato client
 - **`user-preferences` (local storage):** memorizza le stesse preferenze funzionali localmente nel vostro browser finché non le eliminate
 - **`i18nextLng` (local storage):** memorizza la lingua selezionata finché non la eliminate o la sovrascrivete
 - **`auth.signUp.pendingEmail` (session storage):** memorizza temporaneamente il vostro indirizzo email durante un processo di registrazione in più fasi e di norma viene eliminato al termine della sessione del browser
@@ -187,13 +187,13 @@ Ulteriori memorizzazioni tecnicamente necessarie possono essere utilizzate da me
 **Basi giuridiche:**
 
 - **§ 25 par. 2 TDDDG** e **Art. 6 par. 1 lett. f GDPR** – per memorizzazioni tecnicamente necessarie
-- **§ 25 par. 1 TDDDG** e **Art. 6 par. 1 lett. a GDPR** – per memorizzazioni opzionali di analisi o marketing ove sia richiesto il consenso
+- **§ 25 par. 1 TDDDG** e **Art. 6 par. 1 lett. a GDPR** – per memorizzazioni opzionali di analisi/marketing o il caricamento di contenuti esterni ove sia richiesto il consenso
 
 ---
 
-## 9. Gestione del consenso e Google Analytics
+## 9. Gestione del consenso, Google Analytics e mappe esterne
 
-Il nostro sito web utilizza un banner di consenso e impostazioni di consenso dedicate. Le memorizzazioni opzionali a fini di analisi o marketing vengono attivate solo nei limiti consentiti dalla legge.
+Il nostro sito web utilizza un banner di consenso e impostazioni di consenso dedicate. Le funzionalità opzionali di analisi e i contenuti esterni vengono attivati solo nei limiti consentiti dalla legge e dopo il vostro consenso. Potete scegliere separatamente analytics / tracking e mappe esterne.
 
 Utilizziamo **Google Analytics 4** fornito da **Google Ireland Limited**, Gordon House, Barrow Street, Dublin 4, Irlanda.
 
@@ -208,9 +208,11 @@ Se prestate il vostro consenso, possono in particolare essere trattati i seguent
 
 Potete revocare il vostro consenso in qualsiasi momento con effetto per il futuro tramite le impostazioni di consenso.
 
+Nelle pagine degli shop possiamo incorporare mappe di **Google Maps**, anch’esso fornito da Google Ireland Limited. Google Maps viene caricato solo dopo il vostro consenso all’uso di mappe esterne. Prima del consenso non viene stabilita alcuna connessione iframe con Google Maps. Quando caricate la mappa, dati quali indirizzo IP, informazioni sul dispositivo e sul browser, informazioni sul referrer e l’indirizzo o le coordinate richieste possono essere trasmessi a Google. Google può trattare dati anche in paesi terzi, in particolare negli Stati Uniti. Potete revocare questo consenso in qualsiasi momento tramite le impostazioni di consenso.
+
 **Basi giuridiche:**
 
-- **Art. 6 par. 1 lett. a GDPR** e **§ 25 par. 1 TDDDG** – per il trattamento tramite Google Analytics e per le memorizzazioni opzionali di analisi dopo il vostro consenso
+- **Art. 6 par. 1 lett. a GDPR** e **§ 25 par. 1 TDDDG** – per il trattamento tramite Google Analytics, le memorizzazioni opzionali di analisi e il caricamento di Google Maps dopo il vostro consenso
 - **Art. 6 par. 1 lett. f GDPR** – solo nella misura in cui, prima del consenso, vengano trattati segnali puramente tecnici per applicare e documentare la vostra scelta di consenso
 
 Per ulteriori informazioni, consultate l’[Informativa sulla privacy di Google](https://policies.google.com/privacy).
@@ -278,7 +280,7 @@ Ci avvaliamo di prestatori di servizi e fornitori di infrastruttura esterni. I d
 - **Hetzner Online GmbH** – quando determinati componenti di backend, hosting o storage sono operati presso tale fornitore
 - **Stripe** – per elaborazione dei pagamenti, gestione degli abbonamenti, checkout e portale clienti
 - **Zoho Campaigns** – quando newsletter e comunicazioni di marketing sono attivate
-- **Google** – quando vengono utilizzati Google Analytics o funzioni di consent mode
+- **Google** – quando vengono utilizzati Google Analytics, funzioni Consent Mode o Google Maps
 - **altri prestatori tecnici, legali, fiscali o organizzativi** – quando necessari per operatività, supporto, sicurezza, compliance o difesa di diritti
 - **autorità, tribunali e terzi** – quando siamo legalmente obbligati a farlo o quando ciò è necessario per la tutela di diritti in sede legale
 

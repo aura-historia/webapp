@@ -24,7 +24,11 @@ describe("ConsentSettings", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: undefined, currency: "EUR" },
+            preferences: {
+                trackingConsent: undefined,
+                externalMapConsent: undefined,
+                currency: "EUR",
+            },
             updatePreferences: mockUpdatePreferences,
         });
     });
@@ -35,51 +39,77 @@ describe("ConsentSettings", () => {
         expect(screen.getByText("consentSettings.description")).toBeDefined();
     });
 
-    it("renders the analytics label and description", () => {
+    it("renders the analytics and external maps labels and descriptions", () => {
         render(<ConsentSettings />);
         expect(screen.getByText("consentSettings.analyticsLabel")).toBeDefined();
         expect(screen.getByText("consentSettings.analyticsDescription")).toBeDefined();
+        expect(screen.getByText("consentSettings.externalMapsLabel")).toBeDefined();
+        expect(screen.getByText("consentSettings.externalMapsDescription")).toBeDefined();
     });
 
-    it("switch is unchecked when trackingConsent is undefined", () => {
+    it("analytics switch is unchecked when trackingConsent is undefined", () => {
         render(<ConsentSettings />);
-        const switchEl = screen.getByRole("switch");
+        const switchEl = screen.getByRole("switch", {
+            name: "consentSettings.analyticsLabel",
+        });
         expect((switchEl as HTMLButtonElement).getAttribute("aria-checked")).toBe("false");
     });
 
-    it("switch is checked when trackingConsent is true", () => {
+    it("analytics switch is checked when trackingConsent is true", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: true, currency: "EUR" },
+            preferences: { trackingConsent: true, externalMapConsent: undefined, currency: "EUR" },
             updatePreferences: mockUpdatePreferences,
         });
         render(<ConsentSettings />);
-        const switchEl = screen.getByRole("switch");
+        const switchEl = screen.getByRole("switch", {
+            name: "consentSettings.analyticsLabel",
+        });
         expect((switchEl as HTMLButtonElement).getAttribute("aria-checked")).toBe("true");
     });
 
-    it("switch is unchecked when trackingConsent is false", () => {
+    it("analytics switch is unchecked when trackingConsent is false", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: false, currency: "EUR" },
+            preferences: { trackingConsent: false, externalMapConsent: undefined, currency: "EUR" },
             updatePreferences: mockUpdatePreferences,
         });
         render(<ConsentSettings />);
-        const switchEl = screen.getByRole("switch");
+        const switchEl = screen.getByRole("switch", {
+            name: "consentSettings.analyticsLabel",
+        });
         expect((switchEl as HTMLButtonElement).getAttribute("aria-checked")).toBe("false");
     });
 
-    it("calls updatePreferences with true when switch is toggled on", () => {
+    it("calls updatePreferences with true when analytics switch is toggled on", () => {
         render(<ConsentSettings />);
-        fireEvent.click(screen.getByRole("switch"));
+        fireEvent.click(screen.getByRole("switch", { name: "consentSettings.analyticsLabel" }));
         expect(mockUpdatePreferences).toHaveBeenCalledWith({ trackingConsent: true });
     });
 
-    it("calls updatePreferences with false when switch is toggled off", () => {
+    it("calls updatePreferences with false when analytics switch is toggled off", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: true, currency: "EUR" },
+            preferences: { trackingConsent: true, externalMapConsent: undefined, currency: "EUR" },
             updatePreferences: mockUpdatePreferences,
         });
         render(<ConsentSettings />);
-        fireEvent.click(screen.getByRole("switch"));
+        fireEvent.click(screen.getByRole("switch", { name: "consentSettings.analyticsLabel" }));
         expect(mockUpdatePreferences).toHaveBeenCalledWith({ trackingConsent: false });
+    });
+
+    it("external maps switch reflects externalMapConsent", () => {
+        vi.mocked(useUserPreferences).mockReturnValue({
+            preferences: { trackingConsent: undefined, externalMapConsent: true, currency: "EUR" },
+            updatePreferences: mockUpdatePreferences,
+        });
+        render(<ConsentSettings />);
+        const switchEl = screen.getByRole("switch", {
+            name: "consentSettings.externalMapsLabel",
+        });
+        expect((switchEl as HTMLButtonElement).getAttribute("aria-checked")).toBe("true");
+    });
+
+    it("calls updatePreferences when external maps switch is toggled", () => {
+        render(<ConsentSettings />);
+        fireEvent.click(screen.getByRole("switch", { name: "consentSettings.externalMapsLabel" }));
+        expect(mockUpdatePreferences).toHaveBeenCalledWith({ externalMapConsent: true });
     });
 });

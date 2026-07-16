@@ -12,15 +12,23 @@ export type ShopType = (typeof SHOP_TYPES)[number];
 export const SHOP_TYPE_TRANSLATION_CONFIG = {
     AUCTION_HOUSE: {
         translationKey: "shopType.auctionHouse",
+        articleTranslationKey: "shopTypeArticle.auctionHouse",
+        possessiveTranslationKey: "shopTypePossessive.auctionHouse",
     },
     AUCTION_PLATFORM: {
         translationKey: "shopType.auctionPlatform",
+        articleTranslationKey: "shopTypeArticle.auctionPlatform",
+        possessiveTranslationKey: "shopTypePossessive.auctionPlatform",
     },
     COMMERCIAL_DEALER: {
         translationKey: "shopType.commercialDealer",
+        articleTranslationKey: "shopTypeArticle.commercialDealer",
+        possessiveTranslationKey: "shopTypePossessive.commercialDealer",
     },
     MARKETPLACE: {
         translationKey: "shopType.marketplace",
+        articleTranslationKey: "shopTypeArticle.marketplace",
+        possessiveTranslationKey: "shopTypePossessive.marketplace",
     },
 } as const;
 

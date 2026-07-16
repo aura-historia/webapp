@@ -127,7 +127,7 @@ describe("useSearch", () => {
             query: expect.objectContaining({
                 language: "de",
                 currency: "EUR",
-                productQuery: "renaissance",
+                productQuery: ["renaissance"],
                 size: 30,
                 sort: "price",
                 order: "asc",

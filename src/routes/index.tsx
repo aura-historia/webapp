@@ -1,3 +1,4 @@
+import ArtworkStorySection from "@/components/landing-page/artwork-story-section/ArtworkStorySection.tsx";
 import DiscoverSection from "@/components/landing-page/discover-section/DiscoverSection.tsx";
 import FAQSection from "@/components/landing-page/faq-section/FAQSection.tsx";
 import HeroSection from "@/components/landing-page/hero-section/HeroSection.tsx";
@@ -74,16 +75,14 @@ function LandingPage() {
             <div id={LANDING_PAGE_FRAGMENTS.hero} className="scroll-mt-24">
                 <HeroSection />
             </div>
+            <ArtworkStorySection />
             {recentlyAdded.length > 0 && (
                 <div id={LANDING_PAGE_FRAGMENTS.recentlyAdded} className="scroll-mt-24">
                     <RecentlyAddedSection products={recentlyAdded} />
                 </div>
             )}
             <div id={LANDING_PAGE_FRAGMENTS.discover} className="scroll-mt-24">
-                <DiscoverSection
-                    productCount={recentlyAddedData?.total ?? undefined}
-                    shopCount={shopData?.total ?? undefined}
-                />
+                <DiscoverSection shopCount={shopData?.total ?? undefined} />
             </div>
             <div id={LANDING_PAGE_FRAGMENTS.features} className="scroll-mt-24">
                 <FeaturesSection />
@@ -94,7 +93,7 @@ function LandingPage() {
             <div id={LANDING_PAGE_FRAGMENTS.testimonials} className="scroll-mt-24">
                 <TestimonialsSection />
             </div>
-            <div id={LANDING_PAGE_FRAGMENTS.pricing} className="scroll-mt-24">
+            <div id={LANDING_PAGE_FRAGMENTS.pricing} className="scroll-mt-24" hidden>
                 <PricingSection />
             </div>
             <div id={LANDING_PAGE_FRAGMENTS.newsletter} className="scroll-mt-24">

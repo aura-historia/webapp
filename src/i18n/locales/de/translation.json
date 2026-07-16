@@ -4,11 +4,11 @@
     "infoButton": "Weitere Informationen"
   },
   "meta": {
-    "siteName": "Aura Historia | Führende Suchmaschine für Antiquitäten",
-    "defaultDescription": "Finden Sie Antiquitäten mit Aura Historia. Echtzeit-Daten von über 1000 Auktionshäusern, Händlern und Marktplätzen. Ihre Suche beginnt hier.",
+    "siteName": "Aura Historia | Globale Antiquitäten-Plattform",
+    "defaultDescription": "Entdecken Sie seltene Antiquitäten, Kunst und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
     "home": {
-      "title": "Aura Historia | Führende Suchmaschine für Antiquitäten",
-      "description": "Finden Sie Antiquitäten mit Aura Historia. Echtzeit-Daten von über 1000 Auktionshäusern, Händlern und Marktplätzen. Ihre Suche beginnt hier."
+      "title": "Aura Historia | Globale Antiquitäten-Plattform",
+      "description": "Entdecken Sie seltene Antiquitäten, Kunst und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis."
     },
     "search": {
       "title": "Antiquitäten suchen | Aura Historia",
@@ -85,9 +85,6 @@
     },
     "password": {
       "required": "Passwort ist erforderlich",
-      "minLength": "Passwort muss mindestens {{min}} Zeichen lang sein",
-      "uppercase": "Passwort muss mindestens einen Großbuchstaben enthalten",
-      "number": "Passwort muss mindestens eine Zahl enthalten",
       "mismatch": "Passwörter stimmen nicht überein"
     },
     "confirmCode": {
@@ -133,7 +130,7 @@
     },
     "landingPageLinks": {
       "recentlyAdded": "Neueste Zugänge",
-      "discover": "Transparenz",
+      "discover": "Plattform",
       "features": "Funktionen",
       "howItWorks": "So funktioniert's",
       "testimonials": "Nutzerstimmen",
@@ -203,7 +200,6 @@
     "totalResults_other": "{{count}} Artikel",
     "bar": {
       "label": "Suche",
-      "placeholder": "Ich suche nach...",
       "placeholderShort": "Suche",
       "button": "Suchen",
       "placeholderExamplesProducts": [
@@ -251,7 +247,6 @@
         "shops": "Shops"
       }
     },
-    "applyFilters": "Filter anwenden",
     "validation": {
       "queryMinLength": "Bitte geben Sie mindestens 3 Zeichen ein",
       "dateOrder": "Startdatum muss vor dem Enddatum liegen"
@@ -263,7 +258,6 @@
       "productState": "Anzeigenstatus",
       "merchant": "Händler",
       "merchants": "Händler",
-      "anyMerchant": "Beliebiger Händler",
       "searchMerchants": "Händler suchen...",
       "noMerchantsFound": "Keine Händler gefunden",
       "excludeMerchant": "Händler ausschließen",
@@ -291,14 +285,11 @@
         "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
         "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
         "auctionDate": "Filter für das Auktionsdatum zurücksetzen",
-        "merchant": "Filter für den Händler zurücksetzen",
-        "excludeMerchant": "Filter für ausgeschlossene Händler zurücksetzen",
         "merchants": "Filter für die Händler zurücksetzen",
         "sellers": "Filter für die Verkäufer zurücksetzen",
         "shopType": "Filter für den Shop-Typ zurücksetzen",
         "partnerStatus": "Partnerstatus-Filter zurücksetzen"
       },
-      "selected": "{{count}} ausgewählt",
       "partnerStatus": "Partnerstatus",
       "requireSelection": "Mindestens 1 Auswahl erforderlich"
     },
@@ -391,7 +382,6 @@
       }
     },
     "auction": {
-      "title": "Auktionszeitraum",
       "start": "ab {{date}}",
       "end": "bis {{date}}",
       "range": "{{start}} – {{end}}"
@@ -442,108 +432,151 @@
     "auctionHouse": "Auktionshaus",
     "auctionPlatform": "Auktionsplattform",
     "commercialDealer": "Händler",
-    "marketplace": "Marktplatz",
-    "unknown": "Unbekannt"
+    "marketplace": "Marktplatz"
   },
   "shopPartnerStatus": {
     "partnered": "Offizieller Partner",
     "scraped": "Öffentlich indexiert"
   },
   "discover": {
-    "title": "Wir bringen Transparenz in die undurchsichtige Welt der Online-Antiquitäten",
-    "p1": "Wir durchsuchen täglich das unübersichtliche Angebot tausender verstreuter Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit und bündeln deren Artikel zentral an einem Ort.",
-    "p2": "Wir erfassen nicht nur aktuelle und neu aufgetauchte Antiquitäten, sondern verfolgen auch Preisänderungen und Verfügbarkeiten. So verpassen Sie nie wieder ein Schnäppchen und behalten den Markt stets im Blick.",
+    "eyebrow": "Der Markt",
+    "title": "Der Antiquitätenmarkt ist global. Ihr Überblick ist es selten.",
+    "p1": "Antiquitäten findet man heutzutage zunehmend online. Doch relevante Stücke liegen verstreut: auf Händlerseiten, in Auktionskatalogen, auf Marktplätzen und bei lokalen Spezialisten. Aura Historia führt diese Quellen in einer ruhigen, kuratierten Plattform zusammen.",
+    "p2": "Für Sammler, Interior-Profis und den Handel heißt das: weniger blinde Flecken, mehr Kontext und bessere Chancen, ein besonderes Objekt zu sehen, bevor es anderswo verschwindet.",
     "highlight1": {
-      "title": "Über {{count}} Händler, Auktionshäuser und Marktplätze",
-      "titleFallback": "Hunderte Händler, Auktionshäuser und Marktplätze",
-      "description": "Wir durchsuchen kontinuierlich renommierte Antiquitätenhändler, Auktionshäuser und Marktplätze aus ganz Europa und darüber hinaus."
+      "title": "Über {{count}} indexierte Quellen",
+      "titleFallback": "Hunderte indexierte Quellen",
+      "description": "Spezialisierte Händler, Auktionshäuser, Marktplätze und Shops werden in einer gemeinsamen Ansicht erschlossen."
     },
     "highlight2": {
-      "title": "Echtzeit-Überwachung",
-      "description": "Sowohl neu aufgetauchte Antiquitäten, als auch Preis- und Verfügbarkeits-Updates werden nahezu in Echtzeit erfasst."
+      "title": "Marktüberblick abseits der großen Namen",
+      "description": "Neue Stücke, Preisbewegungen und Verfügbarkeiten werden beobachtet, damit relevante Gelegenheiten früher sichtbar werden."
     },
     "highlight3": {
-      "title": "Vollständig Sprach-unabhängig",
-      "description": "Wir übersetzen jeden Artikel in verschiedene Sprachen. Damit ist es egal, in welcher Sprache Sie suchen. Derzeit unterstützen wir Deutsch, Englisch, Französisch, Spanisch und Italienisch."
+      "title": "Recherche über Sprachgrenzen hinweg",
+      "description": "Suchen Sie in Ihrer Sprache; Aura Historia ordnet die Begriffe internationaler Anbieter für Sie ein."
     },
-    "stats": {
-      "shops": "500",
-      "shopsLabel": "Vernetzte Shops",
-      "items": "120.000",
-      "itemsLabel": "Einzigartige Artikel",
-      "updates": "24/7",
-      "updatesLabel": "Nahezu Echtzeit-Updates",
-      "countries": "15",
-      "countriesLabel": "Länder abgedeckt"
+    "artworks": {
+      "watteau": {
+        "alt": "Antoine Watteaus The Shop Sign of the Art Dealer Gersaint, eine elegante Szene in den Räumen eines Kunsthändlers.",
+        "caption": "Antoine Watteau, The Shop Sign of the Art Dealer Gersaint, 1720–1721"
+      }
     }
   },
   "landingPage": {
-    "badge": "Suche jenseits der üblichen Marktplätze",
+    "badge": "Jenseits der bekannten Auktionshäuser suchen",
     "titleFirstLine": "Seltene Antiquitäten<1/>weltweit entdecken",
-    "subtitle": "Aura Historia durchsucht Antiquitätenhändler, Auktionshäuser und Marktplätze weltweit – und hilft Ihnen, Stücke zu entdecken, die andere nie sehen.",
-    "trustBadge1": "Von Antiquitätensammlern",
-    "trustBadge2": "Für ernsthafte Sammler und Händler",
-    "trustBadge3": "Nahezu Echtzeit",
+    "subtitle": "Aura Historia führt Händler, Auktionshäuser, Marktplätze und spezialisiertes Inventar in einer globalen Antiquitätenplattform zusammen – damit besondere Stücke sichtbar werden, bevor sie wieder verschwinden.",
     "recentlyAdded": {
       "eyebrow": "Kürzlich hinzugefügt",
       "title": "Neueste Zugänge",
       "foundAt": "Gefunden bei {{shopName}}."
     },
+    "artworkStories": {
+      "ariaLabel": "Aura Historia Plattformthese",
+      "title": "Der weltweite Antiquitätenmarkt auf einen Blick",
+      "description": "Besondere Stücke liegen selten an einer einzigen Stelle. Sie erscheinen bei kleinen Händlern, in spezialisierten Shops, auf Marktplätzen und in Auktionskatalogen – oft mit lokalen Begriffen und nur für kurze Zeit. Aura Historia macht diesen verstreuten Markt sichtbar, verständlich und beobachtbar.",
+      "connoisseurship": {
+        "eyebrow": "Kennerblick, digital erweitert",
+        "title": "Hinweise erkennen, die anderen fehlen",
+        "description": "Holbeins Ambassadors erzählt von Wissen, Instrumenten und verborgener Perspektive. Auch bei Antiquitäten steckt der entscheidende Hinweis oft nicht nur in der Artikelbeschreibung, sondern in den Bildern, der Quelle, der Herkunft, dem Preisverlauf oder dem Moment des Erscheinens.",
+        "supporting": "Aura Historia bringt diese Signale an einen ruhigen Platz: finden, vergleichen, merken und im richtigen Moment zur Originalquelle wechseln – ohne die Freude am Entdecken zu verlieren.",
+        "imageAlt": "Hans Holbeins Gemälde The Ambassadors als Sinnbild für Gelehrsamkeit, Instrumente und Kennerblick.",
+        "caption": "Hans Holbein der Jüngere, The Ambassadors, 1533"
+      },
+      "globalCollecting": {
+        "eyebrow": "Weltweites Inventar",
+        "title": "Die Wunderkammer ist heute verstreut",
+        "description": "The Paston Treasure versammelt Luxusobjekte, Naturalia und Raritäten aus einem weltweiten Handelsnetz. Heute liegt eine solche Wunderkammer nicht mehr in einem Raum, sondern verteilt über Händlerseiten, Marktplätze, Auktionskataloge und lokale Spezialisten.",
+        "supporting": "Aura Historia ersetzt diese Quellen nicht. Die Plattform führt Sie gezielt zu ihnen – nachdem sie das verstreute Angebot laufend indexiert, geordnet und für Ihre Interessen beobachtbar gemacht hat.",
+        "imageAlt": "The Paston Treasure, ein Stillleben voller global gehandelter Luxusobjekte und Raritäten.",
+        "caption": "The Paston Treasure, um 1663"
+      }
+    },
     "features": {
-      "title": "Antiquitäten sind überall im Internet verstreut - Ihre Suche sollte es nicht sein",
-      "subtitle": "Wir sind die fortgeschrittenste Suchmaschine für Antiquitäten und bieten Ihnen alle Werkzeuge, um den Antiquitätenmarkt effizient zu durchsuchen.",
-      "previewBadge": "Bald verfügbar",
-      "search": {
-        "title": "Intelligente Suche",
-        "description": "Durchsuchen Sie hunderttausende Artikel mit unserer leistungsstarken Suchmaschine. Entfernen Sie alle für Sie irrelevanten Antiquitäten, indem Sie nach Zustand, Preis, Händler und vielem mehr filtern."
+      "eyebrow": "Plattform-Funktionen",
+      "title": "Eine Plattform für all jene, die genauer hinsehen",
+      "subtitle": "Entwickelt für Sammler, Interior-Profis und den Handel: ein ruhiger Platz für einen weltweiten Markt, der zu groß, zu lokal und zu fragmentiert ist, um ihn ohne Hilfe zu verfolgen.",
+      "note": "Aura Historia ist keine reine Auktionsseite. Die Plattform bringt Händler, Spezialshops, Marktplätze und Auktionsinventar in dasselbe Entdeckungsfeld.",
+      "marketScale": {
+        "title": "Ein Markt jenseits einzelner Marktplätze",
+        "description": "Aura Historia ist für einen globalen Kunst- und Antiquitätenmarkt gemacht, der in zweistelligen Milliardenbeträgen und zig Millionen Transaktionen pro Jahr gemessen wird.",
+        "visual": {
+          "value": "$59,6 Mrd.",
+          "label": "Globaler Kunst- und Antiquitätenumsatz 2025 – über 41,5 Mio. Transaktionen hinweg."
+        }
       },
-      "global": {
-        "title": "Weltweite Abdeckung",
-        "description": "Wir verbinden Sie mit renommierten Antiquitätenhändlern aus über 15 Ländern – von Deutschland bis in die USA. Egal wie klein ein Händler ist, wenn er einen Onlineshop hat, fügen wir ihn hinzu."
-      },
-      "history": {
-        "title": "Änderungshistorie",
-        "description": "Verfolgen Sie alle Änderungen eines Artikels – von Preisanpassungen bis hin zu Verfügbarkeits-Änderungen. Wir setzen auf maximale Transparenz."
-      },
-      "watchlist": {
-        "title": "Persönliche Merkliste",
-        "description": "Speichern Sie interessante Artikel und behalten Sie deren Entwicklung im Blick. Wie benachrichtigen Sie, wenn sich Preis oder Verfügbarkeit ändern."
+      "beyondAuction": {
+        "title": "Mehr als Auktionen",
+        "description": "Auktionen sind nur ein Teil des Marktes. Aura Historia macht vertrauenswürdige Händler und kleinere Spezialanbieter neben Auktionsangeboten sichtbar – auch dort, wo relevante Stücke nie auf reinen Auktionsplattformen erscheinen.",
+        "visual": {
+          "value": "$34,8 / $20,7 Mrd.",
+          "label": "Händlerumsatz gegenüber öffentlichen Auktionsumsätzen 2025; private Auktionen kamen auf knapp $4,2 Mrd."
+        }
       },
       "translations": {
-        "title": "Automatische Übersetzungen",
-        "description": "Suchen und entdecken Sie alle Artikel in Ihrer bevorzugten Sprache, ohne Barrieren. Wir unterstützen derzeit Deutsch, Englisch, Französisch, Spanisch und Italienisch."
+        "title": "Finden, ohne die Sprache des Anbieters zu sprechen",
+        "description": "Suchen Sie in Ihrer Sprache. Aura Historia hilft dabei, internationale Titel, Anbieterformulierungen und lokale Marktbegriffe einzuordnen.",
+        "visual": {
+          "value": "13.362 + 81.256",
+          "label": "US-Antiquitätengeschäfte plus europäische Second-Hand- und antiquitätennahe Händler – verteilt über lokale Märkte und Sprachen."
+        }
+      },
+      "watchlist": {
+        "title": "Private Merkliste",
+        "description": "Behalten Sie im Blick, was Sie bereits gefunden haben. Speichern Sie Objekte diskret und kehren Sie zurück, wenn Preis, Status oder Verfügbarkeit einen zweiten Blick lohnen.",
+        "visual": {
+          "eyebrow": "Feature-GIF-Platzhalter",
+          "title": "Merkliste mit Änderungsbenachrichtigungen",
+          "description": "Vorgesehen für eine UI-Aufnahme mit gespeicherten Objekten, Preisbewegungen, Statusänderungen und Momenten für eine erneute Prüfung."
+        }
       },
       "personalFilter": {
         "title": "Suchaufträge",
-        "description": "Speichern Sie Ihren Suchauftrag und werden Sie über neue oder aktualisierte Antiquitäten benachrichtigt. Die Antiquitäten, nach denen Sie früher gesucht haben, kommen jetzt zu Ihnen."
+        "description": "Beschreiben Sie einmal, wonach Sie suchen. Aura Historia beobachtet neu indexierte und aktualisierte Angebote und bringt passende Stücke wieder in Ihren Blick.",
+        "visual": {
+          "eyebrow": "Feature-GIF-Platzhalter",
+          "title": "Ablauf für neue Suchtreffer",
+          "description": "Vorgesehen für eine UI-Aufnahme mit gespeicherten Suchkriterien, neuen Treffern und Benachrichtigungsprüfung."
+        }
+      },
+      "history": {
+        "title": "Objektverlauf",
+        "description": "Verfolgen Sie den kommerziellen Verlauf eines Angebots: neu indexiert, auktioniert, verkauft, entfernt, wieder gelistet oder im Preis verändert – damit Marktereignisse nach dem ersten Fund sichtbar bleiben.",
+        "visual": {
+          "eyebrow": "Feature-GIF-Platzhalter",
+          "title": "Ereignisverlauf eines Angebots",
+          "description": "Vorgesehen für eine UI-Aufnahme mit Angebotsereignissen, Statuswechseln, Verkaufsmomenten und Preisbewegungen."
+        }
       },
       "aiSearchAgent": {
-        "title": "Persönlicher KI-Suchagent",
-        "description": "Ihr persönlicher KI-Agent hilft Ihnen, die spezifischsten Antiquitäten zu finden. In Kombination mit Suchaufträgen beschreiben Sie in natürlicher Sprache, wonach Sie suchen – so detailliert, wie Sie es möchten. Wir benachrichtigen Sie, sobald Treffer mit Ihrer Beschreibung übereinstimmen."
-      },
-      "communityWishes": {
-        "title": "Ihre Wünsche",
-        "description": "Sie haben Kritik, vermissen etwas oder haben eine Idee, was wir verbessern oder ergänzen können? Wir hören sehr genau zu. Kontaktieren Sie uns gern über contact@aura-historia.com und wir machen es möglich."
+        "title": "KI-Suchagent",
+        "description": "Formulieren Sie ein Suche in natürlicher Sprache – Epoche, Form, Kategorie, Größe, Stimmung, Budget und Einsatzzweck – und lassen Sie den Agenten den Markt geduldig beobachten.",
+        "visual": {
+          "eyebrow": "Feature-GIF-Platzhalter",
+          "title": "Sammlerbriefing in natürlicher Sprache",
+          "description": "Vorgesehen für eine UI-Aufnahme, in der aus einem Sammlerbriefing eine laufend beobachtete Suche wird."
+        }
       }
     },
     "howItWorks": {
-      "title": "So einfach funktioniert's",
-      "subtitle": "In nur wenigen Schritten zu Ihren Traumstücken.",
+      "title": "Von der Idee zum besonderen Stück",
+      "subtitle": "Aura Historia führt verstreute Angebote aus Handel, Auktionen und spezialisierten Quellen zusammen – damit vielversprechende Stücke sichtbar bleiben.",
       "step1": {
-        "title": "Suchen",
-        "description": "Geben Sie ein, wonach Sie suchen – ob Möbel, Schmuck, Kunst oder Sammlerstücke."
+        "title": "Wunsch beschreiben",
+        "description": "Suchen Sie nach Epoche, Stil, Kategorie, Künstler, Region oder einfach nach einer Idee – in der Sprache, die Ihnen liegt."
       },
       "step2": {
-        "title": "Entdecken",
-        "description": "Durchstöbern Sie Ergebnisse von tausenden Händlern auf einen Blick."
+        "title": "Markt sichten",
+        "description": "Vergleichen Sie aktuelle Angebote von Händlern, Auktionshäusern und Marktplätzen in einer ruhigen, kuratierten Ansicht."
       },
       "step3": {
-        "title": "Speichern",
-        "description": "Speichern Sie interessante Artikel auf Ihrer Merkliste oder legen Sie Ihre Suchkriterien als Alert an."
+        "title": "Stücke merken",
+        "description": "Legen Sie relevante Objekte auf Ihre private Merkliste und richten Sie Suchaufträge für künftige Treffer ein."
       },
       "step4": {
-        "title": "Benachrichtigt werden",
-        "description": "Erhalten Sie eine E-Mail, sobald sich ein Artikel auf Ihrer Merkliste ändert oder ein neuer Treffer zu Ihren Kriterien passt."
+        "title": "Im richtigen Moment handeln",
+        "description": "Wir zeigen Preis- und Statusänderungen sowie neue passende Objekte – Sie öffnen die Originalquelle und entscheiden dort über Kauf, Gebot oder Anfrage."
       }
     },
     "testimonials": {
@@ -581,88 +614,91 @@
       "lastNamePlaceholder": "Ihr Nachname",
       "emailLabel": "E-Mail-Adresse",
       "emailRequired": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
-      "errorMessage": "Etwas ist schiefgelaufen. Bitte versuchen Sie es später erneut.",
       "eyebrow": "Newsletter",
       "successEmailSent": "Eine Bestätigungs-E-Mail wurde an {{email}} gesendet.",
       "successTiming": "Es kann einige Minuten dauern, bis die E-Mail bei Ihnen eintrifft."
     },
     "faq": {
-      "title": "Häufig gestellte Fragen",
-      "subtitle": "Hier finden Sie Antworten auf die wichtigsten Fragen.",
+      "title": "Häufige Fragen",
+      "subtitle": "Das Wichtigste darüber, wie Aura Historia den globalen Antiquitätenmarkt übersichtlicher macht.",
       "items": {
         "howItWorks": {
-          "question": "Wie funktioniert Aura Historia?",
-          "answer": "Wir durchsuchen kontinuierlich die Webseiten von über 500 Antiquitätenhändlern, Auktionshäusern und Marktplätzen weltweit und sammeln alle Angebote an einem zentralen Ort. Unsere intelligente Suche ermöglicht es Ihnen, genau das zu finden, was Sie suchen."
+          "question": "Was ist Aura Historia?",
+          "answer": "Aura Historia ist eine globale Plattform für Antiquitäten, Kunst und besondere Objekte. Wir führen aktuelle Angebote von Händlern, Auktionshäusern, Marktplätzen und spezialisierten Quellen zusammen, damit Sammler und Profis den Markt klarer überblicken."
         },
         "directPurchase": {
-          "question": "Kann ich direkt über Aura Historia Antiquitäten kaufen?",
-          "answer": "Nein, wir sind eine reine Suchplattform. Wenn Sie einen Artikel kaufen möchten, werden Sie direkt zur Website des jeweiligen Händlers weitergeleitet, wo Sie den Kauf abschließen können."
+          "question": "Kann ich direkt über Aura Historia kaufen?",
+          "answer": "Der Kauf findet beim jeweiligen Anbieter statt. Aura Historia führt Sie zum Originalangebot, damit Sie Preis, Verfügbarkeit, Versand, Zustand und Zahlungsbedingungen direkt an der Quelle prüfen können."
         },
         "priceAlerts": {
-          "question": "Wie funktionieren die Preis- und Verfügbarkeits-Benachrichtigungen?",
-          "answer": "Sobald Sie einen Artikel auf Ihre Merkliste setzen, verfolgen wir automatisch dessen Preis- und Verfügbarkeitsentwicklung für Sie. Sobald sich etwas bei Ihrem Artikel ändert, erhalten Sie eine Benachrichtigung per E-Mail."
+          "question": "Was kann Aura Historia für mich beobachten?",
+          "answer": "Ihre private Merkliste hält gefundene Objekte im Blick und informiert über relevante Änderungen wie Preisbewegungen oder Statuswechsel. Suchaufträge beobachten neu auftauchende Angebote, die zu Ihren Kriterien passen."
+        },
+        "language": {
+          "question": "Hilft Aura Historia bei fremdsprachigen Angeboten?",
+          "answer": "Ja. Internationale Angebote erscheinen oft in unterschiedlichen Sprachen, Kategorien und Händlerbegriffen. Aura Historia hilft, diese Unterschiede einzuordnen, ohne dass Sie jedes lokale Vokabular kennen müssen."
         },
         "updateFrequency": {
-          "question": "Wie oft werden die Daten aktualisiert?",
-          "answer": "Unsere Daten werden kontinuierlich aktualisiert. Wir arbeiten nahezu in Echtzeit."
+          "question": "Wie aktuell sind die Angebote?",
+          "answer": "Wir aktualisieren Quellen kontinuierlich. Die tatsächliche Verfügbarkeit liegt jedoch immer beim Händler, Auktionshaus oder Marktplatz; prüfen Sie kritische Details deshalb vor Kauf oder Gebot im Originalangebot."
         },
         "dealers": {
-          "question": "Welche Antiquitäten-Onlineshops sind auf Aura Historia vertreten?",
-          "answer": "Wir arbeiten mit Daten von über 500 renommierten Antiquitätenhändlern aus mehr als 15 Ländern. Darunter finden Sie sowohl große Auktionshäuser als auch spezialisierte Fachhändler für alle Antiquitätenbereiche."
+          "question": "Welche Quellen fließen ein?",
+          "answer": "Wir berücksichtigen vertrauenswürdige Händler, spezialisierte Shops, Auktionshäuser und Marktplätze – einschließlich kleinerer Quellen, die auf auktionszentrierten Plattformen oft weniger sichtbar sind. Die Abdeckung wird fortlaufend erweitert."
         },
         "dealerRequest": {
-          "question": "Ich kenne einen Onlinehändler, ein Auktionshaus oder einen Marktplatz, der noch nicht auf Aura Historia vertreten ist. Können wir ihn hinzufügen?",
-          "answer": "Ja! Senden Sie uns einfach eine E-Mail an contact@aura-historia.com und fügen Sie die URL oder den Link des Shops sowie alle zusätzlichen Informationen hinzu, die Sie uns mitteilen möchten. Wir werden den Shop überprüfen und innerhalb weniger Stunden hinzufügen."
+          "question": "Kann ich einen Händler oder eine Quelle vorschlagen?",
+          "answer": "Ja. Senden Sie uns die URL und kurze Zusatzinformationen an contact@aura-historia.com. Wir prüfen, ob die Quelle fachlich passend, seriös und technisch integrierbar ist."
         },
         "comparisonBarnebys": {
-          "question": "Wie unterscheidet sich Aura Historia von Barnebys?",
-          "answer": "Während Barnebys ebenfalls eine Suchmaschine für Antiquitäten ist, konzentrieren sie sich nur auf die größten Spieler - die großen Auktionshäuser und Händler. Das führt dazu, dass Sie mit einer sehr hohen Wahrscheinlichkeit das verpassen, wonach Sie eigentlich suchen. Fragen Sie sich selbst, wo haben Sie Ihre größten Schätze gefunden? Wahrscheinlich war es ein kleiner lokaler Händler oder sogar ein Secondhand-Laden."
+          "question": "Worin unterscheidet sich Aura Historia von Auktionsaggregatoren?",
+          "answer": "Auktionsaggregatoren sind besonders stark bei kommenden oder vergangenen Auktionslosen. Aura Historia betrachtet den Markt breiter: Händlerbestände, spezialisierte Shops, Marktplätze und Auktionen in einer Plattform – mit Merkliste, Suchaufträgen und Marktbeobachtung."
         },
         "comparisonPriceDatabase": {
-          "question": "Wie unterscheidet sich Aura Historia von Preisdatenbanken wie WorthPoint und The Salesroom?",
-          "answer": "Preisdatenbanken nutzen die schiere Menge historischer Daten von Auktionsergebnissen, die bis in die 90er Jahre zurückreichen. Während das dabei hilft, Vergleiche für astronomisch seltene Stücke zu finden, weichen diese oft vom aktuellen Marktwert und der Verfügbarkeit dieser Antiquitäten ab. Wenn es Ihr Ziel ist, Antiquitäten zu finden oder deren aktuellen Wert zu recherchieren, ist Aura Historia der richtige Ort für Sie. Wir stehen zudem auch entschieden gegen die Monetarisierung historischer Antiquitäten-Preisdaten. Sie sollten nicht dafür bezahlen müssen, um herauszufinden, was wie teuer verkauft wurde."
+          "question": "Ist Aura Historia eine Preisdatenbank?",
+          "answer": "Nein. Historische Zuschlagspreise können hilfreich sein, zeigen aber nicht automatisch, was heute verfügbar ist. Aura Historia konzentriert sich auf aktuelle Verfügbarkeit, Beobachtung und rechtzeitige Marktsignale."
         }
       }
     },
     "pricing": {
-      "title": "Wählen Sie Ihren Plan",
-      "subtitle": "Von Gelegenheitssammlern bis zu professionellen Händlern – wir haben den richtigen Plan für Sie.",
+      "title": "Den passenden Zugang wählen",
+      "subtitle": "Starten Sie kostenlos. Wechseln Sie, sobald Merklisten, Suchaufträge und Marktbeobachtung zu Ihrer regelmäßigen Recherche gehören.",
       "comingSoon": "In Kürze",
       "mostPopular": "Am beliebtesten",
       "free": {
         "name": "Kostenlos",
-        "description": "Perfekt für den Einstieg in die Welt der Antiquitäten.",
+        "description": "Für erste Recherchen, spontane Funde und eine kleine private Auswahl.",
         "features": {
-          "watchlistItems": "20 Artikel auf der Merkliste",
+          "unlimitedSearches": "Unbegrenzt suchen",
+          "watchlistItems": "20 Objekte in der privaten Merkliste",
           "searchAlerts": "1 Suchauftrag",
-          "alertMatches": "10 Suchauftrag-Treffer pro Monat",
-          "alertType": "Einfache Suchaufträge",
-          "notificationSpeed": "Benachrichtigung innerhalb weniger Stunden",
-          "searchType": "Klassische Textsuche"
+          "alertMatches": "10 neue Treffer aus Suchaufträgen pro Monat",
+          "alertType": "Einfache Marktbeobachtung",
+          "notificationSpeed": "Benachrichtigungen innerhalb weniger Stunden"
         }
       },
       "pro": {
         "name": "Pro",
-        "description": "Für engagierte Sammler, die mehr entdecken möchten.",
+        "description": "Für Sammler, die ernsthafte Kandidaten über Quellen und Zeit hinweg verfolgen.",
         "features": {
-          "watchlistItems": "100 Artikel auf der Merkliste",
+          "unlimitedSearches": "Unbegrenzt suchen",
+          "watchlistItems": "100 Objekte in der privaten Merkliste",
           "searchAlerts": "5 Suchaufträge",
-          "alertMatches": "Unbegrenzte Suchauftrag-Treffer pro Monat",
-          "alertType": "Erweiterte Suchaufträge",
-          "notificationSpeed": "Echtzeit-Benachrichtigungen",
-          "searchType": "Hybridsuche – findet Treffer nach Stichwort und Bedeutung"
+          "alertMatches": "Unbegrenzte Treffer aus Suchaufträgen",
+          "alertType": "Vertiefte Marktbeobachtung",
+          "notificationSpeed": "Echtzeit-Benachrichtigungen"
         }
       },
       "ultimate": {
         "name": "Ultimate",
-        "description": "Für Profis, die das volle Potenzial nutzen wollen.",
+        "description": "Für anspruchsvolle Sammler, Interior-Profis und professionelle Marktbeobachtung.",
         "features": {
+          "unlimitedSearches": "Unbegrenzt suchen",
           "watchlistItems": "Unbegrenzte Merkliste",
           "searchAlerts": "Unbegrenzte Suchaufträge",
-          "alertMatches": "Unbegrenzte Suchauftrag-Treffer pro Monat",
-          "alertType": "Erweiterte Suchaufträge",
-          "notificationSpeed": "Echtzeit-Benachrichtigungen mit Priorität",
-          "searchType": "Hybridsuche (Textbasiert + Semantisch)",
+          "alertMatches": "Unbegrenzte Treffer aus Suchaufträgen",
+          "alertType": "Vertiefte Marktbeobachtung",
+          "notificationSpeed": "Priorisierte Echtzeit-Benachrichtigungen",
           "aiAgent": "KI-Suchagent"
         }
       },
@@ -673,8 +709,7 @@
       "billingNoteMonthly": "pro Monat inkl. MwSt.",
       "billingNoteYearly": "pro Monat, jährlich abgerechnet, inkl. MwSt.",
       "getStartedFree": "Kostenlos starten",
-      "subscribe": "Abonnieren",
-      "perMonth": "/Monat"
+      "subscribe": "Abonnieren"
     }
   },
   "partnerProgram": {
@@ -916,24 +951,7 @@
       "endpoints": {
         "title": "Partner-Produkt-API-Referenz",
         "subtitle": "Die eingebettete OpenAPI-Referenz konzentriert sich auf die Batch-Endpunkte, die Sie für eine eigene Integration brauchen.",
-        "generatedReferenceTitle": "Die drei Endpunkte für den Produkt-Sync",
-        "generatedReferenceDescription": "Diese interaktive Referenz wird aus unserer OpenAPI-Spezifikation erzeugt und zeigt Create-, Update- und Upsert-Batch-Endpunkte an einer Stelle.",
-        "externalDocsCta": "Endpunkt separat öffnen",
-        "embedTitle": "Partner-Produkt-API-Referenz",
-        "items": {
-          "create": {
-            "title": "Batch create products (Partner API)",
-            "description": "Legen Sie Produkte für Ihren Shop an. Am besten geeignet für den ersten Import oder Batches, die nur neue Produkte enthalten."
-          },
-          "update": {
-            "title": "Batch update products (Partner API)",
-            "description": "Aktualisieren Sie bestehende Produkte, wenn sich Titel, Preise, Bilder, Verfügbarkeit oder Links ändern."
-          },
-          "upsert": {
-            "title": "Batch upsert products (Partner API)",
-            "description": "Legen Sie Produkte in einem Batch an oder aktualisieren Sie sie, wenn Ihre Synchronisation neue und bestehende Datensätze enthalten kann."
-          }
-        }
+        "embedTitle": "Partner-Produkt-API-Referenz"
       }
     },
     "finalCta": {
@@ -1020,22 +1038,6 @@
   },
   "auth": {
     "subtitle": "Über 120.000 Antiquitäten von 500 Händlern. Vergleichen, speichern und Preise verfolgen bei Aura Historia.",
-    "welcome": "Herzlich Willkommen",
-    "welcomeWithName": "Herzlich Willkommen, {{name}}!",
-    "welcomeBack": "Willkommen zurück",
-    "welcomeBackWithName": "Willkommen zurück, {{name}}!",
-    "completingRegistration": "Die Registrierung wird abgeschlossen, bitte haben Sie noch einen Moment Geduld!",
-    "completingLogin": "Die Anmeldung wird abgeschlossen, bitte haben Sie noch einen Moment Geduld!",
-    "retry": "Erneut versuchen",
-    "backToLogin": "Zurück zum Login",
-    "backToHomepage": "Zurück zur Startseite",
-    "errorTitle": "Benutzerdaten nicht gespeichert",
-    "timeout": {
-      "title": "Registrierung erfolgreich!",
-      "message": "Ihre Registrierung wurde erfolgreich abgeschlossen! Die persönlichen Daten konnten aufgrund eines hohen Nutzeraufkommens derzeit nicht gespeichert werden.",
-      "hint": "Sie können diese Informationen jederzeit in den Kontoeinstellungen nachtragen.",
-      "noteLabel": "Hinweis:"
-    },
     "signUp": {
       "firstName": "Vorname",
       "firstNamePlaceholder": "Max",
@@ -1101,7 +1103,6 @@
       "title": "E-Mail überprüfen",
       "subtitle": "Wir haben einen 6-stelligen Code an {{email}} gesendet",
       "codeLabel": "Bestätigungscode",
-      "codePlaceholder": "000000",
       "submit": "E-Mail bestätigen",
       "noCode": "Keinen Code erhalten?",
       "resend": "Code erneut senden",
@@ -1207,16 +1208,23 @@
   },
   "consent": {
     "title": "Wir schätzen Ihre Privatsphäre",
-    "description": "Wir verwenden Cookies, um den Webverkehr zu analysieren und Ihr Benutzererlebnis zu verbessern. Mit Klick auf 'Zustimmen' willigen Sie in die Verwendung von Cookies für diese Zwecke ein. Weitere Informationen finden Sie in unserer <1>Datenschutzerklärung</1>.",
-    "accept": "Zustimmen",
-    "reject": "Ablehnen"
+    "description": "Wir nutzen optionale Dienste nur mit Ihrer Einwilligung: Analyse zur Verbesserung von Aura Historia und externe Karten von Google Maps. Sie können beide Zwecke getrennt auswählen. Weitere Informationen finden Sie in unserer <1>Datenschutzerklärung</1>.",
+    "analyticsLabel": "Analyse & Tracking",
+    "analyticsDescription": "Hilft uns zu verstehen, wie Aura Historia genutzt wird, damit wir die Plattform verbessern können.",
+    "externalMapsLabel": "Externe Karten",
+    "externalMapsDescription": "Lädt eingebettete Karten von Google Maps. Dabei können Daten wie Ihre IP-Adresse an Google übermittelt werden.",
+    "acceptAll": "Alle akzeptieren",
+    "saveSelection": "Auswahl speichern",
+    "rejectAll": "Alle ablehnen"
   },
   "consentSettings": {
     "title": "Cookie-Einstellungen",
     "description": "Wir verwenden Cookies, um den Webverkehr zu analysieren und Ihr Benutzererlebnis zu verbessern. Weitere Informationen finden Sie in unserer <1>Datenschutzerklärung</1>.",
     "analyticsLabel": "Analyse & Tracking",
     "analyticsDescription": "Ermöglicht uns die Analyse der Nutzung und die Verbesserung Ihres Erlebnisses über Google Analytics. Beinhaltet Anzeigenspeicher, Analysespeicher, Anzeigenbenutzerdaten und Anzeigenpersonalisierung.",
-    "saved": "Ihre Cookie-Einstellungen wurden gespeichert."
+    "saved": "Ihre Cookie-Einstellungen wurden gespeichert.",
+    "externalMapsLabel": "Externe Karten",
+    "externalMapsDescription": "Erlaubt das Laden eingebetteter Karten von Google Maps. Dabei können personenbezogene Daten wie IP-Adresse und Browserinformationen an Google übermittelt werden."
   },
   "notifications": {
     "title": "Benachrichtigungen",
@@ -1227,8 +1235,6 @@
       "priceChange": "Preisänderung",
       "stateChange": "Statusänderung",
       "newMatch": "Neuer Treffer",
-      "partnerApplicationApproved": "Antrag genehmigt",
-      "partnerApplicationRejected": "Antrag abgelehnt",
       "partnerApplication": "Partnerantrag",
       "partnerApplicationSubmitted": "Eingereicht",
       "partnerApplicationStatusApproved": "Genehmigt",
@@ -1254,7 +1260,6 @@
   },
   "shop": {
     "header": {
-      "archiveLabel": "Shop",
       "overviewTitle": "Shop-Übersicht",
       "indexedItems": "Erfasste Objekte",
       "imageAlt": "Logo von {{shop}}",
@@ -1262,13 +1267,25 @@
       "addedOn": "Hinzugefügt am {{date}}",
       "metaDescription": "Entdecken Sie Antiquitäten und Sammlerstücke von {{shop}} auf Aura Historia."
     },
+    "location": {
+      "eyebrow": "Standort",
+      "title": "Wo Sie {{shopTypeArticle}} finden",
+      "description": "Adresse und Kontaktinformationen von {{shop}}, soweit diese öffentlich verfügbar sind.",
+      "noAddress": "Wir haben noch keine Adresse für {{shopTypeArticle}}.",
+      "noLocation": "Wir haben noch keine Standortinformationen für {{shopTypeArticle}}.",
+      "mapTitle": "Karte mit dem Standort von {{shop}}",
+      "mapConsentTitle": "Karte erst nach Zustimmung laden",
+      "mapConsentDescription": "Die Karte wird von Google Maps bereitgestellt. Beim Laden können Daten wie Ihre IP-Adresse an Google übermittelt werden.",
+      "mapConsentButton": "Karte anzeigen",
+      "mapConsentSettings": "Cookie-Einstellungen"
+    },
     "products": {
       "loadingMore": "Weitere Artikel werden geladen...",
-      "allLoaded_one": "Sie haben {{count}} Artikel aus diesem Shop gesehen.",
-      "allLoaded_other": "Sie haben alle {{count}} Artikel aus diesem Shop gesehen.",
+      "allLoaded_one": "Sie haben {{count}} Artikel {{shopTypePossessive}} gesehen.",
+      "allLoaded_other": "Sie haben alle {{count}} Artikel {{shopTypePossessive}} gesehen.",
       "noResults": {
         "title": "Keine Artikel gefunden",
-        "description": "Von diesem Shop sind derzeit keine Artikel vorhanden."
+        "description": "Von diesem {{shopType}} sind derzeit keine Artikel vorhanden."
       },
       "error": {
         "title": "Artikel konnten nicht geladen werden",
@@ -1277,6 +1294,14 @@
     },
     "card": {
       "viewShop": "Shop ansehen"
+    },
+    "typeFallback": "Händler",
+    "typePossessiveFallback": "dieses Händlers",
+    "typeArticleFallback": "diesen Händler",
+    "contact": {
+      "eyebrow": "Kontakt",
+      "email": "E-Mail",
+      "phone": "Telefon"
     }
   },
   "searchFilter": {
@@ -1288,18 +1313,19 @@
       "title": "Suchauftrag speichern",
       "nameLabel": "Name des Suchauftrags",
       "namePlaceholder": "z. B. Mater Dolorosa Barockgemälde",
-      "queryLabel": "Suchbegriff",
+      "queryLabel_one": "Suchbegriff",
+      "queryLabel_other": "Suchbegriffe",
       "aiDescriptionLabel": "KI-gestützte Beschreibung (optional)",
       "aiDescriptionPlaceholder": "Jungfrau Maria Ölgemälde auf Leinwand, nicht Holz, Barockrahmen mit Blattgold auf Kreidegrund (Gesso). Das Motiv soll Mater Dolorosa sein. Signatur des Künstlers muss enthalten sein. Das Gemälde darf keine sichtbaren Beschädigungen enthalten und der Rahmen muss vollständig intakt sein. Falls das Gemälde aus dem spanischen Barock stammt, dann muss es mindestens 40x60 cm groß sein. Für den italienischen Barock muss das nicht gelten.",
-      "aiDescriptionUltimateOnly": "Nur für Ultimate-Abonnenten verfügbar",
       "ultimateOnly": "Nur für Ultimate-Abonnenten verfügbar.",
       "cancelButton": "Abbrechen",
       "saveButton": "Speichern",
       "restrictedFiltersHint": "Diese Filter sind in Ihrem aktuellen Abonnement leider nicht verfügbar und können nicht gespeichert werden. Upgraden Sie Ihr Abonnement, um sie zu nutzen – oder speichern Sie den Suchauftrag ohne diese Filter.",
       "resetAndSaveButton": "Ohne diese Filter speichern",
-      "queryPlaceholder": "z. B. Mater Dolorosa Ölgemälde Leinwand Barock",
+      "queryPlaceholder": "Suchbegriff eingeben und Enter drücken",
       "nameHint": "Geben Sie Ihrem Suchauftrag einen eindeutigen Namen.",
-      "queryHint": "Schlüsselwort das in Produkttiteln gesucht wird.",
+      "queryHint": "Ein oder mehrere Schlüsselwörter, die in Produkttiteln gesucht werden. Ein Treffer genügt bei mehreren Begriffen.",
+      "removeQueryTerm": "„{{term}}\" entfernen",
       "aiDescriptionHint": "Beschreiben Sie detailliert, was Sie suchen – die KI findet so passendere Treffer."
     },
     "wizard": {
@@ -1309,27 +1335,21 @@
       "saveDirectly": "Speichern",
       "nameRequired": "Bitte geben Sie einen Namen ein.",
       "nameTooLong": "Der Name darf maximal 255 Zeichen lang sein.",
-      "queryTooShort": "Der Suchbegriff muss mindestens 3 Zeichen lang sein.",
+      "queryRequired": "Bitte geben Sie mindestens einen Suchbegriff ein.",
+      "queryTermTooShort": "Jeder Suchbegriff muss mindestens 3 Zeichen lang sein.",
       "noFiltersConfigured": "Keine zusätzlichen Filter konfiguriert.",
-      "upgradeBanner": "Diese Filter sind in Ihrem aktuellen Tarif nicht verfügbar. Upgraden Sie Ihr Konto, um sie zu nutzen.",
       "step": {
         "name": "Suchbegriff & Name",
         "nameDescription": "Geben Sie Ihrem Suchauftrag einen Namen und geben Sie an, wonach Sie suchen – optional können Sie die Suche mit einer KI-gestützten Beschreibung noch weiter präzisieren.",
         "priceStatus": "Preis & Status",
-        "theme": "Kategorie & Epoche",
-        "quality": "Zustand & Echtheit",
         "shop": "Händler & Shop-Typ",
         "date": "Zeitraum",
         "confirm": "Zusammenfassung",
         "confirmDescription": "Überprüfen Sie Ihre konfigurierten Suchkriterien und speichern Sie den Auftrag. Sie werden umgehend benachrichtigt, sobald ein passendes Objekt auf dem Markt erscheint.",
         "priceStatusDescription": "Definieren Sie Ihren Preisrahmen und wählen Sie den gewünschten Anzeigenstatus – etwa ausschließlich verfügbare Objekte oder auch bereits versteigerte Stücke zur Marktrecherche.",
-        "themeDescription": "Präzisieren Sie Ihre Suche nach Sammelgebiet (z. B. Alte Meister, Möbel, Silber) und kunsthistorischer Epoche (z. B. Renaissance, Rokoko, Biedermeier).",
-        "qualityDescription": "Filtern Sie nach Erhaltungsgrad, Authentizitätsstatus, Herkunftsnachweis, Restaurierungsumfang und dem Entstehungszeitraum des Objekts.",
         "shopDescription": "Wählen Sie gezielt Anbietertypen – renommierte Auktionshäuser, spezialisierte Kunsthändler oder Marktplätze – und schließen Sie einzelne Häuser ein oder aus.",
         "dateDescription": "Grenzen Sie die Suche zeitlich ein – nach Auktionstermin, Datum der Erstveröffentlichung oder der letzten Aktualisierung des Inserats."
       },
-      "subtitle": "Konfigurieren Sie Ihren persönlichen Suchauftrag Schritt für Schritt.",
-      "configuredFilters": "Konfigurierte Filter",
       "titleEdit": "Suchauftrag bearbeiten",
       "titleDuplicate": "Suchauftrag duplizieren"
     },
@@ -1359,7 +1379,6 @@
     "moreActions": "Weitere Aktionen",
     "stateInactiveByUser": "Pausiert",
     "stateInactiveByPlan": "Gesperrt",
-    "stateInactiveByPlanTooltip": "Dieser Suchauftrag ist aufgrund Ihres Abonnements inaktiv.",
     "loadingError": {
       "title": "Fehler beim Laden",
       "description": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
@@ -1373,42 +1392,30 @@
       "description": "Für diesen Suchauftrag gibt es momentan keine passenden Produkte.",
       "editHint": "Zurück zu den Suchaufträgen"
     },
+    "totalElements": "{{count}} Suchauftrag/-träge",
     "totalElements_one": "{{count}} Suchauftrag",
     "totalElements_other": "{{count}} Suchaufträge",
     "matchingProducts": "Alle Suchtreffer anzeigen",
     "matchingProductsShort": "Alle Suchtreffer",
-    "matchingProductsInactive": "Suchauftrag ist inaktiv – keine Treffer verfügbar.",
     "searchPlaceholder": "Suchaufträge durchsuchen …",
     "showDetails": "Details anzeigen",
     "showResults": "Live-Vorschau",
     "previewError": "Vorschau konnte nicht geladen werden.",
     "previewEmpty": "Keine Treffer für diesen Suchauftrag gefunden.",
     "info": {
-      "merchant": "Händler",
-      "excludeMerchant": "Ausgeschl.",
-      "period": "Epoche",
       "creationDate": "Hinzugefügt",
       "updateDate": "Aktualisiert",
-      "auctionDate": "Auktion",
-      "created": "Erstellt am",
-      "updated": "Geändert am"
+      "auctionDate": "Auktion"
     },
-    "query": "Suche",
-    "moreFilters": "weitere Filter",
-    "cardLabel": "Suchauftrag",
     "hiddenMatch": {
       "title": "Verborgen",
       "description": "Dieses Match überschreitet Ihr monatliches Kontingent und ist ausgeblendet. Upgraden Sie Ihr Konto, um alle Treffer zu sehen.",
       "upgradeButton": "Jetzt upgraden"
     },
     "feedback": {
-      "relevant": "Relevant",
-      "notRelevant": "Nicht relevant",
-      "label": "Hilfreich?",
       "relevantHint": "Treffer ist relevant",
       "notRelevantHint": "Treffer ist nicht relevant"
     },
-    "matchReason": "KI-Begründung",
     "feedbackError": "Feedback konnte nicht gespeichert werden."
   },
   "partnerDashboard": {
@@ -1574,8 +1581,6 @@
     "empty": "Sie haben noch keine Partneranträge eingereicht.",
     "submittedAt": "Eingereicht am {{date}}",
     "updatedAt": "Aktualisiert am {{date}}",
-    "existingShop": "Bestehender Shop",
-    "openDetails": "Details für {{title}} öffnen",
     "viewDetails": "Details ansehen",
     "progress": {
       "handedIn": "Eingereicht",
@@ -1604,8 +1609,6 @@
       "progressLabel": "Antragsfortschritt",
       "applicationSection": "Antrag",
       "shopSection": "Shop-Informationen",
-      "applicationId": "Antrags-ID",
-      "applicantUserId": "Antragsteller-ID",
       "createdAt": "Eingereicht",
       "updatedAt": "Aktualisiert",
       "shopName": "Shop-Name",
@@ -1621,19 +1624,13 @@
       "locality": "Ort",
       "region": "Region",
       "postalCode": "Postleitzahl",
-      "country": "Ländercode",
-      "shopId": "Shop-ID"
+      "country": "Ländercode"
     },
     "businessState": {
       "submitted": "Eingereicht",
       "inReview": "In Prüfung",
       "approved": "Genehmigt",
       "rejected": "Abgelehnt"
-    },
-    "executionState": {
-      "processing": "In Verarbeitung",
-      "waiting": "Wartet auf Entscheidung",
-      "completed": "Abgeschlossen"
     }
   },
   "adminDashboard": {
@@ -1722,16 +1719,12 @@
         "postalCode": "Postleitzahl",
         "country": "Land",
         "countryHint": "Wählen Sie das Land der Shop-Adresse aus.",
-        "specialitiesHint": "Ein Kebab-Case-Schlüssel pro Zeile, z. B. ancient-egypt",
         "currencyPlaceholder": "Währung auswählen",
         "currencyNone": "Keine Währung",
         "languagePlaceholder": "Sprache auswählen",
         "languageNone": "Keine Sprache",
         "countryPlaceholder": "Land auswählen",
-        "countryNone": "Kein Land",
-        "specialitiesPlaceholder": "Einträge auswählen",
-        "loadingOptions": "Optionen werden geladen…",
-        "allOptions": "Alle"
+        "countryNone": "Kein Land"
       },
       "create": {
         "title": "Shop anlegen",
@@ -1744,8 +1737,7 @@
           "domainsRequired": "Bitte geben Sie mindestens eine Domain ein.",
           "urlInvalid": "Bitte geben Sie eine gültige Shop-URL ein.",
           "imageInvalid": "Bitte geben Sie eine gültige Bild-URL ein.",
-          "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
-          "countryInvalid": "Bitte wählen Sie ein gültiges Land aus."
+          "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
         }
       },
       "edit": {
@@ -1758,8 +1750,7 @@
         "shopify": "Shopify",
         "woocommerce": "WooCommerce",
         "contact": "Kontakt",
-        "address": "Postanschrift",
-        "specialities": "Spezialgebiete"
+        "address": "Postanschrift"
       }
     },
     "applications": {
@@ -1823,7 +1814,6 @@
         "shopSection": "Shop-Informationen",
         "shopId": "Shop-ID",
         "applicantSection": "Antragstellender Benutzer",
-        "applicantUnavailable": "Die aktuelle API-Antwort enthält keine Benutzer-ID für diesen Antrag.",
         "applicantLoadError": "Der antragstellende Benutzer konnte nicht geladen werden.",
         "openApplicant": "Benutzerprofil öffnen"
       }
@@ -1840,7 +1830,6 @@
       "totalCount_one": "{{count}} Benutzer",
       "totalCount_other": "{{count}} Benutzer",
       "updatedAt": "Aktualisiert {{date}}",
-      "prohibitedContentAllowed": "§ 86a Zustimmung",
       "filters": {
         "allTiers": "Alle Tarife",
         "allRoles": "Alle Rollen"
@@ -1886,7 +1875,6 @@
       "empty": "Noch keine OAuth-Clients registriert.",
       "clientId": "Client-ID",
       "clientSecret": "Client-Secret",
-      "clientName": "Client-Name",
       "redirectUris": "Redirect-URIs",
       "scope": "Scopes",
       "logoAlt": "Logo von {{client}}",
@@ -1973,11 +1961,9 @@
     },
     "scopes": {
       "products_write": {
-        "label": "Produkte verwalten",
         "description": "Produkte in Ihrem Namen erstellen oder aktualisieren."
       },
       "shops_manage": {
-        "label": "Shops verwalten",
         "description": "Ihre Shop-Einstellungen verwalten."
       }
     }
@@ -2178,5 +2164,17 @@
       "description": "Wenn Ihre Suche die Orte einschließen soll, an denen Antiquitäten online tatsächlich angeboten werden, beginnen Sie mit Aura Historia.",
       "button": "Antiquitäten suchen"
     }
+  },
+  "shopTypePossessive": {
+    "auctionHouse": "dieses Auktionshauses",
+    "auctionPlatform": "dieser Auktionsplattform",
+    "commercialDealer": "dieses Händlers",
+    "marketplace": "dieses Marktplatzes"
+  },
+  "shopTypeArticle": {
+    "auctionHouse": "dieses Auktionshaus",
+    "auctionPlatform": "diese Auktionsplattform",
+    "commercialDealer": "diesen Händler",
+    "marketplace": "diesen Marktplatz"
   }
 }

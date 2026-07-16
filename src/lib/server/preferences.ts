@@ -24,9 +24,13 @@ export const getServerPreferences = createServerFn({ method: "GET" }).handler(
             }
             const prefs = parsed as Partial<UserPreferences> & {
                 trackingConsent?: unknown;
+                externalMapConsent?: unknown;
             };
             if ("trackingConsent" in prefs) {
                 prefs.trackingConsent = prefs.trackingConsent === true;
+            }
+            if ("externalMapConsent" in prefs) {
+                prefs.externalMapConsent = prefs.externalMapConsent === true;
             }
             if (prefs.currency != null && !CURRENCIES.includes(prefs.currency)) {
                 delete prefs.currency;

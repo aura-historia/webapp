@@ -1,4 +1,4 @@
-import { getSearchFilterLiveProducts } from "@/client";
+import { getSearchFilterPreviewProducts } from "@/client";
 import {
     mapPersonalizedGetProductSummaryDataToOverviewProduct,
     type OverviewProduct,
@@ -10,7 +10,7 @@ import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
-export function useSearchFilterLiveProducts(
+export function useSearchFilterPreviewProducts(
     id: string,
     enabled: boolean,
 ): UseQueryResult<OverviewProduct[]> {
@@ -19,10 +19,10 @@ export function useSearchFilterLiveProducts(
     const { preferences } = useUserPreferences();
 
     return useQuery({
-        queryKey: ["searchFilterLiveProducts", id, i18n.language, preferences.currency],
+        queryKey: ["searchFilterPreviewProducts", id, i18n.language, preferences.currency],
         enabled: !!id && enabled,
         queryFn: async () => {
-            const result = await getSearchFilterLiveProducts({
+            const result = await getSearchFilterPreviewProducts({
                 path: { userSearchFilterId: id },
                 query: {
                     language: parseLanguage(i18n.language),
