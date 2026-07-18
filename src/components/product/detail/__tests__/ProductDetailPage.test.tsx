@@ -22,6 +22,10 @@ vi.mock("@/components/product/detail/similar/ProductSimilar.tsx", () => ({
     ProductSimilar: () => <div data-testid="product-similar">ProductSimilar</div>,
 }));
 
+vi.mock("@/components/product/detail/dealer/ProductDealerItems.tsx", () => ({
+    ProductDealerItems: () => <div data-testid="product-dealer-items">ProductDealerItems</div>,
+}));
+
 describe("ProductDetailPage", () => {
     const mockProduct: ProductDetail = {
         productId: "1",
@@ -59,10 +63,17 @@ describe("ProductDetailPage", () => {
         expect(screen.getByTestId("product-history")).toBeInTheDocument();
     });
 
-    it("should render all three components together", () => {
+    it("should render ProductDealerItems component", () => {
+        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
+        expect(screen.getByTestId("product-dealer-items")).toBeInTheDocument();
+    });
+
+    it("should render all components together", () => {
         renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
         expect(screen.getByTestId("product-info")).toBeInTheDocument();
         expect(screen.getByTestId("product-price-chart")).toBeInTheDocument();
         expect(screen.getByTestId("product-history")).toBeInTheDocument();
+        expect(screen.getByTestId("product-similar")).toBeInTheDocument();
+        expect(screen.getByTestId("product-dealer-items")).toBeInTheDocument();
     });
 });

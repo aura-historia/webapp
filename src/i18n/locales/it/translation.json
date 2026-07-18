@@ -384,6 +384,13 @@
         "auctionTimeChanged": "Periodo d'asta aggiornato."
       }
     },
+    "dealer": {
+      "title": "Altri articoli di questo venditore",
+      "error": {
+        "title": "Errore di caricamento",
+        "description": "Non è stato possibile caricare altri articoli di questo venditore."
+      }
+    },
     "priceEstimate": {
       "tooltip": "Stima del prezzo da {{shopType}}",
       "tooltipUnknown": "Stima del prezzo",
