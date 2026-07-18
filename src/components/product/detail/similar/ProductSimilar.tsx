@@ -1,25 +1,18 @@
 import { useSimilarProducts } from "@/hooks/useSimilarProducts.ts";
-import { ProductSimilarCard } from "@/components/product/detail/similar/ProductSimilarCard.tsx";
+import { ProductGridItem } from "@/components/product/grid/ProductGridItem.tsx";
+import { ProductGridItemSkeleton } from "@/components/product/grid/ProductGridItemSkeleton.tsx";
 import { HiddenMatchCard } from "@/components/product/overview/HiddenMatchCard.tsx";
-import { H2 } from "@/components/typography/H2.tsx";
+import { ProductSectionHeading } from "@/components/product/detail/ProductSectionHeading.tsx";
+import { ProductCarouselNavButtons } from "@/components/product/detail/ProductCarouselNavButtons.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
 import { useTranslation } from "react-i18next";
 import { AlertCircle, SearchX, RefreshCw } from "lucide-react";
-import { ProductSimilarCardSkeleton } from "@/components/product/detail/similar/ProductSimilarCardSkeleton.tsx";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
 import type { ReactNode } from "react";
 
 interface ProductSimilarProps {
     readonly shopId: string;
     readonly shopsProductId: string;
-}
-
-function SimilarSectionHeading({ title }: { readonly title: string }) {
-    return (
-        <div>
-            <H2 className="font-display text-2xl font-normal text-primary">{title}</H2>
-            <span className="mt-4 block h-0.5 w-12 bg-primary" />
-        </div>
-    );
 }
 
 function SimilarState({
@@ -50,11 +43,11 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
 
     if (isLoading) {
         return (
-            <section className="flex min-w-0 flex-col gap-8">
-                <SimilarSectionHeading title={t("product.similar.title")} />
-                <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
-                    {["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"].map((skeletonId) => (
-                        <ProductSimilarCardSkeleton key={skeletonId} />
+            <section className="flex max-h-[500px] min-w-0 flex-col gap-8 overflow-hidden">
+                <ProductSectionHeading title={t("product.similar.title")} />
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {["skeleton-1", "skeleton-2", "skeleton-3"].map((skeletonId) => (
+                        <ProductGridItemSkeleton key={skeletonId} />
                     ))}
                 </div>
             </section>
@@ -63,8 +56,8 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
 
     if (isError) {
         return (
-            <section className="flex min-w-0 flex-col gap-8">
-                <SimilarSectionHeading title={t("product.similar.title")} />
+            <section className="flex max-h-[500px] min-w-0 flex-col gap-8 overflow-hidden">
+                <ProductSectionHeading title={t("product.similar.title")} />
                 <SimilarState
                     title={t("product.similar.error.title")}
                     icon={<AlertCircle className="h-16 w-16 text-muted-foreground" />}
@@ -76,8 +69,8 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
 
     if (data?.isEmbeddingsPending) {
         return (
-            <section className="flex min-w-0 flex-col gap-8">
-                <SimilarSectionHeading title={t("product.similar.title")} />
+            <section className="flex max-h-[500px] min-w-0 flex-col gap-8 overflow-hidden">
+                <ProductSectionHeading title={t("product.similar.title")} />
                 <SimilarState
                     title={t("product.similar.embeddingsPending.title")}
                     icon={
@@ -91,8 +84,8 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
 
     if (!data?.products || data.products.length === 0) {
         return (
-            <section className="flex min-w-0 flex-col gap-8">
-                <SimilarSectionHeading title={t("product.similar.title")} />
+            <section className="flex max-h-[500px] min-w-0 flex-col gap-8 overflow-hidden">
+                <ProductSectionHeading title={t("product.similar.title")} />
                 <SimilarState
                     title={t("product.similar.noData.title")}
                     icon={<SearchX className="h-16 w-16 text-muted-foreground" />}
@@ -103,18 +96,30 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
     }
 
     return (
-        <section className="flex min-w-0 flex-col gap-8">
-            <SimilarSectionHeading title={t("product.similar.title")} />
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
-                {data.products.map((product) => {
-                    const isHidden = product.userData?.searchFilterData?.hidden === true;
-                    return isHidden ? (
-                        <HiddenMatchCard key={product.productId} />
-                    ) : (
-                        <ProductSimilarCard key={product.productId} product={product} />
-                    );
-                })}
-            </div>
+        <section className="flex max-h-[500px] min-w-0 flex-col gap-8 overflow-hidden">
+            <Carousel opts={{ align: "start" }} className="w-full min-w-0">
+                <div className="flex items-start justify-between gap-4">
+                    <ProductSectionHeading title={t("product.similar.title")} />
+                    <ProductCarouselNavButtons />
+                </div>
+                <CarouselContent className="-ml-6 mt-6">
+                    {data.products.map((product) => {
+                        const isHidden = product.userData?.searchFilterData?.hidden === true;
+                        return (
+                            <CarouselItem
+                                key={product.productId}
+                                className="basis-full pl-6 sm:basis-1/2 lg:basis-1/3"
+                            >
+                                {isHidden ? (
+                                    <HiddenMatchCard />
+                                ) : (
+                                    <ProductGridItem product={product} />
+                                )}
+                            </CarouselItem>
+                        );
+                    })}
+                </CarouselContent>
+            </Carousel>
         </section>
     );
 }
