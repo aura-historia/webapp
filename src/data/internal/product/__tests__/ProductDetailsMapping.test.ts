@@ -24,6 +24,7 @@ const baseApiItem: PersonalizedGetProductData["item"] = {
     title: { text: "Test Product", language: "de" },
     price: { offer: { amount: 1000, currency: "EUR" } },
     state: "AVAILABLE",
+    lifecycle: "ACTIVE",
     url: "https://example.com/item",
     viewUrl: "https://example.com/item",
     images: [],

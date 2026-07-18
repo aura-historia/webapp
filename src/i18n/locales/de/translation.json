@@ -66,6 +66,9 @@
     "partnerAccessTokens": {
       "title": "Zugriffstoken | Aura Historia"
     },
+    "partnerShops": {
+      "title": "Meine Shops | Aura Historia"
+    },
     "compareBarnebys": {
       "title": "Aura Historia vs. Barnebys | Antiquitätensuche im Vergleich",
       "description": "Aura Historia und Barnebys im Vergleich: Quellenabdeckung, mehrsprachige Suche, schnelle Benachrichtigungen und KI-gestützte Marktbeobachtung für Antiquitäten."
@@ -82,9 +85,6 @@
     },
     "password": {
       "required": "Passwort ist erforderlich",
-      "minLength": "Passwort muss mindestens {{min}} Zeichen lang sein",
-      "uppercase": "Passwort muss mindestens einen Großbuchstaben enthalten",
-      "number": "Passwort muss mindestens eine Zahl enthalten",
       "mismatch": "Passwörter stimmen nicht überein"
     },
     "confirmCode": {
@@ -200,7 +200,6 @@
     "totalResults_other": "{{count}} Artikel",
     "bar": {
       "label": "Suche",
-      "placeholder": "Ich suche nach...",
       "placeholderShort": "Suche",
       "button": "Suchen",
       "placeholderExamplesProducts": [
@@ -248,7 +247,6 @@
         "shops": "Shops"
       }
     },
-    "applyFilters": "Filter anwenden",
     "validation": {
       "queryMinLength": "Bitte geben Sie mindestens 3 Zeichen ein",
       "dateOrder": "Startdatum muss vor dem Enddatum liegen"
@@ -260,7 +258,6 @@
       "productState": "Anzeigenstatus",
       "merchant": "Händler",
       "merchants": "Händler",
-      "anyMerchant": "Beliebiger Händler",
       "searchMerchants": "Händler suchen...",
       "noMerchantsFound": "Keine Händler gefunden",
       "excludeMerchant": "Händler ausschließen",
@@ -288,14 +285,11 @@
         "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
         "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
         "auctionDate": "Filter für das Auktionsdatum zurücksetzen",
-        "merchant": "Filter für den Händler zurücksetzen",
-        "excludeMerchant": "Filter für ausgeschlossene Händler zurücksetzen",
         "merchants": "Filter für die Händler zurücksetzen",
         "sellers": "Filter für die Verkäufer zurücksetzen",
         "shopType": "Filter für den Shop-Typ zurücksetzen",
         "partnerStatus": "Partnerstatus-Filter zurücksetzen"
       },
-      "selected": "{{count}} ausgewählt",
       "partnerStatus": "Partnerstatus",
       "requireSelection": "Mindestens 1 Auswahl erforderlich"
     },
@@ -395,7 +389,6 @@
       }
     },
     "auction": {
-      "title": "Auktionszeitraum",
       "start": "ab {{date}}",
       "end": "bis {{date}}",
       "range": "{{start}} – {{end}}"
@@ -446,8 +439,7 @@
     "auctionHouse": "Auktionshaus",
     "auctionPlatform": "Auktionsplattform",
     "commercialDealer": "Händler",
-    "marketplace": "Marktplatz",
-    "unknown": "Unbekannt"
+    "marketplace": "Marktplatz"
   },
   "shopPartnerStatus": {
     "partnered": "Offizieller Partner",
@@ -629,7 +621,6 @@
       "lastNamePlaceholder": "Ihr Nachname",
       "emailLabel": "E-Mail-Adresse",
       "emailRequired": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
-      "errorMessage": "Etwas ist schiefgelaufen. Bitte versuchen Sie es später erneut.",
       "eyebrow": "Newsletter",
       "successEmailSent": "Eine Bestätigungs-E-Mail wurde an {{email}} gesendet.",
       "successTiming": "Es kann einige Minuten dauern, bis die E-Mail bei Ihnen eintrifft."
@@ -725,8 +716,7 @@
       "billingNoteMonthly": "pro Monat inkl. MwSt.",
       "billingNoteYearly": "pro Monat, jährlich abgerechnet, inkl. MwSt.",
       "getStartedFree": "Kostenlos starten",
-      "subscribe": "Abonnieren",
-      "perMonth": "/Monat"
+      "subscribe": "Abonnieren"
     }
   },
   "partnerProgram": {
@@ -968,24 +958,7 @@
       "endpoints": {
         "title": "Partner-Produkt-API-Referenz",
         "subtitle": "Die eingebettete OpenAPI-Referenz konzentriert sich auf die Batch-Endpunkte, die Sie für eine eigene Integration brauchen.",
-        "generatedReferenceTitle": "Die drei Endpunkte für den Produkt-Sync",
-        "generatedReferenceDescription": "Diese interaktive Referenz wird aus unserer OpenAPI-Spezifikation erzeugt und zeigt Create-, Update- und Upsert-Batch-Endpunkte an einer Stelle.",
-        "externalDocsCta": "Endpunkt separat öffnen",
-        "embedTitle": "Partner-Produkt-API-Referenz",
-        "items": {
-          "create": {
-            "title": "Batch create products (Partner API)",
-            "description": "Legen Sie Produkte für Ihren Shop an. Am besten geeignet für den ersten Import oder Batches, die nur neue Produkte enthalten."
-          },
-          "update": {
-            "title": "Batch update products (Partner API)",
-            "description": "Aktualisieren Sie bestehende Produkte, wenn sich Titel, Preise, Bilder, Verfügbarkeit oder Links ändern."
-          },
-          "upsert": {
-            "title": "Batch upsert products (Partner API)",
-            "description": "Legen Sie Produkte in einem Batch an oder aktualisieren Sie sie, wenn Ihre Synchronisation neue und bestehende Datensätze enthalten kann."
-          }
-        }
+        "embedTitle": "Partner-Produkt-API-Referenz"
       }
     },
     "finalCta": {
@@ -1072,22 +1045,6 @@
   },
   "auth": {
     "subtitle": "Über 120.000 Antiquitäten von 500 Händlern. Vergleichen, speichern und Preise verfolgen bei Aura Historia.",
-    "welcome": "Herzlich Willkommen",
-    "welcomeWithName": "Herzlich Willkommen, {{name}}!",
-    "welcomeBack": "Willkommen zurück",
-    "welcomeBackWithName": "Willkommen zurück, {{name}}!",
-    "completingRegistration": "Die Registrierung wird abgeschlossen, bitte haben Sie noch einen Moment Geduld!",
-    "completingLogin": "Die Anmeldung wird abgeschlossen, bitte haben Sie noch einen Moment Geduld!",
-    "retry": "Erneut versuchen",
-    "backToLogin": "Zurück zum Login",
-    "backToHomepage": "Zurück zur Startseite",
-    "errorTitle": "Benutzerdaten nicht gespeichert",
-    "timeout": {
-      "title": "Registrierung erfolgreich!",
-      "message": "Ihre Registrierung wurde erfolgreich abgeschlossen! Die persönlichen Daten konnten aufgrund eines hohen Nutzeraufkommens derzeit nicht gespeichert werden.",
-      "hint": "Sie können diese Informationen jederzeit in den Kontoeinstellungen nachtragen.",
-      "noteLabel": "Hinweis:"
-    },
     "signUp": {
       "firstName": "Vorname",
       "firstNamePlaceholder": "Max",
@@ -1153,7 +1110,6 @@
       "title": "E-Mail überprüfen",
       "subtitle": "Wir haben einen 6-stelligen Code an {{email}} gesendet",
       "codeLabel": "Bestätigungscode",
-      "codePlaceholder": "000000",
       "submit": "E-Mail bestätigen",
       "noCode": "Keinen Code erhalten?",
       "resend": "Code erneut senden",
@@ -1259,16 +1215,23 @@
   },
   "consent": {
     "title": "Wir schätzen Ihre Privatsphäre",
-    "description": "Wir verwenden Cookies, um den Webverkehr zu analysieren und Ihr Benutzererlebnis zu verbessern. Mit Klick auf 'Zustimmen' willigen Sie in die Verwendung von Cookies für diese Zwecke ein. Weitere Informationen finden Sie in unserer <1>Datenschutzerklärung</1>.",
-    "accept": "Zustimmen",
-    "reject": "Ablehnen"
+    "description": "Wir nutzen optionale Dienste nur mit Ihrer Einwilligung: Analyse zur Verbesserung von Aura Historia und externe Karten von Google Maps. Sie können beide Zwecke getrennt auswählen. Weitere Informationen finden Sie in unserer <1>Datenschutzerklärung</1>.",
+    "analyticsLabel": "Analyse & Tracking",
+    "analyticsDescription": "Hilft uns zu verstehen, wie Aura Historia genutzt wird, damit wir die Plattform verbessern können.",
+    "externalMapsLabel": "Externe Karten",
+    "externalMapsDescription": "Lädt eingebettete Karten von Google Maps. Dabei können Daten wie Ihre IP-Adresse an Google übermittelt werden.",
+    "acceptAll": "Alle akzeptieren",
+    "saveSelection": "Auswahl speichern",
+    "rejectAll": "Alle ablehnen"
   },
   "consentSettings": {
     "title": "Cookie-Einstellungen",
     "description": "Wir verwenden Cookies, um den Webverkehr zu analysieren und Ihr Benutzererlebnis zu verbessern. Weitere Informationen finden Sie in unserer <1>Datenschutzerklärung</1>.",
     "analyticsLabel": "Analyse & Tracking",
     "analyticsDescription": "Ermöglicht uns die Analyse der Nutzung und die Verbesserung Ihres Erlebnisses über Google Analytics. Beinhaltet Anzeigenspeicher, Analysespeicher, Anzeigenbenutzerdaten und Anzeigenpersonalisierung.",
-    "saved": "Ihre Cookie-Einstellungen wurden gespeichert."
+    "saved": "Ihre Cookie-Einstellungen wurden gespeichert.",
+    "externalMapsLabel": "Externe Karten",
+    "externalMapsDescription": "Erlaubt das Laden eingebetteter Karten von Google Maps. Dabei können personenbezogene Daten wie IP-Adresse und Browserinformationen an Google übermittelt werden."
   },
   "notifications": {
     "title": "Benachrichtigungen",
@@ -1279,8 +1242,6 @@
       "priceChange": "Preisänderung",
       "stateChange": "Statusänderung",
       "newMatch": "Neuer Treffer",
-      "partnerApplicationApproved": "Antrag genehmigt",
-      "partnerApplicationRejected": "Antrag abgelehnt",
       "partnerApplication": "Partnerantrag",
       "partnerApplicationSubmitted": "Eingereicht",
       "partnerApplicationStatusApproved": "Genehmigt",
@@ -1306,7 +1267,6 @@
   },
   "shop": {
     "header": {
-      "archiveLabel": "Shop",
       "overviewTitle": "Shop-Übersicht",
       "indexedItems": "Erfasste Objekte",
       "imageAlt": "Logo von {{shop}}",
@@ -1314,13 +1274,25 @@
       "addedOn": "Hinzugefügt am {{date}}",
       "metaDescription": "Entdecken Sie Antiquitäten und Sammlerstücke von {{shop}} auf Aura Historia."
     },
+    "location": {
+      "eyebrow": "Standort",
+      "title": "Wo Sie {{shopTypeArticle}} finden",
+      "description": "Adresse und Kontaktinformationen von {{shop}}, soweit diese öffentlich verfügbar sind.",
+      "noAddress": "Wir haben noch keine Adresse für {{shopTypeArticle}}.",
+      "noLocation": "Wir haben noch keine Standortinformationen für {{shopTypeArticle}}.",
+      "mapTitle": "Karte mit dem Standort von {{shop}}",
+      "mapConsentTitle": "Karte erst nach Zustimmung laden",
+      "mapConsentDescription": "Die Karte wird von Google Maps bereitgestellt. Beim Laden können Daten wie Ihre IP-Adresse an Google übermittelt werden.",
+      "mapConsentButton": "Karte anzeigen",
+      "mapConsentSettings": "Cookie-Einstellungen"
+    },
     "products": {
       "loadingMore": "Weitere Artikel werden geladen...",
-      "allLoaded_one": "Sie haben {{count}} Artikel aus diesem Shop gesehen.",
-      "allLoaded_other": "Sie haben alle {{count}} Artikel aus diesem Shop gesehen.",
+      "allLoaded_one": "Sie haben {{count}} Artikel {{shopTypePossessive}} gesehen.",
+      "allLoaded_other": "Sie haben alle {{count}} Artikel {{shopTypePossessive}} gesehen.",
       "noResults": {
         "title": "Keine Artikel gefunden",
-        "description": "Von diesem Shop sind derzeit keine Artikel vorhanden."
+        "description": "Von diesem {{shopType}} sind derzeit keine Artikel vorhanden."
       },
       "error": {
         "title": "Artikel konnten nicht geladen werden",
@@ -1329,6 +1301,14 @@
     },
     "card": {
       "viewShop": "Shop ansehen"
+    },
+    "typeFallback": "Händler",
+    "typePossessiveFallback": "dieses Händlers",
+    "typeArticleFallback": "diesen Händler",
+    "contact": {
+      "eyebrow": "Kontakt",
+      "email": "E-Mail",
+      "phone": "Telefon"
     }
   },
   "searchFilter": {
@@ -1344,7 +1324,6 @@
       "queryLabel_other": "Suchbegriffe",
       "aiDescriptionLabel": "KI-gestützte Beschreibung (optional)",
       "aiDescriptionPlaceholder": "Jungfrau Maria Ölgemälde auf Leinwand, nicht Holz, Barockrahmen mit Blattgold auf Kreidegrund (Gesso). Das Motiv soll Mater Dolorosa sein. Signatur des Künstlers muss enthalten sein. Das Gemälde darf keine sichtbaren Beschädigungen enthalten und der Rahmen muss vollständig intakt sein. Falls das Gemälde aus dem spanischen Barock stammt, dann muss es mindestens 40x60 cm groß sein. Für den italienischen Barock muss das nicht gelten.",
-      "aiDescriptionUltimateOnly": "Nur für Ultimate-Abonnenten verfügbar",
       "ultimateOnly": "Nur für Ultimate-Abonnenten verfügbar.",
       "cancelButton": "Abbrechen",
       "saveButton": "Speichern",
@@ -1366,25 +1345,18 @@
       "queryRequired": "Bitte geben Sie mindestens einen Suchbegriff ein.",
       "queryTermTooShort": "Jeder Suchbegriff muss mindestens 3 Zeichen lang sein.",
       "noFiltersConfigured": "Keine zusätzlichen Filter konfiguriert.",
-      "upgradeBanner": "Diese Filter sind in Ihrem aktuellen Tarif nicht verfügbar. Upgraden Sie Ihr Konto, um sie zu nutzen.",
       "step": {
         "name": "Suchbegriff & Name",
         "nameDescription": "Geben Sie Ihrem Suchauftrag einen Namen und geben Sie an, wonach Sie suchen – optional können Sie die Suche mit einer KI-gestützten Beschreibung noch weiter präzisieren.",
         "priceStatus": "Preis & Status",
-        "theme": "Kategorie & Epoche",
-        "quality": "Zustand & Echtheit",
         "shop": "Händler & Shop-Typ",
         "date": "Zeitraum",
         "confirm": "Zusammenfassung",
         "confirmDescription": "Überprüfen Sie Ihre konfigurierten Suchkriterien und speichern Sie den Auftrag. Sie werden umgehend benachrichtigt, sobald ein passendes Objekt auf dem Markt erscheint.",
         "priceStatusDescription": "Definieren Sie Ihren Preisrahmen und wählen Sie den gewünschten Anzeigenstatus – etwa ausschließlich verfügbare Objekte oder auch bereits versteigerte Stücke zur Marktrecherche.",
-        "themeDescription": "Präzisieren Sie Ihre Suche nach Sammelgebiet (z. B. Alte Meister, Möbel, Silber) und kunsthistorischer Epoche (z. B. Renaissance, Rokoko, Biedermeier).",
-        "qualityDescription": "Filtern Sie nach Erhaltungsgrad, Authentizitätsstatus, Herkunftsnachweis, Restaurierungsumfang und dem Entstehungszeitraum des Objekts.",
         "shopDescription": "Wählen Sie gezielt Anbietertypen – renommierte Auktionshäuser, spezialisierte Kunsthändler oder Marktplätze – und schließen Sie einzelne Häuser ein oder aus.",
         "dateDescription": "Grenzen Sie die Suche zeitlich ein – nach Auktionstermin, Datum der Erstveröffentlichung oder der letzten Aktualisierung des Inserats."
       },
-      "subtitle": "Konfigurieren Sie Ihren persönlichen Suchauftrag Schritt für Schritt.",
-      "configuredFilters": "Konfigurierte Filter",
       "titleEdit": "Suchauftrag bearbeiten",
       "titleDuplicate": "Suchauftrag duplizieren"
     },
@@ -1414,7 +1386,6 @@
     "moreActions": "Weitere Aktionen",
     "stateInactiveByUser": "Pausiert",
     "stateInactiveByPlan": "Gesperrt",
-    "stateInactiveByPlanTooltip": "Dieser Suchauftrag ist aufgrund Ihres Abonnements inaktiv.",
     "loadingError": {
       "title": "Fehler beim Laden",
       "description": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
@@ -1428,42 +1399,30 @@
       "description": "Für diesen Suchauftrag gibt es momentan keine passenden Produkte.",
       "editHint": "Zurück zu den Suchaufträgen"
     },
+    "totalElements": "{{count}} Suchauftrag/-träge",
     "totalElements_one": "{{count}} Suchauftrag",
     "totalElements_other": "{{count}} Suchaufträge",
     "matchingProducts": "Alle Suchtreffer anzeigen",
     "matchingProductsShort": "Alle Suchtreffer",
-    "matchingProductsInactive": "Suchauftrag ist inaktiv – keine Treffer verfügbar.",
     "searchPlaceholder": "Suchaufträge durchsuchen …",
     "showDetails": "Details anzeigen",
     "showResults": "Live-Vorschau",
     "previewError": "Vorschau konnte nicht geladen werden.",
     "previewEmpty": "Keine Treffer für diesen Suchauftrag gefunden.",
     "info": {
-      "merchant": "Händler",
-      "excludeMerchant": "Ausgeschl.",
-      "period": "Epoche",
       "creationDate": "Hinzugefügt",
       "updateDate": "Aktualisiert",
-      "auctionDate": "Auktion",
-      "created": "Erstellt am",
-      "updated": "Geändert am"
+      "auctionDate": "Auktion"
     },
-    "query": "Suche",
-    "moreFilters": "weitere Filter",
-    "cardLabel": "Suchauftrag",
     "hiddenMatch": {
       "title": "Verborgen",
       "description": "Dieses Match überschreitet Ihr monatliches Kontingent und ist ausgeblendet. Upgraden Sie Ihr Konto, um alle Treffer zu sehen.",
       "upgradeButton": "Jetzt upgraden"
     },
     "feedback": {
-      "relevant": "Relevant",
-      "notRelevant": "Nicht relevant",
-      "label": "Hilfreich?",
       "relevantHint": "Treffer ist relevant",
       "notRelevantHint": "Treffer ist nicht relevant"
     },
-    "matchReason": "KI-Begründung",
     "feedbackError": "Feedback konnte nicht gespeichert werden."
   },
   "partnerDashboard": {
@@ -1471,7 +1430,27 @@
     "sidebarLabel": "Partner-Bereiche",
     "nav": {
       "applications": "Partner-Anträge",
+      "shops": "Meine Shops",
       "accessTokens": "Zugriffstoken"
+    }
+  },
+  "partnerShops": {
+    "title": "Meine Shops",
+    "description": "Alle Shops, die mit Ihrem Partnerkonto verknüpft sind.",
+    "actions": {
+      "retry": "Erneut versuchen",
+      "edit": "Bearbeiten"
+    },
+    "loading": "Ihre Shops werden geladen.",
+    "loadError": "Ihre Shops konnten nicht geladen werden.",
+    "empty": "Es sind noch keine Shops mit Ihrem Partnerkonto verknüpft.",
+    "updatedAt": "Aktualisiert am {{date}}",
+    "shopImageAlt": "Logo von {{shop}}",
+    "editAriaLabel": "{{shop}} bearbeiten",
+    "edit": {
+      "title": "Shop bearbeiten",
+      "description": "Bearbeiten Sie die Angaben zu {{shop}}.",
+      "success": "Shop wurde aktualisiert."
     }
   },
   "partnerAccessTokens": {
@@ -1609,8 +1588,6 @@
     "empty": "Sie haben noch keine Partneranträge eingereicht.",
     "submittedAt": "Eingereicht am {{date}}",
     "updatedAt": "Aktualisiert am {{date}}",
-    "existingShop": "Bestehender Shop",
-    "openDetails": "Details für {{title}} öffnen",
     "viewDetails": "Details ansehen",
     "progress": {
       "handedIn": "Eingereicht",
@@ -1639,8 +1616,6 @@
       "progressLabel": "Antragsfortschritt",
       "applicationSection": "Antrag",
       "shopSection": "Shop-Informationen",
-      "applicationId": "Antrags-ID",
-      "applicantUserId": "Antragsteller-ID",
       "createdAt": "Eingereicht",
       "updatedAt": "Aktualisiert",
       "shopName": "Shop-Name",
@@ -1656,19 +1631,13 @@
       "locality": "Ort",
       "region": "Region",
       "postalCode": "Postleitzahl",
-      "country": "Ländercode",
-      "shopId": "Shop-ID"
+      "country": "Ländercode"
     },
     "businessState": {
       "submitted": "Eingereicht",
       "inReview": "In Prüfung",
       "approved": "Genehmigt",
       "rejected": "Abgelehnt"
-    },
-    "executionState": {
-      "processing": "In Verarbeitung",
-      "waiting": "Wartet auf Entscheidung",
-      "completed": "Abgeschlossen"
     }
   },
   "adminDashboard": {
@@ -1737,6 +1706,7 @@
       },
       "fields": {
         "name": "Shop-Name",
+        "shopId": "Shop-ID",
         "shopType": "Shop-Typ",
         "url": "Primäre Shop-URL",
         "shopifyDomain": "Shopify-Domain",
@@ -1756,16 +1726,12 @@
         "postalCode": "Postleitzahl",
         "country": "Land",
         "countryHint": "Wählen Sie das Land der Shop-Adresse aus.",
-        "specialitiesHint": "Ein Kebab-Case-Schlüssel pro Zeile, z. B. ancient-egypt",
         "currencyPlaceholder": "Währung auswählen",
         "currencyNone": "Keine Währung",
         "languagePlaceholder": "Sprache auswählen",
         "languageNone": "Keine Sprache",
         "countryPlaceholder": "Land auswählen",
-        "countryNone": "Kein Land",
-        "specialitiesPlaceholder": "Einträge auswählen",
-        "loadingOptions": "Optionen werden geladen…",
-        "allOptions": "Alle"
+        "countryNone": "Kein Land"
       },
       "create": {
         "title": "Shop anlegen",
@@ -1778,8 +1744,7 @@
           "domainsRequired": "Bitte geben Sie mindestens eine Domain ein.",
           "urlInvalid": "Bitte geben Sie eine gültige Shop-URL ein.",
           "imageInvalid": "Bitte geben Sie eine gültige Bild-URL ein.",
-          "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
-          "countryInvalid": "Bitte wählen Sie ein gültiges Land aus."
+          "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
         }
       },
       "edit": {
@@ -1792,8 +1757,7 @@
         "shopify": "Shopify",
         "woocommerce": "WooCommerce",
         "contact": "Kontakt",
-        "address": "Postanschrift",
-        "specialities": "Spezialgebiete"
+        "address": "Postanschrift"
       }
     },
     "applications": {
@@ -1857,7 +1821,6 @@
         "shopSection": "Shop-Informationen",
         "shopId": "Shop-ID",
         "applicantSection": "Antragstellender Benutzer",
-        "applicantUnavailable": "Die aktuelle API-Antwort enthält keine Benutzer-ID für diesen Antrag.",
         "applicantLoadError": "Der antragstellende Benutzer konnte nicht geladen werden.",
         "openApplicant": "Benutzerprofil öffnen"
       }
@@ -1874,7 +1837,6 @@
       "totalCount_one": "{{count}} Benutzer",
       "totalCount_other": "{{count}} Benutzer",
       "updatedAt": "Aktualisiert {{date}}",
-      "prohibitedContentAllowed": "§ 86a Zustimmung",
       "filters": {
         "allTiers": "Alle Tarife",
         "allRoles": "Alle Rollen"
@@ -1920,7 +1882,6 @@
       "empty": "Noch keine OAuth-Clients registriert.",
       "clientId": "Client-ID",
       "clientSecret": "Client-Secret",
-      "clientName": "Client-Name",
       "redirectUris": "Redirect-URIs",
       "scope": "Scopes",
       "logoAlt": "Logo von {{client}}",
@@ -2007,11 +1968,9 @@
     },
     "scopes": {
       "products_write": {
-        "label": "Produkte verwalten",
         "description": "Produkte in Ihrem Namen erstellen oder aktualisieren."
       },
       "shops_manage": {
-        "label": "Shops verwalten",
         "description": "Ihre Shop-Einstellungen verwalten."
       }
     }
@@ -2212,5 +2171,17 @@
       "description": "Wenn Ihre Suche die Orte einschließen soll, an denen Antiquitäten online tatsächlich angeboten werden, beginnen Sie mit Aura Historia.",
       "button": "Antiquitäten suchen"
     }
+  },
+  "shopTypePossessive": {
+    "auctionHouse": "dieses Auktionshauses",
+    "auctionPlatform": "dieser Auktionsplattform",
+    "commercialDealer": "dieses Händlers",
+    "marketplace": "dieses Marktplatzes"
+  },
+  "shopTypeArticle": {
+    "auctionHouse": "dieses Auktionshaus",
+    "auctionPlatform": "diese Auktionsplattform",
+    "commercialDealer": "diesen Händler",
+    "marketplace": "diesen Marktplatz"
   }
 }
