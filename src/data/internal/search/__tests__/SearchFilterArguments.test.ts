@@ -58,4 +58,12 @@ describe("hasAdvancedFilterDetails", () => {
     it("returns false when merchant is empty array", () => {
         expect(hasAdvancedFilterDetails({ q: "", merchant: [] })).toBe(false);
     });
+
+    it("returns true when seller is set", () => {
+        expect(hasAdvancedFilterDetails({ q: "", seller: ["Seller A"] })).toBe(true);
+    });
+
+    it("returns true when excludeSeller is set", () => {
+        expect(hasAdvancedFilterDetails({ q: "", excludeSeller: ["Seller B"] })).toBe(true);
+    });
 });
