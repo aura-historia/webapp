@@ -34,8 +34,6 @@ import { Link } from "@tanstack/react-router";
 import { intlFormatDistance } from "date-fns";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 import { hasAdvancedFilterDetails } from "@/data/internal/search/SearchFilterArguments.ts";
-import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
-import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
 import { useUpdateUserSearchFilter } from "@/hooks/search-filters/useUpdateUserSearchFilter.ts";
 import {
     AlertDialog,
@@ -47,10 +45,10 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog.tsx";
-import { SearchFilterPreviewDialog } from "@/components/search-filters/SearchFilterPreviewDialog.tsx";
-import { FilterDetailRow } from "@/components/search-filters/FilterDetailRow.tsx";
-import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
-import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
+import {
+    SearchFilterCriteriaBadges,
+    SearchFilterCriteriaDetails,
+} from "@/components/search-filters/SearchFilterCriteria.tsx";
 
 type Props = {
     readonly filter: UserSearchFilter;
@@ -293,35 +291,7 @@ export function SearchFilterCard({
                 </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-y-2 [&>span]:after:content-['·'] [&>span]:after:mx-2 [&>span]:after:text-muted-foreground/40 [&>span:last-child]:after:hidden">
-                {(search.priceFrom != null || search.priceTo != null) && (
-                    <span className="inline-flex flex-wrap gap-1.5">
-                        <Badge variant="outline">
-                            {search.priceFrom ?? "?"} – {search.priceTo ?? "?"} €
-                        </Badge>
-                    </span>
-                )}
-                {!!search.allowedStates?.length && (
-                    <span className="inline-flex flex-wrap gap-1.5">
-                        {search.allowedStates.length === PRODUCT_STATES.length ? (
-                            <Badge variant="outline">{t("search.filter.all")}</Badge>
-                        ) : (
-                            search.allowedStates.map((s) => (
-                                <StatusBadge key={s} status={s} showIcon={false} />
-                            ))
-                        )}
-                    </span>
-                )}
-                {!!search.shopType?.length && (
-                    <span className="inline-flex flex-wrap gap-1.5">
-                        {search.shopType.length === SHOP_TYPES.length ? (
-                            <Badge variant="outline">{t("search.filter.all")}</Badge>
-                        ) : (
-                            search.shopType.map((st) => <ShopTypeBadge key={st} shopType={st} />)
-                        )}
-                    </span>
-                )}
-            </div>
+            <SearchFilterCriteriaBadges search={search} />
 
             {hasAdvancedFilters && (
                 <Accordion type="single" collapsible>
@@ -330,66 +300,21 @@ export function SearchFilterCard({
                             {t("searchFilters.showDetails")}
                         </AccordionTrigger>
                         <AccordionContent>
-                            <div className="flex flex-col gap-3 pt-2">
-                                <FilterDetailRow
-                                    variant="text"
-                                    label={t("search.filter.merchant")}
-                                    values={search.merchant ?? []}
-                                />
-                                <FilterDetailRow
-                                    variant="text"
-                                    label={t("search.filter.excludeMerchant")}
-                                    values={search.excludeMerchant ?? []}
-                                />
-                                {(search.creationDateFrom != null ||
-                                    search.creationDateTo != null) && (
-                                    <FilterDetailRow
-                                        variant="text"
-                                        label={t("searchFilters.info.creationDate")}
-                                        values={[
-                                            `${search.creationDateFrom?.toLocaleDateString() ?? "?"} – ${search.creationDateTo?.toLocaleDateString() ?? "?"}`,
-                                        ]}
-                                    />
-                                )}
-                                {(search.updateDateFrom != null || search.updateDateTo != null) && (
-                                    <FilterDetailRow
-                                        variant="text"
-                                        label={t("searchFilters.info.updateDate")}
-                                        values={[
-                                            `${search.updateDateFrom?.toLocaleDateString() ?? "?"} – ${search.updateDateTo?.toLocaleDateString() ?? "?"}`,
-                                        ]}
-                                    />
-                                )}
-                                {(search.auctionDateFrom != null ||
-                                    search.auctionDateTo != null) && (
-                                    <FilterDetailRow
-                                        variant="text"
-                                        label={t("searchFilters.info.auctionDate")}
-                                        values={[
-                                            `${search.auctionDateFrom?.toLocaleDateString() ?? "?"} – ${search.auctionDateTo?.toLocaleDateString() ?? "?"}`,
-                                        ]}
-                                    />
-                                )}
+                            <div className="pt-2">
+                                <SearchFilterCriteriaDetails search={search} />
                             </div>
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
             )}
 
-            <div className="flex gap-2 mt-auto">
-                <SearchFilterPreviewDialog filter={filter} />
-                <Button size="sm" className="gap-2 flex-1 text-xs sm:text-sm" asChild>
-                    <Link to="/me/search-filter/$filterId" params={{ filterId: filter.id }}>
-                        <ScanSearch className="size-4 shrink-0" />
-                        <span className="sm:hidden">
-                            {t("searchFilters.matchesAndDetailsShort")}
-                        </span>
-                        <span className="hidden sm:inline">
-                            {t("searchFilters.matchesAndDetails")}
-                        </span>
-                    </Link>
-                </Button>
-            </div>
+            <Button size="sm" className="gap-2 mt-auto text-xs sm:text-sm" asChild>
+                <Link to="/me/search-filter/$filterId" params={{ filterId: filter.id }}>
+                    <ScanSearch className="size-4 shrink-0" />
+                    <span className="sm:hidden">{t("searchFilters.matchesAndDetailsShort")}</span>
+                    <span className="hidden sm:inline">{t("searchFilters.matchesAndDetails")}</span>
+                </Link>
+            </Button>
 
             <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                 <AlertDialogContent>
