@@ -46,6 +46,16 @@ describe("SearchFilterCard", () => {
         vi.clearAllMocks();
     });
 
+    it("renders a card-wide link to the filter's detail page", async () => {
+        await act(() => {
+            renderWithRouter(<SearchFilterCard {...defaultProps} />);
+        });
+        expect(screen.getByRole("link", { name: "Barock Möbel" })).toHaveAttribute(
+            "href",
+            "/me/search-filter/filter-1",
+        );
+    });
+
     it("renders the filter name", async () => {
         await act(() => {
             renderWithRouter(<SearchFilterCard {...defaultProps} />);

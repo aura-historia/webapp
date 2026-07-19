@@ -95,7 +95,14 @@ export function SearchFilterCard({
         });
 
     return (
-        <Card className="flex flex-col p-4 sm:p-6 gap-5 shadow-md min-w-0 h-full transition-colors hover:bg-accent">
+        <Card className="relative flex flex-col p-4 sm:p-6 gap-5 shadow-md min-w-0 h-full transition-colors hover:bg-accent">
+            <Link
+                to="/me/search-filter/$filterId"
+                params={{ filterId: filter.id }}
+                className="absolute inset-0 z-0"
+                aria-label={filter.name}
+            />
+
             <div className="flex justify-between gap-2">
                 <div className="flex flex-col gap-2 min-w-0 overflow-hidden">
                     <H2 className="text-ellipsis line-clamp-1">{filter.name}</H2>
@@ -136,7 +143,7 @@ export function SearchFilterCard({
                                 type="button"
                                 variant="ghost"
                                 size="icon"
-                                className="size-10 text-muted-foreground"
+                                className="relative z-10 size-10 text-muted-foreground"
                                 aria-label={stateToggleLabel}
                                 disabled={updateFilter.isPending}
                                 onClick={handleStateToggle}
@@ -159,7 +166,7 @@ export function SearchFilterCard({
                                 type="button"
                                 variant="ghost"
                                 size="icon"
-                                className="size-10 text-muted-foreground"
+                                className="relative z-10 size-10 text-muted-foreground"
                                 aria-label={notificationsLabel}
                                 disabled={updateFilter.isPending || !isActive}
                                 onClick={handleNotificationsToggle}
@@ -182,7 +189,7 @@ export function SearchFilterCard({
                                 type="button"
                                 variant="ghost"
                                 size="icon"
-                                className="size-10 text-muted-foreground hover:text-primary"
+                                className="relative z-10 size-10 text-muted-foreground hover:text-primary"
                                 aria-label={t("searchFilters.duplicate")}
                                 disabled={!canDuplicate}
                                 onClick={() => onDuplicate(filter)}
@@ -202,7 +209,7 @@ export function SearchFilterCard({
                                 type="button"
                                 variant="ghost"
                                 size="icon"
-                                className="size-10 text-muted-foreground hover:text-primary"
+                                className="relative z-10 size-10 text-muted-foreground hover:text-primary"
                                 aria-label={t("searchFilters.edit")}
                                 onClick={() => onEdit(filter)}
                             >
@@ -217,7 +224,7 @@ export function SearchFilterCard({
                                 type="button"
                                 variant="ghost"
                                 size="icon"
-                                className="size-10 text-muted-foreground hover:text-destructive"
+                                className="relative z-10 size-10 text-muted-foreground hover:text-destructive"
                                 aria-label={t("searchFilters.delete")}
                                 disabled={isDeleting}
                                 onClick={() => setDeleteDialogOpen(true)}
@@ -230,7 +237,7 @@ export function SearchFilterCard({
                 </div>
 
                 {/* Mobile: single ⋮ dropdown with labeled actions */}
-                <div className="sm:hidden shrink-0">
+                <div className="relative z-10 sm:hidden shrink-0">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
@@ -296,7 +303,7 @@ export function SearchFilterCard({
             {hasAdvancedFilters && (
                 <Accordion type="single" collapsible>
                     <AccordionItem value="details" className="border-t border-b-0">
-                        <AccordionTrigger className="text-sm text-muted-foreground py-3 hover:no-underline">
+                        <AccordionTrigger className="relative z-10 text-sm text-muted-foreground py-3 hover:no-underline">
                             {t("searchFilters.showDetails")}
                         </AccordionTrigger>
                         <AccordionContent>
@@ -308,7 +315,7 @@ export function SearchFilterCard({
                 </Accordion>
             )}
 
-            <Button size="sm" className="gap-2 mt-auto text-xs sm:text-sm" asChild>
+            <Button size="sm" className="relative z-10 gap-2 mt-auto text-xs sm:text-sm" asChild>
                 <Link to="/me/search-filter/$filterId" params={{ filterId: filter.id }}>
                     <ScanSearch className="size-4 shrink-0" />
                     <span className="sm:hidden">{t("searchFilters.matchesAndDetailsShort")}</span>
