@@ -1722,20 +1722,25 @@
       "editHint": "Essayez d'ajuster le filtre de recherche."
     },
     "totalElements": "{{count}} filtre(s) de recherche",
-    "matches": "Correspondances",
+    "matches": "Produits Trouvés",
+    "matchesCount_one": "{{count}} produit",
+    "matchesCount_other": "{{count}} produits",
+    "matchesHint": "Les produits qui correspondent aux critères de votre filtre de recherche sont affichés ici.",
     "matchesAndDetails": "Correspondances et détails",
     "matchesAndDetailsShort": "Détails",
     "matchingProductsInactive": "Le filtre de recherche est inactif – aucune correspondance disponible.",
-    "searchNow": "Rechercher maintenant",
     "searchPlaceholder": "Rechercher des filtres...",
     "showDetails": "Afficher les détails",
-    "showResults": "Aperçu en direct",
-    "previewError": "Impossible de charger l'aperçu.",
-    "previewEmpty": "Aucun résultat trouvé pour ce filtre de recherche.",
+    "noAdditionalCriteria": "Aucun critère supplémentaire configuré.",
     "info": {
-      "creationDate": "Créé : {{date}}",
-      "updateDate": "Mis à jour : {{date}}",
-      "auctionDate": "Date de la vente : {{date}}"
+      "creationDate": "Ajouté",
+      "updateDate": "Mis à jour",
+      "auctionDate": "Date de la vente"
+    },
+    "detail": {
+      "eyebrow": "Filtre de Recherche",
+      "configurationTitle": "Vos Critères de Filtre",
+      "configurationHint": "Voici tous les réglages qui déterminent quels résultats sont trouvés pour ce filtre de recherche."
     },
     "hiddenMatch": {
       "title": "Caché",

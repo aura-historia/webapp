@@ -1420,20 +1420,25 @@
       "editHint": "Try adjusting the search filter."
     },
     "totalElements": "{{count}} search filter(s)",
-    "matches": "Matches",
+    "matches": "Found Products",
+    "matchesCount_one": "{{count}} product",
+    "matchesCount_other": "{{count}} products",
+    "matchesHint": "Products that match the criteria of your search filter are shown here.",
     "matchesAndDetails": "Matches & Details",
     "matchesAndDetailsShort": "Details",
     "matchingProductsInactive": "Search filter is inactive – no matches available.",
-    "searchNow": "Search now",
     "searchPlaceholder": "Search filters...",
     "showDetails": "Show details",
-    "showResults": "Live Preview",
-    "previewError": "Could not load preview.",
-    "previewEmpty": "No results found for this search filter.",
+    "noAdditionalCriteria": "No additional criteria configured.",
     "info": {
-      "creationDate": "Created: {{date}}",
-      "updateDate": "Updated: {{date}}",
-      "auctionDate": "Auction date: {{date}}"
+      "creationDate": "Added",
+      "updateDate": "Updated",
+      "auctionDate": "Auction date"
+    },
+    "detail": {
+      "eyebrow": "Search Filter",
+      "configurationTitle": "Your Filter Criteria",
+      "configurationHint": "Here you can see all the settings that determine which results are found for this search filter."
     },
     "hiddenMatch": {
       "title": "Hidden",

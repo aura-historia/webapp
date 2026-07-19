@@ -1423,16 +1423,16 @@
     },
     "totalElements_one": "{{count}} Suchauftrag",
     "totalElements_other": "{{count}} Suchaufträge",
-    "matches": "Treffer",
+    "matches": "Gefundene Produkte",
+    "matchesCount_one": "{{count}} Produkt",
+    "matchesCount_other": "{{count}} Produkte",
+    "matchesHint": "Hier werden Produkte angezeigt, die zu den Kriterien Ihres Suchauftrags passen.",
     "matchesAndDetails": "Treffer & Details",
     "matchesAndDetailsShort": "Details",
     "matchingProductsInactive": "Suchauftrag ist inaktiv – keine Treffer verfügbar.",
-    "searchNow": "Jetzt suchen",
     "searchPlaceholder": "Suchaufträge durchsuchen …",
     "showDetails": "Details anzeigen",
-    "showResults": "Live-Vorschau",
-    "previewError": "Vorschau konnte nicht geladen werden.",
-    "previewEmpty": "Keine Treffer für diesen Suchauftrag gefunden.",
+    "noAdditionalCriteria": "Keine weiteren Kriterien konfiguriert.",
     "info": {
       "merchant": "Händler",
       "excludeMerchant": "Ausgeschl.",
@@ -1446,6 +1446,11 @@
     "query": "Suche",
     "moreFilters": "weitere Filter",
     "cardLabel": "Suchauftrag",
+    "detail": {
+      "eyebrow": "Suchauftrag",
+      "configurationTitle": "Ihre Filterkriterien",
+      "configurationHint": "Hier sehen Sie alle Einstellungen, die bestimmen, welche Treffer in diesem Suchauftrag gefunden werden."
+    },
     "hiddenMatch": {
       "title": "Verborgen",
       "description": "Dieses Match überschreitet Ihr monatliches Kontingent und ist ausgeblendet. Upgraden Sie Ihr Konto, um alle Treffer zu sehen.",
