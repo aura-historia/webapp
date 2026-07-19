@@ -1,14 +1,27 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "@tanstack/react-router";
-import { Search, ServerCrash, Settings2 } from "lucide-react";
-import { Button } from "@/components/ui/button.tsx";
+import { useNavigate } from "@tanstack/react-router";
+import { ServerCrash, Settings2, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
+import { H2 } from "@/components/typography/H2.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog.tsx";
 import { CreateSearchFilterWizard } from "@/components/search-filters/CreateSearchFilterWizard.tsx";
 import { SearchFilterMatches } from "@/components/search-filters/match/SearchFilterMatches.tsx";
+import { SearchFilterConfigurationGrid } from "@/components/search-filters/SearchFilterConfigurationGrid.tsx";
 import { useUserSearchFilter } from "@/hooks/search-filters/useUserSearchFilter.ts";
-import { serializeSearchParams } from "@/lib/searchValidation.ts";
+import { useDeleteUserSearchFilter } from "@/hooks/search-filters/useDeleteUserSearchFilter.ts";
 
 type Props = {
     readonly filterId: string;
@@ -16,8 +29,21 @@ type Props = {
 
 export function SearchFilterDetail({ filterId }: Props) {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const { data: filter, error } = useUserSearchFilter(filterId);
+    const { mutate: deleteFilter, isPending: isDeleting } = useDeleteUserSearchFilter();
     const [editOpen, setEditOpen] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+    const handleDelete = () => {
+        deleteFilter(filterId, {
+            onSuccess: () => {
+                toast.success(t("searchFilters.deleteSuccess"));
+                navigate({ to: "/me/search-filters" });
+            },
+            onError: (err) => toast.error(err.message),
+        });
+    };
 
     if (error) {
         return (
@@ -30,37 +56,56 @@ export function SearchFilterDetail({ filterId }: Props) {
     }
 
     return (
-        <div className="flex flex-col w-full gap-8">
+        <div className="flex w-full flex-col gap-10">
             {filter && (
-                <>
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                        <div className="flex flex-col gap-1 min-w-0">
+                <header
+                    className="flex flex-col gap-6 border-b border-border/30 pb-8"
+                    data-testid="section-configuration"
+                >
+                    <div className="flex flex-row items-start justify-between gap-4">
+                        <div className="flex min-w-0 flex-col gap-2">
+                            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-tertiary">
+                                {t("searchFilters.detail.eyebrow")}
+                            </p>
                             <H1 className="text-ellipsis line-clamp-1">{filter.name}</H1>
-                            {filter.enhancedSearchDescription && (
-                                <p className="text-base text-muted-foreground italic">
-                                    {filter.enhancedSearchDescription}
-                                </p>
-                            )}
                         </div>
-                        <div className="flex gap-2 shrink-0">
+                        <div className="flex shrink-0 gap-2">
                             <Button
                                 type="button"
                                 variant="outline"
                                 size="sm"
                                 className="gap-2"
+                                aria-label={t("searchFilters.edit")}
                                 onClick={() => setEditOpen(true)}
                             >
                                 <Settings2 className="size-4" />
-                                {t("searchFilters.edit")}
+                                <span className="hidden sm:inline">{t("searchFilters.edit")}</span>
                             </Button>
-                            <Button size="sm" className="gap-2" asChild>
-                                <Link to="/search" search={serializeSearchParams(filter.search)}>
-                                    <Search className="size-4" />
-                                    {t("searchFilters.searchNow")}
-                                </Link>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                className="gap-2 hover:text-destructive"
+                                aria-label={t("searchFilters.delete")}
+                                disabled={isDeleting}
+                                onClick={() => setDeleteDialogOpen(true)}
+                            >
+                                <Trash2 className="size-4" />
+                                <span className="hidden sm:inline">
+                                    {t("searchFilters.delete")}
+                                </span>
                             </Button>
                         </div>
                     </div>
+
+                    <div className="flex flex-col gap-1">
+                        <H2>{t("searchFilters.detail.configurationTitle")}</H2>
+                        <p className="text-sm text-muted-foreground">
+                            {t("searchFilters.detail.configurationHint")}
+                        </p>
+                    </div>
+
+                    <SearchFilterConfigurationGrid search={filter.search} />
 
                     <CreateSearchFilterWizard
                         open={editOpen}
@@ -68,7 +113,28 @@ export function SearchFilterDetail({ filterId }: Props) {
                         mode="edit"
                         filter={filter}
                     />
-                </>
+
+                    <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                    {t("searchFilters.deleteConfirm.title", { name: filter.name })}
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    {t("searchFilters.deleteConfirm.description")}
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>
+                                    {t("searchFilters.deleteConfirm.cancel")}
+                                </AlertDialogCancel>
+                                <AlertDialogAction onClick={handleDelete}>
+                                    {t("searchFilters.deleteConfirm.confirm")}
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </header>
             )}
 
             <SearchFilterMatches filterId={filterId} />

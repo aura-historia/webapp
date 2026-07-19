@@ -186,13 +186,13 @@ describe("SearchFilterMatches", () => {
         it("renders the section heading", () => {
             setMatchesMock({ products: [buildProduct()], total: 1 });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getByText("Treffer")).toBeInTheDocument();
+            expect(screen.getByText("Gefundene Produkte")).toBeInTheDocument();
         });
 
         it("renders the total product count", () => {
             setMatchesMock({ products: [buildProduct()], total: 42 });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getByText("42 Suchaufträge")).toBeInTheDocument();
+            expect(screen.getByText("42 Produkte")).toBeInTheDocument();
         });
     });
 

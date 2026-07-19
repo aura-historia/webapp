@@ -4,12 +4,32 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { SearchFilterDetail } from "../SearchFilterDetail.tsx";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
-import type React from "react";
 
 const mockUseUserSearchFilter = vi.hoisted(() => vi.fn());
+const mockDeleteMutate = vi.hoisted(() => vi.fn());
+const mockNavigate = vi.hoisted(() => vi.fn());
 
 vi.mock("@/hooks/search-filters/useUserSearchFilter.ts", () => ({
     useUserSearchFilter: mockUseUserSearchFilter,
+}));
+
+vi.mock("@/hooks/search-filters/useDeleteUserSearchFilter.ts", () => ({
+    useDeleteUserSearchFilter: () => ({
+        mutate: mockDeleteMutate,
+        isPending: false,
+    }),
+}));
+
+vi.mock("@tanstack/react-router", async () => {
+    const actual = await vi.importActual("@tanstack/react-router");
+    return {
+        ...actual,
+        useNavigate: () => mockNavigate,
+    };
+});
+
+vi.mock("sonner", () => ({
+    toast: { success: vi.fn(), error: vi.fn() },
 }));
 
 vi.mock("@/components/search-filters/CreateSearchFilterWizard.tsx", () => ({
@@ -19,21 +39,9 @@ vi.mock("@/components/search-filters/CreateSearchFilterWizard.tsx", () => ({
 
 vi.mock("@/components/search-filters/match/SearchFilterMatches.tsx", () => ({
     SearchFilterMatches: ({ filterId }: { filterId: string }) => (
-        <div data-testid="search-filter-matches">{filterId}</div>
+        <div data-testid="section-matches">{filterId}</div>
     ),
 }));
-
-vi.mock("@tanstack/react-router", async (importOriginal) => {
-    const actual = await importOriginal<typeof import("@tanstack/react-router")>();
-    return {
-        ...actual,
-        Link: ({ children, to, ...props }: { children: React.ReactNode; to?: string }) => (
-            <a href={to} {...props}>
-                {children}
-            </a>
-        ),
-    };
-});
 
 const buildFilter = (overrides: Partial<UserSearchFilter> = {}): UserSearchFilter => ({
     id: "filter-1",
@@ -62,41 +70,32 @@ describe("SearchFilterDetail", () => {
         setFilterMock();
     });
 
-    describe("Loading state", () => {
-        it("renders only the matches section while the filter is loading", () => {
-            setFilterMock({ filter: null });
-            renderWithQueryClient(<SearchFilterDetail filterId="filter-1" />);
-            expect(screen.getByTestId("search-filter-matches")).toBeInTheDocument();
-            expect(screen.queryByRole("heading")).not.toBeInTheDocument();
-        });
-    });
-
     describe("Error state", () => {
-        it("renders error EmptyState when the filter fails to load", () => {
+        it("renders error EmptyState when the filter fails to load, and no matches section", () => {
             setFilterMock({ error: new Error("not found") });
             renderWithQueryClient(<SearchFilterDetail filterId="filter-1" />);
             expect(screen.getByText("Fehler beim Laden")).toBeInTheDocument();
+            expect(screen.queryByTestId("section-matches")).not.toBeInTheDocument();
         });
     });
 
     describe("Loaded state", () => {
-        it("renders the filter name and description", () => {
-            setFilterMock({
-                filter: buildFilter({
-                    name: "Antike Vasen",
-                    enhancedSearchDescription: "KI-generierte Beschreibung",
-                }),
-            });
+        it("renders the matches section", () => {
             renderWithQueryClient(<SearchFilterDetail filterId="filter-1" />);
-            expect(screen.getByText("Antike Vasen")).toBeInTheDocument();
-            expect(screen.getByText("KI-generierte Beschreibung")).toBeInTheDocument();
+            expect(screen.getByTestId("section-matches")).toHaveTextContent("filter-1");
         });
 
-        it("renders a search-now link to /search with the filter's query", () => {
-            setFilterMock({ filter: buildFilter({ search: { q: "vase" } }) });
+        it("renders the filter's name and query in the configuration header", () => {
             renderWithQueryClient(<SearchFilterDetail filterId="filter-1" />);
-            const link = screen.getByRole("link", { name: "Jetzt suchen" });
-            expect(link).toHaveAttribute("href", "/search");
+            const header = screen.getByTestId("section-configuration");
+            expect(header).toHaveTextContent("Antike Vasen");
+            expect(header).toHaveTextContent("vase");
+        });
+
+        it("does not render the configuration header when the filter has not loaded yet", () => {
+            setFilterMock({ filter: null });
+            renderWithQueryClient(<SearchFilterDetail filterId="filter-1" />);
+            expect(screen.queryByTestId("section-configuration")).not.toBeInTheDocument();
         });
 
         it("opens the edit wizard when the edit button is clicked", async () => {
@@ -108,9 +107,25 @@ describe("SearchFilterDetail", () => {
             expect(screen.getByTestId("edit-wizard")).toBeInTheDocument();
         });
 
-        it("renders the matches section", () => {
+        it("opens the delete confirmation dialog when the delete button is clicked", async () => {
             renderWithQueryClient(<SearchFilterDetail filterId="filter-1" />);
-            expect(screen.getByTestId("search-filter-matches")).toHaveTextContent("filter-1");
+
+            await userEvent.click(screen.getByRole("button", { name: "Suchauftrag löschen" }));
+
+            expect(
+                screen.getByRole("heading", { name: 'Suchauftrag "Antike Vasen" löschen?' }),
+            ).toBeInTheDocument();
+        });
+
+        it("deletes the filter and navigates back to the list when confirmed", async () => {
+            mockDeleteMutate.mockImplementation((_id, { onSuccess }) => onSuccess());
+            renderWithQueryClient(<SearchFilterDetail filterId="filter-1" />);
+
+            await userEvent.click(screen.getByRole("button", { name: "Suchauftrag löschen" }));
+            await userEvent.click(screen.getByRole("button", { name: "Endgültig löschen" }));
+
+            expect(mockDeleteMutate).toHaveBeenCalledWith("filter-1", expect.anything());
+            expect(mockNavigate).toHaveBeenCalledWith({ to: "/me/search-filters" });
         });
     });
 });
