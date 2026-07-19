@@ -9,10 +9,16 @@ export function ConsentSettings() {
     const { preferences, updatePreferences } = useUserPreferences();
     const { t } = useTranslation();
 
-    const isEnabled = preferences.trackingConsent === true;
+    const isAnalyticsEnabled = preferences.trackingConsent === true;
+    const isExternalMapEnabled = preferences.externalMapConsent === true;
 
-    const handleToggle = (checked: boolean) => {
+    const handleAnalyticsToggle = (checked: boolean) => {
         updatePreferences({ trackingConsent: checked });
+        toast.success(t("consentSettings.saved"));
+    };
+
+    const handleExternalMapToggle = (checked: boolean) => {
+        updatePreferences({ externalMapConsent: checked });
         toast.success(t("consentSettings.saved"));
     };
 
@@ -40,9 +46,27 @@ export function ConsentSettings() {
                     </div>
                     <Switch
                         id="analytics-consent"
-                        checked={isEnabled}
-                        onCheckedChange={handleToggle}
+                        checked={isAnalyticsEnabled}
+                        onCheckedChange={handleAnalyticsToggle}
                         aria-label={t("consentSettings.analyticsLabel")}
+                        className="shrink-0 mt-0.5"
+                    />
+                </div>
+
+                <div className="flex items-start justify-between gap-4 rounded-xl border bg-background/60 p-5 shadow-sm backdrop-blur-sm">
+                    <div className="space-y-1">
+                        <p className="text-sm font-semibold text-foreground">
+                            {t("consentSettings.externalMapsLabel")}
+                        </p>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                            {t("consentSettings.externalMapsDescription")}
+                        </p>
+                    </div>
+                    <Switch
+                        id="external-map-consent"
+                        checked={isExternalMapEnabled}
+                        onCheckedChange={handleExternalMapToggle}
+                        aria-label={t("consentSettings.externalMapsLabel")}
                         className="shrink-0 mt-0.5"
                     />
                 </div>

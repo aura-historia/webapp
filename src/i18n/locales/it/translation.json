@@ -69,6 +69,9 @@
     },
     "partnerAccessTokens": {
       "title": "Token di accesso | Aura Historia"
+    },
+    "partnerShops": {
+      "title": "I miei negozi | Aura Historia"
     }
   },
   "validation": {
@@ -82,9 +85,6 @@
     },
     "password": {
       "required": "La password è obbligatoria",
-      "minLength": "La password deve contenere almeno {{min}} caratteri",
-      "uppercase": "La password deve contenere almeno una lettera maiuscola",
-      "number": "La password deve contenere almeno un numero",
       "mismatch": "Le password non coincidono"
     },
     "confirmCode": {
@@ -200,7 +200,6 @@
     "totalResults_other": "{{count}} articoli",
     "bar": {
       "label": "Cerca",
-      "placeholder": "Sto cercando...",
       "placeholderShort": "Cerca",
       "button": "Cerca",
       "placeholderExamplesProducts": [
@@ -248,7 +247,6 @@
         "shops": "Negozi"
       }
     },
-    "applyFilters": "Applica filtri",
     "validation": {
       "queryMinLength": "Inserisci almeno 3 caratteri",
       "dateOrder": "La data di inizio deve essere precedente alla data di fine"
@@ -260,7 +258,6 @@
       "productState": "Stato dell'inserzione",
       "merchant": "Commerciante",
       "merchants": "Commercianti",
-      "anyMerchant": "Qualsiasi commerciante",
       "searchMerchants": "Cerca commercianti...",
       "noMerchantsFound": "Nessun commerciante trovato",
       "excludeMerchant": "Escludi commerciante",
@@ -288,16 +285,11 @@
         "creationDate": "Reimposta filtro data di creazione",
         "updateDate": "Reimposta filtro data di aggiornamento",
         "auctionDate": "Reimposta filtro data dell'asta",
-        "merchant": "Reimposta filtro commerciante",
-        "excludeMerchant": "Reimposta filtro escludi commerciante",
         "merchants": "Reimposta filtri commercianti",
         "sellers": "Reimposta filtri venditori",
         "shopType": "Reimposta filtro tipo di negozio",
-        "partnerStatus": "Reimposta filtro stato di partnership",
-        "global": "Reimposta tutto",
-        "category": "Reimposta filtro categoria"
+        "partnerStatus": "Reimposta filtro stato di partnership"
       },
-      "selected": "{{count}} selezionati",
       "partnerStatus": "Stato di partnership",
       "requireSelection": "È richiesta almeno 1 selezione"
     },
@@ -407,7 +399,6 @@
     },
     "unseenNotification": "Aggiornato",
     "auction": {
-      "title": "Periodo d'asta",
       "start": "da {{date}}",
       "end": "fino a {{date}}",
       "range": "{{start}} – {{end}}"
@@ -441,8 +432,7 @@
     "auctionHouse": "Casa d'aste",
     "auctionPlatform": "Piattaforma d'asta",
     "commercialDealer": "Commerciante",
-    "marketplace": "Marketplace",
-    "unknown": "Sconosciuto"
+    "marketplace": "Marketplace"
   },
   "shopPartnerStatus": {
     "partnered": "Partner ufficiale",
@@ -624,7 +614,6 @@
       "lastNamePlaceholder": "Il tuo cognome",
       "emailLabel": "Indirizzo email",
       "emailRequired": "Inserisci un indirizzo email valido.",
-      "errorMessage": "Qualcosa è andato storto. Riprova più tardi.",
       "eyebrow": "Newsletter",
       "successEmailSent": "Un'email di conferma è stata inviata a {{email}}.",
       "successTiming": "Potrebbe volerci qualche minuto prima che l'email arrivi."
@@ -720,8 +709,7 @@
       "billingNoteMonthly": "al mese, IVA inclusa",
       "billingNoteYearly": "al mese, fatturato annualmente, IVA inclusa",
       "getStartedFree": "Inizia gratis",
-      "subscribe": "Abbonati",
-      "perMonth": "/mese"
+      "subscribe": "Abbonati"
     }
   },
   "partnerProgram": {
@@ -969,24 +957,7 @@
       "endpoints": {
         "title": "Riferimento API prodotti partner",
         "subtitle": "Il riferimento OpenAPI integrato si concentra sugli endpoint batch necessari per un’integrazione personalizzata.",
-        "generatedReferenceTitle": "I tre endpoint per sincronizzare i prodotti",
-        "generatedReferenceDescription": "Questo riferimento interattivo è generato dalla nostra specifica OpenAPI e mostra in un unico punto gli endpoint batch di creazione, aggiornamento e upsert.",
-        "externalDocsCta": "Apri endpoint separatamente",
-        "embedTitle": "Riferimento API prodotti partner",
-        "items": {
-          "create": {
-            "title": "Batch create products (Partner API)",
-            "description": "Crea prodotti per il tuo shop. Ideale per l’import iniziale o per batch che contengono solo prodotti nuovi."
-          },
-          "update": {
-            "title": "Batch update products (Partner API)",
-            "description": "Aggiorna prodotti esistenti quando cambiano titoli, prezzi, immagini, disponibilità o link."
-          },
-          "upsert": {
-            "title": "Batch upsert products (Partner API)",
-            "description": "Crea o aggiorna prodotti in un unico batch quando la sincronizzazione può includere record nuovi ed esistenti."
-          }
-        }
+        "embedTitle": "Riferimento API prodotti partner"
       }
     }
   },
@@ -1067,22 +1038,6 @@
   },
   "auth": {
     "subtitle": "Oltre 120.000 oggetti d'antiquariato da 500 commercianti. Confronta, salva e monitora i prezzi su Aura Historia.",
-    "welcome": "Benvenuto",
-    "welcomeWithName": "Benvenuto, {{name}}!",
-    "welcomeBack": "Bentornato",
-    "welcomeBackWithName": "Bentornato, {{name}}!",
-    "completingRegistration": "La registrazione è in fase di completamento, attendi un momento!",
-    "completingLogin": "L'accesso è in fase di completamento, attendi un momento!",
-    "retry": "Riprova",
-    "backToLogin": "Torna al login",
-    "backToHomepage": "Torna alla homepage",
-    "errorTitle": "Dati utente non salvati",
-    "timeout": {
-      "title": "Registrazione completata!",
-      "message": "La tua registrazione è stata completata con successo! I dati personali non sono stati salvati a causa dell'elevato traffico utenti.",
-      "hint": "Puoi aggiungere queste informazioni in qualsiasi momento nelle impostazioni del tuo account.",
-      "noteLabel": "Nota:"
-    },
     "signUp": {
       "firstName": "Nome",
       "firstNamePlaceholder": "Mario",
@@ -1148,7 +1103,6 @@
       "title": "Controlla la tua e-mail",
       "subtitle": "Abbiamo inviato un codice a 6 cifre a {{email}}",
       "codeLabel": "Codice di verifica",
-      "codePlaceholder": "000000",
       "submit": "Verifica e-mail",
       "noCode": "Non hai ricevuto il codice?",
       "resend": "Invia di nuovo il codice",
@@ -1254,20 +1208,26 @@
   },
   "consent": {
     "title": "Rispettiamo la tua privacy",
-    "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Cliccando su 'Accetta', acconsenti all'uso dei cookie per questi scopi. Puoi trovare maggiori informazioni nella nostra <1>informativa sulla privacy</1>.",
-    "accept": "Accetta",
-    "reject": "Rifiuta"
+    "description": "Utilizziamo servizi opzionali solo con il tuo consenso: analisi per migliorare Aura Historia e mappe esterne di Google Maps. Puoi scegliere ogni finalità separatamente. Scopri di più nella nostra <1>informativa sulla privacy</1>.",
+    "analyticsLabel": "Analisi e tracciamento",
+    "analyticsDescription": "Ci aiuta a capire come viene usata Aura Historia per migliorare la piattaforma.",
+    "externalMapsLabel": "Mappe esterne",
+    "externalMapsDescription": "Carica mappe incorporate da Google Maps. Dati come il tuo indirizzo IP possono essere trasmessi a Google.",
+    "acceptAll": "Accetta tutto",
+    "saveSelection": "Salva selezione",
+    "rejectAll": "Rifiuta tutto"
   },
   "consentSettings": {
     "title": "Impostazioni cookie",
     "description": "Utilizziamo i cookie per analizzare il traffico web e migliorare la tua esperienza utente. Puoi trovare maggiori informazioni nella nostra <1>informativa sulla privacy</1>.",
     "analyticsLabel": "Analisi & Tracciamento",
     "analyticsDescription": "Ci permette di analizzare l'utilizzo e migliorare la tua esperienza tramite Google Analytics. Include archiviazione annunci, archiviazione analytics, dati utente annunci e personalizzazione annunci.",
-    "saved": "Le tue preferenze sui cookie sono state salvate."
+    "saved": "Le tue preferenze sui cookie sono state salvate.",
+    "externalMapsLabel": "Mappe esterne",
+    "externalMapsDescription": "Consente il caricamento di mappe incorporate di Google Maps. Dati personali come indirizzo IP e informazioni del browser possono essere trasmessi a Google."
   },
   "shop": {
     "header": {
-      "archiveLabel": "Negozio",
       "overviewTitle": "Panoramica del negozio",
       "indexedItems": "Articoli indicizzati",
       "imageAlt": "Logo di {{shop}}",
@@ -1275,13 +1235,25 @@
       "addedOn": "Aggiunto il {{date}}",
       "metaDescription": "Esplora antiquariato e oggetti da collezione di {{shop}} su Aura Historia."
     },
+    "location": {
+      "eyebrow": "Posizione",
+      "title": "Dove trovare {{shopTypeArticle}}",
+      "description": "Indirizzo e informazioni di contatto di {{shop}}, quando disponibili pubblicamente.",
+      "noAddress": "Non abbiamo ancora un indirizzo per {{shopTypeArticle}}.",
+      "noLocation": "Non abbiamo ancora informazioni sulla posizione per {{shopTypeArticle}}.",
+      "mapTitle": "Mappa che mostra la posizione di {{shop}}",
+      "mapConsentTitle": "Carica la mappa dopo il consenso",
+      "mapConsentDescription": "Questa mappa è fornita da Google Maps. Caricandola, dati come il tuo indirizzo IP possono essere trasmessi a Google.",
+      "mapConsentButton": "Mostra mappa",
+      "mapConsentSettings": "Impostazioni cookie"
+    },
     "products": {
       "loadingMore": "Caricamento di altri articoli...",
-      "allLoaded_one": "Hai visualizzato {{count}} articolo di questo negozio.",
-      "allLoaded_other": "Hai visualizzato tutti i {{count}} articoli di questo negozio.",
+      "allLoaded_one": "Hai visto {{count}} articolo {{shopTypePossessive}}.",
+      "allLoaded_other": "Hai visto tutti i {{count}} articoli {{shopTypePossessive}}.",
       "noResults": {
         "title": "Nessun articolo trovato",
-        "description": "Al momento non ci sono articoli di questo negozio."
+        "description": "Al momento non ci sono articoli {{shopTypePossessive}}."
       },
       "error": {
         "title": "Impossibile caricare gli articoli",
@@ -1290,6 +1262,14 @@
     },
     "card": {
       "viewShop": "Vedi negozio"
+    },
+    "typeFallback": "venditore",
+    "typePossessiveFallback": "di questo venditore",
+    "typeArticleFallback": "questo venditore",
+    "contact": {
+      "eyebrow": "Contatto",
+      "email": "Email",
+      "phone": "Telefono"
     }
   },
   "notifications": {
@@ -1301,8 +1281,6 @@
       "priceChange": "Modifica del prezzo",
       "stateChange": "Cambio di stato",
       "newMatch": "Nuova corrispondenza",
-      "partnerApplicationApproved": "Domanda approvata",
-      "partnerApplicationRejected": "Domanda respinta",
       "partnerApplication": "Domanda di partnership",
       "partnerApplicationSubmitted": "Inviata",
       "partnerApplicationStatusApproved": "Approvata",
@@ -1392,6 +1370,7 @@
       },
       "fields": {
         "name": "Nome del negozio",
+        "shopId": "ID negozio",
         "shopType": "Tipo di negozio",
         "url": "URL principale del negozio",
         "shopifyDomain": "Dominio Shopify",
@@ -1411,16 +1390,12 @@
         "postalCode": "Codice postale",
         "country": "Paese",
         "countryHint": "Seleziona il paese associato all’indirizzo del negozio.",
-        "specialitiesHint": "Una chiave kebab-case per riga, es. ancient-egypt",
         "currencyPlaceholder": "Seleziona valuta",
         "currencyNone": "Nessuna valuta",
         "languagePlaceholder": "Seleziona lingua",
         "languageNone": "Nessuna lingua",
         "countryPlaceholder": "Seleziona paese",
-        "countryNone": "Nessun paese",
-        "specialitiesPlaceholder": "Seleziona voci",
-        "loadingOptions": "Caricamento opzioni…",
-        "allOptions": "Tutte"
+        "countryNone": "Nessun paese"
       },
       "create": {
         "title": "Crea negozio",
@@ -1433,8 +1408,7 @@
           "domainsRequired": "Inserisci almeno un dominio.",
           "urlInvalid": "Inserisci un URL valido del negozio.",
           "imageInvalid": "Inserisci un URL immagine valido.",
-          "emailInvalid": "Inserire un indirizzo e-mail valido.",
-          "countryInvalid": "Seleziona un paese valido."
+          "emailInvalid": "Inserire un indirizzo e-mail valido."
         }
       },
       "edit": {
@@ -1447,8 +1421,7 @@
         "shopify": "Shopify",
         "woocommerce": "WooCommerce",
         "contact": "Contatto",
-        "address": "Indirizzo postale",
-        "specialities": "Specializzazioni"
+        "address": "Indirizzo postale"
       }
     },
     "applications": {
@@ -1512,7 +1485,6 @@
         "shopSection": "Informazioni negozio",
         "shopId": "ID negozio",
         "applicantSection": "Utente richiedente",
-        "applicantUnavailable": "La risposta API attuale non espone un ID utente per questa candidatura.",
         "applicantLoadError": "Impossibile caricare l’utente richiedente.",
         "openApplicant": "Apri profilo utente"
       }
@@ -1529,7 +1501,6 @@
       "totalCount_one": "{{count}} utente",
       "totalCount_other": "{{count}} utenti",
       "updatedAt": "Aggiornato {{date}}",
-      "prohibitedContentAllowed": "Consenso § 86a",
       "filters": {
         "allTiers": "Tutti i piani",
         "allRoles": "Tutti i ruoli"
@@ -1575,7 +1546,6 @@
       "empty": "Nessun client OAuth registrato al momento.",
       "clientId": "ID client",
       "clientSecret": "Segreto client",
-      "clientName": "Nome client",
       "redirectUris": "URI di reindirizzamento",
       "scope": "Ambiti",
       "logoAlt": "Logo di {{client}}",
@@ -1641,7 +1611,6 @@
       "queryLabel_other": "Query di ricerca",
       "aiDescriptionLabel": "Descrizione AI (opzionale)",
       "aiDescriptionPlaceholder": "Dipinto a olio della Vergine Maria su tela, non su legno, cornice barocca con foglia d'oro su base di gesso. Il motivo dovrebbe essere Mater Dolorosa. Deve essere inclusa la firma dell'artista. Il dipinto non deve presentare danni visibili e la cornice deve essere completamente integra. Se il dipinto è del barocco spagnolo, deve avere dimensioni di almeno 40x60 cm. Questo non si applica al barocco italiano.",
-      "aiDescriptionUltimateOnly": "Disponibile solo per abbonati Ultimate",
       "ultimateOnly": "Disponibile solo per abbonati Ultimate",
       "cancelButton": "Annulla",
       "saveButton": "Salva",
@@ -1663,14 +1632,11 @@
       "queryRequired": "Inserisci almeno un termine di ricerca.",
       "queryTermTooShort": "Ogni termine di ricerca deve contenere almeno 3 caratteri.",
       "noFiltersConfigured": "Nessun filtro configurato",
-      "upgradeBanner": "Questi filtri non sono disponibili nel tuo piano attuale. Effettua l'upgrade del tuo account per sbloccarli.",
       "step": {
         "name": "Nome",
         "nameDescription": "Dai un nome al tuo filtro di ricerca",
         "priceStatus": "Prezzo e stato",
         "priceStatusDescription": "Definisci il tuo intervallo di prezzi e seleziona lo stato dell'annuncio desiderato – ad esempio solo articoli disponibili o anche pezzi già venduti all'asta per la ricerca di mercato.",
-        "theme": "Tema",
-        "quality": "Qualità",
         "shop": "Negozio",
         "shopDescription": "Seleziona specificamente i tipi di fornitori – rinominate case d'aste, commercianti d'arte specializzati o mercati – e includi o escludi fornitori individuali.",
         "date": "Data",
@@ -1707,7 +1673,6 @@
     "moreActions": "Altre azioni",
     "stateInactiveByUser": "In pausa",
     "stateInactiveByPlan": "Bloccato",
-    "stateInactiveByPlanTooltip": "Questo filtro di ricerca è inattivo a causa del tuo piano di abbonamento.",
     "loadingError": {
       "title": "Errore di caricamento",
       "description": "I filtri di ricerca non possono essere caricati. Riprova più tardi."
@@ -1729,6 +1694,10 @@
     "matchesAndDetails": "Corrispondenze e dettagli",
     "matchesAndDetailsShort": "Dettagli",
     "matchingProductsInactive": "Il filtro di ricerca è inattivo – nessuna corrispondenza disponibile.",
+    "totalElements_one": "{{count}} filtro di ricerca",
+    "totalElements_other": "{{count}} filtri di ricerca",
+    "matchingProducts": "Mostra tutte le corrispondenze",
+    "matchingProductsShort": "Tutte le corrispondenze",
     "searchPlaceholder": "Cerca filtri di ricerca...",
     "showDetails": "Mostra dettagli",
     "noAdditionalCriteria": "Nessun criterio aggiuntivo configurato.",
@@ -1748,13 +1717,9 @@
       "upgradeButton": "Effettua l'upgrade ora"
     },
     "feedback": {
-      "relevant": "Rilevante",
-      "notRelevant": "Non rilevante",
-      "label": "Utile?",
       "relevantHint": "La corrispondenza è rilevante",
       "notRelevantHint": "La corrispondenza non è rilevante"
     },
-    "matchReason": "Motivo AI",
     "feedbackError": "Impossibile salvare il feedback."
   },
   "oauth": {
@@ -1791,11 +1756,9 @@
     },
     "scopes": {
       "products_write": {
-        "label": "Gestisci prodotti",
         "description": "Creare o aggiornare i tuoi annunci di prodotto."
       },
       "shops_manage": {
-        "label": "Gestisci negozi",
         "description": "Gestire le impostazioni del tuo negozio."
       }
     }
@@ -1805,6 +1768,7 @@
     "sidebarLabel": "Sezioni partner",
     "nav": {
       "applications": "Richieste",
+      "shops": "I miei negozi",
       "accessTokens": "Token di accesso"
     }
   },
@@ -1865,8 +1829,6 @@
     "empty": "Non hai ancora inviato alcuna richiesta di partnership.",
     "submittedAt": "Inviata il {{date}}",
     "updatedAt": "Aggiornata il {{date}}",
-    "existingShop": "Negozio esistente",
-    "openDetails": "Apri dettagli per {{title}}",
     "viewDetails": "Visualizza dettagli",
     "progress": {
       "handedIn": "Consegnata",
@@ -1895,8 +1857,6 @@
       "progressLabel": "Progresso della richiesta",
       "applicationSection": "Richiesta",
       "shopSection": "Informazioni sul negozio",
-      "applicationId": "ID Richiesta",
-      "applicantUserId": "ID Utente Richiedente",
       "createdAt": "Inviata",
       "updatedAt": "Aggiornata",
       "shopName": "Nome del negozio",
@@ -1912,19 +1872,13 @@
       "locality": "Città",
       "region": "Regione",
       "postalCode": "CAP",
-      "country": "Codice paese",
-      "shopId": "ID Negozio"
+      "country": "Codice paese"
     },
     "businessState": {
       "submitted": "Inviata",
       "inReview": "In revisione",
       "approved": "Approvata",
       "rejected": "Rifiutata"
-    },
-    "executionState": {
-      "processing": "In elaborazione",
-      "waiting": "In attesa di decisione",
-      "completed": "Completata"
     }
   },
   "compareBarnebysPage": {
@@ -2200,6 +2154,37 @@
     "scopes": {
       "shopsManage": "Gestisci negozi",
       "productsWrite": "Scrivi prodotti"
+    }
+  },
+  "shopTypePossessive": {
+    "auctionHouse": "di questa casa d’aste",
+    "auctionPlatform": "di questa piattaforma d’aste",
+    "commercialDealer": "di questo venditore",
+    "marketplace": "di questo marketplace"
+  },
+  "shopTypeArticle": {
+    "auctionHouse": "questa casa d’aste",
+    "auctionPlatform": "questa piattaforma d’aste",
+    "commercialDealer": "questo venditore",
+    "marketplace": "questo marketplace"
+  },
+  "partnerShops": {
+    "title": "I miei negozi",
+    "description": "Tutti i negozi collegati al tuo account partner.",
+    "actions": {
+      "retry": "Riprova",
+      "edit": "Modifica"
+    },
+    "loading": "Caricamento dei tuoi negozi in corso.",
+    "loadError": "Impossibile caricare i tuoi negozi.",
+    "empty": "Nessun negozio è ancora collegato al tuo account partner.",
+    "updatedAt": "Aggiornato il {{date}}",
+    "shopImageAlt": "Logo di {{shop}}",
+    "editAriaLabel": "Modifica {{shop}}",
+    "edit": {
+      "title": "Modifica negozio",
+      "description": "Modifica i dati di {{shop}}.",
+      "success": "Il negozio è stato aggiornato."
     }
   }
 }

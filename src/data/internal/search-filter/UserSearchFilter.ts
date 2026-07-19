@@ -2,8 +2,8 @@ import type {
     UserSearchFilterData,
     ProductSearchData,
     PostUserSearchFilterData,
-    PatchUserSearchFilterData,
     PatchProductSearchData,
+    PatchUserSearchFilterData,
 } from "@/client";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { parseProductState, mapToBackendState } from "@/data/internal/product/ProductState.ts";
