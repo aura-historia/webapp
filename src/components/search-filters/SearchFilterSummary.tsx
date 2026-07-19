@@ -61,7 +61,7 @@ export function SearchFilterSummary({
     productState,
     showName = true,
 }: Props) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const hasAnyFilter = hasActiveFilters(search);
 
@@ -175,7 +175,7 @@ export function SearchFilterSummary({
                         variant="text"
                         label={t("search.filter.auctionDate")}
                         values={[
-                            `${search.auctionDateFrom?.toLocaleDateString() ?? "?"} – ${search.auctionDateTo?.toLocaleDateString() ?? "?"}`,
+                            `${search.auctionDateFrom?.toLocaleDateString(i18n.language) ?? "?"} – ${search.auctionDateTo?.toLocaleDateString(i18n.language) ?? "?"}`,
                         ]}
                     />
                 )}
@@ -184,7 +184,7 @@ export function SearchFilterSummary({
                         variant="text"
                         label={t("search.filter.creationDate")}
                         values={[
-                            `${search.creationDateFrom?.toLocaleDateString() ?? "?"} – ${search.creationDateTo?.toLocaleDateString() ?? "?"}`,
+                            `${search.creationDateFrom?.toLocaleDateString(i18n.language) ?? "?"} – ${search.creationDateTo?.toLocaleDateString(i18n.language) ?? "?"}`,
                         ]}
                     />
                 )}
@@ -193,7 +193,7 @@ export function SearchFilterSummary({
                         variant="text"
                         label={t("search.filter.updateDate")}
                         values={[
-                            `${search.updateDateFrom?.toLocaleDateString() ?? "?"} – ${search.updateDateTo?.toLocaleDateString() ?? "?"}`,
+                            `${search.updateDateFrom?.toLocaleDateString(i18n.language) ?? "?"} – ${search.updateDateTo?.toLocaleDateString(i18n.language) ?? "?"}`,
                         ]}
                     />
                 )}

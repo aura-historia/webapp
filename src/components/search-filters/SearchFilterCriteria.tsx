@@ -56,7 +56,7 @@ export function SearchFilterCriteriaBadges({ search }: Props) {
  * Used inside the card's collapsible accordion and always-expanded on the detail page.
  */
 export function SearchFilterCriteriaDetails({ search }: Props) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     return (
         <div className="flex flex-col gap-3">
@@ -85,7 +85,7 @@ export function SearchFilterCriteriaDetails({ search }: Props) {
                     variant="text"
                     label={t("searchFilters.info.creationDate")}
                     values={[
-                        `${search.creationDateFrom?.toLocaleDateString() ?? "?"} – ${search.creationDateTo?.toLocaleDateString() ?? "?"}`,
+                        `${search.creationDateFrom?.toLocaleDateString(i18n.language) ?? "?"} – ${search.creationDateTo?.toLocaleDateString(i18n.language) ?? "?"}`,
                     ]}
                 />
             )}
@@ -94,7 +94,7 @@ export function SearchFilterCriteriaDetails({ search }: Props) {
                     variant="text"
                     label={t("searchFilters.info.updateDate")}
                     values={[
-                        `${search.updateDateFrom?.toLocaleDateString() ?? "?"} – ${search.updateDateTo?.toLocaleDateString() ?? "?"}`,
+                        `${search.updateDateFrom?.toLocaleDateString(i18n.language) ?? "?"} – ${search.updateDateTo?.toLocaleDateString(i18n.language) ?? "?"}`,
                     ]}
                 />
             )}
@@ -103,7 +103,7 @@ export function SearchFilterCriteriaDetails({ search }: Props) {
                     variant="text"
                     label={t("searchFilters.info.auctionDate")}
                     values={[
-                        `${search.auctionDateFrom?.toLocaleDateString() ?? "?"} – ${search.auctionDateTo?.toLocaleDateString() ?? "?"}`,
+                        `${search.auctionDateFrom?.toLocaleDateString(i18n.language) ?? "?"} – ${search.auctionDateTo?.toLocaleDateString(i18n.language) ?? "?"}`,
                     ]}
                 />
             )}

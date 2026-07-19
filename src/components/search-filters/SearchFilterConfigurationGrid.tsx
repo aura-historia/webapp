@@ -66,11 +66,12 @@ function BadgeListTile({ icon, label, values }: BadgeListTileProps) {
 }
 
 function useFormatDateRange() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     return (from?: Date, to?: Date) => {
-        if (from && to) return `${from.toLocaleDateString()} – ${to.toLocaleDateString()}`;
-        if (from) return `${t("search.filter.from")} ${from.toLocaleDateString()}`;
-        return `${t("search.filter.to")} ${to?.toLocaleDateString()}`;
+        if (from && to)
+            return `${from.toLocaleDateString(i18n.language)} – ${to.toLocaleDateString(i18n.language)}`;
+        if (from) return `${t("search.filter.from")} ${from.toLocaleDateString(i18n.language)}`;
+        return `${t("search.filter.to")} ${to?.toLocaleDateString(i18n.language)}`;
     };
 }
 
