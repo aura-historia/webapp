@@ -1405,13 +1405,10 @@
     "showDetails": "Details anzeigen",
     "noAdditionalCriteria": "Keine weiteren Kriterien konfiguriert.",
     "info": {
-      "creationDate": "Hinzugefügt",
-      "updateDate": "Aktualisiert",
-      "auctionDate": "Auktion"
+      "creationDate": "Hinzufügedatum",
+      "updateDate": "Aktualisierungsdatum",
+      "auctionDate": "Auktionsdatum"
     },
-    "query": "Suche",
-    "moreFilters": "weitere Filter",
-    "cardLabel": "Suchauftrag",
     "detail": {
       "eyebrow": "Suchauftrag",
       "configurationTitle": "Ihre Filterkriterien",
