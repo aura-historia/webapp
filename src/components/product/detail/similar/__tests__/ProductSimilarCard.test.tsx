@@ -182,20 +182,22 @@ describe("ProductSimilarCard", () => {
     });
 
     describe("search filter highlight", () => {
+        const mockProductMatchedUserData = {
+            watchlistData: { isWatching: false, isNotificationEnabled: false },
+            notificationData: { hasUnseenNotification: false },
+            restrictedContentData: { consentGiven: false },
+            searchFilterData: {
+                matched: true,
+                hidden: false,
+                userSearchFilterId: "filter-123",
+                userSearchFilterName: "Jugendstil Schmuck",
+                matchReason: "Passt zum Suchauftrag.",
+            },
+        } satisfies NonNullable<OverviewProduct["userData"]>;
+
         const mockProductMatched: OverviewProduct = {
             ...mockProduct,
-            userData: {
-                watchlistData: { isWatching: false, isNotificationEnabled: false },
-                notificationData: { hasUnseenNotification: false },
-                restrictedContentData: { consentGiven: false },
-                searchFilterData: {
-                    matched: true,
-                    hidden: false,
-                    userSearchFilterId: "filter-123",
-                    userSearchFilterName: "Jugendstil Schmuck",
-                    matchReason: "Passt zum Suchauftrag.",
-                },
-            },
+            userData: mockProductMatchedUserData,
         };
 
         it("should render border-tertiary when matched and not hidden", () => {
@@ -232,7 +234,7 @@ describe("ProductSimilarCard", () => {
             const productWithBoth: OverviewProduct = {
                 ...mockProductMatched,
                 userData: {
-                    ...mockProductMatched.userData!,
+                    ...mockProductMatchedUserData,
                     notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
                 },
             };
