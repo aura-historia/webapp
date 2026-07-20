@@ -1398,7 +1398,7 @@
     "matches": "Gefundene Produkte",
     "matchesCount_one": "{{count}} Produkt",
     "matchesCount_other": "{{count}} Produkte",
-    "matchesHint": "Hier werden Produkte angezeigt, die zu den Kriterien Ihres Suchauftrags passen.",
+    "matchesHint": "Hier werden Produkte angezeigt, die zuvor die Kriterien Ihres Suchauftrags erfüllt haben.",
     "matchesAndDetails": "Treffer & Details",
     "matchesAndDetailsShort": "Details",
     "searchPlaceholder": "Suchaufträge durchsuchen …",

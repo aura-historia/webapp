@@ -1690,7 +1690,7 @@
     "matches": "Produits Trouvés",
     "matchesCount_one": "{{count}} produit",
     "matchesCount_other": "{{count}} produits",
-    "matchesHint": "Les produits qui correspondent aux critères de votre filtre de recherche sont affichés ici.",
+    "matchesHint": "Les produits qui ont précédemment correspondu aux critères de votre filtre de recherche sont affichés ici.",
     "matchesAndDetails": "Correspondances et détails",
     "matchesAndDetailsShort": "Détails",
     "totalElements_one": "{{count}} filtre de recherche",

@@ -1398,7 +1398,7 @@
     "matches": "Found Products",
     "matchesCount_one": "{{count}} product",
     "matchesCount_other": "{{count}} products",
-    "matchesHint": "Products that match the criteria of your search filter are shown here.",
+    "matchesHint": "Products that previously matched the criteria of your search filter are shown here.",
     "matchesAndDetails": "Matches & Details",
     "matchesAndDetailsShort": "Details",
     "searchPlaceholder": "Search filters...",
