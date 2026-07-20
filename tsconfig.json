@@ -14,7 +14,8 @@
         ],
         "types": [
             "vite/client",
-            "vitest/globals"
+            "vitest/globals",
+            "@tanstack/start-client-core"
         ],
         /* Bundler mode */
         "moduleResolution": "bundler",
