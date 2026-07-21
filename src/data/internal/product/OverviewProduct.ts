@@ -18,6 +18,12 @@ import {
 } from "@/data/internal/product/ProductImageData.ts";
 import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import {
+    mapGeoAddress,
+    mapStructuredAddress,
+    type GeoAddress,
+    type StructuredAddress,
+} from "@/data/internal/shop/ShopDetail.ts";
+import {
     type AuctionWindow,
     mapToInternalAuctionWindow,
 } from "@/data/internal/product/AuctionWindow.ts";
@@ -48,6 +54,8 @@ export type OverviewProduct = {
     readonly userData?: UserProductData;
     readonly shopType?: ShopType;
     readonly auction?: AuctionWindow;
+    readonly structuredAddress?: StructuredAddress;
+    readonly geoAddress?: GeoAddress;
 };
 
 function mapProductDataToOverviewProduct(
@@ -66,6 +74,8 @@ function mapProductDataToOverviewProduct(
         sellerName: productData.sellerName,
         shopType: parseShopType(productData.shopType),
         auction: productData.auction ? mapToInternalAuctionWindow(productData.auction) : undefined,
+        structuredAddress: mapStructuredAddress(productData.structuredAddress),
+        geoAddress: mapGeoAddress(productData.geoAddress),
         title: productData.title.text,
         price: productData.price?.offer ? formatPrice(productData.price.offer, locale) : undefined,
         priceEstimate: parsePriceEstimate(
