@@ -18,6 +18,10 @@ vi.mock("@/components/product/detail/ProductHistory.tsx", () => ({
     ProductHistory: () => <div data-testid="product-history">ProductHistory</div>,
 }));
 
+vi.mock("@/components/product/detail/ProductLocationSection.tsx", () => ({
+    ProductLocationSection: () => <div data-testid="product-location">ProductLocationSection</div>,
+}));
+
 vi.mock("@/components/product/detail/similar/ProductSimilar.tsx", () => ({
     ProductSimilar: () => <div data-testid="product-similar">ProductSimilar</div>,
 }));
@@ -47,6 +51,11 @@ describe("ProductDetailPage", () => {
         renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
         expect(screen.getByTestId("product-info")).toBeInTheDocument();
         expect(screen.getByText("ProductInfo: Test Product")).toBeInTheDocument();
+    });
+
+    it("should render ProductLocationSection component", () => {
+        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
+        expect(screen.getByTestId("product-location")).toBeInTheDocument();
     });
 
     it("should render ProductPriceChart component", () => {
