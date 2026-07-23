@@ -97,11 +97,67 @@ describe("Header Component", () => {
             expect(screen.getByText("Mein Account")).toBeInTheDocument();
             expect(screen.getByText("Account bearbeiten")).toBeInTheDocument();
             expect(screen.getByText("Ausloggen")).toBeInTheDocument();
+            expect(screen.queryByRole("menuitem", { name: "Merkliste" })).not.toBeInTheDocument();
+            expect(
+                screen.queryByRole("menuitem", { name: "Partner-Dashboard" }),
+            ).not.toBeInTheDocument();
+        });
+
+        it("should put collapsed navigation links behind a hamburger menu", async () => {
+            const user = userEvent.setup();
+            const menuTrigger = screen.getByRole("button", { name: "Kontonavigation" });
+
+            expect(menuTrigger.querySelector("svg.lucide-menu")).toBeInTheDocument();
+            expect(menuTrigger).toHaveClass("min-[1024px]:max-[1799px]:inline-flex");
+            expect(menuTrigger).not.toHaveClass("lg:inline-flex");
+            await user.click(menuTrigger);
+
+            expect(screen.getByRole("menuitem", { name: "Merkliste" })).toHaveAttribute(
+                "href",
+                "/me/watchlist",
+            );
+            expect(screen.getByRole("menuitem", { name: "Suchaufträge" })).toHaveAttribute(
+                "href",
+                "/me/search-filters",
+            );
+            expect(screen.getByRole("menuitem", { name: "Partner-Dashboard" })).toHaveAttribute(
+                "href",
+                "/partners/applications",
+            );
         });
 
         it("should not show auth buttons", () => {
             expect(screen.queryByText("Registrieren")).not.toBeInTheDocument();
             expect(screen.queryByText("Einloggen")).not.toBeInTheDocument();
+        });
+
+        it("should show a partner dashboard link", () => {
+            expect(screen.getByRole("link", { name: "Partner-Dashboard" })).toHaveAttribute(
+                "href",
+                "/partners/applications",
+            );
+        });
+
+        it("should reserve text decoration for the active navigation item", () => {
+            const watchlistLink = screen.getByRole("link", { name: "Merkliste" });
+            expect(watchlistLink).toHaveClass("rounded-none");
+            expect(watchlistLink).not.toHaveClass("border-b-2");
+            expect(watchlistLink).not.toHaveClass("bg-accent");
+        });
+
+        it("should render the account trigger without a focus ring", () => {
+            const accountTrigger = screen.getByText("MM").closest("button");
+
+            expect(accountTrigger).toHaveClass("focus-visible:ring-0");
+            expect(accountTrigger).not.toHaveClass("border-b-2", "underline");
+        });
+
+        it("should keep the account trigger inside the desktop navigation panel", () => {
+            const accountTrigger = screen.getByText("MM").closest("button");
+            const desktopNavigationPanel = accountTrigger?.parentElement;
+
+            expect(desktopNavigationPanel).toHaveClass("w-max", "shrink-0");
+            expect(desktopNavigationPanel).not.toHaveClass("min-w-0");
         });
 
         it("should not show an admin link for non-admin users", () => {
@@ -225,7 +281,10 @@ describe("Header Component", () => {
             });
             const header = screen.getByRole("banner");
 
-            expect(header).toHaveClass("grid", "lg:grid-cols-3");
+            expect(header).toHaveClass(
+                "grid",
+                "lg:grid-cols-[minmax(0,1fr)_minmax(12rem,36rem)_minmax(0,1fr)]",
+            );
 
             const desktopSearchDiv = header.querySelector("div.hidden.lg\\:block");
             expect(desktopSearchDiv).toBeInTheDocument();
@@ -276,12 +335,16 @@ describe("Header Component", () => {
     });
 
     describe("Layout structure", () => {
-        it("should have three-column grid layout", async () => {
+        it("should use equal outer columns to keep the search centered", async () => {
             await act(() => {
                 renderWithRouter(<Header />);
             });
             const header = screen.getByRole("banner");
-            expect(header).toHaveClass("grid", "lg:grid-cols-3");
+            expect(header).toHaveClass(
+                "grid",
+                "lg:grid-cols-[minmax(0,1fr)_minmax(12rem,36rem)_minmax(0,1fr)]",
+                "2xl:grid-cols-[minmax(0,1fr)_minmax(12rem,42rem)_minmax(0,1fr)]",
+            );
         });
 
         it("should be sticky at the top", async () => {
@@ -516,6 +579,7 @@ describe("Header Component", () => {
             if (menuButton) await user.click(menuButton);
 
             expect(screen.getAllByText("Merkliste").length).toBeGreaterThan(0);
+            expect(screen.getAllByText("Partner-Dashboard").length).toBeGreaterThan(0);
             expect(screen.getAllByText("Account bearbeiten").length).toBeGreaterThan(0);
         });
 

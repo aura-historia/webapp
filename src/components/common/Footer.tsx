@@ -121,7 +121,7 @@ export function Footer() {
                         </h3>
                         <ul className="mt-4 space-y-2">
                             {PARTNER_PROGRAM_FOOTER_LINKS.map((partnerLink) => (
-                                <li key={partnerLink.href}>
+                                <li key={partnerLink.translationKey}>
                                     <Link
                                         to={partnerLink.href}
                                         target={partnerLink.external ? "_blank" : undefined}

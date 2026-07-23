@@ -110,7 +110,9 @@
     "hello": "Hola",
     "register": "Registrarse",
     "login": "Iniciar sesión",
-    "searchFilters": "Filtros de Búsqueda"
+    "searchFilters": "Filtros de Búsqueda",
+    "partnerDashboard": "Panel de socios",
+    "accountNavigation": "Navegación de la cuenta"
   },
   "footer": {
     "brandName": "Aura Historia",
@@ -877,7 +879,7 @@
         "eyebrow": "Programa de partners · Integración API propia",
         "title": "Conecta tu tienda con nuestra API",
         "subtitle": "Usa la API de partners si tu tienda funciona con un sistema propio o si quieres controlar por completo la sincronización. Envía lotes de productos a Aura Historia, los procesamos en segundo plano y los productos aparecen poco después en tu página de tienda.",
-        "primaryCta": "Solicitar una API key",
+        "primaryCta": "Gestionar tokens de acceso",
         "secondaryCta": "Abrir documentación API"
       },
       "concept": {
@@ -905,12 +907,12 @@
         "subtitle": "Estos tres elementos bastan para enviar un primer lote de productos fácil de revisar.",
         "items": {
           "apiKey": {
-            "title": "Acceso partner y API key",
-            "description": "Solicita acceso a nuestro equipo de partners. Tras la aprobación, recibirás una API key limitada a tu tienda."
+            "title": "Un token de acceso de usuario",
+            "description": "Cuando se apruebe tu tienda partner, crea el token en el panel de partners. Concede el permiso «Escribir productos» para la sincronización."
           },
           "shopId": {
             "title": "Tu ID de tienda en Aura Historia",
-            "description": "Usa el ID de tienda recibido durante el onboarding en cada solicitud por lote para asignar los productos a la tienda correcta."
+            "description": "Usa el ID de tu tienda aprobada en cada solicitud por lote para asignar los productos a la tienda correcta."
           },
           "productBatch": {
             "title": "Un lote pequeño de productos",
@@ -919,48 +921,47 @@
         }
       },
       "guide": {
-        "title": "De la API key a la primera sincronización",
+        "title": "Del token de acceso a la primera sincronización",
         "subtitle": "Un flujo práctico para conectar un sistema de tienda propio con Aura Historia.",
         "stepLabel": "Paso {{number}}",
         "endpointLabel": "Endpoint relevante",
         "focusLabel": "Qué revisar",
         "steps": {
+          "selectShop": {
+            "title": "Seleccionar una tienda asociada aprobada",
+            "description": "Su cuenta necesita al menos una tienda asociada aprobada para usar la integración API. Seleccione la tienda cuyos productos desea sincronizar.",
+            "focus": "Necesitará el ID de la tienda seleccionada para las solicitudes de productos de los pasos siguientes.",
+            "signInCta": "Iniciar sesión y comprobar tiendas",
+            "loadError": "No se pudieron cargar sus tiendas asociadas aprobadas.",
+            "retryCta": "Intentar de nuevo",
+            "empty": "Esta cuenta aún no tiene una tienda asociada aprobada. Envíe primero una solicitud de socio; podrá continuar con la integración después de su aprobación.",
+            "applyCta": "Solicitar una tienda asociada",
+            "selectionLabel": "Tienda asociada para esta integración",
+            "pendingLabel": "Solicitudes de socio pendientes",
+            "pendingHint": "Podrá continuar con la integración cuando se apruebe una de estas solicitudes de socio."
+          },
           "requestKey": {
-            "title": "Solicita acceso para tu tienda partner",
-            "description": "Empieza con el onboarding de partners. Cuando tu tienda esté aprobada, recibirás la API key y el ID de tienda necesarios para las solicitudes por lote.",
-            "focus": "Guarda la API key, el ID de tienda y el contacto de onboarding en un lugar al que tu equipo de integración pueda acceder de forma segura.",
-            "visualTitle": "Activación y credenciales",
-            "visualCaption": "API key e ID de tienda"
+            "title": "Crea un token de acceso de usuario",
+            "description": "Inicia sesión con la cuenta asociada a tu tienda partner aprobada y crea un token de acceso de usuario. El formulario ya selecciona el permiso necesario para sincronizar productos.",
+            "focus": "Copia el token inmediatamente: solo se muestra una vez. Guárdalo de forma segura y envíalo como token Bearer en cada solicitud a la API.",
+            "cta": "Crear token de acceso de usuario",
+            "defaultTokenName": "Sincronización de productos por API propia",
+            "visualTitle": "Crear y guardar credenciales",
+            "visualCaption": "Token de acceso e ID de tienda"
           },
           "preparePayload": {
-            "title": "Prepara tu primer payload de productos",
-            "description": "Crea un lote pequeño con los campos de producto obligatorios. Revisa IDs, títulos, precios, imágenes, disponibilidad y enlaces a tus páginas de producto.",
-            "focus": "Empieza solo con unos pocos productos. La validación será más clara y la primera importación más fácil de depurar.",
+            "title": "Prepara y envía tu primera solicitud de productos",
+            "description": "La URL de la solicitud ya contiene el ID de la tienda seleccionada en el paso 1. Sustituye YOUR_USER_ACCESS_TOKEN por el token creado en el paso 2 y envía un lote pequeño con POST.",
+            "focus": "El token autoriza la solicitud y el ID de tienda predefinido asigna los productos a la tienda correcta. Una respuesta 202 significa que el procesamiento en segundo plano ha comenzado.",
             "visualTitle": "Preparar payload JSON",
             "visualCaption": "Estructura del lote y campos obligatorios"
-          },
-          "sendBatch": {
-            "title": "Envía el primer lote",
-            "description": "Envía el lote con POST al endpoint de partners. Cuando la solicitud se acepta, empieza el procesamiento en segundo plano.",
-            "focus": "Una respuesta de aceptación correcta no significa que los productos sean visibles de inmediato. Deja unos minutos para el procesamiento.",
-            "visualTitle": "Enviar lote de productos",
-            "visualCaption": "Solicitud y respuesta 202"
-          },
-          "keepInSync": {
-            "title": "Mantén tu catálogo actualizado",
-            "description": "Cuando la primera importación funcione, usa PATCH para cambios concretos o PUT cuando tu sincronización envíe registros completos que deban crearse o actualizarse.",
-            "focus": "Usa PATCH para cambios conocidos y PUT para upserts cuando el lote pueda contener productos nuevos y existentes.",
-            "visualTitle": "Actualizar la sincronización",
-            "visualCaption": "Acciones de update y upsert"
           },
           "verifyShop": {
             "title": "Abre tu página de tienda y verifica el resultado",
             "description": "Después del procesamiento, abre tu página de tienda en Aura Historia. Tus primeros productos sincronizados deberían aparecer allí tras una breve espera.",
-            "focus": "Usa el slug de tu tienda para ir directamente a la página pública y comprobar que los productos importados se ven correctamente.",
-            "inputLabel": "Slug de tu tienda",
-            "inputPlaceholder": "p. ej. mi-galeria-antigua",
-            "inputHint": "Introduce el slug de la URL de tu tienda en Aura Historia. El botón abre directamente la página pública de la tienda.",
+            "focus": "El enlace abre directamente la tienda seleccionada en el paso 1 para comprobar los productos importados.",
             "cta": "Abrir mi página de tienda",
+            "selectionRequired": "Selecciona primero una tienda asociada",
             "visualTitle": "Verificar página de tienda",
             "visualCaption": "Grid de productos y cabecera de tienda"
           }

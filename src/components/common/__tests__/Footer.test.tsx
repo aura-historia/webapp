@@ -146,7 +146,7 @@ describe("Footer Component", () => {
         );
         expect(screen.getByText("Jetzt bewerben").closest("a")).toHaveAttribute(
             "href",
-            "/partner-program/apply",
+            "/partners/applications",
         );
     });
 
