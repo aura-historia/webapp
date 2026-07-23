@@ -34,6 +34,7 @@ Use effects for browser-only behavior such as scroll listeners, analytics page v
 - Gate analytics/tracking initialization behind consent and run it in effects, not render.
 - Use `useId` for React-stable IDs instead of custom random IDs.
 - When displaying dates/prices/currency/language-sensitive values, use the same locale/currency/timezone inputs on server and client.
+- Use existing hooks to interact with Hydration sensitive data (`useUserPreferences`, `useTranslation`, etc.)
 
 ## Hydration review checklist
 
@@ -43,4 +44,5 @@ Before finishing work that touches routes, layout, i18n, preferences, auth, time
 - Will the browser's first render produce identical text, attributes, and element structure?
 - Are locale, currency, timezone, consent, and auth initialized from server-compatible data?
 - Are user-specific responses protected from public/shared caching?
+- Are server context providers and parsers checked after adjusting user preferences?
 - Did you run `pnpm build` if the change is SSR/routing-sensitive?

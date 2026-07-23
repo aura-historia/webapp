@@ -23,6 +23,8 @@ This doc owns route files under `src/routes/**`. UI-heavy implementations should
 - Catch non-critical landing/discovery prefetch failures when the page can still render gracefully.
 - Avoid browser globals in route loaders and server-rendered route components.
 - Route-level user-facing strings must be translated in every supported locale.
+- Do not place any test files under this directory - this will result in errors
+- Keep route metadata in sync with content
 
 ## Verification
 

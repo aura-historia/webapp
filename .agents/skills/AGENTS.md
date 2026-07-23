@@ -2,7 +2,7 @@
 
 ## Purpose
 
-`.agents/skills/` contains project-local Zed agent skills for reusable Aura Historia workflows.
+`.agents/skills/` contains project-local agent skills for reusable Aura Historia workflows.
 
 ## Ownership
 

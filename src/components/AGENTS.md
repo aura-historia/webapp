@@ -15,6 +15,8 @@ This doc owns component work under `src/components/**`, including `ui`, `typogra
 - Read `../../docs/privacy-policy-alignment.md` before components that collect, show, mutate, or track user data.
 - Keep all user-facing strings in i18n dictionaries unless a local pattern proves the text is static/non-user-facing.
 - Maintain accessibility: semantic elements, keyboard paths, focus states, ARIA labels for icon-only actions, and informative alt text.
+- Many of the components are currently in the process of being migrated to the feature slice directories - Do not migrate them unless specifically asked
+- Do not add any new self-contained features here that could fit better into their own feature directory
 
 ## Work Guidance
 

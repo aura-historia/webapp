@@ -32,7 +32,7 @@ src/features/<feature-name>/
 
 ## Data fetching and SSR
 
-- Prefer TanStack Router loaders for SSR-friendly prefetch when route-level data is needed before render.
+- Prefer TanStack Router loaders for SSR-friendly prefetch when route-level data is needed before render or directly route-dependent.
 - Use TanStack Query for cache, mutation, and client interaction patterns.
 - Respect authenticated vs unauthenticated cache behavior. Do not cache personalized data as shared public data.
 - Parse language via existing language utilities and currency/preferences via existing preference helpers.
@@ -54,6 +54,14 @@ src/features/<feature-name>/
 - Use effects only for external synchronization: browser APIs, subscriptions, analytics, third-party widgets, or imperative integrations.
 - Use the `react-useeffect` or `writing-react-effects` skills when touching non-trivial effects.
 
+## Pre-rendering
+
+Exclude any routes that are only accessible through authentication or contain highly personalized content from pre-rendering and indexing.
+
+- Pre-rendering is enabled by default, only apply it to routes where it makes sense
+- Use `noindex: true` in route metadata
+- Edit `vite.config.ts` to add excluded pre-rendering routes
+
 ## Validation
 
 Start with the narrowest relevant checks, then broaden when useful:
@@ -62,3 +70,4 @@ Start with the narrowest relevant checks, then broaden when useful:
 - Lint/check changed code: `pnpm lint` or `pnpm check` when appropriate.
 - Build after routing/SSR/i18n changes: `pnpm build`.
 - Ignore E2E tests for now unless the user explicitly asks for them.
+

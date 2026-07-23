@@ -35,6 +35,7 @@ Use the token system in `src/styles.css`:
 - Avoid layout shifts from late-loading client-only values. Prefer SSR-safe loader/context data when possible.
 - Ensure focus states, keyboard paths, aria labels, and semantic elements are preserved.
 - Prefer clear empty/loading/error states over blank areas.
+- Use component-matching skeletons for loading states
 
 ## Motion and imagery
 
