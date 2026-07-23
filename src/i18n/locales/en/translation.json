@@ -333,6 +333,18 @@
     "toMerchant": "Go to merchant",
     "soldOn": "on",
     "noImage": "No image available",
+    "location": {
+      "eyebrow": "Location",
+      "title": "Where this item is located",
+      "description": "Address where this item is located, where publicly available.",
+      "noAddress": "We do not yet have an address for this item.",
+      "noLocation": "We do not yet have location information for this item.",
+      "mapTitle": "Map showing the location of {{title}}",
+      "mapConsentTitle": "Load map after consent",
+      "mapConsentDescription": "This map is provided by Google Maps. Loading it may transfer data such as your IP address to Google.",
+      "mapConsentButton": "Show map",
+      "mapConsentSettings": "Cookie settings"
+    },
     "watchlist": {
       "add": "Add to watchlist",
       "remove": "Remove from watchlist"

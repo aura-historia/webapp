@@ -333,6 +333,18 @@
     "toMerchant": "Zur Seite des Händlers",
     "soldOn": "auf",
     "noImage": "Kein Bild verfügbar",
+    "location": {
+      "eyebrow": "Standort",
+      "title": "Wo sich dieser Artikel befindet",
+      "description": "Adresse, an der sich dieser Artikel befindet, soweit öffentlich verfügbar.",
+      "noAddress": "Wir haben noch keine Adresse für diesen Artikel.",
+      "noLocation": "Wir haben noch keine Standortinformationen für diesen Artikel.",
+      "mapTitle": "Karte mit dem Standort von {{title}}",
+      "mapConsentTitle": "Karte erst nach Zustimmung laden",
+      "mapConsentDescription": "Die Karte wird von Google Maps bereitgestellt. Beim Laden können Daten wie Ihre IP-Adresse an Google übermittelt werden.",
+      "mapConsentButton": "Karte anzeigen",
+      "mapConsentSettings": "Cookie-Einstellungen"
+    },
     "watchlist": {
       "add": "Zur Merkliste hinzufügen",
       "remove": "Von der Merkliste entfernen"

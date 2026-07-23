@@ -103,7 +103,7 @@
         "zod": "^4.3.6"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.5.3",
+        "@biomejs/biome": "2.5.4",
         "@hey-api/openapi-ts": "0.99.0",
         "@playwright/test": "^1.61.1",
         "@tanstack/devtools-vite": "^0.8.1",
@@ -118,9 +118,9 @@
         "@vitest/coverage-v8": "4.1.10",
         "husky": "^9.1.7",
         "jsdom": "^29.1.1",
-        "lint-staged": "^17.0.8",
+        "lint-staged": "^17.1.0",
         "typescript": "^6.0.3",
-        "vite": "^8.1.4",
+        "vite": "^8.1.5",
         "vitest": "^4.1.10",
         "web-vitals": "^5.2.0",
         "wrangler": "^4.111.0"
