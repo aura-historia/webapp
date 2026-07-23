@@ -152,6 +152,14 @@ describe("Header Component", () => {
             expect(accountTrigger).not.toHaveClass("border-b-2", "underline");
         });
 
+        it("should keep the account trigger inside the desktop navigation panel", () => {
+            const accountTrigger = screen.getByText("MM").closest("button");
+            const desktopNavigationPanel = accountTrigger?.parentElement;
+
+            expect(desktopNavigationPanel).toHaveClass("w-max", "shrink-0");
+            expect(desktopNavigationPanel).not.toHaveClass("min-w-0");
+        });
+
         it("should not show an admin link for non-admin users", () => {
             expect(screen.queryByRole("link", { name: "Admin" })).not.toBeInTheDocument();
         });

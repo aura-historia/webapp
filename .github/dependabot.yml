@@ -23,6 +23,11 @@ updates:
     open-pull-requests-limit: 5
     # Group related updates together to reduce PR count
     groups:
+      # Wrangler and the Vite plugin must stay compatible
+      cloudflare-tooling:
+        patterns:
+          - "@cloudflare/vite-plugin"
+          - "wrangler"
       # Group all production dependencies (minor and patch only)
       production-minor-patch:
         dependency-type: "production"

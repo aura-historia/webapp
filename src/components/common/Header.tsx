@@ -90,7 +90,7 @@ export function Header() {
             return (
                 <div
                     className={cn(
-                        "flex min-w-0 items-center transition-all duration-300",
+                        "flex w-max shrink-0 items-center transition-all duration-300",
                         isFloating ? "bg-background rounded-xs px-4 py-2 hero-search-shadow" : "",
                     )}
                 >
