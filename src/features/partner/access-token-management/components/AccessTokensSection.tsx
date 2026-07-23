@@ -21,7 +21,7 @@ import {
     useDeleteAccessToken,
     useDeleteAllAccessTokens,
 } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
-import { AccessTokenCreateDialog } from "@/features/partner/access-token-management/components/AccessTokenCreateDialog.tsx";
+import { AccessTokenCreateDialog } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
 import { AccessTokenEditDialog } from "@/features/partner/access-token-management/components/AccessTokenEditDialog.tsx";
 import type { AccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
 import { formatDateTime } from "@/lib/utils.ts";

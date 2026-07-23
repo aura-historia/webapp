@@ -45,6 +45,55 @@ describe("OverviewProduct mappers", () => {
             expect(result.images[0].url?.href).toEqual("https://example.com/image1.jpg");
             expect(result.created.getTime()).toBe(new Date("2023-01-01T00:00:00Z").getTime());
             expect(result.updated.getTime()).toBe(new Date("2023-01-02T00:00:00Z").getTime());
+            expect(result.structuredAddress).toBeUndefined();
+            expect(result.geoAddress).toBeUndefined();
+        });
+
+        it("should map structured address and geo coordinates when present", () => {
+            const apiData: PersonalizedGetProductData = {
+                item: {
+                    productId: "item-123",
+                    eventId: "event-456",
+                    shopId: "shop-789",
+                    shopsProductId: "shop-item-101",
+                    productSlugId: "test-product-slug",
+                    shopSlugId: "test-shop-slug",
+                    sellerName: "",
+                    shopName: "Antique Shop",
+                    shopType: "AUCTION_HOUSE",
+                    structuredAddress: {
+                        addressline: "8 King St",
+                        locality: "London",
+                        postalCode: "SW1Y 6QT",
+                        country: "GB",
+                    },
+                    geoAddress: { lat: 51.5074, lon: -0.1278 },
+                    title: { text: "Vintage Vase", language: "de" },
+                    price: { offer: { amount: 1099, currency: "USD" } },
+                    state: "AVAILABLE",
+                    lifecycle: "ACTIVE",
+                    url: "https://example.com/item",
+                    viewUrl: "https://example.com/item",
+                    images: [],
+                    createdBy: "SYSTEM",
+                    updatedBy: "SYSTEM",
+                    created: "2023-01-01T00:00:00Z",
+                    updated: "2023-01-02T00:00:00Z",
+                },
+            };
+
+            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData, "en");
+
+            expect(result.structuredAddress).toEqual({
+                addressline: "8 King St",
+                addresslineExtra: undefined,
+                locality: "London",
+                region: undefined,
+                postalCode: "SW1Y 6QT",
+                country: "GB",
+                continent: undefined,
+            });
+            expect(result.geoAddress).toEqual({ lat: 51.5074, lon: -0.1278 });
         });
 
         it("should handle missing fields", () => {

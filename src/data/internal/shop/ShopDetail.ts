@@ -15,6 +15,26 @@ export type StructuredAddress = StructuredAddressData;
 
 export type GeoAddress = GeoAddressData;
 
+export function mapStructuredAddress(
+    data: StructuredAddressData | null | undefined,
+): StructuredAddress | undefined {
+    return data
+        ? {
+              addressline: data.addressline,
+              addresslineExtra: data.addresslineExtra,
+              locality: data.locality,
+              region: data.region,
+              postalCode: data.postalCode,
+              country: data.country,
+              continent: data.continent,
+          }
+        : undefined;
+}
+
+export function mapGeoAddress(data: GeoAddressData | null | undefined): GeoAddress | undefined {
+    return data ? { lat: data.lat, lon: data.lon } : undefined;
+}
+
 export type ShopDetail = {
     readonly shopId: string;
     readonly shopSlugId: string;
@@ -58,20 +78,8 @@ export function mapToShopDetail(data: GetShopData): ShopDetail {
         shopifyLanguage: data.shopifyLanguage ?? undefined,
         woocommerceCurrency: data.woocommerceCurrency ?? undefined,
         woocommerceLanguage: data.woocommerceLanguage ?? undefined,
-        structuredAddress: data.structuredAddress
-            ? {
-                  addressline: data.structuredAddress.addressline,
-                  addresslineExtra: data.structuredAddress.addresslineExtra,
-                  locality: data.structuredAddress.locality,
-                  region: data.structuredAddress.region,
-                  postalCode: data.structuredAddress.postalCode,
-                  country: data.structuredAddress.country,
-                  continent: data.structuredAddress.continent,
-              }
-            : undefined,
-        geoAddress: data.geoAddress
-            ? { lat: data.geoAddress.lat, lon: data.geoAddress.lon }
-            : undefined,
+        structuredAddress: mapStructuredAddress(data.structuredAddress),
+        geoAddress: mapGeoAddress(data.geoAddress),
         phone: data.phone,
         email: data.email,
         created: new Date(data.created),

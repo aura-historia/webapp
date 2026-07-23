@@ -15,11 +15,11 @@ import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { useUpdateAccessToken } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
-import { AccessTokenScopesField } from "@/features/partner/access-token-management/components/AccessTokenCreateDialog.tsx";
+import { AccessTokenScopesField } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
 import {
     type AccessTokenCreateFormData,
     createAccessTokenFormSchema,
-} from "@/features/partner/access-token-management/components/AccessTokenCreateForm.ts";
+} from "@/features/partner/common/components/AccessTokenCreateForm.ts";
 import type { AccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
 
 interface AccessTokenEditDialogProps {

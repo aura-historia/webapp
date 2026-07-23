@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { toast } from "sonner";
-import { AccessTokenCreateDialog } from "@/features/partner/access-token-management/components/AccessTokenCreateDialog.tsx";
+import { AccessTokenCreateDialog } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
 
 const mockCreateAccessTokenMutate = vi.hoisted(() => vi.fn());
 

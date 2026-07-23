@@ -17,7 +17,7 @@ export function AccountImage({ firstName = "", lastName = "" }: ProfileImageProp
     const initials = `${firstInitial}${lastInitial}`;
 
     return (
-        <div className="flex h-9 w-9 mt-2 mb-2 shrink-0 items-center justify-center rounded-full bg-white border border-primary font-bold text-primary select-none">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white border border-primary font-bold text-primary select-none">
             {initials || <User className="h-6 w-6" />}
         </div>
     );

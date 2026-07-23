@@ -110,7 +110,9 @@
     "hello": "Ciao",
     "register": "Registrati",
     "login": "Accedi",
-    "searchFilters": "Filtri di ricerca"
+    "searchFilters": "Filtri di ricerca",
+    "partnerDashboard": "Dashboard partner",
+    "accountNavigation": "Navigazione account"
   },
   "footer": {
     "brandName": "Aura Historia",
@@ -331,6 +333,18 @@
     "toMerchant": "Vai al commerciante",
     "soldOn": "su",
     "noImage": "Nessuna immagine disponibile",
+    "location": {
+      "eyebrow": "Posizione",
+      "title": "Dove si trova questo articolo",
+      "description": "Indirizzo in cui si trova questo articolo, quando disponibile pubblicamente.",
+      "noAddress": "Non abbiamo ancora un indirizzo per questo articolo.",
+      "noLocation": "Non abbiamo ancora informazioni sulla posizione per questo articolo.",
+      "mapTitle": "Mappa che mostra la posizione di {{title}}",
+      "mapConsentTitle": "Carica la mappa dopo il consenso",
+      "mapConsentDescription": "Questa mappa è fornita da Google Maps. Caricandola, dati come il tuo indirizzo IP possono essere trasmessi a Google.",
+      "mapConsentButton": "Mostra mappa",
+      "mapConsentSettings": "Impostazioni cookie"
+    },
     "watchlist": {
       "add": "Aggiungi alla lista di interesse",
       "remove": "Rimuovi dalla lista di interesse"
@@ -865,7 +879,7 @@
         "eyebrow": "Programma partner · Integrazione API personalizzata",
         "title": "Collega il tuo shop con la nostra API",
         "subtitle": "Usa l’API partner se il tuo shop gira su un sistema personalizzato o se vuoi controllare completamente la sincronizzazione. Invia batch di prodotti ad Aura Historia, noi li elaboriamo in background e i prodotti compaiono poco dopo sulla pagina del tuo shop.",
-        "primaryCta": "Richiedi una chiave API",
+        "primaryCta": "Gestisci i token di accesso",
         "secondaryCta": "Apri la documentazione API"
       },
       "concept": {
@@ -893,12 +907,12 @@
         "subtitle": "Questi tre elementi bastano per inviare un primo batch di prodotti facile da controllare.",
         "items": {
           "apiKey": {
-            "title": "Accesso partner e chiave API",
-            "description": "Richiedi l’accesso al nostro team partner. Dopo l’approvazione riceverai una chiave API limitata al tuo shop."
+            "title": "Un token di accesso utente",
+            "description": "Dopo l’approvazione dello shop partner, crea il token nel dashboard partner. Assegna l’autorizzazione «Scrivi prodotti» per la sincronizzazione."
           },
           "shopId": {
             "title": "Il tuo ID shop su Aura Historia",
-            "description": "Usa l’ID shop ricevuto durante l’onboarding in ogni richiesta batch, così i prodotti vengono associati allo shop corretto."
+            "description": "Usa l’ID del tuo shop approvato in ogni richiesta batch, così i prodotti vengono associati allo shop corretto."
           },
           "productBatch": {
             "title": "Un piccolo batch di prodotti",
@@ -907,48 +921,47 @@
         }
       },
       "guide": {
-        "title": "Dalla chiave API alla prima sincronizzazione",
+        "title": "Dal token di accesso alla prima sincronizzazione",
         "subtitle": "Un flusso pratico per collegare un sistema shop personalizzato ad Aura Historia.",
         "stepLabel": "Passo {{number}}",
         "endpointLabel": "Endpoint rilevante",
         "focusLabel": "Cosa controllare",
         "steps": {
+          "selectShop": {
+            "title": "Seleziona uno shop partner approvato",
+            "description": "Il tuo account deve avere almeno uno shop partner approvato per usare l’integrazione API. Seleziona lo shop di cui vuoi sincronizzare i prodotti.",
+            "focus": "L’ID dello shop selezionato servirà per le richieste dei prodotti nei passaggi successivi.",
+            "signInCta": "Accedi e controlla gli shop partner",
+            "loadError": "Non è stato possibile caricare gli shop partner approvati.",
+            "retryCta": "Riprova",
+            "empty": "Questo account non ha ancora uno shop partner approvato. Invia prima una candidatura partner; potrai continuare con l’integrazione dopo l’approvazione.",
+            "applyCta": "Richiedi uno shop partner",
+            "selectionLabel": "Shop partner per questa integrazione",
+            "pendingLabel": "Candidature partner in attesa",
+            "pendingHint": "Potrai continuare con l’integrazione quando una di queste candidature partner sarà approvata."
+          },
           "requestKey": {
-            "title": "Richiedi l’accesso per il tuo shop partner",
-            "description": "Inizia con l’onboarding partner. Quando lo shop viene approvato, ricevi la chiave API e l’ID shop necessari per le richieste batch.",
-            "focus": "Conserva chiave API, ID shop e contatto di onboarding in un punto accessibile in modo sicuro al team che gestisce l’integrazione.",
-            "visualTitle": "Attivazione e credenziali",
-            "visualCaption": "Chiave API e ID shop"
+            "title": "Crea un token di accesso utente",
+            "description": "Accedi con l’account associato al tuo shop partner approvato e crea un token di accesso utente. Nel modulo è già selezionata l’autorizzazione necessaria per sincronizzare i prodotti.",
+            "focus": "Copia subito il token: viene mostrato una sola volta. Conservalo in modo sicuro e invialo come token Bearer con ogni richiesta API.",
+            "cta": "Crea token di accesso utente",
+            "defaultTokenName": "Sincronizzazione prodotti tramite API personalizzata",
+            "visualTitle": "Crea e salva le credenziali",
+            "visualCaption": "Token di accesso e ID shop"
           },
           "preparePayload": {
-            "title": "Prepara il primo payload prodotti",
-            "description": "Crea un piccolo batch con i campi prodotto obbligatori. Controlla ID, titoli, prezzi, immagini, disponibilità e link alle pagine prodotto.",
-            "focus": "All’inizio usa solo pochi prodotti. La validazione sarà più chiara e il primo import più semplice da debuggare.",
+            "title": "Prepara e invia la prima richiesta prodotti",
+            "description": "L’URL della richiesta contiene già l’ID dello shop selezionato nel passaggio 1. Sostituisci YOUR_USER_ACCESS_TOKEN con il token creato nel passaggio 2 e invia un piccolo batch con POST.",
+            "focus": "Il token autorizza la richiesta e l’ID shop precompilato assegna i prodotti allo shop corretto. Una risposta 202 indica che l’elaborazione in background è iniziata.",
             "visualTitle": "Preparare il payload JSON",
             "visualCaption": "Struttura del batch e campi obbligatori"
-          },
-          "sendBatch": {
-            "title": "Invia il primo batch",
-            "description": "Invia il batch con POST all’endpoint partner. Quando la richiesta viene accettata, parte l’elaborazione in background.",
-            "focus": "Una risposta di accettazione non rende i prodotti visibili immediatamente. Considera qualche minuto per l’elaborazione.",
-            "visualTitle": "Inviare il batch prodotti",
-            "visualCaption": "Richiesta e risposta 202"
-          },
-          "keepInSync": {
-            "title": "Mantieni aggiornato il catalogo",
-            "description": "Dopo il primo import riuscito, usa PATCH per modifiche mirate o PUT quando la sincronizzazione invia record completi da creare o aggiornare.",
-            "focus": "Usa PATCH per modifiche note e PUT per upsert quando il batch può contenere prodotti nuovi ed esistenti.",
-            "visualTitle": "Aggiornare la sincronizzazione",
-            "visualCaption": "Azioni update e upsert"
           },
           "verifyShop": {
             "title": "Apri la pagina shop e verifica il risultato",
             "description": "Dopo l’elaborazione, apri la pagina del tuo shop su Aura Historia. I primi prodotti sincronizzati dovrebbero comparire dopo una breve attesa.",
-            "focus": "Usa lo slug del tuo shop per andare direttamente alla pagina pubblica e verificare che i prodotti importati siano corretti.",
-            "inputLabel": "Slug del tuo shop",
-            "inputPlaceholder": "es. la-mia-galleria-antica",
-            "inputHint": "Inserisci lo slug dell’URL del tuo shop su Aura Historia. Il pulsante apre direttamente la pagina pubblica dello shop.",
+            "focus": "Il link apre direttamente lo shop selezionato nel passaggio 1 per verificare i prodotti importati.",
             "cta": "Apri la pagina del mio shop",
+            "selectionRequired": "Seleziona prima uno shop partner",
             "visualTitle": "Verificare la pagina shop",
             "visualCaption": "Griglia prodotti e header dello shop"
           }

@@ -69,7 +69,7 @@ export const PARTNER_PROGRAM_FOOTER_LINKS: PartnerProgramFooterLink[] = [
     },
     {
         translationKey: "footer.partnerProgramLinks.apply",
-        href: "/partner-program/apply",
+        href: "/partners/applications",
     },
 ];
 

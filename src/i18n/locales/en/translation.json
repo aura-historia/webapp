@@ -110,7 +110,9 @@
     "logout": "Logout",
     "hello": "Hello",
     "register": "Register",
-    "login": "Login"
+    "login": "Login",
+    "partnerDashboard": "Partner dashboard",
+    "accountNavigation": "Account navigation"
   },
   "footer": {
     "brandName": "Aura Historia",
@@ -331,6 +333,18 @@
     "toMerchant": "Go to merchant",
     "soldOn": "on",
     "noImage": "No image available",
+    "location": {
+      "eyebrow": "Location",
+      "title": "Where this item is located",
+      "description": "Address where this item is located, where publicly available.",
+      "noAddress": "We do not yet have an address for this item.",
+      "noLocation": "We do not yet have location information for this item.",
+      "mapTitle": "Map showing the location of {{title}}",
+      "mapConsentTitle": "Load map after consent",
+      "mapConsentDescription": "This map is provided by Google Maps. Loading it may transfer data such as your IP address to Google.",
+      "mapConsentButton": "Show map",
+      "mapConsentSettings": "Cookie settings"
+    },
     "watchlist": {
       "add": "Add to watchlist",
       "remove": "Remove from watchlist"
@@ -859,7 +873,7 @@
         "eyebrow": "Partner program · Custom API integration",
         "title": "Connect your shop with our API",
         "subtitle": "Use the Partner API when your shop runs on a custom system or you want full control over the sync. Send product batches to Aura Historia, we process them in the background, and your products appear on your shop page shortly afterwards.",
-        "primaryCta": "Request an API key",
+        "primaryCta": "Manage access tokens",
         "secondaryCta": "Open API documentation"
       },
       "concept": {
@@ -887,12 +901,12 @@
         "subtitle": "These three pieces are enough to send a first, easy-to-check product batch.",
         "items": {
           "apiKey": {
-            "title": "Partner access and API key",
-            "description": "Request access through our partner team. After approval, you receive a scoped API key for your shop."
+            "title": "A user access token",
+            "description": "After your partner shop is approved, create the token yourself in the partner dashboard. Grant the “Write products” permission for product synchronization."
           },
           "shopId": {
             "title": "Your Aura Historia shop ID",
-            "description": "Use the shop ID from onboarding in every batch request so products are assigned to the correct shop."
+            "description": "Use the shop ID from your approved shop in every batch request so products are assigned to the correct shop."
           },
           "productBatch": {
             "title": "A small product batch",
@@ -901,48 +915,47 @@
         }
       },
       "guide": {
-        "title": "From API key to first product sync",
+        "title": "From access token to first product sync",
         "subtitle": "A practical setup flow for connecting a custom shop system to Aura Historia.",
         "stepLabel": "Step {{number}}",
         "endpointLabel": "Relevant endpoint",
         "focusLabel": "What to check",
         "steps": {
+          "selectShop": {
+            "title": "Select an approved partner shop",
+            "description": "Your account needs at least one approved partner shop for the API integration. Select the shop whose products you want to synchronize.",
+            "focus": "You will need the selected shop's ID for product requests in the later steps.",
+            "signInCta": "Sign in and check partner shops",
+            "loadError": "Your approved partner shops could not be loaded.",
+            "retryCta": "Try again",
+            "empty": "This account does not have an approved partner shop yet. Submit a partner application first; you can continue with the integration after approval.",
+            "applyCta": "Apply for a partner shop",
+            "selectionLabel": "Partner shop for this integration",
+            "pendingLabel": "Pending partner applications",
+            "pendingHint": "You can continue with the integration once one of these partner applications has been approved."
+          },
           "requestKey": {
-            "title": "Request access for your partner shop",
-            "description": "Start with partner onboarding. Once your shop is approved, you receive the API key and shop ID required for batch requests.",
-            "focus": "Keep the API key, shop ID, and onboarding contact details somewhere your integration team can access securely.",
-            "visualTitle": "Activation and credentials",
-            "visualCaption": "API key and shop ID"
+            "title": "Create a user access token",
+            "description": "Sign in with the account associated with your approved partner shop and create a user access token. The form below already selects the permission required to synchronize products.",
+            "focus": "Copy the token immediately: it is shown only once. Store it securely and send it as a Bearer token with every API request.",
+            "cta": "Create user access token",
+            "defaultTokenName": "Custom API product sync",
+            "visualTitle": "Create and save credentials",
+            "visualCaption": "Access token and shop ID"
           },
           "preparePayload": {
-            "title": "Prepare your first product payload",
-            "description": "Build a small batch with the required product fields. Check IDs, titles, prices, images, availability, and links to your product pages.",
-            "focus": "Use only a few products at first. It makes validation clearer and keeps the first import easy to debug.",
+            "title": "Prepare and send your first product request",
+            "description": "The request URL already contains the ID of the shop selected in Step 1. Replace YOUR_USER_ACCESS_TOKEN with the access token created in Step 2 and send a small product batch with POST.",
+            "focus": "The access token authorizes the request, and the prefilled shop ID assigns the products to the correct shop. A 202 response means background processing has started.",
             "visualTitle": "Prepare JSON payload",
             "visualCaption": "Batch structure and required fields"
-          },
-          "sendBatch": {
-            "title": "Send the first batch",
-            "description": "Submit the batch with POST to the partner endpoint. When the request is accepted, background processing starts.",
-            "focus": "A successful acceptance response does not mean the products are visible immediately. Allow a few minutes for processing.",
-            "visualTitle": "Send product batch",
-            "visualCaption": "Request and 202 response"
-          },
-          "keepInSync": {
-            "title": "Keep your catalog up to date",
-            "description": "After the first import works, use PATCH for targeted updates or PUT when your sync sends complete records that should be created or updated.",
-            "focus": "Use PATCH for known changes and PUT for upserts where the batch may contain new and existing products.",
-            "visualTitle": "Update the sync",
-            "visualCaption": "Update and upsert actions"
           },
           "verifyShop": {
             "title": "Open your shop page and verify the result",
             "description": "After processing, open your Aura Historia shop page. Your first synced products should appear there after a short delay.",
-            "focus": "Use your shop slug to jump directly to the public shop page and confirm that the imported products look right.",
-            "inputLabel": "Your shop slug",
-            "inputPlaceholder": "e.g. my-antique-gallery",
-            "inputHint": "Enter the shop slug from your Aura Historia shop URL. The button opens the public shop page directly.",
+            "focus": "The link opens the shop selected in Step 1 directly so you can verify the imported products.",
             "cta": "Open my shop page",
+            "selectionRequired": "Select a partner shop first",
             "visualTitle": "Verify shop page",
             "visualCaption": "Product grid and shop header"
           }
