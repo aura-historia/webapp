@@ -552,6 +552,14 @@ export type LanguageData = 'de' | 'en' | 'fr' | 'es' | 'it' | 'zh' | 'pt' | 'pl'
 export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD' | 'CNY' | 'BRL' | 'PLN' | 'TRY' | 'JPY' | 'CZK' | 'RUB' | 'AED' | 'SAR' | 'HKD' | 'SGD' | 'CHF';
 
 /**
+ * User preference for distance/size presentation:
+ * - METRIC: Metric units.
+ * - IMPERIAL: Imperial units.
+ *
+ */
+export type MeasurementUnitData = 'METRIC' | 'IMPERIAL';
+
+/**
  * Current state of the product:
  * - LISTED: Product has been listed
  * - AVAILABLE: Product is available for purchase
@@ -2363,6 +2371,10 @@ export type GetUserAccountData = {
      */
     currency?: CurrencyData | null;
     /**
+     * User's preferred measurement unit system (optional)
+     */
+    measurementUnit?: MeasurementUnitData | null;
+    /**
      * Whether the user has consented to viewing prohibited content
      */
     prohibitedContentConsent: boolean;
@@ -2415,6 +2427,10 @@ export type PatchAdminUserData = {
      */
     currency?: CurrencyData | null;
     /**
+     * New preferred measurement unit system.
+     */
+    measurementUnit?: MeasurementUnitData | null;
+    /**
      * New consent state for displaying prohibited content.
      */
     prohibitedContentConsent?: boolean | null;
@@ -2458,6 +2474,10 @@ export type PatchUserAccountData = {
      * New preferred currency
      */
     currency?: CurrencyData | null;
+    /**
+     * New preferred measurement unit system
+     */
+    measurementUnit?: MeasurementUnitData | null;
     /**
      * New consent state for displaying prohibited content
      */

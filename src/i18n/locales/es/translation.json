@@ -390,6 +390,13 @@
         "auctionTimeChanged": "Período de subasta actualizado."
       }
     },
+    "dealer": {
+      "title": "Más artículos de este vendedor",
+      "error": {
+        "title": "Error de carga",
+        "description": "No se pudieron cargar más artículos de este vendedor."
+      }
+    },
     "priceEstimate": {
       "tooltip": "Estimación de precio de {{shopType}}",
       "tooltipUnknown": "Estimación de precio",

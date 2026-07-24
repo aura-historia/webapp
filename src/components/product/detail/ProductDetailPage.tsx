@@ -4,6 +4,7 @@ import { ProductHistory } from "@/components/product/detail/ProductHistory.tsx";
 import { ProductInfo } from "@/components/product/detail/ProductInfo.tsx";
 import { ProductLocationSection } from "@/components/product/detail/ProductLocationSection.tsx";
 import { ProductSimilar } from "@/components/product/detail/similar/ProductSimilar.tsx";
+import { ProductDealerItems } from "@/components/product/detail/dealer/ProductDealerItems.tsx";
 
 export function ProductDetailPage({ product }: { readonly product: ProductDetail }) {
     return (
@@ -30,6 +31,14 @@ export function ProductDetailPage({ product }: { readonly product: ProductDetail
                         shopsProductId={product.shopsProductId}
                     />
                 </div>
+            </div>
+
+            <div className="mt-16">
+                <ProductDealerItems
+                    shopName={product.shopName}
+                    shopSlugId={product.shopSlugId}
+                    excludeProductId={product.productId}
+                />
             </div>
         </div>
     );
