@@ -20,6 +20,7 @@ import {
 import { CreateSearchFilterWizard } from "@/components/search-filters/CreateSearchFilterWizard.tsx";
 import { SearchFilterMatches } from "@/components/search-filters/match/SearchFilterMatches.tsx";
 import { SearchFilterConfigurationGrid } from "@/components/search-filters/SearchFilterConfigurationGrid.tsx";
+import { SearchFilterDetailHeaderSkeleton } from "@/components/search-filters/detail/SearchFilterDetailHeaderSkeleton.tsx";
 import { useUserSearchFilter } from "@/hooks/search-filters/useUserSearchFilter.ts";
 import { useDeleteUserSearchFilter } from "@/hooks/search-filters/useDeleteUserSearchFilter.ts";
 
@@ -30,7 +31,7 @@ type Props = {
 export function SearchFilterDetail({ filterId }: Props) {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { data: filter, error } = useUserSearchFilter(filterId);
+    const { data: filter, isPending, error } = useUserSearchFilter(filterId);
     const { mutate: deleteFilter, isPending: isDeleting } = useDeleteUserSearchFilter();
     const [editOpen, setEditOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -57,6 +58,8 @@ export function SearchFilterDetail({ filterId }: Props) {
 
     return (
         <div className="flex w-full flex-col gap-10">
+            {isPending && <SearchFilterDetailHeaderSkeleton />}
+
             {filter && (
                 <header
                     className="flex flex-col gap-6 border-b border-border/30 pb-8"

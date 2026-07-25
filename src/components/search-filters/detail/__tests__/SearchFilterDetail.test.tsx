@@ -57,17 +57,36 @@ const buildFilter = (overrides: Partial<UserSearchFilter> = {}): UserSearchFilte
 
 type FilterMockOptions = {
     filter?: UserSearchFilter | null;
+    isPending?: boolean;
     error?: Error | null;
 };
 
-function setFilterMock({ filter = buildFilter(), error = null }: FilterMockOptions = {}) {
-    mockUseUserSearchFilter.mockReturnValue({ data: filter ?? undefined, error });
+function setFilterMock({
+    filter = buildFilter(),
+    isPending = false,
+    error = null,
+}: FilterMockOptions = {}) {
+    mockUseUserSearchFilter.mockReturnValue({ data: filter ?? undefined, isPending, error });
 }
 
 describe("SearchFilterDetail", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         setFilterMock();
+    });
+
+    describe("Loading state", () => {
+        it("renders the header skeleton while the filter is loading", () => {
+            setFilterMock({ filter: null, isPending: true });
+            renderWithQueryClient(<SearchFilterDetail filterId="filter-1" />);
+            expect(screen.getByTestId("section-configuration-skeleton")).toBeInTheDocument();
+            expect(screen.queryByTestId("section-configuration")).not.toBeInTheDocument();
+        });
+
+        it("does not render the header skeleton once the filter has loaded", () => {
+            renderWithQueryClient(<SearchFilterDetail filterId="filter-1" />);
+            expect(screen.queryByTestId("section-configuration-skeleton")).not.toBeInTheDocument();
+        });
     });
 
     describe("Error state", () => {
