@@ -48,7 +48,6 @@ export function SearchFilterMatches({ filterId }: Props) {
         }
 
         if (error) {
-            console.error(error);
             return (
                 <EmptyState
                     icon={ServerCrash}
