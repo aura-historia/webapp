@@ -24,10 +24,6 @@ import {
 } from "@/data/internal/search/SearchFilterArguments.ts";
 import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 
-type Props = {
-    readonly search: SearchFilterArguments;
-};
-
 type TileProps = {
     readonly icon: LucideIcon;
     readonly label: string;
@@ -74,6 +70,10 @@ function useFormatDateRange() {
         return `${t("search.filter.to")} ${to?.toLocaleDateString(i18n.language)}`;
     };
 }
+
+type Props = {
+    readonly search: SearchFilterArguments;
+};
 
 /**
  * Every configured search-filter criterion, laid out as a responsive grid of compact
