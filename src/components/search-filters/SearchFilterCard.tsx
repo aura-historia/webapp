@@ -143,7 +143,7 @@ export function SearchFilterCard({
                                 type="button"
                                 variant="ghost"
                                 size="icon"
-                                className="relative z-10 size-10 text-muted-foreground"
+                                className="relative size-10 text-muted-foreground"
                                 aria-label={stateToggleLabel}
                                 disabled={updateFilter.isPending}
                                 onClick={handleStateToggle}
