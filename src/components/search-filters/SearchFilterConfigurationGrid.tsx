@@ -84,7 +84,8 @@ export function SearchFilterConfigurationGrid({ search }: Props) {
     const { t } = useTranslation();
     const formatDateRange = useFormatDateRange();
 
-    const queryTerms = search.queryTerms?.length ? search.queryTerms : search.q ? [search.q] : [];
+    const fallbackQueryTerms = search.q ? [search.q] : [];
+    const queryTerms = search.queryTerms?.length ? search.queryTerms : fallbackQueryTerms;
     const hasPrice = search.priceFrom != null || search.priceTo != null;
     // Mirrors the wizard's confirm-step preview: when allowedStates was never explicitly
     // narrowed, show the same pre-selected default states the wizard shows (see FILTER_DEFAULTS).
