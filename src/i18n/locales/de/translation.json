@@ -395,6 +395,13 @@
         "auctionTimeChanged": "Auktionszeitraum aktualisiert."
       }
     },
+    "dealer": {
+      "title": "Weitere Artikel von diesem Händler",
+      "error": {
+        "title": "Fehler beim Laden",
+        "description": "Weitere Artikel von diesem Händler konnten nicht geladen werden."
+      }
+    },
     "auction": {
       "start": "ab {{date}}",
       "end": "bis {{date}}",

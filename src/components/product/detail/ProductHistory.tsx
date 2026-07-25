@@ -104,7 +104,7 @@ export function ProductHistory({ history }: ProductHistoryProps) {
     }
 
     return (
-        <section className="flex h-full max-h-375 min-w-0 flex-col gap-6">
+        <section className="flex h-full max-h-[500px] min-w-0 flex-col gap-6">
             <div className="flex flex-col gap-4 w-full shrink-0">
                 <H2 className={sectionHeadingClass}>{t("product.history.title")}</H2>
                 {filterButtons}

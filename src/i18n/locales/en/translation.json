@@ -395,6 +395,13 @@
         "auctionTimeChanged": "Auction period updated."
       }
     },
+    "dealer": {
+      "title": "More items from this dealer",
+      "error": {
+        "title": "Error Loading",
+        "description": "More items from this dealer could not be loaded."
+      }
+    },
     "auction": {
       "start": "from {{date}}",
       "end": "until {{date}}",

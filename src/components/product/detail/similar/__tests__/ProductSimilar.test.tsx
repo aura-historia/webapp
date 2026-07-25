@@ -4,6 +4,21 @@ import { ProductSimilar } from "../ProductSimilar.tsx";
 import { vi } from "vitest";
 import type React from "react";
 
+// Mock the entire embla carousel to avoid plugin comparison errors in jsdom
+vi.mock("embla-carousel-react", () => ({
+    default: () => [
+        vi.fn(),
+        {
+            on: vi.fn(),
+            off: vi.fn(),
+            scrollPrev: vi.fn(),
+            scrollNext: vi.fn(),
+            canScrollNext: vi.fn(() => false),
+            canScrollPrev: vi.fn(() => false),
+        },
+    ],
+}));
+
 vi.mock("@tanstack/react-router", async (importOriginal) => {
     const actual = await importOriginal<typeof import("@tanstack/react-router")>();
     return {
@@ -190,7 +205,7 @@ describe("ProductSimilar", () => {
         expect(screen.getByText("Keine ähnlichen Artikel")).toBeInTheDocument();
     });
 
-    it("should render HiddenMatchCard instead of ProductSimilarCard when product is hidden", () => {
+    it("should render HiddenMatchCard instead of ProductGridItem when product is hidden", () => {
         const hiddenProduct: OverviewProduct = {
             ...mockProducts[0],
             productId: "00000000-0000-0000-0000-000000000000",
@@ -233,7 +248,7 @@ describe("ProductSimilar", () => {
         expect(screen.getByText("Shop 3")).toBeInTheDocument();
     });
 
-    it("should render product cards in a responsive grid container", () => {
+    it("should render product cards in a carousel", () => {
         vi.mocked(useSimilarProducts).mockReturnValue({
             data: { isEmbeddingsPending: false, products: mockProducts },
             isLoading: false,
@@ -243,8 +258,7 @@ describe("ProductSimilar", () => {
 
         const { container } = render(<ProductSimilar {...defaultProps} />);
 
-        const grid = container.querySelector(".grid");
-        expect(grid).toBeInTheDocument();
+        expect(container.querySelector('[data-slot="carousel"]')).toBeInTheDocument();
     });
 
     it("should render items with correct prices and without prices", () => {
