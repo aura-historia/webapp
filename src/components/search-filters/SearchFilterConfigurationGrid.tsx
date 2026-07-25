@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 import {
     Ban,
     CalendarClock,
@@ -61,14 +62,11 @@ function BadgeListTile({ icon, label, values }: BadgeListTileProps) {
     );
 }
 
-function useFormatDateRange() {
-    const { t, i18n } = useTranslation();
-    return (from?: Date, to?: Date) => {
-        if (from && to)
-            return `${from.toLocaleDateString(i18n.language)} – ${to.toLocaleDateString(i18n.language)}`;
-        if (from) return `${t("search.filter.from")} ${from.toLocaleDateString(i18n.language)}`;
-        return `${t("search.filter.to")} ${to?.toLocaleDateString(i18n.language)}`;
-    };
+function formatDateRange(t: TFunction, language: string, from?: Date, to?: Date) {
+    if (from && to)
+        return `${from.toLocaleDateString(language)} – ${to.toLocaleDateString(language)}`;
+    if (from) return `${t("search.filter.from")} ${from.toLocaleDateString(language)}`;
+    return `${t("search.filter.to")} ${to?.toLocaleDateString(language)}`;
 }
 
 type Props = {
@@ -81,8 +79,7 @@ type Props = {
  * not the narrow card/wizard contexts (see SearchFilterCriteria.tsx for those).
  */
 export function SearchFilterConfigurationGrid({ search }: Props) {
-    const { t } = useTranslation();
-    const formatDateRange = useFormatDateRange();
+    const { t, i18n } = useTranslation();
 
     const fallbackQueryTerms = search.q ? [search.q] : [];
     const queryTerms = search.queryTerms?.length ? search.queryTerms : fallbackQueryTerms;
@@ -168,7 +165,12 @@ export function SearchFilterConfigurationGrid({ search }: Props) {
             {(search.creationDateFrom != null || search.creationDateTo != null) && (
                 <CriteriaTile icon={CalendarPlus} label={t("searchFilters.info.creationDate")}>
                     <span className="text-sm">
-                        {formatDateRange(search.creationDateFrom, search.creationDateTo)}
+                        {formatDateRange(
+                            t,
+                            i18n.language,
+                            search.creationDateFrom,
+                            search.creationDateTo,
+                        )}
                     </span>
                 </CriteriaTile>
             )}
@@ -176,7 +178,12 @@ export function SearchFilterConfigurationGrid({ search }: Props) {
             {(search.updateDateFrom != null || search.updateDateTo != null) && (
                 <CriteriaTile icon={CalendarClock} label={t("searchFilters.info.updateDate")}>
                     <span className="text-sm">
-                        {formatDateRange(search.updateDateFrom, search.updateDateTo)}
+                        {formatDateRange(
+                            t,
+                            i18n.language,
+                            search.updateDateFrom,
+                            search.updateDateTo,
+                        )}
                     </span>
                 </CriteriaTile>
             )}
@@ -184,7 +191,12 @@ export function SearchFilterConfigurationGrid({ search }: Props) {
             {(search.auctionDateFrom != null || search.auctionDateTo != null) && (
                 <CriteriaTile icon={Gavel} label={t("searchFilters.info.auctionDate")}>
                     <span className="text-sm">
-                        {formatDateRange(search.auctionDateFrom, search.auctionDateTo)}
+                        {formatDateRange(
+                            t,
+                            i18n.language,
+                            search.auctionDateFrom,
+                            search.auctionDateTo,
+                        )}
                     </span>
                 </CriteriaTile>
             )}
