@@ -23,9 +23,8 @@ export function SearchFilterCardSkeleton() {
                 <Skeleton className="h-6 w-16" />
                 <Skeleton className="h-6 w-20" />
             </div>
-            <div className="flex gap-2 mt-auto">
-                <Skeleton className="h-8 flex-1" />
-                <Skeleton className="h-8 flex-1" />
+            <div className="mt-auto">
+                <Skeleton className="h-8 w-full" />
             </div>
         </Card>
     );
