@@ -46,6 +46,16 @@ describe("SearchFilterCard", () => {
         vi.clearAllMocks();
     });
 
+    it("renders a card-wide link to the filter's detail page", async () => {
+        await act(() => {
+            renderWithRouter(<SearchFilterCard {...defaultProps} />);
+        });
+        expect(screen.getByRole("link", { name: "Barock Möbel" })).toHaveAttribute(
+            "href",
+            "/me/search-filter/filter-1",
+        );
+    });
+
     it("renders the filter name", async () => {
         await act(() => {
             renderWithRouter(<SearchFilterCard {...defaultProps} />);
@@ -296,9 +306,7 @@ describe("SearchFilterCard", () => {
             await act(() => {
                 renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
             });
-            expect(
-                screen.getByRole("link", { name: /Alle Suchtreffer anzeigen/i }),
-            ).toBeInTheDocument();
+            expect(screen.getByRole("link", { name: /Treffer & Details/i })).toBeInTheDocument();
         });
 
         it("shows matching products link when filter is INACTIVE_BY_RESTRICTED_PLAN", async () => {
@@ -306,9 +314,7 @@ describe("SearchFilterCard", () => {
             await act(() => {
                 renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
             });
-            expect(
-                screen.getByRole("link", { name: /Alle Suchtreffer anzeigen/i }),
-            ).toBeInTheDocument();
+            expect(screen.getByRole("link", { name: /Treffer & Details/i })).toBeInTheDocument();
         });
 
         it("disables bell button when filter is INACTIVE_BY_USER", async () => {
@@ -325,9 +331,7 @@ describe("SearchFilterCard", () => {
             await act(() => {
                 renderWithRouter(<SearchFilterCard {...defaultProps} />);
             });
-            expect(
-                screen.getByRole("link", { name: /Alle Suchtreffer anzeigen/i }),
-            ).toBeInTheDocument();
+            expect(screen.getByRole("link", { name: /Treffer & Details/i })).toBeInTheDocument();
         });
     });
 });

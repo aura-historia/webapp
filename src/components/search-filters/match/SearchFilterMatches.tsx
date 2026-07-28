@@ -1,9 +1,8 @@
-import { useUserSearchFilter } from "@/hooks/search-filters/useUserSearchFilter.ts";
 import { useSearchFilterMatchedProducts } from "@/hooks/search-filters/useSearchFilterMatchedProducts.ts";
 import { SearchFilterMatchCard } from "@/components/search-filters/match/SearchFilterMatchCard.tsx";
 import { HiddenMatchCard } from "@/components/product/overview/HiddenMatchCard.tsx";
 import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
-import { H1 } from "@/components/typography/H1.tsx";
+import { H2 } from "@/components/typography/H2.tsx";
 import { SearchX, ServerCrash } from "lucide-react";
 import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { useTranslation } from "react-i18next";
@@ -23,11 +22,6 @@ const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as
 export function SearchFilterMatches({ filterId }: Props) {
     const { ref, inView } = useInView();
     const { t } = useTranslation();
-    const {
-        data: filter,
-        isPending: filterPending,
-        error: filterError,
-    } = useUserSearchFilter(filterId);
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useSearchFilterMatchedProducts(filterId);
 
@@ -37,81 +31,90 @@ export function SearchFilterMatches({ filterId }: Props) {
         }
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-    if (isPending || filterPending) {
-        return (
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                {SKELETON_IDS.map((id) => (
-                    <ProductCardSkeleton key={id} />
-                ))}
-            </div>
-        );
-    }
-
-    if (error || filterError) {
-        console.error(error ?? filterError);
-        return (
-            <EmptyState
-                icon={ServerCrash}
-                title={t("searchFilters.loadingError.title")}
-                description={t("searchFilters.loadingError.description")}
-            />
-        );
-    }
-
     const allProducts: OverviewProduct[] = data?.pages.flatMap((page) => [...page.items]) ?? [];
     const totalProducts = data?.pages[0]?.total ?? 0;
     const allLoaded = !hasNextPage && allProducts.length > 0;
     const showLoaderRow = isFetchingNextPage || allLoaded;
 
-    if (allProducts.length === 0) {
+    function renderResults() {
+        if (isPending) {
+            return (
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                    {SKELETON_IDS.map((id) => (
+                        <ProductCardSkeleton key={id} />
+                    ))}
+                </div>
+            );
+        }
+
+        if (error) {
+            return (
+                <EmptyState
+                    icon={ServerCrash}
+                    title={t("searchFilters.loadingError.title")}
+                    description={t("searchFilters.loadingError.description")}
+                />
+            );
+        }
+
+        if (allProducts.length === 0) {
+            return (
+                <EmptyState
+                    icon={SearchX}
+                    title={t("searchFilters.noMatches.title")}
+                    description={t("searchFilters.noMatches.description")}
+                >
+                    <Button variant="outline" asChild>
+                        <Link to="/me/search-filters">{t("searchFilters.noMatches.editHint")}</Link>
+                    </Button>
+                </EmptyState>
+            );
+        }
+
         return (
-            <EmptyState
-                icon={SearchX}
-                title={t("searchFilters.noMatches.title")}
-                description={t("searchFilters.noMatches.description")}
-            >
-                <Button variant="outline" asChild>
-                    <Link to="/me/search-filters">{t("searchFilters.noMatches.editHint")}</Link>
-                </Button>
-            </EmptyState>
+            <>
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                    {allProducts.map((product: OverviewProduct, index) => {
+                        const isHidden = product.userData?.searchFilterData?.hidden === true;
+                        const key = isHidden ? `hidden-${index}` : product.productId;
+
+                        return isHidden ? (
+                            <HiddenMatchCard key={key} />
+                        ) : (
+                            <SearchFilterMatchCard
+                                key={key}
+                                product={product}
+                                filterId={filterId}
+                            />
+                        );
+                    })}
+                </div>
+                {showLoaderRow && (
+                    <div ref={ref}>
+                        <ListLoaderRow
+                            isFetchingNextPage={isFetchingNextPage}
+                            totalCount={totalProducts}
+                        />
+                    </div>
+                )}
+            </>
         );
     }
 
     return (
         <div className="flex flex-col w-full gap-8">
-            <div className="flex flex-row items-center justify-between">
-                <div className="flex flex-col gap-1">
-                    <H1>{filter?.name}</H1>
-                    {filter?.enhancedSearchDescription && (
-                        <p className="text-base text-muted-foreground italic">
-                            {filter.enhancedSearchDescription}
-                        </p>
+            <div className="flex flex-col gap-1">
+                <div className="flex flex-row items-center justify-between">
+                    <H2>{t("searchFilters.matches")}</H2>
+                    {!isPending && !error && (
+                        <span className="text-xl font-semibold whitespace-nowrap">
+                            {t("searchFilters.matchesCount", { count: totalProducts })}
+                        </span>
                     )}
                 </div>
-                <span className="text-2xl font-semibold whitespace-nowrap">
-                    {t("searchFilters.totalElements", { count: totalProducts })}
-                </span>
+                <p className="text-sm text-muted-foreground">{t("searchFilters.matchesHint")}</p>
             </div>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                {allProducts.map((product: OverviewProduct, index) => {
-                    const isHidden = product.userData?.searchFilterData?.hidden === true;
-                    const key = isHidden ? `hidden-${index}` : product.productId;
-
-                    return isHidden ? (
-                        <HiddenMatchCard key={key} />
-                    ) : (
-                        <SearchFilterMatchCard key={key} product={product} filterId={filterId} />
-                    );
-                })}
-            </div>
-            {showLoaderRow && (
-                <div ref={ref}>
-                    <ListLoaderRow
-                        isFetchingNextPage={isFetchingNextPage}
-                        totalCount={totalProducts}
-                    />
-                </div>
-            )}
+            {renderResults()}
         </div>
     );
 }

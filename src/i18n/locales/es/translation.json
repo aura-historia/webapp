@@ -1707,19 +1707,26 @@
       "editHint": "Intente ajustar el filtro de búsqueda."
     },
     "totalElements": "{{count}} filtro(s) de búsqueda",
+    "matches": "Productos Encontrados",
+    "matchesCount_one": "{{count}} producto",
+    "matchesCount_other": "{{count}} productos",
+    "matchesHint": "Aquí se muestran los productos que anteriormente cumplieron los criterios de su filtro de búsqueda.",
+    "matchesAndDetails": "Coincidencias y Detalles",
+    "matchesAndDetailsShort": "Detalles",
     "totalElements_one": "{{count}} filtro de búsqueda",
     "totalElements_other": "{{count}} filtros de búsqueda",
-    "matchingProducts": "Mostrar todas las coincidencias",
-    "matchingProductsShort": "Todas las coincidencias",
     "searchPlaceholder": "Buscar filtros de búsqueda...",
     "showDetails": "Mostrar detalles",
-    "showResults": "Vista previa en vivo",
-    "previewError": "No se pudo cargar la vista previa.",
-    "previewEmpty": "No se encontraron resultados para este filtro de búsqueda.",
+    "noAdditionalCriteria": "No se han configurado criterios adicionales.",
     "info": {
-      "creationDate": "Creado: {{date}}",
-      "updateDate": "Actualizado: {{date}}",
-      "auctionDate": "Fecha de subasta: {{date}}"
+      "creationDate": "Añadido",
+      "updateDate": "Actualizado",
+      "auctionDate": "Fecha de subasta"
+    },
+    "detail": {
+      "eyebrow": "Filtro de Búsqueda",
+      "configurationTitle": "Sus Criterios de Filtro",
+      "configurationHint": "Aquí puede ver todos los ajustes que determinan qué resultados se encuentran para este filtro de búsqueda."
     },
     "hiddenMatch": {
       "title": "Oculto",

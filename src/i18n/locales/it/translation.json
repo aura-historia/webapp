@@ -1707,19 +1707,26 @@
       "editHint": "Prova a modificare il filtro di ricerca."
     },
     "totalElements": "{{count}} filtro/i di ricerca",
+    "matches": "Prodotti Trovati",
+    "matchesCount_one": "{{count}} prodotto",
+    "matchesCount_other": "{{count}} prodotti",
+    "matchesHint": "Qui vengono mostrati i prodotti che in precedenza soddisfacevano i criteri del tuo filtro di ricerca.",
+    "matchesAndDetails": "Corrispondenze e dettagli",
+    "matchesAndDetailsShort": "Dettagli",
     "totalElements_one": "{{count}} filtro di ricerca",
     "totalElements_other": "{{count}} filtri di ricerca",
-    "matchingProducts": "Mostra tutte le corrispondenze",
-    "matchingProductsShort": "Tutte le corrispondenze",
     "searchPlaceholder": "Cerca filtri di ricerca...",
     "showDetails": "Mostra dettagli",
-    "showResults": "Anteprima dal vivo",
-    "previewError": "Impossibile caricare l'anteprima.",
-    "previewEmpty": "Nessun risultato trovato per questo filtro di ricerca.",
+    "noAdditionalCriteria": "Nessun criterio aggiuntivo configurato.",
     "info": {
-      "creationDate": "Creato: {{date}}",
-      "updateDate": "Aggiornato: {{date}}",
-      "auctionDate": "Data asta: {{date}}"
+      "creationDate": "Aggiunto",
+      "updateDate": "Aggiornato",
+      "auctionDate": "Data asta"
+    },
+    "detail": {
+      "eyebrow": "Filtro di Ricerca",
+      "configurationTitle": "I Tuoi Criteri di Filtro",
+      "configurationHint": "Qui puoi vedere tutte le impostazioni che determinano quali risultati vengono trovati per questo filtro di ricerca."
     },
     "hiddenMatch": {
       "title": "Nascosto",

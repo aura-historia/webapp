@@ -1415,17 +1415,24 @@
     "totalElements": "{{count}} Suchauftrag/-träge",
     "totalElements_one": "{{count}} Suchauftrag",
     "totalElements_other": "{{count}} Suchaufträge",
-    "matchingProducts": "Alle Suchtreffer anzeigen",
-    "matchingProductsShort": "Alle Suchtreffer",
+    "matches": "Gefundene Produkte",
+    "matchesCount_one": "{{count}} Produkt",
+    "matchesCount_other": "{{count}} Produkte",
+    "matchesHint": "Hier werden Produkte angezeigt, die zuvor die Kriterien Ihres Suchauftrags erfüllt haben.",
+    "matchesAndDetails": "Treffer & Details",
+    "matchesAndDetailsShort": "Details",
     "searchPlaceholder": "Suchaufträge durchsuchen …",
     "showDetails": "Details anzeigen",
-    "showResults": "Live-Vorschau",
-    "previewError": "Vorschau konnte nicht geladen werden.",
-    "previewEmpty": "Keine Treffer für diesen Suchauftrag gefunden.",
+    "noAdditionalCriteria": "Keine weiteren Kriterien konfiguriert.",
     "info": {
-      "creationDate": "Hinzugefügt",
-      "updateDate": "Aktualisiert",
-      "auctionDate": "Auktion"
+      "creationDate": "Hinzufügedatum",
+      "updateDate": "Aktualisierungsdatum",
+      "auctionDate": "Auktionsdatum"
+    },
+    "detail": {
+      "eyebrow": "Suchauftrag",
+      "configurationTitle": "Ihre Filterkriterien",
+      "configurationHint": "Hier sehen Sie alle Einstellungen, die bestimmen, welche Treffer in diesem Suchauftrag gefunden werden."
     },
     "hiddenMatch": {
       "title": "Verborgen",

@@ -31,6 +31,8 @@ export function hasAdvancedFilterDetails(filters: SearchFilterArguments): boolea
     return (
         !!filters.merchant?.length ||
         !!filters.excludeMerchant?.length ||
+        !!filters.seller?.length ||
+        !!filters.excludeSeller?.length ||
         filters.creationDateFrom != null ||
         filters.creationDateTo != null ||
         filters.updateDateFrom != null ||
