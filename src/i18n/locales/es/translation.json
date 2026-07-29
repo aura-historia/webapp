@@ -10,6 +10,10 @@
       "title": "Aura Historia | Plataforma global de antigüedades",
       "description": "Descubre antigüedades, arte y objetos de diseño raros de vendedores, casas de subastas y mercados de todo el mundo en una plataforma refinada para coleccionistas y profesionales."
     },
+    "about": {
+      "title": "Sobre nosotros | Aura Historia",
+      "description": "Conozca la misión, los valores y el equipo de Aura Historia, una plataforma global y refinada para descubrir antigüedades, arte y objetos de diseño."
+    },
     "search": {
       "title": "Buscar antigüedades | Aura Historia",
       "description": "Busca y descubre antigüedades únicas de comerciantes de confianza en Aura Historia."
@@ -116,6 +120,7 @@
   },
   "footer": {
     "brandName": "Aura Historia",
+    "about": "Sobre nosotros",
     "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
     "imprint": "Aviso legal",
     "privacy": "Política de privacidad",
@@ -150,6 +155,87 @@
     },
     "compareLinks": {
       "barnebys": "Barnebys"
+    }
+  },
+  "aboutPage": {
+    "hero": {
+      "eyebrow": "Sobre Aura Historia",
+      "title": "Una forma más clara de descubrir antigüedades, arte y objetos de diseño en el mercado global.",
+      "subtitle": "Aura Historia está pensada para coleccionistas, especialistas, comerciantes y profesionales del mercado que necesitan una visión serena de un entorno internacional fragmentado.",
+      "primaryCta": "Empezar a descubrir",
+      "secondaryCta": "Colaborar con nosotros"
+    },
+    "mission": {
+      "eyebrow": "Nuestra misión",
+      "title": "Hacer legible un mercado disperso sin quitarle su carácter.",
+      "p1": "Los mejores objetos rara vez aparecen en un solo lugar. Surgen en comerciantes especializados, calendarios de subastas, marketplaces y tiendas locales, a menudo con distintos idiomas, divisas y tradiciones de catalogación.",
+      "p2": "Nuestra misión es reunir esas señales en una vista refinada y consultable, para ayudar a coleccionistas y profesionales a encontrar, evaluar, recordar y seguir oportunidades relevantes con más confianza y menos puntos ciegos."
+    },
+    "context": {
+      "eyebrow": "Lo que construimos",
+      "title": "Inteligencia de mercado digital para quienes miran con atención.",
+      "description": "Aura Historia combina descubrimiento global, búsqueda multilingüe, listas de seguimiento, alertas y una presentación consciente de las fuentes para que la exploración seria resulte ordenada, no abrumadora.",
+      "points": {
+        "discovery": {
+          "title": "Descubrimiento global",
+          "description": "Indexamos inventario de comerciantes, casas de subastas, tiendas y marketplaces para que las piezas relevantes puedan encontrarse más allá de los canales más evidentes."
+        },
+        "legibility": {
+          "title": "Mayor legibilidad",
+          "description": "Hacemos que los anuncios internacionales sean más fáciles de leer, comparar y volver a consultar, respetando la fuente donde se ofrece cada objeto."
+        },
+        "continuity": {
+          "title": "Continuidad antes que ruido",
+          "description": "Las listas de seguimiento, alertas y cronologías de objetos ayudan a que las piezas prometedoras sigan visibles después de la primera búsqueda."
+        }
+      }
+    },
+    "values": {
+      "eyebrow": "Nuestros valores",
+      "title": "Construido sobre sobriedad, claridad y confianza.",
+      "description": "El mercado de antigüedades y arte recompensa la paciencia, el conocimiento y la precisión. Nuestras decisiones de producto siguen la misma disciplina.",
+      "items": {
+        "trust": {
+          "title": "Confianza mediante sobriedad",
+          "description": "Evitamos afirmaciones infladas y presentamos la información con cuidado. Aura Historia apoya la investigación y el descubrimiento; el criterio del coleccionista sigue siendo central."
+        },
+        "discernment": {
+          "title": "Respeto por el discernimiento",
+          "description": "Nuestros usuarios saben lo que observan. La interfaz y el texto están diseñados para informar sin condescendencia ni sensacionalismo."
+        },
+        "marketMemory": {
+          "title": "Memoria de mercado",
+          "description": "La disponibilidad, los cambios de estado y los hallazgos guardados importan. Construimos herramientas que preservan el contexto con el paso del tiempo."
+        },
+        "internationalView": {
+          "title": "Perspectiva internacional",
+          "description": "El coleccionismo siempre ha cruzado fronteras. Diseñamos para el descubrimiento multilingüe y multi-fuente manteniendo visible la relación original con el vendedor."
+        }
+      }
+    },
+    "team": {
+      "eyebrow": "Nuestro equipo",
+      "title": "Un equipo compacto que construye para coleccionistas y especialistas.",
+      "description": "Mantenemos esta sección deliberadamente clara: roles concisos, una nota profesional de motivación y una referencia directa a LinkedIn para cada persona a medida que el equipo crezca.",
+      "linkedin": "LinkedIn",
+      "members": {
+        "foundingTeam": {
+          "name": "Equipo fundador de Aura Historia",
+          "position": "Producto, investigación e inteligencia de mercado",
+          "motivation": "Nos mueve la convicción de que el coleccionismo serio merece herramientas modernas con las formas de una mesa profesional del mercado del arte: precisas, serenas y respetuosas con la experiencia.",
+          "focus": {
+            "discovery": "Descubrimiento global",
+            "trust": "Confianza del coleccionista",
+            "intelligence": "Inteligencia de mercado"
+          }
+        }
+      }
+    },
+    "closing": {
+      "eyebrow": "La mirada a largo plazo",
+      "title": "Para un descubrimiento meditado, no para compras apresuradas.",
+      "description": "Aura Historia está hecha para quienes comparan, vuelven, monitorizan y deciden con cuidado, ya coleccionen en privado, asesoren a clientes, gestionen una tienda especializada o investiguen el mercado profesionalmente.",
+      "cta": "Explorar la plataforma"
     }
   },
   "account": {

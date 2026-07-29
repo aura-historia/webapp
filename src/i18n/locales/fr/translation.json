@@ -10,6 +10,10 @@
       "title": "Aura Historia | Plateforme mondiale d’antiquités",
       "description": "Découvrez antiquités rares, art et objets de design auprès de marchands, maisons de vente et places de marché du monde entier, dans une plateforme raffinée pour collectionneurs et professionnels."
     },
+    "about": {
+      "title": "À propos | Aura Historia",
+      "description": "Découvrez la mission, les valeurs et l'équipe d'Aura Historia, une plateforme mondiale raffinée pour la découverte d'antiquités, d'art et d'objets de design."
+    },
     "search": {
       "title": "Rechercher des antiquités | Aura Historia",
       "description": "Recherchez et découvrez des antiquités uniques auprès de marchands de confiance sur Aura Historia."
@@ -116,6 +120,7 @@
   },
   "footer": {
     "brandName": "Aura Historia",
+    "about": "À propos",
     "ariaSwitchToLanguage": "Changer de langue vers {{language}}",
     "imprint": "Mentions légales",
     "privacy": "Politique de confidentialité",
@@ -150,6 +155,87 @@
     },
     "compareLinks": {
       "barnebys": "Barnebys"
+    }
+  },
+  "aboutPage": {
+    "hero": {
+      "eyebrow": "À propos d'Aura Historia",
+      "title": "Une manière plus claire de découvrir antiquités, art et objets de design sur le marché mondial.",
+      "subtitle": "Aura Historia s'adresse aux collectionneurs, spécialistes, marchands et professionnels du marché qui ont besoin d'une lecture posée d'un univers international fragmenté.",
+      "primaryCta": "Commencer la découverte",
+      "secondaryCta": "Devenir partenaire"
+    },
+    "mission": {
+      "eyebrow": "Notre mission",
+      "title": "Rendre le marché dispersé lisible sans lui retirer son caractère.",
+      "p1": "Les meilleurs objets apparaissent rarement au même endroit. Ils émergent chez des marchands spécialisés, dans des calendriers de ventes, sur des places de marché et dans des boutiques locales, souvent avec des langues, devises et traditions de catalogage différentes.",
+      "p2": "Notre mission consiste à réunir ces signaux dans une vue raffinée et consultable — afin d'aider collectionneurs et professionnels à trouver, évaluer, mémoriser et suivre des opportunités significatives avec davantage de confiance et moins d'angles morts."
+    },
+    "context": {
+      "eyebrow": "Ce que nous construisons",
+      "title": "Une intelligence de marché numérique pour celles et ceux qui regardent de près.",
+      "description": "Aura Historia associe découverte mondiale, recherche multilingue, listes de suivi, alertes et présentation attentive aux sources, afin que l'exploration sérieuse reste ordonnée plutôt qu'écrasante.",
+      "points": {
+        "discovery": {
+          "title": "Découverte mondiale",
+          "description": "Nous indexons l'inventaire de marchands, maisons de vente, boutiques et places de marché afin que les pièces pertinentes soient trouvées au-delà des canaux les plus évidents."
+        },
+        "legibility": {
+          "title": "Lisibilité accrue",
+          "description": "Nous rendons les annonces internationales plus faciles à lire, comparer et retrouver, tout en respectant la source auprès de laquelle chaque objet est proposé."
+        },
+        "continuity": {
+          "title": "Continuité plutôt que bruit",
+          "description": "Listes de suivi, alertes et chronologies d'objets aident les pièces prometteuses à rester visibles après le premier moment de recherche."
+        }
+      }
+    },
+    "values": {
+      "eyebrow": "Nos valeurs",
+      "title": "Fondé sur la retenue, la clarté et la confiance.",
+      "description": "Le marché des antiquités et de l'art récompense la patience, le savoir et la précision. Nos décisions produit suivent la même discipline.",
+      "items": {
+        "trust": {
+          "title": "La confiance par la retenue",
+          "description": "Nous évitons les promesses excessives et présentons l'information avec soin. Aura Historia soutient la recherche et la découverte; le jugement du collectionneur demeure central."
+        },
+        "discernment": {
+          "title": "Respect du discernement",
+          "description": "Nos utilisateurs savent ce qu'ils regardent. L'interface et le ton sont conçus pour informer sans condescendance ni dramatisation."
+        },
+        "marketMemory": {
+          "title": "Mémoire du marché",
+          "description": "Disponibilité, changements de statut et découvertes sauvegardées comptent. Nous créons des outils qui préservent le contexte dans le temps."
+        },
+        "internationalView": {
+          "title": "Perspective internationale",
+          "description": "Collectionner a toujours franchi les frontières. Nous concevons une découverte multilingue et multi-source tout en gardant visible la relation avec le vendeur d'origine."
+        }
+      }
+    },
+    "team": {
+      "eyebrow": "Notre équipe",
+      "title": "Une équipe compacte au service des collectionneurs et spécialistes.",
+      "description": "Nous gardons cette section volontairement claire: des rôles concis, une note de motivation professionnelle et un lien LinkedIn direct pour chaque personne à mesure que l'équipe grandit.",
+      "linkedin": "LinkedIn",
+      "members": {
+        "foundingTeam": {
+          "name": "Équipe fondatrice Aura Historia",
+          "position": "Produit, recherche & intelligence de marché",
+          "motivation": "Nous sommes portés par la conviction que la collection sérieuse mérite des outils modernes avec les manières d'un bureau professionnel du marché de l'art: précis, calme et respectueux de l'expertise.",
+          "focus": {
+            "discovery": "Découverte mondiale",
+            "trust": "Confiance des collectionneurs",
+            "intelligence": "Intelligence de marché"
+          }
+        }
+      }
+    },
+    "closing": {
+      "eyebrow": "Le temps long",
+      "title": "Pour une découverte réfléchie, non pour un achat précipité.",
+      "description": "Aura Historia est conçu pour celles et ceux qui comparent, reviennent, surveillent et décident avec soin — collectionneurs privés, conseillers, boutiques spécialisées ou chercheurs de marché professionnels.",
+      "cta": "Explorer la plateforme"
     }
   },
   "account": {

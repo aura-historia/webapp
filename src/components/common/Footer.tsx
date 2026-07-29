@@ -43,6 +43,14 @@ export function Footer() {
                             <ul className="mt-3 space-y-2">
                                 <li>
                                     <Link
+                                        to="/about-us"
+                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                    >
+                                        {t("footer.about")}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
                                         to="/imprint"
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
                                     >
