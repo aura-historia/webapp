@@ -1,3 +1,5 @@
+import watchlistDemo from "@/assets/landing-page/demos/watchlist-demo.mp4";
+
 const ART_BASEL_UBS_REPORT_URL =
     "https://www.ubs.com/global/en/our-firm/art/art-market-research.html";
 const IBISWORLD_US_ANTIQUE_STORES_URL =
@@ -59,10 +61,8 @@ export const FEATURES_CARD_DATA = [
         titleKey: "landingPage.features.watchlist.title",
         descKey: "landingPage.features.watchlist.description",
         visual: {
-            kind: "placeholder",
-            eyebrowKey: "landingPage.features.watchlist.visual.eyebrow",
-            titleKey: "landingPage.features.watchlist.visual.title",
-            descriptionKey: "landingPage.features.watchlist.visual.description",
+            kind: "video",
+            src: watchlistDemo,
         },
     },
     {

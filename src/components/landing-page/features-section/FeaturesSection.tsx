@@ -62,6 +62,8 @@ export default function FeaturesSection() {
                                     className={cn(
                                         "relative z-10 -mt-4 bg-surface-container-low p-4 sm:p-6 lg:mt-0",
                                         visualOnLeft && "lg:order-1",
+                                        feature.visual.kind === "video" &&
+                                            (visualOnLeft ? "lg:pr-16" : "lg:pl-16"),
                                     )}
                                 >
                                     {feature.visual.kind === "metric" ? (
@@ -88,6 +90,15 @@ export default function FeaturesSection() {
                                                 ))}
                                             </div>
                                         </div>
+                                    ) : feature.visual.kind === "video" ? (
+                                        <video
+                                            src={feature.visual.src}
+                                            autoPlay
+                                            loop
+                                            muted
+                                            playsInline
+                                            className="aspect-4/3 h-full w-full bg-surface-container-lowest object-contain"
+                                        />
                                     ) : (
                                         <div className="flex h-full min-h-72 flex-col bg-surface-container-lowest p-5 shadow-[0_12px_40px_rgba(28,28,22,0.05)] sm:p-6">
                                             <div className="mb-4 flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-tertiary">
