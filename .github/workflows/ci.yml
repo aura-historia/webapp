@@ -31,8 +31,8 @@ jobs:
 
             - name: Set up pnpm
               run: |
-                npm install --global pnpm@11.12.0
-                pnpm --version
+                  npm install --global pnpm@11.17.0
+                  pnpm --version
 
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
@@ -58,8 +58,8 @@ jobs:
 
             - name: Set up pnpm
               run: |
-                npm install --global pnpm@11.12.0
-                pnpm --version
+                  npm install --global pnpm@11.17.0
+                  pnpm --version
 
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
@@ -124,8 +124,8 @@ jobs:
 
             - name: Set up pnpm
               run: |
-                npm install --global pnpm@11.12.0
-                pnpm --version
+                  npm install --global pnpm@11.17.0
+                  pnpm --version
 
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
@@ -168,8 +168,8 @@ jobs:
 
             - name: Set up pnpm
               run: |
-                npm install --global pnpm@11.12.0
-                pnpm --version
+                  npm install --global pnpm@11.17.0
+                  pnpm --version
 
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
