@@ -1,55 +1,74 @@
-import type { LucideIcon } from "lucide-react";
-import { Archive, Compass, Globe2, ShieldCheck } from "lucide-react";
-
-export type AboutValueItem = {
-    readonly icon: LucideIcon;
+export type AboutPrincipleItem = {
     readonly titleKey: string;
     readonly descriptionKey: string;
 };
 
 export type AboutTeamMember = {
     readonly id: string;
-    readonly nameKey: string;
+    readonly name: string;
     readonly positionKey: string;
-    readonly motivationKey: string;
-    readonly focusKeys: readonly string[];
+    readonly email: string;
     readonly linkedinUrl: string;
+    readonly bioKey?: string;
+    readonly imageUrl?: string;
+    readonly hidden?: boolean;
 };
 
-export const ABOUT_VALUE_ITEMS: readonly AboutValueItem[] = [
+export const ABOUT_PRINCIPLES: readonly AboutPrincipleItem[] = [
     {
-        icon: ShieldCheck,
-        titleKey: "aboutPage.values.items.trust.title",
-        descriptionKey: "aboutPage.values.items.trust.description",
+        titleKey: "aboutPage.values.items.carefulClaims.title",
+        descriptionKey: "aboutPage.values.items.carefulClaims.description",
     },
     {
-        icon: Compass,
         titleKey: "aboutPage.values.items.discernment.title",
         descriptionKey: "aboutPage.values.items.discernment.description",
     },
     {
-        icon: Archive,
-        titleKey: "aboutPage.values.items.marketMemory.title",
-        descriptionKey: "aboutPage.values.items.marketMemory.description",
-    },
-    {
-        icon: Globe2,
-        titleKey: "aboutPage.values.items.internationalView.title",
-        descriptionKey: "aboutPage.values.items.internationalView.description",
+        titleKey: "aboutPage.values.items.sourceStewardship.title",
+        descriptionKey: "aboutPage.values.items.sourceStewardship.description",
     },
 ] as const;
 
 export const ABOUT_TEAM_MEMBERS: readonly AboutTeamMember[] = [
     {
-        id: "founding-team",
-        nameKey: "aboutPage.team.members.foundingTeam.name",
-        positionKey: "aboutPage.team.members.foundingTeam.position",
-        motivationKey: "aboutPage.team.members.foundingTeam.motivation",
-        focusKeys: [
-            "aboutPage.team.members.foundingTeam.focus.discovery",
-            "aboutPage.team.members.foundingTeam.focus.trust",
-            "aboutPage.team.members.foundingTeam.focus.intelligence",
-        ],
-        linkedinUrl: "https://www.linkedin.com/company/aura-historia",
+        id: "julian-bruder",
+        name: "Julian Bruder",
+        positionKey: "aboutPage.team.members.julianBruder.position",
+        bioKey: "aboutPage.team.members.julianBruder.bio",
+        email: "julian.bruder@aura-historia.com",
+        linkedinUrl: "https://www.linkedin.com/in/julianbruder/",
+    },
+    {
+        id: "luca-franke",
+        name: "Luca Franke",
+        positionKey: "aboutPage.team.members.lucaFranke.position",
+        bioKey: "aboutPage.team.members.lucaFranke.bio",
+        email: "luca.franke@aura-historia.com",
+        linkedinUrl: "https://www.linkedin.com/in/luca-franke-4778b5299/",
+    },
+    {
+        id: "abdellah-filali",
+        name: "Abdellah Filali",
+        positionKey: "aboutPage.team.members.abdellahFilali.position",
+        bioKey: "aboutPage.team.members.abdellahFilali.bio",
+        email: "abdellah.filali@aura-historia.com",
+        linkedinUrl: "https://www.linkedin.com/in/abdellah-f-44608228a/",
+    },
+    {
+        id: "erwin-bause",
+        name: "Erwin Bause",
+        positionKey: "aboutPage.team.members.erwinBause.position",
+        bioKey: "aboutPage.team.members.erwinBause.bio",
+        email: "erwin.bause@aura-historia.com",
+        linkedinUrl: "https://www.linkedin.com/in/erwin-bause-10b592185/",
+    },
+    {
+        id: "anton-diettrich",
+        name: "Anton Diettrich",
+        positionKey: "aboutPage.team.members.antonDiettrich.position",
+        bioKey: "aboutPage.team.members.antonDiettrich.bio",
+        email: "anton.diettrich@aura-historia.com",
+        linkedinUrl: "https://www.linkedin.com/in/anton-diettrich-77529521a/",
+        hidden: true,
     },
 ] as const;

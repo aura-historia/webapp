@@ -12,7 +12,7 @@
     },
     "about": {
       "title": "Über uns | Aura Historia",
-      "description": "Erfahren Sie mehr über die Mission, Werte und das Team hinter Aura Historia, der anspruchsvollen globalen Entdeckungsplattform für Antiquitäten, Kunst und Designobjekte."
+      "description": "Erfahren Sie, warum Aura Historia existiert und wie unser Team Vertrauen, Zurückhaltung und quellenbewusste Entdeckung im Antiquitäten- und Kunstmarkt versteht."
     },
     "search": {
       "title": "Antiquitäten suchen | Aura Historia",
@@ -160,82 +160,66 @@
   "aboutPage": {
     "hero": {
       "eyebrow": "Über Aura Historia",
-      "title": "Ein klarerer Weg, Antiquitäten, Kunst und Designobjekte im globalen Markt zu entdecken.",
-      "subtitle": "Aura Historia richtet sich an Sammler, Spezialisten, Händler und Marktprofis, die einen ruhigen, geordneten Blick auf ein fragmentiertes internationales Angebot benötigen.",
-      "primaryCta": "Jetzt entdecken",
-      "secondaryCta": "Partner werden"
+      "title": "Wir machen den Antiquitäten- und Kunstmarkt verständlicher.",
+      "subtitle": "Aura Historia ist für Sammlerinnen, Sammler und Fachleute gemacht, die sorgfältige Entdeckung, verlässlichen Kontext und einen ruhigen Blick auf einen verstreuten internationalen Markt schätzen."
     },
     "mission": {
-      "eyebrow": "Unsere Mission",
-      "title": "Den verstreuten Markt lesbar machen, ohne seinen Charakter zu verlieren.",
-      "p1": "Die besten Objekte erscheinen selten an einem einzigen Ort. Sie tauchen bei spezialisierten Händlern, in Auktionskalendern, auf Marktplätzen und in lokalen Geschäften auf — oft in unterschiedlichen Sprachen, Währungen und Katalogisierungstraditionen.",
-      "p2": "Unsere Mission ist es, diese Signale in einer verfeinerten, durchsuchbaren Ansicht zusammenzuführen — damit Sammler und Fachleute bedeutende Gelegenheiten mit mehr Sicherheit und weniger blinden Flecken finden, bewerten, merken und verfolgen können."
-    },
-    "context": {
-      "eyebrow": "Was wir bauen",
-      "title": "Digitale Marktintelligenz für Menschen, die genau hinsehen.",
-      "description": "Aura Historia verbindet globale Entdeckung, mehrsprachige Suche, Watchlists, Benachrichtigungen und quellenbewusste Darstellung, damit ernsthafte Recherche geordnet statt überwältigend wirkt.",
-      "points": {
-        "discovery": {
-          "title": "Globale Entdeckung",
-          "description": "Wir indexieren Inventar von Händlern, Auktionshäusern, Geschäften und Marktplätzen, damit relevante Stücke auch jenseits der offensichtlichsten Kanäle auffindbar werden."
-        },
-        "legibility": {
-          "title": "Bessere Lesbarkeit",
-          "description": "Wir machen internationale Angebote leichter lesbar, vergleichbar und wiederauffindbar, während die Quelle des jeweiligen Objekts sichtbar bleibt."
-        },
-        "continuity": {
-          "title": "Kontinuität statt Lärm",
-          "description": "Watchlists, Suchalarme und Objektverläufe helfen, vielversprechende Stücke auch nach dem ersten Suchmoment im Blick zu behalten."
-        }
-      }
+      "eyebrow": "Warum es uns gibt",
+      "title": "Orientierung, ohne den Markt zu glätten.",
+      "p1": "Antiquitäten und Kunst erscheinen oft abseits der offensichtlichen Kanäle: bei spezialisierten Händlern, kleineren Geschäften, Auktionshäusern und Marktplätzen, die von lokaler Sprache und Katalogisierung geprägt sind.",
+      "p2": "Wir bauen Aura Historia, um diese Suche zu ordnen, ohne sie in ein beliebiges Einkaufserlebnis zu verwandeln. Das Ziel ist einfach: kundigen Menschen mehr Sichtbarkeit, sorgfältigeren Vergleich und eine klare Beziehung zur ursprünglichen Quelle zu ermöglichen."
     },
     "values": {
-      "eyebrow": "Unsere Werte",
-      "title": "Gegründet auf Zurückhaltung, Klarheit und Vertrauen.",
-      "description": "Der Antiquitäten- und Kunstmarkt belohnt Geduld, Wissen und Präzision. Unsere Produktentscheidungen folgen derselben Disziplin.",
+      "eyebrow": "Wie wir arbeiten",
+      "title": "Zurückhaltung vor Lärm.",
+      "description": "Diese Grundsätze prägen unsere Produktentscheidungen, unsere Sprache und die Art, wie wir Quellen darstellen.",
       "items": {
-        "trust": {
-          "title": "Vertrauen durch Zurückhaltung",
-          "description": "Wir vermeiden überzogene Behauptungen und präsentieren Informationen sorgfältig. Aura Historia unterstützt Recherche und Entdeckung; das Urteil des Sammlers bleibt zentral."
+        "carefulClaims": {
+          "title": "Sorgfältige Aussagen",
+          "description": "Wir vermeiden überzogene Versprechen zu Wert, Echtheit oder Gewissheit. Aura Historia unterstützt Entdeckung und Recherche; das Urteil bleibt bei Sammlern und Quelle."
         },
         "discernment": {
           "title": "Respekt vor Kennerschaft",
-          "description": "Unsere Nutzer wissen, worauf sie schauen. Oberfläche und Texte sollen informieren, ohne zu belehren oder zu dramatisieren."
+          "description": "Unsere Nutzerinnen und Nutzer sind anspruchsvoll. Produkt, Oberfläche und Texte sollen klar informieren, ohne zu belehren, zu dramatisieren oder Entscheidungen zu beschleunigen."
         },
-        "marketMemory": {
-          "title": "Marktgedächtnis",
-          "description": "Verfügbarkeit, Statusänderungen und gespeicherte Funde sind wichtig. Wir bauen Werkzeuge, die Kontext über Zeit bewahren."
-        },
-        "internationalView": {
-          "title": "Internationale Perspektive",
-          "description": "Sammeln war immer grenzüberschreitend. Wir gestalten mehrsprachige Entdeckung über viele Quellen hinweg, während die ursprüngliche Verkäuferbeziehung sichtbar bleibt."
+        "sourceStewardship": {
+          "title": "Sorgfalt gegenüber Quellen",
+          "description": "Wir halten Kontext, Zuordnung und die ursprüngliche Verkäuferbeziehung sichtbar, damit Recherche nicht zur anonymen Objektliste wird."
         }
       }
     },
     "team": {
-      "eyebrow": "Unser Team",
-      "title": "Ein kompaktes Team für Sammler und Spezialisten.",
-      "description": "Diesen Bereich halten wir bewusst klar: kompakte Rollen, eine professionelle Motivationsnotiz und einen direkten LinkedIn-Verweis für jede Person, wenn das Team wächst.",
+      "eyebrow": "Wer wir sind",
+      "title": "Ein kleines Team mit langem Blick.",
+      "description": "Hinter Aura Historia stehen Menschen, die Produktarbeit, Recherche-Disziplin und Marktintelligenz verbinden.",
+      "email": "E-Mail",
+      "emailAria": "E-Mail an {{name}}",
       "linkedin": "LinkedIn",
+      "linkedinAria": "{{name}} auf LinkedIn öffnen",
+      "imageAlt": "Porträt von {{name}}",
+      "initialsFallback": "Initialen von {{name}}",
       "members": {
-        "foundingTeam": {
-          "name": "Aura Historia Gründerteam",
-          "position": "Produkt, Recherche & Marktintelligenz",
-          "motivation": "Uns motiviert die Überzeugung, dass ernsthaftes Sammeln moderne Werkzeuge verdient, die sich wie ein professioneller Art-Market-Desk verhalten: präzise, ruhig und respektvoll gegenüber Expertise.",
-          "focus": {
-            "discovery": "Globale Entdeckung",
-            "trust": "Vertrauen der Sammler",
-            "intelligence": "Marktintelligenz"
-          }
+        "julianBruder": {
+          "position": "CEO",
+          "bio": "Julian sammelt seit Jahren antike Kunst, mit besonderem Interesse an Ölgemälden der Jungfrau Maria. Teile seiner Sammlung veröffentlicht er möglicherweise bald; Aura Historia nutzt er auch für seine eigene Sammlungspraxis."
+        },
+        "lucaFranke": {
+          "position": "Lead Webapp Engineer",
+          "bio": "Luca verantwortet die Arbeit an der Webapp und übersetzt die Recherche- und Entdeckungsziele von Aura Historia in ein verlässliches, wartbares Produkterlebnis."
+        },
+        "abdellahFilali": {
+          "position": "Lead Data Automation Engineer",
+          "bio": "Abdellah arbeitet an der Automatisierung von Quellenanbindung, Datenqualität und wiederholbaren Prozessen, mit denen die Plattform einen fragmentierten Markt skalierbar verfolgen kann."
+        },
+        "erwinBause": {
+          "position": "Lead UI/UX Engineer",
+          "bio": "Erwin gestaltet Oberfläche und Interaktionsdetails, damit Aura Historia ruhig, lesbar und respektvoll gegenüber der Arbeitsweise von Sammlern und Fachleuten bleibt."
+        },
+        "antonDiettrich": {
+          "position": "Lead Knowledge Graph Engineer",
+          "bio": "Anton arbeitet an den Knowledge-Graph-Grundlagen, die Objekte, Quellen, Kategorien und Marktkontext strukturierter und kontinuierlicher miteinander verbinden."
         }
       }
-    },
-    "closing": {
-      "eyebrow": "Der lange Blick",
-      "title": "Für bedachte Entdeckung, nicht für hastiges Einkaufen.",
-      "description": "Aura Historia ist für Menschen gemacht, die vergleichen, zurückkehren, beobachten und mit Sorgfalt entscheiden — ob sie privat sammeln, Kunden beraten, ein spezialisiertes Geschäft führen oder professionell den Markt recherchieren.",
-      "cta": "Plattform erkunden"
     }
   },
   "account": {

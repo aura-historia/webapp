@@ -12,7 +12,7 @@
     },
     "about": {
       "title": "About Us | Aura Historia",
-      "description": "Learn about Aura Historia's mission, values, and team behind a refined global discovery platform for antiques, art, and design objects."
+      "description": "Learn why Aura Historia exists and how our team approaches trust, restraint, and source-aware discovery in the antiques and art market."
     },
     "search": {
       "title": "Search Antiques | Aura Historia",
@@ -160,82 +160,66 @@
   "aboutPage": {
     "hero": {
       "eyebrow": "About Aura Historia",
-      "title": "A clearer way to discover antiques, art, and design objects across the global market.",
-      "subtitle": "Aura Historia is built for collectors, specialists, dealers, and market professionals who need a composed view of a fragmented international field.",
-      "primaryCta": "Start discovering",
-      "secondaryCta": "Partner with us"
+      "title": "We make the antiques and art market easier to understand.",
+      "subtitle": "Aura Historia exists for collectors and professionals who value careful discovery, reliable context, and a calm view of a scattered international market."
     },
     "mission": {
-      "eyebrow": "Our mission",
-      "title": "Make the scattered market legible without losing its character.",
-      "p1": "The best objects rarely appear in one place. They surface across specialist dealers, auction calendars, marketplaces, and local shops, often under different languages, currencies, and cataloguing traditions.",
-      "p2": "Our mission is to bring those signals into one refined, searchable view — helping collectors and professionals find, evaluate, remember, and act on meaningful opportunities with more confidence and fewer blind spots."
-    },
-    "context": {
-      "eyebrow": "What we build",
-      "title": "Digital market intelligence for people who look closely.",
-      "description": "Aura Historia combines global discovery, multilingual search, watchlists, alerts, and source-aware presentation so that serious exploration feels orderly rather than overwhelming.",
-      "points": {
-        "discovery": {
-          "title": "Global discovery",
-          "description": "We index inventory from dealers, auction houses, shops, and marketplaces so relevant pieces can be found beyond the most obvious channels."
-        },
-        "legibility": {
-          "title": "Better legibility",
-          "description": "We make international listings easier to read, compare, and revisit while respecting the source where each object is offered."
-        },
-        "continuity": {
-          "title": "Continuity over noise",
-          "description": "Watchlists, alerts, and item timelines help promising objects remain visible after the first search moment has passed."
-        }
-      }
+      "eyebrow": "Why we exist",
+      "title": "Orientation without flattening the field.",
+      "p1": "Antiques and art often surface far from the obvious channels: with specialist dealers, smaller shops, auction houses, and marketplaces shaped by local vocabulary and cataloguing habits.",
+      "p2": "We build Aura Historia to bring order to that search without turning it into a generic shopping experience. The aim is simple: help knowledgeable people see more, compare with care, and keep the original seller relationship clear."
     },
     "values": {
-      "eyebrow": "Our values",
-      "title": "Built on restraint, clarity, and trust.",
-      "description": "The antiques and art market rewards patience, knowledge, and precision. Our product decisions follow the same discipline.",
+      "eyebrow": "How we work",
+      "title": "Restraint before noise.",
+      "description": "These principles shape our product decisions, our language, and the way we present sources.",
       "items": {
-        "trust": {
-          "title": "Trust through restraint",
-          "description": "We avoid inflated claims and present information carefully. Aura Historia supports research and discovery; the collector's judgement remains central."
+        "carefulClaims": {
+          "title": "Careful claims",
+          "description": "We avoid inflated promises about value, authenticity, or certainty. Aura Historia supports discovery and research; judgement remains with the collector and the source."
         },
         "discernment": {
-          "title": "Respect for discernment",
-          "description": "Our users know what they are looking at. The interface and copy are designed to inform without patronising or sensationalising."
+          "title": "Respect for expertise",
+          "description": "Our users are discerning. The product, interface, and copy should inform clearly without patronising, sensationalising, or rushing the decision."
         },
-        "marketMemory": {
-          "title": "Market memory",
-          "description": "Availability, status changes, and saved discoveries matter. We build tools that help users preserve context over time."
-        },
-        "internationalView": {
-          "title": "International perspective",
-          "description": "Collecting has always crossed borders. We design for multilingual, multi-source discovery while keeping the original seller relationship visible."
+        "sourceStewardship": {
+          "title": "Source stewardship",
+          "description": "We keep context, attribution, and the original seller relationship visible so research does not become an anonymous list of objects."
         }
       }
     },
     "team": {
-      "eyebrow": "Our team",
-      "title": "A compact team building for collectors and specialists.",
-      "description": "We keep this section intentionally clear: concise roles, a professional motivation note, and a direct LinkedIn reference for each person as the team grows.",
+      "eyebrow": "Who we are",
+      "title": "A small team with a long view.",
+      "description": "The people behind Aura Historia combine product work, research discipline, and market intelligence.",
+      "email": "Email",
+      "emailAria": "Email {{name}}",
       "linkedin": "LinkedIn",
+      "linkedinAria": "Open {{name}} on LinkedIn",
+      "imageAlt": "Portrait of {{name}}",
+      "initialsFallback": "Initials for {{name}}",
       "members": {
-        "foundingTeam": {
-          "name": "Aura Historia Founding Team",
-          "position": "Product, research & market intelligence",
-          "motivation": "We are motivated by the conviction that serious collecting deserves modern tools with the manners of a professional art-market desk: precise, calm, and respectful of expertise.",
-          "focus": {
-            "discovery": "Global discovery",
-            "trust": "Collector trust",
-            "intelligence": "Market intelligence"
-          }
+        "julianBruder": {
+          "position": "CEO",
+          "bio": "Julian has collected antique art for years, with a particular interest in oil paintings of the Virgin Mary. He may publish parts of his collection soon and uses Aura Historia in his own collecting work."
+        },
+        "lucaFranke": {
+          "position": "Lead Webapp Engineer",
+          "bio": "Luca leads the web application work, translating Aura Historia's research and discovery goals into a reliable, maintainable product experience."
+        },
+        "abdellahFilali": {
+          "position": "Lead Data Automation Engineer",
+          "bio": "Abdellah works on the automation behind source ingestion, data quality, and repeatable processes that help the platform follow a fragmented market at scale."
+        },
+        "erwinBause": {
+          "position": "Lead UI/UX Engineer",
+          "bio": "Erwin shapes the interface and interaction details so Aura Historia remains calm, legible, and respectful of how collectors and specialists actually research objects."
+        },
+        "antonDiettrich": {
+          "position": "Lead Knowledge Graph Engineer",
+          "bio": "Anton works on the knowledge graph foundations that connect objects, sources, categories, and market context with more structure and continuity."
         }
       }
-    },
-    "closing": {
-      "eyebrow": "The long view",
-      "title": "For considered discovery, not hurried shopping.",
-      "description": "Aura Historia is made for people who compare, return, monitor, and decide with care — whether they collect privately, advise clients, run a specialist shop, or research the market professionally.",
-      "cta": "Explore the platform"
     }
   },
   "account": {
