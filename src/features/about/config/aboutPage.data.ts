@@ -69,6 +69,5 @@ export const ABOUT_TEAM_MEMBERS: readonly AboutTeamMember[] = [
         bioKey: "aboutPage.team.members.antonDiettrich.bio",
         email: "anton.diettrich@aura-historia.com",
         linkedinUrl: "https://www.linkedin.com/in/anton-diettrich-77529521a/",
-        hidden: true,
     },
 ] as const;
