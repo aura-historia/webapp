@@ -30,7 +30,7 @@ describe("AboutPage", () => {
             }),
         ).toBeInTheDocument();
         expect(
-            screen.getByRole("heading", { name: "Zurückhaltung vor Lautstärke." }),
+            screen.getByRole("heading", { name: "Vornehme Zurückhaltung." }),
         ).toBeInTheDocument();
         expect(
             screen.getByRole("heading", { name: "Ein kleines Team mit langem Blick." }),
