@@ -7,7 +7,11 @@ import { H2 } from "@/components/typography/H2";
 import { H3 } from "@/components/typography/H3";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ABOUT_PRINCIPLES, ABOUT_TEAM_MEMBERS } from "@/features/about/config/aboutPage.data";
+import {
+    ABOUT_PRINCIPLES,
+    ABOUT_TEAM_MEMBERS,
+    type AboutTeamMember,
+} from "@/features/about/config/aboutPage.data";
 
 function getInitials(name: string) {
     return name
@@ -17,6 +21,82 @@ function getInitials(name: string) {
         .map((part) => part[0])
         .join("")
         .toUpperCase();
+}
+
+type AboutTeamMemberCardProps = {
+    readonly member: AboutTeamMember;
+};
+
+export function AboutTeamMemberCard({ member }: AboutTeamMemberCardProps) {
+    const { t } = useTranslation();
+
+    return (
+        <Card className="flex h-full flex-col bg-surface-container-lowest">
+            <CardHeader>
+                <div className="flex items-start gap-5">
+                    {member.imageUrl ? (
+                        <img
+                            src={member.imageUrl}
+                            alt={t("aboutPage.team.imageAlt", {
+                                name: member.name,
+                            })}
+                            className="size-20 shrink-0 rounded-full border border-border/70 object-cover"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    ) : (
+                        <div
+                            className="flex size-20 shrink-0 items-center justify-center rounded-full border border-border/70 bg-surface-container-high font-display text-2xl text-primary"
+                            aria-label={t("aboutPage.team.initialsFallback", {
+                                name: member.name,
+                            })}
+                            role="img"
+                        >
+                            {getInitials(member.name)}
+                        </div>
+                    )}
+                    <div className="min-w-0">
+                        <H3 className="text-2xl sm:text-3xl">{member.name}</H3>
+                        <p className="mt-1 text-sm font-medium uppercase tracking-[0.18em] text-tertiary">
+                            {t(member.positionKey)}
+                        </p>
+                    </div>
+                </div>
+            </CardHeader>
+            <CardContent className="flex grow flex-col space-y-5">
+                {member.bioKey && (
+                    <p className="text-base leading-7 text-secondary">{t(member.bioKey)}</p>
+                )}
+                <div className="mt-auto flex flex-wrap gap-2 pt-2">
+                    <Button asChild variant="outline" size="sm">
+                        <a
+                            href={`mailto:${member.email}`}
+                            aria-label={t("aboutPage.team.emailAria", {
+                                name: member.name,
+                            })}
+                        >
+                            <Mail className="size-4" aria-hidden="true" />
+                            {t("aboutPage.team.email")}
+                        </a>
+                    </Button>
+                    <Button asChild variant="outline" size="sm">
+                        <a
+                            href={member.linkedinUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={t("aboutPage.team.linkedinAria", {
+                                name: member.name,
+                            })}
+                        >
+                            <LinkedInIcon className="size-4" />
+                            {t("aboutPage.team.linkedin")}
+                            <ExternalLink aria-hidden="true" />
+                        </a>
+                    </Button>
+                </div>
+            </CardContent>
+        </Card>
+    );
 }
 
 export function AboutPage() {
@@ -103,88 +183,7 @@ export function AboutPage() {
 
                     <div className="mt-10 grid gap-5 md:grid-cols-2">
                         {visibleTeamMembers.map((member) => (
-                            <Card
-                                key={member.id}
-                                className="flex h-full flex-col bg-surface-container-lowest"
-                            >
-                                <CardHeader>
-                                    <div className="flex items-start gap-5">
-                                        {member.imageUrl ? (
-                                            <img
-                                                src={member.imageUrl}
-                                                alt={t("aboutPage.team.imageAlt", {
-                                                    name: member.name,
-                                                })}
-                                                className="size-20 shrink-0 rounded-full border border-border/70 object-cover"
-                                                loading="lazy"
-                                                decoding="async"
-                                            />
-                                        ) : (
-                                            <div
-                                                className="flex size-20 shrink-0 items-center justify-center rounded-full border border-border/70 bg-surface-container-high font-display text-2xl text-primary"
-                                                aria-label={t("aboutPage.team.initialsFallback", {
-                                                    name: member.name,
-                                                })}
-                                                role="img"
-                                            >
-                                                {getInitials(member.name)}
-                                            </div>
-                                        )}
-                                        <div className="min-w-0">
-                                            <H3 className="text-2xl sm:text-3xl">{member.name}</H3>
-                                            <p className="mt-1 text-sm font-medium uppercase tracking-[0.18em] text-tertiary">
-                                                {t(member.positionKey)}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </CardHeader>
-                                <CardContent className="flex grow flex-col space-y-5">
-                                    {member.bioKey && (
-                                        <p className="text-base leading-7 text-secondary">
-                                            {t(member.bioKey)}
-                                        </p>
-                                    )}
-                                    {(member.email || member.linkedinUrl) && (
-                                        <div className="mt-auto flex flex-wrap gap-2 pt-2">
-                                            {member.email && (
-                                                <Button asChild variant="outline" size="sm">
-                                                    <a
-                                                        href={`mailto:${member.email}`}
-                                                        aria-label={t("aboutPage.team.emailAria", {
-                                                            name: member.name,
-                                                        })}
-                                                    >
-                                                        <Mail
-                                                            className="size-4"
-                                                            aria-hidden="true"
-                                                        />
-                                                        {t("aboutPage.team.email")}
-                                                    </a>
-                                                </Button>
-                                            )}
-                                            {member.linkedinUrl && (
-                                                <Button asChild variant="outline" size="sm">
-                                                    <a
-                                                        href={member.linkedinUrl}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        aria-label={t(
-                                                            "aboutPage.team.linkedinAria",
-                                                            {
-                                                                name: member.name,
-                                                            },
-                                                        )}
-                                                    >
-                                                        <LinkedInIcon className="size-4" />
-                                                        {t("aboutPage.team.linkedin")}
-                                                        <ExternalLink aria-hidden="true" />
-                                                    </a>
-                                                </Button>
-                                            )}
-                                        </div>
-                                    )}
-                                </CardContent>
-                            </Card>
+                            <AboutTeamMemberCard key={member.id} member={member} />
                         ))}
                     </div>
                 </div>
