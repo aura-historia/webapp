@@ -46,7 +46,7 @@ describe("AboutPage", () => {
         expect(screen.getByRole("heading", { name: "Luca Franke" })).toBeInTheDocument();
         expect(screen.getByRole("heading", { name: "Abdellah Filali" })).toBeInTheDocument();
         expect(screen.getByRole("heading", { name: "Erwin Bause" })).toBeInTheDocument();
-        expect(screen.queryByRole("heading", { name: "Anton Diettrich" })).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: "Anton Diettrich" })).toBeInTheDocument();
     });
 
     it("keeps contact buttons aligned at the bottom of every team card", async () => {
