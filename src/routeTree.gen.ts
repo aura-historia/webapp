@@ -9,73 +9,58 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
-import { Route as SearchRouteImport } from './routes/search'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as PartnerProgramRouteImport } from './routes/partner-program'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as ImprintRouteImport } from './routes/imprint'
-import { Route as ConsentSettingsRouteImport } from './routes/consent-settings'
-import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PartnerProgramIndexRouteImport } from './routes/partner-program.index'
-import { Route as SearchShopsRouteImport } from './routes/search_.shops'
-import { Route as PartnerProgramCustomIntegrationRouteImport } from './routes/partner-program.custom-integration'
-import { Route as PartnerProgramApplyRouteImport } from './routes/partner-program.apply'
-import { Route as CompareBarnebysRouteImport } from './routes/compare.barnebys'
-import { Route as AuthPartnersRouteImport } from './routes/_auth.partners'
+import { Route as AuthRouteImport } from './routes/_auth'
+import { Route as AboutUsRouteImport } from './routes/about-us'
+import { Route as ConsentSettingsRouteImport } from './routes/consent-settings'
+import { Route as ImprintRouteImport } from './routes/imprint'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as PartnerProgramRouteImport } from './routes/partner-program'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
 import { Route as AuthAdminRouteImport } from './routes/_auth.admin'
-import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
-import { Route as AuthPartnersIndexRouteImport } from './routes/_auth.partners.index'
+import { Route as AuthPartnersRouteImport } from './routes/_auth.partners'
+import { Route as CompareBarnebysRouteImport } from './routes/compare.barnebys'
+import { Route as PartnerProgramIndexRouteImport } from './routes/partner-program.index'
+import { Route as PartnerProgramApplyRouteImport } from './routes/partner-program.apply'
+import { Route as PartnerProgramCustomIntegrationRouteImport } from './routes/partner-program.custom-integration'
+import { Route as SearchShopsRouteImport } from './routes/search_.shops'
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
-import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
-import { Route as AuthPartnersShopsRouteImport } from './routes/_auth.partners.shops'
-import { Route as AuthPartnersApplicationsRouteImport } from './routes/_auth.partners.applications'
-import { Route as AuthPartnersAccessTokensRouteImport } from './routes/_auth.partners.access-tokens'
-import { Route as AuthOauthAuthorizeRouteImport } from './routes/_auth.oauth.authorize'
-import { Route as AuthMeWatchlistRouteImport } from './routes/_auth.me.watchlist'
-import { Route as AuthMeSearchFiltersRouteImport } from './routes/_auth.me.search-filters'
-import { Route as AuthMeNotificationsRouteImport } from './routes/_auth.me.notifications'
-import { Route as AuthMeAccountRouteImport } from './routes/_auth.me.account'
-import { Route as AuthAdminUsersRouteImport } from './routes/_auth.admin.users'
-import { Route as AuthAdminShopsRouteImport } from './routes/_auth.admin.shops'
-import { Route as AuthAdminPartnerApplicationsRouteImport } from './routes/_auth.admin.partner-applications'
-import { Route as AuthAdminOverviewRouteImport } from './routes/_auth.admin.overview'
 import { Route as AuthAdminOauthClientsRouteImport } from './routes/_auth.admin.oauth-clients'
-import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
-import { Route as ApiOauthAuthorizeApproveRouteImport } from './routes/api.oauth.authorize.approve'
-import { Route as AuthMeSearchFilterFilterIdRouteImport } from './routes/_auth.me.search-filter.$filterId'
+import { Route as AuthAdminOverviewRouteImport } from './routes/_auth.admin.overview'
+import { Route as AuthAdminPartnerApplicationsRouteImport } from './routes/_auth.admin.partner-applications'
+import { Route as AuthAdminShopsRouteImport } from './routes/_auth.admin.shops'
+import { Route as AuthAdminUsersRouteImport } from './routes/_auth.admin.users'
+import { Route as AuthMeAccountRouteImport } from './routes/_auth.me.account'
+import { Route as AuthMeNotificationsRouteImport } from './routes/_auth.me.notifications'
+import { Route as AuthMeSearchFiltersRouteImport } from './routes/_auth.me.search-filters'
+import { Route as AuthMeWatchlistRouteImport } from './routes/_auth.me.watchlist'
+import { Route as AuthOauthAuthorizeRouteImport } from './routes/_auth.oauth.authorize'
+import { Route as AuthPartnersIndexRouteImport } from './routes/_auth.partners.index'
+import { Route as AuthPartnersAccessTokensRouteImport } from './routes/_auth.partners.access-tokens'
+import { Route as AuthPartnersApplicationsRouteImport } from './routes/_auth.partners.applications'
+import { Route as AuthPartnersShopsRouteImport } from './routes/_auth.partners.shops'
+import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
+import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
 import { Route as AuthMeBillingManageRouteImport } from './routes/_auth.me.billing.manage'
+import { Route as AuthMeSearchFilterFilterIdRouteImport } from './routes/_auth.me.search-filter.$filterId'
+import { Route as ApiOauthAuthorizeApproveRouteImport } from './routes/api.oauth.authorize.approve'
+import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
 import { Route as ApiOauthClientRedirectBrokerWoocommerceRouteImport } from './routes/api.oauth.client_.redirect-broker.woocommerce'
 
-const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
-  id: '/terms-and-conditions',
-  path: '/terms-and-conditions',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SearchRoute = SearchRouteImport.update({
-  id: '/search',
-  path: '/search',
+const AuthRoute = AuthRouteImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PartnerProgramRoute = PartnerProgramRouteImport.update({
-  id: '/partner-program',
-  path: '/partner-program',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ImprintRoute = ImprintRouteImport.update({
-  id: '/imprint',
-  path: '/imprint',
+const AboutUsRoute = AboutUsRouteImport.update({
+  id: '/about-us',
+  path: '/about-us',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConsentSettingsRoute = ConsentSettingsRouteImport.update({
@@ -83,13 +68,49 @@ const ConsentSettingsRoute = ConsentSettingsRouteImport.update({
   path: '/consent-settings',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/_auth',
+const ImprintRoute = ImprintRouteImport.update({
+  id: '/imprint',
+  path: '/imprint',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnerProgramRoute = PartnerProgramRouteImport.update({
+  id: '/partner-program',
+  path: '/partner-program',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
+  id: '/terms-and-conditions',
+  path: '/terms-and-conditions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthAdminRoute = AuthAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthPartnersRoute = AuthPartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
+  getParentRoute: () => AuthRoute,
+} as any)
+const CompareBarnebysRoute = CompareBarnebysRouteImport.update({
+  id: '/compare/barnebys',
+  path: '/compare/barnebys',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PartnerProgramIndexRoute = PartnerProgramIndexRouteImport.update({
@@ -97,10 +118,10 @@ const PartnerProgramIndexRoute = PartnerProgramIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PartnerProgramRoute,
 } as any)
-const SearchShopsRoute = SearchShopsRouteImport.update({
-  id: '/search_/shops',
-  path: '/search/shops',
-  getParentRoute: () => rootRouteImport,
+const PartnerProgramApplyRoute = PartnerProgramApplyRouteImport.update({
+  id: '/apply',
+  path: '/apply',
+  getParentRoute: () => PartnerProgramRoute,
 } as any)
 const PartnerProgramCustomIntegrationRoute =
   PartnerProgramCustomIntegrationRouteImport.update({
@@ -108,97 +129,24 @@ const PartnerProgramCustomIntegrationRoute =
     path: '/custom-integration',
     getParentRoute: () => PartnerProgramRoute,
   } as any)
-const PartnerProgramApplyRoute = PartnerProgramApplyRouteImport.update({
-  id: '/apply',
-  path: '/apply',
-  getParentRoute: () => PartnerProgramRoute,
-} as any)
-const CompareBarnebysRoute = CompareBarnebysRouteImport.update({
-  id: '/compare/barnebys',
-  path: '/compare/barnebys',
+const SearchShopsRoute = SearchShopsRouteImport.update({
+  id: '/search_/shops',
+  path: '/search/shops',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AuthPartnersRoute = AuthPartnersRouteImport.update({
-  id: '/partners',
-  path: '/partners',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthAdminRoute = AuthAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthRoute,
-} as any)
-const ShopsShopSlugIdIndexRoute = ShopsShopSlugIdIndexRouteImport.update({
-  id: '/shops/$shopSlugId/',
-  path: '/shops/$shopSlugId/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthPartnersIndexRoute = AuthPartnersIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthPartnersRoute,
 } as any)
 const AuthAdminIndexRoute = AuthAdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthAdminRoute,
 } as any)
-const ProductShopIdShopsProductIdRoute =
-  ProductShopIdShopsProductIdRouteImport.update({
-    id: '/product/$shopId/$shopsProductId',
-    path: '/product/$shopId/$shopsProductId',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const AuthPartnersShopsRoute = AuthPartnersShopsRouteImport.update({
-  id: '/shops',
-  path: '/shops',
-  getParentRoute: () => AuthPartnersRoute,
-} as any)
-const AuthPartnersApplicationsRoute =
-  AuthPartnersApplicationsRouteImport.update({
-    id: '/applications',
-    path: '/applications',
-    getParentRoute: () => AuthPartnersRoute,
-  } as any)
-const AuthPartnersAccessTokensRoute =
-  AuthPartnersAccessTokensRouteImport.update({
-    id: '/access-tokens',
-    path: '/access-tokens',
-    getParentRoute: () => AuthPartnersRoute,
-  } as any)
-const AuthOauthAuthorizeRoute = AuthOauthAuthorizeRouteImport.update({
-  id: '/oauth/authorize',
-  path: '/oauth/authorize',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthMeWatchlistRoute = AuthMeWatchlistRouteImport.update({
-  id: '/me/watchlist',
-  path: '/me/watchlist',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthMeSearchFiltersRoute = AuthMeSearchFiltersRouteImport.update({
-  id: '/me/search-filters',
-  path: '/me/search-filters',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthMeNotificationsRoute = AuthMeNotificationsRouteImport.update({
-  id: '/me/notifications',
-  path: '/me/notifications',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthMeAccountRoute = AuthMeAccountRouteImport.update({
-  id: '/me/account',
-  path: '/me/account',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthAdminUsersRoute = AuthAdminUsersRouteImport.update({
-  id: '/users',
-  path: '/users',
+const AuthAdminOauthClientsRoute = AuthAdminOauthClientsRouteImport.update({
+  id: '/oauth-clients',
+  path: '/oauth-clients',
   getParentRoute: () => AuthAdminRoute,
 } as any)
-const AuthAdminShopsRoute = AuthAdminShopsRouteImport.update({
-  id: '/shops',
-  path: '/shops',
+const AuthAdminOverviewRoute = AuthAdminOverviewRouteImport.update({
+  id: '/overview',
+  path: '/overview',
   getParentRoute: () => AuthAdminRoute,
 } as any)
 const AuthAdminPartnerApplicationsRoute =
@@ -207,21 +155,84 @@ const AuthAdminPartnerApplicationsRoute =
     path: '/partner-applications',
     getParentRoute: () => AuthAdminRoute,
   } as any)
-const AuthAdminOverviewRoute = AuthAdminOverviewRouteImport.update({
-  id: '/overview',
-  path: '/overview',
+const AuthAdminShopsRoute = AuthAdminShopsRouteImport.update({
+  id: '/shops',
+  path: '/shops',
   getParentRoute: () => AuthAdminRoute,
 } as any)
-const AuthAdminOauthClientsRoute = AuthAdminOauthClientsRouteImport.update({
-  id: '/oauth-clients',
-  path: '/oauth-clients',
+const AuthAdminUsersRoute = AuthAdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
   getParentRoute: () => AuthAdminRoute,
 } as any)
-const ShopsShopSlugIdProductsProductSlugIdRoute =
-  ShopsShopSlugIdProductsProductSlugIdRouteImport.update({
-    id: '/shops/$shopSlugId/products/$productSlugId',
-    path: '/shops/$shopSlugId/products/$productSlugId',
+const AuthMeAccountRoute = AuthMeAccountRouteImport.update({
+  id: '/me/account',
+  path: '/me/account',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthMeNotificationsRoute = AuthMeNotificationsRouteImport.update({
+  id: '/me/notifications',
+  path: '/me/notifications',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthMeSearchFiltersRoute = AuthMeSearchFiltersRouteImport.update({
+  id: '/me/search-filters',
+  path: '/me/search-filters',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthMeWatchlistRoute = AuthMeWatchlistRouteImport.update({
+  id: '/me/watchlist',
+  path: '/me/watchlist',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthOauthAuthorizeRoute = AuthOauthAuthorizeRouteImport.update({
+  id: '/oauth/authorize',
+  path: '/oauth/authorize',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthPartnersIndexRoute = AuthPartnersIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthPartnersRoute,
+} as any)
+const AuthPartnersAccessTokensRoute =
+  AuthPartnersAccessTokensRouteImport.update({
+    id: '/access-tokens',
+    path: '/access-tokens',
+    getParentRoute: () => AuthPartnersRoute,
+  } as any)
+const AuthPartnersApplicationsRoute =
+  AuthPartnersApplicationsRouteImport.update({
+    id: '/applications',
+    path: '/applications',
+    getParentRoute: () => AuthPartnersRoute,
+  } as any)
+const AuthPartnersShopsRoute = AuthPartnersShopsRouteImport.update({
+  id: '/shops',
+  path: '/shops',
+  getParentRoute: () => AuthPartnersRoute,
+} as any)
+const ProductShopIdShopsProductIdRoute =
+  ProductShopIdShopsProductIdRouteImport.update({
+    id: '/product/$shopId/$shopsProductId',
+    path: '/product/$shopId/$shopsProductId',
     getParentRoute: () => rootRouteImport,
+  } as any)
+const ShopsShopSlugIdIndexRoute = ShopsShopSlugIdIndexRouteImport.update({
+  id: '/shops/$shopSlugId/',
+  path: '/shops/$shopSlugId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthMeBillingManageRoute = AuthMeBillingManageRouteImport.update({
+  id: '/me/billing/manage',
+  path: '/me/billing/manage',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthMeSearchFilterFilterIdRoute =
+  AuthMeSearchFilterFilterIdRouteImport.update({
+    id: '/me/search-filter/$filterId',
+    path: '/me/search-filter/$filterId',
+    getParentRoute: () => AuthRoute,
   } as any)
 const ApiOauthAuthorizeApproveRoute =
   ApiOauthAuthorizeApproveRouteImport.update({
@@ -229,17 +240,12 @@ const ApiOauthAuthorizeApproveRoute =
     path: '/api/oauth/authorize/approve',
     getParentRoute: () => rootRouteImport,
   } as any)
-const AuthMeSearchFilterFilterIdRoute =
-  AuthMeSearchFilterFilterIdRouteImport.update({
-    id: '/me/search-filter/$filterId',
-    path: '/me/search-filter/$filterId',
-    getParentRoute: () => AuthRoute,
+const ShopsShopSlugIdProductsProductSlugIdRoute =
+  ShopsShopSlugIdProductsProductSlugIdRouteImport.update({
+    id: '/shops/$shopSlugId/products/$productSlugId',
+    path: '/shops/$shopSlugId/products/$productSlugId',
+    getParentRoute: () => rootRouteImport,
   } as any)
-const AuthMeBillingManageRoute = AuthMeBillingManageRouteImport.update({
-  id: '/me/billing/manage',
-  path: '/me/billing/manage',
-  getParentRoute: () => AuthRoute,
-} as any)
 const ApiOauthClientRedirectBrokerWoocommerceRoute =
   ApiOauthClientRedirectBrokerWoocommerceRouteImport.update({
     id: '/api/oauth/client_/redirect-broker/woocommerce',
@@ -249,6 +255,7 @@ const ApiOauthClientRedirectBrokerWoocommerceRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about-us': typeof AboutUsRoute
   '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
@@ -288,6 +295,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about-us': typeof AboutUsRoute
   '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
@@ -326,6 +334,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
+  '/about-us': typeof AboutUsRoute
   '/consent-settings': typeof ConsentSettingsRoute
   '/imprint': typeof ImprintRoute
   '/login': typeof LoginRoute
@@ -367,6 +376,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about-us'
     | '/consent-settings'
     | '/imprint'
     | '/login'
@@ -406,6 +416,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about-us'
     | '/consent-settings'
     | '/imprint'
     | '/login'
@@ -443,6 +454,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_auth'
+    | '/about-us'
     | '/consent-settings'
     | '/imprint'
     | '/login'
@@ -484,6 +496,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
+  AboutUsRoute: typeof AboutUsRoute
   ConsentSettingsRoute: typeof ConsentSettingsRoute
   ImprintRoute: typeof ImprintRoute
   LoginRoute: typeof LoginRoute
@@ -502,53 +515,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/terms-and-conditions': {
-      id: '/terms-and-conditions'
-      path: '/terms-and-conditions'
-      fullPath: '/terms-and-conditions'
-      preLoaderRoute: typeof TermsAndConditionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/partner-program': {
-      id: '/partner-program'
-      path: '/partner-program'
-      fullPath: '/partner-program'
-      preLoaderRoute: typeof PartnerProgramRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/imprint': {
-      id: '/imprint'
-      path: '/imprint'
-      fullPath: '/imprint'
-      preLoaderRoute: typeof ImprintRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/consent-settings': {
-      id: '/consent-settings'
-      path: '/consent-settings'
-      fullPath: '/consent-settings'
-      preLoaderRoute: typeof ConsentSettingsRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth': {
@@ -558,11 +529,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/about-us': {
+      id: '/about-us'
+      path: '/about-us'
+      fullPath: '/about-us'
+      preLoaderRoute: typeof AboutUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/consent-settings': {
+      id: '/consent-settings'
+      path: '/consent-settings'
+      fullPath: '/consent-settings'
+      preLoaderRoute: typeof ConsentSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/imprint': {
+      id: '/imprint'
+      path: '/imprint'
+      fullPath: '/imprint'
+      preLoaderRoute: typeof ImprintRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partner-program': {
+      id: '/partner-program'
+      path: '/partner-program'
+      fullPath: '/partner-program'
+      preLoaderRoute: typeof PartnerProgramRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms-and-conditions': {
+      id: '/terms-and-conditions'
+      path: '/terms-and-conditions'
+      fullPath: '/terms-and-conditions'
+      preLoaderRoute: typeof TermsAndConditionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/admin': {
+      id: '/_auth/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthAdminRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/partners': {
+      id: '/_auth/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof AuthPartnersRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/compare/barnebys': {
+      id: '/compare/barnebys'
+      path: '/compare/barnebys'
+      fullPath: '/compare/barnebys'
+      preLoaderRoute: typeof CompareBarnebysRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/partner-program/': {
@@ -572,12 +613,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnerProgramIndexRouteImport
       parentRoute: typeof PartnerProgramRoute
     }
-    '/search_/shops': {
-      id: '/search_/shops'
-      path: '/search/shops'
-      fullPath: '/search/shops'
-      preLoaderRoute: typeof SearchShopsRouteImport
-      parentRoute: typeof rootRouteImport
+    '/partner-program/apply': {
+      id: '/partner-program/apply'
+      path: '/apply'
+      fullPath: '/partner-program/apply'
+      preLoaderRoute: typeof PartnerProgramApplyRouteImport
+      parentRoute: typeof PartnerProgramRoute
     }
     '/partner-program/custom-integration': {
       id: '/partner-program/custom-integration'
@@ -586,144 +627,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnerProgramCustomIntegrationRouteImport
       parentRoute: typeof PartnerProgramRoute
     }
-    '/partner-program/apply': {
-      id: '/partner-program/apply'
-      path: '/apply'
-      fullPath: '/partner-program/apply'
-      preLoaderRoute: typeof PartnerProgramApplyRouteImport
-      parentRoute: typeof PartnerProgramRoute
-    }
-    '/compare/barnebys': {
-      id: '/compare/barnebys'
-      path: '/compare/barnebys'
-      fullPath: '/compare/barnebys'
-      preLoaderRoute: typeof CompareBarnebysRouteImport
+    '/search_/shops': {
+      id: '/search_/shops'
+      path: '/search/shops'
+      fullPath: '/search/shops'
+      preLoaderRoute: typeof SearchShopsRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_auth/partners': {
-      id: '/_auth/partners'
-      path: '/partners'
-      fullPath: '/partners'
-      preLoaderRoute: typeof AuthPartnersRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/admin': {
-      id: '/_auth/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthAdminRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/shops/$shopSlugId/': {
-      id: '/shops/$shopSlugId/'
-      path: '/shops/$shopSlugId'
-      fullPath: '/shops/$shopSlugId/'
-      preLoaderRoute: typeof ShopsShopSlugIdIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_auth/partners/': {
-      id: '/_auth/partners/'
-      path: '/'
-      fullPath: '/partners/'
-      preLoaderRoute: typeof AuthPartnersIndexRouteImport
-      parentRoute: typeof AuthPartnersRoute
     }
     '/_auth/admin/': {
       id: '/_auth/admin/'
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthAdminIndexRouteImport
-      parentRoute: typeof AuthAdminRoute
-    }
-    '/product/$shopId/$shopsProductId': {
-      id: '/product/$shopId/$shopsProductId'
-      path: '/product/$shopId/$shopsProductId'
-      fullPath: '/product/$shopId/$shopsProductId'
-      preLoaderRoute: typeof ProductShopIdShopsProductIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_auth/partners/shops': {
-      id: '/_auth/partners/shops'
-      path: '/shops'
-      fullPath: '/partners/shops'
-      preLoaderRoute: typeof AuthPartnersShopsRouteImport
-      parentRoute: typeof AuthPartnersRoute
-    }
-    '/_auth/partners/applications': {
-      id: '/_auth/partners/applications'
-      path: '/applications'
-      fullPath: '/partners/applications'
-      preLoaderRoute: typeof AuthPartnersApplicationsRouteImport
-      parentRoute: typeof AuthPartnersRoute
-    }
-    '/_auth/partners/access-tokens': {
-      id: '/_auth/partners/access-tokens'
-      path: '/access-tokens'
-      fullPath: '/partners/access-tokens'
-      preLoaderRoute: typeof AuthPartnersAccessTokensRouteImport
-      parentRoute: typeof AuthPartnersRoute
-    }
-    '/_auth/oauth/authorize': {
-      id: '/_auth/oauth/authorize'
-      path: '/oauth/authorize'
-      fullPath: '/oauth/authorize'
-      preLoaderRoute: typeof AuthOauthAuthorizeRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/me/watchlist': {
-      id: '/_auth/me/watchlist'
-      path: '/me/watchlist'
-      fullPath: '/me/watchlist'
-      preLoaderRoute: typeof AuthMeWatchlistRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/me/search-filters': {
-      id: '/_auth/me/search-filters'
-      path: '/me/search-filters'
-      fullPath: '/me/search-filters'
-      preLoaderRoute: typeof AuthMeSearchFiltersRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/me/notifications': {
-      id: '/_auth/me/notifications'
-      path: '/me/notifications'
-      fullPath: '/me/notifications'
-      preLoaderRoute: typeof AuthMeNotificationsRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/me/account': {
-      id: '/_auth/me/account'
-      path: '/me/account'
-      fullPath: '/me/account'
-      preLoaderRoute: typeof AuthMeAccountRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/admin/users': {
-      id: '/_auth/admin/users'
-      path: '/users'
-      fullPath: '/admin/users'
-      preLoaderRoute: typeof AuthAdminUsersRouteImport
-      parentRoute: typeof AuthAdminRoute
-    }
-    '/_auth/admin/shops': {
-      id: '/_auth/admin/shops'
-      path: '/shops'
-      fullPath: '/admin/shops'
-      preLoaderRoute: typeof AuthAdminShopsRouteImport
-      parentRoute: typeof AuthAdminRoute
-    }
-    '/_auth/admin/partner-applications': {
-      id: '/_auth/admin/partner-applications'
-      path: '/partner-applications'
-      fullPath: '/admin/partner-applications'
-      preLoaderRoute: typeof AuthAdminPartnerApplicationsRouteImport
-      parentRoute: typeof AuthAdminRoute
-    }
-    '/_auth/admin/overview': {
-      id: '/_auth/admin/overview'
-      path: '/overview'
-      fullPath: '/admin/overview'
-      preLoaderRoute: typeof AuthAdminOverviewRouteImport
       parentRoute: typeof AuthAdminRoute
     }
     '/_auth/admin/oauth-clients': {
@@ -733,19 +648,117 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminOauthClientsRouteImport
       parentRoute: typeof AuthAdminRoute
     }
-    '/shops/$shopSlugId/products/$productSlugId': {
-      id: '/shops/$shopSlugId/products/$productSlugId'
-      path: '/shops/$shopSlugId/products/$productSlugId'
-      fullPath: '/shops/$shopSlugId/products/$productSlugId'
-      preLoaderRoute: typeof ShopsShopSlugIdProductsProductSlugIdRouteImport
+    '/_auth/admin/overview': {
+      id: '/_auth/admin/overview'
+      path: '/overview'
+      fullPath: '/admin/overview'
+      preLoaderRoute: typeof AuthAdminOverviewRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/partner-applications': {
+      id: '/_auth/admin/partner-applications'
+      path: '/partner-applications'
+      fullPath: '/admin/partner-applications'
+      preLoaderRoute: typeof AuthAdminPartnerApplicationsRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/shops': {
+      id: '/_auth/admin/shops'
+      path: '/shops'
+      fullPath: '/admin/shops'
+      preLoaderRoute: typeof AuthAdminShopsRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/users': {
+      id: '/_auth/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthAdminUsersRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/me/account': {
+      id: '/_auth/me/account'
+      path: '/me/account'
+      fullPath: '/me/account'
+      preLoaderRoute: typeof AuthMeAccountRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/me/notifications': {
+      id: '/_auth/me/notifications'
+      path: '/me/notifications'
+      fullPath: '/me/notifications'
+      preLoaderRoute: typeof AuthMeNotificationsRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/me/search-filters': {
+      id: '/_auth/me/search-filters'
+      path: '/me/search-filters'
+      fullPath: '/me/search-filters'
+      preLoaderRoute: typeof AuthMeSearchFiltersRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/me/watchlist': {
+      id: '/_auth/me/watchlist'
+      path: '/me/watchlist'
+      fullPath: '/me/watchlist'
+      preLoaderRoute: typeof AuthMeWatchlistRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/oauth/authorize': {
+      id: '/_auth/oauth/authorize'
+      path: '/oauth/authorize'
+      fullPath: '/oauth/authorize'
+      preLoaderRoute: typeof AuthOauthAuthorizeRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/partners/': {
+      id: '/_auth/partners/'
+      path: '/'
+      fullPath: '/partners/'
+      preLoaderRoute: typeof AuthPartnersIndexRouteImport
+      parentRoute: typeof AuthPartnersRoute
+    }
+    '/_auth/partners/access-tokens': {
+      id: '/_auth/partners/access-tokens'
+      path: '/access-tokens'
+      fullPath: '/partners/access-tokens'
+      preLoaderRoute: typeof AuthPartnersAccessTokensRouteImport
+      parentRoute: typeof AuthPartnersRoute
+    }
+    '/_auth/partners/applications': {
+      id: '/_auth/partners/applications'
+      path: '/applications'
+      fullPath: '/partners/applications'
+      preLoaderRoute: typeof AuthPartnersApplicationsRouteImport
+      parentRoute: typeof AuthPartnersRoute
+    }
+    '/_auth/partners/shops': {
+      id: '/_auth/partners/shops'
+      path: '/shops'
+      fullPath: '/partners/shops'
+      preLoaderRoute: typeof AuthPartnersShopsRouteImport
+      parentRoute: typeof AuthPartnersRoute
+    }
+    '/product/$shopId/$shopsProductId': {
+      id: '/product/$shopId/$shopsProductId'
+      path: '/product/$shopId/$shopsProductId'
+      fullPath: '/product/$shopId/$shopsProductId'
+      preLoaderRoute: typeof ProductShopIdShopsProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/oauth/authorize/approve': {
-      id: '/api/oauth/authorize/approve'
-      path: '/api/oauth/authorize/approve'
-      fullPath: '/api/oauth/authorize/approve'
-      preLoaderRoute: typeof ApiOauthAuthorizeApproveRouteImport
+    '/shops/$shopSlugId/': {
+      id: '/shops/$shopSlugId/'
+      path: '/shops/$shopSlugId'
+      fullPath: '/shops/$shopSlugId/'
+      preLoaderRoute: typeof ShopsShopSlugIdIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_auth/me/billing/manage': {
+      id: '/_auth/me/billing/manage'
+      path: '/me/billing/manage'
+      fullPath: '/me/billing/manage'
+      preLoaderRoute: typeof AuthMeBillingManageRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/_auth/me/search-filter/$filterId': {
       id: '/_auth/me/search-filter/$filterId'
@@ -754,12 +767,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthMeSearchFilterFilterIdRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_auth/me/billing/manage': {
-      id: '/_auth/me/billing/manage'
-      path: '/me/billing/manage'
-      fullPath: '/me/billing/manage'
-      preLoaderRoute: typeof AuthMeBillingManageRouteImport
-      parentRoute: typeof AuthRoute
+    '/api/oauth/authorize/approve': {
+      id: '/api/oauth/authorize/approve'
+      path: '/api/oauth/authorize/approve'
+      fullPath: '/api/oauth/authorize/approve'
+      preLoaderRoute: typeof ApiOauthAuthorizeApproveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shops/$shopSlugId/products/$productSlugId': {
+      id: '/shops/$shopSlugId/products/$productSlugId'
+      path: '/shops/$shopSlugId/products/$productSlugId'
+      fullPath: '/shops/$shopSlugId/products/$productSlugId'
+      preLoaderRoute: typeof ShopsShopSlugIdProductsProductSlugIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/oauth/client_/redirect-broker/woocommerce': {
       id: '/api/oauth/client_/redirect-broker/woocommerce'
@@ -856,6 +876,7 @@ const PartnerProgramRouteWithChildren = PartnerProgramRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
+  AboutUsRoute: AboutUsRoute,
   ConsentSettingsRoute: ConsentSettingsRoute,
   ImprintRoute: ImprintRoute,
   LoginRoute: LoginRoute,

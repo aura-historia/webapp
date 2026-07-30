@@ -6,6 +6,7 @@
 
 Current feature areas include:
 
+- `about` — public About page content, values, mission, and team configuration.
 - `admin/oauth-client-management` — admin management for OAuth clients.
 - `comparison` — comparison/SEO pages such as Aura Historia vs Barnebys.
 - `oauth` — OAuth authorization UI and approve handler support.
