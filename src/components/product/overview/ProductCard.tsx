@@ -1,5 +1,4 @@
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
-import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
 import { AuctionWindowBadge } from "@/components/product/badges/AuctionWindowBadge.tsx";
 import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotificationBadge.tsx";
 import { SearchFilterMatchBadge } from "@/components/product/badges/SearchFilterMatchBadge.tsx";
@@ -115,19 +114,32 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                     </div>
                 </div>
 
-                <div className="flex min-w-0 items-center gap-2 pb-3">
-                    <span className="max-w-full truncate rounded-none bg-secondary-container px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-on-secondary-container">
-                        {product.shopName}
-                    </span>
-                    {product.shopType && (
-                        <>
-                            <span className="text-xs text-on-surface/60">-</span>
-                            <ShopTypeBadge
-                                shopType={product.shopType}
-                                className="text-[10px] rounded-none border-none px-2 py-1 bg-secondary-container text-on-secondary-container"
-                            />
-                        </>
-                    )}
+                <div className="min-w-0 pb-3">
+                    <p className="text-sm uppercase tracking-[0.08em] text-muted-foreground/80">
+                        {product.sellerName === product.shopName ? (
+                            <Link
+                                to="/shops/$shopSlugId"
+                                params={{ shopSlugId: product.shopSlugId }}
+                                className="transition-colors hover:text-foreground hover:underline"
+                            >
+                                {product.shopName}
+                            </Link>
+                        ) : (
+                            <>
+                                {product.sellerName}
+                                <span className="ml-2 text-muted-foreground/80">
+                                    {t("product.soldOn")}{" "}
+                                    <Link
+                                        to="/shops/$shopSlugId"
+                                        params={{ shopSlugId: product.shopSlugId }}
+                                        className="transition-colors hover:text-foreground hover:underline"
+                                    >
+                                        {product.shopName}
+                                    </Link>
+                                </span>
+                            </>
+                        )}
+                    </p>
                 </div>
 
                 <div className="flex flex-wrap gap-2 pb-3">

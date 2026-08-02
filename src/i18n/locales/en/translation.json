@@ -140,7 +140,6 @@
       "discover": "Platform",
       "features": "Features",
       "howItWorks": "How It Works",
-      "testimonials": "Testimonials",
       "pricing": "Pricing",
       "newsletter": "Newsletter",
       "faq": "FAQ"
@@ -555,7 +554,6 @@
     }
   },
   "landingPage": {
-    "badge": "Search beyond the usual auction houses",
     "titleFirstLine": "Discover rare antiques<1/>across the global market",
     "subtitle": "Aura Historia brings dealers, auction houses, and specialist inventory into one global antiques platform — so collectors and professionals can find the right piece before it disappears into another silo.",
     "recentlyAdded": {

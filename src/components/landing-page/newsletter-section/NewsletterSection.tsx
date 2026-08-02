@@ -4,7 +4,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Mail, CheckCircle, Send } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { useState } from "react";
 
 import {
@@ -161,14 +161,13 @@ export default function NewsletterSection() {
                                                         {t("landingPage.newsletter.emailLabel")}
                                                     </FormLabel>
                                                     <FormControl>
-                                                        <div className="relative">
-                                                            <Mail className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/70" />
+                                                        <div>
                                                             <Input
                                                                 type="email"
                                                                 placeholder={t(
                                                                     "landingPage.newsletter.placeholder",
                                                                 )}
-                                                                className="h-12 border-primary-foreground/15 bg-white/95 pl-10 text-foreground shadow-sm placeholder:text-muted-foreground/60 focus-visible:border-tertiary-fixed-dim/50 focus-visible:ring-tertiary-fixed-dim/20"
+                                                                className="h-12 border-primary-foreground/15 bg-white/95 text-foreground shadow-sm placeholder:text-muted-foreground/60 focus-visible:border-tertiary-fixed-dim/50 focus-visible:ring-tertiary-fixed-dim/20"
                                                                 {...field}
                                                             />
                                                         </div>
@@ -231,11 +230,7 @@ export default function NewsletterSection() {
                                             disabled={isPending}
                                             className="h-12 w-full bg-tertiary text-tertiary-foreground text-base font-medium shadow-sm hover:bg-tertiary-fixed-dim"
                                         >
-                                            {isPending ? (
-                                                <Spinner className="mr-2" />
-                                            ) : (
-                                                <Send className="mr-2 size-4" />
-                                            )}
+                                            {isPending && <Spinner className="mr-2" />}
                                             {t("landingPage.newsletter.button")}
                                         </Button>
 

@@ -1,5 +1,3 @@
-import { Bot, Funnel, Globe, Heart, History, Languages, Search } from "lucide-react";
-
 const ART_BASEL_UBS_REPORT_URL =
     "https://www.ubs.com/global/en/our-firm/art/art-market-research.html";
 const IBISWORLD_US_ANTIQUE_STORES_URL =
@@ -9,7 +7,6 @@ const IBISWORLD_EU_SECOND_HAND_URL =
 
 export const FEATURES_CARD_DATA = [
     {
-        icon: Globe,
         titleKey: "landingPage.features.marketScale.title",
         descKey: "landingPage.features.marketScale.description",
         visual: {
@@ -25,7 +22,6 @@ export const FEATURES_CARD_DATA = [
         },
     },
     {
-        icon: Search,
         titleKey: "landingPage.features.beyondAuction.title",
         descKey: "landingPage.features.beyondAuction.description",
         visual: {
@@ -41,7 +37,6 @@ export const FEATURES_CARD_DATA = [
         },
     },
     {
-        icon: Languages,
         titleKey: "landingPage.features.translations.title",
         descKey: "landingPage.features.translations.description",
         visual: {
@@ -61,7 +56,6 @@ export const FEATURES_CARD_DATA = [
         },
     },
     {
-        icon: Heart,
         titleKey: "landingPage.features.watchlist.title",
         descKey: "landingPage.features.watchlist.description",
         visual: {
@@ -72,7 +66,6 @@ export const FEATURES_CARD_DATA = [
         },
     },
     {
-        icon: Funnel,
         titleKey: "landingPage.features.personalFilter.title",
         descKey: "landingPage.features.personalFilter.description",
         visual: {
@@ -83,7 +76,6 @@ export const FEATURES_CARD_DATA = [
         },
     },
     {
-        icon: History,
         titleKey: "landingPage.features.history.title",
         descKey: "landingPage.features.history.description",
         visual: {
@@ -94,7 +86,6 @@ export const FEATURES_CARD_DATA = [
         },
     },
     {
-        icon: Bot,
         titleKey: "landingPage.features.aiSearchAgent.title",
         descKey: "landingPage.features.aiSearchAgent.description",
         visual: {

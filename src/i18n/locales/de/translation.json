@@ -140,7 +140,6 @@
       "discover": "Plattform",
       "features": "Funktionen",
       "howItWorks": "So funktioniert's",
-      "testimonials": "Nutzerstimmen",
       "pricing": "Preise",
       "newsletter": "Newsletter",
       "faq": "FAQ"
@@ -555,7 +554,6 @@
     }
   },
   "landingPage": {
-    "badge": "Jenseits der bekannten Auktionshäuser suchen",
     "titleFirstLine": "Seltene Antiquitäten<1/>weltweit entdecken",
     "subtitle": "Aura Historia führt Händler, Auktionshäuser, Marktplätze und spezialisiertes Inventar in einer globalen Antiquitätenplattform zusammen – damit besondere Stücke sichtbar werden, bevor sie wieder verschwinden.",
     "recentlyAdded": {

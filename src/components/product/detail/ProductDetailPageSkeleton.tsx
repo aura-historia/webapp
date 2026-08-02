@@ -1,6 +1,11 @@
 import { Skeleton } from "@/components/ui/skeleton.tsx";
+import { useLayoutEffect } from "react";
 
 export function ProductDetailPageSkeleton() {
+    useLayoutEffect(() => {
+        globalThis.scrollTo({ top: 0, left: 0 });
+    }, []);
+
     return (
         <div className="mx-auto w-full max-w-[1280px] px-4 pb-20 pt-8 md:px-8">
             <section className="grid grid-cols-1 gap-8 pb-8 lg:grid-cols-12 lg:gap-12">

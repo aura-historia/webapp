@@ -29,11 +29,8 @@ export default function DiscoverSection({ shopCount }: DiscoverSectionProps) {
 
                     <div className="space-y-5">
                         {DISCOVER_HIGHLIGHTS.map((highlight) => (
-                            <div key={highlight.titleKey} className="flex items-start gap-4">
-                                <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-surface-container-high">
-                                    <highlight.icon className="h-5 w-5 text-primary" />
-                                </div>
-                                <div className="flex-1">
+                            <div key={highlight.titleKey}>
+                                <div>
                                     <h3 className="mb-1 font-display text-xl font-normal text-primary">
                                         {t(
                                             highlight.titleFallbackKey && shopCount == null

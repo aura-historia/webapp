@@ -45,10 +45,7 @@ export default function FeaturesSection() {
                                         visualOnLeft ? "lg:order-2 lg:-ml-10" : "lg:-mr-10",
                                     )}
                                 >
-                                    <div className="mb-8 flex items-center justify-between gap-4">
-                                        <div className="flex h-12 w-12 items-center justify-center bg-surface-container-high">
-                                            <feature.icon className="h-6 w-6 text-primary" />
-                                        </div>
+                                    <div className="mb-8 flex justify-end">
                                         <span className="font-display text-5xl italic leading-none text-primary/15">
                                             {String(index + 1).padStart(2, "0")}
                                         </span>

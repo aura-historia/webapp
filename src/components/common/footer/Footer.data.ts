@@ -91,10 +91,6 @@ export const LANDING_PAGE_FOOTER_LINKS: LandingPageFooterLink[] = [
         fragment: LANDING_PAGE_FRAGMENTS.howItWorks,
     },
     {
-        translationKey: "footer.landingPageLinks.testimonials",
-        fragment: LANDING_PAGE_FRAGMENTS.testimonials,
-    },
-    {
         translationKey: "footer.landingPageLinks.pricing",
         fragment: LANDING_PAGE_FRAGMENTS.pricing,
     },
