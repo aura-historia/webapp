@@ -55,6 +55,7 @@ describe("mapToBackendUserAccountPatch", () => {
             lastName: "Doe",
             language: "de",
             currency: "USD",
+            unitSystem: "IMPERIAL",
             prohibitedContentConsent: false,
         });
 
@@ -63,6 +64,7 @@ describe("mapToBackendUserAccountPatch", () => {
             lastName: "Doe",
             language: "de",
             currency: "USD",
+            measurementUnit: "IMPERIAL",
             prohibitedContentConsent: false,
         });
     });

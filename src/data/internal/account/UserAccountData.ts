@@ -1,6 +1,7 @@
 import type { GetUserAccountData, PatchUserAccountData } from "@/client";
 import { type Language, parseLanguage, mapToBackendLanguage } from "../common/Language.ts";
 import { type Currency, parseCurrency, mapToBackendCurrency } from "../common/Currency.ts";
+import { type UnitSystem, parseUnitSystem, mapToBackendUnitSystem } from "../common/UnitSystem.ts";
 import { type UserRole, parseUserRole } from "./UserRole.ts";
 import {
     parseSubscriptionType,
@@ -14,6 +15,7 @@ export type UserAccountData = {
     readonly lastName?: string;
     readonly language?: Language;
     readonly currency?: Currency;
+    readonly unitSystem?: UnitSystem;
     readonly prohibitedContentConsent: boolean;
     readonly role: UserRole;
     readonly subscriptionType: SubscriptionType;
@@ -26,6 +28,7 @@ export type UserAccountPatchData = {
     readonly lastName?: string;
     readonly language?: Language;
     readonly currency?: Currency;
+    readonly unitSystem?: UnitSystem;
     readonly prohibitedContentConsent?: boolean;
 };
 
@@ -37,6 +40,7 @@ export function mapToInternalUserAccount(apiData: GetUserAccountData): UserAccou
         lastName: apiData.lastName ?? undefined,
         language: apiData.language ? parseLanguage(apiData.language) : undefined,
         currency: apiData.currency ? parseCurrency(apiData.currency) : undefined,
+        unitSystem: apiData.measurementUnit ? parseUnitSystem(apiData.measurementUnit) : undefined,
         prohibitedContentConsent: apiData.prohibitedContentConsent,
         role: parseUserRole(apiData.role),
         subscriptionType: parseSubscriptionType(apiData.tier),
@@ -51,6 +55,7 @@ export function mapToBackendUserAccountPatch(data: UserAccountPatchData): PatchU
         lastName: data.lastName ?? null,
         language: mapToBackendLanguage(data.language),
         currency: mapToBackendCurrency(data.currency),
+        measurementUnit: mapToBackendUnitSystem(data.unitSystem),
         prohibitedContentConsent: data.prohibitedContentConsent ?? null,
     };
 }
