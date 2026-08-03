@@ -252,6 +252,8 @@
       "languagePlaceholder": "Seleccionar idioma",
       "currencyLabel": "Moneda",
       "currencyPlaceholder": "Seleccionar moneda",
+      "unitSystemLabel": "Sistema de unidades",
+      "unitSystemPlaceholder": "Seleccionar sistema de unidades",
       "saveButton": "Guardar Cambios",
       "successMessage": "Datos personales actualizados con éxito",
       "prohibitedContentConsentLabel": "Mostrar productos con marcas del § 86a StGB",
@@ -1137,6 +1139,7 @@
       "confirmPassword": "Confirmar contraseña*",
       "language": "Idioma",
       "currency": "Moneda",
+      "unitSystem": "Sistema de unidades",
       "pleaseSelect": "Por favor selecciona",
       "prohibitedContentConsentLabel": "Mostrar productos con marcas del §86a StGB",
       "prohibitedContentConsentTooltip": "Las imágenes de los productos pueden contener símbolos de organizaciones inconstitucionales o terroristas, particularmente aquellos de la era nacionalsocialista, según lo definido en el §86a StGB. Al aceptar, usted consiente que le mostremos dicho contenido.",
@@ -1186,6 +1189,10 @@
       "HKD": "HKD - Dólar de Hong Kong",
       "SGD": "SGD - Dólar de Singapur",
       "CHF": "CHF - Franco suizo"
+    },
+    "unitSystems": {
+      "METRIC": "Métrico",
+      "IMPERIAL": "Imperial"
     },
     "confirm": {
       "title": "Revisa tu correo",
@@ -1608,6 +1615,7 @@
         "lastName": "Apellido",
         "language": "Idioma",
         "currency": "Moneda",
+        "unitSystem": "Sistema de unidades",
         "tier": "Plan",
         "role": "Rol",
         "stripeCustomerId": "ID de cliente de Stripe",

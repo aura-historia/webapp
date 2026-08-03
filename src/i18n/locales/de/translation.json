@@ -230,8 +230,10 @@
       "lastNameLabel": "Nachname",
       "languageLabel": "Sprache",
       "currencyLabel": "Währung",
+      "unitSystemLabel": "Einheitensystem",
       "languagePlaceholder": "Sprache auswählen",
       "currencyPlaceholder": "Währung auswählen",
+      "unitSystemPlaceholder": "Einheitensystem auswählen",
       "saveButton": "Änderungen speichern",
       "successMessage": "Persönliche Daten erfolgreich aktualisiert",
       "prohibitedContentConsentLabel": "Produkte mit § 86a StGB-Kennzeichnungen anzeigen",
@@ -1137,6 +1139,7 @@
       "confirmPassword": "Passwort bestätigen*",
       "language": "Sprache",
       "currency": "Währung",
+      "unitSystem": "Einheitensystem",
       "pleaseSelect": "Bitte wählen",
       "prohibitedContentConsentLabel": "Produkte mit §86a StGB-Kennzeichnungen anzeigen",
       "prohibitedContentConsentTooltip": "Bilder von Produkten können Kennzeichen verfassungswidriger oder terroristischer Organisationen, insbesondere solcher aus der Zeit des Nationalsozialismus, nach §86a StGB enthalten. Hiermit stimmen Sie zu, dass wir Ihnen solche Inhalte anzeigen dürfen.",
@@ -1186,6 +1189,10 @@
       "HKD": "HKD - Hongkong-Dollar",
       "SGD": "SGD - Singapur-Dollar",
       "CHF": "CHF - Schweizer Franken"
+    },
+    "unitSystems": {
+      "METRIC": "Metrisch",
+      "IMPERIAL": "Imperial"
     },
     "confirm": {
       "title": "E-Mail überprüfen",
@@ -1944,6 +1951,7 @@
         "lastName": "Nachname",
         "language": "Sprache",
         "currency": "Währung",
+        "unitSystem": "Einheitensystem",
         "tier": "Tarif",
         "role": "Rolle",
         "stripeCustomerId": "Stripe-Kundennummer",
