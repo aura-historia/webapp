@@ -75,6 +75,7 @@ describe("useUserPreferences", () => {
         const stored = JSON.parse(storedRaw ?? "{}");
         expect(stored.trackingConsent).toBe(true);
         expect(stored.currency).toBeDefined();
+        expect(stored.unitSystem).toBeDefined();
         expect(googleAnalytics.setConsent).toHaveBeenCalledWith(true);
     });
 
