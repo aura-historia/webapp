@@ -122,7 +122,7 @@
         "typescript": "^7.0.2",
         "vite": "^8.2.0",
         "vitest": "^4.1.10",
-        "web-vitals": "^5.2.0",
+        "web-vitals": "^6.0.1",
         "wrangler": "^4.116.0"
     }
 }
