@@ -27,6 +27,10 @@ vi.mock("@/components/common/CurrencySelector.tsx", () => ({
     CurrencySelector: () => null,
 }));
 
+vi.mock("@/components/common/UnitSystemSelector.tsx", () => ({
+    UnitSystemSelector: () => null,
+}));
+
 vi.mock("react-i18next", async () => {
     const actual = await vi.importActual("react-i18next");
     return {
