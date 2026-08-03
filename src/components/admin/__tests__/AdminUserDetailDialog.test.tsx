@@ -37,6 +37,7 @@ describe("AdminUserDetailDialog", () => {
                 lastName: "Lovelace",
                 language: "en",
                 currency: "EUR",
+                unitSystem: "METRIC",
                 prohibitedContentConsent: true,
                 tier: "PRO",
                 role: "ADMIN",
