@@ -6,6 +6,7 @@ import { Info } from "lucide-react";
 import { z } from "zod";
 import { LANGUAGES, mapToBackendLanguage, parseLanguage } from "@/data/internal/common/Language.ts";
 import { CURRENCIES, mapToBackendCurrency } from "@/data/internal/common/Currency.ts";
+import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";
 import { getAccountEditSchema } from "@/utils/nameValidation";
 import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount";
 import { useNewsletterSubscription } from "@/hooks/newsletter/useNewsletterSubscription.ts";
@@ -57,6 +58,7 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
             lastName: "",
             language: inferredLanguage,
             currency: preferences.currency,
+            unitSystem: preferences.unitSystem,
             newsletterConsent: true,
             prohibitedContentConsent: false,
         },
@@ -86,6 +88,7 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
                 lastName: data.lastName || undefined,
                 language: data.language || undefined,
                 currency: data.currency || undefined,
+                unitSystem: data.unitSystem || undefined,
                 prohibitedContentConsent: data.prohibitedContentConsent,
             });
             await subscribeUserToNewsletter(data);
@@ -223,6 +226,37 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
                             )}
                         />
                     </div>
+
+                    <FormField
+                        control={form.control}
+                        name="unitSystem"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{t("auth.signUp.unitSystem")}</FormLabel>
+                                <Select
+                                    onValueChange={field.onChange}
+                                    value={field.value}
+                                    key={field.value}
+                                >
+                                    <FormControl>
+                                        <SelectTrigger className="w-full data-[size=default]:h-11">
+                                            <SelectValue
+                                                placeholder={t("auth.signUp.pleaseSelect")}
+                                            />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {UNIT_SYSTEMS.map((unitSystem) => (
+                                            <SelectItem key={unitSystem} value={unitSystem}>
+                                                {t(`auth.unitSystems.${unitSystem}`)}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
 
                     <FormField
                         control={form.control}

@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { TFunction } from "i18next";
 import { LANGUAGES } from "@/data/internal/common/Language.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
+import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";
 
 type NameFormData = {
     firstName?: string;
@@ -50,6 +51,7 @@ export function getAccountEditSchema(t: TFunction) {
         lastName: nameSchema.or(z.string().max(0)),
         language: z.enum(LANGUAGES).optional(),
         currency: z.enum(CURRENCIES).optional(),
+        unitSystem: z.enum(UNIT_SYSTEMS).optional(),
         prohibitedContentConsent: z.boolean(),
     });
 }
