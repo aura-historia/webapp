@@ -6,7 +6,6 @@ import FeaturesSection from "@/components/landing-page/features-section/Features
 import HowItWorksSection from "@/components/landing-page/how-it-works-section/HowItWorksSection.tsx";
 import PricingSection from "@/components/landing-page/pricing-section/PricingSection.tsx";
 import NewsletterSection from "@/components/landing-page/newsletter-section/NewsletterSection.tsx";
-import TestimonialsSection from "@/components/landing-page/testimonials-section/TestimonialsSection.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
@@ -89,9 +88,6 @@ function LandingPage() {
             </div>
             <div id={LANDING_PAGE_FRAGMENTS.howItWorks} className="scroll-mt-24">
                 <HowItWorksSection />
-            </div>
-            <div id={LANDING_PAGE_FRAGMENTS.testimonials} className="scroll-mt-24">
-                <TestimonialsSection />
             </div>
             <div id={LANDING_PAGE_FRAGMENTS.pricing} className="scroll-mt-24" hidden>
                 <PricingSection />

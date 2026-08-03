@@ -9,19 +9,13 @@ describe("HeroSection", () => {
         });
     });
 
-    it("renders the badge", () => {
-        expect(
-            screen.getByText("Jenseits der bekannten Auktionshäuser suchen"),
-        ).toBeInTheDocument();
-    });
-
     it("renders the main heading", () => {
-        expect(screen.getByText(/Seltene Antiquitäten/)).toBeInTheDocument();
+        expect(screen.getByText(/Seltene Antiquit/)).toBeInTheDocument();
         expect(screen.getByText(/weltweit entdecken/)).toBeInTheDocument();
     });
 
     it("renders the subtitle", () => {
-        expect(screen.getByText(/globalen Antiquitätenplattform/)).toBeInTheDocument();
+        expect(screen.getByText(/globalen Antiquit/)).toBeInTheDocument();
     });
 
     it("renders the search bar", () => {

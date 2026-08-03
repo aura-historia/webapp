@@ -71,11 +71,36 @@ describe("ProductCard", () => {
         expect(screen.getByText("Verfügbar")).toBeInTheDocument();
     });
 
-    it("should render the shop type badge", async () => {
+    it("should render the seller in the detail-page style without its type", async () => {
         await act(() => {
             renderWithRouter(<ProductCard product={mockProduct} />);
         });
-        expect(screen.getByText("Auktionshaus")).toBeInTheDocument();
+        expect(screen.getByText("Sample Shop").closest("p")).toHaveClass(
+            "uppercase",
+            "tracking-[0.08em]",
+            "text-muted-foreground/80",
+        );
+        expect(screen.queryByText("Auktionshaus")).not.toBeInTheDocument();
+    });
+
+    it("should show the selling source and linked shop when they differ", async () => {
+        await act(() => {
+            renderWithRouter(
+                <ProductCard
+                    product={{
+                        ...mockProduct,
+                        sellerName: "Secondary Seller",
+                    }}
+                />,
+            );
+        });
+
+        expect(screen.getByText("Secondary Seller")).toBeInTheDocument();
+        expect(screen.getByText("auf")).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "Sample Shop" })).toHaveAttribute(
+            "href",
+            "/shops/sample-shop",
+        );
     });
 
     it("should render the auction window badge when auction start is set", async () => {

@@ -184,10 +184,7 @@ describe("Footer Component", () => {
             "href",
             "/#how-it-works",
         );
-        expect(screen.getByText("Nutzerstimmen").closest("a")).toHaveAttribute(
-            "href",
-            "/#testimonials",
-        );
+        expect(screen.queryByText("Nutzerstimmen")).not.toBeInTheDocument();
         expect(screen.getByText("Preise").closest("a")).toHaveAttribute("href", "/#pricing");
         expect(screen.getByText("Newsletter").closest("a")).toHaveAttribute("href", "/#newsletter");
         expect(screen.getByText("FAQ").closest("a")).toHaveAttribute("href", "/#faq");

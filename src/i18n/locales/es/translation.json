@@ -140,7 +140,6 @@
       "discover": "Plataforma",
       "features": "Funciones",
       "howItWorks": "Cómo funciona",
-      "testimonials": "Testimonios",
       "pricing": "Precios",
       "newsletter": "Newsletter",
       "faq": "FAQ"
@@ -555,7 +554,6 @@
     }
   },
   "landingPage": {
-    "badge": "Busca más allá de las casas de subastas de siempre",
     "titleFirstLine": "Las piezas raras no deberían depender<1/>solo del azar",
     "subtitle": "Aura Historia reúne anticuarios, casas de subastas, marketplaces e inventario especializado en una plataforma global de antigüedades, para que las piezas especiales sean visibles antes de volver a desaparecer.",
     "recentlyAdded": {

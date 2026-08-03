@@ -4,7 +4,6 @@ export const LANDING_PAGE_FRAGMENTS = {
     discover: "discover",
     features: "features",
     howItWorks: "how-it-works",
-    testimonials: "testimonials",
     pricing: "pricing",
     newsletter: "newsletter",
     faq: "faq",
