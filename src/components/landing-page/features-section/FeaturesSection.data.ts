@@ -1,5 +1,6 @@
 import watchlistDemo from "@/assets/landing-page/demos/watchlist-demo.mp4";
 import historyDemo from "@/assets/landing-page/demos/history-demo.mp4";
+import filterDemo from "@/assets/landing-page/demos/filter-demo.mp4";
 
 const ART_BASEL_UBS_REPORT_URL =
     "https://www.ubs.com/global/en/our-firm/art/art-market-research.html";
@@ -70,10 +71,8 @@ export const FEATURES_CARD_DATA = [
         titleKey: "landingPage.features.personalFilter.title",
         descKey: "landingPage.features.personalFilter.description",
         visual: {
-            kind: "placeholder",
-            eyebrowKey: "landingPage.features.personalFilter.visual.eyebrow",
-            titleKey: "landingPage.features.personalFilter.visual.title",
-            descriptionKey: "landingPage.features.personalFilter.visual.description",
+            kind: "video",
+            src: filterDemo,
         },
     },
     {
