@@ -1,7 +1,8 @@
 {
   "common": {
     "auraHistoria": "Aura Historia",
-    "infoButton": "Plus d'informations"
+    "infoButton": "Plus d'informations",
+    "unitSystemPrefix": "Unités"
   },
   "meta": {
     "siteName": "Aura Historia | Plateforme mondiale d’antiquités",

@@ -41,7 +41,10 @@ export function UnitSystemSelector() {
     return (
         <Select value={preferences.unitSystem} onValueChange={handleChange}>
             <SelectTrigger className="h-8 gap-2 border-outline-variant/20 bg-transparent text-sm text-primary/80 transition-colors duration-300 ease-out hover:text-primary">
-                <SelectValue>{t(`auth.unitSystems.${preferences.unitSystem}`)}</SelectValue>
+                <SelectValue>
+                    {t("common.unitSystemPrefix")}:{" "}
+                    {t(`auth.unitSystems.${preferences.unitSystem}`)}
+                </SelectValue>
             </SelectTrigger>
             <SelectContent align="end" className="max-h-60 overflow-hidden rounded-md">
                 {UNIT_SYSTEMS.map((unitSystem) => (

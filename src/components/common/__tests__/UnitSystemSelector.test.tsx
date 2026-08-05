@@ -48,14 +48,18 @@ describe("UnitSystemSelector", () => {
         vi.clearAllMocks();
     });
 
-    it("shows METRIC as default", () => {
+    it("shows METRIC as default, prefixed with the unit system label", () => {
         renderUnitSystemSelector();
-        expect(screen.getByText("auth.unitSystems.METRIC")).toBeInTheDocument();
+        expect(
+            screen.getByText("common.unitSystemPrefix: auth.unitSystems.METRIC"),
+        ).toBeInTheDocument();
     });
 
-    it("shows initial unit system from preferences", () => {
+    it("shows initial unit system from preferences, prefixed with the unit system label", () => {
         renderUnitSystemSelector({ unitSystem: "IMPERIAL" });
-        expect(screen.getByText("auth.unitSystems.IMPERIAL")).toBeInTheDocument();
+        expect(
+            screen.getByText("common.unitSystemPrefix: auth.unitSystems.IMPERIAL"),
+        ).toBeInTheDocument();
     });
 
     it("renders all unit systems in dropdown", () => {
