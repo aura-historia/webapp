@@ -613,39 +613,19 @@
       },
       "watchlist": {
         "title": "Liste de suivi privée",
-        "description": "Gardez en vue ce que vous avez déjà trouvé. Enregistrez des pièces discrètement et revenez lorsque prix, statut ou disponibilité méritent un second regard.",
-        "visual": {
-          "eyebrow": "Emplacement GIF de fonction",
-          "title": "Liste de suivi avec alertes de changement",
-          "description": "Réservé à une capture d’interface montrant objets enregistrés, mouvements de prix, changements de statut et moments de réexamen."
-        }
+        "description": "Gardez en vue ce que vous avez déjà trouvé. Enregistrez des pièces discrètement et revenez lorsque prix, statut ou disponibilité méritent un second regard."
       },
       "personalFilter": {
         "title": "Alertes de recherche",
-        "description": "Décrivez une fois ce que vous cherchez. Aura Historia surveille les inventaires nouveaux et mis à jour, puis remet les bonnes pièces sous vos yeux.",
-        "visual": {
-          "eyebrow": "Emplacement GIF de fonction",
-          "title": "Flux d’alerte pour nouvelles correspondances",
-          "description": "Réservé à une capture d’interface montrant critères sauvegardés, résultats d’alerte et consultation des notifications."
-        }
+        "description": "Décrivez une fois ce que vous cherchez. Aura Historia surveille les inventaires nouveaux et mis à jour, puis remet les bonnes pièces sous vos yeux."
       },
       "history": {
         "title": "Chronologie de l’objet",
-        "description": "Suivez la vie commerciale d’une annonce : indexée, mise aux enchères, vendue, retirée, republiée ou modifiée en prix — afin que les événements du marché restent visibles après la première découverte.",
-        "visual": {
-          "eyebrow": "Emplacement GIF de fonction",
-          "title": "Historique des événements d’une annonce",
-          "description": "Réservé à une capture d’interface montrant événements, changements de statut, ventes et mouvements de prix."
-        }
+        "description": "Suivez la vie commerciale d’une annonce : indexée, mise aux enchères, vendue, retirée, republiée ou modifiée en prix — afin que les événements du marché restent visibles après la première découverte."
       },
       "aiSearchAgent": {
         "title": "Agent de recherche IA",
-        "description": "Formulez un brief en langage naturel — époque, forme, catégorie, échelle, atmosphère, budget et usage prévu — et laissez l’agent surveiller patiemment le marché.",
-        "visual": {
-          "eyebrow": "Emplacement GIF de fonction",
-          "title": "Brief de collection en langage naturel",
-          "description": "Réservé à une capture où un brief de collectionneur devient un flux de découverte suivi."
-        }
+        "description": "Formulez un brief en langage naturel — époque, forme, catégorie, échelle, atmosphère, budget et usage prévu — et laissez l’agent surveiller patiemment le marché."
       }
     },
     "howItWorks": {

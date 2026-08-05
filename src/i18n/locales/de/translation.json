@@ -613,39 +613,19 @@
       },
       "watchlist": {
         "title": "Private Merkliste",
-        "description": "Behalten Sie im Blick, was Sie bereits gefunden haben. Speichern Sie Objekte diskret und kehren Sie zurück, wenn Preis, Status oder Verfügbarkeit einen zweiten Blick lohnen.",
-        "visual": {
-          "eyebrow": "Feature-GIF-Platzhalter",
-          "title": "Merkliste mit Änderungsbenachrichtigungen",
-          "description": "Vorgesehen für eine UI-Aufnahme mit gespeicherten Objekten, Preisbewegungen, Statusänderungen und Momenten für eine erneute Prüfung."
-        }
+        "description": "Behalten Sie im Blick, was Sie bereits gefunden haben. Speichern Sie Objekte diskret und kehren Sie zurück, wenn Preis, Status oder Verfügbarkeit einen zweiten Blick lohnen."
       },
       "personalFilter": {
         "title": "Suchaufträge",
-        "description": "Beschreiben Sie einmal, wonach Sie suchen. Aura Historia beobachtet neu indexierte und aktualisierte Angebote und bringt passende Stücke wieder in Ihren Blick.",
-        "visual": {
-          "eyebrow": "Feature-GIF-Platzhalter",
-          "title": "Ablauf für neue Suchtreffer",
-          "description": "Vorgesehen für eine UI-Aufnahme mit gespeicherten Suchkriterien, neuen Treffern und Benachrichtigungsprüfung."
-        }
+        "description": "Beschreiben Sie einmal, wonach Sie suchen. Aura Historia beobachtet neu indexierte und aktualisierte Angebote und bringt passende Stücke wieder in Ihren Blick."
       },
       "history": {
         "title": "Objektverlauf",
-        "description": "Verfolgen Sie den kommerziellen Verlauf eines Angebots: neu indexiert, auktioniert, verkauft, entfernt, wieder gelistet oder im Preis verändert – damit Marktereignisse nach dem ersten Fund sichtbar bleiben.",
-        "visual": {
-          "eyebrow": "Feature-GIF-Platzhalter",
-          "title": "Ereignisverlauf eines Angebots",
-          "description": "Vorgesehen für eine UI-Aufnahme mit Angebotsereignissen, Statuswechseln, Verkaufsmomenten und Preisbewegungen."
-        }
+        "description": "Verfolgen Sie den kommerziellen Verlauf eines Angebots: neu indexiert, auktioniert, verkauft, entfernt, wieder gelistet oder im Preis verändert – damit Marktereignisse nach dem ersten Fund sichtbar bleiben."
       },
       "aiSearchAgent": {
         "title": "KI-Suchagent",
-        "description": "Formulieren Sie ein Suche in natürlicher Sprache – Epoche, Form, Kategorie, Größe, Stimmung, Budget und Einsatzzweck – und lassen Sie den Agenten den Markt geduldig beobachten.",
-        "visual": {
-          "eyebrow": "Feature-GIF-Platzhalter",
-          "title": "Sammlerbriefing in natürlicher Sprache",
-          "description": "Vorgesehen für eine UI-Aufnahme, in der aus einem Sammlerbriefing eine laufend beobachtete Suche wird."
-        }
+        "description": "Formulieren Sie ein Suche in natürlicher Sprache – Epoche, Form, Kategorie, Größe, Stimmung, Budget und Einsatzzweck – und lassen Sie den Agenten den Markt geduldig beobachten."
       }
     },
     "howItWorks": {

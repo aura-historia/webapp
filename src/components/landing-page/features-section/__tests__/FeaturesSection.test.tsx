@@ -79,10 +79,4 @@ describe("FeaturesSection", () => {
         expect(video).toHaveProperty("playsInline", true);
         expect(video).toHaveProperty("controls", false);
     });
-
-    it("renders the remaining feature GIF placeholders", () => {
-        expect(screen.getByText("Ablauf für neue Suchtreffer")).toBeInTheDocument();
-        expect(screen.getByText("Ereignisverlauf eines Angebots")).toBeInTheDocument();
-        expect(screen.getByText("Sammlerbriefing in natürlicher Sprache")).toBeInTheDocument();
-    });
 });
