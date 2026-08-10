@@ -1,8 +1,3 @@
-<p align="center">
-  <a href="https://aura-historia.com">
-    <img src="public/logo-banner.png" alt="Aura Historia — Where your antiques find you" width="600" />
-  </a>
-</p>
 
 <h1 align="center">Aura Historia — Webapp</h1>
 
@@ -14,24 +9,6 @@
   Search across dealers, auction houses, shops, and marketplaces in one considered experience.
 </p>
 
-<p align="center">
-  <a href="https://aura-historia.com"><img src="https://img.shields.io/badge/aura--historia.com-Visit%20Website-8B4513?style=flat" alt="Website" /></a>
-  &nbsp;
-  <a href="https://docs.api.aura-historia.com/"><img src="https://img.shields.io/badge/OpenAPI-Docs-85EA2D?style=flat&logo=swagger&logoColor=white" alt="OpenAPI Docs" /></a>
-  &nbsp;
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey?style=flat" alt="License: CC BY-NC-SA 4.0" /></a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/aura-historia/webapp/actions/workflows/ci.yml"><img src="https://github.com/aura-historia/webapp/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="https://github.com/aura-historia/webapp/actions/workflows/e2e.yml"><img src="https://github.com/aura-historia/webapp/actions/workflows/e2e.yml/badge.svg" alt="End-to-end tests" /></a>
-</p>
-
-<p align="center">
-  <a href="https://sonarcloud.io/summary/new_code?id=aura-historia_webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=aura-historia_webapp&metric=alert_status" alt="SonarCloud Quality Gate" /></a>
-  <a href="https://sonarcloud.io/summary/new_code?id=aura-historia_webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=aura-historia_webapp&metric=coverage" alt="SonarCloud Coverage" /></a>
-  <a href="https://sonarcloud.io/summary/new_code?id=aura-historia_webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=aura-historia_webapp&metric=ncloc" alt="Lines of code" /></a>
-</p>
 
 ---
 
@@ -95,6 +72,18 @@ VITE_FEATURE_SEARCH_ENABLED=true
 
 Do not commit credentials, tokens, or production configuration.
 
+## Quality
+
+Continuous integration checks formatting, linting, type safety, unit tests, build output, and SonarCloud analysis. End-to-end tests run separately on changes to `main`.
+
+<p>
+  <a href="https://github.com/aura-historia/webapp/actions/workflows/ci.yml"><img src="https://github.com/aura-historia/webapp/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/aura-historia/webapp/actions/workflows/e2e.yml"><img src="https://github.com/aura-historia/webapp/actions/workflows/e2e.yml/badge.svg" alt="End-to-end tests" /></a>
+  <a href="https://sonarcloud.io/summary/new_code?id=aura-historia_webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=aura-historia_webapp&metric=alert_status" alt="SonarCloud Quality Gate" /></a>
+  <a href="https://sonarcloud.io/summary/new_code?id=aura-historia_webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=aura-historia_webapp&metric=coverage" alt="SonarCloud Coverage" /></a>
+  <a href="https://sonarcloud.io/summary/new_code?id=aura-historia_webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=aura-historia_webapp&metric=ncloc" alt="Lines of code" /></a>
+</p>
+
 ## Commands
 
 | Command | Description |
@@ -140,6 +129,14 @@ public/           # Static assets and public specifications
 - User-facing changes require coverage for all supported locales: `de`, `en`, `es`, `fr`, and `it`.
 - Follow the project guidance in [`AGENTS.md`](AGENTS.md) and the topic-specific documents in [`docs/`](docs/).
 
+## APIs and integrations
+
+Partner and integration endpoints are documented in the OpenAPI reference.
+
+<p>
+  <a href="https://docs.api.aura-historia.com/"><img src="https://img.shields.io/badge/OpenAPI-Docs-85EA2D?style=flat&logo=swagger&logoColor=white" alt="OpenAPI Docs" /></a>
+</p>
+
 ## Deployment
 
 The application deploys to Cloudflare Workers after CI succeeds:
@@ -148,6 +145,10 @@ The application deploys to Cloudflare Workers after CI succeeds:
 | --- | --- | --- |
 | `main` | Production | [aura-historia.com](https://aura-historia.com) |
 | `develop` | Staging | [stage.aura-historia.com](https://stage.aura-historia.com) |
+
+<p>
+  <a href="https://aura-historia.com"><img src="https://img.shields.io/badge/aura--historia.com-Visit%20Website-8B4513?style=flat" alt="Aura Historia website" /></a>
+</p>
 
 Manual deployments require `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`:
 
@@ -159,17 +160,16 @@ pnpm deploy:production
 pnpm deploy:staging
 ```
 
-## Related projects
-
-- [Aura Historia Backend](https://github.com/aura-historia/backend) — Serverless AWS APIs, event pipelines, and data services.
-- [API documentation](https://docs.api.aura-historia.com/) — OpenAPI reference for Aura Historia integrations.
-
 ## License
 
 This project is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](LICENSE) (CC BY-NC-SA 4.0).
 
+<p>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey?style=flat" alt="License: CC BY-NC-SA 4.0" /></a>
+</p>
+
 ---
 
 <p align="center">
-  <a href="https://aura-historia.com">aura-historia.com</a>
+  <img src="public/logo-banner.png" alt="Aura Historia — Where your antiques find you" width="600" />
 </p>
