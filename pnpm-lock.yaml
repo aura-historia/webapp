@@ -117,8 +117,8 @@ importers:
         specifier: ^3.0.20
         version: 3.0.20
       apexcharts:
-        specifier: ^5.16.0
-        version: 5.16.0
+        specifier: ^6.7.0
+        version: 6.7.0
       aws-amplify:
         specifier: ^6.20.0
         version: 6.20.0
@@ -175,7 +175,7 @@ importers:
         version: 19.2.8
       react-apexcharts:
         specifier: ^2.1.0
-        version: 2.1.1(apexcharts@5.16.0)(react@19.2.8)
+        version: 2.1.1(apexcharts@6.7.0)(react@19.2.8)
       react-day-picker:
         specifier: ^10.0.1
         version: 10.0.1(@types/react@19.2.18)(react@19.2.8)
@@ -3344,8 +3344,9 @@ packages:
   anynum@1.0.1:
     resolution: {integrity: sha512-N6//FLET/tXYNM/F6ABca1oH6fWB+KlTt909Le28WMDBk8oaT4vY17DCrwg2MvmuqUKt3Ni4N5dGJ/EoBgcO6A==}
 
-  apexcharts@5.16.0:
-    resolution: {integrity: sha512-ULO3Gqrm0/26uwBcYz49u181uIp8Fy6BQQgg9QUDajs+JAs/EbXxiAmdc6BLy1JY29/JXroM7P0j0t2JPDApdg==}
+  apexcharts@6.7.0:
+    resolution: {integrity: sha512-1Z8AACzw2W2I/JOLh2jHVVHWYtOIf1Yr9/A99r1+YJwb31V2Wmi4fzfscWOJAAf47nW4qRWvLm+ZLEm0GeiqjQ==}
+    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
 
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
@@ -8702,7 +8703,7 @@ snapshots:
 
   anynum@1.0.1: {}
 
-  apexcharts@5.16.0: {}
+  apexcharts@6.7.0: {}
 
   argparse@2.0.1: {}
 
@@ -10197,9 +10198,9 @@ snapshots:
       defu: 6.1.7
       destr: 2.0.5
 
-  react-apexcharts@2.1.1(apexcharts@5.16.0)(react@19.2.8):
+  react-apexcharts@2.1.1(apexcharts@6.7.0)(react@19.2.8):
     dependencies:
-      apexcharts: 5.16.0
+      apexcharts: 6.7.0
       prop-types: 15.8.1
       react: 19.2.8
 
