@@ -171,5 +171,5 @@ This project is licensed under the [Creative Commons Attribution-NonCommercial-S
 ---
 
 <p align="center">
-  <img src="public/logo-banner.png" alt="Aura Historia — Where your antiques find you" width="600" />
+  <img src="https://assets.aura-historia.com/branding/banner_twitter_slogan.png" alt="Aura Historia — Where antiques find their story" />
 </p>
