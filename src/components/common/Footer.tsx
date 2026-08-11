@@ -196,7 +196,7 @@ export function Footer() {
                             year: new Date().getFullYear(),
                         })}
                     </p>
-                    <div className="flex items-center gap-4">
+                    <div className="flex w-full flex-wrap items-center gap-4 sm:w-auto sm:justify-end">
                         <CurrencySelector />
                         <UnitSystemSelector />
                         <Select
