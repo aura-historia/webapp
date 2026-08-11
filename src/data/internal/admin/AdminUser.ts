@@ -10,6 +10,11 @@ import {
     parseLanguage,
 } from "@/data/internal/common/Language.ts";
 import {
+    type UnitSystem,
+    mapToBackendUnitSystem,
+    parseUnitSystem,
+} from "@/data/internal/common/UnitSystem.ts";
+import {
     mapToBackendUserRole,
     parseUserRole,
     type UserRole,
@@ -25,6 +30,7 @@ export type AdminUser = {
     readonly lastName?: string;
     readonly language?: Language;
     readonly currency?: Currency;
+    readonly unitSystem?: UnitSystem;
     readonly prohibitedContentConsent: boolean;
     readonly tier: UserTier;
     readonly role: UserRole;
@@ -39,6 +45,7 @@ export type AdminUserPatch = {
     readonly lastName?: string | null;
     readonly language?: Language | null;
     readonly currency?: Currency | null;
+    readonly unitSystem?: UnitSystem | null;
     readonly prohibitedContentConsent?: boolean | null;
     readonly tier?: UserTier | null;
     readonly role?: UserRole | null;
@@ -61,6 +68,7 @@ export function mapToAdminUser(data: GetUserAccountData): AdminUser {
         lastName: data.lastName ?? undefined,
         language: data.language ? parseLanguage(data.language) : undefined,
         currency: data.currency ? parseCurrency(data.currency) : undefined,
+        unitSystem: data.measurementUnit ? parseUnitSystem(data.measurementUnit) : undefined,
         prohibitedContentConsent: data.prohibitedContentConsent,
         tier: parseUserTier(data.tier),
         role: parseUserRole(data.role),
@@ -76,6 +84,7 @@ export function mapToAdminUserPatch(data: Omit<AdminUserPatch, "userId">): Patch
         ...(data.lastName && { lastName: data.lastName }),
         ...(data.language && { language: mapToBackendLanguage(data.language) }),
         ...(data.currency && { currency: mapToBackendCurrency(data.currency) }),
+        ...(data.unitSystem && { measurementUnit: mapToBackendUnitSystem(data.unitSystem) }),
         ...(data.prohibitedContentConsent && {
             prohibitedContentConsent: data.prohibitedContentConsent,
         }),

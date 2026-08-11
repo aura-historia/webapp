@@ -39,6 +39,7 @@ describe("PersonalDataForm", () => {
         lastName: "Doe",
         language: "en",
         currency: "EUR",
+        unitSystem: "METRIC",
         prohibitedContentConsent: false,
         role: "USER",
         subscriptionType: "free",
@@ -127,6 +128,7 @@ describe("PersonalDataForm", () => {
                     lastName: "Doe",
                     language: "en",
                     currency: "EUR",
+                    unitSystem: "METRIC",
                     prohibitedContentConsent: false,
                 },
                 expect.objectContaining({

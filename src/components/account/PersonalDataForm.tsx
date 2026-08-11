@@ -29,6 +29,7 @@ import { getAccountEditSchema, type AccountEditFormData } from "@/utils/nameVali
 import { PersonalDataFormSkeleton } from "@/components/account/PersonalDataFormSkeleton";
 import { LANGUAGES } from "@/data/internal/common/Language.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
+import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";
 import { Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -46,6 +47,7 @@ export function PersonalDataForm() {
             lastName: userAccount?.lastName ?? "",
             language: userAccount?.language,
             currency: userAccount?.currency,
+            unitSystem: userAccount?.unitSystem,
             prohibitedContentConsent: userAccount?.prohibitedContentConsent ?? false,
         },
     });
@@ -173,6 +175,39 @@ export function PersonalDataForm() {
                         )}
                     />
                 </div>
+
+                <FormField
+                    control={accountEditForm.control}
+                    name="unitSystem"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>{t("account.personalData.unitSystemLabel")}</FormLabel>
+                            <Select
+                                onValueChange={field.onChange}
+                                value={field.value}
+                                key={field.value}
+                            >
+                                <FormControl>
+                                    <SelectTrigger className="w-full data-[size=default]:h-12">
+                                        <SelectValue
+                                            placeholder={t(
+                                                "account.personalData.unitSystemPlaceholder",
+                                            )}
+                                        />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {UNIT_SYSTEMS.map((unitSystem) => (
+                                        <SelectItem key={unitSystem} value={unitSystem}>
+                                            {t(`auth.unitSystems.${unitSystem}`)}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
 
                 <FormField
                     control={accountEditForm.control}

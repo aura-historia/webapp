@@ -16,6 +16,7 @@ import {
     SOCIAL_LINKS,
 } from "./footer/Footer.data.ts";
 import { CurrencySelector } from "@/components/common/CurrencySelector.tsx";
+import { UnitSystemSelector } from "@/components/common/UnitSystemSelector.tsx";
 
 export function Footer() {
     const { t, i18n } = useTranslation();
@@ -195,8 +196,9 @@ export function Footer() {
                             year: new Date().getFullYear(),
                         })}
                     </p>
-                    <div className="flex items-center gap-4">
+                    <div className="flex w-full flex-wrap items-center gap-4 sm:w-auto sm:justify-end">
                         <CurrencySelector />
+                        <UnitSystemSelector />
                         <Select
                             defaultValue={i18n.language}
                             value={i18n.language}

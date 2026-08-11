@@ -15,7 +15,8 @@ export default defineConfig({
         }),
         tanstackStart({
             prerender: {
-                enabled: true,
+                // TODO: Re-enable once we've integrated lang preference in URL
+                enabled: false,
                 crawlLinks: true,
                 filter: ({ path }) => {
                     const isExcludedRoute = [...EXCLUDED_ROUTES].some((route) =>

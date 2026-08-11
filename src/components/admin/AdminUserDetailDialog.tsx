@@ -24,6 +24,7 @@ import { Spinner } from "@/components/ui/spinner.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { CURRENCIES, type Currency } from "@/data/internal/common/Currency.ts";
 import { LANGUAGES, type Language } from "@/data/internal/common/Language.ts";
+import { UNIT_SYSTEMS, type UnitSystem } from "@/data/internal/common/UnitSystem.ts";
 import { USER_ROLES, type UserRole } from "@/data/internal/account/UserRole.ts";
 import { USER_TIERS, type AdminUser, type UserTier } from "@/data/internal/admin/AdminUser.ts";
 import {
@@ -59,6 +60,7 @@ function AdminUserEditForm({ user, onClose }: AdminUserEditFormProps) {
     const [lastName, setLastName] = useState(user.lastName ?? "");
     const [language, setLanguage] = useState<Language | "NONE">(user.language ?? "NONE");
     const [currency, setCurrency] = useState<Currency | "NONE">(user.currency ?? "NONE");
+    const [unitSystem, setUnitSystem] = useState<UnitSystem | "NONE">(user.unitSystem ?? "NONE");
     const [tier, setTier] = useState<UserTier>(user.tier);
     const [role, setRole] = useState<UserRole>(user.role);
     const [stripeCustomerId, setStripeCustomerId] = useState(user.stripeCustomerId ?? "");
@@ -76,6 +78,7 @@ function AdminUserEditForm({ user, onClose }: AdminUserEditFormProps) {
                 lastName: nullableText(lastName),
                 language: language === "NONE" ? null : language,
                 currency: currency === "NONE" ? null : currency,
+                unitSystem: unitSystem === "NONE" ? null : unitSystem,
                 prohibitedContentConsent,
                 tier,
                 role,
@@ -190,6 +193,29 @@ function AdminUserEditForm({ user, onClose }: AdminUserEditFormProps) {
                                     {t("adminDashboard.users.fields.notSet")}
                                 </SelectItem>
                                 {CURRENCIES.map((value) => (
+                                    <SelectItem key={value} value={value}>
+                                        {value}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                        <Label htmlFor="admin-user-unit-system">
+                            {t("adminDashboard.users.fields.unitSystem")}
+                        </Label>
+                        <Select
+                            value={unitSystem}
+                            onValueChange={(value) => setUnitSystem(value as UnitSystem | "NONE")}
+                        >
+                            <SelectTrigger id="admin-user-unit-system">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="NONE">
+                                    {t("adminDashboard.users.fields.notSet")}
+                                </SelectItem>
+                                {UNIT_SYSTEMS.map((value) => (
                                     <SelectItem key={value} value={value}>
                                         {value}
                                     </SelectItem>

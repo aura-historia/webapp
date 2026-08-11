@@ -75,6 +75,7 @@ describe("UserDetailsForm", () => {
                 lastName: "Mustermann",
                 language: "de",
                 currency: "EUR",
+                unitSystem: "METRIC",
                 prohibitedContentConsent: false,
             });
         });

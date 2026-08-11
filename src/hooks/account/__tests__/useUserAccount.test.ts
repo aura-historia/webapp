@@ -88,6 +88,7 @@ describe("useUserAccount", () => {
                 lastName: "Mustermann",
                 language: "de",
                 currency: "EUR",
+                unitSystem: "METRIC",
             };
 
             mockGetUserAccount.mockResolvedValue({

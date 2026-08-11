@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
 import { inferCurrencyFromLocale } from "@/data/internal/common/Currency.ts";
+import { inferUnitSystemFromLocale } from "@/data/internal/common/UnitSystem.ts";
 import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
 
 const PREFERENCES_STORAGE_KEY = "user-preferences";
@@ -8,6 +9,7 @@ const PREFERENCES_COOKIE_MAX_AGE = 365 * 24 * 60 * 60; // 1 year in seconds
 
 const DEFAULT_PREFERENCES: UserPreferences = {
     currency: "EUR",
+    unitSystem: "METRIC",
 };
 
 type UserPreferencesContextValue = {
@@ -28,13 +30,18 @@ function loadPreferences(locale: string): UserPreferences {
             return {
                 ...DEFAULT_PREFERENCES,
                 currency: inferCurrencyFromLocale(locale),
+                unitSystem: inferUnitSystemFromLocale(locale),
                 ...JSON.parse(stored),
             };
         }
     } catch (e) {
         console.error("Failed to load user preferences from localStorage", e);
     }
-    return { ...DEFAULT_PREFERENCES, currency: inferCurrencyFromLocale(locale) };
+    return {
+        ...DEFAULT_PREFERENCES,
+        currency: inferCurrencyFromLocale(locale),
+        unitSystem: inferUnitSystemFromLocale(locale),
+    };
 }
 
 async function syncPreferencesCookie(preferences: UserPreferences) {

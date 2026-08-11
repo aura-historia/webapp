@@ -28,6 +28,7 @@ describe("ConsentSettings", () => {
                 trackingConsent: undefined,
                 externalMapConsent: undefined,
                 currency: "EUR",
+                unitSystem: "METRIC",
             },
             updatePreferences: mockUpdatePreferences,
         });
@@ -57,7 +58,12 @@ describe("ConsentSettings", () => {
 
     it("analytics switch is checked when trackingConsent is true", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: true, externalMapConsent: undefined, currency: "EUR" },
+            preferences: {
+                trackingConsent: true,
+                externalMapConsent: undefined,
+                currency: "EUR",
+                unitSystem: "METRIC",
+            },
             updatePreferences: mockUpdatePreferences,
         });
         render(<ConsentSettings />);
@@ -69,7 +75,12 @@ describe("ConsentSettings", () => {
 
     it("analytics switch is unchecked when trackingConsent is false", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: false, externalMapConsent: undefined, currency: "EUR" },
+            preferences: {
+                trackingConsent: false,
+                externalMapConsent: undefined,
+                currency: "EUR",
+                unitSystem: "METRIC",
+            },
             updatePreferences: mockUpdatePreferences,
         });
         render(<ConsentSettings />);
@@ -87,7 +98,12 @@ describe("ConsentSettings", () => {
 
     it("calls updatePreferences with false when analytics switch is toggled off", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: true, externalMapConsent: undefined, currency: "EUR" },
+            preferences: {
+                trackingConsent: true,
+                externalMapConsent: undefined,
+                currency: "EUR",
+                unitSystem: "METRIC",
+            },
             updatePreferences: mockUpdatePreferences,
         });
         render(<ConsentSettings />);
@@ -97,7 +113,12 @@ describe("ConsentSettings", () => {
 
     it("external maps switch reflects externalMapConsent", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: undefined, externalMapConsent: true, currency: "EUR" },
+            preferences: {
+                trackingConsent: undefined,
+                externalMapConsent: true,
+                currency: "EUR",
+                unitSystem: "METRIC",
+            },
             updatePreferences: mockUpdatePreferences,
         });
         render(<ConsentSettings />);

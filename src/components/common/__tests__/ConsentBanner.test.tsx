@@ -24,6 +24,7 @@ describe("ConsentBanner", () => {
                 trackingConsent: undefined,
                 externalMapConsent: undefined,
                 currency: "EUR",
+                unitSystem: "METRIC",
             },
             updatePreferences: mockUpdatePreferences,
         });
@@ -39,7 +40,12 @@ describe("ConsentBanner", () => {
 
     it("does not render when both optional consent decisions exist", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: true, externalMapConsent: false, currency: "EUR" },
+            preferences: {
+                trackingConsent: true,
+                externalMapConsent: false,
+                currency: "EUR",
+                unitSystem: "METRIC",
+            },
             updatePreferences: mockUpdatePreferences,
         });
         const { container } = render(<ConsentBanner />);
@@ -48,7 +54,12 @@ describe("ConsentBanner", () => {
 
     it("still renders when only analytics consent has been decided", () => {
         vi.mocked(useUserPreferences).mockReturnValue({
-            preferences: { trackingConsent: false, externalMapConsent: undefined, currency: "EUR" },
+            preferences: {
+                trackingConsent: false,
+                externalMapConsent: undefined,
+                currency: "EUR",
+                unitSystem: "METRIC",
+            },
             updatePreferences: mockUpdatePreferences,
         });
         render(<ConsentBanner />);
