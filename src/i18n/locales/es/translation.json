@@ -613,39 +613,19 @@
       },
       "watchlist": {
         "title": "Lista privada",
-        "description": "Mantén a la vista lo que ya encontraste. Guarda piezas con discreción y vuelve cuando el precio, el estado o la disponibilidad merezcan otra mirada.",
-        "visual": {
-          "eyebrow": "Marcador para GIF de función",
-          "title": "Lista con avisos de cambios",
-          "description": "Reservado para una grabación de objetos guardados, movimientos de precio, cambios de estado y momentos de revisión."
-        }
+        "description": "Mantén a la vista lo que ya encontraste. Guarda piezas con discreción y vuelve cuando el precio, el estado o la disponibilidad merezcan otra mirada."
       },
       "personalFilter": {
         "title": "Alertas de búsqueda",
-        "description": "Describe una vez lo que buscas. Aura Historia observa inventario nuevo y actualizado, y vuelve a poner ante ti las piezas adecuadas.",
-        "visual": {
-          "eyebrow": "Marcador para GIF de función",
-          "title": "Flujo de alertas para nuevos hallazgos",
-          "description": "Reservado para una grabación de criterios guardados, coincidencias de alerta y revisión de notificaciones."
-        }
+        "description": "Describe una vez lo que buscas. Aura Historia observa inventario nuevo y actualizado, y vuelve a poner ante ti las piezas adecuadas."
       },
       "history": {
         "title": "Cronología del objeto",
-        "description": "Sigue la vida comercial de un anuncio: indexado, subastado, vendido, retirado, republicado o cambiado de precio, para que los eventos del mercado sigan visibles después del primer hallazgo.",
-        "visual": {
-          "eyebrow": "Marcador para GIF de función",
-          "title": "Historial de eventos del anuncio",
-          "description": "Reservado para una grabación de eventos, cambios de estado, ventas y movimientos de precio."
-        }
+        "description": "Sigue la vida comercial de un anuncio: indexado, subastado, vendido, retirado, republicado o cambiado de precio, para que los eventos del mercado sigan visibles después del primer hallazgo."
       },
       "aiSearchAgent": {
         "title": "Agente de descubrimiento con IA",
-        "description": "Formula un briefing en lenguaje natural — época, forma, categoría, escala, ambiente, presupuesto y uso previsto — y deja que el agente observe el mercado con paciencia.",
-        "visual": {
-          "eyebrow": "Marcador para GIF de función",
-          "title": "Brief de colección en lenguaje natural",
-          "description": "Reservado para una grabación donde un brief de coleccionista se convierte en un flujo de descubrimiento monitorizado."
-        }
+        "description": "Formula un briefing en lenguaje natural — época, forma, categoría, escala, ambiente, presupuesto y uso previsto — y deja que el agente observe el mercado con paciencia."
       }
     },
     "howItWorks": {

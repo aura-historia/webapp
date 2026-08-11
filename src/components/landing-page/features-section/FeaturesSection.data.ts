@@ -1,3 +1,8 @@
+import watchlistDemo from "@/assets/landing-page/demos/watchlist-demo.mp4";
+import historyDemo from "@/assets/landing-page/demos/history-demo.mp4";
+import filterDemo from "@/assets/landing-page/demos/filter-demo.mp4";
+import aiFilterDemo from "@/assets/landing-page/demos/ai-filter-demo.mp4";
+
 const ART_BASEL_UBS_REPORT_URL =
     "https://www.ubs.com/global/en/our-firm/art/art-market-research.html";
 const IBISWORLD_US_ANTIQUE_STORES_URL =
@@ -59,40 +64,32 @@ export const FEATURES_CARD_DATA = [
         titleKey: "landingPage.features.watchlist.title",
         descKey: "landingPage.features.watchlist.description",
         visual: {
-            kind: "placeholder",
-            eyebrowKey: "landingPage.features.watchlist.visual.eyebrow",
-            titleKey: "landingPage.features.watchlist.visual.title",
-            descriptionKey: "landingPage.features.watchlist.visual.description",
+            kind: "video",
+            src: watchlistDemo,
         },
     },
     {
         titleKey: "landingPage.features.personalFilter.title",
         descKey: "landingPage.features.personalFilter.description",
         visual: {
-            kind: "placeholder",
-            eyebrowKey: "landingPage.features.personalFilter.visual.eyebrow",
-            titleKey: "landingPage.features.personalFilter.visual.title",
-            descriptionKey: "landingPage.features.personalFilter.visual.description",
+            kind: "video",
+            src: filterDemo,
         },
     },
     {
         titleKey: "landingPage.features.history.title",
         descKey: "landingPage.features.history.description",
         visual: {
-            kind: "placeholder",
-            eyebrowKey: "landingPage.features.history.visual.eyebrow",
-            titleKey: "landingPage.features.history.visual.title",
-            descriptionKey: "landingPage.features.history.visual.description",
+            kind: "video",
+            src: historyDemo,
         },
     },
     {
         titleKey: "landingPage.features.aiSearchAgent.title",
         descKey: "landingPage.features.aiSearchAgent.description",
         visual: {
-            kind: "placeholder",
-            eyebrowKey: "landingPage.features.aiSearchAgent.visual.eyebrow",
-            titleKey: "landingPage.features.aiSearchAgent.visual.title",
-            descriptionKey: "landingPage.features.aiSearchAgent.visual.description",
+            kind: "video",
+            src: aiFilterDemo,
         },
     },
 ] as const;

@@ -69,10 +69,14 @@ describe("FeaturesSection", () => {
         );
     });
 
-    it("renders feature GIF placeholders", () => {
-        expect(screen.getByText("Merkliste mit Änderungsbenachrichtigungen")).toBeInTheDocument();
-        expect(screen.getByText("Ablauf für neue Suchtreffer")).toBeInTheDocument();
-        expect(screen.getByText("Ereignisverlauf eines Angebots")).toBeInTheDocument();
-        expect(screen.getByText("Sammlerbriefing in natürlicher Sprache")).toBeInTheDocument();
+    it("renders the looping watchlist demo without player controls", () => {
+        const video = document.querySelector("video");
+
+        expect(video).toHaveAttribute("src", expect.stringContaining("watchlist-demo.mp4"));
+        expect(video).toHaveProperty("autoplay", true);
+        expect(video).toHaveProperty("loop", true);
+        expect(video).toHaveProperty("muted", true);
+        expect(video).toHaveProperty("playsInline", true);
+        expect(video).toHaveProperty("controls", false);
     });
 });

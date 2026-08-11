@@ -613,39 +613,19 @@
       },
       "watchlist": {
         "title": "Private Watchlist",
-        "description": "Do not lose sight of what you have already found. Save objects discreetly and return when price, status, or availability changes make a second look worthwhile.",
-        "visual": {
-          "eyebrow": "Feature GIF placeholder",
-          "title": "Watchlist with change notifications",
-          "description": "Reserved for a UI recording of saved objects, price movement, status changes, and return-to-review moments."
-        }
+        "description": "Do not lose sight of what you have already found. Save objects discreetly and return when price, status, or availability changes make a second look worthwhile."
       },
       "personalFilter": {
         "title": "Search Alerts",
-        "description": "Describe what you are looking for once. Aura Historia watches newly indexed and updated inventory, then brings the right objects back into view.",
-        "visual": {
-          "eyebrow": "Feature GIF placeholder",
-          "title": "Alert flow for new matches",
-          "description": "Reserved for a UI recording of saved search criteria, alert matches, and notification review."
-        }
+        "description": "Describe what you are looking for once. Aura Historia watches newly indexed and updated inventory, then brings the right objects back into view."
       },
       "history": {
         "title": "Item Timeline",
-        "description": "Follow the commercial life of a listing: newly indexed, auctioned, sold, removed, relisted, or changed in price — so market events remain visible after the first discovery.",
-        "visual": {
-          "eyebrow": "Feature GIF placeholder",
-          "title": "Event history for a listing",
-          "description": "Reserved for a UI recording of listing events, status changes, sale moments, and price movements."
-        }
+        "description": "Follow the commercial life of a listing: newly indexed, auctioned, sold, removed, relisted, or changed in price — so market events remain visible after the first discovery."
       },
       "aiSearchAgent": {
         "title": "AI Discovery Agent",
-        "description": "Use natural language for specific briefs — era, form, category, scale, mood, budget, and intended use — and let the agent watch the market with patience.",
-        "visual": {
-          "eyebrow": "Feature GIF placeholder",
-          "title": "Natural-language collecting brief",
-          "description": "Reserved for a UI recording of a collector-style brief becoming a monitored discovery workflow."
-        }
+        "description": "Use natural language for specific briefs — era, form, category, scale, mood, budget, and intended use — and let the agent watch the market with patience."
       }
     },
     "howItWorks": {

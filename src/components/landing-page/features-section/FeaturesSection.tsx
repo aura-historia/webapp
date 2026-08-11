@@ -62,6 +62,8 @@ export default function FeaturesSection() {
                                     className={cn(
                                         "relative z-10 -mt-4 bg-surface-container-low p-4 sm:p-6 lg:mt-0",
                                         visualOnLeft && "lg:order-1",
+                                        feature.visual.kind === "video" &&
+                                            (visualOnLeft ? "lg:pr-16" : "lg:pl-16"),
                                     )}
                                 >
                                     {feature.visual.kind === "metric" ? (
@@ -89,27 +91,14 @@ export default function FeaturesSection() {
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="flex h-full min-h-72 flex-col bg-surface-container-lowest p-5 shadow-[0_12px_40px_rgba(28,28,22,0.05)] sm:p-6">
-                                            <div className="mb-4 flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-tertiary">
-                                                <span className="h-2 w-2 bg-tertiary-fixed" />
-                                                {t(feature.visual.eyebrowKey)}
-                                            </div>
-                                            <div className="flex flex-1 flex-col justify-between bg-surface-container-high p-6">
-                                                <div className="space-y-3">
-                                                    <div className="h-3 w-28 bg-surface-container-lowest/80" />
-                                                    <div className="h-3 w-44 bg-surface-container-lowest/70" />
-                                                    <div className="h-3 w-36 bg-surface-container-lowest/60" />
-                                                </div>
-                                                <div>
-                                                    <p className="font-display text-2xl leading-8 text-primary">
-                                                        {t(feature.visual.titleKey)}
-                                                    </p>
-                                                    <p className="mt-3 text-sm leading-6 text-on-surface-variant">
-                                                        {t(feature.visual.descriptionKey)}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <video
+                                            src={feature.visual.src}
+                                            autoPlay
+                                            loop
+                                            muted
+                                            playsInline
+                                            className="aspect-4/3 h-full w-full bg-surface-container-lowest object-contain"
+                                        />
                                     )}
                                 </div>
                             </article>

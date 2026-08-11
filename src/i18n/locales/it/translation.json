@@ -613,39 +613,19 @@
       },
       "watchlist": {
         "title": "Watchlist privata",
-        "description": "Tieni a vista ciò che hai già trovato. Salva i pezzi con discrezione e torna quando prezzo, stato o disponibilità meritano un secondo sguardo.",
-        "visual": {
-          "eyebrow": "Placeholder GIF funzione",
-          "title": "Watchlist con notifiche di modifica",
-          "description": "Riservato a una registrazione UI con oggetti salvati, movimenti di prezzo, cambi di stato e momenti di revisione."
-        }
+        "description": "Tieni a vista ciò che hai già trovato. Salva i pezzi con discrezione e torna quando prezzo, stato o disponibilità meritano un secondo sguardo."
       },
       "personalFilter": {
         "title": "Avvisi di ricerca",
-        "description": "Descrivi una volta ciò che cerchi. Aura Historia monitora inventario nuovo e aggiornato, riportando in vista i pezzi giusti.",
-        "visual": {
-          "eyebrow": "Placeholder GIF funzione",
-          "title": "Flusso di avvisi per nuovi risultati",
-          "description": "Riservato a una registrazione UI con criteri salvati, corrispondenze e revisione delle notifiche."
-        }
+        "description": "Descrivi una volta ciò che cerchi. Aura Historia monitora inventario nuovo e aggiornato, riportando in vista i pezzi giusti."
       },
       "history": {
         "title": "Timeline dell’oggetto",
-        "description": "Segui la vita commerciale di un’inserzione: indicizzata, andata all’asta, venduta, rimossa, ripubblicata o modificata nel prezzo, così gli eventi di mercato restano visibili dopo la prima scoperta.",
-        "visual": {
-          "eyebrow": "Placeholder GIF funzione",
-          "title": "Cronologia eventi dell’inserzione",
-          "description": "Riservato a una registrazione UI con eventi dell’inserzione, cambi di stato, vendite e movimenti di prezzo."
-        }
+        "description": "Segui la vita commerciale di un’inserzione: indicizzata, andata all’asta, venduta, rimossa, ripubblicata o modificata nel prezzo, così gli eventi di mercato restano visibili dopo la prima scoperta."
       },
       "aiSearchAgent": {
         "title": "Agente IA di scoperta",
-        "description": "Formula un brief in linguaggio naturale — epoca, forma, categoria, scala, atmosfera, budget e uso previsto — e lascia che l’agente osservi il mercato con pazienza.",
-        "visual": {
-          "eyebrow": "Placeholder GIF funzione",
-          "title": "Brief collezionistico in linguaggio naturale",
-          "description": "Riservato a una registrazione in cui un brief da collezionista diventa un flusso di scoperta monitorato."
-        }
+        "description": "Formula un brief in linguaggio naturale — epoca, forma, categoria, scala, atmosfera, budget e uso previsto — e lascia che l’agente osservi il mercato con pazienza."
       }
     },
     "howItWorks": {
