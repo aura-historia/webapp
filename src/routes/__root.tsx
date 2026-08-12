@@ -163,7 +163,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const queryClient = useQueryClient();
 
     // Capture the consent value at first render so init runs only once.
-    const initialConsentRef = useRef(initialPreferences.trackingConsent);
+    const initialConsentRef = useRef(initialPreferences?.trackingConsent);
     useEffect(() => {
         googleAnalytics.init(initialConsentRef.current);
     }, []);
