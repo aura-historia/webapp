@@ -23,12 +23,15 @@ import { SearchFilterConfigurationGrid } from "@/components/search-filters/Searc
 import { SearchFilterDetailHeaderSkeleton } from "@/components/search-filters/detail/SearchFilterDetailHeaderSkeleton.tsx";
 import { useUserSearchFilter } from "@/hooks/search-filters/useUserSearchFilter.ts";
 import { useDeleteUserSearchFilter } from "@/hooks/search-filters/useDeleteUserSearchFilter.ts";
+import { DetailPageBreadcrumb } from "@/components/common/breadcrumb/DetailPageBreadcrumb.tsx";
+import type { BreadcrumbOrigin } from "@/data/internal/common/BreadcrumbOrigin.ts";
 
 type Props = {
     readonly filterId: string;
+    readonly origin?: BreadcrumbOrigin;
 };
 
-export function SearchFilterDetail({ filterId }: Props) {
+export function SearchFilterDetail({ filterId, origin }: Props) {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { data: filter, isPending, error } = useUserSearchFilter(filterId);
@@ -59,6 +62,8 @@ export function SearchFilterDetail({ filterId }: Props) {
     return (
         <div className="flex w-full flex-col gap-10">
             {isPending && <SearchFilterDetailHeaderSkeleton />}
+
+            {filter && <DetailPageBreadcrumb title={filter.name} origin={origin} />}
 
             {filter && (
                 <header

@@ -19,6 +19,27 @@ vi.mock("lottie-react", () => ({
     default: () => <div data-testid="lottie-animation" />,
 }));
 
+vi.mock("@tanstack/react-router", async (importOriginal) => {
+    const actual = await importOriginal<typeof import("@tanstack/react-router")>();
+    return {
+        ...actual,
+        useLocation: (opts?: {
+            select?: (location: { href: string; pathname: string }) => unknown;
+        }) => {
+            const location = {
+                href: "/me/search-filter/test-filter",
+                pathname: "/me/search-filter/test-filter",
+            };
+            return opts?.select ? opts.select(location) : location;
+        },
+        Link: ({ children, to, ...props }: { children: React.ReactNode; to?: string }) => (
+            <a href={to} {...props}>
+                {children}
+            </a>
+        ),
+    };
+});
+
 vi.mock("@/components/search-filters/match/SearchFilterMatchCard.tsx", () => ({
     SearchFilterMatchCard: ({ product }: { product: OverviewProduct }) => (
         <div data-testid="search-filter-match-card">{product.title}</div>
@@ -32,18 +53,6 @@ vi.mock("@/components/product/overview/HiddenMatchCard.tsx", () => ({
 vi.mock("@/components/product/overview/ProductCardSkeleton.tsx", () => ({
     ProductCardSkeleton: () => <div data-testid="product-card-skeleton" />,
 }));
-
-vi.mock("@tanstack/react-router", async (importOriginal) => {
-    const actual = await importOriginal<typeof import("@tanstack/react-router")>();
-    return {
-        ...actual,
-        Link: ({ children, to, ...props }: { children: React.ReactNode; to?: string }) => (
-            <a href={to} {...props}>
-                {children}
-            </a>
-        ),
-    };
-});
 
 const buildProduct = (overrides: Partial<OverviewProduct> = {}): OverviewProduct => ({
     productId: "p1",

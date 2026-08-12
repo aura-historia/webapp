@@ -20,11 +20,18 @@ import {
 import { useState } from "react";
 import { CreateSearchFilterWizard } from "@/components/search-filters/CreateSearchFilterWizard.tsx";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
+import { useLocation } from "@tanstack/react-router";
+import type { BreadcrumbOrigin } from "@/data/internal/common/BreadcrumbOrigin.ts";
 
 const SKELETON_IDS = ["s1", "s2", "s3", "s4"] as const;
 
 export function SearchFilterResults() {
     const { t } = useTranslation();
+    const currentPathname = useLocation({ select: (location) => location.pathname });
+    const breadcrumbOrigin: BreadcrumbOrigin = {
+        from: currentPathname,
+        fromKind: "searchFilterList",
+    };
     const { data, isPending, error } = useUserSearchFilters();
     const { mutate: deleteFilter, isPending: isDeleting } = useDeleteUserSearchFilter();
     const { data: account, isPending: isAccountPending } = useUserAccount();
@@ -136,6 +143,7 @@ export function SearchFilterResults() {
                         <SearchFilterCard
                             key={filter.id}
                             filter={filter}
+                            breadcrumbOrigin={breadcrumbOrigin}
                             onDelete={handleDelete}
                             canDuplicate={canCreate}
                             onEdit={(f) => {

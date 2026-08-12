@@ -11,7 +11,8 @@ import { useEffect } from "react";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
+import type { BreadcrumbOrigin } from "@/data/internal/common/BreadcrumbOrigin.ts";
 
 type Props = {
     readonly filterId: string;
@@ -22,6 +23,13 @@ const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as
 export function SearchFilterMatches({ filterId }: Props) {
     const { ref, inView } = useInView();
     const { t } = useTranslation();
+    // pathname, not href: this page (/me/search-filter/$filterId) now has its
+    // own validateSearch and can itself carry ?from=...&fromKind=... (e.g.
+    // reached from /me/search-filters). href would nest that into every
+    // product card's own from. Same fix as ProductDetailPage.tsx and
+    // ShopProductGrid.tsx.
+    const currentPathname = useLocation({ select: (location) => location.pathname });
+    const breadcrumbOrigin: BreadcrumbOrigin = { from: currentPathname, fromKind: "searchFilter" };
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useSearchFilterMatchedProducts(filterId);
 
@@ -85,6 +93,7 @@ export function SearchFilterMatches({ filterId }: Props) {
                                 key={key}
                                 product={product}
                                 filterId={filterId}
+                                breadcrumbOrigin={breadcrumbOrigin}
                             />
                         );
                     })}

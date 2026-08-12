@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { SearchFilterDetail } from "../SearchFilterDetail.tsx";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
+import type React from "react";
 
 const mockUseUserSearchFilter = vi.hoisted(() => vi.fn());
 const mockDeleteMutate = vi.hoisted(() => vi.fn());
@@ -25,6 +26,11 @@ vi.mock("@tanstack/react-router", async () => {
     return {
         ...actual,
         useNavigate: () => mockNavigate,
+        Link: ({ children, to, ...props }: { children: React.ReactNode; to?: string }) => (
+            <a href={to} {...props}>
+                {children}
+            </a>
+        ),
     };
 });
 

@@ -1,13 +1,15 @@
 import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
 import { MatchFeedbackButtons } from "@/components/product/buttons/MatchFeedbackButtons.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { BreadcrumbOrigin } from "@/data/internal/common/BreadcrumbOrigin.ts";
 
 type Props = {
     readonly product: OverviewProduct;
     readonly filterId: string;
+    readonly breadcrumbOrigin?: BreadcrumbOrigin;
 };
 
-export function SearchFilterMatchCard({ product, filterId }: Props) {
+export function SearchFilterMatchCard({ product, filterId, breadcrumbOrigin }: Props) {
     const searchFilterData = product.userData?.searchFilterData;
 
     return (
@@ -20,7 +22,7 @@ export function SearchFilterMatchCard({ product, filterId }: Props) {
                     currentFeedback={searchFilterData?.matchFeedback}
                 />
             </div>
-            <ProductCard product={product} />
+            <ProductCard product={product} breadcrumbOrigin={breadcrumbOrigin} />
         </div>
     );
 }

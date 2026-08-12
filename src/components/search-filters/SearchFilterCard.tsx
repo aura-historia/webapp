@@ -49,11 +49,16 @@ import {
     SearchFilterCriteriaBadges,
     SearchFilterCriteriaDetails,
 } from "@/components/search-filters/SearchFilterCriteria.tsx";
+import {
+    buildBreadcrumbSearch,
+    type BreadcrumbOrigin,
+} from "@/data/internal/common/BreadcrumbOrigin.ts";
 
 type Props = {
     readonly filter: UserSearchFilter;
     readonly isDeleting: boolean;
     readonly canDuplicate: boolean;
+    readonly breadcrumbOrigin?: BreadcrumbOrigin;
     readonly onDelete: (id: string) => void;
     readonly onEdit: (filter: UserSearchFilter) => void;
     readonly onDuplicate: (filter: UserSearchFilter) => void;
@@ -63,12 +68,14 @@ export function SearchFilterCard({
     filter,
     isDeleting,
     canDuplicate,
+    breadcrumbOrigin,
     onDelete,
     onEdit,
     onDuplicate,
 }: Props) {
     const { t, i18n } = useTranslation();
     const { search } = filter;
+    const breadcrumbSearch = buildBreadcrumbSearch(breadcrumbOrigin);
     const updateFilter = useUpdateUserSearchFilter();
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -99,6 +106,7 @@ export function SearchFilterCard({
             <Link
                 to="/me/search-filter/$filterId"
                 params={{ filterId: filter.id }}
+                search={breadcrumbSearch}
                 className="absolute inset-0 z-0"
                 aria-label={filter.name}
             />
@@ -316,7 +324,11 @@ export function SearchFilterCard({
             )}
 
             <Button size="sm" className="relative z-10 gap-2 mt-auto text-xs sm:text-sm" asChild>
-                <Link to="/me/search-filter/$filterId" params={{ filterId: filter.id }}>
+                <Link
+                    to="/me/search-filter/$filterId"
+                    params={{ filterId: filter.id }}
+                    search={breadcrumbSearch}
+                >
                     <ScanSearch className="size-4 shrink-0" />
                     <span className="sm:hidden">{t("searchFilters.matchesAndDetailsShort")}</span>
                     <span className="hidden sm:inline">{t("searchFilters.matchesAndDetails")}</span>
