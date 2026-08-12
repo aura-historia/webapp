@@ -18,6 +18,10 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     return {
         ...actual,
         useParams: () => ({}),
+        useLocation: (opts?: { select?: (location: { href: string }) => unknown }) => {
+            const location = { href: "/me/watchlist" };
+            return opts?.select ? opts.select(location) : location;
+        },
         Link: ({ children, ...props }: { children: React.ReactNode }) => (
             <a {...props}>{children}</a>
         ),

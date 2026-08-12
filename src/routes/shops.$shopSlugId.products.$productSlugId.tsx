@@ -13,8 +13,13 @@ import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { generateProductHeadMeta } from "@/lib/seo/productHeadMeta.ts";
 import { isApiNotFoundError } from "@/lib/api/apiError.ts";
+import {
+    toBreadcrumbOrigin,
+    validateBreadcrumbSearch,
+} from "@/data/internal/common/BreadcrumbOrigin.ts";
 
 export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId")({
+    validateSearch: validateBreadcrumbSearch,
     loader: async ({
         context: { queryClient, initialPreferences },
         params: { shopSlugId, productSlugId },
@@ -68,6 +73,7 @@ export const Route = createFileRoute("/shops/$shopSlugId/products/$productSlugId
 
 function ProductDetailComponent() {
     const { shopSlugId, productSlugId } = Route.useParams();
+    const origin = toBreadcrumbOrigin(Route.useSearch());
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
 
@@ -96,5 +102,5 @@ function ProductDetailComponent() {
 
     const product = mapToDetailProduct(apiData, historyData, i18n.language);
 
-    return <ProductDetailPage product={product} />;
+    return <ProductDetailPage product={product} origin={origin} />;
 }

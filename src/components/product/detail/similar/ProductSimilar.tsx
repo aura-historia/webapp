@@ -10,9 +10,12 @@ import { AlertCircle, SearchX, RefreshCw } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
 import type { ReactNode } from "react";
 
+import type { BreadcrumbOrigin } from "@/data/internal/common/BreadcrumbOrigin.ts";
+
 interface ProductSimilarProps {
     readonly shopId: string;
     readonly shopsProductId: string;
+    readonly breadcrumbOrigin?: BreadcrumbOrigin;
 }
 
 function SimilarState({
@@ -37,7 +40,7 @@ function SimilarState({
     );
 }
 
-export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) {
+export function ProductSimilar({ shopId, shopsProductId, breadcrumbOrigin }: ProductSimilarProps) {
     const { t } = useTranslation();
     const { data, isLoading, isError, error } = useSimilarProducts(shopId, shopsProductId);
 
@@ -113,7 +116,10 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
                                 {isHidden ? (
                                     <HiddenMatchCard />
                                 ) : (
-                                    <ProductGridItem product={product} />
+                                    <ProductGridItem
+                                        product={product}
+                                        breadcrumbOrigin={breadcrumbOrigin}
+                                    />
                                 )}
                             </CarouselItem>
                         );

@@ -14,12 +14,17 @@ import { cn } from "@/lib/utils.ts";
 import { isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
 import { ProhibitedImagePlaceholder } from "@/components/common/ProhibitedImagePlaceholder.tsx";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
+import {
+    buildBreadcrumbSearch,
+    type BreadcrumbOrigin,
+} from "@/data/internal/common/BreadcrumbOrigin.ts";
 
 type ProductGridItemVariant = "default" | "recentlyAdded";
 
 type ProductGridItemProps = {
     readonly product: OverviewProduct;
     readonly variant?: ProductGridItemVariant;
+    readonly breadcrumbOrigin?: BreadcrumbOrigin;
 };
 
 function getRecentlyAddedMetaText(
@@ -31,7 +36,11 @@ function getRecentlyAddedMetaText(
     });
 }
 
-function ProductGridItemComponent({ product, variant = "default" }: ProductGridItemProps) {
+function ProductGridItemComponent({
+    product,
+    variant = "default",
+    breadcrumbOrigin,
+}: ProductGridItemProps) {
     const { t } = useTranslation();
     const hasUnseenNotification =
         product.userData?.notificationData?.hasUnseenNotification ?? false;
@@ -52,6 +61,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
         shopSlugId: product.shopSlugId,
         productSlugId: product.productSlugId,
     };
+    const breadcrumbSearch = buildBreadcrumbSearch(breadcrumbOrigin);
 
     if (variant === "recentlyAdded") {
         const recentlyAddedMeta = getRecentlyAddedMetaText(t, product);
@@ -99,6 +109,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                     <Link
                         to="/shops/$shopSlugId/products/$productSlugId"
                         params={productLinkParams}
+                        search={breadcrumbSearch}
                         className="block w-full overflow-hidden bg-muted"
                         onClick={handleProductClick}
                     >
@@ -115,6 +126,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                         <Link
                             to="/shops/$shopSlugId/products/$productSlugId"
                             params={productLinkParams}
+                            search={breadcrumbSearch}
                             className="min-w-0 overflow-hidden"
                             onClick={handleProductClick}
                         >
@@ -149,6 +161,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                 <Link
                     to="/shops/$shopSlugId/products/$productSlugId"
                     params={productLinkParams}
+                    search={breadcrumbSearch}
                     className="relative block w-full overflow-hidden bg-surface-container-low"
                     onClick={handleProductClick}
                 >
@@ -195,6 +208,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                     <Link
                         to="/shops/$shopSlugId/products/$productSlugId"
                         params={productLinkParams}
+                        search={breadcrumbSearch}
                         className="min-w-0"
                         onClick={handleProductClick}
                     >

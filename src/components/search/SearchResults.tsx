@@ -11,6 +11,8 @@ import { useTranslation } from "react-i18next";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
 import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { useInView } from "react-intersection-observer";
+import { useLocation } from "@tanstack/react-router";
+import type { BreadcrumbOrigin } from "@/data/internal/common/BreadcrumbOrigin.ts";
 
 type SearchResultsProps = {
     readonly searchFilters: SearchFilterArguments;
@@ -22,6 +24,8 @@ const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as
 export function SearchResults({ searchFilters, onTotalChange }: SearchResultsProps) {
     const { ref: sentinelRef, inView } = useInView();
     const { t } = useTranslation();
+    const currentHref = useLocation({ select: (location) => location.href });
+    const breadcrumbOrigin: BreadcrumbOrigin = { from: currentHref, fromKind: "search" };
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useSearch(searchFilters);
 
@@ -87,7 +91,11 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
                     return isHidden ? (
                         <HiddenMatchCard key={product.productId} />
                     ) : (
-                        <ProductCard key={product.productId} product={product} />
+                        <ProductCard
+                            key={product.productId}
+                            product={product}
+                            breadcrumbOrigin={breadcrumbOrigin}
+                        />
                     );
                 })}
             </div>

@@ -9,12 +9,16 @@ import { SearchX, ServerCrash } from "lucide-react";
 import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { useWatchlist } from "@/hooks/watchlist/useWatchlist.ts";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
+import { useLocation } from "@tanstack/react-router";
+import type { BreadcrumbOrigin } from "@/data/internal/common/BreadcrumbOrigin.ts";
 
 const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as const;
 
 export function WatchlistResults() {
     const { ref, inView } = useInView();
     const { t } = useTranslation();
+    const currentHref = useLocation({ select: (location) => location.href });
+    const breadcrumbOrigin: BreadcrumbOrigin = { from: currentHref, fromKind: "watchlist" };
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useWatchlist();
 
@@ -96,7 +100,11 @@ export function WatchlistResults() {
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                 {allProducts.map((watchlistProduct: OverviewProduct) => (
-                    <ProductCard key={watchlistProduct.productId} product={watchlistProduct} />
+                    <ProductCard
+                        key={watchlistProduct.productId}
+                        product={watchlistProduct}
+                        breadcrumbOrigin={breadcrumbOrigin}
+                    />
                 ))}
             </div>
             {showLoaderRow && (

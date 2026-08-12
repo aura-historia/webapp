@@ -8,6 +8,10 @@ import { useTranslation } from "react-i18next";
 import { ArrowUpRight, ServerCrash } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
+import {
+    buildBreadcrumbSearch,
+    type BreadcrumbOrigin,
+} from "@/data/internal/common/BreadcrumbOrigin.ts";
 
 const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"];
 
@@ -15,14 +19,17 @@ interface ProductDealerItemsProps {
     readonly shopName: string;
     readonly shopSlugId: string;
     readonly excludeProductId: string;
+    readonly breadcrumbOrigin?: BreadcrumbOrigin;
 }
 
 export function ProductDealerItems({
     shopName,
     shopSlugId,
     excludeProductId,
+    breadcrumbOrigin,
 }: ProductDealerItemsProps) {
     const { t } = useTranslation();
+    const breadcrumbSearch = buildBreadcrumbSearch(breadcrumbOrigin);
     const { data, isLoading, isError, error } = useDealerProducts(shopName, excludeProductId);
 
     if (isLoading) {
@@ -64,6 +71,7 @@ export function ProductDealerItems({
                         <Link
                             to="/shops/$shopSlugId"
                             params={{ shopSlugId }}
+                            search={breadcrumbSearch}
                             className="flex items-center gap-1 text-xs uppercase tracking-widest text-primary hover:underline"
                         >
                             <span>{t("shop.card.viewShop")}</span>
@@ -78,7 +86,10 @@ export function ProductDealerItems({
                             key={product.productId}
                             className="basis-full pl-6 sm:basis-1/2 lg:basis-1/4"
                         >
-                            <ProductGridItem product={product} />
+                            <ProductGridItem
+                                product={product}
+                                breadcrumbOrigin={breadcrumbOrigin}
+                            />
                         </CarouselItem>
                     ))}
                 </CarouselContent>

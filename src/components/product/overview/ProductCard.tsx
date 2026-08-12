@@ -15,9 +15,20 @@ import { ProductCardImageCarousel } from "@/components/product/overview/ProductC
 import { memo, useCallback } from "react";
 import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
 import { cn } from "@/lib/utils.ts";
+import {
+    buildBreadcrumbSearch,
+    type BreadcrumbOrigin,
+} from "@/data/internal/common/BreadcrumbOrigin.ts";
 
-function ProductCardComponent({ product }: { readonly product: OverviewProduct }) {
+function ProductCardComponent({
+    product,
+    breadcrumbOrigin,
+}: {
+    readonly product: OverviewProduct;
+    readonly breadcrumbOrigin?: BreadcrumbOrigin;
+}) {
     const { t } = useTranslation();
+    const breadcrumbSearch = buildBreadcrumbSearch(breadcrumbOrigin);
     const hasUnseenNotification =
         product.userData?.notificationData?.hasUnseenNotification ?? false;
     const originEventId = product.userData?.notificationData?.originEventId;
@@ -54,6 +65,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                     shopSlugId={product.shopSlugId}
                     productSlugId={product.productSlugId}
                     onProductClick={handleProductClick}
+                    breadcrumbOrigin={breadcrumbOrigin}
                 />
 
                 {hasUnseenNotification && (
@@ -82,6 +94,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                                 shopSlugId: product.shopSlugId,
                                 productSlugId: product.productSlugId,
                             }}
+                            search={breadcrumbSearch}
                             className="min-w-0"
                             onClick={handleProductClick}
                         >
@@ -120,6 +133,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                             <Link
                                 to="/shops/$shopSlugId"
                                 params={{ shopSlugId: product.shopSlugId }}
+                                search={breadcrumbSearch}
                                 className="transition-colors hover:text-foreground hover:underline"
                             >
                                 {product.shopName}
@@ -132,6 +146,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                                     <Link
                                         to="/shops/$shopSlugId"
                                         params={{ shopSlugId: product.shopSlugId }}
+                                        search={breadcrumbSearch}
                                         className="transition-colors hover:text-foreground hover:underline"
                                     >
                                         {product.shopName}
@@ -173,6 +188,7 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                                     shopSlugId: product.shopSlugId,
                                     productSlugId: product.productSlugId,
                                 }}
+                                search={breadcrumbSearch}
                                 onClick={handleProductClick}
                             >
                                 <Eye />

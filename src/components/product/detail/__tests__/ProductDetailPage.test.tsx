@@ -1,8 +1,8 @@
 import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
-import { screen } from "@testing-library/react";
+import { act, screen } from "@testing-library/react";
 import { ProductDetailPage } from "../ProductDetailPage.tsx";
 import { vi } from "vitest";
-import { renderWithQueryClient } from "@/test/utils.tsx";
+import { renderWithRouter } from "@/test/utils.tsx";
 
 vi.mock("@/components/product/detail/ProductInfo.tsx", () => ({
     ProductInfo: ({ product }: { product: ProductDetail }) => (
@@ -51,38 +51,44 @@ describe("ProductDetailPage", () => {
         history: [],
     };
 
-    it("should render ProductInfo component", () => {
-        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
+    it("should render ProductInfo component", async () => {
+        await act(() => renderWithRouter(<ProductDetailPage product={mockProduct} />));
         expect(screen.getByTestId("product-info")).toBeInTheDocument();
         expect(screen.getByText("ProductInfo: Test Product")).toBeInTheDocument();
     });
 
-    it("should render ProductLocationSection component", () => {
-        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
+    it("should render ProductLocationSection component", async () => {
+        await act(() => renderWithRouter(<ProductDetailPage product={mockProduct} />));
         expect(screen.getByTestId("product-location")).toBeInTheDocument();
     });
 
-    it("should render ProductPriceChart component", () => {
-        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
+    it("should render ProductPriceChart component", async () => {
+        await act(() => renderWithRouter(<ProductDetailPage product={mockProduct} />));
         expect(screen.getByTestId("product-price-chart")).toBeInTheDocument();
     });
 
-    it("should render ProductHistory component", () => {
-        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
+    it("should render ProductHistory component", async () => {
+        await act(() => renderWithRouter(<ProductDetailPage product={mockProduct} />));
         expect(screen.getByTestId("product-history")).toBeInTheDocument();
     });
 
-    it("should render ProductDealerItems component", () => {
-        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
+    it("should render ProductDealerItems component", async () => {
+        await act(() => renderWithRouter(<ProductDetailPage product={mockProduct} />));
         expect(screen.getByTestId("product-dealer-items")).toBeInTheDocument();
     });
 
-    it("should render all components together", () => {
-        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
+    it("should render all components together", async () => {
+        await act(() => renderWithRouter(<ProductDetailPage product={mockProduct} />));
         expect(screen.getByTestId("product-info")).toBeInTheDocument();
         expect(screen.getByTestId("product-price-chart")).toBeInTheDocument();
         expect(screen.getByTestId("product-history")).toBeInTheDocument();
         expect(screen.getByTestId("product-similar")).toBeInTheDocument();
         expect(screen.getByTestId("product-dealer-items")).toBeInTheDocument();
+    });
+
+    it("should render the breadcrumb with the product title", async () => {
+        await act(() => renderWithRouter(<ProductDetailPage product={mockProduct} />));
+        expect(screen.getByText("Test Product")).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "Start" })).toBeInTheDocument();
     });
 });

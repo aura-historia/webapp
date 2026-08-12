@@ -13,6 +13,10 @@ import { Link } from "@tanstack/react-router";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 import { ProhibitedImagePlaceholder } from "@/components/common/ProhibitedImagePlaceholder.tsx";
 import type { UserProductData } from "@/data/internal/product/UserProductData.ts";
+import {
+    buildBreadcrumbSearch,
+    type BreadcrumbOrigin,
+} from "@/data/internal/common/BreadcrumbOrigin.ts";
 
 interface ProductCardImageCarouselProps {
     readonly images: readonly ProductImage[];
@@ -20,6 +24,7 @@ interface ProductCardImageCarouselProps {
     readonly productSlugId: string;
     readonly userData?: UserProductData;
     readonly onProductClick?: () => void;
+    readonly breadcrumbOrigin?: BreadcrumbOrigin;
 }
 
 export function ProductCardImageCarousel({
@@ -28,8 +33,10 @@ export function ProductCardImageCarousel({
     productSlugId,
     userData,
     onProductClick,
+    breadcrumbOrigin,
 }: ProductCardImageCarouselProps) {
     const { t } = useTranslation();
+    const breadcrumbSearch = buildBreadcrumbSearch(breadcrumbOrigin);
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [canScrollPrev, setCanScrollPrev] = useState(false);
@@ -89,6 +96,7 @@ export function ProductCardImageCarousel({
                     productSlugId,
                 }}
                 onClick={onProductClick}
+                search={breadcrumbSearch}
             >
                 <div className="aspect-[4/3] w-full bg-muted flex flex-col items-center justify-center gap-2">
                     <ImageOff
@@ -111,6 +119,7 @@ export function ProductCardImageCarousel({
                     productSlugId,
                 }}
                 onClick={onProductClick}
+                search={breadcrumbSearch}
             >
                 {isRestrictedImage(images[0], isRestrictedConsentGiven) ? (
                     <ProhibitedImagePlaceholder className="w-full aspect-[4/3]" />
@@ -147,6 +156,7 @@ export function ProductCardImageCarousel({
                                     productSlugId,
                                 }}
                                 onClick={onProductClick}
+                                search={breadcrumbSearch}
                             >
                                 {isRestrictedImage(image, isRestrictedConsentGiven) ? (
                                     <ProhibitedImagePlaceholder className="w-full aspect-[4/3]" />

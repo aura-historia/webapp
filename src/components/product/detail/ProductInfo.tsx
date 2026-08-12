@@ -15,12 +15,23 @@ import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.ts
 import { ProductPriceEstimate } from "@/components/product/detail/ProductPriceEstimate.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Link } from "@tanstack/react-router";
+import {
+    buildBreadcrumbSearch,
+    type BreadcrumbOrigin,
+} from "@/data/internal/common/BreadcrumbOrigin.ts";
 
-export function ProductInfo({ product }: { readonly product: ProductDetail }) {
+export function ProductInfo({
+    product,
+    breadcrumbOrigin,
+}: {
+    readonly product: ProductDetail;
+    readonly breadcrumbOrigin?: BreadcrumbOrigin;
+}) {
     const { t } = useTranslation();
     const isWatching = product.userData?.watchlistData.isWatching ?? false;
     const isRemoved = product.state === "REMOVED";
     const merchantUrl = product.viewUrl?.href ?? product.url?.href;
+    const breadcrumbSearch = buildBreadcrumbSearch(breadcrumbOrigin);
 
     const searchFilterData = product.userData?.searchFilterData;
 
@@ -80,6 +91,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                         <Link
                             to="/shops/$shopSlugId"
                             params={{ shopSlugId: product.shopSlugId }}
+                            search={breadcrumbSearch}
                             className="transition-colors hover:text-foreground hover:underline"
                         >
                             {product.shopName}
@@ -92,6 +104,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                                 <Link
                                     to="/shops/$shopSlugId"
                                     params={{ shopSlugId: product.shopSlugId }}
+                                    search={breadcrumbSearch}
                                     className="transition-colors hover:text-foreground hover:underline"
                                 >
                                     {product.shopName}
