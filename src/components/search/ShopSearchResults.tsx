@@ -10,6 +10,8 @@ import { useTranslation } from "react-i18next";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
 import { useInView } from "react-intersection-observer";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
+import { useLocation } from "@tanstack/react-router";
+import type { BreadcrumbOrigin } from "@/data/internal/common/BreadcrumbOrigin.ts";
 
 type ShopSearchResultsProps = {
     readonly searchFilters: ShopSearchFilterArguments;
@@ -26,6 +28,8 @@ const SKELETON_IDS = [
 export function ShopSearchResults({ searchFilters, onTotalChange }: ShopSearchResultsProps) {
     const { ref: sentinelRef, inView } = useInView();
     const { t } = useTranslation();
+    const currentHref = useLocation({ select: (location) => location.href });
+    const breadcrumbOrigin: BreadcrumbOrigin = { from: currentHref, fromKind: "shopSearch" };
     const { data, isPending, error, fetchNextPage, isFetchingNextPage } =
         useShopSearch(searchFilters);
 
@@ -92,7 +96,7 @@ export function ShopSearchResults({ searchFilters, onTotalChange }: ShopSearchRe
         <div className="space-y-8">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                 {allShops.map((shop) => (
-                    <ShopCard key={shop.shopId} shop={shop} />
+                    <ShopCard key={shop.shopId} shop={shop} breadcrumbOrigin={breadcrumbOrigin} />
                 ))}
             </div>
 

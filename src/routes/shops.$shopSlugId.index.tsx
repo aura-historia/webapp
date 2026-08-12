@@ -9,8 +9,14 @@ import { ShopProductGrid } from "@/components/shop/ShopProductGrid.tsx";
 import { ShopLocationSection } from "@/components/shop/ShopLocationSection.tsx";
 import { useCallback, useMemo, useState } from "react";
 import { isApiNotFoundError } from "@/lib/api/apiError.ts";
+import { DetailPageBreadcrumb } from "@/components/common/breadcrumb/DetailPageBreadcrumb.tsx";
+import {
+    toBreadcrumbOrigin,
+    validateBreadcrumbSearch,
+} from "@/data/internal/common/BreadcrumbOrigin.ts";
 
 export const Route = createFileRoute("/shops/$shopSlugId/")({
+    validateSearch: validateBreadcrumbSearch,
     loader: async ({ context: { queryClient }, params: { shopSlugId } }) => {
         try {
             return await queryClient.ensureQueryData(
@@ -33,6 +39,7 @@ export const Route = createFileRoute("/shops/$shopSlugId/")({
 
 function ShopDetailComponent() {
     const { shopSlugId } = Route.useParams();
+    const origin = toBreadcrumbOrigin(Route.useSearch());
     const [productCount, setProductCount] = useState<number | undefined>(undefined);
 
     const { data } = useSuspenseQuery(
@@ -49,6 +56,9 @@ function ShopDetailComponent() {
 
     return (
         <div className="bg-background">
+            <div className="mx-auto w-full max-w-7xl px-4 pt-6 md:px-10">
+                <DetailPageBreadcrumb title={shop.name} origin={origin} />
+            </div>
             <ShopHeader shop={shop} productCount={productCount} />
             <ShopLocationSection shop={shop} />
             <div className="mx-auto w-full max-w-7xl px-4 pb-16 md:px-10">

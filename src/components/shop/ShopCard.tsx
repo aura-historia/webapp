@@ -7,9 +7,19 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, ImageOff } from "lucide-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+import {
+    buildBreadcrumbSearch,
+    type BreadcrumbOrigin,
+} from "@/data/internal/common/BreadcrumbOrigin.ts";
 
-function ShopCardComponent({ shop }: { readonly shop: ShopDetail }) {
+type ShopCardProps = {
+    readonly shop: ShopDetail;
+    readonly breadcrumbOrigin?: BreadcrumbOrigin;
+};
+
+function ShopCardComponent({ shop, breadcrumbOrigin }: ShopCardProps) {
     const { t, i18n } = useTranslation();
+    const breadcrumbSearch = buildBreadcrumbSearch(breadcrumbOrigin);
 
     const formattedDate = new Intl.DateTimeFormat(i18n.language, {
         year: "numeric",
@@ -27,6 +37,7 @@ function ShopCardComponent({ shop }: { readonly shop: ShopDetail }) {
             <Link
                 to="/shops/$shopSlugId"
                 params={{ shopSlugId: shop.shopSlugId }}
+                search={breadcrumbSearch}
                 className="block"
             >
                 <div className="flex aspect-square w-full items-center justify-center overflow-hidden bg-muted">
@@ -53,6 +64,7 @@ function ShopCardComponent({ shop }: { readonly shop: ShopDetail }) {
                     <Link
                         to="/shops/$shopSlugId"
                         params={{ shopSlugId: shop.shopSlugId }}
+                        search={breadcrumbSearch}
                         className="block"
                     >
                         <H2 className="break-words text-2xl font-normal italic leading-tight">
@@ -69,7 +81,11 @@ function ShopCardComponent({ shop }: { readonly shop: ShopDetail }) {
                 </div>
                 <div className="mt-auto flex flex-col gap-2 pt-3">
                     <Button asChild variant="outline" className="h-10 rounded-none">
-                        <Link to="/shops/$shopSlugId" params={{ shopSlugId: shop.shopSlugId }}>
+                        <Link
+                            to="/shops/$shopSlugId"
+                            params={{ shopSlugId: shop.shopSlugId }}
+                            search={breadcrumbSearch}
+                        >
                             <ArrowUpRight className="size-4" />
                             <span>{t("shop.card.viewShop")}</span>
                         </Link>

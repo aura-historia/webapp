@@ -14,6 +14,10 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     const actual = await importOriginal<typeof import("@tanstack/react-router")>();
     return {
         ...actual,
+        useLocation: (opts?: { select?: (location: { href: string }) => unknown }) => {
+            const location = { href: "/search/shops?q=test" };
+            return opts?.select ? opts.select(location) : location;
+        },
         Link: ({ children, ...props }: { children: React.ReactNode }) => (
             <a {...props}>{children}</a>
         ),
