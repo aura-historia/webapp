@@ -3,6 +3,16 @@
     "auraHistoria": "Aura Historia",
     "infoButton": "More information"
   },
+  "breadcrumb": {
+    "home": "Home",
+    "search": "Search",
+    "shopSearch": "Shops",
+    "shop": "Shop",
+    "product": "Previous item",
+    "watchlist": "Watchlist",
+    "searchFilter": "Search Filter",
+    "searchFilterList": "Search Filters"
+  },
   "meta": {
     "siteName": "Aura Historia | Global Antiques Platform",
     "defaultDescription": "Discover rare antiques, art, and design objects from dealers, auction houses, and marketplaces worldwide — in one refined platform for collectors and professionals.",

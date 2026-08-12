@@ -3,6 +3,16 @@
     "auraHistoria": "Aura Historia",
     "infoButton": "Plus d'informations"
   },
+  "breadcrumb": {
+    "home": "Accueil",
+    "search": "Recherche",
+    "shopSearch": "Boutiques",
+    "shop": "Boutique",
+    "product": "Article précédent",
+    "watchlist": "Favoris",
+    "searchFilter": "Filtre de recherche",
+    "searchFilterList": "Filtres de recherche"
+  },
   "meta": {
     "siteName": "Aura Historia | Plateforme mondiale d’antiquités",
     "defaultDescription": "Découvrez antiquités rares, art et objets de design auprès de marchands, maisons de vente et places de marché du monde entier, dans une plateforme raffinée pour collectionneurs et professionnels.",

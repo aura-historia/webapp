@@ -3,6 +3,16 @@
     "auraHistoria": "Aura Historia",
     "infoButton": "Maggiori informazioni"
   },
+  "breadcrumb": {
+    "home": "Home",
+    "search": "Ricerca",
+    "shopSearch": "Negozi",
+    "shop": "Negozio",
+    "product": "Articolo precedente",
+    "watchlist": "Lista dei preferiti",
+    "searchFilter": "Filtro di ricerca",
+    "searchFilterList": "Filtri di ricerca"
+  },
   "meta": {
     "siteName": "Aura Historia | Piattaforma globale per antiquariato",
     "defaultDescription": "Scopri antiquariato raro, arte e oggetti di design da commercianti, case d’asta e marketplace di tutto il mondo in una piattaforma raffinata per collezionisti e professionisti.",
