@@ -15,6 +15,7 @@ This doc owns landing-page components and section data under `src/components/lan
 - Read `../../../docs/hydration-guidelines.md` before browser API, animation, data, i18n, or route-sensitive changes.
 - User-facing text must use i18n keys and be translated in `de`, `en`, `es`, `fr`, `it`.
 - Claims about market size, source coverage, trust, pricing, or AI must be true and supported.
+- Keep recently added products client-only so frequently changing inventory is never embedded in prerendered landing-page HTML; prerender a matching skeleton to reserve layout space.
 
 ## Work Guidance
 

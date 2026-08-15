@@ -9,38 +9,12 @@ import NewsletterSection from "@/components/landing-page/newsletter-section/News
 import { createFileRoute } from "@tanstack/react-router";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
-import RecentlyAddedSection from "@/components/landing-page/recently-added-section/RecentlyAddedSection.tsx";
 import { useQuery } from "@tanstack/react-query";
-import {
-    simpleSearchProductsOptions,
-    simpleSearchShopsOptions,
-} from "@/client/@tanstack/react-query.gen.ts";
-
-import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import { parseLanguage } from "@/data/internal/common/Language.ts";
-import i18n from "@/i18n/i18n.ts";
-import { useTranslation } from "react-i18next";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
-import { inferCurrencyFromLocale } from "@/data/internal/common/Currency.ts";
+import { simpleSearchShopsOptions } from "@/client/@tanstack/react-query.gen.ts";
 import { LANDING_PAGE_FRAGMENTS } from "@/components/landing-page/LandingPage.fragments.ts";
+import { RecentlyAddedClientSection } from "@/components/landing-page/recently-added-section/RecentlyAddedClientSection.tsx";
 
 export const Route = createFileRoute("/$lng/")({
-    loader: async ({ context: { queryClient, initialPreferences } }) => {
-        const currency = initialPreferences.currency ?? inferCurrencyFromLocale(i18n.language);
-        await queryClient
-            .ensureQueryData(
-                simpleSearchProductsOptions({
-                    query: {
-                        sort: "created",
-                        order: "desc",
-                        size: 12,
-                        language: parseLanguage(i18n.language),
-                        currency: currency,
-                    },
-                }),
-            )
-            .catch(() => null);
-    },
     head: () =>
         generatePageHeadMeta({
             pageKey: "home",
@@ -50,24 +24,7 @@ export const Route = createFileRoute("/$lng/")({
 });
 
 function LandingPage() {
-    const { i18n } = useTranslation();
-    const { preferences } = useUserPreferences();
-    const { data: recentlyAddedData } = useQuery(
-        simpleSearchProductsOptions({
-            query: {
-                sort: "created",
-                order: "desc",
-                size: 12,
-                language: parseLanguage(i18n.language),
-                currency: preferences.currency,
-            },
-        }),
-    );
     const { data: shopData } = useQuery(simpleSearchShopsOptions());
-
-    const recentlyAdded = (recentlyAddedData?.items ?? []).map((p) =>
-        mapPersonalizedGetProductSummaryDataToOverviewProduct(p, i18n.language),
-    );
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -75,11 +32,7 @@ function LandingPage() {
                 <HeroSection />
             </div>
             <ArtworkStorySection />
-            {recentlyAdded.length > 0 && (
-                <div id={LANDING_PAGE_FRAGMENTS.recentlyAdded} className="scroll-mt-24">
-                    <RecentlyAddedSection products={recentlyAdded} />
-                </div>
-            )}
+            <RecentlyAddedClientSection />
             <div id={LANDING_PAGE_FRAGMENTS.discover} className="scroll-mt-24">
                 <DiscoverSection shopCount={shopData?.total ?? undefined} />
             </div>
