@@ -36,7 +36,7 @@ export default function PartnerHeroSection() {
 
                 <div className="mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center">
                     <Button asChild size="lg" className="min-h-12">
-                        <Link to="/partner-program/apply">
+                        <Link to="/$lng/partner-program/apply" params={true} from="/$lng">
                             {t("partnerProgram.hero.primaryCta")}
                             <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                         </Link>

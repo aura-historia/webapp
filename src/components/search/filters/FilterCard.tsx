@@ -59,10 +59,12 @@ export function FilterCard({
                                 <TooltipContent className="flex flex-col gap-1 max-w-56 text-center">
                                     <span>{t("searchFilter.upgradeRequired")}</span>
                                     <Link
-                                        to="/"
+                                        to="/$lng"
                                         hash="pricing"
                                         className="text-primary underline underline-offset-2 font-medium"
                                         onClick={(e) => e.stopPropagation()}
+                                        params={true}
+                                        from="/$lng"
                                     >
                                         {t("searchFilter.upgradeNow")}
                                     </Link>

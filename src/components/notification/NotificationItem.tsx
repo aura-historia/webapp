@@ -77,16 +77,18 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                     </div>
                     {isProductNotification(payload) ? (
                         <Link
-                            to="/shops/$shopSlugId/products/$productSlugId"
-                            params={{
+                            to="/$lng/shops/$shopSlugId/products/$productSlugId"
+                            params={(current) => ({
+                                ...current,
                                 shopSlugId: payload.shopSlugId,
                                 productSlugId: payload.productSlugId,
-                            }}
+                            })}
                             onClick={() => !seen && markAsSeen.mutate(notification.originEventId)}
                             className={cn(
                                 "mt-0.5 text-sm leading-snug hover:underline",
                                 seen ? "text-foreground/60" : "font-semibold",
                             )}
+                            from="/$lng"
                         >
                             {payload.productTitle}
                         </Link>

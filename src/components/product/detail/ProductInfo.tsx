@@ -23,6 +23,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const merchantUrl = product.viewUrl?.href ?? product.url?.href;
 
     const searchFilterData = product.userData?.searchFilterData;
+    const matchedSearchFilterId = searchFilterData?.userSearchFilterId;
 
     return (
         <section className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 pb-8">
@@ -78,9 +79,10 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                 <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted-foreground/80">
                     {product.sellerName === product.shopName ? (
                         <Link
-                            to="/shops/$shopSlugId"
-                            params={{ shopSlugId: product.shopSlugId }}
+                            to="/$lng/shops/$shopSlugId"
+                            params={(current) => ({ ...current, shopSlugId: product.shopSlugId })}
                             className="transition-colors hover:text-foreground hover:underline"
+                            from="/$lng"
                         >
                             {product.shopName}
                         </Link>
@@ -90,9 +92,13 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                             <span className="ml-2 text-muted-foreground/80">
                                 {t("product.soldOn")}{" "}
                                 <Link
-                                    to="/shops/$shopSlugId"
-                                    params={{ shopSlugId: product.shopSlugId }}
+                                    to="/$lng/shops/$shopSlugId"
+                                    params={(current) => ({
+                                        ...current,
+                                        shopSlugId: product.shopSlugId,
+                                    })}
                                     className="transition-colors hover:text-foreground hover:underline"
+                                    from="/$lng"
                                 >
                                     {product.shopName}
                                 </Link>
@@ -115,14 +121,18 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
 
                 {searchFilterData?.matched &&
                     !searchFilterData?.hidden &&
-                    searchFilterData?.userSearchFilterId && (
+                    matchedSearchFilterId && (
                         <div className="mt-6 border-l-2 border-tertiary pl-4 flex flex-col gap-2">
                             <p className="text-xs uppercase tracking-[0.08em] text-muted-foreground">
                                 {t("product.searchFilter.matchedBy")}:{" "}
                                 <Link
-                                    to="/me/search-filter/$filterId"
-                                    params={{ filterId: searchFilterData.userSearchFilterId }}
+                                    to="/$lng/me/search-filter/$filterId"
+                                    params={(current) => ({
+                                        ...current,
+                                        filterId: matchedSearchFilterId,
+                                    })}
                                     className="font-semibold text-tertiary transition-colors hover:underline normal-case tracking-normal"
+                                    from="/$lng"
                                 >
                                     {searchFilterData.userSearchFilterName}
                                 </Link>

@@ -13,11 +13,15 @@ vi.mock("@tanstack/react-router", async () => {
             ...props
         }: {
             to: string;
-            params?: Record<string, string>;
+            params?:
+                | Record<string, string>
+                | ((current: Record<string, string>) => Record<string, string>);
             children: React.ReactNode;
         }) => {
+            const resolvedParams =
+                typeof params === "function" ? params({ lng: "de" }) : (params ?? { lng: "de" });
             let href = to;
-            for (const [key, value] of Object.entries(params ?? {})) {
+            for (const [key, value] of Object.entries(resolvedParams)) {
                 href = href.replace(`$${key}`, value);
             }
             return (
@@ -42,7 +46,7 @@ describe("SearchFilterMatchBadge", () => {
     it("should link to the search filter page", () => {
         render(<SearchFilterMatchBadge filterId="filter-123" />);
 
-        expect(screen.getByRole("link")).toHaveAttribute("href", "/me/search-filter/filter-123");
+        expect(screen.getByRole("link")).toHaveAttribute("href", "/de/me/search-filter/filter-123");
     });
 
     it("should render the filter icon", () => {

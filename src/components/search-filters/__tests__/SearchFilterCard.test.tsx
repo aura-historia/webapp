@@ -52,7 +52,7 @@ describe("SearchFilterCard", () => {
         });
         expect(screen.getByRole("link", { name: "Barock Möbel" })).toHaveAttribute(
             "href",
-            "/me/search-filter/filter-1",
+            "/de/me/search-filter/filter-1",
         );
     });
 

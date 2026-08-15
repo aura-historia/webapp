@@ -85,7 +85,12 @@ export function AdminPartnerApplicationDetailDialog({
                     <Field label={t("adminDashboard.users.fields.role")} value={applicant.role} />
                 </dl>
                 <Button asChild size="sm" className="w-fit">
-                    <Link to="/admin/users" search={{ userId: applicant.userId }}>
+                    <Link
+                        to="/$lng/admin/users"
+                        search={{ userId: applicant.userId }}
+                        params={true}
+                        from="/$lng"
+                    >
                         {t("adminDashboard.applications.detail.openApplicant")}
                         <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
                     </Link>

@@ -17,11 +17,17 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
         }: {
             children: React.ReactNode;
             to?: string;
-            params?: Record<string, string>;
+            params?:
+                | Record<string, string>
+                | ((current: Record<string, string>) => Record<string, string>);
             className?: string;
         }) => {
-            const slugId = params?.shopSlugId;
-            const href = slugId ? (to ?? "").replace("$shopSlugId", slugId) : to;
+            const resolvedParams =
+                typeof params === "function" ? params({ lng: "de" }) : (params ?? { lng: "de" });
+            let href = to ?? "";
+            for (const [key, value] of Object.entries(resolvedParams)) {
+                href = href.replace(`$${key}`, value);
+            }
             return (
                 <a href={href} {...props}>
                     {children}

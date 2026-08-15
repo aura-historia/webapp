@@ -171,7 +171,7 @@ describe("pageHeadMeta", () => {
 
                 expect(result.meta).toContainEqual({
                     property: "og:url",
-                    content: "https://example.com/home",
+                    content: "https://example.com/de/home",
                 });
             });
 
@@ -262,7 +262,7 @@ describe("pageHeadMeta", () => {
 
                 expect(result.meta).toContainEqual({
                     name: "twitter:url",
-                    content: "https://example.com/home",
+                    content: "https://example.com/de/home",
                 });
             });
 
@@ -305,7 +305,7 @@ describe("pageHeadMeta", () => {
 
                 expect(result.links).toContainEqual({
                     rel: "canonical",
-                    href: "https://example.com/home",
+                    href: "https://example.com/de/home",
                 });
             });
 
@@ -327,32 +327,32 @@ describe("pageHeadMeta", () => {
                 expect(result.links).toContainEqual({
                     rel: "alternate",
                     hrefLang: "de",
-                    href: expect.stringContaining("?lng=de"),
+                    href: expect.stringContaining("/de/home"),
                 });
                 expect(result.links).toContainEqual({
                     rel: "alternate",
                     hrefLang: "en",
-                    href: expect.stringContaining("?lng=en"),
+                    href: expect.stringContaining("/en/home"),
                 });
                 expect(result.links).toContainEqual({
                     rel: "alternate",
                     hrefLang: "fr",
-                    href: expect.stringContaining("?lng=fr"),
+                    href: expect.stringContaining("/fr/home"),
                 });
                 expect(result.links).toContainEqual({
                     rel: "alternate",
                     hrefLang: "es",
-                    href: expect.stringContaining("?lng=es"),
+                    href: expect.stringContaining("/es/home"),
                 });
                 expect(result.links).toContainEqual({
                     rel: "alternate",
                     hrefLang: "it",
-                    href: expect.stringContaining("?lng=it"),
+                    href: expect.stringContaining("/it/home"),
                 });
                 expect(result.links).toContainEqual({
                     rel: "alternate",
                     hrefLang: "x-default",
-                    href: expect.stringContaining("?lng=en"),
+                    href: expect.stringContaining("/en/home"),
                 });
             });
 
@@ -367,7 +367,7 @@ describe("pageHeadMeta", () => {
                 expect(result.links?.length).toBe(1);
                 expect(result.links).toContainEqual({
                     rel: "canonical",
-                    href: "https://example.com/imprint",
+                    href: "https://example.com/de/imprint",
                 });
                 const hasAlternate = result.links?.some((l) => l.rel === "alternate");
                 expect(hasAlternate).toBe(false);

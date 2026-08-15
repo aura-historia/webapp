@@ -29,6 +29,7 @@ vi.mock("@/hooks/auth/useResolvedAuth", () => ({
 
 vi.mock("@tanstack/react-router", () => ({
     useNavigate: () => mockNavigate,
+    useParams: () => ({ lng: "de" }),
 }));
 
 vi.mock("@/hooks/common/useApiError", () => ({
@@ -99,8 +100,8 @@ describe("useStripeBilling", () => {
             });
 
             expect(mockNavigate).toHaveBeenCalledWith({
-                to: "/login",
-                search: { redirect: "/me/billing/manage?plan=PRO&cycle=MONTHLY" },
+                to: "/$lng/login",
+                search: { redirect: "/de/me/billing/manage?plan=PRO&cycle=MONTHLY" },
             });
             expect(mockPostBillingManage).not.toHaveBeenCalled();
         });

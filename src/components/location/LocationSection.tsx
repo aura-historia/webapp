@@ -4,6 +4,7 @@ import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import type { GeoAddress, StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { localizePathname } from "@/i18n/routing.ts";
 
 type LocationContact = {
     readonly eyebrow: string;
@@ -205,7 +206,10 @@ export function LocationSection({
                             {mapConsentButton}
                         </Button>
                         <a
-                            href="/consent-settings"
+                            href={localizePathname(
+                                "/consent-settings",
+                                i18n.resolvedLanguage ?? i18n.language,
+                            )}
                             className="min-h-11 px-2 pt-3 text-xs uppercase tracking-[0.12em] text-primary underline-offset-4 hover:underline"
                         >
                             {mapConsentSettings}

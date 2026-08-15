@@ -97,10 +97,11 @@ export function SearchFilterCard({
     return (
         <Card className="relative flex flex-col p-4 sm:p-6 gap-5 shadow-md min-w-0 h-full transition-colors hover:bg-accent">
             <Link
-                to="/me/search-filter/$filterId"
-                params={{ filterId: filter.id }}
+                to="/$lng/me/search-filter/$filterId"
+                params={(current) => ({ ...current, filterId: filter.id })}
                 className="absolute inset-0 z-0"
                 aria-label={filter.name}
+                from="/$lng"
             />
 
             <div className="flex justify-between gap-2">
@@ -316,7 +317,11 @@ export function SearchFilterCard({
             )}
 
             <Button size="sm" className="relative z-10 gap-2 mt-auto text-xs sm:text-sm" asChild>
-                <Link to="/me/search-filter/$filterId" params={{ filterId: filter.id }}>
+                <Link
+                    to="/$lng/me/search-filter/$filterId"
+                    params={(current) => ({ ...current, filterId: filter.id })}
+                    from="/$lng"
+                >
                     <ScanSearch className="size-4 shrink-0" />
                     <span className="sm:hidden">{t("searchFilters.matchesAndDetailsShort")}</span>
                     <span className="hidden sm:inline">{t("searchFilters.matchesAndDetails")}</span>

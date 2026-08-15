@@ -58,7 +58,14 @@ export function ConsentBanner() {
                             <Trans
                                 i18nKey="consent.description"
                                 components={{
-                                    1: <Link to="/privacy" className="text-primary underline" />,
+                                    1: (
+                                        <Link
+                                            to="/$lng/privacy"
+                                            className="text-primary underline"
+                                            params={true}
+                                            from="/$lng"
+                                        />
+                                    ),
                                 }}
                             />
                         </p>

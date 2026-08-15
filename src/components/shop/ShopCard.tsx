@@ -25,9 +25,10 @@ function ShopCardComponent({ shop }: { readonly shop: ShopDetail }) {
             }
         >
             <Link
-                to="/shops/$shopSlugId"
-                params={{ shopSlugId: shop.shopSlugId }}
+                to="/$lng/shops/$shopSlugId"
+                params={(current) => ({ ...current, shopSlugId: shop.shopSlugId })}
                 className="block"
+                from="/$lng"
             >
                 <div className="flex aspect-square w-full items-center justify-center overflow-hidden bg-muted">
                     {shop.image ? (
@@ -51,9 +52,10 @@ function ShopCardComponent({ shop }: { readonly shop: ShopDetail }) {
             <div className="flex min-w-0 flex-1 flex-col gap-3 p-5">
                 <div className="min-w-0 space-y-1">
                     <Link
-                        to="/shops/$shopSlugId"
-                        params={{ shopSlugId: shop.shopSlugId }}
+                        to="/$lng/shops/$shopSlugId"
+                        params={(current) => ({ ...current, shopSlugId: shop.shopSlugId })}
                         className="block"
+                        from="/$lng"
                     >
                         <H2 className="break-words text-2xl font-normal italic leading-tight">
                             {shop.name}
@@ -69,7 +71,11 @@ function ShopCardComponent({ shop }: { readonly shop: ShopDetail }) {
                 </div>
                 <div className="mt-auto flex flex-col gap-2 pt-3">
                     <Button asChild variant="outline" className="h-10 rounded-none">
-                        <Link to="/shops/$shopSlugId" params={{ shopSlugId: shop.shopSlugId }}>
+                        <Link
+                            to="/$lng/shops/$shopSlugId"
+                            params={(current) => ({ ...current, shopSlugId: shop.shopSlugId })}
+                            from="/$lng"
+                        >
                             <ArrowUpRight className="size-4" />
                             <span>{t("shop.card.viewShop")}</span>
                         </Link>

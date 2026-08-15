@@ -86,7 +86,7 @@ describe("ShopLocationSection", () => {
         expect(screen.getByText("Karte erst nach Zustimmung laden")).toBeInTheDocument();
         expect(screen.getByRole("link", { name: "Cookie-Einstellungen" })).toHaveAttribute(
             "href",
-            "/consent-settings",
+            "/de/consent-settings",
         );
 
         await user.click(screen.getByRole("button", { name: "Karte anzeigen" }));

@@ -386,8 +386,8 @@ describe("PricingSection billing button behavior", () => {
         await user.click(subscribeButtons[0]);
 
         expect(mockNavigate).toHaveBeenCalledWith({
-            to: "/login",
-            search: { redirect: "/me/billing/manage?plan=PRO&cycle=YEARLY" },
+            to: "/$lng/login",
+            search: { redirect: "/de/me/billing/manage?plan=PRO&cycle=YEARLY" },
         });
         expect(mockPostBillingManage).not.toHaveBeenCalled();
     });

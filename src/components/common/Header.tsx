@@ -22,6 +22,7 @@ import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/comm
 import { env } from "@/env.ts";
 import logo from "@/assets/logo/logo.svg";
 import logoCompact from "@/assets/logo/logo-compact.svg";
+import { stripLanguageFromPathname } from "@/i18n/routing.ts";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
@@ -32,7 +33,7 @@ const activeNavTextClass = "underline decoration-1 underline-offset-4";
 
 export function Header() {
     const { t } = useTranslation();
-    const navigate = useNavigate();
+    const navigate = useNavigate({ from: "/$lng" });
 
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
@@ -40,6 +41,7 @@ export function Header() {
     const pathname = useLocation({
         select: (location) => location.pathname,
     });
+    const routePathname = stripLanguageFromPathname(pathname);
 
     const prevPathnameRef = useRef(pathname);
     if (prevPathnameRef.current !== pathname) {
@@ -66,8 +68,8 @@ export function Header() {
     const { data: userAccount } = useUserAccount();
     const isAdmin = userAccount?.role === "ADMIN";
 
-    const isLandingPage = pathname === "/";
-    const isHiddenRoute = SEARCH_BAR_HIDDEN_ROUTES.has(pathname);
+    const isLandingPage = routePathname === "/";
+    const isHiddenRoute = SEARCH_BAR_HIDDEN_ROUTES.has(routePathname);
     const shouldShowSearchBar = isSearchEnabled && !isHiddenRoute && (!isLandingPage || isScrolled);
     const isFloating = isLandingPage && !isScrolled;
 
@@ -77,7 +79,7 @@ export function Header() {
         await amplifySignOut();
         queryClient.removeQueries({ queryKey: ["userAccount"] });
         await navigate({
-            to: "/",
+            to: "/$lng",
         });
     };
 
@@ -104,12 +106,16 @@ export function Header() {
                             size="sm"
                             className={cn(
                                 desktopNavItemClass,
-                                pathname === "/me/watchlist" && activeNavTextClass,
+                                routePathname === "/me/watchlist" && activeNavTextClass,
                             )}
                         >
                             <Link
-                                to="/me/watchlist"
-                                aria-current={pathname === "/me/watchlist" ? "page" : undefined}
+                                to="/$lng/me/watchlist"
+                                aria-current={
+                                    routePathname === "/me/watchlist" ? "page" : undefined
+                                }
+                                params={true}
+                                from="/$lng"
                             >
                                 {t("header.watchlist")}
                             </Link>
@@ -120,14 +126,16 @@ export function Header() {
                             size="sm"
                             className={cn(
                                 desktopNavItemClass,
-                                pathname === "/me/search-filters" && activeNavTextClass,
+                                routePathname === "/me/search-filters" && activeNavTextClass,
                             )}
                         >
                             <Link
-                                to="/me/search-filters"
+                                to="/$lng/me/search-filters"
                                 aria-current={
-                                    pathname === "/me/search-filters" ? "page" : undefined
+                                    routePathname === "/me/search-filters" ? "page" : undefined
                                 }
+                                params={true}
+                                from="/$lng"
                             >
                                 {t("header.searchFilters")}
                             </Link>
@@ -138,14 +146,16 @@ export function Header() {
                             size="sm"
                             className={cn(
                                 desktopNavItemClass,
-                                pathname.startsWith("/partners/") && activeNavTextClass,
+                                routePathname.startsWith("/partners/") && activeNavTextClass,
                             )}
                         >
                             <Link
-                                to="/partners/applications"
+                                to="/$lng/partners/applications"
                                 aria-current={
-                                    pathname.startsWith("/partners/") ? "page" : undefined
+                                    routePathname.startsWith("/partners/") ? "page" : undefined
                                 }
+                                params={true}
+                                from="/$lng"
                             >
                                 {t("header.partnerDashboard")}
                             </Link>
@@ -157,14 +167,16 @@ export function Header() {
                                 size="sm"
                                 className={cn(
                                     desktopNavItemClass,
-                                    pathname.startsWith("/admin/") && activeNavTextClass,
+                                    routePathname.startsWith("/admin/") && activeNavTextClass,
                                 )}
                             >
                                 <Link
-                                    to="/admin/overview"
+                                    to="/$lng/admin/overview"
                                     aria-current={
-                                        pathname.startsWith("/admin/") ? "page" : undefined
+                                        routePathname.startsWith("/admin/") ? "page" : undefined
                                     }
+                                    params={true}
+                                    from="/$lng"
                                 >
                                     {t("header.admin")}
                                 </Link>
@@ -187,19 +199,25 @@ export function Header() {
                             <DropdownMenuLabel>{t("header.accountNavigation")}</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
-                                <Link to="/me/watchlist">{t("header.watchlist")}</Link>
+                                <Link to="/$lng/me/watchlist" params={true} from="/$lng">
+                                    {t("header.watchlist")}
+                                </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                                <Link to="/me/search-filters">{t("header.searchFilters")}</Link>
+                                <Link to="/$lng/me/search-filters" params={true} from="/$lng">
+                                    {t("header.searchFilters")}
+                                </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                                <Link to="/partners/applications">
+                                <Link to="/$lng/partners/applications" params={true} from="/$lng">
                                     {t("header.partnerDashboard")}
                                 </Link>
                             </DropdownMenuItem>
                             {isAdmin && (
                                 <DropdownMenuItem asChild>
-                                    <Link to="/admin/overview">{t("header.admin")}</Link>
+                                    <Link to="/$lng/admin/overview" params={true} from="/$lng">
+                                        {t("header.admin")}
+                                    </Link>
                                 </DropdownMenuItem>
                             )}
                         </DropdownMenuContent>
@@ -218,7 +236,7 @@ export function Header() {
                                     <span
                                         className={cn(
                                             "hidden min-[1920px]:inline",
-                                            pathname === "/me/account" && activeNavTextClass,
+                                            routePathname === "/me/account" && activeNavTextClass,
                                         )}
                                     >
                                         {t("header.hello")}, {userAccount.firstName}
@@ -234,7 +252,9 @@ export function Header() {
                             <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
-                                <Link to="/me/account">{t("header.editAccount")}</Link>
+                                <Link to="/$lng/me/account" params={true} from="/$lng">
+                                    {t("header.editAccount")}
+                                </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => signOut()}>
                                 {t("header.logout")}
@@ -254,16 +274,20 @@ export function Header() {
             >
                 <Button asChild variant="default">
                     <Link
-                        to="/login"
+                        to="/$lng/login"
                         search={{ redirect: pathname + searchString, mode: "sign-up" }}
+                        params={true}
+                        from="/$lng"
                     >
                         {t("header.register")}
                     </Link>
                 </Button>
                 <Button asChild variant="outline">
                     <Link
-                        to="/login"
+                        to="/$lng/login"
                         search={{ redirect: pathname + searchString, mode: "sign-in" }}
+                        params={true}
+                        from="/$lng"
                     >
                         {t("header.login")}
                     </Link>
@@ -294,7 +318,7 @@ export function Header() {
             </div>
 
             <div className="flex items-center justify-start gap-4">
-                <Link to="/">
+                <Link to="/$lng" params={true} from="/$lng">
                     <div
                         className={cn(
                             "transition-all duration-300",
@@ -377,28 +401,48 @@ export function Header() {
                                             </DropdownMenuLabel>
                                             <DropdownMenuSeparator />
                                             <DropdownMenuItem asChild>
-                                                <Link to="/me/watchlist">
+                                                <Link
+                                                    to="/$lng/me/watchlist"
+                                                    params={true}
+                                                    from="/$lng"
+                                                >
                                                     {t("header.watchlist")}
                                                 </Link>
                                             </DropdownMenuItem>
                                             <DropdownMenuItem asChild>
-                                                <Link to="/me/search-filters">
+                                                <Link
+                                                    to="/$lng/me/search-filters"
+                                                    params={true}
+                                                    from="/$lng"
+                                                >
                                                     {t("header.searchFilters")}
                                                 </Link>
                                             </DropdownMenuItem>
                                             <DropdownMenuItem asChild>
-                                                <Link to="/partners/applications">
+                                                <Link
+                                                    to="/$lng/partners/applications"
+                                                    params={true}
+                                                    from="/$lng"
+                                                >
                                                     {t("header.partnerDashboard")}
                                                 </Link>
                                             </DropdownMenuItem>
                                             <DropdownMenuItem asChild>
-                                                <Link to="/me/account">
+                                                <Link
+                                                    to="/$lng/me/account"
+                                                    params={true}
+                                                    from="/$lng"
+                                                >
                                                     {t("header.editAccount")}
                                                 </Link>
                                             </DropdownMenuItem>
                                             {isAdmin && (
                                                 <DropdownMenuItem asChild>
-                                                    <Link to="/admin/overview">
+                                                    <Link
+                                                        to="/$lng/admin/overview"
+                                                        params={true}
+                                                        from="/$lng"
+                                                    >
                                                         {t("header.admin")}
                                                     </Link>
                                                 </DropdownMenuItem>
@@ -411,22 +455,26 @@ export function Header() {
                                         <>
                                             <DropdownMenuItem asChild>
                                                 <Link
-                                                    to="/login"
+                                                    to="/$lng/login"
                                                     search={{
                                                         redirect: pathname + searchString,
                                                         mode: "sign-up",
                                                     }}
+                                                    params={true}
+                                                    from="/$lng"
                                                 >
                                                     {t("header.register")}
                                                 </Link>
                                             </DropdownMenuItem>
                                             <DropdownMenuItem asChild>
                                                 <Link
-                                                    to="/login"
+                                                    to="/$lng/login"
                                                     search={{
                                                         redirect: pathname + searchString,
                                                         mode: "sign-in",
                                                     }}
+                                                    params={true}
+                                                    from="/$lng"
                                                 >
                                                     {t("header.login")}
                                                 </Link>

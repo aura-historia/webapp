@@ -1,6 +1,6 @@
 import { postBillingManage } from "@/client";
 import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
 import { useState } from "react";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import {
@@ -10,10 +10,12 @@ import {
 import { mapToBackendBillingPlan, type BillingPlan } from "@/data/internal/billing/BillingPlan.ts";
 import { toast } from "sonner";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
+import { localizeHref } from "@/i18n/routing.ts";
 
 export function useStripeBilling() {
     const { isAuthenticated } = useResolvedAuth();
-    const navigate = useNavigate();
+    const navigate = useNavigate({ from: "/$lng" });
+    const { lng } = useParams({ from: "/$lng" });
     const { getErrorMessage } = useApiError();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -25,8 +27,10 @@ export function useStripeBilling() {
         if (!isAuthenticated) {
             const billingSearch = new URLSearchParams({ plan, cycle });
             await navigate({
-                to: "/login",
-                search: { redirect: `/me/billing/manage?${billingSearch.toString()}` },
+                to: "/$lng/login",
+                search: {
+                    redirect: localizeHref(`/me/billing/manage?${billingSearch.toString()}`, lng),
+                },
             });
             return;
         }

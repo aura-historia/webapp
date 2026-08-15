@@ -17,12 +17,16 @@ vi.mock("@tanstack/react-router", async () => {
             ...props
         }: {
             to: string;
-            params?: Record<string, string>;
+            params?:
+                | Record<string, string>
+                | ((current: Record<string, string>) => Record<string, string>);
             children: React.ReactNode;
             className?: string;
         }) => {
+            const resolvedParams =
+                typeof params === "function" ? params({ lng: "de" }) : (params ?? { lng: "de" });
             let href = to;
-            for (const [key, value] of Object.entries(params ?? {})) {
+            for (const [key, value] of Object.entries(resolvedParams)) {
                 href = href.replace(`$${key}`, value);
             }
             return (
@@ -90,7 +94,7 @@ describe("ProductInfo", () => {
 
         expect(screen.getByRole("link", { name: "Test Shop" })).toHaveAttribute(
             "href",
-            "/shops/test-shop",
+            "/de/shops/test-shop",
         );
     });
 
@@ -109,7 +113,7 @@ describe("ProductInfo", () => {
         expect(screen.getByText("Secondary Seller")).toBeInTheDocument();
         expect(screen.getByRole("link", { name: "Main Shop" })).toHaveAttribute(
             "href",
-            "/shops/main-shop",
+            "/de/shops/main-shop",
         );
     });
 
@@ -210,7 +214,7 @@ describe("ProductInfo", () => {
             renderWithQueryClient(<ProductInfo product={mockProductMatched} />);
             expect(screen.getByRole("link", { name: "Vintage Art Deco" })).toHaveAttribute(
                 "href",
-                "/me/search-filter/filter-123",
+                "/de/me/search-filter/filter-123",
             );
         });
 

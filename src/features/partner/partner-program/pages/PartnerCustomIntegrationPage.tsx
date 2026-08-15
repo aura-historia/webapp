@@ -103,7 +103,7 @@ export default function PartnerCustomIntegrationPage() {
 
                     <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
                         <Button asChild size="lg" className="min-w-56">
-                            <Link to="/partners/access-tokens">
+                            <Link to="/$lng/partners/access-tokens" params={true} from="/$lng">
                                 {t("partnerProgram.customIntegrationPage.hero.primaryCta")}
                                 <ArrowRight aria-hidden="true" />
                             </Link>
@@ -332,11 +332,13 @@ export default function PartnerCustomIntegrationPage() {
                                                             className="w-full sm:w-auto"
                                                         >
                                                             <Link
-                                                                to="/shops/$shopSlugId"
-                                                                params={{
+                                                                to="/$lng/shops/$shopSlugId"
+                                                                params={(current) => ({
+                                                                    ...current,
                                                                     shopSlugId:
                                                                         selectedPartnerShop.shopSlugId,
-                                                                }}
+                                                                })}
+                                                                from="/$lng"
                                                             >
                                                                 {t(`${translationBase}.cta`)}
                                                                 <ArrowRight aria-hidden="true" />
@@ -466,7 +468,9 @@ function RequestAccessTokenAction({
 
     return (
         <Button asChild size="lg" className="w-full sm:w-auto">
-            <Link to="/partners/access-tokens">{buttonContent}</Link>
+            <Link to="/$lng/partners/access-tokens" params={true} from="/$lng">
+                {buttonContent}
+            </Link>
         </Button>
     );
 }
@@ -513,7 +517,7 @@ function PartnerShopRequirement({
     if (!isAuthenticated) {
         return (
             <Button asChild size="lg" className="w-full sm:w-auto">
-                <Link to="/partners/applications">
+                <Link to="/$lng/partners/applications" params={true} from="/$lng">
                     <Store aria-hidden="true" />
                     {t(`${translationBase}.signInCta`)}
                 </Link>

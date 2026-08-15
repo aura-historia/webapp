@@ -126,7 +126,7 @@ describe("ProductCardImageCarousel", () => {
         const links = screen.getAllByRole("link");
         expect(links[0]).toHaveAttribute(
             "href",
-            "/shops/test-shop-abc123/products/test-product-def456",
+            "/de/shops/test-shop-abc123/products/test-product-def456",
         );
     });
 });

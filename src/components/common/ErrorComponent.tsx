@@ -16,7 +16,9 @@ export function ErrorComponent() {
                     <p className="text-base text-muted-foreground">{t("error.description")}</p>
                 </div>
                 <Button asChild>
-                    <Link to="/">{t("error.goHome")}</Link>
+                    <Link to="/$lng" params={true} from="/$lng">
+                        {t("error.goHome")}
+                    </Link>
                 </Button>
             </div>
         </div>

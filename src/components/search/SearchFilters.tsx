@@ -153,7 +153,7 @@ export const DEBOUNCE_DELAY_MS = 500;
 export const DEBOUNCED_FIELDS = new Set(["priceSpan.min", "priceSpan.max"]);
 
 export function SearchFilters({ searchFilters }: SearchFilterProps) {
-    const navigate = useNavigate({ from: "/search" });
+    const navigate = useNavigate({ from: "/$lng/search" });
     const { t } = useTranslation();
     const { getQuery } = useSearchQueryContext();
 
@@ -184,7 +184,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const applyFilters = useCallback(
         (data: FilterSchema) => {
             navigate({
-                to: "/search",
+                to: "/$lng/search",
                 search: (prev) => ({
                     ...serializeSearchParams(prev),
                     ...mapFiltersToUrlParams({
@@ -234,7 +234,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const handleResetAll = useCallback(() => {
         form.reset(FILTER_DEFAULTS);
         navigate({
-            to: "/search",
+            to: "/$lng/search",
             search: {
                 q: getEffectiveQuery(),
             },

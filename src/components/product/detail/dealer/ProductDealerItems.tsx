@@ -62,9 +62,10 @@ export function ProductDealerItems({
                     <ProductSectionHeading title={t("product.dealer.title")} />
                     <div className="flex shrink-0 items-center gap-4">
                         <Link
-                            to="/shops/$shopSlugId"
-                            params={{ shopSlugId }}
+                            to="/$lng/shops/$shopSlugId"
+                            params={(current) => ({ ...current, shopSlugId })}
                             className="flex items-center gap-1 text-xs uppercase tracking-widest text-primary hover:underline"
+                            from="/$lng"
                         >
                             <span>{t("shop.card.viewShop")}</span>
                             <ArrowUpRight className="size-4" />

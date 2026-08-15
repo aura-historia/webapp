@@ -1,6 +1,7 @@
 import i18n from "@/i18n/i18n.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
+import { localizeUrl } from "@/i18n/routing.ts";
 
 type HeadMeta = {
     meta: Array<
@@ -124,6 +125,7 @@ type PageMetaOptions = {
  */
 export function generatePageHeadMeta(options: PageMetaOptions): HeadMeta {
     const { pageKey, url, image = BANNER_IMAGE_URL, type = "website", noIndex = false } = options;
+    const localizedUrl = url ? localizeUrl(url, i18n.resolvedLanguage ?? i18n.language) : undefined;
 
     const keys = PAGE_META_KEYS[pageKey];
     const title = i18n.t(keys.title);
@@ -137,23 +139,23 @@ export function generatePageHeadMeta(options: PageMetaOptions): HeadMeta {
         { property: "og:title" as const, content: title },
         ...(description ? [{ property: "og:description" as const, content: description }] : []),
         { property: "og:type" as const, content: type },
-        ...(url ? [{ property: "og:url" as const, content: url }] : []),
+        ...(localizedUrl ? [{ property: "og:url" as const, content: localizedUrl }] : []),
         ...(image ? [{ property: "og:image" as const, content: image }] : []),
         // Twitter Card tags
         { name: "twitter:card" as const, content: image ? "summary_large_image" : "summary" },
         { name: "twitter:title" as const, content: title },
         ...(description ? [{ name: "twitter:description" as const, content: description }] : []),
-        ...(url ? [{ name: "twitter:url" as const, content: url }] : []),
+        ...(localizedUrl ? [{ name: "twitter:url" as const, content: localizedUrl }] : []),
         ...(image ? [{ name: "twitter:image" as const, content: image }] : []),
     ];
 
     // Build links array: canonical + hreflang alternates for indexable pages
-    const links: HeadMeta["links"] = url
+    const links: HeadMeta["links"] = localizedUrl
         ? [
-              { rel: "canonical", href: url },
+              { rel: "canonical", href: localizedUrl },
               // Only emit hreflang on pages that are actually indexed.
               // noIndex pages (imprint, privacy, …) are already excluded via robots.txt.
-              ...(noIndex ? [] : generateHreflangLinks(new URL(url).pathname)),
+              ...(noIndex ? [] : generateHreflangLinks(new URL(localizedUrl).pathname)),
           ]
         : [];
 

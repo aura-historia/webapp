@@ -11,13 +11,20 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { SearchQueryProvider } from "@/hooks/search/useSearchQueryContext.tsx";
 import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
+import { getLanguageFromPathname, localizeHref } from "@/i18n/routing.ts";
 
 const rootRoute = createRootRouteWithContext()({
     component: () => <Outlet />, // entry point to render children
 });
 
-const indexRoute = createRoute({
+const languageRoute = createRoute({
     getParentRoute: () => rootRoute,
+    path: "$lng",
+    component: () => <Outlet />,
+});
+
+const indexRoute = createRoute({
+    getParentRoute: () => languageRoute,
     path: "/",
     component: () => <>{injectedChildren}</>,
 });
@@ -25,35 +32,37 @@ const indexRoute = createRoute({
 let injectedChildren: ReactNode = null;
 
 const testRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: "/test",
+    getParentRoute: () => languageRoute,
+    path: "test",
     component: () => <>{injectedChildren}</>,
 });
 
 const searchRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: "/search",
+    getParentRoute: () => languageRoute,
+    path: "search",
     component: () => <>{injectedChildren}</>,
 });
 
 const searchShopsRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: "/search/shops",
+    getParentRoute: () => languageRoute,
+    path: "search/shops",
     component: () => <>{injectedChildren}</>,
 });
 
 const partnerProgramRoute = createRoute({
-    getParentRoute: () => rootRoute,
-    path: "/partner-program",
+    getParentRoute: () => languageRoute,
+    path: "partner-program",
     component: () => <>{injectedChildren}</>,
 });
 
 const routeTree = rootRoute.addChildren([
-    indexRoute,
-    testRoute,
-    searchRoute,
-    searchShopsRoute,
-    partnerProgramRoute,
+    languageRoute.addChildren([
+        indexRoute,
+        testRoute,
+        searchRoute,
+        searchShopsRoute,
+        partnerProgramRoute,
+    ]),
 ]);
 
 interface TestRouterWrapperProps {
@@ -63,13 +72,18 @@ interface TestRouterWrapperProps {
 
 export function TestRouterWrapper({
     children,
-    initialEntries = ["/test"],
+    initialEntries = ["/de/test"],
 }: TestRouterWrapperProps) {
     injectedChildren = children;
+    const localizedInitialEntries = initialEntries.map((entry) =>
+        getLanguageFromPathname(new URL(entry, "https://aura-historia.invalid").pathname)
+            ? entry
+            : localizeHref(entry, "de"),
+    );
 
     const router = createRouter({
         routeTree,
-        history: createMemoryHistory({ initialEntries }),
+        history: createMemoryHistory({ initialEntries: localizedInitialEntries }),
         context: {},
     });
 

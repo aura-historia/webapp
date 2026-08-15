@@ -20,7 +20,7 @@ vi.mock("@/hooks/admin/useAdminUsers.ts", () => ({
 
 vi.mock("@tanstack/react-router", () => ({
     Link: ({ children, to }: { children: React.ReactNode; to: string }) => (
-        <a href={to}>{children}</a>
+        <a href={to.replace("$lng", "de")}>{children}</a>
     ),
 }));
 
@@ -46,19 +46,19 @@ describe("AdminOverviewPage", () => {
 
         expect(screen.getByRole("link", { name: /Shops/i })).toHaveAttribute(
             "href",
-            "/admin/shops",
+            "/de/admin/shops",
         );
         expect(screen.getByRole("link", { name: /Partner-Anträge/i })).toHaveAttribute(
             "href",
-            "/admin/partner-applications",
+            "/de/admin/partner-applications",
         );
         expect(screen.getByRole("link", { name: /OAuth-Clients/i })).toHaveAttribute(
             "href",
-            "/admin/oauth-clients",
+            "/de/admin/oauth-clients",
         );
         expect(screen.getByRole("link", { name: /Benutzer/i })).toHaveAttribute(
             "href",
-            "/admin/users",
+            "/de/admin/users",
         );
         expect(screen.getByText("2 Anträge warten auf Prüfung")).toBeInTheDocument();
         expect(screen.getByText("2 OAuth-Clients")).toBeInTheDocument();

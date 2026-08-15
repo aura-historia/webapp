@@ -132,9 +132,11 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                             ))}
                         </ul>
                         <Link
-                            to="/"
+                            to="/$lng"
                             hash="pricing"
                             className="text-xs text-primary underline underline-offset-2 font-medium"
+                            params={true}
+                            from="/$lng"
                         >
                             {t("searchFilter.upgradeNow")}
                         </Link>
@@ -198,9 +200,11 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                                                             )}
                                                         </span>
                                                         <Link
-                                                            to="/"
+                                                            to="/$lng"
                                                             hash="pricing"
                                                             className="text-primary underline underline-offset-2 font-medium"
+                                                            params={true}
+                                                            from="/$lng"
                                                         >
                                                             {t("searchFilter.upgradeNow")}
                                                         </Link>

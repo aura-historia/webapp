@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import {
     Select,
@@ -17,14 +17,23 @@ import {
 } from "./footer/Footer.data.ts";
 import { CurrencySelector } from "@/components/common/CurrencySelector.tsx";
 import { UnitSystemSelector } from "@/components/common/UnitSystemSelector.tsx";
+import { localizeHref } from "@/i18n/routing.ts";
+import { persistLanguagePreference } from "@/i18n/languagePreference.ts";
 
 export function Footer() {
     const { t, i18n } = useTranslation();
+    const navigate = useNavigate({ from: "/$lng" });
+    const href = useLocation({ select: (location) => location.href });
 
     const currentLanguage = SUPPORTED_LANGUAGES.find((lang) => lang.code === i18n.resolvedLanguage);
 
     const handleLanguageChange = async (languageCode: string) => {
-        await i18n.changeLanguage(languageCode);
+        persistLanguagePreference(languageCode);
+        await navigate({ href: localizeHref(href, languageCode) });
+
+        if (i18n.resolvedLanguage !== languageCode) {
+            await i18n.changeLanguage(languageCode);
+        }
     };
 
     return (
@@ -44,40 +53,50 @@ export function Footer() {
                             <ul className="mt-3 space-y-2">
                                 <li>
                                     <Link
-                                        to="/about-us"
+                                        to="/$lng/about-us"
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                        params={true}
+                                        from="/$lng"
                                     >
                                         {t("footer.about")}
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
-                                        to="/imprint"
+                                        to="/$lng/imprint"
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                        params={true}
+                                        from="/$lng"
                                     >
                                         {t("footer.imprint")}
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
-                                        to="/privacy"
+                                        to="/$lng/privacy"
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                        params={true}
+                                        from="/$lng"
                                     >
                                         {t("footer.privacy")}
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
-                                        to="/terms-and-conditions"
+                                        to="/$lng/terms-and-conditions"
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                        params={true}
+                                        from="/$lng"
                                     >
                                         {t("footer.terms")}
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
-                                        to="/consent-settings"
+                                        to="/$lng/consent-settings"
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                        params={true}
+                                        from="/$lng"
                                     >
                                         {t("footer.cookieSettings")}
                                     </Link>
@@ -111,10 +130,12 @@ export function Footer() {
                             {LANDING_PAGE_FOOTER_LINKS.map((sectionLink) => (
                                 <li key={sectionLink.fragment}>
                                     <Link
-                                        to="/"
+                                        to="/$lng"
                                         hash={sectionLink.fragment}
                                         resetScroll={false}
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                        params={true}
+                                        from="/$lng"
                                     >
                                         {t(sectionLink.translationKey)}
                                     </Link>
@@ -138,6 +159,8 @@ export function Footer() {
                                             partnerLink.external ? "noopener noreferrer" : undefined
                                         }
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                        params={true}
+                                        from="/$lng"
                                     >
                                         {t(partnerLink.translationKey)}
                                     </Link>
@@ -157,6 +180,8 @@ export function Footer() {
                                     <Link
                                         to={compareLink.href}
                                         className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                        params={true}
+                                        from="/$lng"
                                     >
                                         {t(compareLink.translationKey)}
                                     </Link>

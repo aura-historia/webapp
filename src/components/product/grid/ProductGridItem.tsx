@@ -97,10 +97,11 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                     )}
                 >
                     <Link
-                        to="/shops/$shopSlugId/products/$productSlugId"
+                        to="/$lng/shops/$shopSlugId/products/$productSlugId"
                         params={productLinkParams}
                         className="block w-full overflow-hidden bg-muted"
                         onClick={handleProductClick}
+                        from="/$lng"
                     >
                         {recentlyAddedImage}
                     </Link>
@@ -113,10 +114,11 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                         )}
 
                         <Link
-                            to="/shops/$shopSlugId/products/$productSlugId"
+                            to="/$lng/shops/$shopSlugId/products/$productSlugId"
                             params={productLinkParams}
                             className="min-w-0 overflow-hidden"
                             onClick={handleProductClick}
+                            from="/$lng"
                         >
                             <H3 className="line-clamp-2 overflow-ellipsis text-2xl leading-8 font-normal transition-colors duration-300 group-hover:text-primary">
                                 {product.title}
@@ -147,10 +149,11 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                 )}
             >
                 <Link
-                    to="/shops/$shopSlugId/products/$productSlugId"
+                    to="/$lng/shops/$shopSlugId/products/$productSlugId"
                     params={productLinkParams}
                     className="relative block w-full overflow-hidden bg-surface-container-low"
                     onClick={handleProductClick}
+                    from="/$lng"
                 >
                     <StatusBadge
                         status={product.state}
@@ -193,10 +196,11 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                     </div>
 
                     <Link
-                        to="/shops/$shopSlugId/products/$productSlugId"
+                        to="/$lng/shops/$shopSlugId/products/$productSlugId"
                         params={productLinkParams}
                         className="min-w-0"
                         onClick={handleProductClick}
+                        from="/$lng"
                     >
                         <H3 className="line-clamp-2 text-lg! leading-tight font-normal transition-colors duration-300 ease-out group-hover:text-primary">
                             {product.title}

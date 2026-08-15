@@ -83,12 +83,10 @@ export function ProductCardImageCarousel({
     if (images.length === 0) {
         return (
             <Link
-                to="/shops/$shopSlugId/products/$productSlugId"
-                params={{
-                    shopSlugId,
-                    productSlugId,
-                }}
+                to="/$lng/shops/$shopSlugId/products/$productSlugId"
+                params={(current) => ({ ...current, shopSlugId, productSlugId })}
                 onClick={onProductClick}
+                from="/$lng"
             >
                 <div className="aspect-[4/3] w-full bg-muted flex flex-col items-center justify-center gap-2">
                     <ImageOff
@@ -105,12 +103,10 @@ export function ProductCardImageCarousel({
         // Simple single image display without carousel complexity
         return (
             <Link
-                to="/shops/$shopSlugId/products/$productSlugId"
-                params={{
-                    shopSlugId,
-                    productSlugId,
-                }}
+                to="/$lng/shops/$shopSlugId/products/$productSlugId"
+                params={(current) => ({ ...current, shopSlugId, productSlugId })}
                 onClick={onProductClick}
+                from="/$lng"
             >
                 {isRestrictedImage(images[0], isRestrictedConsentGiven) ? (
                     <ProhibitedImagePlaceholder className="w-full aspect-[4/3]" />
@@ -141,12 +137,10 @@ export function ProductCardImageCarousel({
                     {images.map((image, index) => (
                         <CarouselItem key={image.url?.href ?? `restricted-${index}`}>
                             <Link
-                                to="/shops/$shopSlugId/products/$productSlugId"
-                                params={{
-                                    shopSlugId,
-                                    productSlugId,
-                                }}
+                                to="/$lng/shops/$shopSlugId/products/$productSlugId"
+                                params={(current) => ({ ...current, shopSlugId, productSlugId })}
                                 onClick={onProductClick}
+                                from="/$lng"
                             >
                                 {isRestrictedImage(image, isRestrictedConsentGiven) ? (
                                     <ProhibitedImagePlaceholder className="w-full aspect-[4/3]" />

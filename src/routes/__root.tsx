@@ -3,6 +3,7 @@ import {
     createRootRouteWithContext,
     HeadContent,
     Scripts,
+    redirect,
     useLocation,
     useMatches,
 } from "@tanstack/react-router";
@@ -28,13 +29,14 @@ import { getServerPreferences } from "@/lib/server/preferences.ts";
 import { getServerTimezone } from "@/lib/server/timezone.ts";
 import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
 import { useTranslation } from "react-i18next";
-import { getLocale } from "@/lib/server/i18n.ts";
+import { getPreferredLocale } from "@/lib/server/i18n.ts";
 import i18n from "@/i18n/i18n.ts";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { ConsentBanner } from "@/components/common/ConsentBanner.tsx";
 import { SONNER_TOASTER_PROPS } from "@/lib/ui/sonnerToasterConfig";
 import { getServerUser } from "@/lib/server/amplify.ts";
+import { getLanguageFromPathname, isLocalizedAppPath, localizeHref } from "@/i18n/routing.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -137,9 +139,19 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
             ],
         };
     },
-    beforeLoad: async () => {
-        // Set locale for initial server side rendering based on browsers preference
-        const locale = await getLocale();
+    beforeLoad: async ({ location }) => {
+        let locale = getLanguageFromPathname(location.pathname);
+
+        if (!locale && isLocalizedAppPath(location.pathname)) {
+            locale = await getPreferredLocale();
+            throw redirect({
+                href: localizeHref(location.href, locale),
+                replace: true,
+                statusCode: 302,
+            });
+        }
+
+        locale ??= i18n.resolvedLanguage ?? i18n.language;
         if (i18n.language !== locale) {
             await i18n.changeLanguage(locale);
         }
@@ -157,7 +169,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const matches = useMatches();
     const location = useLocation();
-    const isLandingPage = matches.some((match) => match.routeId === "/");
+    const isLandingPage = matches.some((match) => match.routeId === "/$lng/");
     const { i18n } = useTranslation();
     const { initialPreferences } = Route.useRouteContext();
     const queryClient = useQueryClient();
@@ -169,10 +181,9 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     }, []);
 
     useEffect(() => {
-        const currentPath = location.pathname;
         const searchParams = location.search as Record<string, unknown>;
 
-        googleAnalytics.sendPageView(currentPath, i18n.language, searchParams);
+        googleAnalytics.sendPageView(location.pathname, i18n.language, searchParams);
     }, [location, i18n.language]);
 
     useEffect(() => {

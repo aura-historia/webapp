@@ -40,18 +40,18 @@ export interface CompareFooterLink {
 export const COMPARE_FOOTER_LINKS: CompareFooterLink[] = [
     {
         translationKey: "footer.compareLinks.barnebys",
-        href: "/compare/barnebys",
+        href: "/$lng/compare/barnebys",
     },
 ];
 
 export const PARTNER_PROGRAM_FOOTER_LINKS: PartnerProgramFooterLink[] = [
     {
         translationKey: "footer.partnerProgramLinks.overview",
-        href: "/partner-program",
+        href: "/$lng/partner-program",
     },
     {
         translationKey: "footer.partnerProgramLinks.dashboard",
-        href: "/partners/applications",
+        href: "/$lng/partners/applications",
     },
     {
         translationKey: "footer.partnerProgramLinks.woocommerce",
@@ -65,11 +65,11 @@ export const PARTNER_PROGRAM_FOOTER_LINKS: PartnerProgramFooterLink[] = [
     },
     {
         translationKey: "footer.partnerProgramLinks.customApi",
-        href: "/partner-program/custom-integration",
+        href: "/$lng/partner-program/custom-integration",
     },
     {
         translationKey: "footer.partnerProgramLinks.apply",
-        href: "/partners/applications",
+        href: "/$lng/partners/applications",
     },
 ];
 

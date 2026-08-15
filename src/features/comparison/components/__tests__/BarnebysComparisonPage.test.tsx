@@ -101,7 +101,7 @@ describe("BarnebysComparisonPage", () => {
         const primaryCta = await screen.findByRole("link", {
             name: t("compareBarnebysPage.hero.primaryCta"),
         });
-        expect(primaryCta).toHaveAttribute("href", "/");
+        expect(primaryCta).toHaveAttribute("href", "/de");
 
         const secondaryCta = screen.getByRole("link", {
             name: t("compareBarnebysPage.hero.secondaryCta"),
@@ -111,7 +111,7 @@ describe("BarnebysComparisonPage", () => {
         const finalCta = screen.getByRole("link", {
             name: t("compareBarnebysPage.finalCta.button"),
         });
-        expect(finalCta).toHaveAttribute("href", "/");
+        expect(finalCta).toHaveAttribute("href", "/de");
 
         const links = within(container).queryAllByRole("link");
         expect(links).toHaveLength(3);

@@ -178,8 +178,8 @@ Nous utilisons des mécanismes de stockage du navigateur techniquement nécessai
 À ce jour, les mécanismes de stockage suivants sont notamment utilisés :
 
 - **`user-preferences` (cookie, jusqu’à 1 an) :** stocke des préférences fonctionnelles telles que la devise ainsi que le statut de vos choix concernant l’analytics / le suivi et les cartes externes ; il sert à appliquer vos paramètres de manière cohérente côté serveur et côté client
+- **`aura-language` (cookie, jusqu’à 1 an) :** stocke la langue que vous sélectionnez expressément afin qu’une visite ultérieure sans préfixe de langue s’ouvre dans cette langue au lieu de dépendre des paramètres de votre navigateur
 - **`user-preferences` (local storage) :** stocke localement dans votre navigateur les mêmes préférences fonctionnelles jusqu’à leur suppression par vos soins
-- **`i18nextLng` (local storage) :** stocke la langue sélectionnée jusqu’à sa suppression ou son remplacement
 - **`auth.signUp.pendingEmail` (session storage) :** stocke temporairement votre adresse e-mail pendant un processus d’inscription en plusieurs étapes et est généralement supprimé à la fin de la session du navigateur
 
 Des stockages techniquement nécessaires supplémentaires peuvent être utilisés par des mécanismes d’authentification, de sécurité ou de consentement. Les noms exacts des clés peuvent évoluer dans le temps.
@@ -358,4 +358,4 @@ Nous pouvons adapter les présentes notices de confidentialité lorsque cela dev
 
 ---
 
-*État : 17.05.2026*
+*État : 14.08.2026*

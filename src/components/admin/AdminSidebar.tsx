@@ -6,11 +6,11 @@ import type { ReactNode } from "react";
 
 type AdminSidebarItem = {
     readonly to:
-        | "/admin/overview"
-        | "/admin/shops"
-        | "/admin/partner-applications"
-        | "/admin/oauth-clients"
-        | "/admin/users";
+        | "/$lng/admin/overview"
+        | "/$lng/admin/shops"
+        | "/$lng/admin/partner-applications"
+        | "/$lng/admin/oauth-clients"
+        | "/$lng/admin/users";
     readonly labelKey: string;
     readonly icon: ReactNode;
     readonly exact?: boolean;
@@ -18,28 +18,28 @@ type AdminSidebarItem = {
 
 const SIDEBAR_ITEMS: readonly AdminSidebarItem[] = [
     {
-        to: "/admin/overview",
+        to: "/$lng/admin/overview",
         labelKey: "adminDashboard.nav.overview",
         icon: <LayoutDashboard className="h-4 w-4" aria-hidden="true" />,
         exact: true,
     },
     {
-        to: "/admin/shops",
+        to: "/$lng/admin/shops",
         labelKey: "adminDashboard.nav.shops",
         icon: <Store className="h-4 w-4" aria-hidden="true" />,
     },
     {
-        to: "/admin/partner-applications",
+        to: "/$lng/admin/partner-applications",
         labelKey: "adminDashboard.nav.partnerApplications",
         icon: <FileText className="h-4 w-4" aria-hidden="true" />,
     },
     {
-        to: "/admin/oauth-clients",
+        to: "/$lng/admin/oauth-clients",
         labelKey: "adminDashboard.nav.oauthClients",
         icon: <KeyRound className="h-4 w-4" aria-hidden="true" />,
     },
     {
-        to: "/admin/users",
+        to: "/$lng/admin/users",
         labelKey: "adminDashboard.nav.users",
         icon: <Users className="h-4 w-4" aria-hidden="true" />,
     },
@@ -58,9 +58,10 @@ export function AdminSidebar() {
                 {t("adminDashboard.sidebarLabel")}
             </h2>
             {SIDEBAR_ITEMS.map((item) => {
+                const concretePath = item.to.replace("$lng", pathname.split("/")[1] ?? "");
                 const isActive = item.exact
-                    ? pathname === item.to
-                    : pathname === item.to || pathname.startsWith(`${item.to}/`);
+                    ? pathname === concretePath
+                    : pathname === concretePath || pathname.startsWith(`${concretePath}/`);
                 return (
                     <Link
                         key={item.to}
@@ -71,6 +72,8 @@ export function AdminSidebar() {
                             isActive ? "bg-muted text-foreground" : "text-muted-foreground",
                         )}
                         aria-current={isActive ? "page" : undefined}
+                        params={true}
+                        from="/$lng"
                     >
                         {item.icon}
                         {t(item.labelKey)}

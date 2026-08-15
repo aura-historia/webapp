@@ -15,6 +15,8 @@ This doc owns route files under `src/routes/**`. UI-heavy implementations should
 - Preserve SSR determinism. Read `../../docs/hydration-guidelines.md` for SSR-sensitive changes.
 - For user-data or authenticated behavior, read `../../docs/privacy-policy-alignment.md` and preserve cache/privacy boundaries.
 - Do not edit `src/routeTree.gen.ts`; let TanStack Router regenerate it.
+- Keep every page route under the real `/$lng` route segment. API routes remain root-level and unprefixed.
+- Let `src/routes/__root.tsx` redirect unlocalized page requests using the request's preferred language.
 
 ## Work Guidance
 

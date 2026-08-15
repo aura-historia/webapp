@@ -49,7 +49,7 @@ describe("Header Component", () => {
         it("should render webapp logo link", () => {
             const logoLink = screen.getAllByRole("presentation")[0];
             expect(logoLink).toBeInTheDocument();
-            expect(logoLink.closest("a")).toHaveAttribute("href", "/");
+            expect(logoLink.closest("a")).toHaveAttribute("href", "/de");
         });
 
         it("should render auth buttons with correct text", () => {
@@ -76,7 +76,7 @@ describe("Header Component", () => {
         it("should render webapp logo link", () => {
             const logoLink = screen.getAllByRole("presentation")[0];
             expect(logoLink).toBeInTheDocument();
-            expect(logoLink.closest("a")).toHaveAttribute("href", "/");
+            expect(logoLink.closest("a")).toHaveAttribute("href", "/de");
         });
 
         it("should show AccountImage for logged in user", () => {
@@ -114,15 +114,15 @@ describe("Header Component", () => {
 
             expect(screen.getByRole("menuitem", { name: "Merkliste" })).toHaveAttribute(
                 "href",
-                "/me/watchlist",
+                "/de/me/watchlist",
             );
             expect(screen.getByRole("menuitem", { name: "Suchaufträge" })).toHaveAttribute(
                 "href",
-                "/me/search-filters",
+                "/de/me/search-filters",
             );
             expect(screen.getByRole("menuitem", { name: "Partner-Dashboard" })).toHaveAttribute(
                 "href",
-                "/partners/applications",
+                "/de/partners/applications",
             );
         });
 
@@ -134,7 +134,7 @@ describe("Header Component", () => {
         it("should show a partner dashboard link", () => {
             expect(screen.getByRole("link", { name: "Partner-Dashboard" })).toHaveAttribute(
                 "href",
-                "/partners/applications",
+                "/de/partners/applications",
             );
         });
 
@@ -184,7 +184,7 @@ describe("Header Component", () => {
         it("should show an admin link to the admin dashboard", () => {
             expect(screen.getByRole("link", { name: "Admin" })).toHaveAttribute(
                 "href",
-                "/admin/overview",
+                "/de/admin/overview",
             );
         });
     });

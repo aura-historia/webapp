@@ -9,242 +9,249 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthRouteImport } from './routes/_auth'
-import { Route as AboutUsRouteImport } from './routes/about-us'
-import { Route as ConsentSettingsRouteImport } from './routes/consent-settings'
-import { Route as ImprintRouteImport } from './routes/imprint'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as PartnerProgramRouteImport } from './routes/partner-program'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as SearchRouteImport } from './routes/search'
-import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
-import { Route as AuthAdminRouteImport } from './routes/_auth.admin'
-import { Route as AuthPartnersRouteImport } from './routes/_auth.partners'
-import { Route as CompareBarnebysRouteImport } from './routes/compare.barnebys'
-import { Route as PartnerProgramIndexRouteImport } from './routes/partner-program.index'
-import { Route as PartnerProgramApplyRouteImport } from './routes/partner-program.apply'
-import { Route as PartnerProgramCustomIntegrationRouteImport } from './routes/partner-program.custom-integration'
-import { Route as SearchShopsRouteImport } from './routes/search_.shops'
-import { Route as AuthAdminIndexRouteImport } from './routes/_auth.admin.index'
-import { Route as AuthAdminOauthClientsRouteImport } from './routes/_auth.admin.oauth-clients'
-import { Route as AuthAdminOverviewRouteImport } from './routes/_auth.admin.overview'
-import { Route as AuthAdminPartnerApplicationsRouteImport } from './routes/_auth.admin.partner-applications'
-import { Route as AuthAdminShopsRouteImport } from './routes/_auth.admin.shops'
-import { Route as AuthAdminUsersRouteImport } from './routes/_auth.admin.users'
-import { Route as AuthMeAccountRouteImport } from './routes/_auth.me.account'
-import { Route as AuthMeNotificationsRouteImport } from './routes/_auth.me.notifications'
-import { Route as AuthMeSearchFiltersRouteImport } from './routes/_auth.me.search-filters'
-import { Route as AuthMeWatchlistRouteImport } from './routes/_auth.me.watchlist'
-import { Route as AuthOauthAuthorizeRouteImport } from './routes/_auth.oauth.authorize'
-import { Route as AuthPartnersIndexRouteImport } from './routes/_auth.partners.index'
-import { Route as AuthPartnersAccessTokensRouteImport } from './routes/_auth.partners.access-tokens'
-import { Route as AuthPartnersApplicationsRouteImport } from './routes/_auth.partners.applications'
-import { Route as AuthPartnersShopsRouteImport } from './routes/_auth.partners.shops'
-import { Route as ProductShopIdShopsProductIdRouteImport } from './routes/product.$shopId.$shopsProductId'
-import { Route as ShopsShopSlugIdIndexRouteImport } from './routes/shops.$shopSlugId.index'
-import { Route as AuthMeBillingManageRouteImport } from './routes/_auth.me.billing.manage'
-import { Route as AuthMeSearchFilterFilterIdRouteImport } from './routes/_auth.me.search-filter.$filterId'
+import { Route as LngRouteImport } from './routes/$lng'
+import { Route as LngIndexRouteImport } from './routes/$lng.index'
+import { Route as LngAuthRouteImport } from './routes/$lng._auth'
+import { Route as LngAboutUsRouteImport } from './routes/$lng.about-us'
+import { Route as LngConsentSettingsRouteImport } from './routes/$lng.consent-settings'
+import { Route as LngImprintRouteImport } from './routes/$lng.imprint'
+import { Route as LngLoginRouteImport } from './routes/$lng.login'
+import { Route as LngPartnerProgramRouteImport } from './routes/$lng.partner-program'
+import { Route as LngPrivacyRouteImport } from './routes/$lng.privacy'
+import { Route as LngSearchRouteImport } from './routes/$lng.search'
+import { Route as LngTermsAndConditionsRouteImport } from './routes/$lng.terms-and-conditions'
+import { Route as LngAuthAdminRouteImport } from './routes/$lng._auth.admin'
+import { Route as LngAuthPartnersRouteImport } from './routes/$lng._auth.partners'
+import { Route as LngCompareBarnebysRouteImport } from './routes/$lng.compare.barnebys'
+import { Route as LngPartnerProgramIndexRouteImport } from './routes/$lng.partner-program.index'
+import { Route as LngPartnerProgramApplyRouteImport } from './routes/$lng.partner-program.apply'
+import { Route as LngPartnerProgramCustomIntegrationRouteImport } from './routes/$lng.partner-program.custom-integration'
+import { Route as LngSearchShopsRouteImport } from './routes/$lng.search_.shops'
+import { Route as LngAuthAdminIndexRouteImport } from './routes/$lng._auth.admin.index'
+import { Route as LngAuthAdminOauthClientsRouteImport } from './routes/$lng._auth.admin.oauth-clients'
+import { Route as LngAuthAdminOverviewRouteImport } from './routes/$lng._auth.admin.overview'
+import { Route as LngAuthAdminPartnerApplicationsRouteImport } from './routes/$lng._auth.admin.partner-applications'
+import { Route as LngAuthAdminShopsRouteImport } from './routes/$lng._auth.admin.shops'
+import { Route as LngAuthAdminUsersRouteImport } from './routes/$lng._auth.admin.users'
+import { Route as LngAuthMeAccountRouteImport } from './routes/$lng._auth.me.account'
+import { Route as LngAuthMeNotificationsRouteImport } from './routes/$lng._auth.me.notifications'
+import { Route as LngAuthMeSearchFiltersRouteImport } from './routes/$lng._auth.me.search-filters'
+import { Route as LngAuthMeWatchlistRouteImport } from './routes/$lng._auth.me.watchlist'
+import { Route as LngAuthOauthAuthorizeRouteImport } from './routes/$lng._auth.oauth.authorize'
+import { Route as LngAuthPartnersIndexRouteImport } from './routes/$lng._auth.partners.index'
+import { Route as LngAuthPartnersAccessTokensRouteImport } from './routes/$lng._auth.partners.access-tokens'
+import { Route as LngAuthPartnersApplicationsRouteImport } from './routes/$lng._auth.partners.applications'
+import { Route as LngAuthPartnersShopsRouteImport } from './routes/$lng._auth.partners.shops'
+import { Route as LngProductShopIdShopsProductIdRouteImport } from './routes/$lng.product.$shopId.$shopsProductId'
+import { Route as LngShopsShopSlugIdIndexRouteImport } from './routes/$lng.shops.$shopSlugId.index'
 import { Route as ApiOauthAuthorizeApproveRouteImport } from './routes/api.oauth.authorize.approve'
-import { Route as ShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/shops.$shopSlugId.products.$productSlugId'
+import { Route as LngAuthMeBillingManageRouteImport } from './routes/$lng._auth.me.billing.manage'
+import { Route as LngAuthMeSearchFilterFilterIdRouteImport } from './routes/$lng._auth.me.search-filter.$filterId'
+import { Route as LngShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/$lng.shops.$shopSlugId.products.$productSlugId'
 import { Route as ApiOauthClientRedirectBrokerWoocommerceRouteImport } from './routes/api.oauth.client_.redirect-broker.woocommerce'
 
-const IndexRoute = IndexRouteImport.update({
+const LngRoute = LngRouteImport.update({
+  id: '/$lng',
+  path: '/$lng',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LngIndexRoute = LngIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LngRoute,
 } as any)
-const AuthRoute = AuthRouteImport.update({
+const LngAuthRoute = LngAuthRouteImport.update({
   id: '/_auth',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LngRoute,
 } as any)
-const AboutUsRoute = AboutUsRouteImport.update({
+const LngAboutUsRoute = LngAboutUsRouteImport.update({
   id: '/about-us',
   path: '/about-us',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LngRoute,
 } as any)
-const ConsentSettingsRoute = ConsentSettingsRouteImport.update({
+const LngConsentSettingsRoute = LngConsentSettingsRouteImport.update({
   id: '/consent-settings',
   path: '/consent-settings',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LngRoute,
 } as any)
-const ImprintRoute = ImprintRouteImport.update({
+const LngImprintRoute = LngImprintRouteImport.update({
   id: '/imprint',
   path: '/imprint',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LngRoute,
 } as any)
-const LoginRoute = LoginRouteImport.update({
+const LngLoginRoute = LngLoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LngRoute,
 } as any)
-const PartnerProgramRoute = PartnerProgramRouteImport.update({
+const LngPartnerProgramRoute = LngPartnerProgramRouteImport.update({
   id: '/partner-program',
   path: '/partner-program',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LngRoute,
 } as any)
-const PrivacyRoute = PrivacyRouteImport.update({
+const LngPrivacyRoute = LngPrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LngRoute,
 } as any)
-const SearchRoute = SearchRouteImport.update({
+const LngSearchRoute = LngSearchRouteImport.update({
   id: '/search',
   path: '/search',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LngRoute,
 } as any)
-const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
+const LngTermsAndConditionsRoute = LngTermsAndConditionsRouteImport.update({
   id: '/terms-and-conditions',
   path: '/terms-and-conditions',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LngRoute,
 } as any)
-const AuthAdminRoute = AuthAdminRouteImport.update({
+const LngAuthAdminRoute = LngAuthAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => LngAuthRoute,
 } as any)
-const AuthPartnersRoute = AuthPartnersRouteImport.update({
+const LngAuthPartnersRoute = LngAuthPartnersRouteImport.update({
   id: '/partners',
   path: '/partners',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => LngAuthRoute,
 } as any)
-const CompareBarnebysRoute = CompareBarnebysRouteImport.update({
+const LngCompareBarnebysRoute = LngCompareBarnebysRouteImport.update({
   id: '/compare/barnebys',
   path: '/compare/barnebys',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LngRoute,
 } as any)
-const PartnerProgramIndexRoute = PartnerProgramIndexRouteImport.update({
+const LngPartnerProgramIndexRoute = LngPartnerProgramIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => PartnerProgramRoute,
+  getParentRoute: () => LngPartnerProgramRoute,
 } as any)
-const PartnerProgramApplyRoute = PartnerProgramApplyRouteImport.update({
+const LngPartnerProgramApplyRoute = LngPartnerProgramApplyRouteImport.update({
   id: '/apply',
   path: '/apply',
-  getParentRoute: () => PartnerProgramRoute,
+  getParentRoute: () => LngPartnerProgramRoute,
 } as any)
-const PartnerProgramCustomIntegrationRoute =
-  PartnerProgramCustomIntegrationRouteImport.update({
+const LngPartnerProgramCustomIntegrationRoute =
+  LngPartnerProgramCustomIntegrationRouteImport.update({
     id: '/custom-integration',
     path: '/custom-integration',
-    getParentRoute: () => PartnerProgramRoute,
+    getParentRoute: () => LngPartnerProgramRoute,
   } as any)
-const SearchShopsRoute = SearchShopsRouteImport.update({
+const LngSearchShopsRoute = LngSearchShopsRouteImport.update({
   id: '/search_/shops',
   path: '/search/shops',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LngRoute,
 } as any)
-const AuthAdminIndexRoute = AuthAdminIndexRouteImport.update({
+const LngAuthAdminIndexRoute = LngAuthAdminIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AuthAdminRoute,
+  getParentRoute: () => LngAuthAdminRoute,
 } as any)
-const AuthAdminOauthClientsRoute = AuthAdminOauthClientsRouteImport.update({
-  id: '/oauth-clients',
-  path: '/oauth-clients',
-  getParentRoute: () => AuthAdminRoute,
-} as any)
-const AuthAdminOverviewRoute = AuthAdminOverviewRouteImport.update({
+const LngAuthAdminOauthClientsRoute =
+  LngAuthAdminOauthClientsRouteImport.update({
+    id: '/oauth-clients',
+    path: '/oauth-clients',
+    getParentRoute: () => LngAuthAdminRoute,
+  } as any)
+const LngAuthAdminOverviewRoute = LngAuthAdminOverviewRouteImport.update({
   id: '/overview',
   path: '/overview',
-  getParentRoute: () => AuthAdminRoute,
+  getParentRoute: () => LngAuthAdminRoute,
 } as any)
-const AuthAdminPartnerApplicationsRoute =
-  AuthAdminPartnerApplicationsRouteImport.update({
+const LngAuthAdminPartnerApplicationsRoute =
+  LngAuthAdminPartnerApplicationsRouteImport.update({
     id: '/partner-applications',
     path: '/partner-applications',
-    getParentRoute: () => AuthAdminRoute,
+    getParentRoute: () => LngAuthAdminRoute,
   } as any)
-const AuthAdminShopsRoute = AuthAdminShopsRouteImport.update({
+const LngAuthAdminShopsRoute = LngAuthAdminShopsRouteImport.update({
   id: '/shops',
   path: '/shops',
-  getParentRoute: () => AuthAdminRoute,
+  getParentRoute: () => LngAuthAdminRoute,
 } as any)
-const AuthAdminUsersRoute = AuthAdminUsersRouteImport.update({
+const LngAuthAdminUsersRoute = LngAuthAdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
-  getParentRoute: () => AuthAdminRoute,
+  getParentRoute: () => LngAuthAdminRoute,
 } as any)
-const AuthMeAccountRoute = AuthMeAccountRouteImport.update({
+const LngAuthMeAccountRoute = LngAuthMeAccountRouteImport.update({
   id: '/me/account',
   path: '/me/account',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => LngAuthRoute,
 } as any)
-const AuthMeNotificationsRoute = AuthMeNotificationsRouteImport.update({
+const LngAuthMeNotificationsRoute = LngAuthMeNotificationsRouteImport.update({
   id: '/me/notifications',
   path: '/me/notifications',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => LngAuthRoute,
 } as any)
-const AuthMeSearchFiltersRoute = AuthMeSearchFiltersRouteImport.update({
+const LngAuthMeSearchFiltersRoute = LngAuthMeSearchFiltersRouteImport.update({
   id: '/me/search-filters',
   path: '/me/search-filters',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => LngAuthRoute,
 } as any)
-const AuthMeWatchlistRoute = AuthMeWatchlistRouteImport.update({
+const LngAuthMeWatchlistRoute = LngAuthMeWatchlistRouteImport.update({
   id: '/me/watchlist',
   path: '/me/watchlist',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => LngAuthRoute,
 } as any)
-const AuthOauthAuthorizeRoute = AuthOauthAuthorizeRouteImport.update({
+const LngAuthOauthAuthorizeRoute = LngAuthOauthAuthorizeRouteImport.update({
   id: '/oauth/authorize',
   path: '/oauth/authorize',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => LngAuthRoute,
 } as any)
-const AuthPartnersIndexRoute = AuthPartnersIndexRouteImport.update({
+const LngAuthPartnersIndexRoute = LngAuthPartnersIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AuthPartnersRoute,
+  getParentRoute: () => LngAuthPartnersRoute,
 } as any)
-const AuthPartnersAccessTokensRoute =
-  AuthPartnersAccessTokensRouteImport.update({
+const LngAuthPartnersAccessTokensRoute =
+  LngAuthPartnersAccessTokensRouteImport.update({
     id: '/access-tokens',
     path: '/access-tokens',
-    getParentRoute: () => AuthPartnersRoute,
+    getParentRoute: () => LngAuthPartnersRoute,
   } as any)
-const AuthPartnersApplicationsRoute =
-  AuthPartnersApplicationsRouteImport.update({
+const LngAuthPartnersApplicationsRoute =
+  LngAuthPartnersApplicationsRouteImport.update({
     id: '/applications',
     path: '/applications',
-    getParentRoute: () => AuthPartnersRoute,
+    getParentRoute: () => LngAuthPartnersRoute,
   } as any)
-const AuthPartnersShopsRoute = AuthPartnersShopsRouteImport.update({
+const LngAuthPartnersShopsRoute = LngAuthPartnersShopsRouteImport.update({
   id: '/shops',
   path: '/shops',
-  getParentRoute: () => AuthPartnersRoute,
+  getParentRoute: () => LngAuthPartnersRoute,
 } as any)
-const ProductShopIdShopsProductIdRoute =
-  ProductShopIdShopsProductIdRouteImport.update({
+const LngProductShopIdShopsProductIdRoute =
+  LngProductShopIdShopsProductIdRouteImport.update({
     id: '/product/$shopId/$shopsProductId',
     path: '/product/$shopId/$shopsProductId',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => LngRoute,
   } as any)
-const ShopsShopSlugIdIndexRoute = ShopsShopSlugIdIndexRouteImport.update({
+const LngShopsShopSlugIdIndexRoute = LngShopsShopSlugIdIndexRouteImport.update({
   id: '/shops/$shopSlugId/',
   path: '/shops/$shopSlugId/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LngRoute,
 } as any)
-const AuthMeBillingManageRoute = AuthMeBillingManageRouteImport.update({
-  id: '/me/billing/manage',
-  path: '/me/billing/manage',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthMeSearchFilterFilterIdRoute =
-  AuthMeSearchFilterFilterIdRouteImport.update({
-    id: '/me/search-filter/$filterId',
-    path: '/me/search-filter/$filterId',
-    getParentRoute: () => AuthRoute,
-  } as any)
 const ApiOauthAuthorizeApproveRoute =
   ApiOauthAuthorizeApproveRouteImport.update({
     id: '/api/oauth/authorize/approve',
     path: '/api/oauth/authorize/approve',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ShopsShopSlugIdProductsProductSlugIdRoute =
-  ShopsShopSlugIdProductsProductSlugIdRouteImport.update({
+const LngAuthMeBillingManageRoute = LngAuthMeBillingManageRouteImport.update({
+  id: '/me/billing/manage',
+  path: '/me/billing/manage',
+  getParentRoute: () => LngAuthRoute,
+} as any)
+const LngAuthMeSearchFilterFilterIdRoute =
+  LngAuthMeSearchFilterFilterIdRouteImport.update({
+    id: '/me/search-filter/$filterId',
+    path: '/me/search-filter/$filterId',
+    getParentRoute: () => LngAuthRoute,
+  } as any)
+const LngShopsShopSlugIdProductsProductSlugIdRoute =
+  LngShopsShopSlugIdProductsProductSlugIdRouteImport.update({
     id: '/shops/$shopSlugId/products/$productSlugId',
     path: '/shops/$shopSlugId/products/$productSlugId',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => LngRoute,
   } as any)
 const ApiOauthClientRedirectBrokerWoocommerceRoute =
   ApiOauthClientRedirectBrokerWoocommerceRouteImport.update({
@@ -254,518 +261,501 @@ const ApiOauthClientRedirectBrokerWoocommerceRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about-us': typeof AboutUsRoute
-  '/consent-settings': typeof ConsentSettingsRoute
-  '/imprint': typeof ImprintRoute
-  '/login': typeof LoginRoute
-  '/partner-program': typeof PartnerProgramRouteWithChildren
-  '/privacy': typeof PrivacyRoute
-  '/search': typeof SearchRoute
-  '/terms-and-conditions': typeof TermsAndConditionsRoute
-  '/admin': typeof AuthAdminRouteWithChildren
-  '/partners': typeof AuthPartnersRouteWithChildren
-  '/compare/barnebys': typeof CompareBarnebysRoute
-  '/partner-program/apply': typeof PartnerProgramApplyRoute
-  '/partner-program/custom-integration': typeof PartnerProgramCustomIntegrationRoute
-  '/search/shops': typeof SearchShopsRoute
-  '/partner-program/': typeof PartnerProgramIndexRoute
-  '/admin/oauth-clients': typeof AuthAdminOauthClientsRoute
-  '/admin/overview': typeof AuthAdminOverviewRoute
-  '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
-  '/admin/shops': typeof AuthAdminShopsRoute
-  '/admin/users': typeof AuthAdminUsersRoute
-  '/me/account': typeof AuthMeAccountRoute
-  '/me/notifications': typeof AuthMeNotificationsRoute
-  '/me/search-filters': typeof AuthMeSearchFiltersRoute
-  '/me/watchlist': typeof AuthMeWatchlistRoute
-  '/oauth/authorize': typeof AuthOauthAuthorizeRoute
-  '/partners/access-tokens': typeof AuthPartnersAccessTokensRoute
-  '/partners/applications': typeof AuthPartnersApplicationsRoute
-  '/partners/shops': typeof AuthPartnersShopsRoute
-  '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
-  '/admin/': typeof AuthAdminIndexRoute
-  '/partners/': typeof AuthPartnersIndexRoute
-  '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
-  '/me/billing/manage': typeof AuthMeBillingManageRoute
-  '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
+  '/$lng': typeof LngRouteWithChildren
+  '/$lng/about-us': typeof LngAboutUsRoute
+  '/$lng/consent-settings': typeof LngConsentSettingsRoute
+  '/$lng/imprint': typeof LngImprintRoute
+  '/$lng/login': typeof LngLoginRoute
+  '/$lng/partner-program': typeof LngPartnerProgramRouteWithChildren
+  '/$lng/privacy': typeof LngPrivacyRoute
+  '/$lng/search': typeof LngSearchRoute
+  '/$lng/terms-and-conditions': typeof LngTermsAndConditionsRoute
+  '/$lng/': typeof LngIndexRoute
+  '/$lng/admin': typeof LngAuthAdminRouteWithChildren
+  '/$lng/partners': typeof LngAuthPartnersRouteWithChildren
+  '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
+  '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
+  '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
+  '/$lng/search/shops': typeof LngSearchShopsRoute
+  '/$lng/partner-program/': typeof LngPartnerProgramIndexRoute
+  '/$lng/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
+  '/$lng/admin/overview': typeof LngAuthAdminOverviewRoute
+  '/$lng/admin/partner-applications': typeof LngAuthAdminPartnerApplicationsRoute
+  '/$lng/admin/shops': typeof LngAuthAdminShopsRoute
+  '/$lng/admin/users': typeof LngAuthAdminUsersRoute
+  '/$lng/me/account': typeof LngAuthMeAccountRoute
+  '/$lng/me/notifications': typeof LngAuthMeNotificationsRoute
+  '/$lng/me/search-filters': typeof LngAuthMeSearchFiltersRoute
+  '/$lng/me/watchlist': typeof LngAuthMeWatchlistRoute
+  '/$lng/oauth/authorize': typeof LngAuthOauthAuthorizeRoute
+  '/$lng/partners/access-tokens': typeof LngAuthPartnersAccessTokensRoute
+  '/$lng/partners/applications': typeof LngAuthPartnersApplicationsRoute
+  '/$lng/partners/shops': typeof LngAuthPartnersShopsRoute
+  '/$lng/product/$shopId/$shopsProductId': typeof LngProductShopIdShopsProductIdRoute
   '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
-  '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
+  '/$lng/admin/': typeof LngAuthAdminIndexRoute
+  '/$lng/partners/': typeof LngAuthPartnersIndexRoute
+  '/$lng/shops/$shopSlugId/': typeof LngShopsShopSlugIdIndexRoute
+  '/$lng/me/billing/manage': typeof LngAuthMeBillingManageRoute
+  '/$lng/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
+  '/$lng/shops/$shopSlugId/products/$productSlugId': typeof LngShopsShopSlugIdProductsProductSlugIdRoute
   '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about-us': typeof AboutUsRoute
-  '/consent-settings': typeof ConsentSettingsRoute
-  '/imprint': typeof ImprintRoute
-  '/login': typeof LoginRoute
-  '/privacy': typeof PrivacyRoute
-  '/search': typeof SearchRoute
-  '/terms-and-conditions': typeof TermsAndConditionsRoute
-  '/compare/barnebys': typeof CompareBarnebysRoute
-  '/partner-program/apply': typeof PartnerProgramApplyRoute
-  '/partner-program/custom-integration': typeof PartnerProgramCustomIntegrationRoute
-  '/search/shops': typeof SearchShopsRoute
-  '/partner-program': typeof PartnerProgramIndexRoute
-  '/admin/oauth-clients': typeof AuthAdminOauthClientsRoute
-  '/admin/overview': typeof AuthAdminOverviewRoute
-  '/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
-  '/admin/shops': typeof AuthAdminShopsRoute
-  '/admin/users': typeof AuthAdminUsersRoute
-  '/me/account': typeof AuthMeAccountRoute
-  '/me/notifications': typeof AuthMeNotificationsRoute
-  '/me/search-filters': typeof AuthMeSearchFiltersRoute
-  '/me/watchlist': typeof AuthMeWatchlistRoute
-  '/oauth/authorize': typeof AuthOauthAuthorizeRoute
-  '/partners/access-tokens': typeof AuthPartnersAccessTokensRoute
-  '/partners/applications': typeof AuthPartnersApplicationsRoute
-  '/partners/shops': typeof AuthPartnersShopsRoute
-  '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
-  '/admin': typeof AuthAdminIndexRoute
-  '/partners': typeof AuthPartnersIndexRoute
-  '/shops/$shopSlugId': typeof ShopsShopSlugIdIndexRoute
-  '/me/billing/manage': typeof AuthMeBillingManageRoute
-  '/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
+  '/$lng': typeof LngIndexRoute
+  '/$lng/about-us': typeof LngAboutUsRoute
+  '/$lng/consent-settings': typeof LngConsentSettingsRoute
+  '/$lng/imprint': typeof LngImprintRoute
+  '/$lng/login': typeof LngLoginRoute
+  '/$lng/privacy': typeof LngPrivacyRoute
+  '/$lng/search': typeof LngSearchRoute
+  '/$lng/terms-and-conditions': typeof LngTermsAndConditionsRoute
+  '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
+  '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
+  '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
+  '/$lng/search/shops': typeof LngSearchShopsRoute
+  '/$lng/partner-program': typeof LngPartnerProgramIndexRoute
+  '/$lng/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
+  '/$lng/admin/overview': typeof LngAuthAdminOverviewRoute
+  '/$lng/admin/partner-applications': typeof LngAuthAdminPartnerApplicationsRoute
+  '/$lng/admin/shops': typeof LngAuthAdminShopsRoute
+  '/$lng/admin/users': typeof LngAuthAdminUsersRoute
+  '/$lng/me/account': typeof LngAuthMeAccountRoute
+  '/$lng/me/notifications': typeof LngAuthMeNotificationsRoute
+  '/$lng/me/search-filters': typeof LngAuthMeSearchFiltersRoute
+  '/$lng/me/watchlist': typeof LngAuthMeWatchlistRoute
+  '/$lng/oauth/authorize': typeof LngAuthOauthAuthorizeRoute
+  '/$lng/partners/access-tokens': typeof LngAuthPartnersAccessTokensRoute
+  '/$lng/partners/applications': typeof LngAuthPartnersApplicationsRoute
+  '/$lng/partners/shops': typeof LngAuthPartnersShopsRoute
+  '/$lng/product/$shopId/$shopsProductId': typeof LngProductShopIdShopsProductIdRoute
   '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
-  '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
+  '/$lng/admin': typeof LngAuthAdminIndexRoute
+  '/$lng/partners': typeof LngAuthPartnersIndexRoute
+  '/$lng/shops/$shopSlugId': typeof LngShopsShopSlugIdIndexRoute
+  '/$lng/me/billing/manage': typeof LngAuthMeBillingManageRoute
+  '/$lng/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
+  '/$lng/shops/$shopSlugId/products/$productSlugId': typeof LngShopsShopSlugIdProductsProductSlugIdRoute
   '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/_auth': typeof AuthRouteWithChildren
-  '/about-us': typeof AboutUsRoute
-  '/consent-settings': typeof ConsentSettingsRoute
-  '/imprint': typeof ImprintRoute
-  '/login': typeof LoginRoute
-  '/partner-program': typeof PartnerProgramRouteWithChildren
-  '/privacy': typeof PrivacyRoute
-  '/search': typeof SearchRoute
-  '/terms-and-conditions': typeof TermsAndConditionsRoute
-  '/_auth/admin': typeof AuthAdminRouteWithChildren
-  '/_auth/partners': typeof AuthPartnersRouteWithChildren
-  '/compare/barnebys': typeof CompareBarnebysRoute
-  '/partner-program/apply': typeof PartnerProgramApplyRoute
-  '/partner-program/custom-integration': typeof PartnerProgramCustomIntegrationRoute
-  '/search_/shops': typeof SearchShopsRoute
-  '/partner-program/': typeof PartnerProgramIndexRoute
-  '/_auth/admin/oauth-clients': typeof AuthAdminOauthClientsRoute
-  '/_auth/admin/overview': typeof AuthAdminOverviewRoute
-  '/_auth/admin/partner-applications': typeof AuthAdminPartnerApplicationsRoute
-  '/_auth/admin/shops': typeof AuthAdminShopsRoute
-  '/_auth/admin/users': typeof AuthAdminUsersRoute
-  '/_auth/me/account': typeof AuthMeAccountRoute
-  '/_auth/me/notifications': typeof AuthMeNotificationsRoute
-  '/_auth/me/search-filters': typeof AuthMeSearchFiltersRoute
-  '/_auth/me/watchlist': typeof AuthMeWatchlistRoute
-  '/_auth/oauth/authorize': typeof AuthOauthAuthorizeRoute
-  '/_auth/partners/access-tokens': typeof AuthPartnersAccessTokensRoute
-  '/_auth/partners/applications': typeof AuthPartnersApplicationsRoute
-  '/_auth/partners/shops': typeof AuthPartnersShopsRoute
-  '/product/$shopId/$shopsProductId': typeof ProductShopIdShopsProductIdRoute
-  '/_auth/admin/': typeof AuthAdminIndexRoute
-  '/_auth/partners/': typeof AuthPartnersIndexRoute
-  '/shops/$shopSlugId/': typeof ShopsShopSlugIdIndexRoute
-  '/_auth/me/billing/manage': typeof AuthMeBillingManageRoute
-  '/_auth/me/search-filter/$filterId': typeof AuthMeSearchFilterFilterIdRoute
+  '/$lng': typeof LngRouteWithChildren
+  '/$lng/_auth': typeof LngAuthRouteWithChildren
+  '/$lng/about-us': typeof LngAboutUsRoute
+  '/$lng/consent-settings': typeof LngConsentSettingsRoute
+  '/$lng/imprint': typeof LngImprintRoute
+  '/$lng/login': typeof LngLoginRoute
+  '/$lng/partner-program': typeof LngPartnerProgramRouteWithChildren
+  '/$lng/privacy': typeof LngPrivacyRoute
+  '/$lng/search': typeof LngSearchRoute
+  '/$lng/terms-and-conditions': typeof LngTermsAndConditionsRoute
+  '/$lng/': typeof LngIndexRoute
+  '/$lng/_auth/admin': typeof LngAuthAdminRouteWithChildren
+  '/$lng/_auth/partners': typeof LngAuthPartnersRouteWithChildren
+  '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
+  '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
+  '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
+  '/$lng/search_/shops': typeof LngSearchShopsRoute
+  '/$lng/partner-program/': typeof LngPartnerProgramIndexRoute
+  '/$lng/_auth/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
+  '/$lng/_auth/admin/overview': typeof LngAuthAdminOverviewRoute
+  '/$lng/_auth/admin/partner-applications': typeof LngAuthAdminPartnerApplicationsRoute
+  '/$lng/_auth/admin/shops': typeof LngAuthAdminShopsRoute
+  '/$lng/_auth/admin/users': typeof LngAuthAdminUsersRoute
+  '/$lng/_auth/me/account': typeof LngAuthMeAccountRoute
+  '/$lng/_auth/me/notifications': typeof LngAuthMeNotificationsRoute
+  '/$lng/_auth/me/search-filters': typeof LngAuthMeSearchFiltersRoute
+  '/$lng/_auth/me/watchlist': typeof LngAuthMeWatchlistRoute
+  '/$lng/_auth/oauth/authorize': typeof LngAuthOauthAuthorizeRoute
+  '/$lng/_auth/partners/access-tokens': typeof LngAuthPartnersAccessTokensRoute
+  '/$lng/_auth/partners/applications': typeof LngAuthPartnersApplicationsRoute
+  '/$lng/_auth/partners/shops': typeof LngAuthPartnersShopsRoute
+  '/$lng/product/$shopId/$shopsProductId': typeof LngProductShopIdShopsProductIdRoute
   '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
-  '/shops/$shopSlugId/products/$productSlugId': typeof ShopsShopSlugIdProductsProductSlugIdRoute
+  '/$lng/_auth/admin/': typeof LngAuthAdminIndexRoute
+  '/$lng/_auth/partners/': typeof LngAuthPartnersIndexRoute
+  '/$lng/shops/$shopSlugId/': typeof LngShopsShopSlugIdIndexRoute
+  '/$lng/_auth/me/billing/manage': typeof LngAuthMeBillingManageRoute
+  '/$lng/_auth/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
+  '/$lng/shops/$shopSlugId/products/$productSlugId': typeof LngShopsShopSlugIdProductsProductSlugIdRoute
   '/api/oauth/client_/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/about-us'
-    | '/consent-settings'
-    | '/imprint'
-    | '/login'
-    | '/partner-program'
-    | '/privacy'
-    | '/search'
-    | '/terms-and-conditions'
-    | '/admin'
-    | '/partners'
-    | '/compare/barnebys'
-    | '/partner-program/apply'
-    | '/partner-program/custom-integration'
-    | '/search/shops'
-    | '/partner-program/'
-    | '/admin/oauth-clients'
-    | '/admin/overview'
-    | '/admin/partner-applications'
-    | '/admin/shops'
-    | '/admin/users'
-    | '/me/account'
-    | '/me/notifications'
-    | '/me/search-filters'
-    | '/me/watchlist'
-    | '/oauth/authorize'
-    | '/partners/access-tokens'
-    | '/partners/applications'
-    | '/partners/shops'
-    | '/product/$shopId/$shopsProductId'
-    | '/admin/'
-    | '/partners/'
-    | '/shops/$shopSlugId/'
-    | '/me/billing/manage'
-    | '/me/search-filter/$filterId'
+    | '/$lng'
+    | '/$lng/about-us'
+    | '/$lng/consent-settings'
+    | '/$lng/imprint'
+    | '/$lng/login'
+    | '/$lng/partner-program'
+    | '/$lng/privacy'
+    | '/$lng/search'
+    | '/$lng/terms-and-conditions'
+    | '/$lng/'
+    | '/$lng/admin'
+    | '/$lng/partners'
+    | '/$lng/compare/barnebys'
+    | '/$lng/partner-program/apply'
+    | '/$lng/partner-program/custom-integration'
+    | '/$lng/search/shops'
+    | '/$lng/partner-program/'
+    | '/$lng/admin/oauth-clients'
+    | '/$lng/admin/overview'
+    | '/$lng/admin/partner-applications'
+    | '/$lng/admin/shops'
+    | '/$lng/admin/users'
+    | '/$lng/me/account'
+    | '/$lng/me/notifications'
+    | '/$lng/me/search-filters'
+    | '/$lng/me/watchlist'
+    | '/$lng/oauth/authorize'
+    | '/$lng/partners/access-tokens'
+    | '/$lng/partners/applications'
+    | '/$lng/partners/shops'
+    | '/$lng/product/$shopId/$shopsProductId'
     | '/api/oauth/authorize/approve'
-    | '/shops/$shopSlugId/products/$productSlugId'
+    | '/$lng/admin/'
+    | '/$lng/partners/'
+    | '/$lng/shops/$shopSlugId/'
+    | '/$lng/me/billing/manage'
+    | '/$lng/me/search-filter/$filterId'
+    | '/$lng/shops/$shopSlugId/products/$productSlugId'
     | '/api/oauth/client/redirect-broker/woocommerce'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/about-us'
-    | '/consent-settings'
-    | '/imprint'
-    | '/login'
-    | '/privacy'
-    | '/search'
-    | '/terms-and-conditions'
-    | '/compare/barnebys'
-    | '/partner-program/apply'
-    | '/partner-program/custom-integration'
-    | '/search/shops'
-    | '/partner-program'
-    | '/admin/oauth-clients'
-    | '/admin/overview'
-    | '/admin/partner-applications'
-    | '/admin/shops'
-    | '/admin/users'
-    | '/me/account'
-    | '/me/notifications'
-    | '/me/search-filters'
-    | '/me/watchlist'
-    | '/oauth/authorize'
-    | '/partners/access-tokens'
-    | '/partners/applications'
-    | '/partners/shops'
-    | '/product/$shopId/$shopsProductId'
-    | '/admin'
-    | '/partners'
-    | '/shops/$shopSlugId'
-    | '/me/billing/manage'
-    | '/me/search-filter/$filterId'
+    | '/$lng'
+    | '/$lng/about-us'
+    | '/$lng/consent-settings'
+    | '/$lng/imprint'
+    | '/$lng/login'
+    | '/$lng/privacy'
+    | '/$lng/search'
+    | '/$lng/terms-and-conditions'
+    | '/$lng/compare/barnebys'
+    | '/$lng/partner-program/apply'
+    | '/$lng/partner-program/custom-integration'
+    | '/$lng/search/shops'
+    | '/$lng/partner-program'
+    | '/$lng/admin/oauth-clients'
+    | '/$lng/admin/overview'
+    | '/$lng/admin/partner-applications'
+    | '/$lng/admin/shops'
+    | '/$lng/admin/users'
+    | '/$lng/me/account'
+    | '/$lng/me/notifications'
+    | '/$lng/me/search-filters'
+    | '/$lng/me/watchlist'
+    | '/$lng/oauth/authorize'
+    | '/$lng/partners/access-tokens'
+    | '/$lng/partners/applications'
+    | '/$lng/partners/shops'
+    | '/$lng/product/$shopId/$shopsProductId'
     | '/api/oauth/authorize/approve'
-    | '/shops/$shopSlugId/products/$productSlugId'
+    | '/$lng/admin'
+    | '/$lng/partners'
+    | '/$lng/shops/$shopSlugId'
+    | '/$lng/me/billing/manage'
+    | '/$lng/me/search-filter/$filterId'
+    | '/$lng/shops/$shopSlugId/products/$productSlugId'
     | '/api/oauth/client/redirect-broker/woocommerce'
   id:
     | '__root__'
-    | '/'
-    | '/_auth'
-    | '/about-us'
-    | '/consent-settings'
-    | '/imprint'
-    | '/login'
-    | '/partner-program'
-    | '/privacy'
-    | '/search'
-    | '/terms-and-conditions'
-    | '/_auth/admin'
-    | '/_auth/partners'
-    | '/compare/barnebys'
-    | '/partner-program/apply'
-    | '/partner-program/custom-integration'
-    | '/search_/shops'
-    | '/partner-program/'
-    | '/_auth/admin/oauth-clients'
-    | '/_auth/admin/overview'
-    | '/_auth/admin/partner-applications'
-    | '/_auth/admin/shops'
-    | '/_auth/admin/users'
-    | '/_auth/me/account'
-    | '/_auth/me/notifications'
-    | '/_auth/me/search-filters'
-    | '/_auth/me/watchlist'
-    | '/_auth/oauth/authorize'
-    | '/_auth/partners/access-tokens'
-    | '/_auth/partners/applications'
-    | '/_auth/partners/shops'
-    | '/product/$shopId/$shopsProductId'
-    | '/_auth/admin/'
-    | '/_auth/partners/'
-    | '/shops/$shopSlugId/'
-    | '/_auth/me/billing/manage'
-    | '/_auth/me/search-filter/$filterId'
+    | '/$lng'
+    | '/$lng/_auth'
+    | '/$lng/about-us'
+    | '/$lng/consent-settings'
+    | '/$lng/imprint'
+    | '/$lng/login'
+    | '/$lng/partner-program'
+    | '/$lng/privacy'
+    | '/$lng/search'
+    | '/$lng/terms-and-conditions'
+    | '/$lng/'
+    | '/$lng/_auth/admin'
+    | '/$lng/_auth/partners'
+    | '/$lng/compare/barnebys'
+    | '/$lng/partner-program/apply'
+    | '/$lng/partner-program/custom-integration'
+    | '/$lng/search_/shops'
+    | '/$lng/partner-program/'
+    | '/$lng/_auth/admin/oauth-clients'
+    | '/$lng/_auth/admin/overview'
+    | '/$lng/_auth/admin/partner-applications'
+    | '/$lng/_auth/admin/shops'
+    | '/$lng/_auth/admin/users'
+    | '/$lng/_auth/me/account'
+    | '/$lng/_auth/me/notifications'
+    | '/$lng/_auth/me/search-filters'
+    | '/$lng/_auth/me/watchlist'
+    | '/$lng/_auth/oauth/authorize'
+    | '/$lng/_auth/partners/access-tokens'
+    | '/$lng/_auth/partners/applications'
+    | '/$lng/_auth/partners/shops'
+    | '/$lng/product/$shopId/$shopsProductId'
     | '/api/oauth/authorize/approve'
-    | '/shops/$shopSlugId/products/$productSlugId'
+    | '/$lng/_auth/admin/'
+    | '/$lng/_auth/partners/'
+    | '/$lng/shops/$shopSlugId/'
+    | '/$lng/_auth/me/billing/manage'
+    | '/$lng/_auth/me/search-filter/$filterId'
+    | '/$lng/shops/$shopSlugId/products/$productSlugId'
     | '/api/oauth/client_/redirect-broker/woocommerce'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AuthRoute: typeof AuthRouteWithChildren
-  AboutUsRoute: typeof AboutUsRoute
-  ConsentSettingsRoute: typeof ConsentSettingsRoute
-  ImprintRoute: typeof ImprintRoute
-  LoginRoute: typeof LoginRoute
-  PartnerProgramRoute: typeof PartnerProgramRouteWithChildren
-  PrivacyRoute: typeof PrivacyRoute
-  SearchRoute: typeof SearchRoute
-  TermsAndConditionsRoute: typeof TermsAndConditionsRoute
-  CompareBarnebysRoute: typeof CompareBarnebysRoute
-  SearchShopsRoute: typeof SearchShopsRoute
-  ProductShopIdShopsProductIdRoute: typeof ProductShopIdShopsProductIdRoute
-  ShopsShopSlugIdIndexRoute: typeof ShopsShopSlugIdIndexRoute
+  LngRoute: typeof LngRouteWithChildren
   ApiOauthAuthorizeApproveRoute: typeof ApiOauthAuthorizeApproveRoute
-  ShopsShopSlugIdProductsProductSlugIdRoute: typeof ShopsShopSlugIdProductsProductSlugIdRoute
   ApiOauthClientRedirectBrokerWoocommerceRoute: typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/$lng': {
+      id: '/$lng'
+      path: '/$lng'
+      fullPath: '/$lng'
+      preLoaderRoute: typeof LngRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth': {
-      id: '/_auth'
+    '/$lng/': {
+      id: '/$lng/'
+      path: '/'
+      fullPath: '/$lng/'
+      preLoaderRoute: typeof LngIndexRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/_auth': {
+      id: '/$lng/_auth'
       path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/$lng'
+      preLoaderRoute: typeof LngAuthRouteImport
+      parentRoute: typeof LngRoute
     }
-    '/about-us': {
-      id: '/about-us'
+    '/$lng/about-us': {
+      id: '/$lng/about-us'
       path: '/about-us'
-      fullPath: '/about-us'
-      preLoaderRoute: typeof AboutUsRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/$lng/about-us'
+      preLoaderRoute: typeof LngAboutUsRouteImport
+      parentRoute: typeof LngRoute
     }
-    '/consent-settings': {
-      id: '/consent-settings'
+    '/$lng/consent-settings': {
+      id: '/$lng/consent-settings'
       path: '/consent-settings'
-      fullPath: '/consent-settings'
-      preLoaderRoute: typeof ConsentSettingsRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/$lng/consent-settings'
+      preLoaderRoute: typeof LngConsentSettingsRouteImport
+      parentRoute: typeof LngRoute
     }
-    '/imprint': {
-      id: '/imprint'
+    '/$lng/imprint': {
+      id: '/$lng/imprint'
       path: '/imprint'
-      fullPath: '/imprint'
-      preLoaderRoute: typeof ImprintRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/$lng/imprint'
+      preLoaderRoute: typeof LngImprintRouteImport
+      parentRoute: typeof LngRoute
     }
-    '/login': {
-      id: '/login'
+    '/$lng/login': {
+      id: '/$lng/login'
       path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/$lng/login'
+      preLoaderRoute: typeof LngLoginRouteImport
+      parentRoute: typeof LngRoute
     }
-    '/partner-program': {
-      id: '/partner-program'
+    '/$lng/partner-program': {
+      id: '/$lng/partner-program'
       path: '/partner-program'
-      fullPath: '/partner-program'
-      preLoaderRoute: typeof PartnerProgramRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/$lng/partner-program'
+      preLoaderRoute: typeof LngPartnerProgramRouteImport
+      parentRoute: typeof LngRoute
     }
-    '/privacy': {
-      id: '/privacy'
+    '/$lng/privacy': {
+      id: '/$lng/privacy'
       path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/$lng/privacy'
+      preLoaderRoute: typeof LngPrivacyRouteImport
+      parentRoute: typeof LngRoute
     }
-    '/search': {
-      id: '/search'
+    '/$lng/search': {
+      id: '/$lng/search'
       path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/$lng/search'
+      preLoaderRoute: typeof LngSearchRouteImport
+      parentRoute: typeof LngRoute
     }
-    '/terms-and-conditions': {
-      id: '/terms-and-conditions'
+    '/$lng/terms-and-conditions': {
+      id: '/$lng/terms-and-conditions'
       path: '/terms-and-conditions'
-      fullPath: '/terms-and-conditions'
-      preLoaderRoute: typeof TermsAndConditionsRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/$lng/terms-and-conditions'
+      preLoaderRoute: typeof LngTermsAndConditionsRouteImport
+      parentRoute: typeof LngRoute
     }
-    '/_auth/admin': {
-      id: '/_auth/admin'
+    '/$lng/_auth/admin': {
+      id: '/$lng/_auth/admin'
       path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthAdminRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/$lng/admin'
+      preLoaderRoute: typeof LngAuthAdminRouteImport
+      parentRoute: typeof LngAuthRoute
     }
-    '/_auth/partners': {
-      id: '/_auth/partners'
+    '/$lng/_auth/partners': {
+      id: '/$lng/_auth/partners'
       path: '/partners'
-      fullPath: '/partners'
-      preLoaderRoute: typeof AuthPartnersRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/$lng/partners'
+      preLoaderRoute: typeof LngAuthPartnersRouteImport
+      parentRoute: typeof LngAuthRoute
     }
-    '/compare/barnebys': {
-      id: '/compare/barnebys'
+    '/$lng/compare/barnebys': {
+      id: '/$lng/compare/barnebys'
       path: '/compare/barnebys'
-      fullPath: '/compare/barnebys'
-      preLoaderRoute: typeof CompareBarnebysRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/$lng/compare/barnebys'
+      preLoaderRoute: typeof LngCompareBarnebysRouteImport
+      parentRoute: typeof LngRoute
     }
-    '/partner-program/': {
-      id: '/partner-program/'
+    '/$lng/partner-program/': {
+      id: '/$lng/partner-program/'
       path: '/'
-      fullPath: '/partner-program/'
-      preLoaderRoute: typeof PartnerProgramIndexRouteImport
-      parentRoute: typeof PartnerProgramRoute
+      fullPath: '/$lng/partner-program/'
+      preLoaderRoute: typeof LngPartnerProgramIndexRouteImport
+      parentRoute: typeof LngPartnerProgramRoute
     }
-    '/partner-program/apply': {
-      id: '/partner-program/apply'
+    '/$lng/partner-program/apply': {
+      id: '/$lng/partner-program/apply'
       path: '/apply'
-      fullPath: '/partner-program/apply'
-      preLoaderRoute: typeof PartnerProgramApplyRouteImport
-      parentRoute: typeof PartnerProgramRoute
+      fullPath: '/$lng/partner-program/apply'
+      preLoaderRoute: typeof LngPartnerProgramApplyRouteImport
+      parentRoute: typeof LngPartnerProgramRoute
     }
-    '/partner-program/custom-integration': {
-      id: '/partner-program/custom-integration'
+    '/$lng/partner-program/custom-integration': {
+      id: '/$lng/partner-program/custom-integration'
       path: '/custom-integration'
-      fullPath: '/partner-program/custom-integration'
-      preLoaderRoute: typeof PartnerProgramCustomIntegrationRouteImport
-      parentRoute: typeof PartnerProgramRoute
+      fullPath: '/$lng/partner-program/custom-integration'
+      preLoaderRoute: typeof LngPartnerProgramCustomIntegrationRouteImport
+      parentRoute: typeof LngPartnerProgramRoute
     }
-    '/search_/shops': {
-      id: '/search_/shops'
+    '/$lng/search_/shops': {
+      id: '/$lng/search_/shops'
       path: '/search/shops'
-      fullPath: '/search/shops'
-      preLoaderRoute: typeof SearchShopsRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/$lng/search/shops'
+      preLoaderRoute: typeof LngSearchShopsRouteImport
+      parentRoute: typeof LngRoute
     }
-    '/_auth/admin/': {
-      id: '/_auth/admin/'
+    '/$lng/_auth/admin/': {
+      id: '/$lng/_auth/admin/'
       path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AuthAdminIndexRouteImport
-      parentRoute: typeof AuthAdminRoute
+      fullPath: '/$lng/admin/'
+      preLoaderRoute: typeof LngAuthAdminIndexRouteImport
+      parentRoute: typeof LngAuthAdminRoute
     }
-    '/_auth/admin/oauth-clients': {
-      id: '/_auth/admin/oauth-clients'
+    '/$lng/_auth/admin/oauth-clients': {
+      id: '/$lng/_auth/admin/oauth-clients'
       path: '/oauth-clients'
-      fullPath: '/admin/oauth-clients'
-      preLoaderRoute: typeof AuthAdminOauthClientsRouteImport
-      parentRoute: typeof AuthAdminRoute
+      fullPath: '/$lng/admin/oauth-clients'
+      preLoaderRoute: typeof LngAuthAdminOauthClientsRouteImport
+      parentRoute: typeof LngAuthAdminRoute
     }
-    '/_auth/admin/overview': {
-      id: '/_auth/admin/overview'
+    '/$lng/_auth/admin/overview': {
+      id: '/$lng/_auth/admin/overview'
       path: '/overview'
-      fullPath: '/admin/overview'
-      preLoaderRoute: typeof AuthAdminOverviewRouteImport
-      parentRoute: typeof AuthAdminRoute
+      fullPath: '/$lng/admin/overview'
+      preLoaderRoute: typeof LngAuthAdminOverviewRouteImport
+      parentRoute: typeof LngAuthAdminRoute
     }
-    '/_auth/admin/partner-applications': {
-      id: '/_auth/admin/partner-applications'
+    '/$lng/_auth/admin/partner-applications': {
+      id: '/$lng/_auth/admin/partner-applications'
       path: '/partner-applications'
-      fullPath: '/admin/partner-applications'
-      preLoaderRoute: typeof AuthAdminPartnerApplicationsRouteImport
-      parentRoute: typeof AuthAdminRoute
+      fullPath: '/$lng/admin/partner-applications'
+      preLoaderRoute: typeof LngAuthAdminPartnerApplicationsRouteImport
+      parentRoute: typeof LngAuthAdminRoute
     }
-    '/_auth/admin/shops': {
-      id: '/_auth/admin/shops'
+    '/$lng/_auth/admin/shops': {
+      id: '/$lng/_auth/admin/shops'
       path: '/shops'
-      fullPath: '/admin/shops'
-      preLoaderRoute: typeof AuthAdminShopsRouteImport
-      parentRoute: typeof AuthAdminRoute
+      fullPath: '/$lng/admin/shops'
+      preLoaderRoute: typeof LngAuthAdminShopsRouteImport
+      parentRoute: typeof LngAuthAdminRoute
     }
-    '/_auth/admin/users': {
-      id: '/_auth/admin/users'
+    '/$lng/_auth/admin/users': {
+      id: '/$lng/_auth/admin/users'
       path: '/users'
-      fullPath: '/admin/users'
-      preLoaderRoute: typeof AuthAdminUsersRouteImport
-      parentRoute: typeof AuthAdminRoute
+      fullPath: '/$lng/admin/users'
+      preLoaderRoute: typeof LngAuthAdminUsersRouteImport
+      parentRoute: typeof LngAuthAdminRoute
     }
-    '/_auth/me/account': {
-      id: '/_auth/me/account'
+    '/$lng/_auth/me/account': {
+      id: '/$lng/_auth/me/account'
       path: '/me/account'
-      fullPath: '/me/account'
-      preLoaderRoute: typeof AuthMeAccountRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/$lng/me/account'
+      preLoaderRoute: typeof LngAuthMeAccountRouteImport
+      parentRoute: typeof LngAuthRoute
     }
-    '/_auth/me/notifications': {
-      id: '/_auth/me/notifications'
+    '/$lng/_auth/me/notifications': {
+      id: '/$lng/_auth/me/notifications'
       path: '/me/notifications'
-      fullPath: '/me/notifications'
-      preLoaderRoute: typeof AuthMeNotificationsRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/$lng/me/notifications'
+      preLoaderRoute: typeof LngAuthMeNotificationsRouteImport
+      parentRoute: typeof LngAuthRoute
     }
-    '/_auth/me/search-filters': {
-      id: '/_auth/me/search-filters'
+    '/$lng/_auth/me/search-filters': {
+      id: '/$lng/_auth/me/search-filters'
       path: '/me/search-filters'
-      fullPath: '/me/search-filters'
-      preLoaderRoute: typeof AuthMeSearchFiltersRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/$lng/me/search-filters'
+      preLoaderRoute: typeof LngAuthMeSearchFiltersRouteImport
+      parentRoute: typeof LngAuthRoute
     }
-    '/_auth/me/watchlist': {
-      id: '/_auth/me/watchlist'
+    '/$lng/_auth/me/watchlist': {
+      id: '/$lng/_auth/me/watchlist'
       path: '/me/watchlist'
-      fullPath: '/me/watchlist'
-      preLoaderRoute: typeof AuthMeWatchlistRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/$lng/me/watchlist'
+      preLoaderRoute: typeof LngAuthMeWatchlistRouteImport
+      parentRoute: typeof LngAuthRoute
     }
-    '/_auth/oauth/authorize': {
-      id: '/_auth/oauth/authorize'
+    '/$lng/_auth/oauth/authorize': {
+      id: '/$lng/_auth/oauth/authorize'
       path: '/oauth/authorize'
-      fullPath: '/oauth/authorize'
-      preLoaderRoute: typeof AuthOauthAuthorizeRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/$lng/oauth/authorize'
+      preLoaderRoute: typeof LngAuthOauthAuthorizeRouteImport
+      parentRoute: typeof LngAuthRoute
     }
-    '/_auth/partners/': {
-      id: '/_auth/partners/'
+    '/$lng/_auth/partners/': {
+      id: '/$lng/_auth/partners/'
       path: '/'
-      fullPath: '/partners/'
-      preLoaderRoute: typeof AuthPartnersIndexRouteImport
-      parentRoute: typeof AuthPartnersRoute
+      fullPath: '/$lng/partners/'
+      preLoaderRoute: typeof LngAuthPartnersIndexRouteImport
+      parentRoute: typeof LngAuthPartnersRoute
     }
-    '/_auth/partners/access-tokens': {
-      id: '/_auth/partners/access-tokens'
+    '/$lng/_auth/partners/access-tokens': {
+      id: '/$lng/_auth/partners/access-tokens'
       path: '/access-tokens'
-      fullPath: '/partners/access-tokens'
-      preLoaderRoute: typeof AuthPartnersAccessTokensRouteImport
-      parentRoute: typeof AuthPartnersRoute
+      fullPath: '/$lng/partners/access-tokens'
+      preLoaderRoute: typeof LngAuthPartnersAccessTokensRouteImport
+      parentRoute: typeof LngAuthPartnersRoute
     }
-    '/_auth/partners/applications': {
-      id: '/_auth/partners/applications'
+    '/$lng/_auth/partners/applications': {
+      id: '/$lng/_auth/partners/applications'
       path: '/applications'
-      fullPath: '/partners/applications'
-      preLoaderRoute: typeof AuthPartnersApplicationsRouteImport
-      parentRoute: typeof AuthPartnersRoute
+      fullPath: '/$lng/partners/applications'
+      preLoaderRoute: typeof LngAuthPartnersApplicationsRouteImport
+      parentRoute: typeof LngAuthPartnersRoute
     }
-    '/_auth/partners/shops': {
-      id: '/_auth/partners/shops'
+    '/$lng/_auth/partners/shops': {
+      id: '/$lng/_auth/partners/shops'
       path: '/shops'
-      fullPath: '/partners/shops'
-      preLoaderRoute: typeof AuthPartnersShopsRouteImport
-      parentRoute: typeof AuthPartnersRoute
+      fullPath: '/$lng/partners/shops'
+      preLoaderRoute: typeof LngAuthPartnersShopsRouteImport
+      parentRoute: typeof LngAuthPartnersRoute
     }
-    '/product/$shopId/$shopsProductId': {
-      id: '/product/$shopId/$shopsProductId'
+    '/$lng/product/$shopId/$shopsProductId': {
+      id: '/$lng/product/$shopId/$shopsProductId'
       path: '/product/$shopId/$shopsProductId'
-      fullPath: '/product/$shopId/$shopsProductId'
-      preLoaderRoute: typeof ProductShopIdShopsProductIdRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/$lng/product/$shopId/$shopsProductId'
+      preLoaderRoute: typeof LngProductShopIdShopsProductIdRouteImport
+      parentRoute: typeof LngRoute
     }
-    '/shops/$shopSlugId/': {
-      id: '/shops/$shopSlugId/'
+    '/$lng/shops/$shopSlugId/': {
+      id: '/$lng/shops/$shopSlugId/'
       path: '/shops/$shopSlugId'
-      fullPath: '/shops/$shopSlugId/'
-      preLoaderRoute: typeof ShopsShopSlugIdIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_auth/me/billing/manage': {
-      id: '/_auth/me/billing/manage'
-      path: '/me/billing/manage'
-      fullPath: '/me/billing/manage'
-      preLoaderRoute: typeof AuthMeBillingManageRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/me/search-filter/$filterId': {
-      id: '/_auth/me/search-filter/$filterId'
-      path: '/me/search-filter/$filterId'
-      fullPath: '/me/search-filter/$filterId'
-      preLoaderRoute: typeof AuthMeSearchFilterFilterIdRouteImport
-      parentRoute: typeof AuthRoute
+      fullPath: '/$lng/shops/$shopSlugId/'
+      preLoaderRoute: typeof LngShopsShopSlugIdIndexRouteImport
+      parentRoute: typeof LngRoute
     }
     '/api/oauth/authorize/approve': {
       id: '/api/oauth/authorize/approve'
@@ -774,12 +764,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiOauthAuthorizeApproveRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/shops/$shopSlugId/products/$productSlugId': {
-      id: '/shops/$shopSlugId/products/$productSlugId'
+    '/$lng/_auth/me/billing/manage': {
+      id: '/$lng/_auth/me/billing/manage'
+      path: '/me/billing/manage'
+      fullPath: '/$lng/me/billing/manage'
+      preLoaderRoute: typeof LngAuthMeBillingManageRouteImport
+      parentRoute: typeof LngAuthRoute
+    }
+    '/$lng/_auth/me/search-filter/$filterId': {
+      id: '/$lng/_auth/me/search-filter/$filterId'
+      path: '/me/search-filter/$filterId'
+      fullPath: '/$lng/me/search-filter/$filterId'
+      preLoaderRoute: typeof LngAuthMeSearchFilterFilterIdRouteImport
+      parentRoute: typeof LngAuthRoute
+    }
+    '/$lng/shops/$shopSlugId/products/$productSlugId': {
+      id: '/$lng/shops/$shopSlugId/products/$productSlugId'
       path: '/shops/$shopSlugId/products/$productSlugId'
-      fullPath: '/shops/$shopSlugId/products/$productSlugId'
-      preLoaderRoute: typeof ShopsShopSlugIdProductsProductSlugIdRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/$lng/shops/$shopSlugId/products/$productSlugId'
+      preLoaderRoute: typeof LngShopsShopSlugIdProductsProductSlugIdRouteImport
+      parentRoute: typeof LngRoute
     }
     '/api/oauth/client_/redirect-broker/woocommerce': {
       id: '/api/oauth/client_/redirect-broker/woocommerce'
@@ -791,106 +795,131 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AuthAdminRouteChildren {
-  AuthAdminOauthClientsRoute: typeof AuthAdminOauthClientsRoute
-  AuthAdminOverviewRoute: typeof AuthAdminOverviewRoute
-  AuthAdminPartnerApplicationsRoute: typeof AuthAdminPartnerApplicationsRoute
-  AuthAdminShopsRoute: typeof AuthAdminShopsRoute
-  AuthAdminUsersRoute: typeof AuthAdminUsersRoute
-  AuthAdminIndexRoute: typeof AuthAdminIndexRoute
+interface LngAuthAdminRouteChildren {
+  LngAuthAdminOauthClientsRoute: typeof LngAuthAdminOauthClientsRoute
+  LngAuthAdminOverviewRoute: typeof LngAuthAdminOverviewRoute
+  LngAuthAdminPartnerApplicationsRoute: typeof LngAuthAdminPartnerApplicationsRoute
+  LngAuthAdminShopsRoute: typeof LngAuthAdminShopsRoute
+  LngAuthAdminUsersRoute: typeof LngAuthAdminUsersRoute
+  LngAuthAdminIndexRoute: typeof LngAuthAdminIndexRoute
 }
 
-const AuthAdminRouteChildren: AuthAdminRouteChildren = {
-  AuthAdminOauthClientsRoute: AuthAdminOauthClientsRoute,
-  AuthAdminOverviewRoute: AuthAdminOverviewRoute,
-  AuthAdminPartnerApplicationsRoute: AuthAdminPartnerApplicationsRoute,
-  AuthAdminShopsRoute: AuthAdminShopsRoute,
-  AuthAdminUsersRoute: AuthAdminUsersRoute,
-  AuthAdminIndexRoute: AuthAdminIndexRoute,
+const LngAuthAdminRouteChildren: LngAuthAdminRouteChildren = {
+  LngAuthAdminOauthClientsRoute: LngAuthAdminOauthClientsRoute,
+  LngAuthAdminOverviewRoute: LngAuthAdminOverviewRoute,
+  LngAuthAdminPartnerApplicationsRoute: LngAuthAdminPartnerApplicationsRoute,
+  LngAuthAdminShopsRoute: LngAuthAdminShopsRoute,
+  LngAuthAdminUsersRoute: LngAuthAdminUsersRoute,
+  LngAuthAdminIndexRoute: LngAuthAdminIndexRoute,
 }
 
-const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
-  AuthAdminRouteChildren,
+const LngAuthAdminRouteWithChildren = LngAuthAdminRoute._addFileChildren(
+  LngAuthAdminRouteChildren,
 )
 
-interface AuthPartnersRouteChildren {
-  AuthPartnersAccessTokensRoute: typeof AuthPartnersAccessTokensRoute
-  AuthPartnersApplicationsRoute: typeof AuthPartnersApplicationsRoute
-  AuthPartnersShopsRoute: typeof AuthPartnersShopsRoute
-  AuthPartnersIndexRoute: typeof AuthPartnersIndexRoute
+interface LngAuthPartnersRouteChildren {
+  LngAuthPartnersAccessTokensRoute: typeof LngAuthPartnersAccessTokensRoute
+  LngAuthPartnersApplicationsRoute: typeof LngAuthPartnersApplicationsRoute
+  LngAuthPartnersShopsRoute: typeof LngAuthPartnersShopsRoute
+  LngAuthPartnersIndexRoute: typeof LngAuthPartnersIndexRoute
 }
 
-const AuthPartnersRouteChildren: AuthPartnersRouteChildren = {
-  AuthPartnersAccessTokensRoute: AuthPartnersAccessTokensRoute,
-  AuthPartnersApplicationsRoute: AuthPartnersApplicationsRoute,
-  AuthPartnersShopsRoute: AuthPartnersShopsRoute,
-  AuthPartnersIndexRoute: AuthPartnersIndexRoute,
+const LngAuthPartnersRouteChildren: LngAuthPartnersRouteChildren = {
+  LngAuthPartnersAccessTokensRoute: LngAuthPartnersAccessTokensRoute,
+  LngAuthPartnersApplicationsRoute: LngAuthPartnersApplicationsRoute,
+  LngAuthPartnersShopsRoute: LngAuthPartnersShopsRoute,
+  LngAuthPartnersIndexRoute: LngAuthPartnersIndexRoute,
 }
 
-const AuthPartnersRouteWithChildren = AuthPartnersRoute._addFileChildren(
-  AuthPartnersRouteChildren,
+const LngAuthPartnersRouteWithChildren = LngAuthPartnersRoute._addFileChildren(
+  LngAuthPartnersRouteChildren,
 )
 
-interface AuthRouteChildren {
-  AuthAdminRoute: typeof AuthAdminRouteWithChildren
-  AuthPartnersRoute: typeof AuthPartnersRouteWithChildren
-  AuthMeAccountRoute: typeof AuthMeAccountRoute
-  AuthMeNotificationsRoute: typeof AuthMeNotificationsRoute
-  AuthMeSearchFiltersRoute: typeof AuthMeSearchFiltersRoute
-  AuthMeWatchlistRoute: typeof AuthMeWatchlistRoute
-  AuthOauthAuthorizeRoute: typeof AuthOauthAuthorizeRoute
-  AuthMeBillingManageRoute: typeof AuthMeBillingManageRoute
-  AuthMeSearchFilterFilterIdRoute: typeof AuthMeSearchFilterFilterIdRoute
+interface LngAuthRouteChildren {
+  LngAuthAdminRoute: typeof LngAuthAdminRouteWithChildren
+  LngAuthPartnersRoute: typeof LngAuthPartnersRouteWithChildren
+  LngAuthMeAccountRoute: typeof LngAuthMeAccountRoute
+  LngAuthMeNotificationsRoute: typeof LngAuthMeNotificationsRoute
+  LngAuthMeSearchFiltersRoute: typeof LngAuthMeSearchFiltersRoute
+  LngAuthMeWatchlistRoute: typeof LngAuthMeWatchlistRoute
+  LngAuthOauthAuthorizeRoute: typeof LngAuthOauthAuthorizeRoute
+  LngAuthMeBillingManageRoute: typeof LngAuthMeBillingManageRoute
+  LngAuthMeSearchFilterFilterIdRoute: typeof LngAuthMeSearchFilterFilterIdRoute
 }
 
-const AuthRouteChildren: AuthRouteChildren = {
-  AuthAdminRoute: AuthAdminRouteWithChildren,
-  AuthPartnersRoute: AuthPartnersRouteWithChildren,
-  AuthMeAccountRoute: AuthMeAccountRoute,
-  AuthMeNotificationsRoute: AuthMeNotificationsRoute,
-  AuthMeSearchFiltersRoute: AuthMeSearchFiltersRoute,
-  AuthMeWatchlistRoute: AuthMeWatchlistRoute,
-  AuthOauthAuthorizeRoute: AuthOauthAuthorizeRoute,
-  AuthMeBillingManageRoute: AuthMeBillingManageRoute,
-  AuthMeSearchFilterFilterIdRoute: AuthMeSearchFilterFilterIdRoute,
+const LngAuthRouteChildren: LngAuthRouteChildren = {
+  LngAuthAdminRoute: LngAuthAdminRouteWithChildren,
+  LngAuthPartnersRoute: LngAuthPartnersRouteWithChildren,
+  LngAuthMeAccountRoute: LngAuthMeAccountRoute,
+  LngAuthMeNotificationsRoute: LngAuthMeNotificationsRoute,
+  LngAuthMeSearchFiltersRoute: LngAuthMeSearchFiltersRoute,
+  LngAuthMeWatchlistRoute: LngAuthMeWatchlistRoute,
+  LngAuthOauthAuthorizeRoute: LngAuthOauthAuthorizeRoute,
+  LngAuthMeBillingManageRoute: LngAuthMeBillingManageRoute,
+  LngAuthMeSearchFilterFilterIdRoute: LngAuthMeSearchFilterFilterIdRoute,
 }
 
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+const LngAuthRouteWithChildren =
+  LngAuthRoute._addFileChildren(LngAuthRouteChildren)
 
-interface PartnerProgramRouteChildren {
-  PartnerProgramApplyRoute: typeof PartnerProgramApplyRoute
-  PartnerProgramCustomIntegrationRoute: typeof PartnerProgramCustomIntegrationRoute
-  PartnerProgramIndexRoute: typeof PartnerProgramIndexRoute
+interface LngPartnerProgramRouteChildren {
+  LngPartnerProgramApplyRoute: typeof LngPartnerProgramApplyRoute
+  LngPartnerProgramCustomIntegrationRoute: typeof LngPartnerProgramCustomIntegrationRoute
+  LngPartnerProgramIndexRoute: typeof LngPartnerProgramIndexRoute
 }
 
-const PartnerProgramRouteChildren: PartnerProgramRouteChildren = {
-  PartnerProgramApplyRoute: PartnerProgramApplyRoute,
-  PartnerProgramCustomIntegrationRoute: PartnerProgramCustomIntegrationRoute,
-  PartnerProgramIndexRoute: PartnerProgramIndexRoute,
+const LngPartnerProgramRouteChildren: LngPartnerProgramRouteChildren = {
+  LngPartnerProgramApplyRoute: LngPartnerProgramApplyRoute,
+  LngPartnerProgramCustomIntegrationRoute:
+    LngPartnerProgramCustomIntegrationRoute,
+  LngPartnerProgramIndexRoute: LngPartnerProgramIndexRoute,
 }
 
-const PartnerProgramRouteWithChildren = PartnerProgramRoute._addFileChildren(
-  PartnerProgramRouteChildren,
-)
+const LngPartnerProgramRouteWithChildren =
+  LngPartnerProgramRoute._addFileChildren(LngPartnerProgramRouteChildren)
+
+interface LngRouteChildren {
+  LngAuthRoute: typeof LngAuthRouteWithChildren
+  LngAboutUsRoute: typeof LngAboutUsRoute
+  LngConsentSettingsRoute: typeof LngConsentSettingsRoute
+  LngImprintRoute: typeof LngImprintRoute
+  LngLoginRoute: typeof LngLoginRoute
+  LngPartnerProgramRoute: typeof LngPartnerProgramRouteWithChildren
+  LngPrivacyRoute: typeof LngPrivacyRoute
+  LngSearchRoute: typeof LngSearchRoute
+  LngTermsAndConditionsRoute: typeof LngTermsAndConditionsRoute
+  LngIndexRoute: typeof LngIndexRoute
+  LngCompareBarnebysRoute: typeof LngCompareBarnebysRoute
+  LngSearchShopsRoute: typeof LngSearchShopsRoute
+  LngProductShopIdShopsProductIdRoute: typeof LngProductShopIdShopsProductIdRoute
+  LngShopsShopSlugIdIndexRoute: typeof LngShopsShopSlugIdIndexRoute
+  LngShopsShopSlugIdProductsProductSlugIdRoute: typeof LngShopsShopSlugIdProductsProductSlugIdRoute
+}
+
+const LngRouteChildren: LngRouteChildren = {
+  LngAuthRoute: LngAuthRouteWithChildren,
+  LngAboutUsRoute: LngAboutUsRoute,
+  LngConsentSettingsRoute: LngConsentSettingsRoute,
+  LngImprintRoute: LngImprintRoute,
+  LngLoginRoute: LngLoginRoute,
+  LngPartnerProgramRoute: LngPartnerProgramRouteWithChildren,
+  LngPrivacyRoute: LngPrivacyRoute,
+  LngSearchRoute: LngSearchRoute,
+  LngTermsAndConditionsRoute: LngTermsAndConditionsRoute,
+  LngIndexRoute: LngIndexRoute,
+  LngCompareBarnebysRoute: LngCompareBarnebysRoute,
+  LngSearchShopsRoute: LngSearchShopsRoute,
+  LngProductShopIdShopsProductIdRoute: LngProductShopIdShopsProductIdRoute,
+  LngShopsShopSlugIdIndexRoute: LngShopsShopSlugIdIndexRoute,
+  LngShopsShopSlugIdProductsProductSlugIdRoute:
+    LngShopsShopSlugIdProductsProductSlugIdRoute,
+}
+
+const LngRouteWithChildren = LngRoute._addFileChildren(LngRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AuthRoute: AuthRouteWithChildren,
-  AboutUsRoute: AboutUsRoute,
-  ConsentSettingsRoute: ConsentSettingsRoute,
-  ImprintRoute: ImprintRoute,
-  LoginRoute: LoginRoute,
-  PartnerProgramRoute: PartnerProgramRouteWithChildren,
-  PrivacyRoute: PrivacyRoute,
-  SearchRoute: SearchRoute,
-  TermsAndConditionsRoute: TermsAndConditionsRoute,
-  CompareBarnebysRoute: CompareBarnebysRoute,
-  SearchShopsRoute: SearchShopsRoute,
-  ProductShopIdShopsProductIdRoute: ProductShopIdShopsProductIdRoute,
-  ShopsShopSlugIdIndexRoute: ShopsShopSlugIdIndexRoute,
+  LngRoute: LngRouteWithChildren,
   ApiOauthAuthorizeApproveRoute: ApiOauthAuthorizeApproveRoute,
-  ShopsShopSlugIdProductsProductSlugIdRoute:
-    ShopsShopSlugIdProductsProductSlugIdRoute,
   ApiOauthClientRedirectBrokerWoocommerceRoute:
     ApiOauthClientRedirectBrokerWoocommerceRoute,
 }

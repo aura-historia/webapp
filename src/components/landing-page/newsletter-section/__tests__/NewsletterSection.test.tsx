@@ -66,7 +66,7 @@ describe("NewsletterSection", () => {
         expect(screen.getByText(/jederzeit abmelden/i)).toBeInTheDocument();
         expect(screen.getByRole("link", { name: "Datenschutzerklärung" })).toHaveAttribute(
             "href",
-            "/privacy",
+            "/de/privacy",
         );
     });
 

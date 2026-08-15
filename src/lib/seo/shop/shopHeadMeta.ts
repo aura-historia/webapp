@@ -3,6 +3,7 @@ import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
 import { env } from "@/env.ts";
 import i18n from "@/i18n/i18n.ts";
+import { localizeUrl } from "@/i18n/routing.ts";
 
 type HeadMeta = {
     meta: Array<
@@ -142,7 +143,10 @@ export function generateShopHeadMeta(
     loaderData: GetShopData | undefined,
     params: ShopHeadParams,
 ): HeadMeta {
-    const shopUrl = `${env.VITE_APP_URL}/shops/${params.shopSlugId}`;
+    const shopUrl = localizeUrl(
+        `${env.VITE_APP_URL}/shops/${params.shopSlugId}`,
+        i18n.resolvedLanguage ?? i18n.language,
+    );
     const shopPath = `/shops/${params.shopSlugId}`;
 
     const name = loaderData?.name ?? i18n.t("meta.shop.defaultName");

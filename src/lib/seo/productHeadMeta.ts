@@ -3,6 +3,8 @@ import { generateProductJsonLdScript } from "@/lib/seo/productJsonLd.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { env } from "@/env.ts";
 import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
+import i18n from "@/i18n/i18n.ts";
+import { localizeUrl } from "@/i18n/routing.ts";
 
 type HeadMeta = {
     meta: Array<
@@ -31,7 +33,10 @@ export function generateProductHeadMeta(
     const productImage =
         loaderData?.item.images?.find((img) => img.prohibitedContent === "NONE")?.url ??
         BANNER_IMAGE_URL;
-    const productUrl = `${env.VITE_APP_URL}/shops/${params.shopSlugId}/products/${params.productSlugId}`;
+    const productUrl = localizeUrl(
+        `${env.VITE_APP_URL}/shops/${params.shopSlugId}/products/${params.productSlugId}`,
+        i18n.resolvedLanguage ?? i18n.language,
+    );
 
     return {
         meta: [

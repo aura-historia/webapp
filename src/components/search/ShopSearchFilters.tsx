@@ -48,7 +48,7 @@ function isDefaultPartnerStatus(statuses: ShopFilterSchema["partnerStatus"]): bo
 }
 
 export function ShopSearchFilters({ searchFilters }: ShopSearchFiltersProps) {
-    const navigate = useNavigate({ from: "/search/shops" });
+    const navigate = useNavigate({ from: "/$lng/search/shops" });
     const { t } = useTranslation();
     const { getQuery } = useSearchQueryContext();
 
@@ -73,7 +73,7 @@ export function ShopSearchFilters({ searchFilters }: ShopSearchFiltersProps) {
     const applyFilters = useCallback(
         (data: ShopFilterSchema) => {
             navigate({
-                to: "/search/shops",
+                to: "/$lng/search/shops",
                 search: (prev) => ({
                     ...serializeShopSearchParams(prev as ShopSearchFilterArguments),
                     q: getEffectiveQuery(),
@@ -99,7 +99,7 @@ export function ShopSearchFilters({ searchFilters }: ShopSearchFiltersProps) {
     const handleResetAll = useCallback(() => {
         form.reset(SHOP_FILTER_DEFAULTS);
         navigate({
-            to: "/search/shops",
+            to: "/$lng/search/shops",
             search: {
                 q: getEffectiveQuery(),
             },

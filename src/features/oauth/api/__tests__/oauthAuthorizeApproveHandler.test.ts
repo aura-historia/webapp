@@ -17,6 +17,7 @@ vi.mock("@/lib/server/amplify.server.ts", () => ({
 type PostHandler = (ctx: { request: Request }) => Promise<Response>;
 
 const defaultFormFields = {
+    lng: "de",
     response_type: "code",
     client_id: "01970f22-2bf0-7000-8000-000000000010",
     redirect_uri: "https://client.example/callback",
@@ -55,14 +56,14 @@ describe("/api/oauth/authorize/approve", () => {
 
         const loginUrl = new URL(location);
         expect(loginUrl.origin).toBe("https://auth.example");
-        expect(loginUrl.pathname).toBe("/login");
+        expect(loginUrl.pathname).toBe("/de/login");
 
         const redirectParam = loginUrl.searchParams.get("redirect");
         if (!redirectParam) {
             throw new Error("Missing login redirect parameter");
         }
         const redirectUrl = new URL(redirectParam, loginUrl.origin);
-        expect(redirectUrl.pathname).toBe("/oauth/authorize");
+        expect(redirectUrl.pathname).toBe("/de/oauth/authorize");
         expect(redirectUrl.searchParams.get("client_id")).toBe(defaultFormFields.client_id);
         expect(redirectUrl.searchParams.get("redirect_uri")).toBe(defaultFormFields.redirect_uri);
         expect(redirectUrl.searchParams.get("scope")).toBe(defaultFormFields.scope);
@@ -143,6 +144,7 @@ describe("/api/oauth/authorize/approve", () => {
 
         const response = await post(
             createRequest({
+                lng: defaultFormFields.lng,
                 response_type: defaultFormFields.response_type,
                 client_id: defaultFormFields.client_id,
                 redirect_uri: defaultFormFields.redirect_uri,

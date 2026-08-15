@@ -17,7 +17,7 @@ Use route loaders, server helpers, context, props, or `useEffect` after mount in
 
 Prefer these existing sources:
 
-- Locale: `getLocale()` in `src/lib/server/i18n.ts`, then `i18n.changeLanguage` in `src/routes/__root.tsx` before load.
+- Locale: the real `/$lng` route segment. SSR sets the locale before render; the client initializes from the server-rendered `<html lang>` before hydration and keeps it synchronized through the locale route. For unprefixed URLs, `getPreferredLocale()` prefers an explicit `aura-language` cookie and otherwise uses `Accept-Language`.
 - Preferences: `getServerPreferences()` and `UserPreferencesProvider` initial state.
 - Timezone: `getServerTimezone()` through route context.
 - Auth: `getServerUser()` in root route context and existing auth hooks/guards.

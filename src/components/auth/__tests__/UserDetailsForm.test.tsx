@@ -44,7 +44,7 @@ describe("UserDetailsForm", () => {
         expect(checkbox).toBeChecked();
         expect(screen.getByRole("link", { name: "Datenschutzerklärung" })).toHaveAttribute(
             "href",
-            "/privacy",
+            "/de/privacy",
         );
     });
 

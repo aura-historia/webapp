@@ -30,7 +30,7 @@ type Props = {
 
 export function SearchFilterDetail({ filterId }: Props) {
     const { t } = useTranslation();
-    const navigate = useNavigate();
+    const navigate = useNavigate({ from: "/$lng" });
     const { data: filter, isPending, error } = useUserSearchFilter(filterId);
     const { mutate: deleteFilter, isPending: isDeleting } = useDeleteUserSearchFilter();
     const [editOpen, setEditOpen] = useState(false);
@@ -40,7 +40,7 @@ export function SearchFilterDetail({ filterId }: Props) {
         deleteFilter(filterId, {
             onSuccess: () => {
                 toast.success(t("searchFilters.deleteSuccess"));
-                navigate({ to: "/me/search-filters" });
+                navigate({ to: "/$lng/me/search-filters" });
             },
             onError: (err) => toast.error(err.message),
         });

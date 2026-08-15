@@ -37,7 +37,7 @@ const INTEGRATIONS: readonly Integration[] = [
     },
     {
         key: "customApi",
-        href: "/partner-program/custom-integration",
+        href: "/$lng/partner-program/custom-integration",
         logos: [Code2],
     },
 ];
@@ -65,6 +65,8 @@ export default function PartnerIntegrationsSection() {
                             target={integration.external ? "_blank" : undefined}
                             rel={integration.external ? "noopener noreferrer" : undefined}
                             className="group block focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary"
+                            params={true}
+                            from="/$lng"
                         >
                             <Card className="relative flex h-full flex-col border-2 border-border/20 transition-all duration-300 hover:border-primary/50 hover:-translate-y-1 hover:shadow-lg">
                                 {integration.key === "customApi" && (

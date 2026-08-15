@@ -36,23 +36,23 @@ describe("generateHreflangLinks", () => {
         }
     });
 
-    it("generates correct href for each language using ?lng= param", () => {
+    it("generates a language-prefixed href for each language", () => {
         const links = generateHreflangLinks("/search");
 
         expect(links).toContainEqual({
             rel: "alternate",
             hrefLang: "de",
-            href: "https://aura-historia.com/search?lng=de",
+            href: "https://aura-historia.com/de/search",
         });
         expect(links).toContainEqual({
             rel: "alternate",
             hrefLang: "en",
-            href: "https://aura-historia.com/search?lng=en",
+            href: "https://aura-historia.com/en/search",
         });
         expect(links).toContainEqual({
             rel: "alternate",
             hrefLang: "fr",
-            href: "https://aura-historia.com/search?lng=fr",
+            href: "https://aura-historia.com/fr/search",
         });
     });
 
@@ -62,7 +62,7 @@ describe("generateHreflangLinks", () => {
         expect(links).toContainEqual({
             rel: "alternate",
             hrefLang: "x-default",
-            href: "https://aura-historia.com/?lng=en",
+            href: "https://aura-historia.com/en",
         });
     });
 
@@ -72,7 +72,7 @@ describe("generateHreflangLinks", () => {
         expect(links).toContainEqual({
             rel: "alternate",
             hrefLang: "de",
-            href: "https://aura-historia.com/shops/antique-shop-1/products/vase-123?lng=de",
+            href: "https://aura-historia.com/de/shops/antique-shop-1/products/vase-123",
         });
     });
 

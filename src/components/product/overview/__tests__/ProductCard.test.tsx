@@ -99,7 +99,7 @@ describe("ProductCard", () => {
         expect(screen.getByText("auf")).toBeInTheDocument();
         expect(screen.getByRole("link", { name: "Sample Shop" })).toHaveAttribute(
             "href",
-            "/shops/sample-shop",
+            "/de/shops/sample-shop",
         );
     });
 

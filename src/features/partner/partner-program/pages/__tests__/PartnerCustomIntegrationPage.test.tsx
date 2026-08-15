@@ -80,7 +80,7 @@ describe("PartnerCustomIntegrationPage", () => {
         expect(screen.getByRole("heading", { name: "Shop per API anbinden" })).toBeInTheDocument();
         expect(screen.getByRole("link", { name: /Zugriffstoken verwalten/i })).toHaveAttribute(
             "href",
-            "/partners/access-tokens",
+            "/de/partners/access-tokens",
         );
     });
 
@@ -125,7 +125,7 @@ describe("PartnerCustomIntegrationPage", () => {
         );
         expect(screen.getByRole("link", { name: /Meine Shop-Seite öffnen/i })).toHaveAttribute(
             "href",
-            "/shops/erster-shop",
+            "/de/shops/erster-shop",
         );
     });
 
@@ -207,7 +207,7 @@ describe("PartnerCustomIntegrationPage", () => {
 
         expect(screen.getByRole("link", { name: /Meine Shop-Seite öffnen/i })).toHaveAttribute(
             "href",
-            "/shops/zweiter-shop",
+            "/de/shops/zweiter-shop",
         );
     });
 });
