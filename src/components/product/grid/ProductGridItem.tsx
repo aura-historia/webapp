@@ -98,7 +98,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                 >
                     <Link
                         to="/$lng/shops/$shopSlugId/products/$productSlugId"
-                        params={productLinkParams}
+                        params={(current) => ({ ...current, ...productLinkParams })}
                         className="block w-full overflow-hidden bg-muted"
                         onClick={handleProductClick}
                         from="/$lng"
@@ -115,7 +115,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
 
                         <Link
                             to="/$lng/shops/$shopSlugId/products/$productSlugId"
-                            params={productLinkParams}
+                            params={(current) => ({ ...current, ...productLinkParams })}
                             className="min-w-0 overflow-hidden"
                             onClick={handleProductClick}
                             from="/$lng"
@@ -150,7 +150,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
             >
                 <Link
                     to="/$lng/shops/$shopSlugId/products/$productSlugId"
-                    params={productLinkParams}
+                    params={(current) => ({ ...current, ...productLinkParams })}
                     className="relative block w-full overflow-hidden bg-surface-container-low"
                     onClick={handleProductClick}
                     from="/$lng"
@@ -197,7 +197,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
 
                     <Link
                         to="/$lng/shops/$shopSlugId/products/$productSlugId"
-                        params={productLinkParams}
+                        params={(current) => ({ ...current, ...productLinkParams })}
                         className="min-w-0"
                         onClick={handleProductClick}
                         from="/$lng"

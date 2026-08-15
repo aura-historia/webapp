@@ -81,10 +81,16 @@ export function UserPreferencesProvider({
     useEffect(() => {
         if (import.meta.env.SSR) return;
 
-        setPreferences({
+        const restoredPreferences = {
             ...loadClientPreferences(locale),
             ...initialPreferences,
-        });
+        };
+
+        setPreferences(restoredPreferences);
+
+        if (initialPreferences?.trackingConsent !== restoredPreferences.trackingConsent) {
+            googleAnalytics.setConsent(restoredPreferences.trackingConsent ?? false);
+        }
     }, [initialPreferences, locale]);
 
     const updatePreferences = useCallback((updates: Partial<UserPreferences>) => {

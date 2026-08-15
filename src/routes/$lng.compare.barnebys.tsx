@@ -5,6 +5,7 @@ import {
 } from "@/features/comparison/components/BarnebysComparisonPage.tsx";
 import { env } from "@/env";
 import i18n from "@/i18n/i18n.ts";
+import { localizeUrl } from "@/i18n/routing.ts";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -12,6 +13,10 @@ const CANONICAL_URL = `${env.VITE_APP_URL}/compare/barnebys`;
 
 export const Route = createFileRoute("/$lng/compare/barnebys")({
     head: () => {
+        const localizedCanonicalUrl = localizeUrl(
+            CANONICAL_URL,
+            i18n.resolvedLanguage ?? i18n.language,
+        );
         const head = generatePageHeadMeta({
             pageKey: "compareBarnebys",
             url: CANONICAL_URL,
@@ -29,7 +34,7 @@ export const Route = createFileRoute("/$lng/compare/barnebys")({
                         "@type": "WebPage",
                         name: title,
                         description,
-                        url: CANONICAL_URL,
+                        url: localizedCanonicalUrl,
                         about: [
                             i18n.t(
                                 getBarnebysComparisonTranslationKey(

@@ -48,14 +48,14 @@ describe("useUserPreferences", () => {
         expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
     });
 
-    it("should return persisted preferences from localStorage", () => {
+    it("should return persisted preferences from localStorage and sync tracking consent", () => {
         localStorage.setItem("user-preferences", JSON.stringify({ trackingConsent: true }));
 
         renderHook(() => useUserPreferences(), {
             wrapper,
         });
 
-        expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
+        expect(googleAnalytics.setConsent).toHaveBeenCalledWith(true);
     });
 
     it("uses server preferences instead of localStorage for prerendered markup", () => {
