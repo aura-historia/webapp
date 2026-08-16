@@ -58,6 +58,34 @@ describe("SearchableCurrencySelect", () => {
         expect(onValueChange).toHaveBeenCalledWith("CAD");
     });
 
+    it("scrolls the keyboard-highlighted option into view", async () => {
+        const user = userEvent.setup();
+
+        render(
+            <SearchableCurrencySelect
+                options={options}
+                value="EUR"
+                onValueChange={vi.fn()}
+                placeholder="Select currency"
+                searchPlaceholder="Search currencies"
+                emptyMessage="No currencies found"
+            />,
+        );
+
+        await user.click(screen.getByRole("combobox"));
+
+        const highlightedOption = screen.getByRole("option", { name: "US Dollar" });
+        const scrollIntoView = vi.fn();
+        Object.defineProperty(highlightedOption, "scrollIntoView", {
+            configurable: true,
+            value: scrollIntoView,
+        });
+
+        await user.keyboard("{ArrowDown}");
+
+        expect(scrollIntoView).toHaveBeenCalledWith({ block: "nearest" });
+    });
+
     it("resets the search when reopened, rather than while it closes", async () => {
         const user = userEvent.setup();
 

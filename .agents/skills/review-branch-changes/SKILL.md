@@ -9,10 +9,9 @@ Review a change set read-only. Find concrete regressions, not style preferences.
 
 ## Prepare
 
-1. Use `grill-me` to test whether the review scope and reference branch make sense. If unavailable, state this and continue with a brief scope check.
-2. Use the user-provided reference branch. Otherwise use `develop`; if it is unavailable, report the issue and ask for a reference branch.
-3. Do not fetch, switch branches, modify files, stage files, commit, or run destructive Git commands.
-4. Record the reference SHA, merge base, changed files, untracked files, and these separate deltas:
+1. Use the user-provided reference branch. Otherwise use `develop`; if it is unavailable, report the issue and ask for a reference branch.
+2. Do not fetch, switch branches, modify files, stage files, commit, or run destructive Git commands.
+3. Record the reference SHA, merge base, changed files, untracked files, and these separate deltas:
    - committed: `<merge-base>...HEAD`;
    - staged: `git diff --cached`;
    - unstaged: `git diff`.

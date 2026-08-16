@@ -1,5 +1,13 @@
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useId, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import {
+    useEffect,
+    useId,
+    useMemo,
+    useRef,
+    useState,
+    type KeyboardEvent,
+    type ReactNode,
+} from "react";
 import { FormControl } from "@/components/ui/form.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
 import { cn } from "@/lib/utils.ts";
@@ -47,6 +55,7 @@ export function SearchableCurrencySelect({
     const [search, setSearch] = useState("");
     const [highlightedIndex, setHighlightedIndex] = useState(0);
     const searchInputRef = useRef<HTMLInputElement>(null);
+    const optionRefs = useRef(new Map<string, HTMLButtonElement>());
     const listboxId = useId();
     const optionIdPrefix = useId();
 
@@ -62,6 +71,15 @@ export function SearchableCurrencySelect({
             ),
         );
     }, [normalizedSearch, options]);
+
+    useEffect(() => {
+        if (!open) return;
+
+        const highlightedOption = filteredOptions[highlightedIndex];
+        if (highlightedOption) {
+            optionRefs.current.get(highlightedOption.value)?.scrollIntoView({ block: "nearest" });
+        }
+    }, [filteredOptions, highlightedIndex, open]);
 
     const handleOpenChange = (isOpen: boolean) => {
         setOpen(isOpen);
@@ -173,6 +191,13 @@ export function SearchableCurrencySelect({
                                     type="button"
                                     key={option.value}
                                     id={`${optionIdPrefix}-${option.value}`}
+                                    ref={(element) => {
+                                        if (element) {
+                                            optionRefs.current.set(option.value, element);
+                                        } else {
+                                            optionRefs.current.delete(option.value);
+                                        }
+                                    }}
                                     role="option"
                                     aria-selected={selected}
                                     onMouseEnter={() => setHighlightedIndex(index)}
