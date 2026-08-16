@@ -115,10 +115,9 @@ export function SearchableCurrencySelect({
         <button
             type="button"
             id={id}
-            role="combobox"
             aria-label={accessibleLabel}
             aria-expanded={open}
-            aria-controls={listboxId}
+            aria-haspopup="listbox"
             disabled={disabled}
             className={cn(
                 "flex h-9 items-center justify-between gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs outline-none transition-[color,box-shadow] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:aria-invalid:ring-destructive/40",
@@ -163,6 +162,10 @@ export function SearchableCurrencySelect({
                         onKeyDown={handleSearchKeyDown}
                         placeholder={searchPlaceholder}
                         aria-label={searchPlaceholder}
+                        role="combobox"
+                        aria-autocomplete="list"
+                        aria-controls={listboxId}
+                        aria-expanded={open}
                         aria-activedescendant={
                             filteredOptions[highlightedIndex]
                                 ? `${optionIdPrefix}-${filteredOptions[highlightedIndex].value}`
@@ -199,6 +202,7 @@ export function SearchableCurrencySelect({
                                         }
                                     }}
                                     role="option"
+                                    tabIndex={-1}
                                     aria-selected={selected}
                                     onMouseEnter={() => setHighlightedIndex(index)}
                                     onClick={() => selectOption(option)}

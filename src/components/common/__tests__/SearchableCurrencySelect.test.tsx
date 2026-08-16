@@ -24,10 +24,12 @@ describe("SearchableCurrencySelect", () => {
             />,
         );
 
-        await user.click(screen.getByRole("combobox"));
+        await user.click(screen.getByRole("button", { name: "Select currency" }));
 
-        const search = screen.getByRole("searchbox", { name: "Search currencies" });
+        const search = screen.getByRole("combobox", { name: "Search currencies" });
         expect(search).toHaveFocus();
+        expect(search).toHaveAttribute("aria-autocomplete", "list");
+        expect(search).toHaveAttribute("aria-controls", screen.getByRole("listbox").id);
 
         await user.type(search, "llar");
 
@@ -51,8 +53,8 @@ describe("SearchableCurrencySelect", () => {
             />,
         );
 
-        await user.click(screen.getByRole("combobox"));
-        await user.type(screen.getByRole("searchbox"), "canadian");
+        await user.click(screen.getByRole("button", { name: "Select currency" }));
+        await user.type(screen.getByRole("combobox", { name: "Search currencies" }), "canadian");
         await user.keyboard("{Enter}");
 
         expect(onValueChange).toHaveBeenCalledWith("CAD");
@@ -72,7 +74,7 @@ describe("SearchableCurrencySelect", () => {
             />,
         );
 
-        await user.click(screen.getByRole("combobox"));
+        await user.click(screen.getByRole("button", { name: "Select currency" }));
 
         const highlightedOption = screen.getByRole("option", { name: "US Dollar" });
         const scrollIntoView = vi.fn();
@@ -84,6 +86,27 @@ describe("SearchableCurrencySelect", () => {
         await user.keyboard("{ArrowDown}");
 
         expect(scrollIntoView).toHaveBeenCalledWith({ block: "nearest" });
+    });
+
+    it("keeps options out of the Tab sequence", async () => {
+        const user = userEvent.setup();
+
+        render(
+            <SearchableCurrencySelect
+                options={options}
+                value="EUR"
+                onValueChange={vi.fn()}
+                placeholder="Select currency"
+                searchPlaceholder="Search currencies"
+                emptyMessage="No currencies found"
+            />,
+        );
+
+        await user.click(screen.getByRole("button", { name: "Select currency" }));
+
+        for (const option of screen.getAllByRole("option")) {
+            expect(option).toHaveAttribute("tabindex", "-1");
+        }
     });
 
     it("resets the search when reopened, rather than while it closes", async () => {
@@ -100,12 +123,12 @@ describe("SearchableCurrencySelect", () => {
             />,
         );
 
-        await user.click(screen.getByRole("combobox"));
-        await user.type(screen.getByRole("searchbox"), "canadian");
+        await user.click(screen.getByRole("button", { name: "Select currency" }));
+        await user.type(screen.getByRole("combobox", { name: "Search currencies" }), "canadian");
         await user.click(document.body);
-        await user.click(screen.getByRole("combobox"));
+        await user.click(screen.getByRole("button", { name: "Select currency" }));
 
-        expect(screen.getByRole("searchbox")).toHaveValue("");
+        expect(screen.getByRole("combobox", { name: "Search currencies" })).toHaveValue("");
         expect(screen.getAllByRole("option")).toHaveLength(options.length);
     });
 });
