@@ -4,7 +4,6 @@ Refined global discovery for antiques, art, design objects, dealers, and auction
 
 ## Rules
 
-- Before work, use the `grill-me` skill to test whether requirements make sense.
 - Use `pnpm` only. Do not run E2E tests unless asked.
 - Never hand-edit generated code: `src/routeTree.gen.ts`, `src/client/**`.
 - Add every user-facing string to all locales: `de`, `en`, `es`, `fr`, `it`.
@@ -22,6 +21,10 @@ Refined global discovery for antiques, art, design objects, dealers, and auction
 - User data: `docs/privacy-policy-alignment.md`
 - Feature, route, or data design: `docs/architecture-guidelines.md`
 - SSR or browser-only work: `docs/hydration-guidelines.md`
+- OAuth: `docs/oauth-protocol-guidelines.md`
+- Admin authorization: `docs/admin-authorization-guidelines.md`
+- Landing-page prerendering: `docs/landing-page-prerendering-guidelines.md`
+- Terms, imprint, or privacy translations: `docs/legal-content-guidelines.md`
 
 ## Validation
 

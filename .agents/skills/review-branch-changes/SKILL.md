@@ -24,7 +24,7 @@ Spawn available sub-agents in parallel. Give each an exclusive slice, the refere
 
 Always assign:
 
-- **Architecture and runtime:** routes, feature boundaries, API/DTO mapping, SSR, hydration, cache, and performance. Use `hydration-check` for SSR-sensitive changes.
+- **Architecture and runtime:** routes, feature boundaries, API/DTO mapping, SSR, hydration, cache, and performance. Use `hydratinon-guidelines` for SSR-sensitive changes.
 - **UI and product quality:** components, accessibility, design consistency, i18n completeness, and user-facing copy. Use `product-copywriter` when copy changes.
 - **Privacy and security:** auth, user data, storage, consent, analytics, payments, partner/admin data, OAuth, tokens, public caching, and logs. Use `privacy-alignment-check` when this slice is present.
 - **Correctness and tests:** state/error handling, edge cases, validation, test coverage, and likely regressions.
